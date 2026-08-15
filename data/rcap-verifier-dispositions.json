@@ -3,7 +3,7 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 116,
+    "keep_available": 121,
     "wired": 113,
     "fix_then_wire": 27,
     "retire": 1,
@@ -11,69 +11,6 @@
     "blocked_on_family": 5
   },
   "entries": {
-    "test-public-partner-publication-security.mjs": {
-      "disposition": "keep_available",
-      "reason": "Task 4 public-route state-matrix proof. It executes the five publication and activation combinations, verifies fail-closed approval fields, and checks dynamic notFound and sitemap wiring. It is exposed through partners:test-publication-security and run as a focused release gate.",
-      "observedStatus": "orphan_passing",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-first-admin-first-impressions.mjs": {
-      "disposition": "keep_available",
-      "reason": "Task 3A branded invitation and internal provisioning presentation verifier. It is executed by the wired verify-onboarding-all aggregate and remains available as a focused first-impression gate.",
-      "observedStatus": "orphan_passing",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-onboarding-all.mjs": {
-      "disposition": "wired",
-      "reason": "Task 1 through Task 3B portal aggregate. It discovers and executes all 27 local onboarding verifiers, including guided onboarding, first-impression, brand-readiness, and launch-readiness coverage, and is reached directly by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-onboarding-tenant-isolation.mjs": {
-      "disposition": "keep_available",
-      "reason": "Live local-database tenant and role isolation proof. It requires RCAP_TEST_DATABASE_URL and is run in the database acceptance group rather than the credential-free npm test chain.",
-      "observedStatus": "orphan_passing",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-onboarding-guided-experience.mjs": {
-      "disposition": "keep_available",
-      "reason": "Task 2 guided substep, navigation, save-state, validation, change-request, review, and staff-summary verifier. It is executed by the wired verify-onboarding-all aggregate.",
-      "observedStatus": "orphan_passing",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-onboarding-implementation-center.mjs": {
-      "disposition": "keep_available",
-      "reason": "Task 1 implementation-center and one-current-action verifier. It is executed by the wired verify-onboarding-all aggregate.",
-      "observedStatus": "orphan_passing",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-onboarding-task3b.mjs": {
-      "disposition": "keep_available",
-      "reason": "Task 3B brand editor, private preview, role-state, recovery, internal approval, and publication-safety verifier. It is executed by the wired verify-onboarding-all aggregate and remains available as a focused verifier.",
-      "observedStatus": "orphan_passing",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-onboarding-partner-labels.mjs": {
-      "disposition": "keep_available",
-      "reason": "Partner-facing status-label truthfulness verifier. It is executed by the wired verify-onboarding-all aggregate.",
-      "observedStatus": "orphan_passing",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-onboarding-support-contact.mjs": {
-      "disposition": "keep_available",
-      "reason": "Partner support contact and route presentation verifier. It is executed by the wired verify-onboarding-all aggregate.",
-      "observedStatus": "orphan_passing",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
     "audit-all50-state-pack-substance.mjs": {
       "disposition": "keep_available",
       "reason": "Generator rather than verifier; writes its own report and is run deliberately.",
@@ -1393,6 +1330,13 @@
       "observedStatus": "in_chain",
       "decidedBy": "captain"
     },
+    "test-public-partner-publication-security.mjs": {
+      "disposition": "keep_available",
+      "reason": "Task 4 public-route state-matrix proof. It executes the five publication and activation combinations, verifies fail-closed approval fields, and checks dynamic notFound and sitemap wiring. It is exposed through partners:test-publication-security and run as a focused release gate.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
     "test-rcap-apply-evidence-mutations.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
@@ -1404,6 +1348,12 @@
       "reason": "Proves the P1-P18 suite is load-bearing: 7 mutations, each removing one guarantee, all turn it red. Two further guarantees are named in the harness as intentionally unmutated because the application layer is not their only defence.",
       "observedStatus": "in_chain",
       "decidedBy": "captain"
+    },
+    "test-rcap-github-hosted-acceptance-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
     },
     "test-rcap-image-fingerprint-mutations.mjs": {
       "disposition": "keep_available",
@@ -1448,6 +1398,27 @@
       "observedStatus": "added_since_audit",
       "decidedBy": "recorded_decision"
     },
+    "verify-first-admin-first-impressions.mjs": {
+      "disposition": "keep_available",
+      "reason": "Task 3A branded invitation and internal provisioning presentation verifier. It is executed by the wired verify-onboarding-all aggregate and remains available as a focused first-impression gate.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
+    "verify-onboarding-all.mjs": {
+      "disposition": "wired",
+      "reason": "Task 1 through Task 3B portal aggregate. It discovers and executes all 27 local onboarding verifiers, including guided onboarding, first-impression, brand-readiness, and launch-readiness coverage, and is reached directly by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
+    "verify-onboarding-tenant-isolation.mjs": {
+      "disposition": "keep_available",
+      "reason": "Live local-database tenant and role isolation proof. It requires RCAP_TEST_DATABASE_URL and is run in the database acceptance group rather than the credential-free npm test chain.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
     "verify-rcap-component-deferral-runtime.mjs": {
       "disposition": "wired",
       "reason": "The captain-owned runtime proof for the ten dependency-bearing composed routes: all 31 component treatments resolve, English and Spanish are complete and genuinely distinct, every participant claim cites a resolving evidence carrier, payment and checkout stay closed, no packet or partner credit is consumed, no render job is built, and the Briefcase handoff is present. Includes --mutations, which requires ten deliberate breakages — among them making the deferred route sellable in the resolver and removing either engine adapter's clamp — to come back red. Wired by the captain in window 2026-08-12-w3. It proves runtime behaviour only; it promotes nothing.",
@@ -1473,6 +1444,12 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-deployment-closure.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-rcap-e4-adjudication-mutations.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
@@ -1486,6 +1463,12 @@
       "decidedBy": "captain",
       "sourceCommit": "1d71919d605edb966084f3b18abc0f2658602b34",
       "laneOwned": true
+    },
+    "verify-rcap-github-hosted-acceptance.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
     },
     "verify-rcap-guidance-terminalization.mjs": {
       "disposition": "keep_available",
@@ -1510,6 +1493,12 @@
       "reason": "Lane E's corrected-input proof: 43 assertions over the rendered hard-form artifacts (the F2 correction wave). Wired by the captain in window 2026-08-12-w3.",
       "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-hosted-checkout-gate.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
     },
     "verify-rcap-image-input-fingerprint.mjs": {
       "disposition": "keep_available",
@@ -1561,6 +1550,41 @@
       "decidedBy": "captain",
       "laneOwned": true
     },
+    "verify-rcap-onboarding-guided-experience.mjs": {
+      "disposition": "keep_available",
+      "reason": "Task 2 guided substep, navigation, save-state, validation, change-request, review, and staff-summary verifier. It is executed by the wired verify-onboarding-all aggregate.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
+    "verify-rcap-onboarding-implementation-center.mjs": {
+      "disposition": "keep_available",
+      "reason": "Task 1 implementation-center and one-current-action verifier. It is executed by the wired verify-onboarding-all aggregate.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
+    "verify-rcap-onboarding-partner-labels.mjs": {
+      "disposition": "keep_available",
+      "reason": "Partner-facing status-label truthfulness verifier. It is executed by the wired verify-onboarding-all aggregate.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
+    "verify-rcap-onboarding-support-contact.mjs": {
+      "disposition": "keep_available",
+      "reason": "Partner support contact and route presentation verifier. It is executed by the wired verify-onboarding-all aggregate.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
+    "verify-rcap-onboarding-task3b.mjs": {
+      "disposition": "keep_available",
+      "reason": "Task 3B brand editor, private preview, role-state, recovery, internal approval, and publication-safety verifier. It is executed by the wired verify-onboarding-all aggregate and remains available as a focused verifier.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
     "verify-rcap-person-identity-post-phase54.mjs": {
       "disposition": "wired",
       "reason": "Terminal B's independent post-Phase-54 audit of public.rcap_persons, imported byte-identical from 338629ae. This is the audit that supersedes 83c04469, which audited 7e1b2c4d with no Phase 54 in its tree and correctly reported the pre-hardening exposure. Green from the integrated tree.",
@@ -1605,6 +1629,12 @@
       "reason": "Lane C3's partition contract, complete at 21 tracks including the previously-missing Wisconsin jurisdiction with fixture/signal hardening (tip d7fa8e5c). Wired by the captain in window 2026-08-12-w3.",
       "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-vercel-failure-audit.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
     },
     "verify-rcap-worker-publication-workflow.mjs": {
       "disposition": "wired",

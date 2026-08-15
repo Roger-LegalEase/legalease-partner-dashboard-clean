@@ -1,0 +1,356 @@
+name: RCAP GitHub-hosted functional acceptance fallback
+
+# Manual fallback only. This workflow never deploys to Vercel and never uses a
+# production credential. It serves the byte-proven application on one GitHub
+# runner through a temporary Cloudflare Quick Tunnel, keeps that URL alive while
+# the existing Stripe sandbox destination is edited, proves exactly one real
+# application-created Checkout Session, then waits for Roger's real payment
+# before replay, immutable-worker, private-PDF and delivery acceptance.
+on:
+  workflow_call:
+    inputs:
+      application_sha:
+        required: true
+        type: string
+      worker_source_sha:
+        required: true
+        type: string
+      worker_digest:
+        required: true
+        type: string
+      tools_sha:
+        required: true
+        type: string
+      supabase_project_ref:
+        required: true
+        type: string
+    secrets:
+      SUPABASE_ACCESS_TOKEN:
+        required: true
+      HOSTED_STRIPE_TEST_SECRET:
+        required: true
+      HOSTED_STRIPE_TEST_WEBHOOK_SECRET:
+        required: true
+
+permissions:
+  contents: read
+  packages: read
+
+env:
+  AUTHORIZED_APPLICATION_SHA: 264d2a240e5c857f55ee645f2683830e94f67c19
+  AUTHORIZED_WORKER_SOURCE_SHA: 264d2a240e5c857f55ee645f2683830e94f67c19
+  AUTHORIZED_WORKER_DIGEST: sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101
+  AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
+  IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
+  CANONICAL_INTEGRATION_BRANCH: main
+  CLOUDFLARED_VERSION: 2026.8.2
+  CLOUDFLARED_LINUX_AMD64_SHA256: fcfb02b575a52ca1af2e3267af4e1517bcdeb30ac48c834c69abaed3c0576ad2
+  CLOUDFLARED_LINUX_AMD64_URL: https://github.com/cloudflare/cloudflared/releases/download/2026.8.2/cloudflared-linux-amd64
+
+jobs:
+  acceptance:
+    name: GitHub-hosted Pennsylvania Checkout gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - name: Refuse any input that is not the authorized pinned value
+        env:
+          REQUESTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          REQUESTED_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          REQUESTED_WORKER_DIGEST: ${{ inputs.worker_digest }}
+          REQUESTED_TOOLS_SHA: ${{ inputs.tools_sha }}
+          REQUESTED_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          STRIPE_TEST_SECRET_INPUT: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          STRIPE_WEBHOOK_SECRET_INPUT: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+        run: |
+          set -euo pipefail
+          [ "$REQUESTED_APPLICATION_SHA" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not authorized"; exit 1; }
+          [ "$REQUESTED_WORKER_SOURCE_SHA" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not authorized"; exit 1; }
+          [ "$REQUESTED_WORKER_DIGEST" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not authorized"; exit 1; }
+          [ "$REQUESTED_SUPABASE_PROJECT_REF" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::Supabase ref is not the acceptance project"; exit 1; }
+          printf '%s' "$REQUESTED_TOOLS_SHA" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full SHA"; exit 1; }
+          case "$STRIPE_TEST_SECRET_INPUT" in sk_test_*) ;; *) echo "::error::Stripe key is not sandbox sk_test_"; exit 1;; esac
+          case "$STRIPE_WEBHOOK_SECRET_INPUT" in whsec_*) ;; *) echo "::error::Stripe webhook signing secret is not whsec_"; exit 1;; esac
+
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prove main ancestry and frozen application and worker inputs
+        env:
+          REQUESTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          REQUESTED_WORKER_SOURCE_SHA: ${{ inputs.worker_source_sha }}
+          REQUESTED_TOOLS_SHA: ${{ inputs.tools_sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          for SHA in "$REQUESTED_APPLICATION_SHA" "$REQUESTED_WORKER_SOURCE_SHA" "$REQUESTED_TOOLS_SHA"; do
+            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside main ancestry"; exit 1; }
+          done
+          git diff --quiet "$REQUESTED_APPLICATION_SHA" "$REQUESTED_TOOLS_SHA" -- src package.json package-lock.json tsconfig.json next.config.ts public docs/record-clearing/field-map-drafts \
+            || { echo "::error::tools_sha changes frozen application inputs"; exit 1; }
+          git diff --quiet "$REQUESTED_WORKER_SOURCE_SHA" "$REQUESTED_TOOLS_SHA" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::tools_sha changes frozen worker inputs"; exit 1; }
+          git checkout --detach "$REQUESTED_TOOLS_SHA"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install the frozen lockfile
+        run: npm ci
+
+      - name: Authenticate to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull and inspect the worker by immutable digest without running it
+        run: |
+          set -euo pipefail
+          REF="$IMAGE_REPOSITORY@$AUTHORIZED_WORKER_DIGEST"
+          docker pull "$REF"
+          docker inspect --format='{{join .RepoDigests "\n"}}' "$REF" | grep -Fx "$REF"
+          mkdir -p hosted-acceptance-evidence
+          node -e 'const fs=require("fs");fs.writeFileSync("hosted-acceptance-evidence/github-worker-pull.json",JSON.stringify({schemaVersion:"rcap-github-worker-pull/v1",reference:process.env.IMAGE_REPOSITORY+"@"+process.env.AUTHORIZED_WORKER_DIGEST,digestVerified:true,workerStarted:false},null,2)+"\n")'
+
+      - name: Download and verify the pinned cloudflared binary
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location "$CLOUDFLARED_LINUX_AMD64_URL" --output /tmp/rcap-cloudflared
+          printf '%s  %s\n' "$CLOUDFLARED_LINUX_AMD64_SHA256" /tmp/rcap-cloudflared | sha256sum --check --strict
+          chmod 0755 /tmp/rcap-cloudflared
+          /tmp/rcap-cloudflared version
+
+      - name: Open one temporary HTTPS tunnel and record its exact URL
+        id: tunnel
+        run: |
+          set -euo pipefail
+          nohup env -i PATH="$PATH" /tmp/rcap-cloudflared tunnel --url http://127.0.0.1:3000 --no-autoupdate --metrics 127.0.0.1:20241 >/tmp/rcap-cloudflared.log 2>&1 &
+          TUNNEL_PID=$!
+          printf '%s\n' "$TUNNEL_PID" >/tmp/rcap-cloudflared.pid
+          date +%s >/tmp/rcap-host-lease-start
+          HOSTED_PUBLIC_URL=""
+          for attempt in $(seq 1 60); do
+            HOSTED_PUBLIC_URL="$(grep -Eo 'https://[-a-z0-9]+\.trycloudflare\.com' /tmp/rcap-cloudflared.log | head -n 1 || true)"
+            [ -n "$HOSTED_PUBLIC_URL" ] && break
+            kill -0 "$TUNNEL_PID" 2>/dev/null || { echo "::error::cloudflared exited before issuing a URL"; exit 1; }
+            sleep 2
+          done
+          printf '%s' "$HOSTED_PUBLIC_URL" | grep -Eq '^https://[-a-z0-9]+\.trycloudflare\.com$' || { echo "::error::no valid Quick Tunnel URL was issued"; exit 1; }
+          printf 'HOSTED_PUBLIC_URL=%s\n' "$HOSTED_PUBLIC_URL" >>"$GITHUB_ENV"
+          printf 'hosted_url=%s\n' "$HOSTED_PUBLIC_URL" >>"$GITHUB_OUTPUT"
+          mkdir -p hosted-acceptance-evidence
+          HOSTED_PUBLIC_URL="$HOSTED_PUBLIC_URL" node -e 'const fs=require("fs");const u=new URL(process.env.HOSTED_PUBLIC_URL);fs.writeFileSync("hosted-acceptance-evidence/github-host.json",JSON.stringify({schemaVersion:"rcap-github-temporary-host/v1",provider:"cloudflare_quick_tunnel",origin:u.origin,applicationSha:process.env.AUTHORIZED_APPLICATION_SHA,production:false,vercel:false,temporary:true},null,2)+"\n")'
+          {
+            echo "## GitHub-hosted RCAP acceptance environment"
+            echo
+            echo "- Temporary URL: $HOSTED_PUBLIC_URL"
+            echo "- Required existing Stripe destination: $HOSTED_PUBLIC_URL/api/stripe/webhook"
+            echo "- No Vercel bypass query parameter applies"
+          } >>"$GITHUB_STEP_SUMMARY"
+
+      - name: Prove the acceptance project and write a runner-only runtime file
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+        run: node scripts/rcap-github-acceptance-bootstrap.mjs
+
+      - name: Start the frozen application in an acceptance-only environment
+        env:
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+          REQUESTED_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+        run: |
+          set -euo pipefail
+          [ "$(stat -c '%a' /tmp/rcap-acceptance-runtime.env)" = "600" ] || { echo "::error::acceptance runtime file permissions are not 600"; exit 1; }
+          set -a
+          source /tmp/rcap-acceptance-runtime.env
+          set +a
+          nohup env -i \
+            PATH="$PATH" \
+            CI=true \
+            NODE_ENV=development \
+            NEXT_TELEMETRY_DISABLED=1 \
+            RCAP_EVALUATOR_TODAY=2026-07-01 \
+            NEXT_PUBLIC_SUPABASE_URL="https://${REQUESTED_SUPABASE_PROJECT_REF}.supabase.co" \
+            NEXT_PUBLIC_SUPABASE_ANON_KEY="$RCAP_ACCEPTANCE_ANON_KEY" \
+            SUPABASE_URL="https://${REQUESTED_SUPABASE_PROJECT_REF}.supabase.co" \
+            SUPABASE_SERVICE_ROLE_KEY="$RCAP_ACCEPTANCE_SERVICE_ROLE_KEY" \
+            ENABLE_SUPABASE_PARTNER_DATA=true \
+            RCAP_CONSUMER_DELIVERY_ROUTE_STATE=staging_scoped \
+            RCAP_CONSUMER_DELIVERY_STAGING_SCOPE="$RCAP_ACCEPTANCE_CONSUMER_A_ID" \
+            STRIPE_SECRET_KEY="$HOSTED_STRIPE_TEST_SECRET" \
+            STRIPE_WEBHOOK_SECRET="$HOSTED_STRIPE_TEST_WEBHOOK_SECRET" \
+            NEXT_PUBLIC_APP_URL="$HOSTED_PUBLIC_URL" \
+            NEXT_PUBLIC_EXPUNGEMENT_AI_URL="$HOSTED_PUBLIC_URL" \
+            ./node_modules/.bin/next dev --hostname 127.0.0.1 --port 3000 >/tmp/rcap-next.log 2>&1 &
+          APP_PID=$!
+          printf '%s\n' "$APP_PID" >/tmp/rcap-next.pid
+          rm -f /tmp/rcap-acceptance-runtime.env
+          unset RCAP_ACCEPTANCE_ANON_KEY RCAP_ACCEPTANCE_SERVICE_ROLE_KEY RCAP_ACCEPTANCE_CONSUMER_A_ID RCAP_ACCEPTANCE_CONSUMER_B_ID
+          for attempt in $(seq 1 120); do
+            curl --fail --silent --output /dev/null http://127.0.0.1:3000/api/health && break
+            kill -0 "$APP_PID" 2>/dev/null || { echo "::error::Next development server exited before health"; exit 1; }
+            sleep 2
+          done
+          curl --fail --silent --output /dev/null http://127.0.0.1:3000/api/health
+          for attempt in $(seq 1 60); do
+            curl --fail --silent --output /dev/null "$HOSTED_PUBLIC_URL/api/health" && break
+            sleep 2
+          done
+          curl --fail --silent --output /dev/null "$HOSTED_PUBLIC_URL/api/health"
+          echo "Temporary HTTPS host reaches the frozen application health endpoint"
+
+      - name: Compare the existing Stripe sandbox destination before any write
+        id: webhook
+        continue-on-error: true
+        env:
+          RCAP_GITHUB_ACCEPTANCE_PHASE: webhook
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_TOOLS_SHA: ${{ inputs.tools_sha }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+        run: node scripts/rcap-github-acceptance-gate.mjs
+
+      - name: Publish the sanitized host and webhook handoff immediately
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-github-host-${{ github.run_id }}
+          path: hosted-acceptance-evidence/
+          if-no-files-found: error
+
+      - name: Keep the same tunnel alive while Roger edits the existing destination
+        if: steps.webhook.outcome == 'failure'
+        env:
+          RCAP_GITHUB_ACCEPTANCE_PHASE: webhook
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_TOOLS_SHA: ${{ inputs.tools_sha }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+        run: |
+          set -euo pipefail
+          DEADLINE=$((SECONDS + 14400))
+          while [ "$SECONDS" -lt "$DEADLINE" ]; do
+            if node scripts/rcap-github-acceptance-gate.mjs >/tmp/rcap-webhook-poll.log 2>&1; then
+              sed -E 's/(sk_(test|live)_[A-Za-z0-9_]+|eyJ[A-Za-z0-9_.-]{20,})/***REDACTED***/g' /tmp/rcap-webhook-poll.log
+              exit 0
+            else
+              STATUS=$?
+            fi
+            [ "$STATUS" -eq 78 ] || { echo "::error::webhook recheck failed with exit $STATUS"; exit "$STATUS"; }
+            kill -0 "$(cat /tmp/rcap-cloudflared.pid)" 2>/dev/null || { echo "::error::temporary tunnel stopped while awaiting the edit"; exit 1; }
+            kill -0 "$(cat /tmp/rcap-next.pid)" 2>/dev/null || { echo "::error::application stopped while awaiting the edit"; exit 1; }
+            sleep 15
+          done
+          echo "::error::existing Stripe destination was not updated within the four-hour acceptance window"
+          exit 1
+
+      - name: Run the Pennsylvania pre-Checkout gate and create one unpaid Session
+        id: checkout
+        env:
+          RCAP_GITHUB_ACCEPTANCE_PHASE: checkout
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_TOOLS_SHA: ${{ inputs.tools_sha }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+        run: node scripts/rcap-github-acceptance-gate.mjs
+
+      - name: Publish the Checkout-ready evidence before holding the host open
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-github-checkout-ready-${{ github.run_id }}
+          path: hosted-acceptance-evidence/
+          if-no-files-found: error
+
+      - name: Poll for Roger's real payment while preserving the same temporary host
+        id: payment
+        env:
+          RCAP_GITHUB_ACCEPTANCE_PHASE: payment
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_TOOLS_SHA: ${{ inputs.tools_sha }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          HOSTED_CHECKOUT_SESSION_ID: ${{ steps.checkout.outputs.checkout_session_id }}
+          HOSTED_BRIEFCASE_ITEM_ID: ${{ steps.checkout.outputs.briefcase_item_id }}
+        run: |
+          set -euo pipefail
+          LEASE_END=$(($(cat /tmp/rcap-host-lease-start) + 19800))
+          POLL_END=$((LEASE_END - 300))
+          echo "RCAP TEST CHECKOUT READY — polling only for the real Stripe payment and canonical webhook result"
+          while [ "$(date +%s)" -lt "$POLL_END" ]; do
+            if node scripts/rcap-github-acceptance-gate.mjs >/tmp/rcap-payment-poll.log 2>&1; then
+              sed -E 's/(sk_(test|live)_[A-Za-z0-9_]+|eyJ[A-Za-z0-9_.-]{20,})/***REDACTED***/g' /tmp/rcap-payment-poll.log
+              exit 0
+            else
+              STATUS=$?
+            fi
+            [ "$STATUS" -eq 75 ] || { echo "::error::payment observation failed with exit $STATUS"; exit "$STATUS"; }
+            kill -0 "$(cat /tmp/rcap-cloudflared.pid)" 2>/dev/null || { echo "::error::temporary tunnel stopped"; exit 1; }
+            kill -0 "$(cat /tmp/rcap-next.pid)" 2>/dev/null || { echo "::error::application stopped"; exit 1; }
+            sleep 15
+          done
+          echo "::error::real Stripe payment was not observed before the bounded host lease expired"
+          exit 1
+
+      - name: Run post-payment replay, immutable worker, private PDF, and delivery acceptance
+        id: post_payment
+        env:
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          HOSTED_TOOLS_SHA: ${{ inputs.tools_sha }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
+          HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+          HOSTED_CHECKOUT_SESSION_ID: ${{ steps.checkout.outputs.checkout_session_id }}
+          HOSTED_BRIEFCASE_ITEM_ID: ${{ steps.checkout.outputs.briefcase_item_id }}
+        run: node scripts/rcap-github-post-payment-acceptance.mjs
+
+      - name: Publish Pennsylvania payment and delivery evidence before the continuation hold
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-github-pennsylvania-evidence-${{ github.run_id }}
+          path: hosted-acceptance-evidence/
+          if-no-files-found: error
+
+      - name: Keep the verified same-host return surface available briefly
+        if: always() && steps.checkout.outcome == 'success'
+        env:
+          CONTINUATION_URL: ${{ steps.payment.outputs.continuation_url }}
+        run: |
+          set -euo pipefail
+          LEASE_END=$(($(cat /tmp/rcap-host-lease-start) + 19800))
+          CONTINUATION_END=$(($(date +%s) + 900))
+          [ "$CONTINUATION_END" -le "$LEASE_END" ] || CONTINUATION_END="$LEASE_END"
+          while [ "$(date +%s)" -lt "$CONTINUATION_END" ]; do
+            kill -0 "$(cat /tmp/rcap-cloudflared.pid)" 2>/dev/null || { echo "::error::temporary tunnel stopped during continuation hold"; exit 1; }
+            kill -0 "$(cat /tmp/rcap-next.pid)" 2>/dev/null || { echo "::error::application stopped during continuation hold"; exit 1; }
+            curl --fail --silent --output /dev/null "$HOSTED_PUBLIC_URL/api/health"
+            [ -z "$CONTINUATION_URL" ] || curl --silent --show-error --max-time 15 --output /dev/null "$CONTINUATION_URL"
+            sleep 15
+          done
+
+      - name: Stop runner-local processes
+        if: always()
+        run: |
+          [ -f /tmp/rcap-next.pid ] && kill "$(cat /tmp/rcap-next.pid)" 2>/dev/null || true
+          [ -f /tmp/rcap-cloudflared.pid ] && kill "$(cat /tmp/rcap-cloudflared.pid)" 2>/dev/null || true
+          rm -f /tmp/rcap-acceptance-runtime.env

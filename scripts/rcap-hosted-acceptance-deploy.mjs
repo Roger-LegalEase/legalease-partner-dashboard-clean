@@ -27,7 +27,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -230,7 +230,19 @@ const buildEnv = {
   };
 }
 
-const args = ["vercel@latest", "deploy", "--yes", "--token", VERCEL_TOKEN, "--scope", VERCEL_ORG_ID];
+// `--archive=tgz` uploads ONE tarball instead of walking the file tree and
+// uploading each file separately.
+//
+// This is not a micro-optimisation, it is the fix for a two-hour hang. Once the
+// nationwide corpus landed in main the deployment source grew to thousands of
+// files, and two consecutive runs — one with a 60-minute ceiling, one with 120
+// — sat in `vercel deploy` without ever producing a READY deployment. The
+// evidence that it was the upload rather than the build: at cancellation the
+// runner still listed `npm exec vercel` as a live orphan process, and the
+// gallery step, which runs even when the deploy fails, reported "no READY
+// non-production deployment carrying 264d2a24" — so after 59 minutes Vercel had
+// not been handed a complete deployment at all.
+const args = ["vercel@latest", "deploy", "--archive=tgz", "--yes", "--token", VERCEL_TOKEN, "--scope", VERCEL_ORG_ID];
 for (const [key, value] of Object.entries(runtimeEnv)) args.push("--env", `${key}=${value}`);
 for (const [key, value] of Object.entries(buildEnv)) args.push("--build-env", `${key}=${value}`);
 args.push("--meta", `rcapApplicationSha=${APPLICATION_SHA}`);
@@ -257,16 +269,47 @@ if (reusable) {
   console.log(`  reusing READY Preview deployment ${reusable.id ?? "(id unknown)"} — no new deployment created`);
 } else {
   console.log(`  deploying ${APPLICATION_SHA.slice(0, 12)}… to the Preview environment (no --prod, no alias, no project-level env write)`);
-  const deploy = spawnSync("npx", args, {
-    cwd: rootDir,
-    encoding: "utf8",
-    maxBuffer: 256 * 1024 * 1024,
-    // stdin explicitly closed rather than left as an open pipe nobody writes
-    // to. The previous run died with an uncaught EPIPE on write AFTER Vercel
-    // had already accepted the deployment, which is the worst shape of failure:
-    // the work succeeded and the harness reported failure.
-    stdio: ["ignore", "pipe", "pipe"],
-    env: { ...process.env, VERCEL_ORG_ID, VERCEL_PROJECT_ID }
+  // Streamed, not buffered.
+  //
+  // This used to be spawnSync with piped stdio, which holds every byte until
+  // the process exits and prints only on failure. When the job timer killed the
+  // step, the buffer died with it: two runs totalling nearly three hours
+  // produced not one line about what the CLI was doing. A harness whose output
+  // only survives the happy path cannot diagnose the unhappy one.
+  //
+  // Every line is redacted before it is printed, so streaming does not turn the
+  // job log into a place secrets can appear.
+  const deploy = await new Promise((resolve) => {
+    const child = spawn("npx", args, {
+      cwd: rootDir,
+      // stdin explicitly closed rather than left as an open pipe nobody writes
+      // to. An earlier run died with an uncaught EPIPE on write AFTER Vercel
+      // had already accepted the deployment, which is the worst shape of
+      // failure: the work succeeded and the harness reported failure.
+      stdio: ["ignore", "pipe", "pipe"],
+      env: { ...process.env, VERCEL_ORG_ID, VERCEL_PROJECT_ID }
+    });
+
+    let combined = "";
+    let pending = "";
+    const consume = (chunk) => {
+      const text = String(chunk);
+      combined += text;
+      pending += text;
+      const lines = pending.split(/\r?\n/);
+      pending = lines.pop() ?? "";
+      for (const line of lines) {
+        if (line.trim().length > 0) console.log(`  vercel| ${redact(line)}`);
+      }
+    };
+
+    child.stdout.on("data", consume);
+    child.stderr.on("data", consume);
+    child.on("error", (error) => resolve({ status: null, error, stdout: combined, stderr: "" }));
+    child.on("close", (code) => {
+      if (pending.trim().length > 0) console.log(`  vercel| ${redact(pending)}`);
+      resolve({ status: code, error: null, stdout: combined, stderr: "" });
+    });
   });
   if (deploy.error) {
     console.error(`DEPLOY: the Vercel CLI could not be run to completion — ${deploy.error.code ?? ""} ${deploy.error.message ?? deploy.error}`);
