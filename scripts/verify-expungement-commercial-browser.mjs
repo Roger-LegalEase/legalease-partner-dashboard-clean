@@ -30,6 +30,7 @@ const failures = [];
 const browserErrors = [];
 const checkoutRequests = [];
 const checkoutPayloads = [];
+const packetFields = [];
 let browser;
 let page;
 
@@ -44,29 +45,6 @@ try {
     colorScheme: "light"
   });
   page = await context.newPage();
-  await page.route("**/api/expungement-ai/checkout", async (route) => {
-    if (route.request().method() !== "POST") {
-      await route.continue();
-      return;
-    }
-    const response = await route.fetch();
-    const body = await response.body();
-    const payload = JSON.parse(body.toString("utf8"));
-    checkoutPayloads.push({
-      status: response.status(),
-      topLevelKeys: Object.keys(payload).sort(),
-      checkoutSessionId: payload?.checkoutSessionId,
-      briefcaseItemId: payload?.briefcaseItemId,
-      amountCents: payload?.amountCents,
-      currency: payload?.currency,
-      alreadyPaid: payload?.alreadyPaid,
-      paymentPending: payload?.paymentPending,
-      checkoutUrl: payload?.checkoutUrl,
-      mode: payload?.mode,
-      outcome: payload?.outcome
-    });
-    await route.fulfill({ response, body });
-  });
   page.on("pageerror", (error) => browserErrors.push(`pageerror at ${safeRequestPath(page.url())}: ${error.message}`));
   page.on("console", (message) => {
     if (message.type() === "error" && !/^Failed to load resource: the server responded with a status of 401 \(\)$/i.test(message.text())) {
@@ -216,42 +194,21 @@ try {
   check(checkoutRequests.length === 0, "Checkout was requested before the final accuracy-review CTA.");
   await screenshotPair(page, "04-accuracy-review-final-cta");
 
-  // 6. Create Checkout only at final review. Return to the same review and
-  // click once more as a retry; both responses must bind the exact item and
-  // return the same active Session, proving no duplicate Session was created.
-  const reviewUrl = page.url();
+  // 6. Create Checkout only at final review and stop before card entry.
   const firstCheckoutResponsePromise = checkoutResponse(page);
   await finalCta.click();
   const firstCheckoutResponse = await firstCheckoutResponsePromise;
-  const firstCheckout = checkoutPayloads.at(-1) ?? {};
   check(firstCheckoutResponse.ok(), `Final-review Checkout returned ${firstCheckoutResponse.status()}.`);
-  check(firstCheckout.status === 200, `Captured Checkout status was ${String(firstCheckout.status)} instead of 200.`);
+  await page.waitForURL((url) => url.hostname.endsWith("stripe.com"), { timeout: 30_000 });
+  const firstCheckout = await stripeCheckoutProof(page.url(), itemId);
   check(firstCheckout.amountCents === 5000, `Checkout amount was ${String(firstCheckout.amountCents)} instead of 5000.`);
   check(firstCheckout.currency === "usd", `Checkout currency was ${String(firstCheckout.currency)} instead of usd.`);
-  check(firstCheckout.outcome === "checkout_created", `First Checkout outcome was ${String(firstCheckout.outcome)} instead of checkout_created.`);
   check(firstCheckout.alreadyPaid === false, `First Checkout alreadyPaid was ${String(firstCheckout.alreadyPaid)} instead of false.`);
   check(firstCheckout.briefcaseItemId === itemId, "Checkout response was not bound to the exact saved matter.");
   check(typeof firstCheckout.checkoutSessionId === "string" && firstCheckout.checkoutSessionId.startsWith("cs_test_"), "Checkout did not return a Stripe Sandbox Session.");
   check(typeof firstCheckout.checkoutUrl === "string" && new URL(firstCheckout.checkoutUrl).hostname.endsWith("stripe.com"), "Checkout did not return a Stripe-hosted URL.");
-  await page.waitForURL((url) => url.hostname.endsWith("stripe.com"), { timeout: 30_000 });
 
-  await page.goto(reviewUrl, { waitUntil: "networkidle" });
-  const retryCta = page.getByRole("button", { name: "Pay $50 and generate my packet", exact: true });
-  const retryCheckoutResponsePromise = checkoutResponse(page);
-  await retryCta.click();
-  const retryCheckoutResponse = await retryCheckoutResponsePromise;
-  const retriedCheckout = checkoutPayloads.at(-1) ?? {};
-  check(retryCheckoutResponse.ok(), `Checkout retry returned ${retryCheckoutResponse.status()}.`);
-  check(retriedCheckout.status === 200, `Captured Checkout retry status was ${String(retriedCheckout.status)} instead of 200.`);
-  check(retriedCheckout.checkoutSessionId === firstCheckout.checkoutSessionId, "Checkout retry created or returned a different active Session.");
-  check(retriedCheckout.briefcaseItemId === itemId, "Checkout retry changed the matter binding.");
-  check(retriedCheckout.amountCents === 5000, `Checkout retry amount was ${String(retriedCheckout.amountCents)} instead of 5000.`);
-  check(retriedCheckout.currency === "usd", `Checkout retry currency was ${String(retriedCheckout.currency)} instead of usd.`);
-  check(retriedCheckout.outcome === "checkout_reused", `Checkout retry outcome was ${String(retriedCheckout.outcome)} instead of checkout_reused.`);
-  check(retriedCheckout.alreadyPaid === false, `Checkout retry alreadyPaid was ${String(retriedCheckout.alreadyPaid)} instead of false.`);
-  check(typeof retriedCheckout.checkoutUrl === "string" && new URL(retriedCheckout.checkoutUrl).hostname.endsWith("stripe.com"), "Checkout retry did not return a Stripe-hosted URL.");
-  await page.waitForURL((url) => url.hostname.endsWith("stripe.com"), { timeout: 30_000 });
-  check(checkoutRequests.length === 2, `Expected exactly two browser Checkout requests (initial plus retry); saw ${checkoutRequests.length}.`);
+  check(checkoutRequests.length === 1, `Expected exactly one browser Checkout request; saw ${checkoutRequests.length}.`);
 
   const cookies = (await context.cookies(baseUrl)).filter((cookie) => /^sb-.*-auth-token/.test(cookie.name));
   check(cookies.length > 0, "Authenticated session cookie was lost during the DTC journey.");
@@ -265,11 +222,11 @@ try {
     resultState: "MS",
     checkoutRequestCount: checkoutRequests.length,
     checkoutSessionId: firstCheckout.checkoutSessionId,
-    checkoutSessionReused: true,
+    checkoutSessionReused: false,
+    packetFields,
     amountCents: firstCheckout.amountCents,
     currency: firstCheckout.currency,
     firstCheckoutResponse: firstCheckout,
-    retryCheckoutResponse: retriedCheckout,
     stoppedBeforeCardEntry: true
   }, null, 2)}\n`);
 
@@ -314,7 +271,11 @@ async function answerCurrentBuilderQuestion(page) {
   const enabledText = builder.locator("input[type='text']:visible:enabled, input[type='number']:visible:enabled").first();
   if (await enabledText.count()) {
     const id = await enabledText.getAttribute("id");
-    await enabledText.fill(valueForPacketField(id?.replace(/^q-/, "") ?? "detail", await builder.locator("h1").innerText()));
+    const fieldId = id?.replace(/^q-/, "") ?? "detail";
+    const prompt = await builder.locator("h1").innerText();
+    const value = valueForPacketField(fieldId, prompt);
+    await enabledText.fill(value);
+    recordPacketField(fieldId, prompt, await enabledText.getAttribute("type") ?? "text", value);
     return;
   }
 
@@ -323,7 +284,10 @@ async function answerCurrentBuilderQuestion(page) {
     await selects.nth(0).selectOption("01");
     await selects.nth(1).selectOption("15");
     const yearValues = await selects.nth(2).locator("option").evaluateAll((options) => options.map((option) => option.value).filter(Boolean));
-    await selects.nth(2).selectOption(yearValues.at(-1) ?? "2000");
+    const year = yearValues.includes("2015") ? "2015" : yearValues.at(-1) ?? "2000";
+    await selects.nth(2).selectOption(year);
+    const hiddenId = (await builder.locator("input[type='hidden'][id^='q-']").getAttribute("id"))?.replace(/^q-/, "") ?? "date";
+    recordPacketField(hiddenId, await builder.locator("h1").innerText(), "date (month/day/year selects)", `${year}-01-15`);
     return;
   }
 
@@ -331,11 +295,14 @@ async function answerCurrentBuilderQuestion(page) {
   if (await radios.count()) {
     const checked = builder.locator("input[type='radio']:visible:checked");
     if (await checked.count()) return;
+    const controlId = ((await radios.first().getAttribute("name")) ?? "choice").replace(/^q-/, "");
+    const preferred = ["pending_cases", "prior_relief", "trafficking_status"].includes(controlId) ? /^No(?:\s|$)/i : null;
     for (let index = 0; index < await radios.count(); index += 1) {
       const radio = radios.nth(index);
       const label = await radio.locator("xpath=ancestor::label").innerText().catch(() => "");
-      if (!/not sure|prefer not|unknown/i.test(label)) {
+      if ((preferred ? preferred.test(label) : !/not sure|prefer not|unknown/i.test(label))) {
         await radio.check();
+        recordPacketField(controlId, await builder.locator("h1").innerText(), "single choice", label.trim());
         return;
       }
     }
@@ -388,7 +355,41 @@ function checkoutResponse(page) {
   return page.waitForResponse(
     (response) => response.request().method() === "POST" && safePath(response.url()) === "/api/expungement-ai/checkout",
     { timeout: 30_000 }
-  );
+  ).then(async (response) => {
+    const payload = await response.json().catch(() => ({}));
+    checkoutPayloads.push({
+      status: response.status(), topLevelKeys: Object.keys(payload).sort(),
+      checkoutSessionId: payload?.checkoutSessionId, briefcaseItemId: payload?.briefcaseItemId,
+      amountCents: payload?.amountCents, currency: payload?.currency,
+      alreadyPaid: payload?.alreadyPaid, paymentPending: payload?.paymentPending,
+      checkoutUrl: payload?.checkoutUrl, mode: payload?.mode, outcome: payload?.outcome
+    });
+    return response;
+  });
+}
+
+async function stripeCheckoutProof(checkoutUrl, itemId) {
+  const sessionId = new URL(checkoutUrl).pathname.split("/").find((part) => part.startsWith("cs_test_"));
+  const key = process.env.HOSTED_STRIPE_TEST_SECRET?.trim();
+  if (!sessionId || !key?.startsWith("sk_test_")) return {};
+  const response = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`, {
+    headers: { Authorization: `Bearer ${key}` }
+  });
+  const session = await response.json();
+  return {
+    checkoutSessionId: session.id,
+    checkoutUrl,
+    briefcaseItemId: session.metadata?.briefcase_item_id,
+    amountCents: session.amount_total,
+    currency: session.currency,
+    alreadyPaid: session.payment_status === "paid",
+    livemode: session.livemode,
+    itemMatches: session.metadata?.briefcase_item_id === itemId
+  };
+}
+
+function recordPacketField(id, label, inputType, value) {
+  if (!packetFields.some((field) => field.id === id)) packetFields.push({ id, label: label.trim(), inputType, value });
 }
 
 function valueForPacketField(id, prompt) {

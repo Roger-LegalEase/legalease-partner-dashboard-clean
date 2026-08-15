@@ -6,6 +6,9 @@ import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 import { packetPlanForPathway } from "@/lib/rcap-engine/packet-planner";
 import { projectPublicProfile } from "@/lib/rcap-engine/public-profile-projection";
 import type { PublicQuestion } from "@/lib/rcap-engine/contracts";
+import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/authoritative-screening-result";
+import { InvalidAnswerError } from "@/lib/rcap-engine/evaluator";
+import { toScreeningAnswers } from "@/components/expungement-ai/screening/answers";
 
 export type PacketInformationStage = "not_started" | "in_progress" | "ready_to_generate";
 
@@ -27,6 +30,7 @@ export type PacketInformationModel = {
 type CommercialFlow = {
   screening?: {
     profileVersion?: unknown;
+    screeningMatterId?: unknown;
     pathwayId?: unknown;
     pathwayLabel?: unknown;
     packetPlan?: unknown;
@@ -150,6 +154,9 @@ export function packetInformationPatch(input: {
   );
   const mergedAnswers = { ...current.initialAnswers, ...acceptedAnswers };
   const missingInputIds = missingRequiredInputs(current.requiredInputIds, serverFacts, mergedAnswers);
+  const review = input.reviewed && missingInputIds.length === 0
+    ? packetInformationReviewSafety(input.existingItem, mergedAnswers)
+    : { safe: false, reason: "packet_information_incomplete" };
   const now = new Date().toISOString();
 
   return {
@@ -160,20 +167,120 @@ export function packetInformationPatch(input: {
         // subsequent saves use the ordinary nested merge path.
         ...(persistedFlow ? {} : flow),
         packetInformation: {
-          stage: input.reviewed && missingInputIds.length === 0 ? "ready_to_generate" : "in_progress",
+          stage: review.safe ? "ready_to_generate" : "in_progress",
           requiredInputIds: current.requiredInputIds,
           serverFacts,
           prefilledAnswers,
           answers: acceptedAnswers,
           missingInputIds,
           updatedAt: now,
-          reviewedAt: input.reviewed ? now : null
+          reviewedAt: review.safe ? now : null,
+          reviewSafety: review
         }
       }
     },
     missingInputIds,
-    readyToGenerate: input.reviewed && missingInputIds.length === 0
+    readyToGenerate: review.safe,
+    reviewReason: review.reason
   };
+}
+
+/**
+ * Re-check packet-builder facts before payment. Screening owns the route; the
+ * builder may complete it, but it may not quietly contradict it and continue
+ * selling the old packet.
+ */
+export function packetInformationReviewSafety(
+  item: ConsumerBriefcaseItem,
+  answerOverride?: Record<string, AnswerValue>
+): { safe: boolean; reason: string } {
+  const model = packetInformationModelFor(item);
+  const flow = readCommercialFlow(item.artifactRefs);
+  const screening = isRecord(flow?.screening) ? flow.screening : {};
+  if (!model || !flow || typeof screening.profileVersion !== "string") {
+    return { safe: false, reason: "authoritative_screening_context_missing" };
+  }
+
+  const answers = { ...model.initialAnswers, ...answerOverride };
+  for (const question of model.questions) {
+    const validation = validatePacketAnswer(question, answers[question.id]);
+    if (!validation.safe) return validation;
+  }
+
+  // These Mississippi facts are source-rule inputs. A contradictory answer
+  // cannot remain attached to the ordinary non-conviction packet.
+  if (model.stateCode === "MS" && model.pathwayId === "non-conviction-expungement-for-dismissal-no-disposition-or-acquittal") {
+    const requiredNeutralFacts: Array<[string, string]> = [
+      ["pending_cases", "No"],
+      ["trafficking_status", "No"],
+      ["prior_relief", "No"],
+      ["sentence_completion_date", "Yes"],
+      ["financial_obligations", "Yes"]
+    ];
+    for (const [id, expected] of requiredNeutralFacts) {
+      if (answerText(answers[id]) !== expected.toLowerCase()) {
+        return { safe: false, reason: `route_changing_answer:${id}` };
+      }
+    }
+  }
+
+  const screeningAnswers = answerRecord(screening.answers);
+  const evaluationAnswers = toScreeningAnswers({ ...screeningAnswers, ...answers });
+  let evaluation;
+  try {
+    evaluation = evaluateAuthoritativeScreeningResult({
+      jurisdiction: model.stateCode,
+      profileVersion: screening.profileVersion,
+      matterId: typeof screening.screeningMatterId === "string" ? screening.screeningMatterId : item.id,
+      answers: evaluationAnswers
+    }).evaluation;
+  } catch (error) {
+    // Some packet-only form fields intentionally are not evaluator questions.
+    // Remove only the ids the authoritative evaluator explicitly identifies;
+    // all recognized route facts remain and are re-evaluated.
+    if (!(error instanceof InvalidAnswerError)) return { safe: false, reason: "authoritative_reevaluation_failed" };
+    for (const id of error.invalidQuestionIds) delete evaluationAnswers[id];
+    try {
+      evaluation = evaluateAuthoritativeScreeningResult({
+        jurisdiction: model.stateCode,
+        profileVersion: screening.profileVersion,
+        matterId: typeof screening.screeningMatterId === "string" ? screening.screeningMatterId : item.id,
+        answers: evaluationAnswers
+      }).evaluation;
+    } catch {
+      return { safe: false, reason: "authoritative_reevaluation_failed" };
+    }
+  }
+
+  const packetReady = evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution";
+  if (!packetReady || !evaluation.paymentAllowed || evaluation.pathwayId !== model.pathwayId) {
+    return { safe: false, reason: "authoritative_route_changed" };
+  }
+  return { safe: true, reason: "authoritative_route_confirmed" };
+}
+
+function validatePacketAnswer(question: ProfileQuestion, value: AnswerValue | undefined) {
+  if (!answerIsKnown(value)) return { safe: false, reason: `invalid_packet_answer:${question.id}` };
+  const text = answerText(value);
+  if (question.type === "date_or_unknown" && !/^\d{4}-\d{2}-\d{2}$/.test(text)) {
+    return { safe: false, reason: `invalid_date:${question.id}` };
+  }
+  if (question.type === "number_or_range" && !/^\d+$/.test(text)) {
+    return { safe: false, reason: `invalid_number:${question.id}` };
+  }
+  if (question.type === "single_choice" && question.options?.length && !question.options.includes(answerTextRaw(value))) {
+    return { safe: false, reason: `invalid_choice:${question.id}` };
+  }
+  return { safe: true, reason: "valid" };
+}
+
+function answerTextRaw(value: AnswerValue | undefined) {
+  if (isRecord(value)) return String(value.value ?? "").trim();
+  return String(value ?? "").trim();
+}
+
+function answerText(value: AnswerValue | undefined) {
+  return answerTextRaw(value).toLowerCase();
 }
 
 export function answerLabel(id: string) {
@@ -288,7 +395,9 @@ const FALLBACK_PACKET_QUESTIONS: Record<string, ProfileQuestion> = {
   residency_or_location: packetQuestion("residency_or_location", "What city or location belongs with this matter?", "text_or_unknown"),
   age_at_offense: packetQuestion("age_at_offense", "How old were you when this happened?", "number_or_range"),
   pardon_status: packetQuestion("pardon_status", "Have you received a pardon or similar official relief for this matter?", "yes_no_unsure"),
-  trafficking_status: packetQuestion("trafficking_status", "Was this matter connected to force, fraud, coercion, or human trafficking?", "yes_no_prefer_not_to_say")
+  trafficking_status: packetQuestion("trafficking_status", "Was this matter connected to force, fraud, coercion, or human trafficking?", "yes_no_prefer_not_to_say"),
+  disposition_date: packetQuestion("disposition_date", "What date did the case end or get resolved?", "date_or_unknown", "Use the date shown on the dismissal, disposition, or court docket."),
+  prior_relief: packetQuestion("prior_relief", "Have you previously received expungement, sealing, or similar relief for another record?", "yes_no_unsure")
 };
 
 function fallbackPacketQuestion(id: string): ProfileQuestion {

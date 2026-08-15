@@ -54,6 +54,15 @@ export async function POST(
     return NextResponse.json({ ok: false, error: "save_failed" }, { status: 503 });
   }
 
+  if (parsed.reviewed && !update.readyToGenerate) {
+    return NextResponse.json({
+      ok: false,
+      error: "authoritative_review_required",
+      reason: update.reviewReason,
+      missingInputIds: update.missingInputIds
+    }, { status: 409 });
+  }
+
   return NextResponse.json({
     ok: true,
     itemId: item.id,

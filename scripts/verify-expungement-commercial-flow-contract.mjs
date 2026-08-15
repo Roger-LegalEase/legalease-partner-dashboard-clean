@@ -43,7 +43,8 @@ const {
 } = await import("../src/lib/expungement-ai/save-result-policy.ts");
 const {
   packetInformationModelFor,
-  packetInformationPatch
+  packetInformationPatch,
+  packetInformationReviewSafety
 } = await import("../src/lib/expungement-ai/packet-information.ts");
 const { humanMatterState } = await import("../src/lib/expungement-ai/frontend/briefcase-presentation.ts");
 
@@ -212,18 +213,86 @@ const reviewed = packetInformationPatch({
   reviewed: true
 });
 assert.ok(reviewed);
-assert.equal(reviewed.readyToGenerate, true);
+assert.equal(reviewed.readyToGenerate, false, "a synthetic matter without authoritative screening context must fail closed at review");
 assert.deepEqual(reviewed.missingInputIds, []);
 packetMatter = await mergeBriefcaseArtifactRefs(USER_ID, packetMatter.id, reviewed.patch);
 model = packetInformationModelFor(packetMatter);
-assert.equal(model.stage, "ready_to_generate");
+assert.equal(model.stage, "in_progress");
 assert.equal(model.initialAnswers.court, "Hinds County Circuit Court", "final save must retain earlier answers");
 assert.equal(model.initialAnswers.case_number, "25-CR-000123");
-assert.equal(model.reviewedAt === null, false);
-assert.equal(humanMatterState(packetMatter), "Ready to generate");
+assert.equal(model.reviewedAt, null);
+assert.equal(humanMatterState(packetMatter), "Packet details in progress");
 assert.equal(packetMatter.paymentStatus, "unpaid", "accuracy review must not mark the matter paid");
 assert.equal(packetMatter.checkoutSessionId, undefined, "accuracy review must not create a Checkout Session");
 assert.ok(packetMatter.packetStatus !== "ready" && packetMatter.packetStatus !== "downloaded");
+
+// Builder facts that can contradict the Mississippi route are re-evaluated at
+// final review. Dates are ISO dates, and the ordinary non-conviction fixture
+// uses neutral answers rather than exercising unrelated legal routes.
+const msRequired = [
+  "age_at_offense", "case_outcome", "charge", "contact_information", "county", "court",
+  "disposition_date", "financial_obligations", "jurisdiction", "offense_category", "offense_level",
+  "participant_full_legal_name", "pathway_id", "pending_cases", "prior_relief", "record_type",
+  "residency_or_location", "sentence_completion_date", "trafficking_status"
+];
+const cleanPacketAnswers = {
+  age_at_offense: { value: "30", unknown: false },
+  case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+  charge: { value: "Synthetic misdemeanor charge", unknown: false },
+  contact_information: "100 Acceptance Way, Jackson, MS 39201",
+  county: { value: "Hinds County", unknown: false },
+  court: { value: "Hinds County Circuit Court", unknown: false },
+  disposition_date: { value: "2015-01-15", unknown: false },
+  financial_obligations: "Yes",
+  offense_category: { value: "Misdemeanor", unknown: false },
+  offense_level: "Misdemeanor",
+  participant_full_legal_name: "Acceptance Consumer",
+  pending_cases: "No",
+  prior_relief: "No",
+  record_type: "Arrest or charge",
+  residency_or_location: { value: "Jackson, Mississippi", unknown: false },
+  sentence_completion_date: "Yes",
+  trafficking_status: "No"
+};
+const reviewMatter = {
+  ...packetMatter,
+  state: "MS",
+  pathwayLabel: PACKET_PATHWAY_LABEL,
+  artifactRefs: {
+    commercialFlow: {
+      screening: {
+        profileVersion: "2026-06-19-source-conversion-1",
+        screeningMatterId: "screening-review-ms",
+        pathwayId: PACKET_PATHWAY_ID,
+        pathwayLabel: PACKET_PATHWAY_LABEL,
+        packetPlan: {
+          pathwayId: PACKET_PATHWAY_ID,
+          mode: "state_specific_custom_packet_from_source_rules",
+          formMappingStatus: "custom_or_manual_mapping_required",
+          sourceFormIds: [], requiredInputIds: msRequired, sourceRuleRefs: ["pathways:15-155"]
+        },
+        answers: {
+          ownership_scope: "Yes", jurisdiction_scope: "State or local",
+          case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+          offense_level: "Misdemeanor",
+          possible_pathway_context: PACKET_PATHWAY_LABEL,
+          resolved_timing_bucket: "gt_10_years",
+          court_requirements_completed: "yes"
+        }
+      },
+      packetInformation: {
+        stage: "ready_to_generate", requiredInputIds: msRequired,
+        serverFacts: { jurisdiction: "MS", pathway_id: PACKET_PATHWAY_ID },
+        prefilledAnswers: {}, answers: cleanPacketAnswers, missingInputIds: [],
+        updatedAt: "2026-08-15T00:00:00.000Z", reviewedAt: "2026-08-15T00:00:00.000Z"
+      }
+    }
+  }
+};
+assert.deepEqual(packetInformationReviewSafety(reviewMatter), { safe: true, reason: "authoritative_route_confirmed" });
+assert.equal(packetInformationReviewSafety(reviewMatter, { disposition_date: { value: "25-CR-000123", unknown: false } }).reason, "invalid_date:disposition_date");
+assert.equal(packetInformationReviewSafety(reviewMatter, { pending_cases: "Yes" }).reason, "route_changing_answer:pending_cases");
+assert.equal(packetInformationReviewSafety(reviewMatter, { trafficking_status: "Yes" }).reason, "route_changing_answer:trafficking_status");
 
 // Accepted packet matters created before commercialFlow metadata existed are
 // reconciled with server-owned state/pathway facts. Those facts must persist in

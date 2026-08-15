@@ -7,7 +7,7 @@ import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapt
 import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
-import { packetInformationModelFor } from "@/lib/expungement-ai/packet-information";
+import { packetInformationModelFor, packetInformationReviewSafety } from "@/lib/expungement-ai/packet-information";
 import {
   CONSUMER_PACKET_PRODUCT_ID,
   persistConsumerCheckoutBinding
@@ -489,7 +489,8 @@ export function assertConsumerCheckoutReviewReady(item: ConsumerBriefcaseItem) {
   if (packetInformation
     && packetInformation.stage === "ready_to_generate"
     && packetInformation.missingInputIds.length === 0
-    && packetInformation.reviewedAt) {
+    && packetInformation.reviewedAt
+    && packetInformationReviewSafety(item).safe) {
     return;
   }
 

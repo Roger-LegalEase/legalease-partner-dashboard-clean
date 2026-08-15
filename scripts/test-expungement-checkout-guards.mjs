@@ -254,7 +254,8 @@ function buildPaymentAdapter({
     "@/lib/expungement-ai/packet-information": {
       packetInformationModelFor: () => reviewReady
         ? { stage: "ready_to_generate", missingInputIds: [], reviewedAt: "2026-08-15T00:00:00.000Z" }
-        : null
+        : null,
+      packetInformationReviewSafety: () => ({ safe: reviewReady })
     }
   });
 
@@ -664,7 +665,8 @@ function buildRenderRequest({ reviewReady = true, existingPacket = null } = {}) 
       getBriefcaseItemForWebhook: async () => item
     },
     "@/lib/expungement-ai/packet-information": {
-      packetInformationModelFor: () => model
+      packetInformationModelFor: () => model,
+      packetInformationReviewSafety: () => ({ safe: model.stage === "ready_to_generate" })
     },
     "@/lib/rcap/render/job-contract": {
       buildRenderJobSpec: (input) => {
