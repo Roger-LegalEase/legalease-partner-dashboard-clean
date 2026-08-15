@@ -5,6 +5,7 @@ These docs are the source of truth for the Expungement.ai direct-to-consumer flo
 - [Expungement.ai DTC User Flow](./expungement-ai-dtc-user-flow.md)
 - [RCAP Partner Portal User Flow](./rcap-partner-portal-user-flow.md)
 - [Expungement.ai State Landing Pages](./expungement-ai-state-landing-pages.md)
+- [Expungement.ai Website Copy](./expungement-ai-website-copy.md)
 - Source PDFs live in [`source-pdfs/`](./source-pdfs/)
 
 Any change to screening, account creation, auth callback, payment, Briefcase, packet builder, partner bypass, or packet generation must preserve these flows or update these docs and verifiers in the same PR.

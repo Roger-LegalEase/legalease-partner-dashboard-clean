@@ -1,7 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { ExpungementLandingInteractions } from "@/app/expungement-ai/ExpungementLandingInteractions";
-import { buildExpungementLandingHtml, extractLandingDictionaries } from "@/app/expungement-ai/landing-handoff-utils";
+import {
+  applyLandingDictionary,
+  buildExpungementLandingHtml,
+  extractLandingDictionaries
+} from "@/app/expungement-ai/landing-handoff-utils";
 import { SamplePacketModal } from "@/app/expungement-ai/sample-packet/SamplePacketModal";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 
@@ -34,6 +38,21 @@ const noScriptRevealFallback = `
 // uses (e.g. the privacy section) are untouched. Cosmetic only — behaviour and
 // the #sample anchor are unchanged.
 const landingDesignFixes = `
+  .skip-link {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 200;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: #fff;
+    color: #0b1320;
+    font-weight: 700;
+    transform: translateY(-160%);
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
   .hero-cta-row a.h-ghost {
     background: rgba(13, 21, 40, 0.6);
     border: 1.5px solid rgba(255, 255, 255, 0.55);
@@ -44,6 +63,19 @@ const landingDesignFixes = `
   .hero-cta-row a.h-ghost:hover {
     background: rgba(13, 21, 40, 0.74);
     border-color: #fff;
+  }
+  .pricing-cols {
+    grid-template-columns: minmax(0, 760px);
+    justify-content: center;
+  }
+  .nav.open .navtoggle {
+    position: relative;
+    z-index: 52;
+    background: #fff;
+    border-color: #d6cfc1;
+  }
+  .nav.open .navtoggle span {
+    background: #0b1320;
   }
 `;
 
@@ -63,8 +95,9 @@ const fontLinks = (
 export function ExpungementLandingHandoff() {
   const source = fs.readFileSync(landingPath, "utf8");
   const styles = [...source.matchAll(/<style>([\s\S]*?)<\/style>/g)].map((match) => match[1]).join("\n");
-  const html = buildExpungementLandingHtml(source);
-  const dictionaries = extractLandingDictionaries(source, html);
+  const baseHtml = buildExpungementLandingHtml(source);
+  const dictionaries = extractLandingDictionaries(source, baseHtml);
+  const html = applyLandingDictionary(baseHtml, dictionaries.en);
 
   return (
     <>

@@ -2,10 +2,18 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  EXPUNGEMENT_LOCALE_EVENT_NAME,
+  readSavedExpungementLocale
+} from "@/app/expungement-ai/landing-locale-controller";
+import {
   SAMPLE_BADGE,
+  SAMPLE_BADGE_ES,
   samplePacketMatter,
-  samplePacketTabs
+  samplePacketMatterEs,
+  samplePacketTabs,
+  samplePacketTabsEs
 } from "@/app/expungement-ai/sample-packet/sample-packet-demo";
+import type { Locale } from "@/lib/expungement-ai/localization";
 
 // ============================================================================
 // "View sample packet" — DEMO format preview.
@@ -71,10 +79,46 @@ const STYLES = `
 
 const TRIGGER_SELECTOR = "[data-sample-packet-trigger]";
 
+const SAMPLE_COPY = {
+  en: {
+    dialogLabel: "Sample packet preview with demonstration information only",
+    demonstration: "Demonstration information only. This is not a real packet and cannot be filed.",
+    close: "Close sample packet preview",
+    eyebrow: "Sample packet",
+    title: "How a finished packet is organized",
+    petitioner: "Petitioner",
+    sample: "sample",
+    caseNumber: "Case no.",
+    court: "Court",
+    disposition: "Disposition",
+    sections: "Sample packet sections",
+    watermark: "SAMPLE",
+    foot: "Sample only. Your actual forms depend on your state, court, case, and supported record-clearing option. This preview is illustrative and is not legal advice."
+  },
+  es: {
+    dialogLabel: "Vista de un paquete de ejemplo con información de demostración",
+    demonstration: "Solo contiene información de demostración. No es un paquete real y no se puede presentar.",
+    close: "Cerrar la vista del paquete de ejemplo",
+    eyebrow: "Paquete de ejemplo",
+    title: "Cómo se organiza un paquete terminado",
+    petitioner: "Peticionario",
+    sample: "ejemplo",
+    caseNumber: "Caso núm.",
+    court: "Tribunal",
+    disposition: "Resultado",
+    sections: "Secciones del paquete de ejemplo",
+    watermark: "EJEMPLO",
+    foot: "Solo es un ejemplo. Sus formularios dependen de su estado, tribunal, caso y opción de limpieza de antecedentes disponible. Esta vista es ilustrativa y no constituye asesoría legal."
+  }
+} as const;
+
 export function SamplePacketModal() {
   const [open, setOpen] = useState(false);
+  const [locale, setLocale] = useState<Locale>("en");
   const [active, setActive] = useState(samplePacketTabs[0].id);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const returnFocusRef = useRef<HTMLElement | null>(null);
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -89,11 +133,21 @@ export function SamplePacketModal() {
       }
       event.preventDefault();
       event.stopPropagation();
+      returnFocusRef.current = trigger as HTMLElement;
+      setLocale(readSavedExpungementLocale());
       setActive(samplePacketTabs[0].id);
       setOpen(true);
     };
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
+  }, []);
+
+  useEffect(() => {
+    const onLanguageChange = (event: Event) => {
+      setLocale(event instanceof CustomEvent && event.detail?.locale === "es" ? "es" : "en");
+    };
+    window.addEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onLanguageChange);
+    return () => window.removeEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onLanguageChange);
   }, []);
 
   useEffect(() => {
@@ -103,6 +157,24 @@ export function SamplePacketModal() {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         close();
+        return;
+      }
+      if (event.key === "Tab") {
+        const focusable = Array.from(
+          modalRef.current?.querySelectorAll<HTMLElement>(
+            'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+          ) ?? []
+        );
+        const first = focusable[0];
+        const last = focusable.at(-1);
+        if (!first || !last) return;
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
       }
     };
     document.addEventListener("keydown", onKey);
@@ -112,6 +184,7 @@ export function SamplePacketModal() {
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = previousOverflow;
+      returnFocusRef.current?.focus();
     };
   }, [open, close]);
 
@@ -119,7 +192,11 @@ export function SamplePacketModal() {
     return null;
   }
 
-  const tab = samplePacketTabs.find((entry) => entry.id === active) ?? samplePacketTabs[0];
+  const copy = SAMPLE_COPY[locale];
+  const badge = locale === "es" ? SAMPLE_BADGE_ES : SAMPLE_BADGE;
+  const matter = locale === "es" ? samplePacketMatterEs : samplePacketMatter;
+  const tabs = locale === "es" ? samplePacketTabsEs : samplePacketTabs;
+  const tab = tabs.find((entry) => entry.id === active) ?? tabs[0];
 
   return (
     <>
@@ -128,52 +205,71 @@ export function SamplePacketModal() {
         className="sp-overlay"
         role="dialog"
         aria-modal="true"
-        aria-label="Sample packet preview with demonstration information only"
+        aria-label={copy.dialogLabel}
         onClick={(event) => {
           if (event.target === event.currentTarget) {
             close();
           }
         }}
       >
-        <div className="sp-modal">
+        <div className="sp-modal" ref={modalRef}>
           <div className="sp-banner">
             <span className="sp-dot" aria-hidden="true" />
-            <span>{SAMPLE_BADGE}</span>
-            <span className="sp-sub">Demonstration information only. This is not a real, filable packet.</span>
-            <button ref={closeRef} type="button" className="sp-close" aria-label="Close sample packet preview" onClick={close}>
+            <span>{badge}</span>
+            <span className="sp-sub">{copy.demonstration}</span>
+            <button ref={closeRef} type="button" className="sp-close" aria-label={copy.close} onClick={close}>
               ×
             </button>
           </div>
 
           <div className="sp-head">
-            <p className="sp-eyebrow">Sample packet</p>
-            <h2 className="sp-title">How a finished packet is organized</h2>
+            <p className="sp-eyebrow">{copy.eyebrow}</p>
+            <h2 className="sp-title">{copy.title}</h2>
             <div className="sp-meta">
-              <div>Petitioner<b>{samplePacketMatter.petitioner} (sample)</b></div>
-              <div>Case no.<b>{samplePacketMatter.caseNumber}</b></div>
-              <div>Court<b>{samplePacketMatter.court}</b></div>
-              <div>Disposition<b>{samplePacketMatter.disposition}</b></div>
+              <div>{copy.petitioner}<b>{matter.petitioner} ({copy.sample})</b></div>
+              <div>{copy.caseNumber}<b>{matter.caseNumber}</b></div>
+              <div>{copy.court}<b>{matter.court}</b></div>
+              <div>{copy.disposition}<b>{matter.disposition}</b></div>
             </div>
           </div>
 
-          <div className="sp-tabs" role="tablist" aria-label="Sample packet sections">
-            {samplePacketTabs.map((entry) => (
+          <div className="sp-tabs" role="tablist" aria-label={copy.sections}>
+            {tabs.map((entry, index) => (
               <button
                 key={entry.id}
                 type="button"
                 role="tab"
+                id={`sample-tab-${entry.id}`}
+                aria-controls="sample-tab-panel"
                 aria-selected={entry.id === active}
+                tabIndex={entry.id === active ? 0 : -1}
                 className={`sp-tab${entry.id === active ? " on" : ""}`}
                 onClick={() => setActive(entry.id)}
+                onKeyDown={(event) => {
+                  if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+                  event.preventDefault();
+                  const nextIndex = event.key === "Home"
+                    ? 0
+                    : event.key === "End"
+                      ? tabs.length - 1
+                      : (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+                  setActive(tabs[nextIndex].id);
+                  requestAnimationFrame(() => document.getElementById(`sample-tab-${tabs[nextIndex].id}`)?.focus());
+                }}
               >
                 {entry.label}
               </button>
             ))}
           </div>
 
-          <div className="sp-doc">
+          <div
+            className="sp-doc"
+            id="sample-tab-panel"
+            role="tabpanel"
+            aria-labelledby={`sample-tab-${tab.id}`}
+          >
             <div className="sp-watermark" aria-hidden="true">
-              <span>SAMPLE</span>
+              <span>{copy.watermark}</span>
             </div>
             <div className="sp-doc-inner">
               <div className="sp-doc-heading">{tab.heading}</div>
@@ -190,10 +286,7 @@ export function SamplePacketModal() {
             </div>
           </div>
 
-          <p className="sp-foot">
-            Sample only. Your actual forms depend on your state, court, case, and eligibility. This preview is
-            illustrative and is not legal advice.
-          </p>
+          <p className="sp-foot">{copy.foot}</p>
         </div>
       </div>
     </>

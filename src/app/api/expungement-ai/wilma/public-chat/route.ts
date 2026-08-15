@@ -44,9 +44,9 @@ type PublicWilmaRequest = {
 // Only non-case-bearing surfaces are valid on the anonymous path.
 const PUBLIC_PAGE_CONTEXTS: WilmaPageContext[] = ["landing", "pricing", "start"];
 
-const RATE_LIMIT_COPY = "I'm getting a lot of questions right at this moment - give me a few seconds and try again. The free screening tool is always available in the meantime.";
-const BOT_COPY = "I couldn't verify this request. Refresh the page and try again, or head straight to the free screening tool.";
-const TURNS_COPY = "We've covered a lot here. This is a great point to start the free screening - it checks your details against your state's rules and saves your place.";
+const RATE_LIMIT_COPY = "I'm getting a lot of questions right now. Wait a few seconds and try again. The free guided check is still available.";
+const BOT_COPY = "I couldn't verify this request. Refresh the page and try again, or start the free guided check.";
+const TURNS_COPY = "We've covered a lot. This is a good time to start the free guided check, which uses your answers and your state's rules to show what may be available.";
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null) as PublicWilmaRequest | null;
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
 
   // 1. Kill-switch — before any other work or model call.
   if (isWilmaKillSwitchActive()) {
-    return NextResponse.json(wilmaKillSwitchResponse());
+    return NextResponse.json(wilmaKillSwitchResponse(locale));
   }
 
   // 2. Message length — reject overlong input before spending tokens.
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
   }
 
   // 9. Guard — polices every output before it reaches the user.
-  const guardResult = guardWilmaResponse({ userMessage: message, draftResponse: reply.text, context });
+  const guardResult = guardWilmaResponse({ userMessage: message, draftResponse: reply.text, context, locale });
 
   // 10. Telemetry — pseudonymous (hashed IP / conversation id), PII-redacted, public surface.
   const telemetry = createWilmaTelemetryRecord({

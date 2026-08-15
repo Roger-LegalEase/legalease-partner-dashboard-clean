@@ -1,8 +1,19 @@
+import {
+  APPROVED_LANDING_COPY_EN,
+  APPROVED_LANDING_COPY_ES
+} from "@/app/expungement-ai/landing-approved-copy";
+
 export function buildExpungementLandingHtml(source: string) {
   const body = source.match(/<body[^>]*>([\s\S]*?)<\/body>/)?.[1] ?? "";
   return body
     .replace(/<div id="wilma-static"[\s\S]*?<\/div>\s*(?=<script)/i, "")
     .replace(/<script[\s\S]*?<\/script>/g, "")
+    .replace(/<section\b[^>]*class="[^"]*\bcred\b[^"]*"[^>]*>[\s\S]*?<\/section>/i, "")
+    .replace(/<section\b[^>]*class="[^"]*\btesti\b[^"]*"[^>]*>[\s\S]*?<\/section>/i, "")
+    .replace(/<section\b[^>]*class="[^"]*\bevidence\b[^"]*"[^>]*>[\s\S]*?<\/section>/i, "")
+    .replace(/<div\b[^>]*class="[^"]*\bstat-mod\b[^"]*"[^>]*>[\s\S]*?<\/div>/i, "")
+    .replace(/<div\b[^>]*class="[^"]*\bproof-side\b[^"]*"[^>]*>[\s\S]*?<\/div>/i, "")
+    .replace(/<div\b[^>]*class="[^"]*\bsocials\b[^"]*"[^>]*>[\s\S]*?<\/div>/i, "")
     .replaceAll('src="hero-', 'src="/expungement-ai/hero-')
     .replaceAll('srcset="hero-', 'srcset="/expungement-ai/hero-')
     .replaceAll(", hero-", ", /expungement-ai/hero-")
@@ -36,7 +47,7 @@ export function buildExpungementLandingHtml(source: string) {
     )
     .replaceAll('href="#elig"', 'href="/expungement-ai/start"')
     .replaceAll('href="#how-it-works"', 'href="/expungement-ai#how-it-works"')
-    .replaceAll('href="#brief"', 'href="/expungement-ai#brief"')
+    .replaceAll('href="#what-you-get"', 'href="/expungement-ai#what-you-get"')
     .replaceAll('href="#pricing"', 'href="/expungement-ai#pricing"')
     .replaceAll('href="#privacy"', 'href="/expungement-ai#privacy"')
     .replaceAll('href="#faq"', 'href="/expungement-ai#faq"')
@@ -48,9 +59,43 @@ export function buildExpungementLandingHtml(source: string) {
 export function extractLandingDictionaries(source: string, renderedHtml = buildExpungementLandingHtml(source)) {
   const en = extractEnglishDictionary(renderedHtml);
   const es = readDictionary(source, "ES");
-  applyEnglishWorkflowOverrides(en);
-  applySpanishSafetyOverrides(es);
+  Object.assign(en, APPROVED_LANDING_COPY_EN);
+  Object.assign(es, APPROVED_LANDING_COPY_ES);
   return { en, es };
+}
+
+export function applyLandingDictionary(renderedHtml: string, dictionary: Record<string, string>) {
+  const ranges: Array<{ start: number; end: number; replacement: string }> = [];
+  const opening = /<([a-z0-9-]+)\b([^>]*\bdata-i18n(?:-html)?="([^"]+)"[^>]*)>/gi;
+  for (const match of renderedHtml.matchAll(opening)) {
+    const tag = match[1];
+    const attrs = match[2];
+    const key = match[3];
+    const value = dictionary[key];
+    if (typeof value !== "string" || match.index === undefined) continue;
+    const openEnd = match.index + match[0].length;
+    const tokenPattern = new RegExp(`<\\/?${tag}\\b[^>]*>`, "gi");
+    tokenPattern.lastIndex = openEnd;
+    let depth = 1;
+    let token: RegExpExecArray | null;
+    while ((token = tokenPattern.exec(renderedHtml))) {
+      if (/^<\//.test(token[0])) depth -= 1;
+      else depth += 1;
+      if (depth === 0) {
+        ranges.push({
+          start: match.index,
+          end: tokenPattern.lastIndex,
+          replacement: `<${tag}${attrs}>${value}</${tag}>`
+        });
+        break;
+      }
+    }
+  }
+  let next = renderedHtml;
+  for (const range of ranges.sort((a, b) => b.start - a.start)) {
+    next = next.slice(0, range.start) + range.replacement + next.slice(range.end);
+  }
+  return next;
 }
 
 function readDictionary(source: string, name: "EN" | "ES") {
@@ -80,77 +125,6 @@ function extractEnglishDictionary(renderedHtml: string) {
       : htmlToText(body);
   }
   return english;
-}
-
-function applyEnglishWorkflowOverrides(en: Record<string, string>) {
-  Object.assign(en, {
-    hero_eyebrow: "PRIVATE RECORD-CLEARING CHECK",
-    hero_h1: "Find out if your record can be cleared. Then get the paperwork to file it yourself for <span class=\"price\">$50</span>.",
-    hero_sub: "Start with a free record check. If a self-help packet is available for your matter, it costs $50 to generate. Answer a few plain-English questions without creating an account, save the result to your free Briefcase, and complete packet information before deciding whether to pay.",
-    nav_pricing: "Price",
-    nav_faq: "Questions",
-    nav_cta: "Check my record free &#8594;",
-    m_cta: "Check my record free &#8594;",
-    hero_cta1: "Check my record free <span class=\"arr\">&#8594;</span>",
-    hero_cta2: "See a sample packet",
-    hero_micro: "About 3 minutes &nbsp;&middot;&nbsp; No account required &nbsp;&middot;&nbsp; No payment to start &nbsp;&middot;&nbsp; Private &nbsp;&middot;&nbsp; All 50 states + DC",
-    hero_disclaimer: "Self-help document preparation. Not a law firm. The court or agency makes the final decision.",
-    strip_h0: "Free record-clearing check",
-    strip_p0: "See whether a record-clearing path may be available before you spend anything.",
-    strip_h1: "Start privately",
-    strip_p1: "No account required to begin.",
-    strip_h2: "Filing steps for your court",
-    strip_p2: "Know what to file, where to file, and what fees or waivers may apply.",
-    strip_h3: "$50 for one packet-generating matter",
-    strip_p3: "Your Briefcase is free. No subscription. Court filing fees, if any, are separate.",
-    elig_cta: "Check my record free <span class=\"arr\">&#8594;</span>",
-    pr_h2: "One flat price for the matter you are ready to generate.",
-    pr_free: "The Briefcase and packet-information builder are free. Pay only after your accuracy review.",
-    fq_a3: "The $50 per matter covers one personalized self-help packet set, its filing checklist, and court-specific instructions. Your Briefcase is free. Court filing fees, if any, are separate."
-  });
-}
-
-function applySpanishSafetyOverrides(es: Record<string, string>) {
-  Object.assign(es, {
-    nav_cta: "Revisar mi antecedente gratis &#8594;",
-    m_cta: "Revisar mi antecedente gratis &#8594;",
-    hero_eyebrow: "REVISION PRIVADA DE LIMPIEZA DE ANTECEDENTES",
-    hero_h1: "Vea si su antecedente puede limpiarse, luego obtenga los documentos para presentarlos usted mismo por <span class=\"price\">$50</span>.",
-    hero_sub: "Empiece con una revisión gratuita de antecedentes. Si hay un paquete de autoayuda disponible para su asunto, cuesta $50 generarlo. Puede guardar el resultado en su Maletín gratuito y completar la información antes de decidir si paga.",
-    hero_cta1: "Revisar mi antecedente gratis <span class=\"arr\">&#8594;</span>",
-    hero_cta2: "Ver un paquete de ejemplo",
-    hero_micro: "Unos 3 minutos &nbsp;&middot;&nbsp; Sin cuenta &nbsp;&middot;&nbsp; Sin pago para empezar &nbsp;&middot;&nbsp; Privado &nbsp;&middot;&nbsp; Los 50 estados + DC",
-    hero_disclaimer: "Preparacion de documentos de autoayuda. No somos un bufete de abogados. La decisión final la toma el tribunal o la agencia.",
-    strip_h0: "Revisión gratuita de limpieza de antecedentes",
-    strip_p0: "Vea si puede haber una vía para limpiar su registro antes de gastar dinero.",
-    strip_h1: "Empiece en privado",
-    strip_p1: "No necesita cuenta para empezar.",
-    strip_h2: "Pasos de presentacion para su tribunal",
-    strip_p2: "Sepa que presentar, donde presentarlo y que tasas o exenciones pueden aplicar.",
-    strip_h3: "$50 por un paquete para un asunto",
-    strip_p3: "Su Maletín es gratuito. Sin suscripcion. Las tasas de presentacion del tribunal, si las hay, son aparte.",
-    prob_lead: "Arrestos antiguos, cargos desestimados, delitos menores y algunas condenas pueden crear obstáculos al solicitar trabajo, vivienda, estudios, licencias o un nuevo comienzo. Expungement.ai le ayuda a ver si puede haber una vía legal, y luego le ayuda a dar el siguiente paso.",
-    fade3: "¿Puede haber una ruta?",
-    how_h0: "Revise si puede haber una ruta",
-    how_p0: "Responda preguntas sencillas sobre su caso, estado y resultado. Le mostramos si puede haber una ruta antes de que pague.",
-    how_cta: "Revisar mi antecedente gratis <span class=\"arr\">&#8594;</span>",
-    pc_p0: "Su solicitud de limpieza de antecedentes",
-    prx2: "La decisión final la toma el tribunal o la agencia",
-    pr_cta: "Revisar mi antecedente gratis <span class=\"arr\">&#8594;</span>",
-    pv4: "Opciones de descarga y exportación en su cuenta",
-    ev_note: "Estos estudios muestran por qué importa la limpieza de antecedentes. No prometen ningún resultado legal, laboral, de vivienda o financiero individual.",
-    fq_a0: "Sí. Con frecuencia las personas pueden presentar ellas mismas papeleo de limpieza de antecedentes. Expungement.ai es un producto de preparación de documentos de autoayuda: revisamos sus respuestas, preparamos el papeleo y le guiamos con la presentación. No somos un bufete de abogados y no le representamos.",
-    fq_a4: "Nadie puede prometer un resultado del tribunal. Nuestra meta es ayudarle a evitar presentar algo que claramente no aplica y a que su paquete esté completo, organizado y listo para revisar antes de presentar.",
-    fn_p: "Revise si puede haber una ruta en unos 3 minutos. Es gratis revisar, privado para empezar, y solo paga si hay una posible ruta de paquete.",
-    fn_cta: "Revisar mi antecedente gratis <span class=\"arr\">&#8594;</span>",
-    ft_blurb: "Expungement.ai ayuda a las personas a preparar documentos de autoayuda para limpieza de antecedentes y guía de presentación.",
-    ft_check: "Revisar mi ruta",
-    _title: "Expungement.ai: Paquete de autoayuda por $50, sin contratar un abogado",
-    _desc: "Revise si puede haber una ruta, reciba su paquete de autoayuda y preséntelo usted mismo con guía paso a paso. Gratis para revisar. $50 por caso.",
-    ev_head: "Limpiar un antecedente puede cambiar lo que viene después.",
-    ts_h2: "Personas que prepararon una solicitud de limpieza de antecedentes con Expungement.ai.",
-    ts_note: "Los testimonios reflejan experiencias individuales y no prometen ningún resultado legal, laboral, de vivienda o financiero."
-  });
 }
 
 function htmlToText(value: string) {

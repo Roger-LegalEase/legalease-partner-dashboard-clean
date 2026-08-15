@@ -65,7 +65,7 @@ const landingSource = landingFile.split("<script")[0];
 for (const match of landingSource.matchAll(/<(?:p|h[1-6]|a|button|span)[^>]*>([\s\S]*?)<\/(?:p|h[1-6]|a|button|span)>/gi)) {
   check(match[1].replace(/<[^>]+>/g, " "), landingRel, match.index);
 }
-for (const match of landingSource.matchAll(/(?:aria-label|alt|title)="([^"]+)"/gi)) check(match[1], landingRel, match.index);
+for (const match of landingSource.matchAll(/\s(?:aria-label|alt|title)="([^"]+)"/gi)) check(match[1], landingRel, match.index);
 const spanishDictionary = landingFile.match(/var ES = (\{[^\n]+\});\s*var EN =/);
 if (spanishDictionary) {
   for (const value of Object.values(JSON.parse(spanishDictionary[1]))) check(String(value).replace(/<[^>]+>/g, " "), landingRel, spanishDictionary.index);

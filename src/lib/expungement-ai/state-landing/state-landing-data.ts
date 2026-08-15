@@ -51,33 +51,33 @@ export const BRIEFCASE_HREF = "/briefcase";
 
 export const STATE_LANDING_CHROME = {
   trustBullets: [
-    "Free to start — answer a few plain questions with no card and no account.",
-    "$50 only if a self-help packet path may be available and you choose to continue.",
+    "Free to start. Answer a few plain questions with no card and no account.",
+    "$50 only when a supported self-help packet is ready to generate and you choose to continue.",
     "Self-help document preparation. Not a law firm, and not legal advice.",
     "The court or agency makes the final decision on your record.",
     "Court, agency, and background-report fees may be separate from the $50."
   ],
   prepareItems: [
-    "A state-specific self-help packet, when a path may be available.",
+    "A state-specific self-help packet, when one is available.",
     "A plain-English filing checklist for the court or agency.",
-    "Clear next steps written for the route that fits your answers.",
+    "Clear next steps based on your answers.",
     "Guidance on any outside documents you may need before filing.",
-    "Everything saved privately to your Briefcase — no legal representation."
+    "Your work saved to your Briefcase when you choose to create an account."
   ],
   mayNeedItems: [
     "A court filing fee, or a fee-waiver request if you cannot pay it.",
     "A certified copy of your disposition or court records, if the court requires one.",
     "A state police or background report, if the process calls for one.",
     "Fingerprints, if the agency requires them.",
-    "Service or mailing steps, and a hearing, if your route includes them."
+    "Service or mailing steps, and a hearing, if the court requires them."
   ],
   howItWorks: [
-    "Start a free record-clearing check.",
-    "Confirm the state where the arrest, charge, or conviction happened — or change it if needed.",
+    "Start a free guided check.",
+    "Confirm the state where the arrest, charge, or conviction happened, or change it if needed.",
     "Answer plain-English questions about what happened.",
-    "See whether a record-clearing path may be available, based on what you shared.",
-    "Create an account only when you want to save your matter or continue.",
-    "Pay $50 only if a self-help packet path may be available.",
+    "See which record-clearing options may be available, based on what you shared.",
+    "Create an account only when you want to save your case or continue.",
+    "Pay $50 only when a supported self-help packet is ready to generate.",
     "Get your packet and filing checklist, then file with the court or agency yourself."
   ]
 } as const;
@@ -115,17 +115,17 @@ function displayTermFor(content: GeneratedStateContent): { termLabel: string; te
 
 export type StateFaqItem = { q: string; a: string };
 
-function buildFaq(content: GeneratedStateContent, termLabel: string): StateFaqItem[] {
-  const { name, pathwayHighlights } = content;
-  const routeList = pathwayHighlights.slice(0, 3).join("; ");
+function buildFaq(content: GeneratedStateContent, termLabel: string, pathwayHighlights: string[]): StateFaqItem[] {
+  const { name } = content;
+  const optionList = pathwayHighlights.slice(0, 3).join("; ");
   return [
     {
       q: `Is this expungement, sealing, or another kind of record clearing in ${name}?`,
-      a: `${name} handles record clearing as ${termLabel}. Common routes here include: ${routeList}. Your free check points you to the route that fits your answers.`
+      a: `${name} handles record clearing as ${termLabel}. Common options here include: ${optionList}. The free guided check uses your answers to show what may be available.`
     },
     {
       q: `Can Expungement.ai prepare the ${name} paperwork for me?`,
-      a: `When a path may be available, we prepare a self-help packet and a filing checklist built for ${name}. We are not a law firm and do not file for you — you review and file the paperwork yourself.`
+      a: `When a supported packet is available, we prepare self-help documents and a filing checklist for ${name}. We are not a law firm and do not file for you. You review and file the paperwork yourself.`
     },
     {
       q: `What if I don't have my ${name} court records?`,
@@ -137,15 +137,15 @@ function buildFaq(content: GeneratedStateContent, termLabel: string): StateFaqIt
     },
     {
       q: "Will the court definitely clear my record?",
-      a: `No one can promise that. In ${name}, the court or agency makes the final decision — there is no guaranteed court outcome. We prepare self-help paperwork and next steps, not a result.`
+      a: `No one can promise that. In ${name}, the court or agency makes the final decision. We prepare self-help paperwork and next steps, not a result.`
     },
     {
       q: "What if my case is very recent or still open?",
-      a: `Some ${name} routes have waiting periods, and open cases usually have to close first. If timing isn't right yet, your check explains what may change and when a path may be available later.`
+      a: `Some ${name} options have waiting periods, and open cases usually have to close first. If the timing is not right yet, the guided check explains what may change and when an option may be available later.`
     },
     {
       q: "What if I have more than one case, or a case in another state?",
-      a: `You can check as many cases as you need. Each record is saved as its own matter, and you can start another free check for a different state any time from your Briefcase — starting here never locks you into ${name}.`
+      a: `You can check as many cases as you need. Each case is saved separately, and you can start another free guided check for a different state from your Briefcase. Starting here never locks you into ${name}.`
     }
   ];
 }
@@ -200,11 +200,13 @@ export function getStateLandingDataByCode(code: string): StateLandingData | null
 
 function buildStateLandingData(content: GeneratedStateContent): StateLandingData {
   const { name, code, slug, pathwayHighlights, allowedStateTerms } = content;
-  const { termLabel, termBlurb } = displayTermFor(content);
+  const { termLabel, termBlurb: sourceTermBlurb } = displayTermFor(content);
+  const termBlurb = publicMarketingCopy(sourceTermBlurb);
+  const publicPathwayHighlights = pathwayHighlights.map(publicMarketingCopy);
   const canonical = `${productionExpungementAiUrl}/states/${slug}`;
 
-  const headline = `Clear a record in ${name} with self-help paperwork built for your next step.`;
-  const sub = `${termBlurb} Answer a few plain questions for free and see whether a path may be available — based on what you share, not a sales pitch.`;
+  const headline = `Explore record-clearing options in ${name} with clear self-help steps.`;
+  const sub = `${termBlurb} Answer a few plain questions for free and see what may be available based on what you share.`;
 
   return {
     code,
@@ -213,12 +215,12 @@ function buildStateLandingData(content: GeneratedStateContent): StateLandingData
     displayTerm: termLabel,
     termBlurb,
     allowedStateTerms,
-    pathwayHighlights,
+    pathwayHighlights: publicPathwayHighlights,
     hero: {
       eyebrow: `${name} record clearing`,
       headline,
       sub,
-      ctaPrimaryLabel: "Start free record-clearing check",
+      ctaPrimaryLabel: "Start free",
       ctaPrimaryHref: screeningHrefForCode(code),
       ctaSecondaryLabel: "See how it works",
       ctaSecondaryHref: HOW_IT_WORKS_HREF,
@@ -227,20 +229,30 @@ function buildStateLandingData(content: GeneratedStateContent): StateLandingData
     changeStateLabel: "Wrong state? Choose a different state",
     changeStateHref: STATE_PICKER_HREF,
     briefcaseHref: BRIEFCASE_HREF,
-    routesIntro: `Common record-clearing routes in ${name} include:`,
+    routesIntro: `Common record-clearing options in ${name} include:`,
     trustBullets: STATE_LANDING_CHROME.trustBullets,
     prepareItems: STATE_LANDING_CHROME.prepareItems,
     mayNeedItems: STATE_LANDING_CHROME.mayNeedItems,
     howItWorks: STATE_LANDING_CHROME.howItWorks,
-    faq: buildFaq(content, termLabel),
+    faq: buildFaq(content, termLabel, publicPathwayHighlights),
     seo: {
-      title: `${name} Record Clearing (${termLabel}) — Free Check | Expungement.ai`,
-      description: `See whether a record-clearing path may be available in ${name}. Free plain-English check, self-help packets when a path fits, $50 only if you continue. Not a law firm; the court decides.`,
+      title: `${name} Record Clearing (${termLabel}) | Free Guided Check`,
+      description: `Explore record-clearing options in ${name}. Start a free guided check. A supported self-help packet costs $50 for one case. Not a law firm. The court or agency decides.`,
       canonical,
-      ogTitle: `${name} Record Clearing — Start a Free Check`,
-      ogDescription: `${name} record clearing as ${termLabel}. Free check, self-help packet if a path may be available, court fees separate.`
+      ogTitle: `${name} Record Clearing | Start Free`,
+      ogDescription: `${name} record clearing as ${termLabel}. Start a free guided check. Supported self-help packets cost $50 for one case, and court filing fees are separate.`
     }
   };
+}
+
+function publicMarketingCopy(value: string) {
+  return value
+    .replace(/^\s*(?:Situation|Remedy|Tool|Pathway|Path|Family|Regime)\s+[A-Z0-9]+\s*—\s*/i, "")
+    .replace(/\s*—\s*/g, ", ")
+    .replace(/\bpathway\b/gi, "option")
+    .replace(/\broute\b/gi, "option")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 /** Every visible string a landing page can render, flattened — used by the copy-safety verifier. */

@@ -18,6 +18,7 @@ on:
       - scripts/verify-expungement-authenticated-nav.mjs
       - scripts/verify-expungement-commercial-browser.mjs
       - scripts/verify-expungement-commercial-flow-contract.mjs
+      - scripts/verify-expungement-landing-copy-safety.mjs
       - scripts/verify-expungement-date-year-selector.mjs
       - scripts/verify-expungement-profile-screening-flow.mjs
       - scripts/verify-expungement-pending-result-migration.mjs
@@ -83,6 +84,7 @@ jobs:
           scripts/verify-expungement-authenticated-nav.mjs
           scripts/verify-expungement-commercial-browser.mjs
           scripts/verify-expungement-commercial-flow-contract.mjs
+          scripts/verify-expungement-landing-copy-safety.mjs
           scripts/verify-expungement-date-year-selector.mjs
           scripts/verify-expungement-profile-screening-flow.mjs
           scripts/verify-expungement-pending-result-migration.mjs
@@ -97,6 +99,9 @@ jobs:
 
       - name: Verify the approved product-flow contract
         run: node scripts/verify-product-flow-docs.mjs
+
+      - name: Verify approved public website copy
+        run: node scripts/verify-expungement-landing-copy-safety.mjs
 
       - name: Verify free screening and pending-result handoff
         run: |

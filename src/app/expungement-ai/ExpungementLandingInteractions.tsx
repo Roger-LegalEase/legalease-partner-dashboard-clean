@@ -36,10 +36,14 @@ export function ExpungementLandingInteractions({
     }
 
     if (nav && navToggle && scrim && menu) {
+      const menuLabel = (open: boolean) => {
+        const dictionary = document.documentElement.lang === "es" ? dictionaries.es : dictionaries.en;
+        return dictionary[open ? "menu_close" : "menu_open"] ?? (open ? "Close menu" : "Open menu");
+      };
       const setMenu = (open: boolean) => {
         nav.classList.toggle("open", open);
         navToggle.setAttribute("aria-expanded", String(open));
-        navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        navToggle.setAttribute("aria-label", menuLabel(open));
         menu.setAttribute("aria-hidden", String(!open));
         document.body.style.overflow = open ? "hidden" : "";
       };
@@ -74,6 +78,14 @@ export function ExpungementLandingInteractions({
         persist: options.persist,
         dispatch: options.dispatch
       });
+      if (nav && navToggle) {
+        const dictionary = lang === "es" ? dictionaries.es : dictionaries.en;
+        const open = nav.classList.contains("open");
+        navToggle.setAttribute(
+          "aria-label",
+          dictionary[open ? "menu_close" : "menu_open"] ?? (open ? "Close menu" : "Open menu")
+        );
+      }
     };
 
     applyLanguage(readSavedExpungementLocale(), { persist: false, dispatch: false });

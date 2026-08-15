@@ -8,7 +8,6 @@ import { ContentCtaTracker } from "@/components/content/ContentCtaTracker";
 import { JsonLd } from "@/components/content/JsonLd";
 import { EXPUNGEMENT_BRAND } from "@/components/content/brand";
 import { getPublishedStateEditorial } from "@/lib/content/repository";
-import { safeUrl } from "@/lib/content/renderer";
 import { buildBreadcrumbJsonLd } from "@/lib/content/seo";
 import {
   getPublicStateResource,
@@ -96,8 +95,6 @@ export default async function StateResourcePage({
   // An editor supplies this href, so it is validated against the same URL allowlist the renderer
   // uses (no javascript:, no data:, no protocol-relative). An unsafe href degrades to the standard
   // free-check CTA rather than rendering a link we cannot vouch for.
-  const editorialCtaHref = editorial.ctaHref ? safeUrl(editorial.ctaHref) : null;
-  const editorialCtaLabel = editorial.ctaLabel?.trim();
 
   return (
     <ConsumerPageShell wilmaContext="landing" headerVariant="marketing">
@@ -125,7 +122,7 @@ export default async function StateResourcePage({
           {/* EDITORIAL intro, with a copy-safe fallback that promises nothing. */}
           <p className={`mx-auto mt-5 max-w-2xl ${brand.cls.body}`}>
             {editorial.intro?.trim() ||
-              `Here is how record clearing works in ${locked.name}, in plain language. A record-clearing path may be available in some situations and not in others — the free check walks you through what ${locked.name} looks at.`}
+              `Here is how record clearing works in ${locked.name}, in plain language. A record-clearing path may be available in some situations and not in others. The free guided check walks you through what ${locked.name} looks at.`}
           </p>
 
           <div className="mx-auto mt-7 flex max-w-md flex-col gap-3 sm:flex-row sm:justify-center">
@@ -134,7 +131,7 @@ export default async function StateResourcePage({
               data-cta-id="state_resource_start_free_check"
               className={brand.cls.ctaPrimary}
             >
-              Start Free Check
+              Start free
               <ArrowRight className="h-5 w-5" aria-hidden="true" />
             </Link>
             <Link
@@ -288,8 +285,8 @@ export default async function StateResourcePage({
           </h2>
           <p className={`mt-2 text-[13.5px] leading-7 ${brand.cls.muted}`}>{resource.disclaimer}</p>
           <p className={`mt-2 text-[13.5px] leading-7 ${brand.cls.muted}`}>
-            Expungement.ai is a self-help document preparation service. It does not tell you whether a court will clear
-            your record, and nothing here is a promise about the outcome of your case.
+            Expungement.ai is a self-help document preparation service. It does not decide whether a court will grant
+            record clearing, and nothing here is a promise about the outcome of your case.
           </p>
         </section>
 
@@ -297,17 +294,17 @@ export default async function StateResourcePage({
         <section className={brand.cls.ctaPanel} aria-label="Next step">
           <h2 className={brand.cls.ctaPanelHeading}>See what may be available in {locked.name}.</h2>
           <p className={brand.cls.ctaPanelBody}>
-            The free check takes about 3 minutes. No card and no account to start. It walks through what {locked.name}{" "}
-            looks at and shows you what a self-help packet would include.
+            No account or payment is required to begin. The free guided check walks through what {locked.name}{" "}
+            looks at and shows whether a supported self-help packet may be available.
           </p>
 
           <div className="mx-auto mt-6 flex max-w-md flex-col gap-3 sm:flex-row sm:justify-center">
             <Link
-              href={editorialCtaHref ?? locked.screeningHref}
+              href={locked.screeningHref}
               data-cta-id="state_resource_final_cta"
               className={brand.cls.ctaPrimary}
             >
-              {(editorialCtaHref && editorialCtaLabel) || "Start Free Check"}
+              Start free
               <ArrowRight className="h-5 w-5" aria-hidden="true" />
             </Link>
             <Link

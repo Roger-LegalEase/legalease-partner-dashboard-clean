@@ -11,9 +11,11 @@ export function setWilmaKillSwitchForTest(active: boolean) {
   wilmaKillSwitchActive = active;
 }
 
-export function wilmaKillSwitchResponse() {
+export function wilmaKillSwitchResponse(locale: "en" | "es" = "en") {
   return {
     unavailable: true,
-    response: wilmaUnavailableCopy
+    response: locale === "es"
+      ? "Wilma no está disponible temporalmente mientras revisamos algo. Su Maletín y las herramientas para preparar su paquete siguen funcionando."
+      : wilmaUnavailableCopy
   };
 }

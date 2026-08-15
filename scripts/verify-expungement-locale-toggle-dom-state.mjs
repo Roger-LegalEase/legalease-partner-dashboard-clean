@@ -165,7 +165,7 @@ function assertEnglishState(label, dom) {
   assert(state.esPressed === "false", `${label}: ES aria-pressed must be false.`, dom);
   assert(langButton(dom, "en")?.classList.contains("on"), `${label}: EN button must have active visual class.`, dom);
   assert(!langButton(dom, "es")?.classList.contains("on"), `${label}: ES button must not have active visual class.`, dom);
-  assert(state.hero.includes("Find out if your record can be cleared"), `${label}: English hero headline not visible.`, dom);
+  assert(state.hero.includes("The law is complicated. Your next step should not be."), `${label}: English hero headline not visible.`, dom);
   assert(state.navHow === "How it works", `${label}: English nav How it works not visible.`, dom);
   assert(state.navBrief === "What you get", `${label}: English nav What you get not visible.`, dom);
   assert(state.navPricing === "Price", `${label}: English nav Price not visible.`, dom);
@@ -184,9 +184,9 @@ function assertSpanishState(label, dom) {
   assert(state.enPressed === "false", `${label}: EN aria-pressed must be false.`, dom);
   assert(langButton(dom, "es")?.classList.contains("on"), `${label}: ES button must have active visual class.`, dom);
   assert(!langButton(dom, "en")?.classList.contains("on"), `${label}: EN button must not have active visual class.`, dom);
-  assert(state.hero.includes("Vea si su antecedente puede limpiarse"), `${label}: Spanish hero headline not visible.`, dom);
+  assert(state.hero.includes("La ley es complicada. Su próximo paso no debería serlo."), `${label}: Spanish hero headline not visible.`, dom);
   assert(state.navHow === "Cómo funciona", `${label}: Spanish nav Cómo funciona not visible.`, dom);
-  assert(state.navBrief === "Qué recibes", `${label}: Spanish nav Qué recibes not visible.`, dom);
+  assert(state.navBrief === "Qué incluye", `${label}: Spanish nav Qué incluye not visible.`, dom);
   assert(state.navPricing === "Precio", `${label}: Spanish nav Precio not visible.`, dom);
   assert(state.navPrivacy === "Confianza y privacidad", `${label}: Spanish nav privacy not visible.`, dom);
   assert(state.navFaq === "Preguntas", `${label}: Spanish nav Preguntas not visible.`, dom);
@@ -207,11 +207,11 @@ function assertNoProductionScreenshotBug(label, dom) {
 function englishLandingTextVisible(dom) {
   const state = stateSnapshot(dom);
   return [
-    "Find out if your record can be cleared",
+    "The law is complicated. Your next step should not be.",
     "How it works",
     "What you get",
     "Trust & privacy",
-    "Check my record free",
+    "Start free",
     "Log in"
   ].some((text) => [state.hero, state.navHow, state.navBrief, state.navPrivacy, state.primaryCta, state.navLogin].some((value) => value.includes(text)));
 }
@@ -219,11 +219,11 @@ function englishLandingTextVisible(dom) {
 function spanishLandingTextVisible(dom) {
   const state = stateSnapshot(dom);
   return [
-    "Vea si su antecedente puede limpiarse",
+    "La ley es complicada. Su próximo paso no debería serlo.",
     "Cómo funciona",
-    "Qué recibes",
+    "Qué incluye",
     "Confianza y privacidad",
-    "Revisar mi ruta",
+    "Comenzar gratis",
     "Iniciar sesión"
   ].some((text) => [state.hero, state.navHow, state.navBrief, state.navPrivacy, state.primaryCta, state.navLogin].some((value) => value.includes(text)));
 }
@@ -297,8 +297,8 @@ function htmlToText(value) {
 }
 
 assert(Object.keys(dictionaries.en).length > 100, "Real English landing dictionary must be extracted from rendered handoff HTML.");
-assert(dictionaries.en.hero_h1?.includes("Find out if your record can be cleared"), "English hero dictionary must include the production hero headline.");
-assert(dictionaries.es.hero_h1?.includes("Vea si su antecedente puede limpiarse"), "Spanish hero dictionary must include the Spanish hero headline.");
+assert(dictionaries.en.hero_h1?.includes("The law is complicated. Your next step should not be."), "English hero dictionary must include the production hero headline.");
+assert(dictionaries.es.hero_h1?.includes("La ley es complicada. Su próximo paso no debería serlo."), "Spanish hero dictionary must include the Spanish hero headline.");
 
 let dom = makeDom({}, { navigatorLanguage: "es-MX" });
 assert(applyInitial(dom) === "en", "Fresh/private browser must default to English.", dom);

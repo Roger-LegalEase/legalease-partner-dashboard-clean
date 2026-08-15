@@ -53,10 +53,11 @@ export function ConsumerNav({ variant = "marketing" }: { variant?: ConsumerNavVa
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4">
         <ExpungementWordmark tone="light" idSuffix="marketing" />
         <div className="hidden items-center gap-6 text-sm font-semibold text-white/75 md:flex">
-          <Link href="/expungement-ai/how-it-works"><LocalizedText k="nav.how_it_works" fallback="How it works" /></Link>
-          <Link href="/expungement-ai/pricing"><LocalizedText k="nav.pricing" fallback="Pricing" /></Link>
-          <Link href="/expungement-ai/support"><LocalizedText k="common.support" fallback="Support" /></Link>
-          <Link href="/briefcase"><LocalizedText k="briefcase.label" fallback="Briefcase" /></Link>
+          <Link href="/expungement-ai#how-it-works"><LocalizedText k="nav.how_it_works" fallback="How it works" /></Link>
+          <Link href="/expungement-ai#what-you-get"><LocalizedText k="nav.what_you_get" fallback="What you get" /></Link>
+          <Link href="/expungement-ai#pricing"><LocalizedText k="nav.pricing" fallback="Price" /></Link>
+          <Link href="/expungement-ai#privacy"><LocalizedText k="nav.trust_privacy" fallback="Trust & privacy" /></Link>
+          <Link href="/expungement-ai#faq"><LocalizedText k="nav.questions" fallback="Questions" /></Link>
         </div>
         <div className="flex items-center gap-2">
           <AuthControl isAuthenticated={isAuthenticated} />

@@ -131,7 +131,7 @@ for (const field of ["exchange_id", "session_id", "timestamp", "state", "user_me
 assert(killSwitchSource.includes("isWilmaKillSwitchActive"), "Kill-switch check missing.");
 assert(killSwitchSource.includes("Wilma is temporarily unavailable while we check something. Your Briefcase and packet tools still work."), "Kill-switch unavailable copy missing.");
 assert(wilmaSource.includes("placeholder-no-provider-v1"), "Wilma harness must not require a live model/provider.");
-assert(wilmaSource.includes("I do not decide eligibility"), "Wilma placeholder must defer eligibility decisions.");
+assert(wilmaSource.includes("I do not decide which option is available"), "Wilma placeholder must defer record-clearing decisions in participant language.");
 assert(exists(migrationPath), "Wilma telemetry migration missing.");
 assert(migrationSource.includes("consumer_wilma_telemetry"), "Wilma telemetry migration table missing.");
 assert(migrationSource.includes("enable row level security"), "Wilma telemetry migration must enable RLS.");

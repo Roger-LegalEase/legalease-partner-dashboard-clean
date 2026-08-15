@@ -20,7 +20,7 @@ import { absoluteExpungementAiUrl } from "@/lib/app-url";
 const CANONICAL = absoluteExpungementAiUrl("/blog");
 const TITLE = "Record-clearing articles, explained in plain language";
 const DESCRIPTION =
-  "Plain-language articles about clearing a criminal record: how the process works, what to prepare, and what to expect from the court. Self-help information from Expungement.ai — not legal advice.";
+  "Plain-language articles about clearing a criminal record: how the process works, what to prepare, and what to expect from the court. Self-help information from Expungement.ai, not legal advice.";
 
 export const metadata: Metadata = {
   title: `${TITLE} | Expungement.ai`,

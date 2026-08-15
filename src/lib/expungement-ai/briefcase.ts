@@ -718,7 +718,7 @@ export function saveEligibilityCheckToBriefcase(state: string, userId = "local-p
     state,
     status: "check_saved" as const,
     createdAt: startedAt,
-    summary: "Eligibility check started and saved to Briefcase.",
+    summary: "Free guided check started and saved to your Briefcase.",
     nextSteps: ["Finish the screening questions.", "Return here any time to continue."],
     paymentAllowed: false,
     packetReady: false
@@ -823,7 +823,7 @@ export function getConsumerBriefcaseItems(userId = "local-preview-user"): Consum
       state: "PA",
       status: "check_saved",
       createdAt: startedAt,
-      summary: "Wilma explained what a filing checklist is and pointed back to the tool for eligibility.",
+      summary: "Wilma explained what a filing checklist is and pointed back to the free guided check.",
       nextSteps: ["Continue the check from Briefcase."],
       paymentAllowed: false,
       packetReady: false

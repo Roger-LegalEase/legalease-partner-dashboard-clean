@@ -69,7 +69,7 @@ assert(
 );
 assert(
   packetGenerationRoute.includes("Payment confirmation is required before packet generation.") &&
-    packetGenerationRoute.includes("Your payment was confirmed, but we need to regenerate your packet."),
+    packetGenerationRoute.includes("We couldn’t finish preparing your packet. You haven’t been charged again, and your information is still saved. Try again or contact support."),
   "DTC packet error recovery copy must remain intact."
 );
 

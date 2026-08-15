@@ -196,7 +196,7 @@ export function BriefcaseAuthGate() {
       <section className="mx-auto max-w-xl rounded-2xl border border-[#ECEFF4] bg-white p-6">
         <p className="text-xs font-bold uppercase text-[#00A99D]"><LocalizedText k="briefcase.account_required" fallback="Account required" /></p>
         <h1 className="mt-3 text-3xl font-extrabold"><LocalizedText k="briefcase.sign_in_title" fallback="Sign in to open your Briefcase" /></h1>
-        <p className="mt-3 text-sm leading-6 text-[#5A6275]"><LocalizedText k="briefcase.sign_in_body" fallback="Every Expungement.ai user has an account, and every check, result, packet, reminder, payment, and Wilma conversation is saved to Briefcase." /></p>
+        <p className="mt-3 text-sm leading-6 text-[#5A6275]"><LocalizedText k="briefcase.sign_in_body" fallback="Sign in to see the cases, results, available packets, reminders, payments, and Wilma conversations you chose to save in your Briefcase." /></p>
         <a className="mt-6 inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href="/expungement-ai/sign-in?mode=create&next=/briefcase">
           <LocalizedText k="signin.create_submit" fallback="Create account and continue" />
         </a>
@@ -216,7 +216,7 @@ function EmptyBriefcase() {
       </span>
       <h2 className="mt-5 text-[20px] font-bold text-[#0B1320]"><LocalizedText k="briefcase.empty_title" fallback="Start a free record check" /></h2>
       <p className="mx-auto mt-2 max-w-[42ch] text-[14px] leading-6 text-[#5A6275]">
-        <LocalizedText k="briefcase.empty_body" fallback="Answer a few plain questions about your record. It takes about 3 minutes, it's free, and you'll see exactly where you stand before paying anything." />
+        <LocalizedText k="briefcase.empty_body" fallback="Answer a few plain questions about your record. It's free, and you'll see possible next steps before paying anything." />
       </p>
       <Link href="/expungement-ai/check" className="mt-6 inline-flex min-h-12 items-center rounded-[11px] bg-[#FF3B00] px-7 text-[14px] font-bold text-white">
         <LocalizedText k="briefcase.empty_cta" fallback="Start a free record check" />

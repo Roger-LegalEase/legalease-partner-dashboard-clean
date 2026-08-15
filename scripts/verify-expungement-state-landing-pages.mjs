@@ -191,6 +191,10 @@ function neutralize(text) {
 }
 function scanCopy(label, text) {
   const cleaned = neutralize(text);
+  if (text.includes("—")) fail(`${label}: em dash present: "${text.trim().slice(0, 120)}"`);
+  if (/^(?:Situation|Remedy|Tool|Pathway|Path|Family|Regime)\s+[A-Z0-9]+\b/i.test(text.trim())) {
+    fail(`${label}: internal option label present: "${text.trim().slice(0, 120)}"`);
+  }
   for (const [stem, human] of BANNED) {
     if (cleaned.includes(stem)) fail(`${label}: avoid-list term (${human}) present: "${text.trim().slice(0, 120)}"`);
   }
