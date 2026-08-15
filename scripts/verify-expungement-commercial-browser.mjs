@@ -137,7 +137,7 @@ try {
   if (validUuid(claimed?.itemId)) check(claimed.itemId === itemId, "Pending claim response and exact matter URL disagree.");
   if (exactBriefcaseItemId(claimed?.redirectTo)) check(exactBriefcaseItemId(claimed.redirectTo) === itemId, "Pending claim redirect and exact matter URL disagree.");
 
-  await expectText(page, "Packet path available");
+  await expectText(page, "A self-help packet may be available");
   await expectText(page, "Your Briefcase is free. Complete your packet information and pay only when you're ready to generate your packet.");
   check(await page.locator(`[data-briefcase-matter-id="${itemId}"]`).isVisible(), "Exact saved DTC matter did not render.");
   check(checkoutRequests.length === 0, "Checkout was requested while saving the matter.");

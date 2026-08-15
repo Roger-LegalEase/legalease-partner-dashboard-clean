@@ -166,7 +166,7 @@ try {
   // 6. A separately seeded guidance-only matter proves that the completed
   // guidance value has no disabled packet stepper or consumer payment copy.
   await page.goto(new URL(`/briefcase/${guidanceItemId}`, baseUrl).href, { waitUntil: "networkidle" });
-  await expectText(page, "Guidance saved");
+  await expectText(page, "Next steps saved");
   await expectText(page, "Next steps");
   check(!(await page.getByText("We couldn't find that matter", { exact: true }).isVisible().catch(() => false)), "Seeded guidance-only matter is not owned by the signed-in synthetic user.");
   check((await page.locator("main").getByText("Payment", { exact: true }).count()) === 0, "Guidance-only matter renders a Payment step.");
