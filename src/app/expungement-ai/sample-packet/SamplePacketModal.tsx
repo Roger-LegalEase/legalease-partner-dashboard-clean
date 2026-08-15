@@ -128,7 +128,7 @@ export function SamplePacketModal() {
         className="sp-overlay"
         role="dialog"
         aria-modal="true"
-        aria-label="Sample packet preview — demo data only"
+        aria-label="Sample packet preview with demonstration information only"
         onClick={(event) => {
           if (event.target === event.currentTarget) {
             close();
@@ -139,7 +139,7 @@ export function SamplePacketModal() {
           <div className="sp-banner">
             <span className="sp-dot" aria-hidden="true" />
             <span>{SAMPLE_BADGE}</span>
-            <span className="sp-sub">Demo data only — not a real, filable packet.</span>
+            <span className="sp-sub">Demonstration information only. This is not a real, filable packet.</span>
             <button ref={closeRef} type="button" className="sp-close" aria-label="Close sample packet preview" onClick={close}>
               ×
             </button>

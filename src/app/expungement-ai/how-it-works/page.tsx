@@ -12,7 +12,7 @@ export default function HowItWorksPage() {
           {[
             ["Answer questions", "Choose any U.S. state or DC and enter the facts the engine needs."],
             ["Review the result", "The result saves to Briefcase whether it is packet-ready, guidance-only, or another outcome."],
-            ["Generate if allowed", "If paymentAllowed is true for a packet-ready result, pay $50 once and generate instantly."]
+            ["Review and pay", "If a self-help packet is available, review your information and pay $50 once for that case."]
           ].map(([title, body]) => (
             <article key={title} className="rounded-md border border-[#ECEFF4] bg-white p-5">
               <CheckCircle2 className="h-5 w-5 text-[#00A99D]" aria-hidden="true" />

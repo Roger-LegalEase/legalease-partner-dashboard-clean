@@ -156,10 +156,10 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
     es: "Una estimación está bien para esta revisión gratis. Es posible que pidamos detalles exactos del caso más adelante, antes de generar documentos."
   },
 
-  "filing.ready_to_file": { en: "ready_to_file", es: "listo para presentar" },
-  "filing.guidance_only": { en: "guidance_only", es: "solo guía" },
-  "filing.needs_external_document": { en: "needs_external_document", es: "necesita un documento externo" },
-  "filing.needs_court_or_agency_followup": { en: "needs_court_or_agency_followup", es: "necesita seguimiento con el tribunal o la agencia" },
+  "filing.ready_to_file": { en: "Ready to file", es: "Listo para presentar" },
+  "filing.guidance_only": { en: "Next steps only", es: "Solo próximos pasos" },
+  "filing.needs_external_document": { en: "Another document is needed", es: "Se necesita otro documento" },
+  "filing.needs_court_or_agency_followup": { en: "Court or agency follow-up is needed", es: "Se necesita seguimiento con el tribunal o la agencia" },
 
   "payment.generate_packet": { en: "Generate my packet - $50", es: "Generar mi paquete - $50" },
   "payment.save_later": { en: "Save and come back later", es: "Guardar y volver después" },
@@ -181,7 +181,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "payment.unavailable": { en: "Payment unavailable", es: "Pago no disponible" },
   "payment.no_paid_packet": { en: "This result does not include a paid packet.", es: "Este resultado no incluye un paquete pagado." },
   "payment.saved_matter": { en: "Saved matter", es: "Asunto guardado" },
-  "payment.open_from_briefcase": { en: "Open this page from a packet-ready Briefcase result to start checkout.", es: "Abra esta página desde un resultado con paquete listo en el Maletín para empezar el pago." },
+  "payment.open_from_briefcase": { en: "Return to your Briefcase and open a case with a packet available to start payment.", es: "Vuelva a su Maletín y abra un caso que tenga un paquete disponible para iniciar el pago." },
   "payment.starting": { en: "Starting checkout...", es: "Iniciando el pago..." },
   "payment.error": { en: "Checkout is not available right now.", es: "El pago no está disponible ahora." },
 
@@ -193,7 +193,7 @@ export const EXPUNGEMENT_COPY: Record<string, CopyEntry> = {
   "briefcase.profile": { en: "Profile", es: "Perfil" },
   "briefcase.settings": { en: "Settings", es: "Configuración" },
   "briefcase.new_check": { en: "New record check", es: "Nueva revisión de antecedente" },
-  "briefcase.guidance_saved": { en: "Guidance saved", es: "Guía guardada" },
+  "briefcase.guidance_saved": { en: "Next steps saved", es: "Próximos pasos guardados" },
   "briefcase.ready_to_file": { en: "Ready to file", es: "Listo para presentar" },
   "briefcase.needs_attention": { en: "Needs your attention", es: "Necesita su atención" },
   "briefcase.waiting_period": { en: "Waiting period", es: "Período de espera" },

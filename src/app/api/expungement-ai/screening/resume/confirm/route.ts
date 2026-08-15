@@ -8,7 +8,7 @@ import { checkResumeRateLimit, resumeClientIp, resumeRateLimitPolicies } from "@
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export const resumeConfirmFailureFloorMs = 100;
+const resumeConfirmFailureFloorMs = 100;
 
 export async function POST(request: Request) {
   const startedAt = Date.now();
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   }
 }
 
-export async function waitForResumeConfirmFailureFloor(startedAt: number, now = Date.now) {
+async function waitForResumeConfirmFailureFloor(startedAt: number, now = Date.now) {
   const remainingMs = resumeConfirmFailureFloorMs - (now() - startedAt);
   if (remainingMs > 0) {
     await new Promise((resolve) => setTimeout(resolve, remainingMs));

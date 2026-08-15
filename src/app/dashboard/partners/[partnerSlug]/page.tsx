@@ -67,13 +67,13 @@ export default async function PartnerSpecificDashboardPlaceholder({
             <StatusCard label="MS/IL document packets started" value={String(documentActivity.totalPackets)} />
             <StatusCard label="MS/IL packets missing info" value={String(documentActivity.missingInformationPackets)} />
             <StatusCard label="MS/IL packets ready for review" value={String(documentActivity.readyForReviewPackets)} />
-            <StatusCard label="Briefcase items" value={String(documentActivity.briefcaseItems)} />
+            <StatusCard label="Saved cases" value={String(documentActivity.briefcaseItems)} />
             <StatusCard label="Latest MS packet" value={documentActivity.latestPacketDate ?? "None yet"} />
           </div>
           <div className="mt-6 rounded-md border border-grayWilma-200 bg-[#f7f8f6] p-4 text-left">
             <p className="text-sm font-black text-navy">Document activity</p>
             <p className="mt-2 text-sm leading-6 text-grayWilma-700">
-              Pathway breakdown: {Object.entries(documentActivity.pathwayBreakdown).map(([pathway, count]) => `${pathway.replaceAll("_", " ")}: ${count}`).join(", ") || "No packets yet"}.
+              Record-clearing options: {Object.entries(documentActivity.pathwayBreakdown).map(([pathway, count]) => `${pathway.replaceAll("_", " ")}: ${count}`).join(", ") || "No packets yet"}.
             </p>
             <p className="mt-2 text-sm leading-6 text-grayWilma-700">
               State breakdown: {Object.entries(documentActivity.stateBreakdown).map(([state, count]) => `${state}: ${count}`).join(", ") || "No packets yet"}.
@@ -263,10 +263,10 @@ function WeMustVoteDashboard({
             <div>
               <h2 className="text-lg font-black text-navy">Packet and Briefcase activity</h2>
               <p className="mt-2 text-sm leading-6 text-grayWilma-700">
-                Pathway breakdown: {Object.entries(documentActivity.pathwayBreakdown).map(([pathway, count]) => `${pathway.replaceAll("_", " ")}: ${count}`).join(", ") || "No saved packets yet"}.
+                Record-clearing options: {Object.entries(documentActivity.pathwayBreakdown).map(([pathway, count]) => `${pathway.replaceAll("_", " ")}: ${count}`).join(", ") || "No saved packets yet"}.
               </p>
               <p className="mt-2 text-sm leading-6 text-grayWilma-700">
-                Briefcase items: {documentActivity.briefcaseItems}. Latest packet: {documentActivity.latestPacketDate ?? "None yet"}.
+                Saved cases: {documentActivity.briefcaseItems}. Latest packet: {documentActivity.latestPacketDate ?? "None yet"}.
               </p>
             </div>
           </div>

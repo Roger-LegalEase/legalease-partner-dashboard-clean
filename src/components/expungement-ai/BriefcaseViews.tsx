@@ -47,18 +47,18 @@ export function matterStatus(item: ConsumerBriefcaseItem): MatterStatus {
   const careState = matterCareState(item);
   const isGuidance = careState === "guidance_only";
   const label = humanMatterState(item);
-  const tone: PillTone = label === "More information needed" ? "red"
-    : label === "Waiting period not met" || label === "Waiting on the court" ? "amber"
+  const tone: PillTone = label === "We need a little more information" ? "red"
+    : label === "You may need to wait before taking the next step" || label === "Waiting on the court" ? "amber"
       : label === "Decision received" ? "green"
-        : label === "Screening saved" ? "gray"
+        : label === "Record check saved" ? "gray"
           : "teal";
   return { careState, isGuidance, pillLabel: label, pillTone: tone, stepper: stepperForHumanState(label) };
 }
 
 function stepperForHumanState(label: ReturnType<typeof humanMatterState>) {
-  if (label === "Guidance saved" || label === "More information needed" || label === "Waiting period not met") return null;
-  if (label === "Screening saved") return { done: 1, current: -1 };
-  if (label === "Packet path available") return { done: 1, current: 1 };
+  if (label === "Next steps saved" || label === "We need a little more information" || label === "You may need to wait before taking the next step") return null;
+  if (label === "Record check saved") return { done: 1, current: -1 };
+  if (label === "A self-help packet may be available") return { done: 1, current: 1 };
   if (label === "Packet details in progress") return { done: 1, current: 1 };
   if (label === "Ready to generate") return { done: 2, current: 2 };
   if (label === "Payment confirmed") return { done: 3, current: 3 };

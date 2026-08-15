@@ -85,7 +85,7 @@ function safeArtifact(artifact: { fileName: string; generatedAt: string; source:
 
 function packetErrorResponse(error: unknown, isPartnerSponsored: boolean) {
   if (error instanceof ConsumerPacketNotFoundError) {
-    return NextResponse.json({ error: "Briefcase item not found." }, { status: 404 });
+    return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
   }
   if (error instanceof ConsumerPacketPaymentRequiredError) {
     if (isPartnerSponsored) {
@@ -97,7 +97,7 @@ function packetErrorResponse(error: unknown, isPartnerSponsored: boolean) {
     return NextResponse.json({ error: "Payment confirmation is required before packet generation." }, { status: 402 });
   }
   if (error instanceof ConsumerPacketNotAllowedError) {
-    return NextResponse.json({ error: "Packet generation is not available for this result.", resultCode: error.resultCode }, { status: 403 });
+    return NextResponse.json({ error: "We can’t prepare a packet for these answers. Your information is still saved. Return to your Briefcase to review the next step." }, { status: 403 });
   }
   if (error instanceof ConsumerPacketGenerationError) {
     if (isPartnerSponsored) {
@@ -106,7 +106,7 @@ function packetErrorResponse(error: unknown, isPartnerSponsored: boolean) {
         { status: 502 }
       );
     }
-    return NextResponse.json({ error: "Your payment was confirmed, but we need to regenerate your packet. Try again or contact support." }, { status: 502 });
+    return NextResponse.json({ error: "We couldn’t finish preparing your packet. You haven’t been charged again, and your information is still saved. Try again or contact support." }, { status: 502 });
   }
   throw error;
 }

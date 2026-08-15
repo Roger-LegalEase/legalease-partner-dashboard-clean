@@ -1571,7 +1571,7 @@ function StaffPlanFields(props: FieldRendererProps) {
 
       <ReadOnlyValues
         description="Training, invitation, and membership truth comes from LegalEase systems. This plan cannot activate an account."
-        title="Current implementation status"
+        title="Current account status"
         values={props.readOnlyValues}
       />
     </div>
@@ -1815,7 +1815,7 @@ function AuthorizationFields(props: FieldRendererProps) {
     <div className="grid gap-8">
       <FieldGroup
         title="Required acknowledgments"
-        description="Review each statement carefully. These acknowledgments authorize implementation preparation; they are not an e-signature or a replacement for an agreement."
+        description="Review each statement carefully. These acknowledgments let LegalEase prepare your program; they are not an e-signature or a replacement for an agreement."
       >
         <div className="grid gap-3">
           {acknowledgements.map((fieldKey) => (
@@ -1836,7 +1836,7 @@ function AuthorizationFields(props: FieldRendererProps) {
       </FieldGroup>
 
       <ReadOnlyValues
-        description="The authenticated user, work email, server timestamp, and schema version are recorded by the server at final submission."
+        description="LegalEase records who submits this form, their work email, and the submission date and time."
         title="Submission audit details"
         values={props.readOnlyValues}
       />
@@ -2580,7 +2580,7 @@ function FieldFrame({
       </label>
       {prefilled ? (
         <p className="mt-1 text-xs font-semibold text-teal">
-          Pre-filled by LegalEase — please review
+          Filled in by LegalEase. Please review.
         </p>
       ) : null}
       {helperCopy ? (
@@ -2657,7 +2657,7 @@ function CanonicalReferenceValues({
   return (
     <FieldGroup
       title="Information reused from earlier sections"
-      description="Each concept is stored once. Use its edit link to update the canonical source."
+      description="Each answer is shown once. Use its edit link to make changes."
     >
       <dl className="grid gap-3 md:grid-cols-2">
         {values.map((item) => (

@@ -11,6 +11,8 @@ Any change to screening, account creation, auth callback, payment, Briefcase, pa
 
 ## Durable Rules
 
+Internal implementation language belongs in code, logs, and internal tools. External users receive clear explanations of what their result means, what they need to do, what costs money, and what happens next.
+
 - DTC and partner use the same underlying RCAP / Expungement.ai engine but differ in payment and account handoff.
 - DTC keeps the Briefcase and packet-information builder free. Stripe appears only at the final accuracy review and is required before personalized packet generation.
 - The DTC paid SKU is one personalized packet set for one exact matter for $50; payment is never account-wide.

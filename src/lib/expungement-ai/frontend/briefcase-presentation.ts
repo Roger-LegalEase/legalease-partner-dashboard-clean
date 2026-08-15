@@ -26,11 +26,11 @@ export type MatterCareState =
   | "saved";
 
 export type HumanMatterState =
-  | "Screening saved"
-  | "Guidance saved"
-  | "More information needed"
-  | "Waiting period not met"
-  | "Packet path available"
+  | "Record check saved"
+  | "Next steps saved"
+  | "We need a little more information"
+  | "You may need to wait before taking the next step"
+  | "A self-help packet may be available"
   | "Packet details in progress"
   | "Ready to generate"
   | "Payment confirmed"
@@ -90,18 +90,18 @@ export function humanMatterState(item: ConsumerBriefcaseItem): HumanMatterState 
   }
 
   if (item.resultCode === "guidance_only" || item.resultCode === "not_covered_yet" || item.packetType === "guidance_packet") {
-    return "Guidance saved";
+    return "Next steps saved";
   }
-  if (item.resultCode === "needs_more_info" || item.resultCode === "needs_review") return "More information needed";
-  if (item.resultCode === "not_yet" || item.status === "waiting") return "Waiting period not met";
+  if (item.resultCode === "needs_more_info" || item.resultCode === "needs_review") return "We need a little more information";
+  if (item.resultCode === "not_yet" || item.status === "waiting") return "You may need to wait before taking the next step";
 
   if (item.resultCode === "packet_ready" || item.resultCode === "packet_ready_with_caution" || item.status === "packet_ready") {
     const packetInformation = isRecord(commercialFlow.packetInformation) ? commercialFlow.packetInformation : {};
     if (packetInformation.stage === "ready_to_generate") return "Ready to generate";
     if (packetInformation.stage === "in_progress") return "Packet details in progress";
-    return "Packet path available";
+    return "A self-help packet may be available";
   }
-  return "Screening saved";
+  return "Record check saved";
 }
 
 const PRESENTATION: Record<MatterCareState, Omit<MatterCarePresentation, "careState">> = {
@@ -112,7 +112,7 @@ const PRESENTATION: Record<MatterCareState, Omit<MatterCarePresentation, "careSt
     showCallout: false
   },
   guidance_only: {
-    badge: "Guidance saved",
+    badge: "Next steps saved",
     tone: "info",
     blurb: "We saved step-by-step guidance for your state. There is no packet to buy for this path.",
     showCallout: false

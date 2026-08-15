@@ -188,7 +188,7 @@ export function PartnerDashboardClient() {
               Track referrals, screenings, filings, reporting, and outcomes across the Record-Clearing Access Program.
             </p>
             <p className="mt-4 max-w-4xl text-sm leading-6 text-grayWilma-800">
-              LegalEase gives partners visibility into the full service delivery pipeline — from referral and screening through packet completion, filing readiness, and outcomes where available.
+              LegalEase shows partners what has happened from referral and screening through packet completion, filing readiness, and available outcomes.
             </p>
           </div>
 
@@ -258,12 +258,12 @@ export function PartnerDashboardClient() {
               <ActivityMetric label="Packets started" value="0" />
               <ActivityMetric label="Missing information" value="0" />
               <ActivityMetric label="Ready for review" value="0" />
-              <ActivityMetric label="Briefcase items" value="0" />
+              <ActivityMetric label="Saved cases" value="0" />
               <ActivityMetric label="Latest packet" value="None yet" />
             </div>
           </Card>
           <Card className="rounded-md p-5">
-            <p className="text-sm font-black text-navy">Pathway breakdown</p>
+            <p className="text-sm font-black text-navy">Record-clearing options</p>
             <div className="mt-4 grid gap-2 text-sm text-grayWilma-700">
               <p>Non-conviction: 0</p>
               <p>Misdemeanor conviction: 0</p>

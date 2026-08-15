@@ -419,7 +419,7 @@ function ActionHealth({ actionLayer, intakeOpenUrl }: { actionLayer?: PartnerDas
     return (
       <div style={{ background: "#fff", border: "1px solid #EEE6DB", borderRadius: 20, padding: "1.35rem 1.5rem", marginBottom: "1.1rem" }}>
         <p style={{ margin: 0, fontSize: 18, fontWeight: 600, color: "#0F1E3D" }}>Recommended next action</p>
-        <p style={{ margin: "6px 0 0", fontSize: 14, color: "#8A8278", lineHeight: 1.55 }}>Intake action metrics will show once RLS-scoped intake data is available.</p>
+        <p style={{ margin: "6px 0 0", fontSize: 14, color: "#8A8278", lineHeight: 1.55 }}>Intake activity will appear here as people use your program.</p>
       </div>
     );
   }
@@ -498,7 +498,7 @@ function Journey({ metrics, isEmpty }: { metrics: Metrics; isEmpty: boolean }) {
     isEmpty
       ? "Your dashboard will populate as people begin using your intake link. Until then, these live counters stay at zero."
       : metrics.started !== undefined && metrics.completed !== undefined && metrics.packets !== undefined && metrics.saved !== undefined
-      ? `${completed} of ${started} started intakes are completed. LegalEase has created ${packets} document packets and ${saved} Briefcase items for this partner.`
+      ? `${completed} of ${started} started intakes are completed. LegalEase has created ${packets} document packets and saved ${saved} cases for this partner.`
       : "Participant progress will show here as intake, packet, and Briefcase data becomes available.";
 
   return (
@@ -519,7 +519,7 @@ function Journey({ metrics, isEmpty }: { metrics: Metrics; isEmpty: boolean }) {
           <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Packets created:</strong> Document packet rows created for this partner.
         </p>
         <p style={{ margin: 0, fontSize: 12, color: "#8A8278", lineHeight: 1.5 }}>
-          <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Briefcase items:</strong> Items saved for this partner so a user can come back later.
+          <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Saved cases:</strong> Cases saved through this partner so a user can come back later.
         </p>
       </div>
     </div>

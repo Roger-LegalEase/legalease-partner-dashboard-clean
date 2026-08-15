@@ -54,7 +54,7 @@ export default async function PacketInformationPage({
             ) : (
               <p>Your Briefcase is free. Complete your packet information and pay only when you&apos;re ready to generate your packet.</p>
             )}
-            <p className="mt-2">Screening answers are prefilled only when the saved question ID exactly matches a required packet field. Review every answer before continuing.</p>
+            <p className="mt-2">Complete the remaining details for this packet. Review what&apos;s already here, add anything that is missing, and save your progress anytime.</p>
           </div>
 
           <PacketInformationBuilder

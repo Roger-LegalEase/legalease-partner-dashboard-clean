@@ -109,10 +109,10 @@ assert(!ROUTE_LABEL_COPY.find((entry) => entry.id === "route.ma.cori_sealing" &&
 
 const resultSource = fs.readFileSync(path.join(ROOT, "src/components/expungement-ai/screening/ScreeningResult.tsx"), "utf8");
 assert(resultSource.includes("routeLabelKeyForState"), "ScreeningResult must use state-specific route labels.");
-assert(resultSource.includes("Generate my packet - $50"), "ScreeningResult payment CTA must use DTC packet copy.");
+assert(resultSource.includes("Save this matter and continue"), "ScreeningResult must save the free result before the packet builder.");
 
 const checkoutSource = fs.readFileSync(path.join(ROOT, "src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx"), "utf8");
-assert(checkoutSource.includes("Generate my packet - $50"), "Checkout button must use DTC packet copy.");
+assert(checkoutSource.includes("Pay $50 and generate my packet"), "Checkout button must use the final DTC packet copy.");
 
 const newUiPatterns = [
   "src/app/expungement-ai/new-intake",
@@ -133,10 +133,9 @@ const architectureChecks = {
   screeningQuestionsLocalized: fileIncludes("src/components/expungement-ai/screening/QuestionField.tsx", ["localizeProfileText", "useLocalization"]),
   answerChoicesLocalized: fileIncludes("src/components/expungement-ai/screening/fields/OptionGroup.tsx", ["localizeProfileText", "runtimeCopyKeyForText"]),
   resultEngineTextLocalized: fileIncludes("src/components/expungement-ai/screening/ScreeningResult.tsx", ["safeUserFacingEngineText(reason.text, { locale })", "routeLabelKeyForState"]),
-  paymentCopyLocalized: fileIncludes("src/app/expungement-ai/pay/page.tsx", ["LocalizedText", "payment.title"])
-    && fileIncludes("src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx", ["useLocalization", "payment.generate_packet"]),
+  paymentCopyLocalized: fileIncludes("src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx", ["useLocalization", "payment.generate_packet"]),
   briefcaseCopyLocalized: fileIncludes("src/components/expungement-ai/BriefcaseViews.tsx", ["LocalizedRuntimeText", "LocalizedText"]),
-  packetReadyCopyLocalized: fileIncludes("src/app/expungement-ai/packet-ready/page.tsx", ["LocalizedRuntimeText", "LocalizedText"]),
+  packetReadyCopyLocalized: fileIncludes("src/app/expungement-ai/packet-ready/page.tsx", ["redirect(", "getBriefcaseItem"]),
   wilmaLocalePayload: fileIncludes("src/components/expungement-ai/WilmaBubble.tsx", ["requestBody.locale = locale", "useLocalization"]),
   wilmaServerLocale: fileIncludes("src/app/api/expungement-ai/wilma/chat/route.ts", ["normalizeLocale", "locale"])
     && fileIncludes("src/app/api/expungement-ai/wilma/public-chat/route.ts", ["normalizeLocale", "locale"]),

@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
   const item = await getBriefcaseItem(auth.userId, briefcaseItemId);
   if (!item) {
-    return NextResponse.json({ error: "Briefcase item not found." }, { status: 404 });
+    return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
   }
   if (await isPartnerSponsoredPacketItem(item)) {
     return NextResponse.json({ error: "Checkout status is not used for partner-sponsored RCAP sessions." }, { status: 403 });

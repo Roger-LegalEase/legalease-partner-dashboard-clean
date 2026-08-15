@@ -237,7 +237,7 @@ function commercialSummary(portal: PartnerOnboardingPortal) {
       label: "Commercial step required",
       blocked: true,
       detail:
-        "Setup editing will open after the authoritative billing or procurement requirement is cleared. Your organization cannot change this status here."
+        "Setup editing will open after the billing or purchasing requirement is resolved. Contact LegalEase if you need help with this status."
     };
   }
   return {

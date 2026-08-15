@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     case "unauthenticated":
       return NextResponse.json({ error: "Authentication is required." }, { status: 401 });
     case "item_not_found":
-      return NextResponse.json({ error: "Briefcase item not found." }, { status: 404 });
+      return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
     case "route_not_renderable":
       return NextResponse.json(
         { error: "This result does not produce a rendered packet.", reason: outcome.reason },

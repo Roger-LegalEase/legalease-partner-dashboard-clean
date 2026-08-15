@@ -65,7 +65,7 @@ export default async function PacketAccuracyReviewPage({
               row("Court", "court", model.initialAnswers),
               row("Current city", "residency_or_location", model.initialAnswers)
             ]} />
-            <AnswerSection title="Eligibility confirmations" itemId={item.id} rows={[
+            <AnswerSection title="Important confirmations" itemId={item.id} rows={[
               row("Asking about", "ownership_scope", model.screeningAnswers, "ownership_scope"),
               row("Case jurisdiction", "jurisdiction_scope", model.screeningAnswers, "jurisdiction_scope"),
               row("How long ago the case ended", "resolved_timing_bucket", model.screeningAnswers, "resolved_timing_bucket"),
@@ -102,20 +102,20 @@ export default async function PacketAccuracyReviewPage({
           <ReviewCard title="Your packet" icon={<FileText className="h-5 w-5" aria-hidden="true" />}>
             <dl className="grid gap-3 text-sm">
               <SummaryLine label="State" value={model.stateName} />
-              <SummaryLine label="Pathway" value={model.pathwayLabel} />
+              <SummaryLine label="Record-clearing option" value={model.pathwayLabel} />
               <SummaryLine label="Result" value={reviewSafety.safe ? "A packet path remains available based on these answers." : "These answers need review before payment is available."} />
               <SummaryLine label="Price" value="$50 one time for this matter." />
             </dl>
           </ReviewCard>
 
           <div className="mt-5 rounded-[16px] border border-[#ECEFF4] bg-white p-6">
-            <h2 className="text-base font-bold text-[#0B1320]">Information still missing</h2>
+            <h2 className="text-base font-bold text-[#0B1320]">Details to check</h2>
             {model.missingInputIds.length > 0 ? (
               <ul className="mt-3 grid gap-2 text-sm text-[#B42318]">
                 {model.missingInputIds.map((id) => <li key={id}>{answerLabel(id)}</li>)}
               </ul>
             ) : (
-              <p className="mt-2 text-sm leading-6 text-[#475A6E]">No required packet fields are missing. Review the saved answers one more time before continuing.</p>
+              <p className="mt-2 text-sm leading-6 text-[#475A6E]">All required information is here. Review the saved answers one more time before continuing.</p>
             )}
             <Link className="mt-4 inline-flex min-h-10 items-center rounded-[10px] border border-[#D9DEE8] px-4 text-sm font-bold text-[#0B1320]" href={`/briefcase/${item.id}/packet-information`}>
               Edit packet information
@@ -149,7 +149,7 @@ export default async function PacketAccuracyReviewPage({
               <>
                 <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#7FE9DE]">$50 one time for this matter.</p>
                 <h2 className="mt-2 text-xl font-extrabold">Pay only when you are ready to generate this packet.</h2>
-                <p className="mt-2 text-sm leading-6 text-white/75">Payment applies only to this exact Briefcase matter. It does not purchase the Briefcase or another matter.</p>
+                <p className="mt-2 text-sm leading-6 text-white/75">Your payment covers this packet for this case. Your Briefcase remains free.</p>
                 {model.missingInputIds.length === 0 && reviewSafety.safe ? (
                   <div className="mt-5"><ConsumerCheckoutButton briefcaseItemId={item.id} label="Pay $50 and generate my packet" /></div>
                 ) : (

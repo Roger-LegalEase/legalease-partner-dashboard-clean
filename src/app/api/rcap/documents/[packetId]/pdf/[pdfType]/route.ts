@@ -39,7 +39,7 @@ export async function GET(
   // Validate before serving: bytes that are not a parseable PDF are a failure,
   // not a download.
   if (pdf.length === 0 || pdf.subarray(0, 5).toString("latin1") !== "%PDF-") {
-    return NextResponse.json({ error: "Packet rendering produced invalid output." }, { status: 500 });
+    return NextResponse.json({ error: "We couldn’t finish preparing this PDF. The saved information is still available. Try again or contact support." }, { status: 500 });
   }
 
   return new Response(new Uint8Array(pdf), {

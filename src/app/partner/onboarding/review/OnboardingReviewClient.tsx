@@ -210,8 +210,8 @@ export function OnboardingReviewClient({
         </h1>
         <p className="mt-2 max-w-3xl text-base leading-7 text-grayWilma-700">
           {canEdit
-            ? "Confirm the information below before sending it to LegalEase. Use each section’s edit link to update the canonical source."
-            : "Review the information below. Open a section to see its canonical source and current status."}
+            ? "Confirm the information below before sending it to LegalEase. Use each section’s edit link to make changes."
+            : "Review the information below. Open a section to see or update its information."}
         </p>
       </header>
 

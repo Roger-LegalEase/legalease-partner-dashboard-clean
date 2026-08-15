@@ -92,7 +92,7 @@ function authErrorResponse(error: unknown, requestId: string) {
   throw error;
 }
 
-export function accessCodeErrorResponse(error: unknown, requestId: string, operation: string) {
+function accessCodeErrorResponse(error: unknown, requestId: string, operation: string) {
   if (error instanceof PartnerAccessCodeError) {
     const status =
       error.code === "unknown_partner" || error.code === "not_found"

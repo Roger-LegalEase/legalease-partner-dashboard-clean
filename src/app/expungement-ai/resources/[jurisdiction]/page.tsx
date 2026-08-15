@@ -198,7 +198,7 @@ export default async function StateResourcePage({
             </h2>
 
             <p className={`mt-3 text-[14px] leading-6 ${brand.cls.muted}`}>
-              These are the paths the free check asks about in {locked.name}. Which one fits — if any — depends on the
+              These are the options the free check asks about in {locked.name}. Whether one fits depends on the
               details of your situation, and the court or agency makes the final decision.
             </p>
 

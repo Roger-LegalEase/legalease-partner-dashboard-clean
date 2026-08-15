@@ -151,3 +151,6 @@ This flow reflects the **account-first** partner model: partner users create a f
 ## Clean Partner Flow
 
 Partner landing page → **Start your record-clearing screening** → **Create account** or sign in → **Verify email** → screening inside Briefcase → accuracy review (**Let's make sure we have this right**) → result lanes (**Continue to packet builder** / **Continue to my Briefcase** / **View my next steps** / **View my Briefcase**) → Briefcase saved no matter what → if no path, guidance/support only and no cap usage → if packet path, **State-Specific Packet Builder** → **Generate my packet** → **Skip Stripe Payment Gate** / bypass payment → **Download my packet** + filing checklist → packet generated counts against the partner cap → outcome follow-up.
+# Participant language
+
+This flow follows the shared participant-language rule in [Product Flow Source of Truth](./README.md): participant and partner copy explains results, next steps, program coverage, and packet progress without exposing implementation details.
