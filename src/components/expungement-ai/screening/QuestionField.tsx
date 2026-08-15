@@ -16,6 +16,7 @@
  * `aria-describedby`. Errors use `role="alert"`.
  */
 import type { AnswerValue, ProfileQuestion } from "@/lib/expungement-ai/frontend/contracts";
+import { useState } from "react";
 import { readOrUnknown, type OrUnknownValue } from "@/components/expungement-ai/screening/answers";
 import { ContextOnlyBanner } from "@/components/expungement-ai/screening/ContextOnlyBanner";
 import { OptionGroup } from "@/components/expungement-ai/screening/fields/OptionGroup";
@@ -238,18 +239,19 @@ function DateOrUnknownField({
 }) {
   const parsed = parseIsoDate(value.value);
   const isUnknown = value.unknown === true;
+  const [draftParts, setDraftParts] = useState<Record<string, DateParts>>({});
+  const parts = parsed ?? draftParts[id] ?? emptyDateParts();
   const unknownId = `${id}-unknown`;
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 90 }, (_, index) => currentYear - index);
 
   function update(part: "month" | "day" | "year", next: string) {
-    const parts = {
-      month: parsed?.month ?? "",
-      day: parsed?.day ?? "",
-      year: parsed?.year ?? "",
+    const nextParts = {
+      ...parts,
       [part]: next
     };
-    const iso = toIsoDate(parts.year, parts.month, parts.day);
+    setDraftParts((current) => ({ ...current, [id]: nextParts }));
+    const iso = toIsoDate(nextParts.year, nextParts.month, nextParts.day);
     onChange({ value: iso, unknown: false });
   }
 
@@ -261,7 +263,7 @@ function DateOrUnknownField({
           <select
             className="min-h-[48px] rounded-xl border-[1.5px] border-[#E4E8EF] bg-white px-3 text-[15px] text-[#0B1320] disabled:bg-[#F2F4F8]"
             disabled={isUnknown}
-            value={parsed?.month ?? ""}
+            value={parts.month}
             onChange={(event) => update("month", event.target.value)}
             aria-invalid={invalid || undefined}
           >
@@ -274,7 +276,7 @@ function DateOrUnknownField({
           <select
             className="min-h-[48px] rounded-xl border-[1.5px] border-[#E4E8EF] bg-white px-3 text-[15px] text-[#0B1320] disabled:bg-[#F2F4F8]"
             disabled={isUnknown}
-            value={parsed?.day ?? ""}
+            value={parts.day}
             onChange={(event) => update("day", event.target.value)}
             aria-invalid={invalid || undefined}
           >
@@ -287,7 +289,7 @@ function DateOrUnknownField({
           <select
             className="min-h-[48px] rounded-xl border-[1.5px] border-[#E4E8EF] bg-white px-3 text-[15px] text-[#0B1320] disabled:bg-[#F2F4F8]"
             disabled={isUnknown}
-            value={parsed?.year ?? ""}
+            value={parts.year}
             onChange={(event) => update("year", event.target.value)}
             aria-invalid={invalid || undefined}
           >
@@ -306,12 +308,21 @@ function DateOrUnknownField({
           className="h-5 w-5 shrink-0 accent-[#00A99D]"
           type="checkbox"
           checked={isUnknown}
-          onChange={(event) => onChange(event.target.checked ? { unknown: true } : { value: "", unknown: false })}
+          onChange={(event) => {
+            setDraftParts((current) => ({ ...current, [id]: emptyDateParts() }));
+            onChange(event.target.checked ? { unknown: true } : { value: "", unknown: false });
+          }}
         />
         <span>{unknownLabel}</span>
       </label>
     </div>
   );
+}
+
+type DateParts = { year: string; month: string; day: string };
+
+function emptyDateParts(): DateParts {
+  return { year: "", month: "", day: "" };
 }
 
 function parseIsoDate(value: string | undefined) {
