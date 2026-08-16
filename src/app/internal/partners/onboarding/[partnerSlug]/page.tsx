@@ -33,10 +33,10 @@ export default async function OnboardingDetailPage({ params }: { params: Promise
     try {
       const context = await requireInternalOnboardingContext(partnerSlug);
       phase1Snapshot = await getInternalOnboardingSnapshot(context);
-      if (isRcapOnboardingPrefillEnabled()) {
+      if (phase1Snapshot.workspace && isRcapOnboardingPrefillEnabled()) {
         prefillSnapshot = await getInternalPrefillSnapshot(context);
       }
-      if (isRcapOnboardingLaunchPrepEnabled()) {
+      if (phase1Snapshot.workspace && isRcapOnboardingLaunchPrepEnabled()) {
         // One call: readiness carries the artifact board it was derived from,
         // so the page does not read the same source twice.
         launchPrep = await getInternalLaunchReadiness(context);

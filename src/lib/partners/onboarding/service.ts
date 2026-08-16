@@ -20,6 +20,11 @@ import {
   ONBOARDING_SECTION_ORDER
 } from "./schema";
 import { deriveRecordShieldScope } from "./scope";
+import {
+  filterValidationIssuesForGuidedStep,
+  getGuidedSection,
+  type PartnerFacingChangeRequest
+} from "./guided-substeps";
 import type {
   CommercialGateOutcome,
   OnboardingContact,
@@ -55,8 +60,33 @@ export type OnboardingSectionView<K extends OnboardingSectionKey = OnboardingSec
   missingRequiredKeys: string[];
   changeRequestInstructions: string[];
   changeRequestStatus: "open" | "partner_responded" | null;
+  changeRequests: OnboardingChangeRequestView[];
   pendingPrefillFieldKeys: string[];
   hasPendingPrefill: boolean;
+  firstStartedAt: string | null;
+  completedAt: string | null;
+  submittedAt: string | null;
+  approvedAt: string | null;
+  waivedAt: string | null;
+  reviewedAt: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+};
+
+export type OnboardingChangeRequestView = PartnerFacingChangeRequest;
+
+export type OnboardingTeamMemberView = {
+  id: string;
+  name: string;
+  workEmail: string;
+  requestedRole: string;
+  trainingAttendee: boolean;
+  trainingStatus: "not_started" | "scheduled" | "in_progress" | "complete";
+  trainingCompletedAt: string | null;
+  invitationStatus: "not_invited" | "planned" | "released";
+  membershipStatus: "planned" | "active" | "disabled";
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnboardingAssetView = {
@@ -107,7 +137,15 @@ export type PartnerOnboardingPortal = {
     nextActionOwner: "partner" | "legalease" | "none";
     targetLaunchDate: string | null;
     commercialGateStatus: CommercialGateOutcome;
+    commercialGateChangedAt: string | null;
     submittedAt: string | null;
+    internalApprovedAt: string | null;
+    launchedAt: string | null;
+    pausedAt: string | null;
+    closedAt: string | null;
+    lastMeaningfulActivityAt: string | null;
+    createdAt: string;
+    updatedAt: string;
   };
   organizationName: string;
   programName: string | null;
@@ -115,6 +153,7 @@ export type PartnerOnboardingPortal = {
   canEdit: boolean;
   data: OnboardingPartnerData;
   sections: OnboardingSectionView[];
+  teamMembers: OnboardingTeamMemberView[];
   readOnlyValues: OnboardingReadOnlyValues;
   canonicalReferences: Record<string, { value: string; sourceSection: OnboardingSectionKey }>;
   assets: OnboardingAssetView[];
@@ -139,6 +178,7 @@ export type SaveSectionInput<K extends OnboardingSectionKey = OnboardingSectionK
   expectedWorkspaceVersion: number;
   requestId: string;
   mode: Exclude<OnboardingValidationMode, "final_submit">;
+  guidedStepId?: string;
   data: unknown;
 };
 
@@ -172,7 +212,15 @@ type WorkspaceSafeRow = {
   next_action_owner: string;
   target_launch_date: string | null;
   commercial_gate_status: string;
+  commercial_gate_changed_at: string | null;
   submitted_at: string | null;
+  internal_approved_at: string | null;
+  launched_at: string | null;
+  paused_at: string | null;
+  closed_at: string | null;
+  last_meaningful_activity_at: string | null;
+  created_at: string;
+  updated_at: string;
 };
 
 type SectionRow = {
@@ -184,6 +232,14 @@ type SectionRow = {
   status: string;
   completion_percentage: number;
   missing_required_keys: string[] | null;
+  first_started_at: string | null;
+  completed_at: string | null;
+  submitted_at: string | null;
+  approved_at: string | null;
+  waived_at: string | null;
+  reviewed_at: string | null;
+  created_at: string | null;
+  updated_at: string | null;
 };
 
 type ContactRow = {
@@ -203,6 +259,12 @@ type PlannedUserRow = {
   requested_role: string;
   special_permissions: string[] | null;
   training_attendee: boolean;
+  training_status: string;
+  training_completed_at: string | null;
+  invitation_status: string;
+  membership_status: string;
+  created_at: string;
+  updated_at: string;
 };
 
 type RecipientRow = {
@@ -216,6 +278,10 @@ type ChangeRequestRow = {
   section_id: string;
   status: string;
   partner_safe_instructions: string;
+  requested_at: string;
+  partner_response: string | null;
+  responded_at: string | null;
+  resolved_at: string | null;
 };
 
 type AssetRow = {
@@ -298,7 +364,7 @@ export async function getPartnerOnboardingPortal(
   const { data: workspaceData, error: workspaceError } = await supabase
     .from("partner_onboarding_workspace_safe")
     .select(
-      "id, partner_slug, partner_record_id, status, schema_version, aggregate_version, completion_percentage, blocker_code, next_action_code, next_action_owner, target_launch_date, commercial_gate_status, submitted_at"
+      "id, partner_slug, partner_record_id, status, schema_version, aggregate_version, completion_percentage, blocker_code, next_action_code, next_action_owner, target_launch_date, commercial_gate_status, commercial_gate_changed_at, submitted_at, internal_approved_at, launched_at, paused_at, closed_at, last_meaningful_activity_at, created_at, updated_at"
     )
     .eq("partner_slug", context.partnerSlug)
     .maybeSingle();
@@ -327,7 +393,7 @@ export async function getPartnerOnboardingPortal(
   ] = await Promise.all([
     supabase
       .from("partner_onboarding_sections")
-      .select("id, workspace_id, section_key, response_data, revision, status, completion_percentage, missing_required_keys")
+      .select("id, workspace_id, section_key, response_data, revision, status, completion_percentage, missing_required_keys, first_started_at, completed_at, submitted_at, approved_at, waived_at, reviewed_at, created_at, updated_at")
       .eq("workspace_id", workspaceId),
     supabase
       .from("partner_onboarding_contacts")
@@ -337,7 +403,7 @@ export async function getPartnerOnboardingPortal(
       .order("created_at", { ascending: true }),
     supabase
       .from("partner_onboarding_planned_users")
-      .select("id, name, work_email, requested_role, special_permissions, training_attendee")
+      .select("id, name, work_email, requested_role, special_permissions, training_attendee, training_status, training_completed_at, invitation_status, membership_status, created_at, updated_at")
       .eq("workspace_id", workspaceId)
       .is("deleted_at", null)
       .order("created_at", { ascending: true }),
@@ -349,10 +415,11 @@ export async function getPartnerOnboardingPortal(
       .order("created_at", { ascending: true }),
     supabase
       .from("partner_onboarding_change_requests_safe")
-      .select("id, section_id, status, partner_safe_instructions")
+      .select(
+        "id, section_id, status, partner_safe_instructions, requested_at, partner_response, responded_at, resolved_at"
+      )
       .eq("workspace_id", workspaceId)
-      .in("status", ["open", "partner_responded"])
-      .order("requested_at", { ascending: true }),
+      .order("requested_at", { ascending: false }),
     supabase
       .from("partner_onboarding_assets_safe")
       .select("id, category, original_filename, media_type, byte_size, width_pixels, height_pixels, lifecycle_status, review_status, uploaded_at")
@@ -457,7 +524,12 @@ export async function getPartnerOnboardingPortal(
       ])
     ),
     presentAssetCategories,
-    unresolvedChangeRequests: changes.map((change) => {
+    unresolvedChangeRequests: changes
+      .filter(
+        (change) =>
+          change.status === "open" || change.status === "partner_responded"
+      )
+      .map((change) => {
       const section = sectionRows.find(
         (candidate) => candidate.id === change.section_id
       );
@@ -471,7 +543,7 @@ export async function getPartnerOnboardingPortal(
         sectionKey: asSectionKey(section.section_key),
         status: asChangeRequestStatus(change.status)
       };
-    }),
+      }),
     pendingPrefillSections,
     procurementRequired,
     recordShieldInScope,
@@ -479,7 +551,10 @@ export async function getPartnerOnboardingPortal(
   });
 
   const instructionsBySection = new Map<string, string[]>();
-  for (const change of changes) {
+  for (const change of changes.filter(
+    (candidate) =>
+      candidate.status === "open" || candidate.status === "partner_responded"
+  )) {
     const list = instructionsBySection.get(change.section_id) ?? [];
     list.push(change.partner_safe_instructions);
     instructionsBySection.set(change.section_id, list);
@@ -503,12 +578,30 @@ export async function getPartnerOnboardingPortal(
       changeRequestStatus: row
         ? latestChangeRequestStatus(changes, row.id)
         : null,
+      changeRequests: row
+        ? changes
+            .filter((change) => change.section_id === row.id)
+            .map((change) =>
+              mapPartnerChangeRequest(
+                change,
+                asSectionKey(definition.key)
+              )
+            )
+        : [],
       pendingPrefillFieldKeys: pendingPrefillRows
         .filter((prefill) => prefill.section_key === definition.key)
         .map((prefill) => prefill.field_key),
       hasPendingPrefill: pendingPrefillRows.some(
         (prefill) => prefill.section_key === definition.key
-      )
+      ),
+      firstStartedAt: row?.first_started_at ?? null,
+      completedAt: row?.completed_at ?? null,
+      submittedAt: row?.submitted_at ?? null,
+      approvedAt: row?.approved_at ?? null,
+      waivedAt: row?.waived_at ?? null,
+      reviewedAt: row?.reviewed_at ?? null,
+      createdAt: row?.created_at ?? null,
+      updatedAt: row?.updated_at ?? null
     };
   }) as OnboardingSectionView[];
 
@@ -548,7 +641,15 @@ export async function getPartnerOnboardingPortal(
       nextActionOwner: derivation.nextActionOwner,
       targetLaunchDate: workspace.target_launch_date,
       commercialGateStatus: asCommercialGate(workspace.commercial_gate_status),
-      submittedAt: workspace.submitted_at
+      commercialGateChangedAt: workspace.commercial_gate_changed_at,
+      submittedAt: workspace.submitted_at,
+      internalApprovedAt: workspace.internal_approved_at,
+      launchedAt: workspace.launched_at,
+      pausedAt: workspace.paused_at,
+      closedAt: workspace.closed_at,
+      lastMeaningfulActivityAt: workspace.last_meaningful_activity_at,
+      createdAt: workspace.created_at,
+      updatedAt: workspace.updated_at
     },
     organizationName: partner.organization_name ?? partner.partner_name ?? context.partnerSlug,
     programName: partner.program_name,
@@ -559,6 +660,9 @@ export async function getPartnerOnboardingPortal(
       ["setup_in_progress", "waiting_on_partner"].includes(workspace.status),
     data,
     sections,
+    teamMembers: ((plannedUsersResult.data ?? []) as PlannedUserRow[]).map(
+      mapTeamMember
+    ),
     readOnlyValues,
     canonicalReferences,
     assets,
@@ -599,7 +703,7 @@ export async function savePartnerOnboardingSection<K extends OnboardingSectionKe
     throw new Phase1OnboardingError("invalid_input", "Choose a valid onboarding section.");
   }
 
-  const validation = validateOnboardingSection(input.sectionKey, input.data, input.mode, {
+  const validationContext = {
     commercialGateOutcome: portal.workspace.commercialGateStatus,
     allSections: portal.data,
     presentAssetCategories: portal.assets.map((asset) => asset.category),
@@ -612,10 +716,47 @@ export async function savePartnerOnboardingSection<K extends OnboardingSectionKe
     procurementRequired: portal.procurementRequired,
     recordShieldInScope: portal.recordShieldInScope,
     overageApprovalRequired: portal.overageApprovalRequired
-  });
+  };
+  const validation = validateOnboardingSection(
+    input.sectionKey,
+    input.data,
+    input.mode,
+    validationContext
+  );
 
   if (!validation.success) {
     throw validationError(validation.issues, validation.data);
+  }
+
+  if (input.guidedStepId) {
+    const guidedSection = getGuidedSection(input.sectionKey);
+    if (
+      input.mode !== "draft_save" ||
+      !guidedSection.substeps.some(
+        (substep) => substep.id === input.guidedStepId
+      )
+    ) {
+      throw new Phase1OnboardingError(
+        "invalid_input",
+        "Choose a valid onboarding task."
+      );
+    }
+    const completeValidation = validateOnboardingSection(
+      input.sectionKey,
+      input.data,
+      "section_complete",
+      validationContext
+    );
+    if (!completeValidation.success) {
+      const guidedIssues = filterValidationIssuesForGuidedStep(
+        input.sectionKey,
+        input.guidedStepId,
+        completeValidation.issues
+      );
+      if (guidedIssues.length > 0) {
+        throw validationError(guidedIssues, completeValidation.data);
+      }
+    }
   }
 
   const nextData: OnboardingPartnerData = {
@@ -684,6 +825,7 @@ export async function savePartnerOnboardingSection<K extends OnboardingSectionKe
     expectedRevision: input.expectedRevision,
     expectedWorkspaceVersion: input.expectedWorkspaceVersion,
     mode: input.mode,
+    guidedStepId: input.guidedStepId ?? null,
     data: normalized.responseData,
     collections: normalized.collections
   });
@@ -1320,6 +1462,42 @@ function mapPlannedUser(row: PlannedUserRow): PlannedDashboardUser {
   };
 }
 
+function mapTeamMember(row: PlannedUserRow): OnboardingTeamMemberView {
+  return {
+    id: row.id,
+    name: row.name,
+    workEmail: row.work_email,
+    requestedRole: row.requested_role,
+    trainingAttendee: row.training_attendee,
+    trainingStatus: asTeamLifecycleValue(
+      row.training_status,
+      ["not_started", "scheduled", "in_progress", "complete"],
+      "not_started"
+    ),
+    trainingCompletedAt: row.training_completed_at,
+    invitationStatus: asTeamLifecycleValue(
+      row.invitation_status,
+      ["not_invited", "planned", "released"],
+      "not_invited"
+    ),
+    membershipStatus: asTeamLifecycleValue(
+      row.membership_status,
+      ["planned", "active", "disabled"],
+      "planned"
+    ),
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  };
+}
+
+function asTeamLifecycleValue<const T extends string>(
+  value: string,
+  allowed: readonly T[],
+  fallback: T
+): T {
+  return allowed.includes(value as T) ? (value as T) : fallback;
+}
+
 function mapRecipient(row: RecipientRow): OnboardingReportRecipient {
   return {
     stable_row_id: row.id,
@@ -1524,6 +1702,43 @@ function asChangeRequestStatus(
     );
   }
   return value;
+}
+
+function asChangeRequestHistoryStatus(
+  value: string
+): OnboardingChangeRequestView["status"] {
+  if (
+    value !== "open" &&
+    value !== "partner_responded" &&
+    value !== "resolved" &&
+    value !== "cancelled"
+  ) {
+    throw new Phase1OnboardingError(
+      "persistence_failed",
+      "A setup change request has an invalid status."
+    );
+  }
+  return value;
+}
+
+function mapPartnerChangeRequest(
+  row: ChangeRequestRow,
+  sectionKey: OnboardingSectionKey
+): OnboardingChangeRequestView {
+  return {
+    id: row.id,
+    sectionKey,
+    status: asChangeRequestHistoryStatus(row.status),
+    requestedByLabel: "LegalEase",
+    requestedAt: row.requested_at,
+    requestedCorrection: row.partner_safe_instructions,
+    partnerResponse: row.partner_response,
+    respondedAt: row.responded_at,
+    resolvedAt: row.resolved_at,
+    // The current safe view is section-level. Task 2 does not infer a field
+    // target from prose because that would create false precision.
+    targetFieldKey: null
+  };
 }
 
 function latestChangeRequestStatus(

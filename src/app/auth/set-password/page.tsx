@@ -6,6 +6,7 @@ import { KeyRound } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { PartnerRecoveryState } from "@/components/partners/PartnerRecoveryState";
 import { safeAppRedirectPath } from "@/lib/auth/redirect";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 
@@ -258,8 +259,11 @@ export default function SetPasswordPage() {
           ) : null}
 
           {state === "invalid" ? (
-            <div className="mt-6 rounded-md border border-orange/30 bg-orange/10 px-4 py-3 text-sm font-semibold text-orange">
-              {errorMessage || invalidOrExpiredInviteMessage}
+            <div className="mt-6">
+              <PartnerRecoveryState
+                code="invitation_unavailable"
+                genericHeading="This account setup link cannot be used"
+              />
             </div>
           ) : null}
 
@@ -351,11 +355,13 @@ export default function SetPasswordPage() {
             </form>
           ) : null}
 
+          {state !== "invalid" ? (
           <div className="mt-5 text-center">
             <Link href="/sign-in?next=/partner/dashboard" className="text-sm font-semibold text-teal hover:text-navy">
               Back to sign in
             </Link>
           </div>
+          ) : null}
         </Card>
       </div>
     </main>

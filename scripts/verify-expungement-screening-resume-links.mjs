@@ -17,6 +17,9 @@ const security = loadTsModule(path.join(rootDir, "src/lib/expungement-ai/screeni
 const service = loadTsModule(path.join(rootDir, "src/lib/expungement-ai/screening-resume-service.ts"));
 const email = loadTsModule(path.join(rootDir, "src/lib/expungement-ai/screening-resume-email.ts"));
 const rateLimit = loadTsModule(path.join(rootDir, "src/lib/expungement-ai/screening-resume-rate-limit.ts"));
+const confirmFailureFloor = loadTsModule(
+  path.join(rootDir, "src/lib/expungement-ai/screening-resume-confirm-failure-floor.ts")
+);
 const { toScreeningAnswers } = loadTsModule(path.join(rootDir, "src/components/expungement-ai/screening/answers.ts"));
 const { evaluateScreening } = loadTsModule(path.join(rootDir, "src/lib/rcap-engine/evaluator.ts"));
 const { getProfileByJurisdiction } = loadTsModule(path.join(rootDir, "src/lib/rcap-engine/profile-registry.ts"));
@@ -35,7 +38,7 @@ try {
   await verifyExpiredAndFreshLink(db, storage);
   await verifyTokenRotation(db, storage);
   await verifyEnumerationResistance(storage);
-  verifyConfirmFailureTimingFloor();
+  await verifyConfirmFailureTimingFloor();
   verifyDiscreetEmail();
   verifyConsentAndSingleSaveHook();
   await verifyNoForbiddenPersistence(db);
@@ -217,14 +220,34 @@ function verifyDiscreetEmail() {
   assert(combined.includes("if you did not request this"), "Discreet email must include ignore-if-not-requested copy.");
 }
 
-function verifyConfirmFailureTimingFloor() {
+async function verifyConfirmFailureTimingFloor() {
   const route = read("src/app/api/expungement-ai/screening/resume/confirm/route.ts");
-  assert(route.includes("export const resumeConfirmFailureFloorMs = 100"), "Confirm failure floor must be 100ms.");
+  const floor = read("src/lib/expungement-ai/screening-resume-confirm-failure-floor.ts");
+  assert(floor.includes("export const resumeConfirmFailureFloorMs = 100"), "Confirm failure floor must be 100ms.");
+  assert(route.includes("waitForResumeConfirmFailureFloor"), "Confirm route must import the failure floor helper.");
+  assert(!route.includes("export const resumeConfirmFailureFloorMs"), "Confirm route must not export a non-route constant.");
+  assert(!route.includes("export async function waitForResumeConfirmFailureFloor"), "Confirm route must not export a non-route helper.");
   assert(route.includes("const startedAt = Date.now();"), "Confirm route must record request start before work.");
   assert(route.includes("resumeConfirmFailure(startedAt);"), "Confirm route must return generic failures through the floor helper.");
-  assert(route.includes("const remainingMs = resumeConfirmFailureFloorMs - (now() - startedAt);"), "Confirm floor must use elapsed time.");
-  assert(route.includes("if (remainingMs > 0)"), "Confirm floor must wait only for remaining time.");
-  assert(!route.includes("await sleep(100)") && !route.includes("setTimeout(resolve, resumeConfirmFailureFloorMs)"), "Confirm floor must not use an additive fixed delay.");
+  assert(floor.includes("const remainingMs = resumeConfirmFailureFloorMs - (now() - startedAt);"), "Confirm floor must use elapsed time.");
+  assert(floor.includes("if (remainingMs > 0)"), "Confirm floor must wait only for remaining time.");
+  assert(!floor.includes("await sleep(100)") && !floor.includes("setTimeout(resolve, resumeConfirmFailureFloorMs)"), "Confirm floor must not use an additive fixed delay.");
+
+  const waits = [];
+  await confirmFailureFloor.waitForResumeConfirmFailureFloor(
+    1_000,
+    () => 1_060,
+    async (milliseconds) => waits.push(milliseconds)
+  );
+  assertDeepEqual(waits, [40], "Confirm floor must wait only for the missing portion.");
+
+  const noWaits = [];
+  await confirmFailureFloor.waitForResumeConfirmFailureFloor(
+    1_000,
+    () => 1_100,
+    async (milliseconds) => noWaits.push(milliseconds)
+  );
+  assertDeepEqual(noWaits, [], "Confirm floor must not add delay after the floor is met.");
 
   const genericDirectReturns = route
     .split(/\r?\n/)
@@ -263,6 +286,7 @@ function verifyBoundaryProtection() {
   assert(protectedFiles.includes("requireConsumerBriefcaseSession") || protectedFiles.includes("getBriefcaseItem"), "Protected surfaces lost account/session boundary.");
   const resumeSources = [
     read("src/app/api/expungement-ai/screening/resume/confirm/route.ts"),
+    read("src/lib/expungement-ai/screening-resume-confirm-failure-floor.ts"),
     read("src/lib/expungement-ai/screening-resume-service.ts")
   ].join("\n");
   for (const forbidden of ["stripe", "checkout", "webhook", "packetPlan:", "paymentAllowed:", "resultCode:"]) {

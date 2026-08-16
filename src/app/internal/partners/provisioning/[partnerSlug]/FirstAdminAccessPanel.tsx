@@ -6,6 +6,9 @@ import { Check, Copy, Mail, ShieldCheck, UserPlus, XCircle } from "lucide-react"
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import type { FirstAdminAccessView } from "@/lib/partners/first-admin-service";
+import { buildFirstAdminProvisioningPresentation } from "@/lib/partners/first-admin-provisioning-presentation";
+import type { OnboardingWorkspaceStatus } from "@/lib/partners/onboarding/types";
+import type { PartnerProvisioningStatus } from "@/lib/partners/types";
 
 type PartnerSummary = {
   partnerSlug: string;
@@ -13,6 +16,11 @@ type PartnerSummary = {
   legalName: string;
   jurisdiction: string;
   selectedPackage: string;
+  workspaceStatus?: OnboardingWorkspaceStatus;
+  completionPercentage?: number;
+  provisioningStatus?: PartnerProvisioningStatus;
+  owner?: string;
+  dueDate?: string;
 };
 
 type Props = {
@@ -205,6 +213,17 @@ export function FirstAdminAccessPanel({
     );
   const canRevoke =
     access.accessStatus === "invitation_pending" && Boolean(invitation);
+  const presentation = buildFirstAdminProvisioningPresentation({
+    access,
+    jurisdiction: partner.jurisdiction,
+    selectedPackage: partner.selectedPackage,
+    workspaceStatus: partner.workspaceStatus,
+    completionPercentage: partner.completionPercentage,
+    provisioningStatus: partner.provisioningStatus,
+    owner: partner.owner,
+    dueDate: partner.dueDate,
+    onboardingHref: `/internal/partners/onboarding/${encodeURIComponent(partner.partnerSlug)}`
+  });
 
   return (
     <section className="mt-8" aria-labelledby="partner-access-heading">
@@ -248,7 +267,7 @@ export function FirstAdminAccessPanel({
           </div>
         ) : null}
 
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Detail label="Organization" value={partner.publicName} />
           <Detail label="Role" value="Partner Administrator" />
           <Detail
@@ -273,17 +292,31 @@ export function FirstAdminAccessPanel({
               invitation ? formatDateTime(invitation.expiresAt) : "Not applicable"
             }
           />
-          <Detail
-            label="Account and membership"
-            value={
-              access.administrator
-                ? "Account active · Membership active"
-                : invitation
-                  ? `${statusLabel(invitation.status)} · Membership not active`
-                  : "No account · No membership"
-            }
-          />
+          <Detail label="Administrator access" value={presentation.access.label} description={presentation.access.description} />
+          <Detail label="Auth account" value={presentation.account} />
+          <Detail label="Tenant membership" value={presentation.membership} />
+          <Detail label="Program configuration" value={presentation.configuration.label} description={presentation.configuration.description} />
+          <Detail label="Publication" value={presentation.publication.label} description={presentation.publication.description} />
+          <Detail label="Program activation" value={presentation.activation.label} description={presentation.activation.description} />
+          <Detail label="Current next action" value={presentation.nextAction} />
+          <Detail label="Owner" value={presentation.owner} />
+          <Detail label="Due date" value={presentation.dueDate} />
         </div>
+
+        {presentation.missingInformation.length > 0 ? (
+          <div className="mt-5 border-l-4 border-orange bg-[#F7F4EE] p-4">
+            <p className="font-black text-navy">Information still required</p>
+            <ul className="mt-2 grid gap-2 text-sm leading-6 text-grayWilma-700">
+              {presentation.missingInformation.map((item) => <li key={item}>{item}</li>)}
+            </ul>
+          </div>
+        ) : null}
+
+        {access.accessStatus === "administrator_active" && presentation.configuration.label !== "Approved" ? (
+          <Link data-primary-action="true" className={`${primaryButton} mt-6`} href={presentation.primaryAction.href}>
+            {presentation.primaryAction.label}
+          </Link>
+        ) : null}
 
         {message ? (
           <p
@@ -525,13 +558,14 @@ export function FirstAdminAccessPanel({
   );
 }
 
-function Detail({ label, value }: { label: string; value: string }) {
+function Detail({ label, value, description }: { label: string; value: string; description?: string }) {
   return (
     <div className="rounded-md bg-[#f7f8f6] px-4 py-3">
       <p className="text-xs font-black uppercase tracking-wide text-grayWilma-600">
         {label}
       </p>
       <p className="mt-1 break-words text-sm font-semibold text-navy">{value}</p>
+      {description ? <p className="mt-1 text-xs leading-5 text-grayWilma-600">{description}</p> : null}
     </div>
   );
 }
@@ -562,9 +596,20 @@ function statusTone(
 }
 
 function statusLabel(status: string) {
-  return status
-    .replaceAll("_", " ")
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+  const labels: Record<string, string> = {
+    pending: "Pending",
+    claiming: "Account setup in progress",
+    claimed: "Account setup in progress",
+    accepting: "Membership setup in progress",
+    accepted: "Accepted",
+    expired: "Expired",
+    revoked: "Revoked",
+    superseded: "Replaced",
+    sent: "Sent",
+    failed: "Delivery failed",
+    requested: "Delivery requested"
+  };
+  return labels[status] ?? "Status recorded";
 }
 
 function formatDateTime(value: string) {

@@ -323,7 +323,7 @@ check("the LegalEase page action is internal-only and narrowly shaped", () => {
   assert.ok(fn.includes("boundedText("), "every value must be length-bounded");
 });
 
-// --- no URL, no routing input, no publication -------------------------------
+// --- bounded links, no routing input, no publication ------------------------
 
 check("no arbitrary URL or routing input reaches the page configuration", () => {
   const source = read("src/lib/partners/onboarding/artifact-generator.ts");
@@ -338,11 +338,21 @@ check("no arbitrary URL or routing input reaches the page configuration", () => 
     );
   }
   const preview = previewOf();
-  const text = JSON.stringify(preview);
-  assert.ok(
-    !/https?:\/\//.test(text),
-    "no URL of any kind belongs in the preview model"
+  assert.equal(
+    preview.partnerPrivacyUrl.value,
+    "https://demo.test/privacy",
+    "only the canonical partner privacy link reaches the participant preview"
   );
+  assert.equal(
+    preview.accessibilityUrl.value,
+    "https://demo.test/accessibility",
+    "only the canonical accessibility link reaches the participant preview"
+  );
+  for (const field of [preview.partnerPrivacyUrl, preview.accessibilityUrl]) {
+    assert.match(field.value, /^https:\/\//);
+    assert.equal(field.ownership, "partner_editable");
+    assert.match(field.whereToSet, /Program setup/);
+  }
 });
 
 check("no publication or activation path exists in this lane", () => {
@@ -447,17 +457,33 @@ check("the preview renders at desktop and at 390x844, in both surfaces", () => {
   const view = read("src/components/partners/onboarding/CoBrandedPageView.tsx");
   assert.ok(view.includes('w-[390px]'), "the mobile frame must be 390 wide");
   assert.ok(view.includes('h-[844px]'), "the mobile frame must be 844 tall");
-  assert.ok(view.includes('data-ownership'), "ownership must be marked in the DOM");
-  assert.ok(view.includes("LegalEase-controlled · not partner-editable"));
+  assert.ok(
+    view.includes("ownershipReview = false"),
+    "ownership review must default off"
+  );
+  assert.ok(
+    view.includes('"data-content-ownership-review": "enabled"'),
+    "the internal overlay must be opt-in"
+  );
+  assert.ok(
+    view.includes("Powered by Expungement.ai"),
+    "the participant product endorsement must be accurate"
+  );
+  assert.ok(
+    !view.includes("LegalEase-controlled · not partner-editable"),
+    "debug ownership labels must not be participant content"
+  );
 
-  for (const file of [
-    "src/app/internal/partners/onboarding/[partnerSlug]/CoBrandedPagePanel.tsx",
+  const internal = read(
+    "src/app/internal/partners/onboarding/[partnerSlug]/CoBrandedPagePanel.tsx"
+  );
+  assert.ok(internal.includes("previewVariant"));
+  assert.ok(internal.includes('"desktop", "mobile"'));
+  const partner = read(
     "src/app/partner/onboarding/artifacts/PartnerArtifactsClient.tsx"
-  ]) {
-    const source = read(file);
-    assert.ok(source.includes('variant="desktop"'), `${file} desktop preview`);
-    assert.ok(source.includes('variant="mobile"'), `${file} mobile preview`);
-  }
+  );
+  assert.ok(partner.includes('variant="desktop"'), "partner desktop preview");
+  assert.ok(partner.includes('variant="mobile"'), "partner mobile preview");
 });
 
 /**

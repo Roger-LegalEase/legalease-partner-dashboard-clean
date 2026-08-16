@@ -1,6 +1,12 @@
+import { IBM_Plex_Mono, Inter } from "next/font/google";
 import { notFound, redirect } from "next/navigation";
 import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/feature";
-import { requirePartnerOnboardingContext } from "@/lib/partners/onboarding/auth-context";
+import {
+  requirePartnerOnboardingContext,
+  type PartnerOnboardingContext
+} from "@/lib/partners/onboarding/auth-context";
+import { loadPartnerArtifactBoardWithSource } from "@/lib/partners/onboarding/artifact-service";
+import { renderCoBrandedPageConfiguration } from "@/lib/partners/onboarding/artifact-generator";
 import { getPartnerOnboardingPortal } from "@/lib/partners/onboarding/service";
 import { ONBOARDING_JURISDICTIONS } from "@/lib/partners/onboarding/jurisdictions";
 import {
@@ -9,6 +15,12 @@ import {
   ONBOARDING_SECTION_ORDER
 } from "@/lib/partners/onboarding/schema";
 import { isFieldActive } from "@/lib/partners/onboarding/derivations";
+import {
+  guidedSectionHref,
+  guidedSubstepForField,
+  resolveGuidedStep,
+  SECTION_CHANGE_REQUEST_STEP
+} from "@/lib/partners/onboarding/guided-substeps";
 import type {
   OnboardingPartnerData,
   OnboardingReadOnlyValues,
@@ -16,17 +28,33 @@ import type {
 } from "@/lib/partners/onboarding/types";
 import {
   OnboardingSectionEditor,
+  OnboardingStaffSectionSummary,
   type OnboardingCanonicalReference,
   type OnboardingReadOnlyValue
 } from "./OnboardingSectionEditor";
+import { onboardingRoleSurface } from "@/lib/partners/onboarding/review-presentation";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+const rcapInter = Inter({
+  subsets: ["latin"],
+  variable: "--font-rcap-inter",
+  display: "swap"
+});
+const rcapMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-rcap-mono",
+  display: "swap"
+});
+
 export default async function PartnerOnboardingSectionPage({
-  params
+  params,
+  searchParams
 }: {
   params: Promise<{ sectionKey: string }>;
+  searchParams: Promise<{ step?: string | string[] }>;
 }) {
   if (!isRcapPartnerOnboardingEnabled()) notFound();
   const { sectionKey: rawSectionKey } = await params;
@@ -34,15 +62,23 @@ export default async function PartnerOnboardingSectionPage({
     notFound();
   }
   const sectionKey = rawSectionKey as OnboardingSectionKey;
+  const resolvedSearchParams = await searchParams;
+  const requestedStep = Array.isArray(resolvedSearchParams.step)
+    ? resolvedSearchParams.step[0] ?? null
+    : resolvedSearchParams.step ?? null;
 
   let portal: Awaited<ReturnType<typeof getPartnerOnboardingPortal>>;
+  let context: PartnerOnboardingContext;
   try {
-    const context = await requirePartnerOnboardingContext();
+    context = await requirePartnerOnboardingContext();
     portal = await getPartnerOnboardingPortal(context);
   } catch (error) {
     if (isUnauthenticated(error)) {
+      const next = requestedStep
+        ? guidedSectionHref(sectionKey, requestedStep)
+        : `/partner/onboarding/${sectionKey}`;
       redirect(
-        `/sign-in?next=${encodeURIComponent(`/partner/onboarding/${sectionKey}`)}`
+        `/sign-in?next=${encodeURIComponent(next)}`
       );
     }
     throw error;
@@ -57,9 +93,56 @@ export default async function PartnerOnboardingSectionPage({
   const sectionIndex = ONBOARDING_SECTION_ORDER.indexOf(sectionKey);
   const previousKey = ONBOARDING_SECTION_ORDER[sectionIndex - 1];
   const nextKey = ONBOARDING_SECTION_ORDER[sectionIndex + 1];
+  const activeChangeRequest = section.changeRequests.find(
+    (request) =>
+      request.status === "open" || request.status === "partner_responded"
+  );
+  const guided = resolveGuidedStep({
+    sectionKey,
+    requestedStep,
+    missingRequiredKeys: section.missingRequiredKeys,
+    pendingPrefillFieldKeys: section.pendingPrefillFieldKeys,
+    changeRequest: activeChangeRequest
+      ? {
+          status: activeChangeRequest.status,
+          targetFieldKey: activeChangeRequest.targetFieldKey
+        }
+      : null,
+    canEdit: sectionCanEdit
+  });
+  const initialStepId = guided.requestOverview
+    ? SECTION_CHANGE_REQUEST_STEP
+    : guided.substep.id;
+  const administratorName = primaryAdministratorName(portal.data);
+  const lastDecisionAt =
+    section.approvedAt ?? section.submittedAt ?? section.completedAt;
+  const brandExperience =
+    sectionKey === "brand_public_page"
+      ? await loadBrandExperience(context, portal)
+      : null;
+
+  if (onboardingRoleSurface(portal.role) === "staff_summary") {
+    return (
+      <main
+        className={`${rcapInter.variable} ${rcapMono.variable} min-h-screen break-words bg-[#F7F4EE] px-4 py-8 text-[#071B33] [font-family:var(--font-rcap-inter)] md:px-6 md:py-10`}
+      >
+        <OnboardingStaffSectionSummary
+          administratorName={administratorName}
+          lastDecisionAt={lastDecisionAt}
+          organizationName={portal.organizationName}
+          readOnlyValues={portal.readOnlyValues as Record<string, unknown>}
+          resolution={guided}
+          section={section}
+          values={section.data as Record<string, unknown>}
+        />
+      </main>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-[#FBF7F2] px-4 py-8 text-navy md:px-6 md:py-10">
+    <main
+      className={`${rcapInter.variable} ${rcapMono.variable} min-h-screen break-words bg-[#F7F4EE] px-4 py-8 text-[#071B33] [font-family:var(--font-rcap-inter)] md:px-6 md:py-10`}
+    >
       <OnboardingSectionEditor
         sectionKey={section.key}
         sectionStatus={section.status}
@@ -69,7 +152,7 @@ export default async function PartnerOnboardingSectionPage({
         initialRevision={section.revision}
         initialWorkspaceVersion={portal.workspace.aggregateVersion}
         canEdit={sectionCanEdit}
-        isPartnerStaff={portal.role === "partner_staff"}
+        isPartnerStaff={false}
         commercialBlocked={portal.workspace.commercialGateStatus === "blocked"}
         changeRequestInstructions={
           section.changeRequestInstructions.length
@@ -77,6 +160,7 @@ export default async function PartnerOnboardingSectionPage({
             : null
         }
         changeRequestStatus={section.changeRequestStatus}
+        changeRequests={section.changeRequests}
         canonicalReferences={canonicalReferences(
           portal.canonicalReferences,
           portal.data.organization_contacts?.contacts ?? []
@@ -107,9 +191,81 @@ export default async function PartnerOnboardingSectionPage({
             : "/partner/onboarding/review"
         }
         pendingPrefillFieldKeys={section.pendingPrefillFieldKeys}
+        initialStepId={initialStepId}
+        missingRequiredKeys={section.missingRequiredKeys}
+        completionHref="/partner/onboarding#program-configuration"
+        sectionSummary={{
+          completedSections: portal.sections.filter(
+            (candidate) => candidate.completionPercentage === 100
+          ).length,
+          totalSections: portal.sections.length,
+          openPartnerChanges: portal.sections.filter(
+            (candidate) => candidate.changeRequestStatus === "open"
+          ).length,
+          waitingOnLegalEase: portal.sections.filter(
+            (candidate) =>
+              candidate.changeRequestStatus === "partner_responded" ||
+              candidate.status === "submitted"
+          ).length
+        }}
+        brandExperience={brandExperience}
       />
     </main>
   );
+}
+
+async function loadBrandExperience(
+  context: PartnerOnboardingContext,
+  portal: Awaited<ReturnType<typeof getPartnerOnboardingPortal>>
+) {
+  try {
+    const { board, source } = await loadPartnerArtifactBoardWithSource(context);
+    const entry =
+      board.entries.find(
+        (candidate) =>
+          candidate.artifactType === "co_branded_page_configuration"
+      ) ?? null;
+    const version = entry?.currentVersion ?? null;
+    return {
+      preview:
+        renderCoBrandedPageConfiguration(source).pagePreview ?? null,
+      previewUnavailable: false,
+      artifactVersionId: version?.id ?? null,
+      partnerReviewStatus: version?.partnerReviewStatus ?? null,
+      legalEaseApprovalStatus: version?.approvalStatus ?? null,
+      sourceFreshness: entry?.sourceFreshness ?? "no_version",
+      invalidatedApprovals: entry?.invalidatedApprovals ?? {
+        partner: false,
+        legalease: false
+      },
+      canPartnerReview:
+        portal.role === "partner_admin" &&
+        entry?.sourceFreshness === "current" &&
+        version?.approvalStatus === "approved" &&
+        version.partnerReviewStatus === "awaiting_partner",
+      workspaceStatus: portal.workspace.status,
+      targetLaunchDate: portal.workspace.targetLaunchDate,
+      launchedAt: portal.workspace.launchedAt,
+      pausedAt: portal.workspace.pausedAt,
+      closedAt: portal.workspace.closedAt
+    } as const;
+  } catch {
+    return {
+      preview: null,
+      previewUnavailable: true,
+      artifactVersionId: null,
+      partnerReviewStatus: null,
+      legalEaseApprovalStatus: null,
+      sourceFreshness: "unavailable" as const,
+      invalidatedApprovals: { partner: false, legalease: false },
+      canPartnerReview: false,
+      workspaceStatus: portal.workspace.status,
+      targetLaunchDate: portal.workspace.targetLaunchDate,
+      launchedAt: portal.workspace.launchedAt,
+      pausedAt: portal.workspace.pausedAt,
+      closedAt: portal.workspace.closedAt
+    };
+  }
 }
 
 function canonicalReferences(
@@ -135,9 +291,9 @@ function canonicalReferences(
     fieldKey,
     label: getFieldDefinition(
       fieldKey as Parameters<typeof getFieldDefinition>[0]
-    )?.label ?? humanLabel(fieldKey),
+    )?.label ?? "Saved information",
     value: reference.value,
-    editHref: `/partner/onboarding/${reference.sourceSection}`,
+    editHref: guidedHrefForField(reference.sourceSection, fieldKey),
     helperCopy: "Use the edit link to change this answer in its original section.",
     ...(fieldKey === "jurisdictions" ? { options: jurisdictionOptions } : {})
   }));
@@ -163,9 +319,12 @@ function canonicalReferences(
       label:
         getFieldDefinition(
           fieldKey as Parameters<typeof getFieldDefinition>[0]
-        )?.label ?? humanLabel(fieldKey),
+        )?.label ?? "Saved contact",
       value: "",
-      editHref: "/partner/onboarding/organization_contacts",
+      editHref: guidedHrefForField(
+        "organization_contacts",
+        "contacts"
+      ),
       helperCopy: "Choose a contact saved in Organization and contacts.",
       options: contactOptions
     });
@@ -198,7 +357,7 @@ function readOnlyValues(
     })
     .map(([fieldKey, value]) => ({
       fieldKey,
-      label: definitions.get(fieldKey)?.label ?? humanLabel(fieldKey),
+      label: definitions.get(fieldKey)?.label ?? "Saved information",
       value
     }));
   if (sectionKey === "brand_public_page") {
@@ -213,11 +372,27 @@ function readOnlyValues(
   return entries;
 }
 
-function humanLabel(value: string) {
-  return value
-    .split("_")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
+function guidedHrefForField(
+  sectionKey: OnboardingSectionKey,
+  fieldKey: string
+) {
+  const substep = guidedSubstepForField(sectionKey, fieldKey);
+  return substep
+    ? guidedSectionHref(sectionKey, substep.id)
+    : `/partner/onboarding/${sectionKey}`;
+}
+
+function primaryAdministratorName(data: OnboardingPartnerData): string | null {
+  const staff = data.staff_dashboard_plan;
+  const rowId = staff?.primary_dashboard_administrator_row_id;
+  const administrator = staff?.planned_users?.find(
+    (user) => user.stable_row_id === rowId
+  );
+  if (administrator?.name?.trim()) return administrator.name.trim();
+  const plannedAdministrator = staff?.planned_users?.find(
+    (user) => user.requested_role === "partner_administrator"
+  );
+  return plannedAdministrator?.name?.trim() || null;
 }
 
 function isUnauthenticated(error: unknown) {

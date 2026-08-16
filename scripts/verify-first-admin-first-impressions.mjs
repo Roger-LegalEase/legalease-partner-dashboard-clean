@@ -1,0 +1,149 @@
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const ts = require("typescript");
+const {
+  FIRST_ADMIN_ROLE_LABEL,
+  FIRST_ADMIN_SUPPORT_EMAIL,
+  renderFirstAdminInvitationEmail
+} = await importTypescriptModule(
+  "src/lib/partners/first-admin-invitation-email.ts"
+);
+const { buildFirstAdminProvisioningPresentation } =
+  await importTypescriptModule(
+    "src/lib/partners/first-admin-provisioning-presentation.ts"
+  );
+
+const fixture = {
+  organizationName: "Rythm Labs",
+  administratorName: "Lee Roman",
+  workEmail: "Roger@rythmlabs.com",
+  setupUrl: "https://partners.legalease.com/partner/setup?token=[REDACTED]",
+  expiresAt: "2026-08-17T18:30:00.000Z"
+};
+const invitation = renderFirstAdminInvitationEmail(fixture);
+
+for (const value of [
+  fixture.organizationName,
+  fixture.administratorName,
+  fixture.workEmail,
+  FIRST_ADMIN_ROLE_LABEL,
+  invitation.expiration,
+  FIRST_ADMIN_SUPPORT_EMAIL
+]) {
+  assert.ok(invitation.html.includes(value), `HTML is missing ${value}`);
+  assert.ok(invitation.text.includes(value), `Text is missing ${value}`);
+}
+assert.equal((invitation.html.match(/data-primary-action="true"/g) ?? []).length, 1);
+assert.match(invitation.expiration, /^on August 17, 2026 at 6:30 PM UTC$/);
+assert.ok(invitation.html.includes(fixture.setupUrl));
+assert.ok(invitation.text.includes(fixture.setupUrl));
+
+const panelPath = "src/app/internal/partners/provisioning/[partnerSlug]/FirstAdminAccessPanel.tsx";
+const panel = fs.readFileSync(panelPath, "utf8");
+assert.ok(panel.includes("View invitation history"));
+assert.ok(panel.indexOf("View invitation history") > panel.indexOf("Program configuration"));
+assert.doesNotMatch(panel, /replaceAll\("_", " "\)/);
+assert.equal((panel.match(/data-primary-action="true"/g) ?? []).length, 1);
+
+const baseAccess = {
+  statusLabel: "Invitation pending",
+  workspaceExists: true,
+  emailDeliveryConfigured: true,
+  invitation: null,
+  administrator: null,
+  history: []
+};
+const expected = {
+  invitation_pending: ["Pending", "Ask the named administrator"],
+  invitation_expired: ["Expired", "Replace the expired invitation"],
+  invitation_revoked: ["Revoked", "Create a new invitation"],
+  administrator_active: ["Active", "continue Program configuration"]
+};
+for (const [accessStatus, [label, action]] of Object.entries(expected)) {
+  const active = accessStatus === "administrator_active";
+  const presentation = buildFirstAdminProvisioningPresentation({
+    access: {
+      ...baseAccess,
+      accessStatus,
+      statusLabel: active ? "Administrator active" : baseAccess.statusLabel,
+      administrator: active
+        ? { role: "partner_admin", accountStatus: "active", membershipStatus: "active", fullName: "Lee Roman", email: "Roger@rythmlabs.com" }
+        : null
+    },
+    jurisdiction: "Not recorded",
+    selectedPackage: "Not selected",
+    workspaceStatus: "setup_in_progress",
+    completionPercentage: 48,
+    provisioningStatus: "provisioning_in_progress",
+    onboardingHref: "/internal/partners/onboarding/rythm-labs"
+  });
+  assert.equal(presentation.access.label, label);
+  assert.match(presentation.nextAction, new RegExp(action));
+  assert.equal(presentation.configuration.label, "In progress");
+  assert.equal(presentation.publication.label, "Private");
+  assert.equal(presentation.activation.label, "Inactive");
+  assert.equal(presentation.account, active ? "Active" : "Not established");
+  assert.equal(presentation.membership, active ? "Active" : "Not established");
+  assert.equal(presentation.missingInformation.length, 2);
+  assert.ok(presentation.missingInformation.every((item) => item.includes("Open the onboarding workspace")));
+}
+
+const submittedPresentation = buildFirstAdminProvisioningPresentation({
+  access: {
+    ...baseAccess,
+    accessStatus: "administrator_active",
+    statusLabel: "Administrator active",
+    administrator: {
+      role: "partner_admin",
+      accountStatus: "active",
+      membershipStatus: "active",
+      fullName: "Lee Roman",
+      email: "Roger@rythmlabs.com"
+    }
+  },
+  jurisdiction: "Not recorded",
+  selectedPackage: "Not selected",
+  workspaceStatus: "ready_for_review",
+  completionPercentage: 100,
+  provisioningStatus: "provisioning_in_progress",
+  onboardingHref: "/internal/partners/onboarding/rythm-labs"
+});
+assert.equal(submittedPresentation.configuration.label, "Submitted");
+assert.match(submittedPresentation.nextAction, /Wait for LegalEase/);
+assert.equal(submittedPresentation.publication.label, "Private");
+assert.equal(submittedPresentation.activation.label, "Inactive");
+
+for (const file of [
+  "scripts/verify-first-admin-first-impressions.mjs",
+  "src/lib/partners/first-admin-invitation-email.ts"
+]) {
+  const source = fs.readFileSync(file, "utf8");
+  assert.doesNotMatch(source, /token=[A-Za-z0-9_-]{20,}/);
+}
+
+console.log("First administrator invitation and provisioning presentation verification passed.");
+
+async function importTypescriptModule(filePath) {
+  const source = fs.readFileSync(filePath, "utf8");
+  const result = ts.transpileModule(source, {
+    fileName: filePath,
+    compilerOptions: {
+      module: ts.ModuleKind.ES2022,
+      target: ts.ScriptTarget.ES2022
+    },
+    reportDiagnostics: true
+  });
+  const errors = (result.diagnostics ?? []).filter(
+    (diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error
+  );
+  assert.deepEqual(
+    errors.map((diagnostic) => ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")),
+    [],
+    `${filePath} must transpile without diagnostics`
+  );
+  const encoded = Buffer.from(result.outputText).toString("base64");
+  return import(`data:text/javascript;base64,${encoded}`);
+}

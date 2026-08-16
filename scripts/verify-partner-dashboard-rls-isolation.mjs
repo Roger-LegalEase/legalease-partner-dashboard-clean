@@ -792,9 +792,10 @@ async function verifyPublicRegressions() {
     const landingHtml = await landing.text();
     if (
       !landingHtml.includes("We Must Vote Record-Clearing Access Pilot") &&
-      !landingHtml.includes("Clear your Mississippi record with We Must Vote")
+      !landingHtml.includes("Clear your Mississippi record with We Must Vote") &&
+      !landingHtml.includes("We Must Vote Record Clearing Access Program")
     ) {
-      failures.push("/p/we-must-vote regression did not include the expected static or same-origin dynamic We Must Vote landing marker.");
+      failures.push("/p/we-must-vote regression did not include an approved static or same-origin dynamic We Must Vote landing marker.");
     }
   }
 

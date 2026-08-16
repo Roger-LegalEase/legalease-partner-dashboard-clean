@@ -24,6 +24,10 @@ import { AdminActionPanel } from "./AdminActionPanel";
 import { RcapAllowanceControl } from "./RcapAllowanceControl";
 import { ReliefOutcomePanel } from "./ReliefOutcomePanel";
 
+// Authenticated internal surface: the access gate resolves the session from request
+// cookies, so this page is request-bound and must never be statically prerendered.
+export const dynamic = "force-dynamic";
+
 export default async function InternalPartnerAdminDetailPage({
   params
 }: {

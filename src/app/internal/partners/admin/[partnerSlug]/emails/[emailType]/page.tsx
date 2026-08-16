@@ -10,6 +10,10 @@ import { getPartnerRecordBySlug } from "@/lib/partners/partner-repository";
 import { internalAdminEmails } from "@/lib/partners/routes";
 import { EmailDryRunButton } from "./EmailDryRunButton";
 
+// Authenticated internal surface: the access gate resolves the session from request
+// cookies, so this page is request-bound and must never be statically prerendered.
+export const dynamic = "force-dynamic";
+
 export default async function InternalPartnerEmailPreviewPage({
   params
 }: {

@@ -13,8 +13,11 @@ import {
   readAttributionFromFormData
 } from "@/lib/expungement-ai/partner-attribution";
 
+// "Court approval is not guaranteed" covered the outcome but said nothing about
+// eligibility, so a participant could read it as a promise that they qualify. This is the
+// same wording the documents placeholder uses.
 const UPL_DISCLAIMER =
-  "Expungement.ai is not a law firm and does not provide legal advice. Court approval is not guaranteed.";
+  "Expungement.ai is not a law firm. This tool does not provide legal advice and does not guarantee eligibility or outcomes. Court approval is not guaranteed.";
 
 const STATE_NAMES: Record<string, string> = {
   AL: "Alabama", AK: "Alaska", AZ: "Arizona", AR: "Arkansas", CA: "California", CO: "Colorado",

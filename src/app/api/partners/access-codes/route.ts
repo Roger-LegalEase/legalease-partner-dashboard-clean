@@ -5,10 +5,10 @@ import { partnerAuthStatus, resolveAuthorizedPartnerSlug } from "@/lib/partners/
 import {
   createPartnerAccessCode,
   getPartnerAccessCodeAnalytics,
-  PartnerAccessCodeError,
   PARTNER_ACCESS_CODE_TYPES,
   type PartnerAccessCodeType
 } from "@/lib/partners/partner-access-codes";
+import { accessCodeErrorResponse } from "./error-response";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -89,24 +89,5 @@ function authErrorResponse(error: unknown, requestId: string) {
     return NextResponse.json({ success: false, error: "Access denied." }, { status: partnerAuthStatus(error) });
   }
   logSecurityError({ event: "access code auth error", route: ROUTE, outcome: "error", requestId, error });
-  throw error;
-}
-
-function accessCodeErrorResponse(error: unknown, requestId: string, operation: string) {
-  if (error instanceof PartnerAccessCodeError) {
-    const status =
-      error.code === "unknown_partner" || error.code === "not_found"
-        ? 404
-        : error.code === "invalid_input"
-          ? 400
-          : error.code === "duplicate_code"
-            ? 409
-            : error.code === "supabase_unconfigured"
-              ? 503
-              : 500;
-    logSecurityWarn({ event: "access code op failed", route: ROUTE, outcome: error.code, requestId, metadata: { operation } });
-    return NextResponse.json({ success: false, error: error.message, code: error.code }, { status });
-  }
-  logSecurityError({ event: "access code op error", route: ROUTE, outcome: "error", requestId, error });
   throw error;
 }

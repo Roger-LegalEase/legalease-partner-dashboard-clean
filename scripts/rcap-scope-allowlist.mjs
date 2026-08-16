@@ -193,6 +193,10 @@ export const PARTNER_ONBOARDING_FILES = [
   "src/app/partner/onboarding/PartnerOnboardingChecklist.tsx",
   "src/app/partner/onboarding/OnboardingDashboardCard.tsx",
   "src/app/partner/onboarding/Phase1OnboardingHome.tsx",
+  // Renders the configured LegalEase support destination as a real mailto with an
+  // accessible name. Display only: it takes the resolved contact as a prop and reads no
+  // environment, no session, and no partner data.
+  "src/app/partner/onboarding/PartnerSupportLink.tsx",
   "src/app/partner/onboarding/[sectionKey]/page.tsx",
   "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx",
   "src/app/partner/onboarding/review/page.tsx",

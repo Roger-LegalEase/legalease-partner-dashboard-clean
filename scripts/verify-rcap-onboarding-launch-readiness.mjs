@@ -624,13 +624,29 @@ check("phase 47 and every new file are allowlisted by explicit path", async () =
 
 check("the launch verifiers run inside the npm test chain", async () => {
   const pkg = JSON.parse(read("package.json"));
+  // These used to be named one by one in the test chain. They are now reached through
+  // scripts/verify-onboarding-all.mjs, which owns every onboarding verifier and refuses to
+  // run when one exists that no group claims. The requirement is unchanged — these must be
+  // gated by npm test, not run beside it — so it is checked in two parts: the aggregate is
+  // in the chain, and each verifier is in the aggregate's registry. Registry membership
+  // alone would prove nothing if the aggregate itself were not wired in.
+  const aggregate = "verify-onboarding-all.mjs";
+  assert.ok(
+    pkg.scripts.test.includes(aggregate),
+    `${aggregate} must run in npm test, or nothing it owns is gated`
+  );
+  const registry = read(`scripts/${aggregate}`);
   for (const verifier of [
     "verify-rcap-onboarding-launch-readiness.mjs",
     "verify-rcap-onboarding-launch-kit.mjs",
     "verify-rcap-onboarding-launch-database.mjs"
   ]) {
+    const gatedDirectly = pkg.scripts.test.includes(verifier);
+    const gatedByAggregate = new RegExp(
+      `file:\\s*"${verifier.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")}",\\s*group:\\s*"local"`
+    ).test(registry);
     assert.ok(
-      pkg.scripts.test.includes(verifier),
+      gatedDirectly || gatedByAggregate,
       `${verifier} must run in npm test, not beside it`
     );
   }

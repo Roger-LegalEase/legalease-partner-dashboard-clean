@@ -108,6 +108,42 @@ test("RecordShield scope fails closed without an authoritative selected package"
   assert.equal(portal.recordShieldScopeSource, "unavailable");
 });
 
+test("portal exposes only partner-safe implementation lifecycle fields", async () => {
+  const harness = createServiceHarness({
+    packageData: completePackage(),
+    workspace: {
+      commercial_gate_changed_at: "2026-07-27T10:00:00.000Z",
+      submitted_at: "2026-07-28T12:00:00.000Z",
+      internal_approved_at: null,
+      last_meaningful_activity_at: "2026-07-28T12:00:00.000Z"
+    }
+  });
+  const portal = await harness.service.getPartnerOnboardingPortal(partnerContext);
+
+  assert.equal(
+    portal.workspace.commercialGateChangedAt,
+    "2026-07-27T10:00:00.000Z"
+  );
+  assert.equal(
+    portal.workspace.lastMeaningfulActivityAt,
+    "2026-07-28T12:00:00.000Z"
+  );
+  assert.equal(portal.teamMembers.length, 1);
+  assert.deepEqual(
+    {
+      trainingStatus: portal.teamMembers[0].trainingStatus,
+      invitationStatus: portal.teamMembers[0].invitationStatus,
+      membershipStatus: portal.teamMembers[0].membershipStatus
+    },
+    {
+      trainingStatus: "not_started",
+      invitationStatus: "planned",
+      membershipStatus: "planned"
+    }
+  );
+  assert.equal(portal.sections[0].updatedAt, "2026-07-28T00:00:00.000Z");
+});
+
 test("partner staff cannot save onboarding data", async () => {
   const harness = createServiceHarness();
   const error = await expectCode(
@@ -221,7 +257,10 @@ test("partner change-response completion returns action ownership to LegalEase",
         section_id: organizationSectionId,
         status: "open",
         partner_safe_instructions: "Confirm the organization details.",
-        requested_at: "2026-07-28T00:00:00.000Z"
+        requested_at: "2026-07-28T00:00:00.000Z",
+        partner_response: null,
+        responded_at: null,
+        resolved_at: null
       }
     ],
     workspace: {
@@ -1298,7 +1337,15 @@ function buildPortalTables(options) {
     next_action_owner: "partner",
     target_launch_date: null,
     commercial_gate_status: "cleared_by_paid_invoice",
+    commercial_gate_changed_at: "2026-07-27T00:00:00.000Z",
     submitted_at: null,
+    internal_approved_at: null,
+    launched_at: null,
+    paused_at: null,
+    closed_at: null,
+    last_meaningful_activity_at: "2026-07-28T00:00:00.000Z",
+    created_at: "2026-07-27T00:00:00.000Z",
+    updated_at: "2026-07-28T00:00:00.000Z",
     ...(options.workspace ?? {})
   };
   const rows = sectionRows(packageData, options);
@@ -1394,7 +1441,15 @@ function sectionRows(packageData, options = {}) {
         ) === "submitted"
           ? 100
           : 0,
-      missing_required_keys: []
+      missing_required_keys: [],
+      first_started_at: "2026-07-28T00:00:00.000Z",
+      completed_at: null,
+      submitted_at: null,
+      approved_at: null,
+      waived_at: null,
+      reviewed_at: null,
+      created_at: "2026-07-28T00:00:00.000Z",
+      updated_at: "2026-07-28T00:00:00.000Z"
     };
   });
 }
@@ -1423,8 +1478,13 @@ function plannedUserRows(users) {
     requested_role: user.requested_role,
     special_permissions: user.special_permissions ?? [],
     training_attendee: user.training_attendee,
+    training_status: user.training_status ?? "not_started",
+    training_completed_at: user.training_completed_at ?? null,
+    invitation_status: user.invitation_status ?? "planned",
+    membership_status: user.membership_status ?? "planned",
     deleted_at: null,
-    created_at: "2026-07-28T00:00:00.000Z"
+    created_at: "2026-07-28T00:00:00.000Z",
+    updated_at: "2026-07-28T00:00:00.000Z"
   }));
 }
 
