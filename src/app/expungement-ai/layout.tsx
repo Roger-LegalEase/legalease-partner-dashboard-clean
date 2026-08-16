@@ -20,14 +20,14 @@ export const metadata: Metadata = {
       "Start a free guided check. If a supported self-help packet is available, review your information before paying $50 to generate it.",
     type: "website",
     siteName: "Expungement.ai",
-    images: ["/expungement-ai/hero-1500.jpg"]
+    images: ["/expungement-ai/hero/expungement-ai-hero-poster.jpg"]
   },
   twitter: {
     card: "summary_large_image",
     title: "Expungement.ai | Free guided record-clearing check",
     description:
       "Start a free guided check. If a supported self-help packet is available, review your information before paying $50 to generate it.",
-    images: ["/expungement-ai/hero-1500.jpg"]
+    images: ["/expungement-ai/hero/expungement-ai-hero-poster.jpg"]
   }
 };
 
