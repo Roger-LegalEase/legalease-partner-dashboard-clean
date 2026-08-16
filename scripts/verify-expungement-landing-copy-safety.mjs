@@ -1,11 +1,15 @@
 import fs from "node:fs";
 import path from "node:path";
+import { register } from "node:module";
 import ts from "typescript";
-import {
+
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+
+const {
   APPROVED_LANDING_COPY_EN,
   APPROVED_LANDING_COPY_ES
-} from "../src/app/expungement-ai/landing-approved-copy.ts";
-import { EXPUNGEMENT_COPY } from "../src/lib/expungement-ai/localization.ts";
+} = await import("../src/app/expungement-ai/landing-approved-copy.ts");
+const { EXPUNGEMENT_COPY } = await import("../src/lib/expungement-ai/localization.ts");
 
 const ROOT = process.cwd();
 const LANDING_COPY = "src/app/expungement-ai/landing-approved-copy.ts";
