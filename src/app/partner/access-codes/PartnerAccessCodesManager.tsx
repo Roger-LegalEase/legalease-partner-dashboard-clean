@@ -123,11 +123,11 @@ export function PartnerAccessCodesManager({
       <section className="rounded-lg border border-[#EEE6DB] bg-white p-6">
         <h2 className="text-lg font-black">Packet usage</h2>
         <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          <Stat label="Packet cap" value={analytics ? String(analytics.packetCap) : "—"} />
-          <Stat label="Packet credits used" value={analytics ? String(analytics.packetsUsed) : "—"} />
-          <Stat label="Remaining balance" value={analytics ? String(analytics.remainingBalance) : "—"} />
-          <Stat label="Billable overage packets" value={analytics ? String(analytics.overagePackets) : "—"} />
-          <Stat label="Overage amount" value={analytics ? centsToDollars(analytics.overageAmountCents) : "—"} />
+          <Stat label="Packets available" value={analytics ? String(analytics.packetCap) : "Not available"} />
+          <Stat label="Packets used" value={analytics ? String(analytics.packetsUsed) : "Not available"} />
+          <Stat label="Packets remaining" value={analytics ? String(analytics.remainingBalance) : "Not available"} />
+          <Stat label="Additional packets" value={analytics ? String(analytics.overagePackets) : "Not available"} />
+          <Stat label="Additional packet cost" value={analytics ? centsToDollars(analytics.overageAmountCents) : "Not available"} />
         </div>
         <p className="mt-4 text-xs leading-5 text-[#8A8278]">
           After your included packet allocation is used, additional successfully generated packets are billed at{" "}

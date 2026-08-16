@@ -35,6 +35,7 @@ const routes = [
   "src/app/briefcase/payments/page.tsx",
   "src/app/briefcase/settings/page.tsx"
 ];
+const packetReadyCompatibilityRoute = "src/app/expungement-ai/packet-ready/page.tsx";
 const resultCodes = [
   "packet_ready",
   "packet_ready_with_caution",
@@ -129,11 +130,36 @@ for (const route of briefcaseRoutes) {
   assert(source.includes("BriefcaseShell"), `${route} must render the Briefcase Wilma shell.`);
 }
 
-const expungementRoutes = routes.filter((route) => route.startsWith("src/app/expungement-ai/") && route !== "src/app/expungement-ai/page.tsx");
+const expungementRoutes = routes.filter(
+  (route) => route.startsWith("src/app/expungement-ai/")
+    && route !== "src/app/expungement-ai/page.tsx"
+    && route !== packetReadyCompatibilityRoute
+);
 for (const route of expungementRoutes) {
   const source = read(route);
   assert(source.includes("ConsumerPageShell"), `${route} must render the global Wilma shell.`);
 }
+
+// Checkout now returns to the exact Briefcase matter. Keep the old return URL
+// as a narrow, owner-scoped redirect for Checkout Sessions created before that
+// change, without restoring a second payment writer or packet generator.
+const packetReadySource = read(packetReadyCompatibilityRoute);
+assertPacketReadyCompatibilityRoute(packetReadySource, failures);
+
+// Negative control: prove this guard rejects a redirect that drops the owner
+// id from the Briefcase lookup, rather than accepting any redirect-only route.
+const packetReadyNegativeControlFailures = [];
+assertPacketReadyCompatibilityRoute(
+  packetReadySource.replace(
+    "getBriefcaseItem(auth.userId, briefcaseItemId)",
+    "getBriefcaseItem(briefcaseItemId)"
+  ),
+  packetReadyNegativeControlFailures
+);
+assert(
+  packetReadyNegativeControlFailures.some((failure) => failure.includes("owner-scoped")),
+  "Packet-ready compatibility-route negative control must reject an unscoped Briefcase lookup."
+);
 assert(exists("public/static/expungement-ai/index.html"), "Static Expungement.ai landing document must exist.");
 
 const restrictedPatterns = [
@@ -218,6 +244,27 @@ for (const entry of unauthorized) {
 
 function paymentAllowedForFixture(resultCode) {
   return true && (resultCode === "packet_ready" || resultCode === "packet_ready_with_caution");
+}
+
+function assertPacketReadyCompatibilityRoute(source, targetFailures) {
+  if (!source.includes("Compatibility return")) {
+    targetFailures.push("Packet-ready route must remain a documented compatibility return.");
+  }
+  if (!source.includes("requireConsumerBriefcaseSession")) {
+    targetFailures.push("Packet-ready compatibility route must require a consumer session.");
+  }
+  if (!source.includes("getBriefcaseItem(auth.userId, briefcaseItemId)")) {
+    targetFailures.push("Packet-ready compatibility route must keep its owner-scoped Briefcase lookup.");
+  }
+  if (!source.includes("redirect(")) {
+    targetFailures.push("Packet-ready compatibility route must redirect to Briefcase.");
+  }
+  if (/\brecordConsumerPaymentConfirmation\s*\(/.test(source)) {
+    targetFailures.push("Packet-ready compatibility route must not write payment confirmation.");
+  }
+  if (/\bgenerate(?:Consumer)?Packet\w*\s*\(/.test(source)) {
+    targetFailures.push("Packet-ready compatibility route must not generate a packet.");
+  }
 }
 
 if (failures.length) {

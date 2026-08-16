@@ -50,7 +50,6 @@ const REQUIRED_RUNTIME_PATHS = [
   ["next.config.ts", "build configuration"],
   ["data/rcap-all50", "guidance-packet-registry.ts, composed routes, terminalization treatments"],
   ["data/rcap-ledger", "guidance-packet-registry.ts crosswalk"],
-  ["design-handoff/expungement-ai-frontend", "ExpungementLandingHandoff.tsx"],
   ["design-handoff/legalease-suite-page", "HandoffHtml.tsx via path.join(process.cwd(), …)"],
   ["tmp/review-inbox", "all50-internal-preview.ts and the promotion page"],
   ["docs/record-clearing/field-map-drafts", "official-pdf-shadow-batch.ts readdirSync"],

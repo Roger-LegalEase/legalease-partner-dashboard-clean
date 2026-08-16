@@ -1,13 +1,27 @@
 import "server-only";
 
+import type Stripe from "stripe";
 import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError } from "@/lib/stripe/server";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
 import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
-import { getBriefcaseItem, updateBriefcaseCheckoutSessionMetadata } from "@/lib/expungement-ai/briefcase";
+import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
+import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
+import { packetInformationModelFor, packetInformationReviewSafety, reviewedPacketInputHash } from "@/lib/expungement-ai/packet-information";
+import {
+  CONSUMER_PACKET_PRODUCT_ID,
+  persistConsumerCheckoutBinding
+} from "@/lib/expungement-ai/consumer-payment-authority";
 import type { ConsumerBriefcaseItem, ExpungementAiEligibilityResult } from "@/lib/expungement-ai/types";
 
 export const consumerPacketPriceCents = 5000;
+export const consumerPacketCurrency = "usd" as const;
+
+export type ConsumerCheckoutOutcome =
+  | "checkout_created"
+  | "checkout_reused"
+  | "already_paid"
+  | "payment_pending";
 
 export type ConsumerPaymentIntent = {
   enabled: boolean;
@@ -20,13 +34,25 @@ export type ConsumerCheckoutResult = {
   checkoutSessionId: string;
   checkoutUrl: string;
   amountCents: 5000;
+  currency: typeof consumerPacketCurrency;
+  outcome: ConsumerCheckoutOutcome;
   briefcaseItemId: string;
   alreadyPaid?: boolean;
+  paymentPending?: boolean;
 };
 
 export function consumerPacketReadyUrl(briefcaseItemId: string): string {
-  return absoluteExpungementAiUrl(`/packet-ready?briefcaseItemId=${encodeURIComponent(briefcaseItemId)}`);
+  return absoluteExpungementAiUrl(`/briefcase/${encodeURIComponent(briefcaseItemId)}`);
 }
+
+type ConsumerCheckoutBinding = {
+  userId: string;
+  briefcaseItemId: string;
+  productId: typeof CONSUMER_PACKET_PRODUCT_ID;
+  personId: string;
+  matterId: string;
+  reviewedInputHash: string;
+};
 
 export type ConsumerCheckoutStatus = {
   paid: boolean;
@@ -77,58 +103,113 @@ export async function createConsumerPacketCheckout({
       checkoutSessionId: item.checkoutSessionId ?? "",
       checkoutUrl: consumerPacketReadyUrl(item.id),
       amountCents: consumerPacketPriceCents,
+      currency: consumerPacketCurrency,
+      outcome: "already_paid",
       briefcaseItemId: item.id,
       alreadyPaid: true
     };
   }
 
-  const defaultSuccessUrl = absoluteExpungementAiUrl(`/packet-ready?briefcaseItemId=${encodeURIComponent(item.id)}&session_id={CHECKOUT_SESSION_ID}`);
-  const defaultCancelUrl = absoluteExpungementAiUrl(`/pay?briefcaseItemId=${encodeURIComponent(item.id)}`);
+  assertConsumerCheckoutReviewReady(item);
+
+  const person = await resolveConsumerPersonId(userId);
+  if (!person.ok) throw new ConsumerCheckoutTemporarilyUnavailableError();
+  const binding: ConsumerCheckoutBinding = {
+    userId,
+    briefcaseItemId: item.id,
+    productId: CONSUMER_PACKET_PRODUCT_ID,
+    personId: person.personId,
+    matterId: consumerMatterIdForItem(item.id),
+    reviewedInputHash: reviewedPacketInputHash(item) ?? ""
+  };
+  if (!binding.reviewedInputHash) throw new ConsumerCheckoutReviewRequiredError();
+
+  const defaultSuccessUrl = absoluteExpungementAiUrl(`/briefcase/${encodeURIComponent(item.id)}?payment=return&session_id={CHECKOUT_SESSION_ID}`);
+  const defaultCancelUrl = absoluteExpungementAiUrl(`/briefcase/${encodeURIComponent(item.id)}?checkout=canceled`);
 
   try {
     const stripe = getStripeServerClient();
+    const existing = item.checkoutSessionId?.startsWith("cs_")
+      ? await stripe.checkout.sessions.retrieve(item.checkoutSessionId, {
+        expand: ["line_items.data.price.product"]
+      })
+      : null;
+
+    if (existing && existing.status !== "expired" && existing.metadata?.reviewed_input_hash !== binding.reviewedInputHash) {
+      if (existing.status === "open") await stripe.checkout.sessions.expire(existing.id);
+    } else if (existing && existing.status !== "expired") {
+      const reusable = await reconcileReusableCheckoutSession({
+        stripe,
+        session: existing,
+        binding,
+        expectedSuccessUrl: successUrl ?? defaultSuccessUrl,
+        expectedCancelUrl: cancelUrl ?? defaultCancelUrl
+      });
+      if (!reusable) throw new ConsumerCheckoutTemporarilyUnavailableError();
+      if (!(await persistCheckoutBinding(binding, reusable.id, "stripe"))) {
+        throw new ConsumerCheckoutTemporarilyUnavailableError();
+      }
+      if (reusable.status === "open" && reusable.url) {
+        return {
+          mode: "stripe",
+          checkoutSessionId: reusable.id,
+          checkoutUrl: reusable.url,
+          amountCents: consumerPacketPriceCents,
+          currency: consumerPacketCurrency,
+          outcome: "checkout_reused",
+          briefcaseItemId: item.id
+        };
+      }
+      if (reusable.status === "complete") {
+        return {
+          mode: "stripe",
+          checkoutSessionId: reusable.id,
+          checkoutUrl: consumerPacketReadyUrl(item.id),
+          amountCents: consumerPacketPriceCents,
+          currency: consumerPacketCurrency,
+          outcome: "payment_pending",
+          briefcaseItemId: item.id,
+          paymentPending: true
+        };
+      }
+      throw new ConsumerCheckoutTemporarilyUnavailableError();
+    }
+
+    const metadata = checkoutMetadata(binding, item);
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       success_url: successUrl ?? defaultSuccessUrl,
       cancel_url: cancelUrl ?? defaultCancelUrl,
       client_reference_id: item.id,
-      metadata: {
-        channel: "expungement_ai_consumer",
-        user_id: userId,
-        briefcase_item_id: item.id,
-        result_code: item.resultCode ?? "",
-        source_session_id: item.sourceSessionId ?? "",
-        jurisdiction: item.state,
-        packet_type: item.packetType ?? "",
-        pathway_label: item.pathwayLabel ?? ""
-      },
+      metadata,
       line_items: [
         {
           quantity: 1,
           price_data: {
-            currency: "usd",
+            currency: consumerPacketCurrency,
             unit_amount: consumerPacketPriceCents,
             product_data: {
-              name: "Expungement.ai self-help packet"
+              name: "Expungement.ai self-help packet",
+              metadata: { product_id: CONSUMER_PACKET_PRODUCT_ID }
             }
           }
         }
       ]
+    }, {
+      idempotencyKey: checkoutIdempotencyKey(item.id, item.checkoutSessionId)
     });
 
-    await updateBriefcaseCheckoutSessionMetadata(userId, item.id, {
-      paymentStatus: "unpaid",
-      paymentProvider: "stripe",
-      checkoutSessionId: session.id,
-      amountCents: consumerPacketPriceCents,
-      packetStatus: "not_started"
-    });
+    if (!(await persistCheckoutBinding(binding, session.id, "stripe"))) {
+      throw new ConsumerCheckoutTemporarilyUnavailableError();
+    }
 
     return {
       mode: "stripe",
       checkoutSessionId: session.id,
       checkoutUrl: session.url ?? defaultCancelUrl,
       amountCents: consumerPacketPriceCents,
+      currency: consumerPacketCurrency,
+      outcome: "checkout_created",
       briefcaseItemId: item.id
     };
   } catch (error) {
@@ -138,22 +219,128 @@ export async function createConsumerPacketCheckout({
     }
 
     const dryRunSessionId = dryRunCheckoutSessionId(item.id);
-    await updateBriefcaseCheckoutSessionMetadata(userId, item.id, {
-      paymentStatus: "unpaid",
-      paymentProvider: "dry_run",
-      checkoutSessionId: dryRunSessionId,
-      amountCents: consumerPacketPriceCents,
-      packetStatus: "not_started"
-    });
+    if (!(await persistCheckoutBinding(binding, dryRunSessionId, "dry_run"))) {
+      throw new ConsumerCheckoutTemporarilyUnavailableError();
+    }
 
     return {
       mode: "dry_run",
       checkoutSessionId: dryRunSessionId,
       checkoutUrl: absoluteExpungementAiUrl(`/packet-ready?briefcaseItemId=${encodeURIComponent(item.id)}&session_id=${encodeURIComponent(dryRunSessionId)}&dry_run=1`),
       amountCents: consumerPacketPriceCents,
+      currency: consumerPacketCurrency,
+      outcome: "checkout_created",
       briefcaseItemId: item.id
     };
   }
+}
+
+function checkoutMetadata(binding: ConsumerCheckoutBinding, item: ConsumerBriefcaseItem): Record<string, string> {
+  return {
+    channel: "expungement_ai_consumer",
+    user_id: binding.userId,
+    briefcase_item_id: binding.briefcaseItemId,
+    product_id: binding.productId,
+    person_id: binding.personId,
+    matter_id: binding.matterId,
+    result_code: item.resultCode ?? "",
+    source_session_id: item.sourceSessionId ?? "",
+    jurisdiction: item.state,
+    packet_type: item.packetType ?? "",
+    pathway_label: item.pathwayLabel ?? "",
+    reviewed_input_hash: binding.reviewedInputHash
+  };
+}
+
+async function persistCheckoutBinding(
+  binding: ConsumerCheckoutBinding,
+  checkoutSessionId: string,
+  paymentProvider: "stripe" | "dry_run"
+) {
+  return persistConsumerCheckoutBinding({
+    userId: binding.userId,
+    briefcaseItemId: binding.briefcaseItemId,
+    checkoutSessionId,
+    paymentProvider,
+    productId: binding.productId,
+    personId: binding.personId,
+    matterId: binding.matterId
+  });
+}
+
+async function reconcileReusableCheckoutSession({
+  stripe,
+  session,
+  binding,
+  expectedSuccessUrl,
+  expectedCancelUrl
+}: {
+  stripe: Stripe;
+  session: Stripe.Checkout.Session;
+  binding: ConsumerCheckoutBinding;
+  expectedSuccessUrl: string;
+  expectedCancelUrl: string;
+}): Promise<Stripe.Checkout.Session | null> {
+  if (!checkoutSessionBaseBindingMatches(session, binding)) return null;
+  if (!sameOrigin(session.success_url, expectedSuccessUrl) || !sameOrigin(session.cancel_url, expectedCancelUrl)) return null;
+
+  const desired = {
+    product_id: binding.productId,
+    person_id: binding.personId,
+    matter_id: binding.matterId,
+    reviewed_input_hash: binding.reviewedInputHash
+  };
+  for (const [key, value] of Object.entries(desired)) {
+    const existing = session.metadata?.[key];
+    if (existing && existing !== value) return null;
+  }
+
+  const missing = Object.fromEntries(
+    Object.entries(desired).filter(([key]) => !session.metadata?.[key])
+  );
+  if (Object.keys(missing).length > 0) {
+    return stripe.checkout.sessions.update(session.id, {
+      metadata: missing
+    });
+  }
+  return session;
+}
+
+function checkoutSessionBaseBindingMatches(
+  session: Stripe.Checkout.Session,
+  binding: ConsumerCheckoutBinding
+): boolean {
+  const lineItems = session.line_items?.data ?? [];
+  const line = lineItems[0];
+  const product = line?.price?.product;
+  const productName = product && typeof product !== "string" && !("deleted" in product)
+    ? product.name
+    : null;
+  return session.mode === "payment"
+    && session.client_reference_id === binding.briefcaseItemId
+    && session.metadata?.channel === "expungement_ai_consumer"
+    && session.metadata?.user_id === binding.userId
+    && session.metadata?.briefcase_item_id === binding.briefcaseItemId
+    && session.metadata?.reviewed_input_hash === binding.reviewedInputHash
+    && session.amount_total === consumerPacketPriceCents
+    && (session.currency ?? "").toLowerCase() === "usd"
+    && lineItems.length === 1
+    && line?.quantity === 1
+    && line.amount_total === consumerPacketPriceCents
+    && productName === "Expungement.ai self-help packet";
+}
+
+function sameOrigin(actual: string | null, expected: string): boolean {
+  if (!actual) return false;
+  try {
+    return new URL(actual).origin === new URL(expected).origin;
+  } catch {
+    return false;
+  }
+}
+
+function checkoutIdempotencyKey(itemId: string, previousSessionId?: string) {
+  return `${CONSUMER_PACKET_PRODUCT_ID}:${itemId}:${previousSessionId ?? "initial"}`;
 }
 
 export async function getConsumerCheckoutStatus({
@@ -292,9 +479,30 @@ export function assertCheckoutAllowed(item: ConsumerBriefcaseItem) {
   assertNotExactDeferral(item);
   assertNotComponentDeferral(item);
   assertNotTerminalTreatment(item);
-  if (!item.paymentAllowed || !isConsumerPaymentAllowed(item.resultCode ?? "guidance_only", item.paymentAllowed)) {
+  const packetProduct = item.packetType === "custom_pleading"
+    || item.packetType === "official_pdf_overlay"
+    || item.packetType === "legacy_packet";
+  if (!packetProduct
+    || item.status !== "packet_ready"
+    || !item.state?.trim()
+    || !item.pathwayLabel?.trim()
+    || !item.paymentAllowed
+    || !isConsumerPaymentAllowed(item.resultCode ?? "guidance_only", item.paymentAllowed)) {
     throw new ConsumerCheckoutNotAllowedError(item.resultCode ?? "missing_result_code");
   }
+}
+
+export function assertConsumerCheckoutReviewReady(item: ConsumerBriefcaseItem) {
+  const packetInformation = packetInformationModelFor(item);
+  if (packetInformation
+    && packetInformation.stage === "ready_to_generate"
+    && packetInformation.missingInputIds.length === 0
+    && packetInformation.reviewedAt
+    && packetInformationReviewSafety(item).safe) {
+    return;
+  }
+
+  throw new ConsumerCheckoutReviewRequiredError();
 }
 
 export function isConsumerCheckoutDryRunEnabled(): boolean {
@@ -312,6 +520,13 @@ export class ConsumerCheckoutTemporarilyUnavailableError extends Error {
   constructor() {
     super("Consumer checkout is temporarily unavailable.");
     this.name = "ConsumerCheckoutTemporarilyUnavailableError";
+  }
+}
+
+export class ConsumerCheckoutReviewRequiredError extends Error {
+  constructor() {
+    super("Complete the packet accuracy review before starting Checkout.");
+    this.name = "ConsumerCheckoutReviewRequiredError";
   }
 }
 

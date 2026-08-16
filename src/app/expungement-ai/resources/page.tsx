@@ -23,7 +23,7 @@ import { absoluteExpungementAiUrl } from "@/lib/app-url";
 const CANONICAL = absoluteExpungementAiUrl("/resources");
 const TITLE = "Record-clearing resources by state";
 const DESCRIPTION =
-  "Plain-language record-clearing resources for every state we support. Each state uses its own vocabulary — expungement, sealing, set-aside — and its own process. Self-help information from Expungement.ai. LegalEase is not a law firm.";
+  "Plain-language record-clearing resources for every state we support. Each state uses its own vocabulary, such as expungement, sealing, or set-aside, and its own process. Self-help information from Expungement.ai. LegalEase is not a law firm.";
 
 export const metadata: Metadata = {
   title: `${TITLE} | Expungement.ai`,

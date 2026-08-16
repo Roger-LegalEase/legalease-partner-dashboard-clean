@@ -56,6 +56,111 @@ export async function saveScreeningResultToBriefcase(
   return createBriefcaseItem(input);
 }
 
+export class AuthoritativeBriefcasePersistenceError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "AuthoritativeBriefcasePersistenceError";
+  }
+}
+
+/**
+ * Persist a matter whose route and commercial posture were just recomputed by
+ * the server-owned evaluator. This is intentionally separate from the legacy
+ * authenticated writer: Phase 55 removes browser-role access to route identity
+ * and payment_allowed, so only this service-role boundary may insert them.
+ */
+export async function saveAuthoritativeScreeningResultToBriefcase(input: {
+  authenticatedUserId: string;
+  item: CreateConsumerBriefcaseItemInput;
+}): Promise<ConsumerBriefcaseItem> {
+  if (!input.authenticatedUserId || input.item.userId !== input.authenticatedUserId) {
+    throw new AuthoritativeBriefcasePersistenceError("authenticated owner does not match authoritative matter owner");
+  }
+  if (input.item.itemType !== "result" || !input.item.sourceSessionId) {
+    throw new AuthoritativeBriefcasePersistenceError("authoritative screening persistence requires a source-bound result");
+  }
+
+  const clamped = clampComponentDeferral(clampExactDeferral(clampTerminalTreatment(input.item)));
+  const fallbackItem = fallbackItemFromCreateInput(clamped);
+  const supabase = getSupabaseAdminClient();
+
+  if (!supabase) {
+    if (isCompletelyUnconfiguredSupabase()) {
+      rememberFallbackItem(clamped.userId, fallbackItem);
+      return fallbackItem;
+    }
+    throw new AuthoritativeBriefcasePersistenceError("service-role Briefcase persistence is unavailable");
+  }
+
+  const existing = await supabase
+    .from("consumer_briefcase_items")
+    .select("*")
+    .eq("user_id", input.authenticatedUserId)
+    .eq("source_session_id", clamped.sourceSessionId)
+    .maybeSingle<ConsumerBriefcaseRow>();
+  if (existing.error) {
+    throw new AuthoritativeBriefcasePersistenceError("could not verify authoritative matter idempotency");
+  }
+  if (existing.data) {
+    if (!rowMatchesAuthoritativeMatter(existing.data, clamped)) {
+      throw new AuthoritativeBriefcasePersistenceError("source-bound matter conflicts with authoritative evaluation");
+    }
+    return rowToBriefcaseItem(existing.data);
+  }
+
+  const paymentStatus = clamped.paymentAllowed ? "unpaid" : "not_applicable";
+  const amountCents = clamped.paymentAllowed ? 5000 : null;
+  const inserted = await supabase
+    .from("consumer_briefcase_items")
+    .insert({
+      user_id: input.authenticatedUserId,
+      item_type: clamped.itemType,
+      jurisdiction: clamped.jurisdiction,
+      pathway_label: clamped.pathwayLabel ?? null,
+      result_code: clamped.resultCode ?? null,
+      packet_type: clamped.packetType ?? null,
+      payment_allowed: clamped.paymentAllowed,
+      status: clamped.status,
+      summary_json: { text: clamped.summary },
+      next_steps_json: clamped.nextSteps,
+      artifact_refs_json: clamped.artifactRefs ?? {},
+      payment_status: paymentStatus,
+      amount_cents: amountCents,
+      packet_status: clamped.packetStatus ?? "not_started",
+      reminder_at: clamped.reminderAt ?? null,
+      source_session_id: clamped.sourceSessionId
+    })
+    .select("*")
+    .single<ConsumerBriefcaseRow>();
+
+  if (inserted.error || !inserted.data) {
+    throw new AuthoritativeBriefcasePersistenceError("authoritative Briefcase insert failed");
+  }
+  return rowToBriefcaseItem(inserted.data);
+}
+
+function rowMatchesAuthoritativeMatter(
+  row: ConsumerBriefcaseRow,
+  input: CreateConsumerBriefcaseItemInput
+) {
+  return row.user_id === input.userId
+    && row.item_type === input.itemType
+    && row.jurisdiction === input.jurisdiction
+    && row.pathway_label === (input.pathwayLabel ?? null)
+    && row.result_code === (input.resultCode ?? null)
+    && row.packet_type === (input.packetType ?? null)
+    && row.payment_allowed === input.paymentAllowed
+    && row.status === input.status
+    && row.source_session_id === input.sourceSessionId;
+}
+
+function isCompletelyUnconfiguredSupabase() {
+  return process.env.NODE_ENV !== "production"
+    && !process.env.NEXT_PUBLIC_SUPABASE_URL
+    && !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    && !process.env.SUPABASE_SERVICE_ROLE_KEY;
+}
+
 /**
  * True when the screening session was started through an RCAP partner program. Used to drop the
  * payment gate when saving the result (partner sessions are sponsored). Reuses the same lookup as
@@ -71,10 +176,84 @@ export async function isRcapPartnerScreeningSession(sessionId: string): Promise<
     .select("session_id")
     .eq("session_id", sessionId)
     .eq("flow_mode", "rcap")
+    .eq("partner_benefit_active", true)
     .not("partner_slug", "is", null)
     .maybeSingle<{ session_id: string }>();
 
   return !error && Boolean(data?.session_id);
+}
+
+/**
+ * Merge owner-scoped matter metadata without discarding render, download, or
+ * treatment refs written by another part of the lifecycle. Arrays replace;
+ * plain objects merge recursively.
+ */
+export async function mergeBriefcaseArtifactRefs(
+  userId: string,
+  itemId: string,
+  patch: Record<string, unknown>
+): Promise<ConsumerBriefcaseItem | null> {
+  const supabase = await getConsumerBriefcaseClient();
+
+  if (!supabase) {
+    const items = fallbackItemsForUser(userId);
+    const index = items.findIndex((item) => item.id === itemId);
+    if (index === -1) return null;
+    items[index] = {
+      ...items[index],
+      artifactRefs: mergeArtifactObjects(items[index].artifactRefs ?? {}, patch)
+    };
+    fallbackItemsByUser.set(userId, items);
+    return items[index];
+  }
+
+  // Optimistic concurrency: a webhook or render worker may attach an artifact
+  // between our read and write. Match updated_at and retry from the winner's
+  // bytes instead of overwriting them with a stale snapshot.
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const current = await supabase
+      .from("consumer_briefcase_items")
+      .select("artifact_refs_json, updated_at")
+      .eq("user_id", userId)
+      .eq("id", itemId)
+      .maybeSingle<{ artifact_refs_json: Record<string, unknown>; updated_at: string }>();
+    if (current.error || !current.data) return null;
+
+    const nextUpdatedAt = new Date(Date.now() + attempt).toISOString();
+    const updated = await supabase
+      .from("consumer_briefcase_items")
+      .update({
+        artifact_refs_json: mergeArtifactObjects(current.data.artifact_refs_json ?? {}, patch),
+        updated_at: nextUpdatedAt
+      })
+      .eq("user_id", userId)
+      .eq("id", itemId)
+      .eq("updated_at", current.data.updated_at)
+      .select("*")
+      .maybeSingle<ConsumerBriefcaseRow>();
+
+    if (updated.data) return rowToBriefcaseItem(updated.data);
+    if (updated.error) return null;
+  }
+  return null;
+}
+
+function mergeArtifactObjects(
+  current: Record<string, unknown>,
+  patch: Record<string, unknown>
+): Record<string, unknown> {
+  const merged: Record<string, unknown> = { ...current };
+  for (const [key, value] of Object.entries(patch)) {
+    const existing = merged[key];
+    merged[key] = isPlainObject(existing) && isPlainObject(value)
+      ? mergeArtifactObjects(existing, value)
+      : value;
+  }
+  return merged;
+}
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
 }
 
 /**
@@ -227,83 +406,17 @@ function clampTerminalTreatment(input: CreateConsumerBriefcaseItemInput): Create
 export async function createBriefcaseItem(rawInput: CreateConsumerBriefcaseItemInput): Promise<ConsumerBriefcaseItem> {
   const input = clampComponentDeferral(clampExactDeferral(clampTerminalTreatment(rawInput)));
   const fallbackItem = fallbackItemFromCreateInput(input);
-  const supabase = await getConsumerBriefcaseClient();
-
-  if (!supabase) {
+  if (isCompletelyUnconfiguredSupabase()) {
     rememberFallbackItem(input.userId, fallbackItem);
     return fallbackItem;
   }
-
-  const { data, error } = await supabase
-    .from("consumer_briefcase_items")
-    .insert({
-      user_id: input.userId,
-      item_type: input.itemType,
-      jurisdiction: input.jurisdiction,
-      pathway_label: input.pathwayLabel ?? null,
-      result_code: input.resultCode ?? null,
-      packet_type: input.packetType ?? null,
-      payment_allowed: input.paymentAllowed,
-      status: input.status,
-      summary_json: { text: input.summary },
-      next_steps_json: input.nextSteps,
-      artifact_refs_json: input.artifactRefs ?? {},
-      // Payment columns are deliberately absent. Phase 52 revokes them from
-      // `authenticated`, and naming them here would make every item creation
-      // fail once it is applied. `payment_status` defaults to
-      // 'not_applicable'; a payment-allowed item is moved to its real opening
-      // state just below, through the service role.
-      packet_status: input.packetStatus ?? "not_started",
-      reminder_at: input.reminderAt ?? null,
-      source_session_id: input.sourceSessionId ?? null
-    })
-    .select("*")
-    .single<ConsumerBriefcaseRow>();
-
-  if (error || !data) {
-    rememberFallbackItem(input.userId, fallbackItem);
-    return fallbackItem;
-  }
-
-  const opening = await initializeBriefcasePaymentState(data.id, input);
-  return rowToBriefcaseItem(opening ?? data);
-}
-
-/**
- * Sets the opening payment state for a newly created item.
- *
- * Only 'not_applicable' and 'unpaid' are reachable from here: an item cannot be
- * born paid. Even if a caller asked for that, the `paid_requires_server_evidence`
- * constraint would refuse it, because creation supplies no provider event and no
- * server authority. Skipped entirely when the opening state is already the
- * column default, so the common non-payment item still costs one write.
- */
-async function initializeBriefcasePaymentState(
-  itemId: string,
-  input: CreateConsumerBriefcaseItemInput
-): Promise<ConsumerBriefcaseRow | null> {
-  const paymentStatus = input.paymentStatus ?? (input.paymentAllowed ? "unpaid" : "not_applicable");
-  const amountCents = input.amountCents ?? (input.paymentAllowed ? 5000 : null);
-  if (paymentStatus === "not_applicable" && amountCents === null) return null;
-  if (paymentStatus === "paid" || paymentStatus === "refunded") return null;
-
-  const supabase = getSupabaseAdminClient();
-  if (!supabase) return null;
-
-  const { data } = await supabase
-    .from("consumer_briefcase_items")
-    .update({
-      payment_status: paymentStatus,
-      payment_provider: input.paymentProvider ?? null,
-      checkout_session_id: input.checkoutSessionId ?? null,
-      amount_cents: amountCents,
-      updated_at: new Date().toISOString()
-    })
-    .eq("id", itemId)
-    .select("*")
-    .maybeSingle<ConsumerBriefcaseRow>();
-
-  return data ?? null;
+  // Configured deployments may only create result matters through
+  // saveAuthoritativeScreeningResultToBriefcase. This legacy helper retains a
+  // deterministic unconfigured preview path, but never attempts an
+  // authenticated-role INSERT of Phase55-owned identity/payment columns.
+  throw new AuthoritativeBriefcasePersistenceError(
+    "direct Briefcase creation is retired; use server-authoritative screening persistence"
+  );
 }
 
 export async function listBriefcaseItems(userId: string): Promise<ConsumerBriefcaseItem[]> {
@@ -366,6 +479,20 @@ export async function isPartnerSponsoredPacketItem(item: ConsumerBriefcaseItem):
     .maybeSingle<{ session_id: string }>();
 
   return !error && Boolean(data?.session_id);
+}
+
+/**
+ * Resolve the strictly sponsored subset once on a server-rendered Briefcase
+ * surface. Presentation code receives item ids rather than inferring partner
+ * coverage from browser-controlled fields or a syntactically valid UUID.
+ */
+export async function sponsoredBriefcaseItemIds(
+  items: ConsumerBriefcaseItem[]
+): Promise<string[]> {
+  const sponsored = await Promise.all(items.map(async (item) => (
+    await isPartnerSponsoredPacketItem(item) ? item.id : null
+  )));
+  return sponsored.filter((itemId): itemId is string => itemId !== null);
 }
 
 // Resolves the partner slug that sponsors a Briefcase item, from the RCAP
@@ -591,7 +718,7 @@ export function saveEligibilityCheckToBriefcase(state: string, userId = "local-p
     state,
     status: "check_saved" as const,
     createdAt: startedAt,
-    summary: "Eligibility check started and saved to Briefcase.",
+    summary: "Free guided check started and saved to your Briefcase.",
     nextSteps: ["Finish the screening questions.", "Return here any time to continue."],
     paymentAllowed: false,
     packetReady: false
@@ -696,7 +823,7 @@ export function getConsumerBriefcaseItems(userId = "local-preview-user"): Consum
       state: "PA",
       status: "check_saved",
       createdAt: startedAt,
-      summary: "Wilma explained what a filing checklist is and pointed back to the tool for eligibility.",
+      summary: "Wilma explained what a filing checklist is and pointed back to the free guided check.",
       nextSteps: ["Continue the check from Briefcase."],
       paymentAllowed: false,
       packetReady: false

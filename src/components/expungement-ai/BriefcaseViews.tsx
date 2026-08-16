@@ -3,23 +3,24 @@ import { ArrowRight, Check, CreditCard, Download, LifeBuoy } from "lucide-react"
 import type { ReactNode } from "react";
 import { WilmaBubble } from "@/components/expungement-ai/WilmaBubble";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
-import { matterCareState, type MatterCareState } from "@/lib/expungement-ai/frontend/briefcase-presentation";
+import { humanMatterState, matterCareState, type MatterCareState } from "@/lib/expungement-ai/frontend/briefcase-presentation";
 import { LocalizedRuntimeText, LocalizedText } from "@/components/expungement-ai/LocalizationProvider";
 
 /* ------------------------------------------------------------------ */
 /* Status + stepper model (presentation only; reads engine status)     */
 /* ------------------------------------------------------------------ */
 
-// The filing stepper is always the same five steps. It applies to packet matters only; guidance
-// matters never show it (the spec: a stalled stepper would read as failure).
-const STAGES = [
-  { label: "Free screening", key: "briefcase.stage.free_screening" },
-  { label: "Account created", key: "briefcase.stage.account_created" },
-  { label: "Payment", key: "briefcase.stage.payment" },
+const DTC_STAGES = [
+  { label: "Record check", key: "briefcase.stage.free_screening" },
   { label: "Packet information", key: "briefcase.stage.packet_information" },
-  { label: "Packet generated", key: "briefcase.stage.packet_generated" },
+  { label: "Accuracy review", key: "briefcase.stage.accuracy_review" },
+  { label: "Payment", key: "briefcase.stage.payment" },
+  { label: "Preparing packet", key: "briefcase.stage.preparing_packet" },
+  { label: "Packet ready", key: "briefcase.stage.packet_generated" },
   { label: "Filing next steps", key: "briefcase.stage.filing_next_steps" }
 ] as const;
+
+const SPONSORED_STAGES = DTC_STAGES.filter((stage) => stage.label !== "Payment");
 
 type PillTone = "teal" | "amber" | "gray" | "green" | "red" | "care";
 
@@ -42,26 +43,46 @@ type MatterStatus = {
   stepper: { done: number; current: number } | null;
 };
 
-const CARE_TO_STATUS: Record<MatterCareState, Omit<MatterStatus, "careState" | "isGuidance">> = {
-  guidance_only: { pillLabel: "Guidance saved", pillTone: "teal", stepper: null },
-  saved: { pillLabel: "A path may be available", pillTone: "gray", stepper: { done: 1, current: 1 } },
-  needs_attention: { pillLabel: "Needs your attention", pillTone: "red", stepper: { done: 0, current: 0 } },
-  packet_ready: { pillLabel: "A path may be available", pillTone: "teal", stepper: { done: 2, current: 2 } },
-  completed: { pillLabel: "Packet ready", pillTone: "teal", stepper: { done: 5, current: 5 } },
-  waiting: { pillLabel: "With the court", pillTone: "amber", stepper: { done: 5, current: 5 } },
-  denied: { pillLabel: "Needs a closer look", pillTone: "care", stepper: { done: 1, current: -1 } }
-};
-
 export function matterStatus(item: ConsumerBriefcaseItem): MatterStatus {
   const careState = matterCareState(item);
   const isGuidance = careState === "guidance_only";
-  return { careState, isGuidance, ...CARE_TO_STATUS[careState] };
+  const label = humanMatterState(item);
+  const tone: PillTone = label === "We need a little more information" ? "red"
+    : label === "You may need to wait before taking the next step" || label === "Waiting on the court" ? "amber"
+      : label === "Decision received" ? "green"
+        : label === "Record check saved" ? "gray"
+          : "teal";
+  return { careState, isGuidance, pillLabel: label, pillTone: tone, stepper: stepperForHumanState(label) };
+}
+
+function stepperForHumanState(label: ReturnType<typeof humanMatterState>) {
+  if (label === "Next steps saved" || label === "We need a little more information" || label === "You may need to wait before taking the next step") return null;
+  if (label === "Record check saved") return { done: 1, current: -1 };
+  if (label === "A self-help packet may be available") return { done: 1, current: 1 };
+  if (label === "Packet details in progress") return { done: 1, current: 1 };
+  if (label === "Ready to generate") return { done: 2, current: 2 };
+  if (label === "Payment confirmed") return { done: 3, current: 3 };
+  if (label === "Preparing packet") return { done: 4, current: 4 };
+  if (label === "Packet ready") return { done: 6, current: 6 };
+  return { done: DTC_STAGES.length, current: DTC_STAGES.length - 1 };
 }
 
 const IN_PROGRESS_STATES = new Set<MatterCareState>(["saved", "packet_ready", "completed", "waiting", "needs_attention"]);
 
 function isMatter(item: ConsumerBriefcaseItem) {
   return item.type !== "wilma_conversation";
+}
+
+function isPartnerPresentation(item: ConsumerBriefcaseItem, serverVerified?: boolean) {
+  if (typeof serverVerified === "boolean") return serverVerified;
+  const flow = item.artifactRefs?.commercialFlow;
+  if (flow && typeof flow === "object" && !Array.isArray(flow)
+    && (flow as Record<string, unknown>).entitlementSource === "partner_sponsorship") return true;
+  // Legacy partner matters predate commercialFlow metadata. This combination
+  // only suppresses consumer copy; checkout and generation still use the
+  // strict server-side active-benefit lookup.
+  return Boolean(item.sourceSessionId && !item.paymentAllowed
+    && (item.resultCode === "packet_ready" || item.resultCode === "packet_ready_with_caution"));
 }
 
 function firstName(email?: string) {
@@ -112,12 +133,15 @@ function StatusPill({ label, tone }: { label: string; tone: PillTone }) {
   return <span className={`shrink-0 whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-semibold ${PILL_TONE[tone]}`}><LocalizedRuntimeText text={label} /></span>;
 }
 
-function Stepper({ done, current, className = "" }: { done: number; current: number; className?: string }) {
+function Stepper({ done, current, className = "", sponsored = false }: { done: number; current: number; className?: string; sponsored?: boolean }) {
+  const stages = sponsored ? SPONSORED_STAGES : DTC_STAGES;
+  const visibleDone = sponsored && done > 3 ? done - 1 : done;
+  const visibleCurrent = sponsored && current > 3 ? current - 1 : current;
   return (
     <div className={`flex items-start ${className}`}>
-      {STAGES.map(({ label, key }, i) => {
-        const isDone = i < done;
-        const isCurrent = i === current;
+      {stages.map(({ label, key }, i) => {
+        const isDone = i < visibleDone;
+        const isCurrent = i === visibleCurrent;
         const node = isDone
           ? "border-[#3DD598] bg-[#3DD598] text-white"
           : isCurrent
@@ -125,7 +149,7 @@ function Stepper({ done, current, className = "" }: { done: number; current: num
             : "border-[#D4DAE4] bg-white text-[#8A93A6]";
         return (
           <div key={label} className="relative flex flex-1 flex-col items-center">
-            {i < STAGES.length - 1 ? (
+            {i < stages.length - 1 ? (
               <span className={`absolute left-1/2 top-[9px] h-0.5 w-full ${isDone ? "bg-[#3DD598]" : "bg-[#ECEFF4]"}`} aria-hidden="true" />
             ) : null}
             <span className={`relative z-[1] grid h-[19px] w-[19px] place-items-center rounded-full border-2 text-[9px] font-bold ${node}`}>
@@ -147,10 +171,10 @@ export function MatterStatusBadge({ item }: { item: ConsumerBriefcaseItem }) {
   return <StatusPill label={status.pillLabel} tone={status.pillTone} />;
 }
 
-export function MatterStepper({ item, className = "" }: { item: ConsumerBriefcaseItem; className?: string }) {
+export function MatterStepper({ item, className = "", sponsored }: { item: ConsumerBriefcaseItem; className?: string; sponsored?: boolean }) {
   const status = matterStatus(item);
   if (!status.stepper) return null;
-  return <Stepper done={status.stepper.done} current={status.stepper.current} className={className} />;
+  return <Stepper done={status.stepper.done} current={status.stepper.current} className={className} sponsored={isPartnerPresentation(item, sponsored)} />;
 }
 
 function SectionHeader({ title, action }: { title: string; action?: ReactNode }) {
@@ -172,7 +196,7 @@ export function BriefcaseAuthGate() {
       <section className="mx-auto max-w-xl rounded-2xl border border-[#ECEFF4] bg-white p-6">
         <p className="text-xs font-bold uppercase text-[#00A99D]"><LocalizedText k="briefcase.account_required" fallback="Account required" /></p>
         <h1 className="mt-3 text-3xl font-extrabold"><LocalizedText k="briefcase.sign_in_title" fallback="Sign in to open your Briefcase" /></h1>
-        <p className="mt-3 text-sm leading-6 text-[#5A6275]"><LocalizedText k="briefcase.sign_in_body" fallback="Every Expungement.ai user has an account, and every check, result, packet, reminder, payment, and Wilma conversation is saved to Briefcase." /></p>
+        <p className="mt-3 text-sm leading-6 text-[#5A6275]"><LocalizedText k="briefcase.sign_in_body" fallback="Sign in to see the cases, results, available packets, reminders, payments, and Wilma conversations you chose to save in your Briefcase." /></p>
         <a className="mt-6 inline-flex min-h-11 items-center rounded-[10px] bg-[#FF3B00] px-5 text-sm font-bold text-white" href="/expungement-ai/sign-in?mode=create&next=/briefcase">
           <LocalizedText k="signin.create_submit" fallback="Create account and continue" />
         </a>
@@ -192,7 +216,7 @@ function EmptyBriefcase() {
       </span>
       <h2 className="mt-5 text-[20px] font-bold text-[#0B1320]"><LocalizedText k="briefcase.empty_title" fallback="Start a free record check" /></h2>
       <p className="mx-auto mt-2 max-w-[42ch] text-[14px] leading-6 text-[#5A6275]">
-        <LocalizedText k="briefcase.empty_body" fallback="Answer a few plain questions about your record. It takes about 3 minutes, it's free, and you'll see exactly where you stand before paying anything." />
+        <LocalizedText k="briefcase.empty_body" fallback="Answer a few plain questions about your record. It's free, and you'll see possible next steps before paying anything." />
       </p>
       <Link href="/expungement-ai/check" className="mt-6 inline-flex min-h-12 items-center rounded-[11px] bg-[#FF3B00] px-7 text-[14px] font-bold text-white">
         <LocalizedText k="briefcase.empty_cta" fallback="Start a free record check" />
@@ -207,7 +231,7 @@ function EmptyBriefcase() {
 
 type NextStep = { headline: string; body: string; ctaLabel: string; href: string };
 
-function pickNextStep(matters: ConsumerBriefcaseItem[]): NextStep | null {
+function pickNextStep(matters: ConsumerBriefcaseItem[], sponsoredItemIds: Set<string>): NextStep | null {
   const order: MatterCareState[] = ["needs_attention", "packet_ready", "completed", "waiting", "guidance_only", "saved"];
   for (const target of order) {
     const item = matters.find((m) => matterCareState(m) === target);
@@ -218,13 +242,16 @@ function pickNextStep(matters: ConsumerBriefcaseItem[]): NextStep | null {
       case "needs_attention":
         return { headline: `Finish your ${item.title} check`, body: "We need one more thing before this can move forward. Open it to see what to add.", ctaLabel: "See what we need", href };
       case "packet_ready":
-        if (item.paymentAllowed && item.paymentStatus !== "paid") {
-          return { headline: "A path may be available.", body: `Open ${item.title} to continue to payment before packet generation.`, ctaLabel: "Continue to payment", href: `/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(item.id)}` };
-        }
-        if (!item.paymentAllowed && item.sourceSessionId) {
+        if (isPartnerPresentation(item, sponsoredItemIds.has(item.id))) {
           return { headline: "Your record-clearing packet is covered through your partner.", body: "We need a few more details before we can generate your documents and next-step instructions.", ctaLabel: "Finish my packet information", href };
         }
-        return { headline: "Your packet is almost ready.", body: "We need a few more details before we can generate your documents and next-step instructions.", ctaLabel: "Finish my packet information", href };
+        if (item.paymentStatus === "paid") {
+          return { headline: humanMatterState(item), body: "Your payment applies to this matter only. Open it to see packet preparation progress.", ctaLabel: "Open matter", href };
+        }
+        if (humanMatterState(item) === "Ready to generate") {
+          return { headline: "Ready to generate", body: "$50 one time for this matter. Review it before you choose to generate the packet.", ctaLabel: "Review for accuracy", href: `/briefcase/${item.id}/review` };
+        }
+        return { headline: humanMatterState(item), body: "Your Briefcase is free. Complete the packet information before deciding whether to generate it.", ctaLabel: "Complete packet information", href: `/briefcase/${item.id}/packet-information` };
       case "completed":
         return { headline: "Packet ready", body: `Your packet for ${item.title} is ready with filing next steps.`, ctaLabel: "Download my packet", href };
       case "waiting":
@@ -250,7 +277,7 @@ function StatCard({ label, value, sub, teal = false }: { label: string; value: n
   );
 }
 
-export function BriefcaseOverview({ items, userEmail }: { items: ConsumerBriefcaseItem[]; userEmail?: string }) {
+export function BriefcaseOverview({ items, userEmail, sponsoredItemIds = [] }: { items: ConsumerBriefcaseItem[]; userEmail?: string; sponsoredItemIds?: string[] }) {
   const matters = items.filter(isMatter);
   if (matters.length === 0) return <EmptyBriefcase />;
 
@@ -258,7 +285,8 @@ export function BriefcaseOverview({ items, userEmail }: { items: ConsumerBriefca
   const inProgress = matters.filter((m) => IN_PROGRESS_STATES.has(matterCareState(m)));
   const readyToFile = matters.filter((m) => ["packet_ready", "completed"].includes(matterCareState(m)));
   const documents = matters.filter((m) => packetArtifactFor(m) !== null);
-  const next = pickNextStep(matters);
+  const sponsoredIds = new Set(sponsoredItemIds);
+  const next = pickNextStep(matters, sponsoredIds);
   const recordWord = inProgress.length === 1 ? "record" : "records";
 
   return (
@@ -297,7 +325,7 @@ export function BriefcaseOverview({ items, userEmail }: { items: ConsumerBriefca
       <SectionHeader title="Your matters" action={<Link href="/briefcase/matters" className="text-[13px] font-semibold text-[#00A99D]"><LocalizedText k="briefcase.view_all" fallback="View all" /></Link>} />
       <div className="grid gap-4 md:grid-cols-2">
         {matters.map((item) => (
-          <MatterCard key={item.id} item={item} />
+          <MatterCard key={item.id} item={item} sponsored={sponsoredIds.has(item.id)} />
         ))}
       </div>
     </section>
@@ -308,7 +336,7 @@ export function BriefcaseOverview({ items, userEmail }: { items: ConsumerBriefca
 /* Matter card (grid)                                                  */
 /* ------------------------------------------------------------------ */
 
-function MatterCard({ item }: { item: ConsumerBriefcaseItem }) {
+function MatterCard({ item, sponsored }: { item: ConsumerBriefcaseItem; sponsored?: boolean }) {
   const status = matterStatus(item);
   const subtitle = matterSubtitle(item) || item.summary;
   return (
@@ -326,7 +354,7 @@ function MatterCard({ item }: { item: ConsumerBriefcaseItem }) {
         <StatusPill label={status.pillLabel} tone={status.pillTone} />
       </div>
       {status.stepper ? (
-        <Stepper done={status.stepper.done} current={status.stepper.current} className="mt-1.5" />
+        <Stepper done={status.stepper.done} current={status.stepper.current} className="mt-1.5" sponsored={isPartnerPresentation(item, sponsored)} />
       ) : (
         <p className="rounded-[10px] bg-[#F7F3EC] px-3.5 py-2.5 text-[12.5px] leading-5 text-[#5A6275]">
           <LocalizedText k="briefcase.guidance_card" fallback="What we can do here: we saved your state-specific next steps. Open this matter to read them." />
@@ -340,8 +368,9 @@ function MatterCard({ item }: { item: ConsumerBriefcaseItem }) {
 /* My matters / Documents / Payments / Settings / Reminders            */
 /* ------------------------------------------------------------------ */
 
-export function MattersView({ items }: { items: ConsumerBriefcaseItem[] }) {
+export function MattersView({ items, sponsoredItemIds = [] }: { items: ConsumerBriefcaseItem[]; sponsoredItemIds?: string[] }) {
   const matters = items.filter(isMatter);
+  const sponsoredIds = new Set(sponsoredItemIds);
   if (matters.length === 0) return <EmptyBriefcase />;
   return (
     <section>
@@ -349,7 +378,7 @@ export function MattersView({ items }: { items: ConsumerBriefcaseItem[] }) {
       <p className="mt-1 text-[13px] text-[#8A93A6]"><LocalizedText k="briefcase.my_matters_body" fallback="Each record you check is saved here as its own matter. Open one to see its documents and next steps." /></p>
       <div className="mt-5 grid gap-4 md:grid-cols-2">
         {matters.map((item) => (
-          <MatterCard key={item.id} item={item} />
+          <MatterCard key={item.id} item={item} sponsored={sponsoredIds.has(item.id)} />
         ))}
       </div>
     </section>
@@ -384,8 +413,11 @@ export function RemindersView() {
   );
 }
 
-export function PaymentsView({ items }: { items: ConsumerBriefcaseItem[] }) {
-  const paid = items.filter((item) => item.packetReady);
+export function PaymentsView({ items, sponsoredItemIds }: { items: ConsumerBriefcaseItem[]; sponsoredItemIds?: string[] }) {
+  const sponsoredIds = sponsoredItemIds ? new Set(sponsoredItemIds) : null;
+  const isSponsored = (item: ConsumerBriefcaseItem) => isPartnerPresentation(item, sponsoredIds?.has(item.id));
+  const paid = items.filter((item) => item.paymentStatus === "paid" && !isSponsored(item));
+  const hasConsumerMatter = items.some((item) => !isSponsored(item));
   return (
     <section className="rounded-[14px] border border-[#ECEFF4] bg-white p-6">
       <h1 className="flex items-center gap-2 text-[22px] font-extrabold text-[#0B1320]"><CreditCard className="h-5 w-5" aria-hidden="true" /> <LocalizedText k="briefcase.payment_history" fallback="Payment history" /></h1>
@@ -400,22 +432,30 @@ export function PaymentsView({ items }: { items: ConsumerBriefcaseItem[] }) {
             </div>
           ))
         ) : (
-          <p className="text-[13px] text-[#5A6275]"><LocalizedText k="briefcase.no_payments" fallback="No payments yet. You only pay when a packet is ready, and you will see the price first." /></p>
+          <p className="text-[13px] text-[#5A6275]">
+            {hasConsumerMatter
+              ? <LocalizedText k="briefcase.no_payments" fallback="No consumer packet payments yet. Payment appears only on a ready-to-generate consumer matter." />
+              : "Your partner-covered matters do not use consumer payment."}
+          </p>
         )}
       </div>
     </section>
   );
 }
 
-export function SettingsView() {
+export function SettingsView({ items = [], sponsoredItemIds }: { items?: ConsumerBriefcaseItem[]; sponsoredItemIds?: string[] }) {
+  const sponsoredIds = sponsoredItemIds ? new Set(sponsoredItemIds) : null;
+  const showConsumerPayments = items.length === 0 || items.some((item) => !isPartnerPresentation(item, sponsoredIds?.has(item.id)));
   return (
     <section id="profile" className="rounded-[14px] border border-[#ECEFF4] bg-white p-6">
       <h1 className="text-[22px] font-extrabold text-[#0B1320]"><LocalizedText k="briefcase.profile_settings" fallback="Profile and settings" /></h1>
       <p className="mt-3 text-[14px] leading-6 text-[#5A6275]"><LocalizedText k="briefcase.settings_body" fallback="Your account preferences live here. This pass does not change partner auth, sessions, or billing." /></p>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Link className="inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href="/briefcase/payments">
-          <CreditCard className="h-4 w-4" aria-hidden="true" /> <LocalizedText k="briefcase.payment_history" fallback="Payment history" />
-        </Link>
+        {showConsumerPayments ? (
+          <Link className="inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href="/briefcase/payments">
+            <CreditCard className="h-4 w-4" aria-hidden="true" /> <LocalizedText k="briefcase.payment_history" fallback="Payment history" />
+          </Link>
+        ) : null}
         <Link className="inline-flex min-h-11 items-center gap-2 rounded-[10px] border border-[#D9DEE8] px-5 text-sm font-bold text-[#0B1320]" href="/expungement-ai/support">
           <LifeBuoy className="h-4 w-4" aria-hidden="true" /> <LocalizedText k="briefcase.technical_support" fallback="Get technical support" />
         </Link>

@@ -55,7 +55,7 @@ export default async function PartnerAccessCodesPage() {
             Access codes help you control who uses your sponsored packet allocation. You can create one shared code,
             multiple campaign codes, single-use invite codes, or no codes at all. Packet credits are only used when
             Expungement.ai successfully generates a personalized record-clearing packet &mdash; screenings, account
-            creation, and ineligible results do not use packet credits.
+            creation, and results without a packet do not use an available packet.
           </p>
         </header>
 

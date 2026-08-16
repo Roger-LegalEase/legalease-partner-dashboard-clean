@@ -14,9 +14,9 @@ export async function GET() {
 
   const xml = buildRssFeed({
     surface: "expungement_ai",
-    title: "Expungement.ai — Record-clearing articles",
+    title: "Expungement.ai | Record-clearing articles",
     description:
-      "Plain-language articles about clearing a criminal record: how the process works, what to prepare, and what to expect from the court. Self-help information — not legal advice.",
+      "Plain-language articles about clearing a criminal record: how the process works, what to prepare, and what to expect from the court. Self-help information, not legal advice.",
     indexPath: "/blog",
     feedPath: "/blog/feed.xml",
     articles,

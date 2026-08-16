@@ -53,7 +53,7 @@ const branchPresentation: Record<ExpungementAiResultCode, BranchPresentation> = 
     icon: Bell
   },
   guidance_only: {
-    tag: "Guidance saved",
+    tag: "Next steps saved",
     title: "We can give you next steps for your state.",
     body: "We saved state-specific guidance to your Briefcase. This path does not show a paid packet action.",
     primary: "Open guidance in Briefcase",

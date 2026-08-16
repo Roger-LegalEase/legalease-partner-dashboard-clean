@@ -88,7 +88,7 @@ export function MississippiProposedOrderPlaceholder() {
 export function MississippiMissingFieldsPanel({ packet }: { packet: RcapDocumentPacket }) {
   return (
     <section className="rounded-md border border-orange/30 bg-orange/10 p-5 print:hidden">
-      <h2 className="text-lg font-black text-navy">More information needed</h2>
+      <h2 className="text-lg font-black text-navy">We need a little more information</h2>
       <p className="mt-2 text-sm leading-6 text-grayWilma-800">
         You can still start even if you do not have every paper in front of you. These details should be checked before this draft is treated as a filing packet.
       </p>

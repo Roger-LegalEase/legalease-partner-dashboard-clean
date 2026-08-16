@@ -1,13 +1,11 @@
 import fs from "node:fs";
-import Module from "node:module";
+import { register } from "node:module";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { createRequire } from "node:module";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
-const require = createRequire(import.meta.url);
-const ts = require("typescript");
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const moduleCache = new Map();
 const failures = [];
 
 const requiredRoutes = [
@@ -46,8 +44,24 @@ const packetActionsSource = readSource("src/components/rcap/documents/DocumentPa
 const briefcaseSource = readSource("src/app/briefcase/page.tsx");
 const signInSource = readSource("src/app/sign-in/page.tsx");
 
-if (!publicRouteSource.includes("PartnerLandingPageTemplate") || !publicRouteSource.includes("getPartnerRecordBySlug")) {
-  failures.push("We Must Vote public signup route does not use the partner landing page path.");
+function usesAuthoritativePublicLandingRoute(source) {
+  return source.includes("PartnerLandingPageTemplate")
+    && source.includes("getAuthoritativelyPublicPartnerRecord")
+    && !source.includes('from "@/lib/partners/partner-repository"');
+}
+
+if (!usesAuthoritativePublicLandingRoute(publicRouteSource)) {
+  failures.push("We Must Vote public signup route does not use the authoritative partner landing page path.");
+}
+
+// Negative control: the pre-publication-gate route read the partner repository
+// directly. Re-introducing that shape must turn this verifier red even though
+// it would still render the same PartnerLandingPageTemplate.
+const publicRouteBypassMutation = publicRouteSource
+  .replaceAll("getAuthoritativelyPublicPartnerRecord", "getPartnerRecordBySlug")
+  .replace('from "@/lib/partners/public-partner-page"', 'from "@/lib/partners/partner-repository"');
+if (usesAuthoritativePublicLandingRoute(publicRouteBypassMutation)) {
+  failures.push("Negative control failed: a direct partner-repository read bypassed the public launch gate.");
 }
 
 if (!staticLandingExists) {
@@ -118,8 +132,24 @@ for (const name of footerLegalPages) {
   }
 }
 
-if (!proxySource.includes('request.nextUrl.pathname === "/p/we-must-vote"') || !proxySource.includes('NextResponse.rewrite(new URL("/wemustvote-landing.html", request.url))')) {
+if (!proxySource.includes("shouldUseStaticWeMustVoteLanding") || !proxySource.includes('NextResponse.rewrite(new URL("/wemustvote-landing.html", request.url))')) {
   failures.push("Proxy does not map /p/we-must-vote to the static We Must Vote landing page.");
+}
+
+const { shouldUseStaticWeMustVoteLanding } = await loadTsModule(path.join(rootDir, "src/lib/partners/we-must-vote-routing.ts"));
+if (!shouldUseStaticWeMustVoteLanding("/p/we-must-vote", "legaleasepartner.com")) {
+  failures.push("Canonical production host must keep the protected static We Must Vote landing.");
+}
+if (!shouldUseStaticWeMustVoteLanding("/p/we-must-vote", "www.legaleasepartner.com:443")) {
+  failures.push("Canonical www production host must keep the protected static We Must Vote landing before canonicalization.");
+}
+for (const previewHost of ["localhost:3000", "preview.example.test", "acceptance.trycloudflare.com"]) {
+  if (shouldUseStaticWeMustVoteLanding("/p/we-must-vote", previewHost)) {
+    failures.push(`Preview host ${previewHost} must render the dynamic same-origin We Must Vote landing.`);
+  }
+}
+if (shouldUseStaticWeMustVoteLanding("/p/demo-partner", "legaleasepartner.com")) {
+  failures.push("The protected static landing guard must not capture another partner slug.");
 }
 
 // The proxy was refactored from an explicit middleware `matcher` array (e.g. "/internal/:path*",
@@ -300,8 +330,8 @@ for (const unrelated of ["Illinois", "Pennsylvania", "District of Columbia", "Ha
   }
 }
 
-const { seedPartners } = loadTsModule(path.join(rootDir, "src/lib/partners/seed-partners.ts"));
-const { buildPartnerLandingPageData } = loadTsModule(path.join(rootDir, "src/lib/partners/landing-page.ts"));
+const { seedPartners } = await loadTsModule(path.join(rootDir, "src/lib/partners/seed-partners.ts"));
+const { buildPartnerLandingPageData } = await loadTsModule(path.join(rootDir, "src/lib/partners/landing-page.ts"));
 const partner = seedPartners.find((record) => record.partnerSlug === "we-must-vote");
 if (!partner) {
   failures.push("We Must Vote partner seed record is missing.");
@@ -346,50 +376,5 @@ function readSource(file) {
 }
 
 function loadTsModule(filePath) {
-  const cached = moduleCache.get(filePath);
-  if (cached) return cached.exports;
-
-  const source = fs.readFileSync(filePath, "utf8");
-  const output = ts.transpileModule(source, {
-    compilerOptions: {
-      module: ts.ModuleKind.CommonJS,
-      target: ts.ScriptTarget.ES2022,
-      jsx: ts.JsxEmit.ReactJSX,
-      esModuleInterop: true,
-      allowSyntheticDefaultImports: true,
-      moduleResolution: ts.ModuleResolutionKind.NodeJs,
-      resolveJsonModule: true,
-      skipLibCheck: true
-    },
-    fileName: filePath
-  }).outputText;
-
-  const loadedModule = new Module(filePath);
-  loadedModule.filename = filePath;
-  loadedModule.paths = Module._nodeModulePaths(path.dirname(filePath));
-  moduleCache.set(filePath, loadedModule);
-
-  const originalResolve = Module._resolveFilename;
-  Module._resolveFilename = function resolveAlias(request, parent, isMain, options) {
-    if (request.startsWith("@/")) {
-      return originalResolve.call(this, path.join(rootDir, "src", request.slice(2)), parent, isMain, options);
-    }
-    if (request.startsWith(".")) {
-      const basePath = path.resolve(path.dirname(parent?.filename ?? filePath), request);
-      for (const candidate of [basePath, `${basePath}.ts`, `${basePath}.tsx`, path.join(basePath, "index.ts")]) {
-        if (fs.existsSync(candidate)) {
-          return candidate;
-        }
-      }
-    }
-    return originalResolve.call(this, request, parent, isMain, options);
-  };
-
-  try {
-    loadedModule._compile(output, filePath);
-  } finally {
-    Module._resolveFilename = originalResolve;
-  }
-
-  return loadedModule.exports;
+  return import(pathToFileURL(filePath).href);
 }

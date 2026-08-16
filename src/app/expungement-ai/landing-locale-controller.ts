@@ -79,10 +79,31 @@ export function applyExpungementLocale(locale: Locale, options: ApplyLocaleOptio
     const value = dictionary[key];
     if (typeof value === "string") element.innerHTML = value;
   });
+  for (const attribute of ["aria-label", "alt", "title"] as const) {
+    document.querySelectorAll<HTMLElement>(`[data-i18n-${attribute}]`).forEach((element) => {
+      const key = element.getAttribute(`data-i18n-${attribute}`) ?? "";
+      const value = dictionary[key];
+      if (typeof value === "string") element.setAttribute(attribute, value);
+    });
+  }
 
   root.setAttribute("lang", normalizedLocale);
   root.dataset.locale = normalizedLocale;
   root.dataset.expungementAiLocale = normalizedLocale;
+
+  if (dictionary._title) document.title = dictionary._title;
+  for (const selector of [
+    'meta[name="description"]',
+    'meta[property="og:description"]',
+    'meta[name="twitter:description"]'
+  ]) {
+    const meta = document.querySelector<HTMLMetaElement>(selector);
+    if (meta && dictionary._desc) meta.content = dictionary._desc;
+  }
+  for (const selector of ['meta[property="og:title"]', 'meta[name="twitter:title"]']) {
+    const meta = document.querySelector<HTMLMetaElement>(selector);
+    if (meta && dictionary._title) meta.content = dictionary._title;
+  }
 
   document.querySelectorAll<HTMLButtonElement>("[data-lang]").forEach((button) => {
     const active = button.getAttribute("data-lang") === normalizedLocale;

@@ -29,16 +29,16 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     if (error instanceof ConsumerPacketNotFoundError) {
-      return NextResponse.json({ error: "Briefcase item not found." }, { status: 404 });
+      return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
     }
     if (error instanceof ConsumerPacketPaymentRequiredError) {
       return NextResponse.json({ error: "Payment confirmation is required before packet download." }, { status: 402 });
     }
     if (error instanceof ConsumerPacketNotAllowedError) {
-      return NextResponse.json({ error: "Packet download is not available for this result.", resultCode: error.resultCode }, { status: 403 });
+      return NextResponse.json({ error: "This packet isn’t available to download. Your information is still saved. Return to your Briefcase or contact support." }, { status: 403 });
     }
     if (error instanceof ConsumerPacketNotReadyError) {
-      return NextResponse.json({ error: "Packet is not ready for download." }, { status: 409 });
+      return NextResponse.json({ error: "Your packet is still being prepared. Your information is saved. Return to your Briefcase and try again in a few minutes." }, { status: 409 });
     }
     throw error;
   }

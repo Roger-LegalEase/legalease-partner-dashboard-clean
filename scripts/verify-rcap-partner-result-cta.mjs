@@ -1,13 +1,15 @@
-// Regression: the screening result CTA must match the flow the user arrived through, and partner
-// mode must be detected from the ?session= UUID even when the server render did not carry the prop.
+// Regression: the screening result CTA must match the server-authoritative flow
+// the user arrived through. A UUID-shaped query value is not partner authority.
 //
-// - Direct-to-consumer (no ?session=): the result keeps the "$50" pay CTA.
-// - Partner/session mode (a valid ?session= UUID, from the prop OR read from the URL on the client):
-//   the result must NOT show "$50", must offer a Briefcase action, and must route to /briefcase —
-//   never the DTC /expungement-ai/pay payment gate.
+// - Direct-to-consumer (no ?session=): the result discloses the $50 packet
+//   price, but saves the matter before the later builder/review pay gate.
+// - Partner/session mode (only after the server verifies an active RCAP-benefit
+//   session and supplies the prop): the result must NOT show "$50", must offer
+//   a Briefcase action, and must route to the exact saved matter, never a
+//   consumer payment gate.
 //
-// Renders the real ScreeningResult; drives `hasScreeningSession` through the same
-// resolvePartnerSessionId() the client flow uses; and checks the route/flow wiring in source.
+// Renders the real ScreeningResult and checks the route/flow authority wiring in
+// source so the browser cannot opt itself into sponsored presentation.
 import { register } from "node:module";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
@@ -17,7 +19,13 @@ import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
 const { ScreeningResult } = await import("../src/components/expungement-ai/screening/ScreeningResult.tsx");
-const { resolvePartnerSessionId, isSafeSessionId } = await import("../src/components/expungement-ai/screening/partner-session.ts");
+const { isSafeSessionId } = await import("../src/components/expungement-ai/screening/partner-session.ts");
+const {
+  BriefcaseItemCard,
+  BriefcaseOverview,
+  MatterStepper,
+  PaymentsView
+} = await import("../src/components/expungement-ai/BriefcaseViews.tsx");
 
 const failures = [];
 function assert(condition, message) {
@@ -64,12 +72,6 @@ function renderResult(hasScreeningSession) {
   );
 }
 
-// Render exactly how ScreeningFlow decides the mode: no server prop, only the URL ?session= value.
-function renderForUrlSession(urlSessionId) {
-  const isPartnerSession = Boolean(resolvePartnerSessionId(undefined, urlSessionId));
-  return renderResult(isPartnerSession);
-}
-
 function renderResultWithCode(resultCode, hasScreeningSession, paymentAllowed) {
   return renderToStaticMarkup(
     React.createElement(ScreeningResult, {
@@ -98,75 +100,161 @@ const PARTNER_LANES = [
 for (const lane of PARTNER_LANES) {
   const partnerHtml = renderResultWithCode(lane.code, true, lane.pay);
   assert(partnerHtml.includes(lane.label), `Partner lane ${lane.code} must render "${lane.label}".`);
-  assert(!partnerHtml.includes("$50"), `Partner lane ${lane.code} must never render a price.`);
+  assert(!/\$50|stripe|checkout/i.test(partnerHtml), `Partner lane ${lane.code} must never render price, Stripe, or Checkout copy.`);
   const dtcHtml = renderResultWithCode(lane.code, false, lane.pay);
   assert(!dtcHtml.includes(lane.label), `DTC must never render the partner lane label "${lane.label}".`);
 }
 
-// 1) A valid ?session= read from the URL (no server prop) must NOT show "$50" — it is partner mode.
-const fromUrl = renderForUrlSession(VALID_SESSION);
-assert(!fromUrl.includes("$50"), "URL ?session=<valid uuid> must NOT render '$50' (partner mode).");
-assert(fromUrl.includes("Continue to packet builder"), "URL ?session=<valid uuid> must render the partner packet-builder lane CTA.");
+// Shared Briefcase regression: sponsored and guidance matters use the same
+// account shell as DTC, but their own cards, steppers, and payment history must
+// never inherit consumer checkout copy. Render the real shared components so
+// this stays implementation-agnostic.
+const fixtureBase = {
+  type: "result",
+  state: "Mississippi",
+  createdAt: "2026-08-15T00:00:00.000Z",
+  summary: "Saved result.",
+  nextSteps: ["Review your saved next steps."],
+  packetReady: false,
+  packetStatus: "not_started"
+};
+const sponsoredPacket = {
+  ...fixtureBase,
+  id: "11111111-1111-4111-8111-111111111111",
+  title: "Mississippi partner-covered packet",
+  status: "packet_ready",
+  resultCode: "packet_ready_with_caution",
+  pathwayLabel: "Non-conviction expungement",
+  packetType: "custom_pleading",
+  packetReady: true,
+  paymentAllowed: false,
+  paymentStatus: "not_applicable",
+  sourceSessionId: VALID_SESSION
+};
+const guidanceMatter = {
+  ...fixtureBase,
+  id: "22222222-2222-4222-8222-222222222222",
+  title: "Mississippi guidance",
+  status: "guidance_saved",
+  resultCode: "guidance_only",
+  pathwayLabel: "State-specific next steps",
+  packetType: "guidance_packet",
+  paymentAllowed: false,
+  paymentStatus: "not_applicable",
+  sourceSessionId: VALID_SESSION
+};
+const dtcPacket = {
+  ...fixtureBase,
+  id: "33333333-3333-4333-8333-333333333333",
+  title: "Mississippi consumer packet",
+  status: "packet_ready",
+  resultCode: "packet_ready_with_caution",
+  pathwayLabel: "Non-conviction expungement",
+  packetType: "custom_pleading",
+  packetReady: true,
+  paymentAllowed: true,
+  paymentStatus: "unpaid"
+};
+const dtcPaidPacket = {
+  ...dtcPacket,
+  id: "44444444-4444-4444-8444-444444444444",
+  paymentStatus: "paid"
+};
+
+const sponsoredOverviewHtml = renderToStaticMarkup(
+  React.createElement(BriefcaseOverview, { items: [sponsoredPacket], userEmail: "synthetic@example.test" })
+);
+const sponsoredStepperHtml = renderToStaticMarkup(React.createElement(MatterStepper, { item: sponsoredPacket }));
+const sponsoredPaymentsHtml = renderToStaticMarkup(React.createElement(PaymentsView, { items: [sponsoredPacket] }));
+for (const [surface, html] of [
+  ["sponsored Briefcase overview", sponsoredOverviewHtml],
+  ["sponsored matter stepper", sponsoredStepperHtml],
+  ["sponsored payment history", sponsoredPaymentsHtml]
+]) {
+  assert(!/\$50|stripe|checkout|continue to payment|you only pay/i.test(html), `${surface} must not leak DTC payment copy.`);
+}
+assert(!/>Payment</.test(sponsoredStepperHtml), "Sponsored matter stepper must not include a Payment stage.");
+assert(/covered through your partner|partner-covered/i.test(sponsoredOverviewHtml), "Sponsored Briefcase overview must explain partner coverage.");
+
+const guidanceOverviewHtml = renderToStaticMarkup(
+  React.createElement(BriefcaseOverview, { items: [guidanceMatter], userEmail: "synthetic@example.test" })
+);
+const guidanceCardHtml = renderToStaticMarkup(React.createElement(BriefcaseItemCard, { item: guidanceMatter }));
+const guidanceStepperHtml = renderToStaticMarkup(React.createElement(MatterStepper, { item: guidanceMatter }));
+assert(guidanceOverviewHtml.includes("Guidance saved"), "Guidance matter must render its completed Guidance saved value.");
+assert(guidanceStepperHtml === "", "Guidance matter must not render a disabled packet stepper.");
+assert(!/\$50|stripe|checkout|payment|generate my packet/i.test(`${guidanceOverviewHtml}\n${guidanceCardHtml}`), "Guidance surfaces must not leak packet payment or generation copy.");
+
+const dtcStepperHtml = renderToStaticMarkup(React.createElement(MatterStepper, { item: dtcPacket }));
+const dtcPaymentsHtml = renderToStaticMarkup(React.createElement(PaymentsView, { items: [dtcPaidPacket] }));
+assert(/>Payment</.test(dtcStepperHtml), "DTC packet matter must retain its Payment stage.");
 assert(
-  fromUrl.includes("This screening started through a partner program. You will not be asked to pay here."),
-  "URL ?session=<valid uuid> must render the no-charge partner helper text."
+  dtcStepperHtml.indexOf("Packet information") < dtcStepperHtml.indexOf("Payment"),
+  "DTC matter stepper must put free packet information before the later Payment stage."
+);
+assert(dtcPaymentsHtml.includes("$50"), "DTC payment history must retain its matter-level $50 price.");
+
+// 1) Only a server-verified partner prop renders the sponsored lane.
+const serverVerifiedPartner = renderResult(true);
+assert(!serverVerifiedPartner.includes("$50"), "A server-verified partner session must not render '$50'.");
+assert(serverVerifiedPartner.includes("Continue to packet builder"), "A server-verified partner session must render the partner packet-builder lane CTA.");
+assert(
+  serverVerifiedPartner.includes("This screening started through a partner program. You will not be asked to pay here."),
+  "A server-verified partner session must render the no-charge partner helper text."
 );
 
-// 2) No session must still show the DTC "$50" CTA.
-const noSession = renderForUrlSession(null);
-assert(noSession.includes("Generate my packet - $50"), "No session must render the DTC 'Generate my packet - $50' CTA.");
+// 2) No verified server prop keeps the DTC price disclosure and saves before payment.
+const noSession = renderResult(false);
+assert(noSession.includes("$50 one time when you are ready to generate this packet"), "No session must render the DTC $50 packet disclosure.");
+assert(noSession.includes("Save this matter and continue"), "No session must render the DTC save-before-payment CTA.");
+assert(!noSession.includes("Generate my packet - $50"), "The result must not offer immediate pay-and-generate before the builder/review gate.");
 assert(!noSession.includes("Continue to packet builder"), "No session must not render a partner lane CTA.");
 
-// 3) Invalid / non-v1-5 session query must NOT trigger partner mode (stays DTC "$50").
+// 3) URL shape validation is only an input gate for the server lookup. Invalid
+// query values are rejected before lookup, and even a valid UUID is not itself
+// enough to make the client render partner mode.
 for (const bad of [GARBAGE_SESSION, V7_SESSION, ""]) {
-  assert(renderForUrlSession(bad).includes("Generate my packet - $50"), `Invalid session ${JSON.stringify(bad)} must stay DTC ($50).`);
-  assert(resolvePartnerSessionId(undefined, bad) === undefined, `resolvePartnerSessionId must reject invalid session ${JSON.stringify(bad)}.`);
+  assert(isSafeSessionId(bad) === false, `isSafeSessionId must reject invalid session ${JSON.stringify(bad)}.`);
 }
-
-// Direct helper checks (prop path + validation).
-assert(resolvePartnerSessionId(undefined, VALID_SESSION) === VALID_SESSION, "URL session should resolve when the prop is absent.");
-assert(resolvePartnerSessionId(VALID_SESSION, null) === VALID_SESSION, "Server prop session should resolve when the URL has none.");
 assert(isSafeSessionId(VALID_SESSION) === true, "isSafeSessionId must accept a valid v4 session.");
 assert(isSafeSessionId(V7_SESSION) === false, "isSafeSessionId must reject a v7 session.");
 assert(isSafeSessionId(null) === false, "isSafeSessionId must reject null.");
 
-// 4) A DTC save-progress-created sessionId must NOT flip the user into partner mode. Partner mode is
-//    resolved only from (server prop, URL) — never the live sessionId state — so a later sessionId is
-//    irrelevant. Helper-level proof: with neither prop nor URL session, the result stays undefined.
-assert(resolvePartnerSessionId(undefined, null) === undefined, "No arrival session => DTC, regardless of any later live sessionId.");
-
-// Source wiring: ScreeningFlow derives partner mode from the prop-or-URL session, not the live state.
+// Source wiring: ScreeningFlow derives partner mode only from the server prop,
+// never from URL search params or the later client-side save-progress state.
 const flowSrc = readFileSync(path.join(process.cwd(), "src/components/expungement-ai/screening/ScreeningFlow.tsx"), "utf8");
-assert(/import \{ useRouter, useSearchParams \} from "next\/navigation";/.test(flowSrc), "ScreeningFlow must import useSearchParams.");
+assert(!flowSrc.includes("useSearchParams"), "ScreeningFlow must not treat browser search params as partner authority.");
 assert(
-  /const effectiveInitialSessionId = resolvePartnerSessionId\(initialSessionId, searchParams\.get\("session"\)\);/.test(flowSrc),
-  "ScreeningFlow must resolve the effective session from the prop OR the URL ?session=."
+  /const effectiveInitialSessionId = initialSessionId;/.test(flowSrc),
+  "ScreeningFlow must accept partner authority only through the server-validated initialSessionId prop."
 );
 assert(/const isPartnerSession = Boolean\(effectiveInitialSessionId\);/.test(flowSrc), "Partner mode must derive from effectiveInitialSessionId.");
 assert(/useState<string \| undefined>\(effectiveInitialSessionId\)/.test(flowSrc), "sessionId state must initialize from effectiveInitialSessionId.");
-assert(!/isPartnerSession = Boolean\(initialSessionId\)/.test(flowSrc), "Partner mode must no longer be prop-only.");
 assert(!/isPartnerSession = Boolean\(sessionId\)/.test(flowSrc), "Partner mode must NOT derive from the live sessionId state.");
-assert(flowSrc.includes('const BRIEFCASE_PATH = "/briefcase"'), "ScreeningFlow must define BRIEFCASE_PATH = '/briefcase'.");
 assert(flowSrc.includes("hasScreeningSession={isPartnerSession}"), "ScreeningFlow must pass hasScreeningSession to ScreeningResult.");
-// The packet action now runs through handlePacketAction: partner mode saves the result then opens
-// Briefcase; DTC saves the result and routes to the payment gate. (Persistence asserted in
-// verify-rcap-briefcase-result-persistence.)
+// The result action runs through handlePacketAction in both modes. It saves the
+// exact matter first; neither partner nor DTC may jump directly from screening
+// result to the consumer payment page.
 assert(flowSrc.includes("onPacketAction={() => void handlePacketAction()}"), "ScreeningFlow must route the packet action through handlePacketAction.");
-assert(flowSrc.includes('/api/expungement-ai/screening/save-result'), "DTC packet action must save the completed result before payment.");
-assert(flowSrc.includes('router.push(`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.itemId)}`)'), "DTC packet action must route to the payment gate with the saved Briefcase item.");
-assert(flowSrc.includes('next: "/expungement-ai/pay"'), "Anonymous DTC pending handoff must preserve the payment gate as next.");
+assert(flowSrc.includes('/api/expungement-ai/screening/pending'), "Screening result action must persist server-verifiable inputs before claiming a matter.");
+assert(flowSrc.includes('/api/expungement-ai/screening/pending/claim'), "Authenticated screening result action must claim the pending result into the exact Briefcase matter.");
+assert(flowSrc.includes('product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending handoff must keep RCAP and DTC product identity distinct.");
+assert(flowSrc.includes("router.push(claimed.redirectTo)"), "Authenticated pending claim must follow the server-authored exact-matter destination.");
+assert(!flowSrc.includes('router.push(`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.itemId)}`)'), "DTC result must not bypass the builder/review flow by routing directly to payment.");
+assert(!flowSrc.includes('next: "/expungement-ai/pay"'), "Anonymous DTC result handoff must not bypass the saved matter and builder with payment as next.");
 assert(!flowSrc.includes('/expungement-ai/packet-ready"'), "DTC packet action must not bypass payment to packet-ready.");
-assert(flowSrc.includes("router.push(BRIEFCASE_PATH)"), "Partner mode must open Briefcase after saving.");
 
 // Source wiring: the route is dynamic and keyed by session mode so partner/DTC never share an instance.
 const pageSrc = readFileSync(path.join(process.cwd(), "src/app/expungement-ai/screening/[state]/page.tsx"), "utf8");
 assert(/export const dynamic = "force-dynamic";/.test(pageSrc), "Screening route must be force-dynamic so ?session= is always available.");
 assert(/key=\{`\$\{state\}:\$\{initialSessionId \?\? "dtc"\}`\}/.test(pageSrc), "ScreeningFlow key must include the session mode.");
 assert(pageSrc.includes("isSafeSessionId"), "Screening route must validate the session with the shared isSafeSessionId.");
+assert(pageSrc.includes("await isRcapPartnerScreeningSession(candidateSessionId)"), "Screening route must verify active RCAP partner benefit before passing the session prop.");
+assert(pageSrc.includes("initialSessionId={initialSessionId}"), "Screening route must pass only the server-verified session id to ScreeningFlow.");
 
 if (failures.length) {
   console.error(`verify-rcap-partner-result-cta: ${failures.length} failure(s)`);
   for (const failure of failures) console.error(`  - ${failure}`);
   process.exit(1);
 }
-console.log("verify-rcap-partner-result-cta: OK (URL ?session= -> Briefcase CTA; no/invalid session -> DTC $50 payment gate; save-progress sessionId stays DTC; route force-dynamic + session-keyed)");
+console.log("verify-rcap-partner-result-cta: OK (server-authoritative partner no-price lane; DTC save-before-payment disclosure; session-keyed routing)");

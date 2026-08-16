@@ -5,14 +5,18 @@ These docs are the source of truth for the Expungement.ai direct-to-consumer flo
 - [Expungement.ai DTC User Flow](./expungement-ai-dtc-user-flow.md)
 - [RCAP Partner Portal User Flow](./rcap-partner-portal-user-flow.md)
 - [Expungement.ai State Landing Pages](./expungement-ai-state-landing-pages.md)
+- [Expungement.ai Website Copy](./expungement-ai-website-copy.md)
 - Source PDFs live in [`source-pdfs/`](./source-pdfs/)
 
 Any change to screening, account creation, auth callback, payment, Briefcase, packet builder, partner bypass, or packet generation must preserve these flows or update these docs and verifiers in the same PR.
 
 ## Durable Rules
 
+Internal implementation language belongs in code, logs, and internal tools. External users receive clear explanations of what their result means, what they need to do, what costs money, and what happens next.
+
 - DTC and partner use the same underlying RCAP / Expungement.ai engine but differ in payment and account handoff.
-- DTC requires Stripe before packet generation.
+- DTC keeps the Briefcase and packet-information builder free. Stripe appears only at the final accuracy review and is required before personalized packet generation.
+- The DTC paid SKU is one personalized packet set for one exact matter for $50; payment is never account-wide.
 - partner-covered users bypass Stripe.
 - no account wall before the free check on DTC (Expungement.ai). The partner portal is account-first: partner users create an account or sign in before the screening, which runs inside their Briefcase.
 - partner account creation and screenings do not count against the partner cap; only a generated packet counts (once per packet).

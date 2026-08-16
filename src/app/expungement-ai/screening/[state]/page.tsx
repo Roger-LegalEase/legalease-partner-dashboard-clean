@@ -1,6 +1,7 @@
 import { ConsumerPageShell } from "@/components/expungement-ai/ConsumerPageShell";
 import { ScreeningFlow } from "@/components/expungement-ai/screening/ScreeningFlow";
 import { isSafeSessionId } from "@/components/expungement-ai/screening/partner-session";
+import { isRcapPartnerScreeningSession } from "@/lib/expungement-ai/briefcase";
 
 // Always render per-request. The flow's partner vs. DTC mode depends on the ?session= query, which a
 // statically optimized render would not carry — that omission is what made partner mode (Briefcase
@@ -20,7 +21,10 @@ export default async function ScreeningStatePage({
   searchParams: Promise<{ session?: string | string[] }>;
 }) {
   const [{ state }, search] = await Promise.all([params, searchParams]);
-  const initialSessionId = typeof search.session === "string" && isSafeSessionId(search.session) ? search.session : undefined;
+  const candidateSessionId = typeof search.session === "string" && isSafeSessionId(search.session) ? search.session : undefined;
+  const initialSessionId = candidateSessionId && await isRcapPartnerScreeningSession(candidateSessionId)
+    ? candidateSessionId
+    : undefined;
 
   // The shell's global Wilma bubble is disabled here so the flow can render a single, phase-aware
   // Wilma surface (questions vs result), avoiding a duplicate bubble.

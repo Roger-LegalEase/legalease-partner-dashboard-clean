@@ -56,6 +56,8 @@ export type ScreeningEvaluation = {
   profileVersion: string;
   matterId: string;
   pathwayId?: string;
+  /** Exact display label resolved from the same compiled profile as pathwayId. */
+  pathwayLabel?: string;
   resultCode: ScreeningResultCode;
   userLabel: string;
   reasons: ScreeningReason[];

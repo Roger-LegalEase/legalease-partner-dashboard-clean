@@ -63,6 +63,11 @@ const MUTATIONS = [
       'if ((session.currency ?? "").toLowerCase() !== CONSUMER_PACKET_CURRENCY) {',
       'if (false) {')],
 
+  ['the webhook stops checking the reviewed packet-input hash', RECONCILE, (s) =>
+    s.replace(
+      'if (!session.metadata.reviewed_input_hash || session.metadata.reviewed_input_hash !== reviewedPacketInputHash(item)) {',
+      'if (false) {')],
+
   ['the payment writer stops requiring a server authority', AUTHORITY, (s) =>
     s.replace('p_authority: input.authority,', "p_authority: 'self_asserted',")],
 

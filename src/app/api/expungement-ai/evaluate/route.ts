@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { ScreeningEvaluationRequest } from "@/lib/rcap-engine/contracts";
-import { forbiddenRouteIdentityFields, selectComposedRoute } from "@/lib/rcap-engine/composed-route-selector";
-import { evaluateExpungementAiMatter } from "@/lib/rcap-engine/expungement-ai-adapter";
+import { forbiddenRouteIdentityFields } from "@/lib/rcap-engine/composed-route-selector";
+import { evaluateAuthoritativeScreeningResult } from "@/lib/expungement-ai/authoritative-screening-result";
 import { InvalidAnswerError, ProfileVersionMismatchError, UnsupportedJurisdictionError } from "@/lib/rcap-engine/evaluator";
 
 export async function POST(request: Request) {
@@ -33,30 +33,7 @@ export async function POST(request: Request) {
   };
 
   try {
-    // First pass establishes the pathway the profile actually selected; the
-    // composed-route selector then answers, server-side, whether that pathway
-    // is one of the composed tracks. A selector that cannot answer
-    // authoritatively yields a fail-closed guidance result rather than a
-    // fall-through to a sibling compiled route.
-    const firstPass = evaluateExpungementAiMatter(clientInput);
-    const selection = selectComposedRoute({ jurisdiction: firstPass.jurisdiction, pathwayId: firstPass.pathwayId ?? null });
-
-    if (selection.status === "identity_unavailable") {
-      return NextResponse.json({
-        ...firstPass,
-        resultCode: "guidance_only",
-        paymentAllowed: false,
-        packetPlan: undefined,
-        selectedTrackId: null,
-        cautions: [...firstPass.cautions, "This route's identity could not be resolved on the server, so it is served as guidance with payment closed."]
-      });
-    }
-
-    if (selection.status === "selected") {
-      return NextResponse.json(evaluateExpungementAiMatter({ ...clientInput, selectedTrackId: selection.trackId }));
-    }
-
-    return NextResponse.json(firstPass);
+    return NextResponse.json(evaluateAuthoritativeScreeningResult(clientInput).evaluation);
   } catch (error) {
     if (error instanceof UnsupportedJurisdictionError) {
       return NextResponse.json({ error: "unsupported_jurisdiction", jurisdiction: error.jurisdiction }, { status: 404 });

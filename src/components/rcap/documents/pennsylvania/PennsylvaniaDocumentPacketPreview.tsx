@@ -20,7 +20,7 @@ export function PennsylvaniaDocumentPacketPreview({ packet }: { packet: RcapDocu
 
       {packet.missingFields.length > 0 ? (
         <section className="rounded-md border border-orange/30 bg-orange/10 p-5 print:hidden">
-          <h2 className="text-lg font-black text-navy">More information needed</h2>
+          <h2 className="text-lg font-black text-navy">We need a little more information</h2>
           <p className="mt-2 text-sm leading-6 text-grayWilma-800">A PATCH report, docket, grade, restitution status, or record review may help confirm these details.</p>
           <ul className="mt-4 grid gap-2 text-sm font-semibold text-grayWilma-800 sm:grid-cols-2">
             {packet.missingFields.map((field) => (

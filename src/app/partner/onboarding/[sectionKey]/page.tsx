@@ -294,7 +294,7 @@ function canonicalReferences(
     )?.label ?? "Saved information",
     value: reference.value,
     editHref: guidedHrefForField(reference.sourceSection, fieldKey),
-    helperCopy: "This canonical value is edited in its source section.",
+    helperCopy: "Use the edit link to change this answer in its original section.",
     ...(fieldKey === "jurisdictions" ? { options: jurisdictionOptions } : {})
   }));
   if (!canonical.some((reference) => reference.fieldKey === "jurisdictions")) {
@@ -304,7 +304,7 @@ function canonicalReferences(
       value: "",
       editHref:
         "/partner/onboarding/geography_audience_language_accessibility",
-      helperCopy: "This canonical value is edited in its source section.",
+      helperCopy: "Use the edit link to change this answer in its original section.",
       options: jurisdictionOptions
     });
   }

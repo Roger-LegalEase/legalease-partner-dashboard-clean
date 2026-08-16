@@ -36,7 +36,7 @@ export async function generateMetadata({
   const title = `${author.name} | Expungement.ai`;
   const description =
     author.bio?.trim() ||
-    `Articles by ${author.name}${author.title ? `, ${author.title}` : ""} on Expungement.ai — plain-language, self-help record-clearing information.`;
+    `Articles by ${author.name}${author.title ? `, ${author.title}` : ""} on Expungement.ai. Plain-language, self-help record-clearing information.`;
 
   return {
     title,

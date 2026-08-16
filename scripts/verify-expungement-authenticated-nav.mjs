@@ -8,7 +8,8 @@ const assert = (condition, message) => { if (!condition) failures.push(message);
 assert(source.includes("createBrowserSupabaseClient"), "ConsumerNav must read Supabase browser session.");
 assert(source.includes("onAuthStateChange"), "ConsumerNav must respond to auth state changes.");
 assert(source.includes("isAuthenticated"), "ConsumerNav must branch on authenticated state.");
-assert(source.includes('href="/sign-out"'), "Authenticated nav must expose sign out.");
+assert(source.includes('action="/sign-out"'), "Authenticated nav must post to the sign-out route.");
+assert(source.includes('method="post"'), "Authenticated nav sign out must be a non-prefetched POST.");
 assert(source.includes('href="/briefcase"'), "Authenticated nav must expose Briefcase/account.");
 
 if (failures.length) {

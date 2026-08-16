@@ -1,0 +1,135 @@
+name: Expungement.ai commercial flow
+
+on:
+  push:
+    branches:
+      - codex/expungement-ai-free-briefcase-paid-packet
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/expungement-ai-commercial-flow.yml
+      - docs/product-flows/**
+      - design-handoff/expungement-ai-frontend/files-20/Expungement-Landing-Full.html
+      - package.json
+      - package-lock.json
+      - scripts/lib/ts-esm-loader.mjs
+      - scripts/test-expungement-checkout-guards.mjs
+      - scripts/test-rcap-consumer-payment-http-mutations.mjs
+      - scripts/verify-expungement-authenticated-nav.mjs
+      - scripts/verify-expungement-commercial-browser.mjs
+      - scripts/verify-expungement-commercial-flow-contract.mjs
+      - scripts/verify-expungement-landing-copy-safety.mjs
+      - scripts/verify-expungement-homepage-interactions.mjs
+      - scripts/verify-expungement-date-year-selector.mjs
+      - scripts/verify-expungement-profile-screening-flow.mjs
+      - scripts/verify-expungement-pending-result-migration.mjs
+      - scripts/verify-product-flow-docs.mjs
+      - scripts/verify-rcap-partner-result-cta.mjs
+      - scripts/verify-rcap-partner-result-lanes.mjs
+      - scripts/verify-rcap-phase55-matter-payment-binding.mjs
+      - scripts/verify-we-must-vote-launch.mjs
+      - src/app/api/expungement-ai/**
+      - src/app/api/stripe/webhook/**
+      - src/app/briefcase/**
+      - src/app/expungement-ai/**
+      - src/components/expungement-ai/**
+      - src/lib/expungement-ai/**
+      - src/lib/partners/we-must-vote-routing.ts
+      - src/lib/rcap-engine/contracts.ts
+      - src/lib/stripe/**
+      - src/proxy.ts
+      - supabase/phase-51-rcap-consumer-payment-gate.sql
+      - supabase/phase-52-rcap-consumer-payment-authority.sql
+      - supabase/phase-53-rcap-consumer-job-binding.sql
+      - supabase/phase-54-rcap-person-namespace-hardening.sql
+      - supabase/phase-55-expungement-matter-payment-binding.sql
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify free Briefcase and matter-level packet payment
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies from lockfile
+        run: npm ci
+
+      - name: Lint the commercial-flow implementation
+        run: >-
+          npx eslint
+          src/app/api/expungement-ai
+          src/app/briefcase
+          src/app/expungement-ai
+          src/components/expungement-ai
+          src/lib/expungement-ai
+          src/lib/partners/we-must-vote-routing.ts
+          src/proxy.ts
+          scripts/test-expungement-checkout-guards.mjs
+          scripts/test-rcap-consumer-payment-http-mutations.mjs
+          scripts/verify-expungement-authenticated-nav.mjs
+          scripts/verify-expungement-commercial-browser.mjs
+          scripts/verify-expungement-commercial-flow-contract.mjs
+          scripts/verify-expungement-landing-copy-safety.mjs
+          scripts/verify-expungement-homepage-interactions.mjs
+          scripts/verify-expungement-date-year-selector.mjs
+          scripts/verify-expungement-profile-screening-flow.mjs
+          scripts/verify-expungement-pending-result-migration.mjs
+          scripts/verify-product-flow-docs.mjs
+          scripts/verify-rcap-partner-result-cta.mjs
+          scripts/verify-rcap-partner-result-lanes.mjs
+          scripts/verify-rcap-phase55-matter-payment-binding.mjs
+          scripts/verify-we-must-vote-launch.mjs
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Verify the approved product-flow contract
+        run: node scripts/verify-product-flow-docs.mjs
+
+      - name: Verify approved public website copy
+        run: |
+          node scripts/verify-expungement-landing-copy-safety.mjs
+          node scripts/verify-expungement-homepage-interactions.mjs
+
+      - name: Verify free screening and pending-result handoff
+        run: |
+          node scripts/verify-expungement-profile-screening-flow.mjs
+          node scripts/verify-expungement-pending-result-migration.mjs
+
+      - name: Verify free Briefcase and builder behavior
+        run: |
+          node scripts/verify-expungement-commercial-flow-contract.mjs
+          node scripts/verify-expungement-date-year-selector.mjs
+
+      - name: Verify authenticated Briefcase and RCAP presentation
+        run: |
+          node scripts/verify-expungement-authenticated-nav.mjs
+          node scripts/verify-rcap-partner-result-cta.mjs
+          node scripts/verify-rcap-partner-result-lanes.mjs
+          node scripts/verify-we-must-vote-launch.mjs
+
+      - name: Verify final-review Checkout guards
+        run: node scripts/test-expungement-checkout-guards.mjs
+
+      - name: Verify exact matter-level payment authority
+        run: node scripts/verify-rcap-phase55-matter-payment-binding.mjs
+
+      - name: Verify payment HTTP mutations stay blocked
+        run: node scripts/test-rcap-consumer-payment-http-mutations.mjs
