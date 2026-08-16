@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import type {
-  OnboardingSectionKey,
-  OnboardingSectionStatus
-} from "@/lib/partners/onboarding/types";
+import type { PartnerImplementationFact } from "@/lib/partners/onboarding/implementation-presentation";
+import type { PartnerSupportContact } from "@/lib/partners/onboarding/support-contact";
+import type { OnboardingSectionKey } from "@/lib/partners/onboarding/types";
+import {
+  DEFAULT_ONBOARDING_REVIEW_DETAIL_MODE,
+  isOnboardingReviewAuditOpen
+} from "@/lib/partners/onboarding/review-presentation";
+import { PartnerSupportLink } from "../PartnerSupportLink";
 
 type ReviewValue =
   | string
@@ -25,20 +26,34 @@ export type OnboardingReviewField = {
   missing?: boolean;
 };
 
+export type OnboardingReviewSectionState =
+  | "Complete"
+  | "Needs attention"
+  | "Changed since review"
+  | "Waiting on LegalEase"
+  | "Not started";
+
 export type OnboardingReviewSection = {
   key: OnboardingSectionKey;
   title: string;
-  status: OnboardingSectionStatus;
-  statusLabel: string;
+  state: OnboardingReviewSectionState;
   editHref: string;
   fields: OnboardingReviewField[];
   missingItems: Array<{
     fieldKey: string;
     label: string;
+    href: string;
   }>;
-  changeRequestInstructions?: string | null;
-  changeRequestStatus?: "open" | "partner_responded" | null;
+  openChangeRequests: number;
+  waitingChangeRequests: number;
+  resolvedChangeRequests: number;
   hasPendingPrefill: boolean;
+  completionPercentage: number;
+  lastUpdatedAt: string | null;
+  submittedAt: string | null;
+  approvedAt: string | null;
+  approvalSatisfied: boolean;
+  changedSinceReview: boolean;
 };
 
 export type OnboardingReviewClientProps = {
@@ -46,6 +61,8 @@ export type OnboardingReviewClientProps = {
   canSubmit: boolean;
   canEdit: boolean;
   isPartnerStaff: boolean;
+  support: PartnerSupportContact;
+  supportHref: string;
   initialSubmission: {
     submittedAt: string;
     statusLabel: string;
@@ -53,6 +70,12 @@ export type OnboardingReviewClientProps = {
   } | null;
   workspaceVersion: number;
   pendingPrefillSections: string[];
+  statusPresentation: {
+    setupInformation: PartnerImplementationFact;
+    legalEaseReview: PartnerImplementationFact;
+    publication: PartnerImplementationFact;
+    programActivation: PartnerImplementationFact;
+  };
 };
 
 type SubmissionState =
@@ -73,16 +96,17 @@ export function OnboardingReviewClient({
   canEdit,
   isPartnerStaff,
   initialSubmission,
-  workspaceVersion
-  ,
-  pendingPrefillSections
+  workspaceVersion,
+  pendingPrefillSections,
+  support,
+  supportHref,
+  statusPresentation
 }: OnboardingReviewClientProps) {
   const [submission, setSubmission] = useState<SubmissionState>(
     initialSubmission
       ? {
           kind: "submitted",
-          message:
-            "Your onboarding package was submitted for LegalEase review.",
+          message: "Your onboarding package was submitted for LegalEase review.",
           submittedAt: initialSubmission.submittedAt,
           statusLabel: initialSubmission.statusLabel,
           historical: initialSubmission.historical
@@ -92,26 +116,40 @@ export function OnboardingReviewClient({
   const requestIdRef = useRef<string | null>(null);
   const submittingRef = useRef(false);
 
-  const missingCount = sections.reduce(
-    (total, section) => total + section.missingItems.length,
-    0
+  const sectionsComplete = sections.filter((section) =>
+    ["Complete", "Changed since review", "Waiting on LegalEase"].includes(
+      section.state
+    )
+  ).length;
+  const openPartnerChanges = sum(
+    sections.map((section) => section.openChangeRequests)
   );
-  const changeRequestCount = sections.filter(
+  const waitingOnLegalEase = sections.filter(
     (section) =>
-      section.status === "needs_changes" ||
-      section.changeRequestStatus === "open"
+      section.waitingChangeRequests > 0 ||
+      section.state === "Waiting on LegalEase"
   ).length;
-  const pendingLegaleaseCount = sections.filter(
-    (section) => section.changeRequestStatus === "partner_responded"
+  const changedSincePriorReview = sections.filter(
+    (section) => section.changedSinceReview
   ).length;
+  const missingCount = sum(
+    sections.map((section) => section.missingItems.length)
+  );
+  const prefillBlockers = pendingPrefillSections.length;
+  const partnerBlockers = missingCount + openPartnerChanges + prefillBlockers;
   const submitted = submission.kind === "submitted";
   const submitEnabled =
     canSubmit &&
     canEdit &&
-    missingCount === 0 &&
-    changeRequestCount === 0 &&
-    pendingPrefillSections.length === 0 &&
+    partnerBlockers === 0 &&
     !submitted;
+  const firstActionSection =
+    sections.find((section) => section.openChangeRequests > 0) ??
+    sections.find(
+      (section) =>
+        section.missingItems.length > 0 || section.hasPendingPrefill
+    ) ??
+    sections.find((section) => section.state === "Needs attention");
 
   async function submitForReview() {
     if (!submitEnabled || submittingRef.current) return;
@@ -169,7 +207,7 @@ export function OnboardingReviewClient({
             ? savedSubmission.submittedAt
             : typeof payload.submittedAt === "string"
               ? payload.submittedAt
-            : null,
+              : null,
         statusLabel:
           typeof payload.statusLabel === "string"
             ? payload.statusLabel
@@ -183,7 +221,7 @@ export function OnboardingReviewClient({
         kind: "error",
         conflict: false,
         message:
-          "Could not confirm submission. No success has been shown. Check your connection and try again with the same request."
+          "Could not confirm submission. Nothing was submitted. Check your connection and retry with the same request."
       });
     } finally {
       submittingRef.current = false;
@@ -191,417 +229,350 @@ export function OnboardingReviewClient({
   }
 
   return (
-    <div className="mx-auto max-w-5xl text-navy">
-      <header className="mb-6">
-        <Link
-          className="inline-flex min-h-11 items-center text-sm font-semibold text-teal underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
-          href="/partner/onboarding"
-        >
-          Back to program setup
+    <div className="mx-auto max-w-6xl text-[#071B33]">
+      <header className="border-b-4 border-[#071B33] pb-6">
+        <Link className={utilityLinkClass} href="/partner/onboarding#program-configuration">
+          Return to implementation center
         </Link>
-        <div className="mt-4 flex flex-wrap items-center gap-3">
-          <Badge tone={submitted ? "teal" : "blue"}>
-            {submitted ? "Submitted" : "Final review"}
-          </Badge>
-          {isPartnerStaff ? <Badge>View only</Badge> : null}
-        </div>
-        <h1 className="mt-4 text-3xl font-black tracking-[-0.02em] md:text-4xl">
-          Review your onboarding package
+        <p className="mt-5 text-xs font-bold uppercase tracking-[0.1em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]">
+          Program configuration | Decision summary
+        </p>
+        <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.02em] md:text-4xl">
+          Review the decisions and exceptions
         </h1>
-        <p className="mt-2 max-w-3xl text-base leading-7 text-grayWilma-700">
-          {canEdit
-            ? "Confirm the information below before sending it to LegalEase. Use each section’s edit link to update the canonical source."
-            : "Review the information below. Open a section to see its canonical source and current status."}
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-[#475A6E]">
+          {isPartnerStaff
+            ? "This read-only summary shows the submitted implementation record. A partner administrator manages changes and submission."
+            : "Start with blockers, changes, and decisions. Open the full field audit only when you need the complete saved record."}
         </p>
       </header>
 
-      {submission.kind === "submitted" ? (
-        <Card
-          className="mb-6 border-teal/30 bg-teal/10 p-5 md:p-6"
-          role="status"
-          aria-labelledby="submission-complete-heading"
-        >
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <h2
-                className="text-xl font-black"
-                id="submission-complete-heading"
-              >
-                Submitted for LegalEase review
-              </h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-grayWilma-800">
-                {submission.message}
-              </p>
-              {submission.submittedAt ? (
-                <p className="mt-2 text-xs font-semibold text-grayWilma-600">
-                  Submitted {formatTimestamp(submission.submittedAt)}
-                </p>
-              ) : null}
-            </div>
-            <Badge tone="teal">{submission.statusLabel}</Badge>
-          </div>
-          <p className="mt-4 text-sm leading-6 text-grayWilma-700">
-            {submission.historical
-              ? "This saved submission remains part of the program setup history. The current program status is shown above."
-              : "Submission starts review; it does not approve launch. LegalEase will either approve the package for launch preparation or request section-specific changes here."}
-          </p>
-        </Card>
-      ) : null}
+      <section aria-labelledby="review-status-heading" className="border-x border-b border-[#B8C1C7] bg-white">
+        <h2 className="sr-only" id="review-status-heading">Current program status</h2>
+        <dl className="grid sm:grid-cols-2 lg:grid-cols-4">
+          <StatusFact label="Setup information" fact={statusPresentation.setupInformation} />
+          <StatusFact label="LegalEase review" fact={statusPresentation.legalEaseReview} />
+          <StatusFact label="Publication" fact={statusPresentation.publication} />
+          <StatusFact label="Program activation" fact={statusPresentation.programActivation} />
+        </dl>
+      </section>
 
-      {pendingPrefillSections.length > 0 ? (
-        <Card className="mb-6 border-orange/30 bg-orange/10 p-5">
-          <h2 className="font-black">Pre-filled information needs review</h2>
-          <p className="mt-2 text-sm leading-6 text-grayWilma-700">
-            Confirm the pre-filled information in{" "}
-            {pendingPrefillSections.join(", ")} before final submission.
-            Internal source details are not included here.
+      {submission.kind === "submitted" ? (
+        <section aria-labelledby="submitted-heading" className="mt-6 border-l-[6px] border-[#0A8E9A] bg-white p-5" role="status">
+          <h2 className="text-xl font-extrabold" id="submitted-heading">Submitted for LegalEase review</h2>
+          <p className="mt-2 text-sm leading-6 text-[#475A6E]">{submission.message}</p>
+          {submission.submittedAt ? (
+            <p className="mt-2 text-xs font-bold text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+              Submitted {formatTimestamp(submission.submittedAt)}
+            </p>
+          ) : null}
+          <p className="mt-3 text-sm leading-6 text-[#475A6E]">
+            {submission.historical
+              ? "This submission remains in program setup history. The status dimensions above describe the current program state."
+              : "Submission starts LegalEase review. It does not publish the page, activate participant intake, or approve launch."}
           </p>
-        </Card>
+        </section>
       ) : null}
 
       {submission.kind === "error" ? (
-        <Card
-          className="mb-6 border-orange/40 bg-orange/10 p-5"
-          role="alert"
-          aria-labelledby="submission-error-heading"
-        >
-          <h2 id="submission-error-heading" className="font-black">
-            The package was not submitted
-          </h2>
-          <p className="mt-2 text-sm leading-6 text-grayWilma-800">
-            {submission.message}
-          </p>
-          {submission.conflict ? (
-            <Button
-              className="mt-4 min-h-11"
-              onClick={() => window.location.reload()}
-              type="button"
-              variant="secondary"
-            >
-              Reload review
-            </Button>
-          ) : (
-            <Button
-              className="mt-4 min-h-11"
-              disabled={!submitEnabled}
-              onClick={() => void submitForReview()}
-              type="button"
-              variant="secondary"
-            >
-              Try submission again
-            </Button>
-          )}
-        </Card>
-      ) : null}
-
-      {!submitted && (missingCount > 0 || changeRequestCount > 0) ? (
-        <Card
-          className="mb-6 border-orange/30 bg-orange/10 p-5"
-          aria-labelledby="review-blockers-heading"
-        >
-          <h2 id="review-blockers-heading" className="font-black">
-            Complete these items before submission
-          </h2>
-          <div className="mt-3 grid gap-4 md:grid-cols-2">
-            {missingCount > 0 ? (
-              <div>
-                <p className="text-sm font-black">
-                  {missingCount} missing{" "}
-                  {missingCount === 1 ? "requirement" : "requirements"}
-                </p>
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-grayWilma-800">
-                  {sections.flatMap((section) =>
-                    section.missingItems.map((item) => (
-                      <li key={`${section.key}-${item.fieldKey}`}>
-                        <Link
-                          className="font-semibold underline decoration-orange underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
-                          href={`${section.editHref}#${fieldAnchor(item.fieldKey)}`}
-                        >
-                          {section.title}: {item.label}
-                        </Link>
-                      </li>
-                    ))
-                  )}
-                </ul>
-              </div>
-            ) : null}
-            {changeRequestCount > 0 ? (
-              <div>
-                <p className="text-sm font-black">
-                  {changeRequestCount}{" "}
-                  {changeRequestCount === 1
-                    ? "section needs changes"
-                    : "sections need changes"}
-                </p>
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-grayWilma-800">
-                  {sections
-                    .filter(
-                      (section) =>
-                        section.status === "needs_changes" ||
-                        section.changeRequestStatus === "open"
-                    )
-                    .map((section) => (
-                      <li key={section.key}>
-                        <Link
-                          className="font-semibold underline decoration-orange underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
-                          href={section.editHref}
-                        >
-                          {section.title}
-                        </Link>
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            ) : null}
-          </div>
-        </Card>
-      ) : null}
-
-      {!submitted && pendingLegaleaseCount > 0 ? (
-        <Card
-          className="mb-6 border-teal/30 bg-teal/10 p-5"
-          role="status"
-          aria-labelledby="pending-legalease-heading"
-        >
-          <h2 id="pending-legalease-heading" className="font-black">
-            Updates submitted to LegalEase
-          </h2>
-          <p className="mt-2 text-sm leading-6 text-grayWilma-800">
-            {pendingLegaleaseCount}{" "}
-            {pendingLegaleaseCount === 1 ? "section is" : "sections are"} pending
-            LegalEase review. No further partner action is required unless
-            LegalEase requests another change.
-          </p>
-        </Card>
-      ) : null}
-
-      <div className="grid gap-5">
-        {sections.map((section, sectionIndex) => (
-          <Card
-            className="overflow-hidden rounded-[20px] border-grayWilma-200 shadow-sm"
-            key={section.key}
+        <section aria-labelledby="submission-error-heading" className="mt-6 border-l-[6px] border-[#FF3B00] bg-white p-5" role="alert">
+          <h2 className="text-xl font-extrabold" id="submission-error-heading">The package was not submitted</h2>
+          <p className="mt-2 text-sm leading-6 text-[#475A6E]">{submission.message}</p>
+          <button
+            className={`${secondaryActionClass} mt-4`}
+            onClick={() =>
+              submission.conflict
+                ? window.location.reload()
+                : void submitForReview()
+            }
+            type="button"
           >
-            <section aria-labelledby={`review-section-${section.key}`}>
-              <div className="flex flex-col gap-3 border-b border-grayWilma-200 bg-grayWilma-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between md:px-6">
-                <div className="flex min-w-0 items-center gap-3">
-                  <span
-                    aria-hidden="true"
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-sm font-black text-orange"
-                  >
-                    {sectionIndex + 1}
+            {submission.conflict ? "Reload review" : "Retry submission"}
+          </button>
+          <p className="mt-4 break-words text-sm leading-6 text-[#475A6E]">
+            Your confirmed saves remain available. If this continues, contact{" "}
+            <PartnerSupportLink contact={support} href={supportHref} />.
+          </p>
+        </section>
+      ) : null}
+
+      {pendingPrefillSections.length > 0 ? (
+        <section
+          aria-labelledby="prefill-review-heading"
+          className="mt-6 border-l-[6px] border-[#0A8E9A] bg-white p-5"
+        >
+          <h2 className="text-xl font-extrabold" id="prefill-review-heading">
+            Pre-filled information needs review
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-[#475A6E]">
+            Confirm the marked information in {pendingPrefillSections.join(", ")}
+            before submission. Internal source notes are not shown here.
+          </p>
+        </section>
+      ) : null}
+
+      <section aria-labelledby="review-summary-heading" className="mt-8">
+        <div className="grid gap-2 md:grid-cols-[minmax(0,1fr)_minmax(260px,0.4fr)] md:items-end">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">Executive review</p>
+            <h2 className="mt-2 text-2xl font-extrabold" id="review-summary-heading">Decisions before submission</h2>
+          </div>
+          <p className="text-sm leading-6 text-[#475A6E] md:text-right">
+            The field audit remains available below, but it is not the default view.
+          </p>
+        </div>
+        <dl className="mt-5 grid border border-[#B8C1C7] bg-white sm:grid-cols-2 lg:grid-cols-3">
+          <Metric label="Sections complete" value={`${sectionsComplete} of 8`} />
+          <Metric label="Open partner changes" value={String(openPartnerChanges)} />
+          <Metric label="Waiting on LegalEase" value={String(waitingOnLegalEase)} />
+          <Metric label="Changed since prior review" value={String(changedSincePriorReview)} />
+          <Metric label="Partner blockers" value={String(partnerBlockers)} />
+          <Metric
+            label="Approvals missing"
+            value={String(sections.filter((section) => !section.approvalSatisfied).length)}
+          />
+        </dl>
+      </section>
+
+      {partnerBlockers > 0 ? (
+        <section aria-labelledby="partner-blockers-heading" className="mt-6 border-l-[6px] border-[#FF3B00] bg-white p-5">
+          <h2 className="text-xl font-extrabold" id="partner-blockers-heading">Partner changes are still required</h2>
+          <p className="mt-2 text-sm leading-6 text-[#475A6E]">
+            Resolve {partnerBlockers} required item{partnerBlockers === 1 ? "" : "s"} before final submission.
+          </p>
+          <ul className="mt-3 grid gap-2 text-sm">
+            {sections.flatMap((section) =>
+              section.missingItems.map((item) => (
+                <li key={`${section.key}-${item.fieldKey}`}>
+                  <Link className={inlineLinkClass} href={item.href}>
+                    {section.title}: {item.label}
+                  </Link>
+                </li>
+              ))
+            )}
+          </ul>
+        </section>
+      ) : null}
+
+      <section aria-labelledby="section-decisions-heading" className="mt-8">
+        <h2 className="text-2xl font-extrabold" id="section-decisions-heading">Section decisions</h2>
+        <p className="mt-2 text-sm leading-6 text-[#475A6E]">
+          Each section is collapsed until you choose to review its decision.
+        </p>
+        <div className="mt-5 border border-[#B8C1C7] bg-white">
+          {sections.map((section, index) => (
+            <details className="border-t border-[#D8DDDF] first:border-t-0" key={section.key}>
+              <summary className="grid min-h-16 cursor-pointer list-none gap-3 p-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#0A8E9A] sm:grid-cols-[38px_minmax(0,1fr)_auto] sm:items-center md:p-5">
+                <span className="text-xs font-bold text-[#0A8E9A] [font-family:var(--font-rcap-mono)]" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="min-w-0">
+                  <span className="block break-words text-sm font-extrabold">{section.title}</span>
+                  <span className="mt-1 block text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+                    {section.openChangeRequests} requested change{section.openChangeRequests === 1 ? "" : "s"} | {lastStateCopy(section)}
                   </span>
-                  <div className="min-w-0">
-                    <h2
-                      className="font-black"
-                      id={`review-section-${section.key}`}
-                    >
-                      {section.title}
-                    </h2>
-                    <Badge
-                      className="mt-1"
-                      tone={toneForStatus(section.status)}
-                    >
-                      {section.statusLabel}
-                    </Badge>
-                  </div>
-                </div>
-                <Link
-                  className="inline-flex min-h-11 items-center justify-center rounded-md border border-grayWilma-200 bg-white px-4 py-2 text-sm font-semibold text-navy transition hover:bg-grayWilma-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
-                  href={section.editHref}
-                >
-                  {canEdit && !submitted ? "Edit section" : "View section"}
+                </span>
+                <span className={`text-sm font-bold ${stateClass(section.state)}`}>
+                  {section.state}
+                </span>
+              </summary>
+              <div className="border-t border-[#D8DDDF] bg-[#F7F4EE] p-4 md:p-5">
+                <dl className="grid gap-3 sm:grid-cols-3">
+                  <DecisionFact label="Setup information" value={`${section.completionPercentage}% recorded`} />
+                  <DecisionFact label="Requested changes" value={String(section.openChangeRequests)} />
+                  <DecisionFact label="Resolved history" value={String(section.resolvedChangeRequests)} />
+                </dl>
+                <Link className={`${secondaryActionClass} mt-4`} href={section.editHref}>
+                  {sectionActionLabel(section, canEdit)}
                 </Link>
               </div>
+            </details>
+          ))}
+        </div>
+      </section>
 
-              {section.changeRequestInstructions ? (
-                <div
-                  className={`border-b px-5 py-4 md:px-6 ${
-                    section.changeRequestStatus === "partner_responded"
-                      ? "border-teal/20 bg-teal/10"
-                      : "border-orange/20 bg-orange/10"
-                  }`}
-                >
-                  <h3 className="text-sm font-black">
-                    {section.changeRequestStatus === "partner_responded"
-                      ? "Updates submitted — LegalEase review pending"
-                      : "LegalEase change request"}
-                  </h3>
-                  <p className="mt-1 whitespace-pre-wrap text-sm leading-6 text-grayWilma-800">
-                    {section.changeRequestInstructions}
-                  </p>
+      <details
+        className="mt-8 border border-[#B8C1C7] bg-white"
+        data-full-audit-default={DEFAULT_ONBOARDING_REVIEW_DETAIL_MODE}
+        open={isOnboardingReviewAuditOpen()}
+      >
+        <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 p-5 text-base font-extrabold focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#0A8E9A]">
+          <span>View full details</span>
+          <span className="text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]">Field audit</span>
+        </summary>
+        <div className="border-t border-[#B8C1C7] p-5 md:p-7" data-full-audit-details>
+          <p className="text-sm leading-6 text-[#475A6E]">
+            This is the complete saved field-level record. Use a section link to change its canonical source.
+          </p>
+          <div className="mt-6 grid gap-7">
+            {sections.map((section) => (
+              <section aria-labelledby={`audit-${section.key}`} className="border-t-4 border-[#071B33] pt-4" key={section.key}>
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <h3 className="text-lg font-extrabold" id={`audit-${section.key}`}>{section.title}</h3>
+                  <Link className={inlineLinkClass} href={section.editHref}>View full section</Link>
                 </div>
-              ) : null}
-
-              {section.missingItems.length > 0 ? (
-                <div className="border-b border-orange/20 px-5 py-4 md:px-6">
-                  <h3 className="text-sm font-black text-orange">
-                    Missing requirements
-                  </h3>
-                  <ul className="mt-2 list-disc space-y-1 pl-5 text-sm">
-                    {section.missingItems.map((item) => (
-                      <li key={item.fieldKey}>
-                        <Link
-                          className="font-semibold underline decoration-orange underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
-                          href={`${section.editHref}#${fieldAnchor(item.fieldKey)}`}
-                        >
-                          {item.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-
-              <dl className="divide-y divide-grayWilma-200">
-                {section.fields.map((field) => (
-                  <div
-                    className={`grid gap-1 px-5 py-4 sm:grid-cols-[minmax(180px,0.4fr)_minmax(0,0.6fr)] sm:gap-5 md:px-6 ${
-                      field.missing ? "bg-orange/5" : ""
-                    }`}
-                    key={field.fieldKey}
-                  >
-                    <dt className="text-sm font-black text-grayWilma-700">
-                      {field.label}
-                    </dt>
-                    <dd
-                      className={`break-words whitespace-pre-wrap text-sm leading-6 ${
-                        field.missing
-                          ? "font-semibold text-orange"
-                          : "text-navy"
-                      }`}
-                    >
-                      {field.missing
-                        ? "Required information is missing"
-                        : formatReviewValue(field.value)}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          </Card>
-        ))}
-      </div>
-
-      <Card className="mt-6 rounded-[20px] border-grayWilma-200 p-5 shadow-sm md:p-6">
-        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-          <div>
-            <h2 className="text-xl font-black">
-              {submitted ? "Package submitted" : "Send to LegalEase"}
-            </h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-grayWilma-700">
-              {submitted
-                ? submission.historical
-                  ? "This saved submission is part of your program setup history."
-                  : "Your saved submission is awaiting LegalEase review."
-                : "Submitting records your authenticated identity and the server time. It does not create an e-signature, approve launch, send invitations, or publish a page."}
-            </p>
-            {isPartnerStaff && !submitted ? (
-              <p className="mt-2 text-sm font-semibold text-grayWilma-600">
-                A partner administrator must submit this package.
-              </p>
-            ) : null}
-            {!isPartnerStaff && !submitted && !canSubmit && missingCount === 0 && changeRequestCount === 0 ? (
-              <p className="mt-2 text-sm font-semibold text-orange">
-                Submission is not available in the current commercial or
-                workspace state.
-              </p>
-            ) : null}
+                <dl className="mt-4 divide-y divide-[#D8DDDF] border-y border-[#D8DDDF]">
+                  {section.fields.map((field) => (
+                    <div className="grid gap-2 py-3 sm:grid-cols-[minmax(180px,0.38fr)_minmax(0,1fr)] sm:gap-6" key={field.fieldKey}>
+                      <dt className="text-sm font-bold text-[#475A6E]">{field.label}</dt>
+                      <dd className="break-words whitespace-pre-wrap text-sm leading-6">{formatValue(field.value)}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+            ))}
           </div>
-          {submitEnabled || submission.kind === "submitting" ? (
-            <Button
-              className="min-h-12 w-full px-6 lg:w-auto"
+        </div>
+      </details>
+
+      <section aria-labelledby="current-review-action-heading" className="mt-8 border border-[#B8C1C7] border-t-4 border-t-[#071B33] bg-[#F7F4EE] p-5 md:p-6">
+        <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">Current next action</p>
+        <h2 className="mt-2 text-xl font-extrabold" id="current-review-action-heading">
+          {submitted
+            ? "Monitor LegalEase review"
+            : firstActionSection
+              ? "Resolve the next partner item"
+              : submitEnabled
+                ? "Submit for LegalEase review"
+                : "Review the current implementation status"}
+        </h2>
+        <p className="mt-2 max-w-3xl text-sm leading-6 text-[#475A6E]">
+          {submitted
+            ? "LegalEase owns the next review decision. Return here if a correction is requested."
+            : firstActionSection
+              ? `Open ${firstActionSection.title} at the narrowest available task.`
+              : submitEnabled
+                ? "All current partner blockers are clear. Submission starts review and does not activate or publish the program."
+                : "No submission action is available for this role or current state."}
+        </p>
+        <div className="mt-5">
+          {submitEnabled ? (
+            <button
+              className={primaryActionClass}
+              data-review-primary-action="submit"
               disabled={submission.kind === "submitting"}
               onClick={() => void submitForReview()}
               type="button"
             >
-              {submission.kind === "submitting"
-                ? "Submitting…"
-                : "Submit for LegalEase review"}
-            </Button>
+              {submission.kind === "submitting" ? "Submitting" : "Submit for LegalEase review"}
+            </button>
           ) : (
             <Link
-              className="inline-flex min-h-12 w-full items-center justify-center rounded-md bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-wilmaBlue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 lg:w-auto"
-              href="/partner/onboarding"
+              className={primaryActionClass}
+              data-review-primary-action={firstActionSection ? "resolve" : "return"}
+              href={firstActionSection?.editHref ?? "/partner/onboarding#program-configuration"}
             >
-              Return to program setup
+              {firstActionSection ? "Open next required task" : "Return to implementation center"}
             </Link>
           )}
         </div>
-      </Card>
+      </section>
     </div>
   );
 }
 
-function toneForStatus(
-  status: OnboardingSectionStatus
-): "teal" | "blue" | "orange" | "neutral" {
-  if (status === "approved" || status === "waived") return "teal";
-  if (status === "needs_changes") return "orange";
-  if (status === "in_progress" || status === "submitted") return "blue";
-  return "neutral";
+function StatusFact({ label, fact }: { label: string; fact: PartnerImplementationFact }) {
+  return (
+    <div className="min-w-0 border-b border-[#D8DDDF] p-4 last:border-b-0 sm:border-r lg:border-b-0 lg:last:border-r-0">
+      <dt className={docketClass}>{label}</dt>
+      <dd className="mt-2 text-base font-extrabold">{fact.label}</dd>
+      <p className="mt-1 text-xs leading-5 text-[#475A6E]">{fact.description}</p>
+    </div>
+  );
 }
 
-function formatReviewValue(value: ReviewValue) {
-  if (Array.isArray(value)) {
-    return value.length > 0 ? value.join(", ") : "Not provided";
-  }
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="border-b border-[#D8DDDF] p-4 last:border-b-0 sm:border-r lg:[&:nth-child(3n)]:border-r-0">
+      <dt className={docketClass}>{label}</dt>
+      <dd className="mt-2 text-2xl font-extrabold">{value}</dd>
+    </div>
+  );
+}
+
+function DecisionFact({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className={docketClass}>{label}</dt>
+      <dd className="mt-1 text-sm font-extrabold">{value}</dd>
+    </div>
+  );
+}
+
+function sectionActionLabel(section: OnboardingReviewSection, canEdit: boolean) {
+  if (section.openChangeRequests > 0) return "Review changes";
+  if (section.changedSinceReview) return "Review changes";
+  return canEdit && section.state === "Needs attention" ? "Edit section" : "View full section";
+}
+
+function lastStateCopy(section: OnboardingReviewSection) {
+  if (section.approvedAt) return `Approved ${formatTimestamp(section.approvedAt)}`;
+  if (section.submittedAt) return `Submitted ${formatTimestamp(section.submittedAt)}`;
+  if (section.lastUpdatedAt) return `Last saved ${formatTimestamp(section.lastUpdatedAt)}`;
+  return "No saved date recorded";
+}
+
+function stateClass(state: OnboardingReviewSectionState) {
+  if (state === "Needs attention") return "text-[#C42E00]";
+  if (state === "Complete") return "text-[#0A6E77]";
+  return "text-[#071B33]";
+}
+
+function sum(values: number[]) {
+  return values.reduce((total, value) => total + value, 0);
+}
+
+function formatValue(value: ReviewValue): string {
+  if (Array.isArray(value)) return value.length > 0 ? value.join("\n") : "Not provided";
   if (typeof value === "boolean") return value ? "Yes" : "No";
-  if (value === null || value === undefined || value === "") {
-    return "Not provided";
-  }
-  return String(value);
-}
-
-function fieldAnchor(fieldKey: string) {
-  const slug =
-    fieldKey
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "") || "value";
-  return `field-${slug}`;
+  if (typeof value === "number") return String(value);
+  if (typeof value === "string") return value.trim() || "Not provided";
+  return "Not provided";
 }
 
 function formatTimestamp(value: string) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "at the recorded server time";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "Recorded date unavailable";
   return new Intl.DateTimeFormat("en", {
     dateStyle: "medium",
-    timeStyle: "short"
-  }).format(date);
+    timeZone: "UTC"
+  }).format(parsed);
+}
+
+async function readJsonObject(response: Response): Promise<Record<string, unknown> | null> {
+  const contentType = response.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/json")) return null;
+  const value: unknown = await response.json();
+  return objectValue(value);
 }
 
 function objectValue(value: unknown): Record<string, unknown> | null {
   return value !== null && typeof value === "object" && !Array.isArray(value)
-    ? Object.fromEntries(Object.entries(value))
+    ? (value as Record<string, unknown>)
     : null;
 }
 
-async function readJsonObject(response: Response) {
-  if (!(response.headers.get("content-type") ?? "").includes("application/json")) {
-    return null;
-  }
-  try {
-    return objectValue(await response.json());
-  } catch {
-    return null;
-  }
-}
-
-function submissionErrorMessage(
-  status: number,
-  payload: Record<string, unknown> | null
-) {
+function submissionErrorMessage(status: number, payload: Record<string, unknown> | null) {
+  const code = typeof payload?.code === "string" ? payload.code : null;
   if (status === 401) {
-    return "Your session expired. Sign in again before retrying submission.";
+    return "Your session expired. Sign in again to submit. Your last confirmed save is still available.";
   }
-  if (status === 403) {
-    return "A partner administrator with a commercially cleared workspace must submit this package.";
-  }
-  if (status === 422 || status === 400) {
+  if (status === 403) return "This role cannot submit the onboarding package.";
+  if (code === "submission_blocked") {
     return typeof payload?.error === "string"
       ? payload.error
-      : "Some required onboarding information still needs attention.";
+      : "Required partner items remain. Open the affected section and retry after saving.";
   }
-  if (typeof payload?.error === "string") return payload.error;
-  return "Could not submit the package. No submission was recorded.";
+  return "Could not submit the package. Nothing was submitted. Review the saved information and retry.";
 }
+
+const docketClass =
+  "text-[0.68rem] font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]";
+const utilityLinkClass =
+  "inline-flex min-h-11 items-center text-sm font-bold text-[#0A6E77] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2";
+const inlineLinkClass =
+  "font-bold text-[#071B33] underline decoration-[#FF3B00] underline-offset-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2";
+const secondaryActionClass =
+  "inline-flex min-h-11 items-center justify-center border border-[#071B33] bg-white px-4 py-2 text-center text-sm font-bold text-[#071B33] hover:border-[#0A8E9A] hover:text-[#0A8E9A] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2";
+const primaryActionClass =
+  "inline-flex min-h-12 items-center justify-center bg-[#FF3B00] px-6 py-3 text-center text-sm font-extrabold text-white hover:bg-[#D93400] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-70";

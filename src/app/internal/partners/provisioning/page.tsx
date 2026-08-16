@@ -16,6 +16,10 @@ import {
 import { internalProvisioningDetail } from "@/lib/partners/routes";
 import type { PartnerRecord } from "@/lib/partners/types";
 
+// Authenticated internal surface: the access gate resolves the session from request
+// cookies, so this page is request-bound and must never be statically prerendered.
+export const dynamic = "force-dynamic";
+
 export default async function InternalPartnerProvisioningPage() {
   const access = await resolveInternalAdminPageAccess(
     "/internal/partners/provisioning"

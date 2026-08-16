@@ -3,6 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
+import type { CoBrandedPagePreview } from "@/lib/partners/onboarding/artifact-generator";
+import {
+  applyBrandEditorPreview,
+  buildBrandApprovalPresentation,
+  partnerRecoveryPresentation,
+  type BrandApprovalPresentation
+} from "@/lib/partners/onboarding/brand-page-presentation";
 import {
   type FormEvent,
   type MouseEvent,
@@ -19,13 +27,34 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { decideConfirmedSectionSave } from "@/lib/partners/onboarding/client-save-order";
+import { canAnnounceGuidedSaveSuccess } from "@/lib/partners/onboarding/guided-save-state";
+import {
+  getGuidedSection,
+  guidedFieldRoot,
+  guidedSectionHref,
+  guidedSubstepForField,
+  guidedSubstepProgress,
+  resolveGuidedStep,
+  SECTION_CHANGE_REQUEST_STEP,
+  substepOwnsField,
+  type GuidedStepResolution,
+  type GuidedSubstepDefinition,
+  type GuidedSubstepSurface,
+  type PartnerFacingChangeRequest
+} from "@/lib/partners/onboarding/guided-substeps";
+import {
+  onboardingOptionLabel,
+  sectionStatusLabel
+} from "@/lib/partners/onboarding/partner-labels";
 import {
   ACCESS_CODE_STRUCTURES,
   CONTACT_ROLES,
   DASHBOARD_SPECIAL_PERMISSIONS,
+  getFieldDefinition,
   ONBOARDING_ASSET_DEFINITIONS,
   ONBOARDING_FIELD_LIMITS,
   ONBOARDING_SCHEMA_REGISTRY,
+  ONBOARDING_SECTION_DEFINITIONS,
   ORGANIZATION_TYPES,
   OUT_OF_AREA_POLICIES,
   PARTICIPANT_ACCESS_MODELS,
@@ -98,12 +127,39 @@ export type OnboardingSectionEditorProps = {
   commercialBlocked: boolean;
   changeRequestInstructions: string | null;
   changeRequestStatus: "open" | "partner_responded" | null;
+  changeRequests: PartnerFacingChangeRequest[];
   canonicalReferences: OnboardingCanonicalReference[];
   readOnlyValues: OnboardingReadOnlyValue[];
   assets: OnboardingEditorAsset[];
   previousHref: string | null;
   nextHref: string;
   pendingPrefillFieldKeys: string[];
+  initialStepId: string;
+  missingRequiredKeys: string[];
+  completionHref: string;
+  sectionSummary: {
+    completedSections: number;
+    totalSections: number;
+    openPartnerChanges: number;
+    waitingOnLegalEase: number;
+  };
+  brandExperience: OnboardingBrandExperience | null;
+};
+
+export type OnboardingBrandExperience = {
+  preview: CoBrandedPagePreview | null;
+  previewUnavailable: boolean;
+  artifactVersionId: string | null;
+  partnerReviewStatus: string | null;
+  legalEaseApprovalStatus: string | null;
+  sourceFreshness: "no_version" | "current" | "stale" | "unavailable";
+  invalidatedApprovals: { partner: boolean; legalease: boolean };
+  canPartnerReview: boolean;
+  workspaceStatus: string;
+  targetLaunchDate: string | null;
+  launchedAt: string | null;
+  pausedAt: string | null;
+  closedAt: string | null;
 };
 
 type ValidationIssue = {
@@ -112,16 +168,17 @@ type ValidationIssue = {
   rowId?: string;
 };
 
-type SaveMode = "draft_save" | "section_complete";
+type SaveMode = "draft_save" | "substep_continue" | "section_complete";
 
 type SaveResult =
-  | { kind: "success"; nextHref?: string }
+  | { kind: "success"; currentSnapshotConfirmed: boolean }
   | { kind: "validation" | "conflict" | "failure" | "superseded" };
 
 type SaveOperation = {
   sequence: number;
   requestId: string;
   mode: SaveMode;
+  guidedStepId: string | null;
   snapshot: Record<string, unknown>;
   resolve: (result: SaveResult) => void;
 };
@@ -130,7 +187,26 @@ type SaveIndicator =
   | { kind: "idle"; message: string }
   | { kind: "saving"; message: string }
   | { kind: "saved"; message: string }
-  | { kind: "error"; message: string };
+  | {
+      kind: "error";
+      message: string;
+      recovery: "retry" | "sign_in" | "conflict";
+    };
+
+type GuidedRenderContextValue = {
+  activeStep: GuidedSubstepDefinition;
+  activeSurface: GuidedSubstepSurface;
+  requestedFieldKey: string | null;
+  activeChangeRequest: PartnerFacingChangeRequest | null;
+};
+
+type OnboardingStaffSection = {
+  key: OnboardingSectionKey;
+  title: string;
+  status: OnboardingSectionStatus;
+  changeRequestStatus: "open" | "partner_responded" | null;
+  changeRequests: PartnerFacingChangeRequest[];
+};
 
 type FieldRendererProps = {
   data: Record<string, unknown>;
@@ -141,20 +217,37 @@ type FieldRendererProps = {
   assets: OnboardingEditorAsset[];
   assetBusyCategory: OrganizationalAssetCategory | null;
   assetErrors: Partial<Record<OrganizationalAssetCategory, string>>;
+  assetProgress: Partial<Record<OrganizationalAssetCategory, number>>;
+  assetSuccess: Partial<Record<OrganizationalAssetCategory, string>>;
+  assetInspection: Partial<
+    Record<
+      OrganizationalAssetCategory,
+      {
+        width: number | null;
+        height: number | null;
+        transparency: string;
+      }
+    >
+  >;
+  assetPreviewFailures: ReadonlySet<string>;
+  assetDownloadFailures: ReadonlySet<string>;
   updateField: (fieldKey: string, value: unknown) => void;
   uploadAsset: (
     category: OrganizationalAssetCategory,
     file: File,
-    input: HTMLInputElement
+    input: HTMLInputElement | null
   ) => Promise<void>;
+  markAssetPreviewFailed: (assetId: string) => void;
   deleteAsset: (asset: OnboardingEditorAsset) => Promise<void>;
+  downloadAsset: (asset: OnboardingEditorAsset) => Promise<void>;
   guardUnsavedNavigation: (event: MouseEvent<HTMLAnchorElement>) => void;
 };
 
 const inputClassName =
-  "min-h-11 w-full rounded-md border border-grayWilma-200 bg-white px-3 py-2 text-sm text-navy shadow-sm outline-none transition placeholder:text-grayWilma-500 focus:border-teal focus:ring-2 focus:ring-teal/25 disabled:cursor-not-allowed disabled:bg-grayWilma-100 disabled:text-grayWilma-600";
+  "min-h-11 w-full rounded-none border border-grayWilma-200 bg-white px-3 py-2 text-sm text-navy shadow-none outline-none transition placeholder:text-grayWilma-500 focus:border-teal focus:ring-2 focus:ring-teal/25 disabled:cursor-not-allowed disabled:bg-grayWilma-100 disabled:text-grayWilma-600";
 const textareaClassName = `${inputClassName} min-h-28 resize-y`;
 const PrefillFieldContext = createContext<ReadonlySet<string>>(new Set());
+const GuidedRenderContext = createContext<GuidedRenderContextValue | null>(null);
 
 export function OnboardingSectionEditor({
   sectionKey,
@@ -165,31 +258,43 @@ export function OnboardingSectionEditor({
   initialRevision,
   initialWorkspaceVersion,
   canEdit,
-  isPartnerStaff,
   commercialBlocked,
-  changeRequestInstructions,
   changeRequestStatus,
+  changeRequests,
   canonicalReferences,
   readOnlyValues,
   assets: initialAssets,
-  previousHref,
-  nextHref
-  ,
-  pendingPrefillFieldKeys
+  pendingPrefillFieldKeys,
+  initialStepId,
+  missingRequiredKeys,
+  completionHref,
+  sectionSummary,
+  brandExperience
 }: OnboardingSectionEditorProps) {
   const router = useRouter();
   const firstData = useMemo(() => cloneRecord(initialData), [initialData]);
+  const guidedSection = useMemo(
+    () => getGuidedSection(sectionKey),
+    [sectionKey]
+  );
+  const activeChangeRequest = useMemo(
+    () =>
+      changeRequests.find(
+        (request) =>
+          request.status === "open" || request.status === "partner_responded"
+      ) ?? null,
+    [changeRequests]
+  );
+  const [activeStepId, setActiveStepId] = useState(initialStepId);
   const [data, setData] = useState<Record<string, unknown>>(firstData);
   const [issues, setIssues] = useState<ValidationIssue[]>([]);
   const [indicator, setIndicator] = useState<SaveIndicator>({
     kind: "idle",
-    message: isPartnerStaff
-      ? "View-only section."
-      : commercialBlocked
-        ? "Editing opens after commercial clearance."
-        : canEdit
-          ? "Changes save automatically."
-          : "Editing is currently locked."
+    message: commercialBlocked
+      ? "Editing opens after commercial clearance."
+      : canEdit
+        ? "Changes save automatically."
+        : "Editing is currently locked."
   });
   const [dirty, setDirty] = useState(false);
   const [conflictRevision, setConflictRevision] = useState<number | null>(null);
@@ -201,10 +306,44 @@ export function OnboardingSectionEditor({
   const [assetErrors, setAssetErrors] = useState<
     Partial<Record<OrganizationalAssetCategory, string>>
   >({});
+  const [assetProgress, setAssetProgress] = useState<
+    Partial<Record<OrganizationalAssetCategory, number>>
+  >({});
+  const [assetSuccess, setAssetSuccess] = useState<
+    Partial<Record<OrganizationalAssetCategory, string>>
+  >({});
+  const [assetInspection, setAssetInspection] = useState<
+    Partial<
+      Record<
+        OrganizationalAssetCategory,
+        { width: number | null; height: number | null; transparency: string }
+      >
+    >
+  >({});
+  const [assetPreviewFailures, setAssetPreviewFailures] = useState(
+    () => new Set<string>()
+  );
+  const [assetDownloadFailures, setAssetDownloadFailures] = useState(
+    () => new Set<string>()
+  );
+  const [brandMobileMode, setBrandMobileMode] = useState<"edit" | "preview">(
+    "edit"
+  );
+  const [brandPreviewVariant, setBrandPreviewVariant] = useState<
+    "desktop" | "mobile"
+  >("desktop");
+  const [brandReviewPending, setBrandReviewPending] = useState(false);
+  const [brandReviewMessage, setBrandReviewMessage] = useState<string | null>(
+    null
+  );
+  const [brandReviewStatus, setBrandReviewStatus] = useState(
+    brandExperience?.partnerReviewStatus ?? null
+  );
 
   const revisionRef = useRef(initialRevision);
   const workspaceVersionRef = useRef(initialWorkspaceVersion);
   const dataRef = useRef(firstData);
+  const lastSavedDataRef = useRef(cloneRecord(firstData));
   const lastSavedSerializedRef = useRef(serialize(firstData));
   const inFlightRef = useRef(false);
   const queuedRef = useRef<SaveOperation | null>(null);
@@ -215,7 +354,13 @@ export function OnboardingSectionEditor({
   const completingRef = useRef(false);
   const completionAttemptRef = useRef<{
     serialized: string;
+    operationKey: string;
     requestId: string;
+  } | null>(null);
+  const pendingFocusRef = useRef<ValidationIssue | null>(null);
+  const failedSaveRef = useRef<{
+    mode: SaveMode;
+    guidedStepId: string | null;
   } | null>(null);
   const assetOperationsRef = useRef(new Set<OrganizationalAssetCategory>());
   const assetUploadRequestRef = useRef(
@@ -236,6 +381,83 @@ export function OnboardingSectionEditor({
   );
   const editable = canEdit && !commercialBlocked && conflictRevision === null;
   const controlsEnabled = editable && !completing;
+  const guidedResolution = resolveGuidedStep({
+    sectionKey,
+    requestedStep: activeStepId,
+    missingRequiredKeys,
+    pendingPrefillFieldKeys,
+    changeRequest: activeChangeRequest
+      ? {
+          status: activeChangeRequest.status,
+          targetFieldKey: activeChangeRequest.targetFieldKey
+        }
+      : null,
+    canEdit: editable
+  });
+  const requestOverview = guidedResolution.requestOverview;
+  const activeStep = guidedResolution.substep;
+  const activeStepIndex = guidedResolution.index;
+  const progress = guidedSubstepProgress(
+    sectionKey,
+    missingRequiredKeys,
+    pendingPrefillFieldKeys,
+    data
+  );
+  const activeStepProgress = progress.find(
+    (candidate) => candidate.id === activeStep.id
+  );
+  const activeRequestedFieldKey =
+    guidedResolution.containsRequestedChange &&
+    !guidedResolution.sectionLevelRequest
+      ? guidedResolution.requestedFieldKey
+      : null;
+  const guidedRenderValue = useMemo<GuidedRenderContextValue>(
+    () => ({
+      activeStep,
+      activeSurface: activeStep.surface,
+      requestedFieldKey: activeRequestedFieldKey,
+      activeChangeRequest
+    }),
+    [activeChangeRequest, activeRequestedFieldKey, activeStep]
+  );
+  const liveBrandPreview = useMemo(
+    () =>
+      brandExperience?.preview
+        ? applyBrandEditorPreview(
+            brandExperience.preview,
+            data,
+            currentAssets
+          )
+        : null,
+    [brandExperience?.preview, currentAssets, data]
+  );
+  const brandApproval = useMemo(
+    () =>
+      brandExperience
+        ? buildBrandApprovalPresentation({
+            partnerReviewStatus: brandReviewStatus,
+            legalEaseApprovalStatus:
+              brandExperience.legalEaseApprovalStatus,
+            sourceFreshness: brandExperience.sourceFreshness,
+            invalidatedApprovals: brandExperience.invalidatedApprovals,
+            workspaceStatus: brandExperience.workspaceStatus,
+            targetLaunchDate: brandExperience.targetLaunchDate,
+            launchedAt: brandExperience.launchedAt,
+            pausedAt: brandExperience.pausedAt,
+            closedAt: brandExperience.closedAt
+          })
+        : null,
+    [brandExperience, brandReviewStatus]
+  );
+  const brandLogoSrc = useMemo(() => {
+    if (!liveBrandPreview?.showPartnerLogo) return null;
+    const asset = currentAssets.find(
+      (candidate) =>
+        candidate.category === "transparent_logo" &&
+        candidate.id === liveBrandPreview.logo.assetId
+    );
+    return asset ? assetPreviewHref(asset) : null;
+  }, [currentAssets, liveBrandPreview]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -245,6 +467,76 @@ export function OnboardingSectionEditor({
     };
   }, []);
 
+  useEffect(() => {
+    const currentStep = new URL(window.location.href).searchParams.get("step");
+    if (currentStep === activeStepId) return;
+    window.history.replaceState(
+      window.history.state,
+      "",
+      guidedSectionHref(sectionKey, activeStepId)
+    );
+  }, [activeStepId, sectionKey]);
+
+  useEffect(() => {
+    const restoreStepFromHistory = () => {
+      const requested = new URL(window.location.href).searchParams.get("step");
+      const restored = resolveGuidedStep({
+        sectionKey,
+        requestedStep: requested,
+        missingRequiredKeys,
+        pendingPrefillFieldKeys,
+        changeRequest: activeChangeRequest
+          ? {
+              status: activeChangeRequest.status,
+              targetFieldKey: activeChangeRequest.targetFieldKey
+            }
+          : null,
+        canEdit: editable
+      });
+      setActiveStepId(
+        restored.requestOverview
+          ? SECTION_CHANGE_REQUEST_STEP
+          : restored.substep.id
+      );
+    };
+    window.addEventListener("popstate", restoreStepFromHistory);
+    return () => window.removeEventListener("popstate", restoreStepFromHistory);
+  }, [
+    activeChangeRequest,
+    editable,
+    missingRequiredKeys,
+    pendingPrefillFieldKeys,
+    sectionKey
+  ]);
+
+  const navigateToStep = useCallback(
+    (stepId: string, replace = false) => {
+      const href = guidedSectionHref(sectionKey, stepId);
+      if (replace) {
+        window.history.replaceState(window.history.state, "", href);
+      } else {
+        window.history.pushState(window.history.state, "", href);
+      }
+      setActiveStepId(stepId);
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+    },
+    [sectionKey]
+  );
+
+  useEffect(() => {
+    const pending = pendingFocusRef.current;
+    if (!pending || issues.length === 0) return;
+    const targetStep = guidedSubstepForField(sectionKey, pending.fieldKey);
+    if (targetStep && targetStep.id !== activeStep.id) return;
+    const target = document.getElementById(
+      controlId(pending.fieldKey, pending.rowId)
+    );
+    if (target instanceof HTMLElement) {
+      target.focus();
+      pendingFocusRef.current = null;
+    }
+  }, [activeStep.id, issues, sectionKey]);
+
   const performSave = useCallback(
     async function runSave(operation: SaveOperation): Promise<void> {
       inFlightRef.current = true;
@@ -253,8 +545,8 @@ export function OnboardingSectionEditor({
           kind: "saving",
           message:
             operation.mode === "section_complete"
-              ? "Checking and saving this section…"
-              : "Saving…"
+              ? "Checking and saving this section"
+              : "Saving"
         });
       }
 
@@ -271,7 +563,14 @@ export function OnboardingSectionEditor({
               requestId: operation.requestId,
               expectedRevision: revisionRef.current,
               expectedWorkspaceVersion: workspaceVersionRef.current,
-              mode: operation.mode,
+              mode:
+                operation.mode === "section_complete"
+                  ? "section_complete"
+                  : "draft_save",
+              ...(operation.mode === "substep_continue" &&
+              operation.guidedStepId
+                ? { guidedStepId: operation.guidedStepId }
+                : {}),
               data: operation.snapshot
             })
           }
@@ -289,25 +588,49 @@ export function OnboardingSectionEditor({
             setIndicator({
               kind: "error",
               message:
-                "Newer saved information is available. Your entries are still here; reload before reconciling them."
+                "A newer version of this section exists. Review the newer version before saving. Your entries remain on this page.",
+              recovery: "conflict"
             });
           }
           result = { kind: "conflict" };
           continueQueue = false;
         } else if (!response.ok || payload?.success !== true) {
           const responseIssues = parseIssues(payload?.issues);
+          const exposeValidation = operation.mode !== "draft_save";
           if (mountedRef.current) {
-            setIssues(responseIssues);
+            if (exposeValidation) {
+              const firstIssue = responseIssues[0] ?? null;
+              pendingFocusRef.current = firstIssue;
+              if (firstIssue) {
+                const issueStep = guidedSubstepForField(
+                  sectionKey,
+                  firstIssue.fieldKey
+                );
+                if (issueStep && issueStep.id !== activeStep.id) {
+                  navigateToStep(issueStep.id);
+                }
+              }
+              setIssues(responseIssues);
+            }
             setIndicator({
               kind: "error",
-              message: requestErrorMessage(response.status, payload)
+              message: requestErrorMessage(response.status, payload),
+              recovery: response.status === 401 ? "sign_in" : "retry"
             });
           }
+          failedSaveRef.current =
+            responseIssues.length === 0
+              ? {
+                  mode: operation.mode,
+                  guidedStepId: operation.guidedStepId
+                }
+              : null;
           result =
             responseIssues.length > 0
               ? { kind: "validation" }
               : { kind: "failure" };
         } else {
+          failedSaveRef.current = null;
           const section = objectValue(payload.section);
           const serverData = objectValue(section?.data) ?? operation.snapshot;
           const serverRevision = numberValue(section?.revision);
@@ -327,6 +650,7 @@ export function OnboardingSectionEditor({
               workspaceVersionRef.current = workspaceVersion;
             }
             lastSavedSerializedRef.current = serialize(serverData);
+            lastSavedDataRef.current = cloneRecord(serverData);
 
             if (mountedRef.current) {
               if (saveDecision.replaceLocalData) {
@@ -334,7 +658,23 @@ export function OnboardingSectionEditor({
                 dataRef.current = normalizedServerData;
                 setData(normalizedServerData);
                 setDirty(false);
-                setIndicator({ kind: "saved", message: "Saved" });
+                const confirmedSaved = canAnnounceGuidedSaveSuccess({
+                  responseAccepted: response.ok,
+                  authoritativePersistenceSucceeded: payload?.success === true,
+                  serverVersionApplied: saveDecision.applyServerVersion,
+                  currentSnapshotConfirmed: saveDecision.replaceLocalData
+                });
+                setIndicator(
+                  confirmedSaved
+                    ? {
+                        kind: "saved",
+                        message: `Saved at ${formatLocalSaveTime(new Date())}`
+                      }
+                    : {
+                        kind: "idle",
+                        message: "Waiting for the current save to be confirmed."
+                      }
+                );
               } else {
                 setDirty(true);
                 setIndicator({
@@ -348,18 +688,20 @@ export function OnboardingSectionEditor({
 
           result = {
             kind: "success",
-            nextHref:
-              typeof payload.nextHref === "string"
-                ? payload.nextHref
-                : undefined
+            currentSnapshotConfirmed: saveDecision.replaceLocalData
           };
         }
       } catch {
+        failedSaveRef.current = {
+          mode: operation.mode,
+          guidedStepId: operation.guidedStepId
+        };
         if (mountedRef.current) {
           setIndicator({
             kind: "error",
             message:
-              "Could not save. Your entries are still on this page. Check your connection and try again."
+              "Could not save. Nothing changed. Your entries remain on this page. Check your connection and retry.",
+            recovery: "retry"
           });
           setDirty(true);
         }
@@ -377,16 +719,26 @@ export function OnboardingSectionEditor({
         }
       }
     },
-    [sectionKey]
+    [activeStep.id, navigateToStep, sectionKey]
   );
 
   const enqueueSave = useCallback(
-    (mode: SaveMode, snapshot: Record<string, unknown>) =>
+    (
+      mode: SaveMode,
+      snapshot: Record<string, unknown>,
+      guidedStepId: string | null = null
+    ) =>
       new Promise<SaveResult>((resolve) => {
         const operation: SaveOperation = {
           sequence: ++nextSequenceRef.current,
-          requestId: requestIdForSave(mode, snapshot, completionAttemptRef),
+          requestId: requestIdForSave(
+            mode,
+            snapshot,
+            guidedStepId,
+            completionAttemptRef
+          ),
           mode,
+          guidedStepId,
           snapshot: cloneRecord(snapshot),
           resolve
         };
@@ -461,8 +813,12 @@ export function OnboardingSectionEditor({
       window.removeEventListener("beforeunload", warnAboutUnsavedChanges);
   }, [dirty]);
 
-  async function handleComplete(event: FormEvent<HTMLFormElement>) {
+  async function handleSaveAndContinue(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (requestOverview) {
+      navigateToStep(activeStep.id);
+      return;
+    }
     if (!controlsEnabled || completingRef.current) return;
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
@@ -471,11 +827,21 @@ export function OnboardingSectionEditor({
 
     completingRef.current = true;
     setCompleting(true);
-    const result = await enqueueSave("section_complete", dataRef.current);
+    const completingSection = activeStep.nextSubstep === null;
+    const result = await enqueueSave(
+      completingSection ? "section_complete" : "substep_continue",
+      dataRef.current,
+      completingSection ? null : activeStep.id
+    );
     completingRef.current = false;
     if (mountedRef.current) setCompleting(false);
-    if (result.kind === "success") {
-      router.push(result.nextHref ?? nextHref);
+    if (result.kind === "success" && result.currentSnapshotConfirmed) {
+      completionAttemptRef.current = null;
+      if (completingSection) {
+        router.push(completionHref);
+      } else if (activeStep.nextSubstep) {
+        navigateToStep(activeStep.nextSubstep);
+      }
     }
   }
 
@@ -485,7 +851,32 @@ export function OnboardingSectionEditor({
       clearTimeout(debounceRef.current);
       debounceRef.current = null;
     }
-    await enqueueSave("draft_save", dataRef.current);
+    const failed = failedSaveRef.current;
+    await enqueueSave(
+      failed?.mode ?? "draft_save",
+      dataRef.current,
+      failed?.guidedStepId ?? null
+    );
+  }
+
+  function returnToLastSavedVersion() {
+    if (
+      !window.confirm(
+        "Return to the last confirmed save? Entries made after that save will be removed from this view."
+      )
+    ) {
+      return;
+    }
+    const confirmed = cloneRecord(lastSavedDataRef.current);
+    dataRef.current = confirmed;
+    setData(confirmed);
+    setDirty(false);
+    setIssues([]);
+    failedSaveRef.current = null;
+    setIndicator({
+      kind: "idle",
+      message: "Showing the last confirmed saved version."
+    });
   }
 
   function guardUnsavedNavigation(event: MouseEvent<HTMLAnchorElement>) {
@@ -502,7 +893,7 @@ export function OnboardingSectionEditor({
   async function uploadAsset(
     category: OrganizationalAssetCategory,
     file: File,
-    input: HTMLInputElement
+    input: HTMLInputElement | null
   ) {
     if (
       !controlsEnabled ||
@@ -517,17 +908,47 @@ export function OnboardingSectionEditor({
     if (file.size > definition.maxBytes) {
       setAssetErrors((current) => ({
         ...current,
-        [category]: `Choose a file no larger than ${formatBytes(
+        [category]: `File is too large. The file was not uploaded and the current private asset remains safe. Choose a file no larger than ${formatBytes(
           definition.maxBytes
         )}.`
       }));
-      input.value = "";
+      if (input) input.value = "";
+      return;
+    }
+    const extension = file.name.split(".").pop()?.toLowerCase() ?? "";
+    if (!definition.allowedExtensions.includes(extension as never)) {
+      setAssetErrors((current) => ({
+        ...current,
+        [category]:
+          "File type is not supported. The file was not uploaded and the current private asset remains safe. Choose one of the listed file types."
+      }));
+      if (input) input.value = "";
       return;
     }
 
     assetOperationsRef.current.add(category);
     setAssetBusyCategory(category);
     setAssetErrors((current) => ({ ...current, [category]: undefined }));
+    setAssetSuccess((current) => ({ ...current, [category]: undefined }));
+    setAssetProgress((current) => ({ ...current, [category]: 0 }));
+    try {
+      const inspection = await inspectBrowserImage(file);
+      if (inspection) {
+        setAssetInspection((current) => ({
+          ...current,
+          [category]: inspection
+        }));
+      }
+    } catch {
+      setAssetInspection((current) => ({
+        ...current,
+        [category]: {
+          width: null,
+          height: null,
+          transparency: "Transparency was not verified by this browser."
+        }
+      }));
+    }
     const formData = new FormData();
     const fingerprint = `${file.name}:${file.size}:${file.type}:${file.lastModified}`;
     const previousRequest = assetUploadRequestRef.current.get(category);
@@ -549,12 +970,16 @@ export function OnboardingSectionEditor({
     formData.set("file", file);
 
     try {
-      const response = await fetch("/api/partners/onboarding/assets", {
-        method: "POST",
-        body: formData
+      const response = await uploadAssetFormData(formData, (percentage) => {
+        if (mountedRef.current) {
+          setAssetProgress((current) => ({
+            ...current,
+            [category]: percentage
+          }));
+        }
       });
-      const payload = await readJsonObject(response);
-      if (!response.ok || payload?.success !== true) {
+      const payload = response.payload;
+      if (response.status < 200 || response.status >= 300 || payload?.success !== true) {
         throw new Error(assetErrorMessage(response.status, payload));
       }
 
@@ -577,16 +1002,22 @@ export function OnboardingSectionEditor({
         workspaceVersionRef.current = workspaceVersion;
       }
       assetUploadRequestRef.current.delete(category);
+      setAssetProgress((current) => ({ ...current, [category]: 100 }));
+      setAssetSuccess((current) => ({
+        ...current,
+        [category]:
+          "Upload complete. The file remains private and is awaiting review."
+      }));
     } catch (error) {
       setAssetErrors((current) => ({
         ...current,
         [category]:
           error instanceof Error
             ? error.message
-            : "Could not upload this file."
+            : "Upload could not be completed. No success was recorded and the current private asset remains safe. Choose the file and try again."
       }));
     } finally {
-      input.value = "";
+      if (input) input.value = "";
       assetOperationsRef.current.delete(category);
       setAssetBusyCategory(null);
     }
@@ -646,13 +1077,27 @@ export function OnboardingSectionEditor({
         workspaceVersionRef.current = workspaceVersion;
       }
       assetDeleteRequestRef.current.delete(asset.id);
+      setAssetSuccess((current) => ({
+        ...current,
+        [asset.category]:
+          "The file was removed from the current private configuration."
+      }));
+      setAssetInspection((current) => ({
+        ...current,
+        [asset.category]: undefined
+      }));
+      setAssetPreviewFailures((current) => {
+        const next = new Set(current);
+        next.delete(asset.id);
+        return next;
+      });
     } catch (error) {
       setAssetErrors((current) => ({
         ...current,
         [asset.category]:
           error instanceof Error
             ? error.message
-            : "Could not remove this file."
+            : "The file could not be removed. It remains private and unchanged. Retry the removal or contact partners@legalease.com."
       }));
     } finally {
       assetOperationsRef.current.delete(asset.category);
@@ -660,15 +1105,138 @@ export function OnboardingSectionEditor({
     }
   }
 
+  async function downloadAsset(asset: OnboardingEditorAsset) {
+    setAssetDownloadFailures((current) => {
+      const next = new Set(current);
+      next.delete(asset.id);
+      return next;
+    });
+    setAssetErrors((current) => ({
+      ...current,
+      [asset.category]: undefined
+    }));
+    try {
+      const response = await fetch(
+        `/api/partners/onboarding/assets/${encodeURIComponent(asset.id)}`,
+        { cache: "no-store" }
+      );
+      if (!response.ok) {
+        throw new Error(
+          "The private download is no longer available. No public link was exposed and the file record remains private. Return to this asset task and retry."
+        );
+      }
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = objectUrl;
+      link.download = assetFileName(asset);
+      link.click();
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 1_000);
+    } catch {
+      setAssetDownloadFailures((current) => new Set(current).add(asset.id));
+    }
+  }
+
+  async function approvePartnerBrandContent() {
+    if (
+      brandReviewPending ||
+      dirty ||
+      !brandExperience?.canPartnerReview ||
+      !brandExperience.artifactVersionId
+    ) {
+      if (dirty) {
+        setBrandReviewMessage(
+          "Save the current edits before reviewing the prepared version. No approval was recorded."
+        );
+      }
+      return;
+    }
+    setBrandReviewPending(true);
+    setBrandReviewMessage(null);
+    try {
+      const response = await fetch("/api/partners/onboarding/artifacts", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          action: "approve",
+          requestId: crypto.randomUUID(),
+          payload: {
+            artifactVersionId: brandExperience.artifactVersionId,
+            comments:
+              "Partner factual and brand content reviewed in the guided private preview."
+          }
+        })
+      });
+      const payload = await readJsonObject(response);
+      if (!response.ok || payload?.success !== true) {
+        throw new Error(
+          response.status === 401
+            ? "Your session expired. Sign in again. No approval was recorded."
+            : "The factual and brand decision could not be recorded. The page remains private and inactive."
+        );
+      }
+      setBrandReviewStatus("approved");
+      setBrandReviewMessage(
+        "Partner factual and brand content approved. LegalEase approval, publication, and participant activation remain separate."
+      );
+    } catch (error) {
+      setBrandReviewMessage(
+        error instanceof Error
+          ? error.message
+          : "The factual and brand decision could not be recorded. The page remains private and inactive."
+      );
+    } finally {
+      setBrandReviewPending(false);
+    }
+  }
+
+  const guidedTaskContent = (
+    <GuidedRenderContext.Provider value={guidedRenderValue}>
+      <PrefillFieldContext.Provider value={new Set(pendingPrefillFieldKeys)}>
+        <GuidedSurfaceContent
+          canonicalReferences={canonicalReferences}
+          sectionSummary={sectionSummary}
+          step={activeStep}
+        />
+        <SectionFields
+          assetBusyCategory={assetBusyCategory}
+          assetErrors={assetErrors}
+          assetInspection={assetInspection}
+          assetDownloadFailures={assetDownloadFailures}
+          assetPreviewFailures={assetPreviewFailures}
+          assetProgress={assetProgress}
+          assetSuccess={assetSuccess}
+          assets={currentAssets}
+          canonicalReferences={canonicalReferences}
+          data={data}
+          deleteAsset={deleteAsset}
+          downloadAsset={downloadAsset}
+          editable={controlsEnabled}
+          guardUnsavedNavigation={guardUnsavedNavigation}
+          issues={issues}
+          markAssetPreviewFailed={(assetId) =>
+            setAssetPreviewFailures((current) =>
+              new Set(current).add(assetId)
+            )
+          }
+          readOnlyValues={readOnlyValues}
+          sectionKey={sectionKey}
+          updateField={updateField}
+          uploadAsset={uploadAsset}
+        />
+      </PrefillFieldContext.Provider>
+    </GuidedRenderContext.Provider>
+  );
+
   return (
-    <div className="mx-auto max-w-5xl text-navy">
-      <header className="mb-6">
+    <div className="mx-auto max-w-7xl text-[#071B33]">
+      <header className="border-b-4 border-[#071B33] pb-6">
         <Link
-          className="inline-flex min-h-11 items-center text-sm font-semibold text-teal underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
-          href="/partner/onboarding"
+          className="inline-flex min-h-11 items-center text-sm font-bold text-[#0A6E77] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
+          href="/partner/onboarding#program-configuration"
           onClick={guardUnsavedNavigation}
         >
-          Back to program setup
+          Return to implementation center
         </Link>
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <Badge
@@ -680,198 +1248,917 @@ export function OnboardingSectionEditor({
                 ? "Updates submitted"
                 : sectionStatusLabel(sectionStatus)}
           </Badge>
-          {isPartnerStaff ? <Badge>View only</Badge> : null}
           {!canEdit &&
-          !isPartnerStaff &&
           !commercialBlocked &&
           !["approved", "waived", "not_applicable"].includes(sectionStatus) ? (
             <Badge>Editing locked</Badge>
           ) : null}
         </div>
-        <h1 className="mt-4 text-3xl font-black tracking-[-0.02em] md:text-4xl">
+        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]">
+          Program configuration | Section {guidedSectionIndex(sectionKey)} of 8
+        </p>
+        <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.02em] md:text-4xl">
           {title}
         </h1>
-        <p className="mt-2 max-w-3xl text-base leading-7 text-grayWilma-700">
+        <p className="mt-2 max-w-3xl text-base leading-7 text-[#475A6E]">
           {purpose}
         </p>
       </header>
 
-      {commercialBlocked ? (
-        <Card
-          className="mb-5 border-orange/30 bg-orange/10 p-5"
-          role="status"
-          aria-labelledby="commercial-block-heading"
-        >
-          <h2 id="commercial-block-heading" className="font-black text-navy">
-            Setup is waiting on commercial clearance
-          </h2>
-          <p className="mt-2 text-sm leading-6 text-grayWilma-700">
-            You can review this section, but editing will open after LegalEase
-            confirms the applicable invoice, purchase order, or authorized
-            arrangement.
-          </p>
-        </Card>
-      ) : null}
-
-      {changeRequestInstructions ? (
-        <Card
-          className={`mb-5 p-5 ${
-            changeRequestStatus === "partner_responded"
-              ? "border-teal/30 bg-teal/10"
-              : "border-orange/30 bg-orange/10"
-          }`}
-          aria-labelledby="change-request-heading"
-        >
-          <h2 id="change-request-heading" className="font-black text-navy">
-            {changeRequestStatus === "partner_responded"
-              ? "Your updates are with LegalEase"
-              : "LegalEase requested changes"}
-          </h2>
-          <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-grayWilma-800">
-            {changeRequestInstructions}
-          </p>
-          {changeRequestStatus === "partner_responded" ? (
-            <p className="mt-3 text-sm font-semibold leading-6 text-grayWilma-700">
-              Your response remains pending until LegalEase approves this
-              section, requests another update, or resolves the request.
+      <div className="sticky top-0 z-20 -mx-4 mt-5 border-y border-[#B8C1C7] bg-[#F7F4EE] px-4 py-3 lg:hidden">
+        <div className="grid min-w-0 gap-1 sm:grid-cols-[minmax(0,1fr)_minmax(12rem,auto)] sm:items-center sm:gap-4">
+          <div className="min-w-0">
+            <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+              {requestOverview
+                ? "Requested update"
+                : `Step ${activeStepIndex + 1} of ${guidedSection.substeps.length}`}
             </p>
-          ) : null}
-        </Card>
-      ) : null}
-
-      {pendingPrefillFieldKeys.length > 0 ? (
-        <Card className="mb-5 border-teal/30 bg-teal/10 p-5">
-          <h2 className="font-black text-navy">
-            Review pre-filled information
-          </h2>
-          <p className="mt-2 text-sm leading-6 text-grayWilma-700">
-            LegalEase filled in information already on file. Check it,
-            correct or clear anything that has changed, then confirm this
-            section.
-          </p>
-          {isPartnerStaff ? (
-            <p className="mt-2 text-sm font-semibold text-grayWilma-700">
-              This is view only. A partner administrator must confirm it.
+            <p className="truncate text-sm font-extrabold text-[#071B33]">
+              {requestOverview ? "LegalEase request" : activeStep.title}
             </p>
-          ) : null}
-        </Card>
-      ) : null}
-
-      {conflictRevision !== null ? (
-        <Card
-          className="mb-5 border-orange/40 bg-orange/10 p-5"
-          role="alert"
-          aria-labelledby="revision-conflict-heading"
-        >
-          <h2 id="revision-conflict-heading" className="font-black text-navy">
-            Newer saved information is available
-          </h2>
-          <p className="mt-2 text-sm leading-6 text-grayWilma-800">
-            Your unsaved entries remain on this page and were not used to
-            overwrite revision {conflictRevision}. Reload to review the saved
-            version, then re-enter any changes you still need.
-          </p>
-          <Button
-            className="mt-4 min-h-11"
-            onClick={() => window.location.reload()}
-            type="button"
-            variant="secondary"
-          >
-            Reload saved information
-          </Button>
-        </Card>
-      ) : null}
-
-      {issues.length > 0 ? <ErrorSummary issues={issues} /> : null}
-
-      <form noValidate onSubmit={handleComplete}>
-        <Card className="rounded-[20px] border-grayWilma-200 p-5 shadow-sm md:p-7">
-          <PrefillFieldContext.Provider
-            value={new Set(pendingPrefillFieldKeys)}
-          >
-            <SectionFields
-              assetBusyCategory={assetBusyCategory}
-              assetErrors={assetErrors}
-              assets={currentAssets}
-              canonicalReferences={canonicalReferences}
-              data={data}
-              deleteAsset={deleteAsset}
-              editable={controlsEnabled}
-              guardUnsavedNavigation={guardUnsavedNavigation}
-              issues={issues}
-              readOnlyValues={readOnlyValues}
-              sectionKey={sectionKey}
-              updateField={updateField}
-              uploadAsset={uploadAsset}
-            />
-          </PrefillFieldContext.Provider>
-        </Card>
-
-        <div className="mt-5 flex flex-col-reverse gap-3 border-t border-grayWilma-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-3">
-            {previousHref ? (
-              <Link
-                className="inline-flex min-h-11 items-center justify-center rounded-md border border-grayWilma-200 bg-white px-4 py-2 text-sm font-semibold text-navy transition hover:bg-grayWilma-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
-                href={previousHref}
-                onClick={guardUnsavedNavigation}
-              >
-                Previous section
-              </Link>
-            ) : (
-              <Link
-                className="inline-flex min-h-11 items-center justify-center rounded-md border border-grayWilma-200 bg-white px-4 py-2 text-sm font-semibold text-navy transition hover:bg-grayWilma-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
-                href="/partner/onboarding"
-                onClick={guardUnsavedNavigation}
-              >
-                Back
-              </Link>
-            )}
-            <div
-              aria-live="polite"
-              className={`text-sm font-semibold ${
-                indicator.kind === "error" ? "text-orange" : "text-grayWilma-600"
-              }`}
-              role="status"
-            >
-              {indicator.message}
-            </div>
-            {indicator.kind === "error" &&
-            conflictRevision === null &&
-            editable ? (
-              <button
-                className="min-h-11 text-sm font-bold text-teal underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
-                onClick={() => void retryDraftSave()}
-                type="button"
-              >
-                Try saving again
-              </button>
-            ) : null}
           </div>
-
-          {controlsEnabled ? (
-            <Button
-              className="min-h-12 px-6"
-              type="submit"
-            >
-              {completing
-                ? "Checking and saving…"
-                : pendingPrefillFieldKeys.length > 0
-                  ? "Confirm and continue"
-                  : "Save and continue"}
-            </Button>
-          ) : (
-            <Link
-              className="inline-flex min-h-12 items-center justify-center rounded-md bg-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-wilmaBlue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
-              href={nextHref}
-            >
-              {nextHref.endsWith("/review") ? "Review setup" : "Next section"}
-            </Link>
-          )}
+          <SaveState indicator={indicator} compact />
         </div>
-      </form>
+      </div>
+
+      <div className="mt-7 grid min-w-0 gap-7 lg:grid-cols-[300px_minmax(0,1fr)]">
+        <GuidedTaskRail
+          activeStepId={activeStepId}
+          changeRequestStatus={changeRequestStatus}
+          issueFieldKeys={issues.map((issue) => issue.fieldKey)}
+          onNavigate={navigateToStep}
+          progress={progress}
+          sectionKey={sectionKey}
+          steps={guidedSection.substeps}
+        />
+
+        <div className="min-w-0">
+          {commercialBlocked ? (
+            <div
+              className="mb-5 border-l-[6px] border-[#FF3B00] bg-white p-5"
+              role="status"
+              aria-labelledby="commercial-block-heading"
+            >
+              <h2 id="commercial-block-heading" className="font-extrabold text-[#071B33]">
+                Setup is waiting on commercial clearance
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-[#475A6E]">
+                You can review this task. Editing opens after LegalEase confirms
+                the applicable commercial arrangement.
+              </p>
+            </div>
+          ) : null}
+
+          {conflictRevision !== null ? (
+            <div
+              className="mb-5 border-l-[6px] border-[#FF3B00] bg-white p-5"
+              role="alert"
+              aria-labelledby="revision-conflict-heading"
+            >
+              <h2 id="revision-conflict-heading" className="font-extrabold text-[#071B33]">
+                A newer version of this section exists
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-[#475A6E]">
+                Review the newer version before saving. Your entries remain in
+                this view and did not overwrite revision {conflictRevision}.
+              </p>
+              <Button
+                className="mt-4 min-h-11 rounded-none"
+                onClick={() => window.location.reload()}
+                type="button"
+                variant="secondary"
+              >
+                Review newer version
+              </Button>
+            </div>
+          ) : null}
+
+          {issues.length > 0 ? (
+            <ErrorSummary
+              issues={issues}
+              onNavigate={navigateToStep}
+              sectionKey={sectionKey}
+            />
+          ) : null}
+
+          {requestOverview ? (
+            <GuidedChangeRequestPanel
+              requests={changeRequests}
+              sectionLevel
+            />
+          ) : (
+            <form noValidate onSubmit={handleSaveAndContinue}>
+              <section
+                aria-labelledby="guided-task-heading"
+                className="border border-[#B8C1C7] bg-white"
+                data-guided-substep={activeStep.id}
+              >
+                <div className="border-b border-[#B8C1C7] p-5 md:p-7">
+                  <div className="flex min-w-0 flex-wrap items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]">
+                        Step {activeStepIndex + 1} of {guidedSection.substeps.length}
+                      </p>
+                      <h2 className="mt-2 text-2xl font-extrabold text-[#071B33]" id="guided-task-heading">
+                        {activeStep.title}
+                      </h2>
+                    </div>
+                    <p className="text-xs font-bold text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+                      {activeStepProgress?.needsAttention
+                        ? "Needs information"
+                        : activeStepProgress?.complete
+                          ? "Saved task"
+                          : "Current task"}
+                    </p>
+                  </div>
+                  <p className="mt-3 max-w-3xl text-sm leading-6 text-[#475A6E]">
+                    {activeStep.purpose}
+                  </p>
+                  <p className="mt-3 border-l-4 border-[#0A8E9A] pl-3 text-sm leading-6 text-[#071B33]">
+                    After Save and Continue: {activeStep.outcome}
+                  </p>
+                </div>
+
+                {activeStep.ownedFieldKeys.some((fieldKey) =>
+                  pendingPrefillFieldKeys.some(
+                    (pending) =>
+                      guidedFieldRoot(pending) ===
+                      guidedFieldRoot(String(fieldKey))
+                  )
+                ) ? (
+                  <div className="border-b border-[#0A8E9A] bg-[#EEF7F6] p-5 text-sm leading-6 text-[#071B33] md:px-7">
+                    <p className="font-bold">Review the pre-filled information in this task.</p>
+                    <p className="mt-1 text-[#475A6E]">
+                      Correct or clear anything that changed before continuing.
+                    </p>
+                  </div>
+                ) : null}
+
+                <div className="p-5 md:p-7">
+                  {sectionKey === "brand_public_page" ? (
+                    <BrandEditorWorkspace
+                      activeStep={activeStep}
+                      approval={brandApproval}
+                      canPartnerReview={
+                        brandExperience?.canPartnerReview === true &&
+                        brandReviewStatus !== "approved"
+                      }
+                      dirty={dirty}
+                      editor={guidedTaskContent}
+                      logoSrc={brandLogoSrc}
+                      mobileMode={brandMobileMode}
+                      onApprove={() => void approvePartnerBrandContent()}
+                      onMobileMode={setBrandMobileMode}
+                      onPreviewVariant={setBrandPreviewVariant}
+                      preview={liveBrandPreview}
+                      previewUnavailable={
+                        brandExperience?.previewUnavailable === true
+                      }
+                      previewVariant={brandPreviewVariant}
+                      reviewMessage={brandReviewMessage}
+                      reviewPending={brandReviewPending}
+                    />
+                  ) : (
+                    guidedTaskContent
+                  )}
+                </div>
+              </section>
+
+              <GuidedActionBar
+                activeStep={activeStep}
+                completing={completing}
+                completionHref={completionHref}
+                controlsEnabled={controlsEnabled}
+                dirty={dirty}
+                indicator={indicator}
+                issueCount={issues.length}
+                onNavigate={navigateToStep}
+                onRetry={() => void retryDraftSave()}
+                onReturnToSaved={returnToLastSavedVersion}
+                sectionKey={sectionKey}
+              />
+            </form>
+          )}
+
+          {requestOverview ? (
+            <div className="sticky bottom-0 z-10 mt-5 border border-[#B8C1C7] border-t-4 border-t-[#071B33] bg-[#F7F4EE] p-4">
+              <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+                <p className="text-sm leading-6 text-[#475A6E]">
+                  Review the request, then open the first task. The section-level
+                  model does not identify one authoritative field.
+                </p>
+                <a
+                  className="inline-flex min-h-12 items-center justify-center bg-[#FF3B00] px-5 py-3 text-sm font-extrabold text-white hover:bg-[#D93400] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
+                  data-primary-guided-action
+                  href={guidedSectionHref(sectionKey, activeStep.id)}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    navigateToStep(activeStep.id);
+                  }}
+                >
+                  Review section tasks
+                </a>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 }
+
+function GuidedTaskRail({
+  activeStepId,
+  changeRequestStatus,
+  issueFieldKeys,
+  onNavigate,
+  progress,
+  sectionKey,
+  steps
+}: {
+  activeStepId: string;
+  changeRequestStatus: "open" | "partner_responded" | null;
+  issueFieldKeys: string[];
+  onNavigate: (stepId: string) => void;
+  progress: Array<{ id: string; complete: boolean; needsAttention: boolean }>;
+  sectionKey: OnboardingSectionKey;
+  steps: readonly GuidedSubstepDefinition[];
+}) {
+  const issueSteps = new Set(
+    issueFieldKeys
+      .map((fieldKey) => guidedSubstepForField(sectionKey, fieldKey)?.id)
+      .filter((stepId): stepId is string => Boolean(stepId))
+  );
+  return (
+    <nav
+      aria-label="Section tasks"
+      className="hidden border border-[#B8C1C7] bg-white lg:sticky lg:top-6 lg:block lg:self-start"
+    >
+      <div className="border-b border-[#B8C1C7] p-4">
+        <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+          Section tasks
+        </p>
+      </div>
+      <ol>
+        {changeRequestStatus ? (
+          <li className="border-b border-[#D8DDDF]">
+            <GuidedStepLink
+              active={activeStepId === SECTION_CHANGE_REQUEST_STEP}
+              href={guidedSectionHref(sectionKey, SECTION_CHANGE_REQUEST_STEP)}
+              label="LegalEase request"
+              marker="CR"
+              onActivate={() => onNavigate(SECTION_CHANGE_REQUEST_STEP)}
+              state={
+                changeRequestStatus === "open"
+                  ? "Correction required"
+                  : "Waiting on LegalEase"
+              }
+            />
+          </li>
+        ) : null}
+        {steps.map((step, index) => {
+          const state = progress.find((candidate) => candidate.id === step.id);
+          return (
+            <li className="border-b border-[#D8DDDF] last:border-b-0" key={step.id}>
+              <GuidedStepLink
+                active={activeStepId === step.id}
+                href={guidedSectionHref(sectionKey, step.id)}
+                label={step.title}
+                marker={String(index + 1).padStart(2, "0")}
+                onActivate={() => onNavigate(step.id)}
+                state={
+                  issueSteps.has(step.id)
+                    ? "Review errors"
+                    : state?.needsAttention
+                      ? "Needs information"
+                      : state?.complete
+                        ? "Saved"
+                        : "Not finished"
+                }
+              />
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}
+
+function GuidedStepLink({
+  active,
+  href,
+  label,
+  marker,
+  onActivate,
+  state
+}: {
+  active: boolean;
+  href: string;
+  label: string;
+  marker: string;
+  onActivate: () => void;
+  state: string;
+}) {
+  return (
+    <a
+      aria-current={active ? "step" : undefined}
+      className={`grid min-h-12 grid-cols-[32px_minmax(0,1fr)] gap-x-3 px-4 py-3 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#0A8E9A] ${
+        active
+          ? "border-l-4 border-[#FF3B00] bg-[#EEF7F6]"
+          : "border-l-4 border-transparent hover:bg-[#F7F4EE]"
+      }`}
+      href={href}
+      onClick={(event) => {
+        event.preventDefault();
+        onActivate();
+      }}
+    >
+      <span className="text-xs font-bold text-[#0A8E9A] [font-family:var(--font-rcap-mono)]">
+        {marker}
+      </span>
+      <span className="min-w-0">
+        <span className="block break-words text-sm font-extrabold text-[#071B33]">{label}</span>
+        <span className="mt-1 block text-xs leading-5 text-[#475A6E]">{state}</span>
+      </span>
+    </a>
+  );
+}
+
+function GuidedSurfaceContent({
+  canonicalReferences,
+  sectionSummary,
+  step
+}: {
+  canonicalReferences: OnboardingCanonicalReference[];
+  sectionSummary: OnboardingSectionEditorProps["sectionSummary"];
+  step: GuidedSubstepDefinition;
+}) {
+  if (step.surface === "program_summary") {
+    return (
+      <div className="grid border border-[#B8C1C7] sm:grid-cols-2">
+        <SummaryFact
+          label="Sections with all required setup information"
+          value={`${sectionSummary.completedSections} of ${sectionSummary.totalSections}`}
+        />
+        <SummaryFact
+          label="Open partner changes"
+          value={String(sectionSummary.openPartnerChanges)}
+        />
+      </div>
+    );
+  }
+  if (step.surface === "exceptions") {
+    return (
+      <div className="grid gap-4">
+        <div className="grid border border-[#B8C1C7] sm:grid-cols-2">
+          <SummaryFact
+            label="Partner corrections required"
+            value={String(sectionSummary.openPartnerChanges)}
+          />
+          <SummaryFact
+            label="Waiting on LegalEase"
+            value={String(sectionSummary.waitingOnLegalEase)}
+          />
+        </div>
+        <Link className={secondaryActionClass} href="/partner/onboarding/review">
+          Open decision summary
+        </Link>
+      </div>
+    );
+  }
+  if (step.surface === "private_preview") {
+    return (
+      <div className="border-l-4 border-[#0A8E9A] bg-[#EEF7F6] p-5">
+        <h3 className="font-extrabold text-[#071B33]">
+          Review responsibilities before deciding
+        </h3>
+        <p className="mt-2 text-sm leading-6 text-[#475A6E]">
+          The partner decision covers organization facts and brand content.
+          LegalEase controls legal language, eligibility and outcome claims,
+          payment behavior, routing, privacy claims, and participant activation.
+        </p>
+        <p className="mt-2 text-sm font-semibold leading-6 text-[#071B33]">
+          Partner approval does not publish the page or activate participant
+          intake.
+        </p>
+      </div>
+    );
+  }
+  if (step.surface === "submission") {
+    return (
+      <div className="mb-6 border-l-4 border-[#0A8E9A] bg-[#EEF7F6] p-5">
+        <h3 className="font-extrabold text-[#071B33]">Decision summary comes first</h3>
+        <p className="mt-2 text-sm leading-6 text-[#475A6E]">
+          Save this section, then open the final review to see decisions,
+          exceptions, publication, activation, and the one current next action.
+        </p>
+      </div>
+    );
+  }
+  if (step.surface === "canonical_reuse" && canonicalReferences.length === 0) {
+    return (
+      <p className="border-l-4 border-[#475A6E] pl-4 text-sm leading-6 text-[#475A6E]">
+        No reusable public identity has been saved yet. Return to the source
+        sections to provide it.
+      </p>
+    );
+  }
+  return null;
+}
+
+function SummaryFact({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="border-b border-[#D8DDDF] p-4 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+      <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+        {label}
+      </p>
+      <p className="mt-2 text-xl font-extrabold text-[#071B33]">{value}</p>
+    </div>
+  );
+}
+
+function BrandEditorWorkspace({
+  activeStep,
+  approval,
+  canPartnerReview,
+  dirty,
+  editor,
+  logoSrc,
+  mobileMode,
+  onApprove,
+  onMobileMode,
+  onPreviewVariant,
+  preview,
+  previewUnavailable,
+  previewVariant,
+  reviewMessage,
+  reviewPending
+}: {
+  activeStep: GuidedSubstepDefinition;
+  approval: BrandApprovalPresentation | null;
+  canPartnerReview: boolean;
+  dirty: boolean;
+  editor: ReactNode;
+  logoSrc: string | null;
+  mobileMode: "edit" | "preview";
+  onApprove: () => void;
+  onMobileMode: (mode: "edit" | "preview") => void;
+  onPreviewVariant: (variant: "desktop" | "mobile") => void;
+  preview: CoBrandedPagePreview | null;
+  previewUnavailable: boolean;
+  previewVariant: "desktop" | "mobile";
+  reviewMessage: string | null;
+  reviewPending: boolean;
+}) {
+  const finalReview = activeStep.id === "private-preview-approval";
+  return (
+    <div>
+      <div
+        aria-label="Brand workspace mode"
+        className="mb-5 grid grid-cols-2 border border-[#071B33] xl:hidden"
+        role="group"
+      >
+        {(["edit", "preview"] as const).map((mode) => (
+          <button
+            aria-pressed={mobileMode === mode}
+            className={
+              mobileMode === mode
+                ? "min-h-12 bg-[#071B33] px-4 py-3 text-sm font-extrabold capitalize text-white"
+                : "min-h-12 bg-white px-4 py-3 text-sm font-extrabold capitalize text-[#071B33] hover:text-[#0A6E77]"
+            }
+            key={mode}
+            onClick={() => onMobileMode(mode)}
+            type="button"
+          >
+            {mode}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid min-w-0 gap-7 xl:grid-cols-[minmax(0,0.9fr)_minmax(390px,1.1fr)]">
+        <div
+          className={mobileMode === "edit" ? "min-w-0" : "hidden xl:block"}
+          data-brand-editor-mode="edit"
+        >
+          <aside className="mb-6 border border-[#B8C1C7] bg-[#F7F4EE] p-4">
+            <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+              Content responsibility
+            </p>
+            <dl className="mt-3 grid gap-3 text-sm leading-6">
+              <div>
+                <dt className="font-extrabold text-[#071B33]">Partner content</dt>
+                <dd className="text-[#475A6E]">
+                  Organization facts, brand assets, support information, and
+                  partner links.
+                </dd>
+              </div>
+              <div>
+                <dt className="font-extrabold text-[#071B33]">
+                  LegalEase-controlled content
+                </dt>
+                <dd className="text-[#475A6E]">
+                  Legal boundaries, claims, privacy statements, payment
+                  behavior, eligibility, and participant routing.
+                </dd>
+              </div>
+            </dl>
+          </aside>
+          {editor}
+        </div>
+
+        <BrandPreviewPanel
+          approval={approval}
+          canPartnerReview={canPartnerReview}
+          dirty={dirty}
+          finalReview={finalReview}
+          hidden={mobileMode !== "preview"}
+          logoSrc={logoSrc}
+          onApprove={onApprove}
+          onPreviewVariant={onPreviewVariant}
+          preview={preview}
+          previewUnavailable={previewUnavailable}
+          previewVariant={previewVariant}
+          reviewMessage={reviewMessage}
+          reviewPending={reviewPending}
+        />
+      </div>
+    </div>
+  );
+}
+
+function BrandPreviewPanel({
+  approval,
+  canPartnerReview,
+  dirty,
+  finalReview,
+  hidden,
+  logoSrc,
+  onApprove,
+  onPreviewVariant,
+  preview,
+  previewUnavailable,
+  previewVariant,
+  reviewMessage,
+  reviewPending
+}: {
+  approval: BrandApprovalPresentation | null;
+  canPartnerReview: boolean;
+  dirty: boolean;
+  finalReview: boolean;
+  hidden: boolean;
+  logoSrc: string | null;
+  onApprove: () => void;
+  onPreviewVariant: (variant: "desktop" | "mobile") => void;
+  preview: CoBrandedPagePreview | null;
+  previewUnavailable: boolean;
+  previewVariant: "desktop" | "mobile";
+  reviewMessage: string | null;
+  reviewPending: boolean;
+}) {
+  return (
+    <aside
+      aria-labelledby="brand-preview-heading"
+      className={`${hidden ? "hidden xl:block" : ""} min-w-0 xl:sticky xl:top-6 xl:self-start`}
+      data-brand-editor-mode="preview"
+    >
+      <div className="border-2 border-[#071B33] bg-white">
+        <div className="border-b border-[#B8C1C7] bg-[#EEF7F6] p-4">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#0A6E77] [font-family:var(--font-rcap-mono)]">
+                Private preview
+              </p>
+              <h3
+                className="mt-1 text-lg font-extrabold text-[#071B33]"
+                id="brand-preview-heading"
+              >
+                Participant page
+              </h3>
+              <p className="mt-1 text-xs leading-5 text-[#475A6E]">
+                This page is not published and participant intake is inactive.
+              </p>
+            </div>
+            <div
+              aria-label="Preview size"
+              className="inline-flex border border-[#071B33]"
+              role="group"
+            >
+              {(["desktop", "mobile"] as const).map((variant) => (
+                <button
+                  aria-pressed={previewVariant === variant}
+                  className={
+                    previewVariant === variant
+                      ? "min-h-11 bg-[#071B33] px-3 py-2 text-xs font-bold capitalize text-white"
+                      : "min-h-11 bg-white px-3 py-2 text-xs font-bold capitalize text-[#071B33] hover:text-[#0A6E77]"
+                  }
+                  key={variant}
+                  onClick={() => onPreviewVariant(variant)}
+                  type="button"
+                >
+                  {variant}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {approval ? (
+          <dl className="grid border-b border-[#B8C1C7] sm:grid-cols-2">
+            <PreviewState
+              label="Partner factual and brand approval"
+              value={approval.partnerApproval}
+            />
+            <PreviewState
+              label="LegalEase content and product approval"
+              value={approval.legalEaseApproval}
+            />
+            <PreviewState label="Publication" value={approval.publication} />
+            <PreviewState
+              label="Program activation"
+              value={approval.activation}
+            />
+          </dl>
+        ) : null}
+
+        {preview ? (
+          <div className="max-h-[70vh] overflow-auto bg-[#D8DDDF] p-3">
+            <div
+              className={
+                previewVariant === "mobile"
+                  ? "mx-auto w-[390px] max-w-full"
+                  : "min-w-[680px]"
+              }
+            >
+              <CoBrandedPageView
+                logoSrc={logoSrc}
+                preview={preview}
+                variant={previewVariant}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="p-5">
+            <PartnerRecoveryPanel
+              code="private_preview_unavailable"
+              compact
+            />
+            {!previewUnavailable ? (
+              <p className="mt-3 text-xs text-[#475A6E]">
+                Save the canonical brand task before retrying the preview.
+              </p>
+            ) : null}
+          </div>
+        )}
+
+        {preview && preview.missing.length > 0 ? (
+          <div className="border-t border-[#B8C1C7] p-4">
+            <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+              Needed before review
+            </p>
+            <ul className="mt-2 space-y-1 text-xs leading-5 text-[#475A6E]">
+              {preview.missing.map((item) => (
+                <li key={item.label}>
+                  <span className="font-bold text-[#071B33]">{item.label}</span>
+                  . {item.whereToSet}.
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
+        {finalReview && approval ? (
+          <div className="border-t-2 border-[#071B33] p-4">
+            <p className="text-sm leading-6 text-[#475A6E]">
+              {approval.approvalNote}
+            </p>
+            {reviewMessage ? (
+              <p
+                className="mt-3 text-sm font-semibold text-[#071B33]"
+                role="status"
+              >
+                {reviewMessage}
+              </p>
+            ) : null}
+            {canPartnerReview ? (
+              <button
+                className={`${secondaryActionClass} mt-4`}
+                disabled={dirty || reviewPending}
+                onClick={onApprove}
+                type="button"
+              >
+                {reviewPending
+                  ? "Recording decision"
+                  : "Approve factual and brand content"}
+              </button>
+            ) : null}
+            <p className="mt-3 text-xs leading-5 text-[#475A6E]">
+              Saving or approving these values does not publish this page,
+              create an access code, or activate participant intake.
+            </p>
+          </div>
+        ) : null}
+      </div>
+    </aside>
+  );
+}
+
+function PreviewState({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="border-b border-[#D8DDDF] p-3 last:border-b-0 sm:border-r sm:even:border-r-0">
+      <dt className="text-[0.62rem] font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+        {label}
+      </dt>
+      <dd className="mt-1 text-sm font-extrabold text-[#071B33]">{value}</dd>
+    </div>
+  );
+}
+
+function PartnerRecoveryPanel({
+  code,
+  compact = false
+}: {
+  code: Parameters<typeof partnerRecoveryPresentation>[0];
+  compact?: boolean;
+}) {
+  const recovery = partnerRecoveryPresentation(code);
+  return (
+    <section
+      aria-labelledby={`recovery-${code}-heading`}
+      className={`border-l-[6px] border-[#FF3B00] bg-[#F7F4EE] ${
+        compact ? "p-4" : "p-5"
+      }`}
+      data-recovery-state={code}
+    >
+      <h3
+        className="font-extrabold text-[#071B33]"
+        id={`recovery-${code}-heading`}
+      >
+        {recovery.heading}
+      </h3>
+      <dl className="mt-3 grid gap-3 text-sm leading-6">
+        <div>
+          <dt className="font-extrabold text-[#071B33]">What happened</dt>
+          <dd className="text-[#475A6E]">{recovery.happened}</dd>
+        </div>
+        <div>
+          <dt className="font-extrabold text-[#071B33]">What remained safe</dt>
+          <dd className="text-[#475A6E]">{recovery.safe}</dd>
+        </div>
+        <div>
+          <dt className="font-extrabold text-[#071B33]">What to do now</dt>
+          <dd className="text-[#475A6E]">{recovery.next}</dd>
+        </div>
+      </dl>
+      <a className={`${secondaryActionClass} mt-4`} href={recovery.returnHref}>
+        {recovery.returnLabel}
+      </a>
+      <p className="mt-4 break-words text-xs leading-5 text-[#475A6E]">
+        Need help? Email{" "}
+        <a
+          className="font-bold text-[#0A6E77] underline underline-offset-4"
+          href="mailto:partners@legalease.com"
+        >
+          partners@legalease.com
+        </a>
+        .
+      </p>
+    </section>
+  );
+}
+
+function GuidedActionBar({
+  activeStep,
+  completing,
+  completionHref,
+  controlsEnabled,
+  dirty,
+  indicator,
+  issueCount,
+  onNavigate,
+  onRetry,
+  onReturnToSaved,
+  sectionKey
+}: {
+  activeStep: GuidedSubstepDefinition;
+  completing: boolean;
+  completionHref: string;
+  controlsEnabled: boolean;
+  dirty: boolean;
+  indicator: SaveIndicator;
+  issueCount: number;
+  onNavigate: (stepId: string) => void;
+  onRetry: () => void;
+  onReturnToSaved: () => void;
+  sectionKey: OnboardingSectionKey;
+}) {
+  const backHref = activeStep.previousSubstep
+    ? guidedSectionHref(sectionKey, activeStep.previousSubstep)
+    : "/partner/onboarding#program-configuration";
+  const nextHref = activeStep.nextSubstep
+    ? guidedSectionHref(sectionKey, activeStep.nextSubstep)
+    : completionHref;
+  return (
+    <div className="sticky bottom-0 z-10 mt-5 border border-[#B8C1C7] border-t-4 border-t-[#071B33] bg-[#F7F4EE] p-4">
+      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+        <div className="min-w-0">
+          <SaveState indicator={indicator} />
+          {indicator.kind === "error" &&
+          indicator.recovery === "retry" &&
+          issueCount === 0 ? (
+            <div className="mt-2 flex flex-wrap gap-4">
+              <button className={recoveryButtonClass} onClick={onRetry} type="button">
+                Retry
+              </button>
+              {dirty ? (
+                <button className={recoveryButtonClass} onClick={onReturnToSaved} type="button">
+                  Return to last saved version
+                </button>
+              ) : null}
+            </div>
+          ) : null}
+          {indicator.kind === "error" && indicator.recovery === "sign_in" ? (
+            <Link
+              className={`${recoveryButtonClass} mt-2`}
+              href={`/sign-in?next=${encodeURIComponent(
+                guidedSectionHref(sectionKey, activeStep.id)
+              )}`}
+            >
+              Sign in again
+            </Link>
+          ) : null}
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <a
+            className={secondaryActionClass}
+            href={backHref}
+            onClick={(event) => {
+              if (!activeStep.previousSubstep) return;
+              event.preventDefault();
+              onNavigate(activeStep.previousSubstep);
+            }}
+          >
+            {activeStep.previousSubstep ? "Back" : "Implementation center"}
+          </a>
+          {controlsEnabled ? (
+            <button
+              className="inline-flex min-h-12 items-center justify-center bg-[#FF3B00] px-6 py-3 text-sm font-extrabold text-white hover:bg-[#D93400] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-70"
+              data-primary-guided-action
+              disabled={completing}
+              type="submit"
+            >
+              {completing
+                ? "Saving"
+                : activeStep.nextSubstep
+                  ? "Save and Continue"
+                  : "Save section"}
+            </button>
+          ) : (
+            <a
+              className="inline-flex min-h-12 items-center justify-center bg-[#FF3B00] px-6 py-3 text-sm font-extrabold text-white hover:bg-[#D93400] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
+              data-primary-guided-action
+              href={nextHref}
+              onClick={(event) => {
+                if (!activeStep.nextSubstep) return;
+                event.preventDefault();
+                onNavigate(activeStep.nextSubstep);
+              }}
+            >
+              {activeStep.nextSubstep ? "Continue" : "Return to implementation center"}
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SaveState({
+  indicator,
+  compact = false
+}: {
+  indicator: SaveIndicator;
+  compact?: boolean;
+}) {
+  return (
+    <div
+      aria-atomic="true"
+      aria-live="polite"
+      className={`${compact ? "sm:text-right" : ""} text-xs font-bold ${
+        indicator.kind === "error" ? "text-[#C42E00]" : "text-[#475A6E]"
+      } [font-family:var(--font-rcap-mono)]`}
+      data-save-state={indicator.kind}
+      role="status"
+    >
+      {indicator.message}
+    </div>
+  );
+}
+
+const secondaryActionClass =
+  "inline-flex min-h-12 items-center justify-center border border-[#071B33] bg-white px-5 py-3 text-center text-sm font-extrabold text-[#071B33] hover:border-[#0A8E9A] hover:text-[#0A8E9A] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2";
+const recoveryButtonClass =
+  "inline-flex min-h-11 items-center text-sm font-bold text-[#0A6E77] underline underline-offset-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2";
 
 function SectionFields({
   sectionKey,
@@ -915,19 +2202,6 @@ function sectionBadgeTone(
   return "neutral";
 }
 
-function sectionStatusLabel(status: OnboardingSectionStatus) {
-  const labels: Record<OnboardingSectionStatus, string> = {
-    not_started: "Not started",
-    in_progress: "In progress",
-    submitted: "Submitted",
-    needs_changes: "Needs changes",
-    approved: "Approved",
-    waived: "Waived",
-    not_applicable: "Not applicable"
-  };
-  return labels[status];
-}
-
 function OrganizationContactsFields(props: FieldRendererProps) {
   const contacts = objectRows(props.data.contacts);
   const setContacts = (next: Record<string, unknown>[]) =>
@@ -944,6 +2218,16 @@ function OrganizationContactsFields(props: FieldRendererProps) {
       <FieldGroup
         title="Organization"
         description="Use the official name for agreements and the public names participants should see."
+        fieldKeys={[
+          "legal_organization_name",
+          "public_organization_name",
+          "organization_type",
+          "website",
+          "primary_address",
+          "main_phone",
+          "public_program_name",
+          "partner_slug_preference"
+        ]}
       >
         <div className="grid gap-5 md:grid-cols-2">
           <TextField fieldKey="legal_organization_name" {...props} />
@@ -982,6 +2266,7 @@ function OrganizationContactsFields(props: FieldRendererProps) {
       <FieldGroup
         title="Program contacts"
         description="These addresses record responsibilities only. Saving them does not send invitations."
+        fieldKeys={["contacts"]}
       >
         <div className="grid gap-4" id={controlId("contacts")} tabIndex={-1}>
           <FieldIssueList
@@ -1118,6 +2403,7 @@ function ProgramGoalsFields(props: FieldRendererProps) {
       <FieldGroup
         title="Goals and audience"
         description="Describe what the program should accomplish in concrete, plain language."
+        fieldKeys={["primary_goal", "definition_of_success", "target_population"]}
       >
         <div className="grid gap-5">
           <TextAreaField fieldKey="primary_goal" {...props} />
@@ -1129,6 +2415,12 @@ function ProgramGoalsFields(props: FieldRendererProps) {
       <FieldGroup
         title="Expected reach"
         description="Use your best planning estimate. These values do not change contracted allocations."
+        fieldKeys={[
+          "expected_screening_volume",
+          "expected_screening_period",
+          "expected_packet_volume",
+          "expected_packet_period"
+        ]}
       >
         <div className="grid gap-5 md:grid-cols-2">
           <NumberField fieldKey="expected_screening_volume" {...props} />
@@ -1138,7 +2430,10 @@ function ProgramGoalsFields(props: FieldRendererProps) {
         </div>
       </FieldGroup>
 
-      <FieldGroup title="Program timing and model">
+      <FieldGroup
+        fieldKeys={["program_model", "program_start_date", "ongoing", "program_end_date"]}
+        title="Program timing and model"
+      >
         <div className="grid gap-5 md:grid-cols-2">
           <SelectField
             fieldKey="program_model"
@@ -1164,6 +2459,13 @@ function ProgramGoalsFields(props: FieldRendererProps) {
       <FieldGroup
         title="Outreach, workflow, and barriers"
         description="Enter one outreach channel per line and identify barriers the operating plan should address."
+        fieldKeys={[
+          "outreach_channels",
+          "current_workflow",
+          "known_barriers",
+          "known_barriers_other",
+          "partner_side_outcome_tracking"
+        ]}
       >
         <div className="grid gap-5">
           <LinesField fieldKey="outreach_channels" {...props} />
@@ -1199,6 +2501,13 @@ function GeographyFields(props: FieldRendererProps) {
       <FieldGroup
         title="Geography and service area"
         description="Jurisdictions configure the participant path. County settings support routing and reporting; they are not eligibility promises."
+        fieldKeys={[
+          "jurisdictions",
+          "service_area_description",
+          "counties",
+          "default_county",
+          "out_of_area_policy"
+        ]}
       >
         <div className="grid gap-5">
           <LinesField
@@ -1232,6 +2541,14 @@ function GeographyFields(props: FieldRendererProps) {
       <FieldGroup
         title="Language and accessibility"
         description="These settings configure the participant program experience; they do not change the language of this partner portal."
+        fieldKeys={[
+          "primary_language",
+          "enable_spanish",
+          "additional_languages",
+          "accessibility_accommodations",
+          "community_specific_terminology",
+          "population_restrictions"
+        ]}
       >
         <div className="grid gap-5">
           <TextField fieldKey="primary_language" {...props} />
@@ -1277,6 +2594,14 @@ function AccessPlanFields(props: FieldRendererProps) {
       <FieldGroup
         title="Participant access plan"
         description="This records the intended access model only. No access code or invitation is created here."
+        fieldKeys={[
+          "participant_access_model",
+          "code_structure",
+          "code_source_groups",
+          "code_expiration",
+          "code_level_capacity",
+          "overage_approver_contact_id"
+        ]}
       >
         <SelectField
           fieldKey="participant_access_model"
@@ -1312,6 +2637,10 @@ function AccessPlanFields(props: FieldRendererProps) {
       <FieldGroup
         title="Capacity escalation"
         description="What happens as the program approaches its cap. This is your operating procedure; it does not change the contracted capacity."
+        fieldKeys={[
+          "capacity_escalation_procedure",
+          "capacity_escalation_response_expectation"
+        ]}
       >
         <div className="grid gap-5">
           <TextAreaField fieldKey="capacity_escalation_procedure" {...props} />
@@ -1357,6 +2686,16 @@ function BrandFields(props: FieldRendererProps) {
       <FieldGroup
         title="Approved public-page copy"
         description="Provide plain text approved by your organization. LegalEase-controlled legal and product language remains read-only."
+        fieldKeys={[
+          "approved_organization_description",
+          "program_headline",
+          "program_subheadline",
+          "primary_cta_label",
+          "participant_support_copy",
+          "partner_privacy_url",
+          "accessibility_url",
+          "impact_reporting_url"
+        ]}
       >
         <div className="grid gap-5">
           <TextAreaField
@@ -1394,6 +2733,7 @@ function BrandFields(props: FieldRendererProps) {
       <FieldGroup
         title="LegalEase-controlled content"
         description="Legal disclaimers, self-help boundaries, eligibility and outcome claims, platform privacy and security statements, payment logic, participant routing, and LegalEase legal links are reviewed and controlled by LegalEase."
+        surface="private_preview"
       >
         <div className="rounded-md border border-grayWilma-200 bg-grayWilma-100 px-4 py-3 text-sm font-semibold leading-6 text-grayWilma-700">
           These items are not editable in partner onboarding.
@@ -1425,6 +2765,7 @@ function StaffPlanFields(props: FieldRendererProps) {
       <FieldGroup
         title="Planned dashboard users"
         description="This is an access plan only. Saving it does not create a membership or send an invitation."
+        fieldKeys={["planned_users"]}
       >
         <div
           className="grid gap-4"
@@ -1543,6 +2884,13 @@ function StaffPlanFields(props: FieldRendererProps) {
       <FieldGroup
         title="Access responsibilities"
         description="Choose the planned administrator and the roles responsible for recurring access tasks."
+        fieldKeys={[
+          "primary_dashboard_administrator_row_id",
+          "user_invitation_authority_role",
+          "code_management_authority_role",
+          "report_export_authority_role",
+          "access_review_frequency"
+        ]}
       >
         <div className="grid gap-5 md:grid-cols-2">
           <OptionReferenceField
@@ -1598,7 +2946,15 @@ function SupportReportingFields(props: FieldRendererProps) {
 
   return (
     <div className="grid gap-8">
-      <FieldGroup title="Participant and staff support">
+      <FieldGroup
+        fieldKeys={[
+          "participant_support_email",
+          "participant_support_phone",
+          "partner_staff_support_contact_id",
+          "urgent_escalation_contact_id"
+        ]}
+        title="Participant and staff support"
+      >
         <div className="grid gap-5 md:grid-cols-2">
           <TextField
             autoComplete="email"
@@ -1628,6 +2984,12 @@ function SupportReportingFields(props: FieldRendererProps) {
       <FieldGroup
         title="Legal referral and escalation"
         description="When a prosecutor objects, a contested hearing is scheduled, or individualized legal advocacy is required, the self-help path must stop and this approved referral process applies."
+        fieldKeys={[
+          "legal_services_referral_organization",
+          "referral_intake_method",
+          "referral_intake_details",
+          "contested_matter_procedure"
+        ]}
       >
         <div className="grid gap-5">
           <TextField
@@ -1643,6 +3005,20 @@ function SupportReportingFields(props: FieldRendererProps) {
       <FieldGroup
         title="Escalation routes, owners, and response expectations"
         description="The Operations and Escalation Plan names each of these routes with the person who owns it and how quickly they respond. Anything left blank is shown in the plan as a named gap rather than filled in for you."
+        fieldKeys={[
+          "participant_support_response_expectation",
+          "referral_response_expectation",
+          "contested_matter_response_expectation",
+          "media_inquiry_response_expectation",
+          "privacy_request_route",
+          "privacy_request_owner_contact_id",
+          "privacy_request_response_expectation",
+          "security_concern_route",
+          "security_concern_response_expectation",
+          "program_pause_route",
+          "program_pause_authority_contact_id",
+          "program_pause_response_expectation"
+        ]}
       >
         <div className="grid gap-5 md:grid-cols-2">
           <TextField
@@ -1695,6 +3071,7 @@ function SupportReportingFields(props: FieldRendererProps) {
       <FieldGroup
         title="Reporting recipients"
         description="These rows define intended report delivery only; saving them sends nothing."
+        fieldKeys={["report_recipients"]}
       >
         <div
           className="grid gap-4"
@@ -1780,7 +3157,15 @@ function SupportReportingFields(props: FieldRendererProps) {
         </div>
       </FieldGroup>
 
-      <FieldGroup title="Reporting plan">
+      <FieldGroup
+        fieldKeys={[
+          "reporting_cadence",
+          "funder_required_metrics",
+          "data_use_restrictions",
+          "external_outcome_data_description"
+        ]}
+        title="Reporting plan"
+      >
         <div className="grid gap-5">
           <TextField fieldKey="reporting_cadence" {...props} />
           <LinesField fieldKey="funder_required_metrics" {...props} />
@@ -1816,6 +3201,7 @@ function AuthorizationFields(props: FieldRendererProps) {
       <FieldGroup
         title="Required acknowledgments"
         description="Review each statement carefully. These acknowledgments authorize implementation preparation; they are not an e-signature or a replacement for an agreement."
+        fieldKeys={acknowledgements}
       >
         <div className="grid gap-3">
           {acknowledgements.map((fieldKey) => (
@@ -1824,7 +3210,7 @@ function AuthorizationFields(props: FieldRendererProps) {
         </div>
       </FieldGroup>
 
-      <FieldGroup title="Authorized approver">
+      <FieldGroup fieldKeys={["approver_name", "approver_title"]} title="Authorized approver">
         <div className="grid gap-5 md:grid-cols-2">
           <TextField
             autoComplete="name"
@@ -1845,6 +3231,8 @@ function AuthorizationFields(props: FieldRendererProps) {
 }
 
 function AssetFields(props: FieldRendererProps) {
+  const [dragCategory, setDragCategory] =
+    useState<OrganizationalAssetCategory | null>(null);
   const procurementRequired =
     props.assets.some((asset) => asset.category === "procurement_document") ||
     props.readOnlyValues.some(
@@ -1860,7 +3248,8 @@ function AssetFields(props: FieldRendererProps) {
   return (
     <FieldGroup
       title="Private organizational assets"
-      description="Files remain private. Upload only approved organization, brand, and requested procurement materials—never participant or case files."
+      description="Files remain private. Upload only approved organization, brand, and requested procurement materials. Never upload participant or case files."
+      surface="private_assets"
     >
       <div className="grid gap-4">
         {activeDefinitions.map((definition) => {
@@ -1869,25 +3258,39 @@ function AssetFields(props: FieldRendererProps) {
           );
           const busy = props.assetBusyCategory !== null;
           const error = props.assetErrors[definition.category];
+          const success = props.assetSuccess[definition.category];
+          const progress = props.assetProgress[definition.category];
+          const inspection = props.assetInspection[definition.category];
           const inputId = `asset-${definition.category}`;
+          const previewFailed = asset
+            ? props.assetPreviewFailures.has(asset.id)
+            : false;
+          const downloadFailed = asset
+            ? props.assetDownloadFailures.has(asset.id)
+            : false;
+          const dimensions = asset
+            ? asset.width && asset.height
+              ? `${asset.width} × ${asset.height} px`
+              : "Not reported"
+            : inspection?.width && inspection.height
+              ? `${inspection.width} × ${inspection.height} px`
+              : "Not reported";
           return (
-            <Card
-              className="grid gap-4 border-grayWilma-200 p-4 shadow-none md:grid-cols-[minmax(0,1fr)_auto] md:items-center"
+            <section
+              className="grid gap-4 border border-[#B8C1C7] bg-white p-4"
               data-asset-category={definition.category}
               key={definition.category}
             >
               <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-start justify-between gap-3">
                   <h3 className="font-black">{definition.label}</h3>
-                  {definition.requirement === "required" ? (
-                    <Badge tone="orange">Required</Badge>
-                  ) : (
-                    <Badge>
-                      {definition.requirement === "conditional"
+                  <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+                    {definition.requirement === "required"
+                      ? "Required"
+                      : definition.requirement === "conditional"
                         ? "When requested"
                         : "Optional"}
-                    </Badge>
-                  )}
+                  </p>
                 </div>
                 <p className="mt-1 text-xs leading-5 text-grayWilma-600">
                   {definition.allowedExtensions
@@ -1897,35 +3300,71 @@ function AssetFields(props: FieldRendererProps) {
                 </p>
 
                 {asset ? (
-                  <div className="mt-3 flex flex-wrap items-center gap-3 rounded-md bg-grayWilma-100 p-3">
-                    {assetPreviewHref(asset) && isImageAsset(asset) ? (
+                  <div className="mt-4 grid gap-4 border-t border-[#D8DDDF] pt-4 sm:grid-cols-[120px_minmax(0,1fr)]">
+                    {assetPreviewHref(asset) &&
+                    isImageAsset(asset) &&
+                    !previewFailed ? (
                       <Image
                         alt={`Preview of ${definition.label}`}
-                        className="h-16 w-28 rounded-md border border-grayWilma-200 bg-white object-contain"
-                        height={64}
+                        className="h-24 w-[120px] border border-[#B8C1C7] bg-[#F7F4EE] object-contain"
+                        height={96}
+                        onError={() => props.markAssetPreviewFailed(asset.id)}
                         src={assetPreviewHref(asset)}
                         unoptimized
-                        width={112}
+                        width={120}
                       />
                     ) : null}
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-bold">
+                      <p className="break-all text-sm font-bold">
                         {assetFileName(asset)}
                       </p>
-                      <p className="text-xs text-grayWilma-600">
-                        {formatBytes(assetByteSize(asset))}
-                        {assetLifecycleStatus(asset)
-                          ? ` · ${humanize(assetLifecycleStatus(asset))}`
-                          : " · Private"}
-                      </p>
+                      <dl className="mt-2 grid gap-x-4 gap-y-2 text-xs sm:grid-cols-2">
+                        <AssetDetail
+                          label="File type"
+                          value={asset.mediaType ?? asset.contentType ?? "Not reported"}
+                        />
+                        <AssetDetail
+                          label="File size"
+                          value={formatBytes(assetByteSize(asset))}
+                        />
+                        <AssetDetail label="Dimensions" value={dimensions} />
+                        <AssetDetail
+                          label="Transparency"
+                          value={
+                            inspection?.transparency ??
+                            "Not verified for this saved file"
+                          }
+                        />
+                        <AssetDetail
+                          label="Upload state"
+                          value={
+                            assetLifecycleStatus(asset)
+                              ? onboardingOptionLabel(assetLifecycleStatus(asset))
+                              : "Private"
+                          }
+                        />
+                        <AssetDetail
+                          label="Review state"
+                          value={assetReviewLabel(asset.reviewStatus)}
+                        />
+                      </dl>
+                      {asset.reviewStatus === "rejected" ? (
+                        <p className="mt-3 border-l-4 border-[#FF3B00] pl-3 text-xs leading-5 text-[#475A6E]">
+                          <span className="font-bold text-[#071B33]">
+                            Rejection reason:
+                          </span>{" "}
+                          This asset record does not carry a partner-safe reason.
+                          Contact partners@legalease.com before replacing it.
+                        </p>
+                      ) : null}
                       {assetDownloadHref(asset) ? (
-                        <a
+                        <button
                           className="mt-1 inline-flex min-h-8 items-center text-xs font-bold text-teal underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
-                          href={assetDownloadHref(asset)}
-                          rel="noopener noreferrer"
+                          onClick={() => void props.downloadAsset(asset)}
+                          type="button"
                         >
                           Download private file
-                        </a>
+                        </button>
                       ) : null}
                     </div>
                   </div>
@@ -1935,9 +3374,49 @@ function AssetFields(props: FieldRendererProps) {
                   </p>
                 )}
 
+                {previewFailed ? (
+                  <div className="mt-3">
+                    <PartnerRecoveryPanel code="asset_preview_failed" compact />
+                  </div>
+                ) : null}
+
+                {downloadFailed ? (
+                  <div className="mt-3">
+                    <PartnerRecoveryPanel
+                      code="private_asset_unavailable"
+                      compact
+                    />
+                  </div>
+                ) : null}
+
+                {typeof progress === "number" &&
+                props.assetBusyCategory === definition.category ? (
+                  <div className="mt-3" role="status">
+                    <div className="flex items-center justify-between gap-3 text-xs font-bold text-[#475A6E]">
+                      <span>Uploading private file</span>
+                      <span>{progress}%</span>
+                    </div>
+                    <progress
+                      aria-label={`Upload progress for ${definition.label}`}
+                      className="mt-2 h-2 w-full accent-[#0A8E9A]"
+                      max={100}
+                      value={progress}
+                    />
+                  </div>
+                ) : null}
+
+                {success ? (
+                  <p
+                    className="mt-3 border-l-4 border-[#0A8E9A] bg-[#EEF7F6] px-3 py-2 text-sm font-semibold text-[#071B33]"
+                    role="status"
+                  >
+                    {success}
+                  </p>
+                ) : null}
+
                 {error ? (
                   <p
-                    className="mt-2 text-sm font-semibold text-orange"
+                    className="mt-3 border-l-4 border-[#FF3B00] bg-[#F7F4EE] px-3 py-2 text-sm font-semibold text-[#071B33]"
                     id={`${inputId}-error`}
                     role="alert"
                   >
@@ -1946,11 +3425,45 @@ function AssetFields(props: FieldRendererProps) {
                 ) : null}
               </div>
 
-              <div className="flex flex-wrap gap-2 md:justify-end">
+              <div
+                className={`border-2 border-dashed p-4 transition ${
+                  dragCategory === definition.category
+                    ? "border-[#0A8E9A] bg-[#EEF7F6]"
+                    : "border-[#B8C1C7] bg-[#F7F4EE]"
+                }`}
+                onDragEnter={(event) => {
+                  event.preventDefault();
+                  if (props.editable && !busy) {
+                    setDragCategory(definition.category);
+                  }
+                }}
+                onDragLeave={(event) => {
+                  if (event.currentTarget === event.target) {
+                    setDragCategory(null);
+                  }
+                }}
+                onDragOver={(event) => event.preventDefault()}
+                onDrop={(event) => {
+                  event.preventDefault();
+                  setDragCategory(null);
+                  const file = event.dataTransfer.files?.[0];
+                  if (file && props.editable && !busy) {
+                    void props.uploadAsset(definition.category, file, null);
+                  }
+                }}
+              >
+                <p className="text-sm font-bold text-[#071B33]">
+                  Drop an approved file here
+                </p>
+                <p className="mt-1 text-xs leading-5 text-[#475A6E]">
+                  The file remains private. Uploading or replacing it does not
+                  publish the participant page or activate the program.
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
                 <label
-                  className={`inline-flex min-h-11 items-center justify-center rounded-md border border-grayWilma-200 bg-white px-4 py-2 text-sm font-semibold transition ${
+                  className={`inline-flex min-h-11 items-center justify-center border border-[#071B33] bg-white px-4 py-2 text-sm font-semibold transition ${
                     props.editable && !busy
-                      ? "cursor-pointer text-navy hover:bg-grayWilma-100 focus-within:ring-2 focus-within:ring-teal focus-within:ring-offset-2"
+                      ? "cursor-pointer text-navy hover:border-[#0A8E9A] hover:text-[#0A6E77] focus-within:ring-4 focus-within:ring-[#0A8E9A] focus-within:ring-offset-2"
                       : "cursor-not-allowed text-grayWilma-500 opacity-60"
                   }`}
                   htmlFor={inputId}
@@ -1991,8 +3504,9 @@ function AssetFields(props: FieldRendererProps) {
                     Remove
                   </Button>
                 ) : null}
+                </div>
               </div>
-            </Card>
+            </section>
           );
         })}
       </div>
@@ -2000,18 +3514,49 @@ function AssetFields(props: FieldRendererProps) {
   );
 }
 
+function AssetDetail({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="font-bold uppercase tracking-[0.06em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+        {label}
+      </dt>
+      <dd className="mt-0.5 break-words text-[#071B33]">{value}</dd>
+    </div>
+  );
+}
+
+function assetReviewLabel(value: string | undefined) {
+  if (value === "approved" || value === "accepted") return "Accepted";
+  if (value === "rejected" || value === "changes_requested") return "Rejected";
+  return "Awaiting review";
+}
+
 function FieldGroup({
   title,
   description,
-  children
+  children,
+  fieldKeys,
+  surface
 }: {
   title: string;
   description?: string;
   children: ReactNode;
+  fieldKeys?: readonly string[];
+  surface?: GuidedSubstepSurface;
 }) {
+  const guided = useContext(GuidedRenderContext);
+  const visible =
+    !guided ||
+    (surface ? guided.activeSurface === surface : false) ||
+    (fieldKeys
+      ? fieldKeys.some((fieldKey) =>
+          substepOwnsField(guided.activeStep, fieldKey)
+        )
+      : !surface);
+  if (!visible) return null;
   return (
     <section>
-      <h2 className="text-xl font-black">{title}</h2>
+      <h3 className="text-xl font-extrabold">{title}</h3>
       {description ? (
         <p className="mt-1 max-w-3xl text-sm leading-6 text-grayWilma-600">
           {description}
@@ -2072,7 +3617,7 @@ function RowTextField({
       fieldIssues={fieldIssues}
       helperCopy={metadata?.helperCopy}
       id={id}
-      label={metadata?.label ?? humanize(fieldKey)}
+      label={metadata?.label ?? "Onboarding information"}
       required={metadata?.requirement !== "optional"}
     >
       <input
@@ -2108,7 +3653,7 @@ function NumberField({
       fieldIssues={fieldIssues}
       helperCopy={metadata?.helperCopy}
       id={id}
-      label={metadata?.label ?? humanize(fieldKey)}
+      label={metadata?.label ?? "Onboarding information"}
       required={metadata?.requirement !== "optional"}
     >
       <input
@@ -2153,7 +3698,7 @@ function TextAreaField({
       fieldIssues={fieldIssues}
       helperCopy={metadata?.helperCopy}
       id={id}
-      label={metadata?.label ?? humanize(fieldKey)}
+      label={metadata?.label ?? "Onboarding information"}
       required={metadata?.requirement !== "optional"}
     >
       <textarea
@@ -2217,7 +3762,7 @@ function RowSelectField({
       fieldIssues={fieldIssues}
       helperCopy={metadata?.helperCopy}
       id={id}
-      label={metadata?.label ?? humanize(fieldKey)}
+      label={metadata?.label ?? "Onboarding information"}
       required={metadata?.requirement !== "optional"}
     >
       <select
@@ -2232,7 +3777,7 @@ function RowSelectField({
         <option value="">Choose an option</option>
         {options.map((option) => (
           <option key={option} value={option}>
-            {humanize(option)}
+            {onboardingOptionLabel(option)}
           </option>
         ))}
       </select>
@@ -2269,11 +3814,16 @@ function RowBooleanField({
   onChange: (value: boolean) => void;
   rowId?: string;
 }) {
+  const visible = useGuidedFieldVisibility(fieldKey);
   const metadata = fieldMetadata(fieldKey);
   const id = controlId(fieldKey, rowId);
   const fieldIssues = issuesForField(issues, fieldKey, rowId);
+  if (!visible) return null;
   return (
-    <div className="rounded-md border border-grayWilma-200 bg-white p-4">
+    <div
+      className="border border-[#B8C1C7] bg-white p-4"
+      data-guided-field={guidedFieldRoot(fieldKey)}
+    >
       <label className="flex min-h-11 cursor-pointer items-start gap-3" htmlFor={id}>
         <input
           aria-describedby={describedBy(id, metadata?.helperCopy, fieldIssues)}
@@ -2287,7 +3837,7 @@ function RowBooleanField({
         />
         <span>
           <span className="text-sm font-black">
-            {metadata?.label ?? humanize(fieldKey)}
+            {metadata?.label ?? "Onboarding information"}
             {metadata?.requirement !== "optional" ? (
               <span className="ml-1 text-orange" aria-hidden="true">
                 *
@@ -2340,7 +3890,7 @@ function LinesField({
         "Enter one item per line. Duplicate entries are removed when saved."
       }
       id={id}
-      label={metadata?.label ?? humanize(fieldKey)}
+      label={metadata?.label ?? "Onboarding information"}
       required={metadata?.requirement !== "optional"}
     >
       <textarea
@@ -2417,17 +3967,20 @@ function RowMultiCheckField({
   rowId?: string;
   className?: string;
 }) {
+  const visible = useGuidedFieldVisibility(fieldKey);
   const metadata = fieldMetadata(fieldKey);
   const id = controlId(fieldKey, rowId);
   const selected = stringArrayValue(value);
   const fieldIssues = issuesForField(issues, fieldKey, rowId);
+  if (!visible) return null;
   return (
     <fieldset
       aria-describedby={describedBy(id, metadata?.helperCopy, fieldIssues)}
       className={className}
+      data-guided-field={guidedFieldRoot(fieldKey)}
     >
       <legend className="text-sm font-black">
-        {metadata?.label ?? humanize(fieldKey)}
+        {metadata?.label ?? "Onboarding information"}
         {metadata?.requirement !== "optional" ? (
           <span className="ml-1 text-orange" aria-hidden="true">
             *
@@ -2462,7 +4015,7 @@ function RowMultiCheckField({
                 }
                 type="checkbox"
               />
-              {humanize(option)}
+              {onboardingOptionLabel(option)}
             </label>
           );
         })}
@@ -2510,7 +4063,7 @@ function OptionReferenceField({
       fieldIssues={fieldIssues}
       helperCopy={metadata?.helperCopy}
       id={id}
-      label={metadata?.label ?? humanize(fieldKey)}
+      label={metadata?.label ?? "Onboarding information"}
       required={metadata?.requirement !== "optional"}
     >
       <select
@@ -2531,7 +4084,7 @@ function OptionReferenceField({
         {options.map((option) => (
           <option key={option.id} value={option.id}>
             {option.label}
-            {option.detail ? ` — ${option.detail}` : ""}
+            {option.detail ? ` | ${option.detail}` : ""}
           </option>
         ))}
       </select>
@@ -2558,14 +4111,23 @@ function FieldFrame({
   children: ReactNode;
   className?: string;
 }) {
+  const guided = useContext(GuidedRenderContext);
+  const visible = useGuidedFieldVisibility(fieldKey);
   const prefilled = useContext(PrefillFieldContext).has(fieldKey);
+  const requested = Boolean(
+    guided?.requestedFieldKey &&
+      guidedFieldRoot(guided.requestedFieldKey) === guidedFieldRoot(fieldKey)
+  );
+  if (!visible) return null;
   return (
     <div
       className={`${className ?? ""} ${
         prefilled
-          ? "rounded-xl border border-teal/25 bg-teal/5 p-3"
+          ? "border border-[#0A8E9A] bg-[#EEF7F6] p-3"
           : ""
-      }`}
+      } ${requested ? "border-l-[6px] border-[#FF3B00] bg-[#FFF5F1] p-4" : ""}`}
+      data-change-request-field={requested ? "true" : undefined}
+      data-guided-field={guidedFieldRoot(fieldKey)}
     >
       <label className="text-sm font-black" htmlFor={id}>
         {label}
@@ -2580,8 +4142,61 @@ function FieldFrame({
       </label>
       {prefilled ? (
         <p className="mt-1 text-xs font-semibold text-teal">
-          Pre-filled by LegalEase — please review
+          Pre-filled by LegalEase. Please review.
         </p>
+      ) : null}
+      {requested && guided?.activeChangeRequest ? (
+        <div
+          aria-label="LegalEase requested correction"
+          className="mt-3 border-y border-[#FF3B00] py-3 text-sm leading-6 text-[#071B33]"
+        >
+          <p className="font-extrabold">LegalEase requested an update to this field.</p>
+          <dl className="mt-2 grid gap-2">
+            <div>
+              <dt className="font-bold text-[#475A6E]">Requested by</dt>
+              <dd>{guided.activeChangeRequest.requestedByLabel}</dd>
+            </div>
+            <div>
+              <dt className="font-bold text-[#475A6E]">Requested on</dt>
+              <dd>
+                {formatRecordedTimestamp(
+                  guided.activeChangeRequest.requestedAt
+                )}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-bold text-[#475A6E]">Reason</dt>
+              <dd className="whitespace-pre-wrap">
+                {guided.activeChangeRequest.requestedCorrection}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-bold text-[#475A6E]">Requested correction</dt>
+              <dd className="whitespace-pre-wrap">
+                {guided.activeChangeRequest.requestedCorrection}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-bold text-[#475A6E]">Current value</dt>
+              <dd>The saved value is shown in the field below.</dd>
+            </div>
+            <div>
+              <dt className="font-bold text-[#475A6E]">Partner response</dt>
+              <dd>
+                {guided.activeChangeRequest.partnerResponse ||
+                  "No response recorded"}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-bold text-[#475A6E]">Resolution status</dt>
+              <dd>
+                {guided.activeChangeRequest.status === "open"
+                  ? "Partner correction required"
+                  : "Waiting on LegalEase"}
+              </dd>
+            </div>
+          </dl>
+        </div>
       ) : null}
       {helperCopy ? (
         <p className="mt-1 text-xs leading-5 text-grayWilma-600" id={`${id}-help`}>
@@ -2592,6 +4207,11 @@ function FieldFrame({
       <FieldIssueList fieldIssues={fieldIssues} id={id} />
     </div>
   );
+}
+
+function useGuidedFieldVisibility(fieldKey: string): boolean {
+  const guided = useContext(GuidedRenderContext);
+  return !guided || substepOwnsField(guided.activeStep, fieldKey);
 }
 
 function FieldIssueList({
@@ -2613,35 +4233,54 @@ function FieldIssueList({
   );
 }
 
-function ErrorSummary({ issues }: { issues: ValidationIssue[] }) {
-  const summaryRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    summaryRef.current?.focus();
-  }, [issues]);
-
+function ErrorSummary({
+  issues,
+  onNavigate,
+  sectionKey
+}: {
+  issues: ValidationIssue[];
+  onNavigate: (stepId: string) => void;
+  sectionKey: OnboardingSectionKey;
+}) {
   return (
     <div
       aria-labelledby="section-errors-heading"
-      className="mb-5 rounded-lg border border-orange/40 bg-orange/10 p-5 shadow-sm"
-      ref={summaryRef}
+      className="mb-5 border-l-[6px] border-[#FF3B00] bg-white p-5"
       role="alert"
-      tabIndex={-1}
     >
-      <h2 id="section-errors-heading" className="font-black">
-        Review the highlighted information
+      <h2 id="section-errors-heading" className="font-extrabold">
+        Fix this information before continuing
       </h2>
+      <p className="mt-2 text-sm leading-6 text-[#475A6E]">
+        Your entries remain in place. The first invalid field receives focus.
+      </p>
       <ul className="mt-3 list-disc space-y-2 pl-5 text-sm">
-        {issues.map((issue, index) => (
-          <li key={`${issue.fieldKey}-${issue.rowId ?? "field"}-${index}`}>
-            <a
-              className="font-semibold text-navy underline decoration-orange underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal"
-              href={`#${controlId(issue.fieldKey, issue.rowId)}`}
-            >
-              {issue.message}
-            </a>
-          </li>
-        ))}
+        {issues.map((issue, index) => {
+          const step = guidedSubstepForField(sectionKey, issue.fieldKey);
+          const targetId = controlId(issue.fieldKey, issue.rowId);
+          return (
+            <li key={`${issue.fieldKey}-${issue.rowId ?? "field"}-${index}`}>
+              <a
+                className="font-semibold text-[#071B33] underline decoration-[#FF3B00] underline-offset-4 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A]"
+                href={
+                  step
+                    ? guidedSectionHref(sectionKey, step.id, targetId)
+                    : `#${targetId}`
+                }
+                onClick={(event) => {
+                  if (!step) return;
+                  event.preventDefault();
+                  onNavigate(step.id);
+                  window.setTimeout(() => {
+                    document.getElementById(targetId)?.focus();
+                  }, 0);
+                }}
+              >
+                {issue.message}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
@@ -2658,6 +4297,7 @@ function CanonicalReferenceValues({
     <FieldGroup
       title="Information reused from earlier sections"
       description="Each concept is stored once. Use its edit link to update the canonical source."
+      surface="canonical_reuse"
     >
       <dl className="grid gap-3 md:grid-cols-2">
         {values.map((item) => (
@@ -2699,11 +4339,21 @@ function ReadOnlyValues({
   description?: string;
   values: OnboardingReadOnlyValue[];
 }) {
-  if (values.length === 0) return null;
+  const guided = useContext(GuidedRenderContext);
+  const visibleValues = guided
+    ? values.filter((item) =>
+        substepOwnsField(guided.activeStep, item.fieldKey)
+      )
+    : values;
+  if (visibleValues.length === 0) return null;
   return (
-    <FieldGroup description={description} title={title}>
+    <FieldGroup
+      description={description}
+      fieldKeys={visibleValues.map((item) => item.fieldKey)}
+      title={title}
+    >
       <dl className="grid gap-3 md:grid-cols-2">
-        {values.map((item) => (
+        {visibleValues.map((item) => (
           <div
             className="rounded-md border border-grayWilma-200 bg-grayWilma-100 p-4"
             key={item.fieldKey}
@@ -2779,13 +4429,6 @@ function describedBy(
   if (helperCopy) values.push(`${id}-help`);
   if (issues.length > 0) values.push(`${id}-error`);
   return values.length > 0 ? values.join(" ") : undefined;
-}
-
-function humanize(value: string) {
-  return value
-    .replace(/\[\]\./g, " ")
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (character) => character.toUpperCase());
 }
 
 function slugify(value: string) {
@@ -2875,18 +4518,56 @@ function ensureCollectionStableIds(
 function requestIdForSave(
   mode: SaveMode,
   snapshot: Record<string, unknown>,
+  guidedStepId: string | null,
   completionAttemptRef: {
-    current: { serialized: string; requestId: string } | null;
+    current: {
+      serialized: string;
+      operationKey: string;
+      requestId: string;
+    } | null;
   }
 ) {
   if (mode === "draft_save") return crypto.randomUUID();
   const serialized = serialize(snapshot);
-  if (completionAttemptRef.current?.serialized === serialized) {
+  const operationKey = `${mode}:${guidedStepId ?? "section"}`;
+  if (
+    completionAttemptRef.current?.serialized === serialized &&
+    completionAttemptRef.current.operationKey === operationKey
+  ) {
     return completionAttemptRef.current.requestId;
   }
   const requestId = crypto.randomUUID();
-  completionAttemptRef.current = { serialized, requestId };
+  completionAttemptRef.current = { serialized, operationKey, requestId };
   return requestId;
+}
+
+function prefersReducedMotion() {
+  return window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? true;
+}
+
+function formatLocalSaveTime(value: Date) {
+  return value.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit"
+  });
+}
+
+function formatRecordedTimestamp(value: string | null) {
+  if (!value) return "Not recorded";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "Not recorded";
+  return parsed.toLocaleString([], {
+    dateStyle: "medium",
+    timeStyle: "short"
+  });
+}
+
+function guidedSectionIndex(sectionKey: OnboardingSectionKey) {
+  return (
+    ONBOARDING_SECTION_DEFINITIONS.findIndex(
+      (section) => section.key === sectionKey
+    ) + 1
+  );
 }
 
 function parseIssues(value: unknown): ValidationIssue[] {
@@ -3006,27 +4687,47 @@ function requestErrorMessage(
   payload: Record<string, unknown> | null
 ) {
   if (status === 401) {
-    return "Your session expired. Sign in again before retrying this save.";
+    return "Your session expired. Sign in again to continue. Your last confirmed save is still available.";
   }
   if (status === 403) {
-    return "You do not have permission to edit this onboarding section.";
+    return "Could not save. Nothing changed. This role cannot edit the onboarding section.";
   }
   if (status === 413) {
-    return "This section is too large to save. Shorten long entries and try again.";
+    return "Could not save. Nothing changed. Shorten long entries and retry.";
   }
-  if (typeof payload?.error === "string") return payload.error;
-  return "Could not save. Your entries are still on this page.";
+  if (Array.isArray(payload?.issues) && payload.issues.length > 0) {
+    return "Review the marked information. Nothing has been discarded.";
+  }
+  if (typeof payload?.error === "string") {
+    return `Could not save. Nothing changed. ${payload.error}`;
+  }
+  return "Could not save. Nothing changed. Your entries remain on this page. Retry when your connection is available.";
 }
 
 function assetErrorMessage(
   status: number,
   payload: Record<string, unknown> | null
 ) {
-  if (status === 401) return "Your session expired. Sign in and try again.";
-  if (status === 403) return "You do not have permission to manage this file.";
-  if (status === 413) return "This file is larger than the allowed limit.";
-  if (typeof payload?.error === "string") return payload.error;
-  return "Could not update this private file.";
+  if (status === 401) {
+    return "Your session expired. The upload was not confirmed and existing private assets remain safe. Sign in again and return to this task.";
+  }
+  if (status === 403) {
+    return "This role cannot manage private assets. Nothing changed. Ask the partner administrator to upload or replace the file.";
+  }
+  if (status === 413) {
+    return "File is too large. The upload was not confirmed and the current private asset remains safe. Choose a smaller file.";
+  }
+  if (status === 409) {
+    return "A newer private asset version exists. Nothing was replaced. Refresh this task before trying again.";
+  }
+  if (
+    status === 400 &&
+    typeof payload?.error === "string" &&
+    payload.error.length <= 220
+  ) {
+    return `File type or contents are not supported. Nothing was uploaded. ${payload.error}`;
+  }
+  return "Upload could not be completed. No success was recorded and the current private asset remains safe. Choose the file and try again.";
 }
 
 function formatDisplayValue(value: DisplayValue) {
@@ -3090,3 +4791,602 @@ function assetPreviewHref(asset: OnboardingEditorAsset) {
     `/api/partners/onboarding/assets/${encodeURIComponent(asset.id)}`
   );
 }
+
+function uploadAssetFormData(
+  formData: FormData,
+  onProgress: (percentage: number) => void
+): Promise<{ status: number; payload: Record<string, unknown> | null }> {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
+    request.open("POST", "/api/partners/onboarding/assets");
+    request.upload.addEventListener("progress", (event) => {
+      if (!event.lengthComputable || event.total <= 0) return;
+      onProgress(
+        Math.max(0, Math.min(99, Math.round((event.loaded / event.total) * 100)))
+      );
+    });
+    request.addEventListener("load", () => {
+      let payload: Record<string, unknown> | null = null;
+      try {
+        const parsed = JSON.parse(request.responseText) as unknown;
+        payload = objectValue(parsed);
+      } catch {
+        payload = null;
+      }
+      resolve({ status: request.status, payload });
+    });
+    const interrupted = () =>
+      reject(
+        new Error(
+          "Upload was interrupted. No success was recorded and the current private asset remains safe. Choose the file and try again."
+        )
+      );
+    request.addEventListener("error", interrupted);
+    request.addEventListener("abort", interrupted);
+    request.addEventListener("timeout", () =>
+      reject(
+        new Error(
+          "Upload could not be completed. No success was recorded and the current private asset remains safe. Check the connection and try again."
+        )
+      )
+    );
+    request.timeout = 120_000;
+    request.send(formData);
+  });
+}
+
+async function inspectBrowserImage(file: File): Promise<{
+  width: number | null;
+  height: number | null;
+  transparency: string;
+} | null> {
+  if (!file.type.startsWith("image/")) return null;
+  const objectUrl = URL.createObjectURL(file);
+  try {
+    const image = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const candidate = new window.Image();
+      candidate.onload = () => resolve(candidate);
+      candidate.onerror = () => reject(new Error("Image could not be read."));
+      candidate.src = objectUrl;
+    });
+    if (file.type === "image/jpeg") {
+      return {
+        width: image.naturalWidth,
+        height: image.naturalHeight,
+        transparency: "Not applicable to JPEG"
+      };
+    }
+    const canvas = document.createElement("canvas");
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    if (!context) {
+      return {
+        width: image.naturalWidth,
+        height: image.naturalHeight,
+        transparency: "Transparency was not verified by this browser."
+      };
+    }
+    context.drawImage(image, 0, 0);
+    const pixels = context.getImageData(
+      0,
+      0,
+      image.naturalWidth,
+      image.naturalHeight
+    ).data;
+    let transparent = false;
+    for (let index = 3; index < pixels.length; index += 4) {
+      if (pixels[index] < 255) {
+        transparent = true;
+        break;
+      }
+    }
+    return {
+      width: image.naturalWidth,
+      height: image.naturalHeight,
+      transparency: transparent
+        ? "Transparent pixels detected"
+        : "No transparent pixels detected"
+    };
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+}
+
+export function GuidedChangeRequestPanel({
+  requests,
+  currentValue,
+  fieldLabel,
+  sectionLevel
+}: {
+  requests: readonly PartnerFacingChangeRequest[];
+  currentValue?: unknown;
+  fieldLabel?: string | null;
+  sectionLevel: boolean;
+}) {
+  const active = requests.find(
+    (request) =>
+      request.status === "open" || request.status === "partner_responded"
+  );
+  const history = requests.filter(
+    (request) =>
+      request.status === "resolved" || request.status === "cancelled"
+  );
+
+  if (!active && history.length === 0) return null;
+
+  return (
+    <div className="grid gap-5">
+      {active ? (
+        <section
+          aria-labelledby={`change-request-${active.id}`}
+          className={`border-l-[6px] bg-white p-5 md:p-6 ${
+            active.status === "open"
+              ? "border-[#FF3B00]"
+              : "border-[#0A8E9A]"
+          }`}
+          data-active-change-request={active.status}
+        >
+          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+            LegalEase review request
+          </p>
+          <h2
+            className="mt-2 text-xl font-extrabold text-[#071B33]"
+            id={`change-request-${active.id}`}
+          >
+            {active.status === "open"
+              ? "A correction is required"
+              : "Your correction is with LegalEase"}
+          </h2>
+          <p className="mt-3 text-sm font-semibold leading-6 text-[#071B33]">
+            This request applies to this part of the section.
+          </p>
+          {sectionLevel ? (
+            <p className="mt-2 text-sm leading-6 text-[#475A6E]">
+              The current request is attached to the section rather than one
+              authoritative field. No field-level target has been inferred
+              from the request text.
+            </p>
+          ) : null}
+
+          <dl className="mt-5 grid border border-[#B8C1C7] sm:grid-cols-2">
+            <RequestFact label="Requested by" value={active.requestedByLabel} />
+            <RequestFact
+              label="Requested on"
+              value={formatTimestamp(active.requestedAt)}
+            />
+            <RequestFact
+              label="Reason"
+              value={active.requestedCorrection}
+              wide
+            />
+            <RequestFact
+              label="Current value"
+              value={
+                sectionLevel
+                  ? "Review the section tasks. The request is not tied to one field."
+                  : `${fieldLabel || "Requested field"}: ${formatRequestValue(
+                      currentValue
+                    )}`
+              }
+              wide
+            />
+            <RequestFact
+              label="Requested correction"
+              value={active.requestedCorrection}
+              wide
+            />
+            <RequestFact
+              label="Partner response"
+              value={active.partnerResponse || "No response recorded"}
+              wide
+            />
+            <RequestFact
+              label="Resolution status"
+              value={changeRequestStatusLabel(active.status)}
+              wide
+            />
+          </dl>
+
+          {active.status === "open" ? (
+            <p className="mt-4 border-t border-[#D8DDDF] pt-4 text-sm leading-6 text-[#475A6E]">
+              Correct the relevant task, then submit the section. The current
+              authoritative workflow records the partner response when that
+              submission succeeds.
+            </p>
+          ) : (
+            <p className="mt-4 border-t border-[#D8DDDF] pt-4 text-sm leading-6 text-[#475A6E]">
+              No further partner action is required unless LegalEase requests
+              another correction.
+            </p>
+          )}
+        </section>
+      ) : null}
+
+      {history.length > 0 ? (
+        <details className="border border-[#B8C1C7] bg-white p-5">
+          <summary className="min-h-11 cursor-pointer text-sm font-extrabold text-[#071B33] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2">
+            View resolved request history ({history.length})
+          </summary>
+          <ol className="mt-4 grid gap-4">
+            {history.map((request) => (
+              <li className="border-l-4 border-[#475A6E] pl-4" key={request.id}>
+                <p className="text-sm font-bold text-[#071B33]">
+                  {changeRequestStatusLabel(request.status)}
+                </p>
+                <p className="mt-1 whitespace-pre-wrap text-sm leading-6 text-[#475A6E]">
+                  {request.requestedCorrection}
+                </p>
+                <p className="mt-2 text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+                  Requested {formatTimestamp(request.requestedAt)}
+                  {request.resolvedAt
+                    ? ` | Resolved ${formatTimestamp(request.resolvedAt)}`
+                    : ""}
+                </p>
+                {request.partnerResponse ? (
+                  <p className="mt-2 text-sm leading-6 text-[#475A6E]">
+                    Partner response: {request.partnerResponse}
+                  </p>
+                ) : null}
+              </li>
+            ))}
+          </ol>
+        </details>
+      ) : null}
+    </div>
+  );
+}
+
+function RequestFact({
+  label,
+  value,
+  wide = false
+}: {
+  label: string;
+  value: string;
+  wide?: boolean;
+}) {
+  return (
+    <div
+      className={`min-w-0 border-b border-[#D8DDDF] p-4 sm:border-r ${
+        wide ? "sm:col-span-2 sm:border-r-0" : "sm:even:border-r-0"
+      }`}
+    >
+      <dt className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+        {label}
+      </dt>
+      <dd className="mt-2 break-words whitespace-pre-wrap text-sm leading-6 text-[#071B33]">
+        {value}
+      </dd>
+    </div>
+  );
+}
+
+function changeRequestStatusLabel(
+  status: PartnerFacingChangeRequest["status"]
+): string {
+  const labels: Record<PartnerFacingChangeRequest["status"], string> = {
+    open: "Partner correction required",
+    partner_responded: "Waiting on LegalEase",
+    resolved: "Resolved",
+    cancelled: "Closed without a correction"
+  };
+  return labels[status];
+}
+
+function formatTimestamp(value: string): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Recorded time unavailable";
+  return `${new Intl.DateTimeFormat("en", {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "UTC"
+  }).format(date)} UTC`;
+}
+
+function formatRequestValue(value: unknown): string {
+  if (Array.isArray(value)) {
+    return value.length > 0
+      ? value
+          .map((item) =>
+            item && typeof item === "object"
+              ? "Saved list item"
+              : String(item)
+          )
+          .join(", ")
+      : "Not provided";
+  }
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  if (typeof value === "string") return value.trim() || "Not provided";
+  if (typeof value === "number") return String(value);
+  return "Not provided";
+}
+
+export function OnboardingStaffSectionSummary({
+  resolution,
+  section,
+  values,
+  readOnlyValues,
+  administratorName,
+  lastDecisionAt,
+  organizationName
+}: {
+  resolution: GuidedStepResolution;
+  section: OnboardingStaffSection;
+  values: Readonly<Record<string, unknown>>;
+  readOnlyValues: Readonly<Record<string, unknown>>;
+  administratorName: string | null;
+  lastDecisionAt: string | null;
+  organizationName: string;
+}) {
+  const currentStepId = resolution.requestOverview
+    ? SECTION_CHANGE_REQUEST_STEP
+    : resolution.substep.id;
+  const displayFields = resolution.substep.ownedFieldKeys.map((fieldKey) => {
+    const key = String(fieldKey);
+    const definition = getFieldDefinition(
+      fieldKey as Parameters<typeof getFieldDefinition>[0]
+    );
+    return {
+      key,
+      label: definition?.label ?? "Saved information",
+      dataType: definition?.dataType ?? null,
+      value:
+        definition?.ownership === "partner_editable"
+          ? values[definition.dataKey]
+          : readOnlyValues[definition?.dataKey ?? key]
+    };
+  });
+
+  return (
+    <div className="mx-auto max-w-6xl text-[#071B33]">
+      <header className="border-b-4 border-[#071B33] pb-6">
+        <Link
+          className={staffUtilityLinkClass}
+          href="/partner/onboarding#program-configuration"
+        >
+          Return to implementation center
+        </Link>
+        <p className="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]">
+          Staff program summary
+        </p>
+        <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.02em] md:text-4xl">
+          {section.title}
+        </h1>
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-[#475A6E]">
+          You can read the submitted or approved implementation record because
+          your active {organizationName} staff role includes this workspace. A
+          partner administrator manages corrections and submission.
+        </p>
+        <dl className="mt-5 grid border border-[#B8C1C7] bg-white sm:grid-cols-3">
+          <StaffFact
+            label="Section state"
+            value={sectionStatusLabel(section.status)}
+          />
+          <StaffFact
+            label="Partner administrator"
+            value={administratorName || "Not recorded"}
+          />
+          <StaffFact
+            label="Last submitted or approved"
+            value={formatStaffDate(lastDecisionAt)}
+          />
+        </dl>
+      </header>
+
+      <div className="sticky top-0 z-20 -mx-4 mt-5 border-y border-[#B8C1C7] bg-[#F7F4EE] px-4 py-3 lg:hidden">
+        <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+          {resolution.requestOverview
+            ? "Requested update"
+            : `Step ${resolution.index + 1} of ${resolution.section.substeps.length}`}
+        </p>
+        <p className="mt-1 break-words text-sm font-extrabold text-[#071B33]">
+          {resolution.requestOverview
+            ? "LegalEase request"
+            : resolution.substep.title}
+        </p>
+      </div>
+
+      <div className="mt-7 grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
+        <nav
+          aria-label="Section tasks"
+          className="hidden border border-[#B8C1C7] bg-white lg:sticky lg:top-6 lg:block lg:self-start"
+        >
+          <div className="border-b border-[#B8C1C7] p-4">
+            <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+              Read-only section
+            </p>
+          </div>
+          <ol>
+            {section.changeRequestStatus ? (
+              <li className="border-b border-[#D8DDDF]">
+                <StaffStepLink
+                  active={currentStepId === SECTION_CHANGE_REQUEST_STEP}
+                  href={guidedSectionHref(
+                    section.key,
+                    SECTION_CHANGE_REQUEST_STEP
+                  )}
+                  label="LegalEase request"
+                  marker="CR"
+                />
+              </li>
+            ) : null}
+            {resolution.section.substeps.map((substep, index) => (
+              <li
+                className="border-b border-[#D8DDDF] last:border-b-0"
+                key={substep.id}
+              >
+                <StaffStepLink
+                  active={currentStepId === substep.id}
+                  href={guidedSectionHref(section.key, substep.id)}
+                  label={substep.title}
+                  marker={String(index + 1).padStart(2, "0")}
+                />
+              </li>
+            ))}
+          </ol>
+        </nav>
+
+        <div className="min-w-0">
+          {resolution.requestOverview ? (
+            <GuidedChangeRequestPanel
+              requests={section.changeRequests}
+              sectionLevel
+            />
+          ) : (
+            <section
+              aria-labelledby="staff-summary-step"
+              className="border border-[#B8C1C7] bg-white p-5 md:p-7"
+            >
+              <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#0A8E9A] [font-family:var(--font-rcap-mono)]">
+                Step {resolution.index + 1} of {resolution.section.substeps.length}
+              </p>
+              <h2
+                className="mt-2 text-2xl font-extrabold"
+                id="staff-summary-step"
+              >
+                {resolution.substep.title}
+              </h2>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-[#475A6E]">
+                {resolution.substep.purpose}
+              </p>
+
+              {displayFields.length > 0 ? (
+                <dl className="mt-6 divide-y divide-[#D8DDDF] border-y border-[#D8DDDF]">
+                  {displayFields.map((field) => (
+                    <div
+                      className="grid gap-2 py-4 sm:grid-cols-[minmax(180px,0.38fr)_minmax(0,1fr)] sm:gap-6"
+                      key={field.key}
+                    >
+                      <dt className="text-sm font-bold text-[#475A6E]">
+                        {field.label}
+                      </dt>
+                      <dd className="break-words whitespace-pre-wrap text-sm leading-6 text-[#071B33]">
+                        {formatStaffValue(field.value, field.dataType)}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : (
+                <div className="mt-6 border-l-4 border-[#0A8E9A] bg-[#EEF7F6] p-4 text-sm leading-6 text-[#475A6E]">
+                  This task explains the implementation decision and has no
+                  staff-editable field.
+                </div>
+              )}
+
+              <p className="mt-6 border-t border-[#D8DDDF] pt-4 text-sm leading-6 text-[#475A6E]">
+                {resolution.substep.outcome}
+              </p>
+            </section>
+          )}
+
+          <div className="mt-5 border-t-4 border-[#071B33] pt-5">
+            <p className="text-sm leading-6 text-[#475A6E]">
+              Need a correction? Contact {administratorName || "your partner administrator"}.
+              Staff access cannot edit or submit this record.
+            </p>
+            <Link
+              className="mt-4 inline-flex min-h-12 items-center justify-center border border-[#071B33] bg-[#071B33] px-5 py-3 text-sm font-extrabold text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
+              href="/partner/onboarding#program-configuration"
+            >
+              Return to implementation center
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StaffFact({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="min-w-0 border-b border-[#D8DDDF] p-4 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+      <dt className="text-xs font-bold uppercase tracking-[0.08em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">
+        {label}
+      </dt>
+      <dd className="mt-2 break-words text-sm font-extrabold text-[#071B33]">
+        {value}
+      </dd>
+    </div>
+  );
+}
+
+function StaffStepLink({
+  active,
+  href,
+  label,
+  marker
+}: {
+  active: boolean;
+  href: string;
+  label: string;
+  marker: string;
+}) {
+  return (
+    <Link
+      aria-current={active ? "step" : undefined}
+      className={`grid min-h-12 grid-cols-[32px_minmax(0,1fr)] items-center gap-3 px-4 py-3 text-sm font-bold focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-inset focus-visible:ring-[#0A8E9A] ${
+        active
+          ? "border-l-4 border-[#FF3B00] bg-[#EEF7F6] text-[#071B33]"
+          : "border-l-4 border-transparent text-[#475A6E] hover:text-[#0A8E9A]"
+      }`}
+      href={href}
+    >
+      <span className="text-xs [font-family:var(--font-rcap-mono)]">
+        {marker}
+      </span>
+      <span className="break-words">{label}</span>
+    </Link>
+  );
+}
+
+function formatStaffValue(
+  value: unknown,
+  dataType: string | null = null
+): string {
+  if (Array.isArray(value)) {
+    if (value.length === 0) return "Not provided";
+    return value
+      .map((item) => {
+        if (item && typeof item === "object") {
+          const row = item as Record<string, unknown>;
+          const parts = [
+            row.name,
+            typeof row.role === "string"
+              ? onboardingOptionLabel(row.role)
+              : row.role,
+            typeof row.requested_role === "string"
+              ? onboardingOptionLabel(row.requested_role)
+              : row.requested_role,
+            row.work_email
+          ].filter(
+            (part): part is string =>
+              typeof part === "string" && part.trim().length > 0
+          );
+          return parts.join(" | ") || "Saved list item";
+        }
+        return String(item);
+      })
+      .join("\n");
+  }
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  if (typeof value === "number") return String(value);
+  if (typeof value === "string") {
+    if (!value.trim()) return "Not provided";
+    return dataType === "enum" ? onboardingOptionLabel(value) : value;
+  }
+  return "Not provided";
+}
+
+function formatStaffDate(value: string | null): string {
+  if (!value) return "Not recorded";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Recorded date unavailable";
+  return new Intl.DateTimeFormat("en", {
+    dateStyle: "medium",
+    timeZone: "UTC"
+  }).format(date);
+}
+
+const staffUtilityLinkClass =
+  "inline-flex min-h-11 items-center text-sm font-bold text-[#0A6E77] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2";

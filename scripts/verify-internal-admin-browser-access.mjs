@@ -141,6 +141,7 @@ const { NextRequest } = await import("next/server");
 const { proxy } = await import("../src/proxy.ts");
 
 const INTERNAL_PATH = "/internal/partners/provisioning";
+const RECOVERY_HEADING = "You do not have access to this workspace";
 
 /** Builds a request the way a browser or a script would send one. */
 function buildRequest({
@@ -184,13 +185,38 @@ function admitted(response) {
   return response.status === 200 && !response.headers.get("content-type")?.includes("text/plain");
 }
 
+async function assertDesignedRefusal(response) {
+  assert.ok(refused(response), `expected 401, got ${response.status}`);
+  assert.match(response.headers.get("content-type") ?? "", /^text\/html; charset=utf-8$/);
+  assert.equal(response.headers.get("cache-control"), "no-store");
+  assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow");
+
+  const body = await response.text();
+  for (const marker of [
+    RECOVERY_HEADING,
+    "The signed-in account is not authorized for the requested workspace.",
+    "No information was changed.",
+    "does not confirm whether another organization or workspace exists.",
+    "Return to your dashboard",
+    "Sign in with another account",
+    "partners@legalease.com",
+    'data-access-recovery="generic"'
+  ]) {
+    assert.ok(body.includes(marker), `designed recovery response is missing: ${marker}`);
+  }
+  assert.ok(!/\btoken\b/i.test(body), "recovery response must not expose credential terminology");
+  assert.ok(!/\btenant\b/i.test(body), "recovery response must not expose tenant terminology");
+  assert.ok(!body.includes("Internal admin access"), "legacy raw denial copy must be absent");
+  assert.ok(!body.includes("Error:") && !body.includes("at proxy"), "recovery response must not expose a stack trace");
+  return body;
+}
+
 try {
   // --- refusals --------------------------------------------------------------
 
   await check("no session and no token is refused", async () => {
     const response = await proxy(buildRequest());
-    assert.ok(refused(response), `expected 401, got ${response.status}`);
-    assert.equal(await response.text(), "Internal admin access token required.");
+    await assertDesignedRefusal(response);
   });
 
   await check("a wrong bearer token is refused", async () => {
@@ -225,6 +251,21 @@ try {
   await check("an unrecognised session cookie is refused", async () => {
     const response = await proxy(buildRequest({ sessionToken: "token-does-not-exist" }));
     assert.ok(refused(response), `expected 401, got ${response.status}`);
+  });
+
+  await check("known-looking and guessed workspace paths receive the same recovery response", async () => {
+    const knownLooking = await proxy(
+      buildRequest({ pathname: "/internal/partners/provisioning/rythm-labs-test" })
+    );
+    const guessed = await proxy(
+      buildRequest({ pathname: "/internal/partners/provisioning/does-not-exist" })
+    );
+    const [knownBody, guessedBody] = await Promise.all([
+      assertDesignedRefusal(knownLooking),
+      assertDesignedRefusal(guessed)
+    ]);
+    assert.equal(knownBody, guessedBody, "a guessed path must not reveal whether a workspace exists");
+    assert.ok(!knownBody.includes("rythm-labs-test") && !guessedBody.includes("does-not-exist"));
   });
 
   // --- admissions ------------------------------------------------------------

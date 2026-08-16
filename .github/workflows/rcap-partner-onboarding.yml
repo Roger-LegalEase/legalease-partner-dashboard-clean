@@ -1,0 +1,63 @@
+# RCAP partner onboarding gate.
+#
+# A separate workflow rather than steps added to an existing one, for two reasons: the
+# onboarding portal should be able to go red without hiding the state of the nationwide
+# factory checks, and rcap-all50-handoff.yml and rcap-production-factory.yml are being
+# edited on another branch, so adding steps there would guarantee a merge conflict.
+#
+# The database and staging groups are deliberately not run here. They need credentials this
+# workflow does not have, and a gate that silently skips is worse than one that does not
+# exist. They are release gates, documented in docs/rcap/onboarding/VERIFICATION_GATES.md.
+
+name: RCAP Partner Onboarding
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: rcap-partner-onboarding-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  onboarding:
+    name: Verify RCAP partner onboarding
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies from lockfile
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Every deterministic onboarding verifier, through the one entry point that also
+      # fails when a verifier exists that no group owns.
+      - name: Verify onboarding (local group)
+        run: npm run partners:verify-onboarding-all
+
+      - name: Verify partner launch readiness
+        run: npm run partners:verify-launch-readiness
+
+      # The contract the README and the partner setup checklist both promise: the
+      # production build completes with no Supabase credentials present. Running it with
+      # the variables explicitly empty is the point of the step.
+      - name: Credential-free production build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ""
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ""
+          SUPABASE_SERVICE_ROLE_KEY: ""
+        run: npm run build

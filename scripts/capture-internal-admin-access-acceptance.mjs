@@ -62,7 +62,7 @@ const partnerEmail = `access-partner-${runId}@example.test`;
 const partnerPassword = `Local-Partner-${runId}!9`;
 
 const INTERNAL_PATH = "/internal/partners/provisioning";
-const REFUSAL = "Internal admin access token required.";
+const REFUSAL = "You do not have access to this workspace";
 
 const admin = createClient(supabaseUrl, serviceRoleKey, {
   auth: { autoRefreshToken: false, persistSession: false }
@@ -117,7 +117,7 @@ async function assertGateIsActive() {
     401,
     `the gate must be active before the run starts, got ${response.status}`
   );
-  assert.equal((await response.text()).trim(), REFUSAL);
+  assert.ok((await response.text()).includes(REFUSAL));
 }
 
 // --- the six steps -----------------------------------------------------------
@@ -225,7 +225,7 @@ async function step5() {
       401,
       `a wrong bearer token must be refused, got ${response.status}`
     );
-    assert.equal((await response.text()).trim(), REFUSAL);
+    assert.ok((await response.text()).includes(REFUSAL));
   }
   stepResults.push({ step: 5, status: "passed", file: null });
   console.log("  step 5: wrong bearer tokens refused, including same-length and off-by-one");

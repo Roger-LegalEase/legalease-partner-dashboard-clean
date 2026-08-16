@@ -10,6 +10,10 @@ import { getPartnerEmailDeliveryRecords, getPartnerRecordBySlug } from "@/lib/pa
 import { internalAdminDetail, internalAdminEmailPreview } from "@/lib/partners/routes";
 import type { PartnerEmailDeliveryRecord } from "@/lib/partners/types";
 
+// Authenticated internal surface: the access gate resolves the session from request
+// cookies, so this page is request-bound and must never be statically prerendered.
+export const dynamic = "force-dynamic";
+
 export default async function InternalPartnerEmailsPage({
   params
 }: {

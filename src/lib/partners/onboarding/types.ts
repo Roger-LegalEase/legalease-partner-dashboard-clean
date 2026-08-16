@@ -28,6 +28,18 @@ export type OnboardingSectionStatus =
   | "waived"
   | "not_applicable";
 
+// Mirrors partner_onboarding_agreements_status_check in
+// supabase/phase-43-rcap-partner-onboarding-phase1.sql.
+export type OnboardingAgreementStatus =
+  | "not_required"
+  | "not_started"
+  | "requested"
+  | "under_review"
+  | "finalized"
+  | "executed"
+  | "approved"
+  | "waived";
+
 export type OnboardingValidationMode =
   | "draft_save"
   | "section_complete"

@@ -59,11 +59,14 @@ export type CoBrandedPagePreview = {
   subheadline: PagePreviewField;
   organizationDescription: PagePreviewField;
   serviceArea: PagePreviewField;
+  targetAudience: PagePreviewField;
   languageAvailability: PagePreviewField;
   participantSupportCopy: PagePreviewField;
   supportEmail: PagePreviewField;
   supportPhone: PagePreviewField;
   primaryActionLabel: PagePreviewField;
+  partnerPrivacyUrl: PagePreviewField;
+  accessibilityUrl: PagePreviewField;
   legalEaseSupportRouting: PagePreviewField;
   logo: PagePreviewAsset;
   heroImage: PagePreviewAsset;
@@ -2000,6 +2003,13 @@ export function renderCoBrandedPageConfiguration(
         "service_area_description"
       )
     ),
+    targetAudience: partnerField(
+      ctx,
+      "target_audience",
+      "program_goals",
+      "target_population",
+      text(ctx, "program_goals", "target_population")
+    ),
     languageAvailability: {
       key: "language_availability",
       label: "Languages available",
@@ -2035,6 +2045,20 @@ export function renderCoBrandedPageConfiguration(
       "primary_cta_label",
       text(ctx, "brand_public_page", "primary_cta_label")
     ),
+    partnerPrivacyUrl: partnerField(
+      ctx,
+      "partner_privacy_url",
+      "brand_public_page",
+      "partner_privacy_url",
+      text(ctx, "brand_public_page", "partner_privacy_url")
+    ),
+    accessibilityUrl: partnerField(
+      ctx,
+      "accessibility_url",
+      "brand_public_page",
+      "accessibility_url",
+      text(ctx, "brand_public_page", "accessibility_url")
+    ),
     legalEaseSupportRouting: legalEaseField(
       "legalease_support_routing",
       "Participant routing and support statement",
@@ -2066,6 +2090,7 @@ export function renderCoBrandedPageConfiguration(
     preview.subheadline,
     preview.organizationDescription,
     preview.serviceArea,
+    preview.targetAudience,
     preview.languageAvailability,
     preview.supportEmail,
     preview.primaryActionLabel
@@ -2112,11 +2137,14 @@ function pageOwnershipSection(preview: CoBrandedPagePreview): RenderedSection {
     preview.subheadline,
     preview.organizationDescription,
     preview.serviceArea,
+    preview.targetAudience,
     preview.languageAvailability,
     preview.participantSupportCopy,
     preview.supportEmail,
     preview.supportPhone,
-    preview.primaryActionLabel
+    preview.primaryActionLabel,
+    preview.partnerPrivacyUrl,
+    preview.accessibilityUrl
   ].filter((field) => field.ownership === "partner_editable" && field.value);
 
   return {

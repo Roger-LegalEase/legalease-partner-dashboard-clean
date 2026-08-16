@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import {
+  setupHistoryBody,
+  setupHistoryHeading
+} from "@/lib/partners/onboarding/partner-labels";
 
 type BadgeTone = "teal" | "blue" | "orange" | "neutral";
 
@@ -28,12 +32,16 @@ export function OnboardingDashboardCard({
   actionLabel
 }: OnboardingDashboardCardProps) {
   const completion = clampPercentage(completionPercentage);
+  const normalizedStatus = status.trim().toLowerCase();
+  // Launch work stops being the dominant story for all four of these, but they are not the
+  // same story. A closed program has not "completed setup", and a paused one still owes the
+  // partner a reason.
   const compactCompleteState = [
     "ready_to_launch",
     "live",
     "paused",
     "closed"
-  ].includes(status.trim().toLowerCase());
+  ].includes(normalizedStatus);
 
   return (
     <section aria-labelledby="partner-onboarding-card-title" className="mb-[1.1rem]">
@@ -44,7 +52,7 @@ export function OnboardingDashboardCard({
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.06em] text-[#D85A30]">Program setup</p>
                 <h2 id="partner-onboarding-card-title" className="mt-2 text-xl font-black text-[#0F1E3D]">
-                  {compactCompleteState ? "Your setup history" : "Complete your onboarding"}
+                  {compactCompleteState ? setupHistoryHeading(normalizedStatus) : "Complete your onboarding"}
                 </h2>
               </div>
               <Badge tone={toneForStatus(status)}>{statusLabel}</Badge>
@@ -86,9 +94,7 @@ export function OnboardingDashboardCard({
                 </div>
               </dl>
             ) : (
-              <p className="mt-4 text-sm leading-6 text-[#5C5750]">
-                Your program setup is complete. The workspace remains available as a record of approved configuration.
-              </p>
+              <p className="mt-4 text-sm leading-6 text-[#5C5750]">{setupHistoryBody(normalizedStatus)}</p>
             )}
           </div>
 

@@ -95,7 +95,7 @@ function refExists(ref) {
 }
 
 function resolveBaselineRef() {
-  const candidates = ["main", "origin/main"];
+  const candidates = ["origin/main", "main"];
   if (process.env.GITHUB_BASE_REF) candidates.push(`origin/${process.env.GITHUB_BASE_REF}`);
   for (const candidate of candidates) {
     if (refExists(candidate)) return candidate;
