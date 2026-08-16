@@ -71,7 +71,17 @@ function rowsFromJson(text, { dml = false, role = null } = {}) {
   // Deliberately `sql` rather than the harness's `json` helper: that helper
   // wraps its argument in a scalar subquery, and a data-modifying CTE cannot
   // appear inside one.
-  const out = db.sql(query).trim().split("\n").filter((line) => line.trim() && line.trim() !== "SET").pop() ?? "[]";
+  // json_agg renders a multi-row result across multiple lines. Preserve the
+  // whole JSON value while discarding only psql's output from the preceding
+  // role and request-claim statements. Taking the last line alone made a
+  // legitimate multi-row RPC result look like malformed JSON.
+  const out = db.sql(query)
+    .split("\n")
+    .filter((line) => {
+      const value = line.trim();
+      return value && value !== "SET" && !(role && session.userId && value === session.userId);
+    })
+    .join("\n");
   const parsed = JSON.parse(out || "[]");
   return Array.isArray(parsed) ? parsed : [];
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * P1-P18 — the application-to-job boundary, through the real HTTP surfaces.
+ * P1-P19 — the application-to-job boundary, through the real HTTP surfaces.
  *
  * This is the check the repository did not have. Payment coverage stopped at
  * either the module boundary (calling `reconcile*` directly) or at grepping the
@@ -85,6 +85,12 @@ function boot() {
   db.sql(`create role anon nologin`);
   db.sql(`create role authenticated nologin`);
   db.sql(`create role service_role nologin bypassrls`);
+  // Supabase's initial schema grants these API roles USAGE on the extensions
+  // schema before application migrations run. Reproduce that platform
+  // baseline so Phase 55's schema-qualified pgcrypto calls execute with the
+  // same privileges as the acceptance project.
+  db.sql(`create schema extensions`);
+  db.sql(`grant usage on schema extensions to anon, authenticated, service_role`);
   db.sql(`alter default privileges in schema public grant all on tables to anon, authenticated, service_role`);
   db.sql(`alter default privileges in schema public grant execute on functions to service_role`);
   db.sql(`create schema auth`);
@@ -136,6 +142,8 @@ const webhookRoute = await import("../src/app/api/stripe/webhook/route.ts");
 const legacyWebhookRoute = await import("../src/app/api/method/expungement.api.payment.stripe_webhook/route.ts");
 const renderRoute = await import("../src/app/api/expungement-ai/packet/render/route.ts");
 const { consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
+const { getBriefcaseItemForWebhook } = await import("../src/lib/expungement-ai/briefcase.ts");
+const { reviewedPacketInputHash } = await import("../src/lib/expungement-ai/packet-information.ts");
 
 // --- fixtures -----------------------------------------------------------------
 
@@ -195,10 +203,13 @@ function createItem(userId, label, { paymentAllowed = true, jurisdiction = "MS" 
   return id;
 }
 
-function checkoutSession({ itemId, userId, sessionId, amount = 5000, currency = "usd" }) {
+async function checkoutSession({ itemId, userId, sessionId, amount = 5000, currency = "usd" }) {
   const canonicalOwner = db.scalar(
     `select user_id from public.consumer_briefcase_items where id='${itemId}'`
   ).trim();
+  const item = await getBriefcaseItemForWebhook(canonicalOwner, itemId);
+  const reviewedInputHash = item ? reviewedPacketInputHash(item) : null;
+  if (!reviewedInputHash) throw new Error(`fixture ${itemId} has no reviewed packet-input hash`);
   const matchKey = `consumer:${createHash("sha256")
     .update(`rcap:consumer-person:v1:${canonicalOwner}`)
     .digest("hex")}`;
@@ -232,7 +243,8 @@ function checkoutSession({ itemId, userId, sessionId, amount = 5000, currency = 
       briefcase_item_id: itemId,
       product_id: "expungement_packet",
       person_id: personId,
-      matter_id: matterId
+      matter_id: matterId,
+      reviewed_input_hash: reviewedInputHash
     }
   };
 }
@@ -323,7 +335,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 {
   // P1 — a valid signed event records exactly one $50 USD payment.
   const item = createItem(USER_A, "p1");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p1" });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p1" });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p1", session)));
   const row = paymentRow(item);
   const firstJob = jobsFor(item)[0];
@@ -361,7 +373,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 {
   // P2 — an invalid signature records nothing.
   const item = createItem(USER_A, "p2");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p2" });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p2" });
   const bad = stripe.webhooks.generateTestHeaderString({
     payload: JSON.stringify(stripeEvent("evt_p2", session)),
     secret: "whsec_a_different_secret_entirely"
@@ -379,7 +391,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 {
   // P3 — a missing signature records nothing.
   const item = createItem(USER_A, "p3");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p3" });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p3" });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p3", session), { omitSignature: true }));
   const row = paymentRow(item);
   check(
@@ -393,7 +405,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 {
   // P5 — the wrong amount records nothing, even correctly signed.
   const item = createItem(USER_A, "p5");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p5", amount: 500 });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p5", amount: 500 });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p5", session)));
   const row = paymentRow(item);
   // A refused event must also not consume its idempotency key. If it did, a
@@ -411,7 +423,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 {
   // P6 — the wrong currency records nothing.
   const item = createItem(USER_A, "p6");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p6", currency: "eur" });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p6", currency: "eur" });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p6", session)));
   const row = paymentRow(item);
   const claimed = db.scalar(`select count(*) from public.processed_stripe_events where stripe_event_id='evt_p6'`);
@@ -424,10 +436,40 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 }
 
 {
+  // P19 — the Checkout metadata freezes the reviewed answers. A participant
+  // edit after Session creation cannot be paid against the earlier review.
+  const item = createItem(USER_A, "p19");
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p19" });
+  db.sql(
+    `update public.consumer_briefcase_items
+        set artifact_refs_json = jsonb_set(
+          artifact_refs_json,
+          '{commercialFlow,packetInformation,answers,pending_cases}',
+          '"Yes"'::jsonb,
+          true
+        )
+      where id='${item}'`
+  );
+  const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p19", session)));
+  const row = paymentRow(item);
+  const claimed = db.scalar(`select count(*) from public.processed_stripe_events where stripe_event_id='evt_p19'`);
+  check(
+    "P19",
+    "answers changed after Checkout creation cannot receive payment authority",
+    res.status === 500
+      && row?.payment_status === "unpaid"
+      && row?.provider_event_id === null
+      && jobsFor(item).length === 0
+      && claimed === "0",
+    `${res.status} ${JSON.stringify(row)} jobs=${jobsFor(item).length} claimed=${claimed}`
+  );
+}
+
+{
   // P7 — a session naming another user's item records nothing.
   const itemA = createItem(USER_A, "p7-a");
   const itemB = createItem(USER_B, "p7-b");
-  const crossed = checkoutSession({ itemId: itemB, userId: USER_A, sessionId: "cs_p7" });
+  const crossed = await checkoutSession({ itemId: itemB, userId: USER_A, sessionId: "cs_p7" });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p7", crossed)));
   const rowA = paymentRow(itemA);
   const rowB = paymentRow(itemB);
@@ -460,7 +502,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
 {
   // P18 — the legacy endpoint is the same handler, so it cannot skip the check.
   const item = createItem(USER_A, "p18");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p18" });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p18" });
   const unsigned = new Request("http://localhost/api/method/expungement.api.payment.stripe_webhook", {
     method: "POST",
     headers: new Headers({ "content-type": "application/json" }),
@@ -553,7 +595,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
   // P9 / P12 — a paid item creates exactly one Phase 53-bound job, and a repeat
   // request returns the same job rather than a second one.
   const item = createItem(USER_A, "p9");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p9" });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p9" });
   await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p9", session)));
 
   setSession({ isAuthenticated: true, userId: USER_A });
