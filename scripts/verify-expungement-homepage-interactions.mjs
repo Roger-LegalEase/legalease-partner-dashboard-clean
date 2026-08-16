@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { register } from "node:module";
 
@@ -97,7 +98,16 @@ const ffprobe = spawnSync("ffprobe", [
   "-v", "error", "-show_entries", "stream=codec_name,codec_type,width,height,pix_fmt,r_frame_rate", "-of", "json",
   path.join(ROOT, "public/expungement-ai/hero/expungement-ai-hero-approved.mp4")
 ], { encoding: "utf8" });
-requireCondition(ffprobe.status === 0, `ffprobe failed for the production hero: ${ffprobe.stderr || ffprobe.stdout}`);
+if (ffprobe.error?.code === "ENOENT") {
+  const media = fs.readFileSync(path.join(ROOT, "public/expungement-ai/hero/expungement-ai-hero-approved.mp4"));
+  const mediaText = media.toString("latin1");
+  const mediaHash = crypto.createHash("sha256").update(media).digest("hex");
+  requireCondition(mediaHash === "89c84e00e917ec56c9668542d3f52355731c104aa18aaa17d99f8197fcca7bbe", "Production hero bytes differ from the locally ffprobe-verified approved encode.");
+  requireCondition(mediaText.indexOf("moov") > 0 && mediaText.indexOf("moov") < mediaText.indexOf("mdat"), "Production hero does not expose a fast-start MP4 atom order.");
+  requireCondition(mediaText.includes("avc1") && !mediaText.includes("soun"), "Production hero fallback inspection did not find H.264 video-only media.");
+} else {
+  requireCondition(ffprobe.status === 0, `ffprobe failed for the production hero: ${ffprobe.stderr || ffprobe.stdout || ffprobe.error?.message}`);
+}
 if (ffprobe.status === 0) {
   const streams = JSON.parse(ffprobe.stdout).streams ?? [];
   const video = streams.find((stream) => stream.codec_type === "video");
