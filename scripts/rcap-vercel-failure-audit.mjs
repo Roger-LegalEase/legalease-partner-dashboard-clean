@@ -19,7 +19,7 @@ const evidenceDir = path.join(rootDir, "hosted-acceptance-evidence");
 const evidencePath = path.join(evidenceDir, "vercel-failure-audit.json");
 fs.mkdirSync(evidenceDir, { recursive: true });
 
-const EXPECTED_APPLICATION_SHA = "264d2a240e5c857f55ee645f2683830e94f67c19";
+const EXPECTED_APPLICATION_SHA = "664b8ddd374642bf2bd1820f7e05224f3dd081bc";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const EXPECTED_STRIPE_CONFIGURED = "true";
 const EXPECTED_ROUTE_STATE = "staging_scoped";

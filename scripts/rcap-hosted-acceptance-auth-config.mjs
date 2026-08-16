@@ -49,6 +49,7 @@ if (!VERCEL_TOKEN || !VERCEL_ORG_ID || !VERCEL_PROJECT_ID) {
 }
 
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
+const ACCEPTANCE_ORIGIN = `https://rcap-acceptance-${PROJECT_REF}.vercel.app`;
 
 const verdicts = new Map();
 function record(caseId, passed, observed) {
@@ -134,9 +135,10 @@ let previewUrl = null;
     (d) =>
       (d.readyState ?? d.state) === "READY" &&
       d.target !== "production" &&
-      d.meta?.rcapApplicationSha === APPLICATION_SHA
+      d.meta?.rcapApplicationSha === APPLICATION_SHA &&
+      d.meta?.rcapPublicOrigin === ACCEPTANCE_ORIGIN
   );
-  previewUrl = match ? `https://${match.url}` : null;
+  previewUrl = match ? match.meta.rcapPublicOrigin : null;
   record(
     "preview_deployment_discovered",
     Boolean(previewUrl),

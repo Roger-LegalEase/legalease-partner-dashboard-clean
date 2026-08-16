@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-// Hosted acceptance staging — the priority packet gallery.
+// Hosted acceptance staging — the complete terminal-treatment packet gallery.
 //
 // Proves that the three priority states Roger named — Pennsylvania,
-// Mississippi and Illinois — are reachable and rendering on the DEPLOYED
-// Preview instance, and emits the exact URLs to open on a phone.
+// Mississippi and Illinois — are present in the frozen data and that the
+// DEPLOYED Preview returns the exact application-owned internal-admin redirect
+// for each anonymous request. It emits the exact URLs an authenticated reviewer
+// can open on a phone.
 //
 // These three are also the states with preserved legacy generators, so this
 // doubles as the check that the freeze did not break a live legacy surface.
@@ -14,20 +16,26 @@
 // can be exercised while the consumer delivery route is still disabled.
 
 import fs from "node:fs";
+import crypto from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const EVIDENCE_DIR = path.join(rootDir, "hosted-acceptance-evidence");
+const TERMINALIZATION_LEDGER_PATH = path.join(rootDir, "data/rcap-ledger/track-terminalization.json");
+const PROBLEMATIC_PDF_REGISTER_PATH = path.join(rootDir, "data/rcap-all50/problematic-pdf-register.json");
 fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
+const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
+const ROUTE_STATE_TAG = process.env.HOSTED_ROUTE_STATE || "disabled";
+const ACCEPTANCE_ORIGIN = `https://rcap-acceptance-${PROJECT_REF}.vercel.app`;
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
 const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
 
-if (!VERCEL_TOKEN || !VERCEL_ORG_ID || !VERCEL_PROJECT_ID || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA)) {
-  console.error("GALLERY: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID and HOSTED_APPLICATION_SHA are required");
+if (!VERCEL_TOKEN || !VERCEL_ORG_ID || !VERCEL_PROJECT_ID || !/^[0-9a-f]{40}$/.test(APPLICATION_SHA) || !/^[a-z]{20}$/.test(PROJECT_REF)) {
+  console.error("GALLERY: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID, HOSTED_APPLICATION_SHA and ACCEPTANCE_SUPABASE_PROJECT_REF are required");
   process.exit(1);
 }
 
@@ -97,24 +105,166 @@ async function get(url) {
   }
 }
 
+function exactInternalAdminRedirect(response, requestedPath) {
+  let location = null;
+  try { location = response.location ? new URL(response.location, ACCEPTANCE_ORIGIN) : null; } catch { /* invalid is a failure */ }
+  return response.status === 307
+    && !response.fromProtectionLayer
+    && location?.origin === ACCEPTANCE_ORIGIN
+    && location.pathname === "/sign-in"
+    && location.searchParams.get("next") === requestedPath;
+}
+
 const evidence = {
-  schemaVersion: "rcap-hosted-acceptance-gallery/v1",
+  schemaVersion: "rcap-hosted-acceptance-gallery/v2",
   applicationSha: APPLICATION_SHA,
   // Recorded so a reader can tell which gate a "withheld" verdict came from.
   // Without the bypass, a protected Preview makes every anonymous probe pass
   // this file's disclosure assertion for the wrong reason.
   protectionBypassSupplied: Boolean(BYPASS),
-  states: []
+  states: [],
+  jurisdictions: []
 };
+
+// Prepare the complete internal-review gallery from the same frozen inputs the
+// deployed routes read. The three named priority states retain their focused
+// hosted probes below; this ledger-backed layer adds every state plus DC and
+// refuses to call the gallery complete if even one track is nonterminal,
+// unknown, unowned, or absent from a jurisdiction page.
+let terminalTreatmentGallery = [];
+{
+  const { register } = await import("node:module");
+  register("./lib/ts-esm-loader.mjs", import.meta.url);
+  const { getAll50StatePreviews } = await import("../src/lib/rcap/all50-internal-preview.ts");
+  const previews = getAll50StatePreviews();
+  const ledger = JSON.parse(fs.readFileSync(TERMINALIZATION_LEDGER_PATH, "utf8"));
+  const tracks = Array.isArray(ledger.tracks) ? ledger.tracks : [];
+  const aggregates = ledger.aggregates ?? {};
+  const uniquePreviews = new Map(previews.map((preview) => [preview.build.code, preview]));
+  const ledgerCodes = [...new Set(tracks.map((track) => track.jurisdiction))].sort();
+  const previewCodes = [...uniquePreviews.keys()].sort();
+  const matchingJurisdictionSets = JSON.stringify(ledgerCodes) === JSON.stringify(previewCodes);
+
+  terminalTreatmentGallery = [...uniquePreviews.values()]
+    .sort((a, b) => a.build.code.localeCompare(b.build.code))
+    .map((preview) => {
+      const stateTracks = tracks.filter((track) => track.jurisdiction === preview.build.code);
+      const dispositionCounts = {};
+      for (const track of stateTracks) {
+        const disposition = track.coverageDisposition ?? "unknown";
+        dispositionCounts[disposition] = (dispositionCounts[disposition] ?? 0) + 1;
+      }
+      return {
+        code: preview.build.code,
+        name: preview.build.name,
+        slug: preview.build.slug,
+        reviewUrl: `${ACCEPTANCE_ORIGIN}/internal/record-clearing/states/${preview.build.slug}`,
+        buildStatus: preview.build.buildStatus,
+        trackCount: stateTracks.length,
+        terminalTrackCount: stateTracks.filter((track) => track.terminal === true).length,
+        nonterminalTrackCount: stateTracks.filter((track) => track.terminal !== true).length,
+        dispositionCounts,
+        priority: PRIORITY.some((state) => state.code === preview.build.code)
+      };
+    });
+
+  record(
+    "terminal_treatment_gallery_has_51_unique_jurisdictions",
+    previews.length === 51 && uniquePreviews.size === 51 && ledgerCodes.length === 51 && matchingJurisdictionSets,
+    `preview rows=${previews.length}, unique preview codes=${uniquePreviews.size}, ledger jurisdictions=${ledgerCodes.length}, code sets match=${matchingJurisdictionSets}`
+  );
+  record(
+    "terminal_treatment_gallery_has_497_of_497_terminal_tracks",
+    tracks.length === 497
+      && aggregates.registryTracks === 497
+      && aggregates.tracksTerminal === 497
+      && terminalTreatmentGallery.reduce((sum, state) => sum + state.trackCount, 0) === 497
+      && terminalTreatmentGallery.reduce((sum, state) => sum + state.terminalTrackCount, 0) === 497,
+    `track rows=${tracks.length}, registry=${aggregates.registryTracks}, terminal=${aggregates.tracksTerminal}`
+  );
+  record(
+    "terminal_treatment_gallery_has_no_nonterminal_unknown_or_unowned_entries",
+    aggregates.tracksNonterminal === 0
+      && aggregates.unknownTrackDispositions === 0
+      && aggregates.unownedBlockers === 0
+      && aggregates.unownedRequiredComponents === 0
+      && terminalTreatmentGallery.every((state) => state.trackCount > 0 && state.nonterminalTrackCount === 0),
+    `nonterminal=${aggregates.tracksNonterminal}, unknown=${aggregates.unknownTrackDispositions}, unowned blockers=${aggregates.unownedBlockers}, unowned required components=${aggregates.unownedRequiredComponents}`
+  );
+
+  evidence.terminalTreatment = {
+    ledger: path.relative(rootDir, TERMINALIZATION_LEDGER_PATH),
+    aggregates,
+    jurisdictionCount: terminalTreatmentGallery.length,
+    jurisdictions: terminalTreatmentGallery
+  };
+  fs.writeFileSync(
+    path.join(EVIDENCE_DIR, "terminal-treatment-gallery.json"),
+    `${JSON.stringify({
+      schemaVersion: "rcap-terminal-treatment-gallery/v1",
+      applicationSha: APPLICATION_SHA,
+      acceptanceOrigin: ACCEPTANCE_ORIGIN,
+      ledger: evidence.terminalTreatment.ledger,
+      aggregates,
+      jurisdictions: terminalTreatmentGallery
+    }, null, 2)}\n`
+  );
+}
+
+// Copy the canonical problematic-PDF register into the hosted evidence bundle
+// byte-for-byte and bind it by SHA-256. Zero sellable/public routes is checked
+// both in the aggregate and in the underlying route arrays, preventing a stale
+// summary counter from concealing an exposed route.
+{
+  const registerBytes = fs.readFileSync(PROBLEMATIC_PDF_REGISTER_PATH);
+  const problemRegister = JSON.parse(registerBytes.toString("utf8"));
+  const totals = problemRegister.totals ?? {};
+  const sellableRoutes = Array.isArray(problemRegister.routesStillSellable) ? problemRegister.routesStillSellable : null;
+  const publicRoutes = Array.isArray(problemRegister.routesStillPublic) ? problemRegister.routesStillPublic : null;
+  const records = Array.isArray(problemRegister.records) ? problemRegister.records : [];
+  const sha256 = crypto.createHash("sha256").update(registerBytes).digest("hex");
+  const exactMasterList = records.length === totals.problematicPdfsTotal
+    && records.every((entry) => typeof entry?.identity === "string" && typeof entry?.jurisdiction === "string");
+
+  record(
+    "problematic_pdf_master_list_is_complete",
+    exactMasterList,
+    `records=${records.length}, aggregate total=${totals.problematicPdfsTotal}, sha256=${sha256}`
+  );
+  record(
+    "problematic_pdf_routes_are_neither_sellable_nor_public",
+    totals.problemPdfRoutesStillSellable === 0
+      && totals.problemPdfRoutesStillPublic === 0
+      && sellableRoutes?.length === 0
+      && publicRoutes?.length === 0,
+    `sellable=${totals.problemPdfRoutesStillSellable}/${sellableRoutes?.length ?? "invalid"}, public=${totals.problemPdfRoutesStillPublic}/${publicRoutes?.length ?? "invalid"}`
+  );
+
+  fs.writeFileSync(path.join(EVIDENCE_DIR, "problematic-pdf-master-list.json"), registerBytes);
+  evidence.problematicPdfMasterList = {
+    source: path.relative(rootDir, PROBLEMATIC_PDF_REGISTER_PATH),
+    artifact: "problematic-pdf-master-list.json",
+    sha256,
+    totals,
+    recordCount: records.length,
+    routesStillSellable: sellableRoutes,
+    routesStillPublic: publicRoutes
+  };
+}
 
 // --- discover the Preview deployment, same predicate as every other step -----
 let previewUrl = null;
 {
   const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT_ID)}&limit=100&state=READY`);
   const match = (Array.isArray(res.json?.deployments) ? res.json.deployments : []).find(
-    (d) => (d.readyState ?? d.state) === "READY" && d.target !== "production" && d.meta?.rcapApplicationSha === APPLICATION_SHA
+    (d) => (d.readyState ?? d.state) === "READY"
+      && d.target !== "production"
+      && d.meta?.rcapApplicationSha === APPLICATION_SHA
+      && d.meta?.rcapAcceptanceProjectRef === PROJECT_REF
+      && d.meta?.rcapPublicOrigin === ACCEPTANCE_ORIGIN
+      && d.meta?.rcapRouteState === ROUTE_STATE_TAG
   );
-  previewUrl = match ? `https://${match.url}` : null;
+  previewUrl = match ? ACCEPTANCE_ORIGIN : null;
   record("gallery_preview_deployment_discovered", Boolean(previewUrl), previewUrl ?? `no READY non-production deployment carrying ${APPLICATION_SHA}`);
   if (!previewUrl) finish();
   evidence.previewUrl = previewUrl;
@@ -140,65 +290,47 @@ let previewUrl = null;
   if (!reached) finish();
 }
 
-// --- the index, then each priority state -------------------------------------
+// --- the index, then every state plus DC -------------------------------------
 {
-  const index = await get(`${previewUrl}/internal/record-clearing/states`);
-  // These are internal-admin routes, so an anonymous caller legitimately gets a
-  // redirect to the application's own sign-in rather than a 200. What must be
-  // true is that THE APPLICATION answered — not Vercel's wall. /api/health in
-  // the payment journey is the must-succeed 200 proof; this case proves the
-  // request reached the same application.
-  // A 401 from the APPLICATION is reaching the application. The gate answering
-  // is the point; what must not happen is Vercel answering instead. The
-  // must-succeed 200 anchor is the /api/health probe below, which is what
-  // separates "the app refused me" from "I never got there".
-  const answeredByApplication = !index.fromProtectionLayer
-    && !String(index.redirectHost).endsWith("vercel.com")
-    && typeof index.status === "number";
+  const requestedPath = "/internal/record-clearing/states";
+  const index = await get(`${previewUrl}${requestedPath}`);
+  const exactGate = exactInternalAdminRedirect(index, requestedPath);
   record(
     "gallery_index_reached_the_application",
-    answeredByApplication,
+    exactGate,
     `GET /internal/record-clearing/states = ${index.status}${index.location ? `, location=${index.location}` : ""}; ` +
-    `redirect host=${index.redirectHost || "(none)"}; cookies=${JSON.stringify(index.cookieNames)}; ` +
-    `answered by=${index.fromProtectionLayer ? "VERCEL'S PROTECTION LAYER" : "the application"}`
+    `exact application-owned 307 to /sign-in with next=${requestedPath}: ${exactGate}`
   );
 }
 
-for (const state of PRIORITY) {
-  const url = `${previewUrl}/internal/record-clearing/states/${state.slug}`;
+for (const state of terminalTreatmentGallery) {
+  const requestedPath = `/internal/record-clearing/states/${state.slug}`;
+  const url = `${previewUrl}${requestedPath}`;
   const page = await get(url);
 
-  // These routes are behind resolveInternalAdminPageAccess. An anonymous
-  // request is answered with the sign-in/denied shell — status 200, because
-  // Next renders the redirect target — so asserting "the body names the state"
-  // anonymously would be asserting the gate is BROKEN. The correct anonymous
-  // assertion is the opposite one: the route answers, and it does not disclose
-  // the state's review content to a caller with no session.
-  // Two things must hold together, and neither alone is worth anything. The
-  // APPLICATION must have answered — a wall 401 withholds the state name too,
-  // which is how the superseded evidence passed while proving nothing. And the
-  // content must be withheld from a caller with no session.
-  const answeredByApplication = !page.fromProtectionLayer && !page.redirectHost.endsWith("vercel.com");
-  const withheld = !page.body.includes(state.name);
+  // resolveInternalAdminPageAccess uses Next's redirect(), whose deterministic
+  // response is 307 to this origin's /sign-in with the exact requested path in
+  // `next`. A generic 4xx/5xx or a body that merely omits the state name is not
+  // accepted as evidence that the route exists or that its gate executed.
+  const exactGate = exactInternalAdminRedirect(page, requestedPath);
   record(
     `gallery_is_reachable_and_gated_${state.slug}`,
-    answeredByApplication && withheld,
+    exactGate,
     `GET ${url.replace(previewUrl, "")} = ${page.status}${page.location ? `, location=${page.location}` : ""}; ` +
-    `answered by=${page.fromProtectionLayer ? "VERCEL'S PROTECTION LAYER" : "the application"}; ` +
-    `anonymous body withholds "${state.name}": ${withheld}`
+    `exact application-owned 307 to /sign-in with next=${requestedPath}: ${exactGate}`
   );
-  evidence.states.push({
+  const routeEvidence = {
     code: state.code, slug: state.slug, url, status: page.status,
-    location: page.location, answeredByApplication, anonymousContentWithheld: withheld
-  });
+    location: page.location, exactInternalAdminRedirect: exactGate
+  };
+  evidence.jurisdictions.push(routeEvidence);
+  if (state.priority) evidence.states.push(routeEvidence);
 }
 
 // What an authenticated reviewer will actually see. Asserted against the data
 // layer the page renders from, in this same checkout of the frozen bytes, so
 // "gated" above cannot quietly mean "gated and also empty".
 {
-  const { register } = await import("node:module");
-  register("./lib/ts-esm-loader.mjs", import.meta.url);
   const { getAll50StatePreview } = await import("../src/lib/rcap/all50-internal-preview.ts");
   const missing = [];
   const summary = [];
@@ -220,12 +352,14 @@ for (const state of PRIORITY) {
 }
 
 {
-  const handoff = await get(`${previewUrl}/internal/record-clearing/handoff`);
+  const requestedPath = "/internal/record-clearing/handoff";
+  const handoff = await get(`${previewUrl}${requestedPath}`);
+  const exactGate = exactInternalAdminRedirect(handoff, requestedPath);
   record(
     "gallery_handoff_reached_the_application",
-    !handoff.fromProtectionLayer && !String(handoff.redirectHost).endsWith("vercel.com"),
+    exactGate,
     `GET /internal/record-clearing/handoff = ${handoff.status}${handoff.location ? `, location=${handoff.location}` : ""}; ` +
-    `answered by=${handoff.fromProtectionLayer ? "VERCEL'S PROTECTION LAYER" : "the application"} — the QA and counsel handoff summary is internal-admin gated, so a sign-in redirect from the application is the correct anonymous answer`
+    `exact application-owned 307 to /sign-in with next=${requestedPath}: ${exactGate}`
   );
 }
 
@@ -240,7 +374,7 @@ function finish() {
   console.log("");
   if (failed.length > 0) console.error(`GALLERY FAILED — ${failed.join(", ")}`);
   if (evidence.passed) {
-    console.log("GALLERY PASSED — open these on a phone:");
+    console.log("GALLERY GATES AND FROZEN CONTENT PASSED — sign in as an internal reviewer, then open these on a phone:");
     for (const state of evidence.states) console.log(`  ${state.code}: ${state.url}`);
   }
   process.exit(evidence.passed ? 0 : 1);

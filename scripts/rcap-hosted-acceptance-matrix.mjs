@@ -89,6 +89,24 @@ async function managementApi(pathname, { method = "GET", body = null } = {}) {
 
 const query = (sql) => managementApi(`/v1/projects/${PROJECT_REF}/database/query`, { method: "POST", body: { query: sql } });
 
+// The Management API can return an HTTP error object that happens to be valid
+// JSON. Acceptance SQL must never treat that shape as an empty result set: an
+// unchecked insert followed by a 404 from the application is not application
+// evidence. Every SQL operation added to the partner-covered journey therefore
+// requires both a successful HTTP response and the query endpoint's row-array
+// result shape.
+async function mustQuery(sql, label) {
+  const response = await query(sql);
+  if (!response.ok || !Array.isArray(response.json)) {
+    throw new Error(`${label}: SQL ${response.status}: ${response.text || JSON.stringify(response.json)}`);
+  }
+  return response.json;
+}
+
+function sqlText(value) {
+  return String(value).replaceAll("'", "''");
+}
+
 async function supabase(pathname, { method = "GET", key = null, token = null, body = null, headers = {} } = {}) {
   const apikey = key ?? ANON_KEY;
   const res = await fetch(`${SUPABASE_URL}${pathname}`, {
@@ -365,6 +383,12 @@ async function evaluate(jurisdiction, answers, profileVersion) {
   const journeys = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-all50/hosted-acceptance-journeys.json"), "utf8"));
 
   for (const [caseId, spec] of Object.entries(journeys.cases)) {
+    // The generated fixture still documents representative sponsored route
+    // inputs, but an evaluation response cannot prove checkout bypass. The
+    // required case is registered below only after a real persisted partner,
+    // entitlement, RCAP session and owned Briefcase item survive an
+    // authenticated HTTP POST to the actual Checkout route.
+    if (caseId === "sponsored_session_never_opens_payment") continue;
     const results = [];
     for (const probe of spec.probes) {
       const res = await evaluate(probe.jurisdiction, probe.answers, probe.profileVersion);
@@ -393,7 +417,328 @@ async function evaluate(jurisdiction, answers, profileVersion) {
   }
 }
 
-// --- 3. Security and isolation, straight through PostgREST -------------------
+// --- 3. Partner-covered journey through the authenticated Checkout route -----
+// This is deliberately a real database relationship, not a request-body hint:
+//
+//   partner_records -> partner_entitlement -> screening_sessions
+//                                      \-> consumer_briefcase_items
+//
+// The application resolves sponsorship from the server-owned screening row.
+// The participant can name only their owned Briefcase item. A successful case
+// is the exact partner-specific 403 before Stripe/payment/job code, with every
+// payment binding still null and every persisted fixture byte unchanged.
+{
+  const nonce = crypto.randomUUID();
+  const partnerId = crypto.randomUUID();
+  const sessionId = crypto.randomUUID();
+  const itemId = crypto.randomUUID();
+  const partnerSlug = `acceptance-sponsored-${nonce.replaceAll("-", "").slice(0, 16)}`;
+  const partnerExternalId = `acceptance-${nonce}`;
+  const expectedError = "Checkout is not used for partner-sponsored RCAP sessions.";
+
+  let seededExactly = false;
+  let before = null;
+  let checkout = null;
+  let after = null;
+  let journeyError = null;
+  let cleanup = null;
+  let cleanupReadback = null;
+  let cleanupError = null;
+
+  const readFixtureState = async (label) => {
+    const rows = await mustQuery(`
+      select
+        (select to_jsonb(p) from (
+          select id, partner_id, partner_slug, partner_name, program_tier,
+                 target_state, payment_status, qualification_status,
+                 provisioning_status, created_at, updated_at
+            from public.partner_records
+           where id = '${partnerId}' and partner_slug = '${sqlText(partnerSlug)}'
+        ) p) as partner_state,
+        (select to_jsonb(e) from (
+          select partner_slug, screenings_allowed, screenings_used,
+                 contract_note, period_label, created_at, updated_at
+            from public.partner_entitlement
+           where partner_slug = '${sqlText(partnerSlug)}'
+        ) e) as entitlement_state,
+        (select to_jsonb(s) from (
+          select session_id, jurisdiction, answers, current_question_id,
+                 furthest_stage, status, last_drop_question, partner_slug,
+                 flow_mode, claimed_slot_state, partner_access_code_id,
+                 campaign_name, attribution_source, partner_benefit_active,
+                 created_at, updated_at
+            from public.screening_sessions
+           where session_id = '${sessionId}'
+        ) s) as screening_state,
+        (select to_jsonb(b) from (
+          select id, user_id, source_session_id, payment_status, packet_status,
+                 payment_allowed, payment_provider, checkout_session_id,
+                 payment_intent_id, amount_cents, currency, receipt_url,
+                 provider_event_id, payment_authority, payment_recorded_at,
+                 payment_recorded_by, payment_product_id, payment_person_id,
+                 payment_matter_id, created_at, updated_at
+            from public.consumer_briefcase_items
+           where id = '${itemId}' and user_id = '${A().id}'
+        ) b) as item_state,
+        (select count(*)::int from public.partner_records
+          where id = '${partnerId}' and partner_slug = '${sqlText(partnerSlug)}') as partner_rows,
+        (select count(*)::int from public.partner_entitlement
+          where partner_slug = '${sqlText(partnerSlug)}') as entitlement_rows,
+        (select count(*)::int from public.screening_sessions
+          where session_id = '${sessionId}' and partner_slug = '${sqlText(partnerSlug)}') as screening_rows,
+        (select count(*)::int from public.consumer_briefcase_items
+          where id = '${itemId}' and user_id = '${A().id}' and source_session_id = '${sessionId}') as item_rows,
+        (select count(*)::int from public.packet_render_jobs
+          where briefcase_item_id = '${itemId}' or consumer_briefcase_item_id = '${itemId}') as render_jobs,
+        (select count(*)::int from public.consumer_packet_payment_consumption
+          where consumer_briefcase_item_id = '${itemId}') as payment_consumptions
+    `, label);
+    if (rows.length !== 1) throw new Error(`${label}: expected exactly one aggregate row; observed ${rows.length}`);
+    return rows[0];
+  };
+
+  try {
+    const seedRows = await mustQuery(`
+      with inserted_partner as (
+        insert into public.partner_records
+          (id, partner_id, partner_slug, partner_name, program_tier,
+           target_state, payment_status, qualification_status, provisioning_status)
+        values
+          ('${partnerId}', '${sqlText(partnerExternalId)}', '${sqlText(partnerSlug)}',
+           'Hosted acceptance sponsored partner', 'implementation', 'MS',
+           'paid', 'qualified', 'provisioned')
+        returning id, partner_slug
+      ), inserted_entitlement as (
+        insert into public.partner_entitlement
+          (partner_slug, screenings_allowed, screenings_used, contract_note, period_label)
+        select partner_slug, 5, 1,
+               'Synthetic hosted acceptance entitlement', 'hosted-acceptance'
+          from inserted_partner
+        returning partner_slug, screenings_allowed, screenings_used
+      ), inserted_session as (
+        insert into public.screening_sessions
+          (session_id, jurisdiction, answers, status, partner_slug, flow_mode,
+           claimed_slot_state, attribution_source, partner_benefit_active)
+        select '${sessionId}', 'MS', '{}'::jsonb, 'completed', partner_slug,
+               'rcap', 'consumed', 'partner_page', true
+          from inserted_partner
+        returning session_id, partner_slug, flow_mode, partner_benefit_active
+      ), inserted_item as (
+        insert into public.consumer_briefcase_items
+          (id, user_id, item_type, jurisdiction, pathway_label, result_code,
+           packet_type, payment_allowed, status, summary_json, next_steps_json,
+           artifact_refs_json, payment_status, packet_status, source_session_id)
+        select '${itemId}', '${A().id}', 'result', 'MS',
+               'Hosted acceptance partner-covered packet', 'packet_ready',
+               'legacy_packet', false, 'packet_ready',
+               '{"note":"synthetic partner-covered acceptance fixture"}'::jsonb,
+               '[]'::jsonb, '{}'::jsonb, 'not_applicable', 'not_started', session_id
+          from inserted_session
+        returning id, user_id, source_session_id, payment_allowed, payment_status,
+                  checkout_session_id, payment_provider, amount_cents
+      )
+      select p.id as partner_id, p.partner_slug,
+             e.screenings_allowed, e.screenings_used,
+             s.session_id, s.flow_mode, s.partner_benefit_active,
+             i.id as item_id, i.user_id, i.source_session_id,
+             i.payment_allowed, i.payment_status, i.checkout_session_id,
+             i.payment_provider, i.amount_cents
+        from inserted_partner p
+        join inserted_entitlement e on e.partner_slug = p.partner_slug
+        join inserted_session s on s.partner_slug = p.partner_slug
+        join inserted_item i on i.source_session_id = s.session_id
+    `, "seed partner-covered Checkout fixture");
+
+    const seeded = seedRows.length === 1 ? seedRows[0] : null;
+    seededExactly = seeded?.partner_id === partnerId
+      && seeded?.partner_slug === partnerSlug
+      && Number(seeded?.screenings_allowed) === 5
+      && Number(seeded?.screenings_used) === 1
+      && seeded?.session_id === sessionId
+      && seeded?.flow_mode === "rcap"
+      && seeded?.partner_benefit_active === true
+      && seeded?.item_id === itemId
+      && seeded?.user_id === A().id
+      && seeded?.source_session_id === sessionId
+      && seeded?.payment_allowed === false
+      && seeded?.payment_status === "not_applicable"
+      && seeded?.checkout_session_id === null
+      && seeded?.payment_provider === null
+      && seeded?.amount_cents === null;
+    if (!seededExactly) {
+      throw new Error(`seed partner-covered Checkout fixture: returned row was not exact (${JSON.stringify(seeded)})`);
+    }
+
+    before = await readFixtureState("read partner-covered state before Checkout");
+    const beforeExact = Number(before.partner_rows) === 1
+      && Number(before.entitlement_rows) === 1
+      && Number(before.screening_rows) === 1
+      && Number(before.item_rows) === 1
+      && Number(before.render_jobs) === 0
+      && Number(before.payment_consumptions) === 0
+      && before.screening_state?.flow_mode === "rcap"
+      && before.screening_state?.partner_benefit_active === true
+      && before.screening_state?.partner_slug === partnerSlug
+      && before.item_state?.source_session_id === sessionId
+      && before.item_state?.payment_allowed === false
+      && before.item_state?.payment_status === "not_applicable"
+      && before.item_state?.checkout_session_id === null
+      && before.item_state?.payment_provider === null
+      && before.item_state?.payment_intent_id === null
+      && before.item_state?.amount_cents === null
+      && before.item_state?.provider_event_id === null
+      && before.item_state?.payment_authority === null
+      && before.item_state?.payment_product_id === null
+      && before.item_state?.payment_person_id === null
+      && before.item_state?.payment_matter_id === null;
+    if (!beforeExact) throw new Error(`partner-covered precondition was not exact (${JSON.stringify(before)})`);
+
+    checkout = await app("/api/expungement-ai/checkout", {
+      method: "POST",
+      headers: { Cookie: sessionCookieHeader(A().session) },
+      body: { briefcaseItemId: itemId }
+    });
+    after = await readFixtureState("read partner-covered state after Checkout");
+  } catch (error) {
+    journeyError = error instanceof Error ? error.message : String(error);
+  }
+
+  // Teardown uses the complete synthetic identity chain, not a broad prefix.
+  // Each delete depends on the previous RETURNING set, so a missing/mismatched
+  // owner or relationship fails closed instead of deleting an unrelated row.
+  try {
+    const cleanupRows = await mustQuery(`
+      with deleted_consumptions as (
+        delete from public.consumer_packet_payment_consumption
+         where consumer_briefcase_item_id = '${itemId}'
+        returning id
+      ), deleted_item as (
+        delete from public.consumer_briefcase_items
+         where id = '${itemId}'
+           and user_id = '${A().id}'
+           and source_session_id = '${sessionId}'
+           and (select count(*) from deleted_consumptions) >= 0
+        returning id
+      ), deleted_session as (
+        delete from public.screening_sessions
+         where session_id = '${sessionId}'
+           and partner_slug = '${sqlText(partnerSlug)}'
+           and exists (select 1 from deleted_item)
+        returning session_id
+      ), deleted_entitlement as (
+        delete from public.partner_entitlement
+         where partner_slug = '${sqlText(partnerSlug)}'
+           and exists (select 1 from deleted_session)
+        returning partner_slug
+      ), deleted_partner as (
+        delete from public.partner_records
+         where id = '${partnerId}'
+           and partner_id = '${sqlText(partnerExternalId)}'
+           and partner_slug = '${sqlText(partnerSlug)}'
+           and exists (select 1 from deleted_entitlement)
+        returning id
+      )
+      select
+        (select count(*)::int from deleted_consumptions) as payment_consumptions,
+        (select count(*)::int from deleted_item) as items,
+        (select count(*)::int from deleted_session) as sessions,
+        (select count(*)::int from deleted_entitlement) as entitlements,
+        (select count(*)::int from deleted_partner) as partners
+    `, "clean partner-covered Checkout fixture");
+    cleanup = cleanupRows.length === 1 ? cleanupRows[0] : null;
+
+    const readbackRows = await mustQuery(`
+      select
+        (select count(*)::int from public.partner_records
+          where id = '${partnerId}' or partner_id = '${sqlText(partnerExternalId)}' or partner_slug = '${sqlText(partnerSlug)}') as partners,
+        (select count(*)::int from public.partner_entitlement
+          where partner_slug = '${sqlText(partnerSlug)}') as entitlements,
+        (select count(*)::int from public.screening_sessions
+          where session_id = '${sessionId}' or partner_slug = '${sqlText(partnerSlug)}') as sessions,
+        (select count(*)::int from public.consumer_briefcase_items
+          where id = '${itemId}' or (user_id = '${A().id}' and source_session_id = '${sessionId}')) as items,
+        (select count(*)::int from public.packet_render_jobs
+          where briefcase_item_id = '${itemId}' or consumer_briefcase_item_id = '${itemId}') as render_jobs,
+        (select count(*)::int from public.consumer_packet_payment_consumption
+          where consumer_briefcase_item_id = '${itemId}') as payment_consumptions
+    `, "prove partner-covered Checkout fixture cleanup");
+    cleanupReadback = readbackRows.length === 1 ? readbackRows[0] : null;
+  } catch (error) {
+    cleanupError = error instanceof Error ? error.message : String(error);
+  }
+
+  const exactResponse = checkout?.status === 403
+    && checkout?.json?.error === expectedError
+    && Object.keys(checkout?.json ?? {}).length === 1;
+  const persistedStateUnchanged = Boolean(before && after)
+    && JSON.stringify(after.partner_state) === JSON.stringify(before.partner_state)
+    && JSON.stringify(after.entitlement_state) === JSON.stringify(before.entitlement_state)
+    && JSON.stringify(after.screening_state) === JSON.stringify(before.screening_state)
+    && JSON.stringify(after.item_state) === JSON.stringify(before.item_state);
+  const noSideEffects = Boolean(after)
+    && Number(after.partner_rows) === 1
+    && Number(after.entitlement_rows) === 1
+    && Number(after.screening_rows) === 1
+    && Number(after.item_rows) === 1
+    && Number(after.render_jobs) === 0
+    && Number(after.payment_consumptions) === 0
+    && after.item_state?.payment_allowed === false
+    && after.item_state?.payment_status === "not_applicable"
+    && after.item_state?.checkout_session_id === null
+    && after.item_state?.payment_provider === null
+    && after.item_state?.payment_intent_id === null
+    && after.item_state?.amount_cents === null
+    && after.item_state?.provider_event_id === null
+    && after.item_state?.payment_authority === null
+    && after.item_state?.payment_product_id === null
+    && after.item_state?.payment_person_id === null
+    && after.item_state?.payment_matter_id === null;
+  const cleanupExact = !cleanupError
+    && (!seededExactly || (
+      Number(cleanup?.payment_consumptions) === 0
+      && Number(cleanup?.items) === 1
+      && Number(cleanup?.sessions) === 1
+      && Number(cleanup?.entitlements) === 1
+      && Number(cleanup?.partners) === 1
+    ))
+    && Number(cleanupReadback?.partners) === 0
+    && Number(cleanupReadback?.entitlements) === 0
+    && Number(cleanupReadback?.sessions) === 0
+    && Number(cleanupReadback?.items) === 0
+    && Number(cleanupReadback?.render_jobs) === 0
+    && Number(cleanupReadback?.payment_consumptions) === 0;
+  const passed = !journeyError && seededExactly && exactResponse
+    && persistedStateUnchanged && noSideEffects && cleanupExact;
+
+  record(
+    "sponsored_session_never_opens_payment",
+    passed,
+    passed
+      ? `authenticated POST ${APP_URL}/api/expungement-ai/checkout returned the exact partner-sponsored 403; Checkout binding/session, payment, entitlement, RCAP session and render-job state were unchanged; exact synthetic rows removed`
+      : `seed exact=${seededExactly}; POST=${checkout?.status ?? "not reached"}; error=${JSON.stringify(checkout?.json?.error ?? null)}; state unchanged=${persistedStateUnchanged}; no side effects=${noSideEffects}; cleanup exact=${cleanupExact}; journey error=${journeyError ?? "none"}; cleanup error=${cleanupError ?? "none"}`
+  );
+  evidence.cases.sponsored_session_never_opens_payment = {
+    authenticatedUserId: A().id,
+    endpoint: `${APP_URL}/api/expungement-ai/checkout`,
+    hostedAuthority: SUPABASE_URL,
+    expectedStatus: 403,
+    expectedError,
+    observedStatus: checkout?.status ?? null,
+    observedError: checkout?.json?.error ?? null,
+    seededExactly,
+    preCheckoutState: before,
+    postCheckoutState: after,
+    persistedStateUnchanged,
+    noCheckoutBindingSessionJobOrPaymentMutation: noSideEffects,
+    cleanupExact,
+    cleanup,
+    cleanupReadback,
+    journeyError,
+    cleanupError
+  };
+}
+
+// --- 4. Security and isolation, straight through PostgREST -------------------
 {
   const seed = await query(`
     insert into public.consumer_briefcase_items
@@ -444,7 +789,7 @@ async function evaluate(jurisdiction, answers, profileVersion) {
   evidence.cases.personNamespace = { anon: anon.status, authenticated: authed.status };
 }
 
-// --- 4. The pinned worker image against the hosted project -------------------
+// --- 5. The pinned worker image against the hosted project -------------------
 {
   if (!WORKER_DIGEST_REF) {
     record("worker_digest_runs_against_hosted_project", false, "HOSTED_WORKER_DIGEST_REF was not supplied, so the pinned image was never exercised");

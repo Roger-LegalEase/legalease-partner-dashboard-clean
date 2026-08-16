@@ -21,7 +21,7 @@ const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const EXPECTED_REF = "hyflxnlhpmiqxvvcoiia";
 const EXPECTED_NAME = "legalease-rcap-acceptance";
-const EXPECTED_APPLICATION_SHA = "264d2a240e5c857f55ee645f2683830e94f67c19";
+const EXPECTED_APPLICATION_SHA = "664b8ddd374642bf2bd1820f7e05224f3dd081bc";
 const EMAIL_A = "acceptance-consumer-a@rcap-acceptance.test";
 const EMAIL_B = "acceptance-consumer-b@rcap-acceptance.test";
 

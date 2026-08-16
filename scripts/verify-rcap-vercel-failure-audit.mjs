@@ -19,7 +19,7 @@ function check(name, condition) {
   checks.push(name);
 }
 
-check("authorized application SHA is pinned", audit.includes('const EXPECTED_APPLICATION_SHA = "264d2a240e5c857f55ee645f2683830e94f67c19"'));
+check("authorized application SHA is pinned", audit.includes('const EXPECTED_APPLICATION_SHA = "664b8ddd374642bf2bd1820f7e05224f3dd081bc"'));
 check("acceptance project ref is pinned", audit.includes('const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia"'));
 check("Stripe-built metadata is exact", audit.includes('const EXPECTED_STRIPE_CONFIGURED = "true"'));
 check("staging route metadata is exact", audit.includes('const EXPECTED_ROUTE_STATE = "staging_scoped"'));

@@ -27,7 +27,12 @@ process.env.RCAP_EVALUATOR_TODAY = process.env.RCAP_EVALUATOR_TODAY ?? "2026-07-
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
 const { buildRenderJobSpec } = await import("../src/lib/rcap/render/job-contract.ts");
+const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
+const { packetPlanForPathway } = await import("../src/lib/rcap-engine/packet-planner.ts");
 const { consumerPacketPriceCents } = await import("../src/lib/expungement-ai/payment-adapter.ts");
+const { consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
+const { packetInformationReviewSafety, reviewedPacketInputHash } = await import("../src/lib/expungement-ai/packet-information.ts");
+const { evaluateAuthoritativeScreeningResult } = await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
 
 const rootDir = process.cwd();
 const EVIDENCE_DIR = path.join(rootDir, "hosted-acceptance-evidence");
@@ -37,6 +42,7 @@ const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const PROJECT_REF = process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "";
 const APPLICATION_SHA = process.env.HOSTED_APPLICATION_SHA ?? "";
 const WORKER_DIGEST_REF = process.env.HOSTED_WORKER_DIGEST_REF ?? "";
+const WORKER_DIGEST = WORKER_DIGEST_REF.includes("@") ? WORKER_DIGEST_REF.split("@").at(-1) ?? "" : "";
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 const VERCEL_ORG_ID = process.env.VERCEL_ORG_ID ?? "";
 const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "";
@@ -45,9 +51,20 @@ const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 const WEBHOOK_SECRET = process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "";
 
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
+const PA_PATHWAY_ID = "path-a-non-conviction-expungement";
+const PA_PATHWAY = "Path A — Non-conviction expungement";
+const ACCEPTANCE_ORIGIN = `https://rcap-acceptance-${PROJECT_REF}.vercel.app`;
+const EXPECTED_WEBHOOK_EVENTS = [
+  "checkout.session.async_payment_succeeded",
+  "checkout.session.completed",
+  "invoice.finalized",
+  "invoice.paid",
+  "invoice.payment_failed",
+  "invoice.voided"
+].sort();
 
-if (!SUPABASE_ACCESS_TOKEN || !/^[a-z]{20}$/.test(PROJECT_REF) || !VERCEL_TOKEN) {
-  console.error("PAYMENT: SUPABASE_ACCESS_TOKEN, ACCEPTANCE_SUPABASE_PROJECT_REF and VERCEL_TOKEN are required");
+if (!SUPABASE_ACCESS_TOKEN || !/^[a-z]{20}$/.test(PROJECT_REF) || !VERCEL_TOKEN || !BYPASS) {
+  console.error("PAYMENT: SUPABASE_ACCESS_TOKEN, ACCEPTANCE_SUPABASE_PROJECT_REF, VERCEL_TOKEN and VERCEL_AUTOMATION_BYPASS_SECRET are required");
   process.exit(1);
 }
 if (!STRIPE_KEY.startsWith("sk_test_") || !WEBHOOK_SECRET.startsWith("whsec_")) {
@@ -64,19 +81,26 @@ function record(caseId, passed, observed) {
 const REQUIRED_CASES = [
   "payment_preview_deployment_discovered",
   "bypass_reaches_the_application_not_the_protection_layer",
+  "sandbox_webhook_destination_preconditions_exact",
+  "sandbox_webhook_destination_updated_in_place_and_read_back_exact",
   "renderable_route_selected_from_the_registry",
+  "packet_information_review_is_complete_and_route_safe",
   "seeded_item_agrees_with_the_authoritative_resolver",
   "unpaid_render_is_refused_for_payment",
   "checkout_session_created_against_stripe_sandbox",
+  "checkout_session_identity_and_return_binding_exact",
   "forged_webhook_signature_is_rejected",
   "signed_webhook_records_the_payment",
   "payment_is_server_authoritative_in_the_database",
   "paid_render_is_queued",
+  "worker_queue_contains_only_the_target_job",
   "worker_renders_and_stores_the_artifact",
   "person_and_matter_are_bound_on_the_render_job",
   "artifact_is_stored_privately_and_re_readable",
   "delivery_serves_the_owner_and_refuses_everyone_else",
-  "event_replay_creates_no_second_entitlement_or_render_job"
+  "event_replay_creates_no_second_entitlement_or_render_job",
+  "synthetic_checkout_session_expired_after_automated_journey",
+  "synthetic_acceptance_chain_retained_and_hash_valid_after_replay"
 ];
 
 const bypassHeaders = BYPASS ? { "x-vercel-protection-bypass": BYPASS } : {};
@@ -101,6 +125,48 @@ async function sql(query) {
   let json = null;
   try { json = JSON.parse(await res.text()); } catch { /* non-JSON surfaces as null */ }
   return { status: res.status, json };
+}
+
+async function stripeRequest(pathname, { method = "GET", form = null } = {}) {
+  const headers = { Authorization: `Bearer ${STRIPE_KEY}` };
+  if (form !== null) headers["Content-Type"] = "application/x-www-form-urlencoded";
+  const res = await fetch(`https://api.stripe.com${pathname}`, {
+    method,
+    headers,
+    body: form === null ? undefined : new URLSearchParams(form)
+  });
+  const json = await res.json().catch(() => null);
+  return { ok: res.ok, status: res.status, json };
+}
+
+async function listStripeCollection(pathname) {
+  const rows = [];
+  let startingAfter = null;
+  for (let page = 0; page < 100; page += 1) {
+    const url = new URL(`https://api.stripe.com${pathname}`);
+    url.searchParams.set("limit", "100");
+    if (startingAfter) url.searchParams.set("starting_after", startingAfter);
+    const response = await stripeRequest(`${url.pathname}${url.search}`);
+    if (!response.ok || !Array.isArray(response.json?.data)) return null;
+    rows.push(...response.json.data);
+    if (!response.json.has_more) return rows;
+    startingAfter = response.json.data.at(-1)?.id ?? null;
+    if (!startingAfter) return null;
+  }
+  return null;
+}
+
+function sameStringSet(left, right) {
+  return JSON.stringify([...(left ?? [])].sort()) === JSON.stringify([...(right ?? [])].sort());
+}
+
+function webhookUrlShape(value) {
+  try {
+    const url = new URL(value);
+    return { host: url.host, pathname: url.pathname, queryParameterNames: [...url.searchParams.keys()].sort() };
+  } catch {
+    return { host: "(invalid)", pathname: "", queryParameterNames: [] };
+  }
 }
 
 let ANON_KEY = "";
@@ -138,10 +204,16 @@ async function signIn(email, password) {
 }
 
 let PREVIEW = "";
-async function callApp(pathname, { method = "GET", cookie = null, body = null, headers = {} } = {}) {
+async function callApp(pathname, {
+  method = "GET",
+  cookie = null,
+  body = null,
+  headers = {},
+  queryOnlyBypass = false
+} = {}) {
   try {
-    // Header AND query parameter — see the gallery script; the header alone
-    // was answered 401 by a protected Preview.
+    // Ordinary browser/API probes carry both forms. Stripe webhook probes use
+    // queryOnlyBypass so they model the only bypass form Stripe can send.
     const joiner = pathname.includes("?") ? "&" : "?";
     const suffix = BYPASS ? `${joiner}x-vercel-protection-bypass=${encodeURIComponent(BYPASS)}` : "";
     const res = await fetch(`${PREVIEW}${pathname}${suffix}`, {
@@ -149,18 +221,35 @@ async function callApp(pathname, { method = "GET", cookie = null, body = null, h
       headers: {
         "Content-Type": "application/json",
         ...(cookie ? { Cookie: cookie } : {}),
-        ...bypassHeaders,
+        ...(queryOnlyBypass ? {} : bypassHeaders),
         ...headers
       },
       body: body === null ? undefined : typeof body === "string" ? body : JSON.stringify(body),
       redirect: "manual"
     });
-    const text = await res.text();
+    const bytes = Buffer.from(await res.arrayBuffer());
+    const text = bytes.toString("utf8");
     let json = null;
     try { json = JSON.parse(text); } catch { /* HTML or empty is fine */ }
-    return { status: res.status, json, text };
+    return {
+      status: res.status,
+      json,
+      text,
+      bytes,
+      contentType: res.headers.get("content-type") ?? "",
+      contentDisposition: res.headers.get("content-disposition") ?? "",
+      location: res.headers.get("location") ?? ""
+    };
   } catch (error) {
-    return { status: `unreachable: ${error.message}`, json: null, text: "" };
+    return {
+      status: `unreachable: ${error.message}`,
+      json: null,
+      text: "",
+      bytes: Buffer.alloc(0),
+      contentType: "",
+      contentDisposition: "",
+      location: ""
+    };
   }
 }
 
@@ -190,24 +279,41 @@ function finish() {
 
 // --- 1. The deployment that actually carries Stripe --------------------------
 {
-  const res = await vercelApi(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT_ID)}&limit=100&state=READY`);
-  const match = (Array.isArray(res.json?.deployments) ? res.json.deployments : []).find(
-    (d) => (d.readyState ?? d.state) === "READY"
-      && d.target !== "production"
-      && d.meta?.rcapApplicationSha === APPLICATION_SHA
-      && d.meta?.rcapStripeConfigured === "true"
-      && d.meta?.rcapRouteState === "staging_scoped"
-  );
-  PREVIEW = match ? `https://${match.url}` : "";
+  // Resolve the stable acceptance alias itself. Listing by metadata is not
+  // enough because an older READY deployment carries the same public-origin
+  // metadata even after the alias has moved away from it.
+  const aliasHost = new URL(ACCEPTANCE_ORIGIN).host;
+  const projectRes = await vercelApi(`/v9/projects/${encodeURIComponent(VERCEL_PROJECT_ID)}`);
+  const canonicalProjectId = projectRes.json?.id ?? null;
+  const res = await vercelApi(`/v13/deployments/${encodeURIComponent(aliasHost)}`);
+  const deployment = res.json;
+  const deploymentProjectId = deployment?.projectId ?? deployment?.project?.id ?? null;
+  const meta = deployment?.meta ?? {};
+  const aliases = Array.isArray(deployment?.alias) ? deployment.alias : [];
+  const exact = projectRes.status === 200
+    && Boolean(canonicalProjectId)
+    && res.status === 200
+    && deploymentProjectId === canonicalProjectId
+    && deployment?.readyState === "READY"
+    && deployment?.target !== "production"
+    && aliases.includes(aliasHost)
+    && meta.rcapApplicationSha === APPLICATION_SHA
+    && meta.rcapAcceptanceProjectRef === PROJECT_REF
+    && meta.rcapStripeConfigured === "true"
+    && meta.rcapRouteState === "staging_scoped"
+    && meta.rcapPublicOrigin === ACCEPTANCE_ORIGIN;
+  PREVIEW = exact ? ACCEPTANCE_ORIGIN : "";
   record(
     "payment_preview_deployment_discovered",
-    Boolean(PREVIEW),
+    exact,
     PREVIEW
-      ? `${PREVIEW} — READY, non-production, built WITH Stripe configuration and the scoped delivery state`
-      : "no READY non-production deployment of this SHA carries rcapStripeConfigured=true and rcapRouteState=staging_scoped; the payment journey would otherwise have run against a deployment that cannot transact"
+      ? `${PREVIEW} resolves to deployment ${deployment?.id ?? "(unknown)"} — READY, non-production, acceptance-project-bound, built WITH Stripe configuration and the scoped delivery state`
+      : `the pinned alias did not resolve to the exact READY staging deployment (project API=${projectRes.status}, deployment API=${res.status}, id=${deployment?.id ?? "(none)"}, project-bound=${deploymentProjectId === canonicalProjectId}, ready=${deployment?.readyState ?? "(none)"}, target=${JSON.stringify(deployment?.target ?? null)}, alias-bound=${aliases.includes(aliasHost)}, application=${meta.rcapApplicationSha ?? "(none)"}, acceptance project=${meta.rcapAcceptanceProjectRef ?? "(none)"}, stripe=${meta.rcapStripeConfigured ?? "(none)"}, route=${meta.rcapRouteState ?? "(none)"})`
   );
   if (!PREVIEW) finish();
   evidence.previewUrl = PREVIEW;
+  evidence.previewDeploymentId = deployment.id;
+  evidence.previewVercelProjectId = deploymentProjectId;
 }
 
 // --- 1b. The bypass MUST reach the application -------------------------------
@@ -332,7 +438,10 @@ function finish() {
     } catch { return false; }
   };
 
-  const bypassWorks = probeA.isApplicationJson || probeB.isApplicationJson || Boolean(probeCFollowed?.isApplicationJson);
+  // Stripe can send the query parameter but cannot add the automation header or
+  // participate in a cookie bootstrap. Probe B is therefore the release gate;
+  // A and C remain diagnostics only.
+  const bypassWorks = probeB.isApplicationJson;
   const anyVercelAuthRedirect = [probeA, probeB, probeC].some((p) => locationIsVercelAuth(p.location));
   const chain = [probeA, probeB, probeC, probeCFollowed].filter(Boolean)
     .map((p) => `${p.label}:${p.status}->${p.location}`).join(" | ");
@@ -343,7 +452,7 @@ function finish() {
     locationChain: chain,
     stripeRelevantProbe: "B (query parameter, no cookie bootstrap)",
     verdict: bypassWorks
-      ? "the bypass reaches the application"
+      ? "the query-only bypass Stripe can use reaches the application"
       : anyVercelAuthRedirect
         ? "Vercel authentication rejected the bypass"
         : "application-owned redirect, or a shape neither classification matches"
@@ -366,6 +475,95 @@ function finish() {
   if (!bypassWorks) finish();
 }
 
+// --- 1c. Move the ONE existing sandbox webhook in place ----------------------
+//
+// Checkout continuity uses the stable acceptance alias, so the existing Stripe
+// sandbox destination must use that same host and the query-only Vercel bypass.
+// This is an UPDATE of one already-existing endpoint, never a create/delete:
+// its id, creation time, enabled event set, mode and status are captured before
+// the URL-only POST and required to be byte-for-byte equivalent on readback.
+// The bypass value is compared in memory and is never printed or written to
+// evidence; only the host, path and query-parameter name are retained.
+{
+  const endpoints = await listStripeCollection("/v1/webhook_endpoints");
+  const canonical = Array.isArray(endpoints) ? endpoints.filter((endpoint) => {
+    try { return new URL(endpoint.url).pathname === "/api/stripe/webhook"; } catch { return false; }
+  }) : [];
+  const endpoint = canonical[0] ?? null;
+  const preconditions = canonical.length === 1
+    && /^we_[A-Za-z0-9]+$/.test(endpoint?.id ?? "")
+    && endpoint?.livemode === false
+    && endpoint?.status === "enabled"
+    && Number.isInteger(endpoint?.created)
+    && sameStringSet(endpoint?.enabled_events, EXPECTED_WEBHOOK_EVENTS);
+  record(
+    "sandbox_webhook_destination_preconditions_exact",
+    preconditions,
+    `${canonical.length} canonical-path endpoint(s); id=${endpoint?.id ?? "(none)"}; livemode=${endpoint?.livemode ?? "(none)"}; status=${endpoint?.status ?? "(none)"}; events exact=${sameStringSet(endpoint?.enabled_events, EXPECTED_WEBHOOK_EVENTS)}`
+  );
+  if (!preconditions) finish();
+
+  const requiredUrl = new URL("/api/stripe/webhook", PREVIEW);
+  requiredUrl.searchParams.set("x-vercel-protection-bypass", BYPASS);
+  const before = {
+    id: endpoint.id,
+    created: endpoint.created,
+    enabledEvents: [...endpoint.enabled_events].sort(),
+    livemode: endpoint.livemode,
+    status: endpoint.status,
+    urlShape: webhookUrlShape(endpoint.url)
+  };
+
+  // Stripe's endpoint-update API is POST /v1/webhook_endpoints/{existing_id}.
+  // `url` is the only form field, so events, status and secret cannot change.
+  const update = await stripeRequest(`/v1/webhook_endpoints/${encodeURIComponent(endpoint.id)}`, {
+    method: "POST",
+    form: { url: requiredUrl.toString() }
+  });
+  const readback = await stripeRequest(`/v1/webhook_endpoints/${encodeURIComponent(endpoint.id)}`);
+  const endpointsAfter = await listStripeCollection("/v1/webhook_endpoints");
+  const canonicalAfter = Array.isArray(endpointsAfter) ? endpointsAfter.filter((candidate) => {
+    try { return new URL(candidate.url).pathname === "/api/stripe/webhook"; } catch { return false; }
+  }) : [];
+  const observed = readback.json;
+  let observedUrl = null;
+  try { observedUrl = new URL(observed?.url); } catch { /* exact check below fails */ }
+  const queryEntries = observedUrl ? [...observedUrl.searchParams.entries()] : [];
+  const exact = update.ok
+    && readback.ok
+    && canonicalAfter.length === 1
+    && canonicalAfter[0]?.id === before.id
+    && observed?.id === before.id
+    && observed?.created === before.created
+    && observed?.livemode === before.livemode
+    && observed?.status === before.status
+    && sameStringSet(observed?.enabled_events, before.enabledEvents)
+    && observedUrl?.origin === PREVIEW
+    && observedUrl.pathname === "/api/stripe/webhook"
+    && queryEntries.length === 1
+    && queryEntries[0][0] === "x-vercel-protection-bypass"
+    && queryEntries[0][1] === BYPASS;
+  record(
+    "sandbox_webhook_destination_updated_in_place_and_read_back_exact",
+    exact,
+    `URL-only update HTTP=${update.status}; readback HTTP=${readback.status}; same endpoint id=${observed?.id === before.id}; same created=${observed?.created === before.created}; same events=${sameStringSet(observed?.enabled_events, before.enabledEvents)}; one canonical endpoint after=${canonicalAfter.length === 1}; destination=${observedUrl?.host ?? "(invalid)"}${observedUrl?.pathname ?? ""}; only required query parameter=${queryEntries.length === 1 && queryEntries[0]?.[0] === "x-vercel-protection-bypass"}`
+  );
+  evidence.stripeWebhookDestination = {
+    endpointId: before.id,
+    updateMethod: "URL-only in-place update",
+    createdUnchanged: observed?.created === before.created,
+    eventSetUnchanged: sameStringSet(observed?.enabled_events, before.enabledEvents),
+    statusUnchanged: observed?.status === before.status,
+    livemode: observed?.livemode ?? null,
+    canonicalEndpointCountBefore: canonical.length,
+    canonicalEndpointCountAfter: canonicalAfter.length,
+    before: before.urlShape,
+    after: webhookUrlShape(observed?.url),
+    bypassValueRecorded: false
+  };
+  if (!exact) finish();
+}
+
 ANON_KEY = await supabaseKeys();
 const A = await signIn("acceptance-consumer-a@rcap-acceptance.test", "Acceptance-a-4f7c21!");
 const B = await signIn("acceptance-consumer-b@rcap-acceptance.test", "Acceptance-b-8d3e95!");
@@ -374,55 +572,31 @@ if (!A || !B) {
   finish();
 }
 
-// --- 2. A route the renderer will actually accept ----------------------------
-// Discovered rather than hardcoded: buildRenderJobSpec is the authority on what
-// is renderable, so the journey asks it instead of assuming a state.
+// --- 2. The exact Pennsylvania route Roger will exercise ----------------------
+// buildRenderJobSpec remains the render authority. The release checkpoint is
+// specifically PA Path A, so a fallback to some other renderable jurisdiction
+// would be a green result for the wrong human journey and is refused.
 let route = null;
 {
-  if (!buildRenderJobSpec) {
-    record("renderable_route_selected_from_the_registry", false, "buildRenderJobSpec could not be imported, so no route could be proven renderable");
-    finish();
-  }
-  const { getAllJurisdictionProfiles } = await import("../src/lib/rcap-engine/profile-registry.ts");
-  const tried = [];
-  // Pennsylvania first, because PA is the first review priority and PA does in
-  // fact expose packet-capable routes — 11 of them. Mississippi and Illinois
-  // follow for the same reason. The rest of the corpus is the fallback, so the
-  // journey still runs if the priority states ever stop being renderable
-  // rather than silently testing nothing.
-  const PRIORITY_ORDER = ["PA", "MS", "IL"];
-  const profiles = [...getAllJurisdictionProfiles()].sort((a, b) => {
-    const rank = (p) => {
-      const index = PRIORITY_ORDER.indexOf(p.jurisdiction.code);
-      return index === -1 ? PRIORITY_ORDER.length : index;
-    };
-    return rank(a) - rank(b);
-  });
-  outer:
-  for (const profile of profiles) {
-    for (const pathway of profile.pathways ?? []) {
-      const label = pathway.label ?? pathway.id;
-      const built = buildRenderJobSpec({
-        packetId: crypto.randomUUID(),
-        state: profile.jurisdiction.code,
-        pathway: label,
-        profileId: profile.jurisdiction.code,
-        profileVersion: "1.3.0",
-        briefcaseItemId: crypto.randomUUID(),
-        trackId: null,
-        packetFields: {}
-      });
-      tried.push(`${profile.jurisdiction.code}:${pathway.id}`);
-      if (built.spec) { route = { state: profile.jurisdiction.code, pathwayLabel: label, pathwayId: pathway.id }; break outer; }
-    }
-  }
+  const profile = getProfileByJurisdiction("PA");
+  const pathway = profile?.pathways?.find((candidate) => candidate.id === PA_PATHWAY_ID && candidate.label === PA_PATHWAY) ?? null;
+  const built = pathway ? buildRenderJobSpec({
+    packetId: crypto.randomUUID(),
+    state: "PA",
+    pathway: PA_PATHWAY,
+    profileId: "PA",
+    profileVersion: "1.3.0",
+    briefcaseItemId: crypto.randomUUID(),
+    trackId: null,
+    packetFields: {}
+  }) : null;
+  if (profile && pathway && built?.spec) route = { state: "PA", pathwayLabel: PA_PATHWAY, pathwayId: PA_PATHWAY_ID };
   record(
     "renderable_route_selected_from_the_registry",
-  "seeded_item_agrees_with_the_authoritative_resolver",
-    Boolean(route),
+    Boolean(route && built?.spec?.routeId === `PA:${PA_PATHWAY}`),
     route
-      ? `${route.state} / ${route.pathwayLabel} — buildRenderJobSpec produced a spec, so this route is genuinely renderable rather than assumed to be`
-      : `no compiled pathway produced a render spec across ${tried.length} candidates; nothing in the product is currently sellable-and-renderable`
+      ? `${route.state} / ${route.pathwayLabel} — buildRenderJobSpec produced ${built.spec.routeId}`
+      : "the exact PA Path A route did not produce a render spec"
   );
   if (!route) finish();
   evidence.route = route;
@@ -445,6 +619,22 @@ const sqlText = (value) => String(value).split("'").join("''");
 // resolver independently classifies PA / Path A as routeKind legacy_verified
 // with rendererKind packet_document_v1 — it is not an official-PDF overlay at
 // all. Deriving instead of guessing is what surfaced that.
+const profile = getProfileByJurisdiction(route.state);
+const screeningAnswers = {
+  ownership_scope: "Yes",
+  jurisdiction_scope: "State or local",
+  case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+  offense_level: "Misdemeanor",
+  possible_pathway_context: PA_PATHWAY,
+  disposition_date: "2000-01-01",
+  waiting_rule_id: "wait-02"
+};
+const authoritativeScreening = evaluateAuthoritativeScreeningResult({
+  jurisdiction: route.state,
+  profileVersion: profile?.profileVersion,
+  matterId: `hosted-payment-${itemId}`,
+  answers: screeningAnswers
+});
 const derived = (() => {
   const built = buildRenderJobSpec({
     packetId: crypto.randomUUID(),
@@ -460,10 +650,10 @@ const derived = (() => {
   });
   // result_code must be one the payment policy admits: isConsumerPaymentAllowed
   // permits packet_ready and packet_ready_with_caution and nothing else.
-  const resultCode = "packet_ready";
+  const resultCode = authoritativeScreening.evaluation.resultCode;
   // eligibility-adapter's packetTypeForResult: guidance_only -> guidance_packet,
   // packet_ready / packet_ready_with_caution -> custom_pleading.
-  const packetType = resultCode === "guidance_only" ? "guidance_packet" : "custom_pleading";
+  const packetType = authoritativeScreening.packetType;
   return {
     resultCode,
     packetType,
@@ -483,14 +673,94 @@ const derived = (() => {
 })();
 evidence.derivedRouteIdentity = derived;
 
+// The application SHA under test requires a completed, route-safe packet review
+// before it will create Checkout. Build the exact commercialFlow persisted by
+// the product and run the production review guard locally before seeding it.
+const packetPlan = profile ? packetPlanForPathway(profile, route.pathwayId) : null;
+const reviewedAt = "2026-08-16T00:00:00.000Z";
+const packetAnswers = {
+  age_at_offense: "30",
+  case_outcome: screeningAnswers.case_outcome,
+  charge: { value: "Synthetic misdemeanor charge", unknown: false },
+  contact_information: "100 Acceptance Way, Pittsburgh, PA 15219",
+  county: { value: "Allegheny County", unknown: false },
+  court: { value: "Allegheny County Court of Common Pleas", unknown: false },
+  criminal_history: { value: "No other synthetic history", unknown: false },
+  disposition_date: { value: "2000-01-01", unknown: false },
+  financial_obligations: "Yes",
+  offense_category: { value: "Misdemeanor", unknown: false },
+  offense_level: "Misdemeanor",
+  pardon_status: "No",
+  participant_full_legal_name: "Alex Acceptance",
+  record_type: "Arrest or charge",
+  residency_or_location: { value: "Pittsburgh, Pennsylvania", unknown: false },
+  trafficking_status: "No"
+};
+const artifactRefs = {
+  commercialFlow: {
+    version: 1,
+    entitlementSource: "consumer_payment",
+    productId: "expungement_packet",
+    screening: {
+      profileVersion: profile?.profileVersion,
+      screeningMatterId: `hosted-payment-${itemId}`,
+      pathwayId: route.pathwayId,
+      pathwayLabel: route.pathwayLabel,
+      resultCode: derived.resultCode,
+      paymentAllowed: true,
+      packetType: derived.packetType,
+      packetPlan,
+      answers: screeningAnswers
+    },
+    packetInformation: {
+      stage: "ready_to_generate",
+      requiredInputIds: packetPlan?.requiredInputIds ?? [],
+      serverFacts: { jurisdiction: route.state, pathway_id: route.pathwayId },
+      prefilledAnswers: {},
+      answers: packetAnswers,
+      missingInputIds: [],
+      updatedAt: reviewedAt,
+      reviewedAt
+    }
+  }
+};
+const reviewFixture = {
+  id: itemId,
+  userId: A.id,
+  itemType: "result",
+  state: route.state,
+  pathwayLabel: route.pathwayLabel,
+  resultCode: derived.resultCode,
+  packetType: derived.packetType,
+  status: "packet_ready",
+  paymentStatus: "unpaid",
+  paymentAllowed: true,
+  artifactRefs
+};
+const reviewSafety = packetInformationReviewSafety(reviewFixture);
+const reviewedInputHash = reviewedPacketInputHash(reviewFixture);
+record(
+  "packet_information_review_is_complete_and_route_safe",
+  Boolean(packetPlan)
+    && packetPlan?.pathwayId === route.pathwayId
+    && derived.resultCode === "packet_ready_with_caution"
+    && authoritativeScreening.evaluation.pathwayId === route.pathwayId
+    && reviewSafety.safe
+    && reviewSafety.reason === "authoritative_route_confirmed"
+    && /^[a-f0-9]{64}$/.test(reviewedInputHash ?? ""),
+  `plan=${packetPlan?.pathwayId ?? "(none)"}; safety=${reviewSafety.reason}; reviewed hash present=${Boolean(reviewedInputHash)}`
+);
+
 // --- 3. Seed the participant's item, unpaid ----------------------------------
+const artifactRefsJson = sqlText(JSON.stringify(artifactRefs));
 const seedResult = await sql(`
   insert into public.consumer_briefcase_items
     (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
-     status, summary_json, payment_status, payment_allowed)
+     status, summary_json, artifact_refs_json, payment_status, payment_allowed)
   values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayLabel)}',
           '${derived.resultCode}', '${derived.packetType}',
-          'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb, 'unpaid', true)
+          'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb,
+          '${artifactRefsJson}'::jsonb, 'unpaid', true)
   returning id, status, result_code, pathway_label
 `);
 
@@ -562,10 +832,12 @@ const seedResult = await sql(`
 let session = null;
 {
   const res = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
-  const sessionId = res.json?.sessionId ?? res.json?.id ?? null;
+  const sessionId = res.json?.checkoutSessionId ?? null;
   let fetched = null;
   if (sessionId) {
-    const stripeRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`, {
+    const stripeUrl = new URL(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`);
+    stripeUrl.searchParams.append("expand[]", "line_items.data.price.product");
+    const stripeRes = await fetch(stripeUrl, {
       headers: { Authorization: `Bearer ${STRIPE_KEY}` }
     });
     fetched = await stripeRes.json().catch(() => null);
@@ -596,42 +868,96 @@ let session = null;
     }
   }
 
-  let stripeDirect = "not attempted";
-  if (!session) {
-    const form = new URLSearchParams();
-    form.set("mode", "payment");
-    form.set("success_url", "https://example.com/success");
-    form.set("cancel_url", "https://example.com/cancel");
-    form.set("line_items[0][quantity]", "1");
-    form.set("line_items[0][price_data][currency]", "usd");
-    form.set("line_items[0][price_data][unit_amount]", String(consumerPacketPriceCents ?? 5000));
-    form.set("line_items[0][price_data][product_data][name]", "hosted acceptance direct control");
-    try {
-      const direct = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${STRIPE_KEY}`, "Content-Type": "application/x-www-form-urlencoded" },
-        body: form.toString()
-      });
-      const body = await direct.json().catch(() => null);
-      stripeDirect = direct.status === 200
-        ? `the SAME sk_test_ key created session ${body?.id} directly, so the key and account transact and the fault is in what the application sent`
-        : `Stripe refused the same key directly: ${direct.status} ${body?.error?.type ?? ""} ${body?.error?.message ?? ""}`;
-    } catch (error) {
-      stripeDirect = `direct Stripe call failed: ${error.message}`;
-    }
-  }
-
   record(
     "checkout_session_created_against_stripe_sandbox",
-    Boolean(session),
+    Boolean(session)
+      && res.status === 200
+      && res.json?.mode === "stripe"
+      && res.json?.outcome === "checkout_created"
+      && res.json?.amountCents === consumerPacketPriceCents
+      && res.json?.currency === "usd"
+      && res.json?.briefcaseItemId === itemId
+      && res.json?.alreadyPaid === false
+      && session.livemode === false
+      && session.mode === "payment"
+      && session.status === "open"
+      && session.payment_status === "unpaid"
+      && session.amount_total === consumerPacketPriceCents
+      && String(session.currency ?? "").toLowerCase() === "usd",
     session
       ? `the deployed application created Stripe session ${session.id} (amount_total=${session.amount_total} ${session.currency}, channel=${session.metadata?.channel ?? "(none)"}), read back from Stripe rather than from the response body`
-      : `checkout returned ${res.status}: ${String(res.text).slice(0, 160)} | SESSION CREATED BEFORE FAILURE? ${sessionCreatedBeforeFailure} | DIRECT STRIPE CONTROL: ${stripeDirect}`
+      : `checkout returned ${res.status}: ${String(res.text).slice(0, 160)} | SESSION CREATED BEFORE FAILURE? ${sessionCreatedBeforeFailure}; no direct create diagnostic was attempted`
   );
-  evidence.stripeDirectControl = stripeDirect;
+  evidence.directStripeCreateDiagnostic = "not attempted; diagnostics are read-only so this journey cannot mint a second Session";
   evidence.sessionCreatedBeforeFailure = sessionCreatedBeforeFailure;
   if (!session) finish();
   evidence.checkout = { sessionId: session.id, amountTotal: session.amount_total, currency: session.currency, expectedCents: consumerPacketPriceCents ?? null };
+}
+
+// Phase 55 makes this direct identity/product binding authoritative. Check it,
+// and the non-production return origin, before fabricating the one signed
+// completion used by the automated journey. A bad binding must remain unpaid.
+{
+  const bindingResponse = await sql(`
+    select payment_product_id, payment_person_id, payment_matter_id
+      from public.consumer_briefcase_items
+     where id = '${itemId}' and user_id = '${A.id}'
+  `);
+  const binding = Array.isArray(bindingResponse.json) ? bindingResponse.json[0] ?? null : null;
+  const matterId = consumerMatterIdForItem(itemId);
+  const successUrl = new URL(session.success_url);
+  const cancelUrl = new URL(session.cancel_url);
+  const lineItems = session.line_items?.data ?? [];
+  const lineItem = lineItems[0] ?? null;
+  const product = lineItem?.price?.product;
+  const exact = session.livemode === false
+    && session.mode === "payment"
+    && session.status === "open"
+    && session.payment_status === "unpaid"
+    && session.amount_total === consumerPacketPriceCents
+    && String(session.currency ?? "").toLowerCase() === "usd"
+    && session.client_reference_id === itemId
+    && session.metadata?.channel === "expungement_ai_consumer"
+    && session.metadata?.user_id === A.id
+    && session.metadata?.briefcase_item_id === itemId
+    && session.metadata?.product_id === "expungement_packet"
+    && session.metadata?.person_id === binding?.payment_person_id
+    && session.metadata?.matter_id === matterId
+    && binding?.payment_product_id === "expungement_packet"
+    && binding?.payment_matter_id === matterId
+    && session.metadata?.reviewed_input_hash === reviewedInputHash
+    && session.metadata?.result_code === derived.resultCode
+    && session.metadata?.jurisdiction === route.state
+    && session.metadata?.packet_type === derived.packetType
+    && session.metadata?.pathway_label === route.pathwayLabel
+    && (session.metadata?.source_session_id ?? "") === ""
+    && lineItems.length === 1
+    && lineItem?.quantity === 1
+    && lineItem?.amount_total === consumerPacketPriceCents
+    && typeof product === "object"
+    && product?.name === "Expungement.ai self-help packet"
+    && product?.metadata?.product_id === "expungement_packet"
+    && successUrl.origin === PREVIEW
+    && cancelUrl.origin === PREVIEW
+    && successUrl.pathname === `/briefcase/${itemId}`
+    && successUrl.searchParams.get("payment") === "return"
+    && successUrl.searchParams.get("session_id") === "{CHECKOUT_SESSION_ID}"
+    && cancelUrl.pathname === `/briefcase/${itemId}`
+    && cancelUrl.searchParams.get("checkout") === "canceled";
+  record(
+    "checkout_session_identity_and_return_binding_exact",
+    exact,
+    `amount=${session.amount_total} ${session.currency}; line items=${lineItems.length}; product=${session.metadata?.product_id ?? "(none)"}/${typeof product === "object" ? product?.metadata?.product_id : "(unexpanded)"}; person matches=${session.metadata?.person_id === binding?.payment_person_id}; matter matches=${session.metadata?.matter_id === matterId && binding?.payment_matter_id === matterId}; reviewed hash matches=${session.metadata?.reviewed_input_hash === reviewedInputHash}; success origin=${successUrl.origin}; cancel origin=${cancelUrl.origin}`
+  );
+  evidence.checkoutBinding = {
+    productId: session.metadata?.product_id ?? null,
+    personId: session.metadata?.person_id ?? null,
+    matterId: session.metadata?.matter_id ?? null,
+    reviewedInputHash: session.metadata?.reviewed_input_hash ?? null,
+    successUrl: session.success_url,
+    cancelUrl: session.cancel_url
+  };
+  if (!exact) finish();
 }
 
 // --- 5. The webhook: a forgery first, then the genuine signature -------------
@@ -659,7 +985,7 @@ const completionEvent = {
   const forged = signedBody(completionEvent, "whsec_this_is_not_the_signing_secret", timestamp);
 
   const forgedRes = await callApp("/api/stripe/webhook", {
-    method: "POST", body: forged.body, headers: { "stripe-signature": forged.header }
+    method: "POST", body: forged.body, headers: { "stripe-signature": forged.header }, queryOnlyBypass: true
   });
   record(
     "forged_webhook_signature_is_rejected",
@@ -668,7 +994,7 @@ const completionEvent = {
   );
 
   const genuineRes = await callApp("/api/stripe/webhook", {
-    method: "POST", body: genuine.body, headers: { "stripe-signature": genuine.header }
+    method: "POST", body: genuine.body, headers: { "stripe-signature": genuine.header }, queryOnlyBypass: true
   });
   record(
     "signed_webhook_records_the_payment",
@@ -680,12 +1006,31 @@ const completionEvent = {
 
 // --- 6. The payment fact, in the database, written by the server -------------
 {
-  const after = await sql(`select payment_status, payment_provider from public.consumer_briefcase_items where id = '${itemId}'`);
+  const after = await sql(`
+    select payment_status, payment_provider, payment_product_id, payment_person_id,
+           payment_matter_id, provider_event_id
+      from public.consumer_briefcase_items where id = '${itemId}'
+  `);
   const row = Array.isArray(after.json) ? after.json[0] : null;
+  const matterId = consumerMatterIdForItem(itemId);
+  const authority = row?.payment_person_id ? await sql(`
+    select valid, reason, provider_event_id
+      from public.consumer_packet_payment_authority(
+        '${itemId}', '${A.id}', 'expungement_packet',
+        '${row.payment_person_id}', '${matterId}'
+      )
+  `) : { json: [] };
+  const authorityRow = Array.isArray(authority.json) ? authority.json[0] : null;
   record(
     "payment_is_server_authoritative_in_the_database",
-    row?.payment_status === "paid",
-    `consumer_briefcase_items.payment_status is now '${row?.payment_status ?? "(missing)"}' (provider ${row?.payment_provider ?? "none"}). Phase 52 revoked the application's privilege to set this column directly, so a value of 'paid' here can only have come through the server-only writer the webhook invoked.`
+    row?.payment_status === "paid"
+      && row?.payment_product_id === "expungement_packet"
+      && Boolean(row?.payment_person_id)
+      && row?.payment_matter_id === matterId
+      && Boolean(row?.provider_event_id)
+      && authorityRow?.valid === true
+      && authorityRow?.reason === "authorized",
+    `consumer_briefcase_items.payment_status='${row?.payment_status ?? "(missing)"}', product=${row?.payment_product_id ?? "(missing)"}, person=${row?.payment_person_id ?? "(missing)"}, matter=${row?.payment_matter_id ?? "(missing)"}; five-argument authority=${authorityRow?.valid ?? false}/${authorityRow?.reason ?? "missing"}.`
   );
   evidence.paymentRow = row ?? null;
 }
@@ -703,6 +1048,36 @@ const completionEvent = {
 
 // --- 8. The pinned worker, by digest, against the hosted project -------------
 {
+  const workerHost = `rcap-payment-${evidence.render?.jobId ?? "missing-job"}`;
+  const queueRows = await sql(`
+    select count(*)::int as claimable_after_housekeeping_jobs,
+           count(*) filter (where id = '${evidence.render?.jobId}')::int as target_jobs
+      from public.packet_render_jobs
+     where renderer_kind = 'packet_document_v1'
+       and (
+         (status = 'queued' and (next_attempt_at is null or next_attempt_at <= now()))
+         or (status = 'claimed' and claim_expires_at is not null and claim_expires_at < now())
+         or (status = 'failed' and failure_disposition = 'retryable'
+             and attempt_count < max_attempts
+             and (next_attempt_at is null or next_attempt_at <= now()))
+       )
+  `);
+  const queueState = Array.isArray(queueRows.json) ? queueRows.json[0] : null;
+  const soleTarget = Number(queueState?.claimable_after_housekeeping_jobs) === 1
+    && Number(queueState?.target_jobs) === 1;
+  record(
+    "worker_queue_contains_only_the_target_job",
+    soleTarget,
+    `packet_document_v1 jobs claimable after the worker's expired-claim release and retry requeue=${queueState?.claimable_after_housekeeping_jobs ?? "(none)"}; rows matching target ${evidence.render?.jobId ?? "(none)"}=${queueState?.target_jobs ?? "(none)"}; refusing to start a global one-cycle worker unless its only possible claim is this target`
+  );
+  evidence.workerQueuePrecondition = {
+    targetJobId: evidence.render?.jobId ?? null,
+    claimableAfterHousekeepingJobs: Number(queueState?.claimable_after_housekeeping_jobs ?? -1),
+    targetJobs: Number(queueState?.target_jobs ?? -1),
+    exact: soleTarget
+  };
+  if (!soleTarget) finish();
+
   const service = await (async () => {
     const res = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/api-keys?reveal=true`, {
       headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}` }
@@ -713,31 +1088,71 @@ const completionEvent = {
 
   const run = spawnSync("docker", [
     "run", "--rm",
+    "--hostname", workerHost,
     "-e", `NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}`,
     "-e", `SUPABASE_URL=${SUPABASE_URL}`,
     "-e", `SUPABASE_SERVICE_ROLE_KEY=${service}`,
+    "-e", `RCAP_WORKER_CONTAINER_DIGEST=${WORKER_DIGEST}`,
     WORKER_DIGEST_REF,
     "node", "scripts/rcap-render-worker.mjs"
   ], { encoding: "utf8", timeout: 300000 });
 
   const jobs = await sql(`
-    select status, attempt_count from public.packet_render_jobs
+    select id, status, attempt_count, claimed_by, output_storage_path, output_sha256,
+           output_byte_count, container_digest, delivery_eligibility, accounting_result
+      from public.packet_render_jobs
      where briefcase_item_id = '${itemId}' order by created_at desc limit 1
   `);
   const job = Array.isArray(jobs.json) ? jobs.json[0] : null;
   const output = `${run.stdout ?? ""}${run.stderr ?? ""}`.replace(/eyJ[A-Za-z0-9_.-]{20,}/g, "***REDACTED***");
+  let workerResult = null;
+  for (const line of String(run.stdout ?? "").trim().split(/\r?\n/).reverse()) {
+    try {
+      const parsed = JSON.parse(line);
+      if (parsed && typeof parsed === "object") { workerResult = parsed; break; }
+    } catch { /* worker diagnostics before the final JSON line are expected */ }
+  }
+  const finalized = run.status === 0
+    && workerResult?.outcome === "finalized"
+    && workerResult?.jobId === evidence.render?.jobId
+    && workerResult?.deliveryEligibility === "eligible"
+    && workerResult?.accountingResult === "zero_charge"
+    && job?.id === evidence.render?.jobId
+    && job?.status === "artifact_validated"
+    && new RegExp(`^${workerHost}-\\d+$`).test(job?.claimed_by ?? "")
+    && typeof job?.output_storage_path === "string" && job.output_storage_path.length > 0
+    && /^[a-f0-9]{64}$/.test(job?.output_sha256 ?? "")
+    && Number(job?.output_byte_count) > 0
+    && job?.container_digest === WORKER_DIGEST
+    && job?.delivery_eligibility === "eligible"
+    && job?.accounting_result === "zero_charge";
   record(
     "worker_renders_and_stores_the_artifact",
-    run.status === 0 && Boolean(job) && job.status !== "failed",
-    `${WORKER_DIGEST_REF} exited ${run.status}; the job for this item is '${job?.status ?? "(no job row)"}' after ${job?.attempt_count ?? 0} attempt(s). Tail: ${output.slice(-260)}`
+    finalized,
+    `${WORKER_DIGEST_REF} exited ${run.status}; emitted outcome=${workerResult?.outcome ?? "(none)"}/job=${workerResult?.jobId ?? "(none)"}; database job=${job?.id ?? "(none)"} (expected ${evidence.render?.jobId ?? "(none)"}) claimed_by=${job?.claimed_by ?? "(none)"} (must start ${workerHost}-), status='${job?.status ?? "(no job row)"}' after ${job?.attempt_count ?? 0} attempt(s); bytes=${job?.output_byte_count ?? 0}; digest=${job?.container_digest ?? "(none)"}; delivery=${job?.delivery_eligibility ?? "(none)"}/${job?.accounting_result ?? "(none)"}. Tail: ${output.slice(-260)}`
   );
-  evidence.worker = { exitCode: run.status, jobStatus: job?.status ?? null };
+  evidence.worker = {
+    exitCode: run.status,
+    emittedResult: workerResult,
+    expectedHostname: workerHost,
+    claimedBy: job?.claimed_by ?? null,
+    jobId: job?.id ?? null,
+    jobStatus: job?.status ?? null,
+    outputStoragePath: job?.output_storage_path ?? null,
+    outputSha256: job?.output_sha256 ?? null,
+    outputByteCount: Number(job?.output_byte_count ?? 0),
+    containerDigest: job?.container_digest ?? null,
+    deliveryEligibility: job?.delivery_eligibility ?? null,
+    accountingResult: job?.accounting_result ?? null
+  };
 }
 
 // --- 8b. Identity: the job is bound to server-owned person and matter --------
 {
   const rows = await sql(`
-    select j.person_id, j.matter_id, j.output_storage_path, j.output_sha256, j.status,
+    select j.id as job_id, j.person_id, j.matter_id, j.output_storage_path,
+           j.output_sha256, j.output_byte_count, j.container_digest,
+           j.delivery_eligibility, j.accounting_result, j.status,
            c.person_id as consumption_person_id, c.matter_id as consumption_matter_id,
            c.first_render_job_id, c.provider_event_id
       from public.packet_render_jobs j
@@ -750,13 +1165,22 @@ const completionEvent = {
   // Both must be present AND agree. A job carrying a person the entitlement
   // does not name would mean the packet was rendered for one identity and paid
   // for by another.
-  const bound = Boolean(row?.person_id) && Boolean(row?.matter_id)
+  const bound = row?.job_id === evidence.render?.jobId
+    && row?.job_id === evidence.worker?.jobId
+    && row?.first_render_job_id === row?.job_id
+    && row?.output_storage_path === evidence.worker?.outputStoragePath
+    && row?.output_sha256 === evidence.worker?.outputSha256
+    && Number(row?.output_byte_count) === evidence.worker?.outputByteCount
+    && row?.container_digest === WORKER_DIGEST
+    && row?.delivery_eligibility === "eligible"
+    && row?.accounting_result === "zero_charge"
+    && Boolean(row?.person_id) && Boolean(row?.matter_id)
     && row.person_id === row.consumption_person_id
     && String(row.matter_id) === String(row.consumption_matter_id);
   record(
     "person_and_matter_are_bound_on_the_render_job",
     bound,
-    `render job person_id=${row?.person_id ?? "(null)"} matter_id=${row?.matter_id ?? "(null)"}; the payment consumption row names person_id=${row?.consumption_person_id ?? "(null)"} matter_id=${row?.consumption_matter_id ?? "(null)"} against Stripe event ${row?.provider_event_id ?? "(none)"} — these must agree, or the packet was rendered for one identity and paid for by another`
+    `render job=${row?.job_id ?? "(null)"}, first consumption job=${row?.first_render_job_id ?? "(null)"}, person_id=${row?.person_id ?? "(null)"}, matter_id=${row?.matter_id ?? "(null)"}, output_sha256=${row?.output_sha256 ?? "(null)"}, bytes=${row?.output_byte_count ?? 0}, digest=${row?.container_digest ?? "(null)"}; the payment consumption row names person_id=${row?.consumption_person_id ?? "(null)"} matter_id=${row?.consumption_matter_id ?? "(null)"} against Stripe event ${row?.provider_event_id ?? "(none)"} — job, artifact, worker, person and matter must all agree`
   );
   evidence.identityBinding = row ?? null;
   evidence.artifactPath = row?.output_storage_path ?? null;
@@ -782,31 +1206,89 @@ const completionEvent = {
   const serviceRead = artifactPath
     ? await fetch(`${SUPABASE_URL}/storage/v1/object/${bucket}/${artifactPath}`, {
         headers: { apikey: service, Authorization: `Bearer ${service}` }
-      }).then(async (r) => ({ status: r.status, bytes: r.ok ? (await r.arrayBuffer()).byteLength : 0 })).catch(() => ({ status: "unreachable", bytes: 0 }))
-    : { status: "no artifact path recorded", bytes: 0 };
+      }).then(async (r) => {
+        const bytes = r.ok ? Buffer.from(await r.arrayBuffer()) : Buffer.alloc(0);
+        return {
+          status: r.status,
+          bytes: bytes.length,
+          contentType: r.headers.get("content-type") ?? "",
+          pdf: bytes.subarray(0, 5).toString("latin1") === "%PDF-",
+          sha256: r.ok ? crypto.createHash("sha256").update(bytes).digest("hex") : null
+        };
+      }).catch(() => ({ status: "unreachable", bytes: 0, contentType: "", pdf: false, sha256: null }))
+    : { status: "no artifact path recorded", bytes: 0, contentType: "", pdf: false, sha256: null };
+  const bucketRead = await sql(`select id, public from storage.buckets where id = '${bucket}'`);
+  const bucketRows = Array.isArray(bucketRead.json) ? bucketRead.json : [];
+  const bucketPrivate = typeof bucketRead.status === "number"
+    && bucketRead.status >= 200
+    && bucketRead.status < 300
+    && bucketRows.length === 1
+    && bucketRows[0]?.public === false;
+  const anonymousRefused = [400, 401, 403, 404].includes(publicRead);
 
   record(
     "artifact_is_stored_privately_and_re_readable",
-    Boolean(artifactPath) && publicRead >= 400 && serviceRead.status === 200 && serviceRead.bytes > 0,
-    `anonymous read of the object path = ${publicRead} (must refuse); an authorized re-read returned ${serviceRead.status} with ${serviceRead.bytes} bytes — written once and readable back, but not by the public`
+    Boolean(artifactPath)
+      && bucketPrivate
+      && anonymousRefused
+      && serviceRead.status === 200
+      && serviceRead.contentType.toLowerCase().startsWith("application/pdf")
+      && serviceRead.bytes > 0
+      && serviceRead.pdf
+      && serviceRead.sha256 === evidence.worker?.outputSha256
+      && serviceRead.bytes === evidence.worker?.outputByteCount,
+    `bucket metadata public=false=${bucketPrivate}; anonymous public-path read=${publicRead} (must be a deterministic 4xx); authorized re-read=${serviceRead.status}, content-type=${serviceRead.contentType || "(none)"}, bytes=${serviceRead.bytes}/${evidence.worker?.outputByteCount ?? 0}, PDF=${serviceRead.pdf}, hash matches finalized job=${serviceRead.sha256 === evidence.worker?.outputSha256}`
   );
-  evidence.storage = { path: artifactPath, anonymous: publicRead, authorized: serviceRead };
+  evidence.storage = { path: artifactPath, bucketPrivate, anonymous: publicRead, authorized: serviceRead };
 }
 
 // --- 9. Delivery: the owner, and nobody else ---------------------------------
 {
-  const download = `/api/expungement-ai/packet/download?briefcaseItemId=${itemId}`;
+  const jobId = evidence.worker?.jobId;
+  const download = `/api/rcap/packets/${encodeURIComponent(jobId ?? "missing-job-id")}/download`;
   const owner = await callApp(download, { cookie: A.cookie });
   const stranger = await callApp(download, { cookie: B.cookie });
   const anonymous = await callApp(download);
-  const strangerRefused = typeof stranger.status === "number" && stranger.status >= 400;
-  const anonRefused = typeof anonymous.status === "number" && anonymous.status >= 400;
+  const ownerSha256 = owner.status === 200 ? crypto.createHash("sha256").update(owner.bytes).digest("hex") : null;
+  const ownerPdf = owner.status === 200
+    && owner.contentType.toLowerCase().startsWith("application/pdf")
+    && /attachment/i.test(owner.contentDisposition)
+    && owner.bytes.length > 0
+    && owner.bytes.subarray(0, 5).toString("latin1") === "%PDF-"
+    && ownerSha256 === evidence.worker?.outputSha256
+    && ownerSha256 === evidence.storage?.authorized?.sha256
+    && owner.bytes.length === evidence.worker?.outputByteCount
+    && owner.bytes.length === evidence.storage?.authorized?.bytes;
+  const strangerRefused = stranger.status === 403
+    && stranger.json?.code === "unauthorized"
+    && stranger.json?.error === "This packet is not available for download.";
+  const anonRefused = anonymous.status === 401
+    && anonymous.json?.code === "unauthenticated"
+    && anonymous.json?.error === "Sign in to download your packet.";
   record(
     "delivery_serves_the_owner_and_refuses_everyone_else",
-    strangerRefused && anonRefused,
-    `owner A=${owner.status}; a different authenticated participant B=${stranger.status} (must refuse); anonymous=${anonymous.status} (must refuse). B paid for nothing and must receive nothing.`
+    Boolean(jobId) && ownerPdf && strangerRefused && anonRefused,
+    `GET worker-backed job ${jobId ?? "(none)"}: owner A=${owner.status}, content-type=${owner.contentType || "(none)"}, attachment=${/attachment/i.test(owner.contentDisposition)}, bytes=${owner.bytes.length}/${evidence.worker?.outputByteCount ?? 0}, PDF=${owner.bytes.subarray(0, 5).toString("latin1") === "%PDF-"}, hash matches job+Storage=${ownerSha256 === evidence.worker?.outputSha256 && ownerSha256 === evidence.storage?.authorized?.sha256}; ` +
+      `a different authenticated participant B=${stranger.status}/${stranger.json?.code ?? "(none)"} (must be exact application 403 unauthorized); anonymous=${anonymous.status}/${anonymous.json?.code ?? "(none)"} (must be exact application 401 unauthenticated). B paid for nothing and must receive nothing.`
   );
-  evidence.delivery = { owner: owner.status, stranger: stranger.status, anonymous: anonymous.status };
+  evidence.delivery = {
+    jobId,
+    route: download,
+    owner: owner.status,
+    ownerContentType: owner.contentType,
+    ownerContentDisposition: owner.contentDisposition,
+    ownerByteCount: owner.bytes.length,
+    ownerSha256,
+    finalizedJobSha256: evidence.worker?.outputSha256 ?? null,
+    privateStorageSha256: evidence.storage?.authorized?.sha256 ?? null,
+    ownerPdf,
+    stranger: stranger.status,
+    strangerCode: stranger.json?.code ?? null,
+    strangerRefused,
+    anonymous: anonymous.status,
+    anonymousCode: anonymous.json?.code ?? null,
+    anonymousRefused
+  };
 }
 
 // --- 10. Replay: Stripe retries, and must change nothing ---------------------
@@ -824,7 +1306,7 @@ const completionEvent = {
   const timestamp = Math.floor(Date.now() / 1000);
   const replay = signedBody(completionEvent, WEBHOOK_SECRET, timestamp);
   const replayRes = await callApp("/api/stripe/webhook", {
-    method: "POST", body: replay.body, headers: { "stripe-signature": replay.header }
+    method: "POST", body: replay.body, headers: { "stripe-signature": replay.header }, queryOnlyBypass: true
   });
 
   const after = await sql(`
@@ -843,8 +1325,142 @@ const completionEvent = {
   evidence.replay = { status: replayRes.status, outcome: replayRes.json?.outcome ?? null, before: b, after: a };
 }
 
-// Leave the acceptance database as it was found.
-await sql(`delete from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${itemId}'`);
-await sql(`delete from public.consumer_briefcase_items where id = '${itemId}'`);
+// --- 11. Close the disposable Session, retain the durable evidence chain -----
+// The synthetic Stripe Session is external, open and unpaid after the signed
+// webhook exercise, so it is expired narrowly. The database and private object
+// are deliberately retained: packet_render_jobs is an append-only audit ledger,
+// and deleting the item, entitlement, processed event, or object would orphan
+// or contradict that immutable terminal job.
+evidence.cleanup = {};
+
+let syntheticSessionExpired = false;
+{
+  const safeTarget = session?.id?.startsWith("cs_test_")
+    && session?.livemode === false
+    && session?.status === "open"
+    && session?.payment_status === "unpaid"
+    && session?.client_reference_id === itemId
+    && session?.metadata?.briefcase_item_id === itemId;
+  const expired = safeTarget
+    ? await stripeRequest(`/v1/checkout/sessions/${encodeURIComponent(session.id)}/expire`, { method: "POST", form: {} })
+    : { ok: false, status: "not attempted", json: null };
+  const readback = safeTarget
+    ? await stripeRequest(`/v1/checkout/sessions/${encodeURIComponent(session.id)}`)
+    : { ok: false, status: "not attempted", json: null };
+  syntheticSessionExpired = Boolean(safeTarget)
+    && expired.ok
+    && readback.ok
+    && expired.json?.id === session.id
+    && readback.json?.id === session.id
+    && readback.json?.livemode === false
+    && readback.json?.status === "expired"
+    && readback.json?.payment_status === "unpaid"
+    && readback.json?.client_reference_id === itemId
+    && readback.json?.metadata?.briefcase_item_id === itemId;
+  record(
+    "synthetic_checkout_session_expired_after_automated_journey",
+    syntheticSessionExpired,
+    `target was exact automated cs_test_ Session=${Boolean(safeTarget)}; expire HTTP=${expired.status}; readback HTTP=${readback.status}; same id=${readback.json?.id === session?.id}; status=${readback.json?.status ?? "(none)"}; payment_status=${readback.json?.payment_status ?? "(none)"}`
+  );
+  evidence.cleanup.stripeSession = {
+    id: session?.id ?? null,
+    targetedByExactAutomatedItemBinding: Boolean(safeTarget),
+    expireStatus: expired.status,
+    readbackStatus: readback.status,
+    finalSessionStatus: readback.json?.status ?? null,
+    finalPaymentStatus: readback.json?.payment_status ?? null,
+    retainedForRoger: false
+  };
+}
+
+// Re-read the whole authoritative chain after replay and Session expiry. This
+// is not a loose “rows exist” check: each row is bound to the random item,
+// Session, event and finalized job minted by this run, and the retained private
+// object is fetched again and hashed from bytes.
+{
+  const bucket = "rcap-packet-artifacts-private";
+  const artifactPath = evidence.storage?.path ?? null;
+  const jobId = evidence.worker?.jobId ?? null;
+  const outputSha256 = evidence.worker?.outputSha256 ?? null;
+  const outputByteCount = evidence.worker?.outputByteCount ?? 0;
+  const exactPathIdentity = typeof artifactPath === "string"
+    && artifactPath.includes(jobId ?? "missing-job-id")
+    && artifactPath.includes(outputSha256 ?? "missing-output-sha");
+
+  const chain = await sql(`select
+      (select count(*)::int from public.consumer_briefcase_items
+        where id = '${itemId}' and user_id = '${A.id}'
+          and payment_status = 'paid'
+          and checkout_session_id = '${sqlText(session.id)}'
+          and provider_event_id = '${sqlText(completionEvent.id)}') as items,
+      (select count(*)::int from public.consumer_packet_payment_consumption
+        where consumer_briefcase_item_id = '${itemId}'
+          and provider_event_id = '${sqlText(completionEvent.id)}'
+          and first_render_job_id = '${jobId}') as entitlements,
+      (select count(*)::int from public.packet_render_jobs
+        where id = '${jobId}'
+          and briefcase_item_id = '${itemId}'
+          and consumer_briefcase_item_id = '${itemId}'
+          and consumer_auth_user_id = '${A.id}'
+          and status in ('artifact_validated', 'delivered')
+          and output_storage_path = '${sqlText(artifactPath ?? "")}'
+          and output_sha256 = '${outputSha256}'
+          and output_byte_count = ${Number(outputByteCount)}
+          and container_digest = '${sqlText(WORKER_DIGEST)}'
+          and delivery_eligibility = 'eligible'
+          and accounting_result = 'zero_charge') as jobs,
+      (select count(*)::int from public.processed_stripe_events
+        where stripe_event_id = '${sqlText(completionEvent.id)}'
+          and event_type = 'checkout.session.completed'
+          and related_object_id = '${sqlText(session.id)}') as processed_events`);
+  const counts = Array.isArray(chain.json) ? chain.json[0] : null;
+
+  const keys = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/api-keys?reveal=true`, {
+    headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}` }
+  }).then((response) => response.json()).catch(() => []);
+  const service = Array.isArray(keys) ? keys.find((entry) => entry.name === "service_role")?.api_key ?? "" : "";
+  const encodedPath = exactPathIdentity
+    ? artifactPath.split("/").map((segment) => encodeURIComponent(segment)).join("/")
+    : "";
+  const retainedObject = exactPathIdentity && service
+    ? await fetch(`${SUPABASE_URL}/storage/v1/object/${bucket}/${encodedPath}`, {
+        headers: { apikey: service, Authorization: `Bearer ${service}` }
+      }).then(async (response) => {
+        const bytes = response.ok ? Buffer.from(await response.arrayBuffer()) : Buffer.alloc(0);
+        return {
+          status: response.status,
+          bytes: bytes.length,
+          pdf: bytes.subarray(0, 5).toString("latin1") === "%PDF-",
+          sha256: response.ok ? crypto.createHash("sha256").update(bytes).digest("hex") : null
+        };
+      }).catch(() => ({ status: "unreachable", bytes: 0, pdf: false, sha256: null }))
+    : { status: "not attempted", bytes: 0, pdf: false, sha256: null };
+  const retained = syntheticSessionExpired
+    && exactPathIdentity
+    && Number(counts?.items) === 1
+    && Number(counts?.entitlements) === 1
+    && Number(counts?.jobs) === 1
+    && Number(counts?.processed_events) === 1
+    && retainedObject.status === 200
+    && retainedObject.pdf
+    && retainedObject.bytes === outputByteCount
+    && retainedObject.sha256 === outputSha256;
+  record(
+    "synthetic_acceptance_chain_retained_and_hash_valid_after_replay",
+    retained,
+    `Session expired=${syntheticSessionExpired}; exact path identity=${exactPathIdentity}; retained rows item/entitlement/job/event=${counts?.items ?? "(none)"}/${counts?.entitlements ?? "(none)"}/${counts?.jobs ?? "(none)"}/${counts?.processed_events ?? "(none)"}; private object readback=${retainedObject.status}, PDF=${retainedObject.pdf}, bytes=${retainedObject.bytes}/${outputByteCount}, hash matches=${retainedObject.sha256 === outputSha256}`
+  );
+  evidence.cleanup.durableEvidence = {
+    bucket,
+    path: artifactPath,
+    eventId: completionEvent.id,
+    relatedSessionId: session?.id ?? null,
+    rowCounts: counts,
+    exactJobAndHashPath: exactPathIdentity,
+    privateObject: retainedObject,
+    databaseRowsRetained: true,
+    privateObjectRetained: true
+  };
+}
 
 finish();

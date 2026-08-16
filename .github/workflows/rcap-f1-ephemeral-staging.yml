@@ -64,9 +64,9 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  AUTHORIZED_APPLICATION_SHA: 264d2a240e5c857f55ee645f2683830e94f67c19
-  AUTHORIZED_WORKER_SOURCE_SHA: 264d2a240e5c857f55ee645f2683830e94f67c19
-  AUTHORIZED_WORKER_DIGEST: sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101
+  AUTHORIZED_APPLICATION_SHA: 664b8ddd374642bf2bd1820f7e05224f3dd081bc
+  AUTHORIZED_WORKER_SOURCE_SHA: 664b8ddd374642bf2bd1820f7e05224f3dd081bc
+  AUTHORIZED_WORKER_DIGEST: sha256:e958cb057abaa1c22902d01ffe0e42aec0feb09118ba9f2bc44210cbdeb244c7
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: main
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
@@ -184,7 +184,7 @@ jobs:
           supabase status -o env > /tmp/supabase.env
           cat /tmp/supabase.env | sed 's/KEY=.*/KEY=***REDACTED***/' || true
 
-      - name: Apply the six-migration sequence and run the stack-integration matrix
+      - name: Apply the seven-migration sequence through Phase 55 and run the stack-integration matrix
         run: |
           set -euo pipefail
           set -a; source /tmp/supabase.env; set +a
