@@ -66,7 +66,30 @@ for (const method of ["createBriefcaseItem", "listBriefcaseItems", "getBriefcase
 assert(adapterSource.includes("saveEligibilityCheckToBriefcase"), "Eligibility checks must remain Briefcase-saveable.");
 assert(adapterSource.includes("saveEligibilityResultToBriefcase"), "Eligibility results must remain Briefcase-saveable.");
 assert(briefcaseSource.includes("createServerSupabaseAuthClient"), "Briefcase adapter must use request-scoped Supabase auth client.");
-assert(!briefcaseSource.includes("SUPABASE_SERVICE_ROLE_KEY"), "Consumer Briefcase adapter must not use service-role keys.");
+assertParticipantPersistenceBoundaries(briefcaseSource, failures);
+assert(
+  (briefcaseSource.match(/process\.env\.SUPABASE_SERVICE_ROLE_KEY/g) ?? []).length === 1
+    && functionSection(briefcaseSource, "isCompletelyUnconfiguredSupabase").includes("process.env.SUPABASE_SERVICE_ROLE_KEY"),
+  "Briefcase adapter may inspect the service-role key only when deciding whether local fallback is completely unconfigured."
+);
+const authoritativeSave = functionSection(briefcaseSource, "saveAuthoritativeScreeningResultToBriefcase");
+assert(authoritativeSave.includes("getSupabaseAdminClient()"), "Phase 55 authoritative screening persistence must use its server-only writer.");
+assert(authoritativeSave.includes("input.item.userId !== input.authenticatedUserId"), "Authoritative screening persistence must reject an owner mismatch.");
+assert(authoritativeSave.includes("sourceSessionId"), "Authoritative screening persistence must remain source-session-bound.");
+
+// Negative control: prove a participant-facing create call cannot be switched
+// from the request-scoped RLS client to the server-only writer unnoticed.
+const listStart = briefcaseSource.indexOf("export async function listBriefcaseItems");
+const listClientCall = briefcaseSource.indexOf("getConsumerBriefcaseClient()", listStart);
+const participantNegativeControl = listClientCall === -1
+  ? briefcaseSource
+  : `${briefcaseSource.slice(0, listClientCall)}getSupabaseAdminClient()${briefcaseSource.slice(listClientCall + "getConsumerBriefcaseClient()".length)}`;
+const participantNegativeControlFailures = [];
+assertParticipantPersistenceBoundaries(participantNegativeControl, participantNegativeControlFailures);
+assert(
+  participantNegativeControlFailures.some((failure) => failure.includes("listBriefcaseItems")),
+  "Participant persistence negative control must reject service-role use in listBriefcaseItems."
+);
 assert(briefcaseSource.includes("Safe fallback path"), "Fallback behavior must be clearly marked.");
 
 assert(exists(migrationPath), "Consumer Briefcase migration file is missing.");
@@ -128,6 +151,35 @@ for (const file of changedFiles) {
   }
 }
 
+function assertParticipantPersistenceBoundaries(source, targetFailures) {
+  const createSection = functionSection(source, "createBriefcaseItem");
+  if (
+    createSection.includes("getSupabaseAdminClient()")
+    || !createSection.includes("isCompletelyUnconfiguredSupabase()")
+    || !createSection.includes("direct Briefcase creation is retired")
+  ) {
+    targetFailures.push("createBriefcaseItem must remain a local-only fallback that fails closed in configured deployments.");
+  }
+  for (const method of ["listBriefcaseItems", "getBriefcaseItem", "updateBriefcaseItemStatus"]) {
+    const section = functionSection(source, method);
+    if (!section.includes("getConsumerBriefcaseClient()") || section.includes("getSupabaseAdminClient()")) {
+      targetFailures.push(`${method} must use the request-scoped RLS client and never the server-only writer.`);
+    }
+  }
+}
+
+function functionSection(source, name) {
+  const exportedMarker = `export async function ${name}`;
+  const localMarker = `function ${name}`;
+  const start = source.indexOf(exportedMarker) >= 0 ? source.indexOf(exportedMarker) : source.indexOf(localMarker);
+  if (start < 0) return "";
+  const nextExport = source.indexOf("\nexport async function ", start + 1);
+  const nextLocal = source.indexOf("\nfunction ", start + 1);
+  const candidates = [nextExport, nextLocal].filter((value) => value >= 0);
+  const end = candidates.length > 0 ? Math.min(...candidates) : source.length;
+  return source.slice(start, end);
+}
+
 run("npm", ["run", "rcap:verify-all51-launch-enabled"]);
 run("npm", ["run", "rcap:verify-all51-final-approval"]);
 run("npm", ["run", "rcap:verify-encrypted-pdf-rescue"]);
@@ -142,5 +194,6 @@ if (failures.length) {
 console.log("Expungement.ai consumer persistence verification passed.");
 console.log("Briefcase routes redirect logged-out users to create-account mode with safe next paths.");
 console.log("Consumer Briefcase adapter create/list/get/update methods are present.");
+console.log("Participant persistence stays on request-scoped RLS; the Phase 55 authoritative save remains server-only and owner-bound.");
 console.log("consumer_briefcase_items migration exists with owner-scoped RLS.");
 console.log("Partner, Stripe, Supabase global auth, billing, secrets, and deployment files are untouched.");

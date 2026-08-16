@@ -96,9 +96,22 @@ assert(envExampleSource.includes("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="), ".env.e
 assert(checkoutRouteSource.includes("ConsumerCheckoutNotAllowedError"), "Checkout route must reject paymentAllowed false/non-packet results.");
 assert(checkoutRouteSource.includes("ConsumerCheckoutTemporarilyUnavailableError"), "Checkout route must return a safe unavailable error when Stripe is not configured.");
 assert(payPageSource.includes("/api/expungement-ai/checkout") || exists("src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx"), "Pay page must use consumer checkout API.");
-assert(packetReadySource.includes("getConsumerCheckoutStatus"), "Packet-ready page must confirm checkout status.");
-assert(packetReadySource.includes("recordConsumerPaymentConfirmation"), "Packet-ready page must record payment confirmation.");
-assert(packetReadySource.includes("dry-run"), "Packet-ready page must explicitly label dry-run mode.");
+assertPacketReadyCompatibilityReturn(packetReadySource, failures);
+
+// Negative control: a browser-return route that restores a participant-
+// authenticated payment writer must make this verifier fail.
+const packetReadyNegativeControlFailures = [];
+assertPacketReadyCompatibilityReturn(
+  packetReadySource.replace(
+    "redirect(item ?",
+    "recordConsumerPaymentConfirmation(auth.userId, briefcaseItemId);\n  redirect(item ?"
+  ),
+  packetReadyNegativeControlFailures
+);
+assert(
+  packetReadyNegativeControlFailures.some((failure) => failure.includes("payment confirmation")),
+  "Packet-ready negative control must detect a restored browser-return payment writer."
+);
 
 assert(stripeWebhookRoute.includes("STRIPE_WEBHOOK_SECRET"), "Canonical Stripe webhook route must use STRIPE_WEBHOOK_SECRET.");
 assert(stripeWebhookHandler.includes("reconcileExpungementAiCheckoutEvent"), "Stripe webhook handler must dispatch consumer Checkout events.");
@@ -177,6 +190,30 @@ for (const file of changedFiles()) {
   }
 }
 
+function assertPacketReadyCompatibilityReturn(source, targetFailures) {
+  if (!source.includes("Compatibility return")) {
+    targetFailures.push("Packet-ready route must remain a documented compatibility return.");
+  }
+  if (!source.includes("requireConsumerBriefcaseSession")) {
+    targetFailures.push("Packet-ready compatibility return must require a consumer session.");
+  }
+  if (!source.includes("getBriefcaseItem(auth.userId, briefcaseItemId)")) {
+    targetFailures.push("Packet-ready compatibility return must use an owner-scoped matter lookup.");
+  }
+  if (!source.includes("redirect(")) {
+    targetFailures.push("Packet-ready compatibility return must redirect to Briefcase.");
+  }
+  if (/\bgetConsumerCheckoutStatus\s*\(/.test(source)) {
+    targetFailures.push("Packet-ready compatibility return must not retrieve Stripe state.");
+  }
+  if (/\brecordConsumerPaymentConfirmation\s*\(/.test(source)) {
+    targetFailures.push("Packet-ready compatibility return must not write payment confirmation.");
+  }
+  if (/\bgenerate(?:PaidConsumer|Consumer)?Packet\w*\s*\(/.test(source)) {
+    targetFailures.push("Packet-ready compatibility return must not generate a packet.");
+  }
+}
+
 run("npm", ["run", "expungement:verify-consumer-persistence"]);
 run("npm", ["run", "expungement:verify-consumer-adapter"]);
 
@@ -190,4 +227,5 @@ console.log("Expungement.ai consumer checkout verification passed.");
 console.log("Checkout/status/confirm routes exist and require owned Briefcase items.");
 console.log("Checkout is limited to packet_ready / packet_ready_with_caution at 5000 cents.");
 console.log("Dry-run fallback is explicit, opt-in only, and disabled in production.");
+console.log("Legacy packet-ready returns are owner-scoped redirects and cannot write payment or generate packets.");
 console.log("Consumer Checkout webhooks reconcile paid sessions idempotently while preserving partner invoice flow.");
