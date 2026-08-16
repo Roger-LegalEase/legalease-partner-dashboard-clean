@@ -402,7 +402,7 @@ export function OnboardingReviewClient({
         </summary>
         <div className="border-t border-[#B8C1C7] p-5 md:p-7" data-full-audit-details>
           <p className="text-sm leading-6 text-[#475A6E]">
-            This is the complete saved field-level record. Use a section link to change its canonical source.
+            This is the complete saved information. Use a section link to make changes.
           </p>
           <div className="mt-6 grid gap-7">
             {sections.map((section) => (

@@ -815,6 +815,86 @@
         "startingHead": "46cfcb6b5456671d389a67f807ecfb2af8a9a960",
         "reviewedAt": "2026-08-15"
       }
+    },
+    {
+      "id": "auth-2026-08-16-pr101-release-integration",
+      "kind": "restricted_path_source_change",
+      "phase": 55,
+      "title": "Authorize the reviewed PR 101 integration paths at final release-candidate bytes",
+      "artifacts": [
+        "src/app/partner/access-codes/PartnerAccessCodesManager.tsx",
+        "src/app/partner/access-codes/page.tsx",
+        "src/app/partner/dashboard/page.tsx",
+        "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx",
+        "src/app/partner/onboarding/[sectionKey]/page.tsx",
+        "src/app/partner/onboarding/page.tsx",
+        "src/app/partner/onboarding/review/OnboardingReviewClient.tsx",
+        "src/lib/partners/we-must-vote-routing.ts",
+        "supabase/phase-55-expungement-matter-payment-binding.sql"
+      ],
+      "status": "authorized_scoped",
+      "decision": "approved",
+      "requestedBy": "codex-expungement-ai-release-captain",
+      "requestedAt": "2026-08-16",
+      "authorizedBy": "Roger Roman — explicit approval to land PR #101 and begin final release acceptance",
+      "authorizedAt": "2026-08-16",
+      "authorizationScope": "repository_integration_and_nonproduction_acceptance_only",
+      "executedAt": null,
+      "why": "Roger approved the visual candidate at 677f2c10 and authorized PR #101 to merge after green release gates while preserving the approved free-Briefcase flow, Phase 55 matter-level payment binding, RCAP no-checkout behavior and accepted portal work. Main advanced with the accepted onboarding release before integration, so the exact merged bytes are recorded here instead of weakening a path guard or rewriting prior hash-pinned approvals.",
+      "risk": "high",
+      "riskNote": "These exact paths span partner-facing presentation, route selection and a payment-binding migration. Authorization is byte-pinned, repository-scoped and nonproduction-only. Production migration, deployment, feature activation, nationwide publication and problematic-route sale remain explicitly excluded.",
+      "authorizedPaths": [
+        "src/app/partner/access-codes/PartnerAccessCodesManager.tsx",
+        "src/app/partner/access-codes/page.tsx",
+        "src/app/partner/dashboard/page.tsx",
+        "src/app/partner/onboarding/[sectionKey]/OnboardingSectionEditor.tsx",
+        "src/app/partner/onboarding/[sectionKey]/page.tsx",
+        "src/app/partner/onboarding/page.tsx",
+        "src/app/partner/onboarding/review/OnboardingReviewClient.tsx",
+        "src/lib/partners/we-must-vote-routing.ts",
+        "supabase/phase-55-expungement-matter-payment-binding.sql"
+      ],
+      "authorizedSha256": [
+        "465e409f05ebd8d17577d3233382a695956746359cc3b76b3841885af365e28e",
+        "1790c1893a3df601b7507bdb3c2ce3a8419a4b021ae829688fd72a0307341ee5",
+        "b98d160e618a5b6c590ae7067ae0a526c6a0422b15314d15cfbe25c618f13a93",
+        "7779e1762aa31c4de542bfc319ad581cde738bb3c267411b70f13461a16db622",
+        "6711ddda63c5112ab49a0c5c06d27cb1e22a01a47d9ca1311300a96023198283",
+        "4e26c96ae6983633bbbddc7dcb5776e0d0501e46d1537a7416f5534f1ccf5779",
+        "41dc44b7c9d6638206f819800e7594284eb5cdd9234580b02e30424e8ff46a0b",
+        "f6a9a4f6142e011cbd3fe63f6ac5d9378d07befc13d01ce2daca4f7cf6c5fad9",
+        "ed16e56e17882b79a494fe60779101031bfb706211930ac49b9cdc7059bc17a3"
+      ],
+      "voidsOn": "Any byte or path change voids the affected authorization. Any additional restricted path keeps the exact-path guards red.",
+      "doesNotAuthorize": [
+        "any prefix, directory, wildcard, rename, future file or future byte drift",
+        "production migration application or production deployment",
+        "production feature activation or a public nationwide flip",
+        "publication or sale of any problematic PDF route",
+        "a production Stripe, Supabase, worker or environment change"
+      ],
+      "rollback": "Remove this queue entry. Exact-path guards will reject these nine paths again; the record itself executes no migration, deployment, publication or external state change.",
+      "evidence": [
+        "Roger's 2026-08-16 release directive explicitly approves PR #101 integration after green gates",
+        "approved V3 visual SHA 677f2c10 remains byte-frozen after the main merge",
+        "Phase 55 matter-level payment binding, free-Briefcase flow and RCAP no-checkout verifiers are required release gates",
+        "all paths and SHA-256 values are exact and fail closed through the existing authorization guard"
+      ],
+      "scopedAuthorization": {
+        "repository": "authorized — these exact files at these exact bytes may land through PR #101",
+        "acceptance": "authorized — missing migrations may be applied only to the verified nonproduction acceptance project",
+        "production": "queued — no production migration, deployment, activation, publication or nationwide flip is authorized"
+      },
+      "environmentConditions": {
+        "acceptance": "authorized after project identity is proven",
+        "production": "queued pending Roger's final launch authorization"
+      },
+      "authorizationProvenance": {
+        "branch": "codex/expungement-ai-free-briefcase-paid-packet",
+        "pullRequest": 101,
+        "approvedVisualSha": "677f2c10f1ba28612d5f936b77a8935009d8d818",
+        "reviewedAt": "2026-08-16"
+      }
     }
   ],
   "statusVocabulary": {
