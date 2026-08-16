@@ -31,7 +31,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const outPath = path.join(rootDir, 'data/rcap-staging-action.json');
 const checkOnly = process.argv.includes('--check');
 
-const CANONICAL_BRANCH = 'claude/rcap-final-sprint-integration';
+const CANONICAL_BRANCH = 'main';
 const CANDIDATE_SHA = '13e356c49bd484e6f946ba604076718d904bca86';
 
 // Apply order is the definition of the action, not a comment on it. The index
