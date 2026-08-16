@@ -86,9 +86,9 @@ const publicExpungementSources = [
 assert(packageSource.includes('"expungement:verify-launch-polish"'), "Missing expungement:verify-launch-polish npm script.");
 assert(exists("public/expungement-ai/favicon.ico") || exists("public/favicon.svg") || exists("public/favicon.ico") || exists("src/app/icon.tsx") || exists("src/app/favicon.ico"), "Favicon/app icon must exist.");
 assert(exists("public/expungement-ai/apple-touch-icon.png") || exists("public/apple-touch-icon.svg") || exists("public/apple-touch-icon.png"), "Apple touch icon must exist.");
-assert(expungementLayout.includes('title: "Expungement.ai"'), "Expungement.ai metadata title missing.");
-assert(expungementLayout.includes("Self-help record-clearing packets and guidance"), "Expungement.ai metadata description missing.");
-assert(expungementLayout.includes("openGraph") && expungementLayout.includes("hero-1500.jpg"), "Open Graph image metadata missing.");
+assert(expungementLayout.includes('title: "Expungement.ai | Free guided record-clearing check"'), "Expungement.ai metadata title missing.");
+assert(expungementLayout.includes("Start a free guided check. If a supported self-help packet is available"), "Expungement.ai metadata description missing.");
+assert(expungementLayout.includes("openGraph") && expungementLayout.includes("expungement-ai-hero-poster.jpg"), "Open Graph image metadata missing.");
 
 assert(exists("src/app/expungement-ai/contact/page.tsx"), "Contact route missing.");
 assert(exists("src/app/expungement-ai/support/page.tsx"), "Support route missing.");
@@ -341,8 +341,8 @@ assert(!settingsView.includes("5-stage"), "Briefcase guidance state must not inc
 assert(settingsView.indexOf("Next steps") !== -1 && settingsView.indexOf("Next steps") < settingsView.indexOf("artifact && !isGuidanceOnly"), "Briefcase must prioritize next steps before document actions.");
 assert(packetDetail.indexOf("Next steps") !== -1 && packetDetail.indexOf("Next steps") < packetDetail.indexOf("artifact && !isGuidanceOnly"), "Briefcase detail must prioritize next steps before document actions.");
 
-const handoffLanding = exists("src/app/expungement-ai/ExpungementLandingHandoff.tsx") ? read("src/app/expungement-ai/ExpungementLandingHandoff.tsx") : "";
-assert(handoffLanding.includes("Expungement-Landing-Full.html"), "Expungement.ai landing must use the files-6 landing handoff source.");
+const homepageV3 = exists("src/app/expungement-ai/home-v3/ExpungementHomeV3.tsx") ? read("src/app/expungement-ai/home-v3/ExpungementHomeV3.tsx") : "";
+assert(homepageV3.includes('data-homepage-version="v3"'), "Expungement.ai landing must render the normalized V3 composition.");
 
 const allowedChangedFiles = new Set([
   "docs/EXPUNGEMENT_AI_PRODUCTION_READINESS.md",
@@ -372,7 +372,6 @@ const allowedChangedFiles = new Set([
     "supabase/phase-33-expungement-screening-resume-links.sql",
   "src/app/expungement-ai/layout.tsx",
   "src/app/expungement-ai/page.tsx",
-  "src/app/expungement-ai/ExpungementLandingHandoff.tsx",
   "src/app/expungement-ai/start/page.tsx",
   "src/app/expungement-ai/check/page.tsx",
   "src/app/expungement-ai/results/page.tsx",

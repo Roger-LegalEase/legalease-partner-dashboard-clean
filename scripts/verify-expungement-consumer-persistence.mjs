@@ -103,8 +103,6 @@ for (const file of changedFiles) {
     "src/lib/expungement-ai/payment-adapter.ts",
     "src/lib/expungement-ai/auth.ts",
     "src/lib/expungement-ai/localization.ts",
-    "src/app/expungement-ai/ExpungementLandingInteractions.tsx",
-    "src/app/expungement-ai/ExpungementLandingHandoff.tsx",
     "src/app/expungement-ai/sign-in/page.tsx",
     "src/app/expungement-ai/pay/page.tsx",
     "src/app/expungement-ai/packet-ready/page.tsx",

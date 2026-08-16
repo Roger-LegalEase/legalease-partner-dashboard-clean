@@ -35,7 +35,8 @@ const timeoutHelper = read("src/lib/expungement-ai/frontend/profile-timeout.ts")
 const profileLoader = read("src/lib/expungement-ai/frontend/profile-loader.ts");
 const screeningFlow = read("src/components/expungement-ai/screening/ScreeningFlow.tsx");
 const localizationProvider = read("src/components/expungement-ai/LocalizationProvider.tsx");
-const landingInteractions = read("src/app/expungement-ai/ExpungementLandingInteractions.tsx");
+const homepageHeader = read("src/app/expungement-ai/home-v3/HomepageHeader.tsx");
+const homepageLocaleBridge = read("src/app/expungement-ai/home-v3/HomepageLocaleBridge.tsx");
 const localeController = read("src/app/expungement-ai/landing-locale-controller.ts");
 const profileRoute = read("src/app/api/expungement-ai/profiles/[state]/route.ts");
 
@@ -55,7 +56,9 @@ assertIncludes(screeningFlow, 'translate("screening.malformed_title"', "Screenin
 assertIncludes(localizationProvider, "setLocale: (locale: Locale) => void", "LocalizationProvider controlled setter");
 assertIncludes(localizationProvider, "persistExpungementLocaleValue(nextLocale)", "LocalizationProvider explicit locale persistence");
 assertIncludes(localizationProvider, "new CustomEvent(EXPUNGEMENT_LOCALE_EVENT_NAME", "LocalizationProvider locale event detail");
-assertIncludes(landingInteractions, "applyExpungementLocale", "landing language toggle shared controller");
+assertIncludes(homepageLocaleBridge, "applyExpungementLocale", "homepage locale bridge shared controller");
+assertIncludes(homepageHeader, 'onClick={() => setLocale("en")}', "homepage English locale control");
+assertIncludes(homepageHeader, 'onClick={() => setLocale("es")}', "homepage Spanish locale control");
 assertIncludes(localeController, 'EXPUNGEMENT_LOCALE_STORAGE_KEY = "exp_lang"', "single Expungement.ai locale key");
 assertIncludes(localeController, "window.localStorage.setItem(EXPUNGEMENT_LOCALE_STORAGE_KEY, nextLocale)", "shared controller explicit locale persistence");
 assertIncludes(localeController, "window.localStorage.removeItem(key)", "shared controller legacy stale key cleanup");

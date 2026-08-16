@@ -16,10 +16,10 @@ function includes(source, marker, label) {
   assert(source.includes(marker), `${label} missing marker: ${marker}`);
 }
 
-const landingInteractions = read("src/app/expungement-ai/ExpungementLandingInteractions.tsx");
-const landingHandoff = read("src/app/expungement-ai/ExpungementLandingHandoff.tsx");
+const homepageHeader = read("src/app/expungement-ai/home-v3/HomepageHeader.tsx");
+const homepageLocaleBridge = read("src/app/expungement-ai/home-v3/HomepageLocaleBridge.tsx");
+const homepageCopy = read("src/app/expungement-ai/landing-approved-copy.ts");
 const landingLocaleController = read("src/app/expungement-ai/landing-locale-controller.ts");
-const landingHandoffUtils = read("src/app/expungement-ai/landing-handoff-utils.ts");
 const localizationProvider = read("src/components/expungement-ai/LocalizationProvider.tsx");
 const consumerSignInForm = read("src/components/expungement-ai/ConsumerSignInForm.tsx");
 const signInPage = read("src/app/expungement-ai/sign-in/page.tsx");
@@ -32,25 +32,26 @@ const briefcaseViews = read("src/components/expungement-ai/BriefcaseViews.tsx");
 const localization = read("src/lib/expungement-ai/localization.ts");
 
 // Landing locale: copy and active toggle must be applied by the same locale value.
-includes(landingInteractions, "applyExpungementLocale", "landing uses shared locale controller");
+includes(homepageLocaleBridge, "applyExpungementLocale", "homepage uses shared locale controller");
 includes(landingLocaleController, "export function applyExpungementLocale", "landing controlled language function");
 includes(landingLocaleController, 'const dictionary = normalizedLocale === "es" ? options.dictionaries.es : options.dictionaries.en', "landing visible-copy locale source");
 includes(landingLocaleController, 'document.querySelectorAll<HTMLElement>("[data-i18n]")', "landing text translation");
 includes(landingLocaleController, 'document.querySelectorAll<HTMLElement>("[data-i18n-html]")', "landing HTML translation");
-includes(landingInteractions, 'document.querySelectorAll<HTMLButtonElement>("[data-lang]")', "landing toggle state update");
+includes(homepageHeader, 'aria-pressed={locale === "en"}', "homepage English toggle state");
+includes(homepageHeader, 'aria-pressed={locale === "es"}', "homepage Spanish toggle state");
 includes(landingLocaleController, 'button.getAttribute("data-lang") === normalizedLocale', "landing active state derives from same locale");
 includes(landingLocaleController, 'button.classList.toggle("on", active)', "landing visual active class update");
 includes(landingLocaleController, 'button.setAttribute("aria-pressed", String(active))', "landing accessible active state update");
-includes(landingInteractions, "applyLanguage(readSavedExpungementLocale()", "landing initial locale applies copy and active state together");
+includes(localizationProvider, "useSyncExternalStore(subscribeToLocale, readSavedExpungementLocale", "homepage initial locale uses the shared saved value");
 includes(landingLocaleController, "persistExpungementLocaleValue(normalizedLocale)", "landing click persists explicit locale");
-includes(landingInteractions, "window.addEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onSharedLanguageChange)", "landing listens to shared locale event");
-assert(!/applyLanguage\(initialLanguage,\s*\{\s*persist:\s*true\s*\}/.test(landingInteractions), "Landing initial load must not rebroadcast stale locale and desync React surfaces.");
+includes(localizationProvider, "window.addEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onStoreChange)", "homepage listens to shared locale event");
+assert(!/persist:\s*true/.test(homepageLocaleBridge), "Homepage initial locale bridge must not rebroadcast stale locale and desync React surfaces.");
 includes(landingLocaleController, 'window.localStorage.setItem(EXPUNGEMENT_LOCALE_STORAGE_KEY, nextLocale)', "shared locale explicit persistence");
 assert(!landingLocaleController.includes("removeItem(EXPUNGEMENT_LOCALE_STORAGE_KEY"), "English must be persisted explicitly, not represented by clearing storage.");
 
 // Landing dictionaries must contain the actual visible Spanish and English hero copy that Roger saw.
-includes(landingHandoffUtils, "Find out if your record can be cleared", "landing English hero copy");
-includes(landingHandoffUtils, "Check my record free", "landing English CTA copy");
+includes(homepageCopy, "The law is complicated. Your next step should not be.", "approved homepage English hero copy");
+includes(homepageCopy, 'hero_cta1: "Start free"', "approved homepage English CTA copy");
 
 // Account gate: conversion intent defaults to create-account; header sign-in remains sign-in.
 includes(consumerSignInForm, 'type AuthMode = "create" | "signin"', "account gate two-state mode");
@@ -82,7 +83,7 @@ assert(!consumerSignInForm.includes("stripe"), "Consumer sign-in form must not c
 assert(!signInPage.includes("Sign in to continue") || signInPage.includes("<ConsumerSignInForm />"), "Server sign-in page must not hardcode a stale title outside mode state.");
 
 includes(consumerNav, 'href="/expungement-ai/sign-in?mode=signin"', "header sign-in explicit sign-in mode");
-includes(landingHandoffUtils, 'href="/expungement-ai/sign-in?mode=signin"', "landing nav sign-in explicit sign-in mode");
+includes(homepageHeader, 'href="/expungement-ai/sign-in?mode=signin"', "homepage nav sign-in explicit sign-in mode");
 includes(authHelper, 'redirect(`/expungement-ai/sign-in?mode=create&next=${encodeURIComponent(next)}`)', "auth helper create-account redirect");
 includes(payPage, 'requireConsumerBriefcaseSession(`/expungement-ai/pay${queryString(params)}`)', "pay page preserves next");
 includes(packetReadyPage, "requireConsumerBriefcaseSession(next)", "legacy packet-ready return preserves the exact matter as its auth continuation");
