@@ -401,8 +401,78 @@ export const PACKET_DELIVERY_GATE_FILES = [
   "src/app/api/rcap/packets/[jobId]/download/route.ts"
 ];
 
+// Roger approved the complete Expungement.ai PR #101 candidate at visual SHA
+// 677f2c10 and authorized it to land after the release gates are green. These
+// are the exact application paths from that reviewed PR which overlap the
+// all-50 source-engine guard. This is deliberately a file list, never a prefix:
+// it grants no future path, database action, deployment, worker publication,
+// production activation, or problematic-route publication. The separately
+// enforced frozen-path comparison keeps the approved V3 rendering bytes exact.
+export const ROGER_APPROVED_EXPUNGEMENT_PR101_FILES = [
+  "src/app/api/expungement-ai/briefcase/[itemId]/packet-information/route.ts",
+  "src/app/api/expungement-ai/packet/download/route.ts",
+  "src/app/api/expungement-ai/packet/render/route.ts",
+  "src/app/api/expungement-ai/screening/pending/claim/route.ts",
+  "src/app/api/expungement-ai/screening/pending/route.ts",
+  "src/app/api/expungement-ai/wilma/chat/route.ts",
+  "src/app/api/expungement-ai/wilma/public-chat/route.ts",
+  "src/app/briefcase/[packetId]/packet-information/page.tsx",
+  "src/app/briefcase/[packetId]/review/page.tsx",
+  "src/app/briefcase/matters/page.tsx",
+  "src/app/briefcase/page.tsx",
+  "src/app/briefcase/payments/page.tsx",
+  "src/app/briefcase/settings/page.tsx",
+  "src/app/expungement-ai/ExpungementLandingHandoff.tsx",
+  "src/app/expungement-ai/ExpungementLandingInteractions.tsx",
+  "src/app/expungement-ai/home-v3/CoverageMatrix.tsx",
+  "src/app/expungement-ai/home-v3/ExpungementHomeV3.module.css",
+  "src/app/expungement-ai/home-v3/ExpungementHomeV3.tsx",
+  "src/app/expungement-ai/home-v3/FaqAccordion.tsx",
+  "src/app/expungement-ai/home-v3/HeroVideo.tsx",
+  "src/app/expungement-ai/home-v3/HomepageHeader.tsx",
+  "src/app/expungement-ai/home-v3/HomepageLocaleBridge.tsx",
+  "src/app/expungement-ai/home-v3/PacketDocumentSet.tsx",
+  "src/app/expungement-ai/home-v3/PageRail.tsx",
+  "src/app/expungement-ai/home-v3/PrivacyLedger.tsx",
+  "src/app/expungement-ai/home-v3/ProgressCue.tsx",
+  "src/app/expungement-ai/home-v3/SectionPath.tsx",
+  "src/app/expungement-ai/home-v3/WilmaPreview.tsx",
+  "src/app/expungement-ai/home-v3/coverage-data.ts",
+  "src/app/expungement-ai/home-v3/coverage-types.ts",
+  "src/app/expungement-ai/home-v3/landing-copy-client.ts",
+  "src/app/expungement-ai/how-it-works/page.tsx",
+  "src/app/expungement-ai/landing-approved-copy.ts",
+  "src/app/expungement-ai/landing-handoff-utils.ts",
+  "src/app/expungement-ai/landing-locale-controller.ts",
+  "src/app/expungement-ai/layout.tsx",
+  "src/app/expungement-ai/page.tsx",
+  "src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx",
+  "src/app/expungement-ai/pricing/page.tsx",
+  "src/app/expungement-ai/sample-packet/SamplePacketModal.tsx",
+  "src/app/expungement-ai/sample-packet/sample-packet-demo.ts",
+  "src/app/expungement-ai/screening/page.tsx",
+  "src/app/expungement-ai/start/page.tsx",
+  "src/app/intake/[partnerSlug]/RcapWilmaIntakeChat.tsx",
+  "src/components/expungement-ai/BriefcaseSaveIntent.tsx",
+  "src/components/expungement-ai/BriefcaseShell.tsx",
+  "src/components/expungement-ai/ConsumerNav.tsx",
+  "src/components/expungement-ai/ConsumerSignInForm.tsx",
+  "src/components/expungement-ai/ExpungementWordmark.tsx",
+  "src/components/expungement-ai/LocalizationProvider.tsx",
+  "src/components/expungement-ai/PacketGenerateButton.tsx",
+  "src/components/expungement-ai/PacketInformationBuilder.tsx",
+  "src/components/expungement-ai/ResultPanel.tsx",
+  "src/components/expungement-ai/WilmaBubble.tsx",
+  "src/components/expungement-ai/screening/QuestionField.tsx",
+  "src/components/expungement-ai/screening/ResultGallery.tsx",
+  "src/components/expungement-ai/screening/ScreeningResult.tsx",
+  "src/components/expungement-ai/screening/partner-session.ts",
+  "src/components/expungement-ai/state-landing/StateLandingPage.tsx"
+];
+
 export const REVIEWED_EXPUNGEMENT_SCOPE_ALLOWED_FILES = [
   ...PACKET_DELIVERY_GATE_FILES,
+  ...ROGER_APPROVED_EXPUNGEMENT_PR101_FILES,
   ...SHARED_SCOPE_GUARD_ENV_FILES,
   ...COMMAND_CENTER_PRODUCT_EVENT_FILES,
   ...SHARED_PAYMENT_FILES,
