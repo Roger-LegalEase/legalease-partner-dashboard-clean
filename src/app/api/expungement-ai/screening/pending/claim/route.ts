@@ -5,13 +5,16 @@ import {
   isRcapPartnerScreeningSession,
   saveAuthoritativeScreeningResultToBriefcase
 } from "@/lib/expungement-ai/briefcase";
+import { recordScreeningEligibilityResult } from "@/lib/expungement-ai/rcap-screening-analytics";
 import { buildSaveInput } from "@/lib/expungement-ai/save-result-policy";
+import { getSafeRequestId, logSecurityError } from "@/lib/observability/logger";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import type { ScreeningAnswerValue, ScreeningEvaluation } from "@/lib/rcap-engine/contracts";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const route = "/api/expungement-ai/screening/pending/claim";
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 type PendingRow = {
@@ -27,6 +30,7 @@ type PendingRow = {
 };
 
 export async function POST(request: Request) {
+  const requestId = getSafeRequestId(request);
   const auth = await getRcapBriefcaseAuthState();
   if (!auth.isAuthenticated || !auth.userId) {
     return NextResponse.json({ ok: false, error: "auth_required" }, { status: 401 });
@@ -124,11 +128,46 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "briefcase_persistence_failed" }, { status: 503 });
   }
 
-  await supabase
+  // The null-to-user transition is the stable idempotency gate for result
+  // analytics. Persistence happens first. Exactly one successful claimant can
+  // win this update, so retries and Briefcase refreshes cannot emit again.
+  const claim = await supabase
     .from("consumer_pending_screening_results")
     .update({ claimed_at: new Date().toISOString(), claimed_user_id: auth.userId })
     .eq("pending_id", pendingId)
-    .is("claimed_user_id", null);
+    .is("claimed_user_id", null)
+    .select("pending_id")
+    .maybeSingle<{ pending_id: string }>();
+
+  if (claim.error) {
+    // The case is already durable. Keep the successful participant response;
+    // the unclaimed pending row remains available for a later safe retry.
+    logSecurityError({
+      event: "rcap screening result claim marker failed",
+      route,
+      outcome: "claim_marker_failed",
+      requestId,
+      error: claim.error
+    });
+  }
+
+  if (claim.data && isPartnerSession && data.source_session_id) {
+    const analytics = await recordScreeningEligibilityResult(
+      data.source_session_id,
+      evaluation.resultCode
+    );
+    if (!analytics.ok) {
+      // Analytics is secondary to the persisted case. The claimed pending row,
+      // exact Briefcase matter, and source session retain stable reconciliation
+      // identity without exposing provider errors to the participant.
+      logSecurityError({
+        event: "rcap screening result analytics failed",
+        route,
+        outcome: analytics.reason,
+        requestId
+      });
+    }
+  }
 
   return NextResponse.json({
     ok: true,
