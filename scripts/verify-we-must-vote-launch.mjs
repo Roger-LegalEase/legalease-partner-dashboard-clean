@@ -44,8 +44,24 @@ const packetActionsSource = readSource("src/components/rcap/documents/DocumentPa
 const briefcaseSource = readSource("src/app/briefcase/page.tsx");
 const signInSource = readSource("src/app/sign-in/page.tsx");
 
-if (!publicRouteSource.includes("PartnerLandingPageTemplate") || !publicRouteSource.includes("getPartnerRecordBySlug")) {
-  failures.push("We Must Vote public signup route does not use the partner landing page path.");
+function usesAuthoritativePublicLandingRoute(source) {
+  return source.includes("PartnerLandingPageTemplate")
+    && source.includes("getAuthoritativelyPublicPartnerRecord")
+    && !source.includes('from "@/lib/partners/partner-repository"');
+}
+
+if (!usesAuthoritativePublicLandingRoute(publicRouteSource)) {
+  failures.push("We Must Vote public signup route does not use the authoritative partner landing page path.");
+}
+
+// Negative control: the pre-publication-gate route read the partner repository
+// directly. Re-introducing that shape must turn this verifier red even though
+// it would still render the same PartnerLandingPageTemplate.
+const publicRouteBypassMutation = publicRouteSource
+  .replaceAll("getAuthoritativelyPublicPartnerRecord", "getPartnerRecordBySlug")
+  .replace('from "@/lib/partners/public-partner-page"', 'from "@/lib/partners/partner-repository"');
+if (usesAuthoritativePublicLandingRoute(publicRouteBypassMutation)) {
+  failures.push("Negative control failed: a direct partner-repository read bypassed the public launch gate.");
 }
 
 if (!staticLandingExists) {
