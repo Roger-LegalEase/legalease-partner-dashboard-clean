@@ -19,7 +19,7 @@ export function HeroVideo() {
 
   useEffect(() => {
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const mobile = window.matchMedia("(max-width: 640px)");
+    const mobile = window.matchMedia("(max-width: 900px)");
     const update = () => {
       const saveData = (navigator as NavigatorWithConnection).connection?.saveData === true;
       setPosterOnly(reducedMotion.matches || mobile.matches || saveData);
@@ -94,27 +94,29 @@ export function HeroVideo() {
         </div>
       ) : null}
       <span className={styles.heroGrid} aria-hidden="true" />
-      <div className={styles.heroPanel}>
-        <p className={styles.eyebrow} data-i18n="hero_eyebrow">{copy("hero_eyebrow")}</p>
-        <h1 id="homepage-v3-title" data-i18n="hero_h1">{copy("hero_h1")}</h1>
-        <p className={styles.heroLead} data-i18n="hero_sub">{copy("hero_sub")}</p>
-        <div className={styles.heroActions}>
-          <Link className={styles.primaryButton} href="/expungement-ai/start">
-            {copy("hero_cta1")} <span aria-hidden="true" />
-          </Link>
-          <a
-            className={styles.secondaryButton}
-            href="/expungement-ai#what-you-get"
-            data-sample-packet-trigger="true"
-          >
-            {copy("hero_cta2")} <span aria-hidden="true" />
-          </a>
-        </div>
-        <p className={styles.heroBoundary} data-i18n="hero_disclaimer">{copy("hero_disclaimer")}</p>
-        <div className={styles.heroFacts} aria-label={copy("hero_facts_label")}>
-          <div><strong>{copy("hero_fact_account")}</strong><span>{copy("hero_fact_account_detail")}</span></div>
-          <div><strong>{copy("hero_fact_payment")}</strong><span>{copy("hero_fact_payment_detail")}</span></div>
-          <div><strong>{copy("hero_fact_coverage")}</strong><span>{copy("hero_fact_coverage_detail")}</span></div>
+      <div className={styles.heroPanel} data-hero-overlay="true">
+        <div className={styles.heroCopy} data-hero-copy="true">
+          <p className={styles.eyebrow} data-i18n="hero_eyebrow">{copy("hero_eyebrow")}</p>
+          <h1 id="homepage-v3-title" data-i18n="hero_h1">{copy("hero_h1")}</h1>
+          <p className={styles.heroLead} data-i18n="hero_sub">{copy("hero_sub")}</p>
+          <div className={styles.heroActions}>
+            <Link className={styles.primaryButton} href="/expungement-ai/start">
+              {copy("hero_cta1")} <span aria-hidden="true" />
+            </Link>
+            <a
+              className={styles.secondaryButton}
+              href="/expungement-ai#what-you-get"
+              data-sample-packet-trigger="true"
+            >
+              {copy("hero_cta2")} <span aria-hidden="true" />
+            </a>
+          </div>
+          <p className={styles.heroBoundary} data-i18n="hero_disclaimer">{copy("hero_disclaimer")}</p>
+          <div className={styles.heroFacts} aria-label={copy("hero_facts_label")}>
+            <div><strong>{copy("hero_fact_account")}</strong><span>{copy("hero_fact_account_detail")}</span></div>
+            <div><strong>{copy("hero_fact_payment")}</strong><span>{copy("hero_fact_payment_detail")}</span></div>
+            <div><strong>{copy("hero_fact_coverage")}</strong><span>{copy("hero_fact_coverage_detail")}</span></div>
+          </div>
         </div>
       </div>
       {!posterOnly ? (
@@ -131,8 +133,8 @@ export function HeroVideo() {
       ) : null}
       <SectionPath
         className={`${styles.sectionPath} ${styles.heroPath}`}
-        path="M0 34 H680 V92 H1230"
-        terminus={{ x: 1230, y: 92, size: 18 }}
+        path="M0 104 H680 V110 H1200"
+        terminus={{ x: 1200, y: 110, size: 18 }}
       />
     </section>
   );

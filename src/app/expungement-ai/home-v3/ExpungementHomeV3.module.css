@@ -349,14 +349,21 @@
 .heroPanel {
   position: relative;
   z-index: 4;
-  width: 54%;
+  width: clamp(46%, calc(16.45vw + 426px), 58%);
   min-height: 100%;
-  padding: 152px 48px 150px max(48px, calc((100vw - 1240px) / 2));
+  padding: 152px clamp(32px, 3vw, 48px) 150px max(40px, calc((100vw - 1240px) / 2 - clamp(40px, 4.17vw, 72px)));
   display: flex;
   flex-direction: column;
   justify-content: center;
   background: rgb(7 27 51 / 88%);
   border-right: 1px solid var(--rule-dark);
+}
+
+.heroCopy {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .eyebrow,
@@ -366,8 +373,8 @@
 .documentNumber,
 .documentExplanation > span,
 .privacyExplanation > span,
-.stateReference dt,
-.stateReference header > span,
+.stateExplorer header > span,
+.stateExplorer h4,
 .wilmaChat header span,
 .wilmaMessages article > span,
 .pricingLedger > article > span,
@@ -549,7 +556,7 @@
 .briefcaseGrid,
 .pricingGrid,
 .faqGrid,
-.wilmaLayout,
+.wilmaInner,
 .pricingBoundary,
 .footerInner,
 .finalCtaInner {
@@ -1286,38 +1293,69 @@
 }
 
 .wilmaSection {
+  padding-bottom: 164px;
   background: var(--teal-12);
+}
+
+.wilmaInner {
+  position: relative;
+}
+
+.wilmaSectionIndex {
+  position: static;
+  margin: 0 0 38px;
+  justify-content: flex-end;
 }
 
 .wilmaLayout {
   display: grid;
-  grid-template-columns: 4fr 8fr;
-  gap: 64px;
-  align-items: center;
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(48px, 5vw, 72px);
+  align-items: start;
 }
 
 .wilmaCopy {
-  position: relative;
-  min-height: 590px;
+  min-width: 0;
+}
+
+.wilmaCopy h2 {
+  max-width: 10ch;
+  font-size: clamp(46px, 3.8vw, 58px);
+}
+
+.wilmaCopy .lead {
+  max-width: 46ch;
+}
+
+.wilmaMedia {
+  min-height: 230px;
+  margin-top: 32px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--navy);
+  border: 1px solid var(--rule);
 }
 
 .wilmaPortrait {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: 220px;
-  height: 220px;
+  position: static;
+  width: auto;
+  height: 250px;
+  max-width: 100%;
   object-fit: contain;
+  object-position: center bottom;
 }
 
 .wilmaChat {
+  min-width: 0;
   border: 1px solid var(--rule);
   background: var(--white);
 }
 
 .wilmaChat header {
-  min-height: 72px;
-  padding: 0 20px;
+  min-height: 82px;
+  padding: 14px 22px;
   display: flex;
   align-items: center;
   gap: 13px;
@@ -1325,8 +1363,12 @@
 }
 
 .wilmaChat header img {
+  width: 52px;
+  height: 52px;
   object-fit: cover;
-  background: var(--teal-12);
+  object-position: center top;
+  background: var(--navy);
+  border: 1px solid var(--rule);
 }
 
 .wilmaChat header div {
@@ -1344,44 +1386,24 @@
   font-size: 8.5px;
 }
 
-.wilmaChat header > i {
-  width: 10px;
-  height: 10px;
-  margin-left: auto;
-  background: var(--orange);
-}
-
 .wilmaMessages {
-  min-height: 410px;
-  padding: 38px;
+  padding: 42px 34px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 22px;
+  gap: 24px;
   background: var(--warm);
 }
 
 .wilmaMessages article {
   max-width: 76%;
-  padding: 17px 19px;
+  padding: 19px 21px;
   border: 1px solid var(--rule);
   background: var(--white);
-  clip-path: inset(0 100% 0 0);
-  transition: clip-path var(--panel) var(--ease);
 }
 
 .wilmaMessages .wilmaUserMessage {
   align-self: flex-end;
   background: var(--teal-12);
-}
-
-.wilmaChat[data-active="true"] .wilmaUserMessage {
-  clip-path: inset(0);
-}
-
-.wilmaChat[data-active="true"] .wilmaReply {
-  clip-path: inset(0);
-  transition-delay: 420ms;
 }
 
 .wilmaMessages article > span {
@@ -1397,10 +1419,21 @@
 
 .wilmaNote {
   margin: 0;
-  padding: 13px 18px;
+  padding: 16px 20px;
+  display: grid;
+  gap: 3px;
   color: var(--slate);
   border-top: 1px solid var(--rule);
   font-size: 12px;
+}
+
+.wilmaNote strong {
+  color: var(--navy);
+  font-size: 12px;
+}
+
+.wilmaPath {
+  bottom: 20px;
 }
 
 .coverageSection {
@@ -1425,17 +1458,18 @@
 .coverageLayout {
   margin-top: 52px;
   display: grid;
-  grid-template-columns: 4fr 8fr;
+  grid-template-columns: 5fr 7fr;
   gap: 40px;
-  align-items: stretch;
+  align-items: start;
 }
 
-.stateReference {
+.stateExplorer {
   border: 1px solid var(--rule);
   background: var(--white);
+  animation: state-panel-enter var(--panel) var(--ease) both;
 }
 
-.stateReference header {
+.stateExplorer header {
   min-height: 86px;
   padding: 17px 19px;
   display: flex;
@@ -1444,37 +1478,132 @@
   border-bottom: 1px solid var(--rule);
 }
 
-.stateReference header > span,
-.stateReference dt {
+.stateExplorer header > span,
+.stateExplorer h4 {
   color: var(--navy);
   font-size: 8.5px;
 }
 
-.stateReference header strong {
+.stateExplorer header strong {
   margin-top: 5px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
   font-size: 22px;
   line-height: 1.2;
 }
 
-.stateReference dl {
+.stateExplorer header b {
+  padding-bottom: 3px;
+  color: var(--navy);
+  border-bottom: 3px solid var(--orange);
+  font: 750 10px/1 "IBM Plex Mono", var(--font-geist-mono), ui-monospace, monospace;
+  letter-spacing: .12em;
+}
+
+.stateExplorerBody {
+  padding: 24px 19px 26px;
+}
+
+.stateExplorerBody h3 {
   margin: 0;
-  padding: 0 19px;
+  font-size: 27px;
+  line-height: 1.08;
+  letter-spacing: -.025em;
 }
 
-.stateReference dl > div {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--rule);
+.stateQuestionCount {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  color: var(--navy);
+  background: var(--teal-12);
+  border-left: 5px solid var(--teal);
+  font-size: 14px;
+  font-weight: 800;
 }
 
-.stateReference dl > div:last-child {
-  border-bottom: 0;
+.stateExplorerBody h4 {
+  margin: 25px 0 0;
 }
 
-.stateReference dd {
-  margin: 6px 0 0;
+.stateExplorerBody ul {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--rule);
+}
+
+.stateExplorerBody li {
+  position: relative;
+  margin: 0;
+  padding: 11px 0 11px 20px;
   color: var(--slate);
   font-size: 13px;
   line-height: 1.5;
+  border-bottom: 1px solid var(--rule);
+}
+
+.stateExplorerBody li::before {
+  position: absolute;
+  top: 18px;
+  left: 2px;
+  width: 7px;
+  height: 7px;
+  content: "";
+  background: var(--teal);
+}
+
+.stateCheckLink {
+  min-height: 52px;
+  margin-top: 22px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  color: var(--navy);
+  background: var(--orange);
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+.stateCheckLink i {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  background: currentColor;
+}
+
+.stateExplorer footer {
+  padding: 16px 19px;
+  color: var(--slate);
+  background: var(--paper);
+  border-top: 1px solid var(--rule);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.stateExplorer footer p {
+  margin: 0;
+}
+
+.stateExplorer footer p + p {
+  margin-top: 7px;
+}
+
+@keyframes state-panel-enter {
+  from {
+    opacity: .82;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .coverageMatrix {
@@ -1709,6 +1838,36 @@
   font-size: 14px;
 }
 
+.footerUmbrellaBrand {
+  max-width: 310px;
+  margin-top: 28px;
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-top: 1px solid var(--rule-dark);
+}
+
+.footerUmbrellaBrand > span {
+  color: #91a2b2;
+  font: 750 8.5px/1.45 "IBM Plex Mono", var(--font-geist-mono), ui-monospace, monospace;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.footerUmbrellaBrand a {
+  min-width: 160px;
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.footerUmbrellaBrand img {
+  display: block;
+  width: 160px;
+  height: auto;
+}
+
 .footerLinks {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1846,8 +2005,7 @@
   }
 
   .heroPanel {
-    width: 67%;
-    padding-left: 48px;
+    padding-left: 32px;
   }
 
   .contentGrid,
@@ -1950,8 +2108,23 @@
     gap: 15px;
   }
 
-  .wilmaCopy {
-    min-height: 430px;
+  .heroPanel {
+    width: 100%;
+    padding-inline: 32px;
+    background: rgb(7 27 51 / 90%);
+    border-right: 0;
+  }
+
+  .wilmaSection {
+    padding-bottom: 88px;
+  }
+
+  .wilmaSectionIndex {
+    justify-content: flex-start;
+  }
+
+  .wilmaPath {
+    display: none;
   }
 
   .coverageHeading {
@@ -2188,17 +2361,24 @@
   }
 
   .wilmaCopy {
-    min-height: 480px;
+    min-height: 0;
+  }
+
+  .wilmaCopy h2 {
+    font-size: clamp(42px, 12vw, 54px);
+  }
+
+  .wilmaMedia {
+    min-height: 250px;
   }
 
   .wilmaPortrait {
-    width: 180px;
-    height: 180px;
+    width: auto;
+    height: 270px;
   }
 
   .wilmaMessages {
-    min-height: 430px;
-    padding: 20px 15px;
+    padding: 24px 15px;
   }
 
   .wilmaMessages article {
@@ -2211,6 +2391,20 @@
 
   .coverageMatrix {
     grid-template-columns: repeat(6, minmax(44px, 1fr));
+  }
+
+  .footerUmbrellaBrand {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footerUmbrellaBrand a {
+    min-width: 140px;
+  }
+
+  .footerUmbrellaBrand img {
+    width: 140px;
   }
 
   .faqItem button {
@@ -2276,7 +2470,7 @@
     transform: translateX(0);
   }
 
-  .wilmaMessages article {
-    clip-path: inset(0);
+  .stateExplorer {
+    animation: none;
   }
 }

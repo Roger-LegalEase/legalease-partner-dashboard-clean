@@ -1,9 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import legalEaseWhiteLogo from "../../../../design-handoff/legalease-homepage/assets/wm_white.png";
+import wilmaPortrait from "../../../../design-handoff/legalease-homepage/assets/wilma-portrait.png";
 import { APPROVED_LANDING_COPY_EN as copy } from "@/app/expungement-ai/landing-approved-copy";
 import { SamplePacketModal } from "@/app/expungement-ai/sample-packet/SamplePacketModal";
 import { ExpungementWordmark } from "@/components/expungement-ai/ExpungementWordmark";
 import { CoverageMatrix } from "./CoverageMatrix";
+import { buildCoverageSummaries } from "./coverage-data";
 import { FaqAccordion } from "./FaqAccordion";
 import { HeroVideo } from "./HeroVideo";
 import { HomepageHeader } from "./HomepageHeader";
@@ -16,9 +19,9 @@ import { SectionPath } from "./SectionPath";
 import { WilmaPreview } from "./WilmaPreview";
 import styles from "./ExpungementHomeV3.module.css";
 
-function SectionIndex({ number, label, labelKey, dark = false }: { number: string; label: string; labelKey: string; dark?: boolean }) {
+function SectionIndex({ number, label, labelKey, dark = false, className = "" }: { number: string; label: string; labelKey: string; dark?: boolean; className?: string }) {
   return (
-    <p className={styles.sectionIndex} data-dark={dark ? "true" : "false"} aria-hidden="true">
+    <p className={`${styles.sectionIndex} ${className}`} data-dark={dark ? "true" : "false"} aria-hidden="true">
       <span>{number}</span><span data-i18n={labelKey}>{label}</span>
     </p>
   );
@@ -33,6 +36,8 @@ function StartFreeLink({ className = styles.primaryButton }: { className?: strin
 }
 
 export function ExpungementHomeV3() {
+  const coverageSummaries = buildCoverageSummaries();
+
   return (
     <div className={styles.page} data-homepage-version="v3">
       <a className={styles.skipLink} href="#main-content" data-i18n="skip_main">{copy.skip_main}</a>
@@ -263,25 +268,32 @@ export function ExpungementHomeV3() {
         </section>
 
         <section id="wilma" className={`${styles.section} ${styles.wilmaSection}`} aria-labelledby="wilma-title">
-          <div className={styles.wilmaLayout}>
-            <div className={styles.wilmaCopy}>
-              <SectionIndex number="09" label={copy.wl_eye} labelKey="wl_eye" />
-              <p className={styles.eyebrow} data-i18n="wl_eye">{copy.wl_eye}</p>
-              <h2 id="wilma-title" data-i18n="wl_h2">{copy.wl_h2}</h2>
-              <p className={styles.lead} data-i18n="wl_lead">{copy.wl_lead}</p>
-              <p className={styles.scopeLine} data-i18n="wl_safe">{copy.wl_safe}</p>
-              <Image
-                className={styles.wilmaPortrait}
-                src="/expungement-ai/wilma-avatar.webp"
-                alt={copy.wilma_alt}
-                data-i18n-alt="wilma_alt"
-                width={480}
-                height={480}
-                sizes="(max-width: 768px) 180px, 220px"
-              />
+          <div className={styles.wilmaInner}>
+            <SectionIndex number="09" label={copy.wl_eye} labelKey="wl_eye" className={styles.wilmaSectionIndex} />
+            <div className={styles.wilmaLayout}>
+              <div className={styles.wilmaCopy}>
+                <p className={styles.eyebrow} data-i18n="wl_eye">{copy.wl_eye}</p>
+                <h2 id="wilma-title" data-i18n="wl_h2">{copy.wl_h2}</h2>
+                <p className={styles.lead} data-i18n="wl_lead">{copy.wl_lead}</p>
+                <p className={styles.scopeLine} data-i18n="wl_safe">{copy.wl_safe}</p>
+                <div className={styles.wilmaMedia}>
+                  <Image
+                    className={styles.wilmaPortrait}
+                    src={wilmaPortrait}
+                    alt={copy.wilma_alt}
+                    data-i18n-alt="wilma_alt"
+                    sizes="(max-width: 900px) 260px, 240px"
+                  />
+                </div>
+              </div>
+              <WilmaPreview />
             </div>
-            <WilmaPreview />
           </div>
+          <SectionPath
+            className={`${styles.sectionPath} ${styles.wilmaPath}`}
+            path="M0 88 H310 V34 H1510"
+            terminus={{ x: 1510, y: 34 }}
+          />
         </section>
 
         <section id="coverage" className={`${styles.section} ${styles.coverageSection}`} aria-labelledby="coverage-title">
@@ -294,7 +306,7 @@ export function ExpungementHomeV3() {
               </div>
               <p className={styles.lead} data-i18n="st_lead">{copy.st_lead}</p>
             </div>
-            <CoverageMatrix />
+            <CoverageMatrix summaries={coverageSummaries} />
           </div>
         </section>
 
@@ -336,6 +348,16 @@ export function ExpungementHomeV3() {
               <ExpungementWordmark tone="light" idSuffix="homepage-v3-footer" ariaLabel={copy.home_label} i18nAriaLabel="home_label" />
               <strong data-i18n="ft_brand">{copy.ft_brand}</strong>
               <p data-i18n="ft_blurb">{copy.ft_blurb}</p>
+              <div className={styles.footerUmbrellaBrand}>
+                <span data-i18n="footer_legalease_label">{copy.footer_legalease_label}</span>
+                <Link
+                  href="/legalease"
+                  aria-label={copy.footer_legalease_link_label}
+                  data-i18n-aria-label="footer_legalease_link_label"
+                >
+                  <Image src={legalEaseWhiteLogo} alt="" sizes="(max-width: 640px) 140px, 160px" />
+                </Link>
+              </div>
             </div>
             <div className={styles.footerLinks}>
               <div><h3 data-i18n="ft_product">{copy.ft_product}</h3><Link href="/expungement-ai#how-it-works" data-i18n="nav_how">{copy.nav_how}</Link><Link href="/expungement-ai#what-you-get" data-i18n="nav_brief">{copy.nav_brief}</Link><Link href="/expungement-ai#pricing" data-i18n="nav_pricing">{copy.nav_pricing}</Link><Link href="/expungement-ai/start" data-i18n="ft_check">{copy.ft_check}</Link></div>

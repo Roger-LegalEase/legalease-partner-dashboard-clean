@@ -9,13 +9,19 @@ const AXE_PATH = require.resolve("axe-core/axe.min.js");
 const ROOT = process.cwd();
 const BASE_URL = (process.env.EXPUNGEMENT_HOMEPAGE_BASE_URL ?? "http://127.0.0.1:3000").replace(/\/$/, "");
 const ROUTE = `${BASE_URL}/expungement-ai`;
-const EVIDENCE = path.join(ROOT, ".screenshots/expungement-ai-homepage-v3/after");
+const EVIDENCE = path.join(ROOT, ".screenshots/expungement-ai-homepage-v3/visual-corrections");
 const UPDATE_EVIDENCE = !process.argv.includes("--no-evidence");
 const failures = [];
 const checks = [];
 const browserEvents = [];
 const viewportResults = [];
 let measuredCls = 0;
+const heroGeometry = [];
+const coverageSelections = [];
+const HERO_BASELINE = {
+  1440: { overlayRatio: 0.5399956597222222, copyLeft: 100, visibleVideoWidth: 662.40625 },
+  1728: { overlayRatio: 0.5399938512731481, copyLeft: 244, visibleVideoWidth: 794.890625 }
+};
 
 fs.mkdirSync(EVIDENCE, { recursive: true });
 
@@ -29,12 +35,20 @@ function evidencePath(name) {
 }
 
 function watchPage(page, label) {
-  const local = { consoleErrors: [], pageErrors: [], failedRequests: [], badResponses: [] };
+  const local = { consoleErrors: [], pageErrors: [], failedRequests: [], canceledRoutePrefetches: [], badResponses: [] };
   page.on("console", (message) => {
     if (message.type() === "error") local.consoleErrors.push(message.text());
   });
   page.on("pageerror", (error) => local.pageErrors.push(error.message));
-  page.on("requestfailed", (request) => local.failedRequests.push(`${request.method()} ${request.url()} ${request.failure()?.errorText ?? "failed"}`));
+  page.on("requestfailed", (request) => {
+    const failure = `${request.method()} ${request.url()} ${request.failure()?.errorText ?? "failed"}`;
+    const url = new URL(request.url());
+    if (request.failure()?.errorText === "net::ERR_ABORTED" && url.searchParams.has("_rsc")) {
+      local.canceledRoutePrefetches.push(failure);
+      return;
+    }
+    local.failedRequests.push(failure);
+  });
   page.on("response", (response) => {
     if (response.status() >= 400) local.badResponses.push(`${response.status()} ${response.url()}`);
   });
@@ -102,6 +116,7 @@ async function auditViewport(browser, width, height = 1000, options = {}) {
       });
     const clippedText = [...document.querySelectorAll("h1,h2,h3,p,a,button,figcaption,dt,dd")]
       .filter(visible)
+      .filter((element) => !element.matches('[class*="srOnly"]'))
       .filter((element) => {
         const style = getComputedStyle(element);
         if (["visible", "clip"].includes(style.overflowX) && ["visible", "clip"].includes(style.overflowY)) return false;
@@ -134,20 +149,146 @@ async function auditViewport(browser, width, height = 1000, options = {}) {
   check(result.screenshotWidths.every((value) => value >= (width <= 640 ? 680 : 500)), `${label} product evidence stays readable`, JSON.stringify(result.screenshotWidths));
   check(result.testimonialCount === 0, `${label} contains no testimonial component`);
   if (options.expectPosterOnly) check(result.videoCount === 0, `${label} uses poster-only hero`);
-  else if (width > 640) check(result.videoCount === 1, `${label} mounts one semantic hero video`);
+  else if (width > 900) check(result.videoCount === 1, `${label} mounts one semantic hero video`);
   else check(result.videoCount === 0, `${label} uses the mobile poster-only hero`);
   check(events.consoleErrors.length === 0 && events.pageErrors.length === 0 && events.failedRequests.length === 0 && events.badResponses.length === 0, `${label} has no browser or request errors`, JSON.stringify(events));
   return { context, page, result, events };
+}
+
+async function measureHero(page, width) {
+  const geometry = await page.evaluate(() => {
+    const hero = document.querySelector("#homepage-v3-hero");
+    const overlay = hero?.querySelector('[data-hero-overlay="true"]');
+    const copy = hero?.querySelector('[data-hero-copy="true"]');
+    const route = hero?.querySelector('[data-section-path="true"] path');
+    const facts = hero?.querySelector('[class*="heroFacts"]');
+    const control = hero?.querySelector('button[class*="videoControl"]');
+    if (!hero || !overlay || !copy) return null;
+    const heroRect = hero.getBoundingClientRect();
+    const overlayRect = overlay.getBoundingClientRect();
+    const copyRect = copy.getBoundingClientRect();
+    const routeConflicts = { facts: 0, control: 0 };
+    if (route && facts) {
+      const routeLength = route.getTotalLength();
+      const matrix = route.getScreenCTM();
+      const obstacles = [["facts", facts], ["control", control]].filter((entry) => entry[1]);
+      if (matrix) {
+        for (let index = 0; index <= 240; index += 1) {
+          const point = route.getPointAtLength(routeLength * index / 240).matrixTransform(matrix);
+          for (const [name, obstacle] of obstacles) {
+            const rect = obstacle.getBoundingClientRect();
+            if (point.x >= rect.left - 24 && point.x <= rect.right + 24 && point.y >= rect.top - 24 && point.y <= rect.bottom + 24) routeConflicts[name] += 1;
+          }
+        }
+      }
+    }
+    return {
+      heroWidth: heroRect.width,
+      overlayWidth: overlayRect.width,
+      overlayRatio: overlayRect.width / heroRect.width,
+      copyLeft: copyRect.left - heroRect.left,
+      visibleVideoWidth: heroRect.width - overlayRect.width,
+      visibleVideoRatio: (heroRect.width - overlayRect.width) / heroRect.width,
+      routeConflicts
+    };
+  });
+  check(Boolean(geometry), `${width}px hero geometry is measurable`);
+  if (!geometry) return null;
+  const baseline = HERO_BASELINE[width];
+  const result = {
+    width,
+    ...geometry,
+    copyShiftLeft: baseline ? baseline.copyLeft - geometry.copyLeft : null,
+    visibleVideoIncrease: baseline ? geometry.visibleVideoWidth - baseline.visibleVideoWidth : null,
+    visibleVideoIncreaseVw: baseline ? ((geometry.visibleVideoWidth - baseline.visibleVideoWidth) / width) * 100 : null
+  };
+  heroGeometry.push(result);
+  if (baseline) {
+    check(geometry.overlayRatio >= 0.459 && geometry.overlayRatio <= 0.491, `${width}px hero overlay stays within the accepted 46% to 49% range`, JSON.stringify(result));
+    check(result.copyShiftLeft >= 40 && result.copyShiftLeft <= 72.5, `${width}px hero copy moves left by 40px to 72px`, JSON.stringify(result));
+    check(result.visibleVideoIncreaseVw >= 7.9 && result.visibleVideoIncreaseVw <= 12.1, `${width}px hero reveals 8 to 12 additional viewport-width points of video`, JSON.stringify(result));
+    check(geometry.routeConflicts.facts === 0 && geometry.routeConflicts.control === 0, `${width}px hero route keeps 24px clear of proof facts and the video control`, JSON.stringify(geometry.routeConflicts));
+  }
+  return result;
+}
+
+async function auditWilmaComposition(page, label) {
+  const result = await page.evaluate(() => {
+    const section = document.querySelector("#wilma");
+    const index = section?.querySelector('[class*="wilmaSectionIndex"]');
+    const copy = section?.querySelector('[class*="wilmaCopy"]');
+    const chat = section?.querySelector('[data-wilma-conversation="true"]');
+    const portrait = section?.querySelector('[class*="wilmaPortrait"]');
+    const media = section?.querySelector('[class*="wilmaMedia"]');
+    const copyParts = copy ? [...copy.querySelectorAll(':scope > p, :scope > h2, :scope > [class*="wilmaMedia"]')] : [];
+    const rect = (element) => {
+      const value = element.getBoundingClientRect();
+      return { top: value.top, right: value.right, bottom: value.bottom, left: value.left, width: value.width, height: value.height };
+    };
+    const overlaps = (a, b) => a.left < b.right - 1 && a.right > b.left + 1 && a.top < b.bottom - 1 && a.bottom > b.top + 1;
+    const copyRects = copyParts.map(rect);
+    const flowCollisions = [];
+    for (let first = 0; first < copyRects.length; first += 1) {
+      for (let second = first + 1; second < copyRects.length; second += 1) {
+        if (overlaps(copyRects[first], copyRects[second])) flowCollisions.push([first, second]);
+      }
+    }
+    return {
+      indexPosition: index ? getComputedStyle(index).position : null,
+      portraitPosition: portrait ? getComputedStyle(portrait).position : null,
+      copyPosition: copy ? getComputedStyle(copy).position : null,
+      flowCollisions,
+      portraitInsideMedia: Boolean(portrait && media?.contains(portrait)),
+      portraitOverlapsChat: Boolean(portrait && chat && overlaps(rect(portrait), rect(chat))),
+      copyOverlapsChat: Boolean(copy && chat && overlaps(rect(copy), rect(chat))),
+      conversationOrder: chat ? [...chat.querySelectorAll('[data-speaker]')].map((node) => node.getAttribute("data-speaker")) : [],
+      noteInsideCard: Boolean(chat?.querySelector('[data-wilma-footer="true"]')),
+      imageSource: portrait instanceof HTMLImageElement ? portrait.currentSrc || portrait.src : null
+    };
+  });
+  check(result.indexPosition === "static" && result.copyPosition !== "absolute" && result.portraitPosition !== "absolute", `${label} Wilma labels, copy, and portrait stay in normal flow`, JSON.stringify(result));
+  check(result.flowCollisions.length === 0 && !result.portraitOverlapsChat, `${label} Wilma editorial elements do not overlap`, JSON.stringify(result));
+  check(result.portraitInsideMedia && result.conversationOrder.join(",") === "visitor,wilma" && result.noteInsideCard, `${label} Wilma media and conversation have a stable accessible structure`, JSON.stringify(result));
+  return result;
 }
 
 async function captureElement(page, selector, name, hideHeader = true) {
   const locator = page.locator(selector).first();
   await locator.scrollIntoViewIfNeeded();
   await page.waitForTimeout(700);
-  if (hideHeader) await page.locator('[data-homepage-header="true"]').evaluate((element) => { element.dataset.evidenceHidden = "true"; element.style.visibility = "hidden"; });
-  await page.evaluate(() => { if (document.activeElement instanceof HTMLElement) document.activeElement.blur(); });
-  await locator.screenshot({ path: evidencePath(name), animations: "disabled" });
-  if (hideHeader) await page.locator('[data-homepage-header="true"]').evaluate((element) => { delete element.dataset.evidenceHidden; element.style.visibility = ""; });
+  await page.evaluate((shouldHideHeader) => {
+    const skipLink = document.querySelector('[data-homepage-version="v3"] > a[href="#main-content"]');
+    if (skipLink instanceof HTMLElement) skipLink.style.visibility = "hidden";
+    const header = document.querySelector('[data-homepage-header="true"]');
+    if (shouldHideHeader && header instanceof HTMLElement) header.style.visibility = "hidden";
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+  }, hideHeader);
+  try {
+    await locator.screenshot({ path: evidencePath(name), animations: "disabled" });
+  } finally {
+    await page.evaluate((shouldHideHeader) => {
+      const skipLink = document.querySelector('[data-homepage-version="v3"] > a[href="#main-content"]');
+      if (skipLink instanceof HTMLElement) skipLink.style.visibility = "";
+      const header = document.querySelector('[data-homepage-header="true"]');
+      if (shouldHideHeader && header instanceof HTMLElement) header.style.visibility = "";
+    }, hideHeader);
+  }
+}
+
+async function capturePage(page, name, options = {}) {
+  await page.evaluate(() => {
+    const skipLink = document.querySelector('[data-homepage-version="v3"] > a[href="#main-content"]');
+    if (skipLink instanceof HTMLElement) skipLink.style.visibility = "hidden";
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+  });
+  try {
+    await page.screenshot({ path: evidencePath(name), animations: "disabled", ...options });
+  } finally {
+    await page.evaluate(() => {
+      const skipLink = document.querySelector('[data-homepage-version="v3"] > a[href="#main-content"]');
+      if (skipLink instanceof HTMLElement) skipLink.style.visibility = "";
+    });
+  }
 }
 
 async function runAxe(page) {
@@ -226,6 +367,8 @@ const browser = await chromium.launch({ headless: true });
 try {
   const desktop = await auditViewport(browser, 1440, 1000, { label: "desktop-1440" });
   const page = desktop.page;
+  await measureHero(page, 1440);
+  await auditWilmaComposition(page, "1440px");
 
   const startLinks = await page.locator("a").evaluateAll((links) => links
     .filter((link) => link.textContent?.replace(/\s+/g, " ").trim() === "Start free")
@@ -271,10 +414,10 @@ try {
 
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(300);
-  if (UPDATE_EVIDENCE) await page.screenshot({ path: evidencePath("desktop-1440-full"), fullPage: true, animations: "disabled" });
+  if (UPDATE_EVIDENCE) await capturePage(page, "desktop-1440-full", { fullPage: true });
 
   const sections = [
-    ["#homepage-v3-hero", "desktop-hero", false],
+    ["#homepage-v3-hero", "hero-1440-corrected", false],
     ["#barrier", "barrier-editorial-field"],
     ["#guided-check", "guided-check-proof"],
     ["#how-it-works", "three-step-sequence"],
@@ -282,21 +425,82 @@ try {
     ["#what-you-get", "document-set"],
     ["#pricing", "pricing-sequence"],
     ["#privacy", "privacy-practices"],
-    ["#wilma", "wilma-bounded-demo"],
-    ["#coverage", "coverage-pa"],
+    ["#wilma", "wilma-1440-corrected"],
     ["#faq", "faq"],
     ["main > section:last-of-type", "final-cta"],
-    ["footer", "legal-footer"]
+    ['[data-homepage-version="v3"] > footer', "footer-1440-legalease"]
   ];
   if (UPDATE_EVIDENCE) for (const [selector, name, hideHeader] of sections) await captureElement(page, selector, name, hideHeader ?? true);
 
   const coverage = page.locator("#coverage");
   await coverage.scrollIntoViewIfNeeded();
-  await coverage.getByRole("button", { name: "California", exact: true }).click();
-  check((await coverage.innerText()).includes("California at a glance"), "Coverage matrix exposes the selected full state name");
-  if (UPDATE_EVIDENCE) await captureElement(page, "#coverage", "coverage-california");
-  await coverage.getByRole("button", { name: "District of Columbia", exact: true }).click();
-  check((await coverage.innerText()).includes("District of Columbia at a glance"), "Coverage matrix supports D.C. as the 51st jurisdiction");
+  const stateTests = [
+    ["Mississippi", "MS", 7, "coverage-mississippi"],
+    ["Pennsylvania", "PA", 5, "coverage-pennsylvania"],
+    ["Illinois", "IL", 12, "coverage-illinois"],
+    ["California", "CA", 14, null],
+    ["Tennessee", "TN", 11, null]
+  ];
+  const coverageRequests = [];
+  page.on("request", (request) => {
+    if (request.url().includes("/api/") && !request.url().includes("/api/analytics/web")) coverageRequests.push(request.url());
+  });
+  for (const [stateName, code, expectedCount, evidenceName] of stateTests) {
+    await coverage.getByRole("option", { name: new RegExp(`^${stateName}(?:, selected)?$`) }).click();
+    await page.waitForTimeout(280);
+    const selectedState = await coverage.locator('[data-coverage-state]').evaluate((panel) => ({
+      code: panel.getAttribute("data-coverage-state"),
+      count: Number(panel.getAttribute("data-question-count")),
+      heading: panel.querySelector("h3")?.textContent?.trim(),
+      topics: [...panel.querySelectorAll('[data-coverage-topics="true"] li')].map((item) => item.textContent?.trim()),
+      href: panel.querySelector("a")?.getAttribute("href")
+    }));
+    coverageSelections.push(selectedState);
+    check(selectedState.code === code && selectedState.count === expectedCount && selectedState.heading === `${stateName} guided check`, `${stateName} renders its derived guided-check count and heading`, JSON.stringify(selectedState));
+    check(selectedState.topics.length >= 2 && selectedState.topics.length <= 4, `${stateName} renders two to four public profile topics`, JSON.stringify(selectedState.topics));
+    check(selectedState.href === `/expungement-ai/screening/${code.toLowerCase()}`, `${stateName} CTA preserves the selected state`, selectedState.href);
+    if (UPDATE_EVIDENCE && evidenceName) await captureElement(page, "#coverage", evidenceName);
+  }
+  const topicSignatures = new Set(coverageSelections.map((selection) => selection.topics.join("|")));
+  check(topicSignatures.size === coverageSelections.length, "Five reviewed states render genuinely different topic lists", JSON.stringify(coverageSelections));
+  check(new Set(coverageSelections.map((selection) => selection.count)).size >= 4, "Reviewed state question counts change with the public profiles", JSON.stringify(coverageSelections.map(({ code, count }) => ({ code, count }))));
+  check(coverageRequests.length === 0, "Coverage selection makes no API request", JSON.stringify(coverageRequests));
+  check(await coverage.getByRole("option").count() === 51, "Coverage grid exposes exactly 51 jurisdictions");
+  const stateCodes = await coverage.getByRole("option").evaluateAll((cells) => cells.map((cell) => cell.getAttribute("data-state-code")));
+  check(new Set(stateCodes).size === 51, "Coverage grid contains 51 unique jurisdiction codes", JSON.stringify(stateCodes));
+
+  await coverage.getByRole("option", { name: /^Tennessee, selected$/ }).focus();
+  await page.keyboard.press("Home");
+  const alabamaCell = coverage.getByRole("option", { name: /^Alabama, selected$/ });
+  check(await alabamaCell.getAttribute("data-state-code") === "AL", "Coverage Home key selects the first jurisdiction");
+  await alabamaCell.focus();
+  await page.keyboard.press("End");
+  const wyomingCell = coverage.getByRole("option", { name: /^Wyoming, selected$/ });
+  check(await wyomingCell.getAttribute("data-state-code") === "WY", "Coverage End key selects the final jurisdiction");
+  await wyomingCell.focus();
+  await page.keyboard.press("ArrowLeft");
+  check(await coverage.getByRole("option", { name: /^Wisconsin, selected$/ }).getAttribute("data-state-code") === "WI", "Coverage arrow keys update selection and focus");
+
+  const internalCoverageText = await coverage.innerText();
+  check(!/(pathway[_ -]?id|route[_ -]?id|result[_ -]?code|profile[_ -]?version|track[_ -]?count|source[_ -]?hash)/i.test(internalCoverageText), "Coverage explorer exposes no internal engine language");
+
+  const footerBrand = await page.locator('[data-homepage-version="v3"] > footer').evaluate(() => {
+    const footer = document.querySelector('[data-homepage-version="v3"] > footer');
+    const link = footer?.querySelector('a[href="/legalease"]');
+    const image = link?.querySelector("img");
+    const rect = image?.getBoundingClientRect();
+    return {
+      href: link?.getAttribute("href"),
+      label: link?.getAttribute("aria-label"),
+      alt: image?.getAttribute("alt"),
+      width: rect?.width,
+      height: rect?.height,
+      source: image instanceof HTMLImageElement ? image.currentSrc || image.src : null,
+      footerBackground: footer ? getComputedStyle(footer).backgroundColor : null
+    };
+  });
+  check(footerBrand.href === "/legalease" && footerBrand.label === "Visit the LegalEase homepage" && footerBrand.alt === "", "Footer uses an accessible LegalEase umbrella-brand link", JSON.stringify(footerBrand));
+  check(footerBrand.width >= 130 && footerBrand.width <= 180 && footerBrand.height > 30 && footerBrand.footerBackground === "rgb(4, 20, 38)", "Official LegalEase logo is visible at the intended size on navy", JSON.stringify(footerBrand));
 
   const faqButtons = page.locator("#faq button");
   await faqButtons.nth(1).click();
@@ -318,9 +522,21 @@ try {
   check(spanishState.hero === "La ley es complicada. Su próximo paso no debería serlo." && spanishState.title.includes("Revisión guiada gratis"), "Spanish hero and metadata are complete", JSON.stringify(spanishState));
   check(englishFragments.every((fragment) => !spanishState.visibleText.includes(fragment)), "Spanish DOM has no English fallback fragments", englishFragments.filter((fragment) => spanishState.visibleText.includes(fragment)).join(", "));
   check(spanishState.homeLabel === "Página principal de Expungement.ai" && spanishState.guidedAlt === "Pregunta de ejemplo de la revisión guiada gratis.", "Spanish accessible names and alternatives are complete", JSON.stringify({ homeLabel: spanishState.homeLabel, guidedAlt: spanishState.guidedAlt }));
+  await page.locator("#wilma").scrollIntoViewIfNeeded();
+  if (UPDATE_EVIDENCE) await captureElement(page, "#wilma", "wilma-spanish-1440");
+  await page.locator("#coverage").scrollIntoViewIfNeeded();
+  await page.locator("#coverage").getByRole("option", { name: /^Illinois/ }).click();
+  const spanishCoverage = await page.locator("#coverage").locator('[data-coverage-state="IL"]').evaluate((panel) => ({
+    text: panel.textContent,
+    topics: [...panel.querySelectorAll('[data-coverage-topics="true"] li')].map((item) => item.textContent?.trim()),
+    href: panel.querySelector("a")?.getAttribute("href")
+  }));
+  check(spanishCoverage.text.includes("Revisión guiada de Illinois") && spanishCoverage.text.includes("Hasta 12 preguntas") && spanishCoverage.href === "/expungement-ai/screening/il", "Spanish coverage preserves the Illinois profile and CTA", JSON.stringify(spanishCoverage));
+  check(spanishCoverage.topics.includes("¿Qué edad tenía cuando ocurrió?") && !spanishCoverage.topics.includes("How old were you when this happened?"), "Spanish coverage uses profile translations without English question leakage", JSON.stringify(spanishCoverage.topics));
+  if (UPDATE_EVIDENCE) await captureElement(page, "#coverage", "coverage-spanish-illinois");
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(300);
-  if (UPDATE_EVIDENCE) await page.screenshot({ path: evidencePath("spanish-desktop-1440-full"), fullPage: true, animations: "disabled" });
+  if (UPDATE_EVIDENCE) await capturePage(page, "spanish-desktop-1440-full", { fullPage: true });
 
   const englishButton = page.locator('button[data-lang="en"]').first();
   await englishButton.click();
@@ -335,14 +551,43 @@ try {
   check(entryEvents.consoleErrors.length === 0 && entryEvents.pageErrors.length === 0 && entryEvents.failedRequests.length === 0 && entryEvents.badResponses.length === 0, "DTC free-check entry has no browser or request errors", JSON.stringify(entryEvents));
   await entryPage.close();
 
+  const stateEntryPage = await desktop.context.newPage();
+  const stateEntryEvents = watchPage(stateEntryPage, "coverage-state-entry");
+  await stateEntryPage.goto(ROUTE, { waitUntil: "networkidle" });
+  const stateEntryCoverage = stateEntryPage.locator("#coverage");
+  await stateEntryCoverage.scrollIntoViewIfNeeded();
+  await stateEntryCoverage.getByRole("option", { name: /^Mississippi/ }).click();
+  await stateEntryCoverage.getByRole("link", { name: "Start the Mississippi check" }).click();
+  await stateEntryPage.waitForURL(`${BASE_URL}/expungement-ai/screening/ms`);
+  await stateEntryPage.getByText("Are you asking about your own record?", { exact: true }).waitFor({ state: "visible" });
+  check(stateEntryPage.url() === `${BASE_URL}/expungement-ai/screening/ms`, "State-specific Coverage CTA enters the real selected-state guided check");
+  check(stateEntryEvents.consoleErrors.length === 0 && stateEntryEvents.pageErrors.length === 0 && stateEntryEvents.failedRequests.length === 0 && stateEntryEvents.badResponses.length === 0, "Selected-state guided-check entry has no browser or request errors", JSON.stringify(stateEntryEvents));
+  await stateEntryPage.close();
+
   check(desktop.events.consoleErrors.length === 0 && desktop.events.pageErrors.length === 0 && desktop.events.failedRequests.length === 0 && desktop.events.badResponses.length === 0, "Desktop homepage interactions remain error-free", JSON.stringify(desktop.events));
 
   await desktop.context.close();
 
   for (const width of [390, 768, 1024, 1728]) {
     const audited = await auditViewport(browser, width, width === 390 ? 844 : 1000, { label: `responsive-${width}` });
-    if (width === 390 && UPDATE_EVIDENCE) await audited.page.screenshot({ path: evidencePath("mobile-390-full"), fullPage: true, animations: "disabled" });
+    if (width === 390 && UPDATE_EVIDENCE) await capturePage(audited.page, "mobile-390-full", { fullPage: true });
+    if (width === 1728) {
+      await measureHero(audited.page, 1728);
+      if (UPDATE_EVIDENCE) await captureElement(audited.page, "#homepage-v3-hero", "hero-1728-corrected", false);
+    }
+    if (width === 1024) {
+      await auditWilmaComposition(audited.page, "1024px");
+      if (UPDATE_EVIDENCE) await captureElement(audited.page, "#wilma", "wilma-1024-corrected");
+    }
     if (width === 390) {
+      await auditWilmaComposition(audited.page, "390px");
+      if (UPDATE_EVIDENCE) {
+        await captureElement(audited.page, "#homepage-v3-hero", "hero-390-poster", false);
+        await captureElement(audited.page, "#wilma", "wilma-390-corrected");
+        await audited.page.locator("#coverage").getByRole("option", { name: /^Mississippi/ }).click();
+        await captureElement(audited.page, "#coverage", "coverage-390-mississippi");
+        await captureElement(audited.page, '[data-homepage-version="v3"] > footer', "footer-390-legalease");
+      }
       const menuButton = audited.page.getByRole("button", { name: "Open menu" });
       await menuButton.click();
       const menu = audited.page.getByRole("dialog", { name: "Mobile navigation" });
@@ -356,31 +601,50 @@ try {
   const reduced = await auditViewport(browser, 1440, 1000, { label: "reduced-motion", reducedMotion: "reduce", expectPosterOnly: true });
   const reducedState = await reduced.page.evaluate(() => ({
     pathOffset: getComputedStyle(document.querySelector('[data-section-path] path')).strokeDashoffset,
-    wilmaClip: getComputedStyle(document.querySelector('#wilma article')).clipPath
+    wilmaClip: getComputedStyle(document.querySelector('#wilma article')).clipPath,
+    videoRequests: performance.getEntriesByType("resource").map((entry) => entry.name).filter((name) => name.includes("expungement-ai-hero-approved.mp4"))
   }));
   check(reducedState.pathOffset === "0px" || reducedState.pathOffset === "0", "Reduced motion reveals route information immediately", JSON.stringify(reducedState));
-  check(reducedState.wilmaClip === "inset(0px)" || reducedState.wilmaClip === "inset(0px 0px 0px)" || reducedState.wilmaClip === "inset(0px 0px 0px 0px)", "Reduced motion reveals Wilma messages immediately", JSON.stringify(reducedState));
+  check(reducedState.wilmaClip === "none" || reducedState.wilmaClip === "inset(0px)" || reducedState.wilmaClip === "inset(0px 0px 0px)" || reducedState.wilmaClip === "inset(0px 0px 0px 0px)", "Reduced motion reveals Wilma messages immediately", JSON.stringify(reducedState));
+  check(reducedState.videoRequests.length === 0, "Reduced motion makes no hero video request", JSON.stringify(reducedState.videoRequests));
   if (UPDATE_EVIDENCE) await captureElement(reduced.page, "#homepage-v3-hero", "hero-reduced-motion-poster", false);
   await reduced.context.close();
 
   const saveData = await auditViewport(browser, 1440, 1000, { label: "save-data", saveData: true, expectPosterOnly: true });
+  const saveDataVideoRequests = await saveData.page.evaluate(() => performance.getEntriesByType("resource").map((entry) => entry.name).filter((name) => name.includes("expungement-ai-hero-approved.mp4")));
+  check(saveDataVideoRequests.length === 0, "Save-Data makes no hero video request", JSON.stringify(saveDataVideoRequests));
   if (UPDATE_EVIDENCE) await captureElement(saveData.page, "#homepage-v3-hero", "hero-save-data-poster", false);
   await saveData.context.close();
 
   const spanishMobile = await auditViewport(browser, 390, 844, { label: "spanish-mobile", locale: "es" });
   check(spanishMobile.result.lang === "es" && (await spanishMobile.page.locator("h1").innerText()).startsWith("La ley es complicada"), "Spanish mobile composition loads without an English first-state fragment");
-  if (UPDATE_EVIDENCE) await spanishMobile.page.screenshot({ path: evidencePath("spanish-mobile-390-full"), fullPage: true, animations: "disabled" });
+  if (UPDATE_EVIDENCE) await capturePage(spanishMobile.page, "spanish-mobile-390-full", { fullPage: true });
   await spanishMobile.context.close();
 
   const zoom = await auditViewport(browser, 720, 900, { label: "effective-200-percent-zoom", deviceScaleFactor: 2 });
-  if (UPDATE_EVIDENCE) await zoom.page.screenshot({ path: evidencePath("effective-200-percent-zoom"), fullPage: true, animations: "disabled" });
+  await auditWilmaComposition(zoom.page, "effective 200% zoom");
+  if (UPDATE_EVIDENCE) {
+    await zoom.page.evaluate(() => {
+      const wilma = document.querySelector("#wilma").getBoundingClientRect();
+      window.scrollTo(0, Math.max(0, wilma.bottom + window.scrollY - 300));
+    });
+    await zoom.page.waitForTimeout(300);
+    await capturePage(zoom.page, "wilma-coverage-200-percent-zoom");
+  }
   await zoom.context.close();
+
+  const noJsContext = await browser.newContext({ viewport: { width: 1440, height: 1000 }, javaScriptEnabled: false });
+  const noJsPage = await noJsContext.newPage();
+  const noJsResponse = await noJsPage.goto(ROUTE, { waitUntil: "load", timeout: 60_000 });
+  check(noJsResponse?.ok() && await noJsPage.locator("#coverage").getByRole("option").count() === 51, "No-JavaScript fallback keeps the 51-jurisdiction matrix visible");
+  check(await noJsPage.locator('[data-coverage-state="PA"]').count() === 1 && await noJsPage.locator('a[href="/expungement-ai/screening/pa"]').count() === 1, "No-JavaScript fallback keeps the default state summary and route readable");
+  await noJsContext.close();
 
   if (UPDATE_EVIDENCE) {
     await createContactSheet([
-      "desktop-hero", "barrier-editorial-field", "guided-check-proof", "three-step-sequence", "briefcase-proof",
-      "document-set", "pricing-sequence", "privacy-practices", "wilma-bounded-demo", "coverage-pa",
-      "coverage-california", "faq", "final-cta", "legal-footer", "hero-reduced-motion-poster"
+      "hero-1440-corrected", "hero-1728-corrected", "hero-390-poster", "wilma-1440-corrected", "wilma-1024-corrected",
+      "wilma-390-corrected", "coverage-mississippi", "coverage-pennsylvania", "coverage-illinois", "coverage-390-mississippi",
+      "footer-1440-legalease", "footer-390-legalease", "wilma-spanish-1440", "coverage-spanish-illinois", "wilma-coverage-200-percent-zoom"
     ]);
   }
 
@@ -390,6 +654,8 @@ try {
     checks: checks.length,
     failures,
     measuredCls,
+    heroGeometry,
+    coverageSelections,
     viewportResults,
     axeCriticalOrSerious: checks.find((entry) => entry.label.startsWith("Axe reports"))?.ok ?? false,
     browserEvents,
