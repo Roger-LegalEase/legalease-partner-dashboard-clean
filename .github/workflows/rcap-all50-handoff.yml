@@ -101,3 +101,13 @@ jobs:
 
       - name: Verify the published worker digest is bound to its fingerprint
         run: node scripts/test-rcap-worker-digest-binding-mutations.mjs
+
+      # Same reasoning as above: package.json is an image input for both the
+      # application and the worker, and this guard exists to stop a second
+      # publication from moving a source-SHA tag. Wiring it through the chain
+      # string would invalidate the digest it protects.
+      - name: Verify the worker publication cannot move an existing source-SHA tag
+        run: node scripts/verify-rcap-worker-tag-guard.mjs
+
+      - name: Prove the source-SHA tag guard is load-bearing
+        run: node scripts/test-rcap-worker-tag-guard-mutations.mjs

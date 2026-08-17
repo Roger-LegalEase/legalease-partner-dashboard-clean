@@ -152,6 +152,18 @@ const OVERRIDES = {
     disposition: "blocked_on_family",
     rootBlocker: "legacy_generator_family_texas_harris",
     reason: "Same root blocker as Mississippi, for the Texas-Harris family."
+  },
+  "verify-rcap-worker-tag-guard.mjs": {
+    disposition: "keep_available",
+    reason:
+      "Proves the worker publication workflow cannot move an existing source-SHA tag. Two publications of source 664b8ddd wrote the same tag and no record noticed, because a tag is an alias and only the sha256 digest is immutable. Ten checks: publication is serialized by source SHA, a queued publication is not cancelled, the tag is checked before the build and re-checked adjacent to the push, exactly one source-SHA tag is pushed with no latest, a short SHA is refused before any lookup, a missing credential and a refusing registry both fail closed, an existing latest alias is refused, and replacing an existing alias requires a named replace-<sha> authorization. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both the application and the worker and adding a script entry there would invalidate the very digest this guard protects.",
+    decidedBy: "captain"
+  },
+  "test-rcap-worker-tag-guard-mutations.mjs": {
+    disposition: "keep_available",
+    reason:
+      "Proves each part of the source-SHA tag guard is load-bearing. Nine mutations - concurrency group no longer keyed on the source SHA, cancel-in-progress enabled, pre-push re-check removed, pre-build tag check removed, a latest alias added to the push, a short SHA accepted, a missing credential read as the tag being free, replacement no longer requiring a named authorization, and a registry lookup failure read as the tag being absent - each turn verify-rcap-worker-tag-guard red for its own named check, with signal-safe byte restoration. Blocking alongside that verifier in rcap-all50-handoff.yml for the same image-input reason.",
+    decidedBy: "captain"
   }
 };
 
