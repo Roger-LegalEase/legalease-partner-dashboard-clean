@@ -5,7 +5,7 @@
   "status": "prepared_queued_not_authorized",
   "environment": "staging",
   "note": "Prepared and machine-derived. This record authorizes nothing. Staging execution requires Roger to name the environment values below AND to grant staging scope on every authorization in the sequence; production is separately queued and is not requested here.",
-  "canonicalIntegrationBranch": "claude/rcap-final-sprint-integration",
+  "canonicalIntegrationBranch": "main",
   "securityCheckpointSha": "13e356c49bd484e6f946ba604076718d904bca86",
   "finalAcceptedSha": null,
   "finalAcceptedShaNote": "Null by construction. A record cannot name the commit that contains it. Populate from the tip once this preparation lands, CI is green on that exact SHA, and Terminal B has re-audited it.",
@@ -297,7 +297,7 @@
     "scriptsLibTreeHash": "d967c1e889048bf48acf3413dc799a6b90b1bc52",
     "srcTreeHash": "9ad3a96cd72d0233d6810e0894e6d474f4f48c10"
   },
-  "imageInputFingerprintBaseSha": "487abc6960d8082f02c75e86df02d71aab5bbe1d",
+  "imageInputFingerprintBaseSha": "b1f429714c18854fa8fa101d16fd5f96992b0d66",
   "imageInputEquivalenceRequired": true,
   "imageInputEquivalenceRule": "git diff --quiet {imageInputFingerprintBaseSha} HEAD -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs scripts/lib src deploy/rcap-render-worker/Dockerfile must exit 0; a commit that changes any image-input path invalidates this fingerprint and requires regeneration.",
   "supersedes": [
