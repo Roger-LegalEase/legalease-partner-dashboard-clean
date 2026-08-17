@@ -134,14 +134,14 @@
       "why": "The application must carry the Phase 52 payment writer, and the deployed commit must be the final accepted integration SHA — a descendant of the 13e356c4 checkpoint, re-derived once this preparation lands and CI is green on it."
     },
     "workerImageDigest": {
-      "value": "sha256:e958cb057abaa1c22902d01ffe0e42aec0feb09118ba9f2bc44210cbdeb244c7",
+      "value": "sha256:be782397379b2dd6db3f63353f38e1fe1b31095dbf9307abb73f97c1136cc9be",
       "owner": "Terminal D",
       "why": "An immutable registry digest, not a local image ID. Minted by the publication workflow at the freeze SHA and read from committed evidence (data/rcap-render/worker-publication-evidence.json), never typed.",
       "evidence": {
         "sourceSha": "664b8ddd374642bf2bd1820f7e05224f3dd081bc",
         "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:664b8ddd374642bf2bd1820f7e05224f3dd081bc",
-        "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:e958cb057abaa1c22902d01ffe0e42aec0feb09118ba9f2bc44210cbdeb244c7",
-        "workflowRunId": 31965540347,
+        "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:be782397379b2dd6db3f63353f38e1fe1b31095dbf9307abb73f97c1136cc9be",
+        "workflowRunId": 31980720145,
         "registryPullByDigestStatus": "verified_in_final_release_plumbing"
       }
     },
@@ -297,7 +297,7 @@
     "scriptsLibTreeHash": "d967c1e889048bf48acf3413dc799a6b90b1bc52",
     "srcTreeHash": "9ad3a96cd72d0233d6810e0894e6d474f4f48c10"
   },
-  "imageInputFingerprintBaseSha": "99193e3e4562b17e3c36a6158eee1b60d4e0291d",
+  "imageInputFingerprintBaseSha": "b1f429714c18854fa8fa101d16fd5f96992b0d66",
   "imageInputEquivalenceRequired": true,
   "imageInputEquivalenceRule": "git diff --quiet {imageInputFingerprintBaseSha} HEAD -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs scripts/lib src deploy/rcap-render-worker/Dockerfile must exit 0; a commit that changes any image-input path invalidates this fingerprint and requires regeneration.",
   "supersedes": [

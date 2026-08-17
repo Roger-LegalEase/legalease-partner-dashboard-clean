@@ -895,6 +895,64 @@
         "approvedVisualSha": "677f2c10f1ba28612d5f936b77a8935009d8d818",
         "reviewedAt": "2026-08-16"
       }
+    },
+    {
+      "id": "auth-2026-08-16-pr103-recovered-migration",
+      "kind": "restricted_path_source_change",
+      "phase": 56,
+      "title": "Authorize the recovered Production migration source for repository integration",
+      "artifacts": [
+        "supabase/migrations/20260728213131_remote_schema.sql"
+      ],
+      "status": "authorized_scoped",
+      "decision": "approved",
+      "requestedBy": "codex-rcap-migration-recovery",
+      "requestedAt": "2026-08-16",
+      "authorizedBy": "Roger Roman — explicit authorization for PR #103 repository integration validation",
+      "authorizedAt": "2026-08-16",
+      "authorizationScope": "repository_integration_only",
+      "executedAt": null,
+      "why": "The exact 883-statement migration payload recovered from Production migration history was validated through two deterministic local replays and is authorized only for repository integration on draft PR #103.",
+      "risk": "high",
+      "riskNote": "This authorization is pinned to the exact migration bytes and exact path. It does not authorize Production execution, repair, db push, schema modification, tenant provisioning, invitation delivery, deployment, future byte changes, or any other path.",
+      "authorizedPaths": [
+        "supabase/migrations/20260728213131_remote_schema.sql"
+      ],
+      "authorizedSha256": [
+        "3d8695920577a2982ce4748839d091e987fa43baac917c97e2a79ba6a55f2452"
+      ],
+      "voidsOn": "Any byte change, path change, additional path, wildcard, prefix, directory grant, or future-file grant voids this authorization.",
+      "doesNotAuthorize": [
+        "executing the migration against Production",
+        "migration repair",
+        "db push",
+        "schema modification",
+        "tenant provisioning",
+        "invitation delivery",
+        "deployment",
+        "future byte changes",
+        "any other migration or path",
+        "wildcard, prefix, directory, or future-file authorization"
+      ],
+      "rollback": "Remove this exact-path queue entry; the recovered migration is then rejected by the restricted-path verifier. No external state is changed.",
+      "evidence": [
+        "Owner authorization for PR #103 repository integration validation",
+        "docs/rcap/production/MIGRATION_20260728213131_RECONCILIATION.md records the recovered 883-statement payload and exact SHA-256",
+        "Two deterministic clean local migration replays validated the candidate payload",
+        "Focused recovered-migration and exact-path authorization verifiers validate the exact bytes"
+      ],
+      "scopedAuthorization": {
+        "repository": "authorized — this exact migration file at these exact bytes may exist on draft PR #103",
+        "production": "queued — no Production migration, repair, db push, schema or deployment action is authorized"
+      },
+      "environmentConditions": {
+        "production": "queued pending separate explicit authorization"
+      },
+      "authorizationProvenance": {
+        "branch": "fix/rcap-production-canary-enablement",
+        "pullRequest": 103,
+        "reviewedAt": "2026-08-16"
+      }
     }
   ],
   "statusVocabulary": {
