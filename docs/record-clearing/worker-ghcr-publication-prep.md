@@ -290,3 +290,55 @@ Chain of proof for source-to-digest correspondence:
 No deployment occurred; no worker was started; no claiming was enabled;
 staging and production are unchanged. The digest above is the input
 Terminal A3 needs for the staging authorization block.
+
+## FINAL MAIN PUBLICATION COMPLETE (2026-08-16)
+
+The replacement worker image for final merged `main` was published once by
+workflow run [31965540347](https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/31965540347).
+The workflow ran from commit
+`99193e3e4562b17e3c36a6158eee1b60d4e0291d`, validated that the exact image
+source `664b8ddd374642bf2bd1820f7e05224f3dd081bc` belongs to `main`, checked out
+that source, and completed every publication step successfully.
+
+```json
+{
+  "environment": "publication-only",
+  "publicationTimestamp": "2026-08-16T18:47:27Z",
+  "workflowRunId": 31965540347,
+  "workflowConclusion": "success",
+  "workflowCommitSha": "99193e3e4562b17e3c36a6158eee1b60d4e0291d",
+  "workflowSha256": "0f55ac64510bcf3bd69c08649f22b7c4e5ff05cfd992787e49e66e261e761495",
+  "sourceSha": "664b8ddd374642bf2bd1820f7e05224f3dd081bc",
+  "canonicalIntegrationBranch": "main",
+  "dockerfileSha256": "6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7",
+  "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
+  "publicationArtifactId": 9268400752,
+  "publicationArtifactArchiveSha256": "56cc93ddeff568ba550a53cc5d9785b63222d814a1ecb6db3997df3ec825edd5",
+  "publicationArtifactJsonSha256": "811ef949aff3b77099fe97c4a6dfad82bf13be2dc4aaa9c46afa7fb2ec3dae53",
+  "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
+  "imageTag": "664b8ddd374642bf2bd1820f7e05224f3dd081bc",
+  "immutableRegistryDigest": "sha256:e958cb057abaa1c22902d01ffe0e42aec0feb09118ba9f2bc44210cbdeb244c7",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:e958cb057abaa1c22902d01ffe0e42aec0feb09118ba9f2bc44210cbdeb244c7",
+  "packageVisibility": "private",
+  "mutableLatestTagCreated": false,
+  "publishOnlyNoDeploy": true,
+  "workerClaimingStarted": false,
+  "stagingAndProductionUnchanged": true
+}
+```
+
+Independent registry proof pulled the image by its immutable digest and pulled
+the full-SHA tag to the same digest. Anonymous manifest access was denied, and
+the repository has no `latest` manifest. The pulled image runs as
+`rcapworker`, uses the expected loop command and healthcheck, and fails closed
+when Supabase configuration is absent. Against an isolated host-only mock with
+no real queue, it reached `healthy`, emitted the polling banner, accepted
+`SIGTERM`, logged both stop events, and exited 0 in 211 ms. The scratch
+directory remained empty, and image environment, history, and sensitive-file
+scans found no embedded credential material.
+
+This publication did not deploy the image, start a worker against any real
+queue, enable claiming, apply a migration, or change staging or production.
+The canonical machine-readable record is
+`data/rcap-render/worker-publication-evidence.json`; the staging-action record
+binds this exact digest without authorizing deployment.
