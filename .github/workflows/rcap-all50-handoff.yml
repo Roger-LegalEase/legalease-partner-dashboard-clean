@@ -93,5 +93,11 @@ jobs:
       # Unconditional on purpose: a stale digest is not "RCAP-affected" in the
       # scope detector's sense, and this is exactly the check that must not be
       # skipped on the run where someone repoints a digest.
+      - name: Verify the acceptance migration sequence reaches phase 55
+        run: node scripts/verify-rcap-acceptance-migration-sequence.mjs
+
+      - name: Prove the acceptance migration sequence guard is load-bearing
+        run: node scripts/test-rcap-acceptance-migration-sequence-mutations.mjs
+
       - name: Verify the published worker digest is bound to its fingerprint
         run: node scripts/test-rcap-worker-digest-binding-mutations.mjs

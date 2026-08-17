@@ -16,6 +16,11 @@ on:
         description: "Exact FULL 40-character integration commit SHA to build. Abbreviated SHAs are rejected."
         required: true
         type: string
+      tag_replacement_authorization:
+        description: "Leave empty. Only set to replace-<integration_sha> when deliberately replacing an existing full-SHA tag."
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -88,6 +93,23 @@ jobs:
             echo "lockfile_sha256=${LOCKFILE_SHA256}"
             echo "image_reference=${IMAGE_REPOSITORY}:${{ inputs.integration_sha }}"
           } >> "$GITHUB_OUTPUT"
+
+      # A full-SHA tag is a POINTER, not an immutable object. Two successful
+      # publications of source 664b8ddd already moved this one, leaving two
+      # records each naming the same tag and a different digest. Refuse to do
+      # it a third time by accident: the tag must be free, or the replacement
+      # must be named explicitly.
+      - name: Set up Node for the tag guard
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Refuse to overwrite an existing full-SHA tag
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RCAP_WORKER_TAG: ${{ inputs.integration_sha }}
+          RCAP_WORKER_TAG_REPLACEMENT_AUTHORIZATION: ${{ inputs.tag_replacement_authorization }}
+        run: node scripts/verify-rcap-worker-tag-integrity.mjs --guard
 
       - name: Set up Buildx
         uses: docker/setup-buildx-action@v3
