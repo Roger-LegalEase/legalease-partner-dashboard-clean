@@ -99,9 +99,10 @@
         "treatmentClassification": "component_deferral when the registry reports any dependency treatment",
         "deferralComponentIds": "all component ids in route.json order"
       },
-      "appliedSha256": "45384b04b9013cbc94f54858d3e5ea3b87f0d47fc339cc0d1b729b0b34d7bd9e",
+      "appliedSha256": "cdbf926308ef34b66768077aedce4f84b37358c4c32f0f29766a640bfd68dc00",
       "priorAppliedSha256": [
-        "e8307638c10eaa245a83b8f601824b6862d7a7a2e4a77ea6d2dc273c9af9a5a5"
+        "e8307638c10eaa245a83b8f601824b6862d7a7a2e4a77ea6d2dc273c9af9a5a5",
+        "45384b04b9013cbc94f54858d3e5ea3b87f0d47fc339cc0d1b729b0b34d7bd9e"
       ]
     },
     {
@@ -124,7 +125,10 @@
         "packetPlan": null,
         "persistence": "The exact selectedTrackId and evaluation identity are stored for save-result to re-resolve rather than trusting its client body."
       },
-      "appliedSha256": "d5a092914db54f5db96b95a570371d920405a14efc8470eef36086acb42d58a7"
+      "appliedSha256": "185b4822fda0cd0a2648e413be9b347d2222d647dc9007cda03564771cdf47a0",
+      "priorAppliedSha256": [
+        "d5a092914db54f5db96b95a570371d920405a14efc8470eef36086acb42d58a7"
+      ]
     },
     {
       "id": "c-deferral-engine-clamp",
@@ -242,9 +246,10 @@
         "paymentStatus": "not_applicable",
         "amountCents": null
       },
-      "appliedSha256": "be76ec2b334873684abbdd801178079ba7545f9c5951f16580caf8194f9f3a0f",
+      "appliedSha256": "0be07b850ab26b5e3f3488a4f55cc58ea9feb599f23083a4b47c6b2d98bf9284",
       "priorAppliedSha256": [
-        "aced1f2841956c7c1645424c2efbc216b11d1ac0f6642b029a69cc4f5fdd8908"
+        "aced1f2841956c7c1645424c2efbc216b11d1ac0f6642b029a69cc4f5fdd8908",
+        "be76ec2b334873684abbdd801178079ba7545f9c5951f16580caf8194f9f3a0f"
       ]
     },
     {
@@ -264,7 +269,10 @@
       "output": {
         "Briefcase item": "server-authored component_deferral guidance item"
       },
-      "appliedSha256": "d0258eaeddcc747e09770f46b7feca4c68739261077d75bfb5a12d85f8680f9f"
+      "appliedSha256": "f34a71113f742ceec868963128e88f794027a8eff3c1eca6739a8ebdac65defb",
+      "priorAppliedSha256": [
+        "d0258eaeddcc747e09770f46b7feca4c68739261077d75bfb5a12d85f8680f9f"
+      ]
     },
     {
       "id": "c-deferral-route-priority",
@@ -314,9 +322,10 @@
         "enabled": false,
         "exception": "ConsumerCheckoutNotAllowedError for any direct checkout call"
       },
-      "appliedSha256": "c293b29a2067143316a083b4270e0966ba43252cec11bd68dd6dd19613503b5a",
+      "appliedSha256": "6c1f44750cce7d52f9c5f2a6799bf61d947838de8dee0eddfc4cecf473b9ad5d",
       "priorAppliedSha256": [
-        "8450a4a0db6decee1158992828aa48e1e98005786523c45a93e4438e94c6cb4f"
+        "8450a4a0db6decee1158992828aa48e1e98005786523c45a93e4438e94c6cb4f",
+        "c293b29a2067143316a083b4270e0966ba43252cec11bd68dd6dd19613503b5a"
       ]
     },
     {
@@ -335,9 +344,10 @@
         "status": 403,
         "body": "non-purchasable result without checkout fields"
       },
-      "appliedSha256": "deeb970ad65c17c65162172c01aebc5ec6252d91751c7ce82d254b981eedcf9f",
+      "appliedSha256": "69a1b9c7b56d524a48b95e854752d04ea2401b427f7c6df05cbf6a32cfac2fe5",
       "priorAppliedSha256": [
-        "4d3bcc5d15d1595f2f1d2524c3e1bd322138bfebaaed1804821133bc4057f15f"
+        "4d3bcc5d15d1595f2f1d2524c3e1bd322138bfebaaed1804821133bc4057f15f",
+        "deeb970ad65c17c65162172c01aebc5ec6252d91751c7ce82d254b981eedcf9f"
       ]
     },
     {
@@ -376,7 +386,10 @@
         "status": "route_not_renderable",
         "sideEffects": "none"
       },
-      "appliedSha256": "a632170ddf24573ec16027675215599d0ece8d7f9178b9970424e0b2e41a5149"
+      "appliedSha256": "9e1148702abf79c7fd91af1876e94ba0de7ace9e0353fbf116f0e8565cb7d37f",
+      "priorAppliedSha256": [
+        "a632170ddf24573ec16027675215599d0ece8d7f9178b9970424e0b2e41a5149"
+      ]
     }
   ],
   "acceptanceTests": [
@@ -499,6 +512,19 @@
         "movedTargets": [
           "src/lib/rcap/documents/guidance-packet-registry.ts",
           "src/lib/rcap/documents/packet-route-resolver.ts"
+        ]
+      },
+      {
+        "window": "2026-08-16-expungement-free-briefcase-phase55",
+        "reason": "The approved free-Briefcase, editable packet-information review, and matter-bound final-review payment sequence replaced the browser-authored result writer with server-authoritative pending-result evaluation and persistence. The seven shared target files moved across accepted Expungement.ai commits while their C component-deferral clamps remained green under the dedicated runtime verifier and mutation suite.",
+        "movedTargets": [
+          "src/lib/rcap-engine/contracts.ts",
+          "src/app/api/expungement-ai/evaluate/route.ts",
+          "src/lib/expungement-ai/briefcase.ts",
+          "src/app/api/expungement-ai/screening/save-result/route.ts",
+          "src/lib/expungement-ai/payment-adapter.ts",
+          "src/app/api/expungement-ai/checkout/route.ts",
+          "src/lib/expungement-ai/consumer-render-request.ts"
         ]
       }
     ]

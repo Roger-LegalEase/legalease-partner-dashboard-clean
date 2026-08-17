@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * P1-P18 — the application-to-job boundary, through the real HTTP surfaces.
+ * P1-P19 — the application-to-job boundary, through the real HTTP surfaces.
  *
  * This is the check the repository did not have. Payment coverage stopped at
  * either the module boundary (calling `reconcile*` directly) or at grepping the
@@ -11,7 +11,7 @@
  *
  * So: real route handlers invoked with real `Request` objects, real Stripe
  * signatures produced by the Stripe SDK's own test header generator, and a real
- * Postgres cluster carrying migrations 26 → 53. The only doubles are the
+ * Postgres cluster carrying migrations 26 → 55. The only doubles are the
  * Supabase client and the session reader.
  *
  *   node scripts/verify-expungement-consumer-payment-http.mjs
@@ -64,7 +64,8 @@ const SEQUENCE = [
   "supabase/phase-51-rcap-consumer-payment-gate.sql",
   "supabase/phase-52-rcap-consumer-payment-authority.sql",
   "supabase/phase-53-rcap-consumer-job-binding.sql",
-  "supabase/phase-54-rcap-person-namespace-hardening.sql"
+  "supabase/phase-54-rcap-person-namespace-hardening.sql",
+  "supabase/phase-55-expungement-matter-payment-binding.sql"
 ];
 
 const USER_A = fixtureUuid("user-a");
@@ -84,6 +85,12 @@ function boot() {
   db.sql(`create role anon nologin`);
   db.sql(`create role authenticated nologin`);
   db.sql(`create role service_role nologin bypassrls`);
+  // Supabase's initial schema grants these API roles USAGE on the extensions
+  // schema before application migrations run. Reproduce that platform
+  // baseline so Phase 55's schema-qualified pgcrypto calls execute with the
+  // same privileges as the acceptance project.
+  db.sql(`create schema extensions`);
+  db.sql(`grant usage on schema extensions to anon, authenticated, service_role`);
   db.sql(`alter default privileges in schema public grant all on tables to anon, authenticated, service_role`);
   db.sql(`alter default privileges in schema public grant execute on functions to service_role`);
   db.sql(`create schema auth`);
@@ -98,7 +105,26 @@ function boot() {
   db.sql(`create table public.partner_records (id uuid primary key default gen_random_uuid(), partner_slug text unique not null)`);
   db.sql(`create table public.rcap_persons (id uuid primary key default gen_random_uuid(), partner_slug text not null, match_key text not null, created_at timestamptz not null default now())`);
   db.sql(`create unique index rcap_persons_partner_match_key_idx on public.rcap_persons(partner_slug, match_key)`);
-  db.sql(`create table public.rcap_document_packets (id uuid primary key default gen_random_uuid(), partner_slug text not null, user_id uuid, briefcase_id uuid, state text not null default 'MS', jurisdiction text, pathway text not null, status text not null default 'draft_started')`);
+  db.sql(`create table public.rcap_document_packets (
+    id uuid primary key default gen_random_uuid(), partner_slug text not null,
+    user_id uuid, briefcase_id uuid, person_id uuid, state text not null default 'MS',
+    jurisdiction text, document_type text, pathway text not null,
+    status text not null default 'draft_started', petitioner_first_name text,
+    petitioner_last_name text, petitioner_city text, petitioner_county text,
+    court_county text, court_name text, cause_number text, charge text,
+    offense_date text, arrest_date text, arresting_agency text,
+    agency_case_number text, disposition_date text, conviction_date text,
+    sentence_completion_date text, needs_record_review boolean not null default true,
+    generated_plain_text text, filing_instructions text[] not null default '{}',
+    county_court_instructions text[] not null default '{}',
+    missing_fields text[] not null default '{}', safety_disclaimer text
+  )`);
+  db.sql(`create table public.rcap_document_packet_inputs (
+    id uuid primary key default gen_random_uuid(),
+    document_packet_id uuid not null references public.rcap_document_packets(id) on delete cascade,
+    partner_slug text not null, intake_session_id uuid, input_payload jsonb not null default '{}'::jsonb,
+    unique(document_packet_id)
+  )`);
   db.sql(`create table public.processed_stripe_events (stripe_event_id text primary key, event_type text, related_object_id text, created_at timestamptz not null default now())`);
   db.sql(`create table public.screening_sessions (session_id text primary key, flow_mode text, partner_slug text, partner_benefit_active boolean)`);
   db.sql(`insert into auth.users (id, email) values ('${USER_A}','a@test.local'), ('${USER_B}','b@test.local')`);
@@ -116,6 +142,8 @@ const webhookRoute = await import("../src/app/api/stripe/webhook/route.ts");
 const legacyWebhookRoute = await import("../src/app/api/method/expungement.api.payment.stripe_webhook/route.ts");
 const renderRoute = await import("../src/app/api/expungement-ai/packet/render/route.ts");
 const { consumerMatterIdForItem } = await import("../src/lib/expungement-ai/consumer-identity.ts");
+const { getBriefcaseItemForWebhook } = await import("../src/lib/expungement-ai/briefcase.ts");
+const { reviewedPacketInputHash } = await import("../src/lib/expungement-ai/packet-information.ts");
 
 // --- fixtures -----------------------------------------------------------------
 
@@ -127,17 +155,83 @@ const MS_PATHWAY = "non-conviction-expungement-for-dismissal-no-disposition-or-a
 
 function createItem(userId, label, { paymentAllowed = true, jurisdiction = "MS" } = {}) {
   const id = fixtureUuid(`item/${label}`);
+  const packetPlan = JSON.stringify({
+    pathwayId: MS_PATHWAY,
+    mode: "state_specific_custom_packet_from_source_rules",
+    formMappingStatus: "custom_or_manual_mapping_required",
+    sourceFormIds: [],
+    requiredInputIds: [],
+    sourceRuleRefs: []
+  }).replaceAll("'", "''");
   db.sql(
-    `insert into public.consumer_briefcase_items (id, user_id, item_type, jurisdiction, status, payment_allowed, pathway_label, result_code, payment_status, amount_cents)
-     values ('${id}','${userId}','packet','${jurisdiction}','packet_ready',${paymentAllowed},'${MS_PATHWAY}','packet_ready','unpaid',5000)`
+    `insert into public.consumer_briefcase_items
+      (id, user_id, item_type, jurisdiction, status, payment_allowed,
+       pathway_label, result_code, packet_type, payment_status, amount_cents,
+       summary_json, next_steps_json, artifact_refs_json)
+     values (
+       '${id}','${userId}','packet','${jurisdiction}','packet_ready',${paymentAllowed},
+       '${MS_PATHWAY}','packet_ready','custom_pleading','unpaid',5000,
+       '{"text":"Synthetic reviewed packet matter."}'::jsonb,
+       '["Confirm current local filing requirements."]'::jsonb,
+       jsonb_build_object('commercialFlow', jsonb_build_object(
+         'version', 1,
+         'entitlementSource', 'consumer_payment',
+         'productId', 'expungement_packet',
+         'screening', jsonb_build_object(
+           'profileVersion', '1.3.0',
+           'pathwayId', '${MS_PATHWAY}',
+           'pathwayLabel', '${MS_PATHWAY}',
+           'resultCode', 'packet_ready',
+           'paymentAllowed', true,
+           'packetType', 'custom_pleading',
+           'packetPlan', '${packetPlan}'::jsonb,
+           'answers', '{}'::jsonb
+         ),
+         'packetInformation', jsonb_build_object(
+           'stage', 'ready_to_generate',
+           'requiredInputIds', '[]'::jsonb,
+           'serverFacts', jsonb_build_object('jurisdiction', '${jurisdiction}', 'pathway_id', '${MS_PATHWAY}'),
+           'prefilledAnswers', '{}'::jsonb,
+           'answers', '{}'::jsonb,
+           'missingInputIds', '[]'::jsonb,
+           'updatedAt', '2026-08-15T00:00:00.000Z',
+           'reviewedAt', '2026-08-15T00:00:00.000Z'
+         )
+       ))
+     )`
   );
   return id;
 }
 
-function checkoutSession({ itemId, userId, sessionId, amount = 5000, currency = "usd" }) {
+async function checkoutSession({ itemId, userId, sessionId, amount = 5000, currency = "usd" }) {
+  const canonicalOwner = db.scalar(
+    `select user_id from public.consumer_briefcase_items where id='${itemId}'`
+  ).trim();
+  const item = await getBriefcaseItemForWebhook(canonicalOwner, itemId);
+  const reviewedInputHash = item ? reviewedPacketInputHash(item) : null;
+  if (!reviewedInputHash) throw new Error(`fixture ${itemId} has no reviewed packet-input hash`);
+  const matchKey = `consumer:${createHash("sha256")
+    .update(`rcap:consumer-person:v1:${canonicalOwner}`)
+    .digest("hex")}`;
+  const personId = pickUuid(db.sql(
+    `insert into public.rcap_persons (partner_slug, match_key)
+     values ('expungement-ai-consumer','${matchKey}')
+     on conflict (partner_slug, match_key) do update set match_key=excluded.match_key
+     returning id`
+  ));
+  const matterId = consumerMatterIdForItem(itemId);
+  db.sql(
+    `update public.consumer_briefcase_items
+        set payment_provider='stripe', checkout_session_id='${sessionId}',
+            payment_product_id='expungement_packet', payment_person_id='${personId}',
+            payment_matter_id='${matterId}'
+      where id='${itemId}'`
+  );
+
   return {
     id: sessionId,
     object: "checkout.session",
+    mode: "payment",
     client_reference_id: itemId,
     payment_status: "paid",
     amount_total: amount,
@@ -146,7 +240,11 @@ function checkoutSession({ itemId, userId, sessionId, amount = 5000, currency = 
     metadata: {
       channel: "expungement_ai_consumer",
       user_id: userId,
-      briefcase_item_id: itemId
+      briefcase_item_id: itemId,
+      product_id: "expungement_packet",
+      person_id: personId,
+      matter_id: matterId,
+      reviewed_input_hash: reviewedInputHash
     }
   };
 }
@@ -230,12 +328,17 @@ function driveToFinalize(expectedJobId) {
 // =============================================================================
 console.log("PROVIDER EVENTS — through the real webhook route");
 
+// This is an isolated test runtime, never a deployment or public flip. The
+// signed webhook must be able to exercise its durable queue boundary.
+process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
+
 {
   // P1 — a valid signed event records exactly one $50 USD payment.
   const item = createItem(USER_A, "p1");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p1" });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p1" });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p1", session)));
   const row = paymentRow(item);
+  const firstJob = jobsFor(item)[0];
   check(
     "P1",
     "a valid signed provider event records one $50 USD payment",
@@ -244,9 +347,15 @@ console.log("PROVIDER EVENTS — through the real webhook route");
       row?.amount_cents === 5000 &&
       row?.currency === "usd" &&
       row?.provider_event_id === "evt_p1" &&
-      row?.payment_authority === "server_webhook",
-    `${res.status} ${JSON.stringify(row)}`
+      row?.payment_authority === "server_webhook" &&
+      Boolean(firstJob?.id),
+    `${res.status} ${JSON.stringify(row)} jobs=${JSON.stringify(jobsFor(item))}`
   );
+
+  const firstFinalize = driveToFinalize(firstJob?.id);
+  if (firstFinalize?.accounting_result !== "zero_charge") {
+    throw new Error(`the signed-event durable job should finalize zero_charge, got ${JSON.stringify(firstFinalize)}`);
+  }
 
   // P4 — a replay records no second entitlement.
   const before = db.scalar(`select count(*) from public.consumer_packet_payment_consumption`);
@@ -264,7 +373,7 @@ console.log("PROVIDER EVENTS — through the real webhook route");
 {
   // P2 — an invalid signature records nothing.
   const item = createItem(USER_A, "p2");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p2" });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p2" });
   const bad = stripe.webhooks.generateTestHeaderString({
     payload: JSON.stringify(stripeEvent("evt_p2", session)),
     secret: "whsec_a_different_secret_entirely"
@@ -282,7 +391,7 @@ console.log("PROVIDER EVENTS — through the real webhook route");
 {
   // P3 — a missing signature records nothing.
   const item = createItem(USER_A, "p3");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p3" });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p3" });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p3", session), { omitSignature: true }));
   const row = paymentRow(item);
   check(
@@ -296,7 +405,7 @@ console.log("PROVIDER EVENTS — through the real webhook route");
 {
   // P5 — the wrong amount records nothing, even correctly signed.
   const item = createItem(USER_A, "p5");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p5", amount: 500 });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p5", amount: 500 });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p5", session)));
   const row = paymentRow(item);
   // A refused event must also not consume its idempotency key. If it did, a
@@ -314,7 +423,7 @@ console.log("PROVIDER EVENTS — through the real webhook route");
 {
   // P6 — the wrong currency records nothing.
   const item = createItem(USER_A, "p6");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p6", currency: "eur" });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p6", currency: "eur" });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p6", session)));
   const row = paymentRow(item);
   const claimed = db.scalar(`select count(*) from public.processed_stripe_events where stripe_event_id='evt_p6'`);
@@ -327,10 +436,40 @@ console.log("PROVIDER EVENTS — through the real webhook route");
 }
 
 {
+  // P19 — the Checkout metadata freezes the reviewed answers. A participant
+  // edit after Session creation cannot be paid against the earlier review.
+  const item = createItem(USER_A, "p19");
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p19" });
+  db.sql(
+    `update public.consumer_briefcase_items
+        set artifact_refs_json = jsonb_set(
+          artifact_refs_json,
+          '{commercialFlow,packetInformation,answers,pending_cases}',
+          '"Yes"'::jsonb,
+          true
+        )
+      where id='${item}'`
+  );
+  const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p19", session)));
+  const row = paymentRow(item);
+  const claimed = db.scalar(`select count(*) from public.processed_stripe_events where stripe_event_id='evt_p19'`);
+  check(
+    "P19",
+    "answers changed after Checkout creation cannot receive payment authority",
+    res.status === 500
+      && row?.payment_status === "unpaid"
+      && row?.provider_event_id === null
+      && jobsFor(item).length === 0
+      && claimed === "0",
+    `${res.status} ${JSON.stringify(row)} jobs=${jobsFor(item).length} claimed=${claimed}`
+  );
+}
+
+{
   // P7 — a session naming another user's item records nothing.
   const itemA = createItem(USER_A, "p7-a");
   const itemB = createItem(USER_B, "p7-b");
-  const crossed = checkoutSession({ itemId: itemB, userId: USER_A, sessionId: "cs_p7" });
+  const crossed = await checkoutSession({ itemId: itemB, userId: USER_A, sessionId: "cs_p7" });
   const res = await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p7", crossed)));
   const rowA = paymentRow(itemA);
   const rowB = paymentRow(itemB);
@@ -346,7 +485,10 @@ console.log("PROVIDER EVENTS — through the real webhook route");
   // P8 — the participant cannot call the server-only payment writer.
   const item = createItem(USER_A, "p8");
   const denied = db.sqlExpectError(
-    `set role authenticated; select outcome from public.record_consumer_packet_payment('${item}','paid',5000,'usd','stripe','evt_p8','cs','pi','r','server_webhook','forged')`
+    `set role authenticated; select outcome from public.record_consumer_packet_payment(
+      '${item}','paid',5000,'usd','stripe','evt_p8','cs','pi','r',
+      'server_webhook','forged','expungement_packet',
+      '${fixtureUuid("p8-person")}','${consumerMatterIdForItem(item)}')`
   );
   db.sql(`reset role`);
   check(
@@ -360,7 +502,7 @@ console.log("PROVIDER EVENTS — through the real webhook route");
 {
   // P18 — the legacy endpoint is the same handler, so it cannot skip the check.
   const item = createItem(USER_A, "p18");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p18" });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p18" });
   const unsigned = new Request("http://localhost/api/method/expungement.api.payment.stripe_webhook", {
     method: "POST",
     headers: new Headers({ "content-type": "application/json" }),
@@ -453,7 +595,7 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
   // P9 / P12 — a paid item creates exactly one Phase 53-bound job, and a repeat
   // request returns the same job rather than a second one.
   const item = createItem(USER_A, "p9");
-  const session = checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p9" });
+  const session = await checkoutSession({ itemId: item, userId: USER_A, sessionId: "cs_p9" });
   await webhookRoute.POST(signedWebhookRequest(stripeEvent("evt_p9", session)));
 
   setSession({ isAuthenticated: true, userId: USER_A });
@@ -505,8 +647,8 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
   // directly to prove the gate holds anyway, which is the part that would matter
   // if a future caller stopped deriving it.
   //
-  // The route's own job is finalized first — the conflict only exists once a
-  // consumption row does.
+  // The route's own job is finalized first. Phase 55 now rejects a different
+  // matter before it can even enter the durable queue.
   setSession({ isAuthenticated: true, userId: USER_A });
   const firstFinalize = driveToFinalize(firstBody.jobId);
   if (firstFinalize?.accounting_result !== "zero_charge") {
@@ -517,21 +659,18 @@ process.env.RCAP_CONSUMER_DELIVERY_ROUTE_STATE = "live";
   const packet = pickUuid(db.sql(
     `insert into public.rcap_document_packets (partner_slug, pathway, state) values ('expungement-ai-consumer','${MS_PATHWAY}','MS') returning id`
   ));
-  const person = pickUuid(db.sql(
-    `select id from public.rcap_persons where partner_slug='expungement-ai-consumer' limit 1`
-  ));
+  const person = afterFirst[0].person_id;
   const hash = createHash("sha256").update("p13").digest("hex");
-  const otherJob = pickUuid(db
-    .sql(
-      `select id from public.enqueue_packet_render_job('${packet}','MS:${MS_PATHWAY}','packet_document_v1','1.0.0',null,'MS','1.3.0','${hash}',null,null,'${person}','${otherMatter}',5,'${item}','${USER_A}')`
-    ));
-  const finalize = driveToFinalize(otherJob);
+  const refused = db.sqlExpectError(
+    `select id from public.enqueue_packet_render_job('${packet}','MS:${MS_PATHWAY}',
+      'packet_document_v1','1.0.0',null,'MS','1.3.0','${hash}',null,null,
+      '${person}','${otherMatter}',5,'${item}','${USER_A}')`
+  );
   check(
     "P13",
-    "the same paid item on another matter is blocked",
-    finalize?.accounting_result === "consumer_payment_matter_conflict" &&
-      finalize?.delivery_eligibility === "accounting_blocked",
-    JSON.stringify(finalize)
+    "the same paid item cannot enqueue another matter",
+    /payment binding refused \(matter_mismatch\)/.test(refused),
+    refused.split("\n")[0]
   );
 }
 

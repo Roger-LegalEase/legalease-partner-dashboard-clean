@@ -25,7 +25,7 @@ function resolveAliasPath(base) {
 }
 
 export async function resolve(specifier, context, next) {
-  if ((specifier === "next/headers" || specifier === "next/navigation" || specifier === "next/server") && existsSync(path.join(root, "node_modules", `${specifier}.js`))) {
+  if ((specifier === "next/headers" || specifier === "next/image" || specifier === "next/link" || specifier === "next/navigation" || specifier === "next/server") && existsSync(path.join(root, "node_modules", `${specifier}.js`))) {
     return { url: pathToFileURL(path.join(root, "node_modules", `${specifier}.js`)).href, shortCircuit: true };
   }
   if (specifier.startsWith("@/")) {

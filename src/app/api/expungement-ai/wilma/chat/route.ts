@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (isWilmaKillSwitchActive()) {
-    return NextResponse.json(wilmaKillSwitchResponse());
+    return NextResponse.json(wilmaKillSwitchResponse(locale));
   }
 
   const briefcaseItem = body?.briefcaseItemId ? await getBriefcaseItem(auth.userId, body.briefcaseItemId) : null;
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
   const history = normalizeWilmaHistory(body?.history);
   const reply = await generateWilmaReply({ message, context, history, locale });
   const draftResponse = reply.text;
-  const guardResult = guardWilmaResponse({ userMessage: message, draftResponse, context });
+  const guardResult = guardWilmaResponse({ userMessage: message, draftResponse, context, locale });
   const telemetry = createWilmaTelemetryRecord({
     sessionId: auth.userId,
     state: context.state,

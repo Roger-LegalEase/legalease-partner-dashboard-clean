@@ -1,6 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 
+// Release guard for the approved direct-to-consumer commercial sequence:
+// free screening -> server-authoritative result -> free Briefcase -> packet
+// information and accuracy review -> one matter-bound $50 Checkout -> packet.
+
 const root = process.cwd();
 const failures = [];
 
@@ -9,84 +13,141 @@ const assert = (condition, message) => {
   if (!condition) failures.push(message);
 };
 
-const startPage = read("src/app/expungement-ai/start/page.tsx");
-const checkPage = read("src/app/expungement-ai/check/page.tsx");
-const statePicker = read("src/components/expungement-ai/screening/StatePicker.tsx");
-const screeningRoute = read("src/app/expungement-ai/screening/[state]/page.tsx");
-const screeningFlow = read("src/components/expungement-ai/screening/ScreeningFlow.tsx");
-const screeningResult = read("src/components/expungement-ai/screening/ScreeningResult.tsx");
-const signInForm = read("src/components/expungement-ai/ConsumerSignInForm.tsx");
-const payPage = read("src/app/expungement-ai/pay/page.tsx");
-const checkoutButton = read("src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx");
-const checkoutRoute = read("src/app/api/expungement-ai/checkout/route.ts");
-const packetReadyPage = read("src/app/expungement-ai/packet-ready/page.tsx");
-const packetGenerateRoute = read("src/app/api/expungement-ai/packet/generate/route.ts");
-const packetGeneration = read("src/lib/expungement-ai/packet-generation.ts");
-const briefcase = read("src/lib/expungement-ai/briefcase.ts");
-const briefcaseDetail = read("src/app/briefcase/[packetId]/page.tsx");
-const briefcaseViews = read("src/components/expungement-ai/BriefcaseViews.tsx");
-const savePolicy = read("src/lib/expungement-ai/save-result-policy.ts");
-const pendingCreate = read("src/app/api/expungement-ai/screening/pending/route.ts");
-const pendingClaim = read("src/app/api/expungement-ai/screening/pending/claim/route.ts");
+const sources = {
+  startPage: read("src/app/expungement-ai/start/page.tsx"),
+  checkPage: read("src/app/expungement-ai/check/page.tsx"),
+  statePicker: read("src/components/expungement-ai/screening/StatePicker.tsx"),
+  screeningRoute: read("src/app/expungement-ai/screening/[state]/page.tsx"),
+  screeningFlow: read("src/components/expungement-ai/screening/ScreeningFlow.tsx"),
+  screeningResult: read("src/components/expungement-ai/screening/ScreeningResult.tsx"),
+  signInForm: read("src/components/expungement-ai/ConsumerSignInForm.tsx"),
+  payPage: read("src/app/expungement-ai/pay/page.tsx"),
+  reviewPage: read("src/app/briefcase/[packetId]/review/page.tsx"),
+  checkoutButton: read("src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx"),
+  checkoutRoute: read("src/app/api/expungement-ai/checkout/route.ts"),
+  packetReadyPage: read("src/app/expungement-ai/packet-ready/page.tsx"),
+  packetGenerateRoute: read("src/app/api/expungement-ai/packet/generate/route.ts"),
+  packetGeneration: read("src/lib/expungement-ai/packet-generation.ts"),
+  briefcase: read("src/lib/expungement-ai/briefcase.ts"),
+  briefcaseDetail: read("src/app/briefcase/[packetId]/page.tsx"),
+  briefcaseViews: read("src/components/expungement-ai/BriefcaseViews.tsx"),
+  savePolicy: read("src/lib/expungement-ai/save-result-policy.ts"),
+  pendingCreate: read("src/app/api/expungement-ai/screening/pending/route.ts"),
+  pendingClaim: read("src/app/api/expungement-ai/screening/pending/claim/route.ts")
+};
 
-assert(startPage.includes("/expungement-ai/screening"), "DTC start must route to screening, not account creation.");
-assert(!startPage.includes("/expungement-ai/sign-in"), "DTC start must not account-wall free screening.");
-assert(checkPage.includes("<StatePicker />"), "DTC check page must render the state picker.");
-assert(statePicker.includes('href={`/expungement-ai/screening/${jurisdiction.code}`}'), "DTC state picker must route directly to screening.");
-assert(screeningRoute.includes("initialSessionId") && screeningRoute.includes('initialSessionId={initialSessionId}'), "Screening route must keep optional partner session separate from DTC default.");
+assert(sources.startPage.includes("/expungement-ai/screening"), "DTC start must route to screening, not account creation.");
+assert(!sources.startPage.includes("/expungement-ai/sign-in"), "DTC start must not account-wall free screening.");
+assert(sources.checkPage.includes("<StatePicker />"), "DTC check page must render the state picker.");
+assert(sources.statePicker.includes('href={`/expungement-ai/screening/${jurisdiction.code}`}'), "DTC state picker must route directly to screening.");
+assert(sources.screeningRoute.includes("initialSessionId") && sources.screeningRoute.includes("initialSessionId={initialSessionId}"), "Screening route must keep optional partner session separate from the DTC default.");
 
-assert(screeningFlow.includes('const isPartnerSession = Boolean(effectiveInitialSessionId);'), "DTC must default to non-partner when no validated session is present.");
-assert(!screeningFlow.includes('type Phase = "questions" | "review"'), "DTC screening flow must not have a new review/account phase in the shared component.");
-assert(screeningFlow.includes('if (!isPartnerSession)'), "DTC packet action must remain explicitly separated from partner session mode.");
-assert(screeningFlow.includes('next: "/expungement-ai/pay"'), "Anonymous DTC possible-path result must preserve payment as next destination.");
-assert(screeningFlow.includes('router.push(`/expungement-ai/sign-in?${params.toString()}`)'), "DTC account creation must happen only after a possible-path result and pending save.");
-assert(screeningFlow.includes('router.push(`/expungement-ai/pay?briefcaseItemId=${encodeURIComponent(result.itemId)}`)'), "Authenticated DTC possible-path result must go to payment.");
-assert(!dtcBranch(screeningFlow).includes("router.push(BRIEFCASE_PATH)"), "DTC branch must not route directly to Briefcase.");
-assert(!dtcBranch(screeningFlow).includes("/expungement-ai/packet-ready"), "DTC branch must not route directly to packet-ready.");
+for (const message of approvedCommercialFlowViolations(sources)) failures.push(message);
 
-assert(screeningResult.includes("showPacketAction = isPaymentAllowed(evaluation);"), "DTC result CTA must stay clamped to paymentAllowed and packet-ready result codes.");
-assert(screeningResult.includes(") : showPacketAction ? (") && screeningResult.includes('translate("payment.generate_packet", "Generate my packet - $50")'), "DTC result CTA must remain Generate my packet - $50 (behind the non-partner showPacketAction branch).");
-assert(!screeningResult.includes("Your Briefcase will still save your screening and next steps."), "Partner-only saved-screening lane copy must not be in shared DTC result UI.");
+// Negative controls: prove the guard rejects the regressions it is intended to
+// catch instead of merely matching whichever source happens to be present.
+const prematurePaymentSource = {
+  ...sources,
+  screeningFlow: packetAction(sources.screeningFlow).replaceAll("/briefcase", "/expungement-ai/pay")
+};
+assert(
+  approvedCommercialFlowViolations(prematurePaymentSource).some((message) => message.includes("free Briefcase before payment")),
+  "Negative control failed: a result action that routes to payment before Briefcase was not detected."
+);
 
-assert(!signInForm.includes("partner_slug"), "Consumer sign-in form must not include partner attribution fields.");
-assert(!signInForm.includes("programUpdatesConsent"), "Consumer sign-in form must not include partner support consent.");
-assert(signInForm.includes("Create an account to save your result, continue to checkout"), "DTC account creation copy must remain payment-oriented after result.");
-assert(signInForm.includes("expungementAuthRedirectTo(nextPath, pendingId)"), "DTC email verification must preserve next/pending redirect.");
+const missingReviewCheckout = {
+  ...sources,
+  reviewPage: sources.reviewPage.replace("<ConsumerCheckoutButton", "<RemovedCheckoutButton")
+};
+assert(
+  approvedCommercialFlowViolations(missingReviewCheckout).some((message) => message.includes("final accuracy review")),
+  "Negative control failed: removing the final-review Checkout action was not detected."
+);
 
-assert(payPage.includes("assertCheckoutAllowed(item);"), "DTC pay page must still require checkout eligibility.");
-assert(checkoutButton.includes("/api/expungement-ai/checkout"), "DTC pay page must invoke checkout API.");
-assert(checkoutButton.includes("window.location.assign(payload.checkoutUrl)"), "DTC checkout must navigate to Stripe checkout URL.");
-assert(checkoutRoute.includes("isPartnerSponsoredPacketItem") && checkoutRoute.includes("Checkout is not used for partner-sponsored RCAP sessions."), "Checkout route must reject partner-sponsored items without weakening DTC checkout.");
-assert(packetReadyPage.includes("getConsumerCheckoutStatus"), "DTC packet-ready must remain post-payment confirmation, not first payment gate.");
-
-assert(packetGenerateRoute.includes("generatePaidConsumerPacket"), "Packet generation API must use the payment-aware packet generator.");
-assert(packetGeneration.includes("paymentRequired: !(await isPartnerSponsoredPacketItem(item))"), "Unknown/DTC packet generation must default to payment required.");
-assert(briefcase.includes('.eq("partner_benefit_active", true)'), "Partner-sponsored packet detection must require partner_benefit_active so invalid-code fallback/DTC sessions keep normal payment.");
-assert(packetGeneration.includes("ConsumerPacketPaymentRequiredError"), "DTC unpaid packet generation must still fail closed.");
-assert(!packetGeneration.includes("recordPartnerPacketUsage"), "Partner cap accounting must not be wired into DTC packet generation until isolated from the consumer path.");
-
-assert(briefcaseDetail.includes("item.paymentAllowed && item.paymentStatus !== \"paid\""), "Unpaid DTC Briefcase matter must show Continue to payment.");
-assert(briefcaseDetail.includes("<PacketGenerateButton briefcaseItemId={item.id} />"), "Paid DTC Briefcase matter must still show packet generation UI.");
-assert(!briefcaseDetail.includes("Your screening is saved. Open this matter any time"), "Partner-only saved-screening UI must not alter DTC Briefcase detail.");
-assert(briefcaseViews.includes("Continue to payment"), "Briefcase overview must keep unpaid DTC payment CTA.");
-assert(briefcaseViews.includes("Finish my packet information"), "Briefcase overview must keep paid packet-builder CTA.");
-
-assert(savePolicy.includes("isPartnerSession ? false : evaluationPaymentAllowed"), "Only validated partner context may suppress payment on saved results.");
-assert(pendingCreate.includes('product: body.product === "rcap_partner" ? "rcap_partner" : "expungement_ai_dtc"'), "Pending results must default to DTC product.");
-assert(pendingClaim.includes('data.product === "rcap_partner" || !item.paymentAllowed') && pendingClaim.includes('/expungement-ai/pay?briefcaseItemId='), "DTC pending claim must route paid results to payment, not Briefcase.");
+const crossMatterClaimRedirect = {
+  ...sources,
+  pendingClaim: sources.pendingClaim.replace(
+    "redirectTo: `/briefcase/${encodeURIComponent(item.id)}`",
+    'redirectTo: "/briefcase"'
+  )
+};
+assert(
+  approvedCommercialFlowViolations(crossMatterClaimRedirect).some((message) => message.includes("exact saved matter")),
+  "Negative control failed: replacing the exact-matter claim redirect was not detected."
+);
 
 if (failures.length) {
-  console.error("Expungement.ai DTC frozen-flow verifier failed:");
+  console.error("Expungement.ai DTC approved-flow verifier failed:");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log("Expungement.ai DTC frozen-flow verifier passed.");
-console.log("DTC remains screening-first, account-after-result, Stripe-required, and paid-Briefcase packet-generation UI is unchanged.");
+console.log("Expungement.ai DTC approved-flow verifier passed.");
+console.log("DTC remains screening-first, saves every authoritative result to the free Briefcase, and creates matter-bound Checkout only after packet information and final review.");
+console.log("Negative controls detected premature payment, loss of the final-review Checkout action, and loss of exact-matter routing.");
 
-function dtcBranch(source) {
-  const start = source.indexOf("if (!isPartnerSession)");
-  const end = source.indexOf("// Partner mode saves only the result.");
-  if (start < 0 || end < 0 || end <= start) return "";
-  return source.slice(start, end);
+function approvedCommercialFlowViolations(input) {
+  const issues = [];
+  const require = (condition, message) => {
+    if (!condition) issues.push(message);
+  };
+  const handoff = packetAction(input.screeningFlow);
+
+  require(input.screeningFlow.includes("const isPartnerSession = Boolean(effectiveInitialSessionId);"), "DTC must default to non-partner when no server-validated session is present.");
+  require(!input.screeningFlow.includes('type Phase = "questions" | "review"'), "The shared screening flow must not add a payment or account phase.");
+  require(handoff.includes("/api/expungement-ai/screening/pending"), "Every completed result must create a server-side pending result before the auth handoff.");
+  require(handoff.includes("/api/expungement-ai/screening/pending/claim"), "An authenticated result handoff must claim the server-side pending result.");
+  require(handoff.includes('product: isPartnerSession ? "rcap_partner" : "expungement_ai_dtc"'), "Pending results must preserve explicit DTC versus RCAP attribution.");
+  require(handoff.includes("sourceSessionId: isPartnerSession ? effectiveInitialSessionId : undefined"), "DTC saves must not carry partner session authority.");
+  require(handoff.includes('body: JSON.stringify({ pendingId: pending.pendingId, next: "/briefcase" })'), "Completed results must enter the free Briefcase before payment.");
+  require(handoff.includes('new URLSearchParams({ mode: "create", next: "/briefcase" })'), "Anonymous results must return to the free Briefcase after authentication.");
+  require(!handoff.includes("/expungement-ai/pay") && !handoff.includes("checkout"), "The result action must reach the free Briefcase before payment or Checkout.");
+  require(!handoff.includes("/expungement-ai/packet-ready"), "The result action must not bypass review and payment to packet-ready.");
+
+  require(input.screeningResult.includes('fallback: "Save this matter and continue"'), "DTC packet results must use the approved save-before-payment action.");
+  require(input.screeningResult.includes('fallback: "Save this guidance"'), "Non-packet guidance results must remain saveable without payment.");
+  require(input.screeningResult.includes("DTC_RESULT_ACTIONS[evaluation.resultCode]"), "Every authoritative DTC result must select its approved save action by result code.");
+  require(input.screeningResult.includes("$50 one time when you are ready to generate this packet"), "Packet-ready results must retain the one-matter price disclosure.");
+  require(input.screeningResult.includes("Save the matter to your free Briefcase, complete the packet information, and review it before payment."), "Packet-ready results must explain the free-Briefcase and review sequence.");
+
+  require(!input.signInForm.includes("partner_slug") && !input.signInForm.includes("programUpdatesConsent"), "Consumer sign-in must not collect or infer partner attribution.");
+  require(input.signInForm.includes("save this result in your free Briefcase, complete packet information, and return later"), "DTC account creation must describe the free Briefcase handoff.");
+  require(input.signInForm.includes("expungementAuthRedirectTo(requestContext.nextPath, requestContext.pendingId)"), "DTC email verification must preserve the pending exact-result handoff.");
+  require(input.signInForm.includes("isExactBriefcaseMatterPath"), "A claimed pending result must accept only an exact Briefcase matter redirect.");
+
+  require(input.pendingCreate.includes('product: body.product === "rcap_partner" ? "rcap_partner" : "expungement_ai_dtc"'), "Pending-result storage must default unknown product input to DTC.");
+  require(input.pendingClaim.includes("evaluateAuthoritativeScreeningResult"), "Pending claims must re-evaluate stored screening inputs server-side.");
+  require(input.pendingClaim.includes('data.product === "rcap_partner"') && input.pendingClaim.includes("isRcapPartnerScreeningSession"), "Only a validated RCAP source session may receive sponsored save posture.");
+  require(input.pendingClaim.includes("saveAuthoritativeScreeningResultToBriefcase"), "Pending claims must persist the server-authoritative result.");
+  require(input.pendingClaim.includes("redirectTo: `/briefcase/${encodeURIComponent(item.id)}`"), "Pending claims must route to the exact saved matter.");
+  require(!input.pendingClaim.includes("/expungement-ai/pay?briefcaseItemId="), "Pending claims must not skip the free Briefcase and packet review.");
+
+  require(input.briefcaseDetail.includes("Your Briefcase is free. Complete your packet information and pay only when you&apos;re ready to generate your packet."), "The exact matter must preserve the free-Briefcase boundary.");
+  require(input.briefcaseDetail.includes("Complete packet information") && input.briefcaseDetail.includes("Review for accuracy"), "The exact matter must expose packet information before accuracy review.");
+  require(input.briefcaseViews.includes("Complete packet information") && input.briefcaseViews.includes("Review for accuracy"), "Briefcase overview must preserve the prepayment builder and review actions.");
+  require(input.reviewPage.includes("Check each answer before you pay."), "Final accuracy review must remain before payment.");
+  require(input.reviewPage.includes("<ConsumerCheckoutButton") && input.reviewPage.includes('label="Pay $50 and generate my packet"'), "The final accuracy review must own the matter-bound Checkout action.");
+  require(input.reviewPage.includes('item.paymentStatus === "paid"') && input.reviewPage.includes("sponsored ? ("), "Final review must separate already-paid and partner-sponsored matters from consumer Checkout.");
+
+  require(input.payPage.includes("Compatibility route") && input.payPage.includes("/review"), "Legacy pay URLs must redirect the exact matter to accuracy review.");
+  require(input.checkoutButton.includes("/api/expungement-ai/checkout"), "The final-review Checkout button must invoke the checkout API.");
+  require(input.checkoutButton.includes("window.location.assign(payload.checkoutUrl)"), "Approved Checkout must navigate only to the server-returned Stripe URL.");
+  require(input.checkoutRoute.includes("createConsumerPacketCheckout"), "Checkout must use the server-side consumer payment adapter.");
+  require(input.checkoutRoute.includes("ConsumerCheckoutReviewRequiredError"), "Checkout must fail closed until packet information has been reviewed.");
+  require(input.checkoutRoute.includes("isPartnerSponsoredPacketItem") && input.checkoutRoute.includes("Checkout is not used for partner-sponsored RCAP sessions."), "Checkout must reject partner-sponsored RCAP matters.");
+
+  require(input.packetReadyPage.includes("Compatibility return") && !input.packetReadyPage.includes("recordConsumerPaymentConfirmation"), "Legacy packet-ready return must not write payment or authorize generation.");
+  require(input.packetGenerateRoute.includes("generatePaidConsumerPacket"), "Packet generation must use the payment-aware packet generator.");
+  require(input.packetGeneration.includes("ConsumerPacketPaymentRequiredError"), "Unpaid DTC packet generation must fail closed.");
+  require(input.packetGeneration.includes("paymentRequired: !(await isPartnerSponsoredPacketItem(item))"), "Only server-verified partner sponsorship may bypass consumer payment.");
+  require(input.briefcase.includes('.eq("flow_mode", "rcap")') && input.briefcase.includes('.eq("partner_benefit_active", true)'), "Partner sponsorship detection must require persisted RCAP mode and an active benefit.");
+  require(input.savePolicy.includes("return isPartnerSession ? false : evaluationPaymentAllowed;"), "Only validated partner context may suppress otherwise-allowed consumer payment.");
+
+  return issues;
+}
+
+function packetAction(source) {
+  const start = source.indexOf("async function handlePacketAction()");
+  const end = source.indexOf("function handleContinue()", start);
+  return start >= 0 && end > start ? source.slice(start, end) : source;
 }

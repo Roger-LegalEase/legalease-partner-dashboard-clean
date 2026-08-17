@@ -129,6 +129,7 @@ export const screeningEvaluationSchema = z
     profileVersion: z.string().min(1),
     matterId: z.string().min(1),
     pathwayId: z.string().optional(),
+    pathwayLabel: z.string().min(1).optional(),
     resultCode: z.enum(RESULT_CODES),
     userLabel: z.string().min(1),
     reasons: z.array(evaluationReasonSchema),

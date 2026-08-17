@@ -111,7 +111,7 @@ export const EXPUNGEMENT_BRAND: SurfaceBrand = {
     focus: FOCUS_EXPUNGEMENT
   },
   ctas: {
-    primary: { label: "Start Free Check", href: "/expungement-ai/start", ctaId: "start_free_check" },
+    primary: { label: "Start free", href: "/expungement-ai/start", ctaId: "start_free_check" },
     secondary: {
       label: "Sign In to My Briefcase",
       href: "/expungement-ai/sign-in?mode=signin",

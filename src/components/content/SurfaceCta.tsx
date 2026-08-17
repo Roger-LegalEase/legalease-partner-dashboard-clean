@@ -31,8 +31,8 @@ export function SurfaceCta({
     : "Bring record-clearing access to the people you serve.";
 
   const defaultBody = isExpungement
-    ? "The free check takes about 3 minutes. No card and no account to start. LegalEase is not a law firm and this is not legal advice — it is self-help document preparation, and the court or agency makes the final decision."
-    : "LegalEase partners with courts, nonprofits, employers, and community organizations to make record clearing reachable. Self-help document preparation — LegalEase is not a law firm and does not give legal advice.";
+    ? "The guided check is free. No account or payment is required to begin. If a supported self-help packet is available, review your information before deciding whether to pay $50 to generate it."
+    : "LegalEase partners with courts, nonprofits, employers, and community organizations to make record clearing reachable. LegalEase provides self-help document preparation. It is not a law firm and does not give legal advice.";
 
   const defaultFootnote = isExpungement
     ? "Self-help document preparation. Not a law firm, and not legal advice. A record-clearing path may be available in some situations and not in others; the court or agency makes the final decision."

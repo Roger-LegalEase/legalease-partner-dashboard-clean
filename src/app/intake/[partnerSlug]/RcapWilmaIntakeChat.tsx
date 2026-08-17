@@ -326,7 +326,7 @@ function FinalSummary({ summary, session }: { summary: RcapPathwaySummary; sessi
       <div className="flex items-start gap-3">
         <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-teal" aria-hidden="true" />
         <div>
-          <p className="text-sm font-black uppercase text-teal">Pathway summary</p>
+          <p className="text-sm font-black uppercase text-teal">Your record-clearing option</p>
           <h3 className="mt-2 text-2xl font-black text-navy">A next step is ready for review.</h3>
         </div>
       </div>

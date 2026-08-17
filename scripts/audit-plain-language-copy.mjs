@@ -17,6 +17,8 @@ const MD_OUT = path.join(ROOT, "docs/expungement-ai/PLAIN_LANGUAGE_COPY_AUDIT.md
 
 const { CRITICAL_COPY_CATALOG, routeLabelForState } = await import("../src/lib/expungement-ai/plain-language-copy.ts");
 const { EXPUNGEMENT_COPY } = await import("../src/lib/expungement-ai/localization.ts");
+const { APPROVED_LANDING_COPY_EN, APPROVED_LANDING_COPY_ES } =
+  await import("../src/app/expungement-ai/landing-approved-copy.ts");
 
 const BANNED_PHRASES = [
   "eligibility determination",
@@ -125,16 +127,9 @@ function classifyString({ id, sourcePath, surface, englishText, spanishText }) {
   };
 }
 
-function extractLandingSpanishMap(source) {
-  const match = source.match(/var ES = (\{[\s\S]*?\});\s*var EN =/);
-  if (!match) return {};
-  return JSON.parse(match[1]);
-}
-
 function extractLandingStrings() {
   if (!fs.existsSync(LANDING_PATH)) return [];
   const source = fs.readFileSync(LANDING_PATH, "utf8");
-  const es = extractLandingSpanishMap(source);
   const out = [];
   const pattern = /<(?<tag>[a-z0-9]+)[^>]*(?:data-i18n|data-i18n-html)="(?<key>[^"]+)"[^>]*>(?<body>[\s\S]*?)<\/\k<tag>>/gi;
   for (const match of source.matchAll(pattern)) {
@@ -145,8 +140,8 @@ function extractLandingStrings() {
       id: `landing.${key}`,
       sourcePath: "design-handoff/expungement-ai-frontend/files-20/Expungement-Landing-Full.html",
       surface: "landing",
-      englishText: body,
-      spanishText: es[key] ? normalize(String(es[key]).replace(/<[^>]*>/g, " ")) : ""
+      englishText: normalize(String(APPROVED_LANDING_COPY_EN[key] ?? body).replace(/<[^>]*>/g, " ")),
+      spanishText: normalize(String(APPROVED_LANDING_COPY_ES[key] ?? "").replace(/<[^>]*>/g, " "))
     }));
   }
   return out;
@@ -330,7 +325,7 @@ const report = {
   },
   translationSystemFindings: {
     translationFilesUsed: [
-      "design-handoff/expungement-ai-frontend/files-20/Expungement-Landing-Full.html embedded ES dictionary",
+      "src/app/expungement-ai/landing-approved-copy.ts English and Spanish dictionaries",
       "src/lib/expungement-ai/plain-language-copy.ts critical runtime copy catalog",
       "src/lib/expungement-ai/localization.ts shared runtime resolver catalog",
       "src/lib/expungement-ai/frontend/profiles/all51.json profile prompt/option translations"
@@ -390,7 +385,7 @@ ${topSurfaces}
 
 ## Translation Findings
 
-- Landing page: uses embedded \`data-i18n\` / \`data-i18n-html\` Spanish dictionary and \`localStorage.exp_lang\`.
+- Landing page: uses the approved English and Spanish dictionaries through \`data-i18n\` / \`data-i18n-html\` and \`localStorage.exp_lang\`.
 - Engine-generated copy: critical payment/result/route/external-document/filing-readiness/Briefcase labels have stable English/Spanish catalog IDs.
 - Profile question prompts/options: compiled public profiles include Spanish prompt, helper, option, and option-helper translations.
 - Route metadata: runtime-visible filing-readiness values and external-document checklist items resolve through the shared runtime catalog.

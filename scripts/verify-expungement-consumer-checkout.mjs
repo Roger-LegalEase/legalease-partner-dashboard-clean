@@ -96,9 +96,22 @@ assert(envExampleSource.includes("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="), ".env.e
 assert(checkoutRouteSource.includes("ConsumerCheckoutNotAllowedError"), "Checkout route must reject paymentAllowed false/non-packet results.");
 assert(checkoutRouteSource.includes("ConsumerCheckoutTemporarilyUnavailableError"), "Checkout route must return a safe unavailable error when Stripe is not configured.");
 assert(payPageSource.includes("/api/expungement-ai/checkout") || exists("src/app/expungement-ai/pay/ConsumerCheckoutButton.tsx"), "Pay page must use consumer checkout API.");
-assert(packetReadySource.includes("getConsumerCheckoutStatus"), "Packet-ready page must confirm checkout status.");
-assert(packetReadySource.includes("recordConsumerPaymentConfirmation"), "Packet-ready page must record payment confirmation.");
-assert(packetReadySource.includes("dry-run"), "Packet-ready page must explicitly label dry-run mode.");
+assertPacketReadyCompatibilityReturn(packetReadySource, failures);
+
+// Negative control: a browser-return route that restores a participant-
+// authenticated payment writer must make this verifier fail.
+const packetReadyNegativeControlFailures = [];
+assertPacketReadyCompatibilityReturn(
+  packetReadySource.replace(
+    "redirect(item ?",
+    "recordConsumerPaymentConfirmation(auth.userId, briefcaseItemId);\n  redirect(item ?"
+  ),
+  packetReadyNegativeControlFailures
+);
+assert(
+  packetReadyNegativeControlFailures.some((failure) => failure.includes("payment confirmation")),
+  "Packet-ready negative control must detect a restored browser-return payment writer."
+);
 
 assert(stripeWebhookRoute.includes("STRIPE_WEBHOOK_SECRET"), "Canonical Stripe webhook route must use STRIPE_WEBHOOK_SECRET.");
 assert(stripeWebhookHandler.includes("reconcileExpungementAiCheckoutEvent"), "Stripe webhook handler must dispatch consumer Checkout events.");
@@ -107,7 +120,15 @@ assert(exists(legacyStripeWebhookRoute), "Legacy Expungement.ai Stripe webhook c
 assert(!legacyStripeWebhookSource.includes("@/app/api/stripe/webhook/route"), "Legacy Stripe webhook route must not delegate to the canonical route before verification.");
 assert(legacyStripeWebhookSource.includes("STRIPE_LEGACY_WEBHOOK_SECRET"), "Legacy Stripe webhook route must verify with STRIPE_LEGACY_WEBHOOK_SECRET.");
 assert(legacyStripeWebhookSource.includes('runtime = "nodejs"') && legacyStripeWebhookSource.includes('dynamic = "force-dynamic"'), "Legacy Stripe webhook route must declare static App Router route config locally.");
-for (const metadataKey of ["source_session_id", "jurisdiction", "packet_type", "pathway_label"]) {
+for (const metadataKey of [
+  "source_session_id",
+  "jurisdiction",
+  "packet_type",
+  "pathway_label",
+  "product_id",
+  "person_id",
+  "matter_id"
+]) {
   assert(paymentAdapter.includes(metadataKey), `Checkout metadata must include ${metadataKey}.`);
 }
 for (const eventType of ["checkout.session.completed", "checkout.session.async_payment_succeeded"]) {
@@ -126,7 +147,8 @@ assert(checkoutReconciliation.includes('authority: "server_webhook"'), "Consumer
 assert(!/\.from\("consumer_briefcase_items"\)[\s\S]{0,200}?\.update\(/.test(checkoutReconciliation), "Consumer Checkout webhook must not write payment columns directly.");
 assert(checkoutReconciliation.includes("session.amount_total !== consumerPacketPriceCents"), "Consumer Checkout webhook must verify the charged amount against the signed event.");
 assert(checkoutReconciliation.includes("CONSUMER_PACKET_CURRENCY"), "Consumer Checkout webhook must verify the currency against the signed event.");
-assert(checkoutReconciliation.includes("generatePaidConsumerPacket"), "Consumer Checkout webhook must generate the paid packet.");
+assert(checkoutReconciliation.includes("requestConsumerPacketRenderForWebhook"), "Consumer Checkout webhook must enqueue the durable paid packet render.");
+assert(!checkoutReconciliation.includes("generatePaidConsumerPacket"), "Consumer Checkout webhook must not synchronously generate a legacy artifact.");
 assert(checkoutReconciliation.includes("claimProcessedStripeEvent(event.id") && checkoutReconciliation.includes('return "duplicate"'), "Consumer Checkout webhook must be idempotent for duplicate deliveries.");
 assert(!checkoutReconciliation.includes("console.") && !checkoutReconciliation.includes("logSecurity"), "Consumer Checkout webhook must not log customer data, metadata values, payment IDs, or secrets.");
 
@@ -168,6 +190,30 @@ for (const file of changedFiles()) {
   }
 }
 
+function assertPacketReadyCompatibilityReturn(source, targetFailures) {
+  if (!source.includes("Compatibility return")) {
+    targetFailures.push("Packet-ready route must remain a documented compatibility return.");
+  }
+  if (!source.includes("requireConsumerBriefcaseSession")) {
+    targetFailures.push("Packet-ready compatibility return must require a consumer session.");
+  }
+  if (!source.includes("getBriefcaseItem(auth.userId, briefcaseItemId)")) {
+    targetFailures.push("Packet-ready compatibility return must use an owner-scoped matter lookup.");
+  }
+  if (!source.includes("redirect(")) {
+    targetFailures.push("Packet-ready compatibility return must redirect to Briefcase.");
+  }
+  if (/\bgetConsumerCheckoutStatus\s*\(/.test(source)) {
+    targetFailures.push("Packet-ready compatibility return must not retrieve Stripe state.");
+  }
+  if (/\brecordConsumerPaymentConfirmation\s*\(/.test(source)) {
+    targetFailures.push("Packet-ready compatibility return must not write payment confirmation.");
+  }
+  if (/\bgenerate(?:PaidConsumer|Consumer)?Packet\w*\s*\(/.test(source)) {
+    targetFailures.push("Packet-ready compatibility return must not generate a packet.");
+  }
+}
+
 run("npm", ["run", "expungement:verify-consumer-persistence"]);
 run("npm", ["run", "expungement:verify-consumer-adapter"]);
 
@@ -181,4 +227,5 @@ console.log("Expungement.ai consumer checkout verification passed.");
 console.log("Checkout/status/confirm routes exist and require owned Briefcase items.");
 console.log("Checkout is limited to packet_ready / packet_ready_with_caution at 5000 cents.");
 console.log("Dry-run fallback is explicit, opt-in only, and disabled in production.");
+console.log("Legacy packet-ready returns are owner-scoped redirects and cannot write payment or generate packets.");
 console.log("Consumer Checkout webhooks reconcile paid sessions idempotently while preserving partner invoice flow.");

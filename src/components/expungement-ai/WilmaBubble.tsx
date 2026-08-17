@@ -15,11 +15,11 @@ const WILMA_PUBLIC_CHAT_ENDPOINT = "/api/expungement-ai/wilma/public-chat";
 // prompt) and to the screening tool; the client merely displays the route's `response`.
 // Shown only when the request itself fails (network/transport). The route's own
 // deterministic fallback arrives in `response` and is rendered as-is.
-const WILMA_TRANSPORT_FALLBACK = "I had trouble reaching the assistant just now — give it another try in a moment. The screening tool and your Briefcase are still right here.";
+const WILMA_TRANSPORT_FALLBACK = "I had trouble connecting just now. Try again in a moment. Your free record check and Briefcase are still here.";
 // Shown when the single-use bot-challenge token isn't ready yet (first paint, or regenerating
 // after the previous turn). Surfacing this beats silently sending a spent token the server
 // would reject with a 403 — the user always sees why nothing was sent.
-const WILMA_CHALLENGE_PENDING = "One sec — just finishing a quick security check, then send that again.";
+const WILMA_CHALLENGE_PENDING = "One moment. I’m finishing a quick security check, then you can send that again.";
 
 // Lightweight state list for the anonymous landing picker. Selecting a state feeds verified
 // state content into the public payload so legal-fact questions get real content, not a redirect.

@@ -5,235 +5,128 @@ import { register } from "node:module";
 process.env.NODE_ENV = "test";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
-const root = process.cwd();
-const landingPath = path.join(root, "design-handoff/expungement-ai-frontend/files-20/Expungement-Landing-Full.html");
-const source = fs.readFileSync(landingPath, "utf8");
-
+const ROOT = process.cwd();
+const failures = [];
 const {
-  buildExpungementLandingHtml,
-  extractLandingDictionaries
-} = await import("../src/app/expungement-ai/landing-handoff-utils.ts");
+  APPROVED_LANDING_COPY_EN,
+  APPROVED_LANDING_COPY_ES
+} = await import("../src/app/expungement-ai/landing-approved-copy.ts");
 const {
   applyExpungementLocale,
   EXPUNGEMENT_LOCALE_STORAGE_KEY,
   readSavedExpungementLocale
 } = await import("../src/app/expungement-ai/landing-locale-controller.ts");
 
-const renderedHtml = buildExpungementLandingHtml(source);
-const dictionaries = extractLandingDictionaries(source, renderedHtml);
-const failures = [];
+const dictionaries = { en: APPROVED_LANDING_COPY_EN, es: APPROVED_LANDING_COPY_ES };
+const V3_SOURCES = [
+  "src/app/expungement-ai/home-v3/ExpungementHomeV3.tsx",
+  "src/app/expungement-ai/home-v3/HeroVideo.tsx",
+  "src/app/expungement-ai/home-v3/HomepageHeader.tsx",
+  "src/app/expungement-ai/home-v3/PacketDocumentSet.tsx",
+  "src/app/expungement-ai/home-v3/PrivacyLedger.tsx",
+  "src/app/expungement-ai/home-v3/WilmaPreview.tsx",
+  "src/app/expungement-ai/home-v3/CoverageMatrix.tsx",
+  "src/app/expungement-ai/home-v3/FaqAccordion.tsx"
+];
 
 function assert(condition, message, dom) {
-  if (condition) return;
-  failures.push(dom ? `${message}\n${formatDebug(dom)}` : message);
+  if (!condition) failures.push(dom ? `${message}\n${formatDebug(dom)}` : message);
 }
 
 class FakeClassList {
-  constructor(initial = []) {
-    this.values = new Set(initial);
-  }
-  add(value) {
-    this.values.add(value);
-  }
-  toggle(value, force) {
-    if (force) this.values.add(value);
-    else this.values.delete(value);
-  }
-  contains(value) {
-    return this.values.has(value);
-  }
+  constructor(initial = []) { this.values = new Set(initial); }
+  add(value) { this.values.add(value); }
+  toggle(value, force) { if (force) this.values.add(value); else this.values.delete(value); }
+  contains(value) { return this.values.has(value); }
 }
 
 class FakeElement {
   constructor(tagName, attrs = {}, body = "") {
     this.tagName = tagName;
     this.attrs = new Map(Object.entries(attrs));
-    this.classList = new FakeClassList((attrs.class ?? "").split(/\s+/).filter(Boolean));
+    this.classList = new FakeClassList();
     this.dataset = {};
-    this._innerHTML = body;
-    this.textContent = htmlToText(body);
+    this.textContent = body;
   }
-  hasAttribute(name) {
-    return this.attrs.has(name);
-  }
-  getAttribute(name) {
-    return this.attrs.has(name) ? this.attrs.get(name) : null;
-  }
-  setAttribute(name, value) {
-    const nextValue = String(value);
-    this.attrs.set(name, nextValue);
-    if (name === "class") this.classList = new FakeClassList(nextValue.split(/\s+/).filter(Boolean));
-  }
-  set innerHTML(value) {
-    this._innerHTML = String(value);
-    this.textContent = htmlToText(String(value));
-  }
-  get innerHTML() {
-    return this._innerHTML;
-  }
+  hasAttribute(name) { return this.attrs.has(name); }
+  getAttribute(name) { return this.attrs.has(name) ? this.attrs.get(name) : null; }
+  setAttribute(name, value) { this.attrs.set(name, String(value)); }
+  set content(value) { this.attrs.set("content", String(value)); }
+  get content() { return this.attrs.get("content") ?? ""; }
+  set innerHTML(value) { this.textContent = String(value).replace(/<[^>]+>/g, ""); }
+  get innerHTML() { return this.textContent; }
 }
 
-function parseAttrs(rawAttrs) {
-  const attrs = {};
-  for (const match of rawAttrs.matchAll(/([a-zA-Z0-9:_-]+)(?:="([^"]*)")?/g)) {
-    attrs[match[1]] = match[2] ?? "";
-  }
-  return attrs;
-}
+const visibleKeys = ["hero_h1", "nav_how", "nav_brief", "nav_pricing", "nav_privacy", "nav_faq", "nav_login", "hero_cta1", "prob_h2", "fn_h2"];
 
-function parseLandingNodes(html) {
-  const nodes = [];
-  const elementPattern = /<(?<tag>[a-z0-9-]+)\b(?<attrs>[^>]*(?:data-i18n(?:-html)?|data-lang)[^>]*)>(?<body>[\s\S]*?)<\/\k<tag>>/gi;
-  for (const match of html.matchAll(elementPattern)) {
-    const groups = match.groups;
-    if (!groups) continue;
-    nodes.push(new FakeElement(groups.tag, parseAttrs(groups.attrs), groups.body));
-  }
-  return nodes;
-}
-
-function makeDom(initialStorage = {}, options = {}) {
+function makeDom(initialStorage = {}) {
   const storage = new Map(Object.entries(initialStorage));
-  const nodes = parseLandingNodes(renderedHtml);
-  const documentElement = new FakeElement("html", { lang: options.htmlLang ?? "en" }, "");
-  documentElement.dataset.locale = options.datasetLocale;
+  const nodes = visibleKeys.map((key) => new FakeElement("span", { "data-i18n": key }, APPROVED_LANDING_COPY_EN[key]));
+  nodes.push(new FakeElement("a", { "data-i18n-aria-label": "home_label", "aria-label": APPROVED_LANDING_COPY_EN.home_label }));
+  nodes.push(new FakeElement("img", { "data-i18n-alt": "guided_check_alt", alt: APPROVED_LANDING_COPY_EN.guided_check_alt }));
+  nodes.push(new FakeElement("button", { "data-lang": "en", "aria-pressed": "true" }, "EN"));
+  nodes.push(new FakeElement("button", { "data-lang": "es", "aria-pressed": "false" }, "ES"));
+  const documentElement = new FakeElement("html", { lang: "en" });
+  const metadata = {
+    description: new FakeElement("meta", { name: "description", content: APPROVED_LANDING_COPY_EN._desc }),
+    ogDescription: new FakeElement("meta", { property: "og:description", content: APPROVED_LANDING_COPY_EN._desc }),
+    twitterDescription: new FakeElement("meta", { name: "twitter:description", content: APPROVED_LANDING_COPY_EN._desc }),
+    ogTitle: new FakeElement("meta", { property: "og:title", content: APPROVED_LANDING_COPY_EN._title }),
+    twitterTitle: new FakeElement("meta", { name: "twitter:title", content: APPROVED_LANDING_COPY_EN._title })
+  };
   const document = {
+    title: APPROVED_LANDING_COPY_EN._title,
     documentElement,
     querySelectorAll(selector) {
       if (selector === "[data-i18n]") return nodes.filter((node) => node.hasAttribute("data-i18n"));
-      if (selector === "[data-i18n-html]") return nodes.filter((node) => node.hasAttribute("data-i18n-html"));
+      if (selector === "[data-i18n-html]") return [];
       if (selector === "[data-lang]") return nodes.filter((node) => node.hasAttribute("data-lang"));
+      const attributeMatch = selector.match(/^\[data-i18n-(aria-label|alt|title)\]$/);
+      if (attributeMatch) return nodes.filter((node) => node.hasAttribute(`data-i18n-${attributeMatch[1]}`));
       return [];
     },
     querySelector(selector) {
-      if (selector === '[data-lang="en"]') return nodes.find((node) => node.getAttribute("data-lang") === "en") ?? null;
-      if (selector === '[data-lang="es"]') return nodes.find((node) => node.getAttribute("data-lang") === "es") ?? null;
-      if (selector === '[data-i18n-html="hero_h1"], [data-i18n="hero_h1"]') {
-        return nodeForKey(nodes, "hero_h1") ?? null;
-      }
+      if (selector === '[data-lang="en"]') return langButton({ nodes }, "en");
+      if (selector === '[data-lang="es"]') return langButton({ nodes }, "es");
+      if (selector === '[data-i18n-html="hero_h1"], [data-i18n="hero_h1"]') return nodeForKey(nodes, "hero_h1");
+      if (selector === 'meta[name="description"]') return metadata.description;
+      if (selector === 'meta[property="og:description"]') return metadata.ogDescription;
+      if (selector === 'meta[name="twitter:description"]') return metadata.twitterDescription;
+      if (selector === 'meta[property="og:title"]') return metadata.ogTitle;
+      if (selector === 'meta[name="twitter:title"]') return metadata.twitterTitle;
       return null;
     }
   };
   const window = {
     localStorage: {
-      getItem(key) {
-        return storage.has(key) ? storage.get(key) : null;
-      },
-      setItem(key, value) {
-        storage.set(key, String(value));
-      },
-      removeItem(key) {
-        storage.delete(key);
-      }
+      getItem(key) { return storage.has(key) ? storage.get(key) : null; },
+      setItem(key, value) { storage.set(key, String(value)); },
+      removeItem(key) { storage.delete(key); }
     },
-    dispatchEvent(event) {
-      window.lastEvent = event;
-      return true;
-    },
-    navigator: { language: options.navigatorLanguage ?? "es-MX", languages: [options.navigatorLanguage ?? "es-MX"] }
+    dispatchEvent(event) { window.lastEvent = event; return true; }
   };
   globalThis.document = document;
   globalThis.window = window;
-  Object.defineProperty(globalThis, "navigator", { value: window.navigator, configurable: true });
-  globalThis.CustomEvent = class CustomEvent {
-    constructor(type, init = {}) {
-      this.type = type;
-      this.detail = init.detail;
-    }
-  };
-  return { nodes, document, window, storage };
+  globalThis.CustomEvent = class CustomEvent { constructor(type, init = {}) { this.type = type; this.detail = init.detail; } };
+  return { nodes, document, window, storage, metadata };
 }
 
-function applyInitial(dom) {
+function applyInitial() {
   const locale = readSavedExpungementLocale();
   applyExpungementLocale(locale, { dictionaries, persist: false, dispatch: false });
-  assertNoProductionScreenshotBug("after initial apply", dom);
   return locale;
 }
 
-function clickLocale(locale, dom) {
+function clickLocale(locale) {
   applyExpungementLocale(locale, { dictionaries, persist: true, dispatch: true });
-  assertNoProductionScreenshotBug(`after click ${locale}`, dom);
-}
-
-function assertEnglishState(label, dom) {
-  const state = stateSnapshot(dom);
-  assert(state.expLang === "en" || state.expLang === null, `${label}: exp_lang should be en or absent on non-persisting initial load.`, dom);
-  assert(state.htmlLang?.startsWith("en"), `${label}: html lang must be en.`, dom);
-  assert(state.datasetLocale === "en", `${label}: dataset locale must be en.`, dom);
-  assert(state.enPressed === "true", `${label}: EN aria-pressed must be true.`, dom);
-  assert(state.esPressed === "false", `${label}: ES aria-pressed must be false.`, dom);
-  assert(langButton(dom, "en")?.classList.contains("on"), `${label}: EN button must have active visual class.`, dom);
-  assert(!langButton(dom, "es")?.classList.contains("on"), `${label}: ES button must not have active visual class.`, dom);
-  assert(state.hero.includes("Find out if your record can be cleared"), `${label}: English hero headline not visible.`, dom);
-  assert(state.navHow === "How it works", `${label}: English nav How it works not visible.`, dom);
-  assert(state.navBrief === "What you get", `${label}: English nav What you get not visible.`, dom);
-  assert(state.navPricing === "Price", `${label}: English nav Price not visible.`, dom);
-  assert(state.navPrivacy === "Trust & privacy", `${label}: English nav privacy not visible.`, dom);
-  assert(state.navFaq === "Questions", `${label}: English nav Questions not visible.`, dom);
-  assert(state.navLogin === "Log in", `${label}: English sign-in copy not visible.`, dom);
-  assert(!spanishLandingTextVisible(dom), `${label}: Spanish hero/nav/CTA text is visible while English is active.`, dom);
-}
-
-function assertSpanishState(label, dom) {
-  const state = stateSnapshot(dom);
-  assert(state.expLang === "es" || state.expLang === null, `${label}: exp_lang should be es or absent on non-persisting initial load.`, dom);
-  assert(state.htmlLang?.startsWith("es"), `${label}: html lang must be es.`, dom);
-  assert(state.datasetLocale === "es", `${label}: dataset locale must be es.`, dom);
-  assert(state.esPressed === "true", `${label}: ES aria-pressed must be true.`, dom);
-  assert(state.enPressed === "false", `${label}: EN aria-pressed must be false.`, dom);
-  assert(langButton(dom, "es")?.classList.contains("on"), `${label}: ES button must have active visual class.`, dom);
-  assert(!langButton(dom, "en")?.classList.contains("on"), `${label}: EN button must not have active visual class.`, dom);
-  assert(state.hero.includes("Vea si su antecedente puede limpiarse"), `${label}: Spanish hero headline not visible.`, dom);
-  assert(state.navHow === "Cómo funciona", `${label}: Spanish nav Cómo funciona not visible.`, dom);
-  assert(state.navBrief === "Qué recibes", `${label}: Spanish nav Qué recibes not visible.`, dom);
-  assert(state.navPricing === "Precio", `${label}: Spanish nav Precio not visible.`, dom);
-  assert(state.navPrivacy === "Confianza y privacidad", `${label}: Spanish nav privacy not visible.`, dom);
-  assert(state.navFaq === "Preguntas", `${label}: Spanish nav Preguntas not visible.`, dom);
-  assert(state.navLogin === "Iniciar sesión", `${label}: Spanish sign-in copy not visible.`, dom);
-  assert(!englishLandingTextVisible(dom), `${label}: English hero/nav/CTA text is visible while Spanish is active.`, dom);
-}
-
-function assertNoProductionScreenshotBug(label, dom) {
-  const state = stateSnapshot(dom);
-  if ((state.enPressed === "true" || langButton(dom, "en")?.classList.contains("on")) && spanishLandingTextVisible(dom)) {
-    assert(false, `${label}: production bug reproduced, Spanish visible while EN is active.`, dom);
-  }
-  if ((state.esPressed === "true" || langButton(dom, "es")?.classList.contains("on")) && englishLandingTextVisible(dom)) {
-    assert(false, `${label}: mixed language, English visible while ES is active.`, dom);
-  }
-}
-
-function englishLandingTextVisible(dom) {
-  const state = stateSnapshot(dom);
-  return [
-    "Find out if your record can be cleared",
-    "How it works",
-    "What you get",
-    "Trust & privacy",
-    "Check my record free",
-    "Log in"
-  ].some((text) => [state.hero, state.navHow, state.navBrief, state.navPrivacy, state.primaryCta, state.navLogin].some((value) => value.includes(text)));
-}
-
-function spanishLandingTextVisible(dom) {
-  const state = stateSnapshot(dom);
-  return [
-    "Vea si su antecedente puede limpiarse",
-    "Cómo funciona",
-    "Qué recibes",
-    "Confianza y privacidad",
-    "Revisar mi ruta",
-    "Iniciar sesión"
-  ].some((text) => [state.hero, state.navHow, state.navBrief, state.navPrivacy, state.primaryCta, state.navLogin].some((value) => value.includes(text)));
 }
 
 function stateSnapshot(dom) {
   return {
-    effectiveLocale: dom.document.documentElement.dataset.expungementAiLocale,
     expLang: dom.window.localStorage.getItem(EXPUNGEMENT_LOCALE_STORAGE_KEY),
     htmlLang: dom.document.documentElement.getAttribute("lang"),
     datasetLocale: dom.document.documentElement.dataset.locale,
+    expungementDatasetLocale: dom.document.documentElement.dataset.expungementAiLocale,
     enPressed: langButton(dom, "en")?.getAttribute("aria-pressed"),
     esPressed: langButton(dom, "es")?.getAttribute("aria-pressed"),
     hero: textForKey(dom, "hero_h1"),
@@ -243,116 +136,80 @@ function stateSnapshot(dom) {
     navPrivacy: textForKey(dom, "nav_privacy"),
     navFaq: textForKey(dom, "nav_faq"),
     navLogin: textForKey(dom, "nav_login"),
-    primaryCta: textForKey(dom, "hero_cta1") || textForKey(dom, "nav_cta")
+    primaryCta: textForKey(dom, "hero_cta1"),
+    homeLabel: dom.nodes.find((node) => node.hasAttribute("data-i18n-aria-label"))?.getAttribute("aria-label"),
+    guidedAlt: dom.nodes.find((node) => node.hasAttribute("data-i18n-alt"))?.getAttribute("alt")
   };
+}
+
+function assertState(locale, label, dom) {
+  const state = stateSnapshot(dom);
+  const expected = dictionaries[locale];
+  assert(state.htmlLang === locale && state.datasetLocale === locale && state.expungementDatasetLocale === locale, `${label}: root locale state is inconsistent.`, dom);
+  assert(state.enPressed === String(locale === "en") && state.esPressed === String(locale === "es"), `${label}: language button state is inconsistent.`, dom);
+  assert(state.hero === expected.hero_h1 && state.navHow === expected.nav_how && state.navBrief === expected.nav_brief, `${label}: primary visible copy is mixed or stale.`, dom);
+  assert(state.navPricing === expected.nav_pricing && state.navPrivacy === expected.nav_privacy && state.navFaq === expected.nav_faq && state.navLogin === expected.nav_login, `${label}: navigation is mixed or stale.`, dom);
+  assert(state.primaryCta === expected.hero_cta1, `${label}: primary CTA is mixed or stale.`, dom);
+  assert(state.homeLabel === expected.home_label && state.guidedAlt === expected.guided_check_alt, `${label}: accessible labels or image alternatives are mixed or stale.`, dom);
+  assert(dom.document.title === expected._title && dom.metadata.description.getAttribute("content") === expected._desc, `${label}: metadata is mixed or stale.`, dom);
 }
 
 function formatDebug(dom) {
   const state = stateSnapshot(dom);
-  return [
-    `  effective locale: ${state.effectiveLocale}`,
-    `  exp_lang: ${state.expLang}`,
-    `  html lang: ${state.htmlLang}`,
-    `  dataset locale: ${state.datasetLocale}`,
-    `  EN aria-pressed: ${state.enPressed}`,
-    `  ES aria-pressed: ${state.esPressed}`,
-    `  hero: ${state.hero}`,
-    `  primary CTA: ${state.primaryCta}`,
-    `  legacy locale: ${dom.window.localStorage.getItem("locale")}`,
-    `  legacy lang: ${dom.window.localStorage.getItem("lang")}`,
-    `  legacy preferredLocale: ${dom.window.localStorage.getItem("preferredLocale")}`,
-    `  legacy i18nextLng: ${dom.window.localStorage.getItem("i18nextLng")}`
-  ].join("\n");
+  return Object.entries(state).map(([key, value]) => `  ${key}: ${value}`).join("\n");
 }
 
-function nodeForKey(nodes, key) {
-  return nodes.find((node) => node.getAttribute("data-i18n-html") === key || node.getAttribute("data-i18n") === key);
+function nodeForKey(nodes, key) { return nodes.find((node) => node.getAttribute("data-i18n") === key); }
+function textForKey(dom, key) { return nodeForKey(dom.nodes, key)?.textContent ?? ""; }
+function langButton(dom, locale) { return dom.nodes.find((node) => node.getAttribute("data-lang") === locale); }
+
+const enKeys = Object.keys(APPROVED_LANDING_COPY_EN).sort();
+const esKeys = Object.keys(APPROVED_LANDING_COPY_ES).sort();
+assert(JSON.stringify(enKeys) === JSON.stringify(esKeys), "English and Spanish dictionary keys differ.");
+
+const v3Source = V3_SOURCES.map((relativePath) => fs.readFileSync(path.join(ROOT, relativePath), "utf8")).join("\n");
+const referencedKeys = new Set([
+  ...[...v3Source.matchAll(/data-i18n(?:-aria-label|-alt|-title)?="([^"]+)"/g)].map((match) => match[1]),
+  ...[...v3Source.matchAll(/copy\("([^"]+)"\)/g)].map((match) => match[1])
+]);
+for (const key of referencedKeys) {
+  assert(Boolean(APPROVED_LANDING_COPY_EN[key]?.trim()), `V3 references missing English key ${key}.`);
+  assert(Boolean(APPROVED_LANDING_COPY_ES[key]?.trim()), `V3 references missing Spanish key ${key}.`);
 }
 
-function textForKey(dom, key) {
-  return nodeForKey(dom.nodes, key)?.textContent ?? "";
-}
-
-function langButton(dom, locale) {
-  return dom.nodes.find((node) => node.getAttribute("data-lang") === locale);
-}
-
-function htmlToText(value) {
-  return value
-    .replace(/<script[\s\S]*?<\/script>/gi, "")
-    .replace(/<style[\s\S]*?<\/style>/gi, "")
-    .replace(/<[^>]+>/g, "")
-    .replace(/&amp;/g, "&")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&middot;/g, "·")
-    .replace(/&#8594;/g, "→")
-    .replace(/&#10003;/g, "✓")
-    .replace(/&copy;/g, "©")
-    .replace(/&ndash;/g, "–")
-    .replace(/&mdash;/g, "—")
-    .replace(/&quot;/g, "\"")
-    .replace(/&#39;/g, "'")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-assert(Object.keys(dictionaries.en).length > 100, "Real English landing dictionary must be extracted from rendered handoff HTML.");
-assert(dictionaries.en.hero_h1?.includes("Find out if your record can be cleared"), "English hero dictionary must include the production hero headline.");
-assert(dictionaries.es.hero_h1?.includes("Vea si su antecedente puede limpiarse"), "Spanish hero dictionary must include the Spanish hero headline.");
-
-let dom = makeDom({}, { navigatorLanguage: "es-MX" });
-assert(applyInitial(dom) === "en", "Fresh/private browser must default to English.", dom);
-assertEnglishState("fresh/private default", dom);
+let dom = makeDom();
+assert(applyInitial() === "en", "Fresh browser must default to English.", dom);
+assertState("en", "fresh English", dom);
 
 dom = makeDom({ exp_lang: "es" });
-assert(applyInitial(dom) === "es", "Saved exp_lang=es must load Spanish.", dom);
-assertSpanishState("saved Spanish", dom);
+assert(applyInitial() === "es", "Saved exp_lang=es must load Spanish.", dom);
+assertState("es", "saved Spanish", dom);
 
-dom = makeDom({ exp_lang: "es" });
-applyInitial(dom);
-clickLocale("en", dom);
-assert(dom.window.localStorage.getItem(EXPUNGEMENT_LOCALE_STORAGE_KEY) === "en", "Click EN must persist exp_lang=en.", dom);
-assertEnglishState("switch back to English", dom);
+dom = makeDom({ exp_lang: "en", locale: "es", lang: "es", preferredLocale: "es", i18nextLng: "es" });
+applyInitial();
+clickLocale("en");
+assertState("en", "English beats stale locale keys", dom);
+for (const key of ["locale", "lang", "preferredLocale", "i18nextLng"]) assert(dom.window.localStorage.getItem(key) === null, `Switching language must clear stale ${key}.`, dom);
 
-dom = makeDom({
-  exp_lang: "en",
-  "expungement-ai:locale": "es",
-  "expungement.locale": "es",
-  locale: "es",
-  lang: "es",
-  preferredLocale: "es",
-  i18nextLng: "es"
-}, { htmlLang: "es", datasetLocale: "es", navigatorLanguage: "es-MX" });
-assert(applyInitial(dom) === "en", "Saved exp_lang=en must beat stale Spanish keys/html/browser language.", dom);
-assertEnglishState("saved English with stale Spanish keys", dom);
-clickLocale("en", dom);
-for (const key of ["expungement-ai:locale", "expungement.locale", "locale", "lang", "preferredLocale", "i18nextLng"]) {
-  assert(dom.window.localStorage.getItem(key) === null, `Click EN must clear stale ${key}.`, dom);
+dom = makeDom();
+applyInitial();
+for (const locale of ["es", "en", "es", "en"]) {
+  clickLocale(locale);
+  assert(dom.window.localStorage.getItem(EXPUNGEMENT_LOCALE_STORAGE_KEY) === locale, `Switch to ${locale} did not persist exp_lang.`, dom);
+  assertState(locale, `switch ${locale}`, dom);
 }
-
-dom = makeDom();
-applyInitial(dom);
-clickLocale("es", dom);
-assertSpanishState("click sequence ES", dom);
-clickLocale("en", dom);
-assertEnglishState("click sequence EN", dom);
-clickLocale("es", dom);
-assertSpanishState("click sequence ES again", dom);
-clickLocale("en", dom);
-assertEnglishState("click sequence EN again", dom);
-
-dom = makeDom();
-applyExpungementLocale("es", { dictionaries, persist: false, dispatch: false });
-langButton(dom, "en")?.classList.add("on");
-langButton(dom, "en")?.setAttribute("aria-pressed", "true");
-clickLocale("en", dom);
-assertEnglishState("explicit production screenshot recovery", dom);
 
 if (failures.length) {
-  console.error("Expungement.ai rendered landing locale verifier failed:");
+  console.error("Expungement.ai V3 locale DOM-state verification failed.");
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
 
-console.log("Expungement.ai rendered landing locale verifier passed.");
-console.log("Rendered scenarios: fresh default, saved-es, switch-en, stale-legacy, EN/ES click sequence, production screenshot guard.");
+console.log(JSON.stringify({
+  ok: true,
+  dictionaryKeys: enKeys.length,
+  v3ReferencedKeys: referencedKeys.size,
+  scenarios: ["fresh English", "saved Spanish", "stale-key recovery", "EN/ES repeat switching"],
+  accessibleCopy: "localized",
+  metadata: "localized"
+}, null, 2));

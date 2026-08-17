@@ -57,9 +57,9 @@ export function BriefcaseShell({
       <div className="flex min-h-screen">
         {/* Sidebar (desktop) */}
         <aside className="sticky top-0 hidden h-screen w-[248px] shrink-0 flex-col bg-[#0B1326] p-4 text-white md:flex">
-          <Link href="/briefcase" className="mb-7 flex items-center gap-2.5 px-1.5 text-white" aria-label="Expungement.ai Briefcase">
-            <ExpungementWordmark tone="light" idSuffix="briefcase-sidebar" />
-          </Link>
+          <div className="mb-7 flex items-center gap-2.5 px-1.5 text-white">
+            <ExpungementWordmark tone="light" href="/briefcase" idSuffix="briefcase-sidebar" />
+          </div>
 
           <div className="mb-6 flex items-center gap-2.5 rounded-xl bg-white/[0.05] p-2.5">
             <span className="grid h-9 w-9 place-items-center rounded-[9px] bg-gradient-to-br from-[#1B2B40] to-[#00A99D] text-[13px] font-bold text-white">

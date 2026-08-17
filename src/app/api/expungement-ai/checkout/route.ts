@@ -3,6 +3,7 @@ import { requireConsumerBriefcaseSession } from "@/lib/expungement-ai/auth";
 import { getBriefcaseItem, isPartnerSponsoredPacketItem } from "@/lib/expungement-ai/briefcase";
 import {
   ConsumerCheckoutNotAllowedError,
+  ConsumerCheckoutReviewRequiredError,
   ConsumerCheckoutTemporarilyUnavailableError,
   createConsumerPacketCheckout
 } from "@/lib/expungement-ai/payment-adapter";
@@ -22,7 +23,7 @@ export async function POST(request: NextRequest) {
 
   const item = await getBriefcaseItem(auth.userId, briefcaseItemId);
   if (!item) {
-    return NextResponse.json({ error: "Briefcase item not found." }, { status: 404 });
+    return NextResponse.json({ error: "We couldn’t find this case. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 404 });
   }
   // Component deferral is answered before sponsored and payment handling, so an
   // incomplete composed route is refused the same way for a sponsored
@@ -70,17 +71,26 @@ export async function POST(request: NextRequest) {
       checkoutSessionId: checkout.checkoutSessionId,
       mode: checkout.mode,
       amountCents: checkout.amountCents,
+      currency: checkout.currency,
       briefcaseItemId: checkout.briefcaseItemId,
       alreadyPaid: checkout.alreadyPaid ?? false,
-      outcome: checkout.alreadyPaid ? "already_paid" : "checkout_created"
+      paymentPending: checkout.paymentPending ?? false,
+      outcome: checkout.outcome
     });
   } catch (error) {
     if (error instanceof ConsumerCheckoutNotAllowedError) {
-      return NextResponse.json({ error: "Checkout is not available for this result.", resultCode: error.resultCode }, { status: 403 });
+      return NextResponse.json({ error: "Payment isn’t available for this case. Your information is still saved. Return to your Briefcase to review the next step." }, { status: 403 });
+    }
+
+    if (error instanceof ConsumerCheckoutReviewRequiredError) {
+      return NextResponse.json({
+        error: "Complete and review your packet information before starting checkout.",
+        outcome: "review_required"
+      }, { status: 409 });
     }
 
     if (error instanceof ConsumerCheckoutTemporarilyUnavailableError) {
-      return NextResponse.json({ error: "We could not start checkout right now. Please try again." }, { status: 503 });
+      return NextResponse.json({ error: "We couldn’t start payment for this case. Your information is still saved. Return to your Briefcase and try again. Contact support if the problem continues." }, { status: 503 });
     }
 
     throw error;

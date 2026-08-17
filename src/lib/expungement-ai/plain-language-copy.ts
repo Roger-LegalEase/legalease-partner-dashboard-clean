@@ -115,7 +115,7 @@ export const NO_PAYMENT_COPY: CriticalCopyEntry[] = [
 ];
 
 export const BRIEFCASE_COPY: CriticalCopyEntry[] = [
-  { id: "briefcase.guidance_saved", surface: "briefcase", en: "Guidance saved", es: "Guía guardada" },
+  { id: "briefcase.guidance_saved", surface: "briefcase", en: "Next steps saved", es: "Próximos pasos guardados" },
   { id: "briefcase.packet_ready", surface: "briefcase", en: "Ready to file", es: "Listo para presentar" },
   { id: "briefcase.needs_attention", surface: "briefcase", en: "Needs your attention", es: "Necesita su atención" },
   { id: "briefcase.waiting_period", surface: "briefcase", en: "Waiting period", es: "Período de espera" },

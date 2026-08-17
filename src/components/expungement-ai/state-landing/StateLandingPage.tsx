@@ -64,10 +64,10 @@ export function StateLandingPage({ data }: { data: StateLandingData }) {
           <p className="text-[15px] leading-7 text-[#5A6275]">{data.termBlurb}</p>
           <p className="mt-4 text-[13px] font-bold uppercase tracking-[0.06em] text-[#8A93A6]">{data.routesIntro}</p>
           <ul className="mt-3 grid gap-2">
-            {data.pathwayHighlights.map((route) => (
-              <li key={route} className="flex items-start gap-3 rounded-[12px] border border-[#ECEFF4] bg-[#FBFAF7] px-4 py-3 text-[14px] leading-6 text-[#0B1320]">
+            {data.pathwayHighlights.map((option) => (
+              <li key={option} className="flex items-start gap-3 rounded-[12px] border border-[#ECEFF4] bg-[#FBFAF7] px-4 py-3 text-[14px] leading-6 text-[#0B1320]">
                 <span className="mt-1 h-[7px] w-[7px] shrink-0 rounded-full bg-[#00A99D]" aria-hidden="true" />
-                <span>{route}</span>
+                <span>{option}</span>
               </li>
             ))}
           </ul>
@@ -114,11 +114,11 @@ export function StateLandingPage({ data }: { data: StateLandingData }) {
         {/* Final CTA */}
         <section className="mt-12 rounded-[22px] bg-[#0B1320] px-6 py-10 text-center md:px-10">
           <h2 className="text-[26px] font-extrabold text-white md:text-[32px]">
-            See whether a {data.name} path may be available.
+            See what may be available in {data.name}.
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-[15px] leading-7 text-[#C3C9D6]">
-            The free check takes about 3 minutes. No card, no account to start. You only see $50 if a self-help packet
-            path may be available and you choose to continue.
+            No account or payment is required to begin. If a supported self-help packet is available, review your
+            information before deciding whether to pay $50 to generate it.
           </p>
           <div className="mx-auto mt-6 flex max-w-md flex-col gap-3 sm:flex-row sm:justify-center">
             <Link

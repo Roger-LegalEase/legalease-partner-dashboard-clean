@@ -111,6 +111,9 @@ try {
   await db.exec("create schema if not exists auth;");
   await db.exec("create table if not exists auth.users (id uuid primary key);");
   await db.exec("create or replace function auth.uid() returns uuid language sql stable as $$ select null::uuid $$;");
+  await db.exec("create or replace function auth.role() returns text language sql stable as $$ select 'service_role'::text $$;");
+  await db.exec(read("supabase/phase-26-consumer-briefcase-items.sql"));
+  await db.exec(read("supabase/phase-38-expungement-pending-screening-results.sql"));
   await db.exec(read("supabase/partner-journey-os.sql"));
   await db.exec(read("supabase/phase-21-partner-auth-rls-foundation.sql"));
   await db.exec(read("supabase/phase-28-rcap-record-audit-trail.sql"));
@@ -128,6 +131,7 @@ try {
   await verifyCompletionDoesNotConsumeCredits(db);
   await verifyCreditConsumedOnlyOnPacket(db);
   await verifyConversionMetricsAccurate(db);
+  await verifyClaimBoundaryAnalytics(db);
   await verifyDtcExcluded(db);
   await verifyRequiredCodeRejectionExcluded(db);
   await verifyAppendOnly(db);
@@ -156,6 +160,8 @@ console.log("8. DTC consumer sessions never appear in partner analytics.");
 console.log("9. Required-code rejections create no session and no analytics.");
 console.log("10. Analytics events are append-only; updates/deletes are blocked.");
 console.log("11. RLS is partner-scoped with an internal-admin policy.");
+console.log("12. Authenticated pending claims emit one server-derived result event only after exact-case persistence; retries, failures, invalid partners, and DTC do not emit.");
+console.log("13. Source mutations detect a missing call, pre-persistence emission, missing partner guard, and missing claim idempotency.");
 
 async function verifyStartedEmittedByTrigger(db) {
   await seedPartner(db, "an-open", "open");
@@ -271,6 +277,243 @@ async function verifyConversionMetricsAccurate(db) {
   assert(Math.abs(conversion - 1 / 3) < 1e-9, "Conversion metric must be packets/ completed = 1/3.");
 }
 
+async function verifyClaimBoundaryAnalytics(db) {
+  const userA = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
+  const userB = "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb";
+  await db.query(
+    "insert into auth.users (id) values ($1), ($2) on conflict (id) do nothing",
+    [userA, userB]
+  );
+
+  await seedPartner(db, "claim-alpha", "open", { allowed: 20, used: 0 });
+  await seedPartner(db, "claim-beta", "open", { allowed: 20, used: 0 });
+
+  const packetSession = await claim(db, "claim-alpha", null);
+  const packetPending = "10000000-0000-4000-8000-000000000001";
+  const packetCase = "20000000-0000-4000-8000-000000000001";
+  // The stored coarse field is deliberately wrong. The simulated claim, like
+  // the runtime route, must use only the server-authoritative re-evaluation.
+  await insertPendingResult(db, {
+    pendingId: packetPending,
+    product: "rcap_partner",
+    sourceSessionId: packetSession.session_id,
+    storedResultCode: "likely_not_eligible"
+  });
+
+  const failedPersistence = await simulateAuthoritativeClaim(db, {
+    pendingId: packetPending,
+    userId: userA,
+    caseId: packetCase,
+    authoritativeResultCode: "packet_ready",
+    persistCase: false
+  });
+  assert(failedPersistence === "persistence_failed", "A claim that fails before exact-case persistence must fail before analytics.");
+  assert((await eligibilityEventsFor(db, packetSession.session_id)).length === 0, "Failed persistence must emit no eligibility event.");
+
+  const packetFirst = await simulateAuthoritativeClaim(db, {
+    pendingId: packetPending,
+    userId: userA,
+    caseId: packetCase,
+    authoritativeResultCode: "packet_ready"
+  });
+  assert(packetFirst === "recorded", "The first persisted partner claim must record analytics.");
+  const persistedPacket = await db.query(
+    "select id, result_code, source_session_id from public.consumer_briefcase_items where id = $1 and user_id = $2",
+    [packetCase, userA]
+  );
+  assert(persistedPacket.rows.length === 1, "Eligibility analytics may emit only after the exact Briefcase case exists.");
+  assert(persistedPacket.rows[0].result_code === "packet_ready", "The persisted case must carry the server-derived result posture.");
+  const packetEvents = await eligibilityEventsFor(db, packetSession.session_id);
+  assert(packetEvents.length === 1, "Packet-capable claim must emit exactly one eligibility event.");
+  assert(packetEvents[0].outcome_category === "eligible_packet" && packetEvents[0].packet_route_available === true, "Packet-capable claim must retain eligible_packet classification.");
+  assert(packetEvents[0].partner_slug === "claim-alpha", "Packet-capable claim must use the partner attributed by the server session.");
+
+  const packetReplay = await simulateAuthoritativeClaim(db, {
+    pendingId: packetPending,
+    userId: userA,
+    caseId: packetCase,
+    authoritativeResultCode: "packet_ready"
+  });
+  assert(packetReplay === "replayed", "A repeated pending claim must be recognized as a replay.");
+  assert((await eligibilityEventsFor(db, packetSession.session_id)).length === 1, "Replaying or refreshing the same claim must not emit a duplicate event.");
+
+  const guidanceSession = await claim(db, "claim-beta", null);
+  const guidancePending = "10000000-0000-4000-8000-000000000002";
+  await insertPendingResult(db, {
+    pendingId: guidancePending,
+    product: "rcap_partner",
+    sourceSessionId: guidanceSession.session_id,
+    storedResultCode: "packet_ready"
+  });
+  await simulateAuthoritativeClaim(db, {
+    pendingId: guidancePending,
+    userId: userA,
+    caseId: "20000000-0000-4000-8000-000000000002",
+    authoritativeResultCode: "guidance_only"
+  });
+  const guidanceEvents = await eligibilityEventsFor(db, guidanceSession.session_id);
+  assert(guidanceEvents.length === 1 && guidanceEvents[0].outcome_category === "guidance_only" && guidanceEvents[0].packet_route_available === false, "Guidance-only claim must emit one guidance_only event.");
+  assert(guidanceEvents[0].partner_slug === "claim-beta", "A second partner's result must remain separately attributable.");
+
+  const ineligibleSession = await claim(db, "claim-alpha", null);
+  const ineligiblePending = "10000000-0000-4000-8000-000000000003";
+  await insertPendingResult(db, {
+    pendingId: ineligiblePending,
+    product: "rcap_partner",
+    sourceSessionId: ineligibleSession.session_id,
+    storedResultCode: "packet_ready"
+  });
+  await simulateAuthoritativeClaim(db, {
+    pendingId: ineligiblePending,
+    userId: userA,
+    caseId: "20000000-0000-4000-8000-000000000003",
+    authoritativeResultCode: "likely_not_eligible"
+  });
+  const ineligibleEvents = await eligibilityEventsFor(db, ineligibleSession.session_id);
+  assert(ineligibleEvents.length === 1 && ineligibleEvents[0].outcome_category === "ineligible" && ineligibleEvents[0].packet_route_available === false, "Ineligible claim must emit one ineligible event.");
+
+  const unauthorizedSession = await claim(db, "claim-alpha", null);
+  const unauthorizedPending = "10000000-0000-4000-8000-000000000004";
+  await insertPendingResult(db, {
+    pendingId: unauthorizedPending,
+    product: "rcap_partner",
+    sourceSessionId: unauthorizedSession.session_id,
+    storedResultCode: "packet_ready"
+  });
+  const unauthorized = await simulateAuthoritativeClaim(db, {
+    pendingId: unauthorizedPending,
+    userId: userA,
+    caseId: "20000000-0000-4000-8000-000000000004",
+    authoritativeResultCode: "packet_ready",
+    authenticated: false
+  });
+  assert(unauthorized === "unauthorized" && (await eligibilityEventsFor(db, unauthorizedSession.session_id)).length === 0, "Unauthorized claims must emit no event.");
+
+  const invalidPending = "10000000-0000-4000-8000-000000000005";
+  const invalidSession = "30000000-0000-4000-8000-000000000005";
+  await insertPendingResult(db, {
+    pendingId: invalidPending,
+    product: "rcap_partner",
+    sourceSessionId: invalidSession,
+    storedResultCode: "packet_ready"
+  });
+  const invalidPartner = await simulateAuthoritativeClaim(db, {
+    pendingId: invalidPending,
+    userId: userA,
+    caseId: "20000000-0000-4000-8000-000000000005",
+    authoritativeResultCode: "packet_ready"
+  });
+  assert(invalidPartner === "non_partner" && (await eligibilityEventsFor(db, invalidSession)).length === 0, "Invalid partner sessions must emit no event.");
+
+  const dtcSession = "30000000-0000-4000-8000-000000000006";
+  await db.query(
+    "insert into public.screening_sessions (session_id, jurisdiction, flow_mode, partner_benefit_active) values ($1, 'GA', 'dtc', false)",
+    [dtcSession]
+  );
+  const dtcPending = "10000000-0000-4000-8000-000000000006";
+  await insertPendingResult(db, {
+    pendingId: dtcPending,
+    product: "expungement_ai_dtc",
+    sourceSessionId: dtcSession,
+    storedResultCode: "packet_ready"
+  });
+  const dtc = await simulateAuthoritativeClaim(db, {
+    pendingId: dtcPending,
+    userId: userB,
+    caseId: "20000000-0000-4000-8000-000000000006",
+    authoritativeResultCode: "packet_ready"
+  });
+  assert(dtc === "non_partner" && (await eligibilityEventsFor(db, dtcSession)).length === 0, "DTC claims must not emit or misclassify an RCAP event.");
+
+  assert((await entitlementUsed(db, "claim-alpha")) === 0 && (await entitlementUsed(db, "claim-beta")) === 0, "Result analytics must not consume packet credits or alter partner entitlement.");
+  const generated = await db.query(
+    "select count(*)::int as n from public.rcap_screening_analytics_events where partner_slug in ('claim-alpha', 'claim-beta') and event_type in ('packet_generated', 'packet_overage_recorded')"
+  );
+  assert(Number(generated.rows[0].n) === 0, "Result analytics must not emit packet-generation or payment events.");
+}
+
+async function insertPendingResult(db, input) {
+  await db.query(
+    `insert into public.consumer_pending_screening_results
+       (pending_id, product, jurisdiction, result_code, summary, source_session_id, profile_version, matter_id)
+     values ($1, $2, 'GA', $3, 'server pending result', $4, 'test-profile-v1', $5)`,
+    [input.pendingId, input.product, input.storedResultCode, input.sourceSessionId, `matter-${input.pendingId}`]
+  );
+}
+
+async function simulateAuthoritativeClaim(db, input) {
+  if (input.authenticated === false) return "unauthorized";
+
+  const pending = await db.query(
+    "select pending_id, claimed_user_id, product, source_session_id from public.consumer_pending_screening_results where pending_id = $1",
+    [input.pendingId]
+  );
+  if (pending.rows.length !== 1) return "not_found";
+  if (pending.rows[0].claimed_user_id && pending.rows[0].claimed_user_id !== input.userId) return "forbidden";
+  if (input.persistCase === false) return "persistence_failed";
+
+  const status = input.authoritativeResultCode === "packet_ready"
+    ? "packet_ready"
+    : input.authoritativeResultCode === "guidance_only"
+      ? "guidance_saved"
+      : "not_eligible";
+  await db.query(
+    `insert into public.consumer_briefcase_items
+       (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
+        payment_allowed, status, summary_json, next_steps_json, artifact_refs_json,
+        payment_status, packet_status, source_session_id)
+     values ($1, $2, 'result', 'GA', 'server pathway', $3, $4, false, $5,
+             '{"text":"saved"}'::jsonb, '[]'::jsonb, '{}'::jsonb,
+             'not_applicable', 'not_started', $6)
+     on conflict (id) do nothing`,
+    [
+      input.caseId,
+      input.userId,
+      input.authoritativeResultCode,
+      input.authoritativeResultCode === "packet_ready" ? "custom_pleading" : "guidance_packet",
+      status,
+      pending.rows[0].source_session_id ?? input.pendingId
+    ]
+  );
+
+  const exactCase = await db.query(
+    "select id from public.consumer_briefcase_items where id = $1 and user_id = $2 and result_code = $3",
+    [input.caseId, input.userId, input.authoritativeResultCode]
+  );
+  if (exactCase.rows.length !== 1) return "persistence_failed";
+
+  const partner = pending.rows[0].product === "rcap_partner"
+    ? await db.query(
+      "select session_id from public.screening_sessions where session_id = $1 and flow_mode = 'rcap' and partner_benefit_active is true and partner_slug is not null",
+      [pending.rows[0].source_session_id]
+    )
+    : { rows: [] };
+
+  const claimed = await db.query(
+    `update public.consumer_pending_screening_results
+        set claimed_at = now(), claimed_user_id = $2
+      where pending_id = $1 and claimed_user_id is null
+      returning pending_id`,
+    [input.pendingId, input.userId]
+  );
+  if (claimed.rows.length === 0) return "replayed";
+  if (partner.rows.length === 0) return "non_partner";
+
+  await eligibilityAnalytics(db, pending.rows[0].source_session_id, input.authoritativeResultCode);
+  return "recorded";
+}
+
+async function eligibilityEventsFor(db, sessionId) {
+  const result = await db.query(
+    `select session_id, partner_slug, event_type, outcome_category, packet_route_available
+       from public.rcap_screening_analytics_events
+      where session_id = $1 and event_type = 'eligibility_result_recorded'
+      order by occurred_at, id`,
+    [sessionId]
+  );
+  return result.rows;
+}
+
 async function verifyDtcExcluded(db) {
   await db.query(
     `insert into public.screening_sessions (session_id, jurisdiction, flow_mode, partner_benefit_active)
@@ -320,28 +563,120 @@ async function verifyRlsPolicies(db) {
 }
 
 function verifySourceWiring() {
-  const migration = read("supabase/phase-41b-rcap-screening-analytics.sql");
-  assert(migration.includes("do not run against production"), "Migration must carry the DB-process safety header.");
-  assert(migration.includes("create table if not exists public.rcap_screening_analytics_events"), "Migration must create the analytics table.");
-  assert(migration.includes("is append-only"), "Analytics table must be append-only.");
-  assert(migration.includes("emit_rcap_screening_started_event"), "screening_started trigger must exist.");
+  const sources = {
+    migration: read("supabase/phase-41b-rcap-screening-analytics.sql"),
+    complete: read("src/app/api/expungement-ai/screening/complete/route.ts"),
+    retiredSave: read("src/app/api/expungement-ai/screening/save-result/route.ts"),
+    claim: read("src/app/api/expungement-ai/screening/pending/claim/route.ts"),
+    lib: read("src/lib/expungement-ai/rcap-screening-analytics.ts")
+  };
+  const baseline = sourceWiringViolations(sources);
+  assert(baseline.length === 0, `Analytics source wiring failed:\n${baseline.join("\n")}`);
 
-  // No full answers or record detail stored: check the table's column definitions.
-  const tableStart = migration.indexOf("create table if not exists public.rcap_screening_analytics_events");
-  const tableBlock = migration.slice(tableStart, migration.indexOf(");", tableStart));
-  assert(!/answers|charge|offense|conviction|ssn|dob/i.test(tableBlock), "Analytics columns must not store answers or record detail.");
+  const missingCall = {
+    ...sources,
+    claim: sources.claim.replace(
+      "const analytics = await recordScreeningEligibilityResult(",
+      "const analytics = await removedScreeningEligibilityResult("
+    )
+  };
+  assert(
+    sourceWiringViolations(missingCall).some((failure) => failure.includes("server-authoritative result event")),
+    "Negative control failed: removing the restored runtime call did not turn the verifier red."
+  );
 
-  // Best-effort, non-blocking wiring in the existing partner paths only.
-  const complete = read("src/app/api/expungement-ai/screening/complete/route.ts");
-  assert(complete.includes("recordScreeningCompleted(sessionId)"), "Completion route must record completion analytics.");
-  const saveResult = read("src/app/api/expungement-ai/screening/save-result/route.ts");
-  assert(saveResult.includes("recordScreeningEligibilityResult(sourceSessionId, body.resultCode)"), "Save-result must record eligibility analytics for partner sessions.");
-  assert(saveResult.includes("isPartnerSession && sourceSessionId"), "Eligibility analytics must be gated on partner session.");
+  const prePersistenceCall = {
+    ...sources,
+    claim: sources.claim.replace(
+      "item = await saveAuthoritativeScreeningResultToBriefcase({",
+      "await recordScreeningEligibilityResult(data.source_session_id ?? \"\", evaluation.resultCode);\n    item = await saveAuthoritativeScreeningResultToBriefcase({"
+    )
+  };
+  assert(
+    sourceWiringViolations(prePersistenceCall).some((failure) => failure.includes("only after exact-case persistence")),
+    "Negative control failed: moving analytics before persistence did not turn the verifier red."
+  );
 
-  // Analytics module is best-effort and stores only coarse categories.
-  const lib = read("src/lib/expungement-ai/rcap-screening-analytics.ts");
-  assert(lib.includes("never disrupt the screening/result flow"), "Analytics emission must be best-effort.");
-  // Records only a coarse outcome category; it must not read/store raw answers.
-  assert(lib.includes("record_rcap_screening_analytics_event"), "Analytics module must go through the gated RPC.");
-  assert(!/\.answers|"answers"|screening_answers/.test(lib), "Analytics module must not read screening answers.");
+  const missingPartnerGuard = {
+    ...sources,
+    claim: sources.claim.replace(
+      "if (claim.data && isPartnerSession && data.source_session_id)",
+      "if (claim.data && data.source_session_id)"
+    )
+  };
+  assert(
+    sourceWiringViolations(missingPartnerGuard).some((failure) => failure.includes("validated partner-session guard")),
+    "Negative control failed: removing the partner-session guard did not turn the verifier red."
+  );
+
+  const missingIdempotency = {
+    ...sources,
+    claim: sources.claim.replace('.is("claimed_user_id", null)', '.not("claimed_user_id", "is", null)')
+  };
+  assert(
+    sourceWiringViolations(missingIdempotency).some((failure) => failure.includes("replay-idempotency gate")),
+    "Negative control failed: removing claim idempotency did not turn the replay verifier red."
+  );
+}
+
+function sourceWiringViolations(input) {
+  const issues = [];
+  const require = (condition, message) => {
+    if (!condition) issues.push(message);
+  };
+  const tableStart = input.migration.indexOf("create table if not exists public.rcap_screening_analytics_events");
+  const tableBlock = input.migration.slice(tableStart, input.migration.indexOf(");", tableStart));
+
+  require(input.migration.includes("do not run against production"), "Migration must carry the DB-process safety header.");
+  require(input.migration.includes("create table if not exists public.rcap_screening_analytics_events"), "Migration must create the analytics table.");
+  require(input.migration.includes("is append-only"), "Analytics table must be append-only.");
+  require(input.migration.includes("emit_rcap_screening_started_event"), "screening_started trigger must exist.");
+  require(!/answers|charge|offense|conviction|ssn|dob/i.test(tableBlock), "Analytics columns must not store answers or record detail.");
+
+  require(input.complete.includes("recordScreeningCompleted(sessionId)"), "Completion route must record completion analytics.");
+  require(!input.retiredSave.includes("recordScreeningEligibilityResult"), "The retired browser-result route must not emit server analytics.");
+
+  const postStart = input.claim.indexOf("export async function POST");
+  const postSource = postStart >= 0 ? input.claim.slice(postStart) : input.claim;
+  const persistenceIndex = postSource.indexOf("item = await saveAuthoritativeScreeningResultToBriefcase");
+  const claimGateIndex = postSource.indexOf("const claim = await supabase");
+  const analyticsIndex = postSource.indexOf("recordScreeningEligibilityResult(");
+  const responseIndex = postSource.indexOf("return NextResponse.json({", Math.max(analyticsIndex, 0));
+
+  require(analyticsIndex >= 0, "Authenticated claim must emit the server-authoritative result event.");
+  require(
+    persistenceIndex >= 0 && claimGateIndex > persistenceIndex && analyticsIndex > claimGateIndex,
+    "Eligibility analytics must run only after exact-case persistence and the first-claim transition."
+  );
+  require(responseIndex > analyticsIndex, "The successful exact-case response must remain after best-effort analytics.");
+  require(
+    postSource.includes("if (claim.data && isPartnerSession && data.source_session_id)"),
+    "Eligibility analytics must retain the validated partner-session guard."
+  );
+  require(
+    postSource.includes('.is("claimed_user_id", null)')
+      && postSource.includes('.select("pending_id")')
+      && postSource.includes("if (claim.data && isPartnerSession"),
+    "The null-to-user claim transition must remain the replay-idempotency gate."
+  );
+  require(
+    postSource.includes("data.source_session_id,\n      evaluation.resultCode"),
+    "Eligibility analytics must use the validated session and server-derived result code."
+  );
+  require(
+    postSource.includes("if (claim.error)") && postSource.includes("claim_marker_failed"),
+    "Claim-marker failure must be logged without failing the persisted participant case."
+  );
+  require(
+    postSource.includes("if (!analytics.ok)") && postSource.includes("analytics.reason"),
+    "Analytics storage failure must be sanitized and logged without changing the successful response."
+  );
+  require(!postSource.includes("createConsumerPacketCheckout") && !postSource.includes("recordPartnerPacketGeneration"), "Result analytics must not alter payment or packet-credit accounting.");
+
+  require(input.lib.includes("never disrupt the screening/result flow"), "Analytics emission must remain best-effort.");
+  require(input.lib.includes("record_rcap_screening_analytics_event"), "Analytics module must go through the gated RPC.");
+  require(input.lib.includes('data === true') && input.lib.includes('reason: "rpc_failed"'), "Analytics helper must report a sanitized write outcome to the claim route.");
+  require(!/\.answers|"answers"|screening_answers/.test(input.lib), "Analytics module must not read screening answers.");
+
+  return issues;
 }

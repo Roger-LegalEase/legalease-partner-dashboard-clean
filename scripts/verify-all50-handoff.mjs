@@ -106,7 +106,7 @@ console.log(`Review artifact root path: ${summary.reviewArtifactRootPath}`);
 console.log("Recommended review order: verified");
 console.log("Public live routing unchanged: yes");
 console.log("Legacy generators removed from active runtime: yes");
-console.log("Expungement.ai UI untouched: yes");
+console.log("Expungement.ai changes restricted to Roger-approved PR #101 paths: yes");
 
 function assertNoRestrictedChanges() {
   assertSourceEngineChangeScope({

@@ -29,8 +29,7 @@ export function ResultGallery() {
         {RESULT_GALLERY.map((evaluation) => (
           <section key={evaluation.matterId}>
             <p className="mb-2 text-xs font-bold uppercase tracking-[0.08em] text-[#8A93A6]">
-              {evaluation.resultCode}
-              {evaluation.paymentAllowed ? " · paymentAllowed" : ""}
+              Preview result {evaluation.paymentAllowed ? "with payment" : "without payment"}
             </p>
             <ScreeningResult
               evaluation={evaluation}

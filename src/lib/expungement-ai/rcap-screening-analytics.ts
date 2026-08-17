@@ -15,6 +15,10 @@ export type ScreeningOutcomeCategory =
   | "ineligible"
   | "incomplete";
 
+export type ScreeningAnalyticsWriteResult =
+  | { ok: true; recorded: boolean }
+  | { ok: false; recorded: false; reason: "supabase_unconfigured" | "rpc_failed" };
+
 export function outcomeCategoryForResultCode(resultCode: ExpungementAiResultCode): ScreeningOutcomeCategory {
   switch (resultCode) {
     case "packet_ready":
@@ -46,8 +50,8 @@ export async function recordScreeningCompleted(sessionId: string): Promise<void>
 export async function recordScreeningEligibilityResult(
   sessionId: string,
   resultCode: ExpungementAiResultCode
-): Promise<void> {
-  await emit(
+): Promise<ScreeningAnalyticsWriteResult> {
+  return emit(
     sessionId,
     "eligibility_result_recorded",
     outcomeCategoryForResultCode(resultCode),
@@ -60,17 +64,20 @@ async function emit(
   eventType: "screening_completed" | "eligibility_result_recorded",
   outcomeCategory?: ScreeningOutcomeCategory,
   packetRouteAvailable?: boolean
-): Promise<void> {
+): Promise<ScreeningAnalyticsWriteResult> {
   const supabase = getSupabaseAdminClient();
-  if (!supabase) return;
+  if (!supabase) return { ok: false, recorded: false, reason: "supabase_unconfigured" };
   try {
-    await supabase.rpc("record_rcap_screening_analytics_event", {
+    const { data, error } = await supabase.rpc("record_rcap_screening_analytics_event", {
       p_session_id: sessionId,
       p_event_type: eventType,
       p_outcome_category: outcomeCategory ?? null,
       p_packet_route_available: packetRouteAvailable ?? null
     });
+    if (error) return { ok: false, recorded: false, reason: "rpc_failed" };
+    return { ok: true, recorded: data === true };
   } catch {
     // Analytics is best-effort; never disrupt the screening/result flow.
+    return { ok: false, recorded: false, reason: "rpc_failed" };
   }
 }

@@ -71,23 +71,23 @@ Hard rule: **no frontend change is "done" without screenshot verification.** Run
 - **Rendering mechanism:** React server component `src/app/expungement-ai/page.tsx` →
   `ExpungementLandingHandoff`, which reads the design-handoff HTML, **strips its `<script>` tags**,
   rewrites asset/href paths, injects the markup via `dangerouslySetInnerHTML`, and mounts
-  `ExpungementLandingInteractions` (nav toggle, smooth scroll, static Wilma panel). Because the
-  handoff scroll-reveal JS is stripped, a `noScriptRevealFallback` `<style>` block forces the
-  "How it works" steps/connector visible. **Core content must never depend on animation JS.**
+  `ExpungementLandingInteractions` for progressive navigation, product examples, and restrained
+  scroll movement. The source markup keeps all core content visible before enhancement.
+  **Core content must never depend on animation JavaScript.**
 - **Source files:**
   - `src/app/expungement-ai/page.tsx`
-  - `src/app/expungement-ai/ExpungementLandingHandoff.tsx` (loader + reveal fallback)
+  - `src/app/expungement-ai/ExpungementLandingHandoff.tsx` (server loader)
   - `src/app/expungement-ai/ExpungementLandingInteractions.tsx` (progressive enhancement)
   - `src/app/expungement-ai/layout.tsx` (metadata, uses `getExpungementAiBaseUrl()`)
 - **Design handoff source:**
-  `design-handoff/expungement-ai-frontend/files-6/Expungement-Landing-Full.html` (+ `hero-*` images).
+  `design-handoff/expungement-ai-frontend/files-20/Expungement-Landing-Full.html` (+ `hero-*` images).
 - **Allowed files to edit:** the four source files above, `public/expungement-ai/**` assets, and the
   handoff HTML (the handoff file is the content source of truth for the landing).
 - **Must NOT be confused with:** `/expungement-ai/screening` (the flow, different header),
   `/legalease` (the suite), `/partners`.
-- **Correct header:** the handoff HTML's own polished marketing nav — SVG sunrise logomark +
-  "Expungement.ai" wordmark, links: How it works / Pricing / Why trust us / FAQ, Log in, Start free.
-  Allowed marketing nav items: How it works, Pricing, Support/FAQ, Sign in, Start free.
+- **Correct header:** the handoff HTML's own polished marketing nav with the SVG sunrise logomark,
+  Expungement.ai wordmark, How it works / What you get / Price / Trust & privacy / Questions,
+  Log in, and Start free.
   "Start free" → `/expungement-ai/start` → screening. "Sign in/Log in" → `/expungement-ai/sign-in`.
 - **Correct logo:** the inline SVG sunrise-arch logomark + "Expungement.ai" wordmark in the handoff
   HTML. The reusable React equivalent is `src/components/expungement-ai/ExpungementWordmark.tsx`.

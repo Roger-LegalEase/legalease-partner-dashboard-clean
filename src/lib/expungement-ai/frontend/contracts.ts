@@ -242,6 +242,8 @@ export type ScreeningEvaluation = {
   profileVersion: string;
   matterId: string;
   pathwayId?: string;
+  /** Server-authored display label for the selected compiled pathway. */
+  pathwayLabel?: string;
   resultCode: ResultCode;
   userLabel: string;
   reasons: EvaluationReason[];

@@ -3,9 +3,8 @@ import Link from "next/link";
 /**
  * Polished Expungement.ai logomark + wordmark.
  *
- * The mark is the same sunrise-arch glyph used by the consumer landing handoff
- * (design-handoff/expungement-ai-frontend/files-6/Expungement-Landing-Full.html), reproduced as a
- * React component so every consumer surface shows the branded logo instead of plain fallback text.
+ * The mark is the approved sunrise-arch glyph used across the consumer product,
+ * reproduced as a React component so every surface uses one vector source.
  *
  * `tone` controls the color treatment:
  * - "dark"  (default): navy mark + navy wordmark, for LIGHT backgrounds (app-style screening header).
@@ -17,11 +16,15 @@ import Link from "next/link";
 export function ExpungementWordmark({
   tone = "dark",
   href = "/expungement-ai",
-  idSuffix = "nav"
+  idSuffix = "nav",
+  ariaLabel = "Expungement.ai home",
+  i18nAriaLabel
 }: {
   tone?: "dark" | "light";
   href?: string;
   idSuffix?: string;
+  ariaLabel?: string;
+  i18nAriaLabel?: string;
 }) {
   const colors =
     tone === "light"
@@ -32,9 +35,10 @@ export function ExpungementWordmark({
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-2 font-extrabold tracking-tight"
+      className="inline-flex min-h-11 items-center gap-2 font-extrabold tracking-tight"
       style={{ color: colors.text }}
-      aria-label="Expungement.ai home"
+      aria-label={ariaLabel}
+      data-i18n-aria-label={i18nAriaLabel}
     >
       <svg viewBox="0 0 192 158" width="30" height="25" aria-hidden="true" className="shrink-0">
         <defs>

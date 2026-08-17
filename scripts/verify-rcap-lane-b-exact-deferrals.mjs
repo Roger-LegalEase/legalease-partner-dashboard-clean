@@ -325,6 +325,7 @@ async function runChecks() {
         nextSteps: [],
         paymentAllowed: true,
         packetReady: true,
+        packetType: "official_pdf_overlay",
         pathwayLabel: pathwayId,
       };
       let refused = false;

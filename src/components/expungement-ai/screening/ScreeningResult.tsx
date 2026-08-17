@@ -51,9 +51,8 @@ const RESULT_EYEBROW_KEYS: Record<ResultCode, string> = {
   hard_stop: "result.cannot_help"
 };
 
-// Partner-mode result lanes. Every lane routes forward into the Briefcase (the
-// packet builder, next steps, and saved status all live there) and NEVER shows
-// consumer pricing. DTC mode does not use these — it keeps the $50 gate.
+// Partner-mode result lanes. Every lane routes forward into the Briefcase and
+// never shows consumer pricing.
 const PARTNER_RESULT_LANES: Record<ResultCode, { key: string; fallback: string }> = {
   packet_ready: { key: "result.lane_packet_builder", fallback: "Continue to packet builder" },
   packet_ready_with_caution: { key: "result.lane_packet_builder", fallback: "Continue to packet builder" },
@@ -64,6 +63,18 @@ const PARTNER_RESULT_LANES: Record<ResultCode, { key: string; fallback: string }
   not_yet: { key: "result.lane_briefcase", fallback: "View my Briefcase" },
   likely_not_eligible: { key: "result.lane_briefcase", fallback: "View my Briefcase" },
   hard_stop: { key: "result.lane_briefcase", fallback: "View my Briefcase" }
+};
+
+const DTC_RESULT_ACTIONS: Record<ResultCode, { key: string; fallback: string }> = {
+  packet_ready: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
+  packet_ready_with_caution: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
+  needs_more_info: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
+  needs_review: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
+  guidance_only: { key: "result.save_guidance", fallback: "Save this guidance" },
+  not_covered_yet: { key: "result.save_guidance", fallback: "Save this guidance" },
+  not_yet: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
+  likely_not_eligible: { key: "result.save_matter_continue", fallback: "Save this matter and continue" },
+  hard_stop: { key: "result.save_matter_continue", fallback: "Save this matter and continue" }
 };
 
 const TONE_ACCENT: Record<Tone, { eyebrow: string; chip: string }> = {
@@ -141,7 +152,9 @@ export function ScreeningResult({
   const isPacketReady = PACKET_READY_RESULT_CODES.has(evaluation.resultCode);
   const nextSteps = isPacketReady ? PACKET_READY_NEXT_STEPS : evaluation.nextSteps;
   const routeLabelKey = routeLabelKeyForState(stateName, evaluation.pathwayId);
-  const routeLabel = translate(routeLabelKey, `${stateName} record-clearing`, { state: stateName });
+  const routeLabel = evaluation.pathwayLabel
+    ? localizeText(evaluation.pathwayLabel)
+    : translate(routeLabelKey, `${stateName} record-clearing`, { state: stateName });
 
   return (
     <div className="rounded-[24px] border border-[#ECEFF4] bg-white p-6 shadow-sm md:p-8">
@@ -154,6 +167,9 @@ export function ScreeningResult({
       </h1>
       <p className="mt-2 text-sm font-semibold text-[#8A93A6]">
         {isPacketReady ? localizeText(packetSubheading(stateName, evaluation, routeLabel)) : stateName}
+      </p>
+      <p className="mt-3 inline-flex rounded-full bg-[#F7F3EC] px-3 py-1.5 text-xs font-bold text-[#334155]">
+        {stateName}: {routeLabel}
       </p>
 
       {isPacketReady ? (
@@ -226,6 +242,15 @@ export function ScreeningResult({
 
       {evaluation.packetPlan ? <PacketPlanSummary plan={evaluation.packetPlan} routeLabel={routeLabel} /> : null}
 
+      {showPacketAction && !hasScreeningSession ? (
+        <div className="mt-6 rounded-xl border border-[#E7F7F4] bg-[#F4FBFA] px-4 py-3">
+          <p className="text-sm font-bold text-[#0B5C54]">$50 one time when you are ready to generate this packet</p>
+          <p className="mt-1 text-[13px] leading-5 text-[#475A6E]">
+            Save the matter to your free Briefcase, complete the packet information, and review it before payment.
+          </p>
+        </div>
+      ) : null}
+
       {actionError ? (
         <p className="mt-6 rounded-xl bg-[#FEF2F2] px-4 py-3 text-sm font-semibold text-[#B42318]" role="alert">
           {actionError}
@@ -243,17 +268,17 @@ export function ScreeningResult({
             <FileText className="mr-2 inline h-4 w-4" aria-hidden="true" />
             {translate(PARTNER_RESULT_LANES[evaluation.resultCode].key, PARTNER_RESULT_LANES[evaluation.resultCode].fallback)}
           </button>
-        ) : showPacketAction ? (
-          // DTC mode: unchanged $50 packet gate, only when payment is allowed.
+        ) : (
+          // DTC mode: every authoritative result can be saved before payment.
           <button
             type="button"
             onClick={onPacketAction}
             className="min-h-[48px] flex-1 rounded-[14px] bg-[#FF3B00] px-6 py-3 text-base font-extrabold text-white shadow-[0_10px_26px_rgba(255,59,0,.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1320] focus-visible:ring-offset-2"
           >
             <FileText className="mr-2 inline h-4 w-4" aria-hidden="true" />
-            {translate("payment.generate_packet", "Generate my packet - $50")}
+            {translate(DTC_RESULT_ACTIONS[evaluation.resultCode].key, DTC_RESULT_ACTIONS[evaluation.resultCode].fallback)}
           </button>
-        ) : null}
+        )}
         {missing.length > 0 ? (
           <button
             type="button"
@@ -268,7 +293,7 @@ export function ScreeningResult({
           onClick={() => onEditAnswers()}
           className="min-h-[48px] rounded-[14px] border border-[#E4E8EF] bg-white px-6 py-3 text-base font-bold text-[#0B1320] hover:border-[#CBD5E1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A99D] focus-visible:ring-offset-2"
         >
-          {isPacketReady ? translate("payment.save_later", "Save and come back later") : translate("result.edit_answers", "Edit my answers")}
+          {translate("result.edit_answers", "Edit my answers")}
         </button>
       </div>
 

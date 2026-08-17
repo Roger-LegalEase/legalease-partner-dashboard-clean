@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useSyncExternalStore, type ReactNode } from "react";
 import {
   EXPUNGEMENT_LOCALE_EVENT_NAME,
   EXPUNGEMENT_LOCALE_STORAGE_KEY,
@@ -23,34 +23,17 @@ const LocalizationContext = createContext<LocalizationContextValue>({
   text: (value, options) => resolveRuntimeText(DEFAULT_LOCALE, value, options)
 });
 
-function initialLocale(): Locale {
-  if (typeof window === "undefined") return DEFAULT_LOCALE;
-  return readSavedExpungementLocale();
-}
-
 export function LocalizationProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useState<Locale>(() => initialLocale());
+  const locale = useSyncExternalStore(subscribeToLocale, readSavedExpungementLocale, () => DEFAULT_LOCALE);
 
   useEffect(() => {
-    const onStorage = (event: StorageEvent) => {
-      if (event.key === EXPUNGEMENT_LOCALE_STORAGE_KEY) setLocale(normalizeLocale(event.newValue));
-    };
-    const onLanguage = (event: Event) => {
-      const nextLocale = event instanceof CustomEvent ? normalizeLocale(event.detail?.locale) : initialLocale();
-      setLocale(nextLocale);
-    };
-
-    window.addEventListener("storage", onStorage);
-    window.addEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onLanguage);
-    return () => {
-      window.removeEventListener("storage", onStorage);
-      window.removeEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onLanguage);
-    };
-  }, []);
+    document.documentElement.setAttribute("lang", locale);
+    document.documentElement.dataset.locale = locale;
+    document.documentElement.dataset.expungementAiLocale = locale;
+  }, [locale]);
 
   const persistLocale = useCallback((nextLocale: Locale) => {
     persistExpungementLocale(nextLocale);
-    setLocale(nextLocale);
   }, []);
 
   const value = useMemo<LocalizationContextValue>(() => ({
@@ -61,6 +44,18 @@ export function LocalizationProvider({ children }: { children: ReactNode }) {
   }), [locale, persistLocale]);
 
   return <LocalizationContext.Provider value={value}>{children}</LocalizationContext.Provider>;
+}
+
+function subscribeToLocale(onStoreChange: () => void) {
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === EXPUNGEMENT_LOCALE_STORAGE_KEY) onStoreChange();
+  };
+  window.addEventListener("storage", onStorage);
+  window.addEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onStoreChange);
+  return () => {
+    window.removeEventListener("storage", onStorage);
+    window.removeEventListener(EXPUNGEMENT_LOCALE_EVENT_NAME, onStoreChange);
+  };
 }
 
 export function useLocalization() {
