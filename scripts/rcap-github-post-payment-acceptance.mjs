@@ -34,10 +34,10 @@ const SUPABASE_ACCESS_TOKEN = process.env.SUPABASE_ACCESS_TOKEN ?? "";
 const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 const WEBHOOK_SECRET = process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "";
 
-const EXPECTED_APPLICATION_SHA = "264d2a240e5c857f55ee645f2683830e94f67c19";
+const EXPECTED_APPLICATION_SHA = "664b8ddd374642bf2bd1820f7e05224f3dd081bc";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
 const EXPECTED_PROJECT_NAME = "legalease-rcap-acceptance";
-const EXPECTED_WORKER_DIGEST = "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101";
+const EXPECTED_WORKER_DIGEST = "sha256:e958cb057abaa1c22902d01ffe0e42aec0feb09118ba9f2bc44210cbdeb244c7";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const EXPECTED_ROUTE_ID = "PA:Path A — Non-conviction expungement";
 const CONSUMER_PACKET_NAMESPACE = "rcap:consumer-packet:v1";
@@ -54,6 +54,12 @@ const EXPECTED_EVENTS = [
 ].sort();
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 const ARTIFACT_BUCKET = "rcap-packet-artifacts-private";
+// Paired with the checkout gate's fail-closed marker. This legacy Quick-Tunnel
+// continuation still models the pre-Phase-55 authority signature and the old
+// compatibility packet, so it must never run against the current acceptance
+// project until that entire contract is ported and re-verified.
+const GITHUB_FALLBACK_SUPPORTED = false;
+const GITHUB_FALLBACK_BLOCKER = "GitHub Quick-Tunnel fallback is not ported to the current packet-information and Phase-55 payment binding contract.";
 
 const secretValues = [SUPABASE_ACCESS_TOKEN, STRIPE_KEY, WEBHOOK_SECRET].filter(Boolean);
 function sanitize(value) {
@@ -251,6 +257,9 @@ async function sleep(milliseconds) {
 }
 
 async function main() {
+  if (!GITHUB_FALLBACK_SUPPORTED) {
+    throw new AcceptanceFailure("github_fallback_unsupported_for_current_phase55_contract", GITHUB_FALLBACK_BLOCKER);
+  }
   const hostedUrl = (() => { try { return new URL(PUBLIC_URL); } catch { return null; } })();
   record(
     "immutable_acceptance_inputs_exact",

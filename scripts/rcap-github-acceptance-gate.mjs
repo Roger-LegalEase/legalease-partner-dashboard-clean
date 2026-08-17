@@ -33,14 +33,22 @@ const CHECKOUT_SESSION_ID = process.env.HOSTED_CHECKOUT_SESSION_ID ?? "";
 const BRIEFCASE_ITEM_ID = process.env.HOSTED_BRIEFCASE_ITEM_ID ?? "";
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 
-const EXPECTED_APPLICATION_SHA = "264d2a240e5c857f55ee645f2683830e94f67c19";
+const EXPECTED_APPLICATION_SHA = "664b8ddd374642bf2bd1820f7e05224f3dd081bc";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const EXPECTED_WORKER_DIGEST = "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101";
+const EXPECTED_WORKER_DIGEST = "sha256:e958cb057abaa1c22902d01ffe0e42aec0feb09118ba9f2bc44210cbdeb244c7";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const PA_PATHWAY = "Path A — Non-conviction expungement";
 const ACCEPTANCE_PACKET_PATHWAY = "source_engine_packet_plan";
 const ACCEPTANCE_PACKET_SAFETY_DISCLAIMER = "Functional acceptance compatibility fixture only. This synthetic Pennsylvania packet is not legal advice, is not approved for filing, and is not production-launch evidence.";
 const ACCEPTANCE_PACKET_STATEMENT = "Pennsylvania Path A — Non-conviction expungement functional acceptance packet. Synthetic fixture only; review is required before filing.";
+// This legacy Quick-Tunnel fallback predates the current packet-information
+// review and Phase-55 payment binding. It is deliberately non-runnable until
+// its fixture, Stripe metadata/authority calls, and payment watcher have all
+// been ported to that contract. Keeping the old fixture visible below makes the
+// incompatibility auditable; the guard at the first line of main prevents any
+// network access or database/Stripe mutation.
+const GITHUB_FALLBACK_SUPPORTED = false;
+const GITHUB_FALLBACK_BLOCKER = "GitHub Quick-Tunnel fallback is not ported to the current packet-information and Phase-55 payment binding contract.";
 const EXPECTED_EVENTS = [
   "checkout.session.async_payment_succeeded",
   "checkout.session.completed",
@@ -233,6 +241,9 @@ async function checkoutSessionsForItem(itemId, createdGte) {
 }
 
 async function main() {
+  if (!GITHUB_FALLBACK_SUPPORTED) {
+    throw new GateFailure("github_fallback_unsupported_for_current_phase55_contract", GITHUB_FALLBACK_BLOCKER);
+  }
   const missing = [
     ["HOSTED_APPLICATION_SHA", APPLICATION_SHA],
     ["ACCEPTANCE_SUPABASE_PROJECT_REF", PROJECT_REF],
@@ -722,16 +733,10 @@ async function main() {
   const personRow = Array.isArray(person.json) ? person.json[0] : null;
   record("authenticated_user_resolves_unique_consumer_person", Boolean(personRow?.id) && personRow.match_key === personMatchKey, `person id=${personRow?.id ?? "(none)"}; namespace=${personRow?.partner_slug ?? "(none)"}`);
 
-  // The accepted application derives this packet id and then inserts a row
-  // whose literal display-label pathway is rejected by the repository's
-  // phase-37 pathway constraint and whose required safety_disclaimer is
-  // omitted. Functional acceptance may bridge that already-documented
-  // application/schema mismatch without changing either frozen input: create
-  // only the exact deterministic FK row, use the schema's explicit generic
-  // source-plan pathway, and label both the stored bytes and evidence as a
-  // synthetic compatibility fixture. The render job remains authoritative:
-  // its route id/profile/renderer are derived by the accepted application from
-  // the Briefcase item, never from this compatibility pathway.
+  // Dormant compatibility fixture retained only to document why this fallback
+  // is unsupported. The fail-closed guard at the start of main makes this block
+  // unreachable. Do not remove that guard or treat this legacy row as current
+  // packet-information / Phase-55 acceptance evidence.
   const consumerPacketId = deterministicUuid(`${consumerPacketNamespace}:${itemId}`);
   const packetFixtureInsert = await sql(`
     insert into public.rcap_document_packets
@@ -790,7 +795,7 @@ async function main() {
     syntheticOnly: true,
     productionUseAuthorized: false,
     finalLaunchBlocked: true,
-    blocker: "Reconcile the accepted consumer packet insert with the deployed rcap_document_packets constraints, then repeat production-shaped Vercel proof without this compatibility fixture."
+    blocker: GITHUB_FALLBACK_BLOCKER
   };
 
   const unpaidRender = await callApp(previewUrl, "/api/expungement-ai/packet/render", {
@@ -922,11 +927,11 @@ async function main() {
       ? "the Checkout Session returns to this exact temporary HTTPS host"
       : "the Checkout Session selected a different origin"
   };
-  const returnShapeExact = successUrl.pathname === "/expungement-ai/packet-ready"
-    && successUrl.searchParams.get("briefcaseItemId") === itemId
+  const returnShapeExact = successUrl.pathname === `/briefcase/${itemId}`
+    && successUrl.searchParams.get("payment") === "return"
     && successUrl.searchParams.get("session_id") === "{CHECKOUT_SESSION_ID}"
-    && cancelUrl.pathname === "/expungement-ai/pay"
-    && cancelUrl.searchParams.get("briefcaseItemId") === itemId
+    && cancelUrl.pathname === `/briefcase/${itemId}`
+    && cancelUrl.searchParams.get("checkout") === "canceled"
     && successUrl.origin === publicOrigin
     && cancelUrl.origin === publicOrigin;
 
@@ -1001,8 +1006,7 @@ async function main() {
       `- Stripe-hosted Checkout: ${checkoutUrl}`,
       `- Expected return: ${session.success_url}`,
       "- State: open and unpaid; no entitlement or render job exists",
-      `- Functional-acceptance compatibility fixture: packet ${consumerPacketId}, schema pathway ${ACCEPTANCE_PACKET_PATHWAY}; authoritative job route remains ${routeIdentity.routeId}`,
-      "- Final launch remains blocked until the frozen application/schema packet-insert mismatch is fixed and production-shaped Vercel proof is repeated without this fixture",
+      `- Packet creation: delegated to the accepted application after verified payment; authoritative job route ${routeIdentity.routeId}`,
       ""
     ].join("\n"));
   }

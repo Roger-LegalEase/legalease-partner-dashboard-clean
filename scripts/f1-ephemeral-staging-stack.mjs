@@ -13,7 +13,7 @@
 //     abort and rollback — is executed by the repository's proven verifier
 //     battery, which the workflow runs as its own step (the same battery the
 //     blocking chain runs, exercised here on the runner).
-//   * THIS script proves what only the real stack can: the six-migration
+//   * THIS script proves what only the real stack can: the seven-migration
 //     sequence hash-gated onto the stack database, real GoTrue identities,
 //     browser-role denial through Kong/PostgREST, cross-tenant denial through
 //     RLS, private Storage with corruption detection, Mailpit email capture,
@@ -111,8 +111,25 @@ async function api(url, { method = "GET", key = ANON_KEY, token = null, body = n
 }
 
 const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-action.json"), "utf8"));
+const authorizationQueue = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-authorization-queue.json"), "utf8"));
+const readiness = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-authorization-readiness.json"), "utf8"));
+const PHASE_55_PATH = "supabase/phase-55-expungement-matter-payment-binding.sql";
+const PHASE_55_AUTHORIZATION_ID = "auth-2026-08-16-pr101-release-integration";
+const phase55Authorization = authorizationQueue.entries?.find((entry) => entry.id === PHASE_55_AUTHORIZATION_ID);
+const phase55PathIndex = phase55Authorization?.authorizedPaths?.indexOf(PHASE_55_PATH) ?? -1;
+const phase55Sha256 = phase55PathIndex >= 0 ? phase55Authorization.authorizedSha256?.[phase55PathIndex] ?? null : null;
+const authorizedSequence = [
+  ...action.migrationsInApplyOrder,
+  {
+    sequencePosition: action.migrationsInApplyOrder.length + 1,
+    phase: 55,
+    path: PHASE_55_PATH,
+    sha256: phase55Sha256,
+    authorizationId: PHASE_55_AUTHORIZATION_ID
+  }
+];
 
-// --- 1+2. The six-migration sequence, hash-gated, in order -------------------
+// --- 1+2. The seven-migration sequence, hash-gated, in order -----------------
 {
   // Environment shaping first: the consumer-path prerequisites the sequence
   // builds on (the same prerequisite set the repository's HTTP battery uses).
@@ -120,8 +137,8 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
     "supabase/phase-26-consumer-briefcase-items.sql",
     "supabase/phase-27-consumer-checkout-metadata.sql",
     "supabase/phase-28-consumer-packet-generation-status.sql",
-    // partner_entitlement is not referenced by phases 49-54 (verified: 0 hits in
-    // all six files), but the real pre-49 staging schema carries it and the
+    // partner_entitlement is not referenced by phases 49-55, but the real
+    // pre-49 staging schema carries it and the
     // sponsored surface reads it, so the disposable baseline carries it too.
     "supabase/phase-35-rcap-partner-entitlement.sql"
   ];
@@ -141,7 +158,7 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
   //
   // Proves the disposable stack carries the REAL pre-Phase-49 application
   // schema before a single migration of the sequence is applied. Derived from
-  // what phases 49-54 actually reference, plus the consumer baseline columns
+  // what phases 49-55 actually reference, plus the consumer baseline columns
   // phases 51-53 read. Deliberately asserts NO phase 49-54 object: `currency`,
   // `provider_event_id`, `payment_authority`, `payment_recorded_at`,
   // `payment_recorded_by`, `consumer_briefcase_item_id` and
@@ -195,7 +212,7 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
     assertedBeforePhase49: true
   };
   record("baseline_schema_complete", baselineOk, baselineOk
-    ? `pre-phase-49 baseline complete: ${BASELINE_TABLES.length} tables, ${BASELINE_ITEM_COLUMNS.length} consumer payment/ownership columns, partner_slug unique boundary, auth.users FK, auth.uid(), pgcrypto; no phase 49-54 object present yet`
+    ? `pre-phase-49 baseline complete: ${BASELINE_TABLES.length} tables, ${BASELINE_ITEM_COLUMNS.length} consumer payment/ownership columns, partner_slug unique boundary, auth.users FK, auth.uid(), pgcrypto; no phase 49-55 object present yet`
     : `MISSING: ${censusMissing}`);
   if (!baselineOk) {
     console.error("F1: refusing to apply phase 49 onto an incomplete baseline");
@@ -204,18 +221,27 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
 
   let hashesOk = true;
   observedHashes = [];
-  for (const m of action.migrationsInApplyOrder) {
+  const phase55ReadinessHash = readiness.blockers?.find((entry) => entry.id === "RCAP-SEC-001")?.resolution?.migrationSha256?.["phase-55"] ?? null;
+  const sequenceExact = authorizedSequence.map((entry) => entry.phase).join(",") === "49,50,51,52,53,54,55"
+    && authorizedSequence.every((entry, index) => entry.sequencePosition === index + 1)
+    && phase55Authorization?.decision === "approved"
+    && phase55Authorization?.authorizationScope === "repository_integration_and_nonproduction_acceptance_only"
+    && phase55Authorization?.scopedAuthorization?.acceptance?.startsWith("authorized")
+    && !phase55Authorization?.scopedAuthorization?.production?.startsWith("authorized")
+    && phase55Sha256 === phase55ReadinessHash;
+  if (!sequenceExact) hashesOk = false;
+  for (const m of authorizedSequence) {
     const actual = sha256File(m.path);
     observedHashes.push({ phase: m.phase, path: m.path, recorded: m.sha256, actual });
     if (actual !== m.sha256) hashesOk = false;
   }
-  record("migration_hashes_match", hashesOk, hashesOk ? `all ${action.migrationsInApplyOrder.length} recomputed hashes equal the prepared action` : "HASH DRIFT — refusing to apply");
+  record("migration_hashes_match", hashesOk, hashesOk ? `all ${authorizedSequence.length} recomputed hashes equal their exact authorization records` : "HASH OR AUTHORIZATION DRIFT — refusing to apply");
   if (!hashesOk) finish(1);
 
   console.log(`  stack postgres: ${psql(`select version()`).out.slice(0, 60)}`);
   let applied = 0;
   let applyErr = null;
-  for (const m of action.migrationsInApplyOrder) {
+  for (const m of authorizedSequence) {
     const r = psqlFile(m.path);
     fs.writeFileSync(path.join(EVIDENCE_DIR, `migration-phase-${m.phase}.stderr.log`), r.fullErr ?? "");
     const probe = psql(
@@ -226,7 +252,7 @@ const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-
     if (r.status !== 0) { applyErr = `${m.path}: ${r.err}`; break; }
     applied += 1;
   }
-  record("migrations_apply_in_order", applied === action.migrationsInApplyOrder.length, applyErr ?? `49 -> 54 applied in order (${applied}/${action.migrationsInApplyOrder.length})`);
+  record("migrations_apply_in_order", applied === authorizedSequence.length, applyErr ?? `49 -> 55 applied in order (${applied}/${authorizedSequence.length})`);
   fs.writeFileSync(path.join(EVIDENCE_DIR, "migration-hashes.json"), JSON.stringify(observedHashes, null, 2));
   // PostgREST discovers the new relations before the REST-surface cases run.
   psql(`notify pgrst, 'reload schema'`);
