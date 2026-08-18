@@ -294,5 +294,7 @@ const report = [
 ].join("\n");
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
-fs.writeFileSync(OUT, `${report}\n`);
+// Exactly one trailing newline: the per-route blocks already end with a blank
+// line, and appending another leaves the blank line at EOF that git flags.
+fs.writeFileSync(OUT, report.replace(/\n*$/, "\n"));
 console.log(`wrote ${path.relative(rootDir, OUT)} for ${TARGET_STATES.join(", ")}`);

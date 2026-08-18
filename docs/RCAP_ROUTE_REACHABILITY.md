@@ -874,4 +874,3 @@ Every route that is not sellable carries a recorded decision that says why.
 - another valid public answer set reaches packet_ready: false
 - recorded review state: first_pass_ratified
 - classification: **not reached by this search — no recorded hold explains it**
-
