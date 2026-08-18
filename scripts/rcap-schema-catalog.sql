@@ -139,6 +139,20 @@ function_grants as (
   ) acl
   where n.nspname = 'public'
 ),
+default_privileges as (
+  -- What a future object in this schema inherits. Invisible to an object-by-object diff,
+  -- and the reason a table can be browser-reachable before anyone writes a policy.
+  select 'default_acl',
+         pg_get_userbyid(d.defaclrole) || '.'
+           || coalesce(d.defaclnamespace::regnamespace::text, '(any schema)') || '.'
+           || d.defaclobjtype::text || '.' || acl.grantee_name || '.' || acl.privilege_type, ''
+  from pg_default_acl d
+  cross join lateral (
+    select case when a.grantee = 0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end as grantee_name,
+           a.privilege_type
+    from aclexplode(d.defaclacl) a
+  ) acl
+),
 storage_buckets as (
   select 'storage.bucket', b.id::text, 'public ' || coalesce(b.public::text, 'null')
   from storage.buckets b
@@ -174,6 +188,7 @@ everything as (
   union all select * from relation_grants
   union all select * from column_grants
   union all select * from function_grants
+  union all select * from default_privileges
   union all select * from storage_buckets
   union all select * from storage_policies
   union all select * from storage_rls

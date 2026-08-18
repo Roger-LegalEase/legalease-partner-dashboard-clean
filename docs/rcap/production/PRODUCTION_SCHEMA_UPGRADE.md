@@ -84,6 +84,7 @@ question from whether it applies to an empty database — all 49 do that.
 | 47 | `supabase/phase-53-rcap-consumer-job-binding.sql` | 53 | `phase-52-rcap-consumer-payment-authority.sql` | adds no table | functions, data | yes |
 | 48 | `supabase/phase-54-rcap-person-namespace-hardening.sql` | 54 | `phase-53-rcap-consumer-job-binding.sql` | adds no table | functions, RLS, policies, grants | yes |
 | 49 | `supabase/phase-55-expungement-matter-payment-binding.sql` | 55 | `phase-54-rcap-person-namespace-hardening.sql` | adds no table | tables, functions, grants, data | yes |
+| 50 | `supabase/phase-56-public-view-and-default-privilege-hardening.sql` | 56 | `phase-55-expungement-matter-payment-binding.sql` | adds no table | views, RLS, policies, grants | yes |
 
 ## Migrations created
 
@@ -96,8 +97,9 @@ question from whether it applies to an empty database — all 49 do that.
 | 4 | `supabase/migrations/20260818204000_rcap_upgrade_04_views.sql` | 14 |
 | 5 | `supabase/migrations/20260818205000_rcap_upgrade_05_triggers.sql` | 42 |
 | 6 | `supabase/migrations/20260818206000_rcap_upgrade_06_rls_and_policies.sql` | 80 |
-| 7 | `supabase/migrations/20260818207000_rcap_upgrade_07_grants.sql` | 933 |
+| 7 | `supabase/migrations/20260818207000_rcap_upgrade_07_grants.sql` | 1,039 |
 | 8 | `supabase/migrations/20260818208000_rcap_upgrade_08_storage_buckets.sql` | 3 guarded blocks |
+| 9 | `supabase/migrations/20260818209000_rcap_upgrade_09_security_hardening.sql` | 38 |
 
 The chain is the difference between two locally built databases, not a copy of the 49
 inputs, so a statement the baseline already satisfies does not appear. Bootstrap-only work
@@ -149,6 +151,12 @@ bash scripts/rcap-schema-upgrade-lab.sh build baseline lab_a
 # B: the accepted repository schema — baseline plus every repository SQL input, in order
 bash scripts/rcap-schema-upgrade-lab.sh build stacked lab_b
 
+# B-minus: the same, without the hardening phase. Exists only so the public row sets can be
+# compared with and without the remediation.
+bash scripts/rcap-schema-upgrade-lab.sh build stacked-pre lab_pre
+bash scripts/rcap-schema-upgrade-lab.sh seed lab_pre
+bash scripts/rcap-schema-upgrade-lab.sh seed lab_b
+
 # C and D: two independent replays of baseline + the forward chain
 bash scripts/rcap-schema-upgrade-lab.sh build upgrade lab_c
 bash scripts/rcap-schema-upgrade-lab.sh build upgrade lab_d
@@ -171,7 +179,7 @@ privilege, which is 17+ syntax.
 ## Target-schema comparison
 
 Replay 1 and replay 2 catalogs are byte-identical:
-`sha256 97bef5057c4184046881371f3da4da0899b3e4d717579b20444e6e8f9b61cb97`, the same hash as
+`sha256 6d5c79e3fae4484e21a8181ff192eed0d2aff6ed5c075762e78aa6fa1fb9471e`, the same hash as
 the accepted repository schema's catalog. Zero differing lines.
 
 | Class | Baseline | After the chain |
@@ -184,20 +192,22 @@ the accepted repository schema's catalog. Zero differing lines.
 | functions | 35 | 113 |
 | views | 5 | 12 |
 | RLS records | 44 | 73 |
-| policies | 73 | 124 |
+| policies | 73 | 130 |
 | relation grants | 1,374 | 1,985 |
-| column grants | 52 | 260 |
+| column grants | 52 | 324 |
 | function grants | 130 | 400 |
+| default privileges | 48 | 24 |
 | Storage buckets | 0 | 3 |
 | Storage RLS records | 2 | 2 |
-| **total definitions** | **2,788** | **5,164** |
+| **total definitions** | **2,836** | **5,258** |
 
 The compared surface is defined by `scripts/rcap-schema-catalog.sql`: tables, columns with
 types, nullability and defaults, constraints, indexes, triggers, function bodies with
 security and volatility, views with their reloptions, sequences, enums, RLS enabled and
 forced state, policies with roles and expressions, relation, column and function grants, and
-Storage buckets and RLS. Object comments are not compared; they carry no behavioural or
-security effect.
+Storage buckets and RLS, and the schema's default privileges — what a future object
+inherits, which no object-by-object diff can see. Object comments are not compared; they
+carry no behavioural or security effect.
 
 ## Security result
 
@@ -213,6 +223,12 @@ security effect.
 | Production-only bucket `social-public-assets` | untouched |
 | Service-role behaviour | unchanged — no new SECURITY DEFINER surface beyond the accepted inputs |
 | Tenant isolation | pass — `verify-onboarding-tenant-isolation.mjs` 8/8 against the upgraded database |
+| RLS on the four named tables | pass — 2 directly, 2 through the guard, exercised by creating them |
+| The five public views run as the caller | pass — `security_invoker=true, security_barrier=true` |
+| Public row sets after the remediation | pass — byte-identical for anon, against a fixture built from the excluded cases |
+| anon reach into base tables | pass — column-level SELECT only; every other column denied |
+| authenticated access | pass — 738 grants before, 738 after, none added or removed |
+| Future objects | pass — a new table inherits postgres and service_role only |
 
 One thing a reviewer should know rather than infer: the baseline carries
 `ALTER DEFAULT PRIVILEGES ... GRANT ALL ON TABLES TO anon, authenticated`, so **any** new
@@ -220,6 +236,94 @@ table in `public` arrives reachable by both browser roles whether or not a migra
 so. Step 07 therefore revokes from PUBLIC, anon, authenticated and service_role on every
 object it touches and then grants back exactly what the accepted schema grants — the end
 state is stated, not inherited.
+
+## Security Advisor remediation
+
+The remediation validated in the legalease-rcap-acceptance project is now part of this
+reviewed Production upgrade rather than a change that lives only in that project or in a
+dashboard. It exists twice, and a verifier check fails if the two ever drift apart:
+
+- canonical schema source: `supabase/phase-56-public-view-and-default-privilege-hardening.sql`
+- forward chain: `supabase/migrations/20260818209000_rcap_upgrade_09_security_hardening.sql`
+
+`scripts/rcap-hosted-acceptance-migrate.mjs` applies the same phase last, in the position it
+occupies in the canonical order, and now enables row level security on the two acceptance
+tables at the moment it creates them.
+
+### RLS on four tables
+
+| Table | Before | After |
+| --- | --- | --- |
+| `public.partner_entitlement` | enabled | enabled, now stated rather than incidental |
+| `public.rcap_record_events` | enabled and forced | unchanged, still forced |
+| `public.rcap_acceptance_environment_marker` | privileges revoked, **no RLS** | RLS enabled where the table exists |
+| `public.rcap_acceptance_migration_ledger` | privileges revoked, **no RLS** | RLS enabled where the table exists |
+
+The two acceptance tables are created at run time by the acceptance pipeline and exist only
+in that environment, so the step hardens them where it finds them instead of creating
+acceptance bookkeeping inside Production. The verifier proves the guard by creating both
+tables, running the step, and reading `relrowsecurity` back.
+
+### The five public views become security_invoker
+
+`content_public_authors`, `content_public_media`, `content_public_posts`,
+`content_public_state_editorial` and `content_public_testimonials` now carry
+`security_invoker = true, security_barrier = true`.
+
+Phase 43 made them owner-executed on purpose: the base tables had no anon grant at all, so
+the view's WHERE clause was the only row filter. Inverting that means anon must be able to
+reach the base tables, so the row filter moves into RLS and the column filter into
+column-level grants:
+
+| View | Row set, unchanged | anon columns on the base table |
+| --- | --- | ---: |
+| `content_public_authors` | active authors only | 8 |
+| `content_public_posts` | published or updated, `published_at` set and not in the future | 24 |
+| `content_public_media` | not archived, and referenced by an eligible public record | 8 |
+| `content_public_state_editorial` | published only | 15 |
+| `content_public_testimonials` | approved only | 7 |
+| `content_media_usages` (read by the media view) | usages of public posts | 2 |
+
+Each new policy is `for select to anon` and restates its view's predicate exactly, so the
+effective rows — policy AND view predicate — are what they were. **Zero table-level SELECT
+is granted to anon on any of the six base tables**; the 64 grants above are column-level, so
+a column added tomorrow stays invisible until someone adds it here on purpose.
+
+Proof rather than assertion: `scripts/rcap-public-view-fixture.sql` seeds an inactive
+author, a draft post, a post published ten years out, an archived asset, an asset referenced
+only by a draft, an unapproved testimonial and a draft editorial row, into two databases —
+one built without the hardening phase, one with it. Reading all five views as `anon` returns
+byte-identical rows in both: 1 author, 2 posts, 3 media, 1 editorial record, 1 testimonial.
+
+The honest residual: a `security_invoker` view checks column privileges for every column it
+references, including the ones it filters on, so `is_active`, `status`, `published_at`,
+`archived`, `approved` and `content_posts.updated_at` had to be granted. anon can read those
+directly for rows that are **already public** — never for a draft, an inactive author, an
+archived asset or an unapproved testimonial, because RLS admits none of those. The columns
+that matter stay unreachable: `content_posts.doc`, `content_posts.search_text`,
+`content_media.storage_path`, `content_media.permission_status`,
+`content_authors.auth_user_id`, `content_testimonials.consent_status` and
+`content_state_editorial.legal_approved_at` all return "permission denied", and the verifier
+fails if any of them ever stops doing so.
+
+`authenticated` is untouched: 738 grants before the remediation, 738 after, none added and
+none removed. The internal CMS reads and writes these tables as `authenticated` behind the
+`content_can_edit_any()` policies, and taking those grants away would break editing rather
+than harden anything.
+
+### Default privileges
+
+The baseline carries twelve `ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public`
+statements granting ALL on tables, sequences and functions to `postgres`, `anon`,
+`authenticated` and `service_role`. The `anon` and `authenticated` halves are why withholding
+a policy was never enough — every table anyone adds is browser-reachable the moment it
+exists. Those six are withdrawn; `postgres` and `service_role` keep theirs, because the
+schema owner and the server-side boundary both depend on them for new objects.
+
+Default-privilege rows in the compared catalog fall from 48 to 24, and the verifier creates
+a table in the upgraded database and asserts its ACL names neither browser role. Objects
+that already exist are unaffected: every privilege the accepted schema needs is stated
+explicitly in step 07, which is why the step runs before this one.
 
 ## Applying to Production later
 

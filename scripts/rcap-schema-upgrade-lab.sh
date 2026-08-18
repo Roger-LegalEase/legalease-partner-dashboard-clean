@@ -10,6 +10,9 @@
 #   scripts/rcap-schema-upgrade-lab.sh build baseline DB  baseline only
 #   scripts/rcap-schema-upgrade-lab.sh build target   DB  repository SQL inputs only
 #   scripts/rcap-schema-upgrade-lab.sh build stacked  DB  baseline + repository inputs
+#   scripts/rcap-schema-upgrade-lab.sh build stacked-pre DB  the same, minus the hardening phase
+#   scripts/rcap-schema-upgrade-lab.sh seed DB            load the public-view fixture
+#   scripts/rcap-schema-upgrade-lab.sh sql DB < file      run SQL, print unaligned rows
 #   scripts/rcap-schema-upgrade-lab.sh build upgrade  DB  baseline + forward migrations
 #   scripts/rcap-schema-upgrade-lab.sh catalog DB [FILE]  normalized catalog inventory
 #   scripts/rcap-schema-upgrade-lab.sh down               stop the cluster
@@ -56,6 +59,10 @@ loose_order() {
     | sort -k1,1n -k2,2 \
     | awk '{print $NF}'
 }
+
+# The hardening phase, excluded by the `stacked-pre` recipe so the public row sets can be
+# compared with and without it. Nothing else treats it specially.
+HARDENING_INPUT="phase-56-public-view-and-default-privilege-hardening.sql"
 
 # Post-baseline migrations, in filename order. The baseline itself is excluded:
 # it is the starting point, never a forward step.
@@ -221,6 +228,17 @@ build() {
       apply_file "$db" "$ROOT/supabase/partner-journey-os.sql"
       while read -r f; do apply_file "$db" "$f"; done < <(loose_order)
       ;;
+    stacked-pre)
+      # The accepted schema as it stood before the Security Advisor remediation. Exists
+      # only so the remediation can be proven to leave the public row sets alone.
+      apply_file "$db" "$BASELINE"
+      clear_bootstrap_collisions "$db"
+      apply_file "$db" "$ROOT/supabase/partner-journey-os.sql"
+      while read -r f; do
+        [ "$(basename "$f")" = "$HARDENING_INPUT" ] && continue
+        apply_file "$db" "$f"
+      done < <(loose_order)
+      ;;
     upgrade)
       apply_file "$db" "$BASELINE"
       while read -r f; do apply_file "$db" "$f"; done < <(forward_order)
@@ -233,6 +251,18 @@ build() {
 case "${1:-}" in
   up)      ensure_cluster; echo "cluster ready on port $PGPORT" ;;
   build)   build "${2:?recipe}" "${3:?database}" ;;
+  sql)
+    # Reads one statement batch on stdin and prints unaligned rows. Used by the verifier
+    # for the probes a catalog dump cannot express, such as reading a view as anon.
+    ensure_cluster >/dev/null
+    # stderr is merged into stdout so a caller can assert on a permission denial, which
+    # psql reports on stderr and would otherwise vanish.
+    psql "$(db_url "${2:?database}")" -At -F '|' -v ON_ERROR_STOP=0 2>&1
+    ;;
+  seed)
+    ensure_cluster >/dev/null
+    apply_file "${2:?database}" "$ROOT/scripts/rcap-public-view-fixture.sql"
+    ;;
   catalog)
     ensure_cluster >/dev/null
     if [ -n "${3:-}" ]; then
@@ -243,5 +273,5 @@ case "${1:-}" in
     ;;
   psql)    exec psql "$(db_url "${2:?database}")" ;;
   down)    su postgres -c "LD_LIBRARY_PATH=$PGLIB $PGBIN/pg_ctl -D $PGDATA stop" >/dev/null && echo "stopped" ;;
-  *) echo "usage: $0 {up|build RECIPE DB|catalog DB [FILE]|psql DB|down}"; exit 1 ;;
+  *) echo "usage: $0 {up|build RECIPE DB|seed DB|sql DB|catalog DB [FILE]|psql DB|down}"; exit 1 ;;
 esac

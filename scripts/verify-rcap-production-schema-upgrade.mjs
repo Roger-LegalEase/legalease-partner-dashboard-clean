@@ -37,6 +37,33 @@ const FORWARD_CHAIN = [
   "20260818206000_rcap_upgrade_06_rls_and_policies.sql",
   "20260818207000_rcap_upgrade_07_grants.sql",
   "20260818208000_rcap_upgrade_08_storage_buckets.sql",
+  "20260818209000_rcap_upgrade_09_security_hardening.sql",
+];
+
+/** Codified by step 09. Named here so the checks below cannot drift from the intent. */
+const HARDENED_RLS_TABLES = [
+  "partner_entitlement",
+  "rcap_acceptance_environment_marker",
+  "rcap_acceptance_migration_ledger",
+  "rcap_record_events",
+];
+const SECURITY_INVOKER_VIEWS = [
+  "content_public_authors",
+  "content_public_media",
+  "content_public_posts",
+  "content_public_state_editorial",
+  "content_public_testimonials",
+];
+/** Columns anon must never reach, one per hardened content table. */
+const FORBIDDEN_ANON_COLUMNS = [
+  ["content_posts", "doc"],
+  ["content_posts", "search_text"],
+  ["content_media", "storage_path"],
+  ["content_media", "permission_status"],
+  ["content_authors", "auth_user_id"],
+  ["content_testimonials", "consent_status"],
+  ["content_state_editorial", "legal_approved_at"],
+  ["content_media_usages", "usage_kind"],
 ];
 
 // A destructive operation is not banned outright — it is banned until somebody has
@@ -56,6 +83,21 @@ const REVIEWED_DESTRUCTIVE_DISPOSITIONS = [
       'alter table "public"."rcap_record_events" drop constraint "rcap_record_events_record_type_check";',
     why: "re-added in the same step accepting 5 values instead of 2, so no existing row can be rejected",
   },
+  ...[
+    "content_authors_anon_public_read on public.content_authors",
+    "content_posts_anon_public_read on public.content_posts",
+    "content_state_editorial_anon_public_read on public.content_state_editorial",
+    "content_testimonials_anon_public_read on public.content_testimonials",
+    "content_media_usages_anon_public_read on public.content_media_usages",
+    "content_media_anon_public_read on public.content_media",
+  ].map((target) => ({
+    file: "20260818209000_rcap_upgrade_09_security_hardening.sql",
+    statement: `drop policy if exists ${target};`,
+    why:
+      "makes step 09 re-runnable. The policy is created by the next statement and exists " +
+      "in neither the Production baseline nor the pre-remediation schema, so the drop can " +
+      "remove nothing that was there before.",
+  })),
 ];
 
 // A browser role gaining access to a table Production already has is the change most
@@ -293,6 +335,126 @@ check("storage_stays_private", () => {
   for (const [key, value] of state(baseRows, "storage.rls")) {
     assert.equal(upRows.get(key), value, `storage RLS state changed on ${key}`);
   }
+});
+
+// --- Security Advisor remediation -------------------------------------------
+
+const sql = (db, statements) =>
+  sh(["sql", db], { input: statements, stdio: ["pipe", "pipe", "pipe"] });
+
+check("hardening_step_matches_the_canonical_schema_source", () => {
+  const phase = readFileSync(
+    path.join(root, "supabase", "phase-56-public-view-and-default-privilege-hardening.sql"),
+    "utf8",
+  );
+  const step = readFileSync(
+    path.join(migrationsDir, "20260818209000_rcap_upgrade_09_security_hardening.sql"),
+    "utf8",
+  );
+  const body = (text) => {
+    const withoutHeader = text.slice(text.indexOf("alter table public.partner_entitlement"));
+    return withoutHeader.replace(/^\s*commit;\s*$/m, "").replace(/\s+/g, " ").trim();
+  };
+  assert.equal(
+    body(phase),
+    body(step),
+    "the canonical schema source and the forward migration have drifted apart",
+  );
+});
+
+check("five_public_views_are_security_invoker", () => {
+  for (const view of SECURITY_INVOKER_VIEWS) {
+    const options = upRows.get(`view ${view}`);
+    assert.ok(options !== undefined, `${view} is missing from the upgraded schema`);
+    assert.ok(
+      options.includes("security_invoker=true"),
+      `${view} does not run with the querying role's privileges`,
+    );
+    assert.ok(options.includes("security_barrier=true"), `${view} is not a security barrier`);
+  }
+});
+
+check("four_named_tables_have_rls_enabled", () => {
+  // Two of the four exist in every database this chain touches.
+  for (const table of ["partner_entitlement", "rcap_record_events"]) {
+    const rls = upRows.get(`rls ${table}`);
+    assert.ok(rls?.includes("enabled t"), `${table} has row level security disabled`);
+  }
+  // The other two exist only in an acceptance environment, so the guard is exercised
+  // rather than assumed: create them, re-run the step, read the result back.
+  const step = readFileSync(
+    path.join(migrationsDir, "20260818209000_rcap_upgrade_09_security_hardening.sql"),
+    "utf8",
+  );
+  const guard = step.slice(step.indexOf("do $$"), step.indexOf("$$;") + 3);
+  assert.ok(guard.includes("rcap_acceptance_environment_marker"), "guard block not found in step 09");
+  const out = sql(
+    "verify_up2",
+    `create table public.rcap_acceptance_environment_marker (project_ref text primary key);
+     create table public.rcap_acceptance_migration_ledger (phase int primary key);
+     ${guard}
+     select relname, relrowsecurity from pg_class c join pg_namespace n on n.oid = c.relnamespace
+       where n.nspname = 'public' and relname like 'rcap_acceptance_%' order by 1;
+     drop table public.rcap_acceptance_environment_marker;
+     drop table public.rcap_acceptance_migration_ledger;`,
+  );
+  for (const table of ["rcap_acceptance_environment_marker", "rcap_acceptance_migration_ledger"]) {
+    assert.ok(
+      out.includes(`${table}|t`),
+      `the step 09 guard did not enable row level security on ${table}`,
+    );
+  }
+});
+
+check("anon_cannot_read_unrelated_base_table_columns", () => {
+  for (const [table, column] of FORBIDDEN_ANON_COLUMNS) {
+    const out = sql("verify_up1", `set role anon; select ${column} from public.${table} limit 1;`);
+    assert.ok(
+      /permission denied/i.test(out),
+      `anon can read ${table}.${column}; expected a permission denial, got: ${out.trim().slice(0, 120)}`,
+    );
+  }
+});
+
+check("future_public_objects_do_not_inherit_browser_privileges", () => {
+  const out = sql(
+    "verify_up2",
+    `create table public.rcap_default_privilege_probe (id int);
+     select coalesce(array_to_string(relacl, ' '), '(none)') from pg_class
+       where relname = 'rcap_default_privilege_probe';
+     drop table public.rcap_default_privilege_probe;`,
+  );
+  assert.ok(!/\banon=/.test(out), `a new table still inherits anon privileges: ${out.trim()}`);
+  assert.ok(
+    !/\bauthenticated=/.test(out),
+    `a new table still inherits authenticated privileges: ${out.trim()}`,
+  );
+});
+
+check("public_view_row_sets_are_unchanged_by_the_remediation", () => {
+  sh(["build", "stacked-pre", "verify_pre"], { stdio: "pipe" });
+  sh(["seed", "verify_pre"], { stdio: "pipe" });
+  sh(["seed", "verify_target"], { stdio: "pipe" });
+  const read = (db) =>
+    sql(
+      db,
+      `set role anon;
+       select 'authors', row_to_json(x)::text from public.content_public_authors x order by 2;
+       select 'posts', row_to_json(x)::text from public.content_public_posts x order by 2;
+       select 'media', row_to_json(x)::text from public.content_public_media x order by 2;
+       select 'state_editorial', row_to_json(x)::text from public.content_public_state_editorial x order by 2;
+       select 'testimonials', row_to_json(x)::text from public.content_public_testimonials x order by 2;`,
+    );
+  const before = read("verify_pre");
+  const after = read("verify_target");
+  assert.ok(!/permission denied|ERROR/i.test(after), `reading a public view as anon failed: ${after}`);
+  assert.equal(
+    after,
+    before,
+    "the remediation changed what an anonymous reader sees through the public views",
+  );
+  const rows = after.split("\n").filter((line) => line.includes("|"));
+  assert.equal(rows.length, 8, `expected the fixture's 8 public rows, got ${rows.length}`);
 });
 
 if (failures.length) {
