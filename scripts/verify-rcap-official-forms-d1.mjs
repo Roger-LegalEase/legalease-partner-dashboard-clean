@@ -12,6 +12,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { protectCategoryOf } from "./rcap-official-forms/rcap-field-semantics.mjs";
+import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_ROOT = path.join(rootDir, "data/rcap-all50/overlays/production");
@@ -78,7 +79,10 @@ for (const [slug, profileName] of Object.entries(JURISDICTIONS)) {
       assert(record.sha256VerifiedAgainstBundleManifest === true, `${slug}/${entry.name}: delivered bytes hash-verify against the canonical manifest`);
       assert(record.byteLengthMatches !== false, `${slug}/${entry.name}: byte length matches the manifest`);
       assert(record.pageCountAgrees !== false, `${slug}/${entry.name}: page count matches the manifest`);
-      if (record.structuralClassAgrees === false) {
+      // Judged through the shared vocabulary: `acroform_pdf` and `acroform`
+      // are the manifest's and the inspector's names for one class, and the
+      // raw comparison this replaced fired on every AcroForm in the corpus.
+      if (structuralClassesAgree(record.structuralClassObserved, record.structuralClassDeclared) === false) {
         console.warn(`  note ${slug}/${entry.name}: manifest declared '${record.structuralClassDeclared}', binary is '${record.structuralClassObserved}' — recorded for the captain, not a fabrication.`);
       }
       assert(Array.isArray(record.productionHolds) && record.productionHolds.includes("edition_1_runtime_disabled")
