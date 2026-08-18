@@ -416,9 +416,15 @@ let route = null;
       if (built.spec) { route = { state: profile.jurisdiction.code, pathwayLabel: label, pathwayId: pathway.id }; break outer; }
     }
   }
+  // record() takes (caseId, passed, observed). This call passed FOUR arguments:
+  // a stray "seeded_item_agrees_with_the_authoritative_resolver" sat where
+  // `passed` belongs, so `passed` was a non-empty string — always truthy — and
+  // `observed` was Boolean(route). This check could not fail. It reported ok
+  // even in the branch whose own message reads "nothing in the product is
+  // currently sellable-and-renderable", and the finish() below was the only
+  // thing still stopping the run.
   record(
     "renderable_route_selected_from_the_registry",
-  "seeded_item_agrees_with_the_authoritative_resolver",
     Boolean(route),
     route
       ? `${route.state} / ${route.pathwayLabel} — buildRenderJobSpec produced a spec, so this route is genuinely renderable rather than assumed to be`
@@ -436,7 +442,257 @@ const itemId = crypto.randomUUID();
 // that produces double quotes, which Postgres reads as an identifier.
 const sqlText = (value) => String(value).split("'").join("''");
 
-// --- 2b. Derive every route-specific value from the authorities ---------------
+// --- 2b. The reviewed packet information -------------------------------------
+//
+// A participant cannot buy or render a packet whose information they have not
+// completed and reviewed, and the application enforces that BEFORE it consults
+// payment: consumer-render-request checks the accuracy review first and returns
+// route_not_renderable, so an unreviewed item can never reach the 402 the
+// payment gate would give it. Checkout refuses the same item with 409
+// review_required.
+//
+// This harness previously seeded summary_json alone. commercialFlowForItem then
+// synthesised a flow at stage "not_started" with every required input missing,
+// so the deployment answered 403 and 409 — correctly — and the run read as an
+// application defect when the application was right and the seed was thin.
+//
+// The answers are not written by hand. They are converged: the authoritative
+// evaluator is asked what it still needs, each missing question is answered
+// from the profile's own options, and the loop repeats until the evaluator
+// itself returns a packet_ready route with paymentAllowed. Choosing values that
+// merely satisfy a gate is the mistake the packet_type hardcode above already
+// made once; this asks the engine instead of guessing at it.
+const { packetInformationModelFor, packetInformationReviewSafety } =
+  await import("../src/lib/expungement-ai/packet-information.ts");
+const { evaluateAuthoritativeScreeningResult } =
+  await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
+const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
+const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
+
+// Answers that carry meaning rather than merely satisfying a type. A route sold
+// as a non-conviction expungement must not be seeded with a felony conviction,
+// and the Mississippi non-conviction route additionally requires these exact
+// neutral facts — packetInformationReviewSafety refuses any other value.
+const PREFERRED_ANSWERS = {
+  ownership_scope: "Yes",
+  jurisdiction_scope: "State or local",
+  case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+  offense_level: "Misdemeanor",
+  offense_category: "Misdemeanor",
+  record_type: "Arrest or charge",
+  resolved_timing_bucket: "gt_10_years",
+  court_requirements_completed: "yes",
+  pending_cases: "No",
+  trafficking_status: "No",
+  prior_relief: "No",
+  pardon_status: "No",
+  sentence_completion_date: "Yes",
+  financial_obligations: "Yes",
+  state_exclusion_categories: ["None of these"],
+  age_at_offense: "30",
+  charge: "Shoplifting",
+  county: "Hinds",
+  court: "Hinds County Circuit Court",
+  residency_or_location: "Jackson",
+  criminal_history: "No other cases",
+  disposition_date: "2005-01-10",
+  participant_full_legal_name: "Acceptance Test Participant",
+  contact_information: "hosted-acceptance@example.test"
+};
+
+function publicQuestionIndex(profile) {
+  const index = new Map();
+  (function walk(node) {
+    if (!node || typeof node !== "object") return;
+    if (Array.isArray(node)) { node.forEach(walk); return; }
+    if (typeof node.id === "string" && typeof node.type === "string" && (node.prompt || node.label)) {
+      if (!index.has(node.id)) index.set(node.id, node);
+    }
+    Object.values(node).forEach(walk);
+  })(projectPublicProfile(profile));
+  return index;
+}
+
+function answerForQuestion(question, id) {
+  const preferred = PREFERRED_ANSWERS[id];
+  const optionsAllow = !question || question.type !== "single_choice"
+    || !question.options?.length || question.options.includes(preferred);
+  if (preferred !== undefined && optionsAllow) return preferred;
+  if (!question) return "No";
+  if (question.type === "date_or_unknown") return "2005-01-10";
+  if (question.type === "number_or_range") return "30";
+  if (question.type === "multi_select" && question.options?.length) {
+    return [question.options.find((option) => /^none/i.test(option)) ?? question.options[0]];
+  }
+  if (question.type === "single_choice" && question.options?.length) {
+    return question.options.find((option) => /^(no\b|none)/i.test(option)) ?? question.options[0];
+  }
+  if (question.type?.startsWith("yes_no")) return "No";
+  return "None";
+}
+
+/**
+ * Answers whatever the authoritative evaluator says is still missing until it
+ * returns a sellable packet route, or gives up and says why. Returns null when
+ * this jurisdiction cannot be sold at all — which is a fact about the corpus,
+ * not a fault to paper over.
+ */
+function convergeSellableScreening(state) {
+  const profile = getProfileByJurisdiction(state);
+  if (!profile) return null;
+  const questions = publicQuestionIndex(profile);
+  let answers = {
+    ownership_scope: PREFERRED_ANSWERS.ownership_scope,
+    jurisdiction_scope: PREFERRED_ANSWERS.jurisdiction_scope,
+    case_outcome: PREFERRED_ANSWERS.case_outcome,
+    offense_level: PREFERRED_ANSWERS.offense_level,
+    disposition_date: PREFERRED_ANSWERS.disposition_date
+  };
+  let last = null;
+  for (let round = 0; round < 16; round += 1) {
+    let evaluation;
+    try {
+      evaluation = evaluateAuthoritativeScreeningResult({
+        jurisdiction: state,
+        profileVersion: profile.profileVersion,
+        matterId: itemId,
+        answers
+      }).evaluation;
+    } catch (error) {
+      // Packet-only fields are not evaluator questions. Drop exactly the ids it
+      // names and re-ask; every recognised route fact stays.
+      if (!error?.invalidQuestionIds?.length) return { state, failure: String(error?.message ?? error).slice(0, 160) };
+      for (const id of error.invalidQuestionIds) delete answers[id];
+      continue;
+    }
+    last = evaluation;
+    const sellable = (evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution")
+      && evaluation.paymentAllowed === true
+      && typeof evaluation.pathwayId === "string";
+    if (sellable) return { state, evaluation, answers, profile };
+    const missing = evaluation.missingQuestionIds ?? [];
+    if (!missing.length) {
+      return {
+        state,
+        failure: `${evaluation.resultCode} with nothing further to answer (${(evaluation.reasons ?? []).map((r) => r.code).join(",") || "no reason given"})`
+      };
+    }
+    for (const id of missing) answers[id] = answerForQuestion(questions.get(id), id);
+  }
+  return { state, failure: `did not settle in 16 rounds; last ${last?.resultCode ?? "(none)"}` };
+}
+
+/** Assembles the reviewed flow and asserts it with the application's own predicates. */
+function buildReviewedFlow(settled) {
+  const { state, evaluation, answers, profile } = settled;
+  const pathway = profile.packetGenerator.pathways.find((candidate) => candidate.pathwayId === evaluation.pathwayId);
+  if (!pathway) return { failure: `${state}: the evaluator chose ${evaluation.pathwayId}, which the packet generator does not offer` };
+
+  const baseItem = {
+    id: itemId,
+    type: "result",
+    title: "hosted acceptance payment journey",
+    state,
+    status: "packet_ready",
+    resultCode: "packet_ready",
+    createdAt: new Date().toISOString(),
+    summary: "hosted acceptance payment journey",
+    nextSteps: [],
+    paymentAllowed: true,
+    packetReady: true,
+    pathwayLabel: pathway.pathwayLabel,
+    packetType: "custom_pleading",
+    artifactRefs: {}
+  };
+  const model = packetInformationModelFor(baseItem);
+  if (!model) return { failure: `${state}: no packet-information model for ${pathway.pathwayLabel}` };
+
+  const questions = publicQuestionIndex(profile);
+  const packetAnswers = { ...answers };
+  for (const question of model.questions) {
+    if (!(question.id in packetAnswers)) packetAnswers[question.id] = answerForQuestion(question, question.id);
+  }
+  const stamp = new Date().toISOString();
+  const commercialFlow = {
+    version: 1,
+    entitlementSource: "consumer_payment",
+    productId: "expungement_packet",
+    screening: {
+      profileVersion: profile.profileVersion,
+      pathwayId: model.pathwayId,
+      pathwayLabel: model.pathwayLabel,
+      resultCode: "packet_ready",
+      paymentAllowed: true,
+      packetType: "custom_pleading",
+      packetPlan: model.packetPlan,
+      answers
+    },
+    packetInformation: {
+      stage: "ready_to_generate",
+      requiredInputIds: model.requiredInputIds,
+      serverFacts: { jurisdiction: state, pathway_id: model.pathwayId },
+      prefilledAnswers: {},
+      answers: packetAnswers,
+      missingInputIds: [],
+      updatedAt: stamp,
+      reviewedAt: stamp
+    }
+  };
+
+  const reviewedItem = { ...baseItem, artifactRefs: { commercialFlow } };
+  const reviewedModel = packetInformationModelFor(reviewedItem);
+  const safety = packetInformationReviewSafety(reviewedItem);
+  const complete = reviewedModel
+    && reviewedModel.stage === "ready_to_generate"
+    && reviewedModel.missingInputIds.length === 0
+    && Boolean(reviewedModel.reviewedAt)
+    && safety.safe;
+  if (!complete) {
+    return {
+      failure: `${state}: stage=${reviewedModel?.stage ?? "(none)"}, missing=${JSON.stringify(reviewedModel?.missingInputIds ?? null)}, reviewedAt=${reviewedModel?.reviewedAt ?? "null"}, safety=${safety.reason}`
+    };
+  }
+  return { state, pathway, commercialFlow, model: reviewedModel, safety, questionCount: model.questions.length };
+}
+
+// The route the registry offered is tried first; the remaining priority states
+// follow. A state whose waiting rule the evaluator cannot execute is reported
+// by name rather than silently skipped — that is a finding about the corpus.
+let reviewed = null;
+{
+  const attempts = [];
+  const candidates = [route.state, ...["MS", "IL", "PA"].filter((code) => code !== route.state)];
+  for (const state of candidates) {
+    const settled = convergeSellableScreening(state);
+    if (!settled || settled.failure) { attempts.push(`${state}: ${settled?.failure ?? "no profile"}`); continue; }
+    const built = buildReviewedFlow(settled);
+    if (built.failure) { attempts.push(built.failure); continue; }
+    reviewed = built;
+    break;
+  }
+  record(
+    "seeded_item_carries_reviewed_packet_information",
+    Boolean(reviewed),
+    reviewed
+      ? `${reviewed.state} / ${reviewed.pathway.pathwayLabel} — the evaluator itself returns a sellable route, all ${reviewed.model.requiredInputIds.length} required inputs are answered across ${reviewed.questionCount} questions, reviewedAt is set and review safety is ${reviewed.safety.reason}`
+      : `no jurisdiction produced a reviewed, sellable matter — ${attempts.join(" | ")}`
+  );
+  if (!reviewed) finish();
+  evidence.reviewedPacketInformation = {
+    state: reviewed.state,
+    pathwayId: reviewed.model.pathwayId,
+    pathwayLabel: reviewed.model.pathwayLabel,
+    profileVersion: reviewed.commercialFlow.screening.profileVersion,
+    requiredInputIds: reviewed.model.requiredInputIds,
+    reviewSafety: reviewed.safety.reason,
+    attempts
+  };
+  // The seeded row must describe the route that was proven sellable, not the
+  // one the render-spec scan happened to reach first.
+  route = { state: reviewed.state, pathwayLabel: reviewed.pathway.pathwayLabel, pathwayId: reviewed.model.pathwayId };
+  evidence.route = route;
+}
+// --- 2c. Derive every route-specific value from the authorities ---------------
 //
 // packet_type was previously hardcoded to 'official_pdf_overlay' because the
 // phase-26 CHECK constraint accepted it. That is not a derivation, it is a
@@ -482,148 +738,6 @@ const derived = (() => {
   };
 })();
 evidence.derivedRouteIdentity = derived;
-
-// --- 2b. The reviewed packet information -------------------------------------
-//
-// A participant cannot buy or render a packet whose information they have not
-// completed and reviewed, and the application enforces that BEFORE it consults
-// payment: consumer-render-request checks the accuracy review first and returns
-// route_not_renderable, so an unreviewed item can never reach the 402 the
-// payment gate would give it. Checkout refuses the same item with 409
-// review_required.
-//
-// This harness previously seeded summary_json alone. commercialFlowForItem then
-// synthesised a flow at stage "not_started" with every required input missing —
-// so the deployment answered 403 and 409, correctly, and the run read as an
-// application defect when the application was right and the seed was thin.
-//
-// The answers are generated from the profile's OWN question set rather than a
-// hand-written list, so a profile that adds a required input surfaces here as a
-// named failure instead of silently seeding an incomplete item.
-const { packetInformationModelFor, packetInformationReviewSafety } =
-  await import("../src/lib/expungement-ai/packet-information.ts");
-const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
-
-const seedProfile = getProfileByJurisdiction(route.state);
-const nowIso = new Date().toISOString();
-const provisionalItem = {
-  id: itemId,
-  type: "result",
-  title: "hosted acceptance payment journey",
-  state: route.state,
-  status: "packet_ready",
-  resultCode: derived.resultCode,
-  createdAt: nowIso,
-  summary: "hosted acceptance payment journey",
-  nextSteps: [],
-  paymentAllowed: true,
-  packetReady: true,
-  pathwayLabel: route.pathwayLabel,
-  packetType: derived.packetType,
-  artifactRefs: {}
-};
-
-// Semantics first where an answer carries meaning for a non-conviction route —
-// a "Felony conviction" outcome on Path A would be a contradiction, not a
-// filled field — then a safe default by question type.
-const ANSWER_BY_ID = {
-  case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
-  record_type: "Arrest or charge",
-  offense_level: "Misdemeanor",
-  offense_category: "Misdemeanor",
-  pardon_status: "No",
-  trafficking_status: "No",
-  pending_cases: "No",
-  prior_relief: "No",
-  financial_obligations: "Yes",
-  court_requirements_completed: "Yes",
-  sentence_completion_date: "Yes",
-  criminal_history: "No other cases",
-  participant_full_legal_name: "Acceptance Test Participant",
-  contact_information: "hosted-acceptance@example.test",
-  charge: "Retail theft",
-  county: "Philadelphia",
-  court: "Court of Common Pleas of Philadelphia County",
-  residency_or_location: "Philadelphia"
-};
-function answerForQuestion(question) {
-  const preferred = ANSWER_BY_ID[question.id];
-  if (preferred !== undefined) {
-    // A preferred answer that is not among a single_choice question's options
-    // would fail validation, so fall through to the options rather than force it.
-    if (question.type !== "single_choice" || !question.options?.length || question.options.includes(preferred)) {
-      return preferred;
-    }
-  }
-  if (question.type === "date_or_unknown") return "2015-06-01";
-  if (question.type === "number_or_range") return "24";
-  if (question.type === "single_choice" && question.options?.length) {
-    return question.options.find((option) => /^no\b/i.test(option)) ?? question.options[0];
-  }
-  if (question.type?.startsWith("yes_no")) return "No";
-  return "Recorded for hosted acceptance";
-}
-
-const baseModel = packetInformationModelFor(provisionalItem);
-if (!baseModel || !seedProfile) {
-  record(
-    "seeded_item_carries_reviewed_packet_information",
-    false,
-    `no packet-information model for ${route.state} / ${route.pathwayLabel}; the profile or pathway the harness names no longer resolves`
-  );
-  finish();
-}
-
-const reviewedAnswers = {};
-for (const question of baseModel.questions) reviewedAnswers[question.id] = answerForQuestion(question);
-
-const commercialFlow = {
-  screening: {
-    profileVersion: seedProfile.profileVersion,
-    pathwayId: baseModel.pathwayId,
-    pathwayLabel: baseModel.pathwayLabel,
-    packetPlan: baseModel.packetPlan,
-    answers: {}
-  },
-  packetInformation: {
-    stage: "ready_to_generate",
-    requiredInputIds: baseModel.requiredInputIds,
-    serverFacts: { jurisdiction: route.state, pathway_id: baseModel.pathwayId },
-    prefilledAnswers: {},
-    answers: reviewedAnswers,
-    missingInputIds: [],
-    updatedAt: nowIso,
-    reviewedAt: nowIso
-  }
-};
-
-// Asserted against the application's own predicates before anything is written.
-// The alternative is discovering an incomplete seed as a 403 from a deployment
-// seven minutes and one Vercel build later.
-{
-  const reviewedItem = { ...provisionalItem, artifactRefs: { commercialFlow } };
-  const reviewedModel = packetInformationModelFor(reviewedItem);
-  const safety = packetInformationReviewSafety(reviewedItem);
-  const complete = reviewedModel
-    && reviewedModel.stage === "ready_to_generate"
-    && reviewedModel.missingInputIds.length === 0
-    && Boolean(reviewedModel.reviewedAt)
-    && safety.safe;
-  record(
-    "seeded_item_carries_reviewed_packet_information",
-    complete,
-    complete
-      ? `stage=${reviewedModel.stage}, ${Object.keys(reviewedAnswers).length} answers cover all ${reviewedModel.requiredInputIds.length} required inputs, reviewedAt set, review safety=${safety.reason}`
-      : `stage=${reviewedModel?.stage ?? "(no model)"}; missing=${JSON.stringify(reviewedModel?.missingInputIds ?? null)}; reviewedAt=${reviewedModel?.reviewedAt ?? "null"}; safety=${safety.reason}`
-  );
-  if (!complete) finish();
-  evidence.reviewedPacketInformation = {
-    pathwayId: baseModel.pathwayId,
-    profileVersion: seedProfile.profileVersion,
-    requiredInputIds: baseModel.requiredInputIds,
-    answeredInputIds: Object.keys(reviewedAnswers).sort()
-  };
-}
 
 // --- 3. Seed the participant's item, unpaid ----------------------------------
 const seedResult = await sql(`
