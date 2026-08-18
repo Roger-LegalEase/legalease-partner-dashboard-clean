@@ -97,8 +97,9 @@ mutation("the authorization no longer pins phase 55's bytes", () => {
   const q = readJson(QUEUE);
   const e = q.entries.find((x) => x.id === "auth-2026-08-16-pr101-release-integration");
   const i = e.authorizedPaths.indexOf("supabase/phase-55-expungement-matter-payment-binding.sql");
+  if (i < 0) throw new Error("the authorization no longer lists phase 55, so this mutation cannot unpin it");
   e.authorizedSha256[i] = "2".repeat(64);
-  writeJson(QUEUE, e && q);
+  writeJson(QUEUE, q);
 }, "every_phase_is_pinned_by_an_approved_authorization");
 
 // 8 — an empty sequence must never read as "nothing to do".
