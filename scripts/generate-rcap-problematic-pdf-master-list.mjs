@@ -35,6 +35,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const REGISTER = path.join(rootDir, "data/rcap-all50/problematic-pdf-register.json");
 const AUDIT = path.join(rootDir, "data/rcap-all50/finalized-artifact-audit.json");
 const SHEET_PROOF = path.join(rootDir, "data/rcap-all50/contact-sheet-visual-proof.json");
+const PLACEMENT = path.join(rootDir, "data/rcap-all50/overlay-placement-evidence.json");
 const OVERLAY_DIR = path.join(rootDir, "data/rcap-all50/overlays/production");
 const OUT_JSON = path.join(rootDir, "data/rcap-all50/problematic-pdf-master-list.json");
 const OUT_MD = path.join(rootDir, "docs/record-clearing/problematic-pdf-master-list.md");
@@ -58,6 +59,8 @@ const audit = readJson(AUDIT, { families: [] });
 const auditByFamily = new Map((audit.families ?? []).map((f) => [f.familyId, f]));
 const sheetProof = readJson(SHEET_PROOF, { families: [] });
 const sheetByFamily = new Map((sheetProof.families ?? []).map((f) => [f.familyId, f]));
+const placement = readJson(PLACEMENT, { families: [] });
+const placementByFamily = new Map((placement.families ?? []).map((f) => [f.familyId, f]));
 
 // ---- which verified source binaries are actually present in this clone -----
 // A correction that needs a re-render needs the binary it renders from. The
@@ -221,6 +224,12 @@ for (const entry of register.records) {
     "stale_contact_sheet_manifest_or_review_evidence"
   ].includes(c));
 
+  // A flat form whose write boxes the document does not express is waiting on
+  // a placement decision, not on a render: running the factory again produces
+  // the same correct refusal.
+  const placementRow = entry.familyIds.map((id) => placementByFamily.get(id)).find(Boolean) ?? null;
+  const awaitingPlacement = (placementRow?.labelsAwaitingAPlacementDecision ?? []).length > 0;
+
   // Only computed where no track binding exists; a row that already knows its
   // tracks needs no lead.
   let trackBindingStatus = activeTrackIds.length > 0
@@ -259,7 +268,9 @@ for (const entry of register.records) {
     exactBlocker = `Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 ${sourceSha ?? "unrecorded"}) is not present in this clone. The factory renders from the binary; there is nothing to render from.`;
   } else if (needsRenderWork && binaryPathInClone) {
     lane = "A";
-    exactBlocker = `None for the render itself: the verified binary is present at ${binaryPathInClone}. Generation is separately withheld while ${productionHolds.join("; ") || "no hold"} stands.`;
+    exactBlocker = awaitingPlacement
+      ? `A placement decision, not a binary: the verified source is present at ${binaryPathInClone}, and ${placementRow.labelsAwaitingAPlacementDecision.length} label(s) on it have no write box the document expresses, so no coordinate is asserted for them. Generation is separately withheld while ${productionHolds.join("; ") || "no hold"} stands.`
+      : `None for the render itself: the verified binary is present at ${binaryPathInClone}. Generation is separately withheld while ${productionHolds.join("; ") || "no hold"} stands.`;
   } else if (currentnessDefect) {
     lane = "C";
     exactBlocker = `Revision ${record?.revision ?? "(unrecorded)"} cannot be shown to be the currently published edition: freshness is recorded as ${record?.freshnessStatus ?? "unrecorded"} and no independent currentness review exists.`;
@@ -269,7 +280,9 @@ for (const entry of register.records) {
   }
 
   const exactNextAction = {
-    A: `Re-render ${entry.jurisdiction} ${entry.formId} from ${binaryPathInClone} through scripts/implement-rcap-official-forms-d1.mjs, then re-run the finalized-artifact audit and the contact-sheet visual proof for its family. Do not lift the recorded production holds to do it.`,
+    A: awaitingPlacement
+      ? `Decide where each of the ${placementRow.labelsAwaitingAPlacementDecision.length} candidate label(s) on ${entry.jurisdiction} ${entry.formId} takes its value, and record the approved write box. The document does not express one, so the anchor capture asserts no coordinate and re-running the factory reproduces the same refusal. The rendered form with each label marked at its measured position is at ${(placementRow.renderedEvidence ?? []).join(", ") || "no rendering available"}. Once a placement is approved, re-render from ${binaryPathInClone} and re-run the finalized-artifact audit and contact-sheet visual proof. Do not lift the recorded production holds to do it.`
+      : `Re-render ${entry.jurisdiction} ${entry.formId} from ${binaryPathInClone} through scripts/implement-rcap-official-forms-d1.mjs, then re-run the finalized-artifact audit and the contact-sheet visual proof for its family. Do not lift the recorded production holds to do it.`,
     B: `Retrieve the current official ${entry.jurisdiction} ${entry.formId} binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.${activeTrackIds.length === 0 ? (candidateRegistryFormId ? ` Separately, confirm or reject the candidate form-number binding to ${entry.jurisdiction} ${candidateRegistryFormId} so this row can name the route it affects.` : " Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects.") : ""}`,
     C: `Confirm against the issuing body's own publication whether revision ${record?.revision ?? "(unrecorded)"} of ${entry.jurisdiction} ${entry.formId} is the currently published edition, and record the comparison and the superseded identity if it is not.`,
     D: `Put the recorded legal-design question to counsel and record the answer with its carrier before any field on ${entry.jurisdiction} ${entry.formId} is bound.`,
@@ -329,6 +342,8 @@ for (const entry of register.records) {
         : "unprovable: object streams hide objects from the residue scan",
     contactSheetShowsAFill: sheetRow ? sheetRow.panelsAreVisuallyIdentical === false : null,
     contactSheetEvidenceImage: sheetRow?.renderedEvidence ?? null,
+    labelsAwaitingAPlacementDecision: (placementRow?.labelsAwaitingAPlacementDecision ?? []).length,
+    placementEvidenceImages: placementRow?.renderedEvidence ?? [],
     // defects and disposition
     defectCategories: entry.defectCategories,
     severity: entry.postLaunchPriority,
@@ -371,6 +386,7 @@ const totals = {
   assetsWhoseActiveContentVerdictIsUnprovable: rows.filter((r) => r.activeContentVerdict.startsWith("unprovable")).length,
   contactSheetsShowingAFill: rows.filter((r) => r.contactSheetShowsAFill === true).length,
   contactSheetsShowingNoFill: rows.filter((r) => r.contactSheetShowsAFill === false).length,
+  assetsAwaitingAPlacementDecision: rows.filter((r) => r.labelsAwaitingAPlacementDecision > 0).length,
   assetsWithNoTrackBinding: rows.filter((r) => r.trackBindingStatus.startsWith("no_track_binding_established")).length,
   assetsWithACandidateUnconfirmedTrackBinding: rows.filter((r) => r.candidateRegistryFormId).length,
   neverIndependentlyReviewed: rows.filter((r) => r.independentReviewStatus === "never_independently_reviewed").length,
@@ -425,6 +441,7 @@ const TOTAL_LABELS = {
   assetsWhoseActiveContentVerdictIsUnprovable: "Assets whose active-content verdict is unprovable",
   contactSheetsShowingAFill: "Contact sheets that show a fill",
   contactSheetsShowingNoFill: "Contact sheets that show no fill",
+  assetsAwaitingAPlacementDecision: "Assets awaiting a write-box placement decision",
   assetsWithNoTrackBinding: "Assets with no track binding",
   assetsWithACandidateUnconfirmedTrackBinding: "Assets with a candidate, unconfirmed track binding",
   neverIndependentlyReviewed: "Never independently reviewed",
@@ -573,6 +590,13 @@ ${galleryRows.map((row) => {
   <figcaption><strong>${escape(row.jurisdiction)} ${escape(row.formNumber)}</strong> — lane ${escape(row.remediationLane)}. ${escape(verdict)}</figcaption>
 </figure>`;
 }).join("\n")}
+
+<h2>Placement decisions awaiting a reviewer</h2>
+<p>A flat official form has no widgets, so every value is placed by measured geometry. Where the document does not express a write box, the anchor capture asserts no coordinate — the correct refusal, since guessing a rectangle on a court filing is how a participant's name lands in a clerk's box. Each mark below is a label's <strong>measured</strong> position, not a proposed write box. Where the value belongs relative to it is the judgement being asked for.</p>
+${rows.filter((row) => row.placementEvidenceImages.length > 0).flatMap((row) => row.placementEvidenceImages.map((image) => `<figure>
+  <img src="${escape(path.relative(path.dirname(OUT_HTML), path.join(rootDir, image)))}" alt="Official ${escape(row.jurisdiction)} ${escape(row.formNumber)} with each candidate label marked at its measured position">
+  <figcaption><strong>${escape(row.jurisdiction)} ${escape(row.formNumber)}</strong> — lane ${escape(row.remediationLane)}. ${row.labelsAwaitingAPlacementDecision} label(s) have no write box this document expresses.</figcaption>
+</figure>`)).join("\n") || "<p><em>None.</em></p>"}
 
 <h2>Every asset</h2>
 <div class="wrap"><table>

@@ -21,6 +21,7 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Assets whose active-content verdict is unprovable | 62 |
 | Contact sheets that show a fill | 8 |
 | Contact sheets that show no fill | 54 |
+| Assets awaiting a write-box placement decision | 6 |
 | Assets with no track binding | 83 |
 | Assets with a candidate, unconfirmed track binding | 7 |
 | Never independently reviewed | 125 |
@@ -41,7 +42,7 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 
 | Jurisdiction | Form | Tracks | Severity | Owner | Exact blocker | Exact next action |
 | --- | --- | --- | --- | --- | --- | --- |
-| WI | CR-266 | wi_exp_cr266 | medium | Terminal A route owner | None for the render itself: the verified binary is present at data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; f_independent_visual_review_required stands. | Re-render WI CR-266 from data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf through scripts/implement-rcap-official-forms-d1.mjs, then re-run the finalized-artifact audit and the contact-sheet visual proof for its family. Do not lift the recorded production holds to do it. |
+| WI | CR-266 | wi_exp_cr266 | medium | Terminal A route owner | A placement decision, not a binary: the verified source is present at data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf, and 4 label(s) on it have no write box the document expresses, so no coordinate is asserted for them. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; f_independent_visual_review_required stands. | Decide where each of the 4 candidate label(s) on WI CR-266 takes its value, and record the approved write box. The document does not express one, so the anchor capture asserts no coordinate and re-running the factory reproduces the same refusal. The rendered form with each label marked at its measured position is at docs/record-clearing/pdf-visual-evidence/WI-cr-266-form-en-placement-page-01.png. Once a placement is approved, re-render from data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf and re-run the finalized-artifact audit and contact-sheet visual proof. Do not lift the recorded production holds to do it. |
 
 ## Lane B — official source acquisition required
 
@@ -2257,8 +2258,8 @@ Each row holds a binary that cannot be shown to be the currently published editi
 - **Revision / retrieved / SHA-256**: REV-2024-05 / 2026-08-02 / 9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412
 - **Currentness**: candidate_current_source
 - **Owner**: Terminal A route owner
-- **Exact missing evidence / blocker**: None for the render itself: the verified binary is present at data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; f_independent_visual_review_required stands.
-- **Exact next action**: Re-render WI CR-266 from data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf through scripts/implement-rcap-official-forms-d1.mjs, then re-run the finalized-artifact audit and the contact-sheet visual proof for its family. Do not lift the recorded production holds to do it.
+- **Exact missing evidence / blocker**: A placement decision, not a binary: the verified source is present at data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf, and 4 label(s) on it have no write box the document expresses, so no coordinate is asserted for them. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; f_independent_visual_review_required stands.
+- **Exact next action**: Decide where each of the 4 candidate label(s) on WI CR-266 takes its value, and record the approved write box. The document does not express one, so the anchor capture asserts no coordinate and re-running the factory reproduces the same refusal. The rendered form with each label marked at its measured position is at docs/record-clearing/pdf-visual-evidence/WI-cr-266-form-en-placement-page-01.png. Once a placement is approved, re-render from data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf and re-run the finalized-artifact audit and contact-sheet visual proof. Do not lift the recorded production holds to do it.
 
 ### WI CR-267 — CR-267, 02/15 Order on Petition to Expunge Court Record of Conviction (Non-Probation/Non-Incarceration)
 
