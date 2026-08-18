@@ -164,6 +164,24 @@ const OVERRIDES = {
     reason:
       "Proves each part of the source-SHA tag guard is load-bearing. Nine mutations - concurrency group no longer keyed on the source SHA, cancel-in-progress enabled, pre-push re-check removed, pre-build tag check removed, a latest alias added to the push, a short SHA accepted, a missing credential read as the tag being free, replacement no longer requiring a named authorization, and a registry lookup failure read as the tag being absent - each turn verify-rcap-worker-tag-guard red for its own named check, with signal-safe byte restoration. Blocking alongside that verifier in rcap-all50-handoff.yml for the same image-input reason.",
     decidedBy: "captain"
+  },
+  "verify-rcap-consumer-lifecycle-boundaries.mjs": {
+    disposition: "keep_available",
+    reason:
+      "Proves WHERE each consumer record is created, on an ephemeral PostgreSQL 16 cluster carrying the authorized migration sequence. Fourteen checks walk one consumer matter from checkout to finalized artifact: the canonical matter id is derived from the item, checkout stores the binding the webhook must match, the server-only writer records the payment and creates NO consumption row or ledger event, enqueue binds person, matter and owner in the INSERT itself and still creates none, claim/start_packet_render/start_packet_validation each accept the state before them (so a worker that leaves a job in 'claimed' is not being refused by this contract), finalization writes the consumption row and the credit ledger event with the same identity as the job, and a reported failure leaves the job 'failed' rather than 'claimed' and consumes nothing. The hosted acceptance matrix had guessed two of these boundaries and turned one unfinalized render into four separate-looking failures; this is the contract that matrix is now written against. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-hosted-acceptance-verdicts.mjs": {
+    disposition: "keep_available",
+    reason:
+      "Proves the hosted Stripe payment matrix cannot report a verdict it has not earned. The matrix itself needs Stripe, Vercel and the acceptance project, but its verdict function does not: this extracts record() from the shipped bytes and executes it, requiring it to throw on a string, an empty string, a number, zero, an object, an array, null, undefined, a Boolean wrapper, one, two or four arguments, an empty case id and an empty observation, while still accepting real booleans and refusing a second verdict for the same case. It then scans every call site with a string-and-comment-aware masker (the four-argument call that made a case incapable of failing was invisible to node --check and to eslint), requires the worker case to be the conjunction of nine delivery conditions rather than a process exit code, requires queued/claimed/rendering/validating all to be failures, requires both worker streams to be captured in full and written to the uploaded evidence, and requires the binding, replay and delivery cases to stand on their own evidence rather than on finalization. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
+    decidedBy: "captain"
+  },
+  "test-rcap-hosted-acceptance-verdict-mutations.mjs": {
+    disposition: "keep_available",
+    reason:
+      "Proves each part of the hosted acceptance verdict guard is load-bearing. Nineteen mutations - record() stops counting arguments, accepts anything truthy, allows a case to be recorded twice, accepts an empty observation, a real call site regains a fourth argument, the worker verdict reads a process exit code again, a claimed job stops counting as in flight, the cycle result is parsed from stdout and stderr together, a worker account contradicting the database is tolerated, the claim duration reverts to the 600-second worker default, the immutable-digest condition is dropped, the binding case loses its substitution negative controls, the owner content type stops being checked, the jurisdiction scope disappears from the evidence, the worker output is concatenated and cut to a tail again, the binding case joins the finalization-written accounting row again, the replay case demands an entitlement only finalization writes, delivery passes on refusals alone, and delivery is pointed back at the legacy consumer route - each turn verify-rcap-hosted-acceptance-verdicts red for its own named check, with signal-safe byte restoration. Blocking alongside that verifier in rcap-all50-handoff.yml for the same image-input reason.",
+    decidedBy: "captain"
   }
 };
 
