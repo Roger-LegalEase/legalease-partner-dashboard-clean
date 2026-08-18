@@ -144,18 +144,18 @@ the verified source binary.
 builder reads (`RCAP_BUNDLE_EXTRACT`) is absent, and so is
 `private/Nationwide Record Clearing/`. Of 113 distinct pinned source hashes,
 exactly one binary is present anywhere in the repository: Wisconsin CR-266, at
-`data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf`.
+`data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf`. That one is
+the master list's only lane A row, and its blocker is a placement decision
+rather than a render — see item 3 below.
 
 **They cannot be fetched.** Outbound HTTPS to state judiciary hosts is refused
 by policy at the proxy — `www.nccourts.gov` and `courts.vermont.gov` both
 answer 403 to CONNECT. No official source can be acquired from this session, so
 no currentness question can be settled either.
 
-That is why the master list has no lane A rows. It is not that the defects are
-unclear; it is that the one input every correction needs is unavailable, and
-manufacturing it is precisely what must not happen. Wisconsin CR-266 has its
-binary but its governing blocker is currentness, which needs the issuing body,
-not the bytes.
+That is why the master list has one lane A row out of 128. It is not that the
+defects are unclear; it is that the one input every correction needs is
+unavailable, and manufacturing it is precisely what must not happen.
 
 ## What this branch is asking for
 
@@ -165,7 +165,19 @@ not the bytes.
    relied on.
 2. **The source bundle, or network access to the issuing bodies.** Everything
    downstream is waiting on it. The exact list is the master list's lane B.
-3. **A decision on the seven candidate track bindings.** Thirty-nine
+3. **Write-box placements for nine labels across six families.** A flat
+   official form has no widgets, so every value is placed by measured
+   geometry, and where the document does not express a write box the anchor
+   capture asserts no coordinate — the correct refusal. Wisconsin CR-266 is
+   the clearest case: zero anchors derived, four candidate labels, each a
+   standalone caption whose value position is set by a printed cell the
+   content stream never expresses as a rectangle. Re-running the factory
+   reproduces the same refusal; what is needed is a person looking at the
+   page. `data/rcap-all50/overlay-placement-evidence.json` lists all nine,
+   and the one family whose binary is here is rendered with each label marked
+   at its measured position. The marks are measured label positions, not
+   proposed write boxes.
+4. **A decision on the seven candidate track bindings.** Thirty-nine
    expected-and-absent assets are keyed by filename while the pinned
    legal-design registry keys packet components by form number, so they cannot
    currently name the route they affect. Candidate matches are proposed and
