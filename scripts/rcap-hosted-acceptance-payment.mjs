@@ -483,14 +483,157 @@ const derived = (() => {
 })();
 evidence.derivedRouteIdentity = derived;
 
+// --- 2b. The reviewed packet information -------------------------------------
+//
+// A participant cannot buy or render a packet whose information they have not
+// completed and reviewed, and the application enforces that BEFORE it consults
+// payment: consumer-render-request checks the accuracy review first and returns
+// route_not_renderable, so an unreviewed item can never reach the 402 the
+// payment gate would give it. Checkout refuses the same item with 409
+// review_required.
+//
+// This harness previously seeded summary_json alone. commercialFlowForItem then
+// synthesised a flow at stage "not_started" with every required input missing —
+// so the deployment answered 403 and 409, correctly, and the run read as an
+// application defect when the application was right and the seed was thin.
+//
+// The answers are generated from the profile's OWN question set rather than a
+// hand-written list, so a profile that adds a required input surfaces here as a
+// named failure instead of silently seeding an incomplete item.
+const { packetInformationModelFor, packetInformationReviewSafety } =
+  await import("../src/lib/expungement-ai/packet-information.ts");
+const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
+
+const seedProfile = getProfileByJurisdiction(route.state);
+const nowIso = new Date().toISOString();
+const provisionalItem = {
+  id: itemId,
+  type: "result",
+  title: "hosted acceptance payment journey",
+  state: route.state,
+  status: "packet_ready",
+  resultCode: derived.resultCode,
+  createdAt: nowIso,
+  summary: "hosted acceptance payment journey",
+  nextSteps: [],
+  paymentAllowed: true,
+  packetReady: true,
+  pathwayLabel: route.pathwayLabel,
+  packetType: derived.packetType,
+  artifactRefs: {}
+};
+
+// Semantics first where an answer carries meaning for a non-conviction route —
+// a "Felony conviction" outcome on Path A would be a contradiction, not a
+// filled field — then a safe default by question type.
+const ANSWER_BY_ID = {
+  case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+  record_type: "Arrest or charge",
+  offense_level: "Misdemeanor",
+  offense_category: "Misdemeanor",
+  pardon_status: "No",
+  trafficking_status: "No",
+  pending_cases: "No",
+  prior_relief: "No",
+  financial_obligations: "Yes",
+  court_requirements_completed: "Yes",
+  sentence_completion_date: "Yes",
+  criminal_history: "No other cases",
+  participant_full_legal_name: "Acceptance Test Participant",
+  contact_information: "hosted-acceptance@example.test",
+  charge: "Retail theft",
+  county: "Philadelphia",
+  court: "Court of Common Pleas of Philadelphia County",
+  residency_or_location: "Philadelphia"
+};
+function answerForQuestion(question) {
+  const preferred = ANSWER_BY_ID[question.id];
+  if (preferred !== undefined) {
+    // A preferred answer that is not among a single_choice question's options
+    // would fail validation, so fall through to the options rather than force it.
+    if (question.type !== "single_choice" || !question.options?.length || question.options.includes(preferred)) {
+      return preferred;
+    }
+  }
+  if (question.type === "date_or_unknown") return "2015-06-01";
+  if (question.type === "number_or_range") return "24";
+  if (question.type === "single_choice" && question.options?.length) {
+    return question.options.find((option) => /^no\b/i.test(option)) ?? question.options[0];
+  }
+  if (question.type?.startsWith("yes_no")) return "No";
+  return "Recorded for hosted acceptance";
+}
+
+const baseModel = packetInformationModelFor(provisionalItem);
+if (!baseModel || !seedProfile) {
+  record(
+    "seeded_item_carries_reviewed_packet_information",
+    false,
+    `no packet-information model for ${route.state} / ${route.pathwayLabel}; the profile or pathway the harness names no longer resolves`
+  );
+  finish();
+}
+
+const reviewedAnswers = {};
+for (const question of baseModel.questions) reviewedAnswers[question.id] = answerForQuestion(question);
+
+const commercialFlow = {
+  screening: {
+    profileVersion: seedProfile.profileVersion,
+    pathwayId: baseModel.pathwayId,
+    pathwayLabel: baseModel.pathwayLabel,
+    packetPlan: baseModel.packetPlan,
+    answers: {}
+  },
+  packetInformation: {
+    stage: "ready_to_generate",
+    requiredInputIds: baseModel.requiredInputIds,
+    serverFacts: { jurisdiction: route.state, pathway_id: baseModel.pathwayId },
+    prefilledAnswers: {},
+    answers: reviewedAnswers,
+    missingInputIds: [],
+    updatedAt: nowIso,
+    reviewedAt: nowIso
+  }
+};
+
+// Asserted against the application's own predicates before anything is written.
+// The alternative is discovering an incomplete seed as a 403 from a deployment
+// seven minutes and one Vercel build later.
+{
+  const reviewedItem = { ...provisionalItem, artifactRefs: { commercialFlow } };
+  const reviewedModel = packetInformationModelFor(reviewedItem);
+  const safety = packetInformationReviewSafety(reviewedItem);
+  const complete = reviewedModel
+    && reviewedModel.stage === "ready_to_generate"
+    && reviewedModel.missingInputIds.length === 0
+    && Boolean(reviewedModel.reviewedAt)
+    && safety.safe;
+  record(
+    "seeded_item_carries_reviewed_packet_information",
+    complete,
+    complete
+      ? `stage=${reviewedModel.stage}, ${Object.keys(reviewedAnswers).length} answers cover all ${reviewedModel.requiredInputIds.length} required inputs, reviewedAt set, review safety=${safety.reason}`
+      : `stage=${reviewedModel?.stage ?? "(no model)"}; missing=${JSON.stringify(reviewedModel?.missingInputIds ?? null)}; reviewedAt=${reviewedModel?.reviewedAt ?? "null"}; safety=${safety.reason}`
+  );
+  if (!complete) finish();
+  evidence.reviewedPacketInformation = {
+    pathwayId: baseModel.pathwayId,
+    profileVersion: seedProfile.profileVersion,
+    requiredInputIds: baseModel.requiredInputIds,
+    answeredInputIds: Object.keys(reviewedAnswers).sort()
+  };
+}
+
 // --- 3. Seed the participant's item, unpaid ----------------------------------
 const seedResult = await sql(`
   insert into public.consumer_briefcase_items
     (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
-     status, summary_json, payment_status, payment_allowed)
+     status, summary_json, artifact_refs_json, payment_status, payment_allowed)
   values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayLabel)}',
           '${derived.resultCode}', '${derived.packetType}',
-          'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb, 'unpaid', true)
+          'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb,
+          '${sqlText(JSON.stringify({ commercialFlow }))}'::jsonb, 'unpaid', true)
   returning id, status, result_code, pathway_label
 `);
 
