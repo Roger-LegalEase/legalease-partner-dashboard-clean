@@ -116,12 +116,24 @@ Consequences for the four reported failures:
    row.
 2. **`artifact_is_stored_privately_and_re_readable` — real.** No artifact
    existed, so nothing could be read back. Independent of the above.
-3. **`delivery_serves_the_owner_and_refuses_everyone_else` — real, and the case
-   was also too weak.** Owner A got 409, B 404, anonymous 307. The verdict
-   ignored the owner entirely and would have passed on the two refusals alone —
-   a state in which nobody, including the person who paid, can download. It now
-   requires the owner to receive bytes whose sha256 equals the finalized
-   artifact's.
+3. **`delivery_serves_the_owner_and_refuses_everyone_else` — the case was
+   pointed at the wrong route, and was separately unable to fail.** It called
+   `/api/expungement-ai/packet/download`. That is the legacy DTC consumer route:
+   `getConsumerPacketDownload` serves `artifactRefs.text` and requires
+   `packetStatus === "ready"`, so for a render-job artifact it throws
+   `ConsumerPacketNotReadyError` and answers **409 whatever the worker did**. The
+   owner's 409 was that route answering correctly about a packet it does not
+   serve, and B's 404 and the anonymous 307 were answers about the legacy route
+   too. The RCAP artifact is delivered by `/api/rcap/packets/<jobId>/download`,
+   which authorizes the participant, re-reads the stored object, checks its
+   identity against the finalized hashes, streams PDF bytes and records a
+   delivery event. The case now calls that route.
+
+   The verdict was also `strangerRefused && anonRefused` — the owner was not
+   consulted at all, so a state in which nobody, including the person who paid,
+   can download would have passed. It now requires the owner to receive bytes
+   whose sha256 equals the finalized artifact's, and requires the legacy route to
+   refuse a stranger as well.
 4. **`event_replay_creates_no_second_entitlement_or_render_job` — harness
    expectation defect.** Replay returned 200 `outcome=recovered`, render jobs
    1 → 1, entitlements 0 → 0. That is idempotency holding. The case additionally
@@ -131,8 +143,11 @@ Consequences for the four reported failures:
    requires only that none of them move.
 
 So the four were not one cause. Two were the harness asserting finalization
-under other names, one was real, and one was real *and* separately unable to
-fail.
+under other names, one was real, and one was aimed at a route that could not
+have served this artifact under any circumstances.
+
+Only **one** of the four — `artifact_is_stored_privately_and_re_readable` —
+was a genuine consequence of the unfinalized job.
 
 ## 5. Replay idempotency, on its own evidence
 
@@ -172,10 +187,11 @@ worker publication, and no change to either digest.
 
 - `scripts/rcap-hosted-acceptance-payment.mjs` — `record()` fails closed; the
   worker case requires nine delivery conditions; the four cases are independent;
-  both worker streams are preserved; the worker is driven to a conclusion.
+  delivery calls the route that serves the artifact; both worker streams are
+  preserved; the worker is driven to a conclusion.
 - `scripts/verify-rcap-hosted-acceptance-verdicts.mjs` and
   `scripts/test-rcap-hosted-acceptance-verdict-mutations.mjs` — the verdict
-  function executed and every call site scanned, with eleven mutations proving
+  function executed and every call site scanned, with twelve mutations proving
   each check is load-bearing.
 - `scripts/verify-rcap-consumer-lifecycle-boundaries.mjs` — the boundaries in §4,
   proved on a real database.

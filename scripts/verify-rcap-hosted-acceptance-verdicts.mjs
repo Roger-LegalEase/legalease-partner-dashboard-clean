@@ -296,6 +296,14 @@ check("I-delivery", "the delivery verdict requires the owner to receive the vali
   && /ownerHash === \(evidence\.worker\?\.validation \? finalJob\?\.output_sha256 : null\)/.test(deliveryBody),
   `the verdict expression is ${deliveryVerdict?.[1]?.trim() ?? "(not found)"}`);
 
+// The RCAP artifact route, not the legacy DTC one. /api/expungement-ai/packet/
+// download serves artifactRefs.text and requires packetStatus === "ready", so
+// it answers 409 for a render-job artifact no matter how healthy the worker is:
+// a delivery case pointed there can only ever report a defect that is not one.
+check("I-delivery-route", "the delivery case calls the route that actually serves the artifact",
+  /const download = `\/api\/rcap\/packets\/\$\{jobId\}\/download`;/.test(deliveryBody),
+  "the delivery case is not calling /api/rcap/packets/<jobId>/download");
+
 console.log("");
 if (failed > 0) {
   console.error(`verify-rcap-hosted-acceptance-verdicts FAILED: ${failed} check(s) did not hold.`);

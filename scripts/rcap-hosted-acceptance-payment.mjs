@@ -1281,10 +1281,25 @@ let finalJob = null;
 
 // --- 9. Delivery: the owner, and nobody else ---------------------------------
 {
-  const download = `/api/expungement-ai/packet/download?briefcaseItemId=${itemId}`;
-  const owner = await callApp(download, { cookie: A.cookie });
-  const stranger = await callApp(download, { cookie: B.cookie });
-  const anonymous = await callApp(download);
+  // The RCAP artifact is delivered by /api/rcap/packets/<jobId>/download, which
+  // authorizes the participant, re-reads the stored object, checks its identity
+  // against the finalized hashes and streams PDF bytes.
+  //
+  // This case used to call /api/expungement-ai/packet/download instead. That is
+  // the legacy DTC route: getConsumerPacketDownload serves artifactRefs.text and
+  // requires packetStatus === "ready", so it can never serve a render-job
+  // artifact and answers 409 not-ready for one. The owner's 409 in run
+  // 32185795181 was that route answering correctly about a packet it does not
+  // own — the case was pointed at the wrong surface, and B's 404 and the
+  // anonymous 307 were answers about the legacy route too.
+  const jobId = finalJob?.id ?? evidence.render?.jobId ?? null;
+  const download = `/api/rcap/packets/${jobId}/download`;
+  const owner = jobId ? await callApp(download, { cookie: A.cookie }) : { status: "no render job to download", bytes: Buffer.alloc(0), location: null };
+  const stranger = jobId ? await callApp(download, { cookie: B.cookie }) : { status: "no render job to download", bytes: Buffer.alloc(0), location: null };
+  const anonymous = jobId ? await callApp(download) : { status: "no render job to download", bytes: Buffer.alloc(0), location: null };
+  // The legacy consumer route is probed too, but only as evidence: it must not
+  // hand a stranger anything either, and it is not where this artifact lives.
+  const legacy = await callApp(`/api/expungement-ai/packet/download?briefcaseItemId=${itemId}`, { cookie: B.cookie });
 
   // Refusals alone are not delivery. The old verdict ignored the owner
   // entirely, so a run in which NOBODY could download — including the person
@@ -1307,17 +1322,19 @@ let finalJob = null;
   };
   record(
     "delivery_serves_the_owner_and_refuses_everyone_else",
-    ownerServed && refused(stranger) && refused(anonymous),
-    `owner A=${owner.status} carrying ${ownerBytes.length} bytes (PDF header ${ownerPdf}, sha256 ${ownerHash ? `${ownerHash.slice(0, 16)}…` : "(none)"} vs the finalized ${finalJob?.output_sha256 ? `${String(finalJob.output_sha256).slice(0, 16)}…` : "(no finalized artifact)"}); a different authenticated participant B=${stranger.status}${stranger.location ? ` -> ${stranger.location}` : ""} (must refuse); anonymous=${anonymous.status}${anonymous.location ? ` -> ${anonymous.location}` : ""} (must refuse). The owner must receive the exact validated artifact; B paid for nothing and must receive nothing.`
+    ownerServed && refused(stranger) && refused(anonymous) && refused(legacy),
+    `GET ${download} — owner A=${owner.status} carrying ${ownerBytes.length} bytes (PDF header ${ownerPdf}, sha256 ${ownerHash ? `${ownerHash.slice(0, 16)}…` : "(none)"} vs the finalized ${finalJob?.output_sha256 ? `${String(finalJob.output_sha256).slice(0, 16)}…` : "(no finalized artifact)"}); a different authenticated participant B=${stranger.status}${stranger.location ? ` -> ${stranger.location}` : ""} (must refuse); anonymous=${anonymous.status}${anonymous.location ? ` -> ${anonymous.location}` : ""} (must refuse); the legacy consumer route answers B ${legacy.status} (must also refuse). The owner must receive the exact validated artifact; B paid for nothing and must receive nothing.`
   );
   evidence.delivery = {
+    route: download,
     owner: owner.status,
     ownerByteCount: ownerBytes.length,
     ownerSha256: ownerHash,
     stranger: stranger.status,
     strangerLocation: stranger.location ?? null,
     anonymous: anonymous.status,
-    anonymousLocation: anonymous.location ?? null
+    anonymousLocation: anonymous.location ?? null,
+    legacyRouteForStranger: legacy.status
   };
 }
 

@@ -119,9 +119,16 @@ mutation("the replay case requires a finalization-written entitlement", () => {
 
 // 11 — delivery passes on refusals alone, with nobody receiving anything.
 mutation("delivery passes without the owner receiving the artifact", () => {
-  swap("    ownerServed && refused(stranger) && refused(anonymous),",
-    "    refused(stranger) && refused(anonymous),");
+  swap("    ownerServed && refused(stranger) && refused(anonymous) && refused(legacy),",
+    "    refused(stranger) && refused(anonymous) && refused(legacy),");
 }, "FAIL I-delivery");
+
+// 12 — delivery goes back to the legacy DTC route, which cannot serve a
+//      render-job artifact and answers 409 however healthy the worker is.
+mutation("delivery is pointed back at the legacy consumer route", () => {
+  swap("  const download = `/api/rcap/packets/${jobId}/download`;",
+    "  const download = `/api/expungement-ai/packet/download?briefcaseItemId=${itemId}`;");
+}, "FAIL I-delivery-route");
 
 restore();
 disposeGuard();
