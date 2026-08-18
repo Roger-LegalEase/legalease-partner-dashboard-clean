@@ -819,7 +819,12 @@ const seedResult = await sql(`
 let session = null;
 {
   const res = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
-  const sessionId = res.json?.sessionId ?? res.json?.id ?? null;
+  // The route answers with checkoutSessionId. Reading only sessionId/id meant
+  // that a perfectly successful 200 produced a null id, no Stripe fetch, and a
+  // FAIL whose own diagnostic then reported "Stripe holds session cs_test_…
+  // for this exact briefcase item" — the harness proving, in its failure text,
+  // that the thing it had just called missing did exist.
+  const sessionId = res.json?.checkoutSessionId ?? res.json?.sessionId ?? res.json?.id ?? null;
   let fetched = null;
   if (sessionId) {
     const stripeRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`, {
@@ -846,7 +851,7 @@ let session = null;
       const body = await list.json().catch(() => null);
       const mine = Array.isArray(body?.data) ? body.data.find((x) => x.client_reference_id === itemId) : null;
       sessionCreatedBeforeFailure = mine
-        ? `YES — Stripe holds session ${mine.id} for this exact briefcase item (amount_total=${mine.amount_total} ${mine.currency}, payment_status=${mine.payment_status}). The application created it and then failed AFTER the create, so the 503 is not Stripe refusing the request.`
+        ? `YES — Stripe holds session ${mine.id} for this exact briefcase item (amount_total=${mine.amount_total} ${mine.currency}, payment_status=${mine.payment_status}). The application created it and then failed AFTER the create, so the ${res.status} is not Stripe refusing the request.`
         : "no — Stripe holds no session carrying this briefcase item as client_reference_id, so the create itself did not succeed";
     } catch (error) {
       sessionCreatedBeforeFailure = `could not ask Stripe: ${error.message}`;
