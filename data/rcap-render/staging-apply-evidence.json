@@ -34,11 +34,16 @@
       "phase": 54,
       "path": "supabase/phase-54-rcap-person-namespace-hardening.sql",
       "sha256": "3114c1d26ad6f70a0eb78331c2729e035a53b4f9af9ab9cb36feb3a5fb2becac"
+    },
+    {
+      "phase": 55,
+      "path": "supabase/phase-55-expungement-matter-payment-binding.sql",
+      "sha256": "ed16e56e17882b79a494fe60779101031bfb706211930ac49b9cdc7059bc17a3"
     }
   ],
   "totals": {
-    "checks": 33,
-    "passed": 33,
+    "checks": 40,
+    "passed": 40,
     "failed": 0
   },
   "checks": [
@@ -79,8 +84,14 @@
       "observed": null
     },
     {
+      "id": "A55",
+      "title": "phase 55 authorization path and bytes still match",
+      "passed": true,
+      "observed": null
+    },
+    {
       "id": "A-order",
-      "title": "the apply order is exactly 49 -> 50 -> 51 -> 52 -> 53",
+      "title": "the apply order is exactly 49 -> 50 -> 51 -> 52 -> 53 -> 54 -> 55",
       "passed": true,
       "observed": null
     },
@@ -129,6 +140,12 @@
     {
       "id": "P-exists",
       "title": "record_consumer_packet_payment exists",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "P-52-gone",
+      "title": "the phase-52 writer signature no longer exists",
       "passed": true,
       "observed": null
     },
@@ -223,14 +240,44 @@
       "observed": null
     },
     {
-      "id": "BE-refund",
-      "title": "a pre-finalization refunded payment is ineligible",
+      "id": "BE-paid-refund-setup",
+      "title": "the phase 55 writer records the payment it is given",
       "passed": true,
       "observed": null
     },
     {
-      "id": "BE-conflict",
-      "title": "a uniqueness conflict is typed and never strands a job in validating",
+      "id": "BE-refund-enqueue",
+      "title": "a refunded consumer payment cannot enqueue a render job",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "BE-paid-late-refund-setup",
+      "title": "the phase 55 writer records the payment it is given",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "BE-refund",
+      "title": "a refund landing after enqueue never yields a deliverable packet",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "BE-paid-conflict-setup",
+      "title": "the phase 55 writer records the payment it is given",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "BE-rerender",
+      "title": "a second job for the matter already paid for is zero-charge, eligible and not stranded",
+      "passed": true,
+      "observed": null
+    },
+    {
+      "id": "BE-matter-conflict",
+      "title": "one payment cannot be spread across a second matter",
       "passed": true,
       "observed": null
     },
