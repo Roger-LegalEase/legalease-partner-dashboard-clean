@@ -12,14 +12,18 @@ Terminalizing a track around a broken PDF is a legitimate product decision. It i
 | Active Track Problematic Pdfs | 45 |
 | Orphaned Or Optional Pdfs | 44 |
 | Missing Pdf Binaries | 39 |
-| Technical Defects | 67 |
-| Visual Defects | 47 |
+| Technical Defects | 128 |
+| Visual Defects | 89 |
+| Unfinalized Rendered Artifacts | 62 |
+| Rendered Artifacts Not Byte Inspectable | 62 |
+| Contact Sheets Showing No Fill | 54 |
+| Protected Fields Populated By The Factory | 0 |
 | Source Or Currentness Defects | 117 |
 | Legal Design Or Adoption Holds | 128 |
 | Tracks Safely Terminalized Around A Problem Pdf | 34 |
 | Problem Pdf Routes Still Sellable | 0 |
 | Problem Pdf Routes Still Public | 0 |
-| Post Launch High Priority Pdf Fixes | 21 |
+| Post Launch High Priority Pdf Fixes | 30 |
 
 `Problem PDF routes still sellable` and `Problem PDF routes still public` must both be zero for launch.
 
@@ -33,16 +37,15 @@ Problem PDFs tied to one or more of the 497 launch tracks. Each one names the te
 - **Source SHA**: 94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on AK TF-800 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AK TF-800 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-05 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -51,6 +54,17 @@ Defects:
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `clipped_overlapping_or_misplaced` — Field "caseName" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 230 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "caseNo" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 127 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -63,16 +77,15 @@ Defects:
 - **Source SHA**: 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54 (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on AK TF-805 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AK TF-805 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-05 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -81,6 +94,17 @@ Defects:
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `clipped_overlapping_or_misplaced` — Field "caseName" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 227 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "caseNo" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 127 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -93,16 +117,15 @@ Defects:
 - **Source SHA**: c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582 (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on AK TF-810 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AK TF-810 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-05 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -114,6 +137,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "phoneNo" fails the clipping check under the boundary fixture: text width 90.8 exceeds widget width 80 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "partyNames" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 239 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "caseNo" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 99 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -126,16 +160,15 @@ Defects:
 - **Source SHA**: 7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, source_identity_ambiguous, stale_or_superseded, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: technical_approved_for_at_least_one_served_track
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on KY AOC-334 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-334 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as revision_confirmation_required. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -147,6 +180,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "CHARGE" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 187 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "County dropdown" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 267 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -159,16 +203,15 @@ Defects:
 - **Source SHA**: 5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde (revision REV-2016-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on KY AOC-496.2 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-496.2 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2016-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -185,6 +228,17 @@ Defects:
 - `visually_unsafe` — Field "Def.Address.State" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Zip" fails the overflow check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Charge1" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 201 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -197,16 +251,15 @@ Defects:
 - **Source SHA**: 3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, source_identity_ambiguous, stale_or_superseded, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: technical_approved_for_at_least_one_served_track
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on KY AOC-496.3 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-496.3 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as revision_confirmation_required. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -215,6 +268,17 @@ Defects:
 - `visually_unsafe` — Field "3 County Dropdown" fails the option_not_in_list check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "1 Case Number" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 112 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "3 County Dropdown" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -227,16 +291,15 @@ Defects:
 - **Source SHA**: 70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182 (revision REV-2023-06)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, source_identity_ambiguous, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: technical_approved_for_at_least_one_served_track
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on KY AOC-496.4 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-496.4 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2023-06 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -246,6 +309,17 @@ Defects:
 - `visually_unsafe` — Field "3 County Dropdown" fails the option_not_in_list check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "3 County Dropdown" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "1 Case Number" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 112 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -257,16 +331,15 @@ Defects:
 - **Source SHA**: 4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd (revision REV-2016-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on KY AOC-496 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-496 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2016-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -277,6 +350,17 @@ Defects:
 - `visually_unsafe` — Field "Case.County" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Case.CaseNum" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 111 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Def.Name.Company" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 267 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -289,16 +373,15 @@ Defects:
 - **Source SHA**: 715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on KY AOC-497 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-497 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as revision_confirmation_required. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -311,6 +394,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "ADDRESS" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 269 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "address2" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 269 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "CHARGE" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 181 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -410,12 +504,12 @@ Defects:
 - **Source SHA**: 9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Confirm that revision REV-2020-12 of NC AOC-CR-287 is the currently published form, against the issuing body's own publication.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NC AOC-CR-287 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -425,6 +519,15 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -437,16 +540,15 @@ Defects:
 - **Source SHA**: a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed (revision REV-2025-12)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on NC AOC-CR-287 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NC AOC-CR-287 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-12 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -464,6 +566,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "FileNumber2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "FileNumber3" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "OffenseDescription1" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 319 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -592,12 +705,12 @@ Defects:
 - **Source SHA**: 46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64 (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Confirm that revision REV-2020-12 of NC AOC-CR-288 is the currently published form, against the issuing body's own publication.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NC AOC-CR-288 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -607,6 +720,15 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -619,16 +741,15 @@ Defects:
 - **Source SHA**: 776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08 (revision REV-2025-03)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on NC AOC-CR-288 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NC AOC-CR-288 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-03 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -644,6 +765,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Fileno:1" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Fileno:2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Fileno:3" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -685,16 +817,15 @@ Defects:
 - **Source SHA**: 48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d (revision REV-2025-03)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on NC AOC-CR-296 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NC AOC-CR-296 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-03 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -708,6 +839,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Fileno:1" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Fileno:2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Fileno:3" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -749,16 +891,15 @@ Defects:
 - **Source SHA**: 99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c (revision REV-2025-06)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on NC AOC-CR-297 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NC AOC-CR-297 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-06 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -778,6 +919,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "FileNumber:2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "DateOfOffense:2" fails the clipping check under the boundary fixture: text width 51.1 exceeds widget width 55 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "EmailAddressOfRecord" fails the clipping check under the boundary fixture: text width 322 exceeds widget width 138 at font size 9. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -819,16 +971,15 @@ Defects:
 - **Source SHA**: 8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on NC AOC-CR-298 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NC AOC-CR-298 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -848,6 +999,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "FileNumber:2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "DateOfOffense:2" fails the clipping check under the boundary fixture: text width 51.1 exceeds widget width 55 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "EmailAddressOfRecord" fails the clipping check under the boundary fixture: text width 322 exceeds widget width 138 at font size 9. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -860,12 +1022,12 @@ Defects:
 - **Source SHA**: 08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7 (revision REV-2021-06)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Confirm that revision REV-2021-06 of NC AOC-CV-226 is the currently published form, against the issuing body's own publication.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NC AOC-CV-226 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -875,6 +1037,14 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -890,16 +1060,15 @@ Defects:
 - **Source SHA**: 74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f (revision REV-2023-04)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on NC AOC-CV-226 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NC AOC-CV-226 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2023-04 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -921,6 +1090,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "ApplicantFullPermanentMailingAddressZip" fails the clipping check under the boundary fixture: text width 322 exceeds widget width 59 at font size 9. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "MoneyOwedToOrHeldForApplicantAssetsAmount" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 107 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "ApplicantEmploymentIncomeMonthlyAmount" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 78 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -936,12 +1116,12 @@ Defects:
 - **Source SHA**: 76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a (revision REV-2021-06)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Confirm that revision REV-2021-06 of NC AOC-CV-226 is the currently published form, against the issuing body's own publication.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NC AOC-CV-226 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -951,6 +1131,14 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -966,12 +1154,12 @@ Defects:
 - **Source SHA**: 8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Re-measure the failing widgets on NE CC-6-11.2 and re-render the boundary fixture until no clipping finding remains.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NE CC-6-11.2 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -983,6 +1171,19 @@ Defects:
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 197 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -996,12 +1197,12 @@ Defects:
 - **Source SHA**: c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Re-measure the failing widgets on NE CC-6-11 and re-render the boundary fixture until no clipping finding remains.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NE CC-6-11 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -1016,6 +1217,19 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "streetaddress" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 268 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "citystatezip" fails the clipping check under the boundary fixture: text width 298.3 exceeds widget width 289 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -1029,12 +1243,12 @@ Defects:
 - **Source SHA**: 68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Re-measure the failing widgets on NE CC-6-12 and re-render the boundary fixture until no clipping finding remains.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NE CC-6-12 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -1049,6 +1263,19 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "streetaddress" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 270 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "citystatezip" fails the clipping check under the boundary fixture: text width 298.3 exceeds widget width 291 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -1093,12 +1320,12 @@ Defects:
 - **Source SHA**: d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Re-measure the failing widgets on NE CC-6-15.1 and re-render the boundary fixture until no clipping finding remains.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NE CC-6-15.1 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -1112,6 +1339,19 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "streetaddress" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 273 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "citystatezip" fails the clipping check under the boundary fixture: text width 298.3 exceeds widget width 294 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -1124,12 +1364,12 @@ Defects:
 - **Source SHA**: 43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Re-measure the failing widgets on NE DC-1-15 and re-render the boundary fixture until no clipping finding remains.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NE DC-1-15 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -1143,6 +1383,19 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 189 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "printedname" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 323 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) Text59.0, Text59.1, Text59.2, Text59.3, Text59.4, Text60.0, Text60.1, Text60.2, Text60.3, Text60.4, adoptionof, adultnamechangeof, divorce, emancipation, emancipationof, fullcountystatementRIGHT, namechange, probateof; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) Text59.0, Text59.1, Text59.2, Text59.3, Text59.4, Text60.0, Text60.1, Text60.2, Text60.3, Text60.4, adoptionof, adultnamechangeof, divorce, emancipation, emancipationof, fullcountystatementRIGHT, namechange, probateof; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -1156,22 +1409,45 @@ Defects:
 - **Source SHA**: 7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78 (revision REV-2026-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Confirm that revision REV-2026-07 of VA CC-1201 is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VA CC-1201 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2026-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `clipped_overlapping_or_misplaced` — Field "User.CaseNumber1201" fails the clipping check under the canonical fixture: text width 52.5 exceeds widget width 53 at font size 8. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.VSBCaseNumber" fails the clipping check under the canonical fixture: text width 52.5 exceeds widget width 28 at font size 8. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CaseNo" fails the overflow check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CaseNo" fails the clipping check under the boundary fixture: text width 142.1 exceeds widget width 129 at font size 9. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.ChargeDesc" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 270 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.ChargeCaseNumber" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 134 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CityOrCounty" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 169 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCounty" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 114 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryChargeDoc" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 428 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CaseNumber1201" fails the clipping check under the boundary fixture: text width 157.4 exceeds widget width 53 at font size 8. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.VSBCaseNumber" fails the clipping check under the boundary fixture: text width 157.4 exceeds widget width 28 at font size 8. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.PrintedNameOfPetAtt" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 219 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AddressOfPetAtt" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 251 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -1186,22 +1462,37 @@ Defects:
 - **Source SHA**: 6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219 (revision REV-2026-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Confirm that revision REV-2026-07 of VA CC-1473 is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VA CC-1473 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2026-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `visually_unsafe` — Field "User.CaseNumber" fails the overflow check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CaseNumber" fails the clipping check under the boundary fixture: text width 157.8 exceeds widget width 157 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.PetitionerName" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 312 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.SpecificCharge" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 342 at font size 10. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.UnderlyingCaseNumbers" fails the overflow check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -1213,22 +1504,35 @@ Defects:
 - **Source SHA**: ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Confirm that revision REV-2025-07 of VT 200-00130 is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VT 200-00130 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `clipped_overlapping_or_misplaced` — Field "Docket Number" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 107 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 310 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -1245,16 +1549,15 @@ Defects:
 - **Source SHA**: 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2 (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Confirm that revision REV-2025-07 of VT 200-00132 is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VT 200-00132 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1262,6 +1565,19 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `clipped_overlapping_or_misplaced` — Field "Docket Number" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 107 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 312 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -1278,16 +1594,15 @@ Defects:
 - **Source SHA**: 9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Confirm that revision REV-2025-07 of VT 200-00132A is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VT 200-00132A through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1295,6 +1610,19 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `clipped_overlapping_or_misplaced` — Field "Docket Number" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 107 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 312 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -1306,16 +1634,15 @@ Defects:
 - **Source SHA**: 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 (revision REV-2026-04)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Confirm that revision REV-2026-04 of VT 600-00228 is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VT 600-00228 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2026-04 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1323,6 +1650,17 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `clipped_overlapping_or_misplaced` — Field "Docket Number" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 122 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -1340,7 +1678,7 @@ Defects:
 - **Source SHA**: 9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412 (revision REV-2024-05)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1355,6 +1693,9 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `multi_widget_ambiguity` — Overlay labels are measured but the write box is unreviewed, so placement remains ambiguous. _(implementation-index.json:status)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -1366,7 +1707,7 @@ Defects:
 - **Source SHA**: 2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb (revision REV-2024-05)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1382,6 +1723,9 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `multi_widget_ambiguity` — Overlay labels are measured but the write box is unreviewed, so placement remains ambiguous. _(implementation-index.json:status)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -1393,7 +1737,7 @@ Defects:
 - **Source SHA**: ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7 (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: held_on_source_or_design, never_independently_approved, stale_or_superseded
+- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1409,6 +1753,9 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -1420,7 +1767,7 @@ Defects:
 - **Source SHA**: 3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6 (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: held_on_source_or_design, never_independently_approved, stale_or_superseded
+- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1436,6 +1783,9 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -1451,12 +1801,12 @@ Inventory assets not proven required by an active launch track. They are recorde
 - **Source SHA**: b1de812543a259e425318011dbc5e2bc8b4badf0692da9d12188087ec0e4a259 (revision REV-2022-07-25)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_or_superseded
+- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Resolve the recorded source or design hold on AK DPS-CRI-103 and obtain a fresh independent technical and visual approval.
+- **Exact next action**: Re-render AK DPS-CRI-103 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -1468,6 +1818,13 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1506,16 +1863,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: e7ebe16d45d9a5619fd36f2834d4696efc4c0e7bf3ef42c44fa684906effc2c2 (revision REV-2023-10)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AL C-94A and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AL C-94A through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1532,6 +1888,16 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Name of County_2" fails the clipping check under the boundary fixture: text width 239.3 exceeds widget width 123 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Address of Server" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 225 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Servers Printed Name" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 130 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1542,16 +1908,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 02ce19decc585903f73456371c2f51f8c01b39befa9b9b80560454e901bfb5e7 (revision REV-2017-10-01)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AL SBI-FORM-46 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AL SBI-FORM-46 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2017-10-01 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1567,6 +1932,16 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "City State and Zip_2" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 188 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "No Charge" fails the clipping check under the boundary fixture: text width 490.4 exceeds widget width 26 at font size 8. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "ARREST CHARGEDISPOSITION CHALLENGED1" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 236 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1577,16 +1952,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 5e0923268f5c5a0893118ac07bdf6d468190c77ad58ee7db9f077631c996d320 (revision REV-2014-08-25)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-ORDER-OF-PROBATION-UNDER-ACT-346 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-ORDER-OF-PROBATION-UNDER-ACT-346 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1595,6 +1969,17 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `clipped_overlapping_or_misplaced` — Field "Case No" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 117 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1605,16 +1990,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 70f97584a628507e064540a4bf2830b46162de8f799d2a2a78285db446d15740 (revision REV-2014-01-01)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1625,6 +2009,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Case No" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 117 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 234 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "County" fails the clipping check under the boundary fixture: text width 239.3 exceeds widget width 125 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1635,16 +2030,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 731fd089f5b019002269ec86905cea946d5841b988102c222edfbd630290eaf2 (revision REV-2014-01-01)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1661,6 +2055,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Case no 2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 101 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 160 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Case no 3" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 90 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1671,16 +2076,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: b7532d415611a9fe3046fd6fa1aaf662d93c20ba21bf27a3ab8066c96d63b13e (revision REV-2014-01-01)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1696,6 +2100,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 179 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Case no 2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 101 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Case no 3" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 101 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1706,16 +2121,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 5bd4ed5bd1b658295b50c2ea7126e276982fd705045f36adfc1f074923722581 (revision REV-2014-01-01)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1726,6 +2140,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Case No" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 109 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "County" fails the clipping check under the boundary fixture: text width 239.3 exceeds widget width 125 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 234 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1736,16 +2161,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: b347754fd115adea52068fe5cd267f84021f8f435a7b86c02c3347dd86f9f555 (revision REV-2014-01-01)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1757,6 +2181,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Case No" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 109 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "1 The Defendant was arrested on the" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 54 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 234 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1767,16 +2202,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: dcb87ba9ff3b64f5db9231f2f3b9d16b86264ac75cbdf81d706921ab3592f4cc (revision REV-2021-08-16)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1787,6 +2221,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Case No" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 106 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "1 The Defendant was arrested on the" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 111 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 293.5 exceeds widget width 216 at font size 9. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1797,12 +2242,12 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: ae6b81f6882133c207f23435b00785b50b40e014c616d3c77707e8b6020d43af (revision REV-2021-07-27)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -1816,6 +2261,13 @@ Defects:
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
 - `clipped_overlapping_or_misplaced` — Field "undefined" fails the clipping check under the boundary fixture: text width 131.6 exceeds widget width undefined at font size 5.5. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "undefined" fails the clipping check under the boundary fixture: text width 108.2 exceeds widget width undefined at font size 5.5. _(reports/overflow-and-clipping.json)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1826,16 +2278,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 4d6bc578c6a40a58d1234315939d46579862b5d382c85359ae4334763e7bbcc8 (revision REV-2019-08-01)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1845,6 +2296,17 @@ Defects:
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `clipped_overlapping_or_misplaced` — Field "Case No" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 101 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 217 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1855,16 +2317,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 4ca0a57a56f7662dd6590e9bfbbe7b96fcf2d39df8ca84253c53e9bd0f07605a (revision REV-2023-10-25)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1874,6 +2335,17 @@ Defects:
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `clipped_overlapping_or_misplaced` — Field "Case No" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 109 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "DEFENDANT NAME" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 217 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1884,12 +2356,12 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 741fda999c348d763848b98053f93e8c28d25dcc1ba5e8438e98b1bdf555ae6e (revision REV-2022-03-07)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -1904,6 +2376,13 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "undefined" fails the clipping check under the boundary fixture: text width 131.6 exceeds widget width undefined at font size 5.5. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "undefined" fails the clipping check under the boundary fixture: text width 108.2 exceeds widget width undefined at font size 5.5. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "undefined" fails the clipping check under the boundary fixture: text width 179.3 exceeds widget width undefined at font size 5.5. _(reports/overflow-and-clipping.json)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1914,16 +2393,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: edd3eb10e5b3830afa417f4165611489a32c1f43d2dde3203855bdbe3b0b19da (revision REV-2014-08-25)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1932,6 +2410,17 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `clipped_overlapping_or_misplaced` — Field "Case No" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 117 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1942,16 +2431,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 99657d0eac1f5ea51814f4c663b483749228a06412ba1e9dd1805aeac4826e39 (revision REV-2014-01-01)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -1970,6 +2458,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Charges 1" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 389 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Case no 2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 91 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Case no 3" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 91 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -1980,16 +2479,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 7b9426041a2bf7b14ee871847999ecb83d5818829abb39eb9711a411ff70ba42 (revision REV-2014-08-25)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2010,6 +2508,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "COUNTY 02" fails the clipping check under the boundary fixture: text width 239.3 exceeds widget width 101 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "CASE NUMBER(S)" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 101 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "COUNTY 03" fails the clipping check under the boundary fixture: text width 239.3 exceeds widget width 70 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -2020,12 +2529,12 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 2a60285e2fc0d5c7f765df93143f65edf302dc8f28429a1050d329b3f48ff0a0 (revision REV-2021-07-27)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -2039,6 +2548,13 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "undefined" fails the clipping check under the boundary fixture: text width 131.6 exceeds widget width undefined at font size 5.5. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "undefined" fails the clipping check under the boundary fixture: text width 131.6 exceeds widget width undefined at font size 5.5. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "undefined" fails the clipping check under the boundary fixture: text width 131.6 exceeds widget width undefined at font size 5.5. _(reports/overflow-and-clipping.json)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -2049,16 +2565,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: f77e17b669bd6e01cc3818329181bb378dd774b1facd9a15c4083d37d380194c (revision REV-2014-08-25)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2072,6 +2587,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "City" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 195 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "COUNTY" fails the clipping check under the boundary fixture: text width 239.3 exceeds widget width 125 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Defendant NAME" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 234 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -2082,16 +2608,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 015c7246ffd5ad1512d55234708d885db3dd6d5eebb937c049aca8fe4f818029 (revision REV-2015-04-01)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2104,6 +2629,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "COUNTY OF" fails the clipping check under the boundary fixture: text width 239.3 exceeds widget width 216 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Comes the Petitioner" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 186 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Petitioner" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 215 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -2114,16 +2650,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b (revision REV-2021-07-21)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2142,6 +2677,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "COUNTY OF" fails the clipping check under the boundary fixture: text width 239.3 exceeds widget width 216 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Comes the Petitioner" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 204 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Petitioner" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 215 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -2152,12 +2698,12 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 04d876b09fe82b76298a2d06093d122a0ef539f767f76811001030cc7805715d (revision REV-2021-07-27)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -2170,6 +2716,13 @@ Defects:
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
 - `clipped_overlapping_or_misplaced` — Field "undefined" fails the clipping check under the boundary fixture: text width 131.6 exceeds widget width undefined at font size 5.5. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "undefined" fails the clipping check under the boundary fixture: text width 108.2 exceeds widget width undefined at font size 5.5. _(reports/overflow-and-clipping.json)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -2180,16 +2733,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61 (revision REV-2020-04-22)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2208,6 +2760,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "ADDRESS 2" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 226 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Petitioner" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 215 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "DEFENDANT" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 202 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -2246,16 +2809,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: cca9d9454b565d36930a95ac6337d370f6506f8780e9d98cbfc8f99343e0a356 (revision REV-2014-08-25)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on AR AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AR AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2267,6 +2829,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "OFFENSE 1" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 413 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "DEFENDANT PRINTED" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 234 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "City 1" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 195 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -2277,7 +2850,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 469835852a1d7427a2212403aacd3118e93d6adc07791653aab25cb93324f662 (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, missing_required_packet_component, multi_widget_ambiguity, never_independently_approved, source_identity_ambiguous, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
+- **Defect categories**: held_on_source_or_design, missing_required_packet_component, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
 - **Technical disposition**: acroform_mapped_all_fields_manual_or_unwritable
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2286,7 +2859,6 @@ _No active launch track is proven to require this asset._
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as revision_confirmation_required. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2306,16 +2878,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 7af13bcf7ea1d395471c381b10f2200049d1c0a6380add604360da39b51f3587 (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on KY AOC-333 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-333 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2327,6 +2898,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Case  No" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 111 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "County dropdown" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 267 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -2337,16 +2919,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 273e45032d4f1caed9442ebcfe5804e9202c29eb6265f5b7dde7734e44048ca8 (revision REV-2019-06)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on KY AOC-496.5 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-496.5 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2019-06 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2357,6 +2938,19 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Case No" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 111 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "NAME" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 267 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "County dropdown" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) Notice; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) Notice; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -2367,16 +2961,15 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 71049fcaf0321ff6ccd3bdc5142c92fabcb4134f7aebb48a6859083085f7c2eb (revision REV-2020-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on KY AOC-497.3 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-497.3 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as source_or_currentness_gate_open. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2387,6 +2980,19 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "County" fails the clipping check under the boundary fixture: text width 239.3 exceeds widget width 122 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "NAME" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 267 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Case No" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 111 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) Notice; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) Notice; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -2502,12 +3108,12 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 33765f661ddeaacfbc623b77e4e0b873b24816bfda472fa2c6b0f093945d96be
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Re-measure the failing widgets on NE DC-6-7.2 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NE DC-6-7.2 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -2521,6 +3127,19 @@ Defects:
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "emancipationpetitioner" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 207 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 207 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) adoptionof, adultnamechangeof, adultnamechangetitle, divorce, emancipation, emancipationof, fullcountystatementRIGHT, namechange, probateof; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) adoptionof, adultnamechangeof, adultnamechangetitle, divorce, emancipation, emancipationof, fullcountystatementRIGHT, namechange, probateof; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 _No active launch track is proven to require this asset._
@@ -2557,22 +3176,42 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 01427e4ea4dce8ea5b053bb681556533c1313a8fd362983a9616465acdf6a8ed (revision REV-2026-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Confirm that revision REV-2026-07 of VA CC-1201-A is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VA CC-1201-A through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2026-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `visually_unsafe` — Field "User.CaseNo" fails the overflow check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.ChargeDesc" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 270 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.ChargeCaseNumber" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 109 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CityOrCounty" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 182 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCounty" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 119 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryChargeDoc" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 428 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCounty1" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 123 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryChargeDoc1" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 428 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCountyD" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 123 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryChargeDocD" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 428 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 _No active launch track is proven to require this asset._
 
@@ -2582,22 +3221,39 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 3f9bb4dcc114dc5a36aaf14439841dfd536ca8e84febbc01aca52792dc190da1 (revision REV-2026-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Confirm that revision REV-2026-07 of VA CC-1203-A is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VA CC-1203-A through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2026-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `visually_unsafe` — Field "User.CaseNo" fails the overflow check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CaseNo" fails the clipping check under the boundary fixture: text width 142.1 exceeds widget width 128 at font size 9. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.ChargeCaseNumber" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 107 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CityOrCounty" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 166 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCounty" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 82 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCountyA" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 86 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCountyB" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 86 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 _No active launch track is proven to require this asset._
 
@@ -2607,22 +3263,36 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 9ec9a6b12adb3a3f14ec0afd39ddcfab4ec00ec2fa441ff5e1648ffb8b334781 (revision REV-2026-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Confirm that revision REV-2026-07 of VA CC-1203-B is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VA CC-1203-B through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2026-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `visually_unsafe` — Field "User.CaseNo" fails the overflow check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CaseNo" fails the clipping check under the boundary fixture: text width 142.1 exceeds widget width 131 at font size 9. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCounty" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 81 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCountyA" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 86 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 _No active launch track is proven to require this asset._
 
@@ -2632,22 +3302,46 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 25d08cb32e0b0bed778465d91b869f43d8f94ce6986c5036c5de7e307a31d35a (revision REV-2026-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: low
-- **Exact next action**: Confirm that revision REV-2026-07 of VA CC-1203 is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VA CC-1203 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2026-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `clipped_overlapping_or_misplaced` — Field "User.VSBCaseNumber" fails the clipping check under the canonical fixture: text width 52.5 exceeds widget width 23 at font size 8. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CaseNo" fails the overflow check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CaseNo" fails the clipping check under the boundary fixture: text width 142.1 exceeds widget width 139 at font size 9. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.ChargeCaseNumber" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 113 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CityOrCounty" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 106 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCaseNumber" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 130 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCounty" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 194 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCaseNumberA" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 130 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCountyA" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 194 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCaseNumberB" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 130 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCountyB" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 194 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.PrintedNameOfPetAtt" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 219 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AddressOfPetAtt" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 230 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.VSBCaseNumber" fails the clipping check under the boundary fixture: text width 157.4 exceeds widget width 23 at font size 8. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 _No active launch track is proven to require this asset._
 
@@ -2657,7 +3351,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078 (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: held_on_source_or_design, never_independently_approved, stale_or_superseded
+- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2673,6 +3367,8 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 
 _No active launch track is proven to require this asset._
 
@@ -2682,7 +3378,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a (revision REV-2018-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: currentness_unverified, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2691,7 +3387,6 @@ _No active launch track is proven to require this asset._
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2018-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2699,6 +3394,8 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `multi_widget_ambiguity` — The asset exposes 21 fields and binds none of them. _(implementation-index.json:bound)_
 
 _No active launch track is proven to require this asset._
 
@@ -2708,7 +3405,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 6001c4bd36be3e6b4f84b6352ebc94178f3535e39a9109665a2ac35aa2095212 (revision REV-2026-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: currentness_unverified, held_on_source_or_design, missing_required_packet_component, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2717,7 +3414,6 @@ _No active launch track is proven to require this asset._
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2026-05 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2725,6 +3421,9 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `missing_required_packet_component` — Every field on this AcroForm is manual or unwritable, so it produces no filled component. _(implementation-index.json:status)_
+- `multi_widget_ambiguity` — The asset exposes 30 fields and binds none of them. _(implementation-index.json:bound)_
 
 _No active launch track is proven to require this asset._
 
@@ -2734,7 +3433,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3 (revision REV-2019-09)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: currentness_unverified, held_on_source_or_design, missing_required_packet_component, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2743,7 +3442,6 @@ _No active launch track is proven to require this asset._
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2019-09 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -2751,6 +3449,9 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `missing_required_packet_component` — Every field on this AcroForm is manual or unwritable, so it produces no filled component. _(implementation-index.json:status)_
+- `multi_widget_ambiguity` — The asset exposes 10 fields and binds none of them. _(implementation-index.json:bound)_
 
 _No active launch track is proven to require this asset._
 
@@ -3775,16 +4476,15 @@ Assets needing technical, visual, source, currentness, legal-design or adoption 
 - **Source SHA**: 94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on AK TF-800 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AK TF-800 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-05 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -3793,6 +4493,17 @@ Defects:
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `clipped_overlapping_or_misplaced` — Field "caseName" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 230 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "caseNo" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 127 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -3805,16 +4516,15 @@ Defects:
 - **Source SHA**: 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54 (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on AK TF-805 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AK TF-805 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-05 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -3823,6 +4533,17 @@ Defects:
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `clipped_overlapping_or_misplaced` — Field "caseName" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 227 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "caseNo" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 127 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -3835,16 +4556,15 @@ Defects:
 - **Source SHA**: c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582 (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on AK TF-810 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render AK TF-810 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-05 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -3856,6 +4576,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "phoneNo" fails the clipping check under the boundary fixture: text width 90.8 exceeds widget width 80 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "partyNames" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 239 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "caseNo" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 99 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -3868,16 +4599,15 @@ Defects:
 - **Source SHA**: 7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, source_identity_ambiguous, stale_or_superseded, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: technical_approved_for_at_least_one_served_track
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on KY AOC-334 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-334 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as revision_confirmation_required. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -3889,6 +4619,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "CHARGE" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 187 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "County dropdown" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 267 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -3901,16 +4642,15 @@ Defects:
 - **Source SHA**: 5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde (revision REV-2016-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on KY AOC-496.2 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-496.2 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2016-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -3927,6 +4667,17 @@ Defects:
 - `visually_unsafe` — Field "Def.Address.State" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Zip" fails the overflow check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Charge1" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 201 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -3939,16 +4690,15 @@ Defects:
 - **Source SHA**: 3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, source_identity_ambiguous, stale_or_superseded, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: technical_approved_for_at_least_one_served_track
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on KY AOC-496.3 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-496.3 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as revision_confirmation_required. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -3957,6 +4707,17 @@ Defects:
 - `visually_unsafe` — Field "3 County Dropdown" fails the option_not_in_list check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "1 Case Number" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 112 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "3 County Dropdown" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -3969,16 +4730,15 @@ Defects:
 - **Source SHA**: 70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182 (revision REV-2023-06)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, source_identity_ambiguous, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: technical_approved_for_at_least_one_served_track
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on KY AOC-496.4 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-496.4 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2023-06 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -3988,6 +4748,17 @@ Defects:
 - `visually_unsafe` — Field "3 County Dropdown" fails the option_not_in_list check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "3 County Dropdown" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "1 Case Number" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 112 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -3999,16 +4770,15 @@ Defects:
 - **Source SHA**: 4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd (revision REV-2016-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on KY AOC-496 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-496 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2016-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -4019,6 +4789,17 @@ Defects:
 - `visually_unsafe` — Field "Case.County" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Case.CaseNum" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 111 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Def.Name.Company" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 267 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4031,16 +4812,15 @@ Defects:
 - **Source SHA**: 715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, source_identity_ambiguous, stale_or_superseded, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on KY AOC-497 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render KY AOC-497 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `stale_or_superseded` — Freshness is recorded as revision_confirmation_required. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -4053,6 +4833,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "ADDRESS" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 269 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "address2" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 269 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "CHARGE" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 181 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4152,12 +4943,12 @@ Defects:
 - **Source SHA**: 9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Confirm that revision REV-2020-12 of NC AOC-CR-287 is the currently published form, against the issuing body's own publication.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NC AOC-CR-287 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -4167,6 +4958,15 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4179,16 +4979,15 @@ Defects:
 - **Source SHA**: a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed (revision REV-2025-12)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on NC AOC-CR-287 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NC AOC-CR-287 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-12 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -4206,6 +5005,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "FileNumber2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "FileNumber3" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "OffenseDescription1" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 319 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4334,12 +5144,12 @@ Defects:
 - **Source SHA**: 46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64 (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Confirm that revision REV-2020-12 of NC AOC-CR-288 is the currently published form, against the issuing body's own publication.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NC AOC-CR-288 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -4349,6 +5159,15 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4361,16 +5180,15 @@ Defects:
 - **Source SHA**: 776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08 (revision REV-2025-03)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on NC AOC-CR-288 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NC AOC-CR-288 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-03 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -4386,6 +5204,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Fileno:1" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Fileno:2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Fileno:3" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4427,16 +5256,15 @@ Defects:
 - **Source SHA**: 48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d (revision REV-2025-03)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on NC AOC-CR-296 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NC AOC-CR-296 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-03 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -4450,6 +5278,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "Fileno:1" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Fileno:2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "Fileno:3" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4491,16 +5330,15 @@ Defects:
 - **Source SHA**: 99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c (revision REV-2025-06)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on NC AOC-CR-297 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NC AOC-CR-297 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-06 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -4520,6 +5358,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "FileNumber:2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "DateOfOffense:2" fails the clipping check under the boundary fixture: text width 51.1 exceeds widget width 55 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "EmailAddressOfRecord" fails the clipping check under the boundary fixture: text width 322 exceeds widget width 138 at font size 9. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4561,16 +5410,15 @@ Defects:
 - **Source SHA**: 8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on NC AOC-CR-298 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NC AOC-CR-298 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -4590,6 +5438,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "FileNumber:2" fails the clipping check under the boundary fixture: text width 130.6 exceeds widget width 73 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "DateOfOffense:2" fails the clipping check under the boundary fixture: text width 51.1 exceeds widget width 55 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "EmailAddressOfRecord" fails the clipping check under the boundary fixture: text width 322 exceeds widget width 138 at font size 9. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4602,12 +5461,12 @@ Defects:
 - **Source SHA**: 08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7 (revision REV-2021-06)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Confirm that revision REV-2021-06 of NC AOC-CV-226 is the currently published form, against the issuing body's own publication.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NC AOC-CV-226 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -4617,6 +5476,14 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4632,16 +5499,15 @@ Defects:
 - **Source SHA**: 74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f (revision REV-2023-04)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Re-measure the failing widgets on NC AOC-CV-226 and re-render the boundary fixture until no clipping finding remains.
+- **Exact next action**: Re-render NC AOC-CV-226 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2023-04 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -4663,6 +5529,17 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "ApplicantFullPermanentMailingAddressZip" fails the clipping check under the boundary fixture: text width 322 exceeds widget width 59 at font size 9. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "MoneyOwedToOrHeldForApplicantAssetsAmount" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 107 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "ApplicantEmploymentIncomeMonthlyAmount" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 78 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4678,12 +5555,12 @@ Defects:
 - **Source SHA**: 76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a (revision REV-2021-06)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Confirm that revision REV-2021-06 of NC AOC-CV-226 is the currently published form, against the issuing body's own publication.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NC AOC-CV-226 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -4693,6 +5570,14 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4708,12 +5593,12 @@ Defects:
 - **Source SHA**: 8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Re-measure the failing widgets on NE CC-6-11.2 and re-render the boundary fixture until no clipping finding remains.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NE CC-6-11.2 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -4725,6 +5610,19 @@ Defects:
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 197 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4738,12 +5636,12 @@ Defects:
 - **Source SHA**: c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Re-measure the failing widgets on NE CC-6-11 and re-render the boundary fixture until no clipping finding remains.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NE CC-6-11 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -4758,6 +5656,19 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "streetaddress" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 268 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "citystatezip" fails the clipping check under the boundary fixture: text width 298.3 exceeds widget width 289 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4771,12 +5682,12 @@ Defects:
 - **Source SHA**: 68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Re-measure the failing widgets on NE CC-6-12 and re-render the boundary fixture until no clipping finding remains.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NE CC-6-12 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -4791,6 +5702,19 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "streetaddress" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 270 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "citystatezip" fails the clipping check under the boundary fixture: text width 298.3 exceeds widget width 291 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4835,12 +5759,12 @@ Defects:
 - **Source SHA**: d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Re-measure the failing widgets on NE CC-6-15.1 and re-render the boundary fixture until no clipping finding remains.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NE CC-6-15.1 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -4854,6 +5778,19 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "streetaddress" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 273 at font size 10. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "citystatezip" fails the clipping check under the boundary fixture: text width 298.3 exceeds widget width 294 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4866,12 +5803,12 @@ Defects:
 - **Source SHA**: 43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: clipped_overlapping_or_misplaced, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: medium
-- **Exact next action**: Re-measure the failing widgets on NE DC-1-15 and re-render the boundary fixture until no clipping finding remains.
+- **Post-launch priority**: high
+- **Exact next action**: Re-render NE DC-1-15 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
@@ -4885,6 +5822,19 @@ Defects:
 - `clipped_overlapping_or_misplaced` — Field "defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 189 at font size 10. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the option_not_in_list check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `clipped_overlapping_or_misplaced` — Field "printedname" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 323 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf leaves the form's own preprinted default in protected field(s) Text59.0, Text59.1, Text59.2, Text59.3, Text59.4, Text60.0, Text60.1, Text60.2, Text60.3, Text60.4, adoptionof, adultnamechangeof, divorce, emancipation, emancipationof, fullcountystatementRIGHT, namechange, probateof; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) Text59.0, Text59.1, Text59.2, Text59.3, Text59.4, Text60.0, Text60.1, Text60.2, Text60.3, Text60.4, adoptionof, adultnamechangeof, divorce, emancipation, emancipationof, fullcountystatementRIGHT, namechange, probateof; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -4898,22 +5848,45 @@ Defects:
 - **Source SHA**: 7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78 (revision REV-2026-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Confirm that revision REV-2026-07 of VA CC-1201 is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VA CC-1201 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2026-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `clipped_overlapping_or_misplaced` — Field "User.CaseNumber1201" fails the clipping check under the canonical fixture: text width 52.5 exceeds widget width 53 at font size 8. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.VSBCaseNumber" fails the clipping check under the canonical fixture: text width 52.5 exceeds widget width 28 at font size 8. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CaseNo" fails the overflow check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CaseNo" fails the clipping check under the boundary fixture: text width 142.1 exceeds widget width 129 at font size 9. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.ChargeDesc" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 270 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.ChargeCaseNumber" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 134 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CityOrCounty" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 169 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryCityOrCounty" fails the clipping check under the boundary fixture: text width 223.3 exceeds widget width 114 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AncillaryChargeDoc" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 428 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CaseNumber1201" fails the clipping check under the boundary fixture: text width 157.4 exceeds widget width 53 at font size 8. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.VSBCaseNumber" fails the clipping check under the boundary fixture: text width 157.4 exceeds widget width 28 at font size 8. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.PrintedNameOfPetAtt" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 219 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.AddressOfPetAtt" fails the clipping check under the boundary fixture: text width 357.8 exceeds widget width 251 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -4928,22 +5901,37 @@ Defects:
 - **Source SHA**: 6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219 (revision REV-2026-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Confirm that revision REV-2026-07 of VA CC-1473 is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VA CC-1473 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2026-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `visually_unsafe` — Field "User.CaseNumber" fails the overflow check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.CaseNumber" fails the clipping check under the boundary fixture: text width 157.8 exceeds widget width 157 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.PetitionerName" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 312 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "User.SpecificCharge" fails the clipping check under the boundary fixture: text width 613 exceeds widget width 342 at font size 10. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.UnderlyingCaseNumbers" fails the overflow check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -4955,22 +5943,35 @@ Defects:
 - **Source SHA**: ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Confirm that revision REV-2025-07 of VT 200-00130 is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VT 200-00130 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `clipped_overlapping_or_misplaced` — Field "Docket Number" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 107 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 310 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -4987,16 +5988,15 @@ Defects:
 - **Source SHA**: 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2 (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Confirm that revision REV-2025-07 of VT 200-00132 is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VT 200-00132 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -5004,6 +6004,19 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `clipped_overlapping_or_misplaced` — Field "Docket Number" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 107 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 312 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5020,16 +6033,15 @@ Defects:
 - **Source SHA**: 9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, contact_sheet_shows_no_fill, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Confirm that revision REV-2025-07 of VT 200-00132A is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VT 200-00132A through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2025-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -5037,6 +6049,19 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `clipped_overlapping_or_misplaced` — Field "Docket Number" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 107 at font size 10. _(reports/overflow-and-clipping.json)_
+- `clipped_overlapping_or_misplaced` — Field "Defendant" fails the clipping check under the boundary fixture: text width 326.1 exceeds widget width 312 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5048,16 +6073,15 @@ Defects:
 - **Source SHA**: 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 (revision REV-2026-04)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, source_identity_ambiguous
+- **Defect categories**: clipped_overlapping_or_misplaced, currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: high
-- **Exact next action**: Confirm that revision REV-2026-04 of VT 600-00228 is the currently published form, against the issuing body's own publication.
+- **Exact next action**: Re-render VT 600-00228 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
 
 Defects:
 
-- `source_identity_ambiguous` — The observed structural class (acroform) disagrees with the declared class (acroform_pdf). _(source-record.json:structuralClassAgrees)_
 - `currentness_unverified` — Revision REV-2026-04 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
@@ -5065,6 +6089,17 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `clipped_overlapping_or_misplaced` — Field "Docket Number" fails the clipping check under the boundary fixture: text width 196.8 exceeds widget width 122 at font size 10. _(reports/overflow-and-clipping.json)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
+- `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5082,7 +6117,7 @@ Defects:
 - **Source SHA**: 9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412 (revision REV-2024-05)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5097,6 +6132,9 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `multi_widget_ambiguity` — Overlay labels are measured but the write box is unreviewed, so placement remains ambiguous. _(implementation-index.json:status)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5108,7 +6146,7 @@ Defects:
 - **Source SHA**: 2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb (revision REV-2024-05)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved
+- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5124,6 +6162,9 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `multi_widget_ambiguity` — Overlay labels are measured but the write box is unreviewed, so placement remains ambiguous. _(implementation-index.json:status)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5135,7 +6176,7 @@ Defects:
 - **Source SHA**: ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7 (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: held_on_source_or_design, never_independently_approved, stale_or_superseded
+- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5151,6 +6192,9 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5162,7 +6206,7 @@ Defects:
 - **Source SHA**: 3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6 (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: held_on_source_or_design, never_independently_approved, stale_or_superseded
+- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5178,6 +6222,9 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
