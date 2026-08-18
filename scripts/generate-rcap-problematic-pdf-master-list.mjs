@@ -192,7 +192,6 @@ for (const entry of register.records) {
   // the same binary are deduplicated into one asset. Evidence has to be looked
   // up across all of them, not just the first, or the family that happened to
   // sort second loses its artifacts and its rendered sheet.
-  const familyId = entry.familyIds[0];
   const record = entry.familyIds.map((id) => sourceByFamily.get(id)).find(Boolean) ?? null;
   const auditRow = entry.familyIds.map((id) => auditByFamily.get(id))
     .find((row) => row && row.artifacts.some((a) => a.present))

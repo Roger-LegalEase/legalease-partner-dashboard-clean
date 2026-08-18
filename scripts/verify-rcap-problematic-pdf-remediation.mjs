@@ -421,7 +421,6 @@ const CASES = [
 let mutationFailures = 0;
 for (const testCase of CASES) {
   const targets = [...MUTATION_TARGETS, ...(testCase.extraTargets ?? [])];
-  // eslint-disable-next-line no-await-in-loop
   const wentRed = await withTrackedMutation(`verify-rcap-problematic-pdf-remediation: ${testCase.name}`, targets, async () => {
     testCase.apply();
     const failures = runChecks();
