@@ -747,7 +747,7 @@ const seedResult = await sql(`
   values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayLabel)}',
           '${derived.resultCode}', '${derived.packetType}',
           'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb,
-          '${sqlText(JSON.stringify({ commercialFlow }))}'::jsonb, 'unpaid', true)
+          '${sqlText(JSON.stringify({ commercialFlow: reviewed.commercialFlow }))}'::jsonb, 'unpaid', true)
   returning id, status, result_code, pathway_label
 `);
 
