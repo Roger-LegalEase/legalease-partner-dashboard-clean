@@ -212,7 +212,35 @@ const evidence = {
   cardEntryNote: "Stripe's hosted Checkout page cannot be driven from CI without a browser. Every field of the completion event comes from the real session read back from Stripe; payment_status is the single overridden field. The phone test covers the card entry itself."
 };
 
+// What this matrix does and does not prove about jurisdictions. It buys and
+// delivers ONE matter on whichever route the evaluator will actually sell, and
+// that is a proof about the payment and delivery machinery — not about
+// Pennsylvania or Illinois coverage. Those are established per route in
+// docs/RCAP_ROUTE_REACHABILITY.md and restated here so a green matrix can never
+// be read as jurisdiction proof it did not perform.
+const JURISDICTION_SCOPE = {
+  note: "This matrix proves payment, finalization and delivery for one sellable matter. It is not evidence about any jurisdiction it did not transact.",
+  pennsylvania: {
+    sellablePathways: 0,
+    inspectedPathways: 11,
+    disposition: "intentional guidance",
+    evidence: "every one of the 11 inspected PA pathways carries the recorded Lawrence hold lawrence_review=hold_guidance_only; the evaluator returns guidance_only with pa.lawrence_hold_guidance_only (Path J: pa.guidance_only_no_user_filed_court_petition). No $50 Checkout should open for those held routes.",
+    isEvaluatorDefect: false
+  },
+  illinois: {
+    sellablePathways: 3,
+    inspectedPathways: 9,
+    sellable: [
+      "juvenile-automatic-or-petition-expungement",
+      "adult-conviction-sealing",
+      "felony-prostitution-relief"
+    ],
+    evidence: "each reaches packet_ready_with_caution with paymentAllowed=true under a witnessing public answer set recorded in docs/RCAP_ROUTE_REACHABILITY.md."
+  }
+};
+
 function finish() {
+  evidence.jurisdictionScope = JURISDICTION_SCOPE;
   const missing = REQUIRED_CASES.filter((c) => !verdicts.has(c));
   const failed = [...verdicts.entries()].filter(([, v]) => !v.passed).map(([c]) => c);
   evidence.requiredCases = REQUIRED_CASES;
@@ -1033,14 +1061,26 @@ async function serviceRoleKey() {
 }
 
 const TERMINAL_SUCCESS = new Set(["artifact_validated", "delivered"]);
-const NON_TERMINAL = new Set(["queued", "claimed", "rendering", "validating"]);
-const WORKER_CLAIM_SECONDS = 45;
+// Everything a delivery may NOT be sitting in. In flight, failed, and the
+// dispositions a failed job can carry — none of these is a delivered packet,
+// and the previous verdict treated the absence of 'failed' as success.
+const NON_TERMINAL = new Set(["queued", "claimed", "rendering", "validating", "failed", "retryable", "expired"]);
+// Passed explicitly rather than inherited. resolveClaimSeconds() defaults to
+// 600, which is longer than this whole job step: a claim that goes stale can
+// then never be released inside the run, so one declined RPC and a genuine
+// worker defect look identical. Long enough for a real render and upload,
+// short enough that the queue's own recovery is observable here.
+const WORKER_CLAIM_SECONDS = 120;
 
 /** Every column of the job the diagnosis needs, in one read. */
 async function readJob() {
   const res = await sql(`
     select id, status, attempt_count, max_attempts, claimed_by, claim_expires_at,
-           fencing_token is not null as has_fencing_token, next_attempt_at,
+           fencing_token is not null as has_fencing_token,
+           -- A hash, never the token. extensions.digest is the same call phase 55
+           -- makes, so it is present wherever the migration sequence applied.
+           encode(extensions.digest(convert_to(coalesce(fencing_token::text, ''), 'utf8'), 'sha256'), 'hex') as fencing_token_sha256,
+           next_attempt_at,
            error_code, failure_disposition,
            left(coalesce(last_error_detail, ''), 1000) as last_error_detail,
            renderer_kind, renderer_version, route_id, source_sha256,
@@ -1060,7 +1100,36 @@ async function readJob() {
 const redact = (text) => String(text ?? "").replace(/eyJ[A-Za-z0-9_.-]{20,}/g, "***REDACTED***");
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+/**
+ * The worker's --once mode prints exactly one line: JSON.stringify of the cycle
+ * result. That single object names the boundary the cycle stopped at — idle,
+ * job_not_claimable, a validation error code, render_failed, or finalized with
+ * its accounting result — and it is the decisive diagnostic. It is parsed here,
+ * out of stdout ONLY, so nothing docker writes to stderr can obscure it.
+ */
+function parseCycleResult(stdout) {
+  const lines = String(stdout ?? "").split("\n").map((line) => line.trim()).filter(Boolean);
+  for (let i = lines.length - 1; i >= 0; i -= 1) {
+    if (!lines[i].startsWith("{")) continue;
+    try {
+      const parsed = JSON.parse(lines[i]);
+      if (parsed && typeof parsed.outcome === "string") return parsed;
+    } catch { /* not the cycle result */ }
+  }
+  return null;
+}
+
+/** The boundary a cycle result names, in the vocabulary the worker itself uses. */
+function cycleBoundary(result) {
+  if (!result) return "no cycle result was emitted";
+  if (result.outcome === "idle") return "no job — the worker claimed nothing";
+  if (result.outcome === "finalized") return `finalized (accounting=${result.accountingResult}, delivery=${result.deliveryEligibility})`;
+  if (result.outcome === "failed") return `failed at ${result.errorCode} (disposition=${result.disposition ?? "none recorded"})`;
+  return `unrecognised outcome ${result.outcome}`;
+}
+
 let finalJob = null;
+let finalCycleResult = null;
 {
   const service = await serviceRoleKey();
   const containerName = `rcap-acceptance-worker-${itemId.slice(0, 8)}`;
@@ -1090,8 +1159,14 @@ let finalJob = null;
   for (let cycle = 1; cycle <= 4; cycle += 1) {
     const jobBefore = await readJob();
     const startedAt = new Date().toISOString();
+    // --cidfile is the only way to learn the container id of a --rm run; docker
+    // refuses to start if the path already exists, and may remove it on
+    // teardown, so it is read opportunistically and reported as absent rather
+    // than invented when teardown wins the race.
+    const cidFile = path.join(EVIDENCE_DIR, `.worker-cid-${cycle}`);
+    fs.rmSync(cidFile, { force: true });
     const run = spawnSync("docker", [
-      "run", "--rm", "--name", `${containerName}-${cycle}`,
+      "run", "--rm", "--cidfile", cidFile, "--name", `${containerName}-${cycle}`,
       "-e", `NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}`,
       "-e", `SUPABASE_URL=${SUPABASE_URL}`,
       "-e", `SUPABASE_SERVICE_ROLE_KEY=${service}`,
@@ -1103,19 +1178,31 @@ let finalJob = null;
     const finishedAt = new Date().toISOString();
     const jobAfter = await readJob();
 
+    // Parsed out of stdout ONLY, before anything else is looked at: docker's
+    // pull progress goes to stderr, and mixing the two is what destroyed this
+    // diagnostic in run 32185795181.
+    const cycleResult = parseCycleResult(run.stdout);
+    const containerId = fs.existsSync(cidFile) ? fs.readFileSync(cidFile, "utf8").trim() : null;
+    fs.rmSync(cidFile, { force: true });
     diagnostics.cycles.push({
       cycle,
+      containerName: `${containerName}-${cycle}`,
+      containerId: containerId ?? "(removed with the container before it could be read)",
       startedAt,
       finishedAt,
       exitCode: run.status,
       exitSignal: run.signal ?? null,
       spawnError: run.error ? String(run.error.message) : null,
+      cycleResult,
+      boundary: cycleBoundary(cycleResult),
       stdout: redact(run.stdout),
       stderr: redact(run.stderr),
       jobStateBefore: jobBefore,
       jobStateAfter: jobAfter
     });
+    console.log(`  worker cycle ${cycle}: exit=${run.status} signal=${run.signal ?? "none"} boundary=${cycleBoundary(cycleResult)}; job ${jobBefore?.status ?? "(none)"} -> ${jobAfter?.status ?? "(none)"}`);
     finalJob = jobAfter;
+    if (cycleResult) finalCycleResult = cycleResult;
 
     if (jobAfter && TERMINAL_SUCCESS.has(jobAfter.status)) break;
     if (jobAfter && jobAfter.status === "failed" && jobAfter.failure_disposition === "terminal") break;
@@ -1163,6 +1250,14 @@ let finalJob = null;
   }
 
   const conditions = {
+    // The image is addressed by its immutable digest, not by a tag. A tag is an
+    // alias and can be moved; only the sha256 digest names these exact bytes.
+    pulled_by_immutable_digest: /@sha256:[0-9a-f]{64}$/.test(WORKER_DIGEST_REF),
+    // The worker said what it did, and said it about THIS job. A cycle that
+    // claimed nothing, or claimed some other queued job, proves nothing here.
+    cycle_result_emitted: Boolean(finalCycleResult),
+    cycle_result_names_this_job: Boolean(finalCycleResult) && Boolean(job) && finalCycleResult.jobId === job.id,
+    cycle_result_is_finalized: finalCycleResult?.outcome === "finalized",
     terminal_successful_state: Boolean(job) && TERMINAL_SUCCESS.has(job.status),
     not_in_flight: Boolean(job) && !NON_TERMINAL.has(job.status),
     artifact_path_present: typeof storagePath === "string" && storagePath.trim() !== "",
@@ -1178,18 +1273,40 @@ let finalJob = null;
   const unmet = Object.entries(conditions).filter(([, ok]) => !ok).map(([name]) => name);
   const lastCycle = diagnostics.cycles.at(-1);
 
+  // The worker's own account and the database must agree. If the cycle says it
+  // finalized and the row is not artifact_validated — or the row is validated
+  // and no cycle claims to have finalized it — something between them is lying
+  // and neither reading may be quoted as the result.
+  const contradiction =
+    finalCycleResult?.outcome === "finalized" && job && !TERMINAL_SUCCESS.has(job.status)
+      ? `the worker reported finalized for ${finalCycleResult.jobId} but the job row is '${job.status}'`
+      : job && TERMINAL_SUCCESS.has(job.status) && finalCycleResult && finalCycleResult.outcome !== "finalized"
+        ? `the job row is '${job.status}' but the last cycle result was ${cycleBoundary(finalCycleResult)}`
+        : null;
+  if (contradiction) {
+    evidence.workerContradiction = contradiction;
+    console.error(`  CONTRADICTION ${contradiction}`);
+  }
+
   record(
     "worker_renders_and_stores_the_artifact",
-    unmet.length === 0,
-    unmet.length === 0
-      ? `${WORKER_DIGEST_REF} drove job ${job.id} to '${job.status}' in ${diagnostics.cycles.length} cycle(s): ${declaredBytes} bytes at ${storagePath}, re-read and reparsed to ${validation.pageCount} page(s), output_sha256 and normalized_output_sha256 both recomputed from the stored bytes and equal to the values the finalization transaction recorded`
-      : `job is '${job?.status ?? "(no job row)"}' after ${diagnostics.cycles.length} cycle(s) and ${job?.attempt_count ?? 0} attempt(s); unmet: ${unmet.join(", ")}. Last cycle exit=${lastCycle?.exitCode} signal=${lastCycle?.exitSignal}; error_code=${job?.error_code ?? "(none)"}; disposition=${job?.failure_disposition ?? "(none)"}; detail=${(job?.last_error_detail ?? "(none)").slice(0, 300)}. Complete stdout and stderr for every cycle are in the uploaded worker-console.log and worker-diagnostics.json.`
+    unmet.length === 0 && contradiction === null,
+    unmet.length === 0 && contradiction === null
+      ? `${WORKER_DIGEST_REF} drove job ${job.id} to '${job.status}' in ${diagnostics.cycles.length} cycle(s); its own cycle result reads ${cycleBoundary(finalCycleResult)}. ${declaredBytes} bytes at ${storagePath}, re-read and reparsed to ${validation.pageCount} page(s), output_sha256 and normalized_output_sha256 both recomputed from the stored bytes and equal to the values the finalization transaction recorded.`
+      : `job is '${job?.status ?? "(no job row)"}' after ${diagnostics.cycles.length} cycle(s) and ${job?.attempt_count ?? 0} attempt(s). WORKER CYCLE RESULT: ${cycleBoundary(finalCycleResult)}${finalCycleResult ? ` — ${JSON.stringify(finalCycleResult)}` : ""}.${contradiction ? ` CONTRADICTION: ${contradiction}.` : ""} Unmet: ${unmet.join(", ")}. Last cycle exit=${lastCycle?.exitCode} signal=${lastCycle?.exitSignal}; error_code=${job?.error_code ?? "(none)"}; disposition=${job?.failure_disposition ?? "(none)"}; detail=${(job?.last_error_detail ?? "(none)").slice(0, 300)}. Complete stdout and stderr for every cycle are in the uploaded worker-console.log and worker-diagnostics.json.`
   );
 
   evidence.worker = {
     image: WORKER_DIGEST_REF,
+    immutableDigest: diagnostics.immutableDigest,
+    localImageId: diagnostics.localImageId,
+    claimSeconds: WORKER_CLAIM_SECONDS,
     cycles: diagnostics.cycles.length,
     exitCodes: diagnostics.cycles.map((c) => c.exitCode),
+    exitSignals: diagnostics.cycles.map((c) => c.exitSignal),
+    boundaries: diagnostics.cycles.map((c) => c.boundary),
+    cycleResult: finalCycleResult,
+    contradiction,
     jobStatus: job?.status ?? null,
     attemptCount: job?.attempt_count ?? null,
     errorCode: job?.error_code ?? null,
@@ -1233,19 +1350,55 @@ let finalJob = null;
   `);
   const row = Array.isArray(rows.json) ? rows.json[0] : null;
   const same = (left, right) => left !== null && left !== undefined && String(left) === String(right);
+
+  // The phase-55 authority probe, asked directly: does this exact
+  // (item, user, product, person, matter) tuple authorize a paid render? And
+  // the negative controls — a substituted person and a substituted matter must
+  // both be refused, or the binding is decorative.
+  const authority = await sql(`
+    select
+      (select valid from public.consumer_packet_payment_authority(
+         '${sqlText(itemId)}', '${sqlText(A.id)}', public.expungement_packet_product_id(),
+         '${sqlText(row?.person_id ?? "00000000-0000-0000-0000-000000000000")}',
+         '${sqlText(row?.matter_id ?? "00000000-0000-0000-0000-000000000000")}')) as exact_valid,
+      (select reason from public.consumer_packet_payment_authority(
+         '${sqlText(itemId)}', '${sqlText(A.id)}', public.expungement_packet_product_id(),
+         '${sqlText(row?.person_id ?? "00000000-0000-0000-0000-000000000000")}',
+         '${sqlText(row?.matter_id ?? "00000000-0000-0000-0000-000000000000")}')) as exact_reason,
+      (select valid from public.consumer_packet_payment_authority(
+         '${sqlText(itemId)}', '${sqlText(A.id)}', public.expungement_packet_product_id(),
+         '11111111-1111-4111-8111-111111111111',
+         '${sqlText(row?.matter_id ?? "00000000-0000-0000-0000-000000000000")}')) as other_person_valid,
+      (select valid from public.consumer_packet_payment_authority(
+         '${sqlText(itemId)}', '${sqlText(A.id)}', public.expungement_packet_product_id(),
+         '${sqlText(row?.person_id ?? "00000000-0000-0000-0000-000000000000")}',
+         '22222222-2222-4222-8222-222222222222')) as other_matter_valid,
+      (select valid from public.consumer_packet_payment_authority(
+         '${sqlText(itemId)}', '${sqlText(B.id)}', public.expungement_packet_product_id(),
+         '${sqlText(row?.person_id ?? "00000000-0000-0000-0000-000000000000")}',
+         '${sqlText(row?.matter_id ?? "00000000-0000-0000-0000-000000000000")}')) as other_user_valid
+  `);
+  const auth = Array.isArray(authority.json) ? authority.json[0] : null;
+  const isFalse = (value) => value === false || value === "f" || value === "false";
+  const isTrue = (value) => value === true || value === "t" || value === "true";
+
   const bound = Boolean(row)
     && row.partner_id === null
     && same(row.person_id, row.payment_person_id)
     && same(row.matter_id, row.payment_matter_id)
     && same(row.matter_id, row.canonical_matter_id)
     && same(row.consumer_auth_user_id, row.item_owner)
-    && same(row.consumer_briefcase_item_id, itemId);
+    && same(row.consumer_briefcase_item_id, itemId)
+    && isTrue(auth?.exact_valid)
+    && isFalse(auth?.other_person_valid)
+    && isFalse(auth?.other_matter_valid)
+    && isFalse(auth?.other_user_valid);
   record(
     "person_and_matter_are_bound_on_the_render_job",
     bound,
-    `render job ${row?.job_id ?? "(none)"} carries person_id=${row?.person_id ?? "(null)"} matter_id=${row?.matter_id ?? "(null)"} consumer_auth_user_id=${row?.consumer_auth_user_id ?? "(null)"}; the paid item names payment_person_id=${row?.payment_person_id ?? "(null)"} payment_matter_id=${row?.payment_matter_id ?? "(null)"} owner=${row?.item_owner ?? "(null)"}, and the database derives canonical matter ${row?.canonical_matter_id ?? "(null)"}. These are written in the enqueue INSERT and guarded there, so this is provable without any artifact; the accounting row that finalization writes is asserted separately.`
+    `render job ${row?.job_id ?? "(none)"} carries person_id=${row?.person_id ?? "(null)"} matter_id=${row?.matter_id ?? "(null)"} consumer_auth_user_id=${row?.consumer_auth_user_id ?? "(null)"}; the paid item names payment_person_id=${row?.payment_person_id ?? "(null)"} payment_matter_id=${row?.payment_matter_id ?? "(null)"} owner=${row?.item_owner ?? "(null)"}, and the database derives canonical matter ${row?.canonical_matter_id ?? "(null)"}. The phase-55 authority probe answers valid=${auth?.exact_valid ?? "(none)"} (${auth?.exact_reason ?? "no reason"}) for that exact tuple, and refuses every substitution: another person ${auth?.other_person_valid ?? "(none)"}, another matter ${auth?.other_matter_valid ?? "(none)"}, another user ${auth?.other_user_valid ?? "(none)"} — all of which must be false. Written in the enqueue INSERT and guarded there, so this is provable without any artifact; the accounting row finalization writes is asserted separately.`
   );
-  evidence.identityBinding = row ?? null;
+  evidence.identityBinding = { job: row ?? null, authority: auth ?? null };
 }
 
 // --- 8c. The artifact is in PRIVATE storage ----------------------------------
@@ -1308,8 +1461,10 @@ let finalJob = null;
   // receiving anything.
   const ownerBytes = typeof owner.status === "number" && owner.status === 200 ? owner.bytes ?? Buffer.alloc(0) : Buffer.alloc(0);
   const ownerPdf = ownerBytes.length > 0 && ownerBytes.subarray(0, 5).toString("latin1") === "%PDF-";
+  const ownerPdfContentType = /application\/pdf/i.test(owner.contentType ?? "");
   const ownerHash = ownerBytes.length > 0 ? crypto.createHash("sha256").update(ownerBytes).digest("hex") : null;
-  const ownerServed = ownerPdf && ownerHash === (evidence.worker?.validation ? finalJob?.output_sha256 : null);
+  const ownerServed = ownerPdf && ownerPdfContentType
+    && ownerHash === (evidence.worker?.validation ? finalJob?.output_sha256 : null);
   // A sign-in redirect is a refusal; a redirect to anywhere else is not, and
   // saying which one it was is the difference between evidence and a number.
   const refused = (response) => {
@@ -1323,7 +1478,7 @@ let finalJob = null;
   record(
     "delivery_serves_the_owner_and_refuses_everyone_else",
     ownerServed && refused(stranger) && refused(anonymous) && refused(legacy),
-    `GET ${download} — owner A=${owner.status} carrying ${ownerBytes.length} bytes (PDF header ${ownerPdf}, sha256 ${ownerHash ? `${ownerHash.slice(0, 16)}…` : "(none)"} vs the finalized ${finalJob?.output_sha256 ? `${String(finalJob.output_sha256).slice(0, 16)}…` : "(no finalized artifact)"}); a different authenticated participant B=${stranger.status}${stranger.location ? ` -> ${stranger.location}` : ""} (must refuse); anonymous=${anonymous.status}${anonymous.location ? ` -> ${anonymous.location}` : ""} (must refuse); the legacy consumer route answers B ${legacy.status} (must also refuse). The owner must receive the exact validated artifact; B paid for nothing and must receive nothing.`
+    `GET ${download} — owner A=${owner.status} content-type=${owner.contentType ?? "(none)"} carrying ${ownerBytes.length} bytes (PDF header ${ownerPdf}, sha256 ${ownerHash ? `${ownerHash.slice(0, 16)}…` : "(none)"} vs the finalized ${finalJob?.output_sha256 ? `${String(finalJob.output_sha256).slice(0, 16)}…` : "(no finalized artifact)"}); a different authenticated participant B=${stranger.status}${stranger.location ? ` -> ${stranger.location}` : ""} (must refuse); anonymous=${anonymous.status}${anonymous.location ? ` -> ${anonymous.location}` : ""} (must refuse); the legacy consumer route answers B ${legacy.status} (must also refuse). The owner must receive the exact validated artifact; B paid for nothing and must receive nothing.`
   );
   evidence.delivery = {
     route: download,

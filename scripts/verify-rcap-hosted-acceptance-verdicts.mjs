@@ -224,26 +224,49 @@ for (const [id, title, pattern] of GUARDS) {
 // ---------------------------------------------------------------------------
 // 4. The worker case requires delivery, not an exit code.
 // ---------------------------------------------------------------------------
-const NINE = [
-  "terminal_successful_state", "not_in_flight", "artifact_path_present",
-  "nonzero_stored_byte_count", "storage_object_exists", "exact_bytes_re_read",
-  "pdf_parses", "page_proof", "immutable_hash_agrees"
+const DELIVERY_CONDITIONS = [
+  "pulled_by_immutable_digest", "cycle_result_emitted", "cycle_result_names_this_job",
+  "cycle_result_is_finalized", "terminal_successful_state", "not_in_flight",
+  "artifact_path_present", "nonzero_stored_byte_count", "storage_object_exists",
+  "exact_bytes_re_read", "pdf_parses", "page_proof", "immutable_hash_agrees"
 ];
-const missingConditions = NINE.filter((name) => !new RegExp(`${name}\\s*:`).test(source));
-check("W-conditions", "the worker case names all nine delivery conditions",
+const missingConditions = DELIVERY_CONDITIONS.filter((name) => !new RegExp(`${name}\\s*:`).test(source));
+check("W-conditions", `the worker case names all ${DELIVERY_CONDITIONS.length} delivery conditions`,
   missingConditions.length === 0, `missing: ${missingConditions.join(", ")}`);
 
 // Anchored on the CALL, not on the case name: the name also appears in
 // REQUIRED_CASES, where the next line is a different case id entirely.
 const workerVerdict = source.match(/record\(\s*\n\s*"worker_renders_and_stores_the_artifact",\s*\n\s*([^\n]+),\s*\n/);
 check("W-verdict", "the worker verdict is the conjunction of those conditions, not an exit code",
-  Boolean(workerVerdict) && workerVerdict[1].trim() === "unmet.length === 0",
+  Boolean(workerVerdict) && workerVerdict[1].trim() === "unmet.length === 0 && contradiction === null",
   `the verdict expression is ${workerVerdict?.[1]?.trim() ?? "(not found)"}`);
 
-check("W-non-terminal", "queued, claimed, rendering and validating are all failures",
-  /NON_TERMINAL = new Set\(\["queued", "claimed", "rendering", "validating"\]\)/.test(source)
+check("W-non-terminal", "queued, claimed, rendering, validating, failed, retryable and expired are all failures",
+  /NON_TERMINAL = new Set\(\["queued", "claimed", "rendering", "validating", "failed", "retryable", "expired"\]\)/.test(source)
   && /not_in_flight:\s*Boolean\(job\) && !NON_TERMINAL\.has\(job\.status\)/.test(source),
   "the non-terminal state set or its use is not in the shipped bytes");
+
+// The worker's own account of what it did. --once prints one JSON line naming
+// the boundary it stopped at; that line is the decisive diagnostic, and it must
+// be read out of stdout ALONE — the previous version mixed it with stderr,
+// where docker's pull progress overwrote it.
+check("W-cycle-result", "the worker's cycle result is parsed from stdout alone and required to name this job",
+  /function parseCycleResult\(stdout\)/.test(source)
+  && /const cycleResult = parseCycleResult\(run\.stdout\);/.test(source)
+  && !/parseCycleResult\([^)]*stderr/.test(source),
+  "the cycle result is not parsed, or is parsed from a stream docker also writes to");
+
+check("W-contradiction", "a worker account that disagrees with the database fails the matrix",
+  /const contradiction =/.test(source)
+  && /the worker reported finalized for/.test(source)
+  && /but the last cycle result was/.test(source),
+  "the cycle result and the job row are not cross-checked against each other");
+
+check("W-claim-seconds", "an explicit claim duration is passed rather than inheriting the 600-second default",
+  /const WORKER_CLAIM_SECONDS = \d+;/.test(source)
+  && /"-e", `RCAP_WORKER_CLAIM_SECONDS=\$\{WORKER_CLAIM_SECONDS\}`/.test(source)
+  && !/const WORKER_CLAIM_SECONDS = 600;/.test(source),
+  "no explicit claim duration reaches the container");
 
 check("W-exit-code", "no verdict in the file is decided by a process exit code",
   !/record\([^)]*run\.status === 0/s.test(source),
@@ -277,6 +300,18 @@ check("I-binding", "the binding case does not depend on the post-validation acco
   && /consumer_matter_id_for_briefcase_item/.test(bindingBody),
   "the binding case still joins the consumption row that finalization writes");
 
+// A binding nothing can violate is decoration. The phase-55 authority probe is
+// asked about the exact tuple and about three substitutions, and all three
+// substitutions must be refused.
+check("I-binding-negatives", "the binding case proves another person, matter or user cannot substitute",
+  /other_person_valid/.test(bindingBody)
+  && /other_matter_valid/.test(bindingBody)
+  && /other_user_valid/.test(bindingBody)
+  && /isFalse\(auth\?\.other_person_valid\)/.test(bindingBody)
+  && /isFalse\(auth\?\.other_matter_valid\)/.test(bindingBody)
+  && /isFalse\(auth\?\.other_user_valid\)/.test(bindingBody),
+  "the binding case has no negative control against the phase-55 authority probe");
+
 const replayBody = caseBody("// --- 10.", null);
 check("I-replay", "the replay case does not require the artifact to exist",
   replayBody.length > 0
@@ -303,6 +338,23 @@ check("I-delivery", "the delivery verdict requires the owner to receive the vali
 check("I-delivery-route", "the delivery case calls the route that actually serves the artifact",
   /const download = `\/api\/rcap\/packets\/\$\{jobId\}\/download`;/.test(deliveryBody),
   "the delivery case is not calling /api/rcap/packets/<jobId>/download");
+
+check("I-delivery-content-type", "the owner's response must declare application/pdf",
+  /ownerPdfContentType = \/application\\\/pdf\/i\.test\(owner\.contentType \?\? ""\)/.test(deliveryBody)
+  && /\bownerPdfContentType\b[\s\S]{0,120}ownerHash ===/.test(deliveryBody),
+  "the delivery case does not require a PDF content type on the owner's response");
+
+// A green matrix must never read as jurisdiction coverage. It transacts one
+// matter; PA's hold and IL's three sellable pathways are separate findings and
+// are carried in the evidence so the two cannot be conflated.
+check("J-scope", "the evidence states what the matrix does and does not prove about jurisdictions",
+  /const JURISDICTION_SCOPE = \{/.test(source)
+  && /lawrence_review=hold_guidance_only/.test(source)
+  && /"juvenile-automatic-or-petition-expungement"/.test(source)
+  && /"adult-conviction-sealing"/.test(source)
+  && /"felony-prostitution-relief"/.test(source)
+  && /evidence\.jurisdictionScope = JURISDICTION_SCOPE;/.test(source),
+  "the run's evidence does not separate the transacted matter from the PA and IL findings");
 
 console.log("");
 if (failed > 0) {

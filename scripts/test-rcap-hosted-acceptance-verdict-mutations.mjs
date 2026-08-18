@@ -89,14 +89,66 @@ mutation("a call site passes four arguments again", () => {
 // 6 — the worker verdict goes back to reading a process exit code, which is
 //     how a claimed job with no artifact was reported ok.
 mutation("the worker verdict reads the process exit code again", () => {
-  swap("    unmet.length === 0,", "    lastCycle?.exitCode === 0 && Boolean(job) && job.status !== \"failed\",");
+  swap("    unmet.length === 0 && contradiction === null,",
+    "    lastCycle?.exitCode === 0 && Boolean(job) && job.status !== \"failed\",");
 }, "FAIL W-verdict");
 
 // 7 — a claimed job stops counting as in flight.
 mutation("a claimed job is no longer a failure", () => {
-  swap(`const NON_TERMINAL = new Set(["queued", "claimed", "rendering", "validating"]);`,
+  swap(`const NON_TERMINAL = new Set(["queued", "claimed", "rendering", "validating", "failed", "retryable", "expired"]);`,
     `const NON_TERMINAL = new Set(["queued", "rendering", "validating"]);`);
 }, "FAIL W-non-terminal");
+
+// 7a — the cycle result is read from the stream docker also writes to, which is
+//      exactly how it was lost the first time.
+mutation("the cycle result is parsed from stdout and stderr together", () => {
+  swap("    const cycleResult = parseCycleResult(run.stdout);",
+    "    const cycleResult = parseCycleResult(`${run.stdout}${run.stderr}`);");
+}, "FAIL W-cycle-result");
+
+// 7b — the worker's own account and the database are no longer cross-checked.
+mutation("a worker account contradicting the database is tolerated", () => {
+  const s = read();
+  const start = s.indexOf("  const contradiction =");
+  const end = s.indexOf("  record(\n    \"worker_renders_and_stores_the_artifact\",");
+  if (start < 0 || end <= start) throw new Error("could not locate the contradiction cross-check");
+  write(`${s.slice(0, start)}  const contradiction = null;\n${s.slice(end)}`);
+}, "FAIL W-contradiction");
+
+// 7c — the container inherits the 600-second default lease again, under which a
+//      stuck claim can never be recovered inside the run.
+mutation("the claim duration goes back to the worker default", () => {
+  swap("const WORKER_CLAIM_SECONDS = 120;", "const WORKER_CLAIM_SECONDS = 600;");
+}, "FAIL W-claim-seconds");
+
+// 7d — the delivery conditions lose the immutable-digest and cycle-identity
+//      requirements, so any image and any job could satisfy the case.
+mutation("the worker case stops requiring an immutable digest", () => {
+  swap("    pulled_by_immutable_digest: /@sha256:[0-9a-f]{64}$/.test(WORKER_DIGEST_REF),",
+    "    pulled_by_immutable_digest_removed: true,");
+}, "FAIL W-conditions");
+
+// 7e — the binding case loses its negative controls, leaving a binding that
+//      nothing can violate.
+mutation("the binding case stops proving a substitution is refused", () => {
+  swap(`    && isFalse(auth?.other_person_valid)
+    && isFalse(auth?.other_matter_valid)
+    && isFalse(auth?.other_user_valid);`, "    ;");
+}, "FAIL I-binding-negatives");
+
+// 7f — the owner's content type stops being checked, so any 200 with the right
+//      bytes would pass however it was labelled.
+mutation("the owner's content type is no longer required to be PDF", () => {
+  swap(`  const ownerServed = ownerPdf && ownerPdfContentType
+    && ownerHash === (evidence.worker?.validation ? finalJob?.output_sha256 : null);`,
+    "  const ownerServed = ownerPdf\n    && ownerHash === (evidence.worker?.validation ? finalJob?.output_sha256 : null);");
+}, "FAIL I-delivery-content-type");
+
+// 7g — the jurisdiction scope disappears, letting a green matrix read as
+//      Pennsylvania or Illinois coverage it never performed.
+mutation("the evidence stops separating the matrix from the PA and IL findings", () => {
+  swap("  evidence.jurisdictionScope = JURISDICTION_SCOPE;\n", "");
+}, "FAIL J-scope");
 
 // 8 — the streams are concatenated and cut down again, which is what left one
 //     character of the worker's own output in the log.
