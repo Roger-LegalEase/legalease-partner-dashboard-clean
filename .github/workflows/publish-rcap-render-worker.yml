@@ -16,14 +16,25 @@ on:
         description: "Exact FULL 40-character integration commit SHA to build. Abbreviated SHAs are rejected."
         required: true
         type: string
+      tag_replacement_authorization:
+        description: "Leave empty. Only set to replace-<integration_sha> when deliberately replacing an existing full-SHA tag."
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: read
   packages: write
 
 concurrency:
-  # One publication at a time; a second run for the same SHA would race on the
-  # same immutable tag.
+  # One publication at a time for a given source SHA. Two runs starting together
+  # would race on the same SOURCE-SHA TAG, and a preflight lookup cannot see a
+  # push that has not happened yet. cancel-in-progress stays false so a second
+  # request queues behind the first rather than killing a publication midway.
+  #
+  # Note the wording: the source-SHA tag is an ALIAS, not an immutable object.
+  # Calling it immutable is what let two publications of 664b8ddd move it. Only
+  # the sha256: digest is immutable.
   group: publish-rcap-render-worker-${{ inputs.integration_sha }}
   cancel-in-progress: false
 
@@ -89,6 +100,23 @@ jobs:
             echo "image_reference=${IMAGE_REPOSITORY}:${{ inputs.integration_sha }}"
           } >> "$GITHUB_OUTPUT"
 
+      # A full-SHA tag is a POINTER, not an immutable object. Two successful
+      # publications of source 664b8ddd already moved this one, leaving two
+      # records each naming the same tag and a different digest. Refuse to do
+      # it a third time by accident: the tag must be free, or the replacement
+      # must be named explicitly.
+      - name: Set up Node for the tag guard
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Refuse to overwrite an existing source-SHA tag
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RCAP_WORKER_TAG: ${{ inputs.integration_sha }}
+          RCAP_WORKER_TAG_REPLACEMENT_AUTHORIZATION: ${{ inputs.tag_replacement_authorization }}
+        run: node scripts/verify-rcap-worker-tag-integrity.mjs --guard
+
       - name: Set up Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -99,14 +127,26 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push by full-SHA tag only
+      # Checked AGAIN here, immediately before the push. The first check runs
+      # before the build so a doomed publication fails in seconds rather than
+      # minutes, but a build can take long enough for another run to publish in
+      # the meantime. This is the last point at which refusing still costs
+      # nothing.
+      - name: Re-check the source-SHA tag at the last point before pushing
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RCAP_WORKER_TAG: ${{ inputs.integration_sha }}
+          RCAP_WORKER_TAG_REPLACEMENT_AUTHORIZATION: ${{ inputs.tag_replacement_authorization }}
+        run: node scripts/verify-rcap-worker-tag-integrity.mjs --guard
+
+      - name: Build and push by source-SHA tag only
         id: build
         uses: docker/build-push-action@v6
         with:
           context: .
           file: ${{ env.DOCKERFILE_PATH }}
           push: true
-          # Exactly one tag. No `latest`, no branch tag, no moving alias.
+          # Exactly one tag. No `latest`, no branch tag, no second alias.
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ inputs.integration_sha }}
           provenance: false
           sbom: false
