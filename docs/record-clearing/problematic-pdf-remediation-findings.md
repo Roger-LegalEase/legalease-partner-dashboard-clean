@@ -17,6 +17,39 @@ Read this with:
 - `data/rcap-all50/contact-sheet-visual-proof.json` — what each committed
   contact sheet actually shows
 
+## The counts, before and after
+
+Both columns are produced by the same canonical generator; the left one is what
+`main` carries today.
+
+| Measure | On `main` | On this branch |
+| --- | ---: | ---: |
+| Problematic assets | 128 | 128 |
+| Active-track | 45 | 45 |
+| Orphaned or optional | 44 | 44 |
+| Missing binaries | 39 | 39 |
+| Technical defects | 67 | 128 |
+| Visual defects | 47 | 89 |
+| Source or currentness defects | 117 | 117 |
+| Source-identity ambiguity | 51 | 0 |
+| Unfinalized rendered artifacts | not measured | 62 |
+| Rendered artifacts not byte-inspectable | not measured | 62 |
+| Contact sheets showing no fill | not measured | 54 |
+| Protected fields populated by the factory | not measured | 0 |
+| High priority | 21 | 30 |
+| Problem-PDF routes still sellable | 0 | 0 |
+| Problem-PDF routes still public | 0 | 0 |
+
+Nothing got worse between those columns. The technical and visual defect counts
+rise because defects that were always present were never counted, and
+source-identity ambiguity falls to zero because 51 of those rows were never
+real.
+
+A note on the record: the message on commit `94492758` quotes 111 technical and
+71 visual defects, and 53 unfinalized artifacts. Those were the figures before
+the deduplication fix in that same commit took effect on regeneration. The
+table above, and the generated artifacts, are the correct ones.
+
 ## What was wrong, and which way
 
 ### 1. The register was inventing defects
