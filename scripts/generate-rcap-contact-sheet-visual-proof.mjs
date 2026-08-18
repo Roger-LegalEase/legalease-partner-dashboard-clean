@@ -19,6 +19,16 @@
 // Text extraction cannot make this finding. The values are present in the
 // FIXTURE as field values; what is missing is any mark on the page. Only a
 // rendered image can tell the difference.
+//
+// Rendering here is byte-deterministic -- the same sheet rasterizes to the
+// same PNG, and therefore to the same measurement, run after run -- so
+// `--check` compares the generated file exactly. That determinism is a
+// property of one renderer build, not of PDF rendering in general: a
+// different Chromium will shift antialiasing and move the low-order digits.
+// A `--check` failure on a machine with a different browser means re-run the
+// generator, not that a verdict changed. The verdicts themselves are
+// threshold decisions three orders of magnitude clear of their boundary and
+// do not move.
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
