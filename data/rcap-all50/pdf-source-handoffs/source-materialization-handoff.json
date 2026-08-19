@@ -1,0 +1,2774 @@
+{
+  "schemaVersion": "rcap-pdf-source-materialization-handoff/v1",
+  "generatedBy": "scripts/generate-rcap-pdf-source-materialization-handoff.mjs",
+  "purpose": "For every retained problematic asset: whether a source exists, which corpus bytes it is, and whether anyone in this clone can read them today. The second question is not the first.",
+  "twoQuestionsKeptApart": {
+    "doWeHaveASource": "Answered against data/rcap-all50/local-source-corpus-index.json, the committed record of the installed Master Library. An exact pinned-sha256 match means those bytes were present and hash-verified when the index was built.",
+    "canAnyoneReadItHere": "Answered by hashing every PDF in this clone. `sourceBinaryPresentInClone` in the master list is NOT used: it records the state of the machine that generated it, and 61 of its 62 true values point into private/, which is git-ignored and absent from every clone of this branch."
+  },
+  "corpus": {
+    "root": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "mountedInThisClone": false,
+    "indexedPdfs": 329,
+    "sourceArchiveSha256": "c0937fa7fa0ff6e97c9e6f736dc17390496987d4d404e71b6960147bffbc53f8",
+    "filesDeclared": 499,
+    "filesHashVerified": 498
+  },
+  "retirementDeterminationTotals": {
+    "assetsProbed": 128,
+    "surfacesProbed": 10,
+    "surfacesUnreadable": 0,
+    "retainAndRemediate": 92,
+    "retirementCandidates": 36,
+    "retirementCandidatesHeldOnlyByTheCorpusCensus": 0,
+    "retainedBecauseOfARuntimeSurface": 62,
+    "assetsWithNoTrackBinding": 104,
+    "assetsWithNoTrackBindingRetainedAnyway": 68,
+    "alreadyCarryingARetirementMarker": 70
+  },
+  "totals": {
+    "retainedAssets": 92,
+    "exactPinnedSha256": 66,
+    "exactFormNumberAndRevision": 0,
+    "verifiedReplacementOrSourceDrift": 4,
+    "replacementOfferedButRoleDisagrees": 1,
+    "genuinelyUnresolved": 21,
+    "materializableNow": 1,
+    "materializableOnCorpusMount": 65
+  },
+  "rows": [
+    {
+      "assetId": "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "jurisdiction": "AK",
+      "formNumber": "ak-record-relief-forms.html",
+      "familyIds": [
+        "AK:ak-record-relief-forms"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alaska/ak-record-relief-forms"
+      ],
+      "sourceSha256": "e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "structuralClass": "html_form",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "AK|DPS-SEAL-REQ-2-04|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "jurisdiction": "AK",
+      "formNumber": "DPS-SEAL-REQ-2-04",
+      "familyIds": [
+        "AK:dps-seal-req-2-04-source-gated-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alaska/dps-seal-req-2-04-source-gated-en"
+      ],
+      "sourceSha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "structuralClass": null,
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-SEAL-REQ-2-04__request-to-seal-criminal-justice-information__REV-2004-02__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2004-02",
+        "language": "EN",
+        "assetClass": "SOURCE-GATED",
+        "pageCount": 6,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "jurisdiction": "AK",
+      "formNumber": "RequestToSealCrimInfo.pdf",
+      "familyIds": [
+        "AK:requesttosealcriminfo"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alaska/requesttosealcriminfo"
+      ],
+      "sourceSha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "structuralClass": "scanned_pdf",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-SEAL-REQ-2-04__request-to-seal-criminal-justice-information__REV-2004-02__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2004-02",
+        "language": "EN",
+        "assetClass": "SOURCE-GATED",
+        "pageCount": 6,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "jurisdiction": "AK",
+      "formNumber": "TF-800",
+      "familyIds": [
+        "AK:tf-800-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alaska/tf-800-form-en"
+      ],
+      "sourceSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-05",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 3,
+        "acroFormPresent": true,
+        "acroFieldCount": 26,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "jurisdiction": "AK",
+      "formNumber": "TF-805",
+      "familyIds": [
+        "AK:tf-805-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alaska/tf-805-form-en"
+      ],
+      "sourceSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-05",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 17,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "AK|TF-810|c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+      "jurisdiction": "AK",
+      "formNumber": "TF-810",
+      "familyIds": [
+        "AK:tf-810-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alaska/tf-810-form-en"
+      ],
+      "sourceSha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-05",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 1,
+        "acroFormPresent": true,
+        "acroFieldCount": 23,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "jurisdiction": "AL",
+      "formNumber": "al-expungement-petition.html",
+      "familyIds": [
+        "AL:al-expungement-petition"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alabama/al-expungement-petition"
+      ],
+      "sourceSha256": "fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "structuralClass": "html_form",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "AL|cr-65-expunge-petition-10-2024.pdf|c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+      "jurisdiction": "AL",
+      "formNumber": "cr-65-expunge-petition-10-2024.pdf",
+      "familyIds": [
+        "AL:cr-65-expunge-petition-10-2024"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alabama/cr-65-expunge-petition-10-2024"
+      ],
+      "sourceSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "AL|cr-65a-order-on-petition-for-expungement-10-2024.pdf|7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
+      "jurisdiction": "AL",
+      "formNumber": "cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+      "familyIds": [
+        "AL:cr-65a-order-on-petition-for-expungement-10-2024"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alabama/cr-65a-order-on-petition-for-expungement-10-2024"
+      ],
+      "sourceSha256": "7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "AL|criminal-forms.html|55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "jurisdiction": "AL",
+      "formNumber": "criminal-forms.html",
+      "familyIds": [
+        "AL:criminal-forms"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alabama/criminal-forms"
+      ],
+      "sourceSha256": "55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "structuralClass": "html_form",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "AL|criminal-record-expungement.html|021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "jurisdiction": "AL",
+      "formNumber": "criminal-record-expungement.html",
+      "familyIds": [
+        "AL:criminal-record-expungement"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alabama/criminal-record-expungement"
+      ],
+      "sourceSha256": "021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "structuralClass": "html_form",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "AR|3-Misdemeanor-Petition-8_01_2023.pdf|63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+      "jurisdiction": "AR",
+      "formNumber": "3-Misdemeanor-Petition-8_01_2023.pdf",
+      "familyIds": [
+        "AR:3-misdemeanor-petition-8-01-2023"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023"
+      ],
+      "sourceSha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "AR|7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "jurisdiction": "AR",
+      "formNumber": "7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+      "familyIds": [
+        "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/arkansas/7-nolle-prosequi-dismissed-acquittal-petition-2020-f"
+      ],
+      "sourceSha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2020-04-22",
+        "language": "EN",
+        "assetClass": "SOURCE-GATED",
+        "pageCount": 4,
+        "acroFormPresent": true,
+        "acroFieldCount": 45,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "AR|AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "jurisdiction": "AR",
+      "formNumber": "AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460",
+      "familyIds": [
+        "AR:ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en"
+      ],
+      "sourceSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "structuralClass": null,
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2021-07-21",
+        "language": "EN",
+        "assetClass": "SOURCE-GATED",
+        "pageCount": 4,
+        "acroFormPresent": true,
+        "acroFieldCount": 53,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "AR|AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "jurisdiction": "AR",
+      "formNumber": "AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO",
+      "familyIds": [
+        "AR:ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e"
+      ],
+      "sourceSha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "structuralClass": null,
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2020-04-22",
+        "language": "EN",
+        "assetClass": "SOURCE-GATED",
+        "pageCount": 4,
+        "acroFormPresent": true,
+        "acroFieldCount": 45,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "AR|Arkansas-Petition-Order-Forms.html|f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+      "jurisdiction": "AR",
+      "formNumber": "Arkansas-Petition-Order-Forms.html",
+      "familyIds": [
+        "AR:arkansas-petition-order-forms"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/arkansas/arkansas-petition-order-forms"
+      ],
+      "sourceSha256": "f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+      "structuralClass": "html_form",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "AR|Felony-Petition-Form-f.pdf|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "jurisdiction": "AR",
+      "formNumber": "Felony-Petition-Form-f.pdf",
+      "familyIds": [
+        "AR:felony-petition-form-f"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/arkansas/felony-petition-form-f"
+      ],
+      "sourceSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2021-07-21",
+        "language": "EN",
+        "assetClass": "SOURCE-GATED",
+        "pageCount": 4,
+        "acroFormPresent": true,
+        "acroFieldCount": 53,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "jurisdiction": "KY",
+      "formNumber": "496.2.pdf",
+      "familyIds": [
+        "KY:496-2"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/496-2"
+      ],
+      "sourceSha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2016-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 31,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "jurisdiction": "KY",
+      "formNumber": "496.3.pdf",
+      "familyIds": [
+        "KY:496-3"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/496-3"
+      ],
+      "sourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-UNKNOWN",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 3,
+        "acroFormPresent": true,
+        "acroFieldCount": 62,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "KY|497.2.pdf|080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+      "jurisdiction": "KY",
+      "formNumber": "497.2.pdf",
+      "familyIds": [
+        "KY:497-2"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/497-2"
+      ],
+      "sourceSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-334",
+      "familyIds": [
+        "KY:aoc-334-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en"
+      ],
+      "sourceSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-UNKNOWN",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 1,
+        "acroFormPresent": true,
+        "acroFieldCount": 20,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.2",
+      "familyIds": [
+        "KY:aoc-496-2-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en"
+      ],
+      "sourceSha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2016-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 31,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.3",
+      "familyIds": [
+        "KY:aoc-496-3-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en"
+      ],
+      "sourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-UNKNOWN",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 3,
+        "acroFormPresent": true,
+        "acroFieldCount": 62,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "KY|AOC-496.4|70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.4",
+      "familyIds": [
+        "KY:aoc-496-4-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en"
+      ],
+      "sourceSha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.4__496-4__REV-2023-06__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2023-06",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 4,
+        "acroFormPresent": true,
+        "acroFieldCount": 75,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "KY|AOC-496|4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496",
+      "familyIds": [
+        "KY:aoc-496-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en"
+      ],
+      "sourceSha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496__expungement-order__REV-2016-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2016-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 33,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-497",
+      "familyIds": [
+        "KY:aoc-497-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en"
+      ],
+      "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-497__the-court-having-reviewed-defendants-petition-to-expunge-and-being-sufficiently-advised-fi__REV-UNKNOWN__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-UNKNOWN",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 32,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "KY|JV-29.1.pdf|5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
+      "jurisdiction": "KY",
+      "formNumber": "JV-29.1.pdf",
+      "familyIds": [
+        "KY:jv-29-1"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/jv-29-1"
+      ],
+      "sourceSha256": "5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "KY|JV-29.pdf|557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
+      "jurisdiction": "KY",
+      "formNumber": "JV-29.pdf",
+      "familyIds": [
+        "KY:jv-29"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/jv-29"
+      ],
+      "sourceSha256": "557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "KY|JV-30.pdf|c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
+      "jurisdiction": "KY",
+      "formNumber": "JV-30.pdf",
+      "familyIds": [
+        "KY:jv-30"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/jv-30"
+      ],
+      "sourceSha256": "c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "KY|Kentucky-Expungement-Forms.html|c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+      "jurisdiction": "KY",
+      "formNumber": "Kentucky-Expungement-Forms.html",
+      "familyIds": [
+        "KY:kentucky-expungement-forms"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/kentucky-expungement-forms"
+      ],
+      "sourceSha256": "c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+      "structuralClass": "html_form",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "NC|AOC-CR-287|2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "familyIds": [
+        "NC:aoc-cr-287-form-vi"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-vi"
+      ],
+      "sourceSha256": "2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2020-12",
+        "language": "VI",
+        "assetClass": "FORM",
+        "pageCount": 4,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-287|5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "familyIds": [
+        "NC:aoc-cr-287-instructions-es"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-es"
+      ],
+      "sourceSha256": "5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__ES.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2020-12",
+        "language": "ES",
+        "assetClass": "INSTRUCTIONS",
+        "pageCount": 2,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-287|877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "familyIds": [
+        "NC:aoc-cr-287-instructions-vi"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-vi"
+      ],
+      "sourceSha256": "877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__VI.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2020-12",
+        "language": "VI",
+        "assetClass": "INSTRUCTIONS",
+        "pageCount": 2,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-287|9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "familyIds": [
+        "NC:aoc-cr-287-form-es"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-es"
+      ],
+      "sourceSha256": "9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2020-12",
+        "language": "ES",
+        "assetClass": "FORM",
+        "pageCount": 4,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "familyIds": [
+        "NC:aoc-cr-287-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en"
+      ],
+      "sourceSha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-12",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 119,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-287|fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "familyIds": [
+        "NC:aoc-cr-287-instructions-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-en"
+      ],
+      "sourceSha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-12",
+        "language": "EN",
+        "assetClass": "INSTRUCTIONS",
+        "pageCount": 1,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-288|19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "familyIds": [
+        "NC:aoc-cr-288-instructions-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-instructions-en"
+      ],
+      "sourceSha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-03",
+        "language": "EN",
+        "assetClass": "INSTRUCTIONS",
+        "pageCount": 1,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-288|2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "familyIds": [
+        "NC:aoc-cr-288-instructions-es"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-instructions-es"
+      ],
+      "sourceSha256": "2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__ES.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2020-12",
+        "language": "ES",
+        "assetClass": "INSTRUCTIONS",
+        "pageCount": 2,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-288|37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "familyIds": [
+        "NC:aoc-cr-288-form-vi"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-vi"
+      ],
+      "sourceSha256": "37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2020-12",
+        "language": "VI",
+        "assetClass": "FORM",
+        "pageCount": 3,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-288|46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "familyIds": [
+        "NC:aoc-cr-288-form-es"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-es"
+      ],
+      "sourceSha256": "46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2020-12",
+        "language": "ES",
+        "assetClass": "FORM",
+        "pageCount": 3,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-288|776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "familyIds": [
+        "NC:aoc-cr-288-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en"
+      ],
+      "sourceSha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-03",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 128,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-288|d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "familyIds": [
+        "NC:aoc-cr-288-instructions-vi"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-instructions-vi"
+      ],
+      "sourceSha256": "d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__VI.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2020-12",
+        "language": "VI",
+        "assetClass": "INSTRUCTIONS",
+        "pageCount": 2,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-296",
+      "familyIds": [
+        "NC:aoc-cr-296-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en"
+      ],
+      "sourceSha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-296__aoc-cr-296-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-03",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 126,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-297|689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-297",
+      "familyIds": [
+        "NC:aoc-cr-297-instructions-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-instructions-en"
+      ],
+      "sourceSha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-06",
+        "language": "EN",
+        "assetClass": "INSTRUCTIONS",
+        "pageCount": 1,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-297|99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-297",
+      "familyIds": [
+        "NC:aoc-cr-297-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en"
+      ],
+      "sourceSha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+      "structuralClass": "acroform",
+      "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-297__aoc-cr-297-petition-and-order-of-expunction__REV-2025-06__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-06",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 110,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-298|5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-298",
+      "familyIds": [
+        "NC:aoc-cr-298-instructions-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-instructions-en"
+      ],
+      "sourceSha256": "5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-07",
+        "language": "EN",
+        "assetClass": "INSTRUCTIONS",
+        "pageCount": 1,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CR-298|8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-298",
+      "familyIds": [
+        "NC:aoc-cr-298-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en"
+      ],
+      "sourceSha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+      "structuralClass": "acroform",
+      "officialSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 107,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CV-226|08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CV-226",
+      "familyIds": [
+        "NC:aoc-cv-226-support-es"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-es"
+      ],
+      "sourceSha256": "08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__ES.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2021-06",
+        "language": "ES",
+        "assetClass": "SUPPORT",
+        "pageCount": 4,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CV-226|74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CV-226",
+      "familyIds": [
+        "NC:aoc-cv-226-support-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en"
+      ],
+      "sourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2023-04",
+        "language": "EN",
+        "assetClass": "SUPPORT",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 78,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|AOC-CV-226|76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CV-226",
+      "familyIds": [
+        "NC:aoc-cv-226-support-vi"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-vi"
+      ],
+      "sourceSha256": "76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__VI.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2021-06",
+        "language": "VI",
+        "assetClass": "SUPPORT",
+        "pageCount": 4,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NC|cr287_1.pdf|sha256_unrecorded_in_repo",
+      "jurisdiction": "NC",
+      "formNumber": "cr287_1.pdf",
+      "familyIds": [
+        "NC:cr287-1"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/cr287-1"
+      ],
+      "sourceSha256": "sha256_unrecorded_in_repo",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "verified_replacement_or_source_drift_candidate",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [
+        {
+          "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+          "documentId": "AOC-CR-287",
+          "revision": "REV-2020-12",
+          "assetClass": "FORM",
+          "sha256": "9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+          "recordedComponentRole": "principal_petition_or_request",
+          "roleAgrees": true
+        },
+        {
+          "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+          "documentId": "AOC-CR-287",
+          "revision": "REV-2020-12",
+          "assetClass": "FORM",
+          "sha256": "2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+          "recordedComponentRole": "principal_petition_or_request",
+          "roleAgrees": true
+        },
+        {
+          "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+          "documentId": "AOC-CR-287",
+          "revision": "REV-2025-12",
+          "assetClass": "FORM",
+          "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "recordedComponentRole": "principal_petition_or_request",
+          "roleAgrees": true
+        },
+        {
+          "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__ES.pdf",
+          "documentId": "AOC-CR-287",
+          "revision": "REV-2020-12",
+          "assetClass": "INSTRUCTIONS",
+          "sha256": "5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
+          "recordedComponentRole": "principal_petition_or_request",
+          "roleAgrees": false
+        },
+        {
+          "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__VI.pdf",
+          "documentId": "AOC-CR-287",
+          "revision": "REV-2020-12",
+          "assetClass": "INSTRUCTIONS",
+          "sha256": "877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
+          "recordedComponentRole": "principal_petition_or_request",
+          "roleAgrees": false
+        },
+        {
+          "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "documentId": "AOC-CR-287",
+          "revision": "REV-2025-12",
+          "assetClass": "INSTRUCTIONS",
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "recordedComponentRole": "principal_petition_or_request",
+          "roleAgrees": false
+        }
+      ],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "NC|cr297.pdf|sha256_unrecorded_in_repo",
+      "jurisdiction": "NC",
+      "formNumber": "cr297.pdf",
+      "familyIds": [
+        "NC:cr297"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/cr297"
+      ],
+      "sourceSha256": "sha256_unrecorded_in_repo",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "verified_replacement_or_source_drift_candidate",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [
+        {
+          "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-297__aoc-cr-297-petition-and-order-of-expunction__REV-2025-06__EN.pdf",
+          "documentId": "AOC-CR-297",
+          "revision": "REV-2025-06",
+          "assetClass": "FORM",
+          "sha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+          "recordedComponentRole": "principal_petition_or_request",
+          "roleAgrees": true
+        },
+        {
+          "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf",
+          "documentId": "AOC-CR-297",
+          "revision": "REV-2025-06",
+          "assetClass": "INSTRUCTIONS",
+          "sha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+          "recordedComponentRole": "principal_petition_or_request",
+          "roleAgrees": false
+        }
+      ],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "NC|cr298_1.pdf|sha256_unrecorded_in_repo",
+      "jurisdiction": "NC",
+      "formNumber": "cr298_1.pdf",
+      "familyIds": [
+        "NC:cr298-1"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/cr298-1"
+      ],
+      "sourceSha256": "sha256_unrecorded_in_repo",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "verified_replacement_or_source_drift_candidate",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [
+        {
+          "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf",
+          "documentId": "AOC-CR-298",
+          "revision": "REV-2025-07",
+          "assetClass": "FORM",
+          "sha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+          "recordedComponentRole": "principal_petition_or_request",
+          "roleAgrees": true
+        },
+        {
+          "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
+          "documentId": "AOC-CR-298",
+          "revision": "REV-2025-07",
+          "assetClass": "INSTRUCTIONS",
+          "sha256": "5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
+          "recordedComponentRole": "principal_petition_or_request",
+          "roleAgrees": false
+        }
+      ],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+      "jurisdiction": "NC",
+      "formNumber": "expungements.html",
+      "familyIds": [
+        "NC:expungements"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/expungements"
+      ],
+      "sourceSha256": "e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+      "structuralClass": "html_form",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "NC|forms-2.html|30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+      "jurisdiction": "NC",
+      "formNumber": "forms-2.html",
+      "familyIds": [
+        "NC:forms-2"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/forms-2"
+      ],
+      "sourceSha256": "30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+      "structuralClass": "html_form",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "NC|forms.html|1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+      "jurisdiction": "NC",
+      "formNumber": "forms.html",
+      "familyIds": [
+        "NC:forms"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/forms"
+      ],
+      "sourceSha256": "1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+      "structuralClass": "html_form",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "NC|nc-expunction-petition.html|912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c",
+      "jurisdiction": "NC",
+      "formNumber": "nc-expunction-petition.html",
+      "familyIds": [
+        "NC:nc-expunction-petition"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/nc-expunction-petition"
+      ],
+      "sourceSha256": "912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c",
+      "structuralClass": "html_form",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "NE|CC-6-11-2.pdf|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-11-2.pdf",
+      "familyIds": [
+        "NE:cc-6-11-2"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11-2"
+      ],
+      "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2020-12",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 1,
+        "acroFormPresent": true,
+        "acroFieldCount": 9,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NE|CC-6-11.2|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-11.2",
+      "familyIds": [
+        "NE:cc-6-11-2-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en"
+      ],
+      "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2020-12",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 1,
+        "acroFormPresent": true,
+        "acroFieldCount": 9,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NE|CC-6-11.pdf|sha256_unrecorded_in_repo",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-11.pdf",
+      "familyIds": [
+        "NE:cc-6-11"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11"
+      ],
+      "sourceSha256": "sha256_unrecorded_in_repo",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "NE|CC-6-11|c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-11",
+      "familyIds": [
+        "NE:cc-6-11-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en"
+      ],
+      "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11__cc-6-11-petition-to-set-aside-a-criminal-conviction__REV-2024-04__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2024-04",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 1,
+        "acroFormPresent": true,
+        "acroFieldCount": 19,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NE|CC-6-11A|615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-11A",
+      "familyIds": [
+        "NE:cc-6-11a-instructions-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11a-instructions-en"
+      ],
+      "sourceSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-11A__completing-the-petition-to-set-aside-a-criminal-conviction__REV-UNKNOWN__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-UNKNOWN",
+        "language": "EN",
+        "assetClass": "INSTRUCTIONS",
+        "pageCount": 1,
+        "acroFormPresent": true,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NE|CC-6-12.pdf|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-12.pdf",
+      "familyIds": [
+        "NE:cc-6-12"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/nebraska/cc-6-12"
+      ],
+      "sourceSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2024-04",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 24,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-12",
+      "familyIds": [
+        "NE:cc-6-12-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en"
+      ],
+      "sourceSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2024-04",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 24,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NE|CC-6-12|b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-12",
+      "familyIds": [
+        "NE:cc-6-12-instructions-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/nebraska/cc-6-12-instructions-en"
+      ],
+      "sourceSha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2024-06",
+        "language": "EN",
+        "assetClass": "INSTRUCTIONS",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NE|CC-6-15.1|d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-15.1",
+      "familyIds": [
+        "NE:cc-6-15-1-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en"
+      ],
+      "sourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-15.1__motion-to-seal-record__REV-2021-05__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2021-05",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 1,
+        "acroFormPresent": true,
+        "acroFieldCount": 21,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "NE|DC-1-15|43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+      "jurisdiction": "NE",
+      "formNumber": "DC-1-15",
+      "familyIds": [
+        "NE:dc-1-15-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en"
+      ],
+      "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+      "structuralClass": "acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__DC-1-15__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-UNKNOWN",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 74,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VA|CC-1201|7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "jurisdiction": "VA",
+      "formNumber": "CC-1201",
+      "familyIds": [
+        "VA:cc-1201-en",
+        "VA:cc-1201-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/virginia/cc-1201-en",
+        "data/rcap-all50/overlays/production/virginia/cc-1201-form-en"
+      ],
+      "sourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "structuralClass": "acroform",
+      "officialSourceUrl": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1201.pdf",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1201__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2026-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 4,
+        "acroFormPresent": true,
+        "acroFieldCount": 90,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VA|CC-1473|6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "jurisdiction": "VA",
+      "formNumber": "CC-1473",
+      "familyIds": [
+        "VA:cc-1473-en",
+        "VA:cc-1473-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/virginia/cc-1473-en",
+        "data/rcap-all50/overlays/production/virginia/cc-1473-form-en"
+      ],
+      "sourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "structuralClass": "acroform",
+      "officialSourceUrl": "https://www.vacourts.gov/forms/circuit/cc1473.pdf",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2026-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 40,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VA|cc1473.pdf|6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+      "jurisdiction": "VA",
+      "formNumber": "cc1473.pdf",
+      "familyIds": [
+        "VA:cc1473"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/virginia/cc1473"
+      ],
+      "sourceSha256": "6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "verified_replacement_or_source_drift_candidate",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [
+        {
+          "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+          "documentId": "CC-1473",
+          "revision": "REV-2026-07",
+          "assetClass": "FORM",
+          "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "recordedComponentRole": "principal_petition_or_request",
+          "roleAgrees": true
+        }
+      ],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+      "jurisdiction": "VA",
+      "formNumber": "cc1473inst.pdf",
+      "familyIds": [
+        "VA:cc1473inst"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/virginia/cc1473inst"
+      ],
+      "sourceSha256": "ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+      "structuralClass": "scanned_pdf",
+      "officialSourceUrl": null,
+      "matchClass": "replacement_offered_but_document_role_disagrees",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [
+        {
+          "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+          "documentId": "CC-1473",
+          "revision": "REV-2026-07",
+          "assetClass": "FORM",
+          "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "recordedComponentRole": "instructions",
+          "roleAgrees": false
+        }
+      ],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "VA|va-expungement-sealing-forms.html|b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+      "jurisdiction": "VA",
+      "formNumber": "va-expungement-sealing-forms.html",
+      "familyIds": [
+        "VA:va-expungement-sealing-forms"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/virginia/va-expungement-sealing-forms"
+      ],
+      "sourceSha256": "b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+      "structuralClass": "html_form",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "VT|200-00129 – Petition to Expunge Criminal History.pdf|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+      "jurisdiction": "VT",
+      "formNumber": "200-00129 – Petition to Expunge Criminal History.pdf",
+      "familyIds": [
+        "VT:200-00129-petition-to-expunge-criminal-history"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00129-petition-to-expunge-criminal-history"
+      ],
+      "sourceSha256": "6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00129__petition-to-expunge-criminal-history__REV-2025-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 50,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|200-00130|ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+      "jurisdiction": "VT",
+      "formNumber": "200-00130",
+      "familyIds": [
+        "VT:200-00130-en",
+        "VT:200-00130-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00130-en",
+        "data/rcap-all50/overlays/production/vermont/200-00130-form-en"
+      ],
+      "sourceSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+      "structuralClass": "acroform",
+      "officialSourceUrl": "https://www.vtcourts.gov/media/114",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 48,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "jurisdiction": "VT",
+      "formNumber": "200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf",
+      "familyIds": [
+        "VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record"
+      ],
+      "sourceSha256": "8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-UNKNOWN",
+        "language": "EN",
+        "assetClass": "INSTRUCTIONS",
+        "pageCount": 6,
+        "acroFormPresent": true,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|200-00130A|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "jurisdiction": "VT",
+      "formNumber": "200-00130A",
+      "familyIds": [
+        "VT:200-00130a-en",
+        "VT:200-00130a-instructions-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00130a-en",
+        "data/rcap-all50/overlays/production/vermont/200-00130a-instructions-en"
+      ],
+      "sourceSha256": "8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "structuralClass": null,
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-UNKNOWN",
+        "language": "EN",
+        "assetClass": "INSTRUCTIONS",
+        "pageCount": 6,
+        "acroFormPresent": true,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|200-00131.pdf|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "jurisdiction": "VT",
+      "formNumber": "200-00131.pdf",
+      "familyIds": [
+        "VT:200-00131"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00131"
+      ],
+      "sourceSha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2018-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 1,
+        "acroFormPresent": true,
+        "acroFieldCount": 21,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|200-00131|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "jurisdiction": "VT",
+      "formNumber": "200-00131",
+      "familyIds": [
+        "VT:200-00131-en",
+        "VT:200-00131-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00131-en",
+        "data/rcap-all50/overlays/production/vermont/200-00131-form-en"
+      ],
+      "sourceSha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "structuralClass": "acroform",
+      "officialSourceUrl": "https://www.vtcourts.gov/media/116",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2018-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 1,
+        "acroFormPresent": true,
+        "acroFieldCount": 21,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|200-00132 – Stipulation to Seal Criminal History Record + Order.pdf|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "jurisdiction": "VT",
+      "formNumber": "200-00132 – Stipulation to Seal Criminal History Record + Order.pdf",
+      "familyIds": [
+        "VT:200-00132-stipulation-to-seal-criminal-history-record-order"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00132-stipulation-to-seal-criminal-history-record-order"
+      ],
+      "sourceSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 33,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|200-00132|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "jurisdiction": "VT",
+      "formNumber": "200-00132",
+      "familyIds": [
+        "VT:200-00132-en",
+        "VT:200-00132-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00132-en",
+        "data/rcap-all50/overlays/production/vermont/200-00132-form-en"
+      ],
+      "sourceSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "structuralClass": "acroform",
+      "officialSourceUrl": "https://www.vtcourts.gov/media/10142",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 33,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "jurisdiction": "VT",
+      "formNumber": "200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf",
+      "familyIds": [
+        "VT:200-00132a-stipulation-to-expunge-criminal-history-record-order"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00132a-stipulation-to-expunge-criminal-history-record-order"
+      ],
+      "sourceSha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 33,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|200-00132A|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "jurisdiction": "VT",
+      "formNumber": "200-00132A",
+      "familyIds": [
+        "VT:200-00132a-en",
+        "VT:200-00132a-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00132a-en",
+        "data/rcap-all50/overlays/production/vermont/200-00132a-form-en"
+      ],
+      "sourceSha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "structuralClass": "acroform",
+      "officialSourceUrl": "https://www.vtcourts.gov/media/10142",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2025-07",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 33,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|200-00331|6001c4bd36be3e6b4f84b6352ebc94178f3535e39a9109665a2ac35aa2095212",
+      "jurisdiction": "VT",
+      "formNumber": "200-00331",
+      "familyIds": [
+        "VT:200-00331-en",
+        "VT:200-00331-support-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00331-en",
+        "data/rcap-all50/overlays/production/vermont/200-00331-support-en"
+      ],
+      "sourceSha256": "6001c4bd36be3e6b4f84b6352ebc94178f3535e39a9109665a2ac35aa2095212",
+      "structuralClass": "acroform",
+      "officialSourceUrl": "https://www.vtcourts.gov/media/89",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__200-00331__request-for-criminal-record-search__REV-2026-05__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2026-05",
+        "language": "EN",
+        "assetClass": "SUPPORT",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 30,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|200-00631.pdf|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "jurisdiction": "VT",
+      "formNumber": "200-00631.pdf",
+      "familyIds": [
+        "VT:200-00631"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00631"
+      ],
+      "sourceSha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2019-09",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 1,
+        "acroFormPresent": true,
+        "acroFieldCount": 10,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|200-00631|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "jurisdiction": "VT",
+      "formNumber": "200-00631",
+      "familyIds": [
+        "VT:200-00631-en",
+        "VT:200-00631-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00631-en",
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en"
+      ],
+      "sourceSha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "structuralClass": "acroform",
+      "officialSourceUrl": "https://www.vtcourts.gov/media/11473",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2019-09",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 1,
+        "acroFormPresent": true,
+        "acroFieldCount": 10,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|400-00171.pdf|b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
+      "jurisdiction": "VT",
+      "formNumber": "400-00171.pdf",
+      "familyIds": [
+        "VT:400-00171"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/400-00171"
+      ],
+      "sourceSha256": "b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
+      "structuralClass": "dirty_acroform",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "VT|600-00228|263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "jurisdiction": "VT",
+      "formNumber": "600-00228",
+      "familyIds": [
+        "VT:600-00228-en",
+        "VT:600-00228-support-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/600-00228-en",
+        "data/rcap-all50/overlays/production/vermont/600-00228-support-en"
+      ],
+      "sourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "structuralClass": "acroform",
+      "officialSourceUrl": "https://www.vtcourts.gov/media/47 | https://www.vtcourts.gov/self-help/application-waive-filing-fees-and-service-costs | https://www.vtcourts.gov/criminal/expungement",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2026-04",
+        "language": "EN",
+        "assetClass": "SUPPORT",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 80,
+        "xfaPresent": false,
+        "structuralClassObserved": "acroform",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "VT|application-waive-filing-fees-and-service-costs.html|1b9348d18347d3adb278a209046c3593e595c385b1c2081c6a33142767196b59",
+      "jurisdiction": "VT",
+      "formNumber": "application-waive-filing-fees-and-service-costs.html",
+      "familyIds": [
+        "VT:application-waive-filing-fees-and-service-costs"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/application-waive-filing-fees-and-service-costs"
+      ],
+      "sourceSha256": "1b9348d18347d3adb278a209046c3593e595c385b1c2081c6a33142767196b59",
+      "structuralClass": "html_form",
+      "officialSourceUrl": null,
+      "matchClass": "genuinely_unresolved",
+      "matchedCorpusPath": null,
+      "matchedCorpusEntry": null,
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "WI|CR-266|9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "jurisdiction": "WI",
+      "formNumber": "CR-266",
+      "familyIds": [
+        "WI:cr-266-en",
+        "WI:cr-266-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/wisconsin/cr-266-en",
+        "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en"
+      ],
+      "sourceSha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.wicourts.gov/formdisplay/CR-266.pdf?formNumber=CR-266&formType=Form&formatId=2&language=en",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-266__cr-266-05-24-petition-to-expunge-criminal-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2024-05",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 1,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": "data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf",
+      "materializableNow": true,
+      "materializableOnCorpusMount": false
+    },
+    {
+      "assetId": "WI|CR-267|2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "jurisdiction": "WI",
+      "formNumber": "CR-267",
+      "familyIds": [
+        "WI:cr-267-en",
+        "WI:cr-267-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/wisconsin/cr-267-en",
+        "data/rcap-all50/overlays/production/wisconsin/cr-267-form-en"
+      ],
+      "sourceSha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.wicourts.gov/formdisplay/CR-267.pdf?formNumber=CR-267&formType=Form&formatId=2&language=en",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-267__cr-267-02-15-order-on-petition-to-expunge-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-2024-05",
+        "language": "EN",
+        "assetClass": "FORM",
+        "pageCount": 1,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "jurisdiction": "WI",
+      "formNumber": "DJ-LE-247",
+      "familyIds": [
+        "WI:dj-le-247-en",
+        "WI:dj-le-247-support-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/wisconsin/dj-le-247-en",
+        "data/rcap-all50/overlays/production/wisconsin/dj-le-247-support-en"
+      ],
+      "sourceSha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.wisdoj.gov/Law%20Enforcement%20Services/Updated_DJ_LE_247_14-feb-17_0.pdf",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-UNKNOWN",
+        "language": "EN",
+        "assetClass": "SUPPORT",
+        "pageCount": 2,
+        "acroFormPresent": false,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    },
+    {
+      "assetId": "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "jurisdiction": "WI",
+      "formNumber": "DJ-LE-250B",
+      "familyIds": [
+        "WI:dj-le-250b-en",
+        "WI:dj-le-250b-support-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-en",
+        "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-support-en"
+      ],
+      "sourceSha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "structuralClass": "flat_pdf",
+      "officialSourceUrl": "https://www.wisdoj.gov/Law%20Enforcement%20Services/DJ_LE-250B_Draft_02232017_Fingerprint_Removal_Request.pdf",
+      "matchClass": "exact_pinned_sha256",
+      "matchedCorpusPath": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf",
+      "matchedCorpusEntry": {
+        "revision": "REV-UNKNOWN",
+        "language": "EN",
+        "assetClass": "SUPPORT",
+        "pageCount": 2,
+        "acroFormPresent": true,
+        "acroFieldCount": 0,
+        "xfaPresent": false,
+        "structuralClassObserved": "flat_pdf",
+        "loadError": null
+      },
+      "supersedingCandidates": [],
+      "bytesReadableInThisCloneAt": null,
+      "materializableNow": false,
+      "materializableOnCorpusMount": true
+    }
+  ]
+}
