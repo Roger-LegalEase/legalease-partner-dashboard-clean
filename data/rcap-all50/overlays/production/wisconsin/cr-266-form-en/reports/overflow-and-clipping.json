@@ -1,5 +1,42 @@
 {
   "schemaVersion": "rcap-overflow-report/v2",
-  "boundaryFixtureApplied": false,
-  "findings": []
+  "boundaryFixtureApplied": true,
+  "findings": [
+    {
+      "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "field": "Defendant's Name",
+      "anchor": "Defendant's Name",
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "rect": {
+        "x": 44,
+        "y": 694.7,
+        "width": 198,
+        "height": 12
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6
+    },
+    {
+      "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "field": "Address",
+      "anchor": "Address",
+      "factId": "participant.street_address",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
+      "rect": {
+        "x": 286,
+        "y": 255.9,
+        "width": 216,
+        "height": 12
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 214.7
+    }
+  ]
 }

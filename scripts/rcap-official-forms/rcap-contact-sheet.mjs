@@ -109,9 +109,17 @@ export async function buildContactSheet({
     page.drawPage(fp, { x: margin + W * scale + gap, y: margin, xScale: scale, yScale: scale });
   }
 
+  // Stamped and serialized the same way the finalizer stamps a participant
+  // artifact. The sheet is evidence about a finalized artifact, and evidence
+  // that cannot itself pass the finalization contract is awkward to defend:
+  // without the producer string it cannot say which factory built it, and
+  // saved with object streams the active-content scan cannot see into it.
+  sheet.setProducer("LegalEase RCAP official-form factory (pdf-lib)");
+  sheet.setCreator("LegalEase RCAP");
+  sheet.setTitle(heading);
   sheet.setCreationDate(DETERMINISTIC_STAMP);
   sheet.setModificationDate(DETERMINISTIC_STAMP);
-  const bytes = await sheet.save();
+  const bytes = await sheet.save({ useObjectStreams: false });
 
   return {
     bytes,

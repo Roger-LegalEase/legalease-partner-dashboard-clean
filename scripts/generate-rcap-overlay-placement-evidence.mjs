@@ -102,7 +102,15 @@ for (const stateDir of fs.readdirSync(OVERLAY_DIR).sort()) {
     const profile = readJson(path.join(familyPath, "overlay-profile.json"));
     if (!profile) continue;
 
-    const pending = (profile.anchorCapture?.candidateLabels ?? []).filter((l) => l.writeBoxDerivable === false);
+    // A label is pending only until a measured write box exists for it. The
+    // capture's `writeBoxDerivable: false` stays as it was -- it is the honest
+    // record that the DOCUMENT expresses no rectangle -- but once a placement
+    // has been decided and recorded against the rule line it was measured
+    // from, the decision is no longer outstanding.
+    const decided = new Set((profile.anchors ?? []).map((a) => String(a.label).trim().toLowerCase()));
+    const pending = (profile.anchorCapture?.candidateLabels ?? [])
+      .filter((l) => l.writeBoxDerivable === false)
+      .filter((l) => !decided.has(String(l.label).trim().toLowerCase()));
     if (pending.length === 0) continue;
 
     const record = readJson(path.join(familyPath, "source-record.json")) ?? {};
