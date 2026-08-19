@@ -1045,7 +1045,8 @@
         "node scripts/verify-partner-dashboard-rls-isolation.mjs \u2014 passed, tenant isolation and identity-tampering resistance unchanged",
         "node scripts/verify-first-admin-provisioning.mjs \u2014 passed, the existing first-admin contract is intact",
         "npm run typecheck, targeted eslint, and a credential-free npm run build \u2014 all clean; git diff --check clean",
-        "Negative mutation: removing this entry's authorization for supabase/migrations/20260819120000_rcap_partner_provisioning.sql makes verify-all50-internal-preview.mjs fail and name that exact path"
+        "Negative mutation: removing this entry's authorization for supabase/migrations/20260819120000_rcap_partner_provisioning.sql makes verify-all50-internal-preview.mjs fail and name that exact path",
+        "Full npm test run once on the clean committed branch: every step passed up to and including the exact-path authorization gates, the authorization queue, the verifier-disposition register and this capability's own verifier. The chain then stops at generate-rcap-staging-action.mjs --check, which is red BY DESIGN here: the changed application files are render-worker image inputs, so the recorded image fingerprint is stale and the published worker image was built from other bytes. The same check is green on origin/main, so this is caused by this branch and is the WORKER_REPUBLICATION_REQUIRED signal. The staging action is deliberately NOT regenerated: regeneration cannot clear the second condition, which only republishing the worker at the freeze can, and no worker publication is authorized here."
       ],
       "authorizedPaths": [
         "supabase/migrations/20260819120000_rcap_partner_provisioning.sql",
