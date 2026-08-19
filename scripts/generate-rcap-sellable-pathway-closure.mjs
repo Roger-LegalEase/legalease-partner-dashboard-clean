@@ -132,7 +132,11 @@ const OUR_OWN_STOP = [
   "not wired",
   "not implemented",
   "technical proof checks",
-  "output and technical proof"
+  "output and technical proof",
+  "technical checks legalease requires",
+  "checks legalease requires",
+  "has not cleared the output",
+  "not cleared the output and technical"
 ];
 
 function statedCausation(treatment) {
@@ -562,7 +566,7 @@ const ledger = {
     breaks: invariantBreaks.map((b) => ({ ...b, missingPathwayKeys: b.missingPathwayKeys.slice(0, 400) }))
   },
   doNotChargeForGuidance: {
-    rule: "A pathway that may take money must be able to deliver an artifact. publiclyReachableSellable ⊆ successfullyRendered.",
+    rule: "A pathway that may take money must be able to deliver an artifact. publiclyReachableSellable ⊆ successfullyRendered. The runtime already fails closed here — assertPacketRouteCanDeliver refuses Checkout and suppresses the price on every route below — so no participant is charged. The rows record that the evaluator still classifies these routes as sellable while nothing can produce their packet.",
     holds: payableButUndeliverable.length === 0,
     payableButUndeliverable
   },
@@ -615,16 +619,16 @@ function md() {
   lines.push("");
   lines.push(ledger.invariant.holds
     ? "The invariant holds. Every intended-sellable pathway is reachable, specified, approved and rendered."
-    : `**The invariant does not hold.** ${invariantBreaks.length} of the six downstream stages fall short of the ${target}-pathway denominator. Every shortfall below is an open blocker on an open paid pathway, not a completed treatment.`);
+    : `**The invariant does not hold.** ${invariantBreaks.length} of the six downstream stages fall short of the ${target}-pathway denominator (${invariantBreaks.map((b) => b.stage).join(", ")}). Every shortfall below is an open blocker on an open paid pathway, not a completed treatment.`);
   lines.push("");
   lines.push("## Do not charge for guidance");
   lines.push("");
   lines.push(ledger.doNotChargeForGuidance.holds
-    ? "Every pathway that can take money can also deliver an artifact."
-    : `**${payableButUndeliverable.length} pathway(s) can take money and cannot deliver an artifact.** The money gate (evaluator payment) and the delivery gate (packet route resolver) are not bound to each other, so a participant on these routes can be charged and then refused the packet.`);
+    ? "The evaluator opens payment only on routes that deliver an artifact."
+    : `**${payableButUndeliverable.length} route(s) are payment-eligible in the evaluator and cannot deliver an artifact.** No participant is charged for them: \`assertPacketRouteCanDeliver\` in src/lib/expungement-ai/payment-adapter.ts shows them no price and refuses them at Checkout, and \`npm run rcap:verify-money-gate-delivery\` proves it over all 51 jurisdictions. What remains open is the disagreement itself — the evaluator still classifies these routes as sellable while nothing can produce their packet, so each one is an intended paid pathway with \`renderer_unavailable\` against it rather than a route that is finished.`);
   if (payableButUndeliverable.length > 0) {
     lines.push("");
-    lines.push("| Pathway | Route kind | Why no artifact |");
+    lines.push("| Pathway | Route kind | Why no artifact (and why no charge) |");
     lines.push("|---|---|---|");
     for (const row of payableButUndeliverable.slice(0, 80)) {
       lines.push(`| \`${row.pathwayKey}\` | \`${row.routeKind}\` | ${row.renderReason} |`);
@@ -663,6 +667,45 @@ function md() {
   const closed = intended.filter((e) => e.openBlockers.length === 0);
   lines.push(`**${closed.length} of ${intended.length}** intended-sellable pathways are closed with no open blocker.`);
   lines.push("");
+  lines.push("## Closure map");
+  lines.push("");
+  lines.push("What is actually left to do, by the exact combination of blockers a pathway");
+  lines.push("carries. A pathway appears in exactly one row, so the rows are the work.");
+  lines.push("");
+  const combos = new Map();
+  for (const entry of intended) {
+    const ids = [...new Set(entry.openBlockers.map((b) => b.id))].sort();
+    const key = ids.length === 0 ? "(closed)" : ids.join(" + ");
+    if (!combos.has(key)) combos.set(key, []);
+    combos.get(key).push(entry);
+  }
+  lines.push("| Open blockers | Pathways | Jurisdictions |");
+  lines.push("|---|---|---|");
+  for (const [key, group] of [...combos.entries()].sort((a, b) => b[1].length - a[1].length)) {
+    const jurisdictions = [...new Set(group.map((e) => e.jurisdiction))].sort();
+    const shown = jurisdictions.length > 12 ? `${jurisdictions.slice(0, 12).join(", ")} +${jurisdictions.length - 12}` : jurisdictions.join(", ");
+    lines.push(`| ${key === "(closed)" ? "**none — closed**" : `\`${key}\``} | ${group.length} | ${shown} |`);
+  }
+  lines.push("");
+  const rendererOnly = intended.filter((e) => e.openBlockers.length > 0 && e.openBlockers.every((b) => b.id === "renderer_unavailable"));
+  if (rendererOnly.length > 0) {
+    const states = [...new Set(rendererOnly.map((e) => e.jurisdiction))].sort();
+    lines.push(`The largest single lever is the renderer. **${rendererOnly.length}** pathway(s) across **${states.length}**`);
+    lines.push(`jurisdictions (${states.join(", ")}) carry no blocker other than \`renderer_unavailable\`:`);
+    lines.push("they are payment-eligible, counsel-ratified and packet-spec complete, and the only");
+    lines.push("thing between them and a delivered packet is a certified renderer for their");
+    lines.push("jurisdiction. Nothing about them needs a legal decision or a classification change.");
+    lines.push("");
+  }
+  const renderedButBlocked = intended.filter((e) => e.stages.successfullyRendered && e.openBlockers.length > 0);
+  if (renderedButBlocked.length > 0) {
+    const states = [...new Set(renderedButBlocked.map((e) => e.jurisdiction))].sort();
+    lines.push(`Going the other way, **${renderedButBlocked.length}** pathway(s) in ${states.join(", ")} already produce a packet`);
+    lines.push("while carrying an open blocker. Every one of them carries `legal_review_pending`:");
+    lines.push("these routes render and sell today on a compiled profile that records no counsel");
+    lines.push("ratification for them.");
+    lines.push("");
+  }
   if (unclassified.length > 0) {
     lines.push("## Pathways with no row in route-product-metadata.json");
     lines.push("");
