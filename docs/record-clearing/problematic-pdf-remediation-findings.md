@@ -1,21 +1,81 @@
-# Problematic PDF remediation — findings for independent review
+# PROBLEMATIC PDF AUDIT CORRECTED — SOURCE ACQUISITION REQUIRED BEFORE REMEDIATION
 
-This branch does not correct a PDF. It corrects what the repository *says*
-about its PDFs, in both directions, and it puts real rendered evidence behind
-the claim. Every asset remains held. Nothing was made sellable, public, or
-ready for checkout, and nothing here approves itself.
+**New PDF families corrected: 0. Official sources acquired: 0.**
+
+This branch did not remediate a PDF. It corrected what the repository *says*
+about its PDFs — in both directions — and put real rendered evidence behind the
+claim. Actual form correction begins only after authoritative source binaries
+are acquired.
+
+What was corrected here is inventory truth, evidence quality, classification,
+deduplication, and fail-closed verification. All affected delivery routes remain
+non-sellable and non-public, and every asset's release status is HELD.
+
+Maximum status available to this package: **READY FOR INDEPENDENT REGISTER AND
+EVIDENCE REVIEW.** No form family is ready for independent *correction* review,
+because no correction occurred.
 
 Read this with:
 
 - `data/rcap-all50/problematic-pdf-master-list.json` and
   `docs/record-clearing/problematic-pdf-master-list.md` — every asset, its
-  lane, its exact blocker, its exact next action
+  operational disposition, its acquisition priority, its exact blocker and its
+  exact next action
 - `docs/record-clearing/problematic-pdf-review-gallery.html` — the same list
   with rendered page images
 - `data/rcap-all50/finalized-artifact-audit.json` — what each committed
   artifact actually is
-- `data/rcap-all50/contact-sheet-visual-proof.json` — what each committed
-  contact sheet actually shows
+- `data/rcap-all50/contact-sheet-visual-proof.json` — what each contact sheet
+  actually shows
+- `data/rcap-all50/overlay-placement-evidence.json` — the placement decisions
+  awaiting a reviewer
+
+## Impacted assets are not root causes
+
+"128 technical defects" invites two opposite errors: read one way it says 128
+things are broken and each needs its own fix; read the other it tempts someone
+to shrink the number by dropping assets. Both are wrong, because two different
+quantities are being confused. Every finding now names a root cause, and every
+root cause declares whether fixing one upstream thing clears it everywhere.
+
+| Dimension | Assets carrying a finding | Unique systemic causes | Unique family-specific defects |
+| --- | ---: | ---: | ---: |
+| Technical | 128 | 5 | 91 |
+| Visual | 89 | 4 | 77 |
+| Source | 117 | 2 | 34 |
+
+**5 systemic technical causes**, not 128.
+Each clears on every impacted asset the moment the affected families are
+re-rendered through the current factory:
+
+| Root cause | Impacted assets | Cleared by |
+| --- | ---: | --- |
+| `RC-T-FACTORY-PROVENANCE` | 62 | Re-rendering the affected families through the current official-form factory. |
+| `RC-T-OBJECT-STREAMS` | 62 | Re-serializing the affected families without object streams, which the current finalizer already does. |
+| `RC-T-UNFLATTENED-FIELDS` | 53 | Re-rendering through the current factory, which flattens before emitting. |
+| `RC-T-VALUES-IN-APPEARANCES` | 53 | Re-rendering through the current factory, which materializes values into page content before flattening. |
+| `RC-T-SOURCE-DEFAULT-IN-PROTECTED-FIELD` | 8 | Flattening the affected artifacts, which drops the default with every other unflattened widget. |
+
+**4 systemic visual causes:**
+
+| Root cause | Impacted assets | Cleared by |
+| --- | ---: | --- |
+| `RC-V-SHEET-FROM-UNFINALIZED-SOURCE` | 62 | Re-rendering the affected families and rebuilding their sheets from the finalized artifact. |
+| `RC-V-SHEET-NO-VISIBILITY-PROOF` | 62 | Rebuilding the affected sheets with the current builder, which writes the proof beside the sheet. |
+| `RC-V-SHEET-PANELS-IDENTICAL` | 54 | Rebuilding the affected sheets from finalized artifacts; the current builder refuses to emit a sheet whose panels match. |
+| `RC-V-NO-SHEET-PRODUCED` | 27 | Rendering the affected families, which produces the sheet as part of the run. |
+
+**2 systemic source causes:**
+
+| Root cause | Impacted assets | Cleared by |
+| --- | ---: | --- |
+| `RC-S-CURRENTNESS-UNVERIFIED` | 44 | A currentness review pass against the issuing bodies' own publications. |
+| `RC-S-BUNDLE-ABSENT` | 39 | Supplying the canonical source bundle, or opening access to the issuing bodies. |
+
+The family-specific counts are the residue: 91 technical and
+77 visual pieces of work that belong to one form each — its own
+geometry, its own clipping, its own edition — and would survive every systemic
+fix above.
 
 ## The counts, before and after
 
@@ -28,27 +88,86 @@ Both columns are produced by the same canonical generator; the left one is what
 | Active-track | 45 | 45 |
 | Orphaned or optional | 44 | 44 |
 | Missing binaries | 39 | 39 |
-| Technical defects | 67 | 128 |
-| Visual defects | 47 | 89 |
-| Source or currentness defects | 117 | 117 |
+| Assets carrying a technical finding | 67 | 128 |
+| Assets carrying a visual finding | 47 | 89 |
 | Source-identity ambiguity | 51 | 0 |
 | Unfinalized rendered artifacts | not measured | 62 |
 | Rendered artifacts not byte-inspectable | not measured | 62 |
 | Contact sheets showing no fill | not measured | 54 |
 | Protected fields populated by the factory | not measured | 0 |
-| High priority | 21 | 30 |
 | Problem-PDF routes still sellable | 0 | 0 |
 | Problem-PDF routes still public | 0 | 0 |
 
-Nothing got worse between those columns. The technical and visual defect counts
-rise because defects that were always present were never counted, and
-source-identity ambiguity falls to zero because 51 of those rows were never
-real.
+Nothing got worse between those columns. The asset counts rise because findings
+that were always present were never counted, and source-identity ambiguity falls
+to zero because 51 of those rows were never real.
 
 A note on the record: the message on commit `94492758` quotes 111 technical and
-71 visual defects, and 53 unfinalized artifacts. Those were the figures before
-the deduplication fix in that same commit took effect on regeneration. The
-table above, and the generated artifacts, are the correct ones.
+71 visual defects, and 53 unfinalized artifacts. Those were figures from before
+the deduplication fix in that same commit took effect on regeneration, and
+before findings carried root causes. This document and the generated artifacts
+are the controlling correction; commit history is not rewritten for it.
+
+## Every asset has one operational disposition
+
+"Held" is a release posture, not an operational state, and using it for all 128
+grouped a form whose route already delivers a complete deferral with a form
+nobody can obtain.
+
+| Disposition | Assets |
+| --- | ---: |
+| `official_source_required` | 53 |
+| `certification_unproven` | 29 |
+| `archive_candidate` | 27 |
+| `orphaned` | 9 |
+| `reference_only` | 8 |
+| `active_track_delivery_hold` | 1 |
+| `independent_review_required` | 1 |
+| `optional` | 0 |
+| `legal_design_hold` | 0 |
+| `retire_candidate` | 0 |
+
+`releaseStatus` is a separate axis and is HELD for all 128.
+
+The two numbers that matter most for launch:
+
+- **1 active-track asset blocks packet promotion** — Kentucky
+  AOC-334, whose two tracks carry a `production_packet` treatment in the pinned
+  legal design while their route currently resolves to guidance.
+- **45 active-track assets are safely served today** by a guidance or
+  exact-deferral treatment. Those two counts overlap by that one asset, which is
+  not a contradiction: it is safe for the participant now *and* the single
+  packet promotion this lane is holding up.
+
+The 44 orphaned or optional assets are **not** launch blockers. No current
+route depends on any of them: 27 are source-gated and never runtime-selectable,
+8 are instruction or supporting-process documents, and 9 are packet forms
+no active track requires and no candidate binding reaches.
+
+**Retirement candidates: 0.** No record in this corpus states that its edition
+is superseded, withdrawn or repealed — the freshness values in play are
+`source_or_currentness_gate_open`, `candidate_current_source` and
+`revision_confirmation_required`, none of which proves supersession. Marking any
+asset for retirement on that evidence would be manufacturing a decision.
+
+## The acquisition queue has four priorities, and one of them is a refusal
+
+| Priority | Meaning | Assets |
+| --- | --- | ---: |
+| 1 | Active-track source required for an otherwise packet-capable route | 1 |
+| 2 | Active-track source required before technical or visual review can begin | 39 |
+| 3 | Source needed to resolve currentness or supersession for a current participant treatment | 4 |
+| 4 | Orphaned, optional, historical or reference-only — `do_not_acquire_without_a_named_current_use` | 83 |
+
+Priority 4 is a standing refusal rather than a low queue position. Retrieving an
+orphaned or reference-only PDF to move a backlog number buys nothing and creates
+a currentness obligation for an asset nobody reads. **44 assets are
+genuinely worth acquiring**, not 83.
+
+Every priority 1–3 row carries its jurisdiction, form, affected route,
+active-track status, controlling first-party publisher, official URL, expected
+revision, currently pinned hash, why the existing bytes are insufficient, the
+work acquisition unlocks, and whether the participant is already safely served.
 
 ## What was wrong, and which way
 
@@ -142,31 +261,44 @@ The route-level bilingual treatment is a separate question and is unaffected:
 `verify-rcap-terminalization-treatments.mjs` passes, and no route in this lane
 is sellable or public in either language.
 
-## What is *not* wrong
+## What is *not* wrong — stated exactly, and no further
 
-Worth stating plainly, because both were open questions:
+Each of these is a bounded observation. None of them is "proven absent", and
+they must not be quoted as if they were.
 
-- **The factory never wrote into a protected field.** Zero artifacts carry a
-  factory-written value in a judge, clerk, prosecutor, attorney, signature,
-  notarization, service or outside-party field. Sixteen artifacts do hold a
-  value in a protected field, and in every case it is the form's own preprinted
-  default — the factory's own binding report does not name the field. Those
-  defaults survive only because the artifact was never flattened; finalizing it
-  drops them. The two are recorded as different defects with different owners,
-  because reporting the first when only the second is true would be a false
-  alarm about clerk and judge fields.
-- **No XFA and no active-content residue was found** in any committed artifact.
-  This is *not* a clean verdict: the object streams described in (2) mean the
-  scan cannot see into the objects it is judging, so the honest reading is
-  "unproven", and that is what the master list records.
-- **No problematic route is sellable or public.** Both counters are zero,
-  computed from the route resolver rather than declared, and the master-list
-  generator refuses to emit a list in which either is nonzero.
-- **The historical California, Delaware and Maine corrections are already in
-  `main`, byte-for-byte** — CR-180, CR-181, CR-409, CR-410, CR-106, Delaware
-  Form 281 with its 1021IP carrier, and Maine CR-289. Nothing needed importing
-  from those branches, and none of those forms appears in this register because
-  they belong to the hard-forms lane and are corrected there.
+**FIELD SEMANTICS.** No evidence that the factory wrote participant values into
+protected court fields. Zero artifacts carry a value in a judge, clerk,
+prosecutor, attorney, signature, notarization, service or outside-party field
+that the factory's own binding report names. Sixteen artifacts do hold a value
+in a protected field; in every case it is the form's own preprinted default,
+which the binding report does not name. **Preprinted defaults are not
+participant writes.** They survive only because the artifact was never
+flattened, and finalizing it drops them.
+
+**XFA.** None detected in the inspected committed artifacts. This covers the
+artifacts in this clone and says nothing about a source binary that is not here.
+
+**ACTIVE CONTENT.** No active content observed by the current scan. Cleanliness
+remains **unproven** wherever object streams prevent complete inspection, which
+is every one of the 62 committed artifacts: the repository's own scanner
+explicitly refuses to give a clean verdict on a file whose object streams it
+cannot see into, and the master list records the verdict as unprovable rather
+than clean. "Not observed" is not "absent".
+
+**CONTACT SHEETS.** 54 of 62 current pairs are materially identical and cannot
+support visual approval. The remaining 8 show a difference and are the
+flat-overlay families, where the factory draws onto the page rather than into a
+widget.
+
+**ROUTES.** No problematic route is sellable or public. Both counters are zero,
+computed from the route resolver rather than declared, and the master-list
+generator refuses to emit a list in which either is nonzero.
+
+**HISTORICAL CORRECTIONS.** The California, Delaware and Maine corrections are
+already in `main`, byte-for-byte — CR-180, CR-181, CR-409, CR-410, CR-106,
+Delaware Form 281 with its 1021IP carrier, and Maine CR-289. Nothing needed
+importing, and none of those forms appears in this register because they belong
+to the hard-forms lane and are corrected there.
 
 ## What is blocked, and why nothing here fixes it
 
@@ -190,31 +322,57 @@ That is why the master list has one lane A row out of 128. It is not that the
 defects are unclear; it is that the one input every correction needs is
 unavailable, and manufacturing it is precisely what must not happen.
 
+## Wisconsin CR-266: the question, not an answer
+
+CR-266 is the only asset whose verified binary is in this clone, and it is
+recorded as `independent_review_required` rather than as a source or overlay
+item, because bytes are not what it is missing.
+
+The committed evidence says three things: **zero writable anchors were derived**;
+**four relevant labels exist** (Date of Birth, Case No., Name Printed or Typed,
+Address); and **the document expresses no corresponding write boxes** — each
+label is a standalone caption whose value position is set by a printed cell the
+content stream never expresses as a rectangle. Re-running the factory reproduces
+the same refusal, which is the correct refusal: guessing a rectangle on a court
+filing is how a participant's name lands in a clerk's box.
+
+`docs/record-clearing/pdf-visual-evidence/WI-cr-266-form-en-placement-page-01.png`
+renders the official form with each of the four labels marked at its **measured**
+position. No coordinate is proposed and no participant field is invented.
+
+The precise question the evidence exposes, recorded verbatim on the row:
+
+> Where does the participant value belong relative to each measured label
+> position — and, because the form's own footer states that it *shall not be
+> modified* and *may be supplemented with additional material*, does a value
+> belong on the form at all, or on a supplement?
+
+That second half is a legal-design question, not a geometry one, and this lane
+does not answer it.
+
 ## What this branch is asking for
 
-1. **Independent technical and visual review** of the findings above,
-   particularly the finalized-artifact audit and the contact-sheet proof, which
-   are the basis for saying the lane's committed review evidence cannot be
-   relied on.
-2. **The source bundle, or network access to the issuing bodies.** Everything
-   downstream is waiting on it. The exact list is the master list's lane B.
-3. **Write-box placements for nine labels across six families.** A flat
-   official form has no widgets, so every value is placed by measured
-   geometry, and where the document does not express a write box the anchor
-   capture asserts no coordinate — the correct refusal. Wisconsin CR-266 is
-   the clearest case: zero anchors derived, four candidate labels, each a
-   standalone caption whose value position is set by a printed cell the
-   content stream never expresses as a rectangle. Re-running the factory
-   reproduces the same refusal; what is needed is a person looking at the
-   page. `data/rcap-all50/overlay-placement-evidence.json` lists all nine,
-   and the one family whose binary is here is rendered with each label marked
-   at its measured position. The marks are measured label positions, not
-   proposed write boxes.
-4. **A decision on the seven candidate track bindings.** Thirty-nine
+1. **Independent review of the register and the evidence** — particularly the
+   finalized-artifact audit and the contact-sheet proof, which are the basis for
+   saying the lane's committed review evidence cannot be relied on. This is a
+   review of the audit, not of any corrected form; no form was corrected.
+2. **Kentucky AOC-334 first.** It is the single Priority 1 item and the single
+   active-track asset blocking packet promotion. Everything else in the
+   acquisition queue can wait behind it.
+3. **The source bundle, or network access to the issuing bodies**, for the 43
+   Priority 2 and 4 Priority 3 items. The 83 Priority 4 items are marked
+   `do_not_acquire_without_a_named_current_use` and should not be fetched.
+4. **Write-box placements for nine labels across six families**, listed in
+   `data/rcap-all50/overlay-placement-evidence.json`. Only Wisconsin's binary is
+   here, so only its form could be rendered; the marks on it are measured label
+   positions, not proposed write boxes. For CR-266 the question includes whether
+   a value belongs on the form at all, given its "shall not be modified" footer.
+5. **A decision on the seven candidate track bindings.** Thirty-nine
    expected-and-absent assets are keyed by filename while the pinned
    legal-design registry keys packet components by form number, so they cannot
-   currently name the route they affect. Candidate matches are proposed and
-   labelled unconfirmed; they drive no status and no count.
+   name the route they affect. Candidates are labelled unconfirmed and drive no
+   disposition, priority or count.
 
-Highest disposition available to this branch: **READY FOR INDEPENDENT PDF
-REVIEW**.
+Maximum status available to this package: **READY FOR INDEPENDENT REGISTER AND
+EVIDENCE REVIEW.** Not "ready for correction review" — there is no correction to
+review. Not approved, sellable, public, packet-ready or ready for checkout.
