@@ -178,6 +178,46 @@ const receipt = {
 };
 fs.writeFileSync(path.join(OUT_DIR, `${slug}.receipt.json`), `${JSON.stringify(receipt, null, 2)}\n`);
 
+// The receipt, and where it fits the bytes, are also written to the job
+// summary. Workflow artifacts are served from a storage host that some sessions'
+// egress policy refuses, and an acquisition nobody can read is an acquisition
+// that did not happen. The job summary is served by the GitHub API itself, on
+// the same host the rest of this session already reaches, so a receipt written
+// here is readable wherever the API is.
+//
+// Bytes are included only when they fit inside the summary's own 1MB limit with
+// room to spare. This is a transport of last resort, not a substitute for the
+// artifact: the artifact is still uploaded and is still the primary copy.
+const summaryPath = process.env.GITHUB_STEP_SUMMARY;
+if (summaryPath) {
+  const base64 = bytes.toString("base64");
+  const inlineable = base64.length < 700_000;
+  const parts = [
+    `## ${jurisdiction} ${formNumber}`,
+    "",
+    "```json",
+    JSON.stringify(receipt, null, 2),
+    "```",
+    ""
+  ];
+  if (inlineable) {
+    parts.push(
+      `<!-- RCAP_BASE64_BEGIN ${slug} sha256=${sha256} bytes=${bytes.length} -->`,
+      "```",
+      base64,
+      "```",
+      `<!-- RCAP_BASE64_END ${slug} -->`,
+      ""
+    );
+  } else {
+    parts.push(
+      `_${bytes.length} bytes is too large to inline; take this one from the workflow artifact._`,
+      ""
+    );
+  }
+  fs.appendFileSync(summaryPath, parts.join("\n"));
+}
+
 console.log(`OK acquired ${jurisdiction} ${formNumber}`);
 console.log(`  final URL     ${finalUrl}`);
 console.log(`  status        ${response.status}  ${contentType ?? "(no content-type)"}`);
