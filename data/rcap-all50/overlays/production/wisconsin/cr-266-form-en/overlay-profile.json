@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "rcap-flat_overlay-map/v6-measured-anchors",
+  "schemaVersion": "rcap-flat_overlay-map/v7-content-stream-measured",
   "family": "cr-266-form-en",
   "documentOwnership": "participant_completed",
   "sha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
@@ -76,23 +76,41 @@
     "longText": "shrink_to_fit_then_addendum",
     "multiline": "wrap_within_widget_rect"
   },
-  "anchorBasis": "Write boxes measured from the form's own rule lines, detected by rasterising the verified binary and locating long horizontal dark runs, then converting back to PDF points. Every caption on this form sits BELOW the rule it labels, so each value is placed on the rule about 2pt above its caption baseline. Case No. is the exception: it has no rule of its own and its value sits to the right of the printed words on the same baseline.",
+  "anchorBasis": "Write boxes read from the rectangles the form itself draws, extracted from the page content stream by scripts/rcap-official-forms/rcap-pdf-rule-lines.mjs. The earlier v6 boxes were measured by rasterising the page and looking for long dark runs; an independent review found every baseline 1 to 3.4pt off its true rule, the 77pt Case No. rule missed entirely and replaced with a fabricated 213pt box, and the COUNTY venue rule omitted altogether. Each box below is the rule's own rectangle, inset 1.5pt from its start, with the baseline 2pt above the rule, and the right edge clipped to the rule end or the next vertical divider, whichever comes first.",
   "anchors": [
+    {
+      "label": "COUNTY",
+      "factId": "matter.county",
+      "page": 1,
+      "writeBox": {
+        "x": 242.99,
+        "y": 737.6,
+        "width": 147.48,
+        "height": 12
+      },
+      "fontSize": 9,
+      "ruleLine": {
+        "x": 241.49,
+        "y": 735.6,
+        "endX": 392.47
+      },
+      "note": "The venue line in 'STATE OF WISCONSIN, CIRCUIT COURT, ______ COUNTY'. Omitted entirely from v6; a petition filed without a venue is not filed."
+    },
     {
       "label": "Defendant's Name",
       "factId": "participant.full_legal_name",
       "page": 1,
       "writeBox": {
-        "x": 44,
-        "y": 694.7,
-        "width": 198,
+        "x": 42.9,
+        "y": 693.66,
+        "width": 199.11,
         "height": 12
       },
       "fontSize": 9,
       "ruleLine": {
-        "y": 692.7,
-        "x0": 42.5,
-        "lengthPt": 202.2
+        "x": 41.4,
+        "y": 691.66,
+        "endX": 244.01
       }
     },
     {
@@ -100,16 +118,16 @@
       "factId": "participant.date_of_birth",
       "page": 1,
       "writeBox": {
-        "x": 44,
-        "y": 670.9,
-        "width": 198,
+        "x": 42.9,
+        "y": 669.66,
+        "width": 199.11,
         "height": 12
       },
       "fontSize": 9,
       "ruleLine": {
-        "y": 668.9,
-        "x0": 42.5,
-        "lengthPt": 202.2
+        "x": 41.4,
+        "y": 667.66,
+        "endX": 244.01
       }
     },
     {
@@ -117,30 +135,34 @@
       "factId": "matter.case_number",
       "page": 1,
       "writeBox": {
-        "x": 358.5,
-        "y": 655.2,
-        "width": 213,
+        "x": 356.41,
+        "y": 655.62,
+        "width": 73.66,
         "height": 12
       },
       "fontSize": 9.96,
-      "ruleLine": null,
-      "placement": "to the right of the printed words 'Case No.' on their own baseline"
+      "ruleLine": {
+        "x": 354.91,
+        "y": 653.62,
+        "endX": 432.07
+      },
+      "note": "Its rule is 77.16pt and ends at x=432.07, with the caption box's vertical divider at x=464.26. v6 declared a 213pt box, so a long case number was drawn through the divider into the court-use cell beside it."
     },
     {
       "label": "Name Printed or Typed",
       "factId": "participant.full_legal_name",
       "page": 1,
       "writeBox": {
-        "x": 286,
-        "y": 278.3,
-        "width": 216,
+        "x": 286.19,
+        "y": 274.93,
+        "width": 217.11,
         "height": 12
       },
       "fontSize": 9,
       "ruleLine": {
-        "y": 276.3,
-        "x0": 284.3,
-        "lengthPt": 220.1
+        "x": 284.69,
+        "y": 272.93,
+        "endX": 505.3
       }
     },
     {
@@ -148,16 +170,16 @@
       "factId": "participant.street_address",
       "page": 1,
       "writeBox": {
-        "x": 286,
-        "y": 255.9,
-        "width": 216,
+        "x": 286.19,
+        "y": 252.97,
+        "width": 217.11,
         "height": 12
       },
       "fontSize": 9,
       "ruleLine": {
-        "y": 253.9,
-        "x0": 284.3,
-        "lengthPt": 220.1
+        "x": 284.69,
+        "y": 250.97,
+        "endX": 505.3
       }
     },
     {
@@ -165,19 +187,19 @@
       "factId": "participant.full_legal_name",
       "page": 1,
       "writeBox": {
-        "x": 286,
-        "y": 299.2,
-        "width": 216,
+        "x": 286.19,
+        "y": 296.29,
+        "width": 217.11,
         "height": 12
       },
       "fontSize": 9,
       "ruleLine": {
-        "y": 297.2,
-        "x0": 284.3,
-        "lengthPt": 220.1
+        "x": 284.69,
+        "y": 294.29,
+        "endX": 505.3
       },
       "expectedOutcome": "refused_protected_category",
-      "why": "Present on purpose. If supplying an anchor for a signature line were enough to write on it, the protect rules would be decoration. The factory must refuse this one every time."
+      "why": "Present on purpose. If supplying an anchor for a signature line were enough to write on it, the protect rules would be decoration. The factory must refuse this one every run."
     }
   ],
   "deliberatelyUnbound": [
@@ -209,5 +231,20 @@
       "Address \u2014 refused at the 76-character boundary address (value_exceeds_widget_width_at_minimum_font)"
     ],
     "notAFallback": "Shrinking below the readable floor, clipping at the rule end, or overflowing into the Email Address rule below. None of those is done."
+  },
+  "independentReview": {
+    "reviewer": "separate read-only reviewer agent, not the builder",
+    "verdict": "correction_required",
+    "blockersFound": [
+      "Case No. write box fabricated at 213pt against a real 77.16pt rule; the boundary case number crossed the caption box divider into the court-use cell.",
+      "COUNTY venue rule omitted from the map entirely, with no decision recorded either way.",
+      "Every rule-line coordinate 1 to 3.4pt off, because the measurement rasterised the page instead of reading the content stream."
+    ],
+    "correctionsApplied": "All three. Measurement replaced with content-stream rectangle extraction, Case No. clipped to its true rule and divider, COUNTY bound to matter.county.",
+    "stillOpen": [
+      "The finalizer overwrites the court's /Creator and /Title and strips /Author, /Subject and /Keywords, while this form's source record carries a co-branding rule. Raised against the shared finalizer rather than worked around here.",
+      "Participant values are drawn in blue (0 0 0.55 rg) with no recorded rationale; whether Wisconsin circuit courts accept blue ink on a filed petition is not settled in this repository.",
+      "field-classification.json for this family is empty."
+    ]
   }
 }
