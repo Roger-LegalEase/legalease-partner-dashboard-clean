@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// The three findings that are true of the batch rather than of any one family.
+// The four findings that are true of the batch rather than of any one family.
 //
 //   node scripts/verify-rcap-pdf-batch-cross-family-findings.mjs
 //   node scripts/verify-rcap-pdf-batch-cross-family-findings.mjs --write
@@ -29,11 +29,16 @@
 //      overlay-profile.json. An AcroForm-fill family carries
 //      production-field-map.json, which has no such field, so it cannot be
 //      recorded as approved at all.
+//   4. SOURCE READABILITY. Can a reviewer here read the bytes each family
+//      claims as its source? Verifying a source SHA, taking an independent
+//      census off the blank form, or comparing a fill against it all need
+//      those bytes.
 //
 // This verifier reports; it does not fail the build. Each finding belongs to
 // the PDF rendering lane, and a reviewer's job is to state it exactly.
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -61,9 +66,28 @@ const infoDate = (file, key) => {
   return match ? match[1] : null;
 };
 
+// ---- 4. is the source readable at all? --------------------------------------
+// Hashed rather than read off a flag. The master list's
+// `sourceBinaryPresentInClone` records the state of the machine that generated
+// it, and most of its true values point under private/, which is git-ignored
+// and absent from every clone of this branch.
+const pdfsInClone = new Map();
+const SKIP_DIRS = new Set(["node_modules", ".git", ".next", "tmp"]);
+const walkForPdfs = (dir) => {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.isDirectory()) { if (!SKIP_DIRS.has(entry.name)) walkForPdfs(path.join(dir, entry.name)); continue; }
+    if (!/\.pdf$/i.test(entry.name)) continue;
+    const file = path.join(dir, entry.name);
+    const hash = createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+    if (!pdfsInClone.has(hash)) pdfsInClone.set(hash, path.relative(rootDir, file));
+  }
+};
+walkForPdfs(rootDir);
+
 const provenance = [];
 const dates = [];
 const approval = [];
+const sourceReadability = [];
 
 for (const family of manifest.families ?? []) {
   const familyDir = path.join(rootDir, family.familyPath);
@@ -97,6 +121,14 @@ for (const family of manifest.families ?? []) {
       staleAgainstCarryDates: creation === DETERMINISTIC_STAMP && !isContactSheet
     });
   }
+
+  // ---- 4. source readability ------------------------------------------------
+  sourceReadability.push({
+    familyId: family.familyId,
+    sourceSha256: family.sourceSha256,
+    readableAt: pdfsInClone.get(family.sourceSha256) ?? null,
+    readable: pdfsInClone.has(family.sourceSha256)
+  });
 
   // ---- 3. approval channel --------------------------------------------------
   approval.push({
@@ -144,6 +176,15 @@ const payload = {
       cannotRecordAnApproval: approval.filter((a) => !a.canRecordAnApproval).length,
       consequence: "A family that cannot record an approval cannot reach platform_ready, however clean its review. This blocks more of the batch than every form-level finding combined.",
       rows: approval
+    },
+    sourceReadability: {
+      question: "Can a reviewer in this clone read the bytes each family claims as its source?",
+      familiesChecked: sourceReadability.length,
+      readable: sourceReadability.filter((r) => r.readable).length,
+      notReadable: sourceReadability.filter((r) => !r.readable).length,
+      whyThisMatters: "Source SHA-256 verification, an independent field or anchor census taken from the blank form, placement against the rules the form prints, and a fill-versus-blank comparison all need the source bytes. A family whose source is unreadable can be reviewed for internal consistency but its source identity cannot be independently confirmed, which is what source_identity_unresolved means.",
+      whatWouldFixIt: "Mount private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1. These are not missing sources; they are unmounted ones.",
+      rows: sourceReadability
     }
   }
 };
@@ -153,4 +194,4 @@ if (write) {
   fs.writeFileSync(OUT, `${JSON.stringify(payload, null, 2)}\n`);
 }
 
-console.log(`OK cross-family findings — sidecars conformant ${conformantSidecars.length}/${provenance.length}; stale fixtures ${staleArtifacts.length} across ${payload.findings.creationDateDrift.staleFamilies.length} family(ies); families that can record an approval ${payload.findings.approvalChannel.canRecordAnApproval}/${approval.length}${write ? `; written to ${path.relative(rootDir, OUT)}` : ""}`);
+console.log(`OK cross-family findings — sources readable ${payload.findings.sourceReadability.readable}/${sourceReadability.length}; sidecars conformant ${conformantSidecars.length}/${provenance.length}; stale fixtures ${staleArtifacts.length} across ${payload.findings.creationDateDrift.staleFamilies.length} family(ies); families that can record an approval ${payload.findings.approvalChannel.canRecordAnApproval}/${approval.length}${write ? `; written to ${path.relative(rootDir, OUT)}` : ""}`);
