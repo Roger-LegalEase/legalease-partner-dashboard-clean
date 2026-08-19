@@ -280,6 +280,39 @@ export async function readPartnerProvisioningState(
   };
 }
 
+/**
+ * Whether this exact idempotency key already provisioned this exact partner.
+ *
+ * A retry after a crashed run has to be able to tell "someone else already took
+ * this slug", which must stop, from "my own earlier attempt got this far",
+ * which must be allowed to continue so the invitation step can finish. Without
+ * this the documented retry is a dead end: the tenant exists, so every re-run
+ * refuses, and the operator is pushed toward a new key that then collides on
+ * slug uniqueness.
+ */
+export async function isPartnerProvisioningReplay(input: {
+  partnerSlug: string;
+  idempotencyKey: string;
+}): Promise<boolean> {
+  const supabase = admin();
+  const partnerSlug = String(input.partnerSlug ?? "").trim().toLowerCase();
+  const requestId = String(input.idempotencyKey ?? "").trim().toLowerCase();
+  if (!isUuid(requestId)) return false;
+  const { data, error } = await supabase
+    .from("partner_onboarding_idempotency")
+    .select("request_id")
+    .eq("request_id", requestId)
+    .eq("operation_key", `partner:provision:${partnerSlug}`)
+    .maybeSingle();
+  if (error) {
+    throw new PartnerProvisioningError(
+      "write_failed",
+      "Provisioning state could not be read right now."
+    );
+  }
+  return Boolean(data);
+}
+
 export function provisioningPayloadHash(
   value: ValidPartnerProvisioningInput
 ): string {

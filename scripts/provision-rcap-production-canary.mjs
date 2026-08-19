@@ -174,6 +174,7 @@ if (mode === "execute") {
 const {
   provisionPartner,
   readPartnerProvisioningState,
+  isPartnerProvisioningReplay,
   PartnerProvisioningError
 } = await import("../src/lib/partners/partner-provisioning-service.ts");
 const {
@@ -213,6 +214,10 @@ const operatorUserId = await resolveOperator(supabase);
 const adminEmail = normalizeEmail(values.administratorEmail);
 const authMatches = await countAuthUsers(supabase, adminEmail);
 const state = await readPartnerProvisioningState(validated.value.partnerSlug);
+const isReplay = await isPartnerProvisioningReplay({
+  partnerSlug: validated.value.partnerSlug,
+  idempotencyKey: validated.value.idempotencyKey
+});
 const membership = await findUnrelatedMembership(supabase, adminEmail);
 
 report("RCAP PRODUCTION CANARY PROVISIONING");
@@ -276,6 +281,7 @@ report("  launched:           no");
 report("");
 report("Current state");
 report(`  tenant exists:              ${state.partnerExists ? "yes" : "no"}`);
+report(`  this key already ran:       ${isReplay ? "yes — a re-run resumes it" : "no"}`);
 report(`  workspace exists:           ${state.workspaceExists ? "yes" : "no"}`);
 report(`  memberships for this slug:  ${state.membershipCount}`);
 report(`  access codes for this slug: ${state.accessCodeCount}`);
@@ -290,7 +296,9 @@ if (mode === "dry-run") {
 
 // Preflight for execution. Every one of these is a reason to stop before the
 // first write rather than to unwind afterwards.
-if (state.partnerExists || state.workspaceExists) {
+// A tenant under this slug stops the run unless this exact key created it, in
+// which case the re-run resumes the operation rather than starting a second one.
+if (!isReplay && (state.partnerExists || state.workspaceExists)) {
   fail("A tenant already exists for that page address.");
 }
 if (authMatches > 1) {
