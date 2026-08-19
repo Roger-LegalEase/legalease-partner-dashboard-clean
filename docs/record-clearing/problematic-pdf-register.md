@@ -12,6 +12,16 @@ Terminalizing a track around a broken PDF is a legitimate product decision. It i
 | Active Track Problematic Pdfs | 45 |
 | Orphaned Or Optional Pdfs | 44 |
 | Missing Pdf Binaries | 39 |
+| Assets With At Least One Technical Finding | 128 |
+| Assets With At Least One Visual Finding | 89 |
+| Assets With At Least One Source Finding | 117 |
+| Unique Systemic Technical Root Causes | 5 |
+| Unique Family Specific Technical Defects | 91 |
+| Unique Systemic Visual Root Causes | 4 |
+| Unique Family Specific Visual Defects | 77 |
+| Unique Systemic Source Root Causes | 2 |
+| Unique Family Specific Source Defects | 34 |
+| Unique Root Causes In Play | 23 |
 | Technical Defects | 128 |
 | Visual Defects | 89 |
 | Unfinalized Rendered Artifacts | 62 |
@@ -63,6 +73,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -103,6 +114,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -146,6 +158,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -189,6 +202,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -237,6 +251,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -277,6 +292,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -318,6 +334,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -359,6 +376,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -403,6 +421,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -526,6 +545,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -575,6 +595,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -727,6 +748,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -774,6 +796,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -848,6 +871,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -928,6 +952,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -1008,6 +1033,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -1043,6 +1069,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -1099,6 +1126,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -1137,6 +1165,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -1182,6 +1211,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -1228,6 +1258,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -1274,6 +1305,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -1350,6 +1382,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -1394,6 +1427,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) Text59.0, Text59.1, Text59.2, Text59.3, Text59.4, Text60.0, Text60.1, Text60.2, Text60.3, Text60.4, adoptionof, adultnamechangeof, divorce, emancipation, emancipationof, fullcountystatementRIGHT, namechange, probateof; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -1446,6 +1480,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -1491,6 +1526,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -1531,6 +1567,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -1576,6 +1613,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -1621,6 +1659,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -1660,6 +1699,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -1824,6 +1864,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -1897,6 +1938,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -1941,6 +1983,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -1978,6 +2021,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2018,6 +2062,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2064,6 +2109,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2109,6 +2155,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2149,6 +2196,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2190,6 +2238,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2230,6 +2279,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2267,6 +2317,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -2305,6 +2356,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2344,6 +2396,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2382,6 +2435,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -2419,6 +2473,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2467,6 +2522,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2517,6 +2573,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2554,6 +2611,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -2596,6 +2654,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2638,6 +2697,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2686,6 +2746,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2722,6 +2783,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -2769,6 +2831,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2838,6 +2901,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2907,6 +2971,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2949,6 +3014,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) Notice; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -2991,6 +3057,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) Notice; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -3138,6 +3205,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) adoptionof, adultnamechangeof, adultnamechangetitle, divorce, emancipation, emancipationof, fullcountystatementRIGHT, namechange, probateof; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -3210,6 +3278,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -3252,6 +3321,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -3291,6 +3361,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -3340,6 +3411,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -4502,6 +4574,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -4542,6 +4615,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -4585,6 +4659,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -4628,6 +4703,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -4676,6 +4752,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -4716,6 +4793,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -4757,6 +4835,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -4798,6 +4877,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -4842,6 +4922,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -4965,6 +5046,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5014,6 +5096,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5166,6 +5249,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5213,6 +5297,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5287,6 +5372,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5367,6 +5453,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5447,6 +5534,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5482,6 +5570,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5538,6 +5627,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5576,6 +5666,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5621,6 +5712,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5667,6 +5759,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5713,6 +5806,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5789,6 +5883,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) fullcountystatementRIGHT; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5833,6 +5928,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf leaves the form's own preprinted default in protected field(s) Text59.0, Text59.1, Text59.2, Text59.3, Text59.4, Text60.0, Text60.1, Text60.2, Text60.3, Text60.4, adoptionof, adultnamechangeof, divorce, emancipation, emancipationof, fullcountystatementRIGHT, namechange, probateof; flattening the artifact drops them. _(finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5885,6 +5981,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -5930,6 +6027,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -5970,6 +6068,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values exist only in unflattened widget appearances. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -6015,6 +6114,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -6060,6 +6160,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
@@ -6099,6 +6200,7 @@ Defects:
 - `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `rendered_artifact_not_byte_inspectable` — contact-sheet/blank-vs-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
 - `unfinalized_rendered_artifact` — contact-sheet/blank-vs-filled.pdf is not a finalized participant artifact: not stamped by the current factory. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values. _(contact-sheet/contact-sheet-proof.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
