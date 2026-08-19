@@ -290,3 +290,16 @@ jobs:
 
       - name: Prove the manifest-only retention guards are load-bearing
         run: node scripts/verify-rcap-manifest-only-retention.mjs --mutations
+
+      # A form whose own printed notice says DO NOT COMPLETE THIS FORM FOR
+      # FILING must never be filled, and must never stand in for the English
+      # form the participant actually files. Two Spanish artifacts were being
+      # reported as failures for correctly refusing.
+      - name: Verify the artifact dispositions are current
+        run: node scripts/generate-rcap-artifact-dispositions.mjs --check
+
+      - name: Verify court-declared non-filing components are never filled or filed
+        run: node scripts/verify-rcap-non-filing-components.mjs
+
+      - name: Prove the non-filing component guards are load-bearing
+        run: node scripts/verify-rcap-non-filing-components.mjs --mutations
