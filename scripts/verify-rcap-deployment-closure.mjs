@@ -26,7 +26,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const emitEvidence = process.argv.includes("--emit-evidence");
 
 /** The accepted application source. Image-input equality is proven against it. */
-const APPLICATION_SHA = "664b8ddd374642bf2bd1820f7e05224f3dd081bc";
+const APPLICATION_SHA = "15c5050052e0f78cb5a5904bd2de668b3f3f725a";
 
 /** Exactly the paths a Next.js build consumes. */
 const APPLICATION_INPUTS = ["src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "public"];
