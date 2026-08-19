@@ -141,11 +141,23 @@ jobs:
       # Which source the image says it came from. Checked against the freeze SHA
       # in the committed evidence — an image that cannot say, or that names
       # another commit, is not the image this release accepted.
-      - name: OCI revision names the freeze source
+      # The exception itself must be exactly one digest wide before it is
+      # allowed to compensate for anything.
+      - name: The source-binding exception stays exactly one digest wide
+        run: |
+          set -euo pipefail
+          node scripts/verify-rcap-worker-source-binding-exception.mjs
+          node scripts/verify-rcap-worker-source-binding-exception.mjs --mutations
+
+      # Passes when the image names its source, OR when the exact-digest
+      # compensating control covers it. A CONTRADICTORY revision fails either
+      # way — the exception compensates for absence, never for disagreement.
+      - name: Source binding — OCI revision, or the exact-digest exception
         env:
           WORKER_TAG: ${{ steps.subject.outputs.worker_tag }}
           EXPECTED_DIGEST: ${{ steps.subject.outputs.expected_digest }}
           REF: ${{ steps.pull.outputs.reference }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/verify-rcap-worker-image-revision.mjs
 
