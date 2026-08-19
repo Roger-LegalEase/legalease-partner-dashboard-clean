@@ -158,8 +158,31 @@ const mul = (a, b) => [
 // position. Text is grouped into runs so a label split across several Tj
 // operators reads back as one anchor.
 export function extractTextItems(page) {
-  return walkContent(contentBytesOf(page), page.node.Resources?.(), page.node.context, [1, 0, 0, 1, 0, 0], 0);
+  return walkContent(contentBytesOf(page), page.node.Resources?.(), page.node.context, [1, 0, 0, 1, 0, 0], 0, "page_content").text;
 }
+
+/**
+ * Every path segment the page draws, in page space, with the operator that drew
+ * it and the stream it came from.
+ *
+ * The same walker produces this as produces the text, which is the point: a
+ * rule and the caption beside it have to be measured in one coordinate space or
+ * the association between them is meaningless. A second parser reading the raw
+ * stream with a regex — no graphics state, no transformation matrix, no
+ * XObject recursion — would report a rule at whatever coordinates it happened
+ * to be authored in, which is not where it is drawn.
+ */
+export function extractPathSegments(page) {
+  return walkContent(contentBytesOf(page), page.node.Resources?.(), page.node.context, [1, 0, 0, 1, 0, 0], 0, "page_content").paths;
+}
+
+/** Both, from one walk. */
+export function extractPageGeometry(page) {
+  return walkContent(contentBytesOf(page), page.node.Resources?.(), page.node.context, [1, 0, 0, 1, 0, 0], 0, "page_content");
+}
+
+/** A point through the current transformation matrix. */
+const apply = (m, x, y) => [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[5]];
 
 // Flattening a filled form does not inline the value as page text: pdf-lib
 // draws each field's appearance stream as a Form XObject and references it
@@ -169,13 +192,34 @@ export function extractTextItems(page) {
 // a checkable claim rather than an assumption.
 const MAX_XOBJECT_DEPTH = 12;
 
-function walkContent(bytes, resources, ctx, baseCtm, depth) {
-  if (!bytes || bytes.length === 0) return [];
+function walkContent(bytes, resources, ctx, baseCtm, depth, streamId) {
+  if (!bytes || bytes.length === 0) return { text: [], paths: [] };
   const src = Buffer.from(bytes).toString("latin1");
   const tokens = tokenize(src);
 
   const fonts = loadFonts(resources, ctx);
   const items = [];
+  const paths = [];
+  // The path currently being constructed, in page space. Segments are recorded
+  // when a painting operator realises them: a path that is built and then
+  // discarded (`n`) draws nothing and must not become a rule.
+  let current = [];
+  let subpathStart = null;
+  let cursor = null;
+  // Every segment realised by one painting operator shares a path index, so a
+  // caller can reassemble the whole painted path. A thin filled rectangle is
+  // usually authored as four lines rather than one `re`, and its three or four
+  // segments are only a rule when read together.
+  let pathIndex = 0;
+  const flushPath = (operator) => {
+    if (current.length > 0) {
+      for (const seg of current) paths.push({ ...seg, paintedBy: operator, stream: streamId, depth, pathIndex });
+      pathIndex += 1;
+    }
+    current = [];
+    subpathStart = null;
+    cursor = null;
+  };
   let ctm = baseCtm.slice();
   let font = null;
   const stack = [];
@@ -208,6 +252,39 @@ function walkContent(bytes, resources, ctx, baseCtm, depth) {
     switch (tk.v) {
       case "q": stack.push(ctm.slice()); break;
       case "Q": ctm = stack.pop() ?? ctm; break;
+      // ---- path construction, in page space -------------------------------
+      case "re": {
+        const [x, y, w, h] = [n(4), n(3), n(2), n(1)];
+        const corners = [apply(ctm, x, y), apply(ctm, x + w, y), apply(ctm, x + w, y + h), apply(ctm, x, y + h)];
+        const xs = corners.map((c) => c[0]);
+        const ys = corners.map((c) => c[1]);
+        current.push({
+          operator: "re",
+          x: Math.min(...xs), y: Math.min(...ys),
+          width: Math.max(...xs) - Math.min(...xs),
+          height: Math.max(...ys) - Math.min(...ys)
+        });
+        break;
+      }
+      case "m": { cursor = apply(ctm, n(2), n(1)); subpathStart = cursor; break; }
+      case "l": {
+        const to = apply(ctm, n(2), n(1));
+        if (cursor) {
+          current.push({
+            operator: "l",
+            x: Math.min(cursor[0], to[0]), y: Math.min(cursor[1], to[1]),
+            width: Math.abs(to[0] - cursor[0]), height: Math.abs(to[1] - cursor[1])
+          });
+        }
+        cursor = to;
+        break;
+      }
+      case "h": { if (cursor && subpathStart) cursor = subpathStart; break; }
+      case "S": case "s": case "f": case "F": case "f*":
+      case "B": case "B*": case "b": case "b*":
+        flushPath(tk.v);
+        break;
+      case "n": current = []; cursor = null; subpathStart = null; break;
       case "cm": ctm = mul([n(6), n(5), n(4), n(3), n(2), n(1)], ctm); break;
       case "BT": tm = [1, 0, 0, 1, 0, 0]; tlm = tm.slice(); break;
       case "ET": break;
@@ -257,7 +334,9 @@ function walkContent(bytes, resources, ctx, baseCtm, depth) {
             ? matrixArr.asArray().map((v) => Number(ctx.lookup(v)?.asNumber?.() ?? v?.asNumber?.() ?? 0))
             : [1, 0, 0, 1, 0, 0];
           const inner = dict.lookupMaybe(PDFName.of("Resources"), PDFDict) ?? resources;
-          items.push(...walkContent(decodePDFRawStream(xo).decode(), inner, ctx, mul(matrix, ctm), depth + 1));
+          const nested = walkContent(decodePDFRawStream(xo).decode(), inner, ctx, mul(matrix, ctm), depth + 1, `${streamId}>form_xobject:${nameTok.v}`);
+          items.push(...nested.text);
+          paths.push(...nested.paths);
         } catch { /* an unreadable XObject contributes nothing */ }
         break;
       }
@@ -268,7 +347,7 @@ function walkContent(bytes, resources, ctx, baseCtm, depth) {
     if (tk.v === "[" || tk.v === "]") operands.push(tk);
     else operands.length = 0;
   }
-  return items;
+  return { text: items, paths };
 }
 
 // Merges items drawn on the same baseline into readable label runs.
