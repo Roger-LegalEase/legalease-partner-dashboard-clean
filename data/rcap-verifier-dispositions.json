@@ -4,7 +4,7 @@
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
     "keep_available": 137,
-    "wired": 113,
+    "wired": 115,
     "fix_then_wire": 27,
     "retire": 1,
     "quarantine": 2,
@@ -1747,6 +1747,18 @@
     "verify-tracked-mutation-safety.mjs": {
       "disposition": "wired",
       "reason": "Proof that an interrupted mutation harness cannot strand tracked bytes. Every case kills a real child process mid-mutation and hashes what is left on disk: SIGTERM against application source and against two migrations, SIGHUP, an uncaught exception, and SIGKILL — which is expected to strand the mutation, because no process can catch it, and which then proves the journal recovery puts the file back. Also proves a second mutator is refused by name, a tree-reading guard refuses to read a tree mid-mutation, and the Phase 52 and 54 suites still report every mutation red under the guard. Runs first in the chain so a stranded journal is recovered before anything else reads the tree.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-sellable-pathway-closure.mjs": {
+      "disposition": "wired",
+      "reason": "The canonical gate for the sellable pathway closure denominator, which is separate from and does not restate 497/497. Its --governance-only mode is what runs in the chain: the denominator stays frozen, every compiled pathway carries exactly one evidenced closure category, no pathway leaves paid_packet_intended without a signed reclassification carrying a valid reason, no paid pathway is recorded as closed while it delivers nothing, and the guidance-substitution list is checked against the committed treatments rather than believed. Its --mutations suite requires nine deliberate ways of faking closure to come back red. The full gate — the seven-stage invariant — is deliberately NOT in the chain: it fails today with the shortfall named per pathway, and it is the release gate rather than the commit gate.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-money-gate-delivery-binding.mjs": {
+      "disposition": "wired",
+      "reason": "Proves 'do not charge for guidance' as a runtime property over all 51 jurisdictions and 325 compiled pathways, in both directions: a route the packet route resolver cannot render is shown no price and refused at Checkout, and a route it can render still sells, so the legacy verified generators are not fenced off. It caught 71 payment-eligible routes across 46 jurisdictions that could take $50 and then answer the download with a 409. Wired in window sellable-closure-w1.",
       "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
     }
