@@ -103,7 +103,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "AL",
@@ -157,7 +164,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "AL",
@@ -191,7 +209,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "AL",
@@ -218,7 +247,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "AL",
@@ -245,7 +281,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "AL",
@@ -292,7 +335,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "AK",
@@ -359,7 +409,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "AK",
@@ -396,7 +453,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "AK",
@@ -433,7 +501,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "AK",
@@ -468,7 +547,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, application_source."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "AR",
@@ -495,7 +585,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "AR",
@@ -522,7 +619,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "AR",
@@ -989,7 +1093,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "AR",
@@ -1016,7 +1127,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "KY",
@@ -1043,7 +1161,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "KY",
@@ -1070,7 +1195,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "KY",
@@ -1097,7 +1229,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "KY",
@@ -1165,7 +1304,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "KY",
@@ -1193,7 +1339,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "KY",
@@ -1221,7 +1374,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "KY",
@@ -1249,7 +1409,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "KY",
@@ -1297,7 +1464,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "KY",
@@ -1345,7 +1519,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "KY",
@@ -1379,7 +1560,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "KY",
@@ -1413,7 +1605,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "KY",
@@ -1447,7 +1650,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "KY",
@@ -1474,7 +1688,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "NE",
@@ -1515,7 +1736,22 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NE",
@@ -1556,7 +1792,22 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NE",
@@ -1598,7 +1849,22 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NE",
@@ -1660,7 +1926,22 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NE",
@@ -1688,7 +1969,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NE",
@@ -1736,7 +2024,26 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NE",
@@ -1787,7 +2094,26 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NE",
@@ -1838,7 +2164,26 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NE",
@@ -1875,7 +2220,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NE",
@@ -1903,7 +2259,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NE",
@@ -2000,7 +2363,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2037,7 +2411,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2074,7 +2459,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2111,7 +2507,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2148,7 +2555,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2185,7 +2603,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2213,7 +2642,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2241,7 +2677,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2269,7 +2712,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2297,7 +2747,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2325,7 +2782,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2353,7 +2817,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2381,7 +2852,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2409,7 +2887,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2437,7 +2922,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2474,7 +2966,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2511,7 +3014,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2549,7 +3063,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2587,7 +3112,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2625,7 +3161,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2652,7 +3199,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "NC",
@@ -2679,7 +3233,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "NC",
@@ -2706,7 +3267,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "NC",
@@ -2733,7 +3301,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "NC",
@@ -2760,7 +3335,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "NC",
@@ -2794,7 +3376,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "NC",
@@ -2821,7 +3414,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "NC",
@@ -2869,7 +3469,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "VT",
@@ -2908,7 +3515,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "VT",
@@ -2957,7 +3575,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "VT",
@@ -2984,7 +3609,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "VT",
@@ -3014,7 +3646,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "VT",
@@ -3053,7 +3692,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "VT",
@@ -3081,7 +3731,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "VT",
@@ -3111,7 +3768,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "VT",
@@ -3139,7 +3803,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "VT",
@@ -3169,7 +3840,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): composed_routes."
+      "determinationBasis": "Named by 1 surface(s): composed_routes.",
+      "retirementBlockedBy": [
+        {
+          "surface": "composed_routes",
+          "removalRequires": "a route decision: a composed route lists it as a component"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "VT",
@@ -3196,7 +3874,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "VT",
@@ -3226,7 +3911,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "VT",
@@ -3253,7 +3945,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "VT",
@@ -3292,7 +3991,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "VT",
@@ -3319,7 +4029,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "VA",
@@ -3382,7 +4099,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "VA",
@@ -3494,7 +4222,22 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest."
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "VA",
@@ -3535,7 +4278,22 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest."
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "VA",
@@ -3562,7 +4320,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "VA",
@@ -3589,7 +4354,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest."
+      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
+      "retirementBlockedBy": [
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": true
     },
     {
       "jurisdiction": "WI",
@@ -3643,7 +4415,26 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "WI",
@@ -3696,7 +4487,26 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source."
+      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        },
+        {
+          "surface": "overlay_factory_manifest",
+          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
+        },
+        {
+          "surface": "application_source",
+          "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "WI",
@@ -3735,7 +4545,18 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue."
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, d_track_queue.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        },
+        {
+          "surface": "d_track_queue",
+          "removalRequires": "a D-queue decision: a committed family relationship names it"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     },
     {
       "jurisdiction": "WI",
@@ -3765,7 +4586,14 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): legal_design_registry."
+      "determinationBasis": "Named by 1 surface(s): legal_design_registry.",
+      "retirementBlockedBy": [
+        {
+          "surface": "legal_design_registry",
+          "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
+        }
+      ],
+      "heldOnlyByThisLanesOwnManifest": false
     }
   ]
 }

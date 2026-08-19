@@ -192,6 +192,42 @@ for (const track of (readJson(path.join(rootDir, "data/rcap-all50/review-artifac
   }
 }
 
+// The surfaces differ in what a reference to them costs to remove.
+const SURFACE_REMOVAL = {
+  legal_design_registry: "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains",
+  track_terminalization_ledger: "a track decision: a terminalization track requires this family",
+  d_track_queue: "a D-queue decision: a committed family relationship names it",
+  composed_routes: "a route decision: a composed route lists it as a component",
+  guidance_packets: "a participant-facing decision: a guidance packet the runtime registry loads names it",
+  terminalization_treatments: "a participant-facing decision: a terminal treatment the runtime registry loads names it",
+  overlay_factory_manifest: "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement",
+  all_state_build_manifest: "regeneration of the all-state build manifest the internal preview reads",
+  field_map_drafts: "removal of a field-map draft that src/lib/record-clearing/official-pdf-shadow-batch.ts reads at run time",
+  application_source: "an application-source change: the identifier appears literally in src/, which this lane does not modify"
+};
+
+/**
+ * What would have to change for a retained asset to become retirable.
+ *
+ * A retention that does not say what is holding it cannot be acted on, and
+ * "retained" then reads as a permanent state rather than a blocked one.
+ */
+function retirementBlockedBy(hits) {
+  if (hits.length === 0) return {};
+  const surfaces = [...new Set(hits.map((h) => h.surface))];
+  return {
+    retirementBlockedBy: surfaces.map((surface) => ({
+      surface,
+      removalRequires: SURFACE_REMOVAL[surface] ?? "a decision by the owner of that surface"
+    })),
+    // The interesting case: the only thing naming the asset is a manifest this
+    // lane generates from its own family packages. That is close to circular
+    // and worth separating from a genuine downstream dependency -- but it is
+    // still a runtime input, so it is a blocked retirement, not a free one.
+    heldOnlyByThisLanesOwnManifest: surfaces.length === 1 && surfaces[0] === "overlay_factory_manifest"
+  };
+}
+
 const assets = [...byIdentity.values()].map((row) => {
   const affectedTrackIds = [...new Set(row.formFamilyIds.flatMap((id) => queueTracks.get(id) ?? []))].sort();
   // Both keys, because the corpus names the same form both ways.
@@ -226,7 +262,11 @@ const assets = [...byIdentity.values()].map((row) => {
     // checked against every surface for that to mean anything.
     determinationBasis: usedByPlatform
       ? `Named by ${hits.length} surface(s): ${hits.map((h) => h.surface).join(", ")}.`
-      : `No surface names it. Probed ${surfaces.length} surface(s) against ${candidates.length} identifier(s).`
+      : `No surface names it. Probed ${surfaces.length} surface(s) against ${candidates.length} identifier(s).`,
+    // What would actually have to change for this asset to be retirable. A
+    // retention that does not say what is holding it cannot be acted on, and
+    // "retained" then reads as a permanent state rather than a blocked one.
+    ...retirementBlockedBy(hits)
   };
 });
 
