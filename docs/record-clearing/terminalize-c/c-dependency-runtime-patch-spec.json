@@ -322,10 +322,11 @@
         "enabled": false,
         "exception": "ConsumerCheckoutNotAllowedError for any direct checkout call"
       },
-      "appliedSha256": "6c1f44750cce7d52f9c5f2a6799bf61d947838de8dee0eddfc4cecf473b9ad5d",
+      "appliedSha256": "57a48833928a48761f862677777a1d11fa712ac08d2a79c20c61b92214ed1dc6",
       "priorAppliedSha256": [
         "8450a4a0db6decee1158992828aa48e1e98005786523c45a93e4438e94c6cb4f",
-        "c293b29a2067143316a083b4270e0966ba43252cec11bd68dd6dd19613503b5a"
+        "c293b29a2067143316a083b4270e0966ba43252cec11bd68dd6dd19613503b5a",
+        "6c1f44750cce7d52f9c5f2a6799bf61d947838de8dee0eddfc4cecf473b9ad5d"
       ]
     },
     {
@@ -344,10 +345,11 @@
         "status": 403,
         "body": "non-purchasable result without checkout fields"
       },
-      "appliedSha256": "69a1b9c7b56d524a48b95e854752d04ea2401b427f7c6df05cbf6a32cfac2fe5",
+      "appliedSha256": "b084d2b2b3dd0d8634ceca55e4e3231c73bbc63166da5ae5747d2ba338ab95de",
       "priorAppliedSha256": [
         "4d3bcc5d15d1595f2f1d2524c3e1bd322138bfebaaed1804821133bc4057f15f",
-        "deeb970ad65c17c65162172c01aebc5ec6252d91751c7ce82d254b981eedcf9f"
+        "deeb970ad65c17c65162172c01aebc5ec6252d91751c7ce82d254b981eedcf9f",
+        "69a1b9c7b56d524a48b95e854752d04ea2401b427f7c6df05cbf6a32cfac2fe5"
       ]
     },
     {
@@ -486,7 +488,7 @@
       },
       {
         "window": "2026-08-13-emergency-497",
-        "reason": "Roger's emergency terminalization authorization extended the same shared runtime \u2014 one registry, one authoritative resolver, one Briefcase write path \u2014 to carry terminal treatments for every remaining nonterminal track, and added a track-scoped complete-guidance binding above the legacy-verified check. The C component deferrals are unchanged in behaviour and still take priority over every later treatment; only the surrounding bytes moved.",
+        "reason": "Roger's emergency terminalization authorization extended the same shared runtime — one registry, one authoritative resolver, one Briefcase write path — to carry terminal treatments for every remaining nonterminal track, and added a track-scoped complete-guidance binding above the legacy-verified check. The C component deferrals are unchanged in behaviour and still take priority over every later treatment; only the surrounding bytes moved.",
         "movedTargets": [
           "src/app/api/expungement-ai/checkout/route.ts",
           "src/lib/expungement-ai/briefcase.ts",
@@ -526,6 +528,19 @@
           "src/app/api/expungement-ai/checkout/route.ts",
           "src/lib/expungement-ai/consumer-render-request.ts"
         ]
+      }
+    ],
+    "laterApplications": [
+      {
+        "window": "sellable-closure-w1",
+        "appliedBy": "sellable pathway closure",
+        "files": [
+          "src/app/api/expungement-ai/checkout/route.ts",
+          "src/lib/expungement-ai/payment-adapter.ts"
+        ],
+        "change": "assertPacketRouteCanDeliver binds the consumer money gate to the packet route resolver's delivery gate, and the checkout route answers ConsumerPacketNotDeliverableError with a 409. The component-deferral, exact-deferral and terminal-treatment refusals this spec installed are untouched and still run first; the new guard is an additional closed door on the same authority, never a way past one.",
+        "why": "The evaluator's payment gate and the packet route resolver were independent, so 71 payment-eligible routes across 46 jurisdictions could take $50 and then answer the download with a 409.",
+        "verifier": "scripts/verify-rcap-money-gate-delivery-binding.mjs"
       }
     ]
   }
