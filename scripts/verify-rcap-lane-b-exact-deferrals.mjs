@@ -328,13 +328,23 @@ async function runChecks() {
         packetType: "official_pdf_overlay",
         pathwayLabel: pathwayId,
       };
-      let refused = false;
+      // The refusal must come from the deferral registry itself, not merely
+      // from something throwing. A deferred route is also refused by the
+      // delivery guard (a route with rendererKind "none" cannot take money), so
+      // accepting any error here would let this lane's own safeguard be removed
+      // without the suite noticing — the second door would silently cover for
+      // the missing first one.
+      let refusal = null;
       try {
         assertCheckoutAllowed(corrupted);
-      } catch {
-        refused = true;
+      } catch (error) {
+        refusal = error;
       }
-      check(refused, `${key} @ ${pathwayId}: checkout was allowed on a mutated packet-ready item`);
+      check(refusal !== null, `${key} @ ${pathwayId}: checkout was allowed on a mutated packet-ready item`);
+      check(
+        refusal?.resultCode === "exact_supported_deferral",
+        `${key} @ ${pathwayId}: checkout was refused by ${refusal?.resultCode ?? refusal?.name ?? "nothing"} rather than by this lane's exact-deferral safeguard`
+      );
 
       const placeholder = createConsumerPaymentPlaceholder({
         resultCode: "packet_ready",
