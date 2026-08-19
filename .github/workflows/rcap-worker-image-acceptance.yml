@@ -300,13 +300,38 @@ jobs:
             'touch /tmp/rcap-render-scratch/.probe && rm /tmp/rcap-render-scratch/.probe'
           echo "scratch directory present, owned by rcapworker, empty and writable"
 
+      # A scanner nobody has seen catch anything is indistinguishable from a
+      # scanner that cannot. Before trusting a clean result, prove the pattern
+      # still matches a credential-shaped string AND still ignores the policy
+      # code that merely names key prefixes — src/lib/stripe/server.ts contains
+      # startsWith("sk_live_") to REFUSE a live key in test, and an earlier
+      # version of this scan flagged that guard as if it were the secret.
+      - name: The secret scan can still catch a secret
+        run: |
+          set -euo pipefail
+          PATTERN='SUPABASE_SERVICE_ROLE_KEY=[A-Za-z0-9._-]{20,}|SERVICE_ROLE_KEY=eyJ[A-Za-z0-9._-]{20,}|sk_live_[A-Za-z0-9]{16,}|sk_test_[A-Za-z0-9]{16,}|rk_live_[A-Za-z0-9]{16,}|whsec_[A-Za-z0-9]{16,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
+          # Synthetic, generated here, never a real credential.
+          SYNTHETIC="sk_live_$(head -c 32 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c 24)"
+          printf '%s\n' "$SYNTHETIC" > /tmp/positive-control.txt
+          printf 'if (value.startsWith("sk_live_")) throw new Error("live key in test");\n' > /tmp/negative-control.txt
+          if ! grep -qE "$PATTERN" /tmp/positive-control.txt; then
+            echo "::error::the secret pattern no longer matches a credential-shaped string; a clean scan would prove nothing"
+            exit 1
+          fi
+          if grep -qE "$PATTERN" /tmp/negative-control.txt; then
+            echo "::error::the secret pattern still flags key-policy code that contains no key material"
+            exit 1
+          fi
+          rm -f /tmp/positive-control.txt /tmp/negative-control.txt
+          echo "pattern catches a credential-shaped string and ignores prefix-only policy code"
+
       # First-party filesystem scan. Paths and counts only, never content.
       - name: Secret scan of the image filesystem
         env:
           REF: ${{ steps.pull.outputs.reference }}
         run: |
           set -euo pipefail
-          PATTERN='SUPABASE_SERVICE_ROLE_KEY=|SERVICE_ROLE_KEY=ey|sk_live_|sk_test_|rk_live_|whsec_|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
+          PATTERN='SUPABASE_SERVICE_ROLE_KEY=[A-Za-z0-9._-]{20,}|SERVICE_ROLE_KEY=eyJ[A-Za-z0-9._-]{20,}|sk_live_[A-Za-z0-9]{16,}|sk_test_[A-Za-z0-9]{16,}|rk_live_[A-Za-z0-9]{16,}|whsec_[A-Za-z0-9]{16,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
           set +e
           HITS="$(docker run --rm --network none --entrypoint sh "$REF" -c \
             "grep -rIlE '${PATTERN}' /app --exclude-dir=node_modules 2>/dev/null")"
@@ -324,7 +349,7 @@ jobs:
           REF: ${{ steps.pull.outputs.reference }}
         run: |
           set -euo pipefail
-          PATTERN='SUPABASE_SERVICE_ROLE_KEY=|SERVICE_ROLE_KEY=ey|sk_live_|sk_test_|rk_live_|whsec_|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
+          PATTERN='SUPABASE_SERVICE_ROLE_KEY=[A-Za-z0-9._-]{20,}|SERVICE_ROLE_KEY=eyJ[A-Za-z0-9._-]{20,}|sk_live_[A-Za-z0-9]{16,}|sk_test_[A-Za-z0-9]{16,}|rk_live_[A-Za-z0-9]{16,}|whsec_[A-Za-z0-9]{16,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
           ENV_COUNT="$(docker image inspect --format '{{range .Config.Env}}{{println .}}{{end}}' "$REF" | grep -cE "$PATTERN" || true)"
           HIST_COUNT="$(docker history --no-trunc --format '{{.CreatedBy}}' "$REF" | grep -cE "$PATTERN" || true)"
           echo "config env matches: ${ENV_COUNT}"
