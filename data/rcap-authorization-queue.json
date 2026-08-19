@@ -1024,7 +1024,14 @@
         "supabase/migrations/20260819120000_rcap_partner_provisioning.sql",
         "src/app/api/internal/partners/provisioning/route.ts",
         "src/app/partner/first-admin/claim/route.ts",
-        "src/app/partner/first-admin/claim/unavailable/page.tsx"
+        "src/app/partner/first-admin/claim/unavailable/page.tsx",
+        "src/app/partner/setup/route.ts",
+        "src/lib/partners/first-admin-claim-cookie.ts",
+        "src/lib/partners/first-admin-domain.ts",
+        "src/lib/partners/first-admin-service.ts",
+        "src/lib/partners/partner-provisioning-domain.ts",
+        "src/lib/partners/partner-provisioning-service.ts",
+        "src/lib/partners/routes.ts"
       ],
       "status": "authorized_scoped",
       "decision": "approved",
@@ -1033,7 +1040,7 @@
       "authorizedBy": "Roger Roman \u2014 owner authorization in the RCAP partner provisioning and existing-user admin claim assignment, 2026-08-19",
       "authorizedAt": "2026-08-19",
       "authorizationScope": "repository_integration_only",
-      "why": "Provisioning a partner tenant was a sequence of writes with no rollback, and with the Phase 1 onboarding flag on there was no path to create a partner at all. Four restricted paths carry the fix. The migration adds one forward-only transactional function, rcap_service_provision_partner, plus a deterministic id helper; it creates no table, drops nothing, revokes execution from public, anon and authenticated, grants it only to service_role, and pins search_path to '' on both functions. The internal provisioning route is the single authorized HTTP entry point and contains no write of its own. The two claim paths let an invited email that already belongs to exactly one confirmed Auth user accept through the ordinary sign-in instead of a password-recovery link, and render the designed recovery states when it cannot.",
+      "why": "Provisioning a partner tenant was a sequence of writes with no rollback, and with the Phase 1 onboarding flag on there was no path to create a partner at all. Eleven restricted paths carry the fix. The migration adds one forward-only transactional function, rcap_service_provision_partner, plus a deterministic id helper; it creates no table, drops nothing, revokes execution from public, anon and authenticated, grants it only to service_role, and pins search_path to '' on both functions. The internal provisioning route is the single authorized HTTP entry point and contains no write of its own. The two claim paths and the setup route let an invited email that already belongs to exactly one confirmed Auth user accept through the ordinary sign-in instead of a password-recovery link, and render the designed recovery states when it cannot. The remaining library paths are the provisioning domain and service, the first-admin domain and service, the claim-cookie contract, and one added route helper. The path set is the union of every restricted-path guard in the repository: source-engine-change-scope.mjs treats supabase/ and the two claim routes as restricted, while verify-expungement-consumer-adapter.mjs additionally treats all of src/lib/partners/ and src/app/partner/ as restricted, so every one of them is named here rather than only those the narrower guard would catch.",
       "risk": "medium",
       "riskNote": "The migration is additive and creates no schema object beyond two functions, so nothing existing can be rejected or lost by applying it. The behavioural change a reviewer must weigh is the new claim path: a pending first-admin invitation is now carried through sign-in in an HttpOnly, one-hour cookie holding the one-time token, and is consumed only after the live session's email matches the invitation exactly. A wrong signed-in email is refused before any record changes and the invitation stays usable by the named administrator. Nothing here publishes, activates, creates an access code, or touches billing. A provisioned tenant is also not trivially deletable, because the onboarding activity trail is append-only; a reviewer should treat provisioning as a decision to keep a private record, not a scratch action.",
       "rollback": "Forward-only in the chain, reversible by statement: drop function public.rcap_service_provision_partner(text, text, text, text, text, text, text, text, uuid, uuid, text, text) and public.rcap_partner_page_configuration_id(text). No table, column, policy, grant or row created by the baseline is altered, so no data recovery is involved. The application paths revert by reverting the commits, which restores the previous first-admin flow. Removing an already-provisioned tenant is NOT an ordinary cascade: partner_onboarding_activity carries a BEFORE DELETE trigger that refuses every row, so a delete on partner_records fails on the workspace's own activity record. Removal requires a privileged session that clears partner_onboarding_activity for that workspace first. That is a pre-existing property of every onboarding workspace, not something this change introduces, and a provisioned tenant left in place is private, inactive, unbilled and unreachable from the public route.",
@@ -1046,22 +1053,37 @@
         "node scripts/verify-first-admin-provisioning.mjs \u2014 passed, the existing first-admin contract is intact",
         "npm run typecheck, targeted eslint, and a credential-free npm run build \u2014 all clean; git diff --check clean",
         "Negative mutation: removing this entry's authorization for supabase/migrations/20260819120000_rcap_partner_provisioning.sql makes verify-all50-internal-preview.mjs fail and name that exact path",
-        "Full npm test run once on the clean committed branch: every step passed up to and including the exact-path authorization gates, the authorization queue, the verifier-disposition register and this capability's own verifier. The chain then stops at generate-rcap-staging-action.mjs --check, which is red BY DESIGN here: the changed application files are render-worker image inputs, so the recorded image fingerprint is stale and the published worker image was built from other bytes. The same check is green on origin/main, so this is caused by this branch and is the WORKER_REPUBLICATION_REQUIRED signal. The staging action is deliberately NOT regenerated: regeneration cannot clear the second condition, which only republishing the worker at the freeze can, and no worker publication is authorized here."
+        "Full npm test run once on the clean committed branch: every step passed up to and including the exact-path authorization gates, the authorization queue, the verifier-disposition register and this capability's own verifier. The chain then stops at generate-rcap-staging-action.mjs --check, which is red BY DESIGN here: the changed application files are render-worker image inputs, so the recorded image fingerprint is stale and the published worker image was built from other bytes. The same check is green on origin/main, so this is caused by this branch and is the WORKER_REPUBLICATION_REQUIRED signal. The staging action is deliberately NOT regenerated: regeneration cannot clear the second condition, which only republishing the worker at the freeze can, and no worker publication is authorized here.",
+        "Restricted-path inventory completed against every guard, not just the narrowest: verify-expungement-consumer-adapter.mjs treats all of src/lib/partners/ and src/app/partner/ as restricted and consults this queue exclusively, so it named six paths the first inventory had not pinned. All eleven are now pinned and that verifier exits 0."
       ],
       "authorizedPaths": [
         "supabase/migrations/20260819120000_rcap_partner_provisioning.sql",
         "src/app/api/internal/partners/provisioning/route.ts",
         "src/app/partner/first-admin/claim/route.ts",
-        "src/app/partner/first-admin/claim/unavailable/page.tsx"
+        "src/app/partner/first-admin/claim/unavailable/page.tsx",
+        "src/app/partner/setup/route.ts",
+        "src/lib/partners/first-admin-claim-cookie.ts",
+        "src/lib/partners/first-admin-domain.ts",
+        "src/lib/partners/first-admin-service.ts",
+        "src/lib/partners/partner-provisioning-domain.ts",
+        "src/lib/partners/partner-provisioning-service.ts",
+        "src/lib/partners/routes.ts"
       ],
       "authorizedSha256": [
         "ace32140a3daec563d1ce8632ecac686cadbb528551b5219fff9594b20423d74",
         "4489d803dc6582f33ddb402e035e1a02176b7ea5015225be722d1e3da1aae136",
         "8046a40d89f85ffa57913a5fd171671e08cf3818dc09ef21b7a73d5f78e8a735",
-        "a80216da5ae7700c0f47a3c0ca86097e15ac132a58bf1451f8dbd1b9650d1272"
+        "a80216da5ae7700c0f47a3c0ca86097e15ac132a58bf1451f8dbd1b9650d1272",
+        "8423fc3ae3cac77c7b5aa073e0f565cef08d003f69adcfefb22f41498b904521",
+        "f50108f475be126a1515975b80744bed839039040a78dc710081e2db48afd54b",
+        "ae979fba408d05fe9a1690ad19037814f4a1d700e685186da90381c95f488c1e",
+        "693a09bfdce152495bfdf19b85f2a51aea30d70487f5df27be45b91c7b105273",
+        "0cdb6532b243f5135a8613a6f3aec88f737fa3f42280da7c9f9381958e4f0d57",
+        "1823d97f0bb19586438e7ff9dbf3fa5dfe27a354755ee8a799a9e5bb6dda31ce",
+        "3b3f0b0d55dec44b428b8ad8374504f2082562c79e5cd6ddc7f0108745009bdc"
       ],
       "scopedAuthorization": {
-        "repository": "authorized \u2014 these four exact paths at these exact bytes may exist on the draft PR for feat/rcap-partner-provisioning-and-admin-claim",
+        "repository": "authorized \u2014 these eleven exact paths at these exact bytes may exist on the draft PR for feat/rcap-partner-provisioning-and-admin-claim",
         "production": "queued \u2014 no Production database access, migration application, tenant provisioning, Auth change, invitation delivery to a real user, partner publication, participant intake, access-code creation, deployment, billing or packet change, or worker publication is authorized"
       },
       "notes": "No wildcard, prefix, directory, future-file or future-byte grant. Any final byte change to any listed path invalidates this authorization and requires regenerating its hash."
