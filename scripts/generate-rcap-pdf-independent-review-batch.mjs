@@ -162,15 +162,28 @@ included.sort((a, b) => a.familyId.localeCompare(b.familyId));
 const groups = [[], [], []];
 included.forEach((family, index) => { groups[index % 3].push(family.familyId); });
 
-let reviewedHead = null;
-try { reviewedHead = execFileSync("git", ["rev-parse", "HEAD"], { cwd: rootDir, encoding: "utf8" }).trim(); } catch { /* not a clone */ }
+// The head that was REVIEWED, not the head doing the reviewing.
+//
+// This first recorded `git rev-parse HEAD`, which meant the manifest changed
+// every time this branch committed a review record -- so a manifest called
+// frozen went stale on each push, and both reviewers correctly flagged that it
+// was moving under them. The reviewer's own head is not a property of the batch
+// anyway. What the batch is about is the lane head whose artifacts are being
+// judged, and that is the merge-base: this branch descends from it and adds
+// only review records, so it holds still no matter how many times we commit.
+const LANE_BRANCH = "origin/claude/rcap-problematic-pdf-full-remediation";
+let reviewedLaneHead = null;
+try {
+  reviewedLaneHead = execFileSync("git", ["merge-base", "HEAD", LANE_BRANCH], { cwd: rootDir, encoding: "utf8" }).trim();
+} catch { /* the lane ref is not fetched here */ }
 
 const payload = {
   schemaVersion: "rcap-pdf-independent-review-batch/v1",
   generatedBy: "scripts/generate-rcap-pdf-independent-review-batch.mjs",
   purpose: "The exact set of form families that are automated-green and awaiting independent review, derived from the canonical evidence and frozen before reviewing starts.",
   batch: "batch-1",
-  reviewedHead,
+  reviewedLaneBranch: "claude/rcap-problematic-pdf-full-remediation",
+  reviewedLaneHead,
   derivedFrom: {
     finalizedArtifactAudit: "data/rcap-all50/finalized-artifact-audit.json",
     contactSheetVisualProof: "data/rcap-all50/contact-sheet-visual-proof.json",
