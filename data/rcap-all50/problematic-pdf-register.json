@@ -1017,8 +1017,34 @@
       ]
     }
   ],
+  "platformReady": [
+    {
+      "identity": "WI|CR-266|9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "jurisdiction": "WI",
+      "formId": "CR-266",
+      "familyIds": [
+        "WI:cr-266-en",
+        "WI:cr-266-form-en"
+      ],
+      "approvedAfterRounds": 4,
+      "approvedArtifacts": [
+        "fixtures/canonical-filled.pdf",
+        "fixtures/boundary-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf"
+      ],
+      "outrankedFindings": [
+        "currentness_unverified",
+        "held_on_source_or_design",
+        "never_independently_approved",
+        "visually_unsafe"
+      ],
+      "stillGloballyUnavailable": true,
+      "why": "an independent reviewer approved these exact bytes; the remaining flags name a release decision or a review that has since happened"
+    }
+  ],
   "totals": {
-    "problematicPdfsTotal": 88,
+    "problematicPdfsTotal": 87,
+    "platformReady": 1,
     "retiredFromOperationalInventory": 40,
     "retiredFamilyDirectories": 45,
     "activeTrackProblematicPdfs": 45,
@@ -52966,6 +52992,14 @@
       "exactAcceptanceCondition": "Exact source verification against the issuing body, current implementation proof, fresh independent technical AND visual approval, legal-adoption continuity where applicable, runtime integration, staging acceptance, and a controlled route-state promotion. Until all of those hold, the participant keeps the terminal treatment and this asset stays in the register.",
       "postLaunchPriority": "medium",
       "section": "active_track_problem_pdfs",
+      "platformReady": true,
+      "platformReadyReason": "independent review approved these exact bytes after 4 round(s)",
+      "findingsOutrankedByApproval": [
+        "currentness_unverified",
+        "held_on_source_or_design",
+        "never_independently_approved",
+        "visually_unsafe"
+      ],
       "rootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",

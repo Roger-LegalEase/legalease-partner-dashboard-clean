@@ -27,6 +27,7 @@ import { register } from "node:module";
 import { fileURLToPath } from "node:url";
 import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
 import { ROOT_CAUSES, rootCause } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
+import { platformReadyVerdict, RELEASE_STATE_HOLDS, REVIEW_REQUIRED_HOLDS } from "./rcap-official-forms/rcap-platform-ready.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -507,6 +508,81 @@ for (const entry of records) {
   entry.postLaunchPriority = servesActive && severe ? "high" : servesActive ? "medium" : "low";
 }
 
+// ---- platform_ready outranks the flags that describe an unfinished form -----
+//
+// An asset an independent reviewer approved against the exact bytes now on disk
+// is not a problematic PDF. It was being counted as one because this generator
+// reads the raw source record and never asks whether the review that those
+// flags demand has since happened — so CR-266, reviewed over four rounds and
+// measured against its own content streams, still reported as
+// never_independently_approved and visually_unsafe.
+//
+// Three kinds of flag are outranked, and only these three:
+//
+//   the review-required holds, because the review they require is done;
+//   the "no independent approval" and "visually unsafe" findings, because an
+//     approval naming the on-disk hashes is exactly the evidence they ask for;
+//   the RELEASE-STATE holds, because they say when the asset may ship and not
+//     whether it is correct. A platform_ready asset stays globally unavailable
+//     while nationwideLaunchAuthorized is false; that is a decision, not a
+//     defect, and treating it as one made the corpus unfinishable — no
+//     correction can clear a flag only a release decision clears.
+//
+// A SUBSTANTIVE hold still disqualifies. The approval is not a waiver: if
+// anything outside those three classes remains, the asset stays in the register
+// with the findings that survived, so this can never become a way to approve a
+// defect away.
+const platformReady = [];
+const OUTRANKED_BY_APPROVAL = new Set(["never_independently_approved", "visually_unsafe", "currentness_unverified"]);
+
+for (const entry of [...records]) {
+  const approval = platformReadyVerdict({
+    overlayDir: OVERLAY_DIR,
+    familyIds: entry.familyIds,
+    artifacts: (entry.familyIds ?? []).flatMap((id) => auditByFamily.get(id)?.artifacts ?? []).filter((a) => a.present)
+  });
+  if (!approval.approved) continue;
+
+  const survived = entry.defects.filter((d) => {
+    if (OUTRANKED_BY_APPROVAL.has(d.category)) return false;
+    if (d.category !== "held_on_source_or_design") return true;
+    const hold = String(d.description ?? "");
+    return !RELEASE_STATE_HOLDS.has(hold) && !REVIEW_REQUIRED_HOLDS.has(hold)
+      && !/generation from this asset is not allowed/i.test(hold);
+  });
+
+  if (survived.length > 0) {
+    // Approved and still carrying something a review does not answer. It stays
+    // in the register, reduced to what actually survived.
+    entry.defects = survived;
+    entry.defectCategories = [...new Set(survived.map((d) => d.category))].sort();
+    entry.platformReadyButRetained = approval.reason;
+    continue;
+  }
+
+  platformReady.push({
+    identity: entry.identity,
+    jurisdiction: entry.jurisdiction,
+    formId: entry.formId,
+    familyIds: entry.familyIds,
+    approvedAfterRounds: approval.rounds ?? null,
+    approvedArtifacts: approval.approvedArtifacts ?? [],
+    outrankedFindings: entry.defectCategories,
+    stillGloballyUnavailable: true,
+    why: "an independent reviewer approved these exact bytes; the remaining flags name a release decision or a review that has since happened"
+  });
+  // Flagged, NOT removed. The master list builds its rows from these records and
+  // is where `platform_ready` is assigned, so deleting the record here deleted
+  // the asset from the master list entirely and the end state had nowhere to
+  // live. It stays a record and leaves the problematic COUNT instead.
+  entry.platformReady = true;
+  entry.platformReadyReason = approval.reason;
+  // The findings stay on the record, marked as outranked rather than deleted.
+  // They are the history of what was wrong before the review closed it, and a
+  // record that simply loses them cannot show why it is finished.
+  entry.findingsOutrankedByApproval = entry.defectCategories;
+}
+
 records.sort((a, b) => a.identity.localeCompare(b.identity));
 
 const sections = {
@@ -555,7 +631,8 @@ const rootCauseIndex = [...new Set(records.flatMap((r) => r.rootCauseIds))].sort
 }));
 const retiredAssetIds = [...new Set(retired.map((r) => r.marker?.assetId).filter(Boolean))];
 const totals = {
-  problematicPdfsTotal: records.length,
+  problematicPdfsTotal: records.filter((r) => !r.platformReady).length,
+  platformReady: platformReady.length,
   retiredFromOperationalInventory: retiredAssetIds.length,
   retiredFamilyDirectories: retired.length,
   activeTrackProblematicPdfs: sections.active_track_problem_pdfs.length,
@@ -611,6 +688,10 @@ const payload = {
   },
   readingTheCounts: "`technicalDefects` and `visualDefects` count ASSETS carrying a finding, not problems to solve. The number of problems is `uniqueSystemicTechnicalRootCauses` plus `uniqueFamilySpecificTechnicalDefects`, and the same for visual. One systemic factory problem across 62 artifacts is one problem with 62 impacted assets; it is neither 62 problems nor a reason to report fewer assets.",
   rootCauseIndex,
+  // Every asset an independent review lifted out of the denominator, with the
+  // findings it outranked named. An asset that simply vanishes from a register
+  // is indistinguishable from one nobody looked at.
+  platformReady,
   totals,
   sections: {
     activeTrackProblemPdfs: sections.active_track_problem_pdfs.map((r) => r.identity),

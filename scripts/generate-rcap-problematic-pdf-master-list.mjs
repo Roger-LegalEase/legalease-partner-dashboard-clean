@@ -31,6 +31,7 @@ import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { ROOT_CAUSES } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
+import { platformReadyVerdict } from "./rcap-official-forms/rcap-platform-ready.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const REGISTER = path.join(rootDir, "data/rcap-all50/problematic-pdf-register.json");
@@ -204,49 +205,9 @@ const registryByForm = registryFormIds();
  * the finalized-artifact audit read off disk.
  */
 function reviewVerdictFor(familyIds, artifacts) {
-  for (const familyId of familyIds ?? []) {
-    const slug = familyId.includes(":") ? familyId.split(":")[1] : familyId;
-    const stateDirs = fs.existsSync(OVERLAY_DIR) ? fs.readdirSync(OVERLAY_DIR) : [];
-    for (const state of stateDirs) {
-      const dir = path.join(OVERLAY_DIR, state, slug);
-      const profilePath = path.join(dir, "overlay-profile.json");
-      if (!fs.existsSync(profilePath)) continue;
-      let profile;
-      try { profile = JSON.parse(fs.readFileSync(profilePath, "utf8")); } catch { continue; }
-      const review = profile.independentReview ?? null;
-      // One master-list row can cover several family packages -- CR-266 covers
-      // both cr-266-en and cr-266-form-en. Only one of them carries a profile
-      // and artifacts; returning on the first family without one concluded
-      // "unreviewed" before looking at the family that was reviewed.
-      if (review?.verdict !== "approved_for_platform_ready") continue;
-
-      const round = [...(review.rounds ?? [])].reverse().find((r) => r.verdict === "approved_for_platform_ready");
-      const approvedHashes = round?.reviewedArtifactSha256 ?? null;
-      if (!approvedHashes) return { approved: false, reason: "the approval does not name the artifact hashes it approved" };
-
-      // The approval must be of the bytes that are here now.
-      for (const [relative, sha] of Object.entries(approvedHashes)) {
-        const file = path.join(dir, relative);
-        if (!fs.existsSync(file)) return { approved: false, reason: `${relative} is named by the approval and is not on disk` };
-        const actual = crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
-        if (actual !== sha) return { approved: false, reason: `${relative} has changed since it was approved` };
-      }
-
-      const classification = fs.existsSync(path.join(dir, "field-classification.json"))
-        ? JSON.parse(fs.readFileSync(path.join(dir, "field-classification.json"), "utf8")) : null;
-      if (!classification || Number(classification.classifiedFieldsOrAnchors) !== Number(classification.discoveredFieldsOrAnchors)
-        || Number(classification.discoveredFieldsOrAnchors) === 0) {
-        return { approved: false, reason: "the field or anchor classification is not complete" };
-      }
-
-      if (artifacts.length === 0 || !artifacts.every((a) => a.finalized && (a.failures ?? []).length === 0)) {
-        return { approved: false, reason: "not every artifact is finalized with no recorded failure" };
-      }
-
-      return { approved: true, reason: `independent review approved these exact bytes after ${(review.rounds ?? []).length} round(s)` };
-    }
-  }
-  return { approved: false, reason: "no overlay profile carries an independent review for this family" };
+  // One shared derivation, imported rather than restated. The register needs the
+  // same answer and cannot ask this generator for it without closing a cycle.
+  return platformReadyVerdict({ overlayDir: OVERLAY_DIR, familyIds, artifacts });
 }
 
 // Exactly one operational disposition per asset, from an explicit vocabulary.
