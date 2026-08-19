@@ -19,7 +19,7 @@ Terminalizing a track around a broken PDF is a legitimate product decision. It i
 | Assets With At Least One Visual Finding | 49 |
 | Assets With At Least One Source Finding | 81 |
 | Unique Systemic Technical Root Causes | 0 |
-| Unique Family Specific Technical Defects | 73 |
+| Unique Family Specific Technical Defects | 71 |
 | Unique Systemic Visual Root Causes | 3 |
 | Unique Family Specific Visual Defects | 27 |
 | Unique Systemic Source Root Causes | 2 |
@@ -846,7 +846,7 @@ Defects:
 - **Source SHA**: 2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: overlay_no_participant_label_matched
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -860,7 +860,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -875,7 +875,7 @@ Defects:
 - **Source SHA**: 5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -890,7 +890,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -904,7 +904,7 @@ Defects:
 - **Source SHA**: 877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -919,7 +919,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -933,7 +933,7 @@ Defects:
 - **Source SHA**: 9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -947,7 +947,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
@@ -1207,7 +1207,7 @@ Defects:
 - **Source SHA**: fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7 (revision REV-2025-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1222,7 +1222,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -1236,7 +1236,7 @@ Defects:
 - **Source SHA**: 19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade (revision REV-2025-03)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1251,7 +1251,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -1265,7 +1265,7 @@ Defects:
 - **Source SHA**: 2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1280,7 +1280,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -1294,7 +1294,7 @@ Defects:
 - **Source SHA**: 37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027 (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: overlay_no_participant_label_matched
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1308,7 +1308,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -1323,7 +1323,7 @@ Defects:
 - **Source SHA**: 46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64 (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1337,7 +1337,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
@@ -1602,7 +1602,7 @@ Defects:
 - **Source SHA**: d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806 (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1617,7 +1617,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -1888,7 +1888,7 @@ Defects:
 - **Source SHA**: 689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484 (revision REV-2025-06)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1903,7 +1903,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -2141,7 +2141,7 @@ Defects:
 - **Source SHA**: 5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2156,7 +2156,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -2388,7 +2388,7 @@ Defects:
 - **Source SHA**: 08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7 (revision REV-2021-06)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2402,7 +2402,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -2576,7 +2576,7 @@ Defects:
 - **Source SHA**: 76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a (revision REV-2021-06)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2590,7 +2590,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -2751,7 +2751,7 @@ Defects:
 - **Source SHA**: b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2765,7 +2765,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -3789,7 +3789,7 @@ Defects:
 - **Source SHA**: 2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb (revision REV-2024-05)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -3805,7 +3805,7 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — Overlay labels are measured but the write box is unreviewed, so placement remains ambiguous. _(implementation-index.json:status)_
 
@@ -3819,7 +3819,7 @@ Defects:
 - **Source SHA**: ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7 (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -3835,7 +3835,7 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
 
@@ -3849,7 +3849,7 @@ Defects:
 - **Source SHA**: 3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6 (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -3865,7 +3865,7 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
 
@@ -3883,7 +3883,7 @@ Inventory assets not proven required by an active launch track. They are recorde
 - **Source SHA**: 615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -3897,7 +3897,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -3996,7 +3996,7 @@ Known required forms whose verified binaries are absent from the clone.
 - **Source SHA**: e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0
 - **Binary present**: false
 - **Structural class**: html_form; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4006,7 +4006,7 @@ Known required forms whose verified binaries are absent from the clone.
 Defects:
 
 - `missing_binary` — ak-record-relief-forms.html is expected at LegalEase Alaska/ak-record-relief-forms.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4022,7 +4022,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a
 - **Binary present**: false
 - **Structural class**: scanned_pdf; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4032,8 +4032,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — RequestToSealCrimInfo.pdf is expected at LegalEase Alaska/RequestToSealCrimInfo.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
-- `flat_overlay_geometry_or_readback` — The binary is a scan, so there are no widgets to bind and any fill is flat-overlay geometry. _(source-record.json:classification)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4049,7 +4048,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4
 - **Binary present**: false
 - **Structural class**: html_form; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4059,7 +4058,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — al-expungement-petition.html is expected at LegalEase Alabama/al-expungement-petition.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4127,7 +4126,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666
 - **Binary present**: false
 - **Structural class**: html_form; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4137,7 +4136,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — criminal-forms.html is expected at LegalEase Alabama/criminal-forms.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4153,7 +4152,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf
 - **Binary present**: false
 - **Structural class**: html_form; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4163,7 +4162,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — criminal-record-expungement.html is expected at LegalEase Alabama/criminal-record-expungement.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4231,7 +4230,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42
 - **Binary present**: false
 - **Structural class**: html_form; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4241,7 +4240,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — Arkansas-Petition-Order-Forms.html is expected at LegalEase Arkanasa/Arkansas-Petition-Order-Forms.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4437,7 +4436,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8
 - **Binary present**: false
 - **Structural class**: html_form; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4447,7 +4446,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — Kentucky-Expungement-Forms.html is expected at LegalEase Kentucky/files-4/Kentucky-Expungement-Forms.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4541,7 +4540,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d
 - **Binary present**: false
 - **Structural class**: html_form; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4551,7 +4550,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — expungements.html is expected at LegalEase North Carolina/expungements.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4567,7 +4566,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e
 - **Binary present**: false
 - **Structural class**: html_form; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4577,7 +4576,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — forms-2.html is expected at LegalEase North Carolina/forms-2.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4593,7 +4592,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11
 - **Binary present**: false
 - **Structural class**: html_form; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4603,7 +4602,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — forms.html is expected at LegalEase North Carolina/forms.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4619,7 +4618,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c
 - **Binary present**: false
 - **Structural class**: html_form; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4629,7 +4628,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — nc-expunction-petition.html is expected at LegalEase North Carolina/nc-expunction-petition.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4747,7 +4746,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6
 - **Binary present**: false
 - **Structural class**: scanned_pdf; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4757,8 +4756,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — cc1473inst.pdf is expected at LegalEase Virginia /cc1473inst.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
-- `flat_overlay_geometry_or_readback` — The binary is a scan, so there are no widgets to bind and any fill is flat-overlay geometry. _(source-record.json:classification)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4774,7 +4772,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f
 - **Binary present**: false
 - **Structural class**: html_form; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4784,7 +4782,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — va-expungement-sealing-forms.html is expected at LegalEase Virginia /va-expungement-sealing-forms.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4825,7 +4823,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078
 - **Binary present**: false
 - **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4835,7 +4833,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf is expected at LegalEase Vermont/200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
@@ -4977,7 +4975,7 @@ _No active launch track is proven to require this asset._
 - **Source SHA**: 1b9348d18347d3adb278a209046c3593e595c385b1c2081c6a33142767196b59
 - **Binary present**: false
 - **Structural class**: html_form; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, missing_binary, never_independently_approved
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4987,7 +4985,7 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — application-waive-filing-fees-and-service-costs.html is expected at LegalEase Vermont/application-waive-filing-fees-and-service-costs.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `geometry_unmeasured` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -5803,7 +5801,7 @@ Defects:
 - **Source SHA**: 2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: overlay_no_participant_label_matched
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5817,7 +5815,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -5832,7 +5830,7 @@ Defects:
 - **Source SHA**: 5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5847,7 +5845,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -5861,7 +5859,7 @@ Defects:
 - **Source SHA**: 877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5876,7 +5874,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -5890,7 +5888,7 @@ Defects:
 - **Source SHA**: 9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5904,7 +5902,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
@@ -6164,7 +6162,7 @@ Defects:
 - **Source SHA**: fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7 (revision REV-2025-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -6179,7 +6177,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -6193,7 +6191,7 @@ Defects:
 - **Source SHA**: 19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade (revision REV-2025-03)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -6208,7 +6206,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -6222,7 +6220,7 @@ Defects:
 - **Source SHA**: 2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -6237,7 +6235,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -6251,7 +6249,7 @@ Defects:
 - **Source SHA**: 37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027 (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: overlay_no_participant_label_matched
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -6265,7 +6263,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
@@ -6280,7 +6278,7 @@ Defects:
 - **Source SHA**: 46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64 (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -6294,7 +6292,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
@@ -6559,7 +6557,7 @@ Defects:
 - **Source SHA**: d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806 (revision REV-2020-12)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -6574,7 +6572,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -6845,7 +6843,7 @@ Defects:
 - **Source SHA**: 689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484 (revision REV-2025-06)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -6860,7 +6858,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -7098,7 +7096,7 @@ Defects:
 - **Source SHA**: 5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -7113,7 +7111,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -7345,7 +7343,7 @@ Defects:
 - **Source SHA**: 08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7 (revision REV-2021-06)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -7359,7 +7357,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -7533,7 +7531,7 @@ Defects:
 - **Source SHA**: 76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a (revision REV-2021-06)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved
+- **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, geometry_unmeasured, held_on_source_or_design, never_independently_approved
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -7547,7 +7545,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `contact_sheet_shows_no_fill` — The committed contact sheet renders its blank and filled panels identically (NaN% of pixels differ), so it shows no fill to review. _(contact-sheet-visual-proof.json:families[].differingPixelFraction)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -7708,7 +7706,7 @@ Defects:
 - **Source SHA**: b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_fill_instructional_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -7722,7 +7720,7 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
@@ -8746,7 +8744,7 @@ Defects:
 - **Source SHA**: 2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb (revision REV-2024-05)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, geometry_unmeasured, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -8762,7 +8760,7 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — Overlay labels are measured but the write box is unreviewed, so placement remains ambiguous. _(implementation-index.json:status)_
 
@@ -8776,7 +8774,7 @@ Defects:
 - **Source SHA**: ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7 (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -8792,7 +8790,7 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
 
@@ -8806,7 +8804,7 @@ Defects:
 - **Source SHA**: 3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6 (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: false
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
+- **Defect categories**: geometry_unmeasured, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, stale_or_superseded
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -8822,7 +8820,7 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
+- `geometry_unmeasured` — The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established. _(verified-binary-index.json:structuralClass + flat-overlay-render-report.json)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
 

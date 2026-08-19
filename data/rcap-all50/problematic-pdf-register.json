@@ -749,16 +749,15 @@
       ]
     },
     {
-      "rootCauseId": "RC-T-FLAT-GEOMETRY",
+      "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
       "dimension": "technical",
       "scope": "family_specific",
-      "title": "Flat PDF: every value is placed by measured geometry",
-      "detail": "The binary carries no widgets, so nothing can be bound or read back; placement is measured against the page rather than a field.",
-      "clearedBy": "Measured anchors approved for this form.",
+      "title": "Flat PDF whose overlay geometry has not been measured",
+      "detail": "The binary carries no widgets, so every value is placed against measured rule lines — and no live render establishes that those write boxes were measured for this family.",
+      "clearedBy": "A live render proving the write boxes were measured against the rule lines they belong to.",
       "owner": "Official-form factory owner",
-      "impactedAssets": 21,
+      "impactedAssets": 19,
       "impactedAssetIds": [
-        "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
         "NC|AOC-CR-287|2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
         "NC|AOC-CR-287|5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
         "NC|AOC-CR-287|877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
@@ -775,7 +774,6 @@
         "NC|AOC-CV-226|76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a",
         "NE|CC-6-11A|615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
         "NE|CC-6-12|b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
-        "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
         "WI|CR-267|2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
         "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
         "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6"
@@ -979,7 +977,7 @@
     "assetsWithAtLeastOneVisualFinding": 49,
     "assetsWithAtLeastOneSourceFinding": 81,
     "uniqueSystemicTechnicalRootCauses": 0,
-    "uniqueFamilySpecificTechnicalDefects": 73,
+    "uniqueFamilySpecificTechnicalDefects": 71,
     "uniqueSystemicVisualRootCauses": 3,
     "uniqueFamilySpecificVisualDefects": 27,
     "uniqueSystemicSourceRootCauses": 2,
@@ -1158,9 +1156,10 @@
       "binaryPresent": false,
       "pages": null,
       "structuralClass": "html_form",
+      "implementationMode": "html_form",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -1175,7 +1174,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -1294,9 +1293,10 @@
       "binaryPresent": false,
       "pages": 6,
       "structuralClass": "scanned_pdf",
+      "implementationMode": "scanned_flat_overlay",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -1311,18 +1311,10 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
-          "rootCauseScope": "family_specific",
-          "rootCauseDimension": "technical"
-        },
-        {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The binary is a scan, so there are no widgets to bind and any fill is flat-overlay geometry.",
-          "evidence": "source-record.json:classification",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -1412,7 +1404,6 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-BUNDLE-ABSENT",
-        "RC-T-FLAT-GEOMETRY",
         "RC-T-NO-FIELD-CENSUS"
       ],
       "systemicRootCauseIds": [
@@ -1422,7 +1413,6 @@
         "RC-S-BUNDLE-ABSENT"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY",
         "RC-T-NO-FIELD-CENSUS"
       ]
     },
@@ -1440,6 +1430,7 @@
       "binaryPresent": true,
       "pages": 3,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -2136,6 +2127,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -2562,6 +2554,7 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -3243,9 +3236,10 @@
       "binaryPresent": false,
       "pages": null,
       "structuralClass": "html_form",
+      "implementationMode": "html_form",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -3260,7 +3254,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -3379,6 +3373,7 @@
       "binaryPresent": false,
       "pages": 0,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -3515,6 +3510,7 @@
       "binaryPresent": false,
       "pages": 1,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -3651,9 +3647,10 @@
       "binaryPresent": false,
       "pages": null,
       "structuralClass": "html_form",
+      "implementationMode": "html_form",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -3668,7 +3665,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -3787,9 +3784,10 @@
       "binaryPresent": false,
       "pages": null,
       "structuralClass": "html_form",
+      "implementationMode": "html_form",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -3804,7 +3802,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -3923,6 +3921,7 @@
       "binaryPresent": false,
       "pages": 10,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -4059,6 +4058,7 @@
       "binaryPresent": false,
       "pages": 4,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -4195,9 +4195,10 @@
       "binaryPresent": false,
       "pages": null,
       "structuralClass": "html_form",
+      "implementationMode": "html_form",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -4212,7 +4213,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -4331,6 +4332,7 @@
       "binaryPresent": false,
       "pages": 4,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -4467,6 +4469,7 @@
       "binaryPresent": false,
       "pages": 2,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -4595,6 +4598,7 @@
       "binaryPresent": false,
       "pages": 6,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -4723,6 +4727,7 @@
       "binaryPresent": false,
       "pages": 2,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -4859,6 +4864,7 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "held_on_source_or_design",
@@ -5531,6 +5537,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -6429,6 +6436,7 @@
       "binaryPresent": true,
       "pages": 3,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "held_on_source_or_design",
@@ -8428,6 +8436,7 @@
       "binaryPresent": true,
       "pages": 4,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -10808,6 +10817,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -11849,6 +11859,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "held_on_source_or_design",
@@ -12792,6 +12803,7 @@
       "binaryPresent": false,
       "pages": 8,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -12928,6 +12940,7 @@
       "binaryPresent": false,
       "pages": 4,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -13064,6 +13077,7 @@
       "binaryPresent": false,
       "pages": 3,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -13200,9 +13214,10 @@
       "binaryPresent": false,
       "pages": null,
       "structuralClass": "html_form",
+      "implementationMode": "html_form",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -13217,7 +13232,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -13336,10 +13351,11 @@
       "binaryPresent": true,
       "pages": 4,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",
@@ -13387,10 +13403,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -13483,7 +13499,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-NO-DERIVABLE-WRITE-BOX",
         "RC-V-NO-SHEET-PRODUCED"
       ],
@@ -13495,7 +13511,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-NO-DERIVABLE-WRITE-BOX"
       ]
     },
@@ -13513,10 +13529,11 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -13571,10 +13588,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -13659,7 +13676,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "systemicRootCauseIds": [
@@ -13670,7 +13687,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ]
     },
     {
@@ -13687,10 +13704,11 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -13745,10 +13763,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -13833,7 +13851,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "systemicRootCauseIds": [
@@ -13844,7 +13862,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ]
     },
     {
@@ -13861,11 +13879,12 @@
       "binaryPresent": true,
       "pages": 4,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": true,
       "defectCategories": [
         "contact_sheet_shows_no_fill",
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence",
@@ -13913,10 +13932,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -14017,7 +14036,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-VALUES-ABSENT",
         "RC-V-SHEET-FROM-UNFINALIZED-SOURCE",
         "RC-V-SHEET-PANELS-IDENTICAL"
@@ -14031,7 +14050,7 @@
         "RC-V-SHEET-PANELS-IDENTICAL"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-VALUES-ABSENT"
       ]
     },
@@ -14049,6 +14068,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -17460,10 +17480,11 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -17518,10 +17539,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -17606,7 +17627,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "systemicRootCauseIds": [
@@ -17617,7 +17638,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ]
     },
     {
@@ -17634,10 +17655,11 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -17692,10 +17714,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -17780,7 +17802,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "systemicRootCauseIds": [
@@ -17791,7 +17813,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ]
     },
     {
@@ -17808,10 +17830,11 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -17866,10 +17889,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -17954,7 +17977,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "systemicRootCauseIds": [
@@ -17965,7 +17988,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ]
     },
     {
@@ -17982,10 +18005,11 @@
       "binaryPresent": true,
       "pages": 3,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",
@@ -18033,10 +18057,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -18129,7 +18153,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-NO-DERIVABLE-WRITE-BOX",
         "RC-V-NO-SHEET-PRODUCED"
       ],
@@ -18141,7 +18165,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-NO-DERIVABLE-WRITE-BOX"
       ]
     },
@@ -18159,11 +18183,12 @@
       "binaryPresent": true,
       "pages": 3,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": true,
       "defectCategories": [
         "contact_sheet_shows_no_fill",
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence",
@@ -18211,10 +18236,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -18315,7 +18340,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-VALUES-ABSENT",
         "RC-V-SHEET-FROM-UNFINALIZED-SOURCE",
         "RC-V-SHEET-PANELS-IDENTICAL"
@@ -18329,7 +18354,7 @@
         "RC-V-SHEET-PANELS-IDENTICAL"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-VALUES-ABSENT"
       ]
     },
@@ -18347,6 +18372,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -21840,10 +21866,11 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -21898,10 +21925,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -21986,7 +22013,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "systemicRootCauseIds": [
@@ -21997,7 +22024,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ]
     },
     {
@@ -22014,6 +22041,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -25627,10 +25655,11 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -25685,10 +25714,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -25773,7 +25802,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "systemicRootCauseIds": [
@@ -25784,7 +25813,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ]
     },
     {
@@ -25801,6 +25830,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -28912,10 +28942,11 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -28970,10 +29001,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -29058,7 +29089,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "systemicRootCauseIds": [
@@ -29069,7 +29100,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ]
     },
     {
@@ -29086,6 +29117,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -32107,11 +32139,12 @@
       "binaryPresent": true,
       "pages": 4,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": true,
       "defectCategories": [
         "contact_sheet_shows_no_fill",
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved"
       ],
@@ -32157,10 +32190,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -32296,7 +32329,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-V-SHEET-PANELS-IDENTICAL"
       ],
       "systemicRootCauseIds": [
@@ -32307,7 +32340,7 @@
         "RC-V-SHEET-PANELS-IDENTICAL"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ]
     },
     {
@@ -32324,6 +32357,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -34443,11 +34477,12 @@
       "binaryPresent": true,
       "pages": 4,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": true,
       "defectCategories": [
         "contact_sheet_shows_no_fill",
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved"
       ],
@@ -34493,10 +34528,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -34632,7 +34667,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-V-SHEET-PANELS-IDENTICAL"
       ],
       "systemicRootCauseIds": [
@@ -34643,7 +34678,7 @@
         "RC-V-SHEET-PANELS-IDENTICAL"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ]
     },
     {
@@ -34660,6 +34695,7 @@
       "binaryPresent": false,
       "pages": 2,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -34796,6 +34832,7 @@
       "binaryPresent": false,
       "pages": 0,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -34932,6 +34969,7 @@
       "binaryPresent": false,
       "pages": 2,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -35068,9 +35106,10 @@
       "binaryPresent": false,
       "pages": null,
       "structuralClass": "html_form",
+      "implementationMode": "html_form",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -35085,7 +35124,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -35204,9 +35243,10 @@
       "binaryPresent": false,
       "pages": null,
       "structuralClass": "html_form",
+      "implementationMode": "html_form",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -35221,7 +35261,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -35340,9 +35380,10 @@
       "binaryPresent": false,
       "pages": null,
       "structuralClass": "html_form",
+      "implementationMode": "html_form",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -35357,7 +35398,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -35476,9 +35517,10 @@
       "binaryPresent": false,
       "pages": null,
       "structuralClass": "html_form",
+      "implementationMode": "html_form",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -35493,7 +35535,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -35612,6 +35654,7 @@
       "binaryPresent": false,
       "pages": 0,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -35740,6 +35783,7 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "held_on_source_or_design",
@@ -36067,6 +36111,7 @@
       "binaryPresent": false,
       "pages": 0,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -36203,6 +36248,7 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "held_on_source_or_design",
@@ -36680,9 +36726,10 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -36729,10 +36776,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -36797,7 +36844,7 @@
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "systemicRootCauseIds": [
@@ -36807,7 +36854,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ]
     },
     {
@@ -36824,6 +36871,7 @@
       "binaryPresent": false,
       "pages": 0,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -36952,6 +37000,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "held_on_source_or_design",
@@ -37581,9 +37630,10 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -37630,10 +37680,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -37751,7 +37801,7 @@
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "systemicRootCauseIds": [
@@ -37761,7 +37811,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ]
     },
     {
@@ -37778,6 +37828,7 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "held_on_source_or_design",
@@ -38313,6 +38364,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "held_on_source_or_design",
@@ -40576,6 +40628,7 @@
       "binaryPresent": true,
       "pages": 4,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -43019,6 +43072,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -44090,6 +44144,7 @@
       "binaryPresent": false,
       "pages": 1,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -44226,9 +44281,10 @@
       "binaryPresent": false,
       "pages": 1,
       "structuralClass": "scanned_pdf",
+      "implementationMode": "scanned_flat_overlay",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -44243,18 +44299,10 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
-          "rootCauseScope": "family_specific",
-          "rootCauseDimension": "technical"
-        },
-        {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The binary is a scan, so there are no widgets to bind and any fill is flat-overlay geometry.",
-          "evidence": "source-record.json:classification",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -44344,7 +44392,6 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-BUNDLE-ABSENT",
-        "RC-T-FLAT-GEOMETRY",
         "RC-T-NO-FIELD-CENSUS"
       ],
       "systemicRootCauseIds": [
@@ -44354,7 +44401,6 @@
         "RC-S-BUNDLE-ABSENT"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY",
         "RC-T-NO-FIELD-CENSUS"
       ]
     },
@@ -44372,9 +44418,10 @@
       "binaryPresent": false,
       "pages": null,
       "structuralClass": "html_form",
+      "implementationMode": "html_form",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -44389,7 +44436,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -44508,6 +44555,7 @@
       "binaryPresent": false,
       "pages": 2,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -44637,6 +44685,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -46228,9 +46277,10 @@
       "binaryPresent": false,
       "pages": 6,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved",
@@ -46246,7 +46296,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -46367,6 +46417,7 @@
       "binaryPresent": false,
       "pages": 1,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -46496,6 +46547,7 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
@@ -46644,6 +46696,7 @@
       "binaryPresent": false,
       "pages": 2,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -46773,6 +46826,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
@@ -47922,6 +47976,7 @@
       "binaryPresent": false,
       "pages": 2,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -48051,6 +48106,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
@@ -49116,6 +49172,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
@@ -49275,6 +49332,7 @@
       "binaryPresent": false,
       "pages": 1,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -49404,6 +49462,7 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
@@ -49563,6 +49622,7 @@
       "binaryPresent": false,
       "pages": 1,
       "structuralClass": "dirty_acroform",
+      "implementationMode": "acroform_requiring_sanitation",
       "participantFillable": null,
       "defectCategories": [
         "held_on_source_or_design",
@@ -49700,6 +49760,7 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "acroform",
+      "implementationMode": "acroform",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
@@ -52306,9 +52367,10 @@
       "binaryPresent": false,
       "pages": null,
       "structuralClass": "html_form",
+      "implementationMode": "html_form",
       "participantFillable": null,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -52323,7 +52385,7 @@
           "rootCauseDimension": "source"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
+          "category": "geometry_unmeasured",
           "rootCauseId": "RC-T-NO-FIELD-CENSUS",
           "description": "No field census could be extracted, so overlay geometry cannot be measured or read back.",
           "evidence": "source-record.json:fieldExtractionStatus",
@@ -52443,6 +52505,7 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": true,
       "defectCategories": [
         "currentness_unverified",
@@ -52638,10 +52701,11 @@
       "binaryPresent": true,
       "pages": 1,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
         "currentness_unverified",
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",
@@ -52705,10 +52769,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -52786,7 +52850,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-NO-DERIVABLE-WRITE-BOX",
         "RC-V-NO-SHEET-PRODUCED"
       ],
@@ -52798,7 +52862,7 @@
         "RC-V-NO-SHEET-PRODUCED"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-NO-DERIVABLE-WRITE-BOX"
       ]
     },
@@ -52817,9 +52881,10 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",
@@ -52884,10 +52949,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -52965,7 +53030,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-STALE-OR-SUPERSEDED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-NO-DERIVABLE-WRITE-BOX",
         "RC-V-NO-SHEET-PRODUCED"
       ],
@@ -52977,7 +53042,7 @@
       ],
       "familySpecificRootCauseIds": [
         "RC-S-STALE-OR-SUPERSEDED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-NO-DERIVABLE-WRITE-BOX"
       ]
     },
@@ -52996,9 +53061,10 @@
       "binaryPresent": true,
       "pages": 2,
       "structuralClass": "flat_pdf",
+      "implementationMode": "flat_overlay",
       "participantFillable": false,
       "defectCategories": [
-        "flat_overlay_geometry_or_readback",
+        "geometry_unmeasured",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",
@@ -53063,10 +53129,10 @@
           "rootCauseDimension": "governance"
         },
         {
-          "category": "flat_overlay_geometry_or_readback",
-          "rootCauseId": "RC-T-FLAT-GEOMETRY",
-          "description": "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.",
-          "evidence": "verified-binary-index.json:structuralClass",
+          "category": "geometry_unmeasured",
+          "rootCauseId": "RC-T-FLAT-GEOMETRY-UNMEASURED",
+          "description": "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.",
+          "evidence": "verified-binary-index.json:structuralClass + flat-overlay-render-report.json",
           "rootCauseScope": "family_specific",
           "rootCauseDimension": "technical"
         },
@@ -53144,7 +53210,7 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-STALE-OR-SUPERSEDED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-NO-DERIVABLE-WRITE-BOX",
         "RC-V-NO-SHEET-PRODUCED"
       ],
@@ -53156,7 +53222,7 @@
       ],
       "familySpecificRootCauseIds": [
         "RC-S-STALE-OR-SUPERSEDED",
-        "RC-T-FLAT-GEOMETRY",
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
         "RC-T-NO-DERIVABLE-WRITE-BOX"
       ]
     }

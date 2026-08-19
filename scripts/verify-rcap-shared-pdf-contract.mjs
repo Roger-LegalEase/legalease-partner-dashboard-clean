@@ -34,7 +34,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 process.chdir(rootDir);
 
 const require = createRequire(import.meta.url);
-const { PDFDocument } = require("pdf-lib");
+const { PDFDocument, PDFName } = require("pdf-lib");
 
 const MUTATIONS = process.argv.includes("--mutations");
 
@@ -56,6 +56,7 @@ const {
 } = await import("./rcap-official-forms/rcap-field-classification.mjs");
 const { decideBinding } = await import("./rcap-official-forms/rcap-field-semantics.mjs");
 const { scanBytesForActiveContent } = await import("./rcap-official-forms/rcap-active-content.mjs");
+const { buildContactSheet } = await import("./rcap-official-forms/rcap-contact-sheet.mjs");
 const { extractPageGeometry, groupIntoLines } = await import("./rcap-official-forms/rcap-pdf-anchor-capture.mjs");
 
 const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
@@ -95,7 +96,14 @@ async function buildWorld() {
   ];
   const classification = classifyForm({ jurisdiction: "WI", documentId: "CR-266", discovered });
 
-  return { cr266, rules, captions, anchors, discovered, classification };
+  // The review sheet is built here so a mutation can rebuild it the wrong way.
+  // Sanitising only what gets filed is not enough: the sheet is what a reviewer
+  // opens, and it is where every active-content finding actually was.
+  const active = await activeContentCanary();
+  const finalized = await finalizeOfficialForm({ sourceBytes: active.bytes, census: [], facts: {}, title: null });
+  const sheet = await buildContactSheet({ blankBytes: active.bytes, finalizedBytes: finalized.bytes, expectedValues: [] });
+
+  return { cr266, rules, captions, anchors, discovered, classification, active, finalized, sheetBytes: sheet.bytes };
 }
 
 // ---------------------------------------------------------------------------
@@ -282,17 +290,28 @@ async function failures(world) {
   fail(DEFAULT_PROTECTED_CATEGORIES.length >= 19, "C-categories: the default-protected list has been shortened");
 
   // A — active content is removed and the descriptive metadata survives it.
-  const active = await activeContentCanary();
+  const active = world.active;
   const beforeScan = scanBytesForActiveContent(active.bytes);
   fail(beforeScan.hits.length > 0, "A-canary: the active-content canary carries no active content to remove");
-  const cleaned = await finalizeOfficialForm({
-    sourceBytes: active.bytes,
-    census: [],
-    facts: {},
-    title: null
-  });
+  const cleaned = world.finalized;
   const afterScan = scanBytesForActiveContent(cleaned.bytes);
   fail(afterScan.hits.length === 0, `A-residue: active content survived (${afterScan.hits.join(", ")})`);
+  // A2 — THE REVIEW SHEET MUST NOT RE-IMPORT WHAT THE FILING REMOVED.
+  //
+  // Every active-content finding in the register was on a contact sheet and none
+  // on a filed fixture: the finalizer cleaned each artifact and the sheet builder
+  // then embedded the court's blank RAW beside it, carrying the JavaScript,
+  // additional actions and URI actions straight back into the review artifact.
+  //
+  // Sanitising only what gets filed is not enough, because the sheet is what a
+  // reviewer opens. Both panels and the whole sheet are scanned here.
+  const sheetScan = scanBytesForActiveContent(world.sheetBytes);
+  fail(sheetScan.inspectable, "A2-sheet: the contact sheet is not byte-inspectable, so its cleanliness cannot be established");
+  fail(
+    sheetScan.hits.length === 0,
+    `A2-residue: the contact sheet re-imported active content the filed artifact had removed (${sheetScan.hits.join(", ")})`
+  );
+
   const cleanedMeta = await metadataOfBytes(cleaned.bytes);
   fail(cleanedMeta.title === "Official Form With Active Content", "A-title: sanitation destroyed the official title");
   fail(cleanedMeta.author === "State Court Administrator", "A-author: sanitation destroyed the official author");
@@ -360,6 +379,24 @@ if (MUTATIONS) {
   };
 
   const mutations = [
+    ["the contact sheet embeds the raw interactive blank again", async (w) => {
+      // The exact defect, reproduced by mechanism rather than simulated: build
+      // the sheet the way it was built before, copying the court's blank page
+      // into it WITHOUT sanitising or flattening first. The active content
+      // travels with the page and lands in the review artifact.
+      const rebuilt = await PDFDocument.create();
+      const [rawPage] = await rebuilt.embedPdf(w.active.bytes, [0]);
+      const page = rebuilt.addPage([rawPage.width, rawPage.height]);
+      page.drawPage(rawPage, { x: 0, y: 0 });
+      // Carry the blank's document-level actions across, which is what embedding
+      // a raw source page beside a cleaned artifact effectively did.
+      const src = await PDFDocument.load(w.active.bytes, { ignoreEncryption: true });
+      for (const key of ["OpenAction", "Names", "AA", "AcroForm"]) {
+        const entry = src.catalog.get(PDFName.of(key));
+        if (entry) rebuilt.catalog.set(PDFName.of(key), rebuilt.context.register(src.context.lookup(entry)));
+      }
+      w.sheetBytes = await rebuilt.save({ useObjectStreams: false });
+    }],
     ["raster geometry accepted as authoritative", async (w) => {
       for (const rule of w.rules[0].horizontal) rule.geometrySource = "raster_dark_line_detection";
     }],

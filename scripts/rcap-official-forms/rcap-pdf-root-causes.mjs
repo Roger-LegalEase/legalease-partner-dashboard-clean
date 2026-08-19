@@ -75,11 +75,15 @@ export const ROOT_CAUSES = {
     clearedBy: "A reviewed and recorded placement decision for this form.",
     owner: "Independent visual reviewer"
   },
-  "RC-T-FLAT-GEOMETRY": {
+  // Named for the FAILURE, not the mode. "Flat PDF" was the old id, and it made
+  // every flat form permanently defective for using an overlay renderer — a
+  // state no correction could clear, because using an overlay is not a fault.
+  // What can actually be wrong is that nobody has measured where the values go.
+  "RC-T-FLAT-GEOMETRY-UNMEASURED": {
     dimension: "technical", scope: "family_specific",
-    title: "Flat PDF: every value is placed by measured geometry",
-    detail: "The binary carries no widgets, so nothing can be bound or read back; placement is measured against the page rather than a field.",
-    clearedBy: "Measured anchors approved for this form.",
+    title: "Flat PDF whose overlay geometry has not been measured",
+    detail: "The binary carries no widgets, so every value is placed against measured rule lines — and no live render establishes that those write boxes were measured for this family.",
+    clearedBy: "A live render proving the write boxes were measured against the rule lines they belong to.",
     owner: "Official-form factory owner"
   },
   "RC-T-NO-FIELD-CENSUS": {
