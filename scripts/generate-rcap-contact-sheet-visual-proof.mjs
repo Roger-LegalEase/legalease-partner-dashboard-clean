@@ -56,9 +56,12 @@ const SHEET = { margin: 28, gap: 24, panelScale: 0.62, header: 34 };
 const EVIDENCE_FAMILIES = new Set([
   "AK:tf-800-form-en", "AL:sbi-form-46-support-en", "AR:ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
   "KY:aoc-496-5-form-en", "NC:aoc-cr-287-form-en", "NE:cc-6-11-form-en",
-  "VA:cc-1473-form-en", "VT:200-00132-form-en"
+  "VA:cc-1473-form-en", "VT:200-00132-form-en",
+  // The one remediated family. Its sheet is the single most useful image on
+  // this branch: a reviewer can see a real fill beside the blank form, and
+  // compare it against the 54 sheets that still show two blank forms.
+  "WI:cr-266-form-en"
 ]);
-// Wisconsin carries no contact sheet at all, so it has no sheet to render.
 
 const readJson = (file, fallback = null) => {
   if (!fs.existsSync(file)) return fallback;

@@ -31,6 +31,7 @@ const SHEET_PROOF = "data/rcap-all50/contact-sheet-visual-proof.json";
 const MASTER = "data/rcap-all50/problematic-pdf-master-list.json";
 const F3 = "data/rcap-all50/review-artifacts/f3-visual-review.json";
 const RETIREMENT = "data/rcap-all50/pdf-retirement-determination.json";
+const PLACEMENT = "data/rcap-all50/overlay-placement-evidence.json";
 const OVERLAY_DIR = "data/rcap-all50/overlays/production";
 const WORKFLOW = ".github/workflows/rcap-all50-handoff.yml";
 
@@ -206,6 +207,27 @@ function runChecks() {
     }
   }
 
+  // ---- 8b. no rendered evidence image is orphaned --------------------------
+  // The forward check proves every referenced path exists. This is the reverse:
+  // an image nothing references is evidence for a question that has moved on,
+  // and it goes stale silently. The placement rendering for a family whose
+  // write boxes have since been decided is exactly that case.
+  const evidenceDir = "docs/record-clearing/pdf-visual-evidence";
+  if (fs.existsSync(abs(evidenceDir))) {
+    const placement = readJson(PLACEMENT, { families: [] });
+    const referenced = new Set([
+      ...(placement.families ?? []).flatMap((f) => f.renderedEvidence ?? []),
+      ...(sheetProof.families ?? []).map((f) => f.renderedEvidence).filter(Boolean),
+      ...master.rows.flatMap((r) => [r.contactSheetEvidenceImage, ...(r.placementEvidenceImages ?? [])]).filter(Boolean)
+    ]);
+    for (const file of fs.readdirSync(abs(evidenceDir))) {
+      const rel = `${evidenceDir}/${file}`;
+      if (!referenced.has(rel)) {
+        fail("no_orphaned_evidence_images", `${rel} is referenced by no generated artifact; it is evidence for a question that has moved on`);
+      }
+    }
+  }
+
   // ---- 9. a sheet that shows no fill is never treated as review evidence ---
   const f3StatusByFamily = new Map((f3.jobs ?? []).map((j) => [`${j.state}:${j.family}`, j.status]));
   for (const family of sheetProof.families) {
@@ -345,7 +367,7 @@ if (!mutationsMode) process.exit(0);
 // Each case edits committed bytes, re-runs every check, and requires the named
 // check to be among the ones that went red. Starting green is a precondition:
 // a mutation pass on an already-red tree proves nothing.
-const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT];
+const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT];
 
 const CASES = [
   {
@@ -578,6 +600,18 @@ const CASES = [
       const master = readJson(MASTER);
       const row = master.rows.find((r) => r.acquisitionPriority === 4);
       row.acquisitionRule = null;
+      fs.writeFileSync(abs(MASTER), `${JSON.stringify(master, null, 2)}\n`);
+    }
+  },
+  {
+    name: "an orphaned evidence image is left behind",
+    expect: "no_orphaned_evidence_images",
+    apply: () => {
+      const placement = readJson(PLACEMENT);
+      for (const family of placement.families) family.renderedEvidence = null;
+      fs.writeFileSync(abs(PLACEMENT), `${JSON.stringify(placement, null, 2)}\n`);
+      const master = readJson(MASTER);
+      for (const row of master.rows) { row.placementEvidenceImages = []; row.contactSheetEvidenceImage = null; }
       fs.writeFileSync(abs(MASTER), `${JSON.stringify(master, null, 2)}\n`);
     }
   },

@@ -41,6 +41,7 @@ const F2 = path.join(rootDir, "data/rcap-all50/review-artifacts/f2-dispositions.
 const F3 = path.join(rootDir, "data/rcap-all50/review-artifacts/f3-visual-review.json");
 const ARTIFACT_AUDIT = path.join(rootDir, "data/rcap-all50/finalized-artifact-audit.json");
 const SHEET_PROOF = path.join(rootDir, "data/rcap-all50/contact-sheet-visual-proof.json");
+const RENDER_REPORT = path.join(rootDir, "data/rcap-all50/flat-overlay-render-report.json");
 const OUT_JSON = path.join(rootDir, "data/rcap-all50/problematic-pdf-register.json");
 const OUT_MD = path.join(rootDir, "docs/record-clearing/problematic-pdf-register.md");
 const OUT_CSV = path.join(rootDir, "docs/record-clearing/problematic-pdf-register.csv");
@@ -131,6 +132,15 @@ const auditByFamily = new Map((artifactAudit.families ?? []).map((f) => [f.famil
 const sheetProof = readJson(SHEET_PROOF, { families: [] });
 const sheetProofByFamily = new Map((sheetProof.families ?? []).map((f) => [f.familyId, f]));
 
+// Live render evidence outranks the implementation index. The index is a
+// generated snapshot of an earlier run: for a family the renderer has since
+// rendered from its verified binary, the index still reports the write box as
+// pending and the contact sheet as absent. Reading it as current is the same
+// stale-evidence failure this register exists to catch, so a rendered family is
+// judged on what the renderer actually did.
+const renderReport = readJson(RENDER_REPORT, { families: [] });
+const renderedByFamily = new Map((renderReport.families ?? []).filter((f) => f.rendered).map((f) => [f.familyId, f]));
+
 const implIndex = readJson(path.join(OVERLAY_DIR, "implementation-index.json"), { families: [] });
 const implByFamily = new Map(implIndex.families.map((f) => [`${f.jurisdiction}:${f.family}`, f]));
 const binIndex = readJson(path.join(OVERLAY_DIR, "verified-binary-index.json"), { families: [] });
@@ -177,7 +187,7 @@ function familyDirectories() {
  * them into "needs work" is how a register stops being useful.
  */
 function defectsFor(ctx) {
-  const { record, impl, overflow, protectedScan, binary, visualStatus, trackKeys, audit, sheet } = ctx;
+  const { record, impl, overflow, protectedScan, binary, visualStatus, trackKeys, audit, sheet, rendered } = ctx;
   const defects = [];
   // Every finding names a root cause, and the catalogue decides whether that
   // cause is systemic -- one upstream problem clearing on many assets at once
@@ -226,7 +236,11 @@ function defectsFor(ctx) {
     }
   }
 
-  if (binary?.structuralClass === "flat_pdf") {
+  // A flat PDF places every value by measured geometry. That is a defect only
+  // while the geometry is unmeasured; once the write boxes are recorded against
+  // the rule lines they came from and the family renders, it is simply how this
+  // form works.
+  if (binary?.structuralClass === "flat_pdf" && !rendered) {
     add("flat_overlay_geometry_or_readback", "RC-T-FLAT-GEOMETRY", "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.", "verified-binary-index.json:structuralClass");
   }
 
@@ -243,7 +257,7 @@ function defectsFor(ctx) {
     add("protected_field_populated", "RC-T-PROTECTED-FIELD-FACTORY-WRITE", "The protected-field scan did not pass.", "reports/protected-fields-scan.json");
   }
 
-  if (impl) {
+  if (impl && !rendered) {
     if (impl.contactSheet === false) add("stale_contact_sheet_manifest_or_review_evidence", "RC-V-NO-SHEET-PRODUCED", "No contact sheet was produced, so there is no visual evidence to review.", "implementation-index.json:contactSheet");
     if (impl.status === "overlay_no_participant_label_matched") add("multi_widget_ambiguity", "RC-T-NO-DERIVABLE-WRITE-BOX", "No participant label could be matched on the overlay, so no field can be bound unambiguously.", "implementation-index.json:status");
     if (impl.status === "overlay_labels_measured_write_box_pending_review") add("multi_widget_ambiguity", "RC-T-NO-DERIVABLE-WRITE-BOX", "Overlay labels are measured but the write box is unreviewed, so placement remains ambiguous.", "implementation-index.json:status");
@@ -310,7 +324,7 @@ function defectsFor(ctx) {
   if (sheet?.panelsAreVisuallyIdentical === true) {
     add("contact_sheet_shows_no_fill", "RC-V-SHEET-PANELS-IDENTICAL", `The committed contact sheet renders its blank and filled panels identically (${(sheet.differingPixelFraction * 100).toFixed(4)}% of pixels differ), so it shows no fill to review.`, "contact-sheet-visual-proof.json:families[].differingPixelFraction");
   }
-  if (audit && audit.artifacts.some((a) => a.present && a.kind === "contact_sheet") && audit.contactSheetProofPresent === false) {
+  if (!rendered && audit && audit.artifacts.some((a) => a.present && a.kind === "contact_sheet") && audit.contactSheetProofPresent === false) {
     add("stale_contact_sheet_manifest_or_review_evidence", "RC-V-SHEET-NO-VISIBILITY-PROOF", "The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values.", "contact-sheet/contact-sheet-proof.json");
   }
 
@@ -387,7 +401,7 @@ for (const family of familyDirectories()) {
   const affectedTrackIds = [...new Set([...fromQueue, ...fromRegistry])].sort();
   const trackKeys = affectedTrackIds.map((trackId) => `${ledgerByTrack.get(trackId)?.jurisdiction ?? jurisdiction}:${trackId}`);
 
-  const defects = defectsFor({ record, impl, overflow, protectedScan, binary, visualStatus: visualJobStatusByFamily.get(familyId), trackKeys, audit: auditByFamily.get(familyId) ?? null, sheet: sheetProofByFamily.get(familyId) ?? null });
+  const defects = defectsFor({ record, impl, overflow, protectedScan, binary, visualStatus: visualJobStatusByFamily.get(familyId), trackKeys, audit: auditByFamily.get(familyId) ?? null, sheet: sheetProofByFamily.get(familyId) ?? null, rendered: renderedByFamily.get(familyId) ?? null });
   if (defects.length === 0) continue;
 
   const existing = seen.get(identity);

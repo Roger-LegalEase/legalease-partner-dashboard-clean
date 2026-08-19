@@ -10,16 +10,16 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Serving an active launch track | 45 |
 | Orphaned or optional | 4 |
 | Expected by legal design and absent | 39 |
-| Lane A — correctable now | 1 |
+| Lane A — correctable now | 0 |
 | Lane B — official source acquisition required | 83 |
-| Lane C — source-currentness hold | 0 |
+| Lane C — source-currentness hold | 1 |
 | Lane D — legal-design hold | 0 |
 | Lane E — orphaned or optional | 4 |
 | Lane F — missing binary, complete participant deferral | 0 |
 | Verified source binaries present in this clone | 1 |
-| Assets with a finalized rendered artifact | 0 |
+| Assets with a finalized rendered artifact | 1 |
 | Assets whose active-content verdict is unprovable | 30 |
-| Contact sheets that show a fill | 1 |
+| Contact sheets that show a fill | 2 |
 | Contact sheets that show no fill | 29 |
 | Active-track assets blocking packet promotion | 1 |
 | Active-track assets safely served by guidance or exact deferral | 45 |
@@ -38,7 +38,7 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Acquisition priority 2 — review cannot begin | 39 |
 | Acquisition priority 3 — currentness or supersession | 4 |
 | Acquisition priority 4 — do not acquire without a named current use | 43 |
-| Assets awaiting a write-box placement decision | 4 |
+| Assets awaiting a write-box placement decision | 3 |
 | Recorded official titles that look mis-extracted | 3 |
 | Assets with no track binding | 43 |
 | Assets with a candidate, unconfirmed track binding | 7 |
@@ -49,18 +49,16 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 
 ## Lanes
 
-- **A** — `actionable_technical_or_visual_correction` (1)
+- **A** — `actionable_technical_or_visual_correction` (0)
 - **B** — `official_source_acquisition_required` (83)
-- **C** — `source_currentness_hold` (0)
+- **C** — `source_currentness_hold` (1)
 - **D** — `legal_design_hold` (0)
 - **E** — `orphaned_or_optional_asset` (4)
 - **F** — `missing_binary_with_complete_participant_deferral` (0)
 
 ## Lane A — actionable technical or visual correction
 
-| Jurisdiction | Form | Tracks | Severity | Owner | Exact blocker | Exact next action |
-| --- | --- | --- | --- | --- | --- | --- |
-| WI | CR-266 | wi_exp_cr266 | medium | Terminal A route owner | A placement decision, not a binary: the verified source is present at data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf, and 4 label(s) on it have no write box the document expresses, so no coordinate is asserted for them. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; f_independent_visual_review_required stands. | Decide where each of the 4 candidate label(s) on WI CR-266 takes its value, and record the approved write box. The document does not express one, so the anchor capture asserts no coordinate and re-running the factory reproduces the same refusal. The rendered form with each label marked at its measured position is at docs/record-clearing/pdf-visual-evidence/WI-cr-266-form-en-placement-page-01.png. Once a placement is approved, re-render from data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf and re-run the finalized-artifact audit and contact-sheet visual proof. Do not lift the recorded production holds to do it. |
+_None._
 
 ## Lane B — official source acquisition required
 
@@ -152,7 +150,9 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 
 ## Lane C — source currentness hold
 
-_None._
+| Jurisdiction | Form | Tracks | Severity | Owner | Exact blocker | Exact next action |
+| --- | --- | --- | --- | --- | --- | --- |
+| WI | CR-266 | wi_exp_cr266 | medium | Source-currentness reviewer | Revision REV-2024-05 cannot be shown to be the currently published edition: freshness is recorded as candidate_current_source and no independent currentness review exists. | Confirm against the issuing body's own publication whether revision REV-2024-05 of WI CR-266 is the currently published edition, and record the comparison and the superseded identity if it is not. |
 
 ## Lane D — legal design hold
 
@@ -205,8 +205,8 @@ How many assets carry a finding and how many distinct problems produce those fin
 | `RC-T-ALL-FIELDS-UNWRITABLE` | technical | family_specific | 2 | A reviewed mapping decision for this form, or a decision that it is court-completed. |
 | `RC-T-DIRTY-ACROFORM-SOURCE` | technical | family_specific | 25 | Sanitation of this form through the current pipeline, proved on the output. |
 | `RC-T-FACTORY-PROVENANCE` | technical | systemic | 30 | Re-rendering the affected families through the current official-form factory. |
-| `RC-T-FLAT-GEOMETRY` | technical | family_specific | 22 | Measured anchors approved for this form. |
-| `RC-T-NO-DERIVABLE-WRITE-BOX` | technical | family_specific | 9 | A reviewed and recorded placement decision for this form. |
+| `RC-T-FLAT-GEOMETRY` | technical | family_specific | 21 | Measured anchors approved for this form. |
+| `RC-T-NO-DERIVABLE-WRITE-BOX` | technical | family_specific | 8 | A reviewed and recorded placement decision for this form. |
 | `RC-T-NO-FIELD-CENSUS` | technical | family_specific | 15 | A census taken from this form's verified binary. |
 | `RC-T-OBJECT-STREAMS` | technical | systemic | 30 | Re-serializing the affected families without object streams, which the current finalizer already does. |
 | `RC-T-SOURCE-DEFAULT-IN-PROTECTED-FIELD` | technical | systemic | 5 | Flattening the affected artifacts, which drops the default with every other unflattened widget. |
@@ -214,11 +214,11 @@ How many assets carry a finding and how many distinct problems produce those fin
 | `RC-T-VALUES-ABSENT` | technical | family_specific | 3 | Bindings or anchors for this form, then a re-render. |
 | `RC-T-VALUES-IN-APPEARANCES` | technical | systemic | 26 | Re-rendering through the current factory, which materializes values into page content before flattening. |
 | `RC-V-CLIPPING` | visual | family_specific | 26 | Re-measuring and re-fitting this form's failing widgets until no clipping finding remains. |
-| `RC-V-NO-SHEET-PRODUCED` | visual | systemic | 19 | Rendering the affected families, which produces the sheet as part of the run. |
+| `RC-V-NO-SHEET-PRODUCED` | visual | systemic | 18 | Rendering the affected families, which produces the sheet as part of the run. |
 | `RC-V-SHEET-FROM-UNFINALIZED-SOURCE` | visual | systemic | 30 | Re-rendering the affected families and rebuilding their sheets from the finalized artifact. |
 | `RC-V-SHEET-NO-VISIBILITY-PROOF` | visual | systemic | 30 | Rebuilding the affected sheets with the current builder, which writes the proof beside the sheet. |
 | `RC-V-SHEET-PANELS-IDENTICAL` | visual | systemic | 29 | Rebuilding the affected sheets from finalized artifacts; the current builder refuses to emit a sheet whose panels match. |
-| `RC-V-UNSAFE-PLACEMENT` | visual | family_specific | 13 | Re-measuring this form's geometry and re-rendering the boundary fixture. |
+| `RC-V-UNSAFE-PLACEMENT` | visual | family_specific | 14 | Re-measuring this form's geometry and re-rendering the boundary fixture. |
 
 ## Source-acquisition queue
 
@@ -912,7 +912,6 @@ _None recorded._ No production hold in this lane names a substantive legal choic
 | --- | --- | ---: | --- |
 | NC | AOC-CV-226 | 1 | binary not in this clone |
 | NC | AOC-CV-226 | 1 | binary not in this clone |
-| WI | CR-266 | 4 | docs/record-clearing/pdf-visual-evidence/WI-cr-266-form-en-placement-page-01.png |
 | WI | CR-267 | 1 | binary not in this clone |
 
 ## Independent review queue
@@ -1005,7 +1004,7 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | VT | 400-00171.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 600-00228 | B | false | unprovable: object streams hide objects from the residue scan | true | never_independently_reviewed |
 | VT | application-waive-filing-fees-and-service-costs.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| WI | CR-266 | A | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| WI | CR-266 | C | true | clean and provable | true | never_independently_reviewed |
 | WI | CR-267 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | WI | DJ-LE-247 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | WI | DJ-LE-250B | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |

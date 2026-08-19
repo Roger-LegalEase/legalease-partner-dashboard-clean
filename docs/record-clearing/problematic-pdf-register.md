@@ -14,17 +14,17 @@ Terminalizing a track around a broken PDF is a legitimate product decision. It i
 | Active Track Problematic Pdfs | 45 |
 | Orphaned Or Optional Pdfs | 4 |
 | Missing Pdf Binaries | 39 |
-| Assets With At Least One Technical Finding | 88 |
+| Assets With At Least One Technical Finding | 87 |
 | Assets With At Least One Visual Finding | 49 |
 | Assets With At Least One Source Finding | 81 |
 | Unique Systemic Technical Root Causes | 5 |
-| Unique Family Specific Technical Defects | 76 |
+| Unique Family Specific Technical Defects | 74 |
 | Unique Systemic Visual Root Causes | 4 |
-| Unique Family Specific Visual Defects | 39 |
+| Unique Family Specific Visual Defects | 40 |
 | Unique Systemic Source Root Causes | 2 |
 | Unique Family Specific Source Defects | 5 |
 | Unique Root Causes In Play | 23 |
-| Technical Defects | 88 |
+| Technical Defects | 87 |
 | Visual Defects | 49 |
 | Unfinalized Rendered Artifacts | 30 |
 | Rendered Artifacts Not Byte Inspectable | 30 |
@@ -1720,7 +1720,7 @@ Defects:
 - **Source SHA**: 9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412 (revision REV-2024-05)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1735,9 +1735,8 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
-- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
-- `multi_widget_ambiguity` — Overlay labels are measured but the write box is unreviewed, so placement remains ambiguous. _(implementation-index.json:status)_
+- `visually_unsafe` — Field "Defendant's Name" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Address" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -4638,7 +4637,7 @@ Defects:
 - **Source SHA**: 9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412 (revision REV-2024-05)
 - **Binary present**: true
 - **Structural class**: flat_pdf; participant fillable: true
-- **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -4653,9 +4652,8 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
-- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
-- `multi_widget_ambiguity` — Overlay labels are measured but the write box is unreviewed, so placement remains ambiguous. _(implementation-index.json:status)_
+- `visually_unsafe` — Field "Defendant's Name" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Address" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |

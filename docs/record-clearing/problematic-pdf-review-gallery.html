@@ -56,8 +56,8 @@
 <tr><td>RC-T-ALL-FIELDS-UNWRITABLE</td><td>technical</td><td>family_specific</td><td>2</td></tr>
 <tr><td>RC-T-DIRTY-ACROFORM-SOURCE</td><td>technical</td><td>family_specific</td><td>25</td></tr>
 <tr><td>RC-T-FACTORY-PROVENANCE</td><td>technical</td><td>systemic</td><td>30</td></tr>
-<tr><td>RC-T-FLAT-GEOMETRY</td><td>technical</td><td>family_specific</td><td>22</td></tr>
-<tr><td>RC-T-NO-DERIVABLE-WRITE-BOX</td><td>technical</td><td>family_specific</td><td>9</td></tr>
+<tr><td>RC-T-FLAT-GEOMETRY</td><td>technical</td><td>family_specific</td><td>21</td></tr>
+<tr><td>RC-T-NO-DERIVABLE-WRITE-BOX</td><td>technical</td><td>family_specific</td><td>8</td></tr>
 <tr><td>RC-T-NO-FIELD-CENSUS</td><td>technical</td><td>family_specific</td><td>15</td></tr>
 <tr><td>RC-T-OBJECT-STREAMS</td><td>technical</td><td>systemic</td><td>30</td></tr>
 <tr><td>RC-T-SOURCE-DEFAULT-IN-PROTECTED-FIELD</td><td>technical</td><td>systemic</td><td>5</td></tr>
@@ -65,11 +65,11 @@
 <tr><td>RC-T-VALUES-ABSENT</td><td>technical</td><td>family_specific</td><td>3</td></tr>
 <tr><td>RC-T-VALUES-IN-APPEARANCES</td><td>technical</td><td>systemic</td><td>26</td></tr>
 <tr><td>RC-V-CLIPPING</td><td>visual</td><td>family_specific</td><td>26</td></tr>
-<tr><td>RC-V-NO-SHEET-PRODUCED</td><td>visual</td><td>systemic</td><td>19</td></tr>
+<tr><td>RC-V-NO-SHEET-PRODUCED</td><td>visual</td><td>systemic</td><td>18</td></tr>
 <tr><td>RC-V-SHEET-FROM-UNFINALIZED-SOURCE</td><td>visual</td><td>systemic</td><td>30</td></tr>
 <tr><td>RC-V-SHEET-NO-VISIBILITY-PROOF</td><td>visual</td><td>systemic</td><td>30</td></tr>
 <tr><td>RC-V-SHEET-PANELS-IDENTICAL</td><td>visual</td><td>systemic</td><td>29</td></tr>
-<tr><td>RC-V-UNSAFE-PLACEMENT</td><td>visual</td><td>family_specific</td><td>13</td></tr>
+<tr><td>RC-V-UNSAFE-PLACEMENT</td><td>visual</td><td>family_specific</td><td>14</td></tr>
 </table></div>
 
 <h2>Source-acquisition priorities</h2>
@@ -84,9 +84,9 @@
 <h2>Lane counts</h2>
 <div class="wrap"><table>
 <tr><th>Lane</th><th>Meaning</th><th>Assets</th></tr>
-<tr><td class="lane">A</td><td>actionable technical or visual correction</td><td>1</td></tr>
+<tr><td class="lane">A</td><td>actionable technical or visual correction</td><td>0</td></tr>
 <tr><td class="lane">B</td><td>official source acquisition required</td><td>83</td></tr>
-<tr><td class="lane">C</td><td>source currentness hold</td><td>0</td></tr>
+<tr><td class="lane">C</td><td>source currentness hold</td><td>1</td></tr>
 <tr><td class="lane">D</td><td>legal design hold</td><td>0</td></tr>
 <tr><td class="lane">E</td><td>orphaned or optional asset</td><td>4</td></tr>
 <tr><td class="lane">F</td><td>missing binary with complete participant deferral</td><td>0</td></tr>
@@ -117,10 +117,7 @@
 
 <h2>Placement decisions awaiting a reviewer</h2>
 <p>A flat official form has no widgets, so every value is placed by measured geometry. Where the document does not express a write box, the anchor capture asserts no coordinate — the correct refusal, since guessing a rectangle on a court filing is how a participant's name lands in a clerk's box. Each mark below is a label's <strong>measured</strong> position, not a proposed write box. Where the value belongs relative to it is the judgement being asked for.</p>
-<figure>
-  <img src="pdf-visual-evidence/WI-cr-266-form-en-placement-page-01.png" alt="Official WI CR-266 with each candidate label marked at its measured position">
-  <figcaption><strong>WI CR-266</strong> — lane A. 4 label(s) have no write box this document expresses.</figcaption>
-</figure>
+<p><em>None.</em></p>
 
 <h2>Every asset</h2>
 <div class="wrap"><table>
@@ -209,7 +206,7 @@
 <tr><td>VT</td><td>400-00171.pdf</td><td class="lane">official_source_required</td><td>4</td><td class="lane">B</td><td>Roger (official source acquisition)</td><td>The verified binary for VT 400-00171.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either.</td><td>Retrieve the current official VT 400-00171.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects.</td></tr>
 <tr><td>VT</td><td>600-00228</td><td class="lane">certification_unproven</td><td>2</td><td class="lane">B</td><td>Roger (official source acquisition)</td><td>Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654) is not present in this clone. The factory renders from the binary; there is nothing to render from.</td><td>Retrieve the current official VT 600-00228 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.</td></tr>
 <tr><td>VT</td><td>application-waive-filing-fees-and-service-costs.html</td><td class="lane">official_source_required</td><td>4</td><td class="lane">B</td><td>Roger (official source acquisition)</td><td>The verified binary for VT application-waive-filing-fees-and-service-costs.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either.</td><td>Retrieve the current official VT application-waive-filing-fees-and-service-costs.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects.</td></tr>
-<tr><td>WI</td><td>CR-266</td><td class="lane">independent_review_required</td><td>—</td><td class="lane">A</td><td>Terminal A route owner</td><td>A placement decision, not a binary: the verified source is present at data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf, and 4 label(s) on it have no write box the document expresses, so no coordinate is asserted for them. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; f_independent_visual_review_required stands.</td><td>Decide where each of the 4 candidate label(s) on WI CR-266 takes its value, and record the approved write box. The document does not express one, so the anchor capture asserts no coordinate and re-running the factory reproduces the same refusal. The rendered form with each label marked at its measured position is at docs/record-clearing/pdf-visual-evidence/WI-cr-266-form-en-placement-page-01.png. Once a placement is approved, re-render from data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf and re-run the finalized-artifact audit and contact-sheet visual proof. Do not lift the recorded production holds to do it.</td></tr>
+<tr><td>WI</td><td>CR-266</td><td class="lane">independent_review_required</td><td>—</td><td class="lane">C</td><td>Source-currentness reviewer</td><td>Revision REV-2024-05 cannot be shown to be the currently published edition: freshness is recorded as candidate_current_source and no independent currentness review exists.</td><td>Confirm against the issuing body's own publication whether revision REV-2024-05 of WI CR-266 is the currently published edition, and record the comparison and the superseded identity if it is not.</td></tr>
 <tr><td>WI</td><td>CR-267</td><td class="lane">official_source_required</td><td>2</td><td class="lane">B</td><td>Roger (official source acquisition)</td><td>Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb) is not present in this clone. The factory renders from the binary; there is nothing to render from.</td><td>Retrieve the current official WI CR-267 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.</td></tr>
 <tr><td>WI</td><td>DJ-LE-247</td><td class="lane">official_source_required</td><td>3</td><td class="lane">B</td><td>Roger (official source acquisition)</td><td>Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7) is not present in this clone. The factory renders from the binary; there is nothing to render from.</td><td>Retrieve the current official WI DJ-LE-247 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.</td></tr>
 <tr><td>WI</td><td>DJ-LE-250B</td><td class="lane">official_source_required</td><td>3</td><td class="lane">B</td><td>Roger (official source acquisition)</td><td>Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6) is not present in this clone. The factory renders from the binary; there is nothing to render from.</td><td>Retrieve the current official WI DJ-LE-250B binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.</td></tr>
