@@ -54,11 +54,15 @@ const DELTA_KEYS = new Set([
   "authorization",
   "authorizedPaths",
   "authorizedSha256",
+  "originallyApprovedSha256",
+  "supersededSha256",
   "projectionsNote",
   "projections"
 ]);
 
 const AUTHORIZATION_KEYS = new Set(["authorizedBy", "authorizedOn", "statement", "doesNotAuthorize"]);
+const SUPERSEDED_KEYS = new Set(["path", "sha256", "supersededOn", "reason", "behaviouralProof"]);
+const OPTIONAL_DELTA_KEY = "supersededSha256";
 const PROJECTION_KEYS = new Set([
   "path",
   "jurisdictionKey",
@@ -184,6 +188,12 @@ export function loadApprovedParityDeltas({ rootDir = process.cwd(), recordPath =
 function validateDelta(delta, rootDir) {
   requireExactKeys(delta, DELTA_KEYS, "a delta");
   for (const key of DELTA_KEYS) {
+    // supersededSha256 is the one optional key: a delta whose authorized files
+    // have never moved has no history to record, and inventing an empty one
+    // would make "no re-pin has happened" indistinguishable from "the history
+    // was emptied". Absent means never re-pinned; present means it must be a
+    // complete, reasoned record.
+    if (key === OPTIONAL_DELTA_KEY) continue;
     if (!(key in delta)) reject(`a delta is missing "${key}"`);
   }
 
@@ -236,6 +246,81 @@ function validateDelta(delta, rootDir) {
   for (const candidate of delta.authorizedPaths) {
     if (!(candidate in delta.authorizedSha256)) reject(`${delta.id} pins no hash for ${candidate}`);
     requireString(delta.authorizedSha256[candidate], SHA256, `${delta.id}.authorizedSha256["${candidate}"]`);
+  }
+
+  // The hashes as of authorization.authorizedOn. These never change. They are
+  // the fixed point that makes a re-pin detectable at all: without them a
+  // re-pin plus a deleted history is indistinguishable from a file that never
+  // moved, which is precisely the silent re-authorization this mechanism exists
+  // to prevent.
+  requireExactKeys(delta.originallyApprovedSha256, new Set(delta.authorizedPaths), `${delta.id}.originallyApprovedSha256`);
+  for (const candidate of delta.authorizedPaths) {
+    if (!(candidate in delta.originallyApprovedSha256)) {
+      reject(`${delta.id} records no originally-approved hash for ${candidate}`);
+    }
+    requireString(delta.originallyApprovedSha256[candidate], SHA256, `${delta.id}.originallyApprovedSha256["${candidate}"]`);
+  }
+
+  // An authorized path may legitimately move again — these are shared runtime
+  // files, not the property of one delta, and a later window that corrects
+  // something unrelated in the same file changes its bytes. The danger is not
+  // that the hash changes; it is that it changes SILENTLY, so a delta approved
+  // over one shape quietly comes to cover another.
+  //
+  // So a re-pin has to leave a record. Every superseded hash stays here, each
+  // one naming why the bytes moved and the verifier that proves the approved
+  // behaviour still holds over the new bytes. The list is append-only in effect:
+  // a hash may not be dropped from it and then reused as the live pin, and the
+  // live pin may never appear in it, so "supersede then restore" cannot be used
+  // to launder an unrecorded shape.
+  if (delta.supersededSha256 !== undefined) {
+    if (!Array.isArray(delta.supersededSha256) || delta.supersededSha256.length === 0) {
+      reject(`${delta.id}.supersededSha256 is present but not a non-empty array`);
+    }
+    const seenSuperseded = new Set();
+    for (const entry of delta.supersededSha256) {
+      requireExactKeys(entry, SUPERSEDED_KEYS, `${delta.id}.supersededSha256 entry`);
+      for (const key of SUPERSEDED_KEYS) {
+        if (!(key in entry)) reject(`${delta.id}.supersededSha256 entry is missing "${key}"`);
+      }
+      requireExactPath(entry.path, `${delta.id}.supersededSha256 entry path`);
+      if (!delta.authorizedPaths.includes(entry.path)) {
+        reject(`${delta.id} records a superseded hash for ${entry.path}, which it does not authorize`);
+      }
+      requireString(entry.sha256, SHA256, `${delta.id}.supersededSha256 entry sha256`);
+      requireString(entry.supersededOn, ISO_DATE, `${delta.id}.supersededSha256 entry supersededOn`);
+      if (typeof entry.reason !== "string" || entry.reason.length < 40) {
+        reject(`${delta.id}.supersededSha256 entry reason is missing or too short to be a record of anything`);
+      }
+      requireExactPath(entry.behaviouralProof, `${delta.id}.supersededSha256 entry behaviouralProof`);
+      const proof = path.join(rootDir, entry.behaviouralProof);
+      if (!fs.existsSync(proof)) {
+        reject(`${delta.id} cites ${entry.behaviouralProof} as proof, and it does not exist`);
+      }
+      if (entry.sha256 === delta.authorizedSha256[entry.path]) {
+        reject(`${delta.id} records ${entry.path} as superseded at the hash it is currently pinned to`);
+      }
+      const key = `${entry.path}:${entry.sha256}`;
+      if (seenSuperseded.has(key)) reject(`${delta.id} records ${entry.path} superseded twice at the same hash`);
+      seenSuperseded.add(key);
+    }
+  }
+
+  // The rule that makes the history load-bearing rather than decorative: a path
+  // whose live pin has moved away from the originally-approved hash must record
+  // that original hash as superseded. Deleting the history to make a re-pin look
+  // like it never happened fails here.
+  for (const candidate of delta.authorizedPaths) {
+    const original = delta.originallyApprovedSha256[candidate];
+    if (delta.authorizedSha256[candidate] === original) continue;
+    const recorded = (delta.supersededSha256 ?? []).some(
+      (entry) => entry.path === candidate && entry.sha256 === original
+    );
+    if (!recorded) {
+      reject(
+        `${delta.id} has re-pinned ${candidate} away from the originally-approved ${original.slice(0, 12)}… without recording that hash as superseded; a re-pin must say what it replaced and why`
+      );
+    }
   }
 
   if (!Array.isArray(delta.projections) || delta.projections.length === 0) {

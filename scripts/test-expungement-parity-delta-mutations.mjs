@@ -53,9 +53,19 @@ function sha256File(file) {
 }
 
 /** Re-pin a file the case deliberately edits, so the content pin is not what fires. */
+/**
+ * Simulate an approval issued over these exact bytes: both the live pin and the
+ * originally-approved hash move together, as they would in a delta authored
+ * today. Moving only the live pin would instead simulate an unrecorded re-pin,
+ * which the schema now refuses on its own — and every case below is about
+ * whether the PARITY comparison catches the change, not about whether the hash
+ * bookkeeping does.
+ */
 function repin(file) {
   const record = readJson(RECORD);
-  record.deltas[0].authorizedSha256[file] = sha256File(file);
+  const hash = sha256File(file);
+  record.deltas[0].authorizedSha256[file] = hash;
+  record.deltas[0].originallyApprovedSha256[file] = hash;
   writeJson(RECORD, record);
 }
 
@@ -268,6 +278,73 @@ mutation(
     writeJson(RECORD, record);
   },
   'carries the unrecognised key "allowAdditionalQuestions"'
+);
+
+// 12 — a re-pin that records nothing. An approved file may legitimately move
+// again, but only with the superseded hash, the reason and the proof recorded.
+// A bare re-pin is exactly the silent re-authorization the pin exists to stop.
+mutation(
+  "the superseded hash is dropped after a re-pin",
+  () => {
+    const record = readJson(RECORD);
+    delete record.deltas[0].supersededSha256;
+    writeJson(RECORD, record);
+    const file = path.join(root, EVALUATOR);
+    fs.writeFileSync(file, `${fs.readFileSync(file, "utf8")}\n// a later correction\n`);
+    const repinned = readJson(RECORD);
+    repinned.deltas[0].authorizedSha256[EVALUATOR] = createHash("sha256")
+      .update(fs.readFileSync(file))
+      .digest("hex");
+    writeJson(RECORD, repinned);
+  },
+  "without recording that hash as superseded"
+);
+
+// 13 — a superseded entry that names the hash the delta is pinned to now.
+// "Supersede then restore" must not launder an unrecorded shape.
+mutation(
+  "a superseded entry names the live pin",
+  () => {
+    const record = readJson(RECORD);
+    record.deltas[0].supersededSha256[0].sha256 = record.deltas[0].authorizedSha256[EVALUATOR];
+    writeJson(RECORD, record);
+  },
+  "records src/lib/rcap-engine/evaluator.ts as superseded at the hash it is currently pinned to"
+);
+
+// 14 — a re-pin whose stated reason is a shrug. The record has to say why the
+// bytes moved, not merely that they did.
+mutation(
+  "a superseded entry carries no real reason",
+  () => {
+    const record = readJson(RECORD);
+    record.deltas[0].supersededSha256[0].reason = "updated";
+    writeJson(RECORD, record);
+  },
+  "reason is missing or too short to be a record of anything"
+);
+
+// 15 — a re-pin citing a proof that does not exist. A named verifier that is
+// not there proves nothing.
+mutation(
+  "a superseded entry cites a proof that does not exist",
+  () => {
+    const record = readJson(RECORD);
+    record.deltas[0].supersededSha256[0].behaviouralProof = "scripts/verify-nothing-at-all.mjs";
+    writeJson(RECORD, record);
+  },
+  "as proof, and it does not exist"
+);
+
+// 16 — a re-pin recorded for a path the delta never authorized.
+mutation(
+  "a superseded entry names an unauthorized path",
+  () => {
+    const record = readJson(RECORD);
+    record.deltas[0].supersededSha256[0].path = "src/lib/rcap-engine/packet-planner.ts";
+    writeJson(RECORD, record);
+  },
+  "which it does not authorize"
 );
 
 // 10 — the approval is gone. Parity must simply be strict again.
