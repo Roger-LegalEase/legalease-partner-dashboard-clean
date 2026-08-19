@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "rcap-corpus-census-surface-proof/v1",
+  "generatedBy": "scripts/verify-rcap-corpus-census-surface.mjs",
+  "purpose": "Whether data/rcap-all50/overlays/overlay-factory-manifest.json is an operational dependency or a census of the source corpus, established mechanically so a retirement may rest on it.",
+  "theConditionThisReplaces": "\"the regenerated manifest, produced from the private corpus, no longer names the asset\" -- unsatisfiable by regeneration, because the manifest emits one row per file present and retirement deletes no files. Only deleting the historical source bytes could satisfy it, and retirement forbids that.",
+  "whatACensusClassificationDoesNotDo": [
+    "It does not weaken any other surface. The other nine surfaces are probed unchanged, and any hit on one of them still retains the asset.",
+    "It does not make a route public, sellable or packet-ready.",
+    "It does not delete, move or alter the manifest, the corpus, or any asset's bytes.",
+    "It does not survive a change to the manifest's shape: leg 2 fails the moment a row can name a route, track, packet, price or entitlement."
+  ],
+  "surface": {
+    "name": "overlay_factory_manifest",
+    "path": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+    "classification": "corpus_census",
+    "generator": "scripts/rcap-all50-overlay-factory-lib.mjs"
+  },
+  "legs": [
+    {
+      "leg": "row_set_is_the_file_set",
+      "claim": "Every manifest row is a corpus file row, and the manifest counts rows rather than selecting them.",
+      "holds": true,
+      "evidence": {
+        "rows": 409,
+        "totalFormsFound": 409,
+        "distinctCorpusPaths": 409,
+        "sourceDir": "/workspaces/legalease-partner-dashboard-clean/private/Nationwide Record Clearing",
+        "generatedAt": "2026-06-17T13:52:57.741Z"
+      }
+    },
+    {
+      "leg": "no_row_carries_an_operational_binding",
+      "claim": "No key anywhere in the manifest names a route, track, packet, price, entitlement or sellability.",
+      "holds": true,
+      "evidence": {
+        "distinctRowKeys": [
+          "blockedArtifactPath",
+          "blockedReason",
+          "classification",
+          "errors",
+          "fieldCount",
+          "fieldMapPath",
+          "fileName",
+          "formSlug",
+          "jurisdictionCode",
+          "kind",
+          "mapKind",
+          "pageCount",
+          "recommendedMappingMode",
+          "relativePath",
+          "renderError",
+          "rescuedFromOfficialPdf",
+          "rescuedPdfPath",
+          "samplePath",
+          "sourceFolderName",
+          "stateName",
+          "status",
+          "visualReview",
+          "warnings"
+        ],
+        "distinctKeysAtEveryDepth": 61,
+        "operationalKeysFound": 0
+      }
+    },
+    {
+      "leg": "only_consumer_is_the_internal_preview",
+      "claim": "One module reads the manifest, and only internal-admin-gated pages import that module.",
+      "holds": true,
+      "evidence": {
+        "srcReadersOfTheManifest": [
+          "src/lib/rcap/all50-internal-preview.ts"
+        ],
+        "internalAdminGatedImporters": [
+          "src/app/internal/record-clearing/handoff/page.tsx",
+          "src/app/internal/record-clearing/states/[state]/page.tsx",
+          "src/app/internal/record-clearing/states/[state]/review/page.tsx",
+          "src/app/internal/record-clearing/states/page.tsx"
+        ]
+      }
+    },
+    {
+      "leg": "retirement_does_not_delete_bytes",
+      "claim": "The retirement applier writes a marker and removes nothing, so the census stays truthful after a retirement.",
+      "holds": true,
+      "evidence": {
+        "destructiveCallsFound": 0,
+        "contract": "retired_from_operational_inventory: marker written, bytes preserved"
+      }
+    }
+  ],
+  "holds": true
+}
