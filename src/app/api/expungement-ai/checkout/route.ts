@@ -5,6 +5,7 @@ import {
   ConsumerCheckoutNotAllowedError,
   ConsumerCheckoutReviewRequiredError,
   ConsumerCheckoutTemporarilyUnavailableError,
+  ConsumerPacketNotDeliverableError,
   createConsumerPacketCheckout
 } from "@/lib/expungement-ai/payment-adapter";
 import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
@@ -78,6 +79,17 @@ export async function POST(request: NextRequest) {
       outcome: checkout.outcome
     });
   } catch (error) {
+    // A route that cannot produce an artifact does not take money. The route is
+    // still an intended paid pathway with an open blocker recorded against it;
+    // what is refused here is the charge, not the pathway.
+    if (error instanceof ConsumerPacketNotDeliverableError) {
+      return NextResponse.json({
+        error: "We can’t prepare the packet for this route yet, so there is nothing to pay for. Your information is saved in your Briefcase.",
+        resultCode: "packet_not_deliverable",
+        routeKind: error.routeKind
+      }, { status: 409 });
+    }
+
     if (error instanceof ConsumerCheckoutNotAllowedError) {
       return NextResponse.json({ error: "Payment isn’t available for this case. Your information is still saved. Return to your Briefcase to review the next step." }, { status: 403 });
     }
