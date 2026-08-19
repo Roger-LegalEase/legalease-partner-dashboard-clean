@@ -3,8 +3,8 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 138,
-    "wired": 113,
+    "keep_available": 140,
+    "wired": 114,
     "fix_then_wire": 27,
     "retire": 1,
     "quarantine": 2,
@@ -71,6 +71,12 @@
       "observedStatus": "orphan_broken",
       "decidedBy": "generated"
     },
+    "test-expungement-parity-delta-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Proves the reviewed screening-parity delta mechanism is a constraint rather than a bypass: 11 mutations - a second added question, a reworded existing question, reordered existing questions, the approved question moved to another stage, another jurisdiction, another pathway, a path prefix widening, byte drift in an approved file, an unrecognised schema key, an absent record and a malformed record - each turn verify-expungement-plain-language-values red, and each is checked for the right failure message rather than only a non-zero exit.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain"
+    },
     "test-first-admin-supabase-lifecycle.mjs": {
       "disposition": "fix_then_wire",
       "reason": "Red when executed:  throw new Error(",
@@ -125,11 +131,96 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "test-public-partner-publication-security.mjs": {
+      "disposition": "keep_available",
+      "reason": "Task 4 public-route state-matrix proof. It executes the five publication and activation combinations, verifies fail-closed approval fields, and checks dynamic notFound and sitemap wiring. It is exposed through partners:test-publication-security and run as a focused release gate.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
+    "test-rcap-acceptance-migration-sequence-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "test-rcap-apply-evidence-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "test-rcap-consumer-payment-http-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Proves the P1-P18 suite is load-bearing: 7 mutations, each removing one guarantee, all turn it red. Two further guarantees are named in the harness as intentionally unmutated because the application layer is not their only defence.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain"
+    },
+    "test-rcap-github-hosted-acceptance-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "test-rcap-hosted-acceptance-verdict-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Proves each part of the hosted acceptance verdict guard is load-bearing. Nineteen mutations - record() stops counting arguments, accepts anything truthy, allows a case to be recorded twice, accepts an empty observation, a real call site regains a fourth argument, the worker verdict reads a process exit code again, a claimed job stops counting as in flight, the cycle result is parsed from stdout and stderr together, a worker account contradicting the database is tolerated, the claim duration reverts to the 600-second worker default, the immutable-digest condition is dropped, the binding case loses its substitution negative controls, the owner content type stops being checked, the jurisdiction scope disappears from the evidence, the worker output is concatenated and cut to a tail again, the binding case joins the finalization-written accounting row again, the replay case demands an entitlement only finalization writes, delivery passes on refusals alone, and delivery is pointed back at the legacy consumer route - each turn verify-rcap-hosted-acceptance-verdicts red for its own named check, with signal-safe byte restoration. Blocking alongside that verifier in rcap-all50-handoff.yml for the same image-input reason.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
+    },
+    "test-rcap-image-fingerprint-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails; kept out of the npm test chain string because package.json is an image input. 11 mutations - file drift, missing input, src/ and scripts/lib/ working-tree change, omitted fingerprint key, silent algorithm change, checkpoint tree substitution, stale base, rewritten hash, hand edit, waived equivalence - each turns verify-rcap-image-input-fingerprint red for its named reason, with signal-safe byte restoration.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain"
+    },
+    "test-rcap-partner-provisioning-journey.mjs": {
+      "disposition": "keep_available",
+      "reason": "The focused browser journey for partner provisioning: internal operator provisioning, existing-user invitation acceptance, and the Implementation Center landing. Needs a running application, a loopback Supabase stack and Mailpit, so it cannot join the database-free chain; it is the browser counterpart to verify-rcap-partner-provisioning.mjs.",
+      "observedStatus": "needs_browser",
+      "decidedBy": "human"
+    },
+    "test-rcap-partner-provisioning-lifecycle.mjs": {
+      "disposition": "keep_available",
+      "reason": "Destructive loopback-Supabase acceptance for the same capability: it creates and deletes real tenants, Auth users and invitations, and reads Mailpit. The chain has to run without a database, so this stays the ad hoc counterpart to verify-rcap-partner-provisioning.mjs, exactly like test-first-admin-supabase-lifecycle.mjs.",
+      "observedStatus": "needs_database",
+      "decidedBy": "human"
+    },
+    "test-rcap-phase52-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "test-rcap-phase53-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "test-rcap-phase54-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Proves each Phase 54 defence is load-bearing: 5 mutations \u2014 phase omitted, RLS not enabled, browser-role revokes dropped, reserved slug claimable, shape constraint stops discriminating \u2014 all turn the namespace proof red.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain"
+    },
     "test-rcap-source-support-audit-mutations.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
       "decidedBy": "generated"
+    },
+    "test-rcap-worker-digest-binding-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "test-rcap-worker-tag-guard-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Proves each part of the source-SHA tag guard is load-bearing. Nine mutations - concurrency group no longer keyed on the source SHA, cancel-in-progress enabled, pre-push re-check removed, pre-build tag check removed, a latest alias added to the push, a short SHA accepted, a missing credential read as the tag being free, replacement no longer requiring a named authorization, and a registry lookup failure read as the tag being absent - each turn verify-rcap-worker-tag-guard red for its own named check, with signal-safe byte restoration. Blocking alongside that verifier in rcap-all50-handoff.yml for the same image-input reason.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
     },
     "verify-add-partner-user.mjs": {
       "disposition": "keep_available",
@@ -330,6 +421,18 @@
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
+    "verify-expungement-commercial-browser.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-expungement-commercial-flow-contract.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-expungement-consumer-adapter.mjs": {
       "disposition": "keep_available",
       "reason": "Green but no milestone gate depends on it; useful ad hoc.",
@@ -341,6 +444,13 @@
       "reason": "Green but no milestone gate depends on it; useful ad hoc.",
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
+    },
+    "verify-expungement-consumer-payment-http.mjs": {
+      "disposition": "wired",
+      "reason": "The application-to-job boundary proof: P1-P18 driven through the real webhook and consumer render routes, with signatures produced by the Stripe SDK and migrations 26-53 applied to an ephemeral cluster. It is the only coverage that executes the raw-body/signature wiring rather than grepping for it.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "role": "application_payment_and_enqueue_proof"
     },
     "verify-expungement-consumer-persistence.mjs": {
       "disposition": "keep_available",
@@ -406,6 +516,18 @@
       "disposition": "fix_then_wire",
       "reason": "Red when executed: Expungement.ai frontend all51 verification FAILED:",
       "observedStatus": "orphan_broken",
+      "decidedBy": "generated"
+    },
+    "verify-expungement-homepage-interactions.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-expungement-homepage-v3-browser.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
     "verify-expungement-landing-copy-safety.mjs": {
@@ -509,6 +631,25 @@
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
       "decidedBy": "generated"
+    },
+    "verify-external-participant-language.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-f1-evidence-markers.mjs": {
+      "disposition": "keep_available",
+      "reason": "F1-R evidence-hardening tool: proves a run's marked log block and its evidence artifact say the same thing, re-deriving totals from per-case results. Takes a run log as input, so it runs against each F1 run's output (and via --self-test), not in the repository chain.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-first-admin-first-impressions.mjs": {
+      "disposition": "keep_available",
+      "reason": "Task 3A branded invitation and internal provisioning presentation verifier. It is executed by the wired verify-onboarding-all aggregate and remains available as a focused first-impression gate.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
     },
     "verify-first-admin-provisioning.mjs": {
       "disposition": "wired",
@@ -692,11 +833,25 @@
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
+    "verify-onboarding-all.mjs": {
+      "disposition": "wired",
+      "reason": "Task 1 through Task 3B portal aggregate. It discovers and executes all 27 local onboarding verifiers, including guided onboarding, first-impression, brand-readiness, and launch-readiness coverage, and is reached directly by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
     "verify-onboarding-persistence.mjs": {
       "disposition": "fix_then_wire",
       "reason": "Red when executed: Partner onboarding persistence verification failed.",
       "observedStatus": "orphan_broken",
       "decidedBy": "generated"
+    },
+    "verify-onboarding-tenant-isolation.mjs": {
+      "disposition": "keep_available",
+      "reason": "Live local-database tenant and role isolation proof. It requires RCAP_TEST_DATABASE_URL and is run in the database acceptance group rather than the credential-free npm test chain.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
     },
     "verify-paid-provisioning.mjs": {
       "disposition": "keep_available",
@@ -807,6 +962,12 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-acceptance-migration-sequence.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-rcap-authorization-queue.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
@@ -819,6 +980,49 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-commercial-browser.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-component-deferral-runtime.mjs": {
+      "disposition": "wired",
+      "reason": "The captain-owned runtime proof for the ten dependency-bearing composed routes: all 31 component treatments resolve, English and Spanish are complete and genuinely distinct, every participant claim cites a resolving evidence carrier, payment and checkout stay closed, no packet or partner credit is consumed, no render job is built, and the Briefcase handoff is present. Includes --mutations, which requires ten deliberate breakages \u2014 among them making the deferred route sellable in the resolver and removing either engine adapter's clamp \u2014 to come back red. Wired by the captain in window 2026-08-12-w3. It proves runtime behaviour only; it promotes nothing.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-consumer-delivery-environment.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-consumer-lifecycle-boundaries.mjs": {
+      "disposition": "keep_available",
+      "reason": "Proves WHERE each consumer record is created, on an ephemeral PostgreSQL 16 cluster carrying the authorized migration sequence. Fourteen checks walk one consumer matter from checkout to finalized artifact: the canonical matter id is derived from the item, checkout stores the binding the webhook must match, the server-only writer records the payment and creates NO consumption row or ledger event, enqueue binds person, matter and owner in the INSERT itself and still creates none, claim/start_packet_render/start_packet_validation each accept the state before them (so a worker that leaves a job in 'claimed' is not being refused by this contract), finalization writes the consumption row and the credit ledger event with the same identity as the job, and a reported failure leaves the job 'failed' rather than 'claimed' and consumes nothing. The hosted acceptance matrix had guessed two of these boundaries and turned one unfinalized render into four separate-looking failures; this is the contract that matrix is now written against. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
+    },
+    "verify-rcap-consumer-person-namespace.mjs": {
+      "disposition": "wired",
+      "reason": "Proves the fourteen properties the reserved consumer person namespace depends on, against a real cluster carrying 26-54. N1-N8 cover namespace behaviour; R1-R6 cover the role, tenant, reporting, entitlement, attribution and isolation dimensions Phase 54 enforces in the database. R6 is a positive control: the sanctioned server-side path still resolves consumer persons after the lockdown.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "closedByPhase54": "rcap_persons now has RLS enabled, a service_role-only policy, no anon or authenticated grants, a trigger refusing the reserved slug on partner_records, and a two-way namespace shape constraint."
+    },
+    "verify-rcap-crosswalk-resolution-lane.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-deployment-closure.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-rcap-e2-evidence-intake.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
@@ -826,6 +1030,12 @@
       "decidedBy": "generated"
     },
     "verify-rcap-e2-source-support-audit.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-e4-adjudication-mutations.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
@@ -855,16 +1065,91 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-final-official-sources.mjs": {
+      "disposition": "wired",
+      "reason": "Owned by the official-source materialization lane, imported byte-identical from 1d71919d. Holds the two still-blocked subjects to official-host discipline and bounds their conclusions.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "sourceCommit": "1d71919d605edb966084f3b18abc0f2658602b34",
+      "laneOwned": true
+    },
+    "verify-rcap-github-hosted-acceptance.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-guidance-terminalization.mjs": {
+      "disposition": "keep_available",
+      "reason": "Lane B's acceptance contract for guidance/exclusion/deferral treatments. Red by design until lane B delivers every assigned state (window 2 imported the six completed B1 treatments; B2/B3 and the rest of B1 are still in flight), so it runs per-partition inside lane B and becomes a wired blocking step when the lane completes. Wiring it now would fail the chain on work that is assigned, not late.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-hard-form-dispositions.mjs": {
+      "disposition": "wired",
+      "reason": "Lane E's non-packet treatment contract: every exact supported deferral carries exact evidence, an owner, a next action and a complete participant treatment (DE Form 281, ME CR-289). Wired by the captain in window 2026-08-12-w2.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-hard-form-outputs.mjs": {
+      "disposition": "wired",
+      "reason": "Lane E's rendered-output proof: 12 fixtures across the four California Tier-1 hard-form families render to their recorded fingerprints with protected fields untouched. Wired by the captain in window 2026-08-12-w2.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-hard-form-rendered-assertions.mjs": {
+      "disposition": "wired",
+      "reason": "Lane E's corrected-input proof: 43 assertions over the rendered hard-form artifacts (the F2 correction wave). Wired by the captain in window 2026-08-12-w3.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
     "verify-rcap-hawaii-admin-application.mjs": {
       "disposition": "keep_available",
       "reason": "Green but no milestone gate depends on it; useful ad hoc.",
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
     },
+    "verify-rcap-hosted-acceptance-verdicts.mjs": {
+      "disposition": "keep_available",
+      "reason": "Proves the hosted Stripe payment matrix cannot report a verdict it has not earned. The matrix itself needs Stripe, Vercel and the acceptance project, but its verdict function does not: this extracts record() from the shipped bytes and executes it, requiring it to throw on a string, an empty string, a number, zero, an object, an array, null, undefined, a Boolean wrapper, one, two or four arguments, an empty case id and an empty observation, while still accepting real booleans and refusing a second verdict for the same case. It then scans every call site with a string-and-comment-aware masker (the four-argument call that made a case incapable of failing was invisible to node --check and to eslint), requires the worker case to be the conjunction of nine delivery conditions rather than a process exit code, requires queued/claimed/rendering/validating all to be failures, requires both worker streams to be captured in full and written to the uploaded evidence, and requires the binding, replay and delivery cases to stand on their own evidence rather than on finalization. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
+    },
+    "verify-rcap-hosted-checkout-gate.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-image-input-fingerprint.mjs": {
+      "disposition": "keep_available",
+      "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails. Not listed in the npm test chain string because package.json is itself an image input and the commit introducing this gate was forbidden from touching image-input paths. Independently recomputes all seven image-input hashes (sha256 for files, git tree hashes for scripts/lib/ and src/), enforces base-to-HEAD image-input equivalence, rejects checkpoint-substitution, algorithm drift, omitted inputs, dirty trees and hand-edited records.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain"
+    },
+    "verify-rcap-lane-b-exact-deferrals.mjs": {
+      "disposition": "wired",
+      "reason": "The acceptance contract for lane-B exact supported deferrals. It derives the packet set from repository bytes rather than a list, checks all ten recognition safeguards per packet, and asks the authoritative route resolver whether the packet's promise that nothing is being sold is actually true of the runtime. Its --mutations suite requires eight deliberate breakages to come back red, including blind promotion of all nine packets. Wired by the captain in window 2026-08-12-w3.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-md-pardon-pathway.mjs": {
+      "disposition": "wired",
+      "reason": "Both-direction proof for the counsel-approved MD pardoned-conviction pathway under Crim. Proc. 10-105(a)(8)/(c)(4): a qualifying in-deadline case opens payment; passed-deadline and missing-date cases stay shut. Owned by the crosswalk lane, imported from 10b62516.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
     "verify-rcap-memo-promotion-safety.mjs": {
       "disposition": "fix_then_wire",
       "reason": "Red when executed: verify-rcap-court-petition-product-model failed:",
       "observedStatus": "orphan_broken",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-migration-apply-evidence.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
     "verify-rcap-mutation-authority.mjs": {
@@ -873,11 +1158,36 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-no-checkout-on-automatic-routes.mjs": {
+      "disposition": "wired",
+      "reason": "The lane-B invariant made checkable everywhere: no automatic/no-filing route can produce a packet-ready result, open payment, or carry a checkout-declaring compiled rule (the MI rule-11 defect class, found in 57 rules across 14 profiles and corrected in window 2026-08-12-w2). Static sweep + live evaluation sweep + resolver assertions.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
     "verify-rcap-no-generic-fallbacks.mjs": {
       "disposition": "keep_available",
       "reason": "Green but no milestone gate depends on it; useful ad hoc.",
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
+    },
+    "verify-rcap-no-null-presentation.mjs": {
+      "disposition": "wired",
+      "reason": "The lane-C3 18-document defect regression: renders every pleading config (pleadings and composed-route components) through the live renderer and fails on any escaped literal null/undefined/NaN, on a null-sovereign caption that still carries a v. line or a borrowed sovereign, and on a null custodian that does not fall back to the bracketed placeholder. Wired blocking with the captain's renderer fix in window 2026-08-12-w3.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-official-forms-d1.mjs": {
+      "disposition": "wired",
+      "reason": "D1's acceptance verifier: 146 family packages structurally complete and sha-pinned, 62 completed implementation packages rendered with no unwritable field written. Lane D1 recorded it green but could not edit package.json; the captain wired it in the first terminalization integration window (2026-08-12-w2).",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-official-source-mutations.mjs": {
+      "disposition": "wired",
+      "reason": "Proves the PA/SC official-source discipline is load-bearing: 8 mutations turn the canonical check red. Imported from 10b62516.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "laneOwned": true
     },
     "verify-rcap-onboarding-artifact-database.mjs": {
       "disposition": "wired",
@@ -903,6 +1213,20 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-onboarding-guided-experience.mjs": {
+      "disposition": "keep_available",
+      "reason": "Task 2 guided substep, navigation, save-state, validation, change-request, review, and staff-summary verifier. It is executed by the wired verify-onboarding-all aggregate.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
+    "verify-rcap-onboarding-implementation-center.mjs": {
+      "disposition": "keep_available",
+      "reason": "Task 1 implementation-center and one-current-action verifier. It is executed by the wired verify-onboarding-all aggregate.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
     "verify-rcap-onboarding-launch-database.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
@@ -926,6 +1250,13 @@
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
       "decidedBy": "generated"
+    },
+    "verify-rcap-onboarding-partner-labels.mjs": {
+      "disposition": "keep_available",
+      "reason": "Partner-facing status-label truthfulness verifier. It is executed by the wired verify-onboarding-all aggregate.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
     },
     "verify-rcap-onboarding-prefill-domain.mjs": {
       "disposition": "keep_available",
@@ -956,6 +1287,20 @@
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
       "decidedBy": "generated"
+    },
+    "verify-rcap-onboarding-support-contact.mjs": {
+      "disposition": "keep_available",
+      "reason": "Partner support contact and route presentation verifier. It is executed by the wired verify-onboarding-all aggregate.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
+    },
+    "verify-rcap-onboarding-task3b.mjs": {
+      "disposition": "keep_available",
+      "reason": "Task 3B brand editor, private preview, role-state, recovery, internal approval, and publication-safety verifier. It is executed by the wired verify-onboarding-all aggregate and remains available as a focused verifier.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "captain",
+      "laneOwned": true
     },
     "verify-rcap-packet-delivery-contract.mjs": {
       "disposition": "wired",
@@ -1059,6 +1404,12 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-partner-provisioning.mjs": {
+      "disposition": "wired",
+      "reason": "The focused verifier for RCAP partner provisioning and the existing-user administrator claim. Pure Node, no database, no network, so it belongs in the required chain; wired next to verify-first-admin-provisioning.mjs.",
+      "observedStatus": "in_chain",
+      "decidedBy": "human"
+    },
     "verify-rcap-partner-result-cta.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
@@ -1070,6 +1421,15 @@
       "reason": "Green but no milestone gate depends on it; useful ad hoc.",
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
+    },
+    "verify-rcap-person-identity-post-phase54.mjs": {
+      "disposition": "wired",
+      "reason": "Terminal B's independent post-Phase-54 audit of public.rcap_persons, imported byte-identical from 338629ae. This is the audit that supersedes 83c04469, which audited 7e1b2c4d with no Phase 54 in its tree and correctly reported the pre-hardening exposure. Green from the integrated tree.",
+      "observedStatus": "in_chain",
+      "decidedBy": "captain",
+      "role": "independent_person_isolation_proof",
+      "sourceCommit": "338629ae",
+      "laneOwned": true
     },
     "verify-rcap-person-identity.mjs": {
       "disposition": "wired",
@@ -1086,13 +1446,37 @@
       "sourceCommit": "f237c89f3a3ed0eab44d9c84f07833de822eea54",
       "auditOwned": true,
       "knownNondeterminism": "The G6 observed string embeds the fixture briefcase item id, which is gen_random_uuid() per run, so data/rcap-render/phase51-consumer-payment-security.json is not byte-reproducible across runs. One line only; totals and pass state are stable. Referred to the audit lane rather than patched here, because the artifact is audit-owned.",
-      "committedArtifactRule": "The committed bytes of data/rcap-render/phase51-consumer-payment-security.json are the audit lane's own, from f237c89. Running npm test rewrites that file in the working tree with this machine's fixture ids; that rewrite is a local side effect and must not be staged. Restore it from f237c89 before committing. This is not pedantry — the file is the audit's record of what the audit observed, and overwriting it with a captain-side run quietly replaces independent evidence with self-issued evidence.",
+      "committedArtifactRule": "The committed bytes of data/rcap-render/phase51-consumer-payment-security.json are the audit lane's own, from f237c89. Running npm test rewrites that file in the working tree with this machine's fixture ids; that rewrite is a local side effect and must not be staged. Restore it from f237c89 before committing. This is not pedantry \u2014 the file is the audit's record of what the audit observed, and overwriting it with a captain-side run quietly replaces independent evidence with self-issued evidence.",
       "supersedes": "the Phase 52-ending revision of the same audit (19/19 gate, 0/3 reach); no second payment audit is maintained"
+    },
+    "verify-rcap-phase52-consumer-payment-authority.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-phase53-consumer-job-binding.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-phase55-matter-payment-binding.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
     },
     "verify-rcap-prepay-question-gate.mjs": {
       "disposition": "keep_available",
       "reason": "Green but no milestone gate depends on it; useful ad hoc.",
       "observedStatus": "orphan_passing",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-production-schema-upgrade.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
     "verify-rcap-ratified-route-payment.mjs": {
@@ -1105,6 +1489,12 @@
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-recovered-migration.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
     "verify-rcap-relief-outcome.mjs": {
@@ -1167,10 +1557,40 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-terminalization-treatments.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-terminalize-c1.mjs": {
+      "disposition": "wired",
+      "reason": "Lane C1's acceptance contract, green at 27/27 (11 pleading + 16 composed tracks, 64 components, 5 recorded external-source blocks, 18 canonical renders). Wired by the captain in window 2026-08-12-w2 after re-pinning provenance profile hashes that moved with the automatic-route rule corrections.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-terminalize-c2.mjs": {
+      "disposition": "wired",
+      "reason": "Lane C2's partition contract, complete at 24 tracks including the previously-missing Tennessee jurisdiction (tip 6b4895f4). Wired by the captain in window 2026-08-12-w3.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-terminalize-c3.mjs": {
+      "disposition": "wired",
+      "reason": "Lane C3's partition contract, complete at 21 tracks including the previously-missing Wisconsin jurisdiction with fixture/signal hardening (tip d7fa8e5c). Wired by the captain in window 2026-08-12-w3.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
     "verify-rcap-track-pathway-crosswalk.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-vercel-failure-audit.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
     "verify-rcap-verifier-dispositions.mjs": {
@@ -1183,6 +1603,24 @@
       "disposition": "fix_then_wire",
       "reason": "Red when executed: RCAP Wilma intake verification failed.",
       "observedStatus": "orphan_broken",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-worker-publication-workflow.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-worker-tag-guard.mjs": {
+      "disposition": "keep_available",
+      "reason": "Proves the worker publication workflow cannot move an existing source-SHA tag. Two publications of source 664b8ddd wrote the same tag and no record noticed, because a tag is an alias and only the sha256 digest is immutable. Ten checks: publication is serialized by source SHA, a queued publication is not cancelled, the tag is checked before the build and re-checked adjacent to the push, exactly one source-SHA tag is pushed with no latest, a short SHA is refused before any lookup, a missing credential and a refusing registry both fail closed, an existing latest alias is refused, and replacing an existing alias requires a named replace-<sha> authorization. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both the application and the worker and adding a script entry there would invalidate the very digest this guard protects.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
+    },
+    "verify-rcap-worker-tag-integrity.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
     "verify-request-pilot-intake.mjs": {
@@ -1239,6 +1677,12 @@
       "observedStatus": "orphan_broken",
       "decidedBy": "generated"
     },
+    "verify-stripe-runtime-key-policy.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
     "verify-supabase-admin-write.mjs": {
       "disposition": "fix_then_wire",
       "reason": "Red when executed: Supabase admin write verification failed: ENABLE_SUPABASE_PARTNER_DATA must be true.",
@@ -1268,6 +1712,12 @@
       "rootBlocker": "legacy_generator_family_texas_harris",
       "reason": "Same root blocker as Mississippi, for the Texas-Harris family.",
       "observedStatus": "orphan_broken",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-tracked-mutation-safety.mjs": {
+      "disposition": "wired",
+      "reason": "Proof that an interrupted mutation harness cannot strand tracked bytes. Every case kills a real child process mid-mutation and hashes what is left on disk: SIGTERM against application source and against two migrations, SIGHUP, an uncaught exception, and SIGKILL \u2014 which is expected to strand the mutation, because no process can catch it, and which then proves the journal recovery puts the file back. Also proves a second mutator is refused by name, a tree-reading guard refuses to read a tree mid-mutation, and the Phase 52 and 54 suites still report every mutation red under the guard. Runs first in the chain so a stranded journal is recovered before anything else reads the tree.",
+      "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
     },
     "verify-ut-state-pack.mjs": {
@@ -1323,438 +1773,6 @@
       "reason": "Green but no milestone gate depends on it; useful ad hoc.",
       "observedStatus": "orphan_passing",
       "decidedBy": "generated"
-    },
-    "test-expungement-parity-delta-mutations.mjs": {
-      "disposition": "wired",
-      "reason": "Proves the reviewed screening-parity delta mechanism is a constraint rather than a bypass: 11 mutations - a second added question, a reworded existing question, reordered existing questions, the approved question moved to another stage, another jurisdiction, another pathway, a path prefix widening, byte drift in an approved file, an unrecognised schema key, an absent record and a malformed record - each turn verify-expungement-plain-language-values red, and each is checked for the right failure message rather than only a non-zero exit.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain"
-    },
-    "test-public-partner-publication-security.mjs": {
-      "disposition": "keep_available",
-      "reason": "Task 4 public-route state-matrix proof. It executes the five publication and activation combinations, verifies fail-closed approval fields, and checks dynamic notFound and sitemap wiring. It is exposed through partners:test-publication-security and run as a focused release gate.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "test-rcap-acceptance-migration-sequence-mutations.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "test-rcap-apply-evidence-mutations.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "generated"
-    },
-    "test-rcap-consumer-payment-http-mutations.mjs": {
-      "disposition": "wired",
-      "reason": "Proves the P1-P18 suite is load-bearing: 7 mutations, each removing one guarantee, all turn it red. Two further guarantees are named in the harness as intentionally unmutated because the application layer is not their only defence.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain"
-    },
-    "test-rcap-github-hosted-acceptance-mutations.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "test-rcap-hosted-acceptance-verdict-mutations.mjs": {
-      "disposition": "keep_available",
-      "reason": "Proves each part of the hosted acceptance verdict guard is load-bearing. Nineteen mutations - record() stops counting arguments, accepts anything truthy, allows a case to be recorded twice, accepts an empty observation, a real call site regains a fourth argument, the worker verdict reads a process exit code again, a claimed job stops counting as in flight, the cycle result is parsed from stdout and stderr together, a worker account contradicting the database is tolerated, the claim duration reverts to the 600-second worker default, the immutable-digest condition is dropped, the binding case loses its substitution negative controls, the owner content type stops being checked, the jurisdiction scope disappears from the evidence, the worker output is concatenated and cut to a tail again, the binding case joins the finalization-written accounting row again, the replay case demands an entitlement only finalization writes, delivery passes on refusals alone, and delivery is pointed back at the legacy consumer route - each turn verify-rcap-hosted-acceptance-verdicts red for its own named check, with signal-safe byte restoration. Blocking alongside that verifier in rcap-all50-handoff.yml for the same image-input reason.",
-      "decidedBy": "recorded_decision",
-      "observedStatus": "added_since_audit"
-    },
-    "test-rcap-image-fingerprint-mutations.mjs": {
-      "disposition": "keep_available",
-      "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails; kept out of the npm test chain string because package.json is an image input. 11 mutations - file drift, missing input, src/ and scripts/lib/ working-tree change, omitted fingerprint key, silent algorithm change, checkpoint tree substitution, stale base, rewritten hash, hand edit, waived equivalence - each turns verify-rcap-image-input-fingerprint red for its named reason, with signal-safe byte restoration.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "captain"
-    },
-    "test-rcap-phase52-mutations.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "generated"
-    },
-    "test-rcap-phase53-mutations.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "generated"
-    },
-    "test-rcap-phase54-mutations.mjs": {
-      "disposition": "wired",
-      "reason": "Proves each Phase 54 defence is load-bearing: 5 mutations — phase omitted, RLS not enabled, browser-role revokes dropped, reserved slug claimable, shape constraint stops discriminating — all turn the namespace proof red.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain"
-    },
-    "test-rcap-worker-digest-binding-mutations.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "test-rcap-worker-tag-guard-mutations.mjs": {
-      "disposition": "keep_available",
-      "reason": "Proves each part of the source-SHA tag guard is load-bearing. Nine mutations - concurrency group no longer keyed on the source SHA, cancel-in-progress enabled, pre-push re-check removed, pre-build tag check removed, a latest alias added to the push, a short SHA accepted, a missing credential read as the tag being free, replacement no longer requiring a named authorization, and a registry lookup failure read as the tag being absent - each turn verify-rcap-worker-tag-guard red for its own named check, with signal-safe byte restoration. Blocking alongside that verifier in rcap-all50-handoff.yml for the same image-input reason.",
-      "decidedBy": "recorded_decision",
-      "observedStatus": "added_since_audit"
-    },
-    "verify-expungement-commercial-browser.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-expungement-commercial-flow-contract.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-expungement-consumer-payment-http.mjs": {
-      "disposition": "wired",
-      "reason": "The application-to-job boundary proof: P1-P18 driven through the real webhook and consumer render routes, with signatures produced by the Stripe SDK and migrations 26-53 applied to an ephemeral cluster. It is the only coverage that executes the raw-body/signature wiring rather than grepping for it.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "role": "application_payment_and_enqueue_proof"
-    },
-    "verify-expungement-homepage-interactions.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-expungement-homepage-v3-browser.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-external-participant-language.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-f1-evidence-markers.mjs": {
-      "disposition": "keep_available",
-      "reason": "F1-R evidence-hardening tool: proves a run's marked log block and its evidence artifact say the same thing, re-deriving totals from per-case results. Takes a run log as input, so it runs against each F1 run's output (and via --self-test), not in the repository chain.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-first-admin-first-impressions.mjs": {
-      "disposition": "keep_available",
-      "reason": "Task 3A branded invitation and internal provisioning presentation verifier. It is executed by the wired verify-onboarding-all aggregate and remains available as a focused first-impression gate.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-onboarding-all.mjs": {
-      "disposition": "wired",
-      "reason": "Task 1 through Task 3B portal aggregate. It discovers and executes all 27 local onboarding verifiers, including guided onboarding, first-impression, brand-readiness, and launch-readiness coverage, and is reached directly by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-onboarding-tenant-isolation.mjs": {
-      "disposition": "keep_available",
-      "reason": "Live local-database tenant and role isolation proof. It requires RCAP_TEST_DATABASE_URL and is run in the database acceptance group rather than the credential-free npm test chain.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-acceptance-migration-sequence.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-commercial-browser.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-component-deferral-runtime.mjs": {
-      "disposition": "wired",
-      "reason": "The captain-owned runtime proof for the ten dependency-bearing composed routes: all 31 component treatments resolve, English and Spanish are complete and genuinely distinct, every participant claim cites a resolving evidence carrier, payment and checkout stay closed, no packet or partner credit is consumed, no render job is built, and the Briefcase handoff is present. Includes --mutations, which requires ten deliberate breakages — among them making the deferred route sellable in the resolver and removing either engine adapter's clamp — to come back red. Wired by the captain in window 2026-08-12-w3. It proves runtime behaviour only; it promotes nothing.",
-      "observedStatus": "in_chain",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-rcap-consumer-delivery-environment.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-consumer-lifecycle-boundaries.mjs": {
-      "disposition": "keep_available",
-      "reason": "Proves WHERE each consumer record is created, on an ephemeral PostgreSQL 16 cluster carrying the authorized migration sequence. Fourteen checks walk one consumer matter from checkout to finalized artifact: the canonical matter id is derived from the item, checkout stores the binding the webhook must match, the server-only writer records the payment and creates NO consumption row or ledger event, enqueue binds person, matter and owner in the INSERT itself and still creates none, claim/start_packet_render/start_packet_validation each accept the state before them (so a worker that leaves a job in 'claimed' is not being refused by this contract), finalization writes the consumption row and the credit ledger event with the same identity as the job, and a reported failure leaves the job 'failed' rather than 'claimed' and consumes nothing. The hosted acceptance matrix had guessed two of these boundaries and turned one unfinalized render into four separate-looking failures; this is the contract that matrix is now written against. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
-      "decidedBy": "recorded_decision",
-      "observedStatus": "added_since_audit"
-    },
-    "verify-rcap-consumer-person-namespace.mjs": {
-      "disposition": "wired",
-      "reason": "Proves the fourteen properties the reserved consumer person namespace depends on, against a real cluster carrying 26-54. N1-N8 cover namespace behaviour; R1-R6 cover the role, tenant, reporting, entitlement, attribution and isolation dimensions Phase 54 enforces in the database. R6 is a positive control: the sanctioned server-side path still resolves consumer persons after the lockdown.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "closedByPhase54": "rcap_persons now has RLS enabled, a service_role-only policy, no anon or authenticated grants, a trigger refusing the reserved slug on partner_records, and a two-way namespace shape constraint."
-    },
-    "verify-rcap-crosswalk-resolution-lane.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-deployment-closure.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-e4-adjudication-mutations.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-final-official-sources.mjs": {
-      "disposition": "wired",
-      "reason": "Owned by the official-source materialization lane, imported byte-identical from 1d71919d. Holds the two still-blocked subjects to official-host discipline and bounds their conclusions.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "sourceCommit": "1d71919d605edb966084f3b18abc0f2658602b34",
-      "laneOwned": true
-    },
-    "verify-rcap-github-hosted-acceptance.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-guidance-terminalization.mjs": {
-      "disposition": "keep_available",
-      "reason": "Lane B's acceptance contract for guidance/exclusion/deferral treatments. Red by design until lane B delivers every assigned state (window 2 imported the six completed B1 treatments; B2/B3 and the rest of B1 are still in flight), so it runs per-partition inside lane B and becomes a wired blocking step when the lane completes. Wiring it now would fail the chain on work that is assigned, not late.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-rcap-hard-form-dispositions.mjs": {
-      "disposition": "wired",
-      "reason": "Lane E's non-packet treatment contract: every exact supported deferral carries exact evidence, an owner, a next action and a complete participant treatment (DE Form 281, ME CR-289). Wired by the captain in window 2026-08-12-w2.",
-      "observedStatus": "in_chain",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-rcap-hard-form-outputs.mjs": {
-      "disposition": "wired",
-      "reason": "Lane E's rendered-output proof: 12 fixtures across the four California Tier-1 hard-form families render to their recorded fingerprints with protected fields untouched. Wired by the captain in window 2026-08-12-w2.",
-      "observedStatus": "in_chain",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-rcap-hard-form-rendered-assertions.mjs": {
-      "disposition": "wired",
-      "reason": "Lane E's corrected-input proof: 43 assertions over the rendered hard-form artifacts (the F2 correction wave). Wired by the captain in window 2026-08-12-w3.",
-      "observedStatus": "in_chain",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-rcap-hosted-acceptance-verdicts.mjs": {
-      "disposition": "keep_available",
-      "reason": "Proves the hosted Stripe payment matrix cannot report a verdict it has not earned. The matrix itself needs Stripe, Vercel and the acceptance project, but its verdict function does not: this extracts record() from the shipped bytes and executes it, requiring it to throw on a string, an empty string, a number, zero, an object, an array, null, undefined, a Boolean wrapper, one, two or four arguments, an empty case id and an empty observation, while still accepting real booleans and refusing a second verdict for the same case. It then scans every call site with a string-and-comment-aware masker (the four-argument call that made a case incapable of failing was invisible to node --check and to eslint), requires the worker case to be the conjunction of nine delivery conditions rather than a process exit code, requires queued/claimed/rendering/validating all to be failures, requires both worker streams to be captured in full and written to the uploaded evidence, and requires the binding, replay and delivery cases to stand on their own evidence rather than on finalization. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
-      "decidedBy": "recorded_decision",
-      "observedStatus": "added_since_audit"
-    },
-    "verify-rcap-hosted-checkout-gate.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-image-input-fingerprint.mjs": {
-      "disposition": "keep_available",
-      "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails. Not listed in the npm test chain string because package.json is itself an image input and the commit introducing this gate was forbidden from touching image-input paths. Independently recomputes all seven image-input hashes (sha256 for files, git tree hashes for scripts/lib/ and src/), enforces base-to-HEAD image-input equivalence, rejects checkpoint-substitution, algorithm drift, omitted inputs, dirty trees and hand-edited records.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "captain"
-    },
-    "verify-rcap-lane-b-exact-deferrals.mjs": {
-      "disposition": "wired",
-      "reason": "The acceptance contract for lane-B exact supported deferrals. It derives the packet set from repository bytes rather than a list, checks all ten recognition safeguards per packet, and asks the authoritative route resolver whether the packet's promise that nothing is being sold is actually true of the runtime. Its --mutations suite requires eight deliberate breakages to come back red, including blind promotion of all nine packets. Wired by the captain in window 2026-08-12-w3.",
-      "observedStatus": "in_chain",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-rcap-md-pardon-pathway.mjs": {
-      "disposition": "wired",
-      "reason": "Both-direction proof for the counsel-approved MD pardoned-conviction pathway under Crim. Proc. 10-105(a)(8)/(c)(4): a qualifying in-deadline case opens payment; passed-deadline and missing-date cases stay shut. Owned by the crosswalk lane, imported from 10b62516.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-migration-apply-evidence.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-no-checkout-on-automatic-routes.mjs": {
-      "disposition": "wired",
-      "reason": "The lane-B invariant made checkable everywhere: no automatic/no-filing route can produce a packet-ready result, open payment, or carry a checkout-declaring compiled rule (the MI rule-11 defect class, found in 57 rules across 14 profiles and corrected in window 2026-08-12-w2). Static sweep + live evaluation sweep + resolver assertions.",
-      "observedStatus": "in_chain",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-rcap-no-null-presentation.mjs": {
-      "disposition": "wired",
-      "reason": "The lane-C3 18-document defect regression: renders every pleading config (pleadings and composed-route components) through the live renderer and fails on any escaped literal null/undefined/NaN, on a null-sovereign caption that still carries a v. line or a borrowed sovereign, and on a null custodian that does not fall back to the bracketed placeholder. Wired blocking with the captain's renderer fix in window 2026-08-12-w3.",
-      "observedStatus": "in_chain",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-rcap-official-forms-d1.mjs": {
-      "disposition": "wired",
-      "reason": "D1's acceptance verifier: 146 family packages structurally complete and sha-pinned, 62 completed implementation packages rendered with no unwritable field written. Lane D1 recorded it green but could not edit package.json; the captain wired it in the first terminalization integration window (2026-08-12-w2).",
-      "observedStatus": "in_chain",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-rcap-official-source-mutations.mjs": {
-      "disposition": "wired",
-      "reason": "Proves the PA/SC official-source discipline is load-bearing: 8 mutations turn the canonical check red. Imported from 10b62516.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-onboarding-guided-experience.mjs": {
-      "disposition": "keep_available",
-      "reason": "Task 2 guided substep, navigation, save-state, validation, change-request, review, and staff-summary verifier. It is executed by the wired verify-onboarding-all aggregate.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-onboarding-implementation-center.mjs": {
-      "disposition": "keep_available",
-      "reason": "Task 1 implementation-center and one-current-action verifier. It is executed by the wired verify-onboarding-all aggregate.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-onboarding-partner-labels.mjs": {
-      "disposition": "keep_available",
-      "reason": "Partner-facing status-label truthfulness verifier. It is executed by the wired verify-onboarding-all aggregate.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-onboarding-support-contact.mjs": {
-      "disposition": "keep_available",
-      "reason": "Partner support contact and route presentation verifier. It is executed by the wired verify-onboarding-all aggregate.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-onboarding-task3b.mjs": {
-      "disposition": "keep_available",
-      "reason": "Task 3B brand editor, private preview, role-state, recovery, internal approval, and publication-safety verifier. It is executed by the wired verify-onboarding-all aggregate and remains available as a focused verifier.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "captain",
-      "laneOwned": true
-    },
-    "verify-rcap-person-identity-post-phase54.mjs": {
-      "disposition": "wired",
-      "reason": "Terminal B's independent post-Phase-54 audit of public.rcap_persons, imported byte-identical from 338629ae. This is the audit that supersedes 83c04469, which audited 7e1b2c4d with no Phase 54 in its tree and correctly reported the pre-hardening exposure. Green from the integrated tree.",
-      "observedStatus": "in_chain",
-      "decidedBy": "captain",
-      "role": "independent_person_isolation_proof",
-      "sourceCommit": "338629ae",
-      "laneOwned": true
-    },
-    "verify-rcap-phase52-consumer-payment-authority.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-phase53-consumer-job-binding.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-phase55-matter-payment-binding.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-production-schema-upgrade.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-recovered-migration.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-terminalization-treatments.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-terminalize-c1.mjs": {
-      "disposition": "wired",
-      "reason": "Lane C1's acceptance contract, green at 27/27 (11 pleading + 16 composed tracks, 64 components, 5 recorded external-source blocks, 18 canonical renders). Wired by the captain in window 2026-08-12-w2 after re-pinning provenance profile hashes that moved with the automatic-route rule corrections.",
-      "observedStatus": "in_chain",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-rcap-terminalize-c2.mjs": {
-      "disposition": "wired",
-      "reason": "Lane C2's partition contract, complete at 24 tracks including the previously-missing Tennessee jurisdiction (tip 6b4895f4). Wired by the captain in window 2026-08-12-w3.",
-      "observedStatus": "in_chain",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-rcap-terminalize-c3.mjs": {
-      "disposition": "wired",
-      "reason": "Lane C3's partition contract, complete at 21 tracks including the previously-missing Wisconsin jurisdiction with fixture/signal hardening (tip d7fa8e5c). Wired by the captain in window 2026-08-12-w3.",
-      "observedStatus": "in_chain",
-      "decidedBy": "recorded_decision"
-    },
-    "verify-rcap-vercel-failure-audit.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-worker-publication-workflow.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "generated"
-    },
-    "verify-rcap-worker-tag-guard.mjs": {
-      "disposition": "keep_available",
-      "reason": "Proves the worker publication workflow cannot move an existing source-SHA tag. Two publications of source 664b8ddd wrote the same tag and no record noticed, because a tag is an alias and only the sha256 digest is immutable. Ten checks: publication is serialized by source SHA, a queued publication is not cancelled, the tag is checked before the build and re-checked adjacent to the push, exactly one source-SHA tag is pushed with no latest, a short SHA is refused before any lookup, a missing credential and a refusing registry both fail closed, an existing latest alias is refused, and replacing an existing alias requires a named replace-<sha> authorization. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both the application and the worker and adding a script entry there would invalidate the very digest this guard protects.",
-      "decidedBy": "recorded_decision",
-      "observedStatus": "added_since_audit"
-    },
-    "verify-rcap-worker-tag-integrity.mjs": {
-      "disposition": "keep_available",
-      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
-      "observedStatus": "added_since_audit",
-      "decidedBy": "generated"
-    },
-    "verify-stripe-runtime-key-policy.mjs": {
-      "disposition": "wired",
-      "reason": "Already reached by npm test.",
-      "observedStatus": "in_chain",
-      "decidedBy": "generated"
-    },
-    "verify-tracked-mutation-safety.mjs": {
-      "disposition": "wired",
-      "reason": "Proof that an interrupted mutation harness cannot strand tracked bytes. Every case kills a real child process mid-mutation and hashes what is left on disk: SIGTERM against application source and against two migrations, SIGHUP, an uncaught exception, and SIGKILL — which is expected to strand the mutation, because no process can catch it, and which then proves the journal recovery puts the file back. Also proves a second mutator is refused by name, a tree-reading guard refuses to read a tree mid-mutation, and the Phase 52 and 54 suites still report every mutation red under the guard. Runs first in the chain so a stranded journal is recovered before anything else reads the tree.",
-      "observedStatus": "in_chain",
-      "decidedBy": "recorded_decision"
     }
   }
 }

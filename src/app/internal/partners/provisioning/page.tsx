@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowRight, Building2, CheckCircle2, CreditCard, Settings2 } from "lucide-react";
+import { ArrowRight, Building2, CheckCircle2, CreditCard, Plus, Settings2 } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
@@ -13,7 +13,10 @@ import {
   getPaymentStatusLabel,
   getProvisioningStatusLabel
 } from "@/lib/partners/partner-service";
-import { internalProvisioningDetail } from "@/lib/partners/routes";
+import {
+  internalProvisioningDetail,
+  internalProvisioningNew
+} from "@/lib/partners/routes";
 import type { PartnerRecord } from "@/lib/partners/types";
 
 // Authenticated internal surface: the access gate resolves the session from request
@@ -44,6 +47,13 @@ export default async function InternalPartnerProvisioningPage() {
               Track which partner assets are locked, pending, generating, ready, or active after mock payment and before
               production activation.
             </p>
+            <Link
+              className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-navy px-5 py-2 text-sm font-semibold text-white transition hover:bg-navy-mid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
+              href={internalProvisioningNew()}
+            >
+              <Plus className="h-4 w-4" aria-hidden="true" />
+              Provision a new partner
+            </Link>
           </div>
           <Card className="rounded-md p-5">
             <p className="text-sm font-black text-navy">Provisioning scope</p>
