@@ -1,0 +1,65 @@
+# Reusable official-source acquisition.
+#
+# One workflow for every form, dispatched by a person with an exact official
+# URL. It fetches, hashes, inspects and uploads. It commits nothing, deploys
+# nothing, publishes no worker and touches no environment: the bytes leave here
+# as a workflow artifact, and a human decides whether they enter the repository
+# after source identity, currentness and intended use are confirmed.
+#
+# Downloads are restricted to an allowlist of official government hosts. A form
+# whose publisher is not on the list is a deliberate decision to extend the
+# list, made in a reviewed commit, rather than a URL somebody pasted at
+# dispatch time.
+name: RCAP Official Source Acquisition
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Exact official source URL (https, government host)"
+        required: true
+        type: string
+      jurisdiction:
+        description: "Two-letter jurisdiction, e.g. KY"
+        required: true
+        type: string
+      form_number:
+        description: "Official form number, e.g. AOC-334"
+        required: true
+        type: string
+      expected_sha256:
+        description: "Optional: SHA-256 this acquisition is expected to match"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  acquire:
+    name: Acquire ${{ inputs.jurisdiction }} ${{ inputs.form_number }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Acquire and receipt the official source
+        env:
+          RCAP_SOURCE_URL: ${{ inputs.url }}
+          RCAP_JURISDICTION: ${{ inputs.jurisdiction }}
+          RCAP_FORM_NUMBER: ${{ inputs.form_number }}
+          RCAP_EXPECTED_SHA256: ${{ inputs.expected_sha256 }}
+        run: node scripts/rcap-acquire-official-source.mjs
+
+      - name: Upload the binary and its receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-source-${{ inputs.jurisdiction }}-${{ inputs.form_number }}
+          path: acquired-source/
+          if-no-files-found: error
+          retention-days: 30

@@ -22,6 +22,15 @@
 // current transformation matrix and nested Form XObjects, so a rule authored
 // inside an XObject or under a `cm` is reported where it is drawn rather than
 // where it was written.
+//
+// This module is the reconciliation of two independent implementations. The
+// content-stream walk, page-frame normalization, path-index grouping and the
+// refusal-on-ambiguity contract come from the shared-contract lane. The
+// separate `ruleBeforeCaption` entry point, and the trailing-caption layout it
+// exists to serve, come from the problematic-PDF lane, which proved that
+// behavior against the real CR-266 binary. Both are kept: the trailing layout
+// is reachable through either entry point, and neither lane's callers had to
+// change what they ask for.
 import { createRequire } from "node:module";
 
 import { extractPageGeometry, groupIntoLines } from "./rcap-pdf-anchor-capture.mjs";
@@ -31,6 +40,13 @@ const { PDFDocument } = require("pdf-lib");
 
 /** Never "raster". Read by the verifier, and by anyone reasoning about drift. */
 export const GEOMETRY_SOURCE = "content_stream";
+
+/** The layouts a caption and its rule can be in, all of which occur on CR-266. */
+export const ASSOCIATIONS = [
+  "inline_rule_after_caption",
+  "inline_rule_before_caption",
+  "rule_above_or_below_caption"
+];
 
 const round = (n) => Number(n.toFixed(2));
 
@@ -132,27 +148,14 @@ export async function captionLinesOf(sourceBytes) {
 }
 
 /**
- * The rule a caption labels, the x a write box may not pass, and the evidence
- * for both.
+ * The shared association core.
  *
- * Two layouts occur on the same form and both have to be handled. Most captions
- * sit BELOW the rule they label. An inline field — "Case No. ______", "______
- * COUNTY" — prints its words beside a rule that sits fractionally BELOW the
- * caption baseline, which is why searching only upwards found nothing for those
- * two and the Case No. rule was invented instead.
- *
- * Vertical proximity alone is not enough and is never used alone. On CR-266 the
- * Case No. rule sits 6.6pt from the Date of Birth caption while Date of Birth's
- * own rule sits 7.5pt away, so nearest-by-distance hands the date field the
- * case-number line on the far side of the page. A candidate must satisfy BOTH a
- * vertical-distance constraint and a horizontal-overlap constraint.
- *
- * When two candidates remain that the constraints cannot separate, this REFUSES
- * rather than picking one. A refusal names the ambiguity, leaves the field
- * blank, and names the participant fallback. It never guesses, and it never
- * falls back to raster geometry, silently or otherwise.
+ * `accept` names which layouts this call is willing to bind. Both public entry
+ * points run the same constraints, the same refusals and the same evidence, so
+ * a caption cannot be bound by one and refused by the other for any reason
+ * other than the layout it is actually in.
  */
-export function ruleForCaption(ruleLines, {
+function associateRule(ruleLines, {
   page,
   baselineY,
   labelX,
@@ -162,17 +165,18 @@ export function ruleForCaption(ruleLines, {
   sameFieldXTolerance = 60,
   separationTolerance = 0.75,
   participantFallback = "leave blank and collect the value from the participant"
-}) {
+}, accept) {
   const onPage = ruleLines.find((p) => p.page === page);
   const base = {
     label,
     page,
     geometrySource: GEOMETRY_SOURCE,
     associationMethod: "horizontal_overlap_and_vertical_distance",
+    acceptedAssociations: [...accept],
     participantFallback
   };
   if (!onPage) {
-    return { bound: false, ...base, ambiguity: "no_such_page", candidatesConsidered: 0 };
+    return { bound: false, ...base, ambiguity: "no_such_page", candidatesConsidered: 0, confidence: "refused" };
   }
 
   const withinGap = onPage.horizontal.filter((r) => Math.abs(r.y - baselineY) <= maxGap);
@@ -200,7 +204,7 @@ export function ruleForCaption(ruleLines, {
         association
       };
     })
-    .filter((candidate) => candidate.horizontalOverlap)
+    .filter((candidate) => candidate.horizontalOverlap && accept.includes(candidate.association))
     .sort((a, b) => a.verticalDistance - b.verticalDistance || Math.abs(a.horizontalOffset) - Math.abs(b.horizontalOffset));
 
   const evidence = {
@@ -256,4 +260,54 @@ export function ruleForCaption(ruleLines, {
     association: chosen.association,
     confidence: scored.length === 1 ? "unambiguous" : "separated_by_constraint"
   };
+}
+
+/**
+ * The rule a caption labels, the x a write box may not pass, and the evidence
+ * for both.
+ *
+ * Two layouts occur on the same form and both have to be handled. Most captions
+ * sit BELOW the rule they label. An inline field — "Case No. ______", "______
+ * COUNTY" — prints its words beside a rule that sits fractionally BELOW the
+ * caption baseline, which is why searching only upwards found nothing for those
+ * two and the Case No. rule was invented instead.
+ *
+ * Vertical proximity alone is not enough and is never used alone. On CR-266 the
+ * Case No. rule sits 6.6pt from the Date of Birth caption while Date of Birth's
+ * own rule sits 7.5pt away, so nearest-by-distance hands the date field the
+ * case-number line on the far side of the page. A candidate must satisfy BOTH a
+ * vertical-distance constraint and a horizontal-overlap constraint.
+ *
+ * When two candidates remain that the constraints cannot separate, this REFUSES
+ * rather than picking one. A refusal names the ambiguity, leaves the field
+ * blank, and names the participant fallback. It never guesses, and it never
+ * falls back to raster geometry, silently or otherwise.
+ *
+ * A refusal is an OBJECT carrying `bound: false`, not a null. A falsy refusal
+ * is indistinguishable from "not asked", which is how a missing venue rule
+ * passed review once already; a caller filters on `bound`, so the reason
+ * survives to the report.
+ */
+export function ruleForCaption(ruleLines, options) {
+  return associateRule(ruleLines, options, ASSOCIATIONS);
+}
+
+/**
+ * The rule a TRAILING caption labels: "______ COUNTY", "______ , Petitioner".
+ *
+ * Wisconsin's venue line prints the word COUNTY to the right of the blank it
+ * names, so a search that requires the rule to extend past the label finds
+ * nothing — which is how the venue rule came to be omitted from CR-266
+ * altogether, and a petition without a venue is not filed. Here the rule is the
+ * one that ENDS at the label, on the same baseline.
+ *
+ * `ruleForCaption` already considers this layout, so calling both and taking
+ * the nearer result — which is what the flat-overlay profile generator does —
+ * stays correct and stays the proven behavior. This entry point remains because
+ * it answers a narrower question: bind ONLY if the caption trails its rule.
+ * Asking that question directly is how a venue field gets a venue rule instead
+ * of whichever rule happened to be nearest.
+ */
+export function ruleBeforeCaption(ruleLines, options) {
+  return associateRule(ruleLines, options, ["inline_rule_before_caption"]);
 }

@@ -1,0 +1,974 @@
+{
+  "schemaVersion": "rcap-acquisition-recovery/v1",
+  "purpose": "Exact browser-download targets for the acquisition run whose bytes this session cannot read. Artifact downloads redirect to productionresultssa*.blob.core.windows.net, which this session's egress proxy refuses with 403 CONNECT; the run page serves them to a browser normally.",
+  "acquisitionRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617",
+  "runId": "32256441617",
+  "headSha": "2e45749b",
+  "jobs": {
+    "total": 46,
+    "successful": 46
+  },
+  "successfulJobIds": [
+    {
+      "jobId": 96079127032,
+      "leg": "Read the acquisition queue"
+    },
+    {
+      "jobId": 96079279141,
+      "leg": "NE CC-6-12"
+    },
+    {
+      "jobId": 96079279143,
+      "leg": "AK TF-805"
+    },
+    {
+      "jobId": 96079279146,
+      "leg": "NE CC-6-15.1"
+    },
+    {
+      "jobId": 96079279176,
+      "leg": "WI DJ-LE-250B"
+    },
+    {
+      "jobId": 96079279181,
+      "leg": "KY AOC-496.2"
+    },
+    {
+      "jobId": 96079279202,
+      "leg": "WI CR-266"
+    },
+    {
+      "jobId": 96079279207,
+      "leg": "WI CR-267"
+    },
+    {
+      "jobId": 96079279214,
+      "leg": "NE CC-6-12"
+    },
+    {
+      "jobId": 96079279227,
+      "leg": "WI DJ-LE-247"
+    },
+    {
+      "jobId": 96079279228,
+      "leg": "NC AOC-CR-287"
+    },
+    {
+      "jobId": 96079279239,
+      "leg": "VA CC-1201"
+    },
+    {
+      "jobId": 96079279251,
+      "leg": "AK TF-800"
+    },
+    {
+      "jobId": 96079279292,
+      "leg": "KY AOC-496"
+    },
+    {
+      "jobId": 96079279336,
+      "leg": "VA CC-1473"
+    },
+    {
+      "jobId": 96079279378,
+      "leg": "KY AOC-496.4"
+    },
+    {
+      "jobId": 96079279391,
+      "leg": "KY AOC-334"
+    },
+    {
+      "jobId": 96079280656,
+      "leg": "NC AOC-CR-287"
+    },
+    {
+      "jobId": 96079280740,
+      "leg": "NC AOC-CR-287"
+    },
+    {
+      "jobId": 96079280843,
+      "leg": "NC AOC-CR-287"
+    },
+    {
+      "jobId": 96079280953,
+      "leg": "NC AOC-CR-287"
+    },
+    {
+      "jobId": 96079280981,
+      "leg": "NC AOC-CR-287"
+    },
+    {
+      "jobId": 96079281026,
+      "leg": "NC AOC-CR-288"
+    },
+    {
+      "jobId": 96079281179,
+      "leg": "NC AOC-CR-288"
+    },
+    {
+      "jobId": 96079281324,
+      "leg": "NC AOC-CR-288"
+    },
+    {
+      "jobId": 96079281435,
+      "leg": "NC AOC-CR-288"
+    },
+    {
+      "jobId": 96079281498,
+      "leg": "NC AOC-CR-288"
+    },
+    {
+      "jobId": 96079282114,
+      "leg": "NC AOC-CR-288"
+    },
+    {
+      "jobId": 96079282264,
+      "leg": "NC AOC-CR-296"
+    },
+    {
+      "jobId": 96079282330,
+      "leg": "NC AOC-CR-297"
+    },
+    {
+      "jobId": 96079282407,
+      "leg": "NC AOC-CR-298"
+    },
+    {
+      "jobId": 96079282439,
+      "leg": "NC AOC-CR-297"
+    },
+    {
+      "jobId": 96079282583,
+      "leg": "NC AOC-CR-298"
+    },
+    {
+      "jobId": 96079282749,
+      "leg": "NC AOC-CV-226"
+    },
+    {
+      "jobId": 96079282832,
+      "leg": "NC AOC-CV-226"
+    },
+    {
+      "jobId": 96079282994,
+      "leg": "NC AOC-CV-226"
+    },
+    {
+      "jobId": 96079283182,
+      "leg": "VT 200-00130"
+    },
+    {
+      "jobId": 96079283593,
+      "leg": "VT 600-00228"
+    },
+    {
+      "jobId": 96079283643,
+      "leg": "VT 200-00132A"
+    },
+    {
+      "jobId": 96079283668,
+      "leg": "VT 200-00132"
+    },
+    {
+      "jobId": 96079283669,
+      "leg": "KY AOC-496.3"
+    },
+    {
+      "jobId": 96079283907,
+      "leg": "KY AOC-497"
+    },
+    {
+      "jobId": 96079284015,
+      "leg": "AK TF-810"
+    },
+    {
+      "jobId": 96079284141,
+      "leg": "NE CC-6-11.2"
+    },
+    {
+      "jobId": 96079284307,
+      "leg": "NE CC-6-11"
+    },
+    {
+      "jobId": 96080298223,
+      "leg": "Collect every receipt"
+    }
+  ],
+  "everyReceiptInOneFile": {
+    "artifactId": 9366610101,
+    "artifactName": "rcap-acquisition-summary",
+    "zipBytes": 19317210,
+    "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366610101",
+    "contains": "acquisition-summary.json plus every per-leg receipt, each carrying the observed SHA-256, final resolved URL, HTTP status, content type and byte length. This is the one file to take if only one is taken.",
+    "note": "The observed SHA-256 of what was actually downloaded lives only here and in the per-leg receipts. This session cannot read them, so no observed hash is asserted anywhere in this repository."
+  },
+  "pinnedHashesAreNotObservedHashes": "pinnedHistoricalSha256 below is the hash this repository already had on record for the asset, taken from the queue. It is what the download should be compared against, not a claim about what arrived.",
+  "artifacts": [
+    {
+      "index": 0,
+      "artifactId": 9366487873,
+      "artifactName": "rcap-source-0-KY-AOC-334",
+      "zipBytes": 226963,
+      "jurisdiction": "KY",
+      "formNumber": "AOC-334",
+      "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/334.pdf",
+      "urlKind": "direct_binary",
+      "pinnedHistoricalSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "KY-AOC-334.pdf",
+        "KY-AOC-334.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366487873"
+    },
+    {
+      "index": 1,
+      "artifactId": 9366488519,
+      "artifactName": "rcap-source-1-AK-TF-800",
+      "zipBytes": 99265,
+      "jurisdiction": "AK",
+      "formNumber": "TF-800",
+      "assetId": "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "url": "https://public.courts.alaska.gov/web/forms/docs/tf-800.pdf",
+      "urlKind": "direct_binary",
+      "pinnedHistoricalSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "AK-TF-800.pdf",
+        "AK-TF-800.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366488519"
+    },
+    {
+      "index": 2,
+      "artifactId": 9366487496,
+      "artifactName": "rcap-source-2-AK-TF-805",
+      "zipBytes": 75580,
+      "jurisdiction": "AK",
+      "formNumber": "TF-805",
+      "assetId": "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "url": "https://public.courts.alaska.gov/web/forms/docs/tf-805.pdf",
+      "urlKind": "direct_binary",
+      "pinnedHistoricalSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "AK-TF-805.pdf",
+        "AK-TF-805.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366487496"
+    },
+    {
+      "index": 3,
+      "artifactId": 9366486275,
+      "artifactName": "rcap-source-3-NE-CC-6-12",
+      "zipBytes": 1670998,
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-12",
+      "assetId": "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf",
+      "urlKind": "direct_binary",
+      "pinnedHistoricalSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "NE-CC-6-12.pdf",
+        "NE-CC-6-12.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366486275"
+    },
+    {
+      "index": 4,
+      "artifactId": 9366492764,
+      "artifactName": "rcap-source-4-NE-CC-6-12",
+      "zipBytes": 1671045,
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-12",
+      "assetId": "NE|CC-6-12|b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+      "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf",
+      "urlKind": "direct_binary",
+      "pinnedHistoricalSha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "NE-CC-6-12.pdf",
+        "NE-CC-6-12.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366492764"
+    },
+    {
+      "index": 5,
+      "artifactId": 9366489136,
+      "artifactName": "rcap-source-5-NE-CC-6-15.1",
+      "zipBytes": 2896820,
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-15.1",
+      "assetId": "NE|CC-6-15.1|d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+      "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-15-1.pdf",
+      "urlKind": "direct_binary",
+      "pinnedHistoricalSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "NE-CC-6-15.1.pdf",
+        "NE-CC-6-15.1.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366489136"
+    },
+    {
+      "index": 6,
+      "artifactId": 9366497472,
+      "artifactName": "rcap-source-6-VA-CC-1201",
+      "zipBytes": 191849,
+      "jurisdiction": "VA",
+      "formNumber": "CC-1201",
+      "assetId": "VA|CC-1201|7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "url": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1201.pdf",
+      "urlKind": "direct_binary",
+      "pinnedHistoricalSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "VA-CC-1201.pdf",
+        "VA-CC-1201.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366497472"
+    },
+    {
+      "index": 7,
+      "artifactId": 9366499889,
+      "artifactName": "rcap-source-7-VA-CC-1473",
+      "zipBytes": 104884,
+      "jurisdiction": "VA",
+      "formNumber": "CC-1473",
+      "assetId": "VA|CC-1473|6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "url": "https://www.vacourts.gov/forms/circuit/cc1473.pdf",
+      "urlKind": "direct_binary",
+      "pinnedHistoricalSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "VA-CC-1473.pdf",
+        "VA-CC-1473.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366499889"
+    },
+    {
+      "index": 8,
+      "artifactId": 9366500829,
+      "artifactName": "rcap-source-8-WI-CR-267",
+      "zipBytes": 68864,
+      "jurisdiction": "WI",
+      "formNumber": "CR-267",
+      "assetId": "WI|CR-267|2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "url": "https://www.wicourts.gov/formdisplay/CR-267.pdf?formNumber=CR-267&formType=Form&formatId=2&language=en",
+      "urlKind": "direct_binary",
+      "pinnedHistoricalSha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "WI-CR-267.pdf",
+        "WI-CR-267.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366500829"
+    },
+    {
+      "index": 9,
+      "artifactId": 9366500355,
+      "artifactName": "rcap-source-9-WI-DJ-LE-247",
+      "zipBytes": 124659,
+      "jurisdiction": "WI",
+      "formNumber": "DJ-LE-247",
+      "assetId": "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "url": "https://www.wisdoj.gov/Law%20Enforcement%20Services/Updated_DJ_LE_247_14-feb-17_0.pdf",
+      "urlKind": "direct_binary",
+      "pinnedHistoricalSha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "WI-DJ-LE-247.pdf",
+        "WI-DJ-LE-247.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366500355"
+    },
+    {
+      "index": 10,
+      "artifactId": 9366510473,
+      "artifactName": "rcap-source-10-WI-DJ-LE-250B",
+      "zipBytes": 587,
+      "jurisdiction": "WI",
+      "formNumber": "DJ-LE-250B",
+      "assetId": "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "url": "https://www.wisdoj.gov/Law%20Enforcement%20Services/DJ_LE-250B_Draft_02232017_Fingerprint_Removal_Request.pdf",
+      "urlKind": "direct_binary",
+      "pinnedHistoricalSha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "WI-DJ-LE-250B.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366510473"
+    },
+    {
+      "index": 11,
+      "artifactId": 9366507853,
+      "artifactName": "rcap-source-11-WI-CR-266",
+      "zipBytes": 124321,
+      "jurisdiction": "WI",
+      "formNumber": "CR-266",
+      "assetId": "WI|CR-266|9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "url": "https://www.wicourts.gov/formdisplay/CR-266.pdf?formNumber=CR-266&formType=Form&formatId=2&language=en",
+      "urlKind": "direct_binary",
+      "pinnedHistoricalSha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "WI-CR-266.pdf",
+        "WI-CR-266.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366507853"
+    },
+    {
+      "index": 12,
+      "artifactId": 9366509443,
+      "artifactName": "rcap-source-12-KY-AOC-496.2",
+      "zipBytes": 539,
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.2",
+      "assetId": "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "url": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "KY-AOC-496.2.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366509443"
+    },
+    {
+      "index": 13,
+      "artifactId": 9366511350,
+      "artifactName": "rcap-source-13-KY-AOC-496.4",
+      "zipBytes": 542,
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.4",
+      "assetId": "KY|AOC-496.4|70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+      "url": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "KY-AOC-496.4.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366511350"
+    },
+    {
+      "index": 14,
+      "artifactId": 9366517359,
+      "artifactName": "rcap-source-14-KY-AOC-496",
+      "zipBytes": 533,
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496",
+      "assetId": "KY|AOC-496|4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+      "url": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "KY-AOC-496.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366517359"
+    },
+    {
+      "index": 15,
+      "artifactId": 9366513096,
+      "artifactName": "rcap-source-15-NC-AOC-CR-287",
+      "zipBytes": 588,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "assetId": "NC|AOC-CR-287|2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-287.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366513096"
+    },
+    {
+      "index": 16,
+      "artifactId": 9366520112,
+      "artifactName": "rcap-source-16-NC-AOC-CR-287",
+      "zipBytes": 587,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "assetId": "NC|AOC-CR-287|5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-287.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366520112"
+    },
+    {
+      "index": 17,
+      "artifactId": 9366521788,
+      "artifactName": "rcap-source-17-NC-AOC-CR-287",
+      "zipBytes": 589,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "assetId": "NC|AOC-CR-287|877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-287.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366521788"
+    },
+    {
+      "index": 18,
+      "artifactId": 9366521265,
+      "artifactName": "rcap-source-18-NC-AOC-CR-287",
+      "zipBytes": 587,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "assetId": "NC|AOC-CR-287|9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-287.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366521265"
+    },
+    {
+      "index": 19,
+      "artifactId": 9366525015,
+      "artifactName": "rcap-source-19-NC-AOC-CR-287",
+      "zipBytes": 588,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "assetId": "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-287.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366525015"
+    },
+    {
+      "index": 20,
+      "artifactId": 9366533057,
+      "artifactName": "rcap-source-20-NC-AOC-CR-287",
+      "zipBytes": 588,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "assetId": "NC|AOC-CR-287|fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-287.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366533057"
+    },
+    {
+      "index": 21,
+      "artifactId": 9366529614,
+      "artifactName": "rcap-source-21-NC-AOC-CR-288",
+      "zipBytes": 590,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "assetId": "NC|AOC-CR-288|19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-288.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366529614"
+    },
+    {
+      "index": 22,
+      "artifactId": 9366541250,
+      "artifactName": "rcap-source-22-NC-AOC-CR-288",
+      "zipBytes": 590,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "assetId": "NC|AOC-CR-288|2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-288.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366541250"
+    },
+    {
+      "index": 23,
+      "artifactId": 9366539657,
+      "artifactName": "rcap-source-23-NC-AOC-CR-288",
+      "zipBytes": 588,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "assetId": "NC|AOC-CR-288|37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-288.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366539657"
+    },
+    {
+      "index": 24,
+      "artifactId": 9366533633,
+      "artifactName": "rcap-source-24-NC-AOC-CR-288",
+      "zipBytes": 589,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "assetId": "NC|AOC-CR-288|46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-288.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366533633"
+    },
+    {
+      "index": 25,
+      "artifactId": 9366540058,
+      "artifactName": "rcap-source-25-NC-AOC-CR-288",
+      "zipBytes": 588,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "assetId": "NC|AOC-CR-288|776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-288.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366540058"
+    },
+    {
+      "index": 26,
+      "artifactId": 9366543641,
+      "artifactName": "rcap-source-26-NC-AOC-CR-288",
+      "zipBytes": 589,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "assetId": "NC|AOC-CR-288|d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-288.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366543641"
+    },
+    {
+      "index": 27,
+      "artifactId": 9366552584,
+      "artifactName": "rcap-source-27-NC-AOC-CR-296",
+      "zipBytes": 525,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-296",
+      "assetId": "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+      "url": "https://www.nccourts.gov/documents/forms",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-296.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366552584"
+    },
+    {
+      "index": 28,
+      "artifactId": 9366546985,
+      "artifactName": "rcap-source-28-NC-AOC-CR-297",
+      "zipBytes": 586,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-297",
+      "assetId": "NC|AOC-CR-297|689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-297.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366546985"
+    },
+    {
+      "index": 29,
+      "artifactId": 9366558475,
+      "artifactName": "rcap-source-29-NC-AOC-CR-297",
+      "zipBytes": 586,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-297",
+      "assetId": "NC|AOC-CR-297|99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-297.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366558475"
+    },
+    {
+      "index": 30,
+      "artifactId": 9366562651,
+      "artifactName": "rcap-source-30-NC-AOC-CR-298",
+      "zipBytes": 586,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-298",
+      "assetId": "NC|AOC-CR-298|5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-298.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366562651"
+    },
+    {
+      "index": 31,
+      "artifactId": 9366559362,
+      "artifactName": "rcap-source-31-NC-AOC-CR-298",
+      "zipBytes": 586,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-298",
+      "assetId": "NC|AOC-CR-298|8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CR-298.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366559362"
+    },
+    {
+      "index": 32,
+      "artifactId": 9366559796,
+      "artifactName": "rcap-source-32-NC-AOC-CV-226",
+      "zipBytes": 523,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CV-226",
+      "assetId": "NC|AOC-CV-226|08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7",
+      "url": "https://www.nccourts.gov/documents/forms",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CV-226.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366559796"
+    },
+    {
+      "index": 33,
+      "artifactId": 9366559077,
+      "artifactName": "rcap-source-33-NC-AOC-CV-226",
+      "zipBytes": 524,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CV-226",
+      "assetId": "NC|AOC-CV-226|74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "url": "https://www.nccourts.gov/documents/forms",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CV-226.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366559077"
+    },
+    {
+      "index": 34,
+      "artifactId": 9366565029,
+      "artifactName": "rcap-source-34-NC-AOC-CV-226",
+      "zipBytes": 522,
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CV-226",
+      "assetId": "NC|AOC-CV-226|76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a",
+      "url": "https://www.nccourts.gov/documents/forms",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "NC-AOC-CV-226.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366565029"
+    },
+    {
+      "index": 35,
+      "artifactId": 9366575458,
+      "artifactName": "rcap-source-35-VT-200-00130",
+      "zipBytes": 1443060,
+      "jurisdiction": "VT",
+      "formNumber": "200-00130",
+      "assetId": "VT|200-00130|ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+      "url": "https://www.vtcourts.gov/media/114",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "VT-200-00130.pdf",
+        "VT-200-00130.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366575458"
+    },
+    {
+      "index": 36,
+      "artifactId": 9366572350,
+      "artifactName": "rcap-source-36-VT-200-00132",
+      "zipBytes": 1877688,
+      "jurisdiction": "VT",
+      "formNumber": "200-00132",
+      "assetId": "VT|200-00132|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "url": "https://www.vtcourts.gov/media/10142",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "VT-200-00132.pdf",
+        "VT-200-00132.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366572350"
+    },
+    {
+      "index": 37,
+      "artifactId": 9366572275,
+      "artifactName": "rcap-source-37-VT-200-00132A",
+      "zipBytes": 1877744,
+      "jurisdiction": "VT",
+      "formNumber": "200-00132A",
+      "assetId": "VT|200-00132A|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "url": "https://www.vtcourts.gov/media/10142",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "VT-200-00132A.pdf",
+        "VT-200-00132A.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366572275"
+    },
+    {
+      "index": 38,
+      "artifactId": 9366571897,
+      "artifactName": "rcap-source-38-VT-600-00228",
+      "zipBytes": 2702804,
+      "jurisdiction": "VT",
+      "formNumber": "600-00228",
+      "assetId": "VT|600-00228|263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "url": "https://www.vtcourts.gov/media/47",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "VT-600-00228.pdf",
+        "VT-600-00228.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366571897"
+    },
+    {
+      "index": 39,
+      "artifactId": 9366574061,
+      "artifactName": "rcap-source-39-KY-AOC-496.3",
+      "zipBytes": 539,
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.3",
+      "assetId": "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "url": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "KY-AOC-496.3.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366574061"
+    },
+    {
+      "index": 40,
+      "artifactId": 9366583115,
+      "artifactName": "rcap-source-40-KY-AOC-497",
+      "zipBytes": 535,
+      "jurisdiction": "KY",
+      "formNumber": "AOC-497",
+      "assetId": "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "url": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+      "urlKind": "official_landing_page",
+      "pinnedHistoricalSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "carriesBytes": false,
+      "expectedZipContents": [
+        "KY-AOC-497.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366583115"
+    },
+    {
+      "index": 41,
+      "artifactId": 9366583819,
+      "artifactName": "rcap-source-41-AK-TF-810",
+      "zipBytes": 63462,
+      "jurisdiction": "AK",
+      "formNumber": "TF-810",
+      "assetId": "AK|TF-810|c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+      "url": "https://public.courts.alaska.gov/web/forms/docs/tf-810.pdf",
+      "urlKind": "unverified_pattern_candidate",
+      "pinnedHistoricalSha256": null,
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "AK-TF-810.pdf",
+        "AK-TF-810.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366583819"
+    },
+    {
+      "index": 42,
+      "artifactId": 9366591405,
+      "artifactName": "rcap-source-42-NE-CC-6-11.2",
+      "zipBytes": 2761504,
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-11.2",
+      "assetId": "NE|CC-6-11.2|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-11-2.pdf",
+      "urlKind": "unverified_pattern_candidate",
+      "pinnedHistoricalSha256": null,
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "NE-CC-6-11.2.pdf",
+        "NE-CC-6-11.2.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366591405"
+    },
+    {
+      "index": 43,
+      "artifactId": 9366585391,
+      "artifactName": "rcap-source-43-NE-CC-6-11",
+      "zipBytes": 2995439,
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-11",
+      "assetId": "NE|CC-6-11|c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+      "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-11.pdf",
+      "urlKind": "unverified_pattern_candidate",
+      "pinnedHistoricalSha256": null,
+      "carriesBytes": true,
+      "expectedZipContents": [
+        "NE-CC-6-11.pdf",
+        "NE-CC-6-11.receipt.json"
+      ],
+      "downloadUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256441617/artifacts/9366585391"
+    }
+  ]
+}

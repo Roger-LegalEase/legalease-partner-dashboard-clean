@@ -138,16 +138,47 @@ export async function artifactProvenance({
  * rather than a boolean, because "no record names this artifact" and "the
  * record names it at a different hash" are different failures with different
  * remedies.
+ *
+ * Pass `sourceSha256` to separate the two kinds of drift. SOURCE DRIFT means
+ * the court reissued the form and the artifact is built from bytes the record
+ * does not describe; the remedy is to re-acquire and re-render. OUTPUT DRIFT
+ * means the source is unchanged but the artifact is not the one the record
+ * names; the remedy is to re-render, or to find out who wrote those bytes.
+ * Reporting both as "stale" sends the wrong repair every other time.
  */
-export function provenanceCoversArtifact(record, rel, bytes) {
+export function provenanceCoversArtifact(record, rel, bytes, { sourceSha256 = null } = {}) {
   if (!record || record.schemaVersion !== PROVENANCE_SCHEMA) {
-    return { covered: false, reason: "no_provenance_record" };
+    return { covered: false, reason: "no_provenance_record", drift: null };
+  }
+  // Source drift is checked first. When the source has moved, an output-hash
+  // mismatch is a consequence rather than a finding, and naming the
+  // consequence sends a reviewer to re-render against a form the court has
+  // already replaced.
+  if (sourceSha256 && record.sourceSha256 && record.sourceSha256 !== sourceSha256) {
+    return {
+      covered: false,
+      reason: "provenance_describes_a_different_source_document",
+      drift: "source",
+      recordedSourceSha256: record.sourceSha256,
+      actualSourceSha256: sourceSha256
+    };
   }
   const row = (record.artifacts ?? []).find((r) => r.artifact === rel);
-  if (!row) return { covered: false, reason: "artifact_not_named_by_any_provenance_record" };
+  if (!row) return { covered: false, reason: "artifact_not_named_by_any_provenance_record", drift: "output" };
   const actual = sha256(bytes);
   if (row.outputSha256 !== actual) {
-    return { covered: false, reason: "provenance_hash_does_not_match_the_bytes", recorded: row.outputSha256, actual };
+    return {
+      covered: false,
+      reason: "provenance_hash_does_not_match_the_bytes",
+      drift: "output",
+      recorded: row.outputSha256,
+      actual
+    };
   }
-  return { covered: true, outputSha256: actual, normalizedContentSha256: row.normalizedContentSha256 };
+  return {
+    covered: true,
+    drift: null,
+    outputSha256: actual,
+    normalizedContentSha256: row.normalizedContentSha256
+  };
 }

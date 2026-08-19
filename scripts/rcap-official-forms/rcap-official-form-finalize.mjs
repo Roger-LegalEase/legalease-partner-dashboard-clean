@@ -29,6 +29,12 @@ export const DETERMINISTIC_STAMP = new Date("2026-01-01T00:00:00Z");
 export const PARTICIPANT_INK = rgb(0, 0, 0);
 export const PARTICIPANT_INK_RGB = { r: 0, g: 0, b: 0 };
 
+// The write box sits this far above the rule it is measured from, so a box that
+// belongs to a protected rule is one whose baseline is this far above it.
+export const BASELINE_ABOVE_RULE = 2;
+// Tolerance around that, so a profile that rounds differently still trips.
+export const PROTECTED_RULE_BAND = 3;
+
 /**
  * The one way a form may use another ink.
  *
@@ -168,6 +174,7 @@ export async function finalizeFlatOverlay({
   sourceBytes,
   expectedSha256,
   anchors,
+  protectedRules = [],
   facts,
   nonFilingNotice = null,
   minFontSize = MIN_READABLE_FONT_SIZE,
@@ -184,9 +191,49 @@ export async function finalizeFlatOverlay({
   const pdfDoc = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
   const pages = pdfDoc.getPages();
-  const report = { sourceSha256: sourceSha, written: [], refused: [], unfittable: [], expectedValues: [] };
+  const report = { sourceSha256: sourceSha, written: [], refused: [], unfittable: [], expectedValues: [], normalized: [] };
 
   for (const anchor of anchors) {
+    const page = pages[anchor.page - 1];
+    if (!page) {
+      report.refused.push({ anchor: anchor.label, reason: "anchor_page_not_in_document" });
+      continue;
+    }
+
+    // A write box outside the page cannot be reviewed, cannot be read, and on a
+    // filed document is a value that simply is not there. The factory had no
+    // such check: an anchor at x=560 on a 612pt page was drawn, running off the
+    // right edge. Refused rather than clipped — a clipped value on a filing is
+    // a wrong value, not a shorter one.
+    const { width: pageWidth, height: pageHeight } = page.getSize();
+    const box = anchor.writeBox;
+    if (box.x < 0 || box.y < 0 || box.x + box.width > pageWidth + 0.5 || box.y + box.height > pageHeight + 0.5) {
+      report.refused.push({
+        anchor: anchor.label, reason: "write_box_falls_outside_the_page",
+        detail: `box ${box.x},${box.y} ${box.width}x${box.height} against a ${pageWidth}x${pageHeight} page`
+      });
+      continue;
+    }
+
+    // Protection had been a naming convention: the protect rules are applied to
+    // the anchor's LABEL, so an anchor labelled "Name Printed or Typed" whose
+    // write box sits on the signature rule was written without complaint. A
+    // court owns the blank, not the word next to it, so the rule the box lands
+    // on is checked as well. This is geometry-based protection, and it holds
+    // independently of what the label says.
+    const trespass = (anchor.protectedRules ?? protectedRules).find((r) =>
+      r.page === anchor.page
+      && Math.abs(r.y + BASELINE_ABOVE_RULE - box.y) <= PROTECTED_RULE_BAND
+      && box.x < r.endX && box.x + box.width > r.x);
+    if (trespass) {
+      report.refused.push({
+        anchor: anchor.label, reason: "write_box_lands_on_a_rule_the_court_owns",
+        category: trespass.category ?? "protected_rule",
+        detail: `the rule at page ${trespass.page} y=${trespass.y} is owned by the protected caption ${JSON.stringify(trespass.caption ?? "")}`
+      });
+      continue;
+    }
+
     // An anchor is only ever placed against an allowlisted label, but the
     // protect rules are applied again here: the drawing path must not be a way
     // around them.
@@ -199,7 +246,40 @@ export async function finalizeFlatOverlay({
       continue;
     }
     const factId = anchor.factId ?? decision.factId;
-    const value = resolveFact(facts, factId);
+    const raw = resolveFact(facts, factId);
+    // Some blanks are followed by the word they are a blank FOR: Wisconsin's
+    // venue line prints "CIRCUIT COURT, ______ COUNTY". Writing a county fact
+    // that already carries the suffix produced "Milwaukee County   COUNTY" on
+    // the caption of a petition. The suffix the form itself prints is removed
+    // from the value, and the removal is recorded rather than done silently.
+    let value = raw;
+    const printedSuffix = anchor.printedSuffixAfterBlank ?? null;
+    if (printedSuffix && typeof raw === "string") {
+      // Anchored at the end, so the match has to be made against a trimmed
+      // value: "La Crosse County " — which is what a form field and a CSV
+      // import routinely produce — otherwise defeats the pattern, the trailing
+      // space alone gets trimmed, and the venue renders "La Crosse County
+      // COUNTY" while the audit record claims the suffix was removed. A false
+      // normalization record is worse than none: it is the artifact a reviewer
+      // would trust instead of looking.
+      const escaped = printedSuffix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      // The abbreviation the same word is printed as. "Milwaukee Co." doubles
+      // exactly as "Milwaukee County" does.
+      const abbreviation = printedSuffix.length > 3 ? `${escaped.slice(0, 2)}\\.` : null;
+      const alternatives = [escaped, ...(abbreviation ? [abbreviation] : [])].join("|");
+      const base = raw.trim();
+      const stripped = base.replace(new RegExp(`\\s*\\b(?:${alternatives})\\.?$`, "i"), "").trim();
+      // Only when the suffix actually came off. A value that merely had
+      // whitespace trimmed was not normalized and must not be recorded as if
+      // it were.
+      if (stripped !== base && stripped.length > 0) {
+        value = stripped;
+        report.normalized.push({ anchor: anchor.label, factId, from: raw, to: stripped,
+          why: `the form prints ${JSON.stringify(printedSuffix)} after this blank, so the value must not repeat it` });
+      } else {
+        value = base;
+      }
+    }
     if (!valueMatchesType(value, decision.valueType)) {
       report.refused.push({ anchor: anchor.label, reason: "no_value_or_type_mismatch", factId });
       continue;
@@ -211,11 +291,6 @@ export async function finalizeFlatOverlay({
     if (fit.outcome === "refused") {
       report.unfittable.push({ anchor: anchor.label, factId, ...fit });
       report.refused.push({ anchor: anchor.label, reason: fit.reason, category: "unfittable" });
-      continue;
-    }
-    const page = pages[anchor.page - 1];
-    if (!page) {
-      report.refused.push({ anchor: anchor.label, reason: "anchor_page_not_in_document" });
       continue;
     }
     page.drawText(fit.lines.join(" "), {

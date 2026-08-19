@@ -226,3 +226,41 @@ jobs:
       # the denominator to clear its disposition.
       - name: Verify the registry-gap dossier is current
         run: node scripts/generate-rcap-registry-gap-dossier.mjs --check
+
+      # The problematic-PDF lane's fail-closed contract, invoked directly for
+      # the same reason as the guards above: package.json is a worker image
+      # input, so an npm script entry would change the image fingerprint and
+      # force a rebuild for a check that alters nothing the image contains.
+      # This file is in neither image-input set.
+      #
+      # Unconditional on purpose. The two counters this asserts -- no
+      # problematic asset sellable, none on a public packet route -- must hold
+      # on every pull request, and a change that makes one of them false is
+      # exactly the change the scope detector would not call RCAP-affected.
+      - name: Verify the problematic-PDF register, evidence and dispositions
+        run: node scripts/verify-rcap-problematic-pdf-remediation.mjs
+
+      - name: Prove the problematic-PDF contract is load-bearing
+        run: node scripts/verify-rcap-problematic-pdf-remediation.mjs --mutations
+
+      - name: Verify the problematic-PDF contract is actually wired into this workflow
+        run: node scripts/verify-rcap-problematic-pdf-ci-wiring.mjs
+
+      # Retirement removes an asset from the problematic denominator, so the
+      # evidence behind it has to hold on every run: the determination must
+      # still probe every surface and still find none, and every retirement
+      # marker must still match what the determination says.
+      - name: Verify the PDF retirement determination is current
+        run: node scripts/generate-rcap-pdf-retirement-determination.mjs --check
+
+      - name: Verify every retirement marker matches its determination
+        run: node scripts/retire-rcap-problematic-pdf-assets.mjs --check
+
+      # Every discovered field or measured anchor carries exactly one class.
+      # An empty classification file is worse than none: it looks like the
+      # question was asked.
+      - name: Verify every discovered field or anchor is classified
+        run: node scripts/generate-rcap-field-classification.mjs --check
+
+      - name: Verify the flat-overlay renders are current
+        run: node scripts/render-rcap-flat-overlay-families.mjs --check

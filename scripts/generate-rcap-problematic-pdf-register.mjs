@@ -25,6 +25,8 @@ import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { register } from "node:module";
 import { fileURLToPath } from "node:url";
+import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
+import { ROOT_CAUSES, rootCause } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -37,6 +39,9 @@ const LEDGER = path.join(rootDir, "data/rcap-ledger/track-terminalization.json")
 const QUEUE = path.join(rootDir, "data/rcap-all50/review-artifacts/d-track-queue.json");
 const F2 = path.join(rootDir, "data/rcap-all50/review-artifacts/f2-dispositions.json");
 const F3 = path.join(rootDir, "data/rcap-all50/review-artifacts/f3-visual-review.json");
+const ARTIFACT_AUDIT = path.join(rootDir, "data/rcap-all50/finalized-artifact-audit.json");
+const SHEET_PROOF = path.join(rootDir, "data/rcap-all50/contact-sheet-visual-proof.json");
+const RENDER_REPORT = path.join(rootDir, "data/rcap-all50/flat-overlay-render-report.json");
 const OUT_JSON = path.join(rootDir, "data/rcap-all50/problematic-pdf-register.json");
 const OUT_MD = path.join(rootDir, "docs/record-clearing/problematic-pdf-register.md");
 const OUT_CSV = path.join(rootDir, "docs/record-clearing/problematic-pdf-register.csv");
@@ -119,10 +124,31 @@ const f3 = readJson(F3, { jobs: [], reviewExempt: [] });
 const visualJobStatusByFamily = new Map();
 for (const job of f3.jobs ?? []) visualJobStatusByFamily.set(`${job.state}:${job.family}`, job.status);
 
+// What the committed artifacts actually are, and whether the contact sheets
+// actually show a fill. Both are observed from the bytes in the clone, so a
+// family cannot claim rendered or visual evidence it does not have.
+const artifactAudit = readJson(ARTIFACT_AUDIT, { families: [] });
+const auditByFamily = new Map((artifactAudit.families ?? []).map((f) => [f.familyId, f]));
+const sheetProof = readJson(SHEET_PROOF, { families: [] });
+const sheetProofByFamily = new Map((sheetProof.families ?? []).map((f) => [f.familyId, f]));
+
+// Live render evidence outranks the implementation index. The index is a
+// generated snapshot of an earlier run: for a family the renderer has since
+// rendered from its verified binary, the index still reports the write box as
+// pending and the contact sheet as absent. Reading it as current is the same
+// stale-evidence failure this register exists to catch, so a rendered family is
+// judged on what the renderer actually did.
+const renderReport = readJson(RENDER_REPORT, { families: [] });
+const renderedByFamily = new Map((renderReport.families ?? []).filter((f) => f.rendered).map((f) => [f.familyId, f]));
+
 const implIndex = readJson(path.join(OVERLAY_DIR, "implementation-index.json"), { families: [] });
 const implByFamily = new Map(implIndex.families.map((f) => [`${f.jurisdiction}:${f.family}`, f]));
 const binIndex = readJson(path.join(OVERLAY_DIR, "verified-binary-index.json"), { families: [] });
 const binByFamily = new Map(binIndex.families.map((f) => [`${f.jurisdiction}:${f.familySlug}`, f]));
+
+// Families that have left the operational inventory, collected as the scan runs
+// so the register can report what it excluded rather than silently shrinking.
+const retired = [];
 
 /** Every family directory that carries a committed source record. */
 function familyDirectories() {
@@ -136,6 +162,17 @@ function familyDirectories() {
       if (!fs.statSync(familyPath).isDirectory()) continue;
       const sourceRecord = path.join(familyPath, "source-record.json");
       if (!fs.existsSync(sourceRecord)) continue;
+      // A retired asset has left the operational inventory: nothing on the
+      // platform reaches it, nothing expects it to become deliverable, and it
+      // is no longer part of the problematic denominator. It stays on disk as
+      // historical evidence, which is why it is skipped here rather than
+      // deleted. The marker is written only where the retirement determination
+      // probed every surface and found none.
+      const retirement = path.join(familyPath, "retirement.json");
+      if (fs.existsSync(retirement)) {
+        retired.push({ stateDir, familySlug: familyDir, marker: readJson(retirement) });
+        continue;
+      }
       out.push({ stateDir, familySlug: familyDir, familyPath, sourceRecord });
     }
   }
@@ -150,71 +187,155 @@ function familyDirectories() {
  * them into "needs work" is how a register stops being useful.
  */
 function defectsFor(ctx) {
-  const { record, impl, overflow, protectedScan, binary, visualStatus, trackKeys } = ctx;
+  const { record, impl, overflow, protectedScan, binary, visualStatus, trackKeys, audit, sheet, rendered } = ctx;
   const defects = [];
-  const add = (category, description, evidence) => defects.push({ category, description, evidence });
+  // Every finding names a root cause, and the catalogue decides whether that
+  // cause is systemic -- one upstream problem clearing on many assets at once
+  // -- or specific to this form. An unknown id throws rather than becoming a
+  // silent twenty-ninth cause.
+  const add = (category, rootCauseId, description, evidence) => {
+    const cause = rootCause(rootCauseId);
+    defects.push({
+      category, rootCauseId, description, evidence,
+      rootCauseScope: cause.scope, rootCauseDimension: cause.dimension
+    });
+  };
 
   const v2 = record.schemaVersion?.includes("v2");
 
   if (v2) {
-    if (record.binaryPresent === false) add("missing_binary", `The verified binary for ${record.documentId} is not present in the clone.`, "source-record.json:binaryPresent");
-    if (record.sha256VerifiedAgainstBundleManifest === false) add("source_identity_ambiguous", "The source SHA does not verify against the bundle manifest.", "source-record.json:sha256VerifiedAgainstBundleManifest");
-    if (record.byteLengthMatches === false) add("source_identity_ambiguous", "The observed byte length disagrees with the bundle-declared length.", "source-record.json:byteLengthMatches");
-    if (record.structuralClassAgrees === false) add("source_identity_ambiguous", `The observed structural class (${record.structuralClassObserved}) disagrees with the declared class (${record.structuralClassDeclared}).`, "source-record.json:structuralClassAgrees");
-    if (record.pageCountAgrees === false) add("source_identity_ambiguous", "The observed page count disagrees with the declared page count.", "source-record.json:pageCountAgrees");
+    if (record.binaryPresent === false) add("missing_binary", "RC-S-BUNDLE-ABSENT", `The verified binary for ${record.documentId} is not present in the clone.`, "source-record.json:binaryPresent");
+    if (record.sha256VerifiedAgainstBundleManifest === false) add("source_identity_ambiguous", "RC-S-IDENTITY-AMBIGUOUS", "The source SHA does not verify against the bundle manifest.", "source-record.json:sha256VerifiedAgainstBundleManifest");
+    if (record.byteLengthMatches === false) add("source_identity_ambiguous", "RC-S-IDENTITY-AMBIGUOUS", "The observed byte length disagrees with the bundle-declared length.", "source-record.json:byteLengthMatches");
+    // Recomputed through the shared vocabulary rather than read from the
+    // record's own boolean: records written by the pre-normalization builder
+    // carry `false` for every AcroForm purely because the manifest spells the
+    // class `acroform_pdf` where the binary inspector spells it `acroform`.
+    if (structuralClassesAgree(record.structuralClassObserved, record.structuralClassDeclared) === false) {
+      add("source_identity_ambiguous", "RC-S-IDENTITY-AMBIGUOUS", `The observed structural class (${record.structuralClassObserved}) disagrees with the declared class (${record.structuralClassDeclared}).`, "source-record.json:structuralClassObserved,structuralClassDeclared");
+    }
+    if (record.pageCountAgrees === false) add("source_identity_ambiguous", "RC-S-IDENTITY-AMBIGUOUS", "The observed page count disagrees with the declared page count.", "source-record.json:pageCountAgrees");
     if (record.freshnessStatus && record.freshnessStatus !== "current_source" && record.freshnessStatus !== "candidate_current_source") {
-      add("stale_or_superseded", `Freshness is recorded as ${record.freshnessStatus}.`, "source-record.json:freshnessStatus");
+      add("stale_or_superseded", "RC-S-STALE-OR-SUPERSEDED", `Freshness is recorded as ${record.freshnessStatus}.`, "source-record.json:freshnessStatus");
     }
     if (record.freshnessStatus === "candidate_current_source") {
-      add("currentness_unverified", `Revision ${record.revision ?? "unknown"} is a candidate current source that no independent currentness review has confirmed.`, "source-record.json:freshnessStatus");
+      add("currentness_unverified", "RC-S-CURRENTNESS-UNVERIFIED", `Revision ${record.revision ?? "unknown"} is a candidate current source that no independent currentness review has confirmed.`, "source-record.json:freshnessStatus");
     }
-    if (record.generationAllowed === false) add("held_on_source_or_design", "Generation from this asset is not allowed by its committed source record.", "source-record.json:generationAllowed");
+    if (record.generationAllowed === false) add("held_on_source_or_design", "RC-G-GENERATION-NOT-ALLOWED", "Generation from this asset is not allowed by its committed source record.", "source-record.json:generationAllowed");
     for (const hold of record.productionHolds ?? []) {
-      add("held_on_source_or_design", typeof hold === "string" ? hold : JSON.stringify(hold), "source-record.json:productionHolds");
+      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", typeof hold === "string" ? hold : JSON.stringify(hold), "source-record.json:productionHolds");
     }
   } else {
-    if (record.sourcePresenceInClone === false) add("missing_binary", `${record.fileName} is expected at ${record.relativePath} and is not present in the clone.`, "source-record.json:sourcePresenceInClone");
-    if (record.fieldExtractionStatus === "field_census_unavailable_in_repo") add("flat_overlay_geometry_or_readback", "No field census could be extracted, so overlay geometry cannot be measured or read back.", "source-record.json:fieldExtractionStatus");
-    if (record.classification === "dirty_acroform") add("xfa_javascript_or_active_content_residue", "The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill.", "source-record.json:classification");
-    if (record.classification === "scanned_pdf") add("flat_overlay_geometry_or_readback", "The binary is a scan, so there are no widgets to bind and any fill is flat-overlay geometry.", "source-record.json:classification");
-    if (record.failClosed === true) add("held_on_source_or_design", "The source record fails closed: no generation is permitted from it in its current state.", "source-record.json:failClosed");
+    if (record.sourcePresenceInClone === false) add("missing_binary", "RC-S-BUNDLE-ABSENT", `${record.fileName} is expected at ${record.relativePath} and is not present in the clone.`, "source-record.json:sourcePresenceInClone");
+    if (record.fieldExtractionStatus === "field_census_unavailable_in_repo") add("flat_overlay_geometry_or_readback", "RC-T-NO-FIELD-CENSUS", "No field census could be extracted, so overlay geometry cannot be measured or read back.", "source-record.json:fieldExtractionStatus");
+    if (record.classification === "dirty_acroform") add("xfa_javascript_or_active_content_residue", "RC-T-DIRTY-ACROFORM-SOURCE", "The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill.", "source-record.json:classification");
+    if (record.classification === "scanned_pdf") add("flat_overlay_geometry_or_readback", "RC-T-FLAT-GEOMETRY", "The binary is a scan, so there are no widgets to bind and any fill is flat-overlay geometry.", "source-record.json:classification");
+    if (record.failClosed === true) add("held_on_source_or_design", "RC-G-GENERATION-NOT-ALLOWED", "The source record fails closed: no generation is permitted from it in its current state.", "source-record.json:failClosed");
     for (const hold of record.productionHolds ?? []) {
-      add("held_on_source_or_design", typeof hold === "string" ? hold : JSON.stringify(hold), "source-record.json:productionHolds");
+      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", typeof hold === "string" ? hold : JSON.stringify(hold), "source-record.json:productionHolds");
     }
   }
 
-  if (binary?.structuralClass === "flat_pdf") {
-    add("flat_overlay_geometry_or_readback", "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.", "verified-binary-index.json:structuralClass");
+  // A flat PDF places every value by measured geometry. That is a defect only
+  // while the geometry is unmeasured; once the write boxes are recorded against
+  // the rule lines they came from and the family renders, it is simply how this
+  // form works.
+  if (binary?.structuralClass === "flat_pdf" && !rendered) {
+    add("flat_overlay_geometry_or_readback", "RC-T-FLAT-GEOMETRY", "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.", "verified-binary-index.json:structuralClass");
   }
 
   for (const finding of overflow?.findings ?? []) {
-    const category = finding.check === "clipping" ? "clipped_overlapping_or_misplaced" : "visually_unsafe";
-    add(category, `Field "${finding.field}" fails the ${finding.check} check under the ${finding.fixture} fixture: text width ${finding.textWidthAt} exceeds widget width ${finding.widgetWidth} at font size ${finding.fontSize}.`, "reports/overflow-and-clipping.json");
+    const clipping = finding.check === "clipping";
+    const category = clipping ? "clipped_overlapping_or_misplaced" : "visually_unsafe";
+    add(category, clipping ? "RC-V-CLIPPING" : "RC-V-UNSAFE-PLACEMENT", `Field "${finding.field}" fails the ${finding.check} check under the ${finding.fixture} fixture: text width ${finding.textWidthAt} exceeds widget width ${finding.widgetWidth} at font size ${finding.fontSize}.`, "reports/overflow-and-clipping.json");
   }
 
   for (const violation of protectedScan?.violations ?? []) {
-    add("protected_field_populated", typeof violation === "string" ? violation : JSON.stringify(violation), "reports/protected-fields-scan.json");
+    add("protected_field_populated", "RC-T-PROTECTED-FIELD-FACTORY-WRITE", typeof violation === "string" ? violation : JSON.stringify(violation), "reports/protected-fields-scan.json");
   }
   if (protectedScan && protectedScan.pass === false && (protectedScan.violations ?? []).length === 0) {
-    add("protected_field_populated", "The protected-field scan did not pass.", "reports/protected-fields-scan.json");
+    add("protected_field_populated", "RC-T-PROTECTED-FIELD-FACTORY-WRITE", "The protected-field scan did not pass.", "reports/protected-fields-scan.json");
   }
 
-  if (impl) {
-    if (impl.contactSheet === false) add("stale_contact_sheet_manifest_or_review_evidence", "No contact sheet was produced, so there is no visual evidence to review.", "implementation-index.json:contactSheet");
-    if (impl.status === "overlay_no_participant_label_matched") add("multi_widget_ambiguity", "No participant label could be matched on the overlay, so no field can be bound unambiguously.", "implementation-index.json:status");
-    if (impl.status === "overlay_labels_measured_write_box_pending_review") add("multi_widget_ambiguity", "Overlay labels are measured but the write box is unreviewed, so placement remains ambiguous.", "implementation-index.json:status");
-    if (impl.status === "acroform_mapped_all_fields_manual_or_unwritable") add("missing_required_packet_component", "Every field on this AcroForm is manual or unwritable, so it produces no filled component.", "implementation-index.json:status");
-    if (impl.fields > 0 && impl.bound === 0) add("multi_widget_ambiguity", `The asset exposes ${impl.fields} fields and binds none of them.`, "implementation-index.json:bound");
+  if (impl && !rendered) {
+    if (impl.contactSheet === false) add("stale_contact_sheet_manifest_or_review_evidence", "RC-V-NO-SHEET-PRODUCED", "No contact sheet was produced, so there is no visual evidence to review.", "implementation-index.json:contactSheet");
+    if (impl.status === "overlay_no_participant_label_matched") add("multi_widget_ambiguity", "RC-T-NO-DERIVABLE-WRITE-BOX", "No participant label could be matched on the overlay, so no field can be bound unambiguously.", "implementation-index.json:status");
+    if (impl.status === "overlay_labels_measured_write_box_pending_review") add("multi_widget_ambiguity", "RC-T-NO-DERIVABLE-WRITE-BOX", "Overlay labels are measured but the write box is unreviewed, so placement remains ambiguous.", "implementation-index.json:status");
+    if (impl.status === "acroform_mapped_all_fields_manual_or_unwritable") add("missing_required_packet_component", "RC-T-ALL-FIELDS-UNWRITABLE", "Every field on this AcroForm is manual or unwritable, so it produces no filled component.", "implementation-index.json:status");
+    if (impl.fields > 0 && impl.bound === 0) add("multi_widget_ambiguity", "RC-T-NO-DERIVABLE-WRITE-BOX", `The asset exposes ${impl.fields} fields and binds none of them.`, "implementation-index.json:bound");
+  }
+
+  // The committed artifacts, judged against the factory's own finalization
+  // contract. These are not opinions about the source binary: they are what
+  // the bytes in the clone are. An artifact that is not flattened hides its
+  // values in widget appearances, which is why the sheets built from these
+  // show nothing.
+  for (const artifact of (audit?.artifacts ?? []).filter((a) => a.present && !a.finalized)) {
+    for (const failure of artifact.failures) {
+      switch (failure) {
+        case "not_flattened_live_form_fields_survive":
+          add("unfinalized_rendered_artifact", "RC-T-UNFLATTENED-FIELDS", `${artifact.rel} is not a finalized participant artifact: ${failure.replace(/_/g, " ")}.`, "finalized-artifact-audit.json:families[].artifacts[].failures");
+          break;
+        case "participant_values_exist_only_in_unflattened_widget_appearances":
+          add("unfinalized_rendered_artifact", "RC-T-VALUES-IN-APPEARANCES", `${artifact.rel} is not a finalized participant artifact: ${failure.replace(/_/g, " ")}.`, "finalized-artifact-audit.json:families[].artifacts[].failures");
+          break;
+        case "participant_values_absent_from_the_artifact_entirely":
+          add("unfinalized_rendered_artifact", "RC-T-VALUES-ABSENT", `${artifact.rel} is not a finalized participant artifact: ${failure.replace(/_/g, " ")}.`, "finalized-artifact-audit.json:families[].artifacts[].failures");
+          break;
+        case "not_stamped_by_the_current_factory":
+          add("unfinalized_rendered_artifact", "RC-T-FACTORY-PROVENANCE", `${artifact.rel} is not a finalized participant artifact: ${failure.replace(/_/g, " ")}.`, "finalized-artifact-audit.json:families[].artifacts[].failures");
+          break;
+        case "object_streams_hide_active_content_from_the_scan":
+          add("rendered_artifact_not_byte_inspectable", "RC-T-OBJECT-STREAMS", `${artifact.rel} is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it.`, "finalized-artifact-audit.json:families[].artifacts[].byteInspectable");
+          break;
+        case "active_content_residue":
+        case "xfa_survives_in_output":
+          add("xfa_javascript_or_active_content_residue", "RC-T-ACTIVE-CONTENT-IN-OUTPUT", `${artifact.rel} carries ${failure.replace(/_/g, " ")}.`, "finalized-artifact-audit.json:families[].artifacts[].failures");
+          break;
+        case "protected_field_written_by_the_factory":
+          add("protected_field_populated", "RC-T-PROTECTED-FIELD-FACTORY-WRITE", `${artifact.rel} carries a factory-written value in ${artifact.protectedFieldsWrittenByFactory.join(", ")}.`, "finalized-artifact-audit.json:families[].artifacts[].protectedFieldsWrittenByFactory");
+          break;
+        case "protected_field_holds_a_source_default_that_flattening_would_drop":
+          add("unfinalized_rendered_artifact", "RC-T-SOURCE-DEFAULT-IN-PROTECTED-FIELD", `${artifact.rel} leaves the form's own preprinted default in protected field(s) ${artifact.protectedFieldsHoldingSourceDefaults.join(", ")}; flattening the artifact drops them.`, "finalized-artifact-audit.json:families[].artifacts[].protectedFieldsHoldingSourceDefaults");
+          break;
+        case "does_not_parse":
+          add("missing_required_packet_component", "RC-T-ARTIFACT-UNPARSEABLE", `${artifact.rel} does not parse as a PDF.`, "finalized-artifact-audit.json:families[].artifacts[].parseError");
+          break;
+        default:
+          add("unfinalized_rendered_artifact", "RC-T-FACTORY-PROVENANCE", `${artifact.rel}: ${failure.replace(/_/g, " ")}.`, "finalized-artifact-audit.json:families[].artifacts[].failures");
+      }
+    }
+  }
+
+  // The causal link between the two dimensions, stated once rather than left
+  // for a reader to infer: this family has a sheet, and the fixture the sheet
+  // was built from is not a finalized artifact, which is why the sheet shows
+  // what it shows.
+  const sheetArtifact = (audit?.artifacts ?? []).find((a) => a.present && a.kind === "contact_sheet");
+  const unfinalizedFixture = (audit?.artifacts ?? []).some((a) => a.present && a.kind !== "contact_sheet" && !a.finalized);
+  if (sheetArtifact && unfinalizedFixture) {
+    add("stale_contact_sheet_manifest_or_review_evidence", "RC-V-SHEET-FROM-UNFINALIZED-SOURCE",
+      "The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry.",
+      "finalized-artifact-audit.json:families[].artifacts[].finalized");
+  }
+
+  // The sheet was rendered and its two panels compared. Identical panels mean
+  // the reviewer is being shown two blank forms.
+  if (sheet?.panelsAreVisuallyIdentical === true) {
+    add("contact_sheet_shows_no_fill", "RC-V-SHEET-PANELS-IDENTICAL", `The committed contact sheet renders its blank and filled panels identically (${(sheet.differingPixelFraction * 100).toFixed(4)}% of pixels differ), so it shows no fill to review.`, "contact-sheet-visual-proof.json:families[].differingPixelFraction");
+  }
+  if (!rendered && audit && audit.artifacts.some((a) => a.present && a.kind === "contact_sheet") && audit.contactSheetProofPresent === false) {
+    add("stale_contact_sheet_manifest_or_review_evidence", "RC-V-SHEET-NO-VISIBILITY-PROOF", "The committed contact sheet carries no visibility proof, so it was written before the builder began proving its filled panel shows the expected values.", "contact-sheet/contact-sheet-proof.json");
   }
 
   if (visualStatus && visualStatus !== "closed" && visualStatus !== "approved") {
-    add("visually_unsafe", `The F3 visual review job for this family is ${visualStatus}, so no independent visual approval exists.`, "f3-visual-review.json:jobs");
+    add("visually_unsafe", "RC-V-NO-INDEPENDENT-VISUAL-APPROVAL", `The F3 visual review job for this family is ${visualStatus}, so no independent visual approval exists.`, "f3-visual-review.json:jobs");
   }
 
   const anyApproved = trackKeys.some((key) => approvedTrackKeys.has(key));
   const anyCorrection = trackKeys.some((key) => correctionTrackKeys.has(key));
-  if (anyCorrection) add("technically_correction_required", "An independent technical review returned correction_required for a track this asset serves.", "f2-dispositions.json:closures");
-  if (!anyApproved) add("never_independently_approved", "No independent technical approval exists for any track this asset serves.", "f2-dispositions.json:closures");
+  if (anyCorrection) add("technically_correction_required", "RC-G-TECHNICAL-CORRECTION-REQUIRED", "An independent technical review returned correction_required for a track this asset serves.", "f2-dispositions.json:closures");
+  if (!anyApproved) add("never_independently_approved", "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL", "No independent technical approval exists for any track this asset serves.", "f2-dispositions.json:closures");
 
   return defects;
 }
@@ -280,7 +401,7 @@ for (const family of familyDirectories()) {
   const affectedTrackIds = [...new Set([...fromQueue, ...fromRegistry])].sort();
   const trackKeys = affectedTrackIds.map((trackId) => `${ledgerByTrack.get(trackId)?.jurisdiction ?? jurisdiction}:${trackId}`);
 
-  const defects = defectsFor({ record, impl, overflow, protectedScan, binary, visualStatus: visualJobStatusByFamily.get(familyId), trackKeys });
+  const defects = defectsFor({ record, impl, overflow, protectedScan, binary, visualStatus: visualJobStatusByFamily.get(familyId), trackKeys, audit: auditByFamily.get(familyId) ?? null, sheet: sheetProofByFamily.get(familyId) ?? null, rendered: renderedByFamily.get(familyId) ?? null });
   if (defects.length === 0) continue;
 
   const existing = seen.get(identity);
@@ -288,6 +409,23 @@ for (const family of familyDirectories()) {
     existing.familyIds = [...new Set([...existing.familyIds, familyId])].sort();
     existing.affectedTrackIds = [...new Set([...existing.affectedTrackIds, ...affectedTrackIds])].sort();
     existing.evidencePaths = [...new Set([...existing.evidencePaths, path.relative(rootDir, family.familyPath)])].sort();
+    // The merged family's defects belong to the record too. Two families that
+    // resolve to the same binary are one asset, but they are not one package:
+    // each carries its own rendered artifacts, contact sheet and reports, and
+    // dropping the second family's defects hid every artifact defect belonging
+    // to a family that happened to be seen second.
+    const known = new Set(existing.defects.map((d) => `${d.category}|${d.description}`));
+    for (const defect of defects) {
+      if (known.has(`${defect.category}|${defect.description}`)) continue;
+      existing.defects.push(defect);
+    }
+    existing.defectCategories = [...new Set(existing.defects.map((d) => d.category))].sort();
+    existing.fieldAndPageLocations = [
+      ...existing.fieldAndPageLocations,
+      ...(overflow?.findings ?? []).map((f) => ({
+        field: f.field, check: f.check, widgetWidth: f.widgetWidth ?? null, textWidthAt: f.textWidthAt ?? null, page: f.page ?? null
+      }))
+    ];
     continue;
   }
 
@@ -344,6 +482,10 @@ for (const entry of records) {
 
   entry.exactNextAction = missing
     ? `Supply the exact verified binary for ${entry.jurisdiction} ${entry.formId} at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.`
+    : entry.defectCategories.includes("protected_field_populated")
+      ? `Remove the factory write into the protected field(s) recorded against ${entry.jurisdiction} ${entry.formId} and re-render the fixture from the verified binary.`
+      : entry.defectCategories.includes("unfinalized_rendered_artifact") || entry.defectCategories.includes("contact_sheet_shows_no_fill")
+      ? `Re-render ${entry.jurisdiction} ${entry.formId} through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.`
     : entry.defectCategories.includes("clipped_overlapping_or_misplaced")
       ? `Re-measure the failing widgets on ${entry.jurisdiction} ${entry.formId} and re-render the boundary fixture until no clipping finding remains.`
       : entry.defectCategories.includes("protected_field_populated")
@@ -358,7 +500,10 @@ for (const entry of records) {
   // launch track whose participants are being turned away from a filing route
   // is worth more than a cosmetic defect on inventory nobody reaches.
   const servesActive = activeTracks.length > 0;
-  const severe = entry.defectCategories.some((c) => ["protected_field_populated", "missing_binary", "source_identity_ambiguous"].includes(c));
+  const severe = entry.defectCategories.some((c) => [
+    "protected_field_populated", "missing_binary", "source_identity_ambiguous",
+    "unfinalized_rendered_artifact", "rendered_artifact_not_byte_inspectable", "contact_sheet_shows_no_fill"
+  ].includes(c));
   entry.postLaunchPriority = servesActive && severe ? "high" : servesActive ? "medium" : "low";
 }
 
@@ -377,16 +522,72 @@ const stillPublic = allAffected.filter((t) => t.publicPacketRoute);
 const safelyTerminalized = [...new Set(allAffected.filter((t) => t.terminal || t.treatmentKind).map((t) => t.trackId))];
 
 const countBy = (category) => records.filter((r) => r.defectCategories.includes(category)).length;
+
+// ---- impacted assets versus unique root causes ------------------------------
+// Two different questions, answered separately on purpose. How many assets
+// carry a finding is a measure of blast radius. How many distinct problems
+// produce those findings is a measure of work. One systemic factory problem
+// touching 62 artifacts is one problem and 62 impacted assets, and reporting
+// either number alone misleads in a different direction.
+for (const entry of records) {
+  entry.rootCauseIds = [...new Set(entry.defects.map((d) => d.rootCauseId))].sort();
+  entry.systemicRootCauseIds = entry.rootCauseIds.filter((id) => ROOT_CAUSES[id].scope === "systemic");
+  entry.familySpecificRootCauseIds = entry.rootCauseIds.filter((id) => ROOT_CAUSES[id].scope === "family_specific");
+}
+
+const inDimension = (entry, dimension) => entry.defects.some((d) => ROOT_CAUSES[d.rootCauseId].dimension === dimension);
+const uniqueSystemic = (dimension) => new Set(
+  records.flatMap((r) => r.rootCauseIds).filter((id) => ROOT_CAUSES[id].dimension === dimension && ROOT_CAUSES[id].scope === "systemic")
+).size;
+// A family-specific defect is counted once per asset it is specific to, because
+// each one is its own piece of work; a systemic cause is counted once in total.
+const uniqueFamilySpecific = (dimension) => new Set(
+  records.flatMap((r) => r.rootCauseIds
+    .filter((id) => ROOT_CAUSES[id].dimension === dimension && ROOT_CAUSES[id].scope === "family_specific")
+    .map((id) => `${r.identity}|${id}`))
+).size;
+
+const rootCauseIndex = [...new Set(records.flatMap((r) => r.rootCauseIds))].sort().map((id) => ({
+  rootCauseId: id,
+  ...ROOT_CAUSES[id],
+  impactedAssets: records.filter((r) => r.rootCauseIds.includes(id)).length,
+  impactedAssetIds: records.filter((r) => r.rootCauseIds.includes(id)).map((r) => r.identity)
+}));
+const retiredAssetIds = [...new Set(retired.map((r) => r.marker?.assetId).filter(Boolean))];
 const totals = {
   problematicPdfsTotal: records.length,
+  retiredFromOperationalInventory: retiredAssetIds.length,
+  retiredFamilyDirectories: retired.length,
   activeTrackProblematicPdfs: sections.active_track_problem_pdfs.length,
   orphanedOrOptionalPdfs: sections.orphaned_or_optional_problem_pdfs.length,
   missingPdfBinaries: sections.missing_pdf_assets.length,
+  // Blast radius.
+  assetsWithAtLeastOneTechnicalFinding: records.filter((r) => inDimension(r, "technical")).length,
+  assetsWithAtLeastOneVisualFinding: records.filter((r) => inDimension(r, "visual")).length,
+  assetsWithAtLeastOneSourceFinding: records.filter((r) => inDimension(r, "source")).length,
+  // Work.
+  uniqueSystemicTechnicalRootCauses: uniqueSystemic("technical"),
+  uniqueFamilySpecificTechnicalDefects: uniqueFamilySpecific("technical"),
+  uniqueSystemicVisualRootCauses: uniqueSystemic("visual"),
+  uniqueFamilySpecificVisualDefects: uniqueFamilySpecific("visual"),
+  uniqueSystemicSourceRootCauses: uniqueSystemic("source"),
+  uniqueFamilySpecificSourceDefects: uniqueFamilySpecific("source"),
+  uniqueRootCausesInPlay: rootCauseIndex.length,
   technicalDefects: records.filter((r) => r.defectCategories.some((c) => [
     "flat_overlay_geometry_or_readback", "multi_widget_ambiguity", "xfa_javascript_or_active_content_residue",
-    "missing_required_packet_component", "technically_correction_required"
+    "missing_required_packet_component", "technically_correction_required",
+    "unfinalized_rendered_artifact", "rendered_artifact_not_byte_inspectable"
   ].includes(c))).length,
-  visualDefects: records.filter((r) => r.defectCategories.some((c) => ["visually_unsafe", "clipped_overlapping_or_misplaced", "protected_field_populated"].includes(c))).length,
+  visualDefects: records.filter((r) => r.defectCategories.some((c) => [
+    "visually_unsafe", "clipped_overlapping_or_misplaced", "protected_field_populated",
+    "contact_sheet_shows_no_fill", "stale_contact_sheet_manifest_or_review_evidence"
+  ].includes(c))).length,
+  // Split out because they are the finding that decides whether any committed
+  // rendered or visual evidence in this lane can be relied on at all.
+  unfinalizedRenderedArtifacts: records.filter((r) => r.defectCategories.includes("unfinalized_rendered_artifact")).length,
+  renderedArtifactsNotByteInspectable: records.filter((r) => r.defectCategories.includes("rendered_artifact_not_byte_inspectable")).length,
+  contactSheetsShowingNoFill: records.filter((r) => r.defectCategories.includes("contact_sheet_shows_no_fill")).length,
+  protectedFieldsPopulatedByTheFactory: records.filter((r) => r.defectCategories.includes("protected_field_populated")).length,
   sourceOrCurrentnessDefects: records.filter((r) => r.defectCategories.some((c) => ["missing_binary", "stale_or_superseded", "currentness_unverified", "source_identity_ambiguous"].includes(c))).length,
   legalDesignOrAdoptionHolds: countBy("held_on_source_or_design"),
   tracksSafelyTerminalizedAroundAProblemPdf: safelyTerminalized.length,
@@ -402,6 +603,14 @@ const payload = {
   registerDoesNotBlock: "This register does not block 497/497 when the associated track has a complete independently approved terminal alternative. It DOES block launch when a track has no complete terminal treatment, when an unsupported PDF route remains sellable, when payment or credit can still be consumed, when the route can still generate or expose the unsafe PDF, or when an issue is omitted from the register.",
   postLaunchReplacementRule: "After launch a repaired PDF may replace its fallback only after exact source verification, current implementation proof, fresh independent technical and visual approval, legal-adoption continuity where applicable, runtime integration, staging acceptance, and a controlled route-state promotion. A pending post-launch repair never reopens the nationwide denominator.",
   registrySource: { commit: regSrc.commit, path: REGISTRY_PATH },
+  retirement: {
+    rule: "An asset leaves this register only when the retirement determination probed every surface that could reach it -- packet components, composed routes, guidance packets, terminal treatments, overlay and build manifests, runtime field-map drafts and application source -- and found none. Difficulty of repair is never a reason. Nothing is deleted; the family stays on disk with a marker.",
+    determination: "data/rcap-all50/pdf-retirement-determination.json",
+    retiredAssetIds,
+    retiredFamilies: retired.map((r) => ({ jurisdiction: r.marker?.jurisdiction ?? null, formNumber: r.marker?.formNumber ?? null, family: `${r.stateDir}/${r.familySlug}` }))
+  },
+  readingTheCounts: "`technicalDefects` and `visualDefects` count ASSETS carrying a finding, not problems to solve. The number of problems is `uniqueSystemicTechnicalRootCauses` plus `uniqueFamilySpecificTechnicalDefects`, and the same for visual. One systemic factory problem across 62 artifacts is one problem with 62 impacted assets; it is neither 62 problems nor a reason to report fewer assets.",
+  rootCauseIndex,
   totals,
   sections: {
     activeTrackProblemPdfs: sections.active_track_problem_pdfs.map((r) => r.identity),

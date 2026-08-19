@@ -42,6 +42,16 @@ const OVERRIDES = {
     reason:
       "Lane B's acceptance contract for guidance/exclusion/deferral treatments. Red by design until lane B delivers every assigned state (window 2 imported the six completed B1 treatments; B2/B3 and the rest of B1 are still in flight), so it runs per-partition inside lane B and becomes a wired blocking step when the lane completes. Wiring it now would fail the chain on work that is assigned, not late."
   },
+  "verify-rcap-problematic-pdf-ci-wiring.mjs": {
+    disposition: "wired",
+    reason:
+      "Proves the problematic-PDF contract is actually reached by CI: the All50 handoff workflow must invoke it, and unconditionally, because a step guarded by the RCAP scope detector would be skipped on exactly the commit that flips a problematic route sellable. Invoked directly from the workflow rather than through npm test, since package.json is a worker image input. `--mutations` proves removing the step, making it conditional, or letting the disposition register drift each turn a named check red."
+  },
+  "verify-rcap-problematic-pdf-remediation.mjs": {
+    disposition: "wired",
+    reason:
+      "The problematic-PDF lane's fail-closed contract: the structural-class vocabulary, the finalized-artifact audit's internal consistency, every unfinalized artifact and factory-written protected field reaching the register, both launch counters at zero, the master list covering the register exactly once with no vague status and nothing released from HELD, lane A claimed only with a binary in the clone, every evidence path resolving, and no blank contact sheet signed off as visual evidence. Green, with `--mutations` proving all sixteen checks go red one at a time under the tracked mutation guard. Wired directly from .github/workflows/rcap-all50-handoff.yml, both the contract and its `--mutations` pass, alongside the migration-sequence, worker-tag and hosted-verdict guards that are invoked the same way and for the same reason: package.json is a worker image input, so an npm script entry would change the image fingerprint and force a rebuild for a check that alters nothing the image contains. verify-rcap-problematic-pdf-ci-wiring.mjs holds that invocation in place."
+  },
   "verify-rcap-official-forms-d1.mjs": {
     disposition: "wired",
     reason:
