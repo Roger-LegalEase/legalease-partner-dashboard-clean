@@ -206,3 +206,15 @@ jobs:
 
       - name: Prove the launch-graph denominator and predicate guards are load-bearing
         run: node scripts/verify-rcap-launch-graph.mjs --mutations
+
+      # The five systemic PDF corrections, proved once for the corpus rather
+      # than family by family: content-stream geometry with the CR-266 defects
+      # as permanent canaries, black participant ink, the court's own metadata
+      # with partner branding refused at emit, a sidecar bound to the output
+      # hash, an email line that takes an email or nothing, and a field census
+      # where classified equals discovered.
+      - name: Verify the shared PDF finalization contract
+        run: node scripts/verify-rcap-shared-pdf-contract.mjs
+
+      - name: Prove the shared PDF contract guards are load-bearing
+        run: node scripts/verify-rcap-shared-pdf-contract.mjs --mutations

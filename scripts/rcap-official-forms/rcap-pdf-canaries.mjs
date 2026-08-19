@@ -68,7 +68,7 @@ export async function wisconsinCr266GeometryCanary() {
   caption("Signature", 72, 120);
   rule(150, 112.5, 200);
 
-  return { bytes: await doc.save(), doc };
+  return { bytes: await doc.save({ useObjectStreams: false }), doc };
 }
 
 /** An AcroForm with a text field, a checkbox and a protected signature field. */
@@ -99,7 +99,7 @@ export async function acroFormCanary() {
   const signature = form.createTextField("judge.signature");
   signature.addToPage(page, { x: 180, y: 114, width: 240, height: 16 });
 
-  return { bytes: await doc.save(), doc };
+  return { bytes: await doc.save({ useObjectStreams: false }), doc };
 }
 
 /** A document carrying every kind of active content the sanitizer must strip. */
@@ -138,7 +138,7 @@ export async function activeContentCanary() {
   const annots = ctx.obj([ctx.register(annot)]);
   page.node.set(PDFName.of("Annots"), ctx.register(annots));
 
-  return { bytes: await doc.save(), doc, PDFName, PDFArray, PDFDict };
+  return { bytes: await doc.save({ useObjectStreams: false }), doc, PDFName, PDFArray, PDFDict };
 }
 
 /** A flat form whose only two write lines are an email line and a street line. */
@@ -159,5 +159,5 @@ export async function emailSemanticsCanary() {
   page.drawText("Street Address", { x: 72, y: 660, size: 9, font });
   rule(150, 658.4, 240);
 
-  return { bytes: await doc.save(), doc };
+  return { bytes: await doc.save({ useObjectStreams: false }), doc };
 }
