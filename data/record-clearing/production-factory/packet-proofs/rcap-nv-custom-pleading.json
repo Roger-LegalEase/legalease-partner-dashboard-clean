@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "rcap-participant-packet-proof/v1",
+  "jobId": "rcap-nv-custom-pleading",
+  "parentJobId": "NEW-02-custom-pleading-families",
+  "jurisdiction": "NV",
+  "completionCommit": "eccb51f2846f3df93a806981a09e991c6e841c8a",
+  "authorityEdition": "1.2",
+  "verifier": {
+    "path": "scripts/verify-rcap-nevada-custom-pleading.mjs",
+    "sha256": "2d37e66607bcf02e3d676a12d2a77f546e87eb6c93d20f8890bd7a29de21f4f7",
+    "result": "passed"
+  },
+  "implementationOutputs": [
+    {
+      "path": "src/lib/rcap/packets/jurisdictions/nevada/custom-pleading.ts",
+      "sha256": "a51e74d729c55be24033c81a290bbb9b656cac754c7937a1151a91909f4ab89c"
+    },
+    {
+      "path": "scripts/verify-rcap-nevada-custom-pleading.mjs",
+      "sha256": "2d37e66607bcf02e3d676a12d2a77f546e87eb6c93d20f8890bd7a29de21f4f7"
+    }
+  ],
+  "finalPdfCount": 6,
+  "assembledPageCount": 69,
+  "canonicalPacketCount": 6,
+  "variantPacketCount": 4,
+  "technicalFixtureCount": 10,
+  "technicalFixturePageCount": 116,
+  "samplePackets": [
+    {
+      "trackId": "nv_seal_conviction",
+      "fixtureId": "nv-conviction-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "nv-conviction-positive-1-technical-fixture.pdf",
+      "assembledSha256": "f5f53d445d2285ab85ea72c52d106dc88731eccbc5c45d0c82a862072d2f6115",
+      "assembledPageCount": 12
+    },
+    {
+      "trackId": "nv_seal_conviction",
+      "fixtureId": "nv-conviction-outstanding-fees-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "nv_seal_conviction",
+      "assembledFileName": "nv-conviction-outstanding-fees-2-technical-fixture.pdf",
+      "assembledSha256": "4872e50b55ebd675eeedae5e8b9c558de6e75fdede065d59e2d85134734efab5",
+      "assembledPageCount": 12
+    },
+    {
+      "trackId": "nv_seal_decrim",
+      "fixtureId": "nv-decrim-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "nv-decrim-positive-1-technical-fixture.pdf",
+      "assembledSha256": "a6ae6590f810bd67b1c5fa7990cf4f255694391886913cc14e72cabfd9ee653f",
+      "assembledPageCount": 11
+    },
+    {
+      "trackId": "nv_seal_multi",
+      "fixtureId": "nv-multi-district-only-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "nv-multi-district-only-positive-1-technical-fixture.pdf",
+      "assembledSha256": "46d29f96de688ac69213f057f6965ed6b51b4209a5402c295495df05e01dedd5",
+      "assembledPageCount": 11
+    },
+    {
+      "trackId": "nv_seal_multi",
+      "fixtureId": "nv-multi-district-and-justice-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "nv_seal_multi",
+      "assembledFileName": "nv-multi-district-and-justice-2-technical-fixture.pdf",
+      "assembledSha256": "44a9b1def2f8eb2b230dea11d9c3a582eed3f3136a180bee1db0cc67e2533d28",
+      "assembledPageCount": 11
+    },
+    {
+      "trackId": "nv_seal_nonconviction",
+      "fixtureId": "nv-nonconviction-dismissed-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "nv-nonconviction-dismissed-positive-1-technical-fixture.pdf",
+      "assembledSha256": "2eb45d568ff2287af918eb68b57118932e8b45a8e8bcebd7fbd425867333b877",
+      "assembledPageCount": 12
+    },
+    {
+      "trackId": "nv_seal_nonconviction",
+      "fixtureId": "nv-nonconviction-acquitted-3",
+      "sampleRole": "variant",
+      "variantOfTrackId": "nv_seal_nonconviction",
+      "assembledFileName": "nv-nonconviction-acquitted-3-technical-fixture.pdf",
+      "assembledSha256": "9ff122786a339d45bcc1c81f72593b996e061db568fdde621ddf7b6abfe1b30c",
+      "assembledPageCount": 12
+    },
+    {
+      "trackId": "nv_seal_nonconviction",
+      "fixtureId": "nv-nonconviction-declined-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "nv_seal_nonconviction",
+      "assembledFileName": "nv-nonconviction-declined-2-technical-fixture.pdf",
+      "assembledSha256": "6b0339453e330a6d3e75fe8b7e8f4e162f3967ebe248467d83510a530b4a7d54",
+      "assembledPageCount": 12
+    },
+    {
+      "trackId": "nv_seal_pardon",
+      "fixtureId": "nv-pardon-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "nv-pardon-positive-1-technical-fixture.pdf",
+      "assembledSha256": "a570efb2a2195f3078a773a47186dc82f803d56a9e6458fe912708e5f17149b5",
+      "assembledPageCount": 12
+    },
+    {
+      "trackId": "nv_seal_reentry",
+      "fixtureId": "nv-reentry-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "nv-reentry-positive-1-technical-fixture.pdf",
+      "assembledSha256": "f4eb6e30cfcb52310485bf1d00eef1b7d2ca2fbc9e24d415b3c086b9decfaf5f",
+      "assembledPageCount": 11
+    }
+  ],
+  "deterministic": true,
+  "generatedPacketBytesTracked": false,
+  "runtimeStatus": "runtime_disabled",
+  "visualProof": "pending",
+  "counselAdopted": false,
+  "productionEnabled": false
+}

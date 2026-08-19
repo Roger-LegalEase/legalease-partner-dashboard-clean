@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "rcap-participant-packet-proof/v1",
+  "jobId": "rcap-wv-custom-pleading",
+  "parentJobId": "NEW-02-custom-pleading-families",
+  "jurisdiction": "WV",
+  "completionCommit": "d58816f8fc75aa5156ff5e26c682e21ed1b31d39",
+  "authorityEdition": "1.2",
+  "verifier": {
+    "path": "scripts/verify-rcap-west-virginia-custom-pleading.mjs",
+    "sha256": "1f98c8f2f48fab85590da5f53247cb04eb9be6fdbeb5e3e835d7fe8d018abb62",
+    "result": "passed"
+  },
+  "implementationOutputs": [
+    {
+      "path": "src/lib/rcap/packets/jurisdictions/west-virginia/custom-pleading.ts",
+      "sha256": "447b9a2a6105f68fdbc224bccd45261227e2c63100038629cb42a524b6e8d429"
+    },
+    {
+      "path": "scripts/verify-rcap-west-virginia-custom-pleading.mjs",
+      "sha256": "1f98c8f2f48fab85590da5f53247cb04eb9be6fdbeb5e3e835d7fe8d018abb62"
+    }
+  ],
+  "finalPdfCount": 2,
+  "assembledPageCount": 14,
+  "canonicalPacketCount": 2,
+  "variantPacketCount": 2,
+  "technicalFixtureCount": 4,
+  "technicalFixturePageCount": 28,
+  "samplePackets": [
+    {
+      "trackId": "wv_drug_conditional_discharge",
+      "fixtureId": "wv-conditional-discharge-costs-paid-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "wv-conditional-discharge-costs-paid-1-technical-fixture.pdf",
+      "assembledSha256": "2a748daea6afc9cafffb1b854fae756d6b5bf33133290be9e805612ebe726911",
+      "assembledPageCount": 7
+    },
+    {
+      "trackId": "wv_drug_conditional_discharge",
+      "fixtureId": "wv-conditional-discharge-costs-outstanding-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "wv_drug_conditional_discharge",
+      "assembledFileName": "wv-conditional-discharge-costs-outstanding-2-technical-fixture.pdf",
+      "assembledSha256": "bbc7d7a50a4cabf8d82be60e979412c0bd0d38f39b9fc762e5a59f452d3bebb9",
+      "assembledPageCount": 7
+    },
+    {
+      "trackId": "wv_pardon_expungement",
+      "fixtureId": "wv-pardon-expungement-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "wv-pardon-expungement-1-technical-fixture.pdf",
+      "assembledSha256": "20a21c30f3a0d99ccfa57e5ce45fff95bc331d8ec7f53413e3a8bb9a88370373",
+      "assembledPageCount": 7
+    },
+    {
+      "trackId": "wv_pardon_expungement",
+      "fixtureId": "wv-pardon-expungement-long-grounds-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "wv_pardon_expungement",
+      "assembledFileName": "wv-pardon-expungement-long-grounds-2-technical-fixture.pdf",
+      "assembledSha256": "e1c6ebe8b50ea32fd8ae289ccf3a1c99d3d6baf17e5f4a87848786c78142e276",
+      "assembledPageCount": 7
+    }
+  ],
+  "deterministic": true,
+  "generatedPacketBytesTracked": false,
+  "runtimeStatus": "runtime_disabled",
+  "technicalEvidence": "complete",
+  "visualProof": "pending",
+  "visualReview": "formal_visual_review_pending",
+  "completedOutputLegalReview": "pending",
+  "counselAdopted": false,
+  "packetReady": false,
+  "productionEnabled": false
+}
