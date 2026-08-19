@@ -98,13 +98,17 @@ export async function POST(
         invitationId: values.invitationId
       });
     } else if (action === "send") {
-      await sendFirstAdminInvitationEmail({
+      const delivery = await sendFirstAdminInvitationEmail({
         partnerSlug,
         operatorUserId: gate.authUserId,
         invitationId: values.invitationId,
-        setupLink: values.setupLink
+        setupLink: values.setupLink,
+        deliveryIdempotencyKey: values.deliveryIdempotencyKey
       });
-      result = { sent: true };
+      result = {
+        sent: true,
+        duplicatePrevented: delivery.duplicatePrevented === true
+      };
     } else {
       throw new FirstAdminProvisioningError(
         "invalid_input",
