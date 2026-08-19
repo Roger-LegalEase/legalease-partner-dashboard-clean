@@ -2025,9 +2025,32 @@ function parseDateAnswer(value: ScreeningAnswerValue | undefined) {
  * A determinism pin for a test suite must not be able to decide a real person's
  * eligibility, so in production the authoritative clock is the only source.
  */
+/**
+ * Whether this process is running somewhere a real person's eligibility is decided.
+ *
+ * Deliberately generous about what counts. The first version of this guard tested
+ * `NODE_ENV === "production"` exactly, which meant `Production`, `PRODUCTION` and
+ * `prod` all sailed past it and honoured the date pin. A guard against a
+ * catastrophic-but-silent failure must not turn on the spelling of an
+ * environment variable, so anything beginning with "prod" in any case counts,
+ * and Vercel's own VERCEL_ENV is consulted too because a deployment can set that
+ * without NODE_ENV agreeing.
+ *
+ * Unset NODE_ENV deliberately does NOT count. Every verifier and generator in
+ * this repository runs with it unset, and the 284-pathway replay depends on the
+ * pin working there; refusing on unset would break the determinism this pin
+ * exists to provide while protecting nothing real, because the worker image and
+ * the Next.js production build both set NODE_ENV=production explicitly.
+ */
+function looksLikeProduction() {
+  const nodeEnv = String(process.env.NODE_ENV ?? "").trim().toLowerCase();
+  const vercelEnv = String(process.env.VERCEL_ENV ?? "").trim().toLowerCase();
+  return nodeEnv.startsWith("prod") || vercelEnv.startsWith("prod");
+}
+
 function evaluationToday() {
   const pinned = process.env.RCAP_EVALUATOR_TODAY;
-  if (pinned && process.env.NODE_ENV === "production") {
+  if (pinned && looksLikeProduction()) {
     throw new Error(
       "RCAP_EVALUATOR_TODAY is set in a production environment. It pins the evaluator's idea of today for deterministic tests, and honouring it here would decide waiting periods against a frozen date. Unset it; production uses the authoritative clock."
     );

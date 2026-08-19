@@ -94,7 +94,28 @@ function failures() {
   const pinned = probe({ RCAP_EVALUATOR_TODAY: "2026-07-01", NODE_ENV: "" });
   fail(pinned.ok, "the evaluator refuses the deterministic date pin outside production; the 284-pathway replay depends on it");
 
-  // 2. The pin is refused where eligibility is decided for a real person.
+  // 2. The pin is refused where eligibility is decided for a real person —
+  //    under every spelling of "production", not just the canonical one.
+  //
+  //    The first version of this guard tested NODE_ENV === "production" exactly,
+  //    and Production, PRODUCTION and prod all sailed past it and froze the
+  //    clock. A guard against a silent catastrophic failure must not depend on
+  //    how somebody capitalised a deployment variable, so every spelling is
+  //    probed, and so is Vercel's own VERCEL_ENV, which a deployment can set
+  //    without NODE_ENV agreeing.
+  for (const spelling of ["production", "Production", "PRODUCTION", "prod"]) {
+    const attempt = probe({ RCAP_EVALUATOR_TODAY: "2026-07-01", NODE_ENV: spelling });
+    fail(
+      !attempt.ok && REFUSAL.test(attempt.output),
+      `a pinned evaluation date was ACCEPTED with NODE_ENV=${spelling}; every waiting period would be computed against a frozen day`
+    );
+  }
+  const vercel = probe({ RCAP_EVALUATOR_TODAY: "2026-07-01", NODE_ENV: "", VERCEL_ENV: "production" });
+  fail(
+    !vercel.ok && REFUSAL.test(vercel.output),
+    "a pinned evaluation date was ACCEPTED with VERCEL_ENV=production; a deployment can set that without NODE_ENV agreeing"
+  );
+
   const production = probe({ RCAP_EVALUATOR_TODAY: "2026-07-01", NODE_ENV: "production" });
   fail(!production.ok, "a pinned evaluation date was ACCEPTED in production; every waiting period would be computed against a frozen day");
   fail(
@@ -141,7 +162,7 @@ if (MUTATIONS) {
   const mutations = [
     [
       "the production refusal is removed and the pin is honoured everywhere",
-      (s) => s.replace(/if \(pinned && process\.env\.NODE_ENV === "production"\) \{[\s\S]*?\n  \}\n/, "")
+      (s) => s.replace(/if \(pinned && looksLikeProduction\(\)\) \{[\s\S]*?\n  \}\n/, "")
     ],
     [
       "today is hardcoded to the test date instead of read from the clock",
@@ -149,7 +170,21 @@ if (MUTATIONS) {
     ],
     [
       "the refusal fires whenever the pin is set, breaking the deterministic replay",
-      (s) => s.replace('if (pinned && process.env.NODE_ENV === "production") {', "if (pinned) {")
+      (s) => s.replace("if (pinned && looksLikeProduction()) {", "if (pinned) {")
+    ],
+    [
+      "the production test narrows back to an exact NODE_ENV match",
+      (s) => s.replace(
+        'return nodeEnv.startsWith("prod") || vercelEnv.startsWith("prod");',
+        'return nodeEnv === "production";'
+      )
+    ],
+    [
+      "VERCEL_ENV stops being consulted",
+      (s) => s.replace(
+        'return nodeEnv.startsWith("prod") || vercelEnv.startsWith("prod");',
+        'return nodeEnv.startsWith("prod");'
+      )
     ]
   ];
 
