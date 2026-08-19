@@ -953,6 +953,35 @@
         "pullRequest": 103,
         "reviewedAt": "2026-08-16"
       }
+    },
+    {
+      "id": "auth-2026-08-18-phase-56-public-view-and-default-privilege-hardening",
+      "kind": "migration",
+      "phase": 56,
+      "title": "Public-view and default-privilege hardening (Security Advisor remediation)",
+      "artifacts": [
+        "supabase/phase-56-public-view-and-default-privilege-hardening.sql",
+        "supabase/migrations/20260818209000_rcap_upgrade_09_security_hardening.sql"
+      ],
+      "status": "pending_authorization",
+      "decision": "not_yet_decided",
+      "requestedBy": "claude-rcap-production-schema-upgrade",
+      "requestedAt": "2026-08-18",
+      "pullRequest": 110,
+      "why": "Codifies the Security Advisor remediation validated in the legalease-rcap-acceptance project: row level security on partner_entitlement, rcap_record_events and the two acceptance tables where they exist; security_invoker on the five content_public_* views with anon RLS policies and column-level grants that reproduce their published row sets exactly; and withdrawal of the baseline default privileges that grant anon and authenticated everything on every future object in public. Nothing here is authorized for Production execution.",
+      "risk": "medium",
+      "riskNote": "The change is additive to the security posture and removes no existing access: no policy is dropped, no privilege authenticated already holds is revoked, and every anon grant it adds is column-level on a table whose RLS admits only rows the public views already returned. The one behavioural change a reviewer must weigh is that a security_invoker view checks column privileges for the columns it filters on, so anon can read is_active, status, published_at, archived, approved and content_posts.updated_at for rows that are already public.",
+      "rollback": "Forward-only in the chain, reversible by statement: re-set the five views to security_definer (alter view ... reset (security_invoker)), drop the six *_anon_public_read policies, revoke the 64 column grants, and re-issue the six ALTER DEFAULT PRIVILEGES grants the baseline carried. Nothing is dropped or rewritten, so no data recovery is involved. Local rehearsal is scripts/rcap-schema-upgrade-lab.sh build stacked-pre, which builds the pre-remediation schema from the same sources.",
+      "evidence": [
+        "node scripts/verify-rcap-production-schema-upgrade.mjs — 16/16, two deterministic replays from the recovered baseline, 5,258 catalog definitions matched, replay catalog sha256 6d5c79e3fae4484e21a8181ff192eed0d2aff6ed5c075762e78aa6fa1fb9471e",
+        "Public row sets byte-identical before and after the remediation, read as anon from a fixture carrying an inactive author, a draft post, a future-dated post, an archived asset, an asset referenced only by a draft, an unapproved testimonial and a draft editorial row: 1 author, 2 posts, 3 media, 1 editorial record, 1 testimonial",
+        "node scripts/verify-onboarding-tenant-isolation.mjs against the upgraded database — 8/8",
+        "authenticated grants unchanged at 738 before and after; anon holds zero table-level SELECT on the six content base tables",
+        "docs/rcap/production/PRODUCTION_SCHEMA_UPGRADE.md"
+      ],
+      "appliedTo": "local lab databases only; no Supabase project was connected to",
+      "phase56Sha256Observed": "526787e75132fcde8667a2ddfcb5b418b76d97f1ef430092dda77a94b8198dc2",
+      "authorizationNote": "No authorizedPaths or authorizedSha256 are recorded here on purpose. Those fields grant an exception to the forbidden supabase/ prefix, and only Roger can issue one. The observed hash above is recorded so a future authorization can pin these exact bytes without re-deriving them."
     }
   ],
   "statusVocabulary": {
