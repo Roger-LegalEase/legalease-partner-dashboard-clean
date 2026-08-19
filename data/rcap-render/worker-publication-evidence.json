@@ -30,12 +30,12 @@
   "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32298320542",
   "exactlyOnePublication": {
     "claim": "One image was published for this source SHA and its tag was never moved.",
-    "howItIsKnown": "Run 32298320542 was re-run by the runner after attempt 1 had already built, pushed and emitted its publication artifact. Attempt 2 was refused at the tag guard (verify-rcap-worker-tag-integrity --guard, job 96215638160) because the full-SHA tag already resolved to sha256:763acd29…, and RCAP_WORKER_TAG_REPLACEMENT_AUTHORIZATION was empty. Buildx, GHCR login and push were all skipped. The single publication is therefore attempt 1's, and the guard's refusal is what kept it single.",
+    "howItIsKnown": "Run 32298320542 was re-run by the runner after attempt 1 had already built, pushed and emitted its publication artifact. Attempt 2 was refused at the tag guard (verify-rcap-worker-tag-integrity --guard, job 96215638160) because the full-SHA tag already resolved to sha256:763acd29\u2026, and RCAP_WORKER_TAG_REPLACEMENT_AUTHORIZATION was empty. Buildx, GHCR login and push were all skipped. The single publication is therefore attempt 1's, and the guard's refusal is what kept it single.",
     "attemptThatPublished": 1,
     "attemptRefusedByTagGuard": 2
   },
   "registryPullByDigestStatus": "registry_resolution_verified_image_acceptance_pending",
-  "registryPullByDigestNote": "What is proven: attempt 2's tag guard asked GHCR directly, with an authenticated token, and reported that the full-SHA tag ef8c4851 resolves to sha256:763acd29 — the same digest attempt 1 recorded. That refusal is the registry resolution proof for this publication, from a run that can be pointed at. No mutable latest tag was created. The Dockerfile and lockfile hashes the publication recorded are the same bytes the image-input fingerprint records for this freeze base. What is NOT yet proven, and is deliberately not claimed here: an authenticated layer pull, fail-closed startup, the health command, and the secret scans. .github/workflows/rcap-worker-image-acceptance.yml performs all four against this exact digest; GitHub will not dispatch a workflow_dispatch workflow until it is present on the default branch, so that run happens once this integration merges and before any Preview or Production step.",
+  "registryPullByDigestNote": "What is proven: attempt 2's tag guard asked GHCR directly, with an authenticated token, and reported that the full-SHA tag ef8c4851 resolves to sha256:763acd29 \u2014 the same digest attempt 1 recorded. That refusal is the registry resolution proof for this publication, from a run that can be pointed at. No mutable latest tag was created. The Dockerfile and lockfile hashes the publication recorded are the same bytes the image-input fingerprint records for this freeze base. What is NOT yet proven, and is deliberately not claimed here: an authenticated layer pull, fail-closed startup, the health command, and the secret scans. .github/workflows/rcap-worker-image-acceptance.yml performs all four against this exact digest; GitHub will not dispatch a workflow_dispatch workflow until it is present on the default branch, so that run happens once this integration merges and before any Preview or Production step.",
   "supersededPublication": {
     "sourceSha": "1048d82e5c5ccd993d020dea971ec7a20969c859",
     "immutableRegistryDigest": "sha256:62a4fa3003f863f902e94f6c21c64736d2beb5f5b96fbd698d78f55def619992",
@@ -52,5 +52,19 @@
       "immutableRegistryDigest": "sha256:62a4fa3003f863f902e94f6c21c64736d2beb5f5b96fbd698d78f55def619992",
       "why": "Superseded by source drift on package.json and src/lib/rcap-engine/evaluator.ts."
     }
-  ]
+  ],
+  "parallelLanePublications": [
+    {
+      "lane": "PR #115 partner provisioning (merged to main as 15c50500)",
+      "sourceSha": "15c5050052e0f78cb5a5904bd2de668b3f3f725a",
+      "immutableRegistryDigest": "sha256:31e76d760561d84f6df2e2e7d489fb4a9d0b8d07afb091605adb78beeb977428",
+      "workflowRunId": "32300112439",
+      "why": "Published by the provisioning lane from its own merge commit on main. Historically valid for that source and left in the registry untouched. It is not image-input-equivalent to this integration's head, so it is not the digest this release accepts."
+    }
+  ],
+  "reconciliationStatus": {
+    "state": "republication_required_at_reconciled_head",
+    "why": "This record still names the digest accepted for ef8c4851. Merging current main brings 17 image-input paths from PR #115, so neither this digest nor the provisioning lane's is image-input-equivalent to the reconciled head. Exactly one final publication is authorized at the reconciled source, after which this record is rewritten to name it and every prior digest is marked superseded_by_source_drift.",
+    "priorDigestsRemainInRegistry": true
+  }
 }

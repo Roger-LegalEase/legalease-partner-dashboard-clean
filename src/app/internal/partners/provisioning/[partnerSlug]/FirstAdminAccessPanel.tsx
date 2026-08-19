@@ -38,6 +38,7 @@ type ActionResponse = {
   ok?: boolean;
   message?: string;
   setupLink?: string | null;
+  duplicatePrevented?: boolean;
   access?: FirstAdminAccessView;
 };
 
@@ -60,6 +61,7 @@ export function FirstAdminAccessPanel({
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const idempotencyKey = useRef<string | null>(null);
+  const deliveryKey = useRef<string | null>(null);
 
   function openForm(replace: boolean) {
     setReplaceCurrent(replace);
@@ -148,13 +150,22 @@ export function FirstAdminAccessPanel({
     setBusyAction("send");
     setError(null);
     setMessage(null);
+    // Delivery carries its own key so a retry after a timeout returns the first
+    // outcome instead of sending a second email or creating a second delivery
+    // record. It is minted once per invitation and reused by every retry.
+    if (!deliveryKey.current) deliveryKey.current = crypto.randomUUID();
     try {
       const result = await postAction("send", {
         invitationId,
-        setupLink
+        setupLink,
+        deliveryIdempotencyKey: deliveryKey.current
       });
       if (result.access) setAccess(result.access);
-      setMessage("Invitation sent through the configured email provider.");
+      setMessage(
+        result.duplicatePrevented
+          ? "This invitation was already delivered. No second email was sent."
+          : "Invitation sent through the configured email provider."
+      );
     } catch (caught) {
       setError(
         caught instanceof Error
