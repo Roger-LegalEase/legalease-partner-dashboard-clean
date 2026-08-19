@@ -1,0 +1,1478 @@
+{
+  "schemaVersion": "rcap-pdf-batch-cross-family-findings/v1",
+  "generatedBy": "scripts/verify-rcap-pdf-batch-cross-family-findings.mjs",
+  "purpose": "The findings that are true of the batch rather than of one family, measured across all of it at once so a shared defect is not mistaken for a per-form one.",
+  "batch": "batch-1",
+  "reviewedHead": "2a658748425266dfbc548d9f61e9f30d34ef3b1f",
+  "findings": {
+    "provenanceConformance": {
+      "question": "Does each committed sidecar carry the 20 fields plus page count that the shared PDF contract requires?",
+      "familiesChecked": 27,
+      "conformant": 0,
+      "nonConformant": 27,
+      "whyThisWasNeverCaught": "scripts/verify-rcap-shared-pdf-contract.mjs proves the P-block against a sidecar it synthesizes from a canary. It never opens a committed one, so the contract can pass while no artifact on disk satisfies it.",
+      "doesThisBlockPlatformReady": false,
+      "whyNot": "rcap-platform-ready.mjs checks the approval, the artifact hashes, the classification and the finalized-artifact audit. It does not read the sidecar's field set. So this is a divergence between the contract the platform states and the gate the platform enforces, not a gate failure.",
+      "rows": [
+        {
+          "familyId": "AK:tf-800-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "AK:tf-805-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "AK:tf-810-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "KY:aoc-334-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "KY:aoc-496-2-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "KY:aoc-496-3-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "KY:aoc-496-4-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "KY:aoc-496-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "KY:aoc-497-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "NC:aoc-cr-287-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "NC:aoc-cr-288-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "NC:aoc-cr-296-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "NC:aoc-cr-297-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "NC:aoc-cr-298-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "NC:aoc-cv-226-support-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "NE:cc-6-11-2-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceRevision",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "NE:cc-6-11-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceRevision",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "NE:cc-6-12-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceRevision",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "NE:cc-6-15-1-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceRevision",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "NE:dc-1-15-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceRevision",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "VA:cc-1201-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "VA:cc-1473-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "VT:200-00130-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "VT:200-00132-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "VT:200-00132a-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "VT:600-00228-support-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": true
+        },
+        {
+          "familyId": "WI:cr-266-form-en",
+          "sidecarPresent": true,
+          "missingFields": [
+            "assetId",
+            "formFamily",
+            "officialFormNumber",
+            "officialTitle",
+            "sourcePublisher",
+            "sourceUrl",
+            "sourceMetadataFingerprint",
+            "classificationSha256",
+            "packetSpecSha256",
+            "activeContentResult",
+            "flatteningResult",
+            "protectedFieldResult",
+            "fixtureIdentity"
+          ],
+          "everyArtifactHasAPageCount": false
+        }
+      ]
+    },
+    "creationDateDrift": {
+      "question": "Which artifacts were produced before carryDates() started taking /CreationDate from the source?",
+      "artifactsChecked": 81,
+      "staleFixtures": 2,
+      "staleFamilies": [
+        "WI:cr-266-form-en"
+      ],
+      "contactSheetsCorrectlyStamped": 27,
+      "note": "A contact sheet is composed fresh and has no source date to carry, so the deterministic stamp is correct there and is not counted as drift.",
+      "rows": [
+        {
+          "familyId": "AK:tf-800-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20250519154024Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "AK:tf-800-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20250519154024Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "AK:tf-800-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "AK:tf-805-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20250519164901Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "AK:tf-805-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20250519164901Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "AK:tf-805-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "AK:tf-810-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20250512164216Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "AK:tf-810-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20250512164216Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "AK:tf-810-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-334-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20211116173327Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-334-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20211116173327Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-334-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-496-2-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20160712170916Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-496-2-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20160712170916Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-496-2-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-496-3-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20230517174923Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-496-3-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20230517174923Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-496-3-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-496-4-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20230518155645Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-496-4-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20230518155645Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-496-4-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-496-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20160713173605Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-496-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20160713173605Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-496-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-497-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20200706121519Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-497-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20200706121519Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "KY:aoc-497-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-287-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20251117201553Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-287-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20251117201553Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-287-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-288-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20250317200718Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-288-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20250317200718Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-288-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-296-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20250317202248Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-296-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20250317202248Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-296-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-297-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20250627142514Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-297-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20250627142514Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-297-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-298-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20250730154543Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-298-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20250730154543Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cr-298-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cv-226-support-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20230413134201Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cv-226-support-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20230413134201Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NC:aoc-cv-226-support-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:cc-6-11-2-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20160316154354Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:cc-6-11-2-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20160316154354Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:cc-6-11-2-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:cc-6-11-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20160316154354Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:cc-6-11-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20160316154354Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:cc-6-11-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:cc-6-12-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20220311150211Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:cc-6-12-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20220311150211Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:cc-6-12-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:cc-6-15-1-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20161017162600Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:cc-6-15-1-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20161017162600Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:cc-6-15-1-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:dc-1-15-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20190814210140Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:dc-1-15-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20190814210140Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "NE:dc-1-15-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VA:cc-1201-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20260519173020Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VA:cc-1201-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20260519173020Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VA:cc-1201-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VA:cc-1473-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20260522164710Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VA:cc-1473-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20260522164710Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VA:cc-1473-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VT:200-00130-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20250701133244Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VT:200-00130-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20250701133244Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VT:200-00130-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VT:200-00132-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20250701134847Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VT:200-00132-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20250701134847Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VT:200-00132-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VT:200-00132a-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20250701142119Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VT:200-00132a-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20250701142119Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VT:200-00132a-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VT:600-00228-support-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20250310142656Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VT:600-00228-support-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20250310142656Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": false,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "VT:600-00228-support-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        },
+        {
+          "familyId": "WI:cr-266-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": true
+        },
+        {
+          "familyId": "WI:cr-266-form-en",
+          "artifact": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": true
+        },
+        {
+          "familyId": "WI:cr-266-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "creationDate": "D:20260101000000Z",
+          "modificationDate": "D:20260101000000Z",
+          "carriesTheDeterministicStamp": true,
+          "staleAgainstCarryDates": false
+        }
+      ]
+    },
+    "approvalChannel": {
+      "question": "Can an approval of this family be recorded anywhere the shared gate will read?",
+      "familiesChecked": 27,
+      "canRecordAnApproval": 1,
+      "cannotRecordAnApproval": 26,
+      "consequence": "A family that cannot record an approval cannot reach platform_ready, however clean its review. This blocks more of the batch than every form-level finding combined.",
+      "rows": [
+        {
+          "familyId": "AK:tf-800-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "AK:tf-805-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "AK:tf-810-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/alaska/tf-810-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "KY:aoc-334-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "KY:aoc-496-2-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "KY:aoc-496-3-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "KY:aoc-496-4-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "KY:aoc-496-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "KY:aoc-497-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "NC:aoc-cr-287-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "NC:aoc-cr-288-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "NC:aoc-cr-296-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "NC:aoc-cr-297-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "NC:aoc-cr-298-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "NC:aoc-cv-226-support-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "NE:cc-6-11-2-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "NE:cc-6-11-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "NE:cc-6-12-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "NE:cc-6-15-1-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "NE:dc-1-15-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "VA:cc-1201-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "VA:cc-1473-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "VT:200-00130-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/vermont/200-00130-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "VT:200-00132-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/vermont/200-00132-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "VT:200-00132a-form-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/vermont/200-00132a-form-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "VT:600-00228-support-en",
+          "familyKind": "acroform_fill",
+          "fieldMapPath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en/production-field-map.json",
+          "approvalChannel": "none_available",
+          "canRecordAnApproval": false
+        },
+        {
+          "familyId": "WI:cr-266-form-en",
+          "familyKind": "flat_overlay",
+          "fieldMapPath": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json",
+          "approvalChannel": "overlay_profile.independentReview",
+          "canRecordAnApproval": true
+        }
+      ]
+    }
+  }
+}
