@@ -53,7 +53,13 @@ const CLEAR_RECORD = {
   special_preconditions_confirmed: "Yes",
   trafficking_status: "No",
   pardon_status: "No",
-  record_documents: "Yes"
+  record_documents: "Yes",
+  // The same premise as the pinned 2012-06-01 anchor date, expressed in the
+  // coarse bucket the evaluator falls back to. Without it the generic
+  // single-select rule would pick the first option, lt_1_year, and record a
+  // clearable record as still inside its waiting period — an answer the pinned
+  // dates directly contradict.
+  resolved_timing_bucket: "gt_10_years"
 };
 
 const ANSWER_RULE = {

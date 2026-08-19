@@ -446,7 +446,14 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
 
   const route = matchCompiledRuleRoute(profile, publicProfile, answers);
   if (!route.ok) {
+    // Same correction as the timing gate below: where the participant's named
+    // pathway was already resolved, say which one it was. A compiled rule that
+    // short-circuits to needs_more_info, or an exact route rule the facts did
+    // not satisfy, is still a fact about a specific route.
+    const failedPathwayPlan = route.selectedPathwayId ? packetPlanForPathway(profile, route.selectedPathwayId) : undefined;
     return result(profile, request, route.resultCode, [route.reason], {
+      ...(route.selectedPathwayId ? { pathwayId: route.selectedPathwayId } : {}),
+      ...(failedPathwayPlan ? { packetPlan: failedPathwayPlan } : {}),
       paymentAllowed: false
     });
   }
@@ -491,21 +498,36 @@ function evaluateAgainstProfile(profile: EngineProfile, request: ScreeningEvalua
     });
   }
 
+  // The pathway is already resolved by the time the timing gate runs, and every
+  // other branch on this path reports it. These three dropped it, so a
+  // participant whose route was identified correctly and then stalled on a date
+  // was told nothing about which route they were on — and a reachability audit
+  // read the same silence as "landed on a different pathway". 118 of the 121
+  // intended-paid pathways that failed the audit failed here, having resolved
+  // the right route. Reporting the identity changes no result code, no
+  // eligibility conclusion and no payment decision: all three stay exactly as
+  // they were, paymentAllowed included.
   const timing = evaluateCompiledTiming(profile, answers, route.rule, route.pathway);
   if (timing.status === "missing_anchor") {
     return result(profile, request, "needs_more_info", [timing.reason], {
+      pathwayId: pathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
       missingQuestionIds: timing.missingQuestionIds,
       paymentAllowed: false
     });
   }
   if (timing.status === "not_yet") {
     return result(profile, request, "not_yet", [timing.reason], {
+      pathwayId: pathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
       cautions: ["A source-defined timing or completion condition is not satisfied."],
       paymentAllowed: false
     });
   }
   if (timing.status === "needs_review") {
     return result(profile, request, "needs_review", [timing.reason], {
+      pathwayId: pathway.id,
+      ...(plan ? { packetPlan: plan } : {}),
       paymentAllowed: false
     });
   }
@@ -1111,10 +1133,17 @@ function latestAnchorTiming(profile: EngineProfile, answers: Record<string, Scre
   if (dates.length === 0) {
     const bucketTiming = timingFromResolvedBucket(profile, answers, rule, pathway, duration, text);
     if (bucketTiming) return bucketTiming;
+    const askable = answerableAnchorIds(profile, anchorIds);
+    if (askable.length === 0) {
+      return {
+        status: "needs_review",
+        reason: reason(profile.jurisdiction.code, "waiting_anchor_not_publicly_askable", `The source-specific waiting period runs from ${anchorIds.join(", ")}, and this profile publishes no public question for any of them.`, rule.sourceRef ?? pathway.sourceRef)
+      };
+    }
     return {
       status: "missing_anchor",
-      reason: reason(profile.jurisdiction.code, "waiting_anchor_missing", `One of ${anchorIds.join(", ")} is needed before the source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
-      missingQuestionIds: anchorIds
+      reason: reason(profile.jurisdiction.code, "waiting_anchor_missing", `One of ${askable.join(", ")} is needed before the source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
+      missingQuestionIds: askable
     };
   }
   const latest = dates.sort((a, b) => b.date.getTime() - a.date.getTime())[0];
@@ -1128,10 +1157,17 @@ function timingFromAnchor(profile: EngineProfile, answers: Record<string, Screen
   if (!anchor) {
     const bucketTiming = timingFromResolvedBucket(profile, answers, rule, pathway, duration, text);
     if (bucketTiming) return bucketTiming;
+    const askable = answerableAnchorIds(profile, [anchorId]);
+    if (askable.length === 0) {
+      return {
+        status: "needs_review",
+        reason: reason(jurisdiction, "waiting_anchor_not_publicly_askable", `The corrected source-specific waiting period runs from ${anchorId}, and this profile publishes no public question for it.`, rule.sourceRef ?? pathway.sourceRef)
+      };
+    }
     return {
       status: "missing_anchor",
-      reason: reason(jurisdiction, "waiting_anchor_missing", `The ${anchorId} date is needed before the corrected source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
-      missingQuestionIds: [anchorId]
+      reason: reason(jurisdiction, "waiting_anchor_missing", `The ${askable.join(", ")} value is needed before the corrected source-specific waiting period can be evaluated.`, rule.sourceRef ?? pathway.sourceRef),
+      missingQuestionIds: askable
     };
   }
   const earliest = addDuration(anchor, duration.value, duration.unit);
@@ -1348,6 +1384,10 @@ type RouteMatch =
     ok: false;
     resultCode: Exclude<ScreeningResultCode, "packet_ready" | "packet_ready_with_caution">;
     reason: ScreeningReason;
+    // The pathway the participant named, when one was resolved before the
+    // failure. Reporting it changes no result code and no payment decision; it
+    // only stops a resolved route from being reported as no route at all.
+    selectedPathwayId?: string;
   };
 
 type TimingResult =
@@ -1371,6 +1411,38 @@ type SelectedWaitingRule = {
 
 const RESOLVED_TIMING_BUCKET_FIELD_ID = "resolved_timing_bucket";
 const COURT_REQUIREMENTS_FIELD_ID = "court_requirements_completed";
+
+const publicQuestionIdCache = new WeakMap<EngineProfile, Set<string>>();
+
+function publicQuestionIds(profile: EngineProfile): Set<string> {
+  const cached = publicQuestionIdCache.get(profile);
+  if (cached) return cached;
+  const ids = new Set(projectPublicProfile(profile).questions.map((question) => question.id));
+  publicQuestionIdCache.set(profile, ids);
+  return ids;
+}
+
+/**
+ * Only ever ask for a fact the participant can actually give.
+ *
+ * The timing gate names the exact anchor it wanted — disposition_date,
+ * arrest_date and so on — but not every profile publishes every anchor as a
+ * public question. Naming one that is not published produces an unanswerable
+ * request: the client supplies the id, the request validator rejects it as not a
+ * public question, the evaluator asks again, and the exchange loops until it is
+ * abandoned. That is how IN:non-conviction-arrest-or-criminal-charge-expungement
+ * spun on arrest_date.
+ *
+ * So the anchors are filtered to the ones this profile actually offers, and if
+ * none survives the request falls back to the timing bucket, which every profile
+ * that can reach this gate now publishes.
+ */
+function answerableAnchorIds(profile: EngineProfile, anchorIds: string[]): string[] {
+  const published = publicQuestionIds(profile);
+  const answerable = anchorIds.filter((id) => published.has(id));
+  if (answerable.length > 0) return answerable;
+  return published.has(RESOLVED_TIMING_BUCKET_FIELD_ID) ? [RESOLVED_TIMING_BUCKET_FIELD_ID] : [];
+}
 
 type TimingBucketWindow = {
   minYears: number;
@@ -1425,7 +1497,8 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
     return {
       ok: false,
       resultCode: "needs_review",
-      reason: reason(jurisdiction, "selected_pathway_rule_not_matched", "The selected pathway has a compiled route rule, but the collected facts did not satisfy it before a packet decision.", selectedPathway.sourceRef)
+      reason: reason(jurisdiction, "selected_pathway_rule_not_matched", "The selected pathway has a compiled route rule, but the collected facts did not satisfy it before a packet decision.", selectedPathway.sourceRef),
+      selectedPathwayId: selectedPathway?.id
     };
   }
   const rules = (routeSpecificRules.length > 0 ? routeSpecificRules : selectedCandidateRules.length > 0 ? selectedCandidateRules : matchedRules)
@@ -1443,7 +1516,8 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
     return {
       ok: false,
       resultCode: "needs_review",
-      reason: reason(jurisdiction, "no_deterministic_compiled_rule_match", "No deterministic compiled source rule matched these answers before a packet decision.")
+      reason: reason(jurisdiction, "no_deterministic_compiled_rule_match", "No deterministic compiled source rule matched these answers before a packet decision."),
+      selectedPathwayId: selectedPathway?.id
     };
   }
 
@@ -1457,7 +1531,8 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
     return {
       ok: false,
       resultCode: "needs_review",
-      reason: reason(jurisdiction, `ambiguous_compiled_rule_match.${first.id}`, "The matched compiled source rule did not identify one deterministic pathway.", first.sourceRef)
+      reason: reason(jurisdiction, `ambiguous_compiled_rule_match.${first.id}`, "The matched compiled source rule did not identify one deterministic pathway.", first.sourceRef),
+      selectedPathwayId: selectedPathway?.id
     };
   }
   if (sameRank.length > 1 && !selectedPathway) {
@@ -1473,7 +1548,8 @@ function matchCompiledRuleRoute(profile: EngineProfile, publicProfile: PublicJur
     return {
       ok: false,
       resultCode: code as "hard_stop" | "needs_more_info",
-      reason: reason(jurisdiction, `compiled_rule_match.${first.id}`, `Compiled source rule ${first.id} matched before a packet decision.`, first.sourceRef)
+      reason: reason(jurisdiction, `compiled_rule_match.${first.id}`, `Compiled source rule ${first.id} matched before a packet decision.`, first.sourceRef),
+      selectedPathwayId: selectedPathway?.id
     };
   }
 
@@ -1537,6 +1613,26 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   const anchorId = chooseTimingAnchor(rule, pathway, answers, selectedWaitingRule);
   if (!anchorId) {
     if (!packetLikePathway(profile, pathway)) return { status: "not_applicable" };
+    // The rule's own text does not name an anchor this evaluator recognises, so
+    // there is no exact date to run the duration from. That is not the same as
+    // having no timing information: the participant has already been asked how
+    // long ago the case resolved, and the duration is known. Running the wait
+    // against that bucket is the honest answer, and it is the same computation
+    // used everywhere else the exact anchor is absent.
+    //
+    // Refusing here sent 92 intended-paid pathways to needs_review with no
+    // pathway resolved at all, which reads as "this route does not work" when
+    // what actually happened is that a compiled rule phrased its anchor in words
+    // the anchor chooser does not match.
+    const bucketTiming = timingFromResolvedBucket(profile, answers, rule, pathway, duration, "The court or agency makes the final decision.");
+    if (bucketTiming) return bucketTiming;
+    if (publicQuestionIds(profile).has(RESOLVED_TIMING_BUCKET_FIELD_ID)) {
+      return {
+        status: "missing_anchor",
+        reason: reason(jurisdiction, "waiting_anchor_missing", "We need one more detail before we can prepare the right packet.", rule.sourceRef ?? pathway.sourceRef),
+        missingQuestionIds: [RESOLVED_TIMING_BUCKET_FIELD_ID]
+      };
+    }
     return {
       status: "needs_review",
       reason: reason(jurisdiction, "waiting_anchor_not_determined", "We need the case date, dismissal date, disposition date, or completion date used to check the waiting period.", rule.sourceRef ?? pathway.sourceRef)
@@ -1546,10 +1642,22 @@ function evaluateCompiledTiming(profile: EngineProfile, answers: Record<string, 
   if (!anchor) {
     const bucketTiming = timingFromResolvedBucket(profile, answers, rule, pathway, duration, "The court or agency makes the final decision.");
     if (bucketTiming) return bucketTiming;
+    // The bucket stays the preferred ask here — it is the coarse question a
+    // participant can answer from memory. It is only replaced when a profile
+    // does not publish it, and then only by an anchor that profile does publish.
+    const askable = publicQuestionIds(profile).has(RESOLVED_TIMING_BUCKET_FIELD_ID)
+      ? [RESOLVED_TIMING_BUCKET_FIELD_ID]
+      : answerableAnchorIds(profile, [anchorId]);
+    if (askable.length === 0) {
+      return {
+        status: "needs_review",
+        reason: reason(jurisdiction, "waiting_anchor_not_publicly_askable", `The waiting period runs from ${anchorId}, and this profile publishes no public question for it or for the timing bucket.`, rule.sourceRef ?? pathway.sourceRef)
+      };
+    }
     return {
       status: "missing_anchor",
       reason: reason(jurisdiction, "waiting_anchor_missing", "We need one more detail before we can prepare the right packet.", rule.sourceRef ?? pathway.sourceRef),
-      missingQuestionIds: [RESOLVED_TIMING_BUCKET_FIELD_ID]
+      missingQuestionIds: askable
     };
   }
 
