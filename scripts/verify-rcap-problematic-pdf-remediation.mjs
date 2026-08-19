@@ -32,6 +32,9 @@ const MASTER = "data/rcap-all50/problematic-pdf-master-list.json";
 const F3 = "data/rcap-all50/review-artifacts/f3-visual-review.json";
 const RETIREMENT = "data/rcap-all50/pdf-retirement-determination.json";
 const PLACEMENT = "data/rcap-all50/overlay-placement-evidence.json";
+const CLASSIFICATION = "data/rcap-all50/field-classification-coverage.json";
+const FINALIZER = "scripts/rcap-official-forms/rcap-official-form-finalize.mjs";
+const SEMANTICS = "scripts/rcap-official-forms/rcap-field-semantics.mjs";
 const OVERLAY_DIR = "data/rcap-all50/overlays/production";
 const WORKFLOW = ".github/workflows/rcap-all50-handoff.yml";
 
@@ -331,6 +334,46 @@ function runChecks() {
     fail("ci_invokes_this_contract", `${WORKFLOW} does not invoke this verifier directly`);
   }
 
+  // ---- 15b. the three recorded decisions ----------------------------------
+  // Participant values are drawn in black. The renderer defaulted to a dark
+  // blue for no recorded reason, and an unexplained colour on a filed court
+  // document is a difference nobody asked for.
+  const finalizer = fs.existsSync(abs(FINALIZER)) ? fs.readFileSync(abs(FINALIZER), "utf8") : "";
+  if (/color:\s*rgb\(0,\s*0,\s*0\.55\)/.test(finalizer)) {
+    fail("participant_ink_is_black", "the finalizer draws participant values in the unexplained blue default again");
+  }
+  if (!/PARTICIPANT_INK\s*=\s*rgb\(0,\s*0,\s*0\)/.test(finalizer)) {
+    fail("participant_ink_is_black", "the finalizer no longer defines PARTICIPANT_INK as black");
+  }
+  // The participant's official form carries the court's identity. Ours goes in
+  // the sidecar. A finalizer that stamps its own Producer or Creator back onto
+  // the artifact is putting partner branding on a court filing.
+  if (/clean\.setProducer\(|clean\.setCreator\("LegalEase/.test(finalizer)) {
+    fail("no_partner_branding_on_the_official_form", "the finalizer writes LegalEase branding into the participant artifact's metadata");
+  }
+  if (!/preserveSourceMetadata\(/.test(finalizer)) {
+    fail("no_partner_branding_on_the_official_form", "the finalizer no longer carries the court's own metadata onto the artifact");
+  }
+  // Email Address must never resolve to a street address.
+  const semantics = fs.existsSync(abs(SEMANTICS)) ? fs.readFileSync(abs(SEMANTICS), "utf8") : "";
+  if (!/refuseWhen:\s*\/\\be\[-\\s\]\?mail\\b\//.test(semantics)) {
+    fail("email_never_binds_a_street_address", "the street-address descriptor no longer refuses an email label; \"Email Address\" contains \"address\" and will bind the wrong fact");
+  }
+
+  // ---- 15c. every discovered field or anchor is classified ----------------
+  const classification = readJson(CLASSIFICATION);
+  if (!classification) {
+    fail("every_field_is_classified", "the field-classification coverage report has not been generated");
+  } else {
+    if (classification.totals.classifiedFieldsOrAnchors !== classification.totals.discoveredFieldsOrAnchors) {
+      fail("every_field_is_classified", `classified ${classification.totals.classifiedFieldsOrAnchors} of ${classification.totals.discoveredFieldsOrAnchors} discovered fields or anchors`);
+    }
+    for (const family of classification.families) {
+      if (!family.complete) fail("every_field_is_classified", `${family.familyId} is incompletely classified (${family.classifiedFieldsOrAnchors}/${family.discoveredFieldsOrAnchors})`);
+      if (family.entries.length === 0) fail("every_field_is_classified", `${family.familyId} carries an empty classification`);
+    }
+  }
+
   // ---- 16. a verdict without a working control is not a verdict -----------
   for (const family of sheetProof.families) {
     if (family.panelsAreVisuallyIdentical === true && family.controlDiscriminates === false) {
@@ -367,7 +410,7 @@ if (!mutationsMode) process.exit(0);
 // Each case edits committed bytes, re-runs every check, and requires the named
 // check to be among the ones that went red. Starting green is a precondition:
 // a mutation pass on an already-red tree proves nothing.
-const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT];
+const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT, CLASSIFICATION, FINALIZER, SEMANTICS];
 
 const CASES = [
   {
@@ -607,9 +650,15 @@ const CASES = [
     name: "an orphaned evidence image is left behind",
     expect: "no_orphaned_evidence_images",
     apply: () => {
+      // Every reference has to go, including the sheet proof's -- nulling only
+      // two of the three sources left the images still referenced and the
+      // mutation proved nothing.
       const placement = readJson(PLACEMENT);
       for (const family of placement.families) family.renderedEvidence = null;
       fs.writeFileSync(abs(PLACEMENT), `${JSON.stringify(placement, null, 2)}\n`);
+      const proof = readJson(SHEET_PROOF);
+      for (const family of proof.families) family.renderedEvidence = null;
+      fs.writeFileSync(abs(SHEET_PROOF), `${JSON.stringify(proof, null, 2)}\n`);
       const master = readJson(MASTER);
       for (const row of master.rows) { row.placementEvidenceImages = []; row.contactSheetEvidenceImage = null; }
       fs.writeFileSync(abs(MASTER), `${JSON.stringify(master, null, 2)}\n`);
@@ -633,6 +682,45 @@ const CASES = [
       const family = audit.families.find((f) => !f.retired);
       family.retired = true;
       fs.writeFileSync(abs(AUDIT), `${JSON.stringify(audit, null, 2)}\n`);
+    }
+  },
+  {
+    name: "blue is reintroduced as the unexplained participant ink default",
+    expect: "participant_ink_is_black",
+    apply: () => {
+      const text = fs.readFileSync(abs(FINALIZER), "utf8");
+      fs.writeFileSync(abs(FINALIZER), text.replace("PARTICIPANT_INK = rgb(0, 0, 0)", "PARTICIPANT_INK = rgb(0, 0, 0.55)"));
+    }
+  },
+  {
+    name: "the finalizer stamps LegalEase branding back onto the court form",
+    expect: "no_partner_branding_on_the_official_form",
+    apply: () => {
+      const text = fs.readFileSync(abs(FINALIZER), "utf8");
+      fs.writeFileSync(abs(FINALIZER), text.replace(
+        "  preserveSourceMetadata(pdfDoc, clean);",
+        '  clean.setProducer("LegalEase RCAP official-form factory (pdf-lib)");'
+      ));
+    }
+  },
+  {
+    name: "an email field is allowed to bind a street address again",
+    expect: "email_never_binds_a_street_address",
+    apply: () => {
+      const text = fs.readFileSync(abs(SEMANTICS), "utf8");
+      fs.writeFileSync(abs(SEMANTICS), text.replace(/, refuseWhen: \/\\be\[-\\s\]\?mail\\b\//, ""));
+    }
+  },
+  {
+    name: "a family is left with an incomplete field classification",
+    expect: "every_field_is_classified",
+    apply: () => {
+      const coverage = readJson(CLASSIFICATION);
+      coverage.families[0].entries = [];
+      coverage.families[0].classifiedFieldsOrAnchors = 0;
+      coverage.families[0].complete = false;
+      coverage.totals.classifiedFieldsOrAnchors = 0;
+      fs.writeFileSync(abs(CLASSIFICATION), `${JSON.stringify(coverage, null, 2)}\n`);
     }
   },
   {

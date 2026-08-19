@@ -167,3 +167,12 @@ jobs:
 
       - name: Verify every retirement marker matches its determination
         run: node scripts/retire-rcap-problematic-pdf-assets.mjs --check
+
+      # Every discovered field or measured anchor carries exactly one class.
+      # An empty classification file is worse than none: it looks like the
+      # question was asked.
+      - name: Verify every discovered field or anchor is classified
+        run: node scripts/generate-rcap-field-classification.mjs --check
+
+      - name: Verify the flat-overlay renders are current
+        run: node scripts/render-rcap-flat-overlay-families.mjs --check

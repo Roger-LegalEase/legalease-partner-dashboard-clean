@@ -44,9 +44,13 @@ const ROOT = path.join(rootDir, "data/rcap-all50/overlays/production");
 const OUT = path.join(rootDir, "data/rcap-all50/finalized-artifact-audit.json");
 const checkOnly = process.argv.includes("--check");
 
-// The producer string the current finalizer stamps. An artifact without it was
-// built by an earlier factory, whatever else is true of it.
-const FACTORY_PRODUCER = "LegalEase RCAP official-form factory (pdf-lib)";
+// Provenance is no longer read from the PDF. The finalizer used to stamp its
+// own Producer, which put partner branding on a court form and destroyed the
+// issuing court's metadata; the artifact now carries the court's identity and
+// the factory records its own beside the file. So "which factory built this"
+// is answered by the sidecar record and its hashes, not by an Info dictionary
+// that whoever touched the file last could have written.
+const PROVENANCE_SIDECAR = "artifact-provenance.json";
 
 // Values from the committed canonical fact set. Their presence in extractable
 // page content is what distinguishes a flattened artifact from one whose
@@ -62,6 +66,7 @@ const ARTIFACTS = [
 ];
 
 const normalize = (s) => String(s).replace(/\s+/g, "").toLowerCase();
+const sha256Of = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 const readJson = (file, fallback = null) => {
   if (!fs.existsSync(file)) return fallback;
   try { return JSON.parse(fs.readFileSync(file, "utf8")); } catch { return fallback; }
@@ -70,6 +75,7 @@ const readJson = (file, fallback = null) => {
 async function inspect(bytes) {
   const out = {
     parses: false, pages: null, formFields: null, nonEmptyTextFields: null,
+    provenanceRecorded: null, outputShaMatchesProvenance: null,
     xfaPresent: null, producer: null, creator: null, title: null,
     byteInspectable: null, activeContentHits: null,
     markersInPageContent: null, markersOnlyInFieldValues: null,
@@ -129,6 +135,7 @@ for (const stateDir of fs.readdirSync(ROOT).sort()) {
     if (!record) continue;
 
     // Every field this family's own policy says must never carry a value.
+    const provenance = readJson(path.join(familyPath, PROVENANCE_SIDECAR));
     const protectedReport = readJson(path.join(familyPath, "reports/protected-fields.json"), {});
     const protectedNames = new Set([
       ...(protectedReport.unwritableFields ?? []).map((f) => f.field),
@@ -170,7 +177,15 @@ for (const stateDir of fs.readdirSync(ROOT).sort()) {
       if (out.xfaPresent) failures.push("xfa_survives_in_output");
       if (!out.byteInspectable) failures.push("object_streams_hide_active_content_from_the_scan");
       if ((out.activeContentHits ?? []).length > 0) failures.push("active_content_residue");
-      if (out.producer !== FACTORY_PRODUCER) failures.push("not_stamped_by_the_current_factory");
+      // The sidecar has to name this artifact and its hash has to match the
+      // bytes on disk. That is a stronger claim than a producer string: a
+      // stale artifact keeps its stamp, but its hash stops matching the moment
+      // it or its inputs move.
+      const provenanceRow = (provenance?.artifacts ?? []).find((a) => a.artifact === spec.rel) ?? null;
+      out.provenanceRecorded = Boolean(provenanceRow);
+      out.outputShaMatchesProvenance = provenanceRow ? provenanceRow.outputSha256 === sha256Of(bytes) : null;
+      if (!provenanceRow) failures.push("no_provenance_record_names_this_artifact");
+      else if (!out.outputShaMatchesProvenance) failures.push("provenance_hash_does_not_match_the_bytes_on_disk");
       if (spec.expectsParticipantValues && out.markersInPageContent.length === 0) {
         failures.push(out.markersOnlyInFieldValues.length > 0
           ? "participant_values_exist_only_in_unflattened_widget_appearances"
@@ -232,7 +247,8 @@ const totals = {
   contactSheetsWithVisibilityProof: families.filter((f) => f.contactSheetProofPresent).length,
   notFlattened: failureCount("not_flattened_live_form_fields_survive"),
   notByteInspectable: failureCount("object_streams_hide_active_content_from_the_scan"),
-  notFactoryStamped: failureCount("not_stamped_by_the_current_factory"),
+  withoutAProvenanceRecord: failureCount("no_provenance_record_names_this_artifact"),
+  provenanceHashMismatch: failureCount("provenance_hash_does_not_match_the_bytes_on_disk"),
   activeContentResidue: failureCount("active_content_residue"),
   xfaSurvives: failureCount("xfa_survives_in_output"),
   valuesOnlyInWidgetAppearances: failureCount("participant_values_exist_only_in_unflattened_widget_appearances"),
@@ -250,7 +266,7 @@ const payload = {
     flattened: "No AcroForm field survives, so no value depends on a viewer choosing to draw a widget appearance.",
     byteInspectable: "Serialized without object streams, so the active-content residue scan can see into every object it judges.",
     activeContentClean: "No JavaScript, XFA, OpenAction, additional-action, launch, submit, import, remote-goto or rich-media residue.",
-    factoryStamped: `Producer is "${FACTORY_PRODUCER}", which is how an artifact records which factory built it.`,
+    provenanceRecorded: "A sidecar artifact-provenance.json names this artifact and its output hash matches the bytes on disk. Provenance is external because the PDF carries the court's own metadata, not ours.",
     valuesInPageContent: "A fixture meant to carry participant values carries them in extractable page content.",
     protectedFieldsBlank: "No field this family's own policy marks unwritable or manual carries a value. A value the factory wrote there is a factory defect; a value it did not write is the form's own preprinted default, surviving because the artifact was never flattened."
   },

@@ -81,7 +81,7 @@ export async function finalizeFlatOverlay({
       continue;
     }
     page.drawText(fit.lines.join(" "), {
-      x: anchor.writeBox.x, y: anchor.writeBox.y, size: fit.fontSize, font, color: rgb(0, 0, 0.55)
+      x: anchor.writeBox.x, y: anchor.writeBox.y, size: fit.fontSize, font, color: PARTICIPANT_INK
     });
     report.written.push({ anchor: anchor.label, factId, fontSize: fit.fontSize, outcome: fit.outcome });
     report.expectedValues.push(String(value));
@@ -89,9 +89,7 @@ export async function finalizeFlatOverlay({
 
   const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc);
   report.sanitation = sanitation;
-  clean.setProducer("LegalEase RCAP official-form factory (pdf-lib)");
-  clean.setCreator("LegalEase RCAP");
-  if (title) clean.setTitle(title);
+  preserveSourceMetadata(pdfDoc, clean);
   clean.setCreationDate(DETERMINISTIC_STAMP);
   clean.setModificationDate(DETERMINISTIC_STAMP);
   const bytes = await clean.save({ useObjectStreams: false });
@@ -102,6 +100,46 @@ export async function finalizeFlatOverlay({
   report.outputSha256 = crypto.createHash("sha256").update(bytes).digest("hex");
   report.outputBytes = bytes.length;
   return { bytes, report };
+}
+
+// Participant values are drawn in black. The renderer defaulted to a dark blue
+// for no recorded reason; a filed court form is a black-ink document unless its
+// own instructions say otherwise, and an unexplained colour on a filing is a
+// difference nobody asked for. A form that genuinely requires another ink can
+// pass one explicitly.
+export const PARTICIPANT_INK = rgb(0, 0, 0);
+
+/**
+ * Carries the court's own document metadata onto the finalized artifact.
+ *
+ * The finalizer used to stamp its own Producer and Creator and overwrite the
+ * Title, which destroyed the issuing court's provenance -- author, subject,
+ * keywords and the form's real name -- and wrote partner branding into a
+ * document whose footer says it shall not be modified. The participant's
+ * official form carries the court's identity, not ours.
+ *
+ * Provenance for our purposes lives in the sidecar artifact record instead,
+ * where it can hold the source and output hashes, the field-map hash and the
+ * factory version -- none of which fits in a PDF Info dictionary, and none of
+ * which should be trusted from one anyway.
+ */
+export function preserveSourceMetadata(sourceDoc, cleanDoc) {
+  const carried = {};
+  for (const [key, get, set] of [
+    ["title", () => sourceDoc.getTitle(), (v) => cleanDoc.setTitle(v)],
+    ["author", () => sourceDoc.getAuthor(), (v) => cleanDoc.setAuthor(v)],
+    ["subject", () => sourceDoc.getSubject(), (v) => cleanDoc.setSubject(v)],
+    ["keywords", () => sourceDoc.getKeywords(), (v) => cleanDoc.setKeywords(v.split(/\s*,\s*/))],
+    ["creator", () => sourceDoc.getCreator(), (v) => cleanDoc.setCreator(v)],
+    ["producer", () => sourceDoc.getProducer(), (v) => cleanDoc.setProducer(v)]
+  ]) {
+    let value;
+    try { value = get(); } catch { value = undefined; }
+    if (typeof value === "string" && value.trim() !== "") {
+      try { set(value); carried[key] = value; } catch { /* a field the source cannot round-trip is left alone */ }
+    }
+  }
+  return carried;
 }
 
 export class NonFilingHoldError extends Error {
@@ -240,9 +278,7 @@ export async function finalizeOfficialForm({
   const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc, { defaultFont: helvetica });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 
-  clean.setProducer("LegalEase RCAP official-form factory (pdf-lib)");
-  clean.setCreator("LegalEase RCAP");
-  if (title) clean.setTitle(title);
+  preserveSourceMetadata(pdfDoc, clean);
   clean.setCreationDate(DETERMINISTIC_STAMP);
   clean.setModificationDate(DETERMINISTIC_STAMP);
 

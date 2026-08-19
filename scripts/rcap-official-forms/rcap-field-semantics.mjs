@@ -57,11 +57,16 @@ export const FACT_DESCRIPTORS = [
   { factId: "participant.first_name", valueType: "string", match: /first\s*name/ },
   { factId: "participant.last_name", valueType: "string", match: /last\s*name|surname/ },
   { factId: "participant.middle_name", valueType: "string", match: /middle\s*(name|initial)/ },
-  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b/ },
+  // Email before street address, and street address explicitly refuses an
+  // email label. "Email Address" contains "address", so with the address rule
+  // first it won -- and a participant's street address was written onto the
+  // email line. Ordering alone would fix it today and break again the next
+  // time these are sorted, so the guard is stated as well.
+  { factId: "participant.email", valueType: "string", match: /\be[-\s]?mail\b/ },
+  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b/, refuseWhen: /\be[-\s]?mail\b/ },
   { factId: "participant.city", valueType: "string", match: /\bcity\b/ },
   { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/ },
   { factId: "participant.phone", valueType: "string", match: /\bphone\b|telephone/ },
-  { factId: "participant.email", valueType: "string", match: /\bemail\b/ },
   { factId: "participant.state", valueType: "string", match: /\bstate\b/ },
   { factId: "matter.county", valueType: "string", match: /\bcounty\b/ },
   { factId: "matter.court", valueType: "string", match: /court\s*name|type\s*of\s*court|judicial\s*(district|circuit)/ },
@@ -154,7 +159,7 @@ export function decideBinding(field, options = {}) {
   }
 
   const hay = haystack(subject);
-  const matches = FACT_DESCRIPTORS.filter((d) => d.match.test(hay));
+  const matches = FACT_DESCRIPTORS.filter((d) => d.match.test(hay) && !(d.refuseWhen && d.refuseWhen.test(hay)));
   if (matches.length === 0) return { writable: false, reason: "no_allowlisted_fact_matches" };
 
   // Most-specific-first ordering makes the first match the intended one; a

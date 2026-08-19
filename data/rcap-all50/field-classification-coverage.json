@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "rcap-field-classification-coverage/v1",
+  "generatedBy": "scripts/generate-rcap-field-classification.mjs",
+  "rule": "classifiedFieldsOrAnchors == discoveredFieldsOrAnchors, for every retained family this lane has measured.",
+  "classes": {
+    "participant_writable": "The participant or a deterministic case fact owns this field and the factory may write it.",
+    "protected": "A court, clerk, prosecutor, attorney, agency or signature field. Never written, whatever anchor is supplied.",
+    "not_applicable": "Discovered on the form but outside this packet's participant set, so nothing is written and nothing is claimed."
+  },
+  "totals": {
+    "familiesClassified": 1,
+    "familiesComplete": 1,
+    "familiesIncomplete": 0,
+    "discoveredFieldsOrAnchors": 11,
+    "classifiedFieldsOrAnchors": 11,
+    "participantWritable": 6,
+    "protectedFields": 3,
+    "notApplicable": 2
+  },
+  "families": [
+    {
+      "familyId": "WI:cr-266-form-en",
+      "jurisdiction": "WI",
+      "documentId": "CR-266",
+      "denominator": "measured anchors plus deliberately unbound captions",
+      "discoveredFieldsOrAnchors": 11,
+      "classifiedFieldsOrAnchors": 11,
+      "complete": true,
+      "counts": {
+        "participant_writable": 6,
+        "protected": 3,
+        "not_applicable": 2
+      },
+      "entries": [
+        {
+          "label": "COUNTY",
+          "source": "measured_anchor",
+          "factId": "matter.county",
+          "class": "participant_writable",
+          "basis": "bound to matter.county"
+        },
+        {
+          "label": "Defendant's Name",
+          "source": "measured_anchor",
+          "factId": "participant.full_legal_name",
+          "class": "participant_writable",
+          "basis": "bound to participant.full_legal_name"
+        },
+        {
+          "label": "Date of Birth",
+          "source": "measured_anchor",
+          "factId": "participant.date_of_birth",
+          "class": "participant_writable",
+          "basis": "bound to participant.date_of_birth"
+        },
+        {
+          "label": "Case No",
+          "source": "measured_anchor",
+          "factId": "matter.case_number",
+          "class": "participant_writable",
+          "basis": "bound to matter.case_number"
+        },
+        {
+          "label": "Name Printed or Typed",
+          "source": "measured_anchor",
+          "factId": "participant.full_legal_name",
+          "class": "participant_writable",
+          "basis": "bound to participant.full_legal_name"
+        },
+        {
+          "label": "Address",
+          "source": "measured_anchor",
+          "factId": "participant.street_address",
+          "class": "participant_writable",
+          "basis": "bound to participant.street_address"
+        },
+        {
+          "label": "Signature",
+          "source": "measured_anchor",
+          "factId": "participant.full_legal_name",
+          "class": "protected",
+          "basis": "field semantics refuses it: signature"
+        },
+        {
+          "label": "Email Address",
+          "source": "discovered_caption_deliberately_unbound",
+          "factId": null,
+          "class": "not_applicable",
+          "basis": "writable as participant.email but this form's packet binds no value to it",
+          "why": "The shared field-semantics module maps 'Email Address' to participant.street_address, which is wrong. Binding it would print the street address on the email line. Left unbound and recorded as a defect in the shared module rather than worked around here."
+        },
+        {
+          "label": "Telephone Number",
+          "source": "discovered_caption_deliberately_unbound",
+          "factId": null,
+          "class": "not_applicable",
+          "basis": "writable as participant.phone but this form's packet binds no value to it",
+          "why": "Writable and correct in semantics, but no telephone fact is part of this form's approved participant set; left for the participant."
+        },
+        {
+          "label": "Date",
+          "source": "discovered_caption_deliberately_unbound",
+          "factId": null,
+          "class": "protected",
+          "basis": "field semantics refuses it: no_allowlisted_fact_matches",
+          "why": "Refused by semantics: no allowlisted fact matches. This is the participant's signing date and is not ours to guess."
+        },
+        {
+          "label": "State Bar No. (if any)",
+          "source": "discovered_caption_deliberately_unbound",
+          "factId": null,
+          "class": "protected",
+          "basis": "field semantics refuses it: attorney",
+          "why": "Refused by semantics as an attorney field."
+        }
+      ]
+    }
+  ]
+}

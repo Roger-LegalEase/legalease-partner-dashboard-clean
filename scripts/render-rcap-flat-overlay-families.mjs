@@ -25,11 +25,16 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { finalizeFlatOverlay, NonFilingHoldError } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { buildContactSheet, ContactSheetProofError } from "./rcap-official-forms/rcap-contact-sheet.mjs";
+import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenance.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OVERLAY_DIR = path.join(rootDir, "data/rcap-all50/overlays/production");
 const OUT = path.join(rootDir, "data/rcap-all50/flat-overlay-render-report.json");
 const checkOnly = process.argv.includes("--check");
+const RENDERER_VERSION = "render-rcap-flat-overlay-families/v2-content-stream-geometry";
+// Pinned rather than read from the clock, so a re-render of unchanged inputs
+// produces an identical record and a drift check keeps its meaning.
+const GENERATED_AT = "2026-08-19T00:00:00.000Z";
 
 const readJson = (file, fallback = null) => {
   if (!fs.existsSync(file)) return fallback;
@@ -134,6 +139,26 @@ for (const stateDir of fs.readdirSync(OVERLAY_DIR).sort()) {
         fs.writeFileSync(path.join(familyPath, "contact-sheet", "blank-vs-filled.pdf"), sheet.bytes);
         fs.writeFileSync(path.join(familyPath, "contact-sheet", "contact-sheet-proof.json"), `${JSON.stringify(sheet.proof, null, 2)}\n`);
       }
+
+      // Provenance beside the artifact, not inside it. The PDF now carries the
+      // court's own metadata, so nothing about which factory produced it can be
+      // read from the file; this record is where that lives.
+      const provenance = await artifactProvenance({
+        jurisdiction, documentId: row.documentId, sourceSha256: sha,
+        sourceRevision: record.revision ?? null,
+        fieldMap: profile.anchors,
+        rendererVersion: RENDERER_VERSION,
+        generatedAt: GENERATED_AT,
+        artifacts: [
+          { rel: "fixtures/canonical-filled.pdf", bytes: results.canonical.bytes },
+          { rel: "fixtures/boundary-filled.pdf", bytes: results.boundary.bytes },
+          { rel: "contact-sheet/blank-vs-filled.pdf", bytes: sheet.bytes }
+        ]
+      });
+      if (!checkOnly) {
+        fs.writeFileSync(path.join(familyPath, "artifact-provenance.json"), `${JSON.stringify(provenance, null, 2)}\n`);
+      }
+      row.provenance = provenance;
 
       // Reports, written from the run rather than asserted.
       const canonical = results.canonical.report;

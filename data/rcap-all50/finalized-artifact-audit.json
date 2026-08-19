@@ -6,7 +6,7 @@
     "flattened": "No AcroForm field survives, so no value depends on a viewer choosing to draw a widget appearance.",
     "byteInspectable": "Serialized without object streams, so the active-content residue scan can see into every object it judges.",
     "activeContentClean": "No JavaScript, XFA, OpenAction, additional-action, launch, submit, import, remote-goto or rich-media residue.",
-    "factoryStamped": "Producer is \"LegalEase RCAP official-form factory (pdf-lib)\", which is how an artifact records which factory built it.",
+    "provenanceRecorded": "A sidecar artifact-provenance.json names this artifact and its output hash matches the bytes on disk. Provenance is external because the PDF carries the court's own metadata, not ours.",
     "valuesInPageContent": "A fixture meant to carry participant values carries them in extractable page content.",
     "protectedFieldsBlank": "No field this family's own policy marks unwritable or manual carries a value. A value the factory wrote there is a factory defect; a value it did not write is the form's own preprinted default, surviving because the artifact was never flattened."
   },
@@ -24,7 +24,8 @@
     "contactSheetsWithVisibilityProof": 1,
     "notFlattened": 108,
     "notByteInspectable": 188,
-    "notFactoryStamped": 188,
+    "withoutAProvenanceRecord": 188,
+    "provenanceHashMismatch": 0,
     "activeContentResidue": 0,
     "xfaSurvives": 0,
     "valuesOnlyInWidgetAppearances": 53,
@@ -87,6 +88,8 @@
           "pages": 3,
           "formFields": 39,
           "nonEmptyTextFields": 16,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 15 for Word",
@@ -109,7 +112,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -124,6 +127,8 @@
           "pages": 3,
           "formFields": 39,
           "nonEmptyTextFields": 18,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 15 for Word",
@@ -140,7 +145,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -154,6 +159,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -169,7 +176,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -320,6 +327,8 @@
           "pages": 4,
           "formFields": 76,
           "nonEmptyTextFields": 16,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 17 for Word",
@@ -340,7 +349,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -355,6 +364,8 @@
           "pages": 4,
           "formFields": 76,
           "nonEmptyTextFields": 18,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 17 for Word",
@@ -371,7 +382,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -385,6 +396,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -400,7 +413,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -458,6 +471,8 @@
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "PDFium",
@@ -477,7 +492,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -491,6 +506,8 @@
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "PDFium",
@@ -506,7 +523,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -520,6 +537,8 @@
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -539,7 +558,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -628,6 +647,8 @@
           "pages": 3,
           "formFields": 26,
           "nonEmptyTextFields": 8,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2019",
@@ -648,7 +669,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -663,6 +684,8 @@
           "pages": 3,
           "formFields": 26,
           "nonEmptyTextFields": 8,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2019",
@@ -679,7 +702,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -693,6 +716,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -708,7 +733,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -735,6 +760,8 @@
           "pages": 2,
           "formFields": 17,
           "nonEmptyTextFields": 8,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2019",
@@ -755,7 +782,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -770,6 +797,8 @@
           "pages": 2,
           "formFields": 17,
           "nonEmptyTextFields": 8,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2019",
@@ -786,7 +815,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -800,6 +829,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -815,7 +846,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -842,6 +873,8 @@
           "pages": 1,
           "formFields": 23,
           "nonEmptyTextFields": 7,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2019",
@@ -862,7 +895,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -877,6 +910,8 @@
           "pages": 1,
           "formFields": 23,
           "nonEmptyTextFields": 7,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2019",
@@ -893,7 +928,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -907,6 +942,8 @@
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -922,7 +959,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -1011,6 +1048,8 @@
           "pages": 2,
           "formFields": 30,
           "nonEmptyTextFields": 3,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -1029,7 +1068,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -1044,6 +1083,8 @@
           "pages": 2,
           "formFields": 30,
           "nonEmptyTextFields": 3,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -1060,7 +1101,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -1074,6 +1115,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -1089,7 +1132,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -1116,6 +1159,8 @@
           "pages": 3,
           "formFields": 36,
           "nonEmptyTextFields": 5,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -1136,7 +1181,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -1151,6 +1196,8 @@
           "pages": 3,
           "formFields": 36,
           "nonEmptyTextFields": 5,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -1167,7 +1214,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -1181,6 +1228,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -1196,7 +1245,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -1223,6 +1272,8 @@
           "pages": 4,
           "formFields": 50,
           "nonEmptyTextFields": 7,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -1243,7 +1294,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -1258,6 +1309,8 @@
           "pages": 4,
           "formFields": 50,
           "nonEmptyTextFields": 9,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -1274,7 +1327,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -1288,6 +1341,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -1303,7 +1358,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -1330,6 +1385,8 @@
           "pages": 4,
           "formFields": 45,
           "nonEmptyTextFields": 7,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -1350,7 +1407,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -1365,6 +1422,8 @@
           "pages": 4,
           "formFields": 45,
           "nonEmptyTextFields": 9,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -1381,7 +1440,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -1395,6 +1454,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -1410,7 +1471,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -1437,6 +1498,8 @@
           "pages": 3,
           "formFields": 29,
           "nonEmptyTextFields": 5,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -1457,7 +1520,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -1472,6 +1535,8 @@
           "pages": 3,
           "formFields": 29,
           "nonEmptyTextFields": 5,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -1488,7 +1553,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -1502,6 +1567,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -1517,7 +1584,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -1544,6 +1611,8 @@
           "pages": 3,
           "formFields": 29,
           "nonEmptyTextFields": 6,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -1563,7 +1632,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -1578,6 +1647,8 @@
           "pages": 3,
           "formFields": 29,
           "nonEmptyTextFields": 6,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -1594,7 +1665,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -1608,6 +1679,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -1623,7 +1696,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -1650,6 +1723,8 @@
           "pages": 3,
           "formFields": 43,
           "nonEmptyTextFields": 5,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -1669,7 +1744,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -1684,6 +1759,8 @@
           "pages": 3,
           "formFields": 43,
           "nonEmptyTextFields": 5,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -1700,7 +1777,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -1714,6 +1791,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -1729,7 +1808,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -1756,6 +1835,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -1775,7 +1856,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -1789,6 +1870,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -1804,7 +1887,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -1818,6 +1901,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -1837,7 +1922,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -1864,6 +1949,8 @@
           "pages": 3,
           "formFields": 37,
           "nonEmptyTextFields": 4,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -1883,7 +1970,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -1898,6 +1985,8 @@
           "pages": 3,
           "formFields": 37,
           "nonEmptyTextFields": 4,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -1914,7 +2003,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -1928,6 +2017,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -1943,7 +2034,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -1970,6 +2061,8 @@
           "pages": 3,
           "formFields": 33,
           "nonEmptyTextFields": 4,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -1989,7 +2082,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -2004,6 +2097,8 @@
           "pages": 3,
           "formFields": 33,
           "nonEmptyTextFields": 4,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -2020,7 +2115,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -2034,6 +2129,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -2049,7 +2146,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -2076,6 +2173,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -2095,7 +2194,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -2109,6 +2208,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -2124,7 +2225,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -2138,6 +2239,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -2157,7 +2260,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -2184,6 +2287,8 @@
           "pages": 3,
           "formFields": 38,
           "nonEmptyTextFields": 3,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -2202,7 +2307,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -2217,6 +2322,8 @@
           "pages": 3,
           "formFields": 38,
           "nonEmptyTextFields": 3,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -2233,7 +2340,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -2247,6 +2354,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -2262,7 +2371,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -2289,6 +2398,8 @@
           "pages": 4,
           "formFields": 47,
           "nonEmptyTextFields": 10,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -2309,7 +2420,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -2324,6 +2435,8 @@
           "pages": 4,
           "formFields": 47,
           "nonEmptyTextFields": 13,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -2340,7 +2453,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -2354,6 +2467,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -2369,7 +2484,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -2396,6 +2511,8 @@
           "pages": 4,
           "formFields": 48,
           "nonEmptyTextFields": 17,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -2418,7 +2535,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -2433,6 +2550,8 @@
           "pages": 4,
           "formFields": 48,
           "nonEmptyTextFields": 19,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -2449,7 +2568,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -2463,6 +2582,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -2478,7 +2599,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -2505,6 +2626,8 @@
           "pages": 5,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -2524,7 +2647,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -2538,6 +2661,8 @@
           "pages": 5,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -2553,7 +2678,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -2567,6 +2692,8 @@
           "pages": 5,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -2586,7 +2713,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -2613,6 +2740,8 @@
           "pages": 3,
           "formFields": 37,
           "nonEmptyTextFields": 12,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -2635,7 +2764,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -2650,6 +2779,8 @@
           "pages": 3,
           "formFields": 37,
           "nonEmptyTextFields": 14,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -2666,7 +2797,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -2680,6 +2811,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -2695,7 +2828,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -2722,6 +2855,8 @@
           "pages": 5,
           "formFields": 41,
           "nonEmptyTextFields": 10,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2013",
@@ -2743,7 +2878,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -2758,6 +2893,8 @@
           "pages": 5,
           "formFields": 41,
           "nonEmptyTextFields": 10,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2013",
@@ -2774,7 +2911,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -2788,6 +2925,8 @@
           "pages": 5,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -2803,7 +2942,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -2830,6 +2969,8 @@
           "pages": 4,
           "formFields": 53,
           "nonEmptyTextFields": 14,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -2851,7 +2992,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -2866,6 +3007,8 @@
           "pages": 4,
           "formFields": 53,
           "nonEmptyTextFields": 16,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -2882,7 +3025,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -2896,6 +3039,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -2911,7 +3056,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -2938,6 +3083,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -2957,7 +3104,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -2971,6 +3118,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -2986,7 +3135,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -3000,6 +3149,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -3019,7 +3170,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -3046,6 +3197,8 @@
           "pages": 4,
           "formFields": 45,
           "nonEmptyTextFields": 15,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -3068,7 +3221,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -3083,6 +3236,8 @@
           "pages": 4,
           "formFields": 45,
           "nonEmptyTextFields": 16,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Word 2016",
@@ -3099,7 +3254,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -3113,6 +3268,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -3128,7 +3285,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -3186,6 +3343,8 @@
           "pages": 4,
           "formFields": 44,
           "nonEmptyTextFields": 10,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -3207,7 +3366,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -3222,6 +3381,8 @@
           "pages": 4,
           "formFields": 44,
           "nonEmptyTextFields": 12,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Microsoft® Office Word 2007",
@@ -3238,7 +3399,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -3252,6 +3413,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -3267,7 +3430,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -3480,6 +3643,8 @@
           "pages": 1,
           "formFields": 14,
           "nonEmptyTextFields": 2,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign CS5 (7.0.4)",
@@ -3499,7 +3664,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -3514,6 +3679,8 @@
           "pages": 1,
           "formFields": 14,
           "nonEmptyTextFields": 2,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign CS5 (7.0.4)",
@@ -3530,7 +3697,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -3544,6 +3711,8 @@
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -3559,7 +3728,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -3586,6 +3755,8 @@
           "pages": 1,
           "formFields": 20,
           "nonEmptyTextFields": 6,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 17.0 (Windows)",
@@ -3605,7 +3776,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -3620,6 +3791,8 @@
           "pages": 1,
           "formFields": 20,
           "nonEmptyTextFields": 8,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 17.0 (Windows)",
@@ -3636,7 +3809,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -3650,6 +3823,8 @@
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -3665,7 +3840,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -3692,6 +3867,8 @@
           "pages": 2,
           "formFields": 31,
           "nonEmptyTextFields": 11,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign CS5 (7.0)",
@@ -3712,7 +3889,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -3727,6 +3904,8 @@
           "pages": 2,
           "formFields": 31,
           "nonEmptyTextFields": 13,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign CS5 (7.0)",
@@ -3743,7 +3922,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -3757,6 +3936,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -3772,7 +3953,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -3799,6 +3980,8 @@
           "pages": 3,
           "formFields": 62,
           "nonEmptyTextFields": 1,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 18.2 (Windows)",
@@ -3817,7 +4000,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -3832,6 +4015,8 @@
           "pages": 3,
           "formFields": 62,
           "nonEmptyTextFields": 1,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 18.2 (Windows)",
@@ -3848,7 +4033,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -3862,6 +4047,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -3877,7 +4064,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -3904,6 +4091,8 @@
           "pages": 4,
           "formFields": 75,
           "nonEmptyTextFields": 1,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 18.2 (Windows)",
@@ -3922,7 +4111,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -3937,6 +4126,8 @@
           "pages": 4,
           "formFields": 75,
           "nonEmptyTextFields": 1,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 18.2 (Windows)",
@@ -3953,7 +4144,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -3967,6 +4158,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -3982,7 +4175,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -4009,6 +4202,8 @@
           "pages": 1,
           "formFields": 16,
           "nonEmptyTextFields": 3,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign CC 13.0 (Windows)",
@@ -4032,7 +4227,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
@@ -4048,6 +4243,8 @@
           "pages": 1,
           "formFields": 16,
           "nonEmptyTextFields": 3,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign CC 13.0 (Windows)",
@@ -4068,7 +4265,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
         },
@@ -4083,6 +4280,8 @@
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -4098,7 +4297,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -4125,6 +4324,8 @@
           "pages": 2,
           "formFields": 33,
           "nonEmptyTextFields": 4,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign CS5 (7.0)",
@@ -4144,7 +4345,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -4159,6 +4360,8 @@
           "pages": 2,
           "formFields": 33,
           "nonEmptyTextFields": 4,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign CS5 (7.0)",
@@ -4175,7 +4378,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -4189,6 +4392,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -4204,7 +4409,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -4231,6 +4436,8 @@
           "pages": 2,
           "formFields": 29,
           "nonEmptyTextFields": 5,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "",
@@ -4255,7 +4462,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
@@ -4271,6 +4478,8 @@
           "pages": 2,
           "formFields": 29,
           "nonEmptyTextFields": 5,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "",
@@ -4291,7 +4500,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
         },
@@ -4306,6 +4515,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -4321,7 +4532,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -4348,6 +4559,8 @@
           "pages": 2,
           "formFields": 32,
           "nonEmptyTextFields": 9,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "PScript5.dll Version 5.2.2",
@@ -4368,7 +4581,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -4383,6 +4596,8 @@
           "pages": 2,
           "formFields": 32,
           "nonEmptyTextFields": 11,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "PScript5.dll Version 5.2.2",
@@ -4399,7 +4614,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -4413,6 +4628,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -4428,7 +4645,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -4641,6 +4858,8 @@
           "pages": 1,
           "formFields": 9,
           "nonEmptyTextFields": 5,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 11 for Word",
@@ -4664,7 +4883,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
@@ -4680,6 +4899,8 @@
           "pages": 1,
           "formFields": 9,
           "nonEmptyTextFields": 5,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 11 for Word",
@@ -4700,7 +4921,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
         },
@@ -4715,6 +4936,8 @@
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -4730,7 +4953,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -4788,6 +5011,8 @@
           "pages": 1,
           "formFields": 19,
           "nonEmptyTextFields": 10,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 11 for Word",
@@ -4813,7 +5038,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
@@ -4829,6 +5054,8 @@
           "pages": 1,
           "formFields": 19,
           "nonEmptyTextFields": 10,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 11 for Word",
@@ -4849,7 +5076,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
         },
@@ -4864,6 +5091,8 @@
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -4879,7 +5108,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -4968,6 +5197,8 @@
           "pages": 2,
           "formFields": 24,
           "nonEmptyTextFields": 10,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 21 for Word",
@@ -4994,7 +5225,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
@@ -5010,6 +5241,8 @@
           "pages": 2,
           "formFields": 24,
           "nonEmptyTextFields": 10,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 21 for Word",
@@ -5030,7 +5263,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
         },
@@ -5045,6 +5278,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -5060,7 +5295,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -5118,6 +5353,8 @@
           "pages": 1,
           "formFields": 21,
           "nonEmptyTextFields": 9,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 11 for Word",
@@ -5143,7 +5380,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
@@ -5159,6 +5396,8 @@
           "pages": 1,
           "formFields": 21,
           "nonEmptyTextFields": 9,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 11 for Word",
@@ -5179,7 +5418,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
         },
@@ -5194,6 +5433,8 @@
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -5209,7 +5450,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -5236,6 +5477,8 @@
           "pages": 2,
           "formFields": 74,
           "nonEmptyTextFields": 29,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 19 for Word",
@@ -5292,7 +5535,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
@@ -5308,6 +5551,8 @@
           "pages": 2,
           "formFields": 74,
           "nonEmptyTextFields": 29,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 19 for Word",
@@ -5362,7 +5607,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
         },
@@ -5377,6 +5622,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -5392,7 +5639,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -5450,6 +5697,8 @@
           "pages": 2,
           "formFields": 28,
           "nonEmptyTextFields": 16,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 9.0 for Word",
@@ -5489,7 +5738,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
@@ -5505,6 +5754,8 @@
           "pages": 2,
           "formFields": 28,
           "nonEmptyTextFields": 16,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 9.0 for Word",
@@ -5541,7 +5792,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "protected_field_holds_a_source_default_that_flattening_would_drop"
           ]
         },
@@ -5556,6 +5807,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -5571,7 +5824,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -5629,6 +5882,8 @@
           "pages": 2,
           "formFields": 119,
           "nonEmptyTextFields": 14,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 20.5 (Windows)",
@@ -5651,7 +5906,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -5666,6 +5921,8 @@
           "pages": 2,
           "formFields": 119,
           "nonEmptyTextFields": 23,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 20.5 (Windows)",
@@ -5682,7 +5939,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -5696,6 +5953,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -5711,7 +5970,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -5738,6 +5997,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -5753,7 +6014,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_absent_from_the_artifact_entirely"
           ]
         },
@@ -5768,6 +6029,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -5783,7 +6046,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -5797,6 +6060,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -5812,7 +6077,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -5963,6 +6228,8 @@
           "pages": 2,
           "formFields": 128,
           "nonEmptyTextFields": 18,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 20.2 (Windows)",
@@ -5985,7 +6252,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -6000,6 +6267,8 @@
           "pages": 2,
           "formFields": 128,
           "nonEmptyTextFields": 24,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 20.2 (Windows)",
@@ -6016,7 +6285,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -6030,6 +6299,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -6045,7 +6316,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -6072,6 +6343,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -6087,7 +6360,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_absent_from_the_artifact_entirely"
           ]
         },
@@ -6102,6 +6375,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -6117,7 +6392,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -6131,6 +6406,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -6146,7 +6423,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -6297,6 +6574,8 @@
           "pages": 2,
           "formFields": 126,
           "nonEmptyTextFields": 12,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 20.2 (Windows)",
@@ -6319,7 +6598,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -6334,6 +6613,8 @@
           "pages": 2,
           "formFields": 126,
           "nonEmptyTextFields": 18,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 20.2 (Windows)",
@@ -6350,7 +6631,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -6364,6 +6645,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -6379,7 +6662,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -6406,6 +6689,8 @@
           "pages": 2,
           "formFields": 110,
           "nonEmptyTextFields": 16,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 20.4 (Windows)",
@@ -6428,7 +6713,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -6443,6 +6728,8 @@
           "pages": 2,
           "formFields": 110,
           "nonEmptyTextFields": 21,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 20.4 (Windows)",
@@ -6459,7 +6746,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -6473,6 +6760,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -6488,7 +6777,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -6546,6 +6835,8 @@
           "pages": 2,
           "formFields": 107,
           "nonEmptyTextFields": 16,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 20.4 (Windows)",
@@ -6568,7 +6859,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -6583,6 +6874,8 @@
           "pages": 2,
           "formFields": 107,
           "nonEmptyTextFields": 21,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 20.4 (Windows)",
@@ -6599,7 +6892,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -6613,6 +6906,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -6628,7 +6923,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -6686,6 +6981,8 @@
           "pages": 2,
           "formFields": 78,
           "nonEmptyTextFields": 19,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 18.0 (Windows)",
@@ -6708,7 +7005,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -6723,6 +7020,8 @@
           "pages": 2,
           "formFields": 78,
           "nonEmptyTextFields": 19,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 18.0 (Windows)",
@@ -6739,7 +7038,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -6753,6 +7052,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -6768,7 +7069,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -6795,6 +7096,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 17.0 (Windows)",
@@ -6812,7 +7115,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -6826,6 +7129,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 17.0 (Windows)",
@@ -6841,7 +7146,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -6855,6 +7160,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -6872,7 +7179,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -6899,6 +7206,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 17.0 (Windows)",
@@ -6916,7 +7225,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -6930,6 +7239,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Adobe InDesign 17.0 (Windows)",
@@ -6945,7 +7256,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -6959,6 +7270,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -6976,7 +7289,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -7282,6 +7595,8 @@
           "pages": 2,
           "formFields": 48,
           "nonEmptyTextFields": 2,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 25 for Word",
@@ -7298,7 +7613,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_absent_from_the_artifact_entirely"
           ]
         },
@@ -7313,6 +7628,8 @@
           "pages": 2,
           "formFields": 48,
           "nonEmptyTextFields": 2,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 25 for Word",
@@ -7329,7 +7646,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -7362,6 +7679,8 @@
           "pages": 2,
           "formFields": 48,
           "nonEmptyTextFields": 3,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 25 for Word",
@@ -7381,7 +7700,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -7396,6 +7715,8 @@
           "pages": 2,
           "formFields": 48,
           "nonEmptyTextFields": 3,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 25 for Word",
@@ -7412,7 +7733,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -7426,6 +7747,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -7441,7 +7764,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -7685,6 +8008,8 @@
           "pages": 2,
           "formFields": 33,
           "nonEmptyTextFields": 3,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 25 for Word",
@@ -7704,7 +8029,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -7719,6 +8044,8 @@
           "pages": 2,
           "formFields": 33,
           "nonEmptyTextFields": 3,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 25 for Word",
@@ -7735,7 +8062,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -7749,6 +8076,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -7764,7 +8093,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -7853,6 +8182,8 @@
           "pages": 2,
           "formFields": 33,
           "nonEmptyTextFields": 3,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 25 for Word",
@@ -7872,7 +8203,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -7887,6 +8218,8 @@
           "pages": 2,
           "formFields": 33,
           "nonEmptyTextFields": 3,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 25 for Word",
@@ -7903,7 +8236,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -7917,6 +8250,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -7932,7 +8267,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -8207,6 +8542,8 @@
           "pages": 2,
           "formFields": 80,
           "nonEmptyTextFields": 2,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -8226,7 +8563,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -8241,6 +8578,8 @@
           "pages": 2,
           "formFields": 80,
           "nonEmptyTextFields": 2,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -8257,7 +8596,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -8271,6 +8610,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -8286,7 +8627,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -8375,6 +8716,8 @@
           "pages": 3,
           "formFields": 97,
           "nonEmptyTextFields": 19,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -8395,7 +8738,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -8410,6 +8753,8 @@
           "pages": 3,
           "formFields": 97,
           "nonEmptyTextFields": 19,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -8426,7 +8771,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -8440,6 +8785,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -8455,7 +8802,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -8513,6 +8860,8 @@
           "pages": 4,
           "formFields": 90,
           "nonEmptyTextFields": 20,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -8534,7 +8883,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -8549,6 +8898,8 @@
           "pages": 4,
           "formFields": 90,
           "nonEmptyTextFields": 20,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -8565,7 +8916,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -8579,6 +8930,8 @@
           "pages": 4,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -8594,7 +8947,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -8652,6 +9005,8 @@
           "pages": 3,
           "formFields": 96,
           "nonEmptyTextFields": 15,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -8672,7 +9027,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -8687,6 +9042,8 @@
           "pages": 3,
           "formFields": 96,
           "nonEmptyTextFields": 15,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -8703,7 +9060,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -8717,6 +9074,8 @@
           "pages": 3,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -8732,7 +9091,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -8790,6 +9149,8 @@
           "pages": 2,
           "formFields": 44,
           "nonEmptyTextFields": 11,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -8810,7 +9171,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -8825,6 +9186,8 @@
           "pages": 2,
           "formFields": 44,
           "nonEmptyTextFields": 11,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -8841,7 +9204,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -8855,6 +9218,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -8870,7 +9235,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -8928,6 +9293,8 @@
           "pages": 6,
           "formFields": 131,
           "nonEmptyTextFields": 23,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -8949,7 +9316,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -8964,6 +9331,8 @@
           "pages": 6,
           "formFields": 131,
           "nonEmptyTextFields": 23,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -8980,7 +9349,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -8994,6 +9363,8 @@
           "pages": 6,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -9009,7 +9380,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -9067,6 +9438,8 @@
           "pages": 2,
           "formFields": 40,
           "nonEmptyTextFields": 11,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -9088,7 +9461,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory",
+            "no_provenance_record_names_this_artifact",
             "participant_values_exist_only_in_unflattened_widget_appearances"
           ]
         },
@@ -9103,6 +9476,8 @@
           "pages": 2,
           "formFields": 40,
           "nonEmptyTextFields": 11,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "Acrobat PDFMaker 24 for Word",
@@ -9119,7 +9494,7 @@
           "failures": [
             "not_flattened_live_form_fields_survive",
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         },
         {
@@ -9133,6 +9508,8 @@
           "pages": 2,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": false,
+          "outputShaMatchesProvenance": null,
           "xfaPresent": false,
           "producer": "pdf-lib (https://github.com/Hopding/pdf-lib)",
           "creator": "pdf-lib (https://github.com/Hopding/pdf-lib)",
@@ -9148,7 +9525,7 @@
           "finalized": false,
           "failures": [
             "object_streams_hide_active_content_from_the_scan",
-            "not_stamped_by_the_current_factory"
+            "no_provenance_record_names_this_artifact"
           ]
         }
       ]
@@ -9293,16 +9670,18 @@
           "kind": "canonical_fixture",
           "expectsParticipantValues": true,
           "present": true,
-          "bytes": 125996,
-          "sha256": "e78b0d8c5012b6becc45fa10027798d30f1a9453442851e7f2237c10c3bbc9f4",
+          "bytes": 126446,
+          "sha256": "320ef4cf61ded346e6fe858fb7188e430ee86bd8c36042eb47fad1c5e89c17ed",
           "parses": true,
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": true,
+          "outputShaMatchesProvenance": true,
           "xfaPresent": false,
-          "producer": "LegalEase RCAP official-form factory (pdf-lib)",
-          "creator": "LegalEase RCAP",
-          "title": "WI CR-266",
+          "producer": "Microsoft® Word 2016",
+          "creator": "Microsoft® Word 2016",
+          "title": "CR-266; Petition to Expunge Criminal Court Record of Conviction - Non-Probation/Non-Incarceration",
           "byteInspectable": true,
           "activeContentHits": [],
           "markersInPageContent": [
@@ -9324,16 +9703,18 @@
           "kind": "boundary_fixture",
           "expectsParticipantValues": false,
           "present": true,
-          "bytes": 125827,
-          "sha256": "544828ab465534cdd17a83f45c32385b855663eab8132a2ace48fed63ac2d257",
+          "bytes": 126277,
+          "sha256": "8637f4fe76a123185d451e2443302261bc8f03bc2385dac1451def7e0f03ee0a",
           "parses": true,
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": true,
+          "outputShaMatchesProvenance": true,
           "xfaPresent": false,
-          "producer": "LegalEase RCAP official-form factory (pdf-lib)",
-          "creator": "LegalEase RCAP",
-          "title": "WI CR-266",
+          "producer": "Microsoft® Word 2016",
+          "creator": "Microsoft® Word 2016",
+          "title": "CR-266; Petition to Expunge Criminal Court Record of Conviction - Non-Probation/Non-Incarceration",
           "byteInspectable": true,
           "activeContentHits": [],
           "markersInPageContent": [],
@@ -9350,12 +9731,14 @@
           "kind": "contact_sheet",
           "expectsParticipantValues": false,
           "present": true,
-          "bytes": 262301,
-          "sha256": "1a8faa983e86a92f1708eddbdfc2ff85e883684ade0a01ccb3b99394a8e07dea",
+          "bytes": 262296,
+          "sha256": "9d7aaa4d0117b1b36fd8a13e142d71e8d7fca770a9baf984ae573162add4d06b",
           "parses": true,
           "pages": 1,
           "formFields": 0,
           "nonEmptyTextFields": 0,
+          "provenanceRecorded": true,
+          "outputShaMatchesProvenance": true,
           "xfaPresent": false,
           "producer": "LegalEase RCAP official-form factory (pdf-lib)",
           "creator": "LegalEase RCAP",
