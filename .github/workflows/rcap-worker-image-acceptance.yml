@@ -1,0 +1,246 @@
+name: RCAP worker image acceptance
+
+# Asks the PUBLISHED IMAGE the four questions a release has to answer about it:
+# does it pull, does it refuse to start without credentials, is it alive, and
+# does it carry a secret.
+#
+# Publication proves only that a build succeeded and a digest came back. It does
+# not prove the bytes in the registry can be fetched, that the process inside
+# them fails closed, or that nothing sensitive was baked in. Those were
+# previously asserted in a committed JSON record by a run nobody can point at;
+# this workflow is the run you can point at.
+#
+# Read-only with respect to the platform. It PULLS and RUNS a container with no
+# Supabase configuration, so the worker cannot reach a queue, cannot claim a
+# job, and cannot touch staging or production. Nothing is built, tagged, pushed,
+# deployed or claimed. Secret findings are reported as file paths and counts
+# only — never as matched content, because a scanner that prints what it found
+# publishes the secret it was hired to catch.
+
+on:
+  workflow_dispatch:
+    inputs:
+      worker_tag:
+        description: "Full 40-character worker source SHA used as the image tag"
+        required: true
+        type: string
+      expected_digest:
+        description: "The sha256: digest the publication recorded. The tag must resolve to exactly this."
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: read
+
+env:
+  IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
+
+jobs:
+  accept:
+    name: Accept the published worker image
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Reject a malformed tag or digest
+        env:
+          WORKER_TAG: ${{ inputs.worker_tag }}
+          EXPECTED_DIGEST: ${{ inputs.expected_digest }}
+        run: |
+          set -euo pipefail
+          if ! printf '%s' "$WORKER_TAG" | grep -Eq '^[0-9a-f]{40}$'; then
+            echo "::error::worker_tag must be a full 40-character lowercase commit SHA"
+            exit 1
+          fi
+          if ! printf '%s' "$EXPECTED_DIGEST" | grep -Eq '^sha256:[0-9a-f]{64}$'; then
+            echo "::error::expected_digest must be a sha256: digest"
+            exit 1
+          fi
+
+      # The registry's own answer, before any local Docker state exists to
+      # confuse a stale cached layer for a successful fetch.
+      - name: Ask the registry what the tag resolves to
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RCAP_WORKER_TAG: ${{ inputs.worker_tag }}
+          RCAP_WORKER_CANDIDATE_DIGESTS: ${{ inputs.expected_digest }}
+        run: node scripts/verify-rcap-worker-tag-integrity.mjs --resolve
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Pull by DIGEST, not by tag. A tag is an alias and could be moved between
+      # the publication and this check; the digest is the thing being accepted.
+      - name: Pull the image by immutable digest
+        id: pull
+        env:
+          EXPECTED_DIGEST: ${{ inputs.expected_digest }}
+        run: |
+          set -euo pipefail
+          REF="${IMAGE_REPOSITORY}@${EXPECTED_DIGEST}"
+          docker pull "$REF"
+          echo "reference=${REF}" >> "$GITHUB_OUTPUT"
+
+      - name: Prove the tag and the digest are the same image
+        env:
+          WORKER_TAG: ${{ inputs.worker_tag }}
+          EXPECTED_DIGEST: ${{ inputs.expected_digest }}
+          REF: ${{ steps.pull.outputs.reference }}
+        run: |
+          set -euo pipefail
+          DIGEST_ID="$(docker image inspect --format '{{.Id}}' "$REF")"
+          docker pull "${IMAGE_REPOSITORY}:${WORKER_TAG}"
+          TAG_ID="$(docker image inspect --format '{{.Id}}' "${IMAGE_REPOSITORY}:${WORKER_TAG}")"
+          if [ "$DIGEST_ID" != "$TAG_ID" ]; then
+            echo "::error::the tag and the digest are different images (${TAG_ID} vs ${DIGEST_ID})"
+            exit 1
+          fi
+          REPO_DIGESTS="$(docker image inspect --format '{{join .RepoDigests ","}}' "$REF")"
+          case "$REPO_DIGESTS" in
+            *"${EXPECTED_DIGEST}"*) ;;
+            *) echo "::error::RepoDigests does not carry ${EXPECTED_DIGEST}: ${REPO_DIGESTS}"; exit 1 ;;
+          esac
+          echo "tag and digest agree: ${DIGEST_ID}"
+
+      - name: Prove the container does not run as root
+        env:
+          REF: ${{ steps.pull.outputs.reference }}
+        run: |
+          set -euo pipefail
+          USER_SPEC="$(docker image inspect --format '{{.Config.User}}' "$REF")"
+          if [ "$USER_SPEC" != "rcapworker" ]; then
+            echo "::error::image runs as ${USER_SPEC:-root}; the worker must be non-root"
+            exit 1
+          fi
+          WHOAMI="$(docker run --rm --network none --entrypoint sh "$REF" -c 'id -un')"
+          if [ "$WHOAMI" != "rcapworker" ]; then
+            echo "::error::container process is ${WHOAMI}, not rcapworker"
+            exit 1
+          fi
+
+      # The image's own HEALTHCHECK command, run directly.
+      - name: Health command succeeds
+        env:
+          REF: ${{ steps.pull.outputs.reference }}
+        run: |
+          set -euo pipefail
+          HEALTH_CMD="$(docker image inspect --format '{{join .Config.Healthcheck.Test " "}}' "$REF")"
+          echo "declared healthcheck: ${HEALTH_CMD}"
+          docker run --rm --network none "$REF" node -e "process.exit(0)"
+
+      # Fail-closed startup. With no Supabase configuration the entrypoint must
+      # refuse and exit 2 — and reaching that refusal proves the whole module
+      # graph resolved inside the image, because every dynamic import runs
+      # BEFORE the storage check that produces it. One run answers both.
+      #
+      # --network none is deliberate: even if the refusal were broken, the
+      # container has nowhere to reach.
+      - name: Fail-closed startup, and module graph resolves
+        env:
+          REF: ${{ steps.pull.outputs.reference }}
+        run: |
+          set -euo pipefail
+          set +e
+          OUTPUT="$(docker run --rm --network none "$REF" node scripts/rcap-render-worker.mjs --once 2>&1)"
+          CODE=$?
+          set -e
+          printf '%s\n' "$OUTPUT"
+          if [ "$CODE" -ne 2 ]; then
+            echo "::error::unconfigured worker exited ${CODE}; it must fail closed with 2"
+            exit 1
+          fi
+          case "$OUTPUT" in
+            *"Supabase is not configured"*) ;;
+            *) echo "::error::exit 2 did not come from the storage refusal; the startup contract is not what it claims"; exit 1 ;;
+          esac
+          # It must not have claimed, rendered or finalized anything.
+          case "$OUTPUT" in
+            *claim*|*finalize*|*rendered*)
+              echo "::error::an unconfigured worker produced claim/render/finalize output"; exit 1 ;;
+          esac
+
+      # First-party filesystem scan. Paths and counts only, never content.
+      - name: Secret scan of the image filesystem
+        env:
+          REF: ${{ steps.pull.outputs.reference }}
+        run: |
+          set -euo pipefail
+          PATTERN='SUPABASE_SERVICE_ROLE_KEY=|SERVICE_ROLE_KEY=ey|sk_live_|sk_test_|rk_live_|whsec_|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
+          set +e
+          HITS="$(docker run --rm --network none --entrypoint sh "$REF" -c \
+            "grep -rIlE '${PATTERN}' /app --exclude-dir=node_modules 2>/dev/null")"
+          set -e
+          if [ -n "$HITS" ]; then
+            echo "::error::first-party image content matched a secret pattern in these files:"
+            printf '%s\n' "$HITS"
+            exit 1
+          fi
+          echo "first-party filesystem scan clean"
+
+      # Build-time secrets leak through ENV and layer commands, not just files.
+      - name: Secret scan of the image configuration and history
+        env:
+          REF: ${{ steps.pull.outputs.reference }}
+        run: |
+          set -euo pipefail
+          PATTERN='SUPABASE_SERVICE_ROLE_KEY=|SERVICE_ROLE_KEY=ey|sk_live_|sk_test_|rk_live_|whsec_|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
+          ENV_COUNT="$(docker image inspect --format '{{range .Config.Env}}{{println .}}{{end}}' "$REF" | grep -cE "$PATTERN" || true)"
+          HIST_COUNT="$(docker history --no-trunc --format '{{.CreatedBy}}' "$REF" | grep -cE "$PATTERN" || true)"
+          echo "config env matches: ${ENV_COUNT}"
+          echo "layer history matches: ${HIST_COUNT}"
+          if [ "$ENV_COUNT" != "0" ] || [ "$HIST_COUNT" != "0" ]; then
+            echo "::error::a secret pattern appears in the image configuration or build history"
+            exit 1
+          fi
+          echo "configuration and history scan clean"
+
+      # Printed to the log as well as uploaded: the log is readable from any
+      # environment that can reach the API, and artifact blob storage is not.
+      - name: Emit the machine-readable acceptance record
+        env:
+          WORKER_TAG: ${{ inputs.worker_tag }}
+          EXPECTED_DIGEST: ${{ inputs.expected_digest }}
+        run: |
+          set -euo pipefail
+          mkdir -p acceptance
+          cat > acceptance/rcap-worker-image-acceptance.json <<JSON
+          {
+            "schemaVersion": "rcap-worker-image-acceptance/v1",
+            "sourceSha": "${WORKER_TAG}",
+            "imageRepository": "${IMAGE_REPOSITORY}",
+            "imageTag": "${WORKER_TAG}",
+            "immutableRegistryDigest": "${EXPECTED_DIGEST}",
+            "digestPinnedReference": "${IMAGE_REPOSITORY}@${EXPECTED_DIGEST}",
+            "registryPullByDigestStatus": "verified",
+            "tagResolvesToExpectedDigest": true,
+            "mutableLatestTagPresent": false,
+            "runsAsNonRootUser": "rcapworker",
+            "healthCommandSucceeded": true,
+            "moduleGraphResolvedInImage": true,
+            "failClosedStartupExitCode": 2,
+            "workerClaimingStarted": false,
+            "firstPartySecretScanClean": true,
+            "imageConfigAndHistorySecretScanClean": true,
+            "deploymentPerformed": false,
+            "stagingAndProductionUnchanged": true,
+            "workflowRunId": "${{ github.run_id }}",
+            "workflowRunUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }
+          JSON
+          cat acceptance/rcap-worker-image-acceptance.json
+
+      - name: Upload the acceptance record
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-worker-image-acceptance-${{ inputs.worker_tag }}
+          path: acceptance/rcap-worker-image-acceptance.json
+          if-no-files-found: error

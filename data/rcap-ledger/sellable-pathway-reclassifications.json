@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "rcap-sellable-pathway-reclassifications/v1",
+  "purpose": "The only way a pathway may leave the paid_packet_intended denominator, or move between any two closure categories, is a signed record here. The generator reads this register before it reads any other evidence, so a reclassification is always a deliberate, attributable act rather than a side effect of a code or data change.",
+  "requiredFields": [
+    "id",
+    "pathwayKey",
+    "previousClassification",
+    "newClassification",
+    "reason",
+    "evidence",
+    "authority",
+    "decidedOn"
+  ],
+  "validReasons": {
+    "no_participant_filing": "Legal evidence that the participant has no filing to prepare on this route: relief is automatic, or a court, prosecutor, agency or other actor controls the action.",
+    "product_scope_decision": "An explicit product-scope decision by Roger that this route is outside the paid product."
+  },
+  "invalidReasons": [
+    "implementation difficulty",
+    "a missing or unacquired official form",
+    "stale or pending review of any kind",
+    "an evaluator or renderer defect",
+    "improving the closure numbers"
+  ],
+  "authorityRule": "authority must name the person who made the decision. A reason of no_participant_filing additionally requires evidence citing the legal source that establishes there is no participant filing. A reason of product_scope_decision requires authority to be Roger.",
+  "reclassifications": []
+}

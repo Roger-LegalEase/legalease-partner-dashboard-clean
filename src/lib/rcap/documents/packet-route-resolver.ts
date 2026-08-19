@@ -7,6 +7,7 @@
 // petition. Unknown input fails closed.
 
 import { getProfileByJurisdiction, normalizeJurisdictionCode } from "@/lib/rcap-engine/profile-registry";
+import { factoryV2RouteFor } from "@/lib/rcap/documents/factory-v2-registry";
 import {
   completeGuidanceForTrack,
   componentDeferralForTrack,
@@ -52,6 +53,21 @@ export type PacketRouteResolution = {
    * read the suppression as an approval.
    */
   treatmentReviewState?: "pending_independent_review";
+  /**
+   * The build inputs the shared factory was handed, when routeKind is
+   * factory_v2. Present so a shadow render is traceable to the exact packet set
+   * and profile version it came from. Its presence never implies sellability:
+   * a factory_v2 route is non-sellable and non-credit-consumable by
+   * construction until the separate approval, technical, PDF, payment and route
+   * state gates are satisfied elsewhere.
+   */
+  factoryV2?: {
+    packetSetIds: string[];
+    registryTrackIds: string[];
+    profileVersion: string;
+    requiredInputIds: string[];
+    officialFormIds: string[];
+  };
 };
 
 export type PacketRouteInput = {
@@ -226,6 +242,43 @@ export function resolvePacketRoute(input: PacketRouteInput): PacketRouteResoluti
       sellable: false,
       creditConsumable: false,
       reason: `${jurisdiction} ${pathwayId} is a recorded product-scope exclusion.`
+    };
+  }
+
+  // factory_v2: ONE shared branch, reached only after every suppression above
+  // has declined the route, and only outside the legacy-verified jurisdictions,
+  // whose live generators keep their own route.
+  //
+  // Admission is decided entirely by the generated registry, on seven build
+  // inputs — authoritative profile and pathway, exact packet set, packet
+  // specification, required participant fields, a named source or approved
+  // composed document, and a deterministic fixture. There is no renderer per
+  // pathway: every route here is handed to the same packet_document_v1 factory,
+  // and what differs between routes is the packet set it is given.
+  //
+  // The route resolves in shadow. sellable and creditConsumable stay false,
+  // because being buildable is not the same question as being approved,
+  // technically current, free of a problematic-PDF hold, or public. Those gates
+  // live elsewhere and are recorded per route in the registry; a later change
+  // that wants to sell one of these routes has to satisfy them explicitly rather
+  // than inherit permission from the fact that the factory can build it.
+  const factoryRoute = factoryV2RouteFor(jurisdiction, pathwayId);
+  if (factoryRoute) {
+    return {
+      routeKind: "factory_v2",
+      jurisdiction,
+      pathwayId,
+      rendererKind: "packet_document_v1",
+      sellable: false,
+      creditConsumable: false,
+      reason: `${jurisdiction} ${pathwayId} builds through the shared packet factory from packet set ${factoryRoute.packetSetIds.join(", ")} at profile version ${factoryRoute.profileVersion}. The route resolves in shadow: legal approval, technical approval, PDF status, payment and public state are separate gates and none of them is granted here.`,
+      factoryV2: {
+        packetSetIds: factoryRoute.packetSetIds,
+        registryTrackIds: factoryRoute.registryTrackIds,
+        profileVersion: factoryRoute.profileVersion,
+        requiredInputIds: factoryRoute.requiredInputIds,
+        officialFormIds: factoryRoute.officialFormIds
+      }
     };
   }
 

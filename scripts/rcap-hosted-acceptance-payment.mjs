@@ -1072,15 +1072,25 @@ const NON_TERMINAL = new Set(["queued", "claimed", "rendering", "validating", "f
 // short enough that the queue's own recovery is observable here.
 const WORKER_CLAIM_SECONDS = 120;
 
-/** Every column of the job the diagnosis needs, in one read. */
+/**
+ * Every column of the job the diagnosis needs, in one read.
+ *
+ * The fencing token is fetched raw and hashed HERE, in Node, rather than in
+ * SQL. The previous version called extensions.digest(...) through the
+ * Management API; that call is not available on the acceptance project, so the
+ * whole query errored, readJob returned null, and run 32195867963 reported a
+ * job that plainly existed as "(no job row)". A query failure and a missing row
+ * are different facts and are now reported as different facts — silence about
+ * which one happened is how a broken diagnostic passes for a finding.
+ *
+ * The raw token never leaves this function: it is hashed immediately, the
+ * fingerprint replaces it on the returned object, and the local binding goes
+ * out of scope. Nothing printed or written carries it.
+ */
 async function readJob() {
   const res = await sql(`
     select id, status, attempt_count, max_attempts, claimed_by, claim_expires_at,
-           fencing_token is not null as has_fencing_token,
-           -- A hash, never the token. extensions.digest is the same call phase 55
-           -- makes, so it is present wherever the migration sequence applied.
-           encode(extensions.digest(convert_to(coalesce(fencing_token::text, ''), 'utf8'), 'sha256'), 'hex') as fencing_token_sha256,
-           next_attempt_at,
+           fencing_token, next_attempt_at,
            error_code, failure_disposition,
            left(coalesce(last_error_detail, ''), 1000) as last_error_detail,
            renderer_kind, renderer_version, route_id, source_sha256,
@@ -1094,10 +1104,55 @@ async function readJob() {
      where briefcase_item_id = '${sqlText(itemId)}'
      order by created_at desc limit 1
   `);
-  return Array.isArray(res.json) ? res.json[0] ?? null : null;
+
+  // The Management API answers a failed query with a non-array body carrying a
+  // message. Reading that as "no rows" is the defect being closed.
+  if (!Array.isArray(res.json)) {
+    const detail = typeof res.json?.message === "string" ? res.json.message
+      : typeof res.json?.error === "string" ? res.json.error
+      : JSON.stringify(res.json ?? null);
+    return {
+      readOutcome: "query_error",
+      readErrorClass: res.json?.code ?? `http_${res.status}`,
+      readErrorMessage: redactSecrets(String(detail)).slice(0, 400)
+    };
+  }
+  const row = res.json[0] ?? null;
+  if (!row) return { readOutcome: "no_row" };
+
+  const rawToken = row.fencing_token;
+  delete row.fencing_token;
+  const tokenPresent = typeof rawToken === "string" && rawToken.trim() !== "";
+  return {
+    ...row,
+    readOutcome: "row",
+    fencingTokenOutcome: tokenPresent ? "hashed" : "absent",
+    // A deterministic fingerprint of the claim, never the claim itself.
+    fencingTokenSha256: tokenPresent
+      ? crypto.createHash("sha256").update(rawToken, "utf8").digest("hex")
+      : null
+  };
 }
 
-const redact = (text) => String(text ?? "").replace(/eyJ[A-Za-z0-9_.-]{20,}/g, "***REDACTED***");
+/** The job row when the read actually returned one, and null otherwise. */
+const jobRowOrNull = (read) => (read && read.readOutcome === "row" ? read : null);
+
+/**
+ * Every secret this run holds, by value, plus the shapes they take. A database
+ * error message can quote the connection it failed on, so the diagnostic path
+ * is redacted the same way the worker's output is.
+ */
+function redactSecrets(text) {
+  let out = String(text ?? "");
+  for (const secret of [SUPABASE_ACCESS_TOKEN, VERCEL_TOKEN, BYPASS, STRIPE_KEY, WEBHOOK_SECRET, ANON_KEY]) {
+    if (typeof secret === "string" && secret.length >= 8) out = out.split(secret).join("***REDACTED***");
+  }
+  return out
+    .replace(/eyJ[A-Za-z0-9_.-]{20,}/g, "***REDACTED***")
+    .replace(/sk_(test|live)_[A-Za-z0-9]{10,}/g, "***REDACTED***")
+    .replace(/whsec_[A-Za-z0-9]{10,}/g, "***REDACTED***");
+}
+const redact = (text) => redactSecrets(text);
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
@@ -1129,6 +1184,7 @@ function cycleBoundary(result) {
 }
 
 let finalJob = null;
+let finalJobRead = null;
 let finalCycleResult = null;
 {
   const service = await serviceRoleKey();
@@ -1200,18 +1256,19 @@ let finalCycleResult = null;
       jobStateBefore: jobBefore,
       jobStateAfter: jobAfter
     });
-    console.log(`  worker cycle ${cycle}: exit=${run.status} signal=${run.signal ?? "none"} boundary=${cycleBoundary(cycleResult)}; job ${jobBefore?.status ?? "(none)"} -> ${jobAfter?.status ?? "(none)"}`);
-    finalJob = jobAfter;
+    console.log(`  worker cycle ${cycle}: exit=${run.status} signal=${run.signal ?? "none"} boundary=${cycleBoundary(cycleResult)}; job ${jobBefore?.status ?? `(${jobBefore?.readOutcome ?? "unread"})`} -> ${jobAfter?.status ?? `(${jobAfter?.readOutcome ?? "unread"})`}`);
+    finalJobRead = jobAfter;
+    finalJob = jobRowOrNull(jobAfter);
     if (cycleResult) finalCycleResult = cycleResult;
 
-    if (jobAfter && TERMINAL_SUCCESS.has(jobAfter.status)) break;
-    if (jobAfter && jobAfter.status === "failed" && jobAfter.failure_disposition === "terminal") break;
+    if (finalJob && TERMINAL_SUCCESS.has(finalJob.status)) break;
+    if (finalJob && finalJob.status === "failed" && finalJob.failure_disposition === "terminal") break;
     if (cycle === 4) break;
 
     // A stuck claim is recovered by the lease expiring; a retryable failure by
     // its backoff elapsing. Wait for whichever the queue itself is waiting on
     // rather than hammering it.
-    const waitUntil = [jobAfter?.claim_expires_at, jobAfter?.next_attempt_at]
+    const waitUntil = [finalJob?.claim_expires_at, finalJob?.next_attempt_at]
       .map((value) => (value ? Date.parse(value) : NaN))
       .filter((value) => Number.isFinite(value));
     const delayMs = waitUntil.length ? Math.max(...waitUntil) + 3000 - Date.now() : 5000;
@@ -1293,7 +1350,7 @@ let finalCycleResult = null;
     unmet.length === 0 && contradiction === null,
     unmet.length === 0 && contradiction === null
       ? `${WORKER_DIGEST_REF} drove job ${job.id} to '${job.status}' in ${diagnostics.cycles.length} cycle(s); its own cycle result reads ${cycleBoundary(finalCycleResult)}. ${declaredBytes} bytes at ${storagePath}, re-read and reparsed to ${validation.pageCount} page(s), output_sha256 and normalized_output_sha256 both recomputed from the stored bytes and equal to the values the finalization transaction recorded.`
-      : `job is '${job?.status ?? "(no job row)"}' after ${diagnostics.cycles.length} cycle(s) and ${job?.attempt_count ?? 0} attempt(s). WORKER CYCLE RESULT: ${cycleBoundary(finalCycleResult)}${finalCycleResult ? ` — ${JSON.stringify(finalCycleResult)}` : ""}.${contradiction ? ` CONTRADICTION: ${contradiction}.` : ""} Unmet: ${unmet.join(", ")}. Last cycle exit=${lastCycle?.exitCode} signal=${lastCycle?.exitSignal}; error_code=${job?.error_code ?? "(none)"}; disposition=${job?.failure_disposition ?? "(none)"}; detail=${(job?.last_error_detail ?? "(none)").slice(0, 300)}. Complete stdout and stderr for every cycle are in the uploaded worker-console.log and worker-diagnostics.json.`
+      : `job read outcome ${finalJobRead?.readOutcome ?? "never attempted"}${finalJobRead?.readOutcome === "query_error" ? ` (${finalJobRead.readErrorClass}: ${finalJobRead.readErrorMessage}) — this is the diagnostic failing, NOT evidence that no job exists` : ""}; job is '${job?.status ?? (finalJobRead?.readOutcome === "no_row" ? "(no job row)" : "(unread)")}' after ${diagnostics.cycles.length} cycle(s) and ${job?.attempt_count ?? 0} attempt(s). WORKER CYCLE RESULT: ${cycleBoundary(finalCycleResult)}${finalCycleResult ? ` — ${JSON.stringify(finalCycleResult)}` : ""}.${contradiction ? ` CONTRADICTION: ${contradiction}.` : ""} Unmet: ${unmet.join(", ")}. Last cycle exit=${lastCycle?.exitCode} signal=${lastCycle?.exitSignal}; error_code=${job?.error_code ?? "(none)"}; disposition=${job?.failure_disposition ?? "(none)"}; detail=${(job?.last_error_detail ?? "(none)").slice(0, 300)}. Complete stdout and stderr for every cycle are in the uploaded worker-console.log and worker-diagnostics.json.`
   );
 
   evidence.worker = {
@@ -1307,6 +1364,12 @@ let finalCycleResult = null;
     boundaries: diagnostics.cycles.map((c) => c.boundary),
     cycleResult: finalCycleResult,
     contradiction,
+    jobReadOutcome: finalJobRead?.readOutcome ?? null,
+    jobReadError: finalJobRead?.readOutcome === "query_error"
+      ? { class: finalJobRead.readErrorClass, message: finalJobRead.readErrorMessage }
+      : null,
+    fencingTokenOutcome: job?.fencingTokenOutcome ?? null,
+    fencingTokenSha256: job?.fencingTokenSha256 ?? null,
     jobStatus: job?.status ?? null,
     attemptCount: job?.attempt_count ?? null,
     errorCode: job?.error_code ?? null,

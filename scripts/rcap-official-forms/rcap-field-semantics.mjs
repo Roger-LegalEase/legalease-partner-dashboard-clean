@@ -57,16 +57,21 @@ export const FACT_DESCRIPTORS = [
   { factId: "participant.first_name", valueType: "string", match: /first\s*name/ },
   { factId: "participant.last_name", valueType: "string", match: /last\s*name|surname/ },
   { factId: "participant.middle_name", valueType: "string", match: /middle\s*(name|initial)/ },
-  // Email before street address, and street address explicitly refuses an
+  // Email precedes street address, AND street address explicitly refuses an
   // email label. "Email Address" contains "address", so with the address rule
-  // first it won -- and a participant's street address was written onto the
-  // email line. Ordering alone would fix it today and break again the next
-  // time these are sorted, so the guard is stated as well.
+  // first it won, and a participant's street address was written onto an email
+  // line — a contact detail replaced by one that is not it, on a filed
+  // document. Ordering alone would fix it today and break again the next time
+  // these are sorted, so the refusal is stated as well.
+  //
+  // The email fact binds only to the canonical participant email. No other
+  // contact value substitutes for it, and no email is ever synthesised from
+  // other participant data: a missing email leaves the line blank.
   { factId: "participant.email", valueType: "string", match: /\be[-\s]?mail\b/ },
   { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b/, refuseWhen: /\be[-\s]?mail\b/ },
-  { factId: "participant.city", valueType: "string", match: /\bcity\b/ },
+  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b/ },
   { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/ },
-  { factId: "participant.phone", valueType: "string", match: /\bphone\b|telephone/ },
+  { factId: "participant.phone", valueType: "string", match: /\bphone\b|telephone/, refuseWhen: /\be[-\s]?mail\b/ },
   { factId: "participant.state", valueType: "string", match: /\bstate\b/ },
   { factId: "matter.county", valueType: "string", match: /\bcounty\b/ },
   { factId: "matter.court", valueType: "string", match: /court\s*name|type\s*of\s*court|judicial\s*(district|circuit)/ },

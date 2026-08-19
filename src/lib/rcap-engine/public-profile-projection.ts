@@ -305,6 +305,73 @@ function dedupeQuestionsById(questions: PublicQuestion[]) {
   });
 }
 
+/**
+ * The evaluator's waiting-period gate falls back to `resolved_timing_bucket`
+ * whenever it has no exact anchor date, and it names that id in
+ * missingQuestionIds. If the public profile never offers the question, the
+ * participant is asked for a fact they have no way to supply: the answer comes
+ * back rejected as not a public question, the evaluator asks again, and the
+ * exchange loops until it is abandoned. Twelve intended-paid pathways across
+ * CT, MD, MI, NJ, OH and WA did exactly that.
+ *
+ * The substitution in `normalizePublicQuestion` only produces the bucket where a
+ * date question already sits in the prepay timing gate, which is not every
+ * profile. This is the floor: any profile that can reach the gate offers the
+ * bucket. It is optional, so it never blocks a participant who supplied an exact
+ * date; it exists so the fallback the evaluator relies on is answerable.
+ */
+function withBroadTimingBucketGate(questions: PublicQuestion[]) {
+  if (questions.some((question) => question.id === "resolved_timing_bucket")) return questions;
+  const anchor = questions.find((question) => PREPAY_EXACT_TIMING_ANCHOR_IDS.has(question.id))
+    ?? questions.find((question) => question.lifecyclePhase === "prepay_timing_gate");
+  if (!anchor) return questions;
+  return [
+    ...questions,
+    timingBucketQuestion(
+      { ...anchor, stage: anchor.stage } as PublicQuestion,
+      "prepay_timing_gate",
+      false
+    )
+  ];
+}
+
+/**
+ * The route splitter must be able to name every compiled pathway.
+ *
+ * `possible_pathway_context` is where a participant says which route they
+ * believe applies, and the evaluator's pathway selection matches on it exactly
+ * before falling back to token heuristics over case_outcome. Where the option
+ * list omits a pathway, the participant cannot name it, the heuristics choose a
+ * neighbour, and the participant is routed to a different remedy than the one
+ * they came for — silently, since the answer they would have given was never
+ * offered.
+ *
+ * The designer fixtures drifted from the compiled pathway sets that way for
+ * four intended-paid routes: AK's CourtView removal, both California
+ * HSC § 11361.8 Prop 64 applications, and Maryland's pardoned-conviction
+ * expungement, which lost to the adult non-conviction route on label tokens.
+ *
+ * So any compiled pathway the curated list does not already cover is appended
+ * by its own label, before the trailing "none of these" option. Curated wording
+ * is left exactly as it is wherever it already covers a route.
+ */
+function withCompletePathwayContextOptions(questions: PublicQuestion[], pathways: { id: string; label: string }[]) {
+  if (pathways.length === 0) return questions;
+  return questions.map((question) => {
+    if (question.id !== "possible_pathway_context") return question;
+    const options: string[] = Array.isArray(question.options) ? question.options.filter((option): option is string => typeof option === "string") : [];
+    if (options.length === 0) return question;
+    const covered = (label: string) => options.some((option) => option === label || option.includes(label));
+    const missing = pathways.map((pathway) => pathway.label).filter((label) => label.trim() !== "" && !covered(label));
+    if (missing.length === 0) return question;
+    const lastIsNoneOfThese = options.length > 0 && /^none of these/i.test(options[options.length - 1]);
+    const next = lastIsNoneOfThese
+      ? [...options.slice(0, -1), ...missing, options[options.length - 1]]
+      : [...options, ...missing];
+    return { ...question, options: next };
+  });
+}
+
 function withBroadCourtRequirementsGate(questions: PublicQuestion[]) {
   if (questions.some((question) => question.id === "court_requirements_completed")) return questions;
   const timingQuestion = questions.find((question) => question.id === "resolved_timing_bucket" && question.lifecyclePhase === "prepay_timing_gate");
@@ -719,21 +786,28 @@ const WILMA_FACT_QUESTIONS: PublicQuestion[] = [
   }
 ];
 
-function withWilmaFactQuestions(profile: PublicJurisdictionProfile): PublicJurisdictionProfile {
+function withWilmaFactQuestions(profile: PublicJurisdictionProfile, pathways: { id: string; label: string }[] = []): PublicJurisdictionProfile {
   const existingIds = new Set(profile.questions.map((question) => question.id));
   const additions = WILMA_FACT_QUESTIONS
     .filter((question) => !existingIds.has(question.id))
     .map((question) => normalizePublicQuestion(question, profile.jurisdiction.code, "wilma"));
-  const baseQuestions = withBroadCourtRequirementsGate(dedupeQuestionsById(profile.questions));
-  if (additions.length === 0) {
-    return {
-      ...profile,
-      questions: baseQuestions,
-      flowStages: normalizeFlowStages(profile, baseQuestions),
-      postPaymentPacketCompletion: postPaymentPacketCompletion(baseQuestions)
-    };
-  }
-  const questions = withBroadCourtRequirementsGate(dedupeQuestionsById([...baseQuestions, ...additions]));
+  const baseQuestions = withCompletePathwayContextOptions(
+    withBroadCourtRequirementsGate(dedupeQuestionsById(profile.questions)),
+    pathways
+  );
+  // The timing bucket is added last, after the court-requirements gate has run
+  // on both passes. That gate keys off the presence of a bucket question to
+  // decide a profile is timing-gated, so adding the broad bucket earlier would
+  // make it infer a required court-completion question for every profile — a
+  // required question participants were never asked before, and one that made
+  // four Maryland pardon fixtures answer missing_required_facts.
+  const withAdditions = additions.length === 0
+    ? baseQuestions
+    : withCompletePathwayContextOptions(
+      withBroadCourtRequirementsGate(dedupeQuestionsById([...baseQuestions, ...additions])),
+      pathways
+    );
+  const questions = withBroadTimingBucketGate(withAdditions);
   return {
     ...profile,
     postPaymentPacketCompletion: postPaymentPacketCompletion(questions),
@@ -909,7 +983,7 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
       })),
       questions: designerProfile.questions.map((question) => withDisplayTranslations(normalizePublicQuestion(question, profile.jurisdiction.code, "designer"), profile.jurisdiction.code)),
       caseOutcomeOptions: toPublicCaseOutcomeOptions(designerProfile.caseOutcomeOptions)
-    });
+    }, profile.pathways ?? []);
   }
 
   const questionIds = new Set(profile.questions.map((question) => question.id));
@@ -941,5 +1015,5 @@ function buildProfileDraft(profile: EngineProfile): PublicJurisdictionProfile {
       optionDisplay: question.optionDisplay
     }, profile.jurisdiction.code, "engine"), profile.jurisdiction.code)),
     caseOutcomeOptions: toPublicCaseOutcomeOptions(profile.caseOutcomeOptions)
-  });
+  }, profile.pathways ?? []);
 }

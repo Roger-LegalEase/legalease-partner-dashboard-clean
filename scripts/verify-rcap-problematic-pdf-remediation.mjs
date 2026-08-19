@@ -22,6 +22,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
 import { ROOT_CAUSES } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
 import { withTrackedMutation, assertTreeNotMidMutation } from "./lib/tracked-mutation-guard.mjs";
+import { execFileSync } from "node:child_process";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const mutationsMode = process.argv.includes("--mutations");
@@ -213,7 +214,30 @@ function runChecks() {
     if (retiredAssetKeys.has(family.familyId)) {
       fail("retirement_is_backed_by_the_determination", `${family.familyId} is a retirement candidate yet still appears as operational in the artifact audit`);
     }
-    const unfinalized = family.artifacts.filter((a) => a.present && !a.finalized);
+    // A protected field the factory wrote is a defect on ANY present artifact,
+    // finalized or not.
+    //
+    // This used to be asked only of unfinalized artifacts, which was survivable
+    // while the D1 driver threw before finalizing anything — every artifact was
+    // unfinalized, so every artifact was in scope. Now that the driver works and
+    // 155 artifacts finalize, that scope silently excluded the worse case: a
+    // clerk's or judge's field written into a FINISHED document, which is the
+    // one that gets filed. The check has to see the whole population.
+    const present = family.artifacts.filter((a) => a.present);
+    const trespassing = present.filter((a) => (a.protectedFieldsWrittenByFactory ?? []).length > 0);
+    const unfinalized = present.filter((a) => !a.finalized);
+
+    if (trespassing.length > 0) {
+      const record = registerByFamily.get(family.familyId);
+      if (!record || !record.defectCategories.includes("protected_field_populated")) {
+        fail(
+          "protected_field_writes_are_registered",
+          `${family.familyId} has a factory-written protected field on ${trespassing.length} artifact(s) ` +
+          `(${trespassing.filter((a) => a.finalized).length} of them finalized) that the register does not record`
+        );
+      }
+    }
+
     if (unfinalized.length === 0) continue;
     const record = registerByFamily.get(family.familyId);
     if (!record) {
@@ -223,10 +247,6 @@ function runChecks() {
     const recorded = record.defectCategories.some((c) => ["unfinalized_rendered_artifact", "rendered_artifact_not_byte_inspectable", "protected_field_populated", "xfa_javascript_or_active_content_residue", "missing_required_packet_component"].includes(c));
     if (!recorded) {
       fail("unfinalized_artifacts_are_registered", `${family.familyId} carries unfinalized artifacts but its register record names no artifact defect`);
-    }
-    if (unfinalized.some((a) => (a.protectedFieldsWrittenByFactory ?? []).length > 0)
-      && !record.defectCategories.includes("protected_field_populated")) {
-      fail("protected_field_writes_are_registered", `${family.familyId} has a factory-written protected field that the register does not record`);
     }
   }
 
@@ -435,9 +455,28 @@ function runChecks() {
     fail("no_partner_branding_on_the_official_form", "the finalizer no longer carries the court's own metadata onto the artifact");
   }
   // Email Address must never resolve to a street address.
+  //
+  // Asked of the STREET-ADDRESS descriptor specifically. The canonical module
+  // now carries the same refusal on the city and phone descriptors too, so a
+  // check for "some refuseWhen exists somewhere in this file" went on passing
+  // after the street-address guard was removed — the guard this defect is
+  // actually about. A check that any sibling can satisfy is not a check.
   const semantics = fs.existsSync(abs(SEMANTICS)) ? fs.readFileSync(abs(SEMANTICS), "utf8") : "";
-  if (!/refuseWhen:\s*\/\\be\[-\\s\]\?mail\\b\//.test(semantics)) {
+  const streetDescriptor = semantics
+    .split("\n")
+    .find((line) => line.includes("participant.street_address") && line.includes("factId"));
+  if (!streetDescriptor) {
+    fail("email_never_binds_a_street_address", "the street-address descriptor is no longer present to be checked");
+  } else if (!/refuseWhen:\s*\/\\be\[-\\s\]\?mail\\b\//.test(streetDescriptor)) {
     fail("email_never_binds_a_street_address", "the street-address descriptor no longer refuses an email label; \"Email Address\" contains \"address\" and will bind the wrong fact");
+  }
+  // Ordering is the other half and is not a substitute for the guard. The
+  // email descriptor must be reachable before street address, so the two
+  // together survive both a re-sort and a removed refusal.
+  const emailAt = semantics.indexOf("participant.email");
+  const streetAt = semantics.indexOf("participant.street_address");
+  if (emailAt >= 0 && streetAt >= 0 && emailAt > streetAt) {
+    fail("email_never_binds_a_street_address", "the email descriptor is now ordered after street address; \"Email Address\" contains \"address\" and street address will match first");
   }
 
   // ---- 15c. every discovered field or anchor is classified ----------------
@@ -739,6 +778,46 @@ function runChecks() {
     }
   }
 
+  // ---- the register and the master list must agree about the end state -----
+  //
+  // These were two answers to one question. The master list derived
+  // platform_ready from a hash-matched independent approval while the register
+  // read the raw source record and reported the same asset as
+  // never_independently_approved and visually_unsafe, so CR-266 was
+  // simultaneously finished and problematic. Both now derive it from one shared
+  // module, and this holds them to the same answer.
+  const readyInMaster = new Set(
+    (master.rows ?? []).filter((r) => r.disposition === "platform_ready").map((r) => r.assetId)
+  );
+  const readyInRegister = new Set((register.platformReady ?? []).map((r) => r.identity));
+  const problematicIdentities = new Set((register.records ?? []).filter((r) => !r.platformReady).map((r) => r.identity));
+
+  for (const assetId of readyInMaster) {
+    if (!readyInRegister.has(assetId)) {
+      fail("platform_ready_leaves_the_problematic_denominator",
+        `${assetId} is platform_ready in the master list but the register does not record it as such`);
+    }
+    if (problematicIdentities.has(assetId)) {
+      fail("platform_ready_leaves_the_problematic_denominator",
+        `${assetId} is platform_ready and is still counted as a problematic PDF`);
+    }
+  }
+  for (const identity of readyInRegister) {
+    if (!readyInMaster.has(identity)) {
+      fail("platform_ready_leaves_the_problematic_denominator",
+        `${identity} is recorded platform_ready by the register and is not platform_ready in the master list`);
+    }
+  }
+  // The arithmetic the corpus is counted by. Stated here so a silent drift in
+  // either direction is a failure rather than a number nobody re-added.
+  const retired = Number(register.totals?.retiredFromOperationalInventory ?? 0);
+  const problematic = Number(register.totals?.problematicPdfsTotal ?? 0);
+  const ready = Number(register.totals?.platformReady ?? 0);
+  if (retired + problematic + ready !== 128) {
+    fail("platform_ready_leaves_the_problematic_denominator",
+      `retired ${retired} + problematic ${problematic} + platform_ready ${ready} = ${retired + problematic + ready}, not the 128 assets the corpus contains`);
+  }
+
   return failures;
 }
 
@@ -782,6 +861,40 @@ const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RE
   "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/fixtures/canonical-filled.pdf"];
 
 const CASES = [
+  {
+    name: "the exact independent approval is removed and CR-266 stays out of the denominator",
+    expect: "platform_ready_leaves_the_problematic_denominator",
+    apply: () => {
+      // The approval is what lifted it out. Without one it must not still be
+      // recorded as platform_ready by the register.
+      const master = readJson(MASTER);
+      for (const row of master.rows ?? []) {
+        if (row.disposition === "platform_ready") row.disposition = "independent_review_required";
+      }
+      fs.writeFileSync(abs(MASTER), `${JSON.stringify(master, null, 2)}\n`);
+    }
+  },
+  {
+    name: "an approved artifact changes and the register keeps the end state",
+    expect: "platform_ready_leaves_the_problematic_denominator",
+    apply: () => {
+      // The register is left claiming the end state for an asset the master
+      // list no longer carries at all, which is what a changed artifact hash
+      // produces once the master list re-derives.
+      const register = readJson(REGISTER);
+      register.platformReady = (register.platformReady ?? []).map((r) => ({ ...r, identity: `${r.identity}-rerendered` }));
+      fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a platform_ready asset is counted as problematic as well",
+    expect: "platform_ready_leaves_the_problematic_denominator",
+    apply: () => {
+      const register = readJson(REGISTER);
+      register.totals.problematicPdfsTotal = Number(register.totals.problematicPdfsTotal) + 1;
+      fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
+    }
+  },
   {
     name: "an approved artifact is changed after the approval",
     expect: "platform_ready_is_earned_not_asserted",
@@ -1202,11 +1315,21 @@ const CASES = [
     expect: "systemic_causes_are_counted_once",
     apply: () => {
       const register = readJson(REGISTER);
+      const systemic = register.rootCauseIndex.filter((c) => c.scope === "systemic" && c.dimension === "technical");
+      if (systemic.length === 0) throw new Error("no systemic technical root cause to inflate; this mutation cannot apply");
+      // One systemic cause is given the several assets it actually spans, so the
+      // inflation has something to inflate.
+      //
+      // Without this the mutation was inert: every systemic cause currently
+      // impacts exactly one asset, so summing impacted assets reproduced the
+      // honest count exactly and the check stayed green while "proving" that
+      // double-counting is detected. A mutation whose defect the data cannot
+      // express is not a test, and it goes quiet precisely when the corpus is
+      // small — which is when the count is easiest to get wrong.
+      systemic[0].impactedAssets = 4;
       // The classic inflation: report impacted assets as if each were its own
       // distinct problem.
-      register.totals.uniqueSystemicTechnicalRootCauses = register.rootCauseIndex
-        .filter((c) => c.scope === "systemic" && c.dimension === "technical")
-        .reduce((n, c) => n + c.impactedAssets, 0);
+      register.totals.uniqueSystemicTechnicalRootCauses = systemic.reduce((n, c) => n + c.impactedAssets, 0);
       fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
     }
   },
@@ -1271,8 +1394,16 @@ const CASES = [
     expect: "no_partner_branding_on_the_official_form",
     apply: () => {
       const text = fs.readFileSync(abs(FINALIZER), "utf8");
+      // The canonical finalizer records what it carried, so the call site reads
+      // `report.metadataCarried = preserveSourceMetadata(...)`. The old anchor
+      // was the bare call, which stopped matching — and a text mutation that
+      // matches nothing rewrites nothing, so this passed while proving nothing.
+      const anchor = "report.metadataCarried = preserveSourceMetadata(pdfDoc, clean);";
+      if (!text.includes(anchor)) {
+        throw new Error(`branding mutation could not find its anchor ${JSON.stringify(anchor)}; a mutation that cannot apply is not evidence`);
+      }
       fs.writeFileSync(abs(FINALIZER), text.replace(
-        "  preserveSourceMetadata(pdfDoc, clean);",
+        anchor,
         '  clean.setProducer("LegalEase RCAP official-form factory (pdf-lib)");'
       ));
     }
@@ -1282,7 +1413,15 @@ const CASES = [
     expect: "email_never_binds_a_street_address",
     apply: () => {
       const text = fs.readFileSync(abs(SEMANTICS), "utf8");
-      fs.writeFileSync(abs(SEMANTICS), text.replace(/, refuseWhen: \/\\be\[-\\s\]\?mail\\b\//, ""));
+      // Strip the refusal from the STREET-ADDRESS descriptor specifically. A
+      // blanket first-match strip used to be enough, but the canonical module
+      // carries the same refusal on city and phone, so the first match is no
+      // longer guaranteed to be the descriptor this defect is about.
+      const lines = text.split("\n");
+      const i = lines.findIndex((l) => l.includes("participant.street_address") && l.includes("factId"));
+      if (i < 0) throw new Error("email mutation could not find the street-address descriptor");
+      lines[i] = lines[i].replace(/,\s*refuseWhen: \/\\be\[-\\s\]\?mail\\b\//, "");
+      fs.writeFileSync(abs(SEMANTICS), lines.join("\n"));
     }
   },
   {
@@ -1325,6 +1464,56 @@ for (const testCase of CASES) {
   }
 }
 
+// ---- negative control ------------------------------------------------------
+//
+// Not every probe is a mutation that must turn something red. This one must turn
+// NOTHING red, and it is the whole point of the release-state rule: adding a
+// global release hold to an approved asset must not reclassify it as
+// technically or visually problematic.
+//
+// Without this, the rule is only asserted by the code that implements it. A
+// future edit that folded release holds back into the defect set would keep
+// every red-turning mutation passing and quietly make the corpus unfinishable
+// again, because no correction can clear a flag that only a release decision
+// clears.
+async function runReleaseHoldNegativeControl() {
+  const dir = (() => {
+    for (const state of fs.readdirSync(abs(OVERLAY_DIR))) {
+      const statePath = path.join(abs(OVERLAY_DIR), state);
+      if (!fs.statSync(statePath).isDirectory()) continue;
+      for (const family of fs.readdirSync(statePath)) {
+        const profilePath = path.join(statePath, family, "overlay-profile.json");
+        if (!fs.existsSync(profilePath)) continue;
+        let parsed;
+        try { parsed = JSON.parse(fs.readFileSync(profilePath, "utf8")); } catch { continue; }
+        if (parsed.independentReview?.verdict === "approved_for_platform_ready") return path.join(statePath, family);
+      }
+    }
+    return null;
+  })();
+  if (!dir) throw new Error("no platform_ready family package to run the release-hold control against");
+
+  const sourcePath = path.join(dir, "source-record.json");
+  const original = fs.readFileSync(sourcePath, "utf8");
+  try {
+    const record = JSON.parse(original);
+    record.productionHolds = [...new Set([...(record.productionHolds ?? []), "nationwide_launch_not_authorized"])];
+    fs.writeFileSync(sourcePath, `${JSON.stringify(record, null, 2)}\n`);
+    execFileSync("node", ["scripts/generate-rcap-problematic-pdf-register.mjs"], { cwd: rootDir, stdio: "ignore" });
+    const register = readJson(REGISTER);
+    const stillReady = (register.platformReady ?? []).length;
+    if (stillReady !== 1) {
+      console.error(`MISSED  a global release hold alone reclassified an approved asset (platformReady is now ${stillReady})`);
+      return false;
+    }
+    console.log("held    a global release hold alone does NOT make a technically approved asset problematic");
+    return true;
+  } finally {
+    fs.writeFileSync(sourcePath, original);
+    execFileSync("node", ["scripts/generate-rcap-problematic-pdf-register.mjs"], { cwd: rootDir, stdio: "ignore" });
+  }
+}
+
 // The tree must be exactly as it was: the guard restores from its journal, and
 // re-running the baseline is what proves the restoration actually happened.
 const after = await runAllChecks();
@@ -1337,4 +1526,13 @@ if (mutationFailures > 0) {
   console.error(`FAIL ${mutationFailures} mutation(s) did not turn their check red`);
   process.exit(1);
 }
-console.log(`OK problematic PDF remediation mutations — ${CASES.length} cases, every one turns its own check red`);
+
+// Run last, and after the restoration check, because it regenerates the register
+// twice and must not be mistaken for tree damage left by a mutation.
+const releaseHoldHeld = await runReleaseHoldNegativeControl();
+if (!releaseHoldHeld) {
+  console.error("FAIL a global release hold alone reclassified a technically approved asset as problematic");
+  process.exit(1);
+}
+
+console.log(`OK problematic PDF remediation mutations — ${CASES.length} cases turn their own check red, and 1 negative control holds`);

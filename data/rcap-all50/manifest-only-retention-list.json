@@ -6,11 +6,22 @@
   "whyThisCannotBeDecidedHere": "data/rcap-all50/overlays/overlay-factory-manifest.json is read at runtime by src/lib/rcap/all50-internal-preview.ts and is generated from `private/Nationwide Record Clearing/`, which is not in this clone. It cannot be regenerated here, and hand-editing a runtime manifest is not a retirement.",
   "ownedBy": "Session A, which owns regenerating the operational manifest from the canonical pathway and packet-family graph",
   "totals": {
-    "assets": 31,
+    "assets": 30,
     "withAnyIntendedPaidPathwayDependency": 0,
     "withAnyNonManifestRuntimeReference": 0,
-    "withSourceBinaryInClone": 13
+    "withSourceBinaryInClone": 13,
+    "excludedForALegalDesignBinding": 1
   },
+  "excludedForALegalDesignBinding": [
+    {
+      "assetId": "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+      "formId": "CC-1473",
+      "trackIds": [
+        "va_exp_nonconviction"
+      ],
+      "why": "the byte-pinned legal-design registry names this asset, so the manifest is not the only thing depending on it"
+    }
+  ],
   "assets": [
     {
       "assetId": "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
@@ -404,32 +415,6 @@
       "routeReference": "none: no compiled pathway names this asset",
       "packetFamilyReference": "none: no packet track names this asset",
       "legalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
-      "srcRuntimeReferences": [],
-      "anyIntendedPaidPathwayDependsOnIt": false,
-      "paidPathwayBasis": "sellable=false, publicPacketRoute=false, packetCapable=false, affectedTrackIds=0",
-      "currentDisposition": "official_source_required",
-      "acquisitionPriority": 4,
-      "sourceBinaryPresentInClone": false
-    },
-    {
-      "assetId": "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
-      "jurisdiction": "VA",
-      "formNumber": "cc1473inst.pdf",
-      "formFamilyIds": [
-        "VA:cc1473inst"
-      ],
-      "familyPackagePaths": [
-        "data/rcap-all50/overlays/production/virginia/cc1473inst"
-      ],
-      "manifestPath": "data/rcap-all50/overlays/overlay-factory-manifest.json",
-      "routeReference": "none: no compiled pathway names this asset",
-      "packetFamilyReference": "none: no packet track names this asset",
-      "legalDesignReference": {
-        "formId": "CC-1473",
-        "trackIds": [
-          "va_exp_nonconviction"
-        ]
-      },
       "srcRuntimeReferences": [],
       "anyIntendedPaidPathwayDependsOnIt": false,
       "paidPathwayBasis": "sellable=false, publicPacketRoute=false, packetCapable=false, affectedTrackIds=0",

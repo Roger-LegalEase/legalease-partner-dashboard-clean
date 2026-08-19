@@ -209,12 +209,20 @@ for (const stateDir of fs.readdirSync(OVERLAY_DIR).sort()) {
         // layout's answer whenever it has one put CR-266's venue value on the
         // caption box's border 4.8pt away instead of on the venue rule 2.2pt
         // away -- the right answer existed and was not looked at.
-        const options = [
-          ruleForCaption(ruleLines, { page: pageNumber, baselineY: candidate.y, labelX: candidate.x }),
-          ruleBeforeCaption(ruleLines, { page: pageNumber, baselineY: candidate.y, labelX: candidate.x })
-        ].filter(Boolean);
+        const attempts = [
+          ruleForCaption(ruleLines, { page: pageNumber, baselineY: candidate.y, labelX: candidate.x, label: caption }),
+          ruleBeforeCaption(ruleLines, { page: pageNumber, baselineY: candidate.y, labelX: candidate.x, label: caption })
+        ];
+        // The canonical association returns a REFUSAL OBJECT rather than null,
+        // so `bound` is what separates an answer from a reason. Filtering on
+        // truthiness would treat "two rules are indistinguishable here" as a
+        // successful binding and then read `.rule` off it.
+        const options = attempts.filter((o) => o?.bound);
         const found = options
           .sort((a, b) => Math.abs(a.rule.y - candidate.y) - Math.abs(b.rule.y - candidate.y))[0] ?? null;
+        // A caption both layouts refused is not the same as a caption nobody
+        // asked about, and the reason is the useful half.
+        const refusals = attempts.filter((o) => o && !o.bound);
 
         if (!decision.factId) {
           // Any caption sitting on a real rule is worth naming: it is a blank

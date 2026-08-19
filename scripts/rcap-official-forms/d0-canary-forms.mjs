@@ -22,9 +22,18 @@ const { PDFDocument, PDFName, PDFString, PDFArray, PDFDict, StandardFonts, rgb }
 
 const STAMP = new Date("2026-01-01T00:00:00Z");
 
+// These canaries stand in for official court forms, so their metadata is a
+// court's, not ours. It used to say "LegalEase RCAP D0 canary", which was
+// harmless while the finalizer overwrote the Info dictionary anyway — and
+// became wrong the moment the finalizer started carrying source metadata
+// through, because the canary would then be asserting that a filed court form
+// legitimately carries partner branding. The finalizer refuses exactly that.
 function finishDeterministically(doc) {
-  doc.setProducer("LegalEase RCAP D0 canary");
-  doc.setCreator("LegalEase RCAP D0 canary");
+  doc.setTitle("Canary Petition Form (D0 factory canary)");
+  doc.setAuthor("State Court Administrator");
+  doc.setSubject("Record clearing");
+  doc.setProducer("State forms office pipeline");
+  doc.setCreator("State forms office");
   doc.setCreationDate(STAMP);
   doc.setModificationDate(STAMP);
 }

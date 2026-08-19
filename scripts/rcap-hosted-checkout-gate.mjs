@@ -455,33 +455,43 @@ async function main() {
   const { consumerMatterIdForItem, consumerPersonMatchKey, CONSUMER_PERSON_NAMESPACE } = await import("../src/lib/expungement-ai/consumer-identity.ts");
   const consumerRenderSource = fs.readFileSync(path.join(ROOT, "src/lib/expungement-ai/consumer-render-request.ts"), "utf8");
   const eligibilitySource = fs.readFileSync(path.join(ROOT, "src/lib/expungement-ai/eligibility-adapter.ts"), "utf8");
-  const callerVersionMatch = consumerRenderSource.match(/buildRenderJobSpec\(\{[\s\S]*?profileVersion:\s*"([^"]+)"/);
+  // The caller must NOT name a profile version. It used to, and this gate used
+  // to assert the literal it named — encoding the defect as the expectation.
+  // The version the specification carries is now derived inside
+  // buildRenderJobSpec from the compiled profile the route resolved against,
+  // so what is checked here is that no literal survives and that the derived
+  // value is the registry's own.
+  const callerVersionMatch = consumerRenderSource
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/(^|[^:])\/\/.*$/gm, "$1")
+    .match(/buildRenderJobSpec\(\{[\s\S]*?profileVersion:\s*"([^"]+)"/);
   const packetTypeMatch = eligibilitySource.match(/resultCode === "packet_ready"\s*\|\|\s*resultCode === "packet_ready_with_caution"\)\s*return "([^"]+)"/);
   const consumerProfileVersion = callerVersionMatch?.[1] ?? null;
   const consumerResultCode = "packet_ready";
   const consumerPacketType = packetTypeMatch?.[1] ?? null;
   const compiledProfile = getProfileByJurisdiction("PA");
   const compiledPathway = compiledProfile?.pathways?.find((candidate) => candidate.label === PA_PATHWAY) ?? null;
-  record(
-    "consumer_caller_profile_and_eligibility_mapping_exact",
-    consumerProfileVersion === "1.3.0"
-      && consumerPacketType === "custom_pleading"
-      && isConsumerPaymentAllowed(consumerResultCode, true) === true
-      && compiledProfile?.jurisdiction?.code === "PA"
-      && compiledPathway?.label === PA_PATHWAY,
-    `caller profile=${consumerProfileVersion ?? "(not derived)"}; compiled profile=${compiledProfile?.profileVersion ?? "(absent)"}; pathway id=${compiledPathway?.id ?? "(absent)"}; result=${consumerResultCode}; packet=${consumerPacketType ?? "(not derived)"}; payment admitted=${isConsumerPaymentAllowed(consumerResultCode, true)}`
-  );
   const itemId = crypto.randomUUID();
   const built = buildRenderJobSpec({
     packetId: crypto.randomUUID(),
     state: "PA",
     pathway: PA_PATHWAY,
-    profileId: "PA",
-    profileVersion: consumerProfileVersion,
     briefcaseItemId: itemId,
     trackId: null,
     packetFields: {}
   });
+  record(
+    "consumer_caller_profile_and_eligibility_mapping_exact",
+    consumerProfileVersion === null
+      && consumerPacketType === "custom_pleading"
+      && isConsumerPaymentAllowed(consumerResultCode, true) === true
+      && compiledProfile?.jurisdiction?.code === "PA"
+      && compiledPathway?.label === PA_PATHWAY
+      // The derived value, not merely the absence of a literal.
+      && built.spec?.profileVersion === String(compiledProfile?.profileVersion)
+      && built.spec?.profileId === "PA",
+    `caller profile literal=${consumerProfileVersion ?? "(none, as required)"}; compiled profile=${compiledProfile?.profileVersion ?? "(absent)"}; pathway id=${compiledPathway?.id ?? "(absent)"}; result=${consumerResultCode}; packet=${consumerPacketType ?? "(not derived)"}; payment admitted=${isConsumerPaymentAllowed(consumerResultCode, true)}`
+  );
   const routeIdentity = {
     routeKind: built.route?.routeKind ?? null,
     routeId: built.spec?.routeId ?? null,
