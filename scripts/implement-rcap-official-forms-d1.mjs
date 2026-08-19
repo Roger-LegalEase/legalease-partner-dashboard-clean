@@ -27,6 +27,7 @@ import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf
 import { decideBinding as decideTypedBinding } from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { finalizeOfficialForm, finalizeFlatOverlay, NonFilingHoldError }
   from "./rcap-official-forms/rcap-official-form-finalize.mjs";
+import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenance.mjs";
 import { buildContactSheet, ContactSheetProofError, visibleTextOfDocument, missingExpectedValues }
   from "./rcap-official-forms/rcap-contact-sheet.mjs";
 
@@ -36,6 +37,10 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const SRC = process.env.RCAP_BUNDLE_EXTRACT
   ?? "/tmp/claude-0/-home-user-legalease-partner-dashboard-clean/54ff2bf1-37ee-5073-8d13-dc21b63a0975/scratchpad/bundle/extracted";
 const OUT = path.join(rootDir, "data/rcap-all50/overlays/production");
+const RENDERER_VERSION = "implement-rcap-official-forms-d1/v2-provenance-sidecar";
+// Pinned rather than read from the clock, so re-running unchanged inputs
+// produces an identical record and a drift check keeps its meaning.
+const GENERATED_AT = "2026-08-19T00:00:00.000Z";
 const readJson = (p, fallback) => {
   if (fallback !== undefined && !fs.existsSync(p)) return fallback;
   return JSON.parse(fs.readFileSync(p, "utf8"));
@@ -626,6 +631,27 @@ for (const fam of index.families) {
       fs.writeFileSync(path.join(familyDir, "contact-sheet", "blank-vs-filled.pdf"), sheet.bytes);
       fs.writeFileSync(path.join(familyDir, "contact-sheet", "contact-sheet-proof.json"),
         JSON.stringify(sheet.proof, null, 2) + "\n");
+
+      // Provenance beside the artifact, never inside it. The finalized PDF
+      // carries the issuing court's own Info dictionary, so nothing about which
+      // factory produced it can be read from the file. Without this sidecar the
+      // finalized-artifact audit has no record naming these artifacts and
+      // treats every one of them as uncertifiable -- which is what it was
+      // doing for all 62 families.
+      const provenance = await artifactProvenance({
+        jurisdiction: fam.jurisdiction, documentId: record.documentId, sourceSha256: sha,
+        sourceRevision: record.revision ?? null,
+        fieldMap: mapKind === "acroform" ? bindings : anchors,
+        rendererVersion: RENDERER_VERSION,
+        generatedAt: GENERATED_AT,
+        artifacts: [
+          { rel: "fixtures/canonical-filled.pdf", bytes: rendered.canonical.bytes },
+          { rel: "fixtures/boundary-filled.pdf", bytes: rendered.boundary.bytes },
+          { rel: "contact-sheet/blank-vs-filled.pdf", bytes: sheet.bytes }
+        ]
+      });
+      fs.writeFileSync(path.join(familyDir, "artifact-provenance.json"),
+        JSON.stringify(provenance, null, 2) + "\n");
       contactSheet = true;
     } catch (error) {
       // A refusal is an outcome, not a crash: it is recorded against the
