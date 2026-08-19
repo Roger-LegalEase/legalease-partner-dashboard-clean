@@ -1,0 +1,160 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review/v1",
+  "family": "WI:cr-266-form-en",
+  "assetId": "WI|CR-266|9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+  "verdict": "correction_required",
+  "reviewDate": "2026-08-19",
+  "reviewerBranch": "claude/rcap-pdf-source-retirement-review-unuodi",
+  "reviewerHead": "216749b22cc810e87b719a7b394c2941cbaa26b7",
+  "reviewedLaneHead": "600c740fe39ce30b9e3105354930896fa451c9a5",
+  "reviewedLaneBranch": "claude/rcap-problematic-pdf-full-remediation",
+
+  "whatThisVerdictIsNot": "It is not a finding that the rendering is wrong. Geometry, fit, refusals, ink, protected-field treatment, flattening, sanitation, field census, classification and visual output were re-derived from the real bytes and all reproduce correctly. Both corrections are about the artifacts being stale against the canonical factory, and about the provenance sidecar not meeting the contract the platform claims to enforce.",
+
+  "methodNote": "node_modules is not installed in this clone, so scripts/verify-rcap-shared-pdf-contract.mjs cannot run (pdf-lib is absent). Every PDF-level finding below was derived by direct byte inspection of the committed artifacts and by reading the factory source at HEAD, rather than by re-running the lane's own verifier. For an independent review that is the stronger method: the lane's verifier is not asked to grade itself.",
+
+  "sourceIdentity": {
+    "officialFormNumber": "CR-266",
+    "officialTitle": "CR-266, 05/24 Petition to Expunge Criminal Court Record of Conviction (Non-Probation/Non-Incarceration)",
+    "sourceUrl": "https://www.wicourts.gov/formdisplay/CR-266.pdf?formNumber=CR-266&formType=Form&formatId=2&language=en",
+    "sourceSha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+    "sourcePathInClone": "data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf",
+    "sourceBytes": 130733,
+    "verified": true,
+    "verifiedHow": "sha256 recomputed from the file on disk; matches the pin in source-record.json, source-receipt.json, overlay-profile.json and artifact-provenance.json. This is the only problematic-asset source binary readable in this clone.",
+    "documentInfoDict": "/Title(CR-266; Petition to Expunge Criminal Court Record of Conviction - Non-Probation/Non-Incarceration) /Keywords(CR-266) /Subject(WI State Courts) /CreationDate(D:20240624114823-05'00')"
+  },
+
+  "currentness": {
+    "recordedRevision": "REV-2024-05",
+    "internallyConsistent": true,
+    "internalEvidence": "The printed footer reads 'CR-266, 05/24' and the source Info dict records /CreationDate D:20240624. The revision the record claims is the revision the document states.",
+    "resolved": false,
+    "why": "Whether REV-2024-05 is still the edition Wisconsin publishes has never been checked against wicourts.gov. The lane's own record concedes no round made a network request, and the master list holds the asset in lane C on exactly this basis.",
+    "owner": "source-currentness reviewer",
+    "classification": "substantive_owner_decision_required",
+    "blocksThisVerdict": false
+  },
+
+  "contractItems": {
+    "fieldOrAnchorCensus": {
+      "result": "pass",
+      "observed": "11 printed blank captions, enumerated independently from the source content stream: COUNTY, Defendant's Name, Date of Birth, Case No., Signature, Name Printed or Typed, Address, Email Address, Telephone Number, Date, State Bar No. (if any). The denominator is complete.",
+      "note": "overlay-profile.json records anchorCapture.pages[0].unreadableLines: 4, a stale figure from a superseded rasterised pass. Nothing is hidden behind it."
+    },
+    "classificationComplete": {
+      "result": "pass",
+      "observed": "field-classification.json, schema rcap-field-classification/v2-complete: 11 discovered, 11 classified, complete true — 6 participant_writable, 3 protected, 2 not_applicable."
+    },
+    "participantFieldMappings": {
+      "result": "pass",
+      "observed": "Six draws in the canonical fixture's overlay stream, each at the write box its profile declares and each seated on the rule the form prints: COUNTY, Defendant's Name, Date of Birth, Case No., Name Printed or Typed, Address. Independently derived profiles reproduce all shared anchors to the last decimal."
+    },
+    "protectedFieldTreatment": {
+      "result": "pass",
+      "observed": "Signature is carried in the map deliberately with expectedOutcome refused_protected_category and nothing is drawn at its write box in either fixture. The refusal is geometry-based (the write box lands on a rule the court owns), not label-based. finalized-artifact-audit.json reports no protected field written by the factory and none holding a source default."
+    },
+    "activeContent": {
+      "result": "pass",
+      "observed": "Zero occurrences of /JavaScript, /JS, /XFA, /OpenAction, /AA, /Launch, /SubmitForm, /ImportData, /GoToR, /RichMedia, /EmbeddedFile, /Encrypt in either fixture. /ObjStm count is 0, so the residue scan can see every object — the source has 1 object stream and the artifacts have none."
+    },
+    "flattening": {
+      "result": "pass",
+      "observed": "No /AcroForm anywhere in either fixture; the page dict carries an empty /Annots. The factory builds a fresh document and copies pages, so no widget appearance can survive. formFields 0, nonEmptyTextFields 0."
+    },
+    "participantValueVisibility": {
+      "result": "pass",
+      "observed": "Values live in the page content stream rather than in widget appearances. Five distinct expected values visible, panels differ.",
+      "weaknessInTheEvidenceChain": "The finalized-artifact audit normalizes markers by stripping whitespace and lowercasing, so its marker 'Example County' matches 'examplecounty'. The round-2 defect it was meant to catch ('Example County        COUNTY') also contains that substring. That audit line cannot discriminate the fix from the defect it replaced. Benign here only because the value was confirmed directly from the content stream and the raster."
+    },
+    "longNameFixture": {
+      "result": "pass",
+      "observed": "A 69-character name is refused on Defendant's Name at value_exceeds_widget_width_at_minimum_font, and written at 6.5pt on Name Printed or Typed, which is wider. Both correct.",
+      "fragility": "The refusal clears by under 1pt (required ~195.6-196.1 against 195.11 usable). Any change to horizontal padding or font metrics flips it. Not a defect; worth knowing before touching either."
+    },
+    "longAddressFixture": { "result": "pass", "observed": "Refused at the 6pt floor (required ~214.7 against 213.11 usable), left blank, with a recorded participant fallback." },
+    "captionFixture": {
+      "result": "pass",
+      "observed": "COUNTY suffix normalization works and is recorded: 'Example County' writes 'Example', and the boundary value writes at 7pt and stops clear of both the rule end and the printed word COUNTY. No doubling. The boundary Case No. is refused rather than run into the caption divider. The trailing-whitespace defect from round 3 is fixed at HEAD."
+    },
+    "finalPage": {
+      "result": "pass",
+      "observed": "Source 1 page; both fixtures 1 page at 612x792; contact sheet 1 page. No page added or lost.",
+      "staleClaimInTheRecord": "overlay-profile.json declares overflowPolicy.longText 'shrink_to_fit_then_addendum', but no addendum is implemented or produced anywhere in the factory. The real behaviour is shrink to the 6pt floor then refuse with a recorded manual fallback, which refusalFallbacks describes correctly. The overflowPolicy line is a stale claim inside the file that serves as the review record."
+    },
+    "rasterizedVisualEvidence": {
+      "result": "pass",
+      "observed": "The contact sheet raster was read directly: left panel blank, right panel carries all six participant values on their rules, with Signature, Email, Telephone, Date and State Bar No. left blank and no value overlapping a preprinted caption.",
+      "caveat": "contact-sheet-visual-proof.json records controlDiscriminates null for this sheet — a one-page sheet has no second page to serve as a known-different control, so the pixel measurement's discriminating power is unproven for this sheet specifically. The content-stream proof and the direct read of the raster are the stronger evidence and both hold."
+    },
+    "packetFamilyMapping": {
+      "result": "pass_for_this_family_packet_blocked_by_sibling",
+      "observed": "Track wi_exp_cr266 requires two families: WI:cr-266-form-en as primary filing (this one, technical_approved) and WI:cr-267-form-en as proposed order. CR-267's source is not in this clone, it has zero anchors derived, and it is held awaiting a Case No. placement decision. So the packet is not assemblable. CR-266's own mapping is exact and clean."
+    },
+    "familyLocalWorkarounds": {
+      "result": "none_found",
+      "observed": "printedSuffixAfterBlank, protectedRules, deliberatelyUnbound, expectedOutcome and approvedTextColor are all parameters consumed by the shared factory. The WI package supplies data, not behaviour. No shadow renderer, no per-family override, no local reimplementation of shared behaviour."
+    },
+    "sidecarProvenance": {
+      "result": "fail",
+      "seeCorrection": 2
+    },
+    "finalArtifact": {
+      "result": "fail",
+      "seeCorrection": 1
+    }
+  },
+
+  "corrections": [
+    {
+      "id": 1,
+      "family": "WI:cr-266-form-en",
+      "asset": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf, and data/rcap-all50/flat-overlay-render-report.json",
+      "page": "document level — the PDF Info dictionary, not a page",
+      "fieldOrGeometry": "/CreationDate",
+      "actualResult": "D:20260101000000Z — both dates pinned to the deterministic stamp, which is what the pre-canonical factory did.",
+      "requiredResult": "The source's own creation date, D:20240624114823-05'00'. At HEAD, carryDates() sets CreationDate from the source document and only ModDate to the deterministic stamp (scripts/rcap-official-forms/rcap-official-form-finalize.mjs:142-152, called at :308).",
+      "whyThisMatters": "The approved artifacts are not what the canonical factory at HEAD produces. Re-rendering changes the Info dict, therefore the bytes, therefore every artifact SHA. The platform-ready gate re-hashes each file named by the round-4 approval and fails when one has moved, so the first time the lane runs its own renderer on HEAD this asset falls out of platform_ready. The round-4 approval names a pre-merge head.",
+      "smallestCorrection": "Run the flat-overlay family renderer on HEAD, then re-take the round-4 approval against the new bytes and update reviewedArtifactSha256 and reviewedHead. The approval must be re-taken, not transcribed: the bytes under review changed.",
+      "failingFixture": "node scripts/render-rcap-flat-overlay-families.mjs --check — the drift gate the handoff workflow already runs",
+      "evidencePath": "data/rcap-all50/flat-overlay-render-report.json (committed inputKey), scripts/rcap-official-forms/rcap-official-form-finalize.mjs:142-152 and :308",
+      "verifiedIndependently": "Yes. The committed canonical fixture carries /CreationDate (D:20260101000000Z) and /ModDate (D:20260101000000Z); the source carries /CreationDate(D:20240624114823-05'00'); HEAD's carryDates sets creation from the source and only modification to the stamp. The three facts are incompatible with the committed artifacts having been produced by HEAD.",
+      "carriesForwardUnchanged": [
+        "the source binary and its hash",
+        "overlay-profile.json",
+        "field-classification.json",
+        "the visual-evidence PNG"
+      ]
+    },
+    {
+      "id": 2,
+      "family": "WI:cr-266-form-en",
+      "asset": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/artifact-provenance.json",
+      "page": "n/a — the sidecar, not the PDF",
+      "fieldOrGeometry": "13 of the 20 required top-level fields, plus artifacts[].pageCount",
+      "actualResult": "The sidecar carries jurisdiction, documentId, sourceSha256, sourceRevision, fieldMapSha256, factoryVersion, rendererVersion, generatedAt and artifacts. Absent: assetId, formFamily, officialFormNumber, officialTitle, sourcePublisher, sourceUrl, sourceMetadataFingerprint, classificationSha256, packetSpecSha256, activeContentResult, flatteningResult, protectedFieldResult, fixtureIdentity, and artifacts[].pageCount.",
+      "requiredResult": "Every field named at scripts/verify-rcap-shared-pdf-contract.mjs:204-211, plus artifacts[0].pageCount >= 1 at :213.",
+      "whyThisMatters": "This is a shared call-site gap, not a family-local one. The canonical provenance module would emit these fields; the flat-overlay renderer simply never supplies them. So the P-block the contract proves against a synthesized canary is not the P-block any real family's committed sidecar satisfies — the contract passes while the artifacts on disk would fail it.",
+      "smallestCorrection": "Pass the remaining arguments at the shared call site in scripts/render-rcap-flat-overlay-families.mjs. Every one of them is already in scope in that render loop. One fix covers every flat-overlay family, not just WI.",
+      "failingFixture": "The P-block of scripts/verify-rcap-shared-pdf-contract.mjs, run against the committed sidecar rather than against its own synthesized record",
+      "evidencePath": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/artifact-provenance.json; scripts/verify-rcap-shared-pdf-contract.mjs:204-213",
+      "verifiedIndependently": "Yes. The required list was read from the contract and compared against the sidecar's actual key set."
+    }
+  ],
+
+  "observedHashesAtReview": {
+    "note": "Recorded as evidence of what was reviewed, NOT as an approval pin. Correction 1 will move three of these. A platform_ready pin may only be taken after the re-render.",
+    "source": { "path": "data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf", "sha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412" },
+    "canonicalFixture": { "path": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/fixtures/canonical-filled.pdf", "sha256": "5e78523d2a44d27fb280d87622f9f7d16afbf2b247ade9b31ad9f8fa51bb50e7" },
+    "boundaryFixture": { "path": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/fixtures/boundary-filled.pdf", "sha256": "b6f0cea57d584f129ccbe142dcf4a6f2d9216f169e896417cddee47227dec145" },
+    "contactSheet": { "path": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/contact-sheet/blank-vs-filled.pdf", "sha256": "cd906b1d37fcdb549f0b507b29faaecea99259b6ac48beb57ddd0a542112f93d" },
+    "classification": { "path": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/field-classification.json", "sha256": "7b5f8c04f45fdbf8df6dce43b5b6dfda70ade8bb83833c9a0a8d1206a302c429" },
+    "fieldMap": { "path": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json", "sha256": "8e4ebc4903e135b23a731e29051aa5b2e53d2c18cefe5ddbf7e25dbc15daa519" },
+    "provenanceSidecar": { "path": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/artifact-provenance.json", "sha256": "eb9030aa74c08404fe11ba5c46878c8569269cf78f82ce7021d4495be4e0a1ad" },
+    "visualEvidence": { "path": "docs/record-clearing/pdf-visual-evidence/WI-cr-266-form-en-contact-sheet-page-01.png", "sha256": "12fdee0d9e6dd6d4010e973d3d4de6f82fdfce27dec9065e6e759677bc613e2f" },
+    "contactSheetProof": { "path": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/contact-sheet/contact-sheet-proof.json", "sha256": "260b731dc0163934bc5503d949f5ef5b2c14172ef6e86352ea06df6a32b76d6d" }
+  },
+
+  "exactPdfLaneAction": "Re-render this family on HEAD, fix the shared provenance call site, then re-take the round-4 approval against the new bytes and re-submit for independent review. Do not transcribe the old approval onto new artifacts.",
+  "exactSessionAAction": "Do not count WI CR-266 as platform_ready until the re-render and the re-taken approval land. It is technically sound and it is not currently reproducible from HEAD."
+}
