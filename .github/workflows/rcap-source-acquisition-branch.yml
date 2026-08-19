@@ -1,0 +1,200 @@
+# Branch-runnable official-source acquisition.
+#
+# The dispatch-only workflow beside this one can only be started from the
+# default branch, which is why nothing had been acquired: the remediation branch
+# could not run it. This one runs on push and on pull_request, so it executes on
+# the branch that carries the queue, and it reads the queue rather than taking a
+# URL from a person.
+#
+# It fetches, follows redirects, and records for every asset: the requested URL,
+# the final resolved URL, HTTP status, content type, byte size, retrieval time
+# and SHA-256. Downloads are restricted to official government hosts by the
+# acquisition script, on both the requested and the final URL, so a redirect off
+# the allowlist is a refusal rather than a silent substitution.
+#
+# It commits nothing. Every byte leaves as a workflow artifact, and whether it
+# enters the repository is a decision a person makes after source identity,
+# currentness and intended use are settled.
+name: RCAP Source Acquisition (branch)
+
+on:
+  push:
+    branches:
+      - "claude/**"
+    paths:
+      - "data/rcap-all50/source-acquisition-queue.json"
+      - "scripts/rcap-acquire-official-source.mjs"
+      - "scripts/generate-rcap-source-acquisition-queue.mjs"
+      - ".github/workflows/rcap-source-acquisition-branch.yml"
+  pull_request:
+    paths:
+      - "data/rcap-all50/source-acquisition-queue.json"
+      - "scripts/rcap-acquire-official-source.mjs"
+      - ".github/workflows/rcap-source-acquisition-branch.yml"
+  workflow_dispatch:
+    inputs:
+      include_probes:
+        description: "Also probe unverified pattern candidates (set 3)"
+        required: false
+        default: "true"
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rcap-source-acquisition-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    name: Read the acquisition queue
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.build.outputs.matrix }}
+      count: ${{ steps.build.outputs.count }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # The queue is regenerated and compared, not trusted. A committed queue
+      # that no longer matches its own generator would send this workflow at
+      # URLs nobody can reproduce.
+      - name: Regenerate the queue and confirm it matches the committed one
+        run: |
+          cp data/rcap-all50/source-acquisition-queue.json /tmp/queue-committed.json
+          node scripts/generate-rcap-source-acquisition-queue.mjs
+          diff -u /tmp/queue-committed.json data/rcap-all50/source-acquisition-queue.json
+
+      - name: Build the acquisition matrix
+        id: build
+        env:
+          INCLUDE_PROBES: ${{ github.event.inputs.include_probes || 'true' }}
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const queue = JSON.parse(fs.readFileSync("data/rcap-all50/source-acquisition-queue.json", "utf8"));
+            const entries = [...queue.matrix];
+            if (process.env.INCLUDE_PROBES === "true") entries.push(...queue.probeMatrix);
+            // GitHub caps a matrix at 256 legs. Truncating silently would read
+            // as full coverage, so it is refused instead.
+            if (entries.length > 256) {
+              console.error(`FAIL the queue has ${entries.length} entries and a matrix holds 256`);
+              process.exit(1);
+            }
+            const payload = JSON.stringify({ entry: entries });
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `matrix=${payload}\n`);
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `count=${entries.length}\n`);
+            console.log(`${entries.length} assets queued for acquisition`);
+            for (const e of entries) console.log(`  ${e.jurisdiction} ${e.formNumber} [${e.urlKind}] ${e.url}`);
+          '
+
+  acquire:
+    name: ${{ matrix.entry.jurisdiction }} ${{ matrix.entry.formNumber }}
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    strategy:
+      # One refused or moved form must not cost the other forty their receipts.
+      fail-fast: false
+      max-parallel: 6
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Acquire and receipt the official source
+        env:
+          RCAP_SOURCE_URL: ${{ matrix.entry.url }}
+          RCAP_JURISDICTION: ${{ matrix.entry.jurisdiction }}
+          RCAP_FORM_NUMBER: ${{ matrix.entry.formNumber }}
+          RCAP_EXPECTED_SHA256: ${{ matrix.entry.expectedSha256 }}
+          RCAP_URL_KIND: ${{ matrix.entry.urlKind }}
+          RCAP_ASSET_ID: ${{ matrix.entry.assetId }}
+          RCAP_TOLERATE_FAILURE: "1"
+        run: node scripts/rcap-acquire-official-source.mjs
+
+      - name: Upload the binary and its receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-source-${{ strategy.job-index }}-${{ matrix.entry.jurisdiction }}-${{ matrix.entry.formNumber }}
+          path: acquired-source/
+          if-no-files-found: error
+          retention-days: 30
+
+  collect:
+    name: Collect every receipt
+    needs: [plan, acquire]
+    if: always() && needs.plan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Download every acquisition artifact
+        uses: actions/download-artifact@v4
+        with:
+          pattern: rcap-source-*
+          path: acquired
+          merge-multiple: true
+
+      - name: Summarise what arrived
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const dir = "acquired";
+            const files = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith(".receipt.json")).sort() : [];
+            const receipts = files.map((f) => JSON.parse(fs.readFileSync(`${dir}/${f}`, "utf8")));
+            const acquired = receipts.filter((r) => r.outcome === "acquired");
+            const summary = {
+              schemaVersion: "rcap-source-acquisition-summary/v1",
+              runId: process.env.GITHUB_RUN_ID ?? null,
+              ref: process.env.GITHUB_REF ?? null,
+              sha: process.env.GITHUB_SHA ?? null,
+              totals: {
+                attempted: receipts.length,
+                acquired: acquired.length,
+                notAcquired: receipts.length - acquired.length,
+                pdfBytes: acquired.filter((r) => r.looksLikePdf).length,
+                notPdfBytes: acquired.filter((r) => r.looksLikePdf === false).length,
+                matchedExpectedHash: acquired.filter((r) => r.matchesExpectedSha256 === true).length,
+                differsFromExpectedHash: acquired.filter((r) => r.matchesExpectedSha256 === false).length
+              },
+              // None of these are settled by fetching. They stay open.
+              stillUnmade: ["edition", "currentness", "supersession", "intended use"],
+              receipts
+            };
+            fs.writeFileSync("acquisition-summary.json", `${JSON.stringify(summary, null, 2)}\n`);
+            const rows = receipts.map((r) => `| ${r.jurisdiction} | ${r.formNumber} | ${r.outcome} | ${r.httpStatus ?? "-"} | ${r.observedByteLength ?? "-"} | ${r.observedStructuralClass ?? "-"} | ${(r.sha256 ?? "").slice(0, 12) || "-"} |`);
+            const md = [
+              `## RCAP source acquisition — ${summary.totals.acquired}/${summary.totals.attempted} acquired`,
+              "",
+              "| Juris | Form | Outcome | HTTP | Bytes | Structure | SHA-256 |",
+              "| --- | --- | --- | --- | --- | --- | --- |",
+              ...rows,
+              "",
+              "Edition, currentness, supersession and intended use are unmade here and remain review decisions.",
+              ""
+            ].join("\n");
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, md);
+          '
+
+      - name: Upload the acquisition summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-acquisition-summary
+          path: |
+            acquisition-summary.json
+            acquired/
+          if-no-files-found: error
+          retention-days: 30

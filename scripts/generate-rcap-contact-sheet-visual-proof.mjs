@@ -196,7 +196,13 @@ for (const stateDir of fs.readdirSync(ROOT).sort()) {
     const first = rendered.find((r) => r.page === 1);
     const second = rendered.find((r) => r.page === 2) ?? null;
 
-    const rect = first ? await pageRectangle(first.file, first.pdfWidthPt, first.pdfHeightPt) : null;
+    // A page that rasterized blank is a render failure, not an unmeasurable
+    // sheet. Recording it as merely "not comparable" would let a transient
+    // browser stall delete a family's visual evidence without saying so.
+    const renderFailure = !first ? "page 1 did not rasterize"
+      : first.looksBlank ? `page 1 rasterized with no ink after ${first.attempts} attempt(s)`
+        : null;
+    const rect = first && !first.looksBlank ? await pageRectangle(first.file, first.pdfWidthPt, first.pdfHeightPt) : null;
     let measurement = null;
     let control = null;
     if (rect) {
@@ -235,6 +241,7 @@ for (const stateDir of fs.readdirSync(ROOT).sort()) {
       contactSheetSha256: crypto.createHash("sha256").update(fs.readFileSync(sheet)).digest("hex"),
       renderedEvidence: evidencePath,
       pagesOnSheet: geometry.length,
+      renderFailure,
       comparable: Boolean(measurement),
       blankVsFilled: measurement,
       // Page 2's own two panels, which hold content that differs from page 1's.

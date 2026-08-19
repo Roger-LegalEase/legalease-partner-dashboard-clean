@@ -37,6 +37,8 @@ const FINALIZER = "scripts/rcap-official-forms/rcap-official-form-finalize.mjs";
 const SEMANTICS = "scripts/rcap-official-forms/rcap-field-semantics.mjs";
 const OVERLAY_DIR = "data/rcap-all50/overlays/production";
 const WORKFLOW = ".github/workflows/rcap-all50-handoff.yml";
+const QUEUE = "data/rcap-all50/source-acquisition-queue.json";
+const ACQUISITION_WORKFLOW = ".github/workflows/rcap-source-acquisition-branch.yml";
 
 const abs = (repoPath) => path.join(rootDir, repoPath);
 const readJson = (repoPath, fallback = null) => {
@@ -381,6 +383,97 @@ function runChecks() {
     }
   }
 
+  // ---- the source-acquisition queue ---------------------------------------
+  // The queue decides what gets fetched from a court's own website. Every claim
+  // it makes about where a form lives has to survive the same scrutiny as the
+  // register: it must cover every asset, name only issuing bodies, and never
+  // treat its own previous output as a recorded source.
+  const queue = readJson(QUEUE);
+  if (!queue) {
+    fail("acquisition_queue_present", `the source-acquisition queue is missing or unparseable at ${QUEUE}`);
+  } else {
+    const sets = queue.sets ?? {};
+    const allEntries = [
+      ...(sets.exact_official_url_known ?? []),
+      ...(sets.official_landing_page_known ?? []),
+      ...(sets.no_official_source_identified ?? [])
+    ];
+
+    const queued = new Set(allEntries.map((e) => e.assetId));
+    for (const row of master.rows ?? []) {
+      if (!queued.has(row.assetId)) {
+        fail("acquisition_queue_covers_every_asset", `${row.jurisdiction} ${row.formNumber}: on the master list but in no acquisition set`);
+      }
+    }
+    if (allEntries.length !== (master.rows ?? []).length) {
+      fail("acquisition_queue_covers_every_asset", `the three sets hold ${allEntries.length} entries for ${(master.rows ?? []).length} master-list rows`);
+    }
+
+    const hostsFor = (jurisdiction) => new Set(queue.officialHostsByJurisdiction?.[jurisdiction] ?? []);
+    const hostOfUrl = (url) => { try { return new URL(url).hostname.toLowerCase(); } catch { return null; } };
+    for (const entry of allEntries) {
+      for (const [label, url] of [["url", entry.url], ["patternCandidate", entry.unverifiedPatternCandidateUrl]]) {
+        if (!url) continue;
+        if (/\s|\|/.test(url)) {
+          fail("acquisition_queue_urls_are_single", `${entry.jurisdiction} ${entry.formNumber}: ${label} holds more than one URL in one field: ${url}`);
+        }
+        const host = hostOfUrl(url);
+        if (!host || !hostsFor(entry.jurisdiction).has(host)) {
+          fail("acquisition_queue_hosts_are_official", `${entry.jurisdiction} ${entry.formNumber}: ${label} points at ${host ?? url}, which is not a recorded issuing body for ${entry.jurisdiction}`);
+        }
+      }
+      // A URL this generator itself emitted on a previous run is not a source
+      // the repository recorded. Reading it back would launder a guess.
+      for (const source of entry.reconciledFrom ?? []) {
+        if (source === QUEUE) {
+          fail("acquisition_queue_does_not_confirm_itself", `${entry.jurisdiction} ${entry.formNumber}: reconciled from the acquisition queue's own output`);
+        }
+      }
+    }
+
+    // Set 3 means no official source is identified. An entry there that carries
+    // a URL is claiming the opposite.
+    for (const entry of sets.no_official_source_identified ?? []) {
+      if (entry.url) {
+        fail("acquisition_queue_set3_names_no_source", `${entry.jurisdiction} ${entry.formNumber}: sits in the no-source set while carrying ${entry.url}`);
+      }
+    }
+
+    for (const leg of [...(queue.matrix ?? []), ...(queue.probeMatrix ?? [])]) {
+      const entry = allEntries.find((e) => e.assetId === leg.assetId);
+      if (entry && entry.acquisitionPriority === 4) {
+        fail("acquisition_queue_withholds_priority_4", `${leg.jurisdiction} ${leg.formNumber}: queued for fetching although priority 4 is do_not_acquire_without_a_named_current_use`);
+      }
+      if (!leg.url) {
+        fail("acquisition_queue_withholds_priority_4", `${leg.jurisdiction} ${leg.formNumber}: queued with no URL`);
+      }
+    }
+
+    // The dispatch-only workflow could only ever start from the default branch,
+    // which is why nothing had been acquired. The branch workflow has to run on
+    // an ordinary push or pull_request, and it has to read the queue.
+    const acquisitionWorkflow = fs.existsSync(abs(ACQUISITION_WORKFLOW))
+      ? fs.readFileSync(abs(ACQUISITION_WORKFLOW), "utf8") : null;
+    if (!acquisitionWorkflow) {
+      fail("acquisition_runs_on_this_branch", `${ACQUISITION_WORKFLOW} does not exist, so the queue can only be run from the default branch`);
+    } else {
+      if (!/^\s{2}push:/m.test(acquisitionWorkflow) && !/^\s{2}pull_request:/m.test(acquisitionWorkflow)) {
+        fail("acquisition_runs_on_this_branch", `${ACQUISITION_WORKFLOW} has neither a push nor a pull_request trigger, so it cannot run on a feature branch`);
+      }
+      if (!acquisitionWorkflow.includes(QUEUE)) {
+        fail("acquisition_runs_on_this_branch", `${ACQUISITION_WORKFLOW} does not read ${QUEUE}`);
+      }
+      // Acquisition is evidence gathering. A workflow that could write to the
+      // repository would turn an unreviewed fetch into a committed source.
+      if (/permissions:[\s\S]{0,200}contents:\s*write/.test(acquisitionWorkflow)) {
+        fail("acquisition_commits_nothing", `${ACQUISITION_WORKFLOW} grants contents: write, so an unreviewed fetch could enter the repository`);
+      }
+      if (/git\s+(commit|push)/.test(acquisitionWorkflow)) {
+        fail("acquisition_commits_nothing", `${ACQUISITION_WORKFLOW} runs a git commit or push`);
+      }
+    }
+  }
+
   return failures;
 }
 
@@ -410,9 +503,86 @@ if (!mutationsMode) process.exit(0);
 // Each case edits committed bytes, re-runs every check, and requires the named
 // check to be among the ones that went red. Starting green is a precondition:
 // a mutation pass on an already-red tree proves nothing.
-const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT, CLASSIFICATION, FINALIZER, SEMANTICS];
+const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT, CLASSIFICATION, FINALIZER, SEMANTICS, QUEUE, ACQUISITION_WORKFLOW];
 
 const CASES = [
+  {
+    name: "an asset is dropped from every acquisition set",
+    expect: "acquisition_queue_covers_every_asset",
+    apply: () => {
+      const queue = readJson(QUEUE);
+      queue.sets.official_landing_page_known.pop();
+      fs.writeFileSync(abs(QUEUE), `${JSON.stringify(queue, null, 2)}\n`);
+    }
+  },
+  {
+    name: "an acquisition URL is moved to a commercial form site",
+    expect: "acquisition_queue_hosts_are_official",
+    apply: () => {
+      const queue = readJson(QUEUE);
+      queue.sets.exact_official_url_known[0].url = "https://www.uslegalforms.com/form.pdf";
+      fs.writeFileSync(abs(QUEUE), `${JSON.stringify(queue, null, 2)}\n`);
+    }
+  },
+  {
+    name: "the queue is made to cite its own previous output as a source",
+    expect: "acquisition_queue_does_not_confirm_itself",
+    apply: () => {
+      const queue = readJson(QUEUE);
+      queue.sets.exact_official_url_known[0].reconciledFrom = [QUEUE];
+      fs.writeFileSync(abs(QUEUE), `${JSON.stringify(queue, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a no-source asset is given a URL while staying in set 3",
+    expect: "acquisition_queue_set3_names_no_source",
+    apply: () => {
+      const queue = readJson(QUEUE);
+      const entry = queue.sets.no_official_source_identified[0];
+      entry.url = `https://${queue.officialHostsByJurisdiction[entry.jurisdiction][0]}/guessed.pdf`;
+      fs.writeFileSync(abs(QUEUE), `${JSON.stringify(queue, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a priority-4 asset is queued for fetching",
+    expect: "acquisition_queue_withholds_priority_4",
+    apply: () => {
+      const queue = readJson(QUEUE);
+      const four = [...queue.sets.exact_official_url_known, ...queue.sets.official_landing_page_known]
+        .find((e) => e.acquisitionPriority === 4);
+      queue.matrix.push({ jurisdiction: four.jurisdiction, formNumber: four.formNumber, url: four.url,
+        urlKind: four.urlKind, expectedSha256: "", assetId: four.assetId });
+      fs.writeFileSync(abs(QUEUE), `${JSON.stringify(queue, null, 2)}\n`);
+    }
+  },
+  {
+    name: "two URLs are packed into one acquisition field",
+    expect: "acquisition_queue_urls_are_single",
+    apply: () => {
+      const queue = readJson(QUEUE);
+      const entry = queue.sets.exact_official_url_known[0];
+      entry.url = `${entry.url} | ${entry.url}`;
+      fs.writeFileSync(abs(QUEUE), `${JSON.stringify(queue, null, 2)}\n`);
+    }
+  },
+  {
+    name: "the acquisition workflow loses its branch triggers",
+    expect: "acquisition_runs_on_this_branch",
+    apply: () => {
+      const text = fs.readFileSync(abs(ACQUISITION_WORKFLOW), "utf8");
+      fs.writeFileSync(abs(ACQUISITION_WORKFLOW), text
+        .replace(/^  push:$/m, "  # push:")
+        .replace(/^  pull_request:$/m, "  # pull_request:"));
+    }
+  },
+  {
+    name: "the acquisition workflow is given write access to the repository",
+    expect: "acquisition_commits_nothing",
+    apply: () => {
+      const text = fs.readFileSync(abs(ACQUISITION_WORKFLOW), "utf8");
+      fs.writeFileSync(abs(ACQUISITION_WORKFLOW), text.replace("  contents: read", "  contents: write"));
+    }
+  },
   {
     name: "a protected clerk field is made writable",
     expect: "protected_field_writes_are_registered",

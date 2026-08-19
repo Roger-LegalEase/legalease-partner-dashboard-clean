@@ -20,10 +20,24 @@ import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument } = require("pdf-lib");
+const sharp = require("sharp");
 
 // Playwright resolves a browser build this image does not carry; the stable
 // symlink is the one that is actually installed here.
 const CHROMIUM = process.env.RCAP_CHROMIUM_PATH ?? "/opt/pw-browsers/chromium";
+
+const MAX_RASTER_ATTEMPTS = Number(process.env.RCAP_RASTER_ATTEMPTS ?? 3);
+
+/**
+ * True when the capture carries no ink at all. A rendered PDF page always
+ * carries some -- a rule, a caption, a border -- so a uniform image means the
+ * engine had not painted when the screenshot was taken.
+ */
+async function looksUniform(pngPath) {
+  const { channels } = await sharp(pngPath).greyscale().stats();
+  const grey = channels[0];
+  return grey.max - grey.min <= 6;
+}
 
 /** Media-box width and height of every page, in PDF points. */
 export async function pageGeometry(bytes) {
@@ -59,17 +73,29 @@ export async function rasterizePdf({ file, outDir, pages = null, scale = 1.6, pr
         width: Math.max(320, Math.round(geo.width * scale)),
         height: Math.max(320, Math.round(geo.height * scale))
       };
-      const tab = await browser.newPage({ viewport });
-      const url = `file://${path.resolve(file)}#page=${pageNumber}&toolbar=0&navpanes=0&scrollbar=0&zoom=page-fit`;
-      await tab.goto(url);
-      // The PDF engine paints asynchronously and exposes no ready signal to
-      // the embedding page, so the wait is a fixed settle rather than a poll.
-      await tab.waitForTimeout(Number(process.env.RCAP_RASTER_SETTLE_MS ?? 4000));
       const out = path.join(outDir, `${prefix}-${String(pageNumber).padStart(2, "0")}.png`);
-      await tab.screenshot({ path: out });
-      await tab.close();
+      const baseSettle = Number(process.env.RCAP_RASTER_SETTLE_MS ?? 4000);
+      let attempts = 0;
+      let blank = true;
+      // The PDF engine paints asynchronously and exposes no ready signal to the
+      // embedding page, so the wait is a settle rather than a poll -- and a
+      // settle that is occasionally too short returns a uniform image that
+      // looks exactly like a successful render of a blank page. Downstream
+      // that reads as "not comparable" and quietly loses evidence which was
+      // there the run before, so a uniform capture is retried with a longer
+      // settle and the outcome is reported rather than assumed.
+      while (attempts < MAX_RASTER_ATTEMPTS && blank) {
+        attempts += 1;
+        const tab = await browser.newPage({ viewport });
+        const url = `file://${path.resolve(file)}#page=${pageNumber}&toolbar=0&navpanes=0&scrollbar=0&zoom=page-fit`;
+        await tab.goto(url);
+        await tab.waitForTimeout(baseSettle * attempts);
+        await tab.screenshot({ path: out });
+        await tab.close();
+        blank = await looksUniform(out);
+      }
       rendered.push({ page: pageNumber, file: out, widthPx: viewport.width, heightPx: viewport.height,
-        pdfWidthPt: geo.width, pdfHeightPt: geo.height });
+        pdfWidthPt: geo.width, pdfHeightPt: geo.height, attempts, looksBlank: blank });
     }
   } finally {
     await browser.close();

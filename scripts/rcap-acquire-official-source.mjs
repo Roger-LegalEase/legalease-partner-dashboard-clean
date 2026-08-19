@@ -17,6 +17,13 @@ import crypto from "node:crypto";
 
 const OUT_DIR = path.resolve("acquired-source");
 
+// Matrix runs record what happened and carry on; a single dispatch still fails
+// loudly. A refusal, a 404 or a DNS failure is evidence about the source, and
+// losing forty other acquisitions to it would be the wrong trade.
+const TOLERATE_FAILURE = process.env.RCAP_TOLERATE_FAILURE === "1";
+const URL_KIND = process.env.RCAP_URL_KIND ?? "direct_binary";
+const ASSET_ID = process.env.RCAP_ASSET_ID ?? null;
+
 // Only first-party government publishers. A form whose publisher is not here is
 // a decision to extend this list in a reviewed commit, not a URL pasted at
 // dispatch time. Suffix match on the registrable host, so a lookalike domain
@@ -37,6 +44,26 @@ const REFUSED_HOSTS = new Set([
 
 function fail(message) {
   console.error(`FAIL official-source acquisition — ${message}`);
+  if (TOLERATE_FAILURE) {
+    fs.mkdirSync(OUT_DIR, { recursive: true });
+    const slug = `${(process.env.RCAP_JURISDICTION ?? "XX").trim().toUpperCase()}-${(process.env.RCAP_FORM_NUMBER ?? "unknown").trim()}`
+      .replace(/[^A-Za-z0-9._-]/g, "-");
+    fs.writeFileSync(path.join(OUT_DIR, `${slug}.receipt.json`), `${JSON.stringify({
+      schemaVersion: "rcap-official-source-receipt/v1",
+      outcome: "not_acquired",
+      jurisdiction: process.env.RCAP_JURISDICTION ?? null,
+      formNumber: process.env.RCAP_FORM_NUMBER ?? null,
+      assetId: ASSET_ID,
+      requestedUrl: process.env.RCAP_SOURCE_URL ?? null,
+      urlKind: URL_KIND,
+      failure: message,
+      retrievedAt: new Date().toISOString(),
+      // A failure to fetch says nothing about the form. It is not evidence that
+      // the form is gone, superseded, or wrong.
+      whatThisDoesNotEstablish: "that the official form does not exist, has moved, or has been superseded"
+    }, null, 2)}\n`);
+    process.exit(0);
+  }
   process.exit(1);
 }
 
@@ -60,10 +87,15 @@ if (!ALLOWED_HOST_SUFFIXES.some((suffix) => host === suffix.replace(/^\./, "") |
 }
 
 const retrievedAt = new Date().toISOString();
-const response = await fetch(url, {
-  redirect: "follow",
-  headers: { "user-agent": "LegalEase RCAP official-source acquisition (workflow_dispatch)" }
-});
+let response;
+try {
+  response = await fetch(url, {
+    redirect: "follow",
+    headers: { "user-agent": "LegalEase RCAP official-source acquisition" }
+  });
+} catch (error) {
+  fail(`the request to ${url.href} did not complete: ${error?.message ?? error}`);
+}
 
 const finalUrl = response.url;
 const finalHost = new URL(finalUrl).hostname.toLowerCase();
@@ -99,11 +131,23 @@ const slug = `${jurisdiction}-${formNumber}`.replace(/[^A-Za-z0-9._-]/g, "-");
 const binaryName = `${slug}${looksLikePdf ? ".pdf" : ".bin"}`;
 fs.writeFileSync(path.join(OUT_DIR, binaryName), bytes);
 
+// A landing page is fetched so the binary behind it can be resolved. The links
+// harvested here are candidates for a following acquisition, not a decision
+// about which of them is this form.
+const linkedDocuments = looksLikePdf ? [] : [...new Set(
+  [...text.matchAll(/href\s*=\s*["']([^"']+\.(?:pdf|docx?|rtf)(?:\?[^"']*)?)["']/gi)]
+    .map((m) => { try { return new URL(m[1], finalUrl).href; } catch { return null; } })
+    .filter(Boolean)
+)].sort();
+
 const receipt = {
   schemaVersion: "rcap-official-source-receipt/v1",
   acquiredBy: ".github/workflows/rcap-official-source-acquisition.yml",
+  outcome: "acquired",
   jurisdiction,
   formNumber,
+  assetId: ASSET_ID,
+  urlKind: URL_KIND,
   requestedUrl: rawUrl,
   finalResolvedUrl: finalUrl,
   redirected: finalUrl !== rawUrl,
@@ -118,6 +162,8 @@ const receipt = {
   looksLikePdf,
   observedPageCount: pageCount,
   observedStructuralClass: structuralClass,
+  linkedDocumentCandidates: linkedDocuments,
+  binaryResolvedFromLandingPage: URL_KIND === "official_landing_page" && looksLikePdf,
   expectedSha256: expectedSha256 || null,
   matchesExpectedSha256: expectedSha256 ? expectedSha256 === sha256 : null,
   binaryFile: binaryName,
