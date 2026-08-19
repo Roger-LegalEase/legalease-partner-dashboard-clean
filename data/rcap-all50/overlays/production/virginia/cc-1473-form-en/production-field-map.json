@@ -18,6 +18,8 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "User.CaseNumber",
@@ -40,11 +42,6 @@
       "factId": "participant.full_legal_name"
     },
     {
-      "field": "User.SpecificCharge",
-      "class": "participant",
-      "factId": "matter.charge"
-    },
-    {
       "field": "User.CaseNumbers",
       "class": "participant",
       "factId": "matter.case_number"
@@ -55,9 +52,9 @@
       "factId": "matter.case_number"
     },
     {
-      "field": "User.DateOfArrest",
-      "class": "participant",
-      "factId": "matter.arrest_date"
+      "field": "User.PrintName",
+      "class": "manual",
+      "factId": "participant.full_legal_name"
     },
     {
       "field": "User.AddressOf",
@@ -73,6 +70,158 @@
       "field": "User.PetetionerEmail",
       "class": "participant",
       "factId": "participant.email"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "ResetButton",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.Officer",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.Title",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.Check0",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.SpecificCharge",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "User.DateOfArrest",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "User.ArrestingAgency",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "User.Check5",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.Check7",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.Because",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.DateOfFinalDisposition1",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "User.DateOfFinalDisposition2",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing"
+    },
+    {
+      "field": "User.DisposingCourt1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.DisposingCourt2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.CheckPetitioner",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CheckAttorney",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "User.CheckPetitionerContact",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CheckAttorneyContact",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "User.CheckPetitionerPhone",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CheckAttorneyPhone",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "User.CheckPetitionerEmail",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CheckAttorneyEmail",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "User.PetetionerVSB",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.HearDateTime",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.EndDate",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.CBCertify",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     }
   ],
   "unwritableFields": [],

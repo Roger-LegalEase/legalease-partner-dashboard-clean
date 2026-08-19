@@ -3,24 +3,49 @@
   "boundaryFixtureApplied": false,
   "findings": [
     {
-      "fixture": "boundary",
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "anchor": "IN THE ___ COURT OF _________________, AR",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
       "anchor": "IN THE ______________COURT OF ___ , ARKANSAS",
-      "page": 1,
-      "check": "clipping",
-      "boxWidth": 118.9,
-      "textWidthAt": 131.6,
-      "fontSize": 5.5,
-      "handling": "shrunk_to_floor_then_reported"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
       "anchor": "vs.    Case No. ___",
-      "page": 1,
-      "check": "clipping",
-      "boxWidth": 89.9,
-      "textWidthAt": 108.2,
-      "fontSize": 5.5,
-      "handling": "shrunk_to_floor_then_reported"
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 277.2,
+        "y": 565.1,
+        "width": 89.9,
+        "height": 13.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "anchor": "IN THE ___ COURT OF _________________, AR",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "anchor": "IN THE ______________COURT OF ___ , ARKANSAS",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ]
 }

@@ -36,7 +36,10 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const SRC = process.env.RCAP_BUNDLE_EXTRACT
   ?? "/tmp/claude-0/-home-user-legalease-partner-dashboard-clean/54ff2bf1-37ee-5073-8d13-dc21b63a0975/scratchpad/bundle/extracted";
 const OUT = path.join(rootDir, "data/rcap-all50/overlays/production");
-const readJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
+const readJson = (p, fallback) => {
+  if (fallback !== undefined && !fs.existsSync(p)) return fallback;
+  return JSON.parse(fs.readFileSync(p, "utf8"));
+};
 
 // pdf-lib stamps a fresh ModDate on every save, which would make each run
 // produce byte-different fixtures and turn any drift check into noise. Pinning
@@ -374,6 +377,20 @@ for (const fam of index.families) {
   const familyDir = path.join(OUT, jurisdictionSlug, fam.familySlug);
   const srPath = path.join(familyDir, "source-record.json");
   if (!fs.existsSync(srPath)) continue;
+
+  // A family whose map an independent reviewer has approved is not this
+  // driver's to rewrite. Running it over WI CR-266 replaced seven write boxes
+  // measured from the content stream and corrected across four review rounds
+  // with a fresh label capture, and left the approved fixtures pointing at a
+  // map that no longer described them. Rebuilding a reviewed family is a
+  // deliberate act: delete the approval first.
+  const approvedMap = readJson(path.join(familyDir, "overlay-profile.json"), null);
+  if (approvedMap?.independentReview?.verdict === "approved_for_platform_ready") {
+    results.push({ jurisdiction: fam.jurisdiction, family: fam.familySlug,
+      status: "skipped_independently_approved",
+      reason: "an independent reviewer approved this family's map and artifacts; regenerating it would discard the reviewed geometry" });
+    continue;
+  }
   const record = readJson(srPath);
   if (!record.canonicalBundlePath) continue;
   const abs = path.join(SRC, record.canonicalBundlePath.split("Edition_1/")[1]);
@@ -421,8 +438,20 @@ for (const fam of index.families) {
       { explicitMappings, captionOnly: ownership === OWNERSHIP.COURT_ORDER,
         availableChargeRows, documentAcceptsFill: !noFill }
     );
-    if (decision.writable) bindings.push({ field: c.name, class: c.class, factId: decision.factId });
-    else bindingRefusals.push({ field: c.name, reason: decision.reason, category: decision.category ?? null });
+    // The binder decides from the field's NAME; this file has already decided
+    // from its ROLE. Where they disagree the role wins. Arkansas's Act 346
+    // order carries "Judges Printed Name", classified court_or_agency here and
+    // matched as a name by the binder, and the map recorded a binding of the
+    // participant's legal name onto the judge's line. The factory refuses it
+    // at render time, so no artifact was wrong -- but a map that records a
+    // binding nothing may act on is a map that will mislead the next reader.
+    if (decision.writable && NEVER_WRITE.has(c.class)) {
+      bindingRefusals.push({ field: c.name, reason: "classified_unwritable_by_role", category: c.class });
+    } else if (decision.writable) {
+      bindings.push({ field: c.name, class: c.class, factId: decision.factId });
+    } else {
+      bindingRefusals.push({ field: c.name, reason: decision.reason, category: decision.category ?? null });
+    }
   }
   const boundNames = new Set(bindings.map((b) => b.field));
 
@@ -529,6 +558,29 @@ for (const fam of index.families) {
   // a participant would actually file and therefore the only thing worth
   // reviewing. The contact sheet is built from that artifact and refuses to
   // exist unless its values are provably visible.
+  // A document that says of itself that it is not for filing must never be
+  // filled. The notice was referenced here and never defined, so every call
+  // threw a ReferenceError that the catch below recorded as a per-family
+  // finding -- which is why this driver had produced no fixture and no contact
+  // sheet for any family at all. It is derived from the document's own printed
+  // text, and only from phrases that describe the document rather than
+  // instruct the participant: "do not file" appears legitimately in filing
+  // instructions, and treating that as a hold would silently stop a form from
+  // ever rendering, which is exactly the failure this line caused.
+  // Read for every family, not only the flat ones: an AcroForm can be stamped
+  // "sample only" just as a flat scan can.
+  const documentTextLines = [];
+  for (const page of pages) {
+    try { documentTextLines.push(...groupIntoLines(extractTextItems(page))); } catch { /* unreadable page */ }
+  }
+
+  const NOT_FOR_FILING = /\bnot\s+for\s+filing\b|\bsample\s+only\b|\bspecimen\s+copy\b|\bfor\s+illustration\s+only\b|\bdo\s+not\s+file\s+this\s+form\b/i;
+  const notForFilingLine = (documentTextLines ?? []).map((l) => l.text).find((t) => NOT_FOR_FILING.test(t)) ?? null;
+  const notForFilingNotice = notForFilingLine;
+  if (notForFilingNotice) {
+    findings.push({ check: "document_states_it_is_not_for_filing", notice: notForFilingNotice });
+  }
+
   const renderable = mapKind === "acroform" ? bindings.length > 0 : anchors.length > 0;
   if (!noFill && renderable) {
     try {
@@ -611,15 +663,27 @@ for (const fam of index.families) {
     const finalizedDoc = await PDFDocument.load(fs.readFileSync(canonicalPath), { ignoreEncryption: true });
     const visible = visibleTextOfDocument(finalizedDoc);
     const missing = missingExpectedValues(visible, finalizedReport.expectedValues);
-    const placeholder = /\b(tbd|todo|lorem|xxx+|placeholder|sample text|fixme|\{\{|\$\{)/i.exec(visible);
-    const protectedNames = new Set(finalizedReport.protectedFields.map((p) => p.field));
-    const writtenProtected = finalizedReport.written.filter((w) => protectedNames.has(w.field));
+    // Scanned against the values this factory wrote, not against the whole
+    // page. Reading the rendered document flagged the Spanish word "todo" on
+    // NC AOC-CR-287-es and a preprinted "XXX" ruler on AL C-94A as placeholder
+    // values we had written -- neither is ours, and a check that fails on the
+    // court's own printed words teaches everyone to ignore it.
+    const placeholder = (finalizedReport.expectedValues ?? [])
+      .map((v) => /\b(tbd|todo|lorem|xxx+|placeholder|sample text|fixme|\{\{|\$\{)/i.exec(String(v)))
+      .find(Boolean) ?? null;
+    // Only the AcroForm report carries protectedFields: a flat overlay has no
+    // field dictionary to refuse from, and its refusals are recorded against
+    // anchors instead. This scan had never run -- every finalize call threw --
+    // so the shape difference had not been reached before.
+    const protectedList = finalizedReport.protectedFields ?? [];
+    const protectedNames = new Set(protectedList.map((p) => p.field));
+    const writtenProtected = finalizedReport.written.filter((w) => protectedNames.has(w.field ?? w.anchor));
     const residue = finalizedReport.activeContentScan?.hits ?? [];
     fs.writeFileSync(path.join(familyDir, "reports/protected-fields-scan.json"), JSON.stringify({
       scanBasis: "finalized flattened artifact: what the renderer wrote, against what is visible on the page",
       writtenFields: finalizedReport.written.length,
       refusedFields: finalizedReport.refused.length,
-      protectedFieldsRefused: finalizedReport.protectedFields.length,
+      protectedFieldsRefused: protectedList.length,
       violations: writtenProtected,
       valuesWrittenButNotVisible: missing,
       placeholderValues: placeholder ? [placeholder[0]] : [],
