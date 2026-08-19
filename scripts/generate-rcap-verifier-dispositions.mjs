@@ -165,6 +165,12 @@ const OVERRIDES = {
       "Proves each part of the source-SHA tag guard is load-bearing. Nine mutations - concurrency group no longer keyed on the source SHA, cancel-in-progress enabled, pre-push re-check removed, pre-build tag check removed, a latest alias added to the push, a short SHA accepted, a missing credential read as the tag being free, replacement no longer requiring a named authorization, and a registry lookup failure read as the tag being absent - each turn verify-rcap-worker-tag-guard red for its own named check, with signal-safe byte restoration. Blocking alongside that verifier in rcap-all50-handoff.yml for the same image-input reason.",
     decidedBy: "captain"
   },
+  "test-rcap-hosted-acceptance-readjob.mjs": {
+    disposition: "keep_available",
+    reason:
+      "The hosted matrix's job read, executed from the shipped bytes against a stubbed transport. It used to hash the fencing token with extensions.digest(...) through the Supabase Management API; that function is not exposed on the acceptance project, so the query errored, its non-array error body fell through an Array.isArray check, readJob returned null, and run 32195867963 reported a job that plainly existed — and that the binding case read successfully moments later — as \"(no job row)\". Fourteen checks: a real row returns with no database hashing anywhere in the query, the claim token is recorded as a deterministic Node-computed sha256 and never as itself, the raw token reaches neither the serialized diagnostics nor stdout nor stderr, person_id, matter_id and the artifact identity survive, an empty result is no_row, a PostgREST error body, an unparseable body and an error string are each query_error with a sanitized class and message carrying no credential, and only a genuine row passes jobRowOrNull. Its --mutations suite requires three breakages red: hashing in SQL again, collapsing query_error into no_row, and carrying the raw token out on the row. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
+    decidedBy: "captain"
+  },
   "verify-rcap-authoritative-profile-version.mjs": {
     disposition: "keep_available",
     reason:

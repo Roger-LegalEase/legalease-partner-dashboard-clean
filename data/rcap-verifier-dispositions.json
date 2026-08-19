@@ -3,7 +3,7 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 138,
+    "keep_available": 139,
     "wired": 113,
     "fix_then_wire": 27,
     "retire": 1,
@@ -1360,6 +1360,12 @@
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
       "observedStatus": "added_since_audit",
       "decidedBy": "generated"
+    },
+    "test-rcap-hosted-acceptance-readjob.mjs": {
+      "disposition": "keep_available",
+      "reason": "The hosted matrix's job read, executed from the shipped bytes against a stubbed transport. It used to hash the fencing token with extensions.digest(...) through the Supabase Management API; that function is not exposed on the acceptance project, so the query errored, its non-array error body fell through an Array.isArray check, readJob returned null, and run 32195867963 reported a job that plainly existed — and that the binding case read successfully moments later — as \"(no job row)\". Fourteen checks: a real row returns with no database hashing anywhere in the query, the claim token is recorded as a deterministic Node-computed sha256 and never as itself, the raw token reaches neither the serialized diagnostics nor stdout nor stderr, person_id, matter_id and the artifact identity survive, an empty result is no_row, a PostgREST error body, an unparseable body and an error string are each query_error with a sanitized class and message carrying no credential, and only a genuine row passes jobRowOrNull. Its --mutations suite requires three breakages red: hashing in SQL again, collapsing query_error into no_row, and carrying the raw token out on the row. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
     },
     "test-rcap-hosted-acceptance-verdict-mutations.mjs": {
       "disposition": "keep_available",

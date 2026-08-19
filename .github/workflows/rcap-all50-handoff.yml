@@ -151,3 +151,13 @@ jobs:
 
       - name: Prove the authoritative profile-version guard is load-bearing
         run: node scripts/verify-rcap-authoritative-profile-version.mjs --mutations
+
+      # The matrix's own job read hashed the claim token with a database
+      # function the acceptance project does not expose, so the query errored,
+      # the read returned null, and a job that plainly existed was reported as
+      # "(no job row)". A broken diagnostic must never read as a finding.
+      - name: Verify the hosted job read separates a failed query from a missing job
+        run: node scripts/test-rcap-hosted-acceptance-readjob.mjs
+
+      - name: Prove the hosted job-read guard is load-bearing
+        run: node scripts/test-rcap-hosted-acceptance-readjob.mjs --mutations
