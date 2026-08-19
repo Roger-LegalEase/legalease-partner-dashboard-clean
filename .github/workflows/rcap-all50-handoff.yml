@@ -218,3 +218,11 @@ jobs:
 
       - name: Prove the shared PDF contract guards are load-bearing
         run: node scripts/verify-rcap-shared-pdf-contract.mjs --mutations
+
+      # The 41 intended-paid pathways with no registry track keep everything a
+      # pathway can have without one — the compiled pathway verbatim, its
+      # pathway-level packet set, the legal-design evidence covering its
+      # jurisdiction, and the named registry-owner action. None is dropped from
+      # the denominator to clear its disposition.
+      - name: Verify the registry-gap dossier is current
+        run: node scripts/generate-rcap-registry-gap-dossier.mjs --check
