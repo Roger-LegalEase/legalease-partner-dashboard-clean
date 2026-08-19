@@ -955,6 +955,67 @@
       }
     },
     {
+      "id": "auth-2026-08-18-phase-56-public-view-and-default-privilege-hardening",
+      "kind": "migration",
+      "phase": 56,
+      "title": "Public-view and default-privilege hardening (Security Advisor remediation)",
+      "artifacts": [
+        "supabase/phase-56-public-view-and-default-privilege-hardening.sql",
+        "supabase/migrations/20260818209000_rcap_upgrade_09_security_hardening.sql"
+      ],
+      "status": "authorized_scoped",
+      "decision": "approved",
+      "requestedBy": "claude-rcap-production-schema-upgrade",
+      "requestedAt": "2026-08-18",
+      "pullRequest": 110,
+      "why": "Codifies the Security Advisor remediation validated in the legalease-rcap-acceptance project: row level security on partner_entitlement, rcap_record_events and the two acceptance tables where they exist; security_invoker on the five content_public_* views with anon RLS policies and column-level grants that reproduce their published row sets exactly; and withdrawal of the baseline default privileges that grant anon and authenticated everything on every future object in public. Nothing here is authorized for Production execution.",
+      "risk": "medium",
+      "riskNote": "The change is additive to the security posture and removes no existing access: no policy is dropped, no privilege authenticated already holds is revoked, and every anon grant it adds is column-level on a table whose RLS admits only rows the public views already returned. The one behavioural change a reviewer must weigh is that a security_invoker view checks column privileges for the columns it filters on, so anon can read is_active, status, published_at, archived, approved and content_posts.updated_at for rows that are already public.",
+      "rollback": "Forward-only in the chain, reversible by statement: re-set the five views to security_definer (alter view ... reset (security_invoker)), drop the six *_anon_public_read policies, revoke the 64 column grants, and re-issue the six ALTER DEFAULT PRIVILEGES grants the baseline carried. Nothing is dropped or rewritten, so no data recovery is involved. Local rehearsal is scripts/rcap-schema-upgrade-lab.sh build stacked-pre, which builds the pre-remediation schema from the same sources.",
+      "evidence": [
+        "node scripts/verify-rcap-production-schema-upgrade.mjs — 16/16, two deterministic replays from the recovered baseline, 5,258 catalog definitions matched, replay catalog sha256 6d5c79e3fae4484e21a8181ff192eed0d2aff6ed5c075762e78aa6fa1fb9471e",
+        "Public row sets byte-identical before and after the remediation, read as anon from a fixture carrying an inactive author, a draft post, a future-dated post, an archived asset, an asset referenced only by a draft, an unapproved testimonial and a draft editorial row: 1 author, 2 posts, 3 media, 1 editorial record, 1 testimonial",
+        "node scripts/verify-onboarding-tenant-isolation.mjs against the upgraded database — 8/8",
+        "authenticated grants unchanged at 738 before and after; anon holds zero table-level SELECT on the six content base tables",
+        "docs/rcap/production/PRODUCTION_SCHEMA_UPGRADE.md"
+      ],
+      "appliedTo": "local lab databases only; no Supabase project was connected to",
+      "authorizedBy": "Roger Roman — explicit repository-integration approval for draft PR #110",
+      "authorizedAt": "2026-08-18",
+      "authorizationScope": "repository_integration_only",
+      "scopedAuthorization": {
+        "repository": "authorized — these exact 11 files at these exact SHA-256 values may be integrated through PR #110",
+        "production": "queued — no Production migration, db push, migration repair, deployment, schema action or canary provisioning is authorized"
+      },
+      "authorizedPaths": [
+        "supabase/phase-56-public-view-and-default-privilege-hardening.sql",
+        "supabase/migrations/20260818200000_rcap_upgrade_00_roles.sql",
+        "supabase/migrations/20260818201000_rcap_upgrade_01_tables_and_columns.sql",
+        "supabase/migrations/20260818202000_rcap_upgrade_02_functions.sql",
+        "supabase/migrations/20260818203000_rcap_upgrade_03_constraints_and_indexes.sql",
+        "supabase/migrations/20260818204000_rcap_upgrade_04_views.sql",
+        "supabase/migrations/20260818205000_rcap_upgrade_05_triggers.sql",
+        "supabase/migrations/20260818206000_rcap_upgrade_06_rls_and_policies.sql",
+        "supabase/migrations/20260818207000_rcap_upgrade_07_grants.sql",
+        "supabase/migrations/20260818208000_rcap_upgrade_08_storage_buckets.sql",
+        "supabase/migrations/20260818209000_rcap_upgrade_09_security_hardening.sql"
+      ],
+      "authorizedSha256": [
+        "526787e75132fcde8667a2ddfcb5b418b76d97f1ef430092dda77a94b8198dc2",
+        "d7de18402f15332a440bba09fb0632cce45c2c10bd74b843ded66b8505c24400",
+        "7e8cec5170f7c0441234634835c1433787afa3ec7baeaef311ed3efb178d0c7f",
+        "5f7f44cc38ce57ca4588ed17318d9c60ff41c79be5983a4f2df16b0faf1de71e",
+        "329abfcf4c1d2d0d63890b67885a490069d3b34705c2bd90c7eddd19d287fbb5",
+        "02258bdbb13aeab403d460595e1e2d5db242f4c275c42251a5a5a82459912d07",
+        "fa86adf77126a26e0b178689ef011aa49c5f99fff414c78e56acb19cea704a2a",
+        "cd3d8475f0822712905edb8b738769bb39a05d28dedecb1aa27e3b88b1dbb6c4",
+        "9dc85f54f0120cd1b4747d816dd5f81fc72ee2268b1e12404674ae1b65f98fab",
+        "fcf392c93ec896cd816d82826f2db963ffdf7b5ec2c5d3cb0e06cc00e80e3938",
+        "26e5578e429781d258370f8cd0bc8e863dfbc2b00ba4030aab3d9f565d393f0c"
+      ],
+      "voidsOn": "Any byte change to any authorized path, any path not listed here, any additional file under a restricted prefix in the same diff, or any use beyond repository integration on PR #110. No wildcard, prefix, directory, future-file or future-byte authorization is granted."
+    },
+    {
       "id": "auth-2026-08-19-owner-legal-approval-completed-output",
       "kind": "owner_legal_decision",
       "phase": 57,
