@@ -4,7 +4,7 @@
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
     "keep_available": 139,
-    "wired": 117,
+    "wired": 118,
     "fix_then_wire": 27,
     "retire": 1,
     "quarantine": 2,
@@ -1136,6 +1136,12 @@
     "verify-rcap-lane-b-exact-deferrals.mjs": {
       "disposition": "wired",
       "reason": "The acceptance contract for lane-B exact supported deferrals. It derives the packet set from repository bytes rather than a list, checks all ten recognition safeguards per packet, and asks the authoritative route resolver whether the packet's promise that nothing is being sold is actually true of the runtime. Its --mutations suite requires eight deliberate breakages to come back red, including blind promotion of all nine packets. Wired by the captain in window 2026-08-12-w3.",
+      "observedStatus": "in_chain",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-launch-graph.mjs": {
+      "disposition": "wired",
+      "reason": "The focused gate on the canonical launch graph. It proves the graph describes exactly the intended-paid set the closure ledger defines and that every consumed ledger agrees, that all eleven launch counters re-derive from the rows rather than being asserted, that the operational predicate is all nine conditions on every route and no route is called sellable with one unmet, that no artifact is called proven while an official form its packet specification names is not held in this repository, and that the 41 registry-gap routes are preserved rather than dropped. Thirteen mutations must come back red. Wired in the 48h launch integration window.",
       "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
     },

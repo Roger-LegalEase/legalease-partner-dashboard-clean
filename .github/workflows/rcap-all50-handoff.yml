@@ -193,3 +193,16 @@ jobs:
 
       - name: Prove the evidence-packet guards are load-bearing
         run: node scripts/verify-rcap-session-a-evidence-packet.mjs --mutations
+
+      # One launch graph, one denominator. It refuses to build if any consumed
+      # ledger disagrees about which intended-paid pathways exist, re-derives
+      # every counter from its own rows, and holds the nine-condition
+      # operationally-sellable predicate on every route.
+      - name: Verify the canonical launch graph is current
+        run: node scripts/generate-rcap-launch-graph.mjs --check
+
+      - name: Verify the canonical launch graph
+        run: node scripts/verify-rcap-launch-graph.mjs
+
+      - name: Prove the launch-graph denominator and predicate guards are load-bearing
+        run: node scripts/verify-rcap-launch-graph.mjs --mutations
