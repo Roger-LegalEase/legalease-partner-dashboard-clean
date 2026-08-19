@@ -99,6 +99,25 @@ for (const stateDir of fs.existsSync(OVERLAY_DIR) ? fs.readdirSync(OVERLAY_DIR).
   }
 }
 
+/**
+ * Whether a recorded official title looks like it was mis-extracted.
+ *
+ * Kentucky AOC-334's title reads "is hereby void; and all records pertaining
+ * thereto that are in custody of the court and any records in the custody of"
+ * -- a fragment of the form's body text, captured instead of its heading. The
+ * title is left exactly as recorded, because it is committed evidence and this
+ * generator does not rewrite evidence. It is flagged, so a reader is not left
+ * to wonder whether that is really what the form is called, and so whoever
+ * acquires the binary knows to re-read the title from it.
+ */
+function titleLooksMisextracted(title, formNumber) {
+  const text = String(title ?? "").trim();
+  if (text === "") return false;
+  if (text.toUpperCase().includes(String(formNumber ?? "").toUpperCase())) return false;
+  // A real title starts like a title. A sentence fragment starts mid-clause.
+  return /^[a-z]/.test(text) || /^(is|are|and|that|the|of|to|for|in)\b/i.test(text);
+}
+
 /** The retrieval date the source record encodes, or null. Never guessed. */
 function retrievalDate(record) {
   const match = /(\d{4}-\d{2}-\d{2})/.exec(String(record?.sourceStatus ?? ""));
@@ -392,6 +411,7 @@ for (const entry of register.records) {
     jurisdiction: entry.jurisdiction,
     assetId: entry.identity,
     formName: entry.formTitle ?? "not recorded in the committed source record",
+    formNameLooksMisextracted: titleLooksMisextracted(entry.formTitle, entry.formId),
     formNumber: entry.formId,
     formFamilyIds: entry.familyIds,
     // tracks and routes
@@ -526,6 +546,7 @@ const totals = {
   sourceAcquisitionPriority3: byPriority(3).length,
   sourceAcquisitionPriority4DoNotAcquire: byPriority(4).length,
   assetsAwaitingAPlacementDecision: rows.filter((r) => r.labelsAwaitingAPlacementDecision > 0).length,
+  recordedTitlesThatLookMisextracted: rows.filter((r) => r.formNameLooksMisextracted).length,
   assetsWithNoTrackBinding: rows.filter((r) => r.trackBindingStatus.startsWith("no_track_binding_established")).length,
   assetsWithACandidateUnconfirmedTrackBinding: rows.filter((r) => r.candidateRegistryFormId).length,
   neverIndependentlyReviewed: rows.filter((r) => r.independentReviewStatus === "never_independently_reviewed").length,
@@ -618,6 +639,7 @@ const TOTAL_LABELS = {
   sourceAcquisitionPriority3: "Acquisition priority 3 — currentness or supersession",
   sourceAcquisitionPriority4DoNotAcquire: "Acquisition priority 4 — do not acquire without a named current use",
   assetsAwaitingAPlacementDecision: "Assets awaiting a write-box placement decision",
+  recordedTitlesThatLookMisextracted: "Recorded official titles that look mis-extracted",
   assetsWithNoTrackBinding: "Assets with no track binding",
   assetsWithACandidateUnconfirmedTrackBinding: "Assets with a candidate, unconfirmed track binding",
   neverIndependentlyReviewed: "Never independently reviewed",
@@ -699,8 +721,9 @@ for (const priority of [1, 2, 3, 4]) {
     continue;
   }
   for (const row of queueRows) {
-    md.push(`#### ${row.jurisdiction} ${row.formNumber}${row.formName ? ` — ${row.formName}` : ""}`);
+    md.push(`#### ${row.jurisdiction} ${row.formNumber}`);
     md.push("");
+    md.push(`- **Recorded official title**: ${row.formName}${row.formNameLooksMisextracted ? " _(this reads as a fragment of the form's body text rather than its heading; recorded as-is, and worth re-reading from the binary when it is acquired)_" : ""}`);
     md.push(`- **Affected route**: ${row.affectedTrackIds.join(", ") || "no track binding established"}${row.routeKinds.length ? ` (route kind: ${row.routeKinds.join(", ")})` : ""}`);
     md.push(`- **Active-track status**: ${row.activeTrackStatus}; disposition \`${row.disposition}\``);
     md.push(`- **Participant already safely served**: ${row.servedByGuidanceOrDeferral ? `yes — ${row.participantTreatment.join(", ") || "terminal treatment recorded"}` : "no terminal treatment recorded against a track"}`);
@@ -752,7 +775,7 @@ for (const row of rows) {
 md.push("");
 
 const CSV_COLUMNS = [
-  "jurisdiction", "formNumber", "formName", "remediationLane", "remediationLaneName", "activeTrackStatus",
+  "jurisdiction", "formNumber", "formName", "formNameLooksMisextracted", "remediationLane", "remediationLaneName", "activeTrackStatus",
   "affectedTrackIds", "trackBindingStatus", "candidateRegistryFormId", "candidateRegistryTrackIds", "routeKinds", "rendererKind", "packetCapable", "participantTreatment",
   "sellable", "publicPacketRoute", "checkoutSuppressed", "paymentSuppressed", "packetCreditConsumed",
   "officialSourceUrl", "sourcePublisher", "sourceRetrievalDate", "sourceRevision", "sourceSha256",

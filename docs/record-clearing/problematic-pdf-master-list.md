@@ -39,6 +39,7 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Acquisition priority 3 — currentness or supersession | 4 |
 | Acquisition priority 4 — do not acquire without a named current use | 83 |
 | Assets awaiting a write-box placement decision | 6 |
+| Recorded official titles that look mis-extracted | 3 |
 | Assets with no track binding | 83 |
 | Assets with a candidate, unconfirmed track binding | 7 |
 | Never independently reviewed | 125 |
@@ -267,8 +268,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 
 1 asset(s).
 
-#### KY AOC-334 — is hereby void; and all records pertaining thereto that are in custody of the court and any records in the custody of
+#### KY AOC-334
 
+- **Recorded official title**: is hereby void; and all records pertaining thereto that are in custody of the court and any records in the custody of _(this reads as a fragment of the form's body text rather than its heading; recorded as-is, and worth re-reading from the binary when it is acquired)_
 - **Affected route**: ky_void_seal_controlled_substance, ky_void_seal_marijuana_synthetic_salvia (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `active_track_delivery_hold`
 - **Participant already safely served**: yes — production_packet
@@ -284,8 +286,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 
 39 asset(s).
 
-#### AK TF-800 — Request to Make Case Records Confidential or Sealed Under Administrative Rule 37.6
+#### AK TF-800
 
+- **Recorded official title**: Request to Make Case Records Confidential or Sealed Under Administrative Rule 37.6
 - **Affected route**: ak-tf800 (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -297,8 +300,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official AK TF-800 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### AK TF-805 — Request to Remove Name from Online Public Index (CourtView) Under Administrative Rule 40(b) or (c)
+#### AK TF-805
 
+- **Recorded official title**: Request to Remove Name from Online Public Index (CourtView) Under Administrative Rule 40(b) or (c)
 - **Affected route**: ak-tf805 (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -310,8 +314,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official AK TF-805 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### AK TF-810 — Request to Exclude Case from Online Public Index (CourtView) Under Administrative Rule 40(a) or AS 22.35.030
+#### AK TF-810
 
+- **Recorded official title**: Request to Exclude Case from Online Public Index (CourtView) Under Administrative Rule 40(a) or AS 22.35.030
 - **Affected route**: ak-courtview (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -323,8 +328,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official AK TF-810 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### KY AOC-496 — EXPUNGEMENT ORDER
+#### KY AOC-496
 
+- **Recorded official title**: EXPUNGEMENT ORDER
 - **Affected route**: ky_misdemeanor_expungement (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -336,8 +342,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official KY AOC-496 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL, RC-V-UNSAFE-PLACEMENT
 
-#### KY AOC-496.2 — PETITION FOR EXPUNGEMENT
+#### KY AOC-496.2
 
+- **Recorded official title**: PETITION FOR EXPUNGEMENT
 - **Affected route**: ky_misdemeanor_expungement (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -349,8 +356,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official KY AOC-496.2 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL, RC-V-UNSAFE-PLACEMENT
 
-#### KY AOC-496.4 — 496.4
+#### KY AOC-496.4
 
+- **Recorded official title**: 496.4
 - **Affected route**: ky_felony_vacatur_expungement (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -362,8 +370,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official KY AOC-496.4 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL, RC-V-UNSAFE-PLACEMENT
 
-#### NC AOC-CR-287 — AOC-CR-287 Petition and Order of Expunction
+#### NC AOC-CR-287
 
+- **Recorded official title**: AOC-CR-287 Petition and Order of Expunction
 - **Affected route**: nc_146_dismissal_petition (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -375,8 +384,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-287 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
 
-#### NC AOC-CR-287 — AOC-CR-287 Instructions
+#### NC AOC-CR-287
 
+- **Recorded official title**: AOC-CR-287 Instructions
 - **Affected route**: nc_146_dismissal_petition (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -388,8 +398,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-287 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
 
-#### NC AOC-CR-287 — AOC-CR-287 Instructions
+#### NC AOC-CR-287
 
+- **Recorded official title**: AOC-CR-287 Instructions
 - **Affected route**: nc_146_dismissal_petition (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -401,8 +412,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-287 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
 
-#### NC AOC-CR-287 — AOC-CR-287 Petition and Order of Expunction
+#### NC AOC-CR-287
 
+- **Recorded official title**: AOC-CR-287 Petition and Order of Expunction
 - **Affected route**: nc_146_dismissal_petition (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -414,8 +426,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-287 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-FLAT-GEOMETRY, RC-T-OBJECT-STREAMS, RC-T-VALUES-ABSENT, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### NC AOC-CR-287 — AOC-CR-287 Petition and Order of Expunction
+#### NC AOC-CR-287
 
+- **Recorded official title**: AOC-CR-287 Petition and Order of Expunction
 - **Affected route**: nc_146_dismissal_petition (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -427,8 +440,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-287 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### NC AOC-CR-287 — AOC-CR-287 Instructions
+#### NC AOC-CR-287
 
+- **Recorded official title**: AOC-CR-287 Instructions
 - **Affected route**: nc_146_dismissal_petition (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -440,8 +454,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-287 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
 
-#### NC AOC-CR-288 — AOC-CR-288 Instructions
+#### NC AOC-CR-288
 
+- **Recorded official title**: AOC-CR-288 Instructions
 - **Affected route**: nc_146_acquittal_petition (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -453,8 +468,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-288 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
 
-#### NC AOC-CR-288 — AOC-CR-288 Instructions
+#### NC AOC-CR-288
 
+- **Recorded official title**: AOC-CR-288 Instructions
 - **Affected route**: nc_146_acquittal_petition (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -466,8 +482,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-288 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
 
-#### NC AOC-CR-288 — AOC-CR-288 Petition and Order of Expunction
+#### NC AOC-CR-288
 
+- **Recorded official title**: AOC-CR-288 Petition and Order of Expunction
 - **Affected route**: nc_146_acquittal_petition (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -479,8 +496,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-288 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
 
-#### NC AOC-CR-288 — AOC-CR-288 Petition and Order of Expunction
+#### NC AOC-CR-288
 
+- **Recorded official title**: AOC-CR-288 Petition and Order of Expunction
 - **Affected route**: nc_146_acquittal_petition (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -492,8 +510,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-288 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-FLAT-GEOMETRY, RC-T-OBJECT-STREAMS, RC-T-VALUES-ABSENT, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### NC AOC-CR-288 — AOC-CR-288 Petition and Order of Expunction
+#### NC AOC-CR-288
 
+- **Recorded official title**: AOC-CR-288 Petition and Order of Expunction
 - **Affected route**: nc_146_acquittal_petition (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -505,8 +524,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-288 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### NC AOC-CR-288 — AOC-CR-288 Instructions
+#### NC AOC-CR-288
 
+- **Recorded official title**: AOC-CR-288 Instructions
 - **Affected route**: nc_146_acquittal_petition (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -518,8 +538,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-288 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
 
-#### NC AOC-CR-296 — AOC-CR-296 Petition and Order of Expunction
+#### NC AOC-CR-296
 
+- **Recorded official title**: AOC-CR-296 Petition and Order of Expunction
 - **Affected route**: nc_146_acquittal_petition (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -531,8 +552,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-296 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### NC AOC-CR-297 — AOC-CR-297 Instructions
+#### NC AOC-CR-297
 
+- **Recorded official title**: AOC-CR-297 Instructions
 - **Affected route**: nc_145_5_felony (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -544,8 +566,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-297 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
 
-#### NC AOC-CR-297 — AOC-CR-297 Petition and Order of Expunction
+#### NC AOC-CR-297
 
+- **Recorded official title**: AOC-CR-297 Petition and Order of Expunction
 - **Affected route**: nc_145_5_felony (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -557,8 +580,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-297 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### NC AOC-CR-298 — AOC-CR-298 Instructions
+#### NC AOC-CR-298
 
+- **Recorded official title**: AOC-CR-298 Instructions
 - **Affected route**: nc_145_5_misdemeanor (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -570,8 +594,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-298 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
 
-#### NC AOC-CR-298 — AOC-CR-298 Petition and Order of Expunction
+#### NC AOC-CR-298
 
+- **Recorded official title**: AOC-CR-298 Petition and Order of Expunction
 - **Affected route**: nc_145_5_misdemeanor (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -583,8 +608,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-298 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### NC AOC-CV-226 — AOC-CV-226 Affidavit of Indigency
+#### NC AOC-CV-226
 
+- **Recorded official title**: AOC-CV-226 Affidavit of Indigency
 - **Affected route**: nc_145_5_felony, nc_145_5_misdemeanor, nc_145_8a_youthful, nc_146_dismissal_petition (route kind: guidance_only, exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -596,8 +622,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CV-226 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-FLAT-GEOMETRY, RC-T-OBJECT-STREAMS, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### NC AOC-CV-226 — AOC-CV-226 Affidavit of Indigency
+#### NC AOC-CV-226
 
+- **Recorded official title**: AOC-CV-226 Affidavit of Indigency
 - **Affected route**: nc_145_5_felony, nc_145_5_misdemeanor, nc_145_8a_youthful, nc_146_dismissal_petition (route kind: guidance_only, exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -609,8 +636,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CV-226 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### NC AOC-CV-226 — AOC-CV-226 Affidavit of Indigency
+#### NC AOC-CV-226
 
+- **Recorded official title**: AOC-CV-226 Affidavit of Indigency
 - **Affected route**: nc_145_5_felony, nc_145_5_misdemeanor, nc_145_8a_youthful, nc_146_dismissal_petition (route kind: guidance_only, exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -622,8 +650,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CV-226 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-FLAT-GEOMETRY, RC-T-OBJECT-STREAMS, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### NE CC-6-11 — not recorded in the committed source record
+#### NE CC-6-11
 
+- **Recorded official title**: not recorded in the committed source record
 - **Affected route**: ne-setaside-custodial, ne-setaside-noncustodial (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -635,8 +664,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NE CC-6-11 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-SOURCE-DEFAULT-IN-PROTECTED-FIELD, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL, RC-V-UNSAFE-PLACEMENT
 
-#### NE CC-6-11.2 — not recorded in the committed source record
+#### NE CC-6-11.2
 
+- **Recorded official title**: not recorded in the committed source record
 - **Affected route**: ne-setaside-custodial, ne-setaside-noncustodial (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -648,8 +678,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NE CC-6-11.2 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-SOURCE-DEFAULT-IN-PROTECTED-FIELD, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL, RC-V-UNSAFE-PLACEMENT
 
-#### NE CC-6-12 — not recorded in the committed source record
+#### NE CC-6-12
 
+- **Recorded official title**: not recorded in the committed source record
 - **Affected route**: ne-seal-pardoned, ne-seal-pre2017, ne-trafficking-setaside-and-seal (route kind: guidance_only, exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -661,8 +692,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NE CC-6-12 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-SOURCE-DEFAULT-IN-PROTECTED-FIELD, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL, RC-V-UNSAFE-PLACEMENT
 
-#### NE CC-6-12 — not recorded in the committed source record
+#### NE CC-6-12
 
+- **Recorded official title**: not recorded in the committed source record
 - **Affected route**: ne-seal-pardoned, ne-seal-pre2017, ne-trafficking-setaside-and-seal (route kind: guidance_only, exact_supported_deferral)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -674,8 +706,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NE CC-6-12 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
 
-#### NE CC-6-15.1 — not recorded in the committed source record
+#### NE CC-6-15.1
 
+- **Recorded official title**: not recorded in the committed source record
 - **Affected route**: ne-seal-pre2017 (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -687,8 +720,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NE CC-6-15.1 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-SOURCE-DEFAULT-IN-PROTECTED-FIELD, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL, RC-V-UNSAFE-PLACEMENT
 
-#### NE DC-1-15 — not recorded in the committed source record
+#### NE DC-1-15
 
+- **Recorded official title**: not recorded in the committed source record
 - **Affected route**: ne-setaside-custodial, ne-setaside-noncustodial (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -700,8 +734,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official NE DC-1-15 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-SOURCE-DEFAULT-IN-PROTECTED-FIELD, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL, RC-V-UNSAFE-PLACEMENT
 
-#### VA CC-1201 — PETITION FOR SEALING PURSUANT
+#### VA CC-1201
 
+- **Recorded official title**: PETITION FOR SEALING PURSUANT
 - **Affected route**: va_seal_ancillary_matter_only, va_seal_enumerated_seven_year, va_seal_petition_felony, va_seal_petition_misdemeanor (route kind: guidance_only, exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -713,8 +748,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official VA CC-1201 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL, RC-V-UNSAFE-PLACEMENT
 
-#### VA CC-1473 — PETITION FOR EXPUNGEMENT
+#### VA CC-1473
 
+- **Recorded official title**: PETITION FOR EXPUNGEMENT
 - **Affected route**: va_exp_nonconviction (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -726,8 +762,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official VA CC-1473 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL, RC-V-UNSAFE-PLACEMENT
 
-#### VT 200-00130 — Petition to Seal Criminal History
+#### VT 200-00130
 
+- **Recorded official title**: Petition to Seal Criminal History
 - **Affected route**: vt_seal_18_to_21, vt_seal_dui, vt_seal_felony, vt_seal_misdemeanor, vt_seal_nonconviction, vt_seal_pardon (route kind: guidance_only, exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -739,8 +776,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official VT 200-00130 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-ABSENT, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### VT 200-00132 — Stipulation to Seal Criminal History Record and Order
+#### VT 200-00132
 
+- **Recorded official title**: Stipulation to Seal Criminal History Record and Order
 - **Affected route**: vt_seal_18_to_21, vt_seal_dui, vt_seal_felony, vt_seal_misdemeanor, vt_seal_nonconviction, vt_seal_pardon (route kind: guidance_only, exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -752,8 +790,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official VT 200-00132 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### VT 200-00132A — Stipulation to Expunge Criminal History Record and Order
+#### VT 200-00132A
 
+- **Recorded official title**: Stipulation to Expunge Criminal History Record and Order
 - **Affected route**: vt_exp_decriminalized (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -765,8 +804,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official VT 200-00132A binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL
 
-#### VT 600-00228 — Application to Waive Filing Fees and Service Costs
+#### VT 600-00228
 
+- **Recorded official title**: Application to Waive Filing Fees and Service Costs
 - **Affected route**: vt_exp_decriminalized, vt_seal_18_to_21, vt_seal_dui, vt_seal_felony, vt_seal_misdemeanor, vt_seal_nonconviction, vt_seal_pardon (route kind: guidance_only, exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -778,8 +818,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official VT 600-00228 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF
 
-#### WI CR-267 — CR-267, 02/15 Order on Petition to Expunge Court Record of Conviction (Non-Probation/Non-Incarceration)
+#### WI CR-267
 
+- **Recorded official title**: CR-267, 02/15 Order on Petition to Expunge Court Record of Conviction (Non-Probation/Non-Incarceration)
 - **Affected route**: wi_exp_cr266 (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -795,8 +836,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 
 4 asset(s).
 
-#### KY AOC-496.3 — In support of this Application, the Defendant states as follows:
+#### KY AOC-496.3
 
+- **Recorded official title**: In support of this Application, the Defendant states as follows: _(this reads as a fragment of the form's body text rather than its heading; recorded as-is, and worth re-reading from the binary when it is acquired)_
 - **Affected route**: ky_felony_expungement_after_pardon, ky_felony_vacatur_expungement (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -808,8 +850,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official KY AOC-496.3 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-PRODUCTION-HOLD, RC-S-STALE-OR-SUPERSEDED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL, RC-V-UNSAFE-PLACEMENT
 
-#### KY AOC-497 — The Court, having reviewed Defendants Petition to Expunge and being sufficiently advised, FINDS:
+#### KY AOC-497
 
+- **Recorded official title**: The Court, having reviewed Defendants Petition to Expunge and being sufficiently advised, FINDS: _(this reads as a fragment of the form's body text rather than its heading; recorded as-is, and worth re-reading from the binary when it is acquired)_
 - **Affected route**: ky_nonconviction_expungement (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `certification_unproven`
 - **Participant already safely served**: yes — terminal treatment recorded
@@ -821,8 +864,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official KY AOC-497 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-STALE-OR-SUPERSEDED, RC-T-FACTORY-PROVENANCE, RC-T-OBJECT-STREAMS, RC-T-UNFLATTENED-FIELDS, RC-T-VALUES-IN-APPEARANCES, RC-V-CLIPPING, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-NO-VISIBILITY-PROOF, RC-V-SHEET-PANELS-IDENTICAL, RC-V-UNSAFE-PLACEMENT
 
-#### WI DJ-LE-247 — Wisconsin Criminal History Record Challenge Form
+#### WI DJ-LE-247
 
+- **Recorded official title**: Wisconsin Criminal History Record Challenge Form
 - **Affected route**: wi_nc_doj_challenge (route kind: exact_supported_deferral)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — exact_supported_deferral
@@ -834,8 +878,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Work unlocked by acquisition**: Retrieve the current official WI DJ-LE-247 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
 - **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-STALE-OR-SUPERSEDED, RC-T-FLAT-GEOMETRY, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
 
-#### WI DJ-LE-250B — Fingerprint Record Removal Request
+#### WI DJ-LE-250B
 
+- **Recorded official title**: Fingerprint Record Removal Request
 - **Affected route**: wi_nc_doj_fingerprint_removal (route kind: guidance_only)
 - **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — terminal treatment recorded
