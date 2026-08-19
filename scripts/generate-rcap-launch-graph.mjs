@@ -110,6 +110,7 @@ assertSameDenominator("the Session A evidence packet", (evidencePacket.records ?
 const legalByPathway = new Map((legalJoin.pathways ?? []).map((row) => [row.pathwayKey, row]));
 const witnessByPathway = new Map((witnessFile.witnesses ?? []).map((row) => [row.pathwayKey, row]));
 const factoryByPathway = new Map((factoryRegistry.routes ?? []).map((row) => [row.pathwayKey, row]));
+const factoryAdmitted = new Set((factoryRegistry.routes ?? []).filter((row) => row.factoryV2Resolves).map((row) => row.pathwayKey));
 const evidenceByPathway = new Map((evidencePacket.records ?? []).map((row) => [row.pathwayKey, row]));
 const packetSetByTrack = new Map(packetSetManifest.packetSets.map((set) => [set.trackId, set]));
 const problemByTrack = new Map();
@@ -367,7 +368,19 @@ const counters = {
   registryGapWithPathwayPacketSet: count((row) => row.registryGap && row.pathwayLevelPacketRecord?.present === true),
   registryGapWithoutAPacketRecord: count((row) => row.registryGap && row.pathwayLevelPacketRecord?.present !== true),
   ownerApprovedLegal: count((row) => row.ownerApprovedLegalStatus === OWNER_APPROVED),
+  // Selected, not merely admitted. The route registry can only report which
+  // routes the factory MAY build; this is driven through the real resolver, so
+  // it is the count of routes the factory actually gets.
+  factoryV2Selected: count((row) => row.renderer.routeKind === "factory_v2"),
   factoryV2Resolved: count((row) => row.renderer.routeKind === "factory_v2"),
+  // Admitted by the registry and then outranked by a suppression that sits
+  // ahead of the factory branch. These are not defects — a deferral winning is
+  // the resolver working — but the gap between 183 admitted and 180 selected has
+  // to be attributable, or the two artifacts just disagree.
+  factoryV2AdmittedButSuppressed: rows
+    .filter((row) => factoryAdmitted.has(row.pathwayKey) && row.renderer.routeKind !== "factory_v2")
+    .map((row) => ({ pathwayKey: row.pathwayKey, suppressedBy: row.renderer.routeKind }))
+    .sort((a, b) => a.pathwayKey.localeCompare(b.pathwayKey)),
   paymentAllowed: count((row) => row.paymentResult.allowedAtTheEvaluator),
   // Split on purpose. The first is what this worktree can prove; the second is
   // what a participant would actually receive, and it is the one the

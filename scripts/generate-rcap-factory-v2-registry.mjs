@@ -174,11 +174,31 @@ const registry = {
     sellablePathwayClosure: { path: CLOSURE, sha256: sha256(CLOSURE) }
   },
   legacyVerifiedJurisdictions: [...LEGACY_VERIFIED].sort(),
+  // ADMISSION IS NOT SELECTION, and this file only knows about admission.
+  //
+  // `factoryV2Resolves` on a route is the one field the resolver reads to decide
+  // whether the factory MAY build it. The resolver then applies the suppressions
+  // that sit ahead of the factory branch — component deferral, exact supported
+  // deferral, terminal treatment, complete guidance, the profile check and the
+  // live legacy generators — any of which legitimately wins.
+  //
+  // So a total called "resolves" here overstated the corpus: 183 routes are
+  // admitted and 180 are actually selected, because three carry an exact
+  // supported deferral that outranks the factory. Nothing is wrong with the
+  // resolver; the count was measuring the wrong thing and reading as though 183
+  // routes were factory-served.
+  //
+  // This generator cannot ask the resolver without a stale-read cycle — the
+  // resolver reads the file this generator writes — so the count is named for
+  // what it measures, and the launch graph, which does drive the resolver,
+  // reports what was actually selected.
+  admissionIsNotSelection:
+    "Admitted means the factory may build the route. Selected means the resolver chose it, after every suppression ahead of the factory branch had its turn. The launch graph reports selection.",
   totals: {
     intendedPaidPathways: routes.length,
-    factoryV2Resolves: resolving.length,
-    doesNotResolve: routes.length - resolving.length,
-    reasonsItDoesNotResolve: unmetCounts,
+    factoryV2Admitted: resolving.length,
+    notAdmitted: routes.length - resolving.length,
+    reasonsItIsNotAdmitted: unmetCounts,
     ownerApprovedLegalDesign: routes.filter((route) => route.separateGates.ownerApprovedLegalDesign).length,
     paymentAllowedAtTheEvaluator: routes.filter((route) => route.separateGates.paymentAllowedAtTheEvaluator).length,
     publicWitnessReachesItsOwnPathway: routes.filter((route) => route.separateGates.publicWitnessReachesThisPathway).length
