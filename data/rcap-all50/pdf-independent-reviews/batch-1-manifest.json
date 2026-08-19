@@ -3,7 +3,7 @@
   "generatedBy": "scripts/generate-rcap-pdf-independent-review-batch.mjs",
   "purpose": "The exact set of form families that are automated-green and awaiting independent review, derived from the canonical evidence and frozen before reviewing starts.",
   "batch": "batch-1",
-  "reviewedHead": "a7c9f0aa0dc19bb569783691e0bc0e65c0b57605",
+  "reviewedHead": "2a658748425266dfbc548d9f61e9f30d34ef3b1f",
   "derivedFrom": {
     "finalizedArtifactAudit": "data/rcap-all50/finalized-artifact-audit.json",
     "contactSheetVisualProof": "data/rcap-all50/contact-sheet-visual-proof.json",
@@ -25,8 +25,14 @@
       "not_finalized": 72,
       "retired_from_operational_inventory": 45,
       "not_visibility_proven": 2
-    }
+    },
+    "byFamilyKind": {
+      "acroform_fill": 26,
+      "flat_overlay": 1
+    },
+    "withNoApprovalChannel": 26
   },
+  "approvalChannelFinding": "An AcroForm-fill family has nowhere to record an independent approval. rcap-platform-ready.mjs reads independentReview from overlay-profile.json only, and an AcroForm-fill family carries production-field-map.json instead, which has no such field. Those families cannot reach platform_ready through the shared gate no matter how their review comes back. This is a gate gap, not a defect in any form, and it is the batch's largest single blocker.",
   "groups": {
     "group1": [
       "AK:tf-800-form-en",
@@ -92,7 +98,11 @@
       "pagesOnSheet": 3,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "9ff878c157140b56fbfe2d5060c2fd6f87e9fad3b71950aa92423d98ad834c8d",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en/production-field-map.json",
+      "fieldMapSha256": "bbc994d51418b1b4a89151e1c63a1dc39bc6f0867400b79f7aefcc525043c4a7",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "99d194ae601961c6245a8fa728349ce41a2dbbc13812cd7847330e33938c0e52"
     },
     {
@@ -124,7 +134,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "f870d102495622edd914d393e389d03efe03eb0f69b84e85791ecfb345f5f7c4",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en/production-field-map.json",
+      "fieldMapSha256": "d8c9de27b79072451a1188354ea6e7ae04677ab41800771d045c57ca7a6dfbff",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "624a9360a528d9b4c8491fd3f0b4330d742cbad7452eb09e860376753703603c"
     },
     {
@@ -156,7 +170,11 @@
       "pagesOnSheet": 1,
       "controlDiscriminates": null,
       "fieldClassificationSha256": "322dcef174032b60cb6d956a092731a794a714d761cbf5d473fcdf249977d38f",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/alaska/tf-810-form-en/production-field-map.json",
+      "fieldMapSha256": "3cd4ef1389a18aa86755c16c8ef2e1d7cb43b8add3a35e862a73f26f9c02d338",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "5f9a0140e12dd26cba4712ba26f5849b804333e87cd569ff8cef2aaeb7cc2c59"
     },
     {
@@ -188,7 +206,11 @@
       "pagesOnSheet": 1,
       "controlDiscriminates": null,
       "fieldClassificationSha256": "1ced0b7ba9aaaba67aec228c2f3aa79840945b8182dff5c0857e140d41d5040a",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/production-field-map.json",
+      "fieldMapSha256": "5c7841efa3f183e878babb0e9cf4c077b367b1f30a8773cce2c955f62b128d35",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "d918c99d0ee471b66f92ddb93c5f3e2bee6d9018d1d3a758e9365085999ac73b"
     },
     {
@@ -220,7 +242,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "627c0524c061d14cae0bbeefa27c31a623c14343112f8a0368372580f74510f3",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en/production-field-map.json",
+      "fieldMapSha256": "e75adcadcaa75f0598d68bf77938e9068dc0d773257fd36d41d7f6d6073253b7",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "b0f902f48d66b5a247ab6fb08387128f324a84110bf0e1131a5a0a3af9407c3e"
     },
     {
@@ -252,7 +278,11 @@
       "pagesOnSheet": 3,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "dd5902fe31caf4735098ffe966c66350581888cbc8b5ead56d022f9f6d77ebdd",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en/production-field-map.json",
+      "fieldMapSha256": "f3d1492c77a7331ac3f8d6aa698ef8db626524a4ba487b9244104f7416940f44",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "65999d4be1cfcaf0180fbd09583f5421bc956bcf1e04594d1fab43aba054da9a"
     },
     {
@@ -284,7 +314,11 @@
       "pagesOnSheet": 4,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "78c39be5be45d11711a37ee83cd10d23a9aa0214cfb215e889738575f25d8d6e",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en/production-field-map.json",
+      "fieldMapSha256": "01d005ce78fc83b39340a9b42d6a6d5521a1d18847e69c71cb3ec64c0f180fea",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "3a8fbed8a42dff1fc92d9eca62e86b31e757aef79892dc760a60119ffe8a8d26"
     },
     {
@@ -316,7 +350,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "493f1f0946998720a7a55821ff2ca2797a827727e350add79f2f290abbf194f5",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en/production-field-map.json",
+      "fieldMapSha256": "1831645bce5ed50c07749b21cac19d43c890ee86e9d7380556fc2bc003091ed4",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "83f8826ec01d48bb6657c1a713c41b485a57d8dcd2fc64f60146493ce0981440"
     },
     {
@@ -348,7 +386,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "aad0c3d3e70633c439f8843424f1de4482ecc2cfeca3181ee50ed78cb227b90e",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en/production-field-map.json",
+      "fieldMapSha256": "fed0fd878a1be67a0dfd03a13c9ff8262accbf17d9167ebc7ec812e641fe7f1e",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "d6cc359e1a96b589bb95809e6a29731e86564ffbcd35bffa4c6765d55331ea4b"
     },
     {
@@ -380,7 +422,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "e1f2e4fd768d2a6e9d6238d6f323602135c13a420737bc56f3fa8dc757b12fb2",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en/production-field-map.json",
+      "fieldMapSha256": "a8eb280efba4794559950c11576015df1dded1917e79443e38fd17b1600e1060",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "fbdc34631641fda02edbdd620d1d368bc138663a1c8929a7cfd33d2c24429302"
     },
     {
@@ -412,7 +458,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "fe13b554b4515331e3867805e9260362cbe17c1b666e8f407fef50f15cfd86ba",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en/production-field-map.json",
+      "fieldMapSha256": "68ab64f8e7332aaef2664b13997f8b82e506ef8104c9dab801d918843ee30631",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "d5c12a28ecb4ed4bf394d88bc081725f700fe7104e683b65ffb5c8859f3b637b"
     },
     {
@@ -444,7 +494,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "996c01d97b022a8ff01a1489e92d68b27217a5070d70c5737f40ecf1144ac551",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en/production-field-map.json",
+      "fieldMapSha256": "bc25d4f46dc0335789c36586302cebe3e1205c51e3ae35bfdb6ee8ea10ae380e",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "93d1e150f4dea6544feab2150e24f919914f93321d0ab8e4d5b2346afc7c7ccb"
     },
     {
@@ -476,7 +530,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "493edb717c2cf945c5c8e43eb1b75869cec3c5b7dc820bff3b22600896465ee4",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en/production-field-map.json",
+      "fieldMapSha256": "abecd54bf3e460c07eeb9ca3b4afbbb61b5c0a4087d4b1893234095fad6340d9",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "c26279b3ca1b0cf6af8c33619c18d5455334fc36fcc2b280b0e8273aa10d0f94"
     },
     {
@@ -508,7 +566,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "f88c2d23747551600dd1ddb148fcccf4f6a3acb5f3c06a80fd671d9a0e916dab",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en/production-field-map.json",
+      "fieldMapSha256": "54e231a8c474a77df38f1e66980a3959d1d5557172f71250d4d1350665ff5cfd",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "659f9587c70be0cc0bc5f064aeb75b04ca3889f8b90dc89b0d00ae08bc17ef3e"
     },
     {
@@ -540,7 +602,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "cb5a7bcfdc5937d9e6ecf5bfc4ee8b19757c0f5b181e4cd474a43243e0703c00",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en/production-field-map.json",
+      "fieldMapSha256": "5d87be753d03339029d4145c3a01fc2dd1c9c10b9c26eaaaa8388be96fce13bb",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "f7b53a48cf9cc57e1a28e0a6bb4ce2998cb469a2118a3fd967eb92bdaa95ab62"
     },
     {
@@ -572,7 +638,11 @@
       "pagesOnSheet": 1,
       "controlDiscriminates": null,
       "fieldClassificationSha256": "204835274598dfd5212352f6de3582e87eec7685e92fffe05c2bbcdc3d88739a",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en/production-field-map.json",
+      "fieldMapSha256": "969bb535f56dc9fc7fdb8acf66a081ea4a4ce1276774e638b27801a1185ca489",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "921864fd4c50619ce8607e1d86ee3ee21c9d88e303580ea571d45bf4f98c2f1c"
     },
     {
@@ -604,7 +674,11 @@
       "pagesOnSheet": 1,
       "controlDiscriminates": null,
       "fieldClassificationSha256": "90ea87b44e35c324ff3ca52a9d410377a1722deeedcc118261d1090442a73918",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/production-field-map.json",
+      "fieldMapSha256": "e0929ba98de4a6426765e48f2115b6a2e74f79f6949db6b8b5c14df0caf9d391",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "4ec778d5f7378d6cddc7cf05192fd3855d5aba8655256eed0f984d70f757d7d2"
     },
     {
@@ -636,7 +710,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "e74a521c96f70f443b68a10495a5134e0bd02705a5bab6185354c4f7bc90c86d",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en/production-field-map.json",
+      "fieldMapSha256": "d79a3cf70c51ab2b0704745232fb54d506a21f514cac7f0e39c68e5fac3261df",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "7c320f7f05ba4ab3a3e4343b2ab39b680ebd9bea5ce216ac1950abdff39641a9"
     },
     {
@@ -668,7 +746,11 @@
       "pagesOnSheet": 1,
       "controlDiscriminates": null,
       "fieldClassificationSha256": "c82d792dafcb9875c07e9f0b6e5eb6497ddbbe2e685a26b494f62866d14d9249",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en/production-field-map.json",
+      "fieldMapSha256": "fe26ec93c27590dde7676779921932f29f3eb983b99578181809e14ec2d78038",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "970c2a03f2ca9a0407ce5b653d04334923159ae629b711a49b63ab38e2d3b64b"
     },
     {
@@ -700,7 +782,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "70ff29fe9def2aeeabbdb317727b7926c8b34b90a4e1bc97fe7773a59dd5d26e",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en/production-field-map.json",
+      "fieldMapSha256": "4e8b9b3c21d06e1b9c6d6a3f3bd363252143e06ae2e5319d1044f8deb796af7a",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "34faac31f42b92e61a31a10598257b708c032e432570d6641123c01306914be7"
     },
     {
@@ -732,7 +818,11 @@
       "pagesOnSheet": 4,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "5f30b0bfd60189212feff7bf55999fea34f4e3dd33af1411494b49fbbe9c7d4b",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en/production-field-map.json",
+      "fieldMapSha256": "972deb9e7377c2915e41be6cf00ca9259915edfefaecbf28f773e6ca7e3a290b",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "33f14a2d7cb5f341dde1bf236ed27fcbb39b4becfdf04d0d56e332abfd6f6502"
     },
     {
@@ -764,7 +854,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "c846adb9bf8ab77f61a6c4ad4cda1cdd4fbe1af3380169c186401aff77793b7d",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en/production-field-map.json",
+      "fieldMapSha256": "6dfc37578b2d543178b5271036d63a866cada0252b2a4eed987474d2ad0dcfa6",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "5f3fc1062b577e9f41eec41856264af5f28c5e3061757906de1a3ac0f57af5e1"
     },
     {
@@ -796,7 +890,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "79027e685e0b3933c83a2f7f0ec5da1b79e2c6ff2ebb1a0bf35e3138986fbe9c",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/vermont/200-00130-form-en/production-field-map.json",
+      "fieldMapSha256": "ada7aa6cee2e9a5a4d158583e5abef7b58e768de495204808882732c283a53d1",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "f350142fb779be675bbf667b55120431cce89dba1f5e2c696e33e893bdfbcb65"
     },
     {
@@ -828,7 +926,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "6ee9b29dcabf233c052cb84d966e1cbae6324802e84a909821bcfe1be261ca86",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/vermont/200-00132-form-en/production-field-map.json",
+      "fieldMapSha256": "742fa9ca61f6a0d564d1d3a05182203eec7950db6316f3a0217db074904b5d49",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "45b61435e54d5dca2edff11d2321322e4d611f6fef2badbbf07818b2b47535d9"
     },
     {
@@ -860,7 +962,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "b4d1688af3d9fe2469893cd09529f07fb254a1605af26fc709fa04fdf21a7eeb",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/vermont/200-00132a-form-en/production-field-map.json",
+      "fieldMapSha256": "e87f5c164ba1716f3be13c74ffc935e0e6266d94e34da95acbbcdfda028b95be",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "c2062dc7cf561f7f90d88ba2af6b5e29e446661eaa5cf6dd38ca352b6d80f09b"
     },
     {
@@ -892,7 +998,11 @@
       "pagesOnSheet": 2,
       "controlDiscriminates": true,
       "fieldClassificationSha256": "d8af1afeb03300d285f4b1af9a01b0c3909862a126c2bd4dd487d139cd66a23e",
-      "overlayProfileSha256": null,
+      "fieldMapPath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en/production-field-map.json",
+      "fieldMapSha256": "19b8b64e13174cdc1fe8cfbdbd52b471cbb5e300218284190cd350aefcfb2f9e",
+      "familyKind": "acroform_fill",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate.",
       "provenanceSha256": "0ebab21fa71722807912b4a3446224e7ddfd6162c9b503cabc360b30ceb194ec"
     },
     {
@@ -924,7 +1034,10 @@
       "pagesOnSheet": 1,
       "controlDiscriminates": null,
       "fieldClassificationSha256": "7b5f8c04f45fdbf8df6dce43b5b6dfda70ade8bb83833c9a0a8d1206a302c429",
-      "overlayProfileSha256": "8e4ebc4903e135b23a731e29051aa5b2e53d2c18cefe5ddbf7e25dbc15daa519",
+      "fieldMapPath": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json",
+      "fieldMapSha256": "8e4ebc4903e135b23a731e29051aa5b2e53d2c18cefe5ddbf7e25dbc15daa519",
+      "familyKind": "flat_overlay",
+      "approvalChannel": "overlay_profile.independentReview",
       "provenanceSha256": "eb9030aa74c08404fe11ba5c46878c8569269cf78f82ce7021d4495be4e0a1ad"
     }
   ],

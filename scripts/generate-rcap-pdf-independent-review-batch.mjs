@@ -56,6 +56,41 @@ const failures = readJson(FAILURES);
 const visualByFamily = new Map((visual.families ?? []).map((row) => [row.familyId, row]));
 const failingFamilies = new Set((failures.rows ?? []).map((row) => row.familyId).filter(Boolean));
 
+/**
+ * The family's field map, and whether anything can record an approval of it.
+ *
+ * Two kinds of family package exist. A flat-overlay family carries
+ * overlay-profile.json; an AcroForm-fill family carries
+ * production-field-map.json. They are equally legitimate and both render.
+ *
+ * They are not equal in one respect that decides this batch:
+ * scripts/rcap-official-forms/rcap-platform-ready.mjs -- the single shared
+ * implementation of what "approved" means -- looks only for
+ * overlay-profile.json, reads independentReview off it, and returns
+ * "no overlay profile carries an independent review for this family" for
+ * anything else. production-field-map.json has no independentReview field at
+ * all, and nothing outside the D1 builders reads it.
+ *
+ * So an AcroForm-fill family has nowhere to put an approval, and therefore no
+ * route to platform_ready however clean its review comes back. That is recorded
+ * per family rather than discovered again by each reviewer.
+ */
+function fieldMapFor(familyPath) {
+  const overlay = path.join(familyPath, "overlay-profile.json");
+  const production = path.join(familyPath, "production-field-map.json");
+  if (fs.existsSync(path.join(rootDir, overlay))) {
+    return { fieldMapPath: overlay, fieldMapSha256: sha256(overlay), familyKind: "flat_overlay", approvalChannel: "overlay_profile.independentReview" };
+  }
+  if (fs.existsSync(path.join(rootDir, production))) {
+    return {
+      fieldMapPath: production, fieldMapSha256: sha256(production), familyKind: "acroform_fill",
+      approvalChannel: "none_available",
+      approvalChannelNote: "production-field-map.json carries no independentReview field, and rcap-platform-ready.mjs reads only overlay-profile.json. This family cannot be recorded as approved by the shared gate."
+    };
+  }
+  return { fieldMapPath: null, fieldMapSha256: null, familyKind: "unknown", approvalChannel: "none_available" };
+}
+
 const included = [];
 const excluded = [];
 
@@ -96,7 +131,7 @@ for (const family of audit.families ?? []) {
     pagesOnSheet: proof.pagesOnSheet ?? null,
     controlDiscriminates: proof.controlDiscriminates ?? null,
     fieldClassificationSha256: sha256(path.join(family.relativePath, "field-classification.json")),
-    overlayProfileSha256: sha256(path.join(family.relativePath, "overlay-profile.json")),
+    ...fieldMapFor(family.relativePath),
     provenanceSha256: sha256(path.join(family.relativePath, "artifact-provenance.json"))
   });
 }
@@ -135,8 +170,11 @@ const payload = {
     familiesInspected: (audit.families ?? []).length,
     included: included.length,
     excluded: excluded.length,
-    excludedByReason: excluded.reduce((acc, row) => { acc[row.reason] = (acc[row.reason] ?? 0) + 1; return acc; }, {})
+    excludedByReason: excluded.reduce((acc, row) => { acc[row.reason] = (acc[row.reason] ?? 0) + 1; return acc; }, {}),
+    byFamilyKind: included.reduce((acc, row) => { acc[row.familyKind] = (acc[row.familyKind] ?? 0) + 1; return acc; }, {}),
+    withNoApprovalChannel: included.filter((row) => row.approvalChannel === "none_available").length
   },
+  approvalChannelFinding: "An AcroForm-fill family has nowhere to record an independent approval. rcap-platform-ready.mjs reads independentReview from overlay-profile.json only, and an AcroForm-fill family carries production-field-map.json instead, which has no such field. Those families cannot reach platform_ready through the shared gate no matter how their review comes back. This is a gate gap, not a defect in any form, and it is the batch's largest single blocker.",
   groups: { group1: groups[0], group2: groups[1], group3: groups[2] },
   families: included,
   excluded: excluded.sort((a, b) => a.familyId.localeCompare(b.familyId))
