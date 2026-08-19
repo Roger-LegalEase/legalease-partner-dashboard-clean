@@ -1,0 +1,122 @@
+name: RCAP PDF source acquisition
+
+# Branch-triggered on purpose. This lane must not wait for a workflow_dispatch on
+# main: the acquisition queue changes on this branch, and the only place in this
+# system with egress to a court or agency host is a runner. The agent container's
+# network policy answers 403 to those hosts at CONNECT, so nothing can be
+# acquired anywhere else.
+on:
+  push:
+    branches:
+      - claude/rcap-pdf-source-acquisition
+    paths:
+      - .github/workflows/rcap-pdf-source-acquisition.yml
+      - data/rcap-ledger/pdf-source-acquisition-queue.json
+      - data/rcap-ledger/pdf-retirement-dispositions.json
+      - scripts/rcap-acquire-official-pdf.mjs
+      - scripts/verify-rcap-pdf-acquisition-evidence.mjs
+      - scripts/generate-rcap-pdf-source-acquisition-queue.mjs
+      - scripts/generate-rcap-pdf-retirement-dispositions.mjs
+
+# One run per branch. A second push supersedes an in-flight acquisition rather
+# than racing it for the same output paths.
+concurrency:
+  group: rcap-pdf-source-acquisition-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  plan:
+    name: Plan the acquisition
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.plan.outputs.shards }}
+      acquirable: ${{ steps.plan.outputs.acquirable }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: The queue and the dispositions must be current before anything is fetched
+        run: |
+          node scripts/generate-rcap-pdf-source-acquisition-queue.mjs --check
+          node scripts/generate-rcap-pdf-retirement-dispositions.mjs --check
+      - id: plan
+        name: Derive the shard list from the queue
+        run: |
+          node -e '
+            const fs = require("fs");
+            const queue = JSON.parse(fs.readFileSync("data/rcap-ledger/pdf-source-acquisition-queue.json", "utf8"));
+            const retired = new Set(JSON.parse(fs.readFileSync("data/rcap-ledger/pdf-retirement-dispositions.json", "utf8")).operationalScanExclusionList ?? []);
+            const live = queue.matrix.entries.filter((e) => !retired.has(e.assetId));
+            const shards = Math.min(8, Math.max(1, live.length));
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `shards=${JSON.stringify([...Array(shards).keys()])}\n`);
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `acquirable=${live.length}\n`);
+            console.log(`${live.length} acquirable asset(s) across ${shards} shard(s)`);
+          '
+
+  acquire:
+    name: Acquire shard ${{ matrix.shard }}
+    needs: plan
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Download and verify this shard
+        run: |
+          node scripts/rcap-acquire-official-pdf.mjs \
+            --shard=${{ matrix.shard }} \
+            --shards=${{ strategy.job-total }}
+      - name: Keep only what passed every check
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-official-sources-shard-${{ matrix.shard }}
+          if-no-files-found: warn
+          retention-days: 7
+          path: |
+            data/record-clearing/official-sources/**
+            data/record-clearing/official-source-receipts/**
+
+  collect:
+    name: Verify the evidence and push what passed
+    needs: acquire
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: rcap-official-sources-shard-*
+          merge-multiple: true
+          path: .
+      - name: Nothing is pushed that has not proven publisher, url, revision, content type, page count and sha-256
+        run: node scripts/verify-rcap-pdf-acquisition-evidence.mjs
+      - name: Commit the acquired binaries and their receipts
+        run: |
+          if [ -z "$(git status --porcelain -- data/record-clearing/official-sources data/record-clearing/official-source-receipts)" ]; then
+            echo "nothing acquired; leaving the branch untouched"
+            exit 0
+          fi
+          git config user.name "rcap-pdf-source-acquisition"
+          git config user.email "noreply@github.com"
+          git add data/record-clearing/official-sources data/record-clearing/official-source-receipts
+          git commit -m "rcap: acquire verified official source binaries [skip ci]" \
+            -m "Every file here passed publisher, url, revision, content type, page count and sha-256 in scripts/rcap-acquire-official-pdf.mjs, and the receipts record each check. Quarantined assets are recorded and not written."
+          git push origin HEAD:${{ github.ref_name }}
