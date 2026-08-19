@@ -227,6 +227,22 @@ jobs:
       - name: Verify the registry-gap dossier is current
         run: node scripts/generate-rcap-registry-gap-dossier.mjs --check
 
+      # The reachability evidence is gated on REPLAYING, not on claiming. Every
+      # one of the 284 fixtures is re-driven through the real public projection
+      # and evaluator and must reproduce the pathway, result code and payment
+      # decision it names. The canonical graph is required from this tree: the
+      # same replay scores 151 of 284 against the commit that used to be a
+      # silent fallback and 284 of 284 against HEAD, and only one of those
+      # describes the code that would ship.
+      - name: Verify the witness divergence diagnosis is current
+        run: node scripts/generate-rcap-witness-divergence-diagnosis.mjs --check
+
+      - name: Verify every intended-paid pathway replays to its own pathway
+        run: node scripts/verify-rcap-reachability-evidence.mjs
+
+      - name: Prove the reachability evidence guards are load-bearing
+        run: node scripts/verify-rcap-reachability-evidence.mjs --mutations
+
       # The problematic-PDF lane's fail-closed contract, invoked directly for
       # the same reason as the guards above: package.json is a worker image
       # input, so an npm script entry would change the image fingerprint and
