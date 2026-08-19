@@ -161,3 +161,35 @@ jobs:
 
       - name: Prove the hosted job-read guard is load-bearing
         run: node scripts/test-rcap-hosted-acceptance-readjob.mjs --mutations
+
+      # The deterministic public witness drives one participant per intended-paid
+      # pathway through the real evaluator. It reported 13 pathways that never
+      # settled and 139 that "terminated on another pathway" — the first because
+      # the evaluator asked for questions the public profile never published, the
+      # second almost entirely because a resolved pathway was dropped from the
+      # result on the timing-gate and compiled-route failure branches. All 284
+      # now settle and reach their own pathway, and this holds that.
+      - name: Verify every intended-paid pathway is reachable through the public evaluator
+        run: node scripts/generate-rcap-public-witness-answer-sets.mjs --check
+
+      # One shared factory branch, not a renderer per pathway. These prove the
+      # branch admits a route only on all seven build inputs, sits behind every
+      # suppression and behind the live legacy generators, and never resolves
+      # sellable or credit-consumable — buildable in shadow is not approved.
+      - name: Verify the factory_v2 route registry is current
+        run: node scripts/generate-rcap-factory-v2-registry.mjs --check
+
+      - name: Verify the factory_v2 resolver branch
+        run: node scripts/verify-rcap-factory-v2-route.mjs
+
+      - name: Prove the factory_v2 admission and sale guards are load-bearing
+        run: node scripts/verify-rcap-factory-v2-route.mjs --mutations
+
+      # The evidence packet is a release artifact: every input must resolve from
+      # the working tree at HEAD, hash-pinned, with the canonical graph proven to
+      # be the artifact this tree's own generator produces.
+      - name: Verify the Session A evidence packet
+        run: node scripts/verify-rcap-session-a-evidence-packet.mjs
+
+      - name: Prove the evidence-packet guards are load-bearing
+        run: node scripts/verify-rcap-session-a-evidence-packet.mjs --mutations

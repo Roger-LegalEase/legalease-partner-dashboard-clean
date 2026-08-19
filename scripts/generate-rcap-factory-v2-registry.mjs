@@ -1,0 +1,205 @@
+#!/usr/bin/env node
+// The factory_v2 route registry: which intended-paid routes the shared packet
+// factory can build, and on what evidence.
+//
+//   node scripts/generate-rcap-factory-v2-registry.mjs
+//   node scripts/generate-rcap-factory-v2-registry.mjs --check
+//
+// One resolver branch, one renderer, one registry. This does NOT create a
+// renderer per pathway: every route here resolves to the same shared
+// official-form and composed-packet factory, and what varies is the packet set
+// the factory is handed.
+//
+// A route resolves through factory_v2 only when all seven build inputs are
+// present:
+//
+//   1. an authoritative compiled profile with a profile version;
+//   2. an authoritative compiled pathway on that profile;
+//   3. an exact packet set (or an owner-approved packet family) for every
+//      registry track the pathway maps to;
+//   4. a packet specification — components carrying a role, a requirement and
+//      an output strategy;
+//   5. the required participant fields, from the compiled packet plan;
+//   6. an official source or an approved composed document for every component
+//      that produces one;
+//   7. a deterministic fixture — the committed public witness answer set, which
+//      must settle and reach this pathway.
+//
+// Those seven are BUILD inputs. Legal approval, technical approval, PDF status,
+// payment and public route state are separate gates, recorded here for the
+// launch graph and deliberately NOT folded into whether the factory can build:
+// a route may be buildable in shadow and still be unsellable, unapproved or
+// held by a problematic PDF. Nothing in this file makes a route sellable.
+
+process.env.RCAP_EVALUATOR_TODAY = process.env.RCAP_EVALUATOR_TODAY ?? "2026-07-01";
+
+import crypto from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
+import { register } from "node:module";
+import { fileURLToPath } from "node:url";
+
+import { OWNER_APPROVED, readOwnerLegalDecision } from "./lib/rcap-owner-legal-decision.mjs";
+
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+process.chdir(rootDir);
+register("./lib/ts-esm-loader.mjs", import.meta.url);
+
+const CHECK = process.argv.includes("--check");
+const OUT = "data/record-clearing/factory-v2-route-registry.json";
+
+const read = (rel) => JSON.parse(fs.readFileSync(path.join(rootDir, rel), "utf8"));
+const sha256 = (rel) => crypto.createHash("sha256").update(fs.readFileSync(path.join(rootDir, rel))).digest("hex");
+
+const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
+const { packetPlanForPathway } = await import("../src/lib/rcap-engine/packet-planner.ts");
+
+const GRAPH = "data/rcap-ledger/paid-pathway-legal-join.json";
+const PACKET_SETS = "data/record-clearing/legal-design-packet-set-manifests.json";
+const WITNESS = "data/rcap-ledger/public-witness-answer-sets.json";
+const PROBLEM_PDFS = "data/rcap-all50/problematic-pdf-register.json";
+const CLOSURE = "data/rcap-ledger/sellable-pathway-closure.json";
+
+const graph = read(GRAPH);
+const packetSets = read(PACKET_SETS);
+const witnessFile = read(WITNESS);
+const problematic = read(PROBLEM_PDFS);
+const closure = read(CLOSURE);
+const ownerDecision = readOwnerLegalDecision();
+
+const packetSetByTrack = new Map(packetSets.packetSets.map((set) => [set.trackId, set]));
+const witnessByPathway = new Map(witnessFile.witnesses.map((witness) => [witness.pathwayKey, witness]));
+const closureByPathway = new Map((closure.pathways ?? []).map((pathway) => [pathway.pathwayKey, pathway]));
+const problemTracks = new Set(
+  (problematic.records ?? []).flatMap((record) => record.affectedTrackIds ?? [])
+);
+
+// The legacy generators keep their own route. They are live, they are proven,
+// and factory_v2 is not a reason to re-point them at a different builder.
+const LEGACY_VERIFIED = new Set(["MS", "IL", "DC", "PA", "TX"]);
+
+const routes = [];
+for (const pathway of graph.pathways) {
+  const trackIds = pathway.registryTrackIds ?? [];
+  const sets = trackIds.map((id) => packetSetByTrack.get(id)).filter(Boolean);
+  const profile = getProfileByJurisdiction(pathway.jurisdiction);
+  const compiledPathway = profile?.pathways?.find((candidate) => candidate.id === pathway.pathwayId);
+  const plan = profile && compiledPathway ? packetPlanForPathway(profile, pathway.pathwayId) : undefined;
+  const witness = witnessByPathway.get(pathway.pathwayKey) ?? null;
+  const closureRow = closureByPathway.get(pathway.pathwayKey) ?? null;
+
+  // Every component that claims to produce a document must name where that
+  // document comes from. A component whose output strategy is guidance or a
+  // composed pleading needs no official form; one that fills an official PDF
+  // does, and an unnamed source is a missing build input rather than a detail.
+  const documentComponents = sets.flatMap((set) => (set.components ?? []).filter(
+    (component) => component.outputStrategy && component.outputStrategy !== "process_guidance"
+  ));
+  const componentsWithoutASource = documentComponents.filter(
+    (component) => String(component.outputStrategy) === "official_pdf_fill" && !component.officialFormId
+  );
+
+  const buildInputs = {
+    authoritativeProfile: Boolean(profile && String(profile.profileVersion ?? "").trim() !== ""),
+    authoritativePathway: Boolean(compiledPathway),
+    exactPacketSet: sets.length > 0 && sets.length === trackIds.length,
+    packetSpecification: sets.length > 0 && sets.every((set) => (set.components ?? []).length > 0
+      && (set.components ?? []).every((component) => component.role && component.requirement && component.outputStrategy)),
+    requiredParticipantFields: Boolean(plan && (plan.requiredInputIds ?? []).length > 0),
+    sourceOrApprovedComposedDocument: documentComponents.length > 0 && componentsWithoutASource.length === 0,
+    deterministicFixture: Boolean(witness && witness.terminalEvaluation && witness.landedOnThisPathway === true)
+  };
+
+  const unmet = Object.entries(buildInputs).filter(([, met]) => !met).map(([name]) => name);
+  const legacyOwned = LEGACY_VERIFIED.has(pathway.jurisdiction);
+
+  // The separate gates. Recorded, never folded into buildability.
+  const separateGates = {
+    ownerApprovedLegalDesign: pathway.legalStatus === OWNER_APPROVED,
+    ownerLegalDecisionRecordId: ownerDecision.approved ? ownerDecision.records[0].recordId : null,
+    paymentAllowedAtTheEvaluator: witness?.terminalEvaluation?.paymentAllowed === true,
+    publicWitnessReachesThisPathway: witness?.landedOnThisPathway === true,
+    problematicPdfHold: trackIds.some((id) => problemTracks.has(id)),
+    closureCategory: closureRow?.category ?? null,
+    openBlockerIds: [...new Set((closureRow?.openBlockers ?? []).map((blocker) => blocker.id))].sort()
+  };
+
+  routes.push({
+    pathwayKey: pathway.pathwayKey,
+    jurisdiction: pathway.jurisdiction,
+    pathwayId: pathway.pathwayId,
+    pathwayLabel: pathway.pathwayLabel,
+    registryTrackIds: trackIds,
+    packetSetIds: sets.map((set) => set.packetSetId),
+    packetFamilies: pathway.packetFamilies ?? [],
+    profileVersion: profile?.profileVersion ?? null,
+    requiredInputIds: [...(plan?.requiredInputIds ?? [])].sort(),
+    componentCount: sets.reduce((n, set) => n + (set.components ?? []).length, 0),
+    officialFormIds: [...new Set(documentComponents.map((component) => component.officialFormId).filter(Boolean))].sort(),
+    buildInputs,
+    unmetBuildInputs: unmet,
+    // The resolver reads exactly this field, and only this field.
+    factoryV2Resolves: unmet.length === 0 && !legacyOwned,
+    legacyGeneratorOwnsThisJurisdiction: legacyOwned,
+    separateGates
+  });
+}
+
+routes.sort((a, b) => a.pathwayKey.localeCompare(b.pathwayKey));
+
+const resolving = routes.filter((route) => route.factoryV2Resolves);
+const unmetCounts = {};
+for (const route of routes) {
+  if (route.factoryV2Resolves) continue;
+  const key = route.legacyGeneratorOwnsThisJurisdiction ? "legacy_generator_owns_this_jurisdiction" : route.unmetBuildInputs.join("+");
+  unmetCounts[key] = (unmetCounts[key] ?? 0) + 1;
+}
+
+const registry = {
+  schemaVersion: "rcap-factory-v2-route-registry/v1",
+  generatedBy: "scripts/generate-rcap-factory-v2-registry.mjs",
+  rendererKind: "packet_document_v1",
+  oneSharedFactory:
+    "Every route here resolves through the one shared official-form and composed-packet factory. There is no renderer per pathway: what varies between routes is the packet set the factory is handed.",
+  createsApproval: false,
+  makesNothingSellable:
+    "factory_v2 says the factory can build this route in shadow. Legal approval, technical approval, PDF status, payment and public route state are separate gates, recorded on each route and never folded into buildability.",
+  inputs: {
+    canonicalGraph: { path: GRAPH, sha256: sha256(GRAPH) },
+    packetSetManifests: { path: PACKET_SETS, sha256: sha256(PACKET_SETS) },
+    publicWitnessAnswerSets: { path: WITNESS, sha256: sha256(WITNESS) },
+    problematicPdfRegister: { path: PROBLEM_PDFS, sha256: sha256(PROBLEM_PDFS) },
+    sellablePathwayClosure: { path: CLOSURE, sha256: sha256(CLOSURE) }
+  },
+  legacyVerifiedJurisdictions: [...LEGACY_VERIFIED].sort(),
+  totals: {
+    intendedPaidPathways: routes.length,
+    factoryV2Resolves: resolving.length,
+    doesNotResolve: routes.length - resolving.length,
+    reasonsItDoesNotResolve: unmetCounts,
+    ownerApprovedLegalDesign: routes.filter((route) => route.separateGates.ownerApprovedLegalDesign).length,
+    paymentAllowedAtTheEvaluator: routes.filter((route) => route.separateGates.paymentAllowedAtTheEvaluator).length,
+    problematicPdfHold: routes.filter((route) => route.separateGates.problematicPdfHold).length
+  },
+  routes
+};
+
+const serialized = `${JSON.stringify(registry, null, 2)}\n`;
+
+if (CHECK) {
+  const current = fs.existsSync(path.join(rootDir, OUT)) ? fs.readFileSync(path.join(rootDir, OUT), "utf8") : "";
+  if (current !== serialized) {
+    console.error(`${OUT} is stale; regenerate with node scripts/generate-rcap-factory-v2-registry.mjs`);
+    process.exit(1);
+  }
+  console.log(`factory_v2 route registry current — ${resolving.length} of ${routes.length} intended-paid routes resolve through the shared factory`);
+  process.exit(0);
+}
+
+fs.writeFileSync(path.join(rootDir, OUT), serialized);
+console.log(`wrote ${OUT}`);
+console.log(`  factory_v2 resolves: ${resolving.length} of ${routes.length}`);
+for (const [reason, count] of Object.entries(unmetCounts).sort((a, b) => b[1] - a[1])) {
+  console.log(`  ${String(count).padStart(4)}  ${reason}`);
+}
+console.log(`  owner-approved legal design: ${registry.totals.ownerApprovedLegalDesign}; payment allowed: ${registry.totals.paymentAllowedAtTheEvaluator}; problematic-PDF hold: ${registry.totals.problematicPdfHold}`);
