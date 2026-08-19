@@ -820,7 +820,7 @@ export async function acceptFirstAdminInvitationForExistingUser(input: {
   }
   const otherAdmins = (
     await listActivePartnerAdmins(supabase, partnerSlug)
-  ).filter((admin) => admin.auth_user_id !== input.authUser.id);
+  ).filter((row) => row.auth_user_id !== input.authUser.id);
   if (otherAdmins.length > 0) {
     throw new FirstAdminProvisioningError(
       "administrator_exists",
