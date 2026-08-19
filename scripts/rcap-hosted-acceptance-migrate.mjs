@@ -91,6 +91,10 @@ const evidence = {
   readback: {}
 };
 
+// The canonical Security Advisor remediation. Applied last, exactly as it is last in
+// supabase/migrations, so this environment ends up where the forward chain ends up.
+const HARDENING_PHASE = "phase-56-public-view-and-default-privilege-hardening.sql";
+
 // --- 1. Hash gate: both records must agree, before anything is applied -------
 const action = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-action.json"), "utf8"));
 const readiness = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-staging-authorization-readiness.json"), "utf8"));
@@ -153,8 +157,11 @@ const sequence = action.migrationsInApplyOrder;
     on conflict (project_ref) do update set stamped_at = now(), application_sha = excluded.application_sha
   `);
   // The marker is metadata about the environment, never participant data, so
-  // no browser role has any business reading it.
+  // no browser role has any business reading it. RLS is enabled as well as revoked:
+  // a table in `public` with no row level security is a finding on its own, and the
+  // owner this script runs as is not subject to it.
   await query(`revoke all on public.rcap_acceptance_environment_marker from anon, authenticated`);
+  await query(`alter table public.rcap_acceptance_environment_marker enable row level security`);
 }
 
 // --- 2. Baseline: everything before phase 49, in phase order ----------------
@@ -162,6 +169,12 @@ const sequence = action.migrationsInApplyOrder;
   const files = fs.readdirSync(path.join(rootDir, "supabase"))
     .filter((name) => name.endsWith(".sql"))
     .filter((name) => !/^phase-(49|50|51|52|53|54)-/.test(name))
+    // The hardening phase withdraws the default privileges that grant anon and
+    // authenticated everything on future objects. Applying it here would run it before
+    // the authorized sequence creates its tables, and those tables would end up with
+    // privileges the canonical schema does not have. It is applied after section 3,
+    // which is where it sits in the canonical order.
+    .filter((name) => name !== HARDENING_PHASE)
     // The demo seed is schema-shaping data for a sales demo, not schema. None
     // of the acceptance journeys need it, and applying it is what first put
     // tenant rows into the acceptance project. Schema only.
@@ -272,6 +285,7 @@ const sequence = action.migrationsInApplyOrder;
     )
   `);
   await query(`revoke all on public.rcap_acceptance_migration_ledger from anon, authenticated`);
+  await query(`alter table public.rcap_acceptance_migration_ledger enable row level security`);
 
   const ledgerRows = await query(`select phase, sha256 from public.rcap_acceptance_migration_ledger`);
   const ledger = new Map(
@@ -327,6 +341,23 @@ const sequence = action.migrationsInApplyOrder;
     satisfied === sequence.length
       ? `49 -> 50 -> 51 -> 52 -> 53 -> 54 are all present on ${PROJECT_REF} at their authorized hashes (${satisfied}/${sequence.length}: ${evidence.authorizedSequence.map((r) => `${r.phase}=${r.disposition}`).join(", ")}). The readback below is what proves they took effect.`
       : `${failure} — satisfied ${satisfied}/${sequence.length}; the sequence is indivisible, so this environment must not serve a participant`
+  );
+}
+
+// --- 3b. The hardening phase, last ------------------------------------------
+//
+// Same file, same place in the order as the forward migration chain's final step: after
+// every object exists, so the narrowed default privileges apply only to whatever anyone
+// adds next.
+{
+  const rel = `supabase/${HARDENING_PHASE}`;
+  const r = await query(fs.readFileSync(path.join(rootDir, rel), "utf8"));
+  record(
+    "public_view_and_default_privilege_hardening_applied",
+    r.ok,
+    r.ok
+      ? `${rel} applied: the five content_public_* views run as the querying role, the four named tables have row level security, and anon and authenticated no longer inherit privileges on future objects`
+      : `${rel} failed: ${String(r.json?.message ?? r.text).slice(0, 300)}`
   );
 }
 
