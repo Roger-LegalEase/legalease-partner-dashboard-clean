@@ -25,16 +25,33 @@ import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { finalizeFlatOverlay, NonFilingHoldError } from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { buildContactSheet, ContactSheetProofError } from "./rcap-official-forms/rcap-contact-sheet.mjs";
-import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenance.mjs";
+import { artifactProvenance, FACTORY_VERSION } from "./rcap-official-forms/rcap-artifact-provenance.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OVERLAY_DIR = path.join(rootDir, "data/rcap-all50/overlays/production");
 const OUT = path.join(rootDir, "data/rcap-all50/flat-overlay-render-report.json");
 const checkOnly = process.argv.includes("--check");
-const RENDERER_VERSION = "render-rcap-flat-overlay-families/v2-content-stream-geometry";
+const RENDERER_VERSION = "render-rcap-flat-overlay-families/v3-suffix-normalised-geometrically-protected";
 // Pinned rather than read from the clock, so a re-render of unchanged inputs
 // produces an identical record and a drift check keeps its meaning.
 const GENERATED_AT = "2026-08-19T00:00:00.000Z";
+
+// Upstream render cache. A family's artifacts are a pure function of its source
+// bytes, its field map, its classification and the factory and renderer
+// versions, so a family whose inputs are unchanged is not re-rendered at all.
+// Without it, correcting one family re-ran the factory over every family that
+// had bytes -- and at corpus scale that is the difference between a batch and
+// an afternoon. The already-written fixtures are hashed back in, so a cache hit
+// that does not match what is on disk is a miss.
+const RENDER_CACHE = path.join(rootDir, "data/rcap-all50/flat-overlay-render-cache.json");
+const renderCache = (() => {
+  if (!fs.existsSync(RENDER_CACHE)) return {};
+  try { return JSON.parse(fs.readFileSync(RENDER_CACHE, "utf8")).byInputKey ?? {}; } catch { return {}; }
+})();
+const cacheHits = [];
+const cacheMisses = [];
+
+const sha256 = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
 
 const readJson = (file, fallback = null) => {
   if (!fs.existsSync(file)) return fallback;
@@ -114,11 +131,44 @@ for (const stateDir of fs.readdirSync(OVERLAY_DIR).sort()) {
     }
 
     const sourceBytes = fs.readFileSync(binary);
+
+    const classification = readJson(path.join(familyPath, "field-classification.json"));
+    const inputKey = sha256(JSON.stringify({
+      source: sha,
+      fieldMap: sha256(JSON.stringify(profile.anchors ?? [])),
+      protectedRules: sha256(JSON.stringify(profile.protectedRules ?? [])),
+      classification: sha256(JSON.stringify(classification ?? null)),
+      factoryVersion: FACTORY_VERSION,
+      rendererVersion: RENDERER_VERSION,
+      facts: sha256(JSON.stringify({ CANONICAL, BOUNDARY }))
+    }));
+    const cached = renderCache[inputKey] ?? null;
+    // A cache entry is only honoured when the fixtures it describes are still on
+    // disk with the hashes it recorded. Anything else is a miss.
+    const fixturesStillMatch = cached && (cached.row?.provenance?.artifacts ?? []).every((a) => {
+      const file = path.join(familyPath, a.artifact);
+      return fs.existsSync(file) && sha256(fs.readFileSync(file)) === a.outputSha256;
+    });
+    if (cached && fixturesStillMatch) {
+      cacheHits.push(row.familyId);
+      families.push({ ...cached.row, fromRenderCache: true });
+      for (const a of cached.row.provenance?.artifacts ?? []) {
+        written.push(path.relative(rootDir, path.join(familyPath, a.artifact)));
+      }
+      continue;
+    }
+    cacheMisses.push(row.familyId);
+
     try {
       const results = {};
       for (const [label, facts] of [["canonical", CANONICAL], ["boundary", BOUNDARY]]) {
         const result = await finalizeFlatOverlay({
-          sourceBytes, expectedSha256: sha, anchors: profile.anchors, facts,
+          sourceBytes, expectedSha256: sha, anchors: profile.anchors,
+          // The rules the court owns, as geometry. Protection used to be
+          // decided from the anchor's label alone, so a write box on the
+          // signature rule was accepted under a different name.
+          protectedRules: profile.protectedRules ?? [],
+          facts,
           title: `${jurisdiction} ${row.documentId}`
         });
         results[label] = result;
@@ -193,9 +243,15 @@ for (const stateDir of fs.readdirSync(OVERLAY_DIR).sort()) {
       }
 
       row.rendered = true;
+      row.inputKey = inputKey;
       row.canonicalWritten = canonical.written.map((w) => w.anchor);
       row.canonicalRefused = canonical.refused.map((r) => ({ anchor: r.anchor, reason: r.reason, category: r.category ?? null }));
       row.boundaryRefused = boundary.refused.map((r) => ({ anchor: r.anchor, reason: r.reason, category: r.category ?? null }));
+      // Every value the factory changed before drawing it, and why. A silent
+      // normalization is indistinguishable from a wrong fact, so the record
+      // says what was removed rather than only what was written.
+      row.canonicalNormalized = canonical.normalized ?? [];
+      row.boundaryNormalized = boundary.normalized ?? [];
       row.activeContentScan = canonical.activeContentScan;
       row.contactSheetProof = sheet.proof;
     } catch (error) {
@@ -232,6 +288,18 @@ if (checkOnly) {
   }
 } else {
   fs.writeFileSync(OUT, json);
+  const byInputKey = {};
+  for (const row of families) {
+    if (!row.rendered || !row.inputKey) continue;
+    byInputKey[row.inputKey] = { row: { ...row, fromRenderCache: undefined } };
+  }
+  fs.writeFileSync(RENDER_CACHE, `${JSON.stringify({
+    schemaVersion: "rcap-flat-overlay-render-cache/v1",
+    purpose: "Content-addressed render cache. The key is the source hash, field-map hash, protected-rule hash, classification hash, factory version, renderer version and fixture facts together, so a family is re-rendered exactly when one of those changes and never otherwise.",
+    isNotEvidence: "Deleting this file changes nothing except how long the next run takes. The artifacts and data/rcap-all50/flat-overlay-render-report.json are the record.",
+    byInputKey
+  }, null, 2)}\n`);
+  console.log(`  cache: ${cacheHits.length} reused, ${cacheMisses.length} rendered${cacheMisses.length ? ` (${cacheMisses.join(", ")})` : ""}`);
 }
 
 console.log(`OK flat-overlay render — ${totals.familiesRendered} of ${totals.familiesWithMeasuredAnchors} family(ies) rendered; ${totals.familiesSkippedForMissingBinary} awaiting bytes, ${totals.familiesRefused} refused`);

@@ -41,6 +41,7 @@ const QUEUE = "data/rcap-all50/source-acquisition-queue.json";
 const ACQUISITION_WORKFLOW = ".github/workflows/rcap-source-acquisition-branch.yml";
 const DERIVATION = "data/rcap-all50/flat-overlay-profile-derivation.json";
 const RENDER_DRIVER = "scripts/render-rcap-flat-overlay-families.mjs";
+const RENDER_REPORT = "data/rcap-all50/flat-overlay-render-report.json";
 
 const abs = (repoPath) => path.join(rootDir, repoPath);
 const readJson = (repoPath, fallback = null) => {
@@ -525,6 +526,78 @@ function runChecks() {
     }
   }
 
+  // ---- the three guards the second independent review required -------------
+  const renderReport = readJson(RENDER_REPORT);
+  for (const family of (renderReport?.families ?? []).filter((f) => f.rendered)) {
+    const [state, slug] = family.familyId.split(":");
+    const dir = path.join(OVERLAY_DIR, "..", "..", "..");
+    const profilePath = [...fs.readdirSync(abs(OVERLAY_DIR))]
+      .map((st) => path.join(abs(OVERLAY_DIR), st, slug, "overlay-profile.json"))
+      .find((candidate) => fs.existsSync(candidate));
+    const profile = profilePath ? JSON.parse(fs.readFileSync(profilePath, "utf8")) : null;
+    if (!profile) continue;
+    void state; void dir;
+
+    // A blank followed by the word it is a blank for. Wisconsin's venue line
+    // prints "CIRCUIT COURT, ______ COUNTY", and a county fact carrying its own
+    // suffix rendered "Example County        COUNTY" on the caption of a
+    // petition. Where an anchor declares the printed suffix, the value drawn
+    // must not still carry it.
+    for (const anchor of profile.anchors ?? []) {
+      const suffix = anchor.printedSuffixAfterBlank;
+      if (!suffix) continue;
+      const suffixRe = new RegExp(`\\b${suffix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\.?$`, "i");
+      for (const label of ["canonicalNormalized", "boundaryNormalized"]) {
+        for (const n of family[label] ?? []) {
+          if (n.anchor !== anchor.label) continue;
+          if (suffixRe.test(n.to)) {
+            fail("printed_suffix_is_not_repeated",
+              `${family.familyId}: ${anchor.label} was normalized to ${JSON.stringify(n.to)}, which still carries the ${JSON.stringify(suffix)} the form prints itself`);
+          }
+        }
+      }
+      const written = (family.canonicalWritten ?? []).includes(anchor.label);
+      const normalized = (family.canonicalNormalized ?? []).some((n) => n.anchor === anchor.label);
+      if (written && !normalized) {
+        fail("printed_suffix_is_not_repeated",
+          `${family.familyId}: ${anchor.label} declares that the form prints ${JSON.stringify(suffix)} after the blank, but the canonical render recorded no normalization, so either the fact changed or the stripping stopped happening`);
+      }
+    }
+
+    // Protection had been a naming convention: the protect rules were applied
+    // to the anchor's label, so a box on the signature rule was accepted under
+    // a different name. A rule the map calls the court's must be refused for
+    // where the box lands, not for what it is called.
+    for (const rule of profile.protectedRules ?? []) {
+      const trespassers = (profile.anchors ?? []).filter((a) => a.page === rule.page
+        && Math.abs(rule.y + 2 - a.writeBox.y) <= 3
+        && a.writeBox.x < rule.endX && a.writeBox.x + a.writeBox.width > rule.x);
+      for (const anchor of trespassers) {
+        for (const label of ["canonicalRefused", "boundaryRefused"]) {
+          const refusal = (family[label] ?? []).find((r) => r.anchor === anchor.label);
+          if (!refusal) {
+            fail("protection_is_geometric_not_only_by_label",
+              `${family.familyId}: ${anchor.label} lands on the protected rule at y=${rule.y} and the ${label.replace("Refused", "")} render did not refuse it`);
+          } else if (refusal.reason !== "write_box_lands_on_a_rule_the_court_owns") {
+            fail("protection_is_geometric_not_only_by_label",
+              `${family.familyId}: ${anchor.label} lands on the protected rule at y=${rule.y} but was refused for ${JSON.stringify(refusal.reason)}; a label match is not a guarantee about where the box is`);
+          }
+        }
+      }
+    }
+
+    // A value drawn off the page is a value that is not on the filed document.
+    for (const anchor of profile.anchors ?? []) {
+      const page = (profile.pageGeometry ?? []).find((g) => g.page === anchor.page);
+      if (!page) continue;
+      const box = anchor.writeBox;
+      if (box.x < 0 || box.y < 0 || box.x + box.width > page.width + 0.5 || box.y + box.height > page.height + 0.5) {
+        fail("write_boxes_stay_on_the_page",
+          `${family.familyId}: ${anchor.label} writes to ${box.x},${box.y} ${box.width}x${box.height} on a ${page.width}x${page.height} page`);
+      }
+    }
+  }
+
   return failures;
 }
 
@@ -554,9 +627,53 @@ if (!mutationsMode) process.exit(0);
 // Each case edits committed bytes, re-runs every check, and requires the named
 // check to be among the ones that went red. Starting green is a precondition:
 // a mutation pass on an already-red tree proves nothing.
-const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT, CLASSIFICATION, FINALIZER, SEMANTICS, QUEUE, ACQUISITION_WORKFLOW, DERIVATION, RENDER_DRIVER];
+const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT, CLASSIFICATION, FINALIZER, SEMANTICS, QUEUE, ACQUISITION_WORKFLOW, DERIVATION, RENDER_DRIVER, RENDER_REPORT,
+  "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json"];
 
 const CASES = [
+  {
+    name: "a county value keeps the suffix the form already prints",
+    expect: "printed_suffix_is_not_repeated",
+    apply: () => {
+      const report = readJson(RENDER_REPORT);
+      const family = report.families.find((f) => f.canonicalNormalized?.length > 0);
+      family.canonicalNormalized[0].to = `${family.canonicalNormalized[0].to} County`;
+      fs.writeFileSync(abs(RENDER_REPORT), `${JSON.stringify(report, null, 2)}\n`);
+    }
+  },
+  {
+    name: "the normalization silently stops happening",
+    expect: "printed_suffix_is_not_repeated",
+    apply: () => {
+      const report = readJson(RENDER_REPORT);
+      const family = report.families.find((f) => f.canonicalNormalized?.length > 0);
+      family.canonicalNormalized = [];
+      fs.writeFileSync(abs(RENDER_REPORT), `${JSON.stringify(report, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a signature-rule refusal is downgraded to a label match",
+    expect: "protection_is_geometric_not_only_by_label",
+    apply: () => {
+      const report = readJson(RENDER_REPORT);
+      for (const family of report.families) {
+        for (const r of family.canonicalRefused ?? []) {
+          if (r.reason === "write_box_lands_on_a_rule_the_court_owns") r.reason = "protected_by_category";
+        }
+      }
+      fs.writeFileSync(abs(RENDER_REPORT), `${JSON.stringify(report, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a write box is pushed off the right edge of the page",
+    expect: "write_boxes_stay_on_the_page",
+    apply: () => {
+      const profile = readJson("data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json");
+      profile.anchors[0].writeBox.x = 560;
+      profile.anchors[0].writeBox.width = 200;
+      fs.writeFileSync(abs("data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json"), `${JSON.stringify(profile, null, 2)}\n`);
+    }
+  },
   {
     name: "a derived write box drifts from the independently reviewed one",
     expect: "derivation_reproduces_the_reviewed_profile",

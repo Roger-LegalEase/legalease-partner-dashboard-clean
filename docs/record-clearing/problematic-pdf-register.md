@@ -1735,7 +1735,6 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `visually_unsafe` — Field "COUNTY" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Defendant's Name" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case No" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Address" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -4654,7 +4653,6 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `visually_unsafe` — Field "COUNTY" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Defendant's Name" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case No" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Address" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_

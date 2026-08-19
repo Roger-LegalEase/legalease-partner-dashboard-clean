@@ -45,6 +45,18 @@ const ROOT = path.join(rootDir, "data/rcap-all50/overlays/production");
 const OUT = path.join(rootDir, "data/rcap-all50/contact-sheet-visual-proof.json");
 const EVIDENCE_DIR = path.join(rootDir, "docs/record-clearing/pdf-visual-evidence");
 const checkOnly = process.argv.includes("--check");
+// Content-addressed measurement cache. A contact sheet's measurement is a pure
+// function of its bytes, so the SHA-256 of the sheet is the cache key and a
+// sheet that has not changed is never rasterised again. Without it, correcting
+// one family cost a full 63-sheet Chromium run -- half an hour to re-measure 62
+// files that were byte-identical to the last run.
+const CACHE = path.join(rootDir, "data/rcap-all50/contact-sheet-measurement-cache.json");
+const cache = (() => {
+  if (!fs.existsSync(CACHE)) return {};
+  try { return JSON.parse(fs.readFileSync(CACHE, "utf8")).bySheetSha256 ?? {}; } catch { return {}; }
+})();
+const cacheHits = [];
+const cacheMisses = [];
 
 // The sheet builder's own layout constants. Cropping with anything else would
 // measure the wrong rectangles.
@@ -190,8 +202,37 @@ for (const stateDir of fs.readdirSync(ROOT).sort()) {
     // tell "different" from "identical" on this very sheet. Without a control
     // a near-zero difference could just as easily mean the measurement is
     // broken.
-    const geometry = await pageGeometry(fs.readFileSync(sheet));
+    const sheetBytes = fs.readFileSync(sheet);
+    const sheetSha = crypto.createHash("sha256").update(sheetBytes).digest("hex");
+    const geometry = await pageGeometry(sheetBytes);
     const wantedPages = geometry.length > 1 ? [1, 2] : [1];
+
+    // A cached measurement is reused only when the evidence PNG it produced is
+    // still on disk, so the committed image can never drift from the number
+    // that describes it.
+    const cached = cache[sheetSha] ?? null;
+    const cachedEvidenceStillPresent = !cached?.renderedEvidence
+      || fs.existsSync(path.join(rootDir, cached.renderedEvidence));
+    if (cached && cachedEvidenceStillPresent) {
+      cacheHits.push(familyId);
+      families.push({
+        familyId, jurisdiction, familySlug: familyDir,
+        documentId: record?.documentId ?? familyDir,
+        contactSheet: path.relative(rootDir, sheet),
+        contactSheetSha256: sheetSha,
+        renderedEvidence: cached.renderedEvidence ?? null,
+        pagesOnSheet: geometry.length,
+        renderFailure: cached.renderFailure ?? null,
+        comparable: cached.comparable,
+        blankVsFilled: cached.blankVsFilled,
+        knownDifferentControl: cached.knownDifferentControl,
+        controlDiscriminates: cached.controlDiscriminates,
+        panelsAreVisuallyIdentical: cached.panelsAreVisuallyIdentical
+      });
+      continue;
+    }
+    cacheMisses.push(familyId);
+
     const rendered = await rasterizePdf({ file: sheet, outDir: workDir, pages: wantedPages, scale: 1.6 });
     const first = rendered.find((r) => r.page === 1);
     const second = rendered.find((r) => r.page === 2) ?? null;
@@ -238,7 +279,7 @@ for (const stateDir of fs.readdirSync(ROOT).sort()) {
       familyId, jurisdiction, familySlug: familyDir,
       documentId: record?.documentId ?? familyDir,
       contactSheet: path.relative(rootDir, sheet),
-      contactSheetSha256: crypto.createHash("sha256").update(fs.readFileSync(sheet)).digest("hex"),
+      contactSheetSha256: sheetSha,
       renderedEvidence: evidencePath,
       pagesOnSheet: geometry.length,
       renderFailure,
@@ -300,6 +341,26 @@ if (checkOnly) {
 } else {
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, json);
+  // Rewritten from the measurements just produced, keyed by sheet bytes. A
+  // sheet that is re-rendered gets a new key, so a stale measurement can never
+  // be served for changed bytes.
+  const bySheetSha256 = {};
+  for (const f of families) {
+    bySheetSha256[f.contactSheetSha256] = {
+      familyId: f.familyId, renderedEvidence: f.renderedEvidence,
+      renderFailure: f.renderFailure ?? null, comparable: f.comparable,
+      blankVsFilled: f.blankVsFilled, knownDifferentControl: f.knownDifferentControl,
+      controlDiscriminates: f.controlDiscriminates,
+      panelsAreVisuallyIdentical: f.panelsAreVisuallyIdentical
+    };
+  }
+  fs.writeFileSync(CACHE, `${JSON.stringify({
+    schemaVersion: "rcap-contact-sheet-measurement-cache/v1",
+    purpose: "Content-addressed cache of contact-sheet panel measurements. The key is the SHA-256 of the sheet, so a sheet whose bytes have not changed is never rasterised again and correcting one family costs one Chromium render rather than sixty-three.",
+    isNotEvidence: "This file records measurements that were made; it is not itself proof of anything. data/rcap-all50/contact-sheet-visual-proof.json is the record, and deleting this cache changes nothing about it except how long the next run takes.",
+    bySheetSha256
+  }, null, 2)}\n`);
+  console.log(`  cache: ${cacheHits.length} reused, ${cacheMisses.length} measured${cacheMisses.length ? ` (${cacheMisses.join(", ")})` : ""}`);
 }
 
 console.log(`OK contact-sheet visual proof — ${totals.contactSheetsRendered} sheets rendered; ${totals.contactSheetsShowingIdenticalPanels} show identical panels, ${totals.contactSheetsShowingADifference} show a difference, ${totals.contactSheetsWithNoVerdict} without a verdict`);

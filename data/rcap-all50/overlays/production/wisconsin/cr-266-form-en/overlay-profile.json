@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "rcap-flat_overlay-map/v7-content-stream-measured",
+  "schemaVersion": "rcap-flat_overlay-map/v8-content-stream-measured",
   "family": "cr-266-form-en",
   "documentOwnership": "participant_completed",
   "sha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
@@ -25,7 +25,7 @@
         "unreadableLines": 4
       }
     ],
-    "anchorCount": 0,
+    "anchorCount": 7,
     "anchors": [],
     "candidateLabelCount": 4,
     "candidateLabels": [
@@ -36,8 +36,8 @@
         "labelX": 41.4,
         "baselineY": 660.2,
         "fontSize": 6.96,
-        "writeBoxDerivable": false,
-        "reason": "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted."
+        "writeBoxDerivable": true,
+        "reason": "Superseded: the write box is now measured from the rule at y=667.66, extracted from the page content stream."
       },
       {
         "page": 1,
@@ -46,8 +46,8 @@
         "labelX": 310.5,
         "baselineY": 655.2,
         "fontSize": 9.96,
-        "writeBoxDerivable": false,
-        "reason": "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted."
+        "writeBoxDerivable": true,
+        "reason": "Superseded: the write box is now measured from the rule at y=653.62, extracted from the page content stream."
       },
       {
         "page": 1,
@@ -56,8 +56,8 @@
         "labelX": 284.7,
         "baselineY": 266.1,
         "fontSize": 6.96,
-        "writeBoxDerivable": false,
-        "reason": "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted."
+        "writeBoxDerivable": true,
+        "reason": "Superseded: the write box is now measured from the rule at y=691.66, extracted from the page content stream."
       },
       {
         "page": 1,
@@ -66,11 +66,12 @@
         "labelX": 284.7,
         "baselineY": 244.1,
         "fontSize": 6.96,
-        "writeBoxDerivable": false,
-        "reason": "Standalone caption label with no rule line. The value's position is set by the printed cell, which this document does not express as a measurable rectangle, so no coordinate is asserted."
+        "writeBoxDerivable": true,
+        "reason": "Superseded: the write box is now measured from the rule at y=250.97, extracted from the page content stream."
       }
     ],
-    "note": "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms."
+    "note": "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms.",
+    "supersededBy": "the `anchors` array below. This section recorded the state of the map BEFORE the content-stream measurement, when four captions had no derivable write box. All four now have one, measured from the rule the form draws. The candidateLabels below are kept as the record of what was known then, not as a current claim."
   },
   "overflowPolicy": {
     "longText": "shrink_to_fit_then_addendum",
@@ -94,7 +95,8 @@
         "y": 735.6,
         "endX": 392.47
       },
-      "note": "The venue line in 'STATE OF WISCONSIN, CIRCUIT COURT, ______ COUNTY'. Omitted entirely from v6; a petition filed without a venue is not filed."
+      "note": "The venue line in 'STATE OF WISCONSIN, CIRCUIT COURT, ______ COUNTY'. Omitted entirely from v6; a petition filed without a venue is not filed. The form prints the word COUNTY at x=395.23, after the blank, so the value must be the county's name without its suffix: binding it raw produced 'Example County        COUNTY' on the caption of a petition.",
+      "printedSuffixAfterBlank": "County"
     },
     {
       "label": "Defendant's Name",
@@ -205,7 +207,7 @@
   "deliberatelyUnbound": [
     {
       "label": "Email Address",
-      "why": "The shared field-semantics module maps 'Email Address' to participant.street_address, which is wrong. Binding it would print the street address on the email line. Left unbound and recorded as a defect in the shared module rather than worked around here."
+      "why": "Writable and now correctly resolved to participant.email -- the shared module's ordering defect, which sent it to participant.street_address, is fixed and guarded. It stays unbound here for a different reason: this rule carries two blanks, 'Email Address' and 'Telephone Number', on one 220.61pt line, and where the first ends is not drawn. Writing an email across the whole rule would run it under the telephone caption."
     },
     {
       "label": "Telephone Number",
@@ -224,27 +226,77 @@
     "rule": "A value that cannot be drawn legibly inside its measured rule is refused, never shrunk below the readable floor and never clipped. The participant is told what to do instead, because a refusal without a fallback is just a blank line they do not understand.",
     "byAnchor": {
       "Defendant's Name": "If the full legal name will not fit the caption rule at the readable floor, the packet leaves the line blank and instructs the participant to write their full legal name on the line by hand before filing. The form's own footer permits supplementing with additional material, so an unusually long name may also be continued on an attached sheet referenced from the line.",
-      "Address": "If the street address will not fit the signature-block rule at the readable floor, the packet leaves the line blank and instructs the participant to write it by hand, abbreviating the unit or building designator rather than the street, so the mailing address stays deliverable."
+      "Address": "If the street address will not fit the signature-block rule at the readable floor, the packet leaves the line blank and instructs the participant to write it by hand, abbreviating the unit or building designator rather than the street, so the mailing address stays deliverable.",
+      "COUNTY": "If the county name will not fit the venue rule at the readable floor, the packet leaves the line blank and instructs the participant to write the county of the convicting court on the line by hand before filing, without the word 'County' -- the form already prints it. A petition filed without a venue is not filed, so this line is never left blank silently: the packet raises it as a required manual step rather than a note.",
+      "Case No": "If the case number will not fit the 77.16pt caption cell at the readable floor, the packet leaves the line blank and instructs the participant to copy the case number exactly as it appears on the judgment of conviction, continuing on the line above if the cell will not hold it. It is never allowed to run past x=430.07: the divider at x=464.26 separates this cell from the court's own, and a case number crossing it reads as a court entry."
     },
     "observedInBoundaryFixture": [
-      "Defendant's Name \u2014 refused at the 75-character boundary name (value_exceeds_widget_width_at_minimum_font)",
-      "Address \u2014 refused at the 76-character boundary address (value_exceeds_widget_width_at_minimum_font)"
+      "Defendant's Name — refused at the 75-character boundary name (value_exceeds_widget_width_at_minimum_font)",
+      "Case No — refused at the 40-character boundary case number (value_exceeds_widget_width_at_minimum_font)",
+      "Address — refused at the 76-character boundary address (value_exceeds_widget_width_at_minimum_font)",
+      "Signature — refused on every run by geometry (write_box_lands_on_a_rule_the_court_owns), which is the point of carrying it"
     ],
-    "notAFallback": "Shrinking below the readable floor, clipping at the rule end, or overflowing into the Email Address rule below. None of those is done."
+    "notAFallback": "Shrinking below the readable floor, clipping at the rule end, or overflowing into the Email Address rule below. None of those is done.",
+    "everyRefusalHasAFallback": "Checked against reports/overflow-and-clipping.json: three unfittable boundary refusals, all three named in byAnchor, plus the Signature refusal which is deliberate and needs no participant fallback.",
+    "countyNoLongerRefuses": "At the 49-character boundary county the venue previously refused by 0.12pt. Removing the suffix the form already prints drops the requirement by about 16pt, so the boundary county now fits and is written. The COUNTY fallback below stays as the policy for a county name that genuinely will not fit."
   },
   "independentReview": {
     "reviewer": "separate read-only reviewer agent, not the builder",
-    "verdict": "correction_required",
-    "blockersFound": [
-      "Case No. write box fabricated at 213pt against a real 77.16pt rule; the boundary case number crossed the caption box divider into the court-use cell.",
-      "COUNTY venue rule omitted from the map entirely, with no decision recorded either way.",
-      "Every rule-line coordinate 1 to 3.4pt off, because the measurement rasterised the page instead of reading the content stream."
+    "rounds": [
+      {
+        "round": 1,
+        "verdict": "correction_required",
+        "blockersFound": [
+          "Case No. write box fabricated at 213pt against a real 77.16pt rule; the boundary case number crossed the caption box divider into the court-use cell.",
+          "COUNTY venue rule omitted from the map entirely, with no decision recorded either way.",
+          "Every rule-line coordinate 1 to 3.4pt off, because the measurement rasterised the page instead of reading the content stream."
+        ],
+        "correctionsApplied": "All three. Measurement replaced with content-stream rectangle extraction, Case No. clipped to its true rule and divider, COUNTY bound to matter.county."
+      },
+      {
+        "round": 2,
+        "verdict": "correction_required",
+        "confirmedFixed": [
+          "Every anchor matches a real rule to under 0.005pt; the Case No. cell is 77.16pt with 38.19pt of clearance from the divider at x=464.26, and refusal rather than clipping was proven from the boundary fixture's own content stream.",
+          "Metadata: the court's Title, Author, Subject, Keywords, Creator and Producer are byte-identical to the source and no LegalEase string occurs in either fixture.",
+          "Colour: the only fill operators in the page stream are 0 g, 0 G and 0 0 0 rg. The blue is gone.",
+          "Classification: 11 entries against 11 discovered captions, which is the true inventory.",
+          "Provenance: both fixtures re-derive byte-for-byte from the committed profile and the pinned source."
+        ],
+        "blockersFound": [
+          "The venue line rendered 'Example County        COUNTY': matter.county carries the suffix the form already prints.",
+          "scripts/verify-rcap-official-forms-d1.mjs failed on this family by name, comparing 11 classification entries against a flat PDF's 0 AcroForm fields.",
+          "Two of the four boundary refusals -- COUNTY and Case No -- had no participant fallback text, while this file's own note calls a venue indispensable."
+        ],
+        "correctionsApplied": "All three, plus the two vacuous checks the same review found in the D1 verifier and two systemic gaps it proved with probes: protection was label-only, so a write box on the signature rule was accepted under a different label, and there was no page-bounds guard at all.",
+        "correctedAt": "this commit"
+      }
     ],
-    "correctionsApplied": "All three. Measurement replaced with content-stream rectangle extraction, Case No. clipped to its true rule and divider, COUNTY bound to matter.county.",
     "stillOpen": [
-      "The finalizer overwrites the court's /Creator and /Title and strips /Author, /Subject and /Keywords, while this form's source record carries a co-branding rule. Raised against the shared finalizer rather than worked around here.",
-      "Participant values are drawn in blue (0 0 0.55 rg) with no recorded rationale; whether Wisconsin circuit courts accept blue ink on a filed petition is not settled in this repository.",
-      "field-classification.json for this family is empty."
+      "Visual review. Both rounds read geometry, glyph metrics and bytes; neither rasterised a page. reports/f_independent_visual_review_required remains genuinely open.",
+      "Whether matter.county in the live packet pipeline carries the 'County' suffix. The normalization is proven against the fixtures; no production fact pipeline for matter.county was found to inspect.",
+      "Whether these bytes are still the current Wisconsin edition. freshnessStatus is candidate_current_source as at 2026-08-02 and no network request was made.",
+      "A participant name outside WinAnsi refuses both name anchors while the other four write, and the refusal reason names width rather than encoding."
     ]
-  }
+  },
+  "protectedRules": [
+    {
+      "page": 1,
+      "x": 284.69,
+      "y": 294.29,
+      "endX": 505.3,
+      "caption": "Signature",
+      "category": "signature",
+      "why": "The participant signs this by hand. An anchor whose write box lands here is refused whatever it is labelled."
+    },
+    {
+      "page": 1,
+      "x": 284.69,
+      "y": 206.69,
+      "endX": 505.3,
+      "caption": "Date / State Bar No. (if any)",
+      "category": "attorney",
+      "why": "Attorney block. Not the participant's to complete."
+    }
+  ]
 }

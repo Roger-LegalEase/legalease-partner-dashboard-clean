@@ -87,7 +87,7 @@
           "factId": null,
           "class": "not_applicable",
           "basis": "writable as participant.email but this form's packet binds no value to it",
-          "why": "The shared field-semantics module maps 'Email Address' to participant.street_address, which is wrong. Binding it would print the street address on the email line. Left unbound and recorded as a defect in the shared module rather than worked around here."
+          "why": "Writable and now correctly resolved to participant.email -- the shared module's ordering defect, which sent it to participant.street_address, is fixed and guarded. It stays unbound here for a different reason: this rule carries two blanks, 'Email Address' and 'Telephone Number', on one 220.61pt line, and where the first ends is not drawn. Writing an email across the whole rule would run it under the telephone caption."
         },
         {
           "label": "Telephone Number",
