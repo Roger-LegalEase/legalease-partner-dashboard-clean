@@ -187,6 +187,41 @@ it fails today, on purpose, and it is the release gate rather than the commit
 gate. Nothing about that hides the gap — the governance verifier prints every
 stage count on every run, and the position report names every open pathway.
 
+## Known red gate: the worker image fingerprint
+
+`node scripts/generate-rcap-staging-action.mjs --check` is red on this branch,
+and it must stay red until the freeze. This is the gate working, not a defect
+introduced here.
+
+`IMAGE_INPUT_PATHS` in that generator covers all of `src/` plus `package.json`,
+so **any** change under `src/` makes the recorded fingerprint stale and makes the
+already-published worker image "an image for other bytes". Binding the money
+gate to the delivery gate changed three image inputs:
+
+- `src/lib/expungement-ai/payment-adapter.ts`
+- `src/app/api/expungement-ai/checkout/route.ts`
+- `package.json`
+
+Two facts establish that this is a freeze-wide condition rather than something
+this branch caused:
+
+- The fingerprint base `88d9157b` is image-input-equivalent to `origin/main`, so
+  the gate was green on main and goes red for any source change.
+- `origin/claude/rcap-authoritative-profile-version-fix` (PR #112, the hosted
+  payment-to-PDF workstream) trips the same gate on three of its own `src/`
+  files.
+
+Clearing it requires regenerating the fingerprint at the accepted tip **and
+republishing the worker image at that SHA**. Both belong to whoever owns the
+freeze. This workstream is explicitly forbidden from republishing that worker or
+deploying anything, so it does neither.
+
+The two alternatives were both refused. Republishing the worker is not ours to
+do. Reverting the delivery-gate binding would restore live charging on 71
+payment-eligible routes that cannot produce a packet, which is the exact defect
+the controlling decision exists to end. A red freeze gate on a branch that is
+not being deployed is the correct cost.
+
 ## Position at the freeze
 
 See `docs/record-clearing/sellable-pathway-closure.md`, regenerated with the
