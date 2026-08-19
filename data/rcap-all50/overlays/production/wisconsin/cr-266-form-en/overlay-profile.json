@@ -270,14 +270,48 @@
         ],
         "correctionsApplied": "All three, plus the two vacuous checks the same review found in the D1 verifier and two systemic gaps it proved with probes: protection was label-only, so a write box on the signature rule was accepted under a different label, and there was no page-bounds guard at all.",
         "correctedAt": "this commit"
+      },
+      {
+        "round": 3,
+        "verdict": "correction_required",
+        "reviewedHead": "f5ac9a7b",
+        "confirmedFixed": [
+          "The venue doubling, the red D1 gate and the missing refusal fallbacks from round 2 were all fixed and each was verified by measurement. Visual review was discharged for the first time: the reviewer rasterized both fixtures through Chromium at 3px/pt and read them."
+        ],
+        "blockersFound": [
+          "The suffix strip added in round 2 was anchored at the end of the value, so any trailing whitespace defeated it. The trim then ran anyway and a normalization was recorded claiming the suffix had come off. \"La Crosse County \" rendered the round-2 defect verbatim while the audit record said it had not."
+        ],
+        "correctionsApplied": "The value is trimmed before matching, the abbreviation the same word is printed as is handled in the same expression, and a normalization is recorded only when the suffix actually came off. The reviewer six inputs plus a seventh negative case became a check that runs the factory rather than reading an artifact."
+      },
+      {
+        "round": 4,
+        "verdict": "approved_for_platform_ready",
+        "reviewedHead": "2e45749b",
+        "reviewedArtifactSha256": {
+          "fixtures/canonical-filled.pdf": "5e78523d2a44d27fb280d87622f9f7d16afbf2b247ade9b31ad9f8fa51bb50e7",
+          "fixtures/boundary-filled.pdf": "b6f0cea57d584f129ccbe142dcf4a6f2d9216f169e896417cddee47227dec145",
+          "contact-sheet/blank-vs-filled.pdf": "cd906b1d37fcdb549f0b507b29faaecea99259b6ac48beb57ddd0a542112f93d"
+        },
+        "confirmedFixed": [
+          "The suffix strip survives every shape the county fact arrives in. The reviewer drove the factory with 26 inputs and read the venue line back out of each resulting page content stream: trailing space, tab, newline, double space, leading whitespace, upper and lower case, the abbreviation with and without a period, a trailing full stop, and a county name that itself starts with Co. All correct, and the negative cases record nothing.",
+          "The behavioural check is not decorative: four mutations turn it red, including two the reviewer wrote, and one of them is invisible to every other assertion in the file.",
+          "Both defences on the signature rule are independent. With protectedRules passed empty the anchor is still refused by the label path, so geometry and semantics are belt and braces rather than one dressed as two.",
+          "The classification counts are checked against entries.length: an empty entries array claiming 11 of 11 turns the D1 verifier red.",
+          "Removing protectedRules while a court-owned caption remains turns both verifiers red.",
+          "The drift gate reaches the factory modules again: changing HORIZONTAL_PADDING in rcap-text-fitting.mjs, invisible to the old cache key, turns --check red.",
+          "Both fixtures re-derive byte-for-byte from the round-4 code, including the normalized content hashes."
+        ],
+        "blockersFound": [],
+        "visualReviewDischarged": "The reviewer rasterized both committed fixtures through Chromium at 3px/pt and read them. Single-page form, so this is complete coverage. The venue reads correctly, the signature line carries only the form own marker, no value overlaps any preprinted caption, and the boundary name is legible at 6.5pt inside its rule."
       }
     ],
     "stillOpen": [
-      "Visual review. Both rounds read geometry, glyph metrics and bytes; neither rasterised a page. reports/f_independent_visual_review_required remains genuinely open.",
-      "Whether matter.county in the live packet pipeline carries the 'County' suffix. The normalization is proven against the fixtures; no production fact pipeline for matter.county was found to inspect.",
-      "Whether these bytes are still the current Wisconsin edition. freshnessStatus is candidate_current_source as at 2026-08-02 and no network request was made.",
-      "A participant name outside WinAnsi refuses both name anchors while the other four write, and the refusal reason names width rather than encoding."
-    ]
+      "Whether matter.county ever reaches this factory in production, and in what shape. No live fact pipeline exists to inspect. The factory is now proven correct across every shape the fact could plausibly take, which is the right place for that guarantee.",
+      "Whether these bytes are the current Wisconsin edition. freshnessStatus is candidate_current_source as at 2026-08-02 and no round made a network request.",
+      "A participant name outside WinAnsi refuses both name anchors while the other four write, and the refusal reason names width rather than encoding. Fails closed; the reason misdescribes the cause.",
+      "The protected-rule band is +/-3pt around rule.y + 2, while a 9pt glyph spans -1.86 to +6.46 from its baseline. A baseline in [rule.y - 6.46, rule.y - 1) draws text through the rule and is accepted. No anchor on this form is there, and both verifiers share the band, so the two checks have a correlated blind spot. Comparing ink extent to the rule rather than baseline to a convention would decorrelate it. Rollout item."
+    ],
+    "verdict": "approved_for_platform_ready"
   },
   "protectedRules": [
     {

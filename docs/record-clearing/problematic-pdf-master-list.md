@@ -31,7 +31,7 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Optional | 0 |
 | Official source required | 53 |
 | Certification unproven | 29 |
-| Independent review required | 1 |
+| Independent review required | 0 |
 | Legal-design hold | 0 |
 | Source-acquisition candidates (priorities 1-3) | 44 |
 | Acquisition priority 1 — packet-capable route waiting | 1 |
@@ -180,13 +180,14 @@ Every asset carries exactly one. `releaseStatus` is a separate axis and is HELD 
 | `active_track_delivery_hold` | An active track's packet delivery is blocked on this asset. | 1 |
 | `official_source_required` | The verified source binary is unavailable, so nothing downstream can be attempted. | 53 |
 | `certification_unproven` | Artifacts exist but cannot be certified: their active-content cleanliness or finalization cannot be established from the committed bytes. | 29 |
-| `independent_review_required` | Certifiable artifacts exist and no independent review has approved them. | 1 |
+| `independent_review_required` | Certifiable artifacts exist and no independent review has approved them. | 0 |
 | `legal_design_hold` | A substantive legal-design question is unresolved. | 0 |
 | `reference_only` | An instruction, guidance or supporting-process document, not a filed component. | 2 |
 | `orphaned` | No active track requires it and no candidate binding to one exists. | 2 |
 | `optional` | A packet form no active track currently requires, with a plausible binding. | 0 |
 | `archive_candidate` | Source-gated: retained for provenance, never runtime-selectable. | 0 |
 | `retire_candidate` | Recorded as superseded, withdrawn or repealed; nothing should use it. | 0 |
+| `platform_ready` | The official source is pinned, every field or anchor is classified, the artifacts are finalized, inspectable and visibly filled, and an independent reviewer approved these exact bytes. | 1 |
 
 `Active-track assets safely served by guidance or exact deferral` and `Active-track assets blocking packet promotion` overlap by one asset, and that is not a contradiction: every active-track participant is served today, and one of those assets also carries a production_packet treatment in the pinned legal design, making its route the only packet promotion waiting on this lane.
 

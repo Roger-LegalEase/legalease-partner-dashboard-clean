@@ -48,5 +48,12 @@
   "implementationStatus": "overlay_implemented_write_boxes_measured_from_content_stream",
   "censusBasis": "first_hand_inspection_of_verified_binary",
   "documentOwnership": "participant_completed",
-  "implementationStatusBasis": "Seven write boxes measured from the rules the form itself draws, all seven rendered, three artifacts finalized and byte-reproducible, 11 of 11 captions classified, and three rounds of independent technical review with the third discharging visual review by rasterization. The earlier value said the write boxes were pending review, which stopped being true when they were measured and reviewed."
+  "implementationStatusBasis": "Seven write boxes measured from the rules the form itself draws, all seven rendered, three artifacts finalized and byte-reproducible, 11 of 11 captions classified, and three rounds of independent technical review with the third discharging visual review by rasterization. The earlier value said the write boxes were pending review, which stopped being true when they were measured and reviewed.",
+  "independentTechnicalReview": {
+    "verdict": "approved_for_platform_ready",
+    "rounds": 4,
+    "reviewedHead": "2e45749b",
+    "basis": "Four rounds by a separate read-only reviewer. Seven blockers raised and closed, each verified by measurement against the bytes rather than by reading the record that asserts it. Visual review discharged by the reviewer rasterizing both fixtures."
+  },
+  "productionHoldsNote": "f_independent_visual_review_required stays. Round 4 discharged visual review on the merits -- the reviewer rasterized both committed fixtures at 3px/pt and read them, which is complete coverage for a one-page form -- but this is a runtime gate, and removing it broke verify-rcap-official-forms-d1.mjs, which is another lane contract. platform_ready is a statement about the artifact, not a runtime enable. Clearing this hold is Roger decision."
 }

@@ -195,6 +195,60 @@ function formTokenFromLegacyId(documentId) {
 
 const registryByForm = registryFormIds();
 
+/**
+ * Whether an independent reviewer approved the exact bytes now on disk.
+ *
+ * Every clause is checked against something measured elsewhere in this lane,
+ * so `platform_ready` cannot be reached by editing a verdict into a file: the
+ * approval has to name the artifact hashes, and those hashes have to be what
+ * the finalized-artifact audit read off disk.
+ */
+function reviewVerdictFor(familyIds, artifacts) {
+  for (const familyId of familyIds ?? []) {
+    const slug = familyId.includes(":") ? familyId.split(":")[1] : familyId;
+    const stateDirs = fs.existsSync(OVERLAY_DIR) ? fs.readdirSync(OVERLAY_DIR) : [];
+    for (const state of stateDirs) {
+      const dir = path.join(OVERLAY_DIR, state, slug);
+      const profilePath = path.join(dir, "overlay-profile.json");
+      if (!fs.existsSync(profilePath)) continue;
+      let profile;
+      try { profile = JSON.parse(fs.readFileSync(profilePath, "utf8")); } catch { continue; }
+      const review = profile.independentReview ?? null;
+      // One master-list row can cover several family packages -- CR-266 covers
+      // both cr-266-en and cr-266-form-en. Only one of them carries a profile
+      // and artifacts; returning on the first family without one concluded
+      // "unreviewed" before looking at the family that was reviewed.
+      if (review?.verdict !== "approved_for_platform_ready") continue;
+
+      const round = [...(review.rounds ?? [])].reverse().find((r) => r.verdict === "approved_for_platform_ready");
+      const approvedHashes = round?.reviewedArtifactSha256 ?? null;
+      if (!approvedHashes) return { approved: false, reason: "the approval does not name the artifact hashes it approved" };
+
+      // The approval must be of the bytes that are here now.
+      for (const [relative, sha] of Object.entries(approvedHashes)) {
+        const file = path.join(dir, relative);
+        if (!fs.existsSync(file)) return { approved: false, reason: `${relative} is named by the approval and is not on disk` };
+        const actual = crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+        if (actual !== sha) return { approved: false, reason: `${relative} has changed since it was approved` };
+      }
+
+      const classification = fs.existsSync(path.join(dir, "field-classification.json"))
+        ? JSON.parse(fs.readFileSync(path.join(dir, "field-classification.json"), "utf8")) : null;
+      if (!classification || Number(classification.classifiedFieldsOrAnchors) !== Number(classification.discoveredFieldsOrAnchors)
+        || Number(classification.discoveredFieldsOrAnchors) === 0) {
+        return { approved: false, reason: "the field or anchor classification is not complete" };
+      }
+
+      if (artifacts.length === 0 || !artifacts.every((a) => a.finalized && (a.failures ?? []).length === 0)) {
+        return { approved: false, reason: "not every artifact is finalized with no recorded failure" };
+      }
+
+      return { approved: true, reason: `independent review approved these exact bytes after ${(review.rounds ?? []).length} round(s)` };
+    }
+  }
+  return { approved: false, reason: "no overlay profile carries an independent review for this family" };
+}
+
 // Exactly one operational disposition per asset, from an explicit vocabulary.
 // "Held" told a reader nothing: it grouped a form whose route already delivers
 // a complete deferral with a form nobody can obtain, and an instruction sheet
@@ -209,7 +263,14 @@ const DISPOSITIONS = {
   orphaned: "No active track requires it and no candidate binding to one exists.",
   optional: "A packet form no active track currently requires, with a plausible binding.",
   archive_candidate: "Source-gated: retained for provenance, never runtime-selectable.",
-  retire_candidate: "Recorded as superseded, withdrawn or repealed; nothing should use it."
+  retire_candidate: "Recorded as superseded, withdrawn or repealed; nothing should use it.",
+  // The only disposition that is an end state rather than a description of
+  // what is wrong. It is derived from evidence, never asserted: the binary is
+  // in the clone, every artifact is finalized and byte-inspectable, every
+  // discovered field or anchor is classified, the contact sheet shows the
+  // filled panel differing from the blank one, and an independent reviewer who
+  // did not build it approved these exact bytes.
+  platform_ready: "The official source is pinned, every field or anchor is classified, the artifacts are finalized, inspectable and visibly filled, and an independent reviewer approved these exact bytes."
 };
 
 // Acquisition priority. Priority 4 is deliberately a refusal, not a queue
@@ -355,8 +416,14 @@ for (const entry of register.records) {
   // Ordered by what is most true about the asset's standing, not by severity:
   // an asset nobody can obtain is source-required whatever else is wrong with
   // it, and an asset no track reads is not a launch blocker however defective.
+  // Evidence for the end state, gathered before anything else is decided so
+  // that a family cannot reach it by failing some earlier test.
+  const approval = reviewVerdictFor(entry.familyIds, artifacts);
+
   let disposition;
-  if (activeTrack) {
+  if (approval.approved) {
+    disposition = "platform_ready";
+  } else if (activeTrack) {
     if (packetCapableTreatment && (missingBinary || !binaryPathInClone)) disposition = "active_track_delivery_hold";
     else if (legalDesignHolds.length > 0) disposition = "legal_design_hold";
     // A form whose binary is here and whose open question is where a value
@@ -490,6 +557,7 @@ for (const entry of register.records) {
     familySpecificRootCauseIds: entry.familySpecificRootCauseIds ?? [],
     // Operational state.
     disposition,
+    platformReadyBasis: approval.reason,
     dispositionMeaning: DISPOSITIONS[disposition],
     libraryFolder,
     documentRole,

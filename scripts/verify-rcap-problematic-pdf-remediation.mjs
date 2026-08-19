@@ -644,7 +644,7 @@ function runChecks() {
     // a different name. A rule the map calls the court's must be refused for
     // where the box lands, not for what it is called.
     for (const rule of profile.protectedRules ?? []) {
-      void 0;
+
       const trespassers = (profile.anchors ?? []).filter((a) => a.page === rule.page
         && Math.abs(rule.y + 2 - a.writeBox.y) <= 3
         && a.writeBox.x < rule.endX && a.writeBox.x + a.writeBox.width > rule.x);
@@ -680,6 +680,62 @@ function runChecks() {
         fail("write_boxes_stay_on_the_page",
           `${family.familyId}: ${anchor.label} writes to ${box.x},${box.y} ${box.width}x${box.height} on a ${page.width}x${page.height} page`);
       }
+    }
+  }
+
+  // ---- platform_ready is an end state, so it is the one to guard hardest ---
+  for (const row of (master.rows ?? []).filter((r) => r.disposition === "platform_ready")) {
+    const slug = (row.formFamilyIds ?? []).map((id) => (id.includes(":") ? id.split(":")[1] : id));
+    let profile = null;
+    let dir = null;
+    for (const state of fs.readdirSync(abs(OVERLAY_DIR))) {
+      for (const candidate of slug) {
+        const p2 = path.join(abs(OVERLAY_DIR), state, candidate, "overlay-profile.json");
+        if (fs.existsSync(p2)) {
+          const parsed = JSON.parse(fs.readFileSync(p2, "utf8"));
+          if (parsed.independentReview?.verdict === "approved_for_platform_ready") {
+            profile = parsed;
+            dir = path.join(abs(OVERLAY_DIR), state, candidate);
+          }
+        }
+      }
+    }
+    if (!profile || !dir) {
+      fail("platform_ready_is_earned_not_asserted",
+        `${row.jurisdiction} ${row.formNumber}: called platform_ready with no family profile carrying an approval`);
+      continue;
+    }
+
+    const round = [...(profile.independentReview.rounds ?? [])].reverse()
+      .find((r) => r.verdict === "approved_for_platform_ready");
+    const approved = round?.reviewedArtifactSha256 ?? null;
+    if (!approved || Object.keys(approved).length === 0) {
+      fail("platform_ready_is_earned_not_asserted",
+        `${row.jurisdiction} ${row.formNumber}: the approval names no artifact hashes, so it approves nothing in particular`);
+      continue;
+    }
+    // The bytes on disk have to be the bytes that were approved. An approval
+    // that survives a re-render is an approval of something nobody read.
+    for (const [relative, sha] of Object.entries(approved)) {
+      const file = path.join(dir, relative);
+      if (!fs.existsSync(file)) {
+        fail("platform_ready_is_earned_not_asserted", `${row.jurisdiction} ${row.formNumber}: ${relative} was approved and is not on disk`);
+        continue;
+      }
+      const actual = crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+      if (actual !== sha) {
+        fail("platform_ready_is_earned_not_asserted",
+          `${row.jurisdiction} ${row.formNumber}: ${relative} has changed since it was approved (${actual.slice(0, 12)} on disk, ${String(sha).slice(0, 12)} approved)`);
+      }
+    }
+    if (row.contactSheetShowsAFill === false) {
+      fail("platform_ready_is_earned_not_asserted",
+        `${row.jurisdiction} ${row.formNumber}: called platform_ready while its contact sheet shows two identical panels`);
+    }
+    // An end state must not quietly make a route sellable.
+    if (row.sellable || row.publicPacketRoute) {
+      fail("platform_ready_is_earned_not_asserted",
+        `${row.jurisdiction} ${row.formNumber}: platform_ready is a statement about the artifact, not a runtime enable, and this row is marked sellable or public`);
     }
   }
 
@@ -722,9 +778,40 @@ if (!mutationsMode) process.exit(0);
 // check to be among the ones that went red. Starting green is a precondition:
 // a mutation pass on an already-red tree proves nothing.
 const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT, CLASSIFICATION, FINALIZER, SEMANTICS, QUEUE, ACQUISITION_WORKFLOW, DERIVATION, RENDER_DRIVER, RENDER_REPORT,
-  "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json"];
+  "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json",
+  "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/fixtures/canonical-filled.pdf"];
 
 const CASES = [
+  {
+    name: "an approved artifact is changed after the approval",
+    expect: "platform_ready_is_earned_not_asserted",
+    apply: () => {
+      const profilePath = "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json";
+      const profile = readJson(profilePath);
+      const round = [...profile.independentReview.rounds].reverse().find((r) => r.verdict === "approved_for_platform_ready");
+      round.reviewedArtifactSha256["fixtures/canonical-filled.pdf"] = "0".repeat(64);
+      fs.writeFileSync(abs(profilePath), `${JSON.stringify(profile, null, 2)}\n`);
+    }
+  },
+  {
+    name: "an approval is recorded that names no artifact hashes",
+    expect: "platform_ready_is_earned_not_asserted",
+    apply: () => {
+      const profilePath = "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json";
+      const profile = readJson(profilePath);
+      for (const r of profile.independentReview.rounds) delete r.reviewedArtifactSha256;
+      fs.writeFileSync(abs(profilePath), `${JSON.stringify(profile, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a platform_ready row is quietly marked sellable",
+    expect: "platform_ready_is_earned_not_asserted",
+    apply: () => {
+      const m = readJson(MASTER);
+      for (const r of m.rows) if (r.disposition === "platform_ready") r.sellable = true;
+      fs.writeFileSync(abs(MASTER), `${JSON.stringify(m, null, 2)}\n`);
+    }
+  },
   {
     name: "the suffix strip stops trimming before it matches",
     expect: "printed_suffix_is_not_repeated",

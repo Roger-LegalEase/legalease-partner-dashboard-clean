@@ -125,7 +125,12 @@ function harvestLinkInventory() {
       if (path.resolve(abs) === path.resolve(OUT)) continue;
       const rel = path.relative(rootDir, abs);
       const text = fs.readFileSync(abs, "utf8");
-      if (text.includes("rcap-source-acquisition-queue/")) continue;
+      // Any file this lane generates that carries URLs copied out of the queue
+      // is the queue talking to itself. The recovery record does exactly that,
+      // and reading it back promoted three unverified pattern candidates into
+      // "recorded official URLs" a second time -- the same laundering the queue
+      // exclusion was added to stop, through a different file.
+      if (/rcap-source-acquisition-queue\/|rcap-acquisition-recovery\/|rcap-source-acquisition-run-log\//.test(text)) continue;
       for (const m of text.matchAll(/https?:\/\/[A-Za-z0-9._~:/?#@!$&*+,;=%-]+/g)) record(m[0], rel);
     }
   };
@@ -184,10 +189,26 @@ for (const row of master.rows) {
   const pool = inventory[jurisdiction] ?? [];
 
   const entry = {
+    // Group is assigned at the end, once the URL is known: A direct binary,
+    // B issuing-body page needing resolution, C nothing identified.
+    acquisitionGroup: null,
     jurisdiction,
     assetId: row.assetId,
     formName: row.formName,
     formNumber: row.formNumber,
+    // The issuing body, and the edition this repository already has on record.
+    // Both are what an acquired file has to be compared against; neither is
+    // established by fetching.
+    publisher: row.sourcePublisher ?? record?.sourceUrl ? (row.sourcePublisher ?? null) : null,
+    expectedRevision: row.sourceRevision ?? record?.revision ?? null,
+    pinnedHistoricalSha256: row.sourceSha256 ?? null,
+    routeOrFamilyDependency: {
+      compiledPathwayIds: row.affectedCompiledPathwayIds ?? [],
+      trackIds: row.affectedTrackIds ?? [],
+      formFamilyIds: row.formFamilyIds ?? [],
+      legalDesignFormId: row.candidateRegistryFormId ?? null,
+      anyIntendedPaidPathway: Boolean(row.sellable || row.publicPacketRoute || row.packetCapable)
+    },
     acquisitionPriority: row.acquisitionPriority,
     acquisitionRule: row.acquisitionRule,
     disposition: row.disposition,
@@ -268,6 +289,7 @@ for (const row of master.rows) {
   }
 
   if (!entry.url) {
+    entry.acquisitionGroup = "C";
     entry.reconciliation = "no_official_url_for_this_jurisdiction_is_recorded_anywhere_in_the_repository";
     // A sibling form published in the same directory of the same issuing body
     // suggests where this one would live. That is a guess about a URL, not an
@@ -315,6 +337,7 @@ for (const row of master.rows) {
     entry.priorInspectionSuggestsBinary = true;
     entry.priorInspectionBasis = `${INSPECTED_URLS.get(entry.url)} names this URL as the provenance of bytes whose structural class was inspected; the fetch receipt's content type will settle whether the URL itself serves them`;
   }
+  entry.acquisitionGroup = entry.urlKind === "direct_binary" ? "A" : "B";
   (entry.urlKind === "direct_binary" ? set1 : set2).push(entry);
 }
 
@@ -351,6 +374,19 @@ const payload = {
     withheldByPriority4Rule: set1.length + set2.length - runnable.length,
     unverifiedPatternCandidatesToProbe: set3.filter((e) => e.unverifiedPatternCandidateUrl && e.acquisitionPriority !== 4).length
   },
+  groups: {
+    A: "direct official PDF URL known",
+    B: "official landing page known, direct PDF resolution required",
+    C: "no official source identified after reconciliation against every source record in this clone"
+  },
+  reconciledAgainst: [
+    "each asset's own family source-record",
+    "sibling families for the same document",
+    "committed source receipts under data/rcap-codex",
+    "the D-track queue and ledger evidence",
+    "documentation under docs/record-clearing"
+  ],
+  notReconciledAgainst: "the official forms-links workbook. `private/Nationwide Record Clearing/` is not in this clone, so if that workbook holds URLs these sources do not, group C is an overcount. Mount it and re-run this generator.",
   sets: {
     exact_official_url_known: set1,
     official_landing_page_known: set2,
