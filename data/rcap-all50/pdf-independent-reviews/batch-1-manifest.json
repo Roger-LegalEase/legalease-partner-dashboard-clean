@@ -1,0 +1,1528 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-batch/v1",
+  "generatedBy": "scripts/generate-rcap-pdf-independent-review-batch.mjs",
+  "purpose": "The exact set of form families that are automated-green and awaiting independent review, derived from the canonical evidence and frozen before reviewing starts.",
+  "batch": "batch-1",
+  "reviewedHead": "a7c9f0aa0dc19bb569783691e0bc0e65c0b57605",
+  "derivedFrom": {
+    "finalizedArtifactAudit": "data/rcap-all50/finalized-artifact-audit.json",
+    "contactSheetVisualProof": "data/rcap-all50/contact-sheet-visual-proof.json",
+    "remainingFinalizationFailures": "data/rcap-all50/remaining-pdf-finalization-failures.json"
+  },
+  "inclusionRule": [
+    "not retired from the operational inventory",
+    "every artifact present and finalized",
+    "not named in the remaining-failure matrix",
+    "a contact-sheet visibility proof exists",
+    "the proof's blank and filled panels differ",
+    "the proof's known-different control discriminates"
+  ],
+  "totals": {
+    "familiesInspected": 146,
+    "included": 27,
+    "excluded": 119,
+    "excludedByReason": {
+      "not_finalized": 72,
+      "retired_from_operational_inventory": 45,
+      "not_visibility_proven": 2
+    }
+  },
+  "groups": {
+    "group1": [
+      "AK:tf-800-form-en",
+      "KY:aoc-334-form-en",
+      "KY:aoc-496-4-form-en",
+      "NC:aoc-cr-287-form-en",
+      "NC:aoc-cr-297-form-en",
+      "NE:cc-6-11-2-form-en",
+      "NE:cc-6-15-1-form-en",
+      "VA:cc-1473-form-en",
+      "VT:200-00132a-form-en"
+    ],
+    "group2": [
+      "AK:tf-805-form-en",
+      "KY:aoc-496-2-form-en",
+      "KY:aoc-496-form-en",
+      "NC:aoc-cr-288-form-en",
+      "NC:aoc-cr-298-form-en",
+      "NE:cc-6-11-form-en",
+      "NE:dc-1-15-form-en",
+      "VT:200-00130-form-en",
+      "VT:600-00228-support-en"
+    ],
+    "group3": [
+      "AK:tf-810-form-en",
+      "KY:aoc-496-3-form-en",
+      "KY:aoc-497-form-en",
+      "NC:aoc-cr-296-form-en",
+      "NC:aoc-cv-226-support-en",
+      "NE:cc-6-12-form-en",
+      "VA:cc-1201-form-en",
+      "VT:200-00132-form-en",
+      "WI:cr-266-form-en"
+    ]
+  },
+  "families": [
+    {
+      "familyId": "AK:tf-800-form-en",
+      "jurisdiction": "AK",
+      "familySlug": "tf-800-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en",
+      "documentId": "TF-800",
+      "sourceSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "9583d1f2228dc3ba9a36b3cf61f3cfc36e8ac90246c1d9b965138bc4054cd227"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "3f2e1b74436925ff7a926ff5b8d77a99d4d49248e64be7372c1bf6fd26adb1fb"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "e5ecf77f72e9ddd2e9c08b4e3e82484f796df4d08b4c343f0cc973d7cd67477e"
+        }
+      ],
+      "contactSheetSha256": "e5ecf77f72e9ddd2e9c08b4e3e82484f796df4d08b4c343f0cc973d7cd67477e",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/AK-tf-800-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 3,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "9ff878c157140b56fbfe2d5060c2fd6f87e9fad3b71950aa92423d98ad834c8d",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "99d194ae601961c6245a8fa728349ce41a2dbbc13812cd7847330e33938c0e52"
+    },
+    {
+      "familyId": "AK:tf-805-form-en",
+      "jurisdiction": "AK",
+      "familySlug": "tf-805-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en",
+      "documentId": "TF-805",
+      "sourceSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "4ff71dd8d636a2bb5340737dafb4d258bba2b0d950065654528af52d2d88a979"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "17be2f738b14985830733ad6df42e946900b6cd0f6dcec0513a76ce4761cb099"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "2233423100912bd9fbc5362241dbf7c7eb712532c8591dd9d6c89aa20d1d9c91"
+        }
+      ],
+      "contactSheetSha256": "2233423100912bd9fbc5362241dbf7c7eb712532c8591dd9d6c89aa20d1d9c91",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "f870d102495622edd914d393e389d03efe03eb0f69b84e85791ecfb345f5f7c4",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "624a9360a528d9b4c8491fd3f0b4330d742cbad7452eb09e860376753703603c"
+    },
+    {
+      "familyId": "AK:tf-810-form-en",
+      "jurisdiction": "AK",
+      "familySlug": "tf-810-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-810-form-en",
+      "documentId": "TF-810",
+      "sourceSha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "b67ef7839af4a9ed27d438dd37cb6e29d14a2335be5749916f46af7a125b0340"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "2417a90b58b7fe0b61999a3a67c7a1e80e6481229fff090310387a5ccdd2088a"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "990913a7d7220a9262d96895cd27ab95ac4689f8be3c12a652146843218f9a21"
+        }
+      ],
+      "contactSheetSha256": "990913a7d7220a9262d96895cd27ab95ac4689f8be3c12a652146843218f9a21",
+      "renderedEvidence": null,
+      "pagesOnSheet": 1,
+      "controlDiscriminates": null,
+      "fieldClassificationSha256": "322dcef174032b60cb6d956a092731a794a714d761cbf5d473fcdf249977d38f",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "5f9a0140e12dd26cba4712ba26f5849b804333e87cd569ff8cef2aaeb7cc2c59"
+    },
+    {
+      "familyId": "KY:aoc-334-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-334-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
+      "documentId": "AOC-334",
+      "sourceSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "5f01b700543a2e9b6499ff80cb6afe7a43c31d1b4ca47e29088282dd8628a03c"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "e06ce34853fd46a16f6a4c8e3488764b6b58375ffdc197b6a3a6923bb2c08afa"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "af53ae57fff29b2499617a5a3b3d9c85008f284102ff135a06e3b370801ed139"
+        }
+      ],
+      "contactSheetSha256": "af53ae57fff29b2499617a5a3b3d9c85008f284102ff135a06e3b370801ed139",
+      "renderedEvidence": null,
+      "pagesOnSheet": 1,
+      "controlDiscriminates": null,
+      "fieldClassificationSha256": "1ced0b7ba9aaaba67aec228c2f3aa79840945b8182dff5c0857e140d41d5040a",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "d918c99d0ee471b66f92ddb93c5f3e2bee6d9018d1d3a758e9365085999ac73b"
+    },
+    {
+      "familyId": "KY:aoc-496-2-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-496-2-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en",
+      "documentId": "AOC-496.2",
+      "sourceSha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "2dd15a6598e351b7334c9dad0a0f7533a2b0c4a8a5eda1dee4c324d8febc2c10"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "38857fab1509fe1801815da267da26aff4c0ae5863b36f59edc82411669bd39a"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "92e092df5ab1a8bd99e67ce508179baac17ef595b2c6326088e432db04d53221"
+        }
+      ],
+      "contactSheetSha256": "92e092df5ab1a8bd99e67ce508179baac17ef595b2c6326088e432db04d53221",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "627c0524c061d14cae0bbeefa27c31a623c14343112f8a0368372580f74510f3",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "b0f902f48d66b5a247ab6fb08387128f324a84110bf0e1131a5a0a3af9407c3e"
+    },
+    {
+      "familyId": "KY:aoc-496-3-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-496-3-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en",
+      "documentId": "AOC-496.3",
+      "sourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "d3344eed7672e3ee8be9a85e15fe5447e91a287dfc1d33837f3587ecae7b7d79"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb"
+        }
+      ],
+      "contactSheetSha256": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "dd5902fe31caf4735098ffe966c66350581888cbc8b5ead56d022f9f6d77ebdd",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "65999d4be1cfcaf0180fbd09583f5421bc956bcf1e04594d1fab43aba054da9a"
+    },
+    {
+      "familyId": "KY:aoc-496-4-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-496-4-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en",
+      "documentId": "AOC-496.4",
+      "sourceSha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "2a1277400e66cbe7fc352a02131256f4c232f664cd9a274ed2a53e6679defe78"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "ebaa046d8336a704c7b8b95477c441aa3328fede37dbbe57091bc9dda1f626c6"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "ea30f977b782d675043533c5f3c1c665cdfe3912f7632b1313bc438ffe2310f3"
+        }
+      ],
+      "contactSheetSha256": "ea30f977b782d675043533c5f3c1c665cdfe3912f7632b1313bc438ffe2310f3",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "78c39be5be45d11711a37ee83cd10d23a9aa0214cfb215e889738575f25d8d6e",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "3a8fbed8a42dff1fc92d9eca62e86b31e757aef79892dc760a60119ffe8a8d26"
+    },
+    {
+      "familyId": "KY:aoc-496-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-496-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en",
+      "documentId": "AOC-496",
+      "sourceSha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "8d3b618342b8e20955109569e9b0f3ebb77e1464ee82b879ae409743ebbf3a45"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "aeaff361b68ad1497a22c5953777bfaf8d43bb5a0a1bca79a5d5599bf2d3e33a"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "3794c895d3fa9290f33615368c08017649c54d40ae7dbb0d3f75404643e48fc7"
+        }
+      ],
+      "contactSheetSha256": "3794c895d3fa9290f33615368c08017649c54d40ae7dbb0d3f75404643e48fc7",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "493f1f0946998720a7a55821ff2ca2797a827727e350add79f2f290abbf194f5",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "83f8826ec01d48bb6657c1a713c41b485a57d8dcd2fc64f60146493ce0981440"
+    },
+    {
+      "familyId": "KY:aoc-497-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-497-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en",
+      "documentId": "AOC-497",
+      "sourceSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "2e23ea6eea2b6126bb14dba59260dcd50e9fc275eeff3979f5e3ff344bbdbc59"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "e0dd58c05f05d30d1d76fccedf5b22aeb0aeb3c4a510ec72f679918c4bbbb522"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "8f0966a78e9e8bc152972f9584a7deab0500d7abe759ac288ad742e095c9c3a4"
+        }
+      ],
+      "contactSheetSha256": "8f0966a78e9e8bc152972f9584a7deab0500d7abe759ac288ad742e095c9c3a4",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "aad0c3d3e70633c439f8843424f1de4482ecc2cfeca3181ee50ed78cb227b90e",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "d6cc359e1a96b589bb95809e6a29731e86564ffbcd35bffa4c6765d55331ea4b"
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-en",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cr-287-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en",
+      "documentId": "AOC-CR-287",
+      "sourceSha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "c6807758e58b8ee0cb9c91f6da8bb50a4c3ab838329e3e47fce9cf0fe6123f4f"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "5d585951d26a48adc458406da52f3180864c456d2c2f3e4485d605b4ec2548ae"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "ffd0db5aac3eabfe2db2003c4634014259853a8731b882abd8892e94af4df8d5"
+        }
+      ],
+      "contactSheetSha256": "ffd0db5aac3eabfe2db2003c4634014259853a8731b882abd8892e94af4df8d5",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-287-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "e1f2e4fd768d2a6e9d6238d6f323602135c13a420737bc56f3fa8dc757b12fb2",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "fbdc34631641fda02edbdd620d1d368bc138663a1c8929a7cfd33d2c24429302"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cr-288-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en",
+      "documentId": "AOC-CR-288",
+      "sourceSha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "96ff5609fb6a0e9168e6e86c36112a538a231334155ac166a1027302c154a1d6"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "5a00ee6811f8681cf257daa094b46ec7e64ca172f9f9dbc94716678845e69c2a"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "5703d476da2e832cddb97aa8ffd247b19b250b1ba82b5aa1c1f2f94a948ee618"
+        }
+      ],
+      "contactSheetSha256": "5703d476da2e832cddb97aa8ffd247b19b250b1ba82b5aa1c1f2f94a948ee618",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "fe13b554b4515331e3867805e9260362cbe17c1b666e8f407fef50f15cfd86ba",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "d5c12a28ecb4ed4bf394d88bc081725f700fe7104e683b65ffb5c8859f3b637b"
+    },
+    {
+      "familyId": "NC:aoc-cr-296-form-en",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cr-296-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
+      "documentId": "AOC-CR-296",
+      "sourceSha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "bfff2e3a94523f145eb6b0aad877f84b6d2b968ed9eeb5941cb96189db45f16f"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "60bf177ebf6ec68c9454a4a4b7ca18f0cf569155748cad8a91ebc499e79e7a2c"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "a27ecc3ac56f79238d959cd950175e696190f804fa7b33488863a9301b3b6daa"
+        }
+      ],
+      "contactSheetSha256": "a27ecc3ac56f79238d959cd950175e696190f804fa7b33488863a9301b3b6daa",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "996c01d97b022a8ff01a1489e92d68b27217a5070d70c5737f40ecf1144ac551",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "93d1e150f4dea6544feab2150e24f919914f93321d0ab8e4d5b2346afc7c7ccb"
+    },
+    {
+      "familyId": "NC:aoc-cr-297-form-en",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cr-297-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en",
+      "documentId": "AOC-CR-297",
+      "sourceSha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "4e15783f6641c968274def95b38b6ce487a43080ebadf6974b829027ce4f6488"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "434ab8ca96130d3b27ca3cc51348fa7571c5b9f014d84786c71efb4b8360d660"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "8c7834867538502d3fdb0acaea34cfd51ad7e38101dfc6f195e107de9f19a2b0"
+        }
+      ],
+      "contactSheetSha256": "8c7834867538502d3fdb0acaea34cfd51ad7e38101dfc6f195e107de9f19a2b0",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "493edb717c2cf945c5c8e43eb1b75869cec3c5b7dc820bff3b22600896465ee4",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "c26279b3ca1b0cf6af8c33619c18d5455334fc36fcc2b280b0e8273aa10d0f94"
+    },
+    {
+      "familyId": "NC:aoc-cr-298-form-en",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cr-298-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en",
+      "documentId": "AOC-CR-298",
+      "sourceSha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "309aa7a0699b58a4462f409bcd7867f4450f1d8be30bee2e433e46cd23143da9"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "a8a41cde96e3a4c1f604664d225cbe10f0fa830d8ff22a9d97bdb3d8b58bc1e3"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "d9ea7ca6523c7816c2bb3e47035fcf909e1f73b3a2cc8432ae04ce449b8dea84"
+        }
+      ],
+      "contactSheetSha256": "d9ea7ca6523c7816c2bb3e47035fcf909e1f73b3a2cc8432ae04ce449b8dea84",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "f88c2d23747551600dd1ddb148fcccf4f6a3acb5f3c06a80fd671d9a0e916dab",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "659f9587c70be0cc0bc5f064aeb75b04ca3889f8b90dc89b0d00ae08bc17ef3e"
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-en",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cv-226-support-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
+      "documentId": "AOC-CV-226",
+      "sourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "8ebd1ccf32044b3b52689d5231ef4d0ddd8c06f74a5a38eb54a2d0be1ee47a53"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "52ca5719efcb4fe94313e0ee2dfb569ccd2b8550ee4959af1461af233b230739"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "26bb43ea85d42b881dbd8b9d21d09067f2c5a44285b0420114f3aab5104088b4"
+        }
+      ],
+      "contactSheetSha256": "26bb43ea85d42b881dbd8b9d21d09067f2c5a44285b0420114f3aab5104088b4",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "cb5a7bcfdc5937d9e6ecf5bfc4ee8b19757c0f5b181e4cd474a43243e0703c00",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "f7b53a48cf9cc57e1a28e0a6bb4ce2998cb469a2118a3fd967eb92bdaa95ab62"
+    },
+    {
+      "familyId": "NE:cc-6-11-2-form-en",
+      "jurisdiction": "NE",
+      "familySlug": "cc-6-11-2-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en",
+      "documentId": "CC-6-11.2",
+      "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "cd503faa72efa82d6a18be2748f966304d5421b59621c06681e99f12b3a9b06e"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "58a806f8e7731fac499cc7d9387e425b04234bbc757a4a0e826ae4ad628b6e7d"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "e69a23f741eb79656e8c8970a1062250b47c0d85500301409f1f3c9e29e3e27d"
+        }
+      ],
+      "contactSheetSha256": "e69a23f741eb79656e8c8970a1062250b47c0d85500301409f1f3c9e29e3e27d",
+      "renderedEvidence": null,
+      "pagesOnSheet": 1,
+      "controlDiscriminates": null,
+      "fieldClassificationSha256": "204835274598dfd5212352f6de3582e87eec7685e92fffe05c2bbcdc3d88739a",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "921864fd4c50619ce8607e1d86ee3ee21c9d88e303580ea571d45bf4f98c2f1c"
+    },
+    {
+      "familyId": "NE:cc-6-11-form-en",
+      "jurisdiction": "NE",
+      "familySlug": "cc-6-11-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
+      "documentId": "CC-6-11",
+      "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "6a7f0e4db821767783c14b5d560618f6361c0d1609c562b0086f4a6dde21a823"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "ec715fda7e14108024628a330fd8e5a94c415f9339be1f726eb99dad37b48023"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "878bea5971981a938047052eedc3a71685a4cb0c2a1c6160832ae0a2a1da62d9"
+        }
+      ],
+      "contactSheetSha256": "878bea5971981a938047052eedc3a71685a4cb0c2a1c6160832ae0a2a1da62d9",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/NE-cc-6-11-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 1,
+      "controlDiscriminates": null,
+      "fieldClassificationSha256": "90ea87b44e35c324ff3ca52a9d410377a1722deeedcc118261d1090442a73918",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "4ec778d5f7378d6cddc7cf05192fd3855d5aba8655256eed0f984d70f757d7d2"
+    },
+    {
+      "familyId": "NE:cc-6-12-form-en",
+      "jurisdiction": "NE",
+      "familySlug": "cc-6-12-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
+      "documentId": "CC-6-12",
+      "sourceSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "21a1715a6bddd41d642e7127b90ac971044faf616d40d09e857571cb72417bb8"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "0aa3468c1afa6d30e1b219ebb638e3fc5b341b11d23e533c2c96dcea6a0f6162"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "02c41c6227027aef9015aad59b42a4bc579971513d6baffa3745b3756cc780b3"
+        }
+      ],
+      "contactSheetSha256": "02c41c6227027aef9015aad59b42a4bc579971513d6baffa3745b3756cc780b3",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "e74a521c96f70f443b68a10495a5134e0bd02705a5bab6185354c4f7bc90c86d",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "7c320f7f05ba4ab3a3e4343b2ab39b680ebd9bea5ce216ac1950abdff39641a9"
+    },
+    {
+      "familyId": "NE:cc-6-15-1-form-en",
+      "jurisdiction": "NE",
+      "familySlug": "cc-6-15-1-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+      "documentId": "CC-6-15.1",
+      "sourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "e2a68152e06354761b3001a0fcfee6a9d96e101344d4b9f831a6b4e2e1879238"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "427bff7969be39a7605c08b0d0b6d8bc6447ebb7b575ebfa0305255d9841a51d"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "2960c343551b8c81ba96291792a8480c62cc73cc6c7d5a3d0c80a7bd298ea7be"
+        }
+      ],
+      "contactSheetSha256": "2960c343551b8c81ba96291792a8480c62cc73cc6c7d5a3d0c80a7bd298ea7be",
+      "renderedEvidence": null,
+      "pagesOnSheet": 1,
+      "controlDiscriminates": null,
+      "fieldClassificationSha256": "c82d792dafcb9875c07e9f0b6e5eb6497ddbbe2e685a26b494f62866d14d9249",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "970c2a03f2ca9a0407ce5b653d04334923159ae629b711a49b63ab38e2d3b64b"
+    },
+    {
+      "familyId": "NE:dc-1-15-form-en",
+      "jurisdiction": "NE",
+      "familySlug": "dc-1-15-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
+      "documentId": "DC-1-15",
+      "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "3f0bc4bac2e1216e62e64da7e0d9ae897a1dfa2b822d1a14807505e656f6f2b1"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "a997b0df17375606c9f3f14f3ef1d341fa0b472314555891a47cc51d5d9b5d27"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "1481d199522a0cadd82b42b7193260bec525869304c815ad32dc0aa88701a131"
+        }
+      ],
+      "contactSheetSha256": "1481d199522a0cadd82b42b7193260bec525869304c815ad32dc0aa88701a131",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "70ff29fe9def2aeeabbdb317727b7926c8b34b90a4e1bc97fe7773a59dd5d26e",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "34faac31f42b92e61a31a10598257b708c032e432570d6641123c01306914be7"
+    },
+    {
+      "familyId": "VA:cc-1201-form-en",
+      "jurisdiction": "VA",
+      "familySlug": "cc-1201-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
+      "documentId": "CC-1201",
+      "sourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "427770d0ba6d3f512b8de6d6b631cf388afb7025057b5c0c191d6c1a2a356eb4"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "0cbd4278cf7185e3556101607e0d6c58ee51b1537dfdf3e1b1f16a5fead82b3f"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "6b58a4a3bf5fade40c2fcea53aabe0a7734cacdf3edfdc701a3bd971c31c57d8"
+        }
+      ],
+      "contactSheetSha256": "6b58a4a3bf5fade40c2fcea53aabe0a7734cacdf3edfdc701a3bd971c31c57d8",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "5f30b0bfd60189212feff7bf55999fea34f4e3dd33af1411494b49fbbe9c7d4b",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "33f14a2d7cb5f341dde1bf236ed27fcbb39b4becfdf04d0d56e332abfd6f6502"
+    },
+    {
+      "familyId": "VA:cc-1473-form-en",
+      "jurisdiction": "VA",
+      "familySlug": "cc-1473-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
+      "documentId": "CC-1473",
+      "sourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "0c28f8653692c860c5cb29e99135ecae2d42410de48682b41814042e0d03f87d"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "9a661e69c05e6880cc412003f3f83e6b375ed605806fa49faff667663a0c8aad"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "02384e76303d212325e4fcf5eb4e4d502ff81c6642af3a9a17f57b5cdba02a29"
+        }
+      ],
+      "contactSheetSha256": "02384e76303d212325e4fcf5eb4e4d502ff81c6642af3a9a17f57b5cdba02a29",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/VA-cc-1473-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "c846adb9bf8ab77f61a6c4ad4cda1cdd4fbe1af3380169c186401aff77793b7d",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "5f3fc1062b577e9f41eec41856264af5f28c5e3061757906de1a3ac0f57af5e1"
+    },
+    {
+      "familyId": "VT:200-00130-form-en",
+      "jurisdiction": "VT",
+      "familySlug": "200-00130-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/vermont/200-00130-form-en",
+      "documentId": "200-00130",
+      "sourceSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "8523aca4ae536e662f1e0b5c21f883996a4e866db1d1a7c08b72c78602bf865e"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "eb68699331c34738921bd0192574a011877b90f6a33eaa33ee1f73070f8fa3e3"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "9c34f37911dc2cc0279280478a7cead31b17de4a6169038e4d2620699dd890a3"
+        }
+      ],
+      "contactSheetSha256": "9c34f37911dc2cc0279280478a7cead31b17de4a6169038e4d2620699dd890a3",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "79027e685e0b3933c83a2f7f0ec5da1b79e2c6ff2ebb1a0bf35e3138986fbe9c",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "f350142fb779be675bbf667b55120431cce89dba1f5e2c696e33e893bdfbcb65"
+    },
+    {
+      "familyId": "VT:200-00132-form-en",
+      "jurisdiction": "VT",
+      "familySlug": "200-00132-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/vermont/200-00132-form-en",
+      "documentId": "200-00132",
+      "sourceSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "c49ba8941a0ab6a6a05cd2d4a8c32301d563c9692658f50122891e67d966cf60"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "33f38e0e4b3024cc62090ab5d9f7c71cb9d46a9cfb7db04847c5bd7578346e82"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "b774d621d4e9e90232b9f7177874a121d42fdf9aa88bc82bd273273dea930e1e"
+        }
+      ],
+      "contactSheetSha256": "b774d621d4e9e90232b9f7177874a121d42fdf9aa88bc82bd273273dea930e1e",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/VT-200-00132-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "6ee9b29dcabf233c052cb84d966e1cbae6324802e84a909821bcfe1be261ca86",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "45b61435e54d5dca2edff11d2321322e4d611f6fef2badbbf07818b2b47535d9"
+    },
+    {
+      "familyId": "VT:200-00132a-form-en",
+      "jurisdiction": "VT",
+      "familySlug": "200-00132a-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/vermont/200-00132a-form-en",
+      "documentId": "200-00132A",
+      "sourceSha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "5df4cceba1208a226792a927ce6b89f54c16632f780f872179942807c0f0ff6f"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "6a9c3137f09fa1a59076703917aa3100f7b5ccbf1be977e8629fcabeba8d0ed7"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "1c56457dbd05ac939c079150124c30d5124863a73b3254550d9b0c2b2621fb38"
+        }
+      ],
+      "contactSheetSha256": "1c56457dbd05ac939c079150124c30d5124863a73b3254550d9b0c2b2621fb38",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "b4d1688af3d9fe2469893cd09529f07fb254a1605af26fc709fa04fdf21a7eeb",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "c2062dc7cf561f7f90d88ba2af6b5e29e446661eaa5cf6dd38ca352b6d80f09b"
+    },
+    {
+      "familyId": "VT:600-00228-support-en",
+      "jurisdiction": "VT",
+      "familySlug": "600-00228-support-en",
+      "familyPath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en",
+      "documentId": "600-00228",
+      "sourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "3badbfe515021b919e42eab8f487030cae408aaaf0d983d26d22a42ae3468b6e"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "37eb5ff468c72187bdcd61a68d08b93c9f080ba08fe61929c1b9b8f0760ce39e"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "991176ec5412fc285362f2f080ee041ed7b843e99f013d0d9b4b471f3c676490"
+        }
+      ],
+      "contactSheetSha256": "991176ec5412fc285362f2f080ee041ed7b843e99f013d0d9b4b471f3c676490",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "controlDiscriminates": true,
+      "fieldClassificationSha256": "d8af1afeb03300d285f4b1af9a01b0c3909862a126c2bd4dd487d139cd66a23e",
+      "overlayProfileSha256": null,
+      "provenanceSha256": "0ebab21fa71722807912b4a3446224e7ddfd6162c9b503cabc360b30ceb194ec"
+    },
+    {
+      "familyId": "WI:cr-266-form-en",
+      "jurisdiction": "WI",
+      "familySlug": "cr-266-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en",
+      "documentId": "CR-266",
+      "sourceSha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "5e78523d2a44d27fb280d87622f9f7d16afbf2b247ade9b31ad9f8fa51bb50e7"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "b6f0cea57d584f129ccbe142dcf4a6f2d9216f169e896417cddee47227dec145"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "cd906b1d37fcdb549f0b507b29faaecea99259b6ac48beb57ddd0a542112f93d"
+        }
+      ],
+      "contactSheetSha256": "cd906b1d37fcdb549f0b507b29faaecea99259b6ac48beb57ddd0a542112f93d",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/WI-cr-266-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 1,
+      "controlDiscriminates": null,
+      "fieldClassificationSha256": "7b5f8c04f45fdbf8df6dce43b5b6dfda70ade8bb83833c9a0a8d1206a302c429",
+      "overlayProfileSha256": "8e4ebc4903e135b23a731e29051aa5b2e53d2c18cefe5ddbf7e25dbc15daa519",
+      "provenanceSha256": "eb9030aa74c08404fe11ba5c46878c8569269cf78f82ce7021d4495be4e0a1ad"
+    }
+  ],
+  "excluded": [
+    {
+      "familyId": "AK:ak-record-relief-forms",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "AK:dps-cri-103-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AK:dps-seal-req-2-04-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AK:requesttosealcriminfo",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "AL:al-expungement-petition",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "AL:c-94a-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AL:cr-65-expunge-petition-10-2024",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "AL:cr-65a-order-on-petition-for-expungement-10-2024",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "AL:criminal-forms",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "AL:criminal-record-expungement",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "AL:sbi-form-46-support-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:3-misdemeanor-petition-8-01-2023",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "AR:ar-acic-order-of-probation-under-act-346-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-records-of-pardoned-offender-or-youthful-source-gated-e",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "AR:arkansas-petition-order-forms",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "AR:felony-petition-form-f",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "KY:496-2",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "KY:496-3",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "KY:497-2",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "KY:aoc-009-form-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "KY:aoc-333-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "KY:aoc-496-5-form-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "KY:aoc-497-3-source-gated-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "KY:jv-29",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "KY:jv-29-1",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "KY:jv-30",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "KY:kentucky-expungement-forms",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-es",
+      "reason": "not_finalized",
+      "detail": "1 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-vi",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cr-287-instructions-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cr-287-instructions-es",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cr-287-instructions-vi",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-es",
+      "reason": "not_finalized",
+      "detail": "1 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-vi",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-instructions-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-instructions-es",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-instructions-vi",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cr-297-instructions-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cr-298-instructions-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-es",
+      "reason": "not_visibility_proven",
+      "detail": "the contact sheet's blank and filled panels are visually identical, so the fixture does not demonstrate a fill"
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-vi",
+      "reason": "not_visibility_proven",
+      "detail": "the contact sheet's blank and filled panels are visually identical, so the fixture does not demonstrate a fill"
+    },
+    {
+      "familyId": "NC:cr287-1",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:cr297",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:cr298-1",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:expungements",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:forms",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:forms-2",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:nc-expunction-petition",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NC:nc-sbi-right-to-review-support-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "NE:cc-6-11",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NE:cc-6-11-2",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NE:cc-6-11-2a-instructions-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "NE:cc-6-11a-instructions-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NE:cc-6-12",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NE:cc-6-12-instructions-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "NE:dc-6-7-1a-instructions-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "NE:dc-6-7-2-form-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "NE:dc-6-7-2a-instructions-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
+    },
+    {
+      "familyId": "VA:cc-1201-a-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 3 identifier(s)."
+    },
+    {
+      "familyId": "VA:cc-1201-a-form-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 3 identifier(s)."
+    },
+    {
+      "familyId": "VA:cc-1201-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VA:cc-1203-a-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 3 identifier(s)."
+    },
+    {
+      "familyId": "VA:cc-1203-a-form-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 3 identifier(s)."
+    },
+    {
+      "familyId": "VA:cc-1203-b-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 3 identifier(s)."
+    },
+    {
+      "familyId": "VA:cc-1203-b-form-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 3 identifier(s)."
+    },
+    {
+      "familyId": "VA:cc-1203-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 3 identifier(s)."
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 3 identifier(s)."
+    },
+    {
+      "familyId": "VA:cc-1473-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VA:cc1473",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VA:cc1473inst",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VA:va-expungement-sealing-forms",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00129-petition-to-expunge-criminal-history",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00130-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00130a-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 3 identifier(s)."
+    },
+    {
+      "familyId": "VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00130a-instructions-en",
+      "reason": "retired_from_operational_inventory",
+      "detail": "No surface names it. Probed 10 surface(s) against 3 identifier(s)."
+    },
+    {
+      "familyId": "VT:200-00131",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00131-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00131-form-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00132-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00132-stipulation-to-seal-criminal-history-record-order",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00132a-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00132a-stipulation-to-expunge-criminal-history-record-order",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00331-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00331-support-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00631",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00631-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:200-00631-form-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:400-00171",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:600-00228-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "VT:application-waive-filing-fees-and-service-costs",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "WI:cr-266-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "WI:cr-267-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "WI:cr-267-form-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "WI:dj-le-247-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "WI:dj-le-247-support-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "WI:dj-le-250b-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    },
+    {
+      "familyId": "WI:dj-le-250b-support-en",
+      "reason": "not_finalized",
+      "detail": "3 artifact(s) absent or not finalized: fixtures/canonical-filled.pdf, fixtures/boundary-filled.pdf, contact-sheet/blank-vs-filled.pdf"
+    }
+  ]
+}
