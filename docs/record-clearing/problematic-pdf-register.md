@@ -118,7 +118,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| AK:ak-courtview | true | — | guidance_only | false | false |
+| AK:ak-courtview | true | — | factory_v2 | false | false |
 
 ### KY AOC-334 — is hereby void; and all records pertaining thereto that are in custody of the court and any records in the custody of
 
@@ -189,7 +189,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| KY:ky_misdemeanor_expungement | true | — | guidance_only | false | false |
+| KY:ky_misdemeanor_expungement | true | — | factory_v2 | false | false |
 
 ### KY AOC-496.3 — In support of this Application, the Defendant states as follows:
 
@@ -281,7 +281,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| KY:ky_misdemeanor_expungement | true | — | guidance_only | false | false |
+| KY:ky_misdemeanor_expungement | true | — | factory_v2 | false | false |
 
 ### KY AOC-497 — The Court, having reviewed Defendants Petition to Expunge and being sufficiently advised, FINDS:
 
@@ -315,7 +315,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| KY:ky_nonconviction_expungement | true | — | guidance_only | false | false |
+| KY:ky_nonconviction_expungement | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-287 — AOC-CR-287 Petition and Order of Expunction
 
@@ -526,7 +526,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-288 — AOC-CR-288 Instructions
 
@@ -555,7 +555,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-288 — AOC-CR-288 Petition and Order of Expunction
 
@@ -584,7 +584,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-288 — AOC-CR-288 Petition and Order of Expunction
 
@@ -611,7 +611,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-288 — AOC-CR-288 Petition and Order of Expunction
 
@@ -648,7 +648,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-288 — AOC-CR-288 Instructions
 
@@ -677,7 +677,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-296 — AOC-CR-296 Petition and Order of Expunction
 
@@ -712,7 +712,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-297 — AOC-CR-297 Instructions
 
@@ -741,7 +741,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_145_5_felony | true | — | guidance_only | false | false |
+| NC:nc_145_5_felony | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-297 — AOC-CR-297 Petition and Order of Expunction
 
@@ -782,7 +782,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_145_5_felony | true | — | guidance_only | false | false |
+| NC:nc_145_5_felony | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-298 — AOC-CR-298 Instructions
 
@@ -879,9 +879,9 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_145_5_felony | true | — | guidance_only | false | false |
+| NC:nc_145_5_felony | true | — | factory_v2 | false | false |
 | NC:nc_145_5_misdemeanor | true | exact_supported_deferral | exact_supported_deferral | false | false |
-| NC:nc_145_8a_youthful | true | — | guidance_only | false | false |
+| NC:nc_145_8a_youthful | true | — | factory_v2 | false | false |
 | NC:nc_146_dismissal_petition | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### NC AOC-CV-226 — AOC-CV-226 Affidavit of Indigency
@@ -925,9 +925,9 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_145_5_felony | true | — | guidance_only | false | false |
+| NC:nc_145_5_felony | true | — | factory_v2 | false | false |
 | NC:nc_145_5_misdemeanor | true | exact_supported_deferral | exact_supported_deferral | false | false |
-| NC:nc_145_8a_youthful | true | — | guidance_only | false | false |
+| NC:nc_145_8a_youthful | true | — | factory_v2 | false | false |
 | NC:nc_146_dismissal_petition | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### NC AOC-CV-226 — AOC-CV-226 Affidavit of Indigency
@@ -955,9 +955,9 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_145_5_felony | true | — | guidance_only | false | false |
+| NC:nc_145_5_felony | true | — | factory_v2 | false | false |
 | NC:nc_145_5_misdemeanor | true | exact_supported_deferral | exact_supported_deferral | false | false |
-| NC:nc_145_8a_youthful | true | — | guidance_only | false | false |
+| NC:nc_145_8a_youthful | true | — | factory_v2 | false | false |
 | NC:nc_146_dismissal_petition | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### NE CC-6-11.2
@@ -987,8 +987,8 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NE:ne-setaside-custodial | true | — | guidance_only | false | false |
-| NE:ne-setaside-noncustodial | true | — | guidance_only | false | false |
+| NE:ne-setaside-custodial | true | — | factory_v2 | false | false |
+| NE:ne-setaside-noncustodial | true | — | factory_v2 | false | false |
 
 ### NE CC-6-11
 
@@ -1020,8 +1020,8 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NE:ne-setaside-custodial | true | — | guidance_only | false | false |
-| NE:ne-setaside-noncustodial | true | — | guidance_only | false | false |
+| NE:ne-setaside-custodial | true | — | factory_v2 | false | false |
+| NE:ne-setaside-noncustodial | true | — | factory_v2 | false | false |
 
 ### NE CC-6-12
 
@@ -1053,9 +1053,9 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NE:ne-seal-pardoned | true | — | guidance_only | false | false |
+| NE:ne-seal-pardoned | true | — | factory_v2 | false | false |
 | NE:ne-seal-pre2017 | true | exact_supported_deferral | exact_supported_deferral | false | false |
-| NE:ne-trafficking-setaside-and-seal | true | — | guidance_only | false | false |
+| NE:ne-trafficking-setaside-and-seal | true | — | factory_v2 | false | false |
 
 ### NE CC-6-12
 
@@ -1083,9 +1083,9 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NE:ne-seal-pardoned | true | — | guidance_only | false | false |
+| NE:ne-seal-pardoned | true | — | factory_v2 | false | false |
 | NE:ne-seal-pre2017 | true | exact_supported_deferral | exact_supported_deferral | false | false |
-| NE:ne-trafficking-setaside-and-seal | true | — | guidance_only | false | false |
+| NE:ne-trafficking-setaside-and-seal | true | — | factory_v2 | false | false |
 
 ### NE CC-6-15.1
 
@@ -1147,8 +1147,8 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NE:ne-setaside-custodial | true | — | guidance_only | false | false |
-| NE:ne-setaside-noncustodial | true | — | guidance_only | false | false |
+| NE:ne-setaside-custodial | true | — | factory_v2 | false | false |
+| NE:ne-setaside-noncustodial | true | — | factory_v2 | false | false |
 
 ### VA CC-1201 — PETITION FOR SEALING PURSUANT
 
@@ -1175,7 +1175,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| VA:va_seal_ancillary_matter_only | true | — | guidance_only | false | false |
+| VA:va_seal_ancillary_matter_only | true | — | factory_v2 | false | false |
 | VA:va_seal_enumerated_seven_year | true | exact_supported_deferral | exact_supported_deferral | false | false |
 | VA:va_seal_petition_felony | true | exact_supported_deferral | exact_supported_deferral | false | false |
 | VA:va_seal_petition_misdemeanor | true | exact_supported_deferral | exact_supported_deferral | false | false |
@@ -1232,11 +1232,11 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| VT:vt_seal_18_to_21 | true | — | guidance_only | false | false |
-| VT:vt_seal_dui | true | — | guidance_only | false | false |
-| VT:vt_seal_felony | true | — | guidance_only | false | false |
-| VT:vt_seal_misdemeanor | true | — | guidance_only | false | false |
-| VT:vt_seal_nonconviction | true | — | guidance_only | false | false |
+| VT:vt_seal_18_to_21 | true | — | factory_v2 | false | false |
+| VT:vt_seal_dui | true | — | factory_v2 | false | false |
+| VT:vt_seal_felony | true | — | factory_v2 | false | false |
+| VT:vt_seal_misdemeanor | true | — | factory_v2 | false | false |
+| VT:vt_seal_nonconviction | true | — | factory_v2 | false | false |
 | VT:vt_seal_pardon | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### VT 200-00132 — Stipulation to Seal Criminal History Record and Order
@@ -1265,11 +1265,11 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| VT:vt_seal_18_to_21 | true | — | guidance_only | false | false |
-| VT:vt_seal_dui | true | — | guidance_only | false | false |
-| VT:vt_seal_felony | true | — | guidance_only | false | false |
-| VT:vt_seal_misdemeanor | true | — | guidance_only | false | false |
-| VT:vt_seal_nonconviction | true | — | guidance_only | false | false |
+| VT:vt_seal_18_to_21 | true | — | factory_v2 | false | false |
+| VT:vt_seal_dui | true | — | factory_v2 | false | false |
+| VT:vt_seal_felony | true | — | factory_v2 | false | false |
+| VT:vt_seal_misdemeanor | true | — | factory_v2 | false | false |
+| VT:vt_seal_nonconviction | true | — | factory_v2 | false | false |
 | VT:vt_seal_pardon | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### VT 200-00132A — Stipulation to Expunge Criminal History Record and Order
@@ -1298,7 +1298,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| VT:vt_exp_decriminalized | true | — | guidance_only | false | false |
+| VT:vt_exp_decriminalized | true | — | factory_v2 | false | false |
 
 ### VT 600-00228 — Application to Waive Filing Fees and Service Costs
 
@@ -1326,12 +1326,12 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| VT:vt_exp_decriminalized | true | — | guidance_only | false | false |
-| VT:vt_seal_18_to_21 | true | — | guidance_only | false | false |
-| VT:vt_seal_dui | true | — | guidance_only | false | false |
-| VT:vt_seal_felony | true | — | guidance_only | false | false |
-| VT:vt_seal_misdemeanor | true | — | guidance_only | false | false |
-| VT:vt_seal_nonconviction | true | — | guidance_only | false | false |
+| VT:vt_exp_decriminalized | true | — | factory_v2 | false | false |
+| VT:vt_seal_18_to_21 | true | — | factory_v2 | false | false |
+| VT:vt_seal_dui | true | — | factory_v2 | false | false |
+| VT:vt_seal_felony | true | — | factory_v2 | false | false |
+| VT:vt_seal_misdemeanor | true | — | factory_v2 | false | false |
+| VT:vt_seal_nonconviction | true | — | factory_v2 | false | false |
 | VT:vt_seal_pardon | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### WI CR-266 — CR-266, 05/24 Petition to Expunge Criminal Court Record of Conviction (Non-Probation/Non-Incarceration)
@@ -1439,7 +1439,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| WI:wi_nc_doj_fingerprint_removal | true | — | guidance_only | false | false |
+| WI:wi_nc_doj_fingerprint_removal | true | — | factory_v2 | false | false |
 
 ## 2. Orphaned or optional problem PDFs
 
@@ -3860,7 +3860,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| AK:ak-courtview | true | — | guidance_only | false | false |
+| AK:ak-courtview | true | — | factory_v2 | false | false |
 
 ### KY AOC-334 — is hereby void; and all records pertaining thereto that are in custody of the court and any records in the custody of
 
@@ -3931,7 +3931,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| KY:ky_misdemeanor_expungement | true | — | guidance_only | false | false |
+| KY:ky_misdemeanor_expungement | true | — | factory_v2 | false | false |
 
 ### KY AOC-496.3 — In support of this Application, the Defendant states as follows:
 
@@ -4023,7 +4023,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| KY:ky_misdemeanor_expungement | true | — | guidance_only | false | false |
+| KY:ky_misdemeanor_expungement | true | — | factory_v2 | false | false |
 
 ### KY AOC-497 — The Court, having reviewed Defendants Petition to Expunge and being sufficiently advised, FINDS:
 
@@ -4057,7 +4057,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| KY:ky_nonconviction_expungement | true | — | guidance_only | false | false |
+| KY:ky_nonconviction_expungement | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-287 — AOC-CR-287 Petition and Order of Expunction
 
@@ -4268,7 +4268,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-288 — AOC-CR-288 Instructions
 
@@ -4297,7 +4297,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-288 — AOC-CR-288 Petition and Order of Expunction
 
@@ -4326,7 +4326,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-288 — AOC-CR-288 Petition and Order of Expunction
 
@@ -4353,7 +4353,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-288 — AOC-CR-288 Petition and Order of Expunction
 
@@ -4390,7 +4390,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-288 — AOC-CR-288 Instructions
 
@@ -4419,7 +4419,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-296 — AOC-CR-296 Petition and Order of Expunction
 
@@ -4454,7 +4454,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_146_acquittal_petition | true | — | guidance_only | false | false |
+| NC:nc_146_acquittal_petition | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-297 — AOC-CR-297 Instructions
 
@@ -4483,7 +4483,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_145_5_felony | true | — | guidance_only | false | false |
+| NC:nc_145_5_felony | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-297 — AOC-CR-297 Petition and Order of Expunction
 
@@ -4524,7 +4524,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_145_5_felony | true | — | guidance_only | false | false |
+| NC:nc_145_5_felony | true | — | factory_v2 | false | false |
 
 ### NC AOC-CR-298 — AOC-CR-298 Instructions
 
@@ -4621,9 +4621,9 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_145_5_felony | true | — | guidance_only | false | false |
+| NC:nc_145_5_felony | true | — | factory_v2 | false | false |
 | NC:nc_145_5_misdemeanor | true | exact_supported_deferral | exact_supported_deferral | false | false |
-| NC:nc_145_8a_youthful | true | — | guidance_only | false | false |
+| NC:nc_145_8a_youthful | true | — | factory_v2 | false | false |
 | NC:nc_146_dismissal_petition | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### NC AOC-CV-226 — AOC-CV-226 Affidavit of Indigency
@@ -4667,9 +4667,9 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_145_5_felony | true | — | guidance_only | false | false |
+| NC:nc_145_5_felony | true | — | factory_v2 | false | false |
 | NC:nc_145_5_misdemeanor | true | exact_supported_deferral | exact_supported_deferral | false | false |
-| NC:nc_145_8a_youthful | true | — | guidance_only | false | false |
+| NC:nc_145_8a_youthful | true | — | factory_v2 | false | false |
 | NC:nc_146_dismissal_petition | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### NC AOC-CV-226 — AOC-CV-226 Affidavit of Indigency
@@ -4697,9 +4697,9 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NC:nc_145_5_felony | true | — | guidance_only | false | false |
+| NC:nc_145_5_felony | true | — | factory_v2 | false | false |
 | NC:nc_145_5_misdemeanor | true | exact_supported_deferral | exact_supported_deferral | false | false |
-| NC:nc_145_8a_youthful | true | — | guidance_only | false | false |
+| NC:nc_145_8a_youthful | true | — | factory_v2 | false | false |
 | NC:nc_146_dismissal_petition | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### NE CC-6-11.2
@@ -4729,8 +4729,8 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NE:ne-setaside-custodial | true | — | guidance_only | false | false |
-| NE:ne-setaside-noncustodial | true | — | guidance_only | false | false |
+| NE:ne-setaside-custodial | true | — | factory_v2 | false | false |
+| NE:ne-setaside-noncustodial | true | — | factory_v2 | false | false |
 
 ### NE CC-6-11
 
@@ -4762,8 +4762,8 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NE:ne-setaside-custodial | true | — | guidance_only | false | false |
-| NE:ne-setaside-noncustodial | true | — | guidance_only | false | false |
+| NE:ne-setaside-custodial | true | — | factory_v2 | false | false |
+| NE:ne-setaside-noncustodial | true | — | factory_v2 | false | false |
 
 ### NE CC-6-12
 
@@ -4795,9 +4795,9 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NE:ne-seal-pardoned | true | — | guidance_only | false | false |
+| NE:ne-seal-pardoned | true | — | factory_v2 | false | false |
 | NE:ne-seal-pre2017 | true | exact_supported_deferral | exact_supported_deferral | false | false |
-| NE:ne-trafficking-setaside-and-seal | true | — | guidance_only | false | false |
+| NE:ne-trafficking-setaside-and-seal | true | — | factory_v2 | false | false |
 
 ### NE CC-6-12
 
@@ -4825,9 +4825,9 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NE:ne-seal-pardoned | true | — | guidance_only | false | false |
+| NE:ne-seal-pardoned | true | — | factory_v2 | false | false |
 | NE:ne-seal-pre2017 | true | exact_supported_deferral | exact_supported_deferral | false | false |
-| NE:ne-trafficking-setaside-and-seal | true | — | guidance_only | false | false |
+| NE:ne-trafficking-setaside-and-seal | true | — | factory_v2 | false | false |
 
 ### NE CC-6-15.1
 
@@ -4889,8 +4889,8 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| NE:ne-setaside-custodial | true | — | guidance_only | false | false |
-| NE:ne-setaside-noncustodial | true | — | guidance_only | false | false |
+| NE:ne-setaside-custodial | true | — | factory_v2 | false | false |
+| NE:ne-setaside-noncustodial | true | — | factory_v2 | false | false |
 
 ### VA CC-1201 — PETITION FOR SEALING PURSUANT
 
@@ -4917,7 +4917,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| VA:va_seal_ancillary_matter_only | true | — | guidance_only | false | false |
+| VA:va_seal_ancillary_matter_only | true | — | factory_v2 | false | false |
 | VA:va_seal_enumerated_seven_year | true | exact_supported_deferral | exact_supported_deferral | false | false |
 | VA:va_seal_petition_felony | true | exact_supported_deferral | exact_supported_deferral | false | false |
 | VA:va_seal_petition_misdemeanor | true | exact_supported_deferral | exact_supported_deferral | false | false |
@@ -4974,11 +4974,11 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| VT:vt_seal_18_to_21 | true | — | guidance_only | false | false |
-| VT:vt_seal_dui | true | — | guidance_only | false | false |
-| VT:vt_seal_felony | true | — | guidance_only | false | false |
-| VT:vt_seal_misdemeanor | true | — | guidance_only | false | false |
-| VT:vt_seal_nonconviction | true | — | guidance_only | false | false |
+| VT:vt_seal_18_to_21 | true | — | factory_v2 | false | false |
+| VT:vt_seal_dui | true | — | factory_v2 | false | false |
+| VT:vt_seal_felony | true | — | factory_v2 | false | false |
+| VT:vt_seal_misdemeanor | true | — | factory_v2 | false | false |
+| VT:vt_seal_nonconviction | true | — | factory_v2 | false | false |
 | VT:vt_seal_pardon | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### VT 200-00132 — Stipulation to Seal Criminal History Record and Order
@@ -5007,11 +5007,11 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| VT:vt_seal_18_to_21 | true | — | guidance_only | false | false |
-| VT:vt_seal_dui | true | — | guidance_only | false | false |
-| VT:vt_seal_felony | true | — | guidance_only | false | false |
-| VT:vt_seal_misdemeanor | true | — | guidance_only | false | false |
-| VT:vt_seal_nonconviction | true | — | guidance_only | false | false |
+| VT:vt_seal_18_to_21 | true | — | factory_v2 | false | false |
+| VT:vt_seal_dui | true | — | factory_v2 | false | false |
+| VT:vt_seal_felony | true | — | factory_v2 | false | false |
+| VT:vt_seal_misdemeanor | true | — | factory_v2 | false | false |
+| VT:vt_seal_nonconviction | true | — | factory_v2 | false | false |
 | VT:vt_seal_pardon | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### VT 200-00132A — Stipulation to Expunge Criminal History Record and Order
@@ -5040,7 +5040,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| VT:vt_exp_decriminalized | true | — | guidance_only | false | false |
+| VT:vt_exp_decriminalized | true | — | factory_v2 | false | false |
 
 ### VT 600-00228 — Application to Waive Filing Fees and Service Costs
 
@@ -5068,12 +5068,12 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| VT:vt_exp_decriminalized | true | — | guidance_only | false | false |
-| VT:vt_seal_18_to_21 | true | — | guidance_only | false | false |
-| VT:vt_seal_dui | true | — | guidance_only | false | false |
-| VT:vt_seal_felony | true | — | guidance_only | false | false |
-| VT:vt_seal_misdemeanor | true | — | guidance_only | false | false |
-| VT:vt_seal_nonconviction | true | — | guidance_only | false | false |
+| VT:vt_exp_decriminalized | true | — | factory_v2 | false | false |
+| VT:vt_seal_18_to_21 | true | — | factory_v2 | false | false |
+| VT:vt_seal_dui | true | — | factory_v2 | false | false |
+| VT:vt_seal_felony | true | — | factory_v2 | false | false |
+| VT:vt_seal_misdemeanor | true | — | factory_v2 | false | false |
+| VT:vt_seal_nonconviction | true | — | factory_v2 | false | false |
 | VT:vt_seal_pardon | true | exact_supported_deferral | exact_supported_deferral | false | false |
 
 ### WI CR-266 — CR-266, 05/24 Petition to Expunge Criminal Court Record of Conviction (Non-Probation/Non-Incarceration)
@@ -5181,7 +5181,7 @@ Defects:
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
-| WI:wi_nc_doj_fingerprint_removal | true | — | guidance_only | false | false |
+| WI:wi_nc_doj_fingerprint_removal | true | — | factory_v2 | false | false |
 
 ## Acceptance condition for replacing a fallback
 

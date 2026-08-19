@@ -97,8 +97,13 @@ function failures(registry) {
     if (route.factoryV2Resolves !== true) continue;
     fail(typeof gates.ownerApprovedLegalDesign === "boolean",
       `S-legal ${route.pathwayKey}: no recorded owner legal-design status`);
-    fail(typeof gates.problematicPdfHold === "boolean",
-      `S-pdf ${route.pathwayKey}: no recorded problematic-PDF status`);
+    fail(typeof gates.paymentAllowedAtTheEvaluator === "boolean",
+      `S-payment ${route.pathwayKey}: no recorded payment status`);
+    // The problematic-PDF gate is deliberately absent: its register is produced
+    // by resolving every route through the resolver that reads this registry,
+    // so recording it here would be a generator cycle. The launch graph owns it.
+    fail(!("problematicPdfHold" in gates),
+      `S-cycle ${route.pathwayKey}: records the problematic-PDF status, which would make the two generators depend on each other`);
   }
   // Buildable-and-unapproved must actually occur, or the "separate gates" claim
   // is untested wording rather than an observed property.
@@ -225,9 +230,13 @@ if (MUTATIONS) {
         if (route.separateGates?.ownerApprovedLegalDesign === false) route.factoryV2Resolves = false;
       }
     }],
-    ["the recorded PDF status dropped from an admitted route", (r) => {
+    ["the problematic-PDF register consumed back into this registry", (r) => {
       const route = r.routes.find((x) => x.factoryV2Resolves);
-      delete route.separateGates.problematicPdfHold;
+      route.separateGates.problematicPdfHold = false;
+    }],
+    ["the recorded payment status dropped from an admitted route", (r) => {
+      const route = r.routes.find((x) => x.factoryV2Resolves);
+      delete route.separateGates.paymentAllowedAtTheEvaluator;
     }],
     ["every route emptied out of the registry", (r) => { r.routes = []; }]
   ];
@@ -253,7 +262,7 @@ const admitted = (registry.routes ?? []).filter((route) => route.factoryV2Resolv
 console.log(
   `factory_v2: ${admitted.length} of ${(registry.routes ?? []).length} intended-paid routes build through the one shared packet factory; ` +
   `${admitted.filter((route) => route.separateGates?.ownerApprovedLegalDesign).length} of those are owner-approved, ` +
-  `${admitted.filter((route) => route.separateGates?.problematicPdfHold).length} carry a problematic-PDF hold.`
+  `${admitted.filter((route) => route.separateGates?.paymentAllowedAtTheEvaluator).length} of those allow payment at the evaluator.`
 );
 if (problems.length > 0) {
   console.error(`\nverify-rcap-factory-v2-route FAILED — ${problems.length} problem(s):\n`);
