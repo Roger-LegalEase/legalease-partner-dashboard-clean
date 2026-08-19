@@ -2007,8 +2007,32 @@ function parseDateAnswer(value: ScreeningAnswerValue | undefined) {
   return Number.isNaN(date.getTime()) ? undefined : date;
 }
 
+/**
+ * Today, for every waiting-period calculation the evaluator makes.
+ *
+ * RCAP_EVALUATOR_TODAY pins this so the 284-pathway witness replay is
+ * deterministic. That pin is a TEST instrument and is refused in production.
+ *
+ * It was previously honoured unconditionally. Nothing set it in production, so
+ * nothing had gone wrong — but the failure it allows is silent and severe: an
+ * environment that carried the variable, by inheritance or by a copied
+ * deployment config, would compute every waiting period against a frozen date.
+ * Eligibility would be decided against a day that is not today, and the result
+ * would look entirely normal, because a wrong date produces a confident answer
+ * rather than an error. A participant would be told they must keep waiting, or
+ * told they may file when they may not.
+ *
+ * A determinism pin for a test suite must not be able to decide a real person's
+ * eligibility, so in production the authoritative clock is the only source.
+ */
 function evaluationToday() {
-  return new Date(process.env.RCAP_EVALUATOR_TODAY ? `${process.env.RCAP_EVALUATOR_TODAY}T00:00:00.000Z` : Date.now());
+  const pinned = process.env.RCAP_EVALUATOR_TODAY;
+  if (pinned && process.env.NODE_ENV === "production") {
+    throw new Error(
+      "RCAP_EVALUATOR_TODAY is set in a production environment. It pins the evaluator's idea of today for deterministic tests, and honouring it here would decide waiting periods against a frozen date. Unset it; production uses the authoritative clock."
+    );
+  }
+  return new Date(pinned ? `${pinned}T00:00:00.000Z` : Date.now());
 }
 
 function addDuration(date: Date, value: number, unit: string) {
