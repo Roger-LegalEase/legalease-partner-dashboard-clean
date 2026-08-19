@@ -19,6 +19,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
+import { ROOT_CAUSES } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
 import { withTrackedMutation, assertTreeNotMidMutation } from "./lib/tracked-mutation-guard.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -30,6 +31,7 @@ const SHEET_PROOF = "data/rcap-all50/contact-sheet-visual-proof.json";
 const MASTER = "data/rcap-all50/problematic-pdf-master-list.json";
 const F3 = "data/rcap-all50/review-artifacts/f3-visual-review.json";
 const OVERLAY_DIR = "data/rcap-all50/overlays/production";
+const WORKFLOW = ".github/workflows/rcap-all50-handoff.yml";
 
 const abs = (repoPath) => path.join(rootDir, repoPath);
 const readJson = (repoPath, fallback = null) => {
@@ -158,9 +160,7 @@ function runChecks() {
         if (pattern.test(text)) fail("no_vague_status", `${row.jurisdiction} ${row.formNumber}: ${field} uses the non-status "${pattern.source}"`);
       }
     }
-    if (row.disposition !== "HELD") {
-      fail("every_asset_stays_held", `${row.jurisdiction} ${row.formNumber} carries disposition ${row.disposition}`);
-    }
+
   }
 
   // ---- 7. lanes are assigned honestly -------------------------------------
@@ -200,7 +200,96 @@ function runChecks() {
     }
   }
 
-  // ---- 10. a verdict without a working control is not a verdict -----------
+  // ---- 10. every asset carries exactly one known operational disposition ---
+  // "Held" is a release posture, not an operational state. Collapsing all 128
+  // onto it groups a form whose route already delivers a complete deferral with
+  // a form nobody can obtain, and tells a reader nothing about either.
+  const DISPOSITION_VOCABULARY = new Set(Object.keys(master.dispositions ?? {}));
+  const ACTIVE_TRACK_DISPOSITIONS = new Set([
+    "active_track_delivery_hold", "certification_unproven", "independent_review_required"
+  ]);
+  const dispositionCounts = new Map();
+  for (const row of master.rows) {
+    if (!DISPOSITION_VOCABULARY.has(row.disposition)) {
+      fail("every_asset_has_one_operational_disposition", `${row.jurisdiction} ${row.formNumber} carries the unknown disposition "${row.disposition}"`);
+    }
+    dispositionCounts.set(row.disposition, (dispositionCounts.get(row.disposition) ?? 0) + 1);
+    if (row.releaseStatus !== "HELD") {
+      fail("every_asset_stays_held", `${row.jurisdiction} ${row.formNumber} carries release status ${row.releaseStatus}`);
+    }
+  }
+  // A single disposition across the whole register is the collapse this check
+  // exists to catch, whatever that one value happens to be.
+  if (master.rows.length > 1 && dispositionCounts.size <= 1) {
+    fail("dispositions_are_not_collapsed", `all ${master.rows.length} assets share the single disposition "${[...dispositionCounts.keys()][0]}"`);
+  }
+
+  // ---- 11. an asset no active track requires is not a launch blocker -------
+  for (const row of master.rows) {
+    if (row.activeTrackStatus !== "orphaned_or_optional") continue;
+    if (ACTIVE_TRACK_DISPOSITIONS.has(row.disposition)) {
+      fail("orphaned_assets_are_not_active_blockers", `${row.jurisdiction} ${row.formNumber} is orphaned or optional yet carries the active-track disposition "${row.disposition}"`);
+    }
+    if (row.affectedTrackIds.length > 0) {
+      fail("orphaned_assets_are_not_active_blockers", `${row.jurisdiction} ${row.formNumber} is classed orphaned or optional while naming ${row.affectedTrackIds.length} affected track(s)`);
+    }
+  }
+
+  // ---- 12. every finding names a root cause the catalogue knows ------------
+  for (const record of register.records) {
+    if (!Array.isArray(record.rootCauseIds) || record.rootCauseIds.length === 0) {
+      fail("root_cause_ids_resolve", `${record.identity} carries findings with no root cause recorded`);
+      continue;
+    }
+    for (const defect of record.defects) {
+      if (!defect.rootCauseId) {
+        fail("root_cause_ids_resolve", `${record.identity}: a ${defect.category} finding names no root cause`);
+      } else if (!ROOT_CAUSES[defect.rootCauseId]) {
+        fail("root_cause_ids_resolve", `${record.identity}: unknown root cause ${defect.rootCauseId}`);
+      }
+    }
+  }
+  for (const cause of register.rootCauseIndex ?? []) {
+    if (!ROOT_CAUSES[cause.rootCauseId]) {
+      fail("root_cause_ids_resolve", `the root-cause index names unknown cause ${cause.rootCauseId}`);
+    }
+  }
+
+  // ---- 13. a systemic cause is one problem, however many assets it touches -
+  // The failure this guards against is arithmetic, not editorial: reporting a
+  // systemic cause once per impacted asset turns one factory problem into 62.
+  const indexById = new Map((register.rootCauseIndex ?? []).map((c) => [c.rootCauseId, c]));
+  const systemicIn = (dimension) => [...indexById.values()]
+    .filter((c) => ROOT_CAUSES[c.rootCauseId]?.dimension === dimension && ROOT_CAUSES[c.rootCauseId]?.scope === "systemic").length;
+  for (const [dimension, key] of [["technical", "uniqueSystemicTechnicalRootCauses"], ["visual", "uniqueSystemicVisualRootCauses"], ["source", "uniqueSystemicSourceRootCauses"]]) {
+    const expected = systemicIn(dimension);
+    if (register.totals[key] !== expected) {
+      fail("systemic_causes_are_counted_once", `${key} is ${register.totals[key]}; there are ${expected} distinct systemic ${dimension} causes in the index`);
+    }
+  }
+
+  // ---- 14. priority 4 is a refusal, not a queue position -------------------
+  for (const row of master.rows) {
+    if (row.acquisitionPriority === 4 && row.acquisitionRule !== "do_not_acquire_without_a_named_current_use") {
+      fail("priority_4_is_a_refusal", `${row.jurisdiction} ${row.formNumber} sits at priority 4 without the do-not-acquire rule (rule: ${row.acquisitionRule ?? "none"})`);
+    }
+    if (row.acquisitionPriority === 4 && row.activeTrackStatus === "active_track") {
+      fail("priority_4_is_a_refusal", `${row.jurisdiction} ${row.formNumber} serves an active track yet is filed as do-not-acquire`);
+    }
+    if (row.acquisitionPriority !== null && ![1, 2, 3, 4].includes(row.acquisitionPriority)) {
+      fail("priority_4_is_a_refusal", `${row.jurisdiction} ${row.formNumber} carries the unknown acquisition priority ${row.acquisitionPriority}`);
+    }
+  }
+
+  // ---- 15. CI actually invokes this contract -------------------------------
+  // Duplicated deliberately with the dedicated wiring check: whichever of the
+  // two a reader runs, removing the invocation is visible.
+  const workflow = fs.existsSync(abs(WORKFLOW)) ? fs.readFileSync(abs(WORKFLOW), "utf8") : "";
+  if (!workflow.includes("run: node scripts/verify-rcap-problematic-pdf-remediation.mjs")) {
+    fail("ci_invokes_this_contract", `${WORKFLOW} does not invoke this verifier directly`);
+  }
+
+  // ---- 16. a verdict without a working control is not a verdict -----------
   for (const family of sheetProof.families) {
     if (family.panelsAreVisuallyIdentical === true && family.controlDiscriminates === false) {
       fail("visual_verdicts_have_a_control", `${family.familyId}: an identical-panels verdict was recorded although the known-different control did not discriminate`);
@@ -236,7 +325,7 @@ if (!mutationsMode) process.exit(0);
 // Each case edits committed bytes, re-runs every check, and requires the named
 // check to be among the ones that went red. Starting green is a precondition:
 // a mutation pass on an already-red tree proves nothing.
-const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3];
+const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW];
 
 const CASES = [
   {
@@ -408,12 +497,76 @@ const CASES = [
     }
   },
   {
-    name: "an asset is released from its held disposition",
+    name: "an asset is released from its held status",
     expect: "every_asset_stays_held",
     apply: () => {
       const master = readJson(MASTER);
-      master.rows[0].disposition = "approved_for_live";
+      master.rows[0].releaseStatus = "approved_for_live";
       fs.writeFileSync(abs(MASTER), `${JSON.stringify(master, null, 2)}\n`);
+    }
+  },
+  {
+    name: "every disposition is collapsed back to one undifferentiated hold",
+    expect: "dispositions_are_not_collapsed",
+    apply: () => {
+      const master = readJson(MASTER);
+      master.dispositions = { held: "Held." };
+      for (const row of master.rows) row.disposition = "held";
+      fs.writeFileSync(abs(MASTER), `${JSON.stringify(master, null, 2)}\n`);
+    }
+  },
+  {
+    name: "an orphaned asset is treated as an active launch blocker",
+    expect: "orphaned_assets_are_not_active_blockers",
+    apply: () => {
+      const master = readJson(MASTER);
+      const row = master.rows.find((r) => r.activeTrackStatus === "orphaned_or_optional");
+      row.disposition = "active_track_delivery_hold";
+      fs.writeFileSync(abs(MASTER), `${JSON.stringify(master, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a systemic root-cause id is omitted from a finding",
+    expect: "root_cause_ids_resolve",
+    apply: () => {
+      const register = readJson(REGISTER);
+      const record = register.records.find((r) => r.defects.length > 0);
+      delete record.defects[0].rootCauseId;
+      record.rootCauseIds = record.rootCauseIds.filter((id) => id !== "RC-T-OBJECT-STREAMS");
+      fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
+    }
+  },
+  {
+    name: "one systemic cause is counted as many unique root causes",
+    expect: "systemic_causes_are_counted_once",
+    apply: () => {
+      const register = readJson(REGISTER);
+      // The classic inflation: report impacted assets as if each were its own
+      // distinct problem.
+      register.totals.uniqueSystemicTechnicalRootCauses = register.rootCauseIndex
+        .filter((c) => c.scope === "systemic" && c.dimension === "technical")
+        .reduce((n, c) => n + c.impactedAssets, 0);
+      fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a priority-4 source is queued for acquisition without a named current use",
+    expect: "priority_4_is_a_refusal",
+    apply: () => {
+      const master = readJson(MASTER);
+      const row = master.rows.find((r) => r.acquisitionPriority === 4);
+      row.acquisitionRule = null;
+      fs.writeFileSync(abs(MASTER), `${JSON.stringify(master, null, 2)}\n`);
+    }
+  },
+  {
+    name: "the direct CI invocation is silently removed",
+    expect: "ci_invokes_this_contract",
+    apply: () => {
+      const workflow = fs.readFileSync(abs(WORKFLOW), "utf8");
+      fs.writeFileSync(abs(WORKFLOW), workflow.replaceAll(
+        "run: node scripts/verify-rcap-problematic-pdf-remediation.mjs", "run: echo skipped"
+      ));
     }
   }
 ];

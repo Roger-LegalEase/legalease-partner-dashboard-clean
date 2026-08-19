@@ -3,8 +3,8 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 138,
-    "wired": 113,
+    "keep_available": 137,
+    "wired": 115,
     "fix_then_wire": 27,
     "retire": 1,
     "quarantine": 2,
@@ -1684,9 +1684,15 @@
       "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
+    "verify-rcap-problematic-pdf-ci-wiring.mjs": {
+      "disposition": "wired",
+      "reason": "Proves the problematic-PDF contract is actually reached by CI: the All50 handoff workflow must invoke it, and unconditionally, because a step guarded by the RCAP scope detector would be skipped on exactly the commit that flips a problematic route sellable. Invoked directly from the workflow rather than through npm test, since package.json is a worker image input. `--mutations` proves removing the step, making it conditional, or letting the disposition register drift each turn a named check red.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "recorded_decision"
+    },
     "verify-rcap-problematic-pdf-remediation.mjs": {
-      "disposition": "keep_available",
-      "reason": "The problematic-PDF lane's fail-closed contract: the structural-class vocabulary, the finalized-artifact audit's internal consistency, every unfinalized artifact and factory-written protected field reaching the register, both launch counters at zero, the master list covering the register exactly once with no vague status and nothing released from HELD, lane A claimed only with a binary in the clone, every evidence path resolving, and no blank contact sheet signed off as visual evidence. Green, with `--mutations` proving all sixteen checks go red one at a time under the tracked mutation guard. Not wired because wiring it edits package.json, which is a release-source input this lane is not authorized to touch; promoting it to `wired` is a one-line change for whoever holds that authorization.",
+      "disposition": "wired",
+      "reason": "The problematic-PDF lane's fail-closed contract: the structural-class vocabulary, the finalized-artifact audit's internal consistency, every unfinalized artifact and factory-written protected field reaching the register, both launch counters at zero, the master list covering the register exactly once with no vague status and nothing released from HELD, lane A claimed only with a binary in the clone, every evidence path resolving, and no blank contact sheet signed off as visual evidence. Green, with `--mutations` proving all sixteen checks go red one at a time under the tracked mutation guard. Wired directly from .github/workflows/rcap-all50-handoff.yml, both the contract and its `--mutations` pass, alongside the migration-sequence, worker-tag and hosted-verdict guards that are invoked the same way and for the same reason: package.json is a worker image input, so an npm script entry would change the image fingerprint and force a rebuild for a check that alters nothing the image contains. verify-rcap-problematic-pdf-ci-wiring.mjs holds that invocation in place.",
       "observedStatus": "added_since_audit",
       "decidedBy": "recorded_decision"
     },

@@ -138,3 +138,22 @@ jobs:
       # where no ephemeral PostgreSQL is available.
       - name: Verify where each consumer record is actually created
         run: node scripts/verify-rcap-consumer-lifecycle-boundaries.mjs
+
+      # The problematic-PDF lane's fail-closed contract, invoked directly for
+      # the same reason as the guards above: package.json is a worker image
+      # input, so an npm script entry would change the image fingerprint and
+      # force a rebuild for a check that alters nothing the image contains.
+      # This file is in neither image-input set.
+      #
+      # Unconditional on purpose. The two counters this asserts -- no
+      # problematic asset sellable, none on a public packet route -- must hold
+      # on every pull request, and a change that makes one of them false is
+      # exactly the change the scope detector would not call RCAP-affected.
+      - name: Verify the problematic-PDF register, evidence and dispositions
+        run: node scripts/verify-rcap-problematic-pdf-remediation.mjs
+
+      - name: Prove the problematic-PDF contract is load-bearing
+        run: node scripts/verify-rcap-problematic-pdf-remediation.mjs --mutations
+
+      - name: Verify the problematic-PDF contract is actually wired into this workflow
+        run: node scripts/verify-rcap-problematic-pdf-ci-wiring.mjs
