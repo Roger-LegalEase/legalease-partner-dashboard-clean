@@ -118,6 +118,42 @@ for (const stateDir of fs.readdirSync(OVERLAY_DIR).sort()) {
     const profile = readJson(path.join(familyPath, "overlay-profile.json"));
     if (!profile || !Array.isArray(profile.anchors) || profile.anchors.length === 0) continue;
     if (fs.existsSync(path.join(familyPath, "retirement.json"))) continue;
+    // A family an independent reviewer has approved is not this driver's to
+    // re-render. The approval names the artifact hashes it approved, so a
+    // re-render silently invalidates it -- and a change to any shared factory
+    // module, which the render cache correctly treats as a reason to re-render,
+    // would otherwise do exactly that without anyone deciding to.
+    if (profile.independentReview?.verdict === "approved_for_platform_ready") {
+      // Rendered, not rebuilt. The artifacts are on disk and approved; this
+      // driver is only declining to overwrite them. Reporting `rendered: false`
+      // said the family had never rendered at all, and the register reads that
+      // to mean a flat PDF whose geometry is still unmeasured -- which put an
+      // approved family back into the problematic denominator.
+      // The artifacts are unchanged, so the row that described them is still
+      // true. Carrying it forward keeps the refusal record -- which is what
+      // proves the signature rule was refused by geometry -- instead of
+      // dropping it and making an approved family look unproven.
+      const familyId = `${String((readJson(path.join(familyPath, "source-record.json")) ?? {}).jurisdiction ?? stateDir).toUpperCase()}:${familyDir}`;
+      const previous = (readJson(OUT, { families: [] }).families ?? [])
+        .find((f) => f.familyId === familyId) ?? null;
+      const approvedRow = {
+        ...(previous ?? {
+          familyId,
+          documentId: (readJson(path.join(familyPath, "source-record.json")) ?? {}).documentId ?? familyDir,
+          sourceSha256: profile.sha256 ?? null,
+          anchors: profile.anchors.length,
+          provenance: readJson(path.join(familyPath, "artifact-provenance.json"), null)
+        }),
+        rendered: true,
+        rebuilt: false,
+        notRebuiltReason: "an independent reviewer approved this family's artifacts; re-rendering would invalidate the approval, so rebuilding it requires withdrawing that approval first"
+      };
+      families.push(approvedRow);
+      for (const artifact of approvedRow.provenance?.artifacts ?? []) {
+        written.push(path.relative(rootDir, path.join(familyPath, artifact.artifact ?? artifact.rel ?? "")));
+      }
+      continue;
+    }
 
     const record = readJson(path.join(familyPath, "source-record.json")) ?? {};
     const jurisdiction = String(record.jurisdiction ?? stateDir).toUpperCase();

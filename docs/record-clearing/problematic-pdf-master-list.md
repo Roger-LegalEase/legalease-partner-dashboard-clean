@@ -10,15 +10,15 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Serving an active launch track | 45 |
 | Orphaned or optional | 4 |
 | Expected by legal design and absent | 39 |
-| Lane A — correctable now | 19 |
+| Lane A — correctable now | 18 |
 | Lane B — official source acquisition required | 39 |
-| Lane C — source-currentness hold | 26 |
+| Lane C — source-currentness hold | 27 |
 | Lane D — legal-design hold | 0 |
 | Lane E — orphaned or optional | 4 |
 | Lane F — missing binary, complete participant deferral | 0 |
 | Verified source binaries present in this clone | 62 |
-| Assets with a finalized rendered artifact | 30 |
-| Assets whose active-content verdict is unprovable | 1 |
+| Assets with a finalized rendered artifact | 31 |
+| Assets whose active-content verdict is unprovable | 0 |
 | Contact sheets that show a fill | 27 |
 | Contact sheets that show no fill | 4 |
 | Active-track assets blocking packet promotion | 0 |
@@ -30,8 +30,8 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Orphaned | 2 |
 | Optional | 0 |
 | Official source required | 52 |
-| Certification unproven | 26 |
-| Independent review required | 5 |
+| Certification unproven | 2 |
+| Independent review required | 29 |
 | Legal-design hold | 0 |
 | Source-acquisition candidates (priorities 1-3) | 0 |
 | Acquisition priority 1 — packet-capable route waiting | 0 |
@@ -45,13 +45,13 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Never independently reviewed | 85 |
 | On a sellable route | 0 |
 | On a public packet route | 0 |
-| High severity | 5 |
+| High severity | 4 |
 
 ## Lanes
 
-- **A** — `actionable_technical_or_visual_correction` (19)
+- **A** — `actionable_technical_or_visual_correction` (18)
 - **B** — `official_source_acquisition_required` (39)
-- **C** — `source_currentness_hold` (26)
+- **C** — `source_currentness_hold` (27)
 - **D** — `legal_design_hold` (0)
 - **E** — `orphaned_or_optional_asset` (4)
 - **F** — `missing_binary_with_complete_participant_deferral` (0)
@@ -75,7 +75,6 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | NC | AOC-CV-226 | nc_145_5_felony, nc_145_5_misdemeanor, nc_145_8a_youthful, nc_146_dismissal_petition | high | Terminal A route owner | A placement decision, not a binary: the verified source is present at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__ES.pdf, and 1 label(s) on it have no write box the document expresses, so no coordinate is asserted for them. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; f_independent_visual_review_required stands. | Decide where each of the 1 candidate label(s) on NC AOC-CV-226 takes its value, and record the approved write box. The document does not express one, so the anchor capture asserts no coordinate and re-running the factory reproduces the same refusal. The rendered form with each label marked at its measured position is at no rendering available. Once a placement is approved, re-render from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__ES.pdf and re-run the finalized-artifact audit and contact-sheet visual proof. Do not lift the recorded production holds to do it. |
 | NC | AOC-CV-226 | nc_145_5_felony, nc_145_5_misdemeanor, nc_145_8a_youthful, nc_146_dismissal_petition | high | Terminal A route owner | A placement decision, not a binary: the verified source is present at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__VI.pdf, and 1 label(s) on it have no write box the document expresses, so no coordinate is asserted for them. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; f_independent_visual_review_required stands. | Decide where each of the 1 candidate label(s) on NC AOC-CV-226 takes its value, and record the approved write box. The document does not express one, so the anchor capture asserts no coordinate and re-running the factory reproduces the same refusal. The rendered form with each label marked at its measured position is at no rendering available. Once a placement is approved, re-render from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__VI.pdf and re-run the finalized-artifact audit and contact-sheet visual proof. Do not lift the recorded production holds to do it. |
 | NE | CC-6-12 | ne-seal-pardoned, ne-seal-pre2017, ne-trafficking-setaside-and-seal | medium | Terminal A route owner | None for the render itself: the verified binary is present at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; not_participant_fillable_no_fixture_fill; f_independent_visual_review_required stands. | Re-render NE CC-6-12 from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf through scripts/implement-rcap-official-forms-d1.mjs, then re-run the finalized-artifact audit and the contact-sheet visual proof for its family. Do not lift the recorded production holds to do it. |
-| VT | 200-00130 | vt_seal_18_to_21, vt_seal_dui, vt_seal_felony, vt_seal_misdemeanor, vt_seal_nonconviction, vt_seal_pardon | high | Terminal A route owner | None for the render itself: the verified binary is present at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; f_independent_visual_review_required stands. | Re-render VT 200-00130 from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf through scripts/implement-rcap-official-forms-d1.mjs, then re-run the finalized-artifact audit and the contact-sheet visual proof for its family. Do not lift the recorded production holds to do it. |
 | WI | CR-267 | wi_exp_cr266 | medium | Terminal A route owner | A placement decision, not a binary: the verified source is present at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/02_PACKET_FORMS/WI__FORM__CR-267__cr-267-02-15-order-on-petition-to-expunge-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf, and 1 label(s) on it have no write box the document expresses, so no coordinate is asserted for them. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; not_participant_fillable_no_fixture_fill; f_independent_visual_review_required stands. | Decide where each of the 1 candidate label(s) on WI CR-267 takes its value, and record the approved write box. The document does not express one, so the anchor capture asserts no coordinate and re-running the factory reproduces the same refusal. The rendered form with each label marked at its measured position is at no rendering available. Once a placement is approved, re-render from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/02_PACKET_FORMS/WI__FORM__CR-267__cr-267-02-15-order-on-petition-to-expunge-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf and re-run the finalized-artifact audit and contact-sheet visual proof. Do not lift the recorded production holds to do it. |
 | WI | DJ-LE-247 | wi_nc_doj_challenge | medium | Terminal A route owner | None for the render itself: the verified binary is present at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; not_participant_fillable_no_fixture_fill; f_independent_visual_review_required stands. | Re-render WI DJ-LE-247 from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf through scripts/implement-rcap-official-forms-d1.mjs, then re-run the finalized-artifact audit and the contact-sheet visual proof for its family. Do not lift the recorded production holds to do it. |
 | WI | DJ-LE-250B | wi_nc_doj_fingerprint_removal | medium | Terminal A route owner | None for the render itself: the verified binary is present at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf. Generation is separately withheld while state_manifest_generation_allowed_no; edition_1_runtime_disabled; not_participant_fillable_no_fixture_fill; f_independent_visual_review_required stands. | Re-render WI DJ-LE-250B from private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf through scripts/implement-rcap-official-forms-d1.mjs, then re-run the finalized-artifact audit and the contact-sheet visual proof for its family. Do not lift the recorded production holds to do it. |
@@ -150,6 +149,7 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | NE | DC-1-15 | ne-setaside-custodial, ne-setaside-noncustodial | medium | Source-currentness reviewer | The asset carries a recorded source or design hold that no committed evidence resolves: state_manifest_generation_allowed_no; edition_1_runtime_disabled; not_participant_fillable_no_fixture_fill; f_independent_visual_review_required. | Confirm against the issuing body's own publication whether revision (unrecorded) of NE DC-1-15 is the currently published edition, and record the comparison and the superseded identity if it is not. |
 | VA | CC-1201 | va_seal_ancillary_matter_only, va_seal_enumerated_seven_year, va_seal_petition_felony, va_seal_petition_misdemeanor | medium | Source-currentness reviewer | Revision REV-2026-07 cannot be shown to be the currently published edition: freshness is recorded as candidate_current_source and no independent currentness review exists. | Confirm against the issuing body's own publication whether revision REV-2026-07 of VA CC-1201 is the currently published edition, and record the comparison and the superseded identity if it is not. |
 | VA | CC-1473 | va_exp_nonconviction | medium | Source-currentness reviewer | Revision REV-2026-07 cannot be shown to be the currently published edition: freshness is recorded as candidate_current_source and no independent currentness review exists. | Confirm against the issuing body's own publication whether revision REV-2026-07 of VA CC-1473 is the currently published edition, and record the comparison and the superseded identity if it is not. |
+| VT | 200-00130 | vt_seal_18_to_21, vt_seal_dui, vt_seal_felony, vt_seal_misdemeanor, vt_seal_nonconviction, vt_seal_pardon | medium | Source-currentness reviewer | Revision REV-2025-07 cannot be shown to be the currently published edition: freshness is recorded as candidate_current_source and no independent currentness review exists. | Confirm against the issuing body's own publication whether revision REV-2025-07 of VT 200-00130 is the currently published edition, and record the comparison and the superseded identity if it is not. |
 | VT | 200-00132 | vt_seal_18_to_21, vt_seal_dui, vt_seal_felony, vt_seal_misdemeanor, vt_seal_nonconviction, vt_seal_pardon | medium | Source-currentness reviewer | Revision REV-2025-07 cannot be shown to be the currently published edition: freshness is recorded as candidate_current_source and no independent currentness review exists. | Confirm against the issuing body's own publication whether revision REV-2025-07 of VT 200-00132 is the currently published edition, and record the comparison and the superseded identity if it is not. |
 | VT | 200-00132A | vt_exp_decriminalized | medium | Source-currentness reviewer | Revision REV-2025-07 cannot be shown to be the currently published edition: freshness is recorded as candidate_current_source and no independent currentness review exists. | Confirm against the issuing body's own publication whether revision REV-2025-07 of VT 200-00132A is the currently published edition, and record the comparison and the superseded identity if it is not. |
 | VT | 600-00228 | vt_exp_decriminalized, vt_seal_18_to_21, vt_seal_dui, vt_seal_felony, vt_seal_misdemeanor, vt_seal_nonconviction, vt_seal_pardon | medium | Source-currentness reviewer | Revision REV-2026-04 cannot be shown to be the currently published edition: freshness is recorded as candidate_current_source and no independent currentness review exists. | Confirm against the issuing body's own publication whether revision REV-2026-04 of VT 600-00228 is the currently published edition, and record the comparison and the superseded identity if it is not. |
@@ -180,8 +180,8 @@ Every asset carries exactly one. `releaseStatus` is a separate axis and is HELD 
 | --- | --- | ---: |
 | `active_track_delivery_hold` | An active track's packet delivery is blocked on this asset. | 0 |
 | `official_source_required` | The verified source binary is unavailable, so nothing downstream can be attempted. | 52 |
-| `certification_unproven` | Artifacts exist but cannot be certified: their active-content cleanliness or finalization cannot be established from the committed bytes. | 26 |
-| `independent_review_required` | Certifiable artifacts exist and no independent review has approved them. | 5 |
+| `certification_unproven` | Artifacts exist but cannot be certified: their active-content cleanliness or finalization cannot be established from the committed bytes. | 2 |
+| `independent_review_required` | Certifiable artifacts exist and no independent review has approved them. | 29 |
 | `legal_design_hold` | A substantive legal-design question is unresolved. | 0 |
 | `reference_only` | An instruction, guidance or supporting-process document, not a filed component. | 2 |
 | `orphaned` | No active track requires it and no candidate binding to one exists. | 2 |
@@ -204,16 +204,12 @@ How many assets carry a finding and how many distinct problems produce those fin
 | `RC-S-BUNDLE-ABSENT` | source | systemic | 39 | Supplying the canonical source bundle, or opening access to the issuing bodies. |
 | `RC-S-CURRENTNESS-UNVERIFIED` | source | systemic | 37 | A currentness review pass against the issuing bodies' own publications. |
 | `RC-S-STALE-OR-SUPERSEDED` | source | family_specific | 5 | Acquiring the current edition of this form and recording the supersession. |
-| `RC-T-ACTIVE-CONTENT-IN-OUTPUT` | technical | family_specific | 23 | Re-rendering this family through the current factory, which refuses to emit such a file. |
 | `RC-T-ALL-FIELDS-UNWRITABLE` | technical | family_specific | 2 | A reviewed mapping decision for this form, or a decision that it is court-completed. |
 | `RC-T-DIRTY-ACROFORM-SOURCE` | technical | family_specific | 25 | Sanitation of this form through the current pipeline, proved on the output. |
-| `RC-T-FACTORY-PROVENANCE` | technical | systemic | 1 | Re-rendering the affected families through the current official-form factory. |
 | `RC-T-FLAT-GEOMETRY` | technical | family_specific | 21 | Measured anchors approved for this form. |
 | `RC-T-NO-DERIVABLE-WRITE-BOX` | technical | family_specific | 8 | A reviewed and recorded placement decision for this form. |
 | `RC-T-NO-FIELD-CENSUS` | technical | family_specific | 15 | A census taken from this form's verified binary. |
-| `RC-T-OBJECT-STREAMS` | technical | systemic | 1 | Re-serializing the affected families without object streams, which the current finalizer already does. |
-| `RC-T-UNFLATTENED-FIELDS` | technical | systemic | 1 | Re-rendering through the current factory, which flattens before emitting. |
-| `RC-T-VALUES-ABSENT` | technical | family_specific | 3 | Bindings or anchors for this form, then a re-render. |
+| `RC-T-VALUES-ABSENT` | technical | family_specific | 2 | Bindings or anchors for this form, then a re-render. |
 | `RC-V-NO-SHEET-PRODUCED` | visual | systemic | 18 | Rendering the affected families, which produces the sheet as part of the run. |
 | `RC-V-SHEET-FROM-UNFINALIZED-SOURCE` | visual | systemic | 2 | Re-rendering the affected families and rebuilding their sheets from the finalized artifact. |
 | `RC-V-SHEET-PANELS-IDENTICAL` | visual | systemic | 4 | Rebuilding the affected sheets from finalized artifacts; the current builder refuses to emit a sheet whose panels match. |
@@ -307,9 +303,9 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | --- | --- | --- | --- | --- | --- | --- |
 | AK | ak-record-relief-forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AK | RequestToSealCrimInfo.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| AK | TF-800 | C | true | residue found | true | never_independently_reviewed |
-| AK | TF-805 | C | true | residue found | true | never_independently_reviewed |
-| AK | TF-810 | C | true | residue found | true | never_independently_reviewed |
+| AK | TF-800 | C | true | clean and provable | true | never_independently_reviewed |
+| AK | TF-805 | C | true | clean and provable | true | never_independently_reviewed |
+| AK | TF-810 | C | true | clean and provable | true | never_independently_reviewed |
 | AL | al-expungement-petition.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AL | cr-65-expunge-petition-10-2024.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AL | cr-65a-order-on-petition-for-expungement-10-2024.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
@@ -322,12 +318,12 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | KY | 496.2.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | KY | 496.3.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | KY | 497.2.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| KY | AOC-334 | C | true | residue found | true | technically_approved_for_at_least_one_served_track |
-| KY | AOC-496 | C | true | residue found | true | never_independently_reviewed |
-| KY | AOC-496.2 | C | true | residue found | true | never_independently_reviewed |
-| KY | AOC-496.3 | C | true | residue found | true | technically_approved_for_at_least_one_served_track |
-| KY | AOC-496.4 | C | true | residue found | true | technically_approved_for_at_least_one_served_track |
-| KY | AOC-497 | C | true | residue found | true | never_independently_reviewed |
+| KY | AOC-334 | C | true | clean and provable | true | technically_approved_for_at_least_one_served_track |
+| KY | AOC-496 | C | true | clean and provable | true | never_independently_reviewed |
+| KY | AOC-496.2 | C | true | clean and provable | true | never_independently_reviewed |
+| KY | AOC-496.3 | C | true | clean and provable | true | technically_approved_for_at_least_one_served_track |
+| KY | AOC-496.4 | C | true | clean and provable | true | technically_approved_for_at_least_one_served_track |
+| KY | AOC-497 | C | true | clean and provable | true | never_independently_reviewed |
 | KY | JV-29.1.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | KY | JV-29.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | KY | JV-30.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
@@ -336,21 +332,21 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | NC | AOC-CR-287 | A | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-287 | A | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-287 | A | true | clean and provable | false | never_independently_reviewed |
-| NC | AOC-CR-287 | C | true | residue found | true | never_independently_reviewed |
+| NC | AOC-CR-287 | C | true | clean and provable | true | never_independently_reviewed |
 | NC | AOC-CR-287 | A | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-288 | A | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-288 | A | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-288 | A | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-288 | A | true | clean and provable | false | never_independently_reviewed |
-| NC | AOC-CR-288 | C | true | residue found | true | never_independently_reviewed |
+| NC | AOC-CR-288 | C | true | clean and provable | true | never_independently_reviewed |
 | NC | AOC-CR-288 | A | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NC | AOC-CR-296 | C | true | residue found | true | never_independently_reviewed |
+| NC | AOC-CR-296 | C | true | clean and provable | true | never_independently_reviewed |
 | NC | AOC-CR-297 | A | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NC | AOC-CR-297 | C | true | residue found | true | never_independently_reviewed |
+| NC | AOC-CR-297 | C | true | clean and provable | true | never_independently_reviewed |
 | NC | AOC-CR-298 | A | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NC | AOC-CR-298 | C | true | residue found | true | never_independently_reviewed |
+| NC | AOC-CR-298 | C | true | clean and provable | true | never_independently_reviewed |
 | NC | AOC-CV-226 | A | true | clean and provable | false | never_independently_reviewed |
-| NC | AOC-CV-226 | C | true | residue found | true | never_independently_reviewed |
+| NC | AOC-CV-226 | C | true | clean and provable | true | never_independently_reviewed |
 | NC | AOC-CV-226 | A | true | clean and provable | false | never_independently_reviewed |
 | NC | cr287_1.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | cr297.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
@@ -359,23 +355,23 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | NC | forms-2.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | nc-expunction-petition.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NE | CC-6-11 | C | true | residue found | true | never_independently_reviewed |
+| NE | CC-6-11 | C | true | clean and provable | true | never_independently_reviewed |
 | NE | CC-6-11-2.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NE | CC-6-11.2 | C | true | residue found | true | never_independently_reviewed |
+| NE | CC-6-11.2 | C | true | clean and provable | true | never_independently_reviewed |
 | NE | CC-6-11.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NE | CC-6-11A | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NE | CC-6-12 | C | true | residue found | true | never_independently_reviewed |
+| NE | CC-6-12 | C | true | clean and provable | true | never_independently_reviewed |
 | NE | CC-6-12 | A | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NE | CC-6-12.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NE | CC-6-15.1 | C | true | residue found | true | never_independently_reviewed |
-| NE | DC-1-15 | C | true | residue found | true | never_independently_reviewed |
-| VA | CC-1201 | C | true | residue found | true | never_independently_reviewed |
-| VA | CC-1473 | C | true | residue found | true | never_independently_reviewed |
+| NE | CC-6-15.1 | C | true | clean and provable | true | never_independently_reviewed |
+| NE | DC-1-15 | C | true | clean and provable | true | never_independently_reviewed |
+| VA | CC-1201 | C | true | clean and provable | true | never_independently_reviewed |
+| VA | CC-1473 | C | true | clean and provable | true | never_independently_reviewed |
 | VA | cc1473.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VA | cc1473inst.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VA | va-expungement-sealing-forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00129 – Petition to Expunge Criminal History.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| VT | 200-00130 | A | false | unprovable: object streams hide objects from the residue scan | true | never_independently_reviewed |
+| VT | 200-00130 | C | true | clean and provable | true | never_independently_reviewed |
 | VT | 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00131 | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00131.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
@@ -387,7 +383,7 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | VT | 200-00631 | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00631.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 400-00171.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| VT | 600-00228 | C | true | residue found | true | never_independently_reviewed |
+| VT | 600-00228 | C | true | clean and provable | true | never_independently_reviewed |
 | VT | application-waive-filing-fees-and-service-costs.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | WI | CR-266 | C | true | clean and provable | true | never_independently_reviewed |
 | WI | CR-267 | A | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
