@@ -47,7 +47,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
+      # Full history: the source-binding check computes the image-input diff
+      # between the accepted worker source and this head, and the default
+      # shallow clone does not contain the source commit — the diff then fails
+      # to compute rather than coming back empty.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
