@@ -280,3 +280,13 @@ jobs:
 
       - name: Verify the flat-overlay renders are current
         run: node scripts/render-rcap-flat-overlay-families.mjs --check
+
+      # An asset may not be retired because a generated manifest stopped naming
+      # it. Every reference class is re-derived against the canonical graph and
+      # every non-manifest runtime surface, per asset, so one form that quietly
+      # acquired a dependency cannot ride out on an aggregate count.
+      - name: Verify the manifest-only retention claim reproduces
+        run: node scripts/verify-rcap-manifest-only-retention.mjs
+
+      - name: Prove the manifest-only retention guards are load-bearing
+        run: node scripts/verify-rcap-manifest-only-retention.mjs --mutations

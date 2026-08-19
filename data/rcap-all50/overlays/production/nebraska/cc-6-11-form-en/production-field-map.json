@@ -12,6 +12,8 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "defendant",
@@ -62,6 +64,53 @@
       "field": "enter the county",
       "class": "participant",
       "factId": "matter.county"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Text2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box7",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "noemailreason",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "noemailreason2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "emailaddress",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DROPDOWNCOUNTY2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "fullcountystatementRIGHT",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ],
   "unwritableFields": [],

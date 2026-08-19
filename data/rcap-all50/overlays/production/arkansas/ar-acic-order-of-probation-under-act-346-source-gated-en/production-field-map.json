@@ -18,6 +18,8 @@
     }
   ],
   "captionOnly": true,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "Case No",
@@ -33,6 +35,143 @@
       "field": "DOB",
       "class": "participant",
       "factId": "participant.date_of_birth"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Judges Signature",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "Judges Printed Name",
+      "reason": "classified_unwritable_by_role",
+      "category": "court_or_agency"
+    },
+    {
+      "field": "Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "field": "Arrest Tracking Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Sex",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "FBI No if known",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "DIVISION",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "COURT",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DIVISION 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DAY 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "MONTH 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "YEAR 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "OFFENSE 1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "OFFENSE 2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "OFFENSE 3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "CLASS 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "ACA 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "FELONY 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "MISDEMEANOR 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "PROBATION YEARS",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "FINE AMOUNT",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "DOES 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "DOES NOT 1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "STATUS 1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "STATUS 2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "FULL DATE",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "SID NO",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ],
   "unwritableFields": [

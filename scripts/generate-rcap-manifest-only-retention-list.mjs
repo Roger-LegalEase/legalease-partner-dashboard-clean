@@ -27,8 +27,39 @@ const retirement = readJson("data/rcap-all50/pdf-retirement-determination.json",
 const master = readJson("data/rcap-all50/problematic-pdf-master-list.json", { rows: [] });
 const byAssetId = new Map(master.rows.map((r) => [r.assetId, r]));
 
+/**
+ * An asset the byte-pinned legal-design registry names is not manifest-only.
+ *
+ * This list used to compute the legal-design reference as evidence and then
+ * ignore it when deciding membership, so an asset could be published as "held
+ * only by this lane's own manifest" while the registry named it — Virginia
+ * CC-1473, bound to track va_exp_nonconviction, was in the list on exactly those
+ * terms. The list's summary counts only intended-PAID dependencies, which is a
+ * narrower question than retirement turns on, so nothing else caught it.
+ *
+ * A registry binding is a dependency whether or not a paid pathway has reached
+ * it yet, and this list exists to authorise retirement. One wrong row here is a
+ * form deleted from the operational inventory while the legal design still
+ * points at it.
+ */
+const namedByTheLegalDesignRegistry = (row) => Boolean(row?.candidateRegistryFormId);
+
+const excludedForALegalDesignBinding = retirement.assets
+  .filter((a) => a.determination === "retain_and_remediate" && a.heldOnlyByThisLanesOwnManifest)
+  .filter((a) => namedByTheLegalDesignRegistry(byAssetId.get(a.assetId) ?? null))
+  .map((a) => {
+    const row = byAssetId.get(a.assetId) ?? null;
+    return {
+      assetId: a.assetId,
+      formId: row?.candidateRegistryFormId ?? null,
+      trackIds: row?.candidateRegistryTrackIds ?? [],
+      why: "the byte-pinned legal-design registry names this asset, so the manifest is not the only thing depending on it"
+    };
+  });
+
 const rows = retirement.assets
   .filter((a) => a.determination === "retain_and_remediate" && a.heldOnlyByThisLanesOwnManifest)
+  .filter((a) => !namedByTheLegalDesignRegistry(byAssetId.get(a.assetId) ?? null))
   .map((a) => {
     const row = byAssetId.get(a.assetId) ?? null;
     return {
@@ -83,8 +114,12 @@ const payload = {
     assets: rows.length,
     withAnyIntendedPaidPathwayDependency: rows.filter((r) => r.anyIntendedPaidPathwayDependsOnIt).length,
     withAnyNonManifestRuntimeReference: rows.filter((r) => r.srcRuntimeReferences.length > 0).length,
-    withSourceBinaryInClone: rows.filter((r) => r.sourceBinaryPresentInClone).length
+    withSourceBinaryInClone: rows.filter((r) => r.sourceBinaryPresentInClone).length,
+    excludedForALegalDesignBinding: excludedForALegalDesignBinding.length
   },
+  // Named, not silently filtered. An asset dropped from a retirement list
+  // without a reason reads as an oversight the next time someone counts.
+  excludedForALegalDesignBinding,
   assets: rows
 };
 

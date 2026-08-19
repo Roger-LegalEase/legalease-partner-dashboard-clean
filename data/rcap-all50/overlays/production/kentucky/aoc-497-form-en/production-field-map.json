@@ -18,6 +18,8 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "Case No",
@@ -53,46 +55,133 @@
       "field": "Defendants Birthdate",
       "class": "participant",
       "factId": "participant.date_of_birth"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "area code",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Jail ID Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "ssn",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "ViolationArrest Date",
-      "class": "participant",
-      "factId": "matter.arrest_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "check sixty days",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "check sixty  before filing",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "check five years",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     },
     {
       "field": "CHARGE",
-      "class": "participant",
-      "factId": "matter.charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "CHARGE_2",
-      "class": "participant",
-      "factId": "matter.charges[1].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "CHARGE_3",
-      "class": "participant",
-      "factId": "matter.charges[2].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "CHARGE_4",
-      "class": "participant",
-      "factId": "matter.charges[3].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "CHARGE_5",
-      "class": "participant",
-      "factId": "matter.charges[4].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "CHARGE_6",
-      "class": "participant",
-      "factId": "matter.charges[5].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "check not current charges",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     },
     {
       "field": "other charges",
-      "class": "participant",
-      "factId": "matter.charge"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "requiring expungement",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "2_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Print",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "check offenses listed",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "check denied",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "check felony chg",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     }
   ],
   "unwritableFields": [],

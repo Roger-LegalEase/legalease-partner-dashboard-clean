@@ -1,42 +1,126 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-  "unwritableFields": [
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "refusedFields": [
     {
       "field": "IN THE",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "COURT OF",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DIVISION",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "1 The Defendant was arrested on the",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "category": "unfittable"
     },
     {
       "field": "day of",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "and charged with the offenses of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "or federal court and the status of thatthose charges isare as follows",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Judge",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "court"
     },
     {
       "field": "Date",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Race",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "race"
     },
     {
       "field": "Arrest Tracking Number",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Sex",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "undefined",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "FBI No if known",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "Check Box1",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box5",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box6",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box7",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box8",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box9",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box10",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     }
   ]
 }

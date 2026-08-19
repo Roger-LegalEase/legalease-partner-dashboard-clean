@@ -213,7 +213,30 @@ function runChecks() {
     if (retiredAssetKeys.has(family.familyId)) {
       fail("retirement_is_backed_by_the_determination", `${family.familyId} is a retirement candidate yet still appears as operational in the artifact audit`);
     }
-    const unfinalized = family.artifacts.filter((a) => a.present && !a.finalized);
+    // A protected field the factory wrote is a defect on ANY present artifact,
+    // finalized or not.
+    //
+    // This used to be asked only of unfinalized artifacts, which was survivable
+    // while the D1 driver threw before finalizing anything — every artifact was
+    // unfinalized, so every artifact was in scope. Now that the driver works and
+    // 155 artifacts finalize, that scope silently excluded the worse case: a
+    // clerk's or judge's field written into a FINISHED document, which is the
+    // one that gets filed. The check has to see the whole population.
+    const present = family.artifacts.filter((a) => a.present);
+    const trespassing = present.filter((a) => (a.protectedFieldsWrittenByFactory ?? []).length > 0);
+    const unfinalized = present.filter((a) => !a.finalized);
+
+    if (trespassing.length > 0) {
+      const record = registerByFamily.get(family.familyId);
+      if (!record || !record.defectCategories.includes("protected_field_populated")) {
+        fail(
+          "protected_field_writes_are_registered",
+          `${family.familyId} has a factory-written protected field on ${trespassing.length} artifact(s) ` +
+          `(${trespassing.filter((a) => a.finalized).length} of them finalized) that the register does not record`
+        );
+      }
+    }
+
     if (unfinalized.length === 0) continue;
     const record = registerByFamily.get(family.familyId);
     if (!record) {
@@ -223,10 +246,6 @@ function runChecks() {
     const recorded = record.defectCategories.some((c) => ["unfinalized_rendered_artifact", "rendered_artifact_not_byte_inspectable", "protected_field_populated", "xfa_javascript_or_active_content_residue", "missing_required_packet_component"].includes(c));
     if (!recorded) {
       fail("unfinalized_artifacts_are_registered", `${family.familyId} carries unfinalized artifacts but its register record names no artifact defect`);
-    }
-    if (unfinalized.some((a) => (a.protectedFieldsWrittenByFactory ?? []).length > 0)
-      && !record.defectCategories.includes("protected_field_populated")) {
-      fail("protected_field_writes_are_registered", `${family.familyId} has a factory-written protected field that the register does not record`);
     }
   }
 
@@ -1221,11 +1240,21 @@ const CASES = [
     expect: "systemic_causes_are_counted_once",
     apply: () => {
       const register = readJson(REGISTER);
+      const systemic = register.rootCauseIndex.filter((c) => c.scope === "systemic" && c.dimension === "technical");
+      if (systemic.length === 0) throw new Error("no systemic technical root cause to inflate; this mutation cannot apply");
+      // One systemic cause is given the several assets it actually spans, so the
+      // inflation has something to inflate.
+      //
+      // Without this the mutation was inert: every systemic cause currently
+      // impacts exactly one asset, so summing impacted assets reproduced the
+      // honest count exactly and the check stayed green while "proving" that
+      // double-counting is detected. A mutation whose defect the data cannot
+      // express is not a test, and it goes quiet precisely when the corpus is
+      // small — which is when the count is easiest to get wrong.
+      systemic[0].impactedAssets = 4;
       // The classic inflation: report impacted assets as if each were its own
       // distinct problem.
-      register.totals.uniqueSystemicTechnicalRootCauses = register.rootCauseIndex
-        .filter((c) => c.scope === "systemic" && c.dimension === "technical")
-        .reduce((n, c) => n + c.impactedAssets, 0);
+      register.totals.uniqueSystemicTechnicalRootCauses = systemic.reduce((n, c) => n + c.impactedAssets, 0);
       fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
     }
   },

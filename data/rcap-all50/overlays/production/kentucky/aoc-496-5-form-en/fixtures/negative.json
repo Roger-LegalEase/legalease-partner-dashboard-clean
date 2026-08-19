@@ -1,42 +1,76 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-  "unwritableFields": [
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "refusedFields": [
     {
       "field": "Court",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "ADDRESS",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
     },
     {
       "field": "On",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "2_2",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Reset",
-      "class": "court_or_agency"
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     },
     {
       "field": "Print",
-      "class": "court_or_agency"
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "County dropdown",
+      "reason": "value_not_among_field_options",
+      "factId": "matter.county"
+    },
+    {
+      "field": "address2",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
     },
     {
       "field": "payment in full",
-      "class": "court_or_agency"
+      "reason": "protected_category",
+      "category": "money"
     },
     {
       "field": "Notice",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Attorney_name",
+      "reason": "protected_category",
+      "category": "attorney"
     },
     {
       "field": "ATTY_LABEL",
-      "class": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ]
 }
