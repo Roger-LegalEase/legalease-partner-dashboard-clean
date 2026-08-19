@@ -111,3 +111,33 @@ export function ruleForCaption(ruleLines, { page, baselineY, labelX, maxGap = 14
     maxRightEdge: divider ? Math.min(rule.endX, divider.x) : rule.endX
   };
 }
+
+/**
+ * The rule a TRAILING caption labels: "______ COUNTY", "______ , Petitioner".
+ *
+ * Wisconsin's venue line prints the word COUNTY to the right of the blank it
+ * names, so a search that requires the rule to extend past the label finds
+ * nothing -- which is how the venue rule came to be omitted from CR-266
+ * altogether, and a petition without a venue is not filed. Here the rule is the
+ * one that ENDS at the label, on the same baseline.
+ */
+export function ruleBeforeCaption(ruleLines, { page, baselineY, labelX, maxGap = 14, endTolerance = 12 }) {
+  const onPage = ruleLines.find((p) => p.page === page);
+  if (!onPage) return null;
+
+  const rule = onPage.horizontal
+    .filter((r) => Math.abs(r.y - baselineY) <= maxGap)
+    .filter((r) => r.endX <= labelX + 1 && r.endX >= labelX - endTolerance && r.x < labelX)
+    .sort((a, b) => (labelX - a.endX) - (labelX - b.endX))[0] ?? null;
+  if (!rule) return null;
+
+  const divider = onPage.vertical
+    .filter((v) => v.x > rule.x && v.y <= rule.y && v.topY >= rule.y)
+    .sort((a, b) => a.x - b.x)[0] ?? null;
+
+  return {
+    rule,
+    dividerX: divider ? divider.x : null,
+    maxRightEdge: divider ? Math.min(rule.endX, divider.x) : rule.endX
+  };
+}

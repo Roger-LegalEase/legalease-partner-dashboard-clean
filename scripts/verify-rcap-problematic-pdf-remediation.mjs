@@ -39,6 +39,8 @@ const OVERLAY_DIR = "data/rcap-all50/overlays/production";
 const WORKFLOW = ".github/workflows/rcap-all50-handoff.yml";
 const QUEUE = "data/rcap-all50/source-acquisition-queue.json";
 const ACQUISITION_WORKFLOW = ".github/workflows/rcap-source-acquisition-branch.yml";
+const DERIVATION = "data/rcap-all50/flat-overlay-profile-derivation.json";
+const RENDER_DRIVER = "scripts/render-rcap-flat-overlay-families.mjs";
 
 const abs = (repoPath) => path.join(rootDir, repoPath);
 const readJson = (repoPath, fallback = null) => {
@@ -474,6 +476,55 @@ function runChecks() {
     }
   }
 
+  // ---- the generalised write-box derivation ------------------------------
+  // CR-266 was measured by hand and then corrected by independent review. The
+  // derivation exists so the other families are measured the corrected way
+  // rather than the way that had to be corrected -- which is only worth
+  // anything if it reproduces the reviewed profile exactly.
+  const derivation = readJson(DERIVATION);
+  if (!derivation) {
+    fail("derivation_present", `the flat-overlay profile derivation is missing or unparseable at ${DERIVATION}`);
+  } else {
+    for (const row of derivation.derivations ?? []) {
+      const agreement = row.agreementWithReviewedProfile;
+      if (!agreement) continue;
+      if (agreement.largestOffsetPt > 0) {
+        fail("derivation_reproduces_the_reviewed_profile",
+          `${row.familyId}: the derived write boxes differ from the independently reviewed ones by up to ${agreement.largestOffsetPt}pt`);
+      }
+      // A reviewed anchor the derivation cannot produce has to be named with a
+      // reason. Silently producing fewer anchors than review established is how
+      // a blank stops being filled without anyone deciding that.
+      for (const missing of agreement.missingFromDerivation ?? []) {
+        const profilePath = row.profilePath ? abs(row.profilePath) : null;
+        const derived = profilePath && fs.existsSync(profilePath)
+          ? JSON.parse(fs.readFileSync(profilePath, "utf8")) : null;
+        const explained = (derived?.refusedCaptions ?? []).some((r) => r.factId === missing.factId || r.page === missing.page);
+        if (!explained) {
+          fail("derivation_reproduces_the_reviewed_profile",
+            `${row.familyId}: the reviewed anchor ${missing.factId} is absent from the derivation and no refusal explains it`);
+        }
+      }
+    }
+
+    // A derived profile is review input. If the render driver read it, an
+    // unreviewed coordinate would reach a filed court document.
+    const driver = fs.existsSync(abs(RENDER_DRIVER)) ? fs.readFileSync(abs(RENDER_DRIVER), "utf8") : "";
+    if (driver.includes("overlay-profile.derived.json")) {
+      fail("derived_profiles_are_not_runtime_input",
+        `${RENDER_DRIVER} reads overlay-profile.derived.json, so a coordinate nobody reviewed can reach a rendered artifact`);
+    }
+    for (const row of (derivation.derivations ?? []).filter((d) => d.derived)) {
+      const profilePath = row.profilePath ? abs(row.profilePath) : null;
+      const derived = profilePath && fs.existsSync(profilePath)
+        ? JSON.parse(fs.readFileSync(profilePath, "utf8")) : null;
+      if (derived && derived.requiresIndependentReviewBeforeUse !== true) {
+        fail("derived_profiles_are_not_runtime_input",
+          `${row.familyId}: the derived profile does not declare that it needs review before use`);
+      }
+    }
+  }
+
   return failures;
 }
 
@@ -503,9 +554,39 @@ if (!mutationsMode) process.exit(0);
 // Each case edits committed bytes, re-runs every check, and requires the named
 // check to be among the ones that went red. Starting green is a precondition:
 // a mutation pass on an already-red tree proves nothing.
-const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT, CLASSIFICATION, FINALIZER, SEMANTICS, QUEUE, ACQUISITION_WORKFLOW];
+const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT, CLASSIFICATION, FINALIZER, SEMANTICS, QUEUE, ACQUISITION_WORKFLOW, DERIVATION, RENDER_DRIVER];
 
 const CASES = [
+  {
+    name: "a derived write box drifts from the independently reviewed one",
+    expect: "derivation_reproduces_the_reviewed_profile",
+    apply: () => {
+      const derivation = readJson(DERIVATION);
+      const row = derivation.derivations.find((d) => d.agreementWithReviewedProfile);
+      row.agreementWithReviewedProfile.largestOffsetPt = 3.4;
+      fs.writeFileSync(abs(DERIVATION), `${JSON.stringify(derivation, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a reviewed anchor vanishes from the derivation with no refusal to explain it",
+    expect: "derivation_reproduces_the_reviewed_profile",
+    apply: () => {
+      const derivation = readJson(DERIVATION);
+      const row = derivation.derivations.find((d) => d.agreementWithReviewedProfile);
+      row.agreementWithReviewedProfile.missingFromDerivation = [
+        { label: "Invented", factId: "participant.invented_fact", page: 99 }
+      ];
+      fs.writeFileSync(abs(DERIVATION), `${JSON.stringify(derivation, null, 2)}\n`);
+    }
+  },
+  {
+    name: "the render driver is pointed at the unreviewed derived profile",
+    expect: "derived_profiles_are_not_runtime_input",
+    apply: () => {
+      const text = fs.readFileSync(abs(RENDER_DRIVER), "utf8");
+      fs.writeFileSync(abs(RENDER_DRIVER), text.replace('"overlay-profile.json"', '"overlay-profile.derived.json"'));
+    }
+  },
   {
     name: "an asset is dropped from every acquisition set",
     expect: "acquisition_queue_covers_every_asset",
