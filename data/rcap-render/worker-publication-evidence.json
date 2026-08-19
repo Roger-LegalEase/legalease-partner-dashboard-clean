@@ -2,22 +2,22 @@
   "schemaVersion": "rcap-worker-publication-evidence/v1",
   "importedFrom": {
     "branch": "claude/rcap-48h-launch-integration",
-    "commit": "1048d82e5c5ccd993d020dea971ec7a20969c859",
-    "note": "Imported from the rcap-render-worker-publication artifact emitted by successful workflow run 32256218245. The artifact blob host is unreachable from the integration environment, so the record was read from that run's job log, where the workflow cats the same JSON it uploads. Every field below is a verbatim copy of that emitted JSON except packageVisibility, registryPullByDigestStatus and registryPullByDigestNote, which are recorded here and are described in the note."
+    "commit": "ef8c4851a55e8d69e9347752ba709e430218d8cb",
+    "note": "Imported from the rcap-render-worker-publication artifact emitted by run 32298320542 attempt 1 (job 96214830685). The artifact blob host is unreachable from the integration environment, so the record was read from that job's log, where the workflow cats the same JSON it uploads. Every field below is a verbatim copy of that emitted JSON except packageVisibility, registryPullByDigestStatus and registryPullByDigestNote, which are determined here and are described in their own notes."
   },
-  "publicationTimestamp": "2026-08-19T13:08:21Z",
-  "workflowRunId": 32256218245,
+  "publicationTimestamp": "2026-08-19T20:26:26Z",
+  "workflowRunId": 32298320542,
+  "workflowRunAttempt": 1,
   "workflowConclusion": "success",
-  "workflowSha256": "53a746405b5405651fe3fc259ea2a2acafb22b112065e5231506161a4ee43f0f",
-  "sourceSha": "1048d82e5c5ccd993d020dea971ec7a20969c859",
+  "sourceSha": "ef8c4851a55e8d69e9347752ba709e430218d8cb",
   "dockerfileSha256": "6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7",
   "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
   "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-  "imageTag": "1048d82e5c5ccd993d020dea971ec7a20969c859",
-  "immutableRegistryDigest": "sha256:62a4fa3003f863f902e94f6c21c64736d2beb5f5b96fbd698d78f55def619992",
-  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:62a4fa3003f863f902e94f6c21c64736d2beb5f5b96fbd698d78f55def619992",
+  "imageTag": "ef8c4851a55e8d69e9347752ba709e430218d8cb",
+  "immutableRegistryDigest": "sha256:763acd29a34f7f435e35e52654e1212a760e2608d355d5fc11f0c79e0e708784",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:763acd29a34f7f435e35e52654e1212a760e2608d355d5fc11f0c79e0e708784",
   "packageVisibility": "private",
-  "packageVisibilityNote": "Determined, not copied forward. GHCR issued no anonymous pull token for this repository, while two known-public GHCR repositories (actions/actions-runner, oras-project/oras) issued one over the same network path in the same check, so the refusal is the package's visibility rather than a blocked route.",
+  "packageVisibilityNote": "Determined for this publication, not copied forward from the superseded record. GHCR issued no anonymous pull token for roger-legalease/rcap-render-worker (HTTP 401) while two known-public GHCR repositories (actions/actions-runner, oras-project/oras) issued one (HTTP 200) over the same network path in the same check, so the refusal is the package's visibility rather than a blocked route.",
   "mutableLatestTagCreated": false,
   "publishOnlyNoDeploy": true,
   "workerClaimingStarted": false,
@@ -26,13 +26,31 @@
   "releaseIntegrationBranch": "claude/rcap-48h-launch-integration",
   "containedIn": "claude/rcap-48h-launch-integration",
   "dockerfilePath": "deploy/rcap-render-worker/Dockerfile",
-  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:1048d82e5c5ccd993d020dea971ec7a20969c859",
-  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32256218245",
+  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:ef8c4851a55e8d69e9347752ba709e430218d8cb",
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32298320542",
+  "exactlyOnePublication": {
+    "claim": "One image was published for this source SHA and its tag was never moved.",
+    "howItIsKnown": "Run 32298320542 was re-run by the runner after attempt 1 had already built, pushed and emitted its publication artifact. Attempt 2 was refused at the tag guard (verify-rcap-worker-tag-integrity --guard, job 96215638160) because the full-SHA tag already resolved to sha256:763acd29…, and RCAP_WORKER_TAG_REPLACEMENT_AUTHORIZATION was empty. Buildx, GHCR login and push were all skipped. The single publication is therefore attempt 1's, and the guard's refusal is what kept it single.",
+    "attemptThatPublished": 1,
+    "attemptRefusedByTagGuard": 2
+  },
   "registryPullByDigestStatus": "registry_resolution_verified_image_acceptance_pending",
-  "registryPullByDigestNote": "What is proven: read-only run 32256682048 asked GHCR directly and the full-SHA tag 1048d82e resolves to sha256:62a4fa30, that digest exists, no mutable latest tag exists, and the superseded digest sha256:be782397 still exists but is NOT the tag target — so nothing was moved. The Dockerfile and lockfile hashes the publication recorded were recomputed from the tree at 1048d82e and match byte for byte. What is NOT yet proven, and is deliberately not claimed here: an authenticated layer pull, fail-closed startup, the health command, and the secret scans. .github/workflows/rcap-worker-image-acceptance.yml performs all four against this exact digest; GitHub will not dispatch a workflow_dispatch workflow until it is present on the default branch, so that run happens once this integration merges and before any Preview or Production step. The prior record for 664b8ddd asserted those four in prose against a run number with nothing in the repository that could perform them; this field states only what has a run behind it.",
+  "registryPullByDigestNote": "What is proven: attempt 2's tag guard asked GHCR directly, with an authenticated token, and reported that the full-SHA tag ef8c4851 resolves to sha256:763acd29 — the same digest attempt 1 recorded. That refusal is the registry resolution proof for this publication, from a run that can be pointed at. No mutable latest tag was created. The Dockerfile and lockfile hashes the publication recorded are the same bytes the image-input fingerprint records for this freeze base. What is NOT yet proven, and is deliberately not claimed here: an authenticated layer pull, fail-closed startup, the health command, and the secret scans. .github/workflows/rcap-worker-image-acceptance.yml performs all four against this exact digest; GitHub will not dispatch a workflow_dispatch workflow until it is present on the default branch, so that run happens once this integration merges and before any Preview or Production step.",
   "supersededPublication": {
-    "sourceSha": "664b8ddd374642bf2bd1820f7e05224f3dd081bc",
-    "immutableRegistryDigest": "sha256:be782397379b2dd6db3f63353f38e1fe1b31095dbf9307abb73f97c1136cc9be",
-    "why": "Built from bytes that are not image-input-equivalent to this release head; its digest remains in the registry under its own full-SHA tag and was confirmed not to be the target of this release's tag."
-  }
+    "sourceSha": "1048d82e5c5ccd993d020dea971ec7a20969c859",
+    "immutableRegistryDigest": "sha256:62a4fa3003f863f902e94f6c21c64736d2beb5f5b96fbd698d78f55def619992",
+    "why": "Superseded by source drift. Its build source is not image-input-equivalent to this freeze base: package.json and src/lib/rcap-engine/evaluator.ts both changed after it was published. The measured diff being nonempty is the condition under which the single replacement publication was authorized. That digest remains in the registry under its own full-SHA tag and is not the target of this release's tag; it stays inert and must not be deployed."
+  },
+  "supersededChain": [
+    {
+      "sourceSha": "664b8ddd374642bf2bd1820f7e05224f3dd081bc",
+      "immutableRegistryDigest": "sha256:be782397379b2dd6db3f63353f38e1fe1b31095dbf9307abb73f97c1136cc9be",
+      "why": "Built from bytes not image-input-equivalent to the then-current release head."
+    },
+    {
+      "sourceSha": "1048d82e5c5ccd993d020dea971ec7a20969c859",
+      "immutableRegistryDigest": "sha256:62a4fa3003f863f902e94f6c21c64736d2beb5f5b96fbd698d78f55def619992",
+      "why": "Superseded by source drift on package.json and src/lib/rcap-engine/evaluator.ts."
+    }
+  ]
 }
