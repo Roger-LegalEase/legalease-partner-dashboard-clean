@@ -9,13 +9,14 @@ denominator, changes runtime, or issues an approval.
 
 | Input | Source | sha256 |
 |---|---|---|
-| `sessionAPathwayFamilyGraph` | session_a_commit @ `4072b618` | `78b7c7142cb6d655…` |
-| `packetFamilyBridge` | session_a_commit @ `4072b618` | `527fd4baa11dee8e…` |
-| `trackSourceRelationships` | session_a_commit @ `4072b618` | `8376337488a0e07e…` |
-| `extAdopt01` | session_a_commit @ `4072b618` | `7bea6b4c78cde50a…` |
+| `sessionAPathwayFamilyGraph` | working_tree | `25601ca0b07b0d1e…` |
+| `packetFamilyBridge` | working_tree | `527fd4baa11dee8e…` |
+| `trackSourceRelationships` | working_tree | `8376337488a0e07e…` |
+| `extAdopt01` | working_tree | `7bea6b4c78cde50a…` |
 | `publicWitnessAnswerSets` | working_tree | `c6e1566d491b4fde…` |
 | `problematicPdfRegister` | working_tree | `c00596c6cecfbccb…` |
-| `completedOutputPacketProofs` | session_a_commit | 57 file(s) |
+| `completedOutputPacketProofs` | working_tree | `ef771b3051b13e67…` |
+| `ownerLegalDecision` | working_tree | `c62a015e7d892d54…` |
 
 ## 1 — The packet-family bridge, imported and reconciled
 
@@ -26,12 +27,11 @@ registry tracks with every component's role, requirement, output strategy and of
 
 | Session A disposition | Pathways | After importing the bridge |
 |---|---|---|
-| `family_bridge_missing_no_family` | 165 | **165** now carry an exact packet set |
-| `covered_design_but_output_review_pending` | 76 | unchanged |
+| `family_bridge_missing_no_family` | 167 | **167** now carry an exact packet set |
+| `approved_by_decision_owner` | 76 | unchanged |
 | `family_bridge_missing_no_track` | 41 | unchanged |
-| `legal_action_required` | 2 | unchanged |
 
-**165** pathways move from "no track-to-family bridge" to a named packet set.
+**167** pathways move from "no track-to-family bridge" to a named packet set.
 This changes the **reason**, never the coverage answer. A bridged pathway is one whose
 family can now be named — not one an adoption has been shown to cover.
 
@@ -49,7 +49,7 @@ explicitly named registry gap.
 
 - Adoption `EXT-ADOPT-01-standing-external-counsel-adoption`, adopted **2026-08-08**, scope `packet_family`, sha256 `7bea6b4c78cde50a…`
 - Bound families: **57** across **45** jurisdictions
-- Completed-output packet proofs read: **57**
+- Completed-output packet proofs read: **59**
 - Pathways carrying completed-output evidence by exact track id: **76**
 
 Each record carries the assembled artifact filename, sha256, page count, the verifier that
@@ -65,20 +65,26 @@ re-running reproduces the file byte for byte, and `--check` proves it.
 - Landed on their own pathway: **132**
 - Payment allowed at the evaluator: **17**
 
-## 5 — Genuine new counsel exceptions
+## 5 — Owner-approved legal status
 
-**25** of 284.
+Approved by **Roger Roman** under `auth-2026-08-19-owner-legal-approval-completed-output`, effective 2026-08-19. There is no counsel queue here: the existing legal designs, the completed outputs, the exception set and the application of those approved designs across the intended-paid corpus are all approved, and no signature or separate counsel artifact is required.
 
-| Reason | Pathways |
+**248** of 284 pathways carry owner-approved legal status.
+
+| Basis | Pathways |
 |---|---|
-| `no_bound_family_in_this_jurisdiction` | 23 |
-| `session_a_recorded_legal_action_required` | 2 |
+| `owner_approved_existing_legal_design_packet_set` | 167 |
+| `owner_approved_packet_family` | 76 |
+| `registry_gap_no_track` | 36 |
+| `owner_approved_exception_annex` | 5 |
 
-The other **259** are not exceptions. Their jurisdiction carries a bound family in
-EXT-ADOPT-01, so an existing counsel record exists; whether it reaches the pathway is a
-determination for counsel and Session A. Calling those exceptions would manufacture counsel
-work that may already be covered, so this packet does not.
+Missing EXT-ADOPT-01 family metadata is **not** a new legal decision where the all-497
+packet-set manifest already defines the treatment — that is the `owner_approved_existing_legal_design_packet_set`
+basis. What remains pending is a registry or packet-definition gap: there is no defined
+treatment for an approved design to be applied to, which is an ownership action rather than
+a legal question.
 
-Jurisdictions with no bound family at all: `AL`, `AZ`, `IA`, `ID`, `OR`, `WY`.
+Escalations to the decision owner: **0**. Only a genuinely new substantive legal choice escalates —
+changing the remedy offered; changing eligibility logic; changing a mandatory filing; changing venue; changing the required recipient or service party; replacing a mandatory official form with a custom pleading; adding substantive legal language not already present in the approved design.
 
 Regenerate with `npm run rcap:generate-session-a-packet`; verify with `npm run rcap:verify-session-a-packet`.

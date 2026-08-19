@@ -28,15 +28,22 @@
 //   4. THE DETERMINISTIC PUBLIC WITNESS for each pathway, from
 //      data/rcap-ledger/public-witness-answer-sets.json.
 //
-//   5. GENUINE NEW COUNSEL EXCEPTIONS ONLY — a pathway is called an exception
-//      only when there is no existing counsel record to reason from at all, or
-//      when Session A already recorded legal_action_required. Whether an existing
-//      adoption reaches a given pathway is counsel's determination, never this
-//      packet's, and is reported as a determination owed rather than an exception.
+//   5. THE OWNER-APPROVED LEGAL STATUS of each pathway. There is no counsel
+//      queue: the decision owner approved the existing legal designs, the
+//      completed outputs, the exception set, and the application of those
+//      approved designs across the intended-paid corpus. A pathway supported by
+//      an existing legal-design packet set is approved. Only a genuinely new
+//      substantive legal choice escalates, and it escalates to the decision
+//      owner rather than to counsel.
 //
-// Session A's inputs are read from the working tree when present and otherwise
-// from the exact commit below, so this runs before and after the merge and
-// records which source it used plus the sha256 of every input.
+// This is a release artifact, so every input must resolve from the current
+// working tree. The lane version could fall back to reading Session A's inputs
+// out of an earlier commit, which was right while the two branches were apart
+// and is wrong now: a packet that silently reads a stale graph reports a
+// denominator nobody can reproduce from HEAD. There is no fallback here. Each
+// input is recorded with its exact sha256, and the graph itself is additionally
+// required to be the artifact HEAD's own generator produces — not merely a file
+// that happens to be present.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -44,12 +51,12 @@ import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+import { OWNER_APPROVED, OWNER_PENDING, readOwnerLegalDecision } from "./lib/rcap-owner-legal-decision.mjs";
+
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(rootDir);
 
 const CHECK = process.argv.includes("--check");
-const SESSION_A_COMMIT = "4072b6189c0cde20ab43673a9f0569d2b8d20752";
-const SESSION_A_FALLBACK_REF = "origin/claude/rcap-48h-launch-integration";
 
 const JSON_OUT = "data/rcap-ledger/session-a-evidence-packet.json";
 const MD_OUT = "docs/record-clearing/session-a-evidence-packet.md";
@@ -58,29 +65,42 @@ const sha256 = (v) => crypto.createHash("sha256").update(v).digest("hex");
 const readLocal = (p) => fs.readFileSync(path.join(rootDir, p), "utf8");
 const git = (args) => execFileSync("git", args, { cwd: rootDir, encoding: "utf8", maxBuffer: 256 * 1024 * 1024 });
 
-/** Session A's file: the working tree if it is there, otherwise their commit. */
-function sessionAInput(relPath) {
-  if (fs.existsSync(path.join(rootDir, relPath))) {
-    const raw = readLocal(relPath);
-    return { raw, source: "working_tree", ref: null, sha256: sha256(raw) };
+/** An input, required to be present in the working tree. No fallback ref. */
+function requiredInput(relPath) {
+  if (!fs.existsSync(path.join(rootDir, relPath))) {
+    throw new Error(`${relPath} is not in the working tree. This packet is a release artifact and reads no other source: there is no commit fallback, so a missing input is a failure rather than a silent substitution.`);
   }
-  for (const ref of [SESSION_A_COMMIT, SESSION_A_FALLBACK_REF]) {
-    try {
-      const raw = git(["show", `${ref}:${relPath}`]);
-      return { raw, source: "session_a_commit", ref, sha256: sha256(raw) };
-    } catch { /* try the next ref */ }
+  const raw = readLocal(relPath);
+  return { raw, source: "working_tree", ref: null, sha256: sha256(raw) };
+}
+
+/**
+ * The canonical graph must be what HEAD's own generator produces, not merely a
+ * file sitting at the right path. A stale graph would silently change every
+ * count in this packet, so the generator is asked directly.
+ */
+function assertGraphIsHeadsOwnArtifact() {
+  try {
+    execFileSync("node", ["scripts/generate-rcap-paid-pathway-legal-join.mjs", "--check"], {
+      cwd: rootDir,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"]
+    });
+  } catch (error) {
+    const detail = `${error.stdout ?? ""}${error.stderr ?? ""}`.trim();
+    throw new Error(`The canonical pathway-family graph is not the artifact this tree's generator produces, so this packet would report a denominator nobody can reproduce from HEAD. Regenerate it first.\n  ${detail}`);
   }
-  throw new Error(`${relPath} is not in the working tree and not reachable at ${SESSION_A_COMMIT} or ${SESSION_A_FALLBACK_REF}. Session A's graph must be present for this packet to consume it.`);
 }
 
 const inputs = {};
 function load(name, relPath) {
-  const input = sessionAInput(relPath);
+  const input = requiredInput(relPath);
   inputs[name] = { path: relPath, source: input.source, ref: input.ref, sha256: input.sha256 };
   return JSON.parse(input.raw);
 }
 
 // --------------------------------------------------------------------------- inputs
+assertGraphIsHeadsOwnArtifact();
 const graph = load("sessionAPathwayFamilyGraph", "data/rcap-ledger/paid-pathway-legal-join.json");
 const packetSets = load("packetFamilyBridge", "data/record-clearing/legal-design-packet-set-manifests.json");
 const relationships = load("trackSourceRelationships", "data/record-clearing/legal-design-track-source-relationships.json");
@@ -102,15 +122,21 @@ inputs.problematicPdfRegister = {
 
 // Completed-output evidence: the adopted packet proofs, read as a set.
 const PROOF_DIR = "data/record-clearing/production-factory/packet-proofs";
-let proofNames = [];
-if (fs.existsSync(path.join(rootDir, PROOF_DIR))) {
-  proofNames = fs.readdirSync(path.join(rootDir, PROOF_DIR)).filter((f) => f.endsWith(".json")).sort();
-} else {
-  proofNames = git(["ls-tree", "--name-only", `${SESSION_A_COMMIT}:${PROOF_DIR}`])
-    .split("\n").map((s) => s.trim()).filter((s) => s.endsWith(".json")).sort();
+if (!fs.existsSync(path.join(rootDir, PROOF_DIR))) {
+  throw new Error(`${PROOF_DIR} is not in the working tree. This packet reads the completed-output proofs from HEAD only.`);
 }
-const proofs = proofNames.map((name) => JSON.parse(sessionAInput(`${PROOF_DIR}/${name}`).raw));
-inputs.completedOutputPacketProofs = { path: PROOF_DIR, source: fs.existsSync(path.join(rootDir, PROOF_DIR)) ? "working_tree" : "session_a_commit", count: proofs.length };
+const proofNames = fs.readdirSync(path.join(rootDir, PROOF_DIR)).filter((f) => f.endsWith(".json")).sort();
+const proofInputs = proofNames.map((name) => requiredInput(`${PROOF_DIR}/${name}`));
+const proofs = proofInputs.map((input) => JSON.parse(input.raw));
+inputs.completedOutputPacketProofs = {
+  path: PROOF_DIR,
+  source: "working_tree",
+  ref: null,
+  count: proofs.length,
+  // One hash over the whole set, in the sorted order read, so a changed proof
+  // is visible here rather than only inside a record.
+  sha256: sha256(proofNames.map((name, i) => `${name}:${proofInputs[i].sha256}`).join("\n"))
+};
 
 // --------------------------------------------------------------------------- indexes
 const packetSetByTrack = new Map(packetSets.packetSets.map((s) => [s.trackId, s]));
@@ -154,6 +180,100 @@ for (const record of problematic.records ?? []) {
     if (!problematicByTrack.has(trackId)) problematicByTrack.set(trackId, []);
     problematicByTrack.get(trackId).push({ assetId: record.identity, formId: record.formId, postLaunchPriority: record.postLaunchPriority, owner: record.owner });
   }
+}
+
+// --------------------------------------------------------------------------- legal status
+// The decision owner's recorded approval, read from the authorization queue by
+// the same reader the canonical graph uses. It approved the existing legal
+// designs, the completed outputs, the exception set, and the application of
+// those approved designs across the intended-paid corpus.
+const ownerDecision = readOwnerLegalDecision();
+const ownerDecisionRecord = ownerDecision.approved ? ownerDecision.records[0] : null;
+inputs.ownerLegalDecision = {
+  path: "data/rcap-authorization-queue.json",
+  source: "working_tree",
+  ref: null,
+  sha256: sha256(readLocal("data/rcap-authorization-queue.json")),
+  recordId: ownerDecisionRecord?.recordId ?? null
+};
+
+// The escalation list, verbatim from the owner's recorded decision. Anything on
+// it is a new substantive legal choice and goes back to the decision owner;
+// nothing else does, and in particular a technical correction never does.
+const SUBSTANTIVE_LEGAL_CHOICES = ownerDecisionRecord?.requiresANewDecisionOwnerDecision ?? [];
+
+function ownerApprovedLegalStatus({ pathway, sets, trackIds, jurisdictionBound, jurisdictionFamilies }) {
+  const decisionRef = ownerDecisionRecord
+    ? `${ownerDecisionRecord.decisionOwner} under ${ownerDecisionRecord.recordId}, effective ${ownerDecisionRecord.effectiveDate}`
+    : null;
+
+  if (!ownerDecisionRecord) {
+    return {
+      status: OWNER_PENDING,
+      basis: "no_owner_decision_recorded",
+      escalationRequired: true,
+      statement: "No approved owner_legal_decision entry exists in the authorization queue, so nothing here is approved."
+    };
+  }
+
+  // The graph already applied the owner's decision at family level, so where a
+  // named family carries this pathway that is the answer and this packet does
+  // not relitigate it.
+  const namedFamilies = pathway.ownerApprovedFamilies ?? [];
+  if (pathway.legalStatus === OWNER_APPROVED && namedFamilies.length > 0) {
+    return {
+      status: OWNER_APPROVED,
+      basis: "owner_approved_packet_family",
+      escalationRequired: false,
+      packetFamilies: namedFamilies,
+      statement: `${decisionRef} approved the completed output of ${namedFamilies.join(", ")}, the packet famil${namedFamilies.length === 1 ? "y" : "ies"} this pathway resolves to.`
+    };
+  }
+
+  // The family-level adoption never enumerated every track, but the all-497
+  // packet-set manifest defines the treatment. Roger's decision applies the
+  // approved designs across the intended-paid corpus, so an exact packet set is
+  // the support the decision names — the absent EXT-ADOPT-01 family metadata is
+  // not a new legal choice.
+  if (sets.length > 0 && sets.length === trackIds.length) {
+    return {
+      status: OWNER_APPROVED,
+      basis: "owner_approved_existing_legal_design_packet_set",
+      escalationRequired: false,
+      packetSetIds: sets.map((s) => s.packetSetId),
+      statement: `Every track on this pathway carries an exact legal-design packet set (${sets.map((s) => s.packetSetId).join(", ")}). ${decisionRef} approved applying the existing approved designs across the intended-paid corpus, and missing EXT-ADOPT-01 family metadata is not a new substantive legal choice where the all-497 manifest already defines the treatment.${jurisdictionBound ? ` ${pathway.jurisdiction} additionally carries ${jurisdictionFamilies.length} bound famil${jurisdictionFamilies.length === 1 ? "y" : "ies"} in EXT-ADOPT-01.` : ""}`
+    };
+  }
+
+  // Approved through the exception annex rather than through a family or a
+  // packet set: the jurisdiction or the named legal action is in the annex the
+  // owner adopted, but this repository still cannot name the treatment.
+  if (pathway.legalStatus === OWNER_APPROVED) {
+    return {
+      status: OWNER_APPROVED,
+      basis: "owner_approved_exception_annex",
+      escalationRequired: false,
+      statement: `${decisionRef} approved this pathway through the exception annex. ${pathway.legalStatement} No packet set names its treatment yet, so it is legally approved and not yet buildable.`
+    };
+  }
+
+  if (sets.length > 0) {
+    return {
+      status: OWNER_PENDING,
+      basis: "partial_packet_set_coverage",
+      escalationRequired: false,
+      statement: `${sets.length} of ${trackIds.length} tracks on this pathway carry a packet set. The remainder have no defined treatment to apply an approved design to, which is a registry and packet-definition gap rather than a legal question.`
+    };
+  }
+
+  return {
+    status: OWNER_PENDING,
+    basis: trackIds.length === 0 ? "registry_gap_no_track" : "no_packet_set_for_any_track",
+    escalationRequired: false,
+    statement: trackIds.length === 0
+      ? "No registry track maps to this compiled pathway, so there is no packet set for an approved design to be applied to. That is a registry-ownership action, not a legal decision."
+      : `Tracks ${trackIds.join(", ")} carry no packet set, so there is no defined treatment to apply an approved design to.`
+  };
 }
 
 // --------------------------------------------------------------------------- records
@@ -240,30 +360,24 @@ for (const pathway of graph.pathways) {
   // --- completed output ---------------------------------------------------
   const completedOutput = trackIds.flatMap((t) => (completedOutputByTrack.get(t) ?? []).map((o) => ({ trackId: t, ...o })));
 
-  // --- counsel exception --------------------------------------------------
-  // Conservative on purpose. An existing adoption whose reach is unclear is a
-  // determination owed to counsel, not a new exception; calling it an exception
-  // would manufacture counsel work that may already be covered.
-  let counselException;
-  if (pathway.disposition === "legal_action_required") {
-    counselException = {
-      isGenuineNewException: true,
-      reason: "session_a_recorded_legal_action_required",
-      statement: pathway.statement
-    };
-  } else if (!jurisdictionBound) {
-    counselException = {
-      isGenuineNewException: true,
-      reason: "no_bound_family_in_this_jurisdiction",
-      statement: `${code} has no bound family in EXT-ADOPT-01 at all, so there is no existing counsel record to reason from. A new adoption is genuinely required.`
-    };
-  } else {
-    counselException = {
-      isGenuineNewException: false,
-      reason: "existing_counsel_record_exists_reach_is_a_determination",
-      statement: `${code} carries ${jurisdictionFamilies.length} bound famil${jurisdictionFamilies.length === 1 ? "y" : "ies"} in EXT-ADOPT-01. Whether that adoption reaches this pathway is a determination for counsel and Session A. It is not a new exception and this packet does not decide it.`
-    };
-  }
+  // --- owner-approved legal status ---------------------------------------
+  // There is no counsel queue here and no determination owed. The decision
+  // owner approved the existing legal designs, the completed outputs, the
+  // exception set, and the application of those approved designs across the
+  // intended-paid corpus. So a pathway supported by an existing legal-design
+  // packet set is approved, and the only thing that escalates is a genuinely
+  // new substantive legal choice.
+  //
+  // Missing EXT-ADOPT-01 family metadata is explicitly NOT such a choice: the
+  // all-497 packet-set manifest already defines the treatment, and the older
+  // family-level adoption simply never enumerated it.
+  const ownerApprovedLegal = ownerApprovedLegalStatus({
+    pathway,
+    sets,
+    trackIds,
+    jurisdictionBound,
+    jurisdictionFamilies
+  });
 
   // --- witness ------------------------------------------------------------
   const w = witnessByPathway.get(pathway.pathwayKey) ?? null;
@@ -304,7 +418,7 @@ for (const pathway of graph.pathways) {
     completedOutput,
     problematicPdfAssets: trackIds.flatMap((t) => (problematicByTrack.get(t) ?? []).map((p) => ({ trackId: t, ...p }))),
     publicWitness,
-    counselException
+    ownerApprovedLegal
   });
 }
 
@@ -314,8 +428,9 @@ const tally = (list, fn) => list.reduce((m, x) => { const k = fn(x); m[k] = (m[k
 const sessionADispositions = tally(records, (r) => r.sessionAGraph.disposition);
 const registryClassifications = tally(records, (r) => r.registryClassification.kind);
 const bridgeResolved = records.filter((r) => r.bridgeImportEffect.changed);
-const exceptions = records.filter((r) => r.counselException.isGenuineNewException);
-const exceptionReasons = tally(exceptions, (r) => r.counselException.reason);
+const ownerApproved = records.filter((r) => r.ownerApprovedLegal.status === OWNER_APPROVED);
+const ownerApprovalBases = tally(records, (r) => r.ownerApprovedLegal.basis);
+const escalations = records.filter((r) => r.ownerApprovedLegal.escalationRequired);
 const withCompletedOutput = records.filter((r) => r.completedOutput.length > 0);
 
 const packet = {
@@ -335,9 +450,9 @@ const packet = {
     registryClassifications,
     bridgeImportResolved: bridgeResolved.length,
     pathwaysWithCompletedOutputEvidence: withCompletedOutput.length,
-    genuineNewCounselExceptions: exceptions.length,
-    genuineNewCounselExceptionReasons: exceptionReasons,
-    determinationsOwedToCounselNotExceptions: records.length - exceptions.length,
+    ownerApprovedLegal: ownerApproved.length,
+    ownerApprovalBases,
+    escalationsToTheDecisionOwner: escalations.length,
     publicWitness: {
       settled: records.filter((r) => r.publicWitness?.terminalEvaluation).length,
       landedOnTheirOwnPathway: records.filter((r) => r.publicWitness?.landedOnThisPathway).length,
@@ -358,11 +473,22 @@ const packet = {
       `That changes the REASON, never the coverage answer: a bridged pathway is one whose family can now be named, not one an adoption has been shown to cover.`,
     stillUnbridgeable: records.filter((r) => r.registryClassification.kind !== "exact_track_and_packet_set").length
   },
-  genuineNewCounselExceptions: exceptions.map((r) => ({
+  ownerLegalDecision: ownerDecisionRecord
+    ? {
+        approved: true,
+        result: OWNER_APPROVED,
+        record: ownerDecisionRecord,
+        note: "There is no counsel queue. The decision owner approved the existing legal designs, the completed outputs, the exception set and the application of those approved designs across the intended-paid corpus. No signature or separate counsel artifact is required or represented.",
+        escalateOnly: SUBSTANTIVE_LEGAL_CHOICES,
+        missingAdoptionMetadataIsNotAnEscalation:
+          "Missing EXT-ADOPT-01 family metadata is not a new legal decision where the all-497 legal-design packet-set manifest already defines the treatment."
+      }
+    : { approved: false, reason: ownerDecision.reason },
+  escalationsToTheDecisionOwner: escalations.map((r) => ({
     pathwayKey: r.pathwayKey,
     jurisdiction: r.jurisdiction,
-    reason: r.counselException.reason,
-    statement: r.counselException.statement
+    basis: r.ownerApprovedLegal.basis,
+    statement: r.ownerApprovedLegal.statement
   })),
   records
 };
@@ -432,20 +558,26 @@ function md() {
   l.push(`- Landed on their own pathway: **${packet.totals.publicWitness.landedOnTheirOwnPathway}**`);
   l.push(`- Payment allowed at the evaluator: **${packet.totals.publicWitness.paymentAllowedAtTheEvaluator}**`);
   l.push("");
-  l.push("## 5 — Genuine new counsel exceptions");
+  l.push("## 5 — Owner-approved legal status");
   l.push("");
-  l.push(`**${exceptions.length}** of ${records.length}.`);
+  l.push(ownerDecisionRecord
+    ? `Approved by **${ownerDecisionRecord.decisionOwner}** under \`${ownerDecisionRecord.recordId}\`, effective ${ownerDecisionRecord.effectiveDate}. There is no counsel queue here: the existing legal designs, the completed outputs, the exception set and the application of those approved designs across the intended-paid corpus are all approved, and no signature or separate counsel artifact is required.`
+    : "No approved `owner_legal_decision` entry exists in the authorization queue, so every pathway reads back `owner_approval_pending`.");
   l.push("");
-  l.push("| Reason | Pathways |");
+  l.push(`**${ownerApproved.length}** of ${records.length} pathways carry owner-approved legal status.`);
+  l.push("");
+  l.push("| Basis | Pathways |");
   l.push("|---|---|");
-  for (const [k, v] of Object.entries(exceptionReasons).sort((a, b) => b[1] - a[1])) l.push(`| \`${k}\` | ${v} |`);
+  for (const [k, v] of Object.entries(ownerApprovalBases).sort((a, b) => b[1] - a[1])) l.push(`| \`${k}\` | ${v} |`);
   l.push("");
-  l.push(`The other **${records.length - exceptions.length}** are not exceptions. Their jurisdiction carries a bound family in`);
-  l.push("EXT-ADOPT-01, so an existing counsel record exists; whether it reaches the pathway is a");
-  l.push("determination for counsel and Session A. Calling those exceptions would manufacture counsel");
-  l.push("work that may already be covered, so this packet does not.");
+  l.push("Missing EXT-ADOPT-01 family metadata is **not** a new legal decision where the all-497");
+  l.push("packet-set manifest already defines the treatment — that is the `owner_approved_existing_legal_design_packet_set`");
+  l.push("basis. What remains pending is a registry or packet-definition gap: there is no defined");
+  l.push("treatment for an approved design to be applied to, which is an ownership action rather than");
+  l.push("a legal question.");
   l.push("");
-  l.push(`Jurisdictions with no bound family at all: ${[...new Set(exceptions.filter((e) => e.counselException?.reason !== "session_a_recorded_legal_action_required").map((e) => e.jurisdiction))].sort().map((c) => `\`${c}\``).join(", ") || "—"}.`);
+  l.push(`Escalations to the decision owner: **${escalations.length}**. Only a genuinely new substantive legal choice escalates —`);
+  l.push(SUBSTANTIVE_LEGAL_CHOICES.map((c) => `${c}`).join("; ") + ".");
   l.push("");
   l.push("Regenerate with `npm run rcap:generate-session-a-packet`; verify with `npm run rcap:verify-session-a-packet`.");
   return l.join("\n") + "\n";
@@ -475,4 +607,5 @@ console.log(`  Session A dispositions: ${JSON.stringify(sessionADispositions)}`)
 console.log(`  bridge import resolved: ${bridgeResolved.length}`);
 console.log(`  registry classifications: ${JSON.stringify(registryClassifications)}`);
 console.log(`  completed-output evidence on ${withCompletedOutput.length} pathway(s)`);
-console.log(`  genuine new counsel exceptions: ${exceptions.length} ${JSON.stringify(exceptionReasons)}`);
+console.log(`  owner-approved legal: ${ownerApproved.length} of ${records.length} ${JSON.stringify(ownerApprovalBases)}`);
+console.log(`  escalations to the decision owner: ${escalations.length}`);
