@@ -30,6 +30,7 @@ const AUDIT = "data/rcap-all50/finalized-artifact-audit.json";
 const SHEET_PROOF = "data/rcap-all50/contact-sheet-visual-proof.json";
 const MASTER = "data/rcap-all50/problematic-pdf-master-list.json";
 const F3 = "data/rcap-all50/review-artifacts/f3-visual-review.json";
+const RETIREMENT = "data/rcap-all50/pdf-retirement-determination.json";
 const OVERLAY_DIR = "data/rcap-all50/overlays/production";
 const WORKFLOW = ".github/workflows/rcap-all50-handoff.yml";
 
@@ -108,7 +109,26 @@ function runChecks() {
   for (const record of register.records) {
     for (const familyId of record.familyIds) registerByFamily.set(familyId, record);
   }
+  // A retired family is exempt from needing a register row, and only a retired
+  // family is: the exemption is checked against the retirement determination
+  // rather than taken from the audit's own flag, so marking a family retired in
+  // one file cannot quietly remove it from the register in another.
+  const retirement = readJson(RETIREMENT, { assets: [] });
+  const retiredAssetKeys = new Set(
+    (retirement.assets ?? [])
+      .filter((a) => a.determination === "retirement_candidate")
+      .flatMap((a) => a.familyIds)
+  );
   for (const family of audit.families) {
+    if (family.retired) {
+      if (!retiredAssetKeys.has(family.familyId)) {
+        fail("retirement_is_backed_by_the_determination", `${family.familyId} is marked retired in the artifact audit but the retirement determination does not name it as a retirement candidate`);
+      }
+      continue;
+    }
+    if (retiredAssetKeys.has(family.familyId)) {
+      fail("retirement_is_backed_by_the_determination", `${family.familyId} is a retirement candidate yet still appears as operational in the artifact audit`);
+    }
     const unfinalized = family.artifacts.filter((a) => a.present && !a.finalized);
     if (unfinalized.length === 0) continue;
     const record = registerByFamily.get(family.familyId);
@@ -325,7 +345,7 @@ if (!mutationsMode) process.exit(0);
 // Each case edits committed bytes, re-runs every check, and requires the named
 // check to be among the ones that went red. Starting green is a precondition:
 // a mutation pass on an already-red tree proves nothing.
-const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW];
+const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT];
 
 const CASES = [
   {
@@ -333,7 +353,9 @@ const CASES = [
     expect: "protected_field_writes_are_registered",
     apply: () => {
       const audit = readJson(AUDIT);
-      const family = audit.families.find((f) => f.artifacts.some((a) => a.present));
+      // An operational family on purpose: a retired one is exempt from needing a
+      // register row, so mutating it would prove nothing about this check.
+      const family = audit.families.find((f) => !f.retired && f.artifacts.some((a) => a.present));
       const artifact = family.artifacts.find((a) => a.present);
       artifact.protectedFieldsWrittenByFactory = ["ClerkOfSuperiorCourtSignature"];
       artifact.failures = [...new Set([...artifact.failures, "protected_field_written_by_the_factory"])];
@@ -557,6 +579,26 @@ const CASES = [
       const row = master.rows.find((r) => r.acquisitionPriority === 4);
       row.acquisitionRule = null;
       fs.writeFileSync(abs(MASTER), `${JSON.stringify(master, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a retired asset is put back into the operational scan",
+    expect: "retirement_is_backed_by_the_determination",
+    apply: () => {
+      const audit = readJson(AUDIT);
+      const family = audit.families.find((f) => f.retired);
+      family.retired = false;
+      fs.writeFileSync(abs(AUDIT), `${JSON.stringify(audit, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a retained asset is marked retired",
+    expect: "retirement_is_backed_by_the_determination",
+    apply: () => {
+      const audit = readJson(AUDIT);
+      const family = audit.families.find((f) => !f.retired);
+      family.retired = true;
+      fs.writeFileSync(abs(AUDIT), `${JSON.stringify(audit, null, 2)}\n`);
     }
   },
   {

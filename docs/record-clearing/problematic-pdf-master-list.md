@@ -6,28 +6,28 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 
 | Measure | Count |
 | --- | ---: |
-| Assets in the register | 128 |
+| Assets in the register | 88 |
 | Serving an active launch track | 45 |
-| Orphaned or optional | 44 |
+| Orphaned or optional | 4 |
 | Expected by legal design and absent | 39 |
 | Lane A — correctable now | 1 |
 | Lane B — official source acquisition required | 83 |
 | Lane C — source-currentness hold | 0 |
 | Lane D — legal-design hold | 0 |
-| Lane E — orphaned or optional | 44 |
+| Lane E — orphaned or optional | 4 |
 | Lane F — missing binary, complete participant deferral | 0 |
 | Verified source binaries present in this clone | 1 |
 | Assets with a finalized rendered artifact | 0 |
-| Assets whose active-content verdict is unprovable | 62 |
-| Contact sheets that show a fill | 8 |
-| Contact sheets that show no fill | 54 |
+| Assets whose active-content verdict is unprovable | 30 |
+| Contact sheets that show a fill | 1 |
+| Contact sheets that show no fill | 29 |
 | Active-track assets blocking packet promotion | 1 |
 | Active-track assets safely served by guidance or exact deferral | 45 |
-| Orphaned or optional assets | 44 |
-| Archive candidates | 27 |
+| Orphaned or optional assets | 4 |
+| Archive candidates | 0 |
 | Retirement candidates | 0 |
-| Reference-only documents | 8 |
-| Orphaned | 9 |
+| Reference-only documents | 2 |
+| Orphaned | 2 |
 | Optional | 0 |
 | Official source required | 53 |
 | Certification unproven | 29 |
@@ -37,12 +37,12 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Acquisition priority 1 — packet-capable route waiting | 1 |
 | Acquisition priority 2 — review cannot begin | 39 |
 | Acquisition priority 3 — currentness or supersession | 4 |
-| Acquisition priority 4 — do not acquire without a named current use | 83 |
-| Assets awaiting a write-box placement decision | 6 |
+| Acquisition priority 4 — do not acquire without a named current use | 43 |
+| Assets awaiting a write-box placement decision | 4 |
 | Recorded official titles that look mis-extracted | 3 |
-| Assets with no track binding | 83 |
+| Assets with no track binding | 43 |
 | Assets with a candidate, unconfirmed track binding | 7 |
-| Never independently reviewed | 125 |
+| Never independently reviewed | 85 |
 | On a sellable route | 0 |
 | On a public packet route | 0 |
 | High severity | 30 |
@@ -53,7 +53,7 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 - **B** — `official_source_acquisition_required` (83)
 - **C** — `source_currentness_hold` (0)
 - **D** — `legal_design_hold` (0)
-- **E** — `orphaned_or_optional_asset` (44)
+- **E** — `orphaned_or_optional_asset` (4)
 - **F** — `missing_binary_with_complete_participant_deferral` (0)
 
 ## Lane A — actionable technical or visual correction
@@ -162,47 +162,7 @@ _None._
 
 | Jurisdiction | Form | Tracks | Severity | Owner | Exact blocker | Exact next action |
 | --- | --- | --- | --- | --- | --- | --- |
-| AK | DPS-CRI-103 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AK DPS-CRI-103 and record the decision. It blocks nothing in the meantime. |
-| AK | DPS-SEAL-REQ-2-04 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AK DPS-SEAL-REQ-2-04 and record the decision. It blocks nothing in the meantime. |
-| AL | C-94A | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AL C-94A and record the decision. It blocks nothing in the meantime. |
-| AL | SBI-FORM-46 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AL SBI-FORM-46 and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-ORDER-OF-PROBATION-UNDER-ACT-346 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-ORDER-OF-PROBATION-UNDER-ACT-346 and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346 and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460 and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460 and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460 and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1 and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460 and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460 and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL and record the decision. It blocks nothing in the meantime. |
-| AR | AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for AR AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC and record the decision. It blocks nothing in the meantime. |
-| KY | AOC-009 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for KY AOC-009 and record the decision. It blocks nothing in the meantime. |
-| KY | AOC-333 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for KY AOC-333 and record the decision. It blocks nothing in the meantime. |
-| KY | AOC-496.5 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for KY AOC-496.5 and record the decision. It blocks nothing in the meantime. |
-| KY | AOC-497.3 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for KY AOC-497.3 and record the decision. It blocks nothing in the meantime. |
-| NC | NC-SBI-RIGHT-TO-REVIEW | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for NC NC-SBI-RIGHT-TO-REVIEW and record the decision. It blocks nothing in the meantime. |
-| NE | CC-6-11.2A | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for NE CC-6-11.2A and record the decision. It blocks nothing in the meantime. |
 | NE | CC-6-11A | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for NE CC-6-11A and record the decision. It blocks nothing in the meantime. |
-| NE | DC-6-7.1A | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for NE DC-6-7.1A and record the decision. It blocks nothing in the meantime. |
-| NE | DC-6-7.2 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for NE DC-6-7.2 and record the decision. It blocks nothing in the meantime. |
-| NE | DC-6-7.2A | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for NE DC-6-7.2A and record the decision. It blocks nothing in the meantime. |
-| VA | CC-1201-A | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for VA CC-1201-A and record the decision. It blocks nothing in the meantime. |
-| VA | CC-1203 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for VA CC-1203 and record the decision. It blocks nothing in the meantime. |
-| VA | CC-1203-A | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for VA CC-1203-A and record the decision. It blocks nothing in the meantime. |
-| VA | CC-1203-B | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for VA CC-1203-B and record the decision. It blocks nothing in the meantime. |
-| VT | 200-00130A | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for VT 200-00130A and record the decision. It blocks nothing in the meantime. |
 | VT | 200-00131 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for VT 200-00131 and record the decision. It blocks nothing in the meantime. |
 | VT | 200-00331 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for VT 200-00331 and record the decision. It blocks nothing in the meantime. |
 | VT | 200-00631 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for VT 200-00631 and record the decision. It blocks nothing in the meantime. |
@@ -222,10 +182,10 @@ Every asset carries exactly one. `releaseStatus` is a separate axis and is HELD 
 | `certification_unproven` | Artifacts exist but cannot be certified: their active-content cleanliness or finalization cannot be established from the committed bytes. | 29 |
 | `independent_review_required` | Certifiable artifacts exist and no independent review has approved them. | 1 |
 | `legal_design_hold` | A substantive legal-design question is unresolved. | 0 |
-| `reference_only` | An instruction, guidance or supporting-process document, not a filed component. | 8 |
-| `orphaned` | No active track requires it and no candidate binding to one exists. | 9 |
+| `reference_only` | An instruction, guidance or supporting-process document, not a filed component. | 2 |
+| `orphaned` | No active track requires it and no candidate binding to one exists. | 2 |
 | `optional` | A packet form no active track currently requires, with a plausible binding. | 0 |
-| `archive_candidate` | Source-gated: retained for provenance, never runtime-selectable. | 27 |
+| `archive_candidate` | Source-gated: retained for provenance, never runtime-selectable. | 0 |
 | `retire_candidate` | Recorded as superseded, withdrawn or repealed; nothing should use it. | 0 |
 
 `Active-track assets safely served by guidance or exact deferral` and `Active-track assets blocking packet promotion` overlap by one asset, and that is not a contradiction: every active-track participant is served today, and one of those assets also carries a production_packet treatment in the pinned legal design, making its route the only packet promotion waiting on this lane.
@@ -236,29 +196,29 @@ How many assets carry a finding and how many distinct problems produce those fin
 
 | Root cause | Dimension | Scope | Impacted assets | Cleared by |
 | --- | --- | --- | ---: | --- |
-| `RC-G-GENERATION-NOT-ALLOWED` | governance | systemic | 128 | A recorded decision to permit generation, after the source and design questions are answered. |
-| `RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL` | governance | systemic | 125 | Independent technical review once reviewable artifacts exist. |
-| `RC-G-PRODUCTION-HOLD` | governance | systemic | 128 | Lifting the holds deliberately, which is a release decision and not a build one. |
+| `RC-G-GENERATION-NOT-ALLOWED` | governance | systemic | 88 | A recorded decision to permit generation, after the source and design questions are answered. |
+| `RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL` | governance | systemic | 85 | Independent technical review once reviewable artifacts exist. |
+| `RC-G-PRODUCTION-HOLD` | governance | systemic | 88 | Lifting the holds deliberately, which is a release decision and not a build one. |
 | `RC-S-BUNDLE-ABSENT` | source | systemic | 39 | Supplying the canonical source bundle, or opening access to the issuing bodies. |
-| `RC-S-CURRENTNESS-UNVERIFIED` | source | systemic | 44 | A currentness review pass against the issuing bodies' own publications. |
-| `RC-S-STALE-OR-SUPERSEDED` | source | family_specific | 34 | Acquiring the current edition of this form and recording the supersession. |
-| `RC-T-ALL-FIELDS-UNWRITABLE` | technical | family_specific | 3 | A reviewed mapping decision for this form, or a decision that it is court-completed. |
+| `RC-S-CURRENTNESS-UNVERIFIED` | source | systemic | 37 | A currentness review pass against the issuing bodies' own publications. |
+| `RC-S-STALE-OR-SUPERSEDED` | source | family_specific | 5 | Acquiring the current edition of this form and recording the supersession. |
+| `RC-T-ALL-FIELDS-UNWRITABLE` | technical | family_specific | 2 | A reviewed mapping decision for this form, or a decision that it is court-completed. |
 | `RC-T-DIRTY-ACROFORM-SOURCE` | technical | family_specific | 25 | Sanitation of this form through the current pipeline, proved on the output. |
-| `RC-T-FACTORY-PROVENANCE` | technical | systemic | 62 | Re-rendering the affected families through the current official-form factory. |
-| `RC-T-FLAT-GEOMETRY` | technical | family_specific | 33 | Measured anchors approved for this form. |
-| `RC-T-NO-DERIVABLE-WRITE-BOX` | technical | family_specific | 12 | A reviewed and recorded placement decision for this form. |
+| `RC-T-FACTORY-PROVENANCE` | technical | systemic | 30 | Re-rendering the affected families through the current official-form factory. |
+| `RC-T-FLAT-GEOMETRY` | technical | family_specific | 22 | Measured anchors approved for this form. |
+| `RC-T-NO-DERIVABLE-WRITE-BOX` | technical | family_specific | 9 | A reviewed and recorded placement decision for this form. |
 | `RC-T-NO-FIELD-CENSUS` | technical | family_specific | 15 | A census taken from this form's verified binary. |
-| `RC-T-OBJECT-STREAMS` | technical | systemic | 62 | Re-serializing the affected families without object streams, which the current finalizer already does. |
-| `RC-T-SOURCE-DEFAULT-IN-PROTECTED-FIELD` | technical | systemic | 8 | Flattening the affected artifacts, which drops the default with every other unflattened widget. |
-| `RC-T-UNFLATTENED-FIELDS` | technical | systemic | 53 | Re-rendering through the current factory, which flattens before emitting. |
+| `RC-T-OBJECT-STREAMS` | technical | systemic | 30 | Re-serializing the affected families without object streams, which the current finalizer already does. |
+| `RC-T-SOURCE-DEFAULT-IN-PROTECTED-FIELD` | technical | systemic | 5 | Flattening the affected artifacts, which drops the default with every other unflattened widget. |
+| `RC-T-UNFLATTENED-FIELDS` | technical | systemic | 26 | Re-rendering through the current factory, which flattens before emitting. |
 | `RC-T-VALUES-ABSENT` | technical | family_specific | 3 | Bindings or anchors for this form, then a re-render. |
-| `RC-T-VALUES-IN-APPEARANCES` | technical | systemic | 53 | Re-rendering through the current factory, which materializes values into page content before flattening. |
-| `RC-V-CLIPPING` | visual | family_specific | 57 | Re-measuring and re-fitting this form's failing widgets until no clipping finding remains. |
-| `RC-V-NO-SHEET-PRODUCED` | visual | systemic | 27 | Rendering the affected families, which produces the sheet as part of the run. |
-| `RC-V-SHEET-FROM-UNFINALIZED-SOURCE` | visual | systemic | 62 | Re-rendering the affected families and rebuilding their sheets from the finalized artifact. |
-| `RC-V-SHEET-NO-VISIBILITY-PROOF` | visual | systemic | 62 | Rebuilding the affected sheets with the current builder, which writes the proof beside the sheet. |
-| `RC-V-SHEET-PANELS-IDENTICAL` | visual | systemic | 54 | Rebuilding the affected sheets from finalized artifacts; the current builder refuses to emit a sheet whose panels match. |
-| `RC-V-UNSAFE-PLACEMENT` | visual | family_specific | 20 | Re-measuring this form's geometry and re-rendering the boundary fixture. |
+| `RC-T-VALUES-IN-APPEARANCES` | technical | systemic | 26 | Re-rendering through the current factory, which materializes values into page content before flattening. |
+| `RC-V-CLIPPING` | visual | family_specific | 26 | Re-measuring and re-fitting this form's failing widgets until no clipping finding remains. |
+| `RC-V-NO-SHEET-PRODUCED` | visual | systemic | 19 | Rendering the affected families, which produces the sheet as part of the run. |
+| `RC-V-SHEET-FROM-UNFINALIZED-SOURCE` | visual | systemic | 30 | Re-rendering the affected families and rebuilding their sheets from the finalized artifact. |
+| `RC-V-SHEET-NO-VISIBILITY-PROOF` | visual | systemic | 30 | Rebuilding the affected sheets with the current builder, which writes the proof beside the sheet. |
+| `RC-V-SHEET-PANELS-IDENTICAL` | visual | systemic | 29 | Rebuilding the affected sheets from finalized artifacts; the current builder refuses to emit a sheet whose panels match. |
+| `RC-V-UNSAFE-PLACEMENT` | visual | family_specific | 13 | Re-measuring this form's geometry and re-rendering the boundary fixture. |
 
 ## Source-acquisition queue
 
@@ -894,54 +854,24 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 
 ### Priority 4 — Orphaned, optional, historical or reference-only. do_not_acquire_without_a_named_current_use.
 
-83 asset(s).
+43 asset(s).
 
 | Jurisdiction | Form | Disposition | Rule |
 | --- | --- | --- | --- |
 | AK | ak-record-relief-forms.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
-| AK | DPS-CRI-103 | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AK | DPS-SEAL-REQ-2-04 | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
 | AK | RequestToSealCrimInfo.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | AL | al-expungement-petition.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
-| AL | C-94A | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
 | AL | cr-65-expunge-petition-10-2024.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | AL | cr-65a-order-on-petition-for-expungement-10-2024.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | AL | criminal-forms.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | AL | criminal-record-expungement.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
-| AL | SBI-FORM-46 | `reference_only` | `do_not_acquire_without_a_named_current_use` |
 | AR | 3-Misdemeanor-Petition-8_01_2023.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | AR | 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-ORDER-OF-PROBATION-UNDER-ACT-346 | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346 | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460 | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460 | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460 | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1 | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460 | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460 | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| AR | AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
 | AR | Arkansas-Petition-Order-Forms.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | AR | Felony-Petition-Form-f.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | KY | 496.2.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | KY | 496.3.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | KY | 497.2.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
-| KY | AOC-009 | `orphaned` | `do_not_acquire_without_a_named_current_use` |
-| KY | AOC-333 | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
-| KY | AOC-496.5 | `orphaned` | `do_not_acquire_without_a_named_current_use` |
-| KY | AOC-497.3 | `archive_candidate` | `do_not_acquire_without_a_named_current_use` |
 | KY | JV-29.1.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | KY | JV-29.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | KY | JV-30.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
@@ -953,24 +883,14 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 | NC | forms-2.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | NC | forms.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | NC | nc-expunction-petition.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
-| NC | NC-SBI-RIGHT-TO-REVIEW | `reference_only` | `do_not_acquire_without_a_named_current_use` |
 | NE | CC-6-11-2.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
-| NE | CC-6-11.2A | `reference_only` | `do_not_acquire_without_a_named_current_use` |
 | NE | CC-6-11.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | NE | CC-6-11A | `reference_only` | `do_not_acquire_without_a_named_current_use` |
 | NE | CC-6-12.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
-| NE | DC-6-7.1A | `reference_only` | `do_not_acquire_without_a_named_current_use` |
-| NE | DC-6-7.2 | `orphaned` | `do_not_acquire_without_a_named_current_use` |
-| NE | DC-6-7.2A | `reference_only` | `do_not_acquire_without_a_named_current_use` |
-| VA | CC-1201-A | `orphaned` | `do_not_acquire_without_a_named_current_use` |
-| VA | CC-1203 | `orphaned` | `do_not_acquire_without_a_named_current_use` |
-| VA | CC-1203-A | `orphaned` | `do_not_acquire_without_a_named_current_use` |
-| VA | CC-1203-B | `orphaned` | `do_not_acquire_without_a_named_current_use` |
 | VA | cc1473.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | VA | cc1473inst.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | VA | va-expungement-sealing-forms.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | VT | 200-00129 – Petition to Expunge Criminal History.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
-| VT | 200-00130A | `reference_only` | `do_not_acquire_without_a_named_current_use` |
 | VT | 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | VT | 200-00131 | `orphaned` | `do_not_acquire_without_a_named_current_use` |
 | VT | 200-00131.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
@@ -990,8 +910,6 @@ _None recorded._ No production hold in this lane names a substantive legal choic
 
 | Jurisdiction | Form | Labels | Rendered evidence |
 | --- | --- | ---: | --- |
-| AR | AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY | 1 | binary not in this clone |
-| AR | AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION | 1 | binary not in this clone |
 | NC | AOC-CV-226 | 1 | binary not in this clone |
 | NC | AOC-CV-226 | 1 | binary not in this clone |
 | WI | CR-266 | 4 | docs/record-clearing/pdf-visual-evidence/WI-cr-266-form-en-placement-page-01.png |
@@ -1004,58 +922,28 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | Jurisdiction | Form | Lane | Rendered artifact finalized | Active-content verdict | Contact sheet shows a fill | Independent review |
 | --- | --- | --- | --- | --- | --- | --- |
 | AK | ak-record-relief-forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| AK | DPS-CRI-103 | E | false | unprovable: object streams hide objects from the residue scan | true | never_independently_reviewed |
-| AK | DPS-SEAL-REQ-2-04 | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AK | RequestToSealCrimInfo.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AK | TF-800 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | AK | TF-805 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | AK | TF-810 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | AL | al-expungement-petition.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| AL | C-94A | E | false | unprovable: object streams hide objects from the residue scan | true | never_independently_reviewed |
 | AL | cr-65-expunge-petition-10-2024.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AL | cr-65a-order-on-petition-for-expungement-10-2024.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AL | criminal-forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AL | criminal-record-expungement.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| AL | SBI-FORM-46 | E | false | unprovable: object streams hide objects from the residue scan | true | never_independently_reviewed |
 | AR | 3-Misdemeanor-Petition-8_01_2023.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AR | 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| AR | AR-ACIC-ORDER-OF-PROBATION-UNDER-ACT-346 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION | E | false | unprovable: object streams hide objects from the residue scan | true | never_independently_reviewed |
-| AR | AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL | E | false | unprovable: object streams hide objects from the residue scan | true | never_independently_reviewed |
-| AR | AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY | E | false | unprovable: object streams hide objects from the residue scan | true | never_independently_reviewed |
-| AR | AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION | E | false | unprovable: object streams hide objects from the residue scan | true | never_independently_reviewed |
-| AR | AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| AR | AR-ACIC-PETITION-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| AR | AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | AR | Arkansas-Petition-Order-Forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AR | Felony-Petition-Form-f.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | KY | 496.2.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | KY | 496.3.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | KY | 497.2.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| KY | AOC-009 | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| KY | AOC-333 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | KY | AOC-334 | B | false | unprovable: object streams hide objects from the residue scan | false | technically_approved_for_at_least_one_served_track |
 | KY | AOC-496 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | KY | AOC-496.2 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | KY | AOC-496.3 | B | false | unprovable: object streams hide objects from the residue scan | false | technically_approved_for_at_least_one_served_track |
 | KY | AOC-496.4 | B | false | unprovable: object streams hide objects from the residue scan | false | technically_approved_for_at_least_one_served_track |
-| KY | AOC-496.5 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | KY | AOC-497 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| KY | AOC-497.3 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | KY | JV-29.1.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | KY | JV-29.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | KY | JV-30.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
@@ -1087,11 +975,9 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | NC | forms-2.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | nc-expunction-petition.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NC | NC-SBI-RIGHT-TO-REVIEW | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NE | CC-6-11 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | NE | CC-6-11-2.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NE | CC-6-11.2 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| NE | CC-6-11.2A | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NE | CC-6-11.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NE | CC-6-11A | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NE | CC-6-12 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
@@ -1099,21 +985,13 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | NE | CC-6-12.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NE | CC-6-15.1 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | NE | DC-1-15 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| NE | DC-6-7.1A | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NE | DC-6-7.2 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| NE | DC-6-7.2A | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VA | CC-1201 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| VA | CC-1201-A | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| VA | CC-1203 | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| VA | CC-1203-A | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| VA | CC-1203-B | E | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | VA | CC-1473 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
 | VA | cc1473.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VA | cc1473inst.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VA | va-expungement-sealing-forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00129 – Petition to Expunge Criminal History.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00130 | B | false | unprovable: object streams hide objects from the residue scan | false | never_independently_reviewed |
-| VT | 200-00130A | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00131 | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00131.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |

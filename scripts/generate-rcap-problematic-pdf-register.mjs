@@ -136,6 +136,10 @@ const implByFamily = new Map(implIndex.families.map((f) => [`${f.jurisdiction}:$
 const binIndex = readJson(path.join(OVERLAY_DIR, "verified-binary-index.json"), { families: [] });
 const binByFamily = new Map(binIndex.families.map((f) => [`${f.jurisdiction}:${f.familySlug}`, f]));
 
+// Families that have left the operational inventory, collected as the scan runs
+// so the register can report what it excluded rather than silently shrinking.
+const retired = [];
+
 /** Every family directory that carries a committed source record. */
 function familyDirectories() {
   const out = [];
@@ -148,6 +152,17 @@ function familyDirectories() {
       if (!fs.statSync(familyPath).isDirectory()) continue;
       const sourceRecord = path.join(familyPath, "source-record.json");
       if (!fs.existsSync(sourceRecord)) continue;
+      // A retired asset has left the operational inventory: nothing on the
+      // platform reaches it, nothing expects it to become deliverable, and it
+      // is no longer part of the problematic denominator. It stays on disk as
+      // historical evidence, which is why it is skipped here rather than
+      // deleted. The marker is written only where the retirement determination
+      // probed every surface and found none.
+      const retirement = path.join(familyPath, "retirement.json");
+      if (fs.existsSync(retirement)) {
+        retired.push({ stateDir, familySlug: familyDir, marker: readJson(retirement) });
+        continue;
+      }
       out.push({ stateDir, familySlug: familyDir, familyPath, sourceRecord });
     }
   }
@@ -524,8 +539,11 @@ const rootCauseIndex = [...new Set(records.flatMap((r) => r.rootCauseIds))].sort
   impactedAssets: records.filter((r) => r.rootCauseIds.includes(id)).length,
   impactedAssetIds: records.filter((r) => r.rootCauseIds.includes(id)).map((r) => r.identity)
 }));
+const retiredAssetIds = [...new Set(retired.map((r) => r.marker?.assetId).filter(Boolean))];
 const totals = {
   problematicPdfsTotal: records.length,
+  retiredFromOperationalInventory: retiredAssetIds.length,
+  retiredFamilyDirectories: retired.length,
   activeTrackProblematicPdfs: sections.active_track_problem_pdfs.length,
   orphanedOrOptionalPdfs: sections.orphaned_or_optional_problem_pdfs.length,
   missingPdfBinaries: sections.missing_pdf_assets.length,
@@ -571,6 +589,12 @@ const payload = {
   registerDoesNotBlock: "This register does not block 497/497 when the associated track has a complete independently approved terminal alternative. It DOES block launch when a track has no complete terminal treatment, when an unsupported PDF route remains sellable, when payment or credit can still be consumed, when the route can still generate or expose the unsafe PDF, or when an issue is omitted from the register.",
   postLaunchReplacementRule: "After launch a repaired PDF may replace its fallback only after exact source verification, current implementation proof, fresh independent technical and visual approval, legal-adoption continuity where applicable, runtime integration, staging acceptance, and a controlled route-state promotion. A pending post-launch repair never reopens the nationwide denominator.",
   registrySource: { commit: regSrc.commit, path: REGISTRY_PATH },
+  retirement: {
+    rule: "An asset leaves this register only when the retirement determination probed every surface that could reach it -- packet components, composed routes, guidance packets, terminal treatments, overlay and build manifests, runtime field-map drafts and application source -- and found none. Difficulty of repair is never a reason. Nothing is deleted; the family stays on disk with a marker.",
+    determination: "data/rcap-all50/pdf-retirement-determination.json",
+    retiredAssetIds,
+    retiredFamilies: retired.map((r) => ({ jurisdiction: r.marker?.jurisdiction ?? null, formNumber: r.marker?.formNumber ?? null, family: `${r.stateDir}/${r.familySlug}` }))
+  },
   readingTheCounts: "`technicalDefects` and `visualDefects` count ASSETS carrying a finding, not problems to solve. The number of problems is `uniqueSystemicTechnicalRootCauses` plus `uniqueFamilySpecificTechnicalDefects`, and the same for visual. One systemic factory problem across 62 artifacts is one problem with 62 impacted assets; it is neither 62 problems nor a reason to report fewer assets.",
   rootCauseIndex,
   totals,

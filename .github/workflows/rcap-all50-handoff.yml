@@ -157,3 +157,13 @@ jobs:
 
       - name: Verify the problematic-PDF contract is actually wired into this workflow
         run: node scripts/verify-rcap-problematic-pdf-ci-wiring.mjs
+
+      # Retirement removes an asset from the problematic denominator, so the
+      # evidence behind it has to hold on every run: the determination must
+      # still probe every surface and still find none, and every retirement
+      # marker must still match what the determination says.
+      - name: Verify the PDF retirement determination is current
+        run: node scripts/generate-rcap-pdf-retirement-determination.mjs --check
+
+      - name: Verify every retirement marker matches its determination
+        run: node scripts/retire-rcap-problematic-pdf-assets.mjs --check

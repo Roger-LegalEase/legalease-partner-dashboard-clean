@@ -191,7 +191,15 @@ for (const stateDir of fs.readdirSync(ROOT).sort()) {
       });
     }
 
+    // A retired family has left the operational inventory. Its artifacts are
+    // still described here -- deleting the observation would make the audit
+    // lie about what is on disk -- but marked, so downstream checks do not
+    // demand a register row for an asset the register deliberately excludes.
+    const retirementMarker = readJson(path.join(familyPath, "retirement.json"));
+
     families.push({
+      retired: Boolean(retirementMarker),
+      retirementBasis: retirementMarker?.basis ?? null,
       familyId: `${String(record.jurisdiction ?? stateDir).toUpperCase()}:${familyDir}`,
       jurisdiction: String(record.jurisdiction ?? stateDir).toUpperCase(),
       familySlug: familyDir,
@@ -206,12 +214,15 @@ for (const stateDir of fs.readdirSync(ROOT).sort()) {
   }
 }
 
+const operational = families.filter((f) => !f.retired);
 const withArtifacts = families.filter((f) => f.artifacts.some((a) => a.present));
 const allArtifacts = families.flatMap((f) => f.artifacts.filter((a) => a.present));
 const failureCount = (key) => allArtifacts.filter((a) => a.failures.includes(key)).length;
 
 const totals = {
   familiesInspected: families.length,
+  familiesRetiredFromOperationalInventory: families.length - operational.length,
+  operationalFamilies: operational.length,
   familiesCarryingArtifacts: withArtifacts.length,
   artifactsInspected: allArtifacts.length,
   artifactsFinalized: allArtifacts.filter((a) => a.finalized).length,
