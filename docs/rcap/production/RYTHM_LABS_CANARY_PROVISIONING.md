@@ -144,6 +144,15 @@ token under the existing invitation contract.
 time — no second tenant, no second invitation, no second email. Running it twice
 with different keys and the same slug fails closed on the second run.
 
+**Removing a provisioned tenant.** There is no ordinary undo. The onboarding
+activity trail is append-only — a BEFORE DELETE trigger refuses every row — so a
+delete on `partner_records` fails on the workspace's own activity record.
+Removal needs a privileged session that clears `partner_onboarding_activity` for
+that workspace first. Treat provisioning as a decision to create a private
+record that will persist, not as a scratch action. A tenant left in place is
+private, inactive, unbilled, and unreachable from the public route, so leaving
+one is safe even when it was a mistake.
+
 ## If something looks wrong
 
 Stop. Provisioning creates nothing public and nothing active, so a paused

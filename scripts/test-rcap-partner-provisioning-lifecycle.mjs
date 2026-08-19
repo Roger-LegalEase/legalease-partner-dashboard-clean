@@ -411,6 +411,11 @@ try {
 
   console.log(`\nRCAP partner provisioning lifecycle acceptance passed: ${pass} checks.`);
 } finally {
+  // partner_onboarding_activity is append-only by design: a BEFORE DELETE
+  // trigger refuses every row, so deleting a provisioned tenant cannot cascade
+  // through it. Cleanup is therefore best-effort, and anything it cannot remove
+  // is named rather than silently left behind.
+  const stranded = [];
   for (const slug of created.slugs) {
     await svc.from("partner_users").delete().eq("partner_slug", slug);
     await svc.from("partner_email_deliveries").delete().eq("partner_slug", slug);
@@ -418,8 +423,24 @@ try {
     await svc.from("partner_onboarding_tasks").delete().eq("partner_slug", slug);
     await svc.from("partner_onboarding").delete().eq("partner_slug", slug);
     await svc.from("partner_records").delete().eq("partner_slug", slug);
+    const { data } = await svc
+      .from("partner_records")
+      .select("partner_slug")
+      .eq("partner_slug", slug)
+      .maybeSingle();
+    if (data) stranded.push(slug);
   }
   for (const id of created.users) {
     await svc.auth.admin.deleteUser(id).catch(() => {});
+  }
+  if (stranded.length > 0) {
+    console.log("");
+    console.log(
+      "Synthetic tenants left in place; their append-only onboarding activity refuses deletion:"
+    );
+    for (const slug of stranded) console.log(`  ${slug}`);
+    console.log(
+      "Clear them with a privileged session that removes partner_onboarding_activity first, or reset the local stack."
+    );
   }
 }
