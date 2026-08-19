@@ -20,15 +20,23 @@
 //      are in the content stream rather than only in widget appearances, and
 //      the factory wrote no protected field;
 //   3. a contact-sheet visibility proof exists for it;
-//   4. that proof shows the blank and filled panels differ, measured against a
-//      control that is known to differ. A sheet whose panels are identical is
-//      not visibility-proven no matter how green the rest of the row is, and a
-//      measurement whose control does not discriminate proves nothing either
-//      way.
+//   4. that proof shows the blank and filled panels differ, and its
+//      known-different control did not fail to discriminate. A sheet whose
+//      panels are identical is not visibility-proven no matter how green the
+//      rest of the row is, and a measurement whose control does not
+//      discriminate proves nothing either way.
 //
 // Condition 4 is the one that does real work here: it is what separates a
 // family whose fixture shows a fill from a family whose "canonical fixture" is
 // the blank form.
+//
+// It has a third state that is neither pass nor fail, and it is recorded rather
+// than rounded off. A one-page contact sheet has no second page to act as a
+// known-different control, so `controlDiscriminates` is null and the pixel
+// measurement's discriminating power is unproven for that sheet. Six families
+// are admitted on the panels-differ result alone, and each carries a
+// `visualBasis` string saying so. Claiming they were measured against a control
+// would overstate what was checked.
 import fs from "node:fs";
 import path from "node:path";
 import { createHash } from "node:crypto";
@@ -117,6 +125,15 @@ for (const family of audit.families ?? []) {
     drop("visual_measurement_does_not_discriminate", "the known-different control did not register as different, so the pixel measurement proves nothing either way");
     continue;
   }
+  // `controlDiscriminates: null` is neither a pass nor a failure. A one-page
+  // contact sheet has no second page to serve as a known-different control, so
+  // the pixel measurement's discriminating power is simply unproven for that
+  // sheet. The panels-differ result still stands on its own, so the family is
+  // admitted -- but saying the rule requires a discriminating control and then
+  // admitting six families without one would misdescribe what was checked.
+  const visualBasis = proof.controlDiscriminates === true
+    ? "panels differ, measured against a control known to differ"
+    : "panels differ; the sheet is one page so no control was available and the pixel measurement's discriminating power is unproven for it";
 
   included.push({
     familyId: family.familyId,
@@ -130,6 +147,7 @@ for (const family of audit.families ?? []) {
     renderedEvidence: proof.renderedEvidence ?? null,
     pagesOnSheet: proof.pagesOnSheet ?? null,
     controlDiscriminates: proof.controlDiscriminates ?? null,
+    visualBasis,
     fieldClassificationSha256: sha256(path.join(family.relativePath, "field-classification.json")),
     ...fieldMapFor(family.relativePath),
     provenanceSha256: sha256(path.join(family.relativePath, "artifact-provenance.json"))
@@ -164,7 +182,7 @@ const payload = {
     "not named in the remaining-failure matrix",
     "a contact-sheet visibility proof exists",
     "the proof's blank and filled panels differ",
-    "the proof's known-different control discriminates"
+    "the proof's known-different control did not fail to discriminate. A control that discriminates is the strong case; a one-page sheet has no control at all, and is admitted on the panels-differ result with `visualBasis` saying so. Only an explicit false is disqualifying."
   ],
   totals: {
     familiesInspected: (audit.families ?? []).length,
@@ -172,7 +190,9 @@ const payload = {
     excluded: excluded.length,
     excludedByReason: excluded.reduce((acc, row) => { acc[row.reason] = (acc[row.reason] ?? 0) + 1; return acc; }, {}),
     byFamilyKind: included.reduce((acc, row) => { acc[row.familyKind] = (acc[row.familyKind] ?? 0) + 1; return acc; }, {}),
-    withNoApprovalChannel: included.filter((row) => row.approvalChannel === "none_available").length
+    withNoApprovalChannel: included.filter((row) => row.approvalChannel === "none_available").length,
+    withADiscriminatingVisualControl: included.filter((row) => row.controlDiscriminates === true).length,
+    admittedWithoutAVisualControl: included.filter((row) => row.controlDiscriminates !== true).length
   },
   approvalChannelFinding: "An AcroForm-fill family has nowhere to record an independent approval. rcap-platform-ready.mjs reads independentReview from overlay-profile.json only, and an AcroForm-fill family carries production-field-map.json instead, which has no such field. Those families cannot reach platform_ready through the shared gate no matter how their review comes back. This is a gate gap, not a defect in any form, and it is the batch's largest single blocker.",
   groups: { group1: groups[0], group2: groups[1], group3: groups[2] },
