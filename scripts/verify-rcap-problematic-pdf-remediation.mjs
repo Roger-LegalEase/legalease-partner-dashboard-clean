@@ -17,7 +17,8 @@
 // throw, exit and every catchable signal.
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import crypto from "node:crypto";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
 import { ROOT_CAUSES } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
 import { withTrackedMutation, assertTreeNotMidMutation } from "./lib/tracked-mutation-guard.mjs";
@@ -61,6 +62,80 @@ const VAGUE = [
  * Every check, each returning its own failures. Keyed so a mutation can assert
  * that one specific check went red rather than merely that something did.
  */
+/**
+ * Runs the factory on the values that actually reach it.
+ *
+ * The committed fixtures use a clean county fact, so no artifact in the
+ * repository can show whether the suffix strip survives a trailing space --
+ * and a trailing space is what a form field and a CSV import routinely
+ * produce. An independent review rendered "La Crosse County  COUNTY" from
+ * "La Crosse County " while the audit record claimed the suffix had been
+ * removed. This exercises the behaviour rather than the artifact.
+ */
+async function suffixNormalizationFailures() {
+  const failures = [];
+  const profilePath = abs("data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json");
+  const sourcePath = abs("data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf");
+  if (!fs.existsSync(profilePath) || !fs.existsSync(sourcePath)) return failures;
+  const profile = JSON.parse(fs.readFileSync(profilePath, "utf8"));
+  const anchor = (profile.anchors ?? []).find((a) => a.printedSuffixAfterBlank);
+  if (!anchor) return failures;
+  const sourceBytes = fs.readFileSync(sourcePath);
+
+  // Imported fresh on every call, with a cache-busting query, so a mutation of
+  // the factory on disk is actually exercised rather than answered by the copy
+  // this process loaded at startup.
+  let finalizeFlatOverlay;
+  try {
+    ({ finalizeFlatOverlay } = await import(
+      `${pathToFileURL(abs(FINALIZER)).href}?probe=${crypto.randomUUID()}`
+    ));
+  } catch (error) {
+    return [`the factory could not be loaded: ${error?.message ?? error}`];
+  }
+
+  // Every shape the same fact arrives in. The expected value is the county
+  // without the word the form prints for itself.
+  const cases = [
+    ["La Crosse County", "La Crosse"],
+    ["La Crosse County ", "La Crosse"],
+    ["La Crosse County\t", "La Crosse"],
+    ["La Crosse County\n", "La Crosse"],
+    ["Milwaukee Co.", "Milwaukee"],
+    ["La Crosse", null],
+    // Trailing whitespace and no suffix. Trimming is not normalizing, and
+    // recording it as if it were writes a false line into the one record a
+    // reviewer would trust instead of looking at the page.
+    ["La Crosse ", null]
+  ];
+  for (const [input, expected] of cases) {
+    let result;
+    try {
+      result = await finalizeFlatOverlay({
+        sourceBytes, expectedSha256: profile.sha256,
+        anchors: [anchor], protectedRules: profile.protectedRules ?? [],
+        facts: { [anchor.factId]: input }
+      });
+    } catch (error) {
+      failures.push(`${JSON.stringify(input)}: the factory threw ${error?.message ?? error}`);
+      continue;
+    }
+    const logged = (result.report.normalized ?? []).find((n) => n.anchor === anchor.label) ?? null;
+    if (expected === null) {
+      if (logged) failures.push(`${JSON.stringify(input)}: a normalization was recorded although the value carries no suffix to remove`);
+      continue;
+    }
+    if (!logged) {
+      failures.push(`${JSON.stringify(input)}: the suffix was not removed and nothing was recorded`);
+      continue;
+    }
+    if (logged.to !== expected) {
+      failures.push(`${JSON.stringify(input)}: normalized to ${JSON.stringify(logged.to)}, expected ${JSON.stringify(expected)}`);
+    }
+  }
+  return failures;
+}
+
 function runChecks() {
   const failures = new Map();
   const fail = (check, message) => {
@@ -569,6 +644,7 @@ function runChecks() {
     // a different name. A rule the map calls the court's must be refused for
     // where the box lands, not for what it is called.
     for (const rule of profile.protectedRules ?? []) {
+      void 0;
       const trespassers = (profile.anchors ?? []).filter((a) => a.page === rule.page
         && Math.abs(rule.y + 2 - a.writeBox.y) <= 3
         && a.writeBox.x < rule.endX && a.writeBox.x + a.writeBox.width > rule.x);
@@ -584,6 +660,15 @@ function runChecks() {
           }
         }
       }
+    }
+
+    // Geometric protection is opt-in, so a family that simply omits
+    // protectedRules gets no protected-rule check at all. That is the failure
+    // mode once this pattern is copied across fifty states.
+    const ownedCaptions = (profile.anchors ?? []).filter((a) => /signature|notar|clerk|judge|attorney|state bar/i.test(a.label));
+    if (ownedCaptions.length > 0 && (profile.protectedRules ?? []).length === 0) {
+      fail("protection_is_geometric_not_only_by_label",
+        `${family.familyId}: carries ${ownedCaptions.length} anchor(s) on a caption the court owns and declares no protectedRules, so nothing checks where a write box lands`);
     }
 
     // A value drawn off the page is a value that is not on the filed document.
@@ -618,7 +703,16 @@ function report(failures, label) {
 
 // ---- baseline ---------------------------------------------------------------
 assertTreeNotMidMutation("verify-rcap-problematic-pdf-remediation.mjs");
-const baseline = runChecks();
+async function runAllChecks() {
+  const failures = runChecks();
+  for (const message of await suffixNormalizationFailures()) {
+    if (!failures.has("printed_suffix_is_not_repeated")) failures.set("printed_suffix_is_not_repeated", []);
+    failures.get("printed_suffix_is_not_repeated").push(message);
+  }
+  return failures;
+}
+
+const baseline = await runAllChecks();
 if (!report(baseline, "problematic PDF remediation contract")) process.exit(1);
 
 if (!mutationsMode) process.exit(0);
@@ -631,6 +725,31 @@ const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RE
   "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json"];
 
 const CASES = [
+  {
+    name: "the suffix strip stops trimming before it matches",
+    expect: "printed_suffix_is_not_repeated",
+    apply: () => {
+      const text = fs.readFileSync(abs(FINALIZER), "utf8");
+      fs.writeFileSync(abs(FINALIZER), text.replace("const base = raw.trim();", "const base = raw;"));
+    }
+  },
+  {
+    name: "a normalization is recorded when only whitespace came off",
+    expect: "printed_suffix_is_not_repeated",
+    apply: () => {
+      const text = fs.readFileSync(abs(FINALIZER), "utf8");
+      fs.writeFileSync(abs(FINALIZER), text.replace("if (stripped !== base && stripped.length > 0) {", "if (stripped !== raw && stripped.length > 0) {"));
+    }
+  },
+  {
+    name: "a map with a signature caption declares no protected rules",
+    expect: "protection_is_geometric_not_only_by_label",
+    apply: () => {
+      const profile = readJson("data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json");
+      profile.protectedRules = [];
+      fs.writeFileSync(abs("data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json"), `${JSON.stringify(profile, null, 2)}\n`);
+    }
+  },
   {
     name: "a county value keeps the suffix the form already prints",
     expect: "printed_suffix_is_not_repeated",
@@ -1108,7 +1227,7 @@ for (const testCase of CASES) {
   const targets = [...MUTATION_TARGETS, ...(testCase.extraTargets ?? [])];
   const wentRed = await withTrackedMutation(`verify-rcap-problematic-pdf-remediation: ${testCase.name}`, targets, async () => {
     testCase.apply();
-    const failures = runChecks();
+    const failures = await runAllChecks();
     return failures.has(testCase.expect);
   });
   if (wentRed) {
@@ -1121,7 +1240,7 @@ for (const testCase of CASES) {
 
 // The tree must be exactly as it was: the guard restores from its journal, and
 // re-running the baseline is what proves the restoration actually happened.
-const after = runChecks();
+const after = await runAllChecks();
 if (!report(after, "problematic PDF remediation contract, after mutations")) {
   console.error("FAIL the tree did not come back clean after the mutation pass");
   process.exit(1);

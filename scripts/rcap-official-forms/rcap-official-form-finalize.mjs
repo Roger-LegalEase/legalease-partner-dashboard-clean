@@ -109,11 +109,29 @@ export async function finalizeFlatOverlay({
     let value = raw;
     const printedSuffix = anchor.printedSuffixAfterBlank ?? null;
     if (printedSuffix && typeof raw === "string") {
-      const stripped = raw.replace(new RegExp(`\\s*\\b${printedSuffix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\.?$`, "i"), "").trim();
-      if (stripped !== raw && stripped.length > 0) {
+      // Anchored at the end, so the match has to be made against a trimmed
+      // value: "La Crosse County " -- which is what a form field and a CSV
+      // import routinely produce -- otherwise defeats the pattern, the
+      // trailing space alone gets trimmed, and the venue renders "La Crosse
+      // County  COUNTY" while the audit record claims the suffix was removed.
+      // A false normalization record is worse than none: it is the artifact a
+      // reviewer would trust instead of looking.
+      const escaped = printedSuffix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      // The abbreviation the same word is printed as. "Milwaukee Co." doubles
+      // exactly as "Milwaukee County" does.
+      const abbreviation = printedSuffix.length > 3 ? `${escaped.slice(0, 2)}\\.` : null;
+      const alternatives = [escaped, ...(abbreviation ? [abbreviation] : [])].join("|");
+      const base = raw.trim();
+      const stripped = base.replace(new RegExp(`\\s*\\b(?:${alternatives})\\.?$`, "i"), "").trim();
+      // Only when the suffix actually came off. A value that merely had
+      // whitespace trimmed was not normalized and must not be recorded as if
+      // it were.
+      if (stripped !== base && stripped.length > 0) {
         value = stripped;
         report.normalized.push({ anchor: anchor.label, factId, from: raw, to: stripped,
           why: `the form prints ${JSON.stringify(printedSuffix)} after this blank, so the value must not repeat it` });
+      } else {
+        value = base;
       }
     }
     if (!valueMatchesType(value, decision.valueType)) {

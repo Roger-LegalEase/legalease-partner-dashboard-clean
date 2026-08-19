@@ -255,6 +255,11 @@ if (fs.existsSync(indexPath)) {
         Number(cls.classifiedFieldsOrAnchors) === Number(cls.discoveredFieldsOrAnchors),
         `${id}: every discovered anchor or caption is classified (${cls.classifiedFieldsOrAnchors} of ${cls.discoveredFieldsOrAnchors})`
       );
+      // The counts are the file's own claim about itself. An empty entries
+      // array with the counts left at 11/11 satisfied the assertion above and
+      // proved nothing, so the claim is checked against what is actually there.
+      assert(cls.entries.length === Number(cls.classifiedFieldsOrAnchors),
+        `${id}: the classification holds ${cls.entries.length} entries while claiming ${cls.classifiedFieldsOrAnchors} classified`);
       assert(Number(cls.discoveredFieldsOrAnchors) >= (map0.anchors ?? []).length,
         `${id}: the classified inventory covers every measured anchor`);
     }
@@ -278,6 +283,14 @@ if (fs.existsSync(indexPath)) {
     // the pre-measurement record and is empty -- neither of these checks ran
     // against any of the seven anchors actually rendered, including the one on
     // the signature rule.
+    // Geometric protection is only as strong as each family remembering to
+    // declare it. A map with a caption the court owns and no protectedRules
+    // gets no protected-rule check at all, which is the failure mode that
+    // matters once this pattern is copied across fifty states.
+    const ownedCaptions = (map.anchors ?? []).filter((a) => ANCHOR_DENY.test(a.label));
+    assert(ownedCaptions.length === 0 || (map.protectedRules ?? []).length > 0,
+      `${id}: the map carries ${ownedCaptions.length} anchor(s) on a caption the court owns but declares no protectedRules, so nothing checks where a write box lands`);
+
     for (const a of [...(map.anchorCapture?.anchors ?? []), ...(map.anchors ?? [])]) {
       const denied = ANCHOR_DENY.test(a.label);
       // An anchor on a denied label is permitted only when the map says out

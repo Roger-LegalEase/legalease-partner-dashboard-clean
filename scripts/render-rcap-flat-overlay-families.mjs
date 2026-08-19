@@ -43,6 +43,15 @@ const GENERATED_AT = "2026-08-19T00:00:00.000Z";
 // had bytes -- and at corpus scale that is the difference between a batch and
 // an afternoon. The already-written fixtures are hashed back in, so a cache hit
 // that does not match what is on disk is a miss.
+const FACTORY_MODULE_FILES = [
+  "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+  "scripts/rcap-official-forms/rcap-text-fitting.mjs",
+  "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+  "scripts/rcap-official-forms/rcap-contact-sheet.mjs",
+  "scripts/rcap-official-forms/rcap-artifact-provenance.mjs",
+  "scripts/rcap-official-forms/rcap-active-content.mjs",
+  "scripts/render-rcap-flat-overlay-families.mjs"
+];
 const RENDER_CACHE = path.join(rootDir, "data/rcap-all50/flat-overlay-render-cache.json");
 const renderCache = (() => {
   if (!fs.existsSync(RENDER_CACHE)) return {};
@@ -140,6 +149,11 @@ for (const stateDir of fs.readdirSync(OVERLAY_DIR).sort()) {
       classification: sha256(JSON.stringify(classification ?? null)),
       factoryVersion: FACTORY_VERSION,
       rendererVersion: RENDERER_VERSION,
+      // The version strings move when someone remembers to move them. The
+      // modules that actually decide what is drawn are hashed directly, so a
+      // change to fitting, semantics or the contact sheet invalidates every
+      // entry whether or not a version string was bumped.
+      modules: sha256(FACTORY_MODULE_FILES.map((f) => sha256(fs.readFileSync(path.join(rootDir, f)))).join("|")),
       facts: sha256(JSON.stringify({ CANONICAL, BOUNDARY }))
     }));
     const cached = renderCache[inputKey] ?? null;
@@ -151,7 +165,11 @@ for (const stateDir of fs.readdirSync(OVERLAY_DIR).sort()) {
     });
     if (cached && fixturesStillMatch) {
       cacheHits.push(row.familyId);
-      families.push({ ...cached.row, fromRenderCache: true });
+      // Deliberately no marker on the row. A cache-only key persisted into the
+      // committed report made `--check` pass with a warm cache and fail without
+      // one, so the drift gate was green only while the cache happened to be
+      // present.
+      families.push({ ...cached.row });
       for (const a of cached.row.provenance?.artifacts ?? []) {
         written.push(path.relative(rootDir, path.join(familyPath, a.artifact)));
       }
@@ -291,7 +309,7 @@ if (checkOnly) {
   const byInputKey = {};
   for (const row of families) {
     if (!row.rendered || !row.inputKey) continue;
-    byInputKey[row.inputKey] = { row: { ...row, fromRenderCache: undefined } };
+    byInputKey[row.inputKey] = { row };
   }
   fs.writeFileSync(RENDER_CACHE, `${JSON.stringify({
     schemaVersion: "rcap-flat-overlay-render-cache/v1",
