@@ -103,7 +103,27 @@ function questionIndex(profile) {
   return index;
 }
 
+// The evaluator treats "not sure", "unknown" and "prefer not" as an explicit
+// unknown on any pre-payment question and answers source_fact_unknown. A witness
+// that emits one is describing an undecided participant, not a clearable record,
+// so the clearable rule may never produce one.
+const isExplicitUnknown = (value) => {
+  const text = (Array.isArray(value) ? value.join(" ") : String(value ?? "")).toLowerCase();
+  return text.includes("not sure") || text.includes("unknown") || text.includes("prefer not");
+};
+
 function clearableAnswer(question, id) {
+  const chosen = chooseClearable(question, id);
+  if (!isExplicitUnknown(chosen)) return chosen;
+  // Fall back to the first definite option rather than shipping an unknown.
+  if (question?.options?.length) {
+    const definite = question.options.filter((o) => !isExplicitUnknown(o));
+    if (definite.length) return question.type === "multi_select" ? [definite[0]] : definite[0];
+  }
+  return question?.type === "multi_select" ? [] : "No";
+}
+
+function chooseClearable(question, id) {
   if (CLEAR_RECORD[id] !== undefined) return CLEAR_RECORD[id];
   if (!question) return "No";
   if (ORDERED_PREFERENCE[id] && question.options?.length) {
@@ -117,36 +137,46 @@ function clearableAnswer(question, id) {
   if (question.type === "date_or_unknown") return "2012-06-01";
   if (question.type === "number_or_range") return "30";
   if (question.type?.startsWith("yes_no")) return "Yes";
-  return "unknown";
+  return "No";
 }
 
 function converge(state, profile, questions, seedAnswers, answerFor) {
   const answers = { ...seedAnswers };
   const transcript = [];
+  // A question id the evaluator asks for that the public projection never
+  // renders cannot be answered by a real participant at all.
+  const unprojected = new Set();
   for (let round = 0; round < 24; round += 1) {
     let evaluation;
     try {
       evaluation = evaluateAuthoritativeScreeningResult({ jurisdiction: state, profileVersion: profile.profileVersion, matterId: "reachability", answers }).evaluation;
     } catch (error) {
-      if (!error?.invalidQuestionIds?.length) return { answers, transcript, evaluation: null, error: String(error?.message ?? error) };
+      if (!error?.invalidQuestionIds?.length) return { answers, transcript, evaluation: null, error: String(error?.message ?? error), unprojected: [...unprojected] };
       for (const id of error.invalidQuestionIds) delete answers[id];
       transcript.push({ round, droppedAsNotEvaluatorQuestions: [...error.invalidQuestionIds].sort() });
       continue;
     }
     const missing = [...(evaluation.missingQuestionIds ?? [])].sort();
-    if (missing.length === 0) return { answers, transcript, evaluation, error: null };
+    if (missing.length === 0) return { answers, transcript, evaluation, error: null, unprojected: [...unprojected] };
     const supplied = {};
-    for (const id of missing) { answers[id] = answerFor(questions.get(id), id); supplied[id] = answers[id]; }
+    for (const id of missing) {
+      if (!questions.has(id)) unprojected.add(id);
+      answers[id] = answerFor(questions.get(id), id);
+      supplied[id] = answers[id];
+    }
     transcript.push({ round, requested: missing, supplied });
   }
-  return { answers, transcript, evaluation: null, error: "did not settle in 24 rounds" };
+  return { answers, transcript, evaluation: null, error: "did not settle in 24 rounds", unprojected: [...unprojected] };
 }
 
 /** Deterministic enumeration of the route-selecting answers, in profile order. */
 function routeSelectingCombos(questions) {
+  // A clearable record does not say "I am not sure" about its own case outcome.
+  // Enumerating an explicit unknown as a route-selecting answer only ever
+  // produces source_fact_unknown, which then looks like a routing defect.
   const dims = ROUTE_SELECTING
-    .map((id) => ({ id, options: questions.get(id)?.options ?? null }))
-    .filter((d) => Array.isArray(d.options) && d.options.length > 0);
+    .map((id) => ({ id, options: (questions.get(id)?.options ?? []).filter((o) => !isExplicitUnknown(o)) }))
+    .filter((d) => d.options.length > 0);
   if (dims.length === 0) return [{}];
   let combos = [{}];
   for (const dim of dims) {
@@ -190,7 +220,7 @@ for (const [code, pathways] of [...byJurisdiction.entries()].sort()) {
     for (const combo of combos) {
       combosTried += 1;
       const run = converge(code, profile, questions, { ...base, ...combo }, clearableAnswer);
-      attempts.push({ combo, resultCode: run.evaluation?.resultCode ?? null, pathwayId: run.evaluation?.pathwayId ?? null, reasonCodes: (run.evaluation?.reasons ?? []).map((r) => r.code).sort(), error: run.error });
+      attempts.push({ combo, resultCode: run.evaluation?.resultCode ?? null, pathwayId: run.evaluation?.pathwayId ?? null, reasonCodes: (run.evaluation?.reasons ?? []).map((r) => r.code).sort(), error: run.error, unprojected: run.unprojected ?? [] });
       if (run.evaluation?.pathwayId === pathway.pathwayId) { landed = { combo, run }; break; }
     }
 
@@ -292,6 +322,7 @@ for (const [code, pathways] of [...byJurisdiction.entries()].sort()) {
         waitingRuleFailure: waitingFailure.length ? waitingFailure : null,
         answerVocabularyMismatch: vocabularyMismatch.length ? vocabularyMismatch.slice(0, 5) : null,
         pathwayPriorityConflict: outranking.length ? { intendedRuleBestPriority: bestPriority, outrankedBy: outranking } : null,
+        requestedQuestionsNotProjected: [...new Set(attempts.flatMap((a) => a.unprojected ?? []))].sort(),
         reasonCodes: allReasons,
         normalizedReasonCodes: normalized
       }
@@ -303,6 +334,9 @@ for (const [code, pathways] of [...byJurisdiction.entries()].sort()) {
 // One cause, one correction. A cluster is named by the normalized reason code
 // that every member shares, so a fix is scoped to a class rather than a pathway.
 const CLUSTER_RULES = [
+  { id: "requested_question_not_projected", match: (r, record) => (record.diagnosis?.requestedQuestionsNotProjected ?? []).length > 0,
+    cause: "The evaluator asks for a question id the public profile projection never renders, so a real participant is asked for a fact the guided check has no question for and the exchange cannot complete.",
+    correction: "One projection correction: render these question ids in projectPublicProfile for the affected jurisdictions, or stop the evaluator requesting them there. Measured corpus-wide it is resolved_timing_bucket in CT, MD, MI, NJ, OH and WA and arrest_date in IN — six jurisdictions and one question, plus one more." },
   { id: "waiting_anchor_never_determined", match: (r) => r.includes("waiting_anchor_not_determined"),
     cause: "The public intake asks whether the sentence is complete but never asks WHEN, so no anchor date exists and every route carrying a waiting period fails closed.",
     correction: "One evaluator/projection correction: supply a waiting-period anchor date from the public intake — an anchor-date question, or accept resolved_timing_bucket as the anchor — so specialRouteTiming can execute instead of failing closed. It is one correction for the whole class, not one per route." },
@@ -318,6 +352,9 @@ const CLUSTER_RULES = [
   { id: "compiled_rule_matched_another_route", match: (r) => r.some((x) => x.startsWith("compiled_rule_match.")),
     cause: "A compiled rule matched and selected a different route than the one the participant named.",
     correction: "A pathway-priority decision: either the matched rule should not outrank the named route, or the named route is genuinely unreachable on these facts and Session A should say so." },
+  { id: "source_fact_unknown", match: (r) => r.includes("source_fact_unknown"),
+    cause: "A pre-payment question was answered with an explicit unknown, so the evaluator refuses to route on an uncertain fact. Where the corrected witness still triggers it, the intake offers no definite answer a clearable record could give.",
+    correction: "Check the route's pre-payment questions for one whose only non-unknown options a clearable record cannot honestly pick. That is an intake vocabulary gap, not a routing bug." },
   { id: "guidance_only_route", match: (r) => r.includes("guidance_only_no_user_filed_court_petition"),
     cause: "The evaluator classifies the route as guidance with no participant filing.",
     correction: "A classification question for Session A and counsel, not an evaluator patch." }
@@ -332,7 +369,7 @@ const clusterMembers = new Map(CLUSTER_RULES.map((r) => [r.id, []]));
 const unclustered = [];
 for (const record of failing) {
   const codes = record.diagnosis?.normalizedReasonCodes ?? [];
-  const rule = CLUSTER_RULES.find((r) => r.match(codes));
+  const rule = CLUSTER_RULES.find((r) => r.match(codes, record));
   if (rule) clusterMembers.get(rule.id).push(record);
   else unclustered.push(record);
 }
@@ -374,7 +411,9 @@ const diagnosis = {
     failing: failing.length,
     clusters: clusters.length,
     unclustered: unclustered.length,
-    clusterPartitionSumsToFailing: clusters.reduce((n, c) => n + c.pathways, 0) + unclustered.length === failing.length
+    clusterPartitionSumsToFailing: clusters.reduce((n, c) => n + c.pathways, 0) + unclustered.length === failing.length,
+    requestedQuestionsNotProjected: [...new Set(failing.flatMap((r) => r.diagnosis?.requestedQuestionsNotProjected ?? []))].sort(),
+    jurisdictionsAskedForAnUnprojectedQuestion: [...new Set(failing.filter((r) => (r.diagnosis?.requestedQuestionsNotProjected ?? []).length > 0).map((r) => r.jurisdiction))].sort()
   },
   clusters,
   unclusteredFailures: unclustered.map((r) => ({ pathwayKey: r.pathwayKey, reasonCodes: r.diagnosis?.normalizedReasonCodes ?? [] })),

@@ -5,8 +5,8 @@ All **284** intended-paid pathways from Session A's canonical graph (`25601ca0b0
 | Outcome | Pathways |
 |---|---|
 | `correct_pathway` | 151 |
-| `wrong_path` | 133 |
-| `non_converging` | 0 |
+| `wrong_path` | 124 |
+| `non_converging` | 9 |
 
 ## The baseline was wrong about itself
 
@@ -27,20 +27,25 @@ a cluster means "fix this and these are done".
 
 | Cluster | Pathways | Jurisdictions |
 |---|---|---|
-| `waiting_anchor_never_determined` | 115 | 37 |
-| `compiled_rule_matched_another_route` | 4 | 2 |
+| `waiting_anchor_never_determined` | 109 | 36 |
+| `requested_question_not_projected` | 18 | 8 |
+| `compiled_rule_matched_another_route` | 3 | 2 |
 | `waiting_rule_not_executed` | 2 | 2 |
-| `selected_pathway_rule_not_matched` | 2 | 2 |
 | `guidance_only_route` | 1 | 1 |
-| _(unclustered)_ | 9 | — |
 
-### `waiting_anchor_never_determined` — 115 pathway(s)
+### `waiting_anchor_never_determined` — 109 pathway(s)
 
 **Cause.** The public intake asks whether the sentence is complete but never asks WHEN, so no anchor date exists and every route carrying a waiting period fails closed.
 
 **Exact shared runtime correction.** One evaluator/projection correction: supply a waiting-period anchor date from the public intake — an anchor-date question, or accept resolved_timing_bucket as the anchor — so specialRouteTiming can execute instead of failing closed. It is one correction for the whole class, not one per route.
 
-### `compiled_rule_matched_another_route` — 4 pathway(s)
+### `requested_question_not_projected` — 18 pathway(s)
+
+**Cause.** The evaluator asks for a question id the public profile projection never renders, so a real participant is asked for a fact the guided check has no question for and the exchange cannot complete.
+
+**Exact shared runtime correction.** One projection correction: render these question ids in projectPublicProfile for the affected jurisdictions, or stop the evaluator requesting them there. Measured corpus-wide it is resolved_timing_bucket in CT, MD, MI, NJ, OH and WA and arrest_date in IN — six jurisdictions and one question, plus one more.
+
+### `compiled_rule_matched_another_route` — 3 pathway(s)
 
 **Cause.** A compiled rule matched and selected a different route than the one the participant named.
 
@@ -51,12 +56,6 @@ a cluster means "fix this and these are done".
 **Cause.** A waiting rule exists for the route but never runs on the supplied facts.
 
 **Exact shared runtime correction.** Same class as the anchor defect: execute the route's waiting rule once an anchor is available, rather than returning needs_review.
-
-### `selected_pathway_rule_not_matched` — 2 pathway(s)
-
-**Cause.** The participant named this route and no compiled decision rule matched the supplied facts, so nothing selected it.
-
-**Exact shared runtime correction.** The route's compiled decision rule needs the facts the public intake actually collects, or the intake needs the fact the rule references.
 
 ### `guidance_only_route` — 1 pathway(s)
 
