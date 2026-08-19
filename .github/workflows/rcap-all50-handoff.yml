@@ -93,5 +93,48 @@ jobs:
       # Unconditional on purpose: a stale digest is not "RCAP-affected" in the
       # scope detector's sense, and this is exactly the check that must not be
       # skipped on the run where someone repoints a digest.
+      - name: Verify the acceptance migration sequence reaches phase 55
+        run: node scripts/verify-rcap-acceptance-migration-sequence.mjs
+
+      - name: Prove the acceptance migration sequence guard is load-bearing
+        run: node scripts/test-rcap-acceptance-migration-sequence-mutations.mjs
+
       - name: Verify the published worker digest is bound to its fingerprint
         run: node scripts/test-rcap-worker-digest-binding-mutations.mjs
+
+      # Same reasoning as above: package.json is an image input for both the
+      # application and the worker, and this guard exists to stop a second
+      # publication from moving a source-SHA tag. Wiring it through the chain
+      # string would invalidate the digest it protects.
+      - name: Verify the worker publication cannot move an existing source-SHA tag
+        run: node scripts/verify-rcap-worker-tag-guard.mjs
+
+      - name: Prove the source-SHA tag guard is load-bearing
+        run: node scripts/test-rcap-worker-tag-guard-mutations.mjs
+
+      # The hosted acceptance matrix cannot run here — it needs Stripe, Vercel
+      # and the acceptance project — but the part of it that decides verdicts
+      # can, and has to. Two false greens have already shipped from that one
+      # file: a four-argument record() call whose case could not fail, and a
+      # worker case that read a process exit code as a delivery. Both printed
+      # "ok". These two steps execute the verdict function extracted from the
+      # shipped bytes and check every call site and verdict expression, then
+      # put each defect back to prove the check goes red for it.
+      #
+      # Outside both image-input sets, like the guards above, so a matrix the
+      # digests never see can still be held to this.
+      - name: Verify the hosted acceptance matrix cannot report an unearned verdict
+        run: node scripts/verify-rcap-hosted-acceptance-verdicts.mjs
+
+      - name: Prove the hosted acceptance verdict guard is load-bearing
+        run: node scripts/test-rcap-hosted-acceptance-verdict-mutations.mjs
+
+      # The boundaries the matrix above asserts against, proved on a real
+      # database rather than assumed: binding is written in the enqueue INSERT,
+      # the consumption row and the credit ledger event are written by
+      # finalization, and a failing worker leaves a job 'failed' and never
+      # 'claimed'. The matrix had guessed two of these and reported one
+      # unfinalized render as four unrelated failures. Skips itself cleanly
+      # where no ephemeral PostgreSQL is available.
+      - name: Verify where each consumer record is actually created
+        run: node scripts/verify-rcap-consumer-lifecycle-boundaries.mjs

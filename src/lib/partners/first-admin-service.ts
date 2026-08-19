@@ -11,6 +11,7 @@ import { getSupabaseAdminClient } from "@/lib/supabase/server";
 import {
   FIRST_ADMIN_ROLE,
   createFirstAdminToken,
+  decideFirstAdminAccountPath,
   decidePostAcceptanceDestination,
   effectiveInvitationStatus,
   firstAdminRecordId,
@@ -113,6 +114,8 @@ export class FirstAdminProvisioningError extends Error {
       | "invitation_inactive"
       | "invitation_conflict"
       | "auth_conflict"
+      | "auth_ambiguous"
+      | "wrong_account"
       | "auth_failed"
       | "membership_failed"
       | "delivery_unavailable"
@@ -437,10 +440,27 @@ export async function revokeFirstAdminInvitation(input: {
   return invitationPublicFields(next);
 }
 
+/**
+ * The outcome of following an invitation link, before any account exists or any
+ * membership is created.
+ *
+ * `new_account` keeps the original flow: Supabase creates the account and hands
+ * back a one-time setup link.
+ *
+ * `existing_account` is the path this repository was missing. The invited email
+ * already belongs to exactly one confirmed account, so there is nothing to
+ * create and nothing to reset. The application invitation stays pending and
+ * unconsumed, the caller carries it through the ordinary sign-in flow, and it is
+ * consumed only once a session proves the same email.
+ */
+export type FirstAdminSetupClaim =
+  | { mode: "new_account"; actionLink: string; partnerSlug: string }
+  | { mode: "existing_account"; partnerSlug: string; email: string };
+
 export async function claimFirstAdminSetupToken(
   rawToken: string,
   now = new Date()
-) {
+): Promise<FirstAdminSetupClaim> {
   const supabase = admin();
   const tokenHash = secureTokenHash(rawToken);
   const { data, error } = await supabase
@@ -478,6 +498,62 @@ export async function claimFirstAdminSetupToken(
     throw inactiveInvitation();
   }
 
+  // Which path this email takes is decided before the invitation is touched, so
+  // an ambiguous account state leaves the invitation exactly as it was.
+  const matches = await findAuthUsersByEmail(supabase, invitation.email);
+  const path = decideFirstAdminAccountPath({
+    matchCount: matches.length,
+    confirmed: isConfirmedAuthUser(matches[0])
+  });
+
+  if (path === "ambiguous") {
+    // More than one account for the invited address, or a single unconfirmed
+    // one. Either way there is no account we can safely bind this invitation
+    // to, and creating another would make it worse. Nothing is changed and the
+    // public message says only that the link cannot be used.
+    await appendAudit(
+      supabase,
+      row.partner_slug,
+      "first_admin_invitation_account_ambiguous",
+      {
+        invitation_id: invitation.invitation_id,
+        status: "blocked",
+        occurred_at: now.toISOString()
+      }
+    );
+    throw new FirstAdminProvisioningError(
+      "auth_ambiguous",
+      "This account setup invitation is invalid or no longer active."
+    );
+  }
+
+  if (path === "existing_confirmed_account") {
+    await assertAuthUserCanReceiveInvitation(
+      supabase,
+      matches[0],
+      row.partner_slug
+    );
+    // Deliberately no Auth call at all: no user created, no invite email from
+    // Supabase, no recovery link, no password change, no service-role session.
+    // The invitation stays pending until an authenticated session for this
+    // exact email consumes it.
+    await appendAudit(
+      supabase,
+      row.partner_slug,
+      "first_admin_invitation_sign_in_required",
+      {
+        invitation_id: invitation.invitation_id,
+        status: "pending",
+        occurred_at: now.toISOString()
+      }
+    );
+    return {
+      mode: "existing_account",
+      partnerSlug: row.partner_slug,
+      email: invitation.email
+    };
+  }
+
   const claiming: FirstAdminInvitationPayload = {
     ...invitation,
     revision: invitation.revision + 1,
@@ -499,35 +575,19 @@ export async function claimFirstAdminSetupToken(
   let createdAuthUser = false;
   let claimedInvitation: FirstAdminInvitationPayload | null = null;
   try {
-    const existing = await findAuthUserByEmail(supabase, invitation.email);
-    if (existing) {
-      await assertAuthUserCanReceiveInvitation(
-        supabase,
-        existing,
-        row.partner_slug
-      );
-    }
     const redirectTo = absolutePartnerAppUrl(
       "/auth/set-password?next=/partner/dashboard&first_admin=1"
     );
-    const link = await supabase.auth.admin.generateLink(
-      existing
-        ? {
-            type: "recovery",
-            email: invitation.email,
-            options: { redirectTo }
-          }
-        : {
-            type: "invite",
-            email: invitation.email,
-            options: {
-              redirectTo,
-              data: { name: invitation.full_name }
-            }
-          }
-    );
+    const link = await supabase.auth.admin.generateLink({
+      type: "invite",
+      email: invitation.email,
+      options: {
+        redirectTo,
+        data: { name: invitation.full_name }
+      }
+    });
     authUser = link.data.user;
-    createdAuthUser = !existing;
+    createdAuthUser = true;
     const actionLink = link.data.properties?.action_link;
     if (link.error || !authUser?.id || !actionLink) {
       throw new Error("Supabase did not create an account setup link.");
@@ -581,7 +641,7 @@ export async function claimFirstAdminSetupToken(
         occurred_at: claimedAt
       }
     );
-    return { actionLink };
+    return { mode: "new_account", actionLink, partnerSlug: row.partner_slug };
   } catch (error) {
     if (createdAuthUser && authUser?.id) {
       const deletion = await supabase.auth.admin.deleteUser(authUser.id);
@@ -623,6 +683,270 @@ export async function claimFirstAdminSetupToken(
     }
     throw inactiveInvitation();
   }
+}
+
+/**
+ * Consumes a pending invitation for someone who already had an account and has
+ * just signed in normally.
+ *
+ * The email match is the whole authorization. It is checked against the live
+ * session, not against anything the caller supplied, and a mismatch returns
+ * before a single record changes — so a wrong signed-in user cannot burn the
+ * invitation on the real administrator's behalf, and learns nothing about which
+ * organization it belongs to.
+ */
+export async function acceptFirstAdminInvitationForExistingUser(input: {
+  rawToken: string;
+  authUser: User;
+  now?: Date;
+}): Promise<{
+  membershipCreated: boolean;
+  replayPrevented: boolean;
+  redirectTo: "/partner/onboarding" | "/partner/dashboard";
+}> {
+  const now = input.now ?? new Date();
+  const supabase = admin();
+  const tokenHash = secureTokenHash(input.rawToken);
+  const { data, error } = await supabase
+    .from("partner_events")
+    .select("id, partner_slug, event_type, event_label, event_payload, created_at")
+    .eq("event_type", invitationEventType)
+    .contains("event_payload", { token_hash: tokenHash })
+    .limit(2);
+  if (error) {
+    throw persistenceReadFailure();
+  }
+  const rows = (data ?? []) as InvitationRecordRow[];
+  if (rows.length !== 1) {
+    throw inactiveInvitation();
+  }
+  const partnerSlug = normalizePartnerSlug(rows[0].partner_slug);
+  const invitation = parseFirstAdminInvitationPayload(rows[0].event_payload);
+  if (
+    !invitation ||
+    !secureFirstAdminTokenMatches(input.rawToken, invitation.token_hash)
+  ) {
+    throw inactiveInvitation();
+  }
+
+  // The email check comes first and changes nothing. A signed-in stranger gets
+  // a denial, the invitation stays exactly as pending as it was, and the named
+  // administrator can still accept it afterwards.
+  const sessionEmail = normalizeEmail(input.authUser.email);
+  if (!sessionEmail || sessionEmail !== invitation.email) {
+    await appendAudit(
+      supabase,
+      partnerSlug,
+      "first_admin_invitation_wrong_account",
+      {
+        invitation_id: invitation.invitation_id,
+        status: effectiveInvitationStatus(invitation, now),
+        occurred_at: now.toISOString()
+      }
+    );
+    throw new FirstAdminProvisioningError(
+      "wrong_account",
+      "This invitation was issued to a different email address."
+    );
+  }
+
+  const existingMembership = await findMembershipByAuthUser(
+    supabase,
+    input.authUser.id
+  );
+
+  if (invitation.status === "accepted") {
+    if (
+      existingMembership?.partner_slug === partnerSlug &&
+      existingMembership.role === FIRST_ADMIN_ROLE &&
+      existingMembership.status === "active"
+    ) {
+      await appendAudit(
+        supabase,
+        partnerSlug,
+        "first_admin_replay_prevented",
+        {
+          invitation_id: invitation.invitation_id,
+          status: "accepted",
+          occurred_at: now.toISOString()
+        }
+      );
+      return {
+        membershipCreated: false,
+        replayPrevented: true,
+        redirectTo: await postAcceptanceDestination(supabase, partnerSlug)
+      };
+    }
+    throw new FirstAdminProvisioningError(
+      "membership_failed",
+      "Partner access could not be confirmed."
+    );
+  }
+
+  if (effectiveInvitationStatus(invitation, now) !== "pending") {
+    if (isInvitationExpired(invitation, now)) {
+      await markInvitationExpired(supabase, partnerSlug, invitation, now);
+    }
+    throw inactiveInvitation();
+  }
+
+  // The ambiguity check runs again here, against the live account list, so a
+  // second account created between the link click and the sign-in still stops
+  // the claim.
+  const matches = await findAuthUsersByEmail(supabase, invitation.email);
+  if (
+    decideFirstAdminAccountPath({
+      matchCount: matches.length,
+      confirmed: isConfirmedAuthUser(matches[0])
+    }) !== "existing_confirmed_account" ||
+    matches[0].id !== input.authUser.id
+  ) {
+    throw new FirstAdminProvisioningError(
+      "auth_ambiguous",
+      "This account setup invitation is invalid or no longer active."
+    );
+  }
+
+  if (
+    existingMembership &&
+    (existingMembership.partner_slug !== partnerSlug ||
+      existingMembership.role !== FIRST_ADMIN_ROLE ||
+      existingMembership.status !== "active")
+  ) {
+    throw new FirstAdminProvisioningError(
+      "auth_conflict",
+      "Partner access could not be confirmed."
+    );
+  }
+  const otherAdmins = (
+    await listActivePartnerAdmins(supabase, partnerSlug)
+  ).filter((row) => row.auth_user_id !== input.authUser.id);
+  if (otherAdmins.length > 0) {
+    throw new FirstAdminProvisioningError(
+      "administrator_exists",
+      "Partner access could not be confirmed."
+    );
+  }
+
+  const accepting: FirstAdminInvitationPayload = {
+    ...invitation,
+    revision: invitation.revision + 1,
+    status: "accepting",
+    auth_user_id: input.authUser.id,
+    claimed_at: invitation.claimed_at ?? now.toISOString()
+  };
+  if (
+    !(await compareAndSetInvitation(
+      supabase,
+      partnerSlug,
+      invitation.revision,
+      accepting
+    ))
+  ) {
+    // Losing this compare-and-set is what makes a concurrent double-accept
+    // create one membership rather than two.
+    throw new FirstAdminProvisioningError(
+      "invitation_conflict",
+      "Partner access changed while the account was being activated."
+    );
+  }
+
+  let membership = existingMembership;
+  let membershipCreated = false;
+  if (!membership) {
+    const insert = await supabase
+      .from("partner_users")
+      .insert({
+        auth_user_id: input.authUser.id,
+        partner_slug: partnerSlug,
+        role: FIRST_ADMIN_ROLE,
+        status: "active",
+        invited_email: invitation.email
+      })
+      .select("id, auth_user_id, invited_email, partner_slug, role, status, created_at")
+      .maybeSingle();
+    membership = insert.data as PartnerUserRow | null;
+    if (insert.error || !membership) {
+      membership = await findMembershipByAuthUser(supabase, input.authUser.id);
+      if (
+        !membership ||
+        membership.partner_slug !== partnerSlug ||
+        membership.role !== FIRST_ADMIN_ROLE ||
+        membership.status !== "active"
+      ) {
+        if (
+          !(await compareAndSetInvitation(
+            supabase,
+            partnerSlug,
+            accepting.revision,
+            {
+              ...accepting,
+              revision: accepting.revision + 1,
+              status: "attention"
+            }
+          ))
+        ) {
+          throw new FirstAdminProvisioningError(
+            "invitation_conflict",
+            "Partner access changed while activation was recovering."
+          );
+        }
+        throw new FirstAdminProvisioningError(
+          "membership_failed",
+          "Partner access could not be activated."
+        );
+      }
+    } else {
+      membershipCreated = true;
+    }
+  }
+
+  const acceptedAt = now.toISOString();
+  if (
+    !(await compareAndSetInvitation(
+      supabase,
+      partnerSlug,
+      accepting.revision,
+      {
+        ...accepting,
+        revision: accepting.revision + 1,
+        status: "accepted",
+        accepted_at: acceptedAt
+      }
+    ))
+  ) {
+    throw new FirstAdminProvisioningError(
+      "invitation_conflict",
+      "Partner access was created, but activation still needs confirmation. Retry sign-in."
+    );
+  }
+  if (membershipCreated) {
+    await appendAudit(
+      supabase,
+      partnerSlug,
+      "partner_admin_membership_created",
+      {
+        invitation_id: invitation.invitation_id,
+        status: "active",
+        occurred_at: acceptedAt
+      }
+    );
+  }
+  await appendAudit(
+    supabase,
+    partnerSlug,
+    "first_admin_invitation_accepted",
+    {
+      invitation_id: invitation.invitation_id,
+      status: "accepted",
+      occurred_at: acceptedAt
+    }
+  );
+  return {
+    membershipCreated,
+    replayPrevented: false,
+    redirectTo: await postAcceptanceDestination(supabase, partnerSlug)
+  };
 }
 
 export async function acceptFirstAdminInvitation(
@@ -893,11 +1217,19 @@ export async function acceptFirstAdminInvitation(
   };
 }
 
+/**
+ * Delivery is separate from invitation creation and carries its own idempotency
+ * key. That separation is what lets provisioning, invitation creation, and the
+ * email each fail on their own without any of them creating a second tenant, a
+ * second invitation, or a second membership. A repeated send with the same key
+ * returns the recorded outcome instead of sending again.
+ */
 export async function sendFirstAdminInvitationEmail(input: {
   partnerSlug: unknown;
   invitationId: unknown;
   setupLink: unknown;
   operatorUserId: string;
+  deliveryIdempotencyKey?: unknown;
   now?: Date;
 }) {
   const partnerSlug = normalizePartnerSlug(input.partnerSlug);
@@ -905,6 +1237,10 @@ export async function sendFirstAdminInvitationEmail(input: {
     typeof input.invitationId === "string" ? input.invitationId : "";
   const setupLink =
     typeof input.setupLink === "string" ? input.setupLink.trim() : "";
+  const deliveryKey =
+    typeof input.deliveryIdempotencyKey === "string"
+      ? input.deliveryIdempotencyKey.trim().toLowerCase()
+      : "";
   const supabase = admin();
   const partner = await requirePartner(supabase, partnerSlug);
   const invitation = await readInvitation(supabase, partnerSlug);
@@ -918,6 +1254,13 @@ export async function sendFirstAdminInvitationEmail(input: {
       "invitation_inactive",
       "That invitation is no longer active."
     );
+  }
+  if (
+    deliveryKey &&
+    invitation.delivery_idempotency_key === deliveryKey &&
+    invitation.delivery_status === "sent"
+  ) {
+    return { sent: true, duplicatePrevented: true };
   }
   const rawToken = setupTokenFromLink(setupLink);
   if (
@@ -1000,7 +1343,8 @@ export async function sendFirstAdminInvitationEmail(input: {
   const next: FirstAdminInvitationPayload = {
     ...invitation,
     revision: invitation.revision + 1,
-    delivery_status: status
+    delivery_status: status,
+    ...(deliveryKey ? { delivery_idempotency_key: deliveryKey } : {})
   };
   if (
     !(await compareAndSetInvitation(
@@ -1033,7 +1377,7 @@ export async function sendFirstAdminInvitationEmail(input: {
       "The invitation was not sent. Copy the secure setup link and try again later."
     );
   }
-  return { sent: true };
+  return { sent: true, duplicatePrevented: false };
 }
 
 function baseView(input: {
@@ -1340,10 +1684,17 @@ async function safelyInvalidateInvitationAuthUser(
   }
 }
 
-async function findAuthUserByEmail(
+/**
+ * Every Auth user whose email matches, not just the first. Returning the first
+ * match would make two accounts for one address indistinguishable from one, and
+ * the whole point of the ambiguity check is that we refuse in that case rather
+ * than guess which account the invitation meant.
+ */
+async function findAuthUsersByEmail(
   supabase: SupabaseAdmin,
   email: string
-) {
+): Promise<User[]> {
+  const matches: User[] = [];
   for (let page = 1; page <= 10; page += 1) {
     const result = await supabase.auth.admin.listUsers({
       page,
@@ -1355,15 +1706,21 @@ async function findAuthUserByEmail(
         "Account setup is temporarily unavailable."
       );
     }
-    const match = result.data.users.find(
-      (user) => normalizeEmail(user.email) === email
-    );
-    if (match) return match;
-    if (result.data.users.length < 1000) return null;
+    for (const user of result.data.users) {
+      if (normalizeEmail(user.email) === email) matches.push(user);
+    }
+    if (result.data.users.length < 1000) return matches;
   }
   throw new FirstAdminProvisioningError(
     "auth_failed",
     "Account setup is temporarily unavailable."
+  );
+}
+
+function isConfirmedAuthUser(user: User | undefined): boolean {
+  return Boolean(
+    user &&
+      (user.email_confirmed_at || (user as { confirmed_at?: string }).confirmed_at)
   );
 }
 

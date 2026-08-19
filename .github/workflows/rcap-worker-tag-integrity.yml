@@ -1,0 +1,44 @@
+name: RCAP worker tag integrity
+
+# Read-only. Asks the registry which immutable digest the worker's full-SHA tag
+# actually resolves to, and whether each candidate digest still exists.
+#
+# This exists because two successful publications of source 664b8ddd wrote the
+# same full-SHA tag — run 31965540347 produced sha256:e958cb05 and the later run
+# 31980720145 produced sha256:be782397 — and each committed record names only
+# itself. A JSON file cannot settle which one the tag points at; only the
+# registry can. Nothing here builds, pushes, tags, deploys or claims.
+
+on:
+  workflow_dispatch:
+    inputs:
+      worker_tag:
+        description: "Full 40-character worker source SHA used as the image tag"
+        required: true
+        type: string
+      candidate_digests:
+        description: "Comma-separated sha256: digests to test for presence"
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  resolve:
+    name: Resolve the full-SHA tag against GHCR
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Resolve
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RCAP_WORKER_TAG: ${{ inputs.worker_tag }}
+          RCAP_WORKER_CANDIDATE_DIGESTS: ${{ inputs.candidate_digests }}
+        run: node scripts/verify-rcap-worker-tag-integrity.mjs --resolve

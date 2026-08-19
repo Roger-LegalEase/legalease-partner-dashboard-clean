@@ -39,6 +39,11 @@ export type FirstAdminInvitationPayload = {
   revoked_at?: string;
   superseded_at?: string;
   delivery_status?: "not_requested" | "requested" | "sent" | "failed";
+  // The delivery request this invitation last acted on. Delivery is separate
+  // from invitation creation and carries its own key, so a retried send returns
+  // the previous outcome instead of producing a second email or a second
+  // delivery record.
+  delivery_idempotency_key?: string;
 };
 
 export type FirstAdminInput = {
@@ -204,6 +209,32 @@ export function parseFirstAdminInvitationPayload(
     return null;
   }
   return payload as FirstAdminInvitationPayload;
+}
+
+/**
+ * Which administrator-setup path an invited email takes.
+ *
+ * The distinction matters because the two paths have different safety
+ * properties. A brand-new email gets an account created for it. An email that
+ * already belongs to exactly one confirmed account must NOT get a second
+ * account, and must not have its password reset either — that would turn
+ * "prove you own this mailbox" into "we changed your credentials", which is a
+ * different and much larger claim. Anything else is ambiguous and fails closed.
+ */
+export type FirstAdminAccountPath =
+  | "create_new_account"
+  | "existing_confirmed_account"
+  | "ambiguous";
+
+export function decideFirstAdminAccountPath(input: {
+  matchCount: number;
+  confirmed: boolean;
+}): FirstAdminAccountPath {
+  if (input.matchCount === 0) return "create_new_account";
+  if (input.matchCount === 1 && input.confirmed) {
+    return "existing_confirmed_account";
+  }
+  return "ambiguous";
 }
 
 export function decidePostAcceptanceDestination(input: {

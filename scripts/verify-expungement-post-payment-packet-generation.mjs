@@ -78,11 +78,35 @@ for (const status of ["pending", "generating", "ready", "failed"]) {
   assert(typesSource.includes(`"${status}"`) || migrationSource.includes(`'${status}'`) || packetAdapter.includes(`"${status}"`), `packet_status transition missing: ${status}`);
 }
 assert(packetAdapter.includes("packetStatus: \"pending\"") && packetAdapter.includes("packetStatus: \"generating\"") && packetAdapter.includes("packetStatus: \"ready\"") && packetAdapter.includes("packetStatus: \"failed\""), "Packet generation status transitions must be represented.");
-assert(packetReadySource.includes("packetReady = packet?.packetStatus === \"ready\"") || packetReadySource.includes('packetStatus === "ready"'), "Packet-ready page must not claim ready before packet_status ready.");
-assert(packetReadySource.includes("Your payment was confirmed, but we need to regenerate your packet. Try again or contact support."), "Packet-ready page must show recoverable generation failure copy.");
-assert(packetReadySource.includes("Ask Wilma about next steps"), "Packet-ready page must show Wilma next-step action.");
+assert(
+  packetReadySource.includes("LegacyPacketReadyReturn")
+    && packetReadySource.includes("getBriefcaseItem(auth.userId, briefcaseItemId)")
+    && packetReadySource.includes("redirect(item ? `/briefcase/${encodeURIComponent(item.id)}?payment=return` : \"/briefcase\")"),
+  "Legacy packet-ready returns must redirect through an owner-scoped Briefcase lookup."
+);
+assert(
+  !packetReadySource.includes("recordConsumerPaymentConfirmation")
+    && !packetReadySource.includes("generatePaidConsumerPacket"),
+  "Legacy packet-ready returns must not write payment state or generate a packet."
+);
+assert(
+  packetDetailSource.includes("const artifact = item ? packetArtifactFor(item) : null")
+    && packetDetailSource.includes("{artifact ? <ReadyPacket")
+    && packetDetailSource.includes('data-packet-ready="true"'),
+  "Matter detail must claim packet readiness only when a stored packet artifact resolves."
+);
+assert(
+  packetDetailSource.includes('item.paymentStatus === "paid" && item.packetStatus === "failed"')
+    && packetDetailSource.includes('mode="paid_durable"'),
+  "Matter detail must offer the durable paid-packet retry after a recoverable generation failure."
+);
+assert(packetDetailSource.includes("Ask Wilma about next steps"), "Matter detail must show the Wilma next-step action.");
 assert(briefcaseViewsSource.includes("Download") && briefcaseViewsSource.includes("paymentStatus") && briefcaseViewsSource.includes("packetStatus"), "Briefcase packet cards must show download/payment/packet metadata.");
-assert(packetDetailSource.includes("getBriefcaseItem(auth.userId") && packetDetailSource.includes("receiptUrl"), "Briefcase packet detail must show owned item and receipt reference.");
+assert(
+  packetDetailSource.includes("getBriefcaseItem(auth.userId, packetId)")
+    && briefcaseViewsSource.includes("item.receiptUrl"),
+  "Briefcase surfaces must keep matter lookup owner-scoped and expose the receipt in the payments view."
+);
 assert(exists(migrationPath), "Packet generation status migration must exist when packet_status values change.");
 assert(!migrationSource.includes("partner_"), "Packet generation migration must not alter partner billing.");
 assert(!packetAdapter.includes("partner_billing") && !packetAdapter.includes("partner_billing_requests"), "Packet generation adapter must not touch partner billing.");

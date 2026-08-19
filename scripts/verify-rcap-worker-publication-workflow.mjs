@@ -53,6 +53,10 @@ check('the SHA must belong to the canonical integration history',
   /git merge-base --is-ancestor/.test(src) && /CANONICAL_INTEGRATION_BRANCH/.test(src),
   'no ancestry check against the canonical integration branch');
 
+check('the canonical integration history is main',
+  /^\s{2}CANONICAL_INTEGRATION_BRANCH:\s*main\s*$/m.test(src),
+  'the publication gate is pinned to a superseded feature branch instead of final merged main');
+
 check('the exact supplied SHA is checked out',
   /git checkout --detach/.test(src), 'the workflow does not detach onto the supplied SHA');
 

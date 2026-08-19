@@ -31,7 +31,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const outPath = path.join(rootDir, 'data/rcap-staging-action.json');
 const checkOnly = process.argv.includes('--check');
 
-const CANONICAL_BRANCH = 'claude/rcap-final-sprint-integration';
+const CANONICAL_BRANCH = 'main';
 const CANDIDATE_SHA = '13e356c49bd484e6f946ba604076718d904bca86';
 
 // Apply order is the definition of the action, not a comment on it. The index
@@ -43,6 +43,12 @@ const SEQUENCE = [
   { phase: 52, path: 'supabase/phase-52-rcap-consumer-payment-authority.sql', authorizationId: 'auth-2026-08-11-phase-52-consumer-payment-authority' },
   { phase: 53, path: 'supabase/phase-53-rcap-consumer-job-binding.sql', authorizationId: 'auth-2026-08-11-phase-53-consumer-job-binding' },
   { phase: 54, path: 'supabase/phase-54-rcap-person-namespace-hardening.sql', authorizationId: 'auth-2026-08-11-phase-54-person-namespace-hardening' },
+  // Phase 55 binds a consumer payment to one matter. It was authorized with
+  // the PR #101 release integration and its bytes were frozen there, but this
+  // SEQUENCE still stopped at 54 — so the acceptance apply path would have
+  // stopped one migration short of the payment binding it exists to prove,
+  // and the readback would have passed while the binding was absent.
+  { phase: 55, path: 'supabase/phase-55-expungement-matter-payment-binding.sql', authorizationId: 'auth-2026-08-16-pr101-release-integration' },
 ];
 
 // Exactly the paths the Dockerfile copies. Anything outside this set cannot

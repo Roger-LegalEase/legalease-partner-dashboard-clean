@@ -26,7 +26,7 @@ import { spawnSync } from "node:child_process";
 process.env.RCAP_EVALUATOR_TODAY = process.env.RCAP_EVALUATOR_TODAY ?? "2026-07-01";
 register("./lib/ts-esm-loader.mjs", import.meta.url);
 
-const { buildRenderJobSpec } = await import("../src/lib/rcap/render/job-contract.ts");
+const { buildRenderJobSpec, validateRenderOutput } = await import("../src/lib/rcap/render/job-contract.ts");
 const { consumerPacketPriceCents } = await import("../src/lib/expungement-ai/payment-adapter.ts");
 
 const rootDir = process.cwd();
@@ -56,7 +56,35 @@ if (!STRIPE_KEY.startsWith("sk_test_") || !WEBHOOK_SECRET.startsWith("whsec_")) 
 }
 
 const verdicts = new Map();
+/**
+ * Fails closed, because a verdict function that accepts anything truthy is not
+ * a verdict function. Two malformed calls have already reached main here: one
+ * passed four arguments, which slid a non-empty string into `passed` and made
+ * the case incapable of failing; another reported a claimed, artifactless job
+ * as ok. Both were shaped exactly like a passing test.
+ *
+ * So: exactly three arguments, `passed` a real boolean and nothing else, a
+ * non-empty case id and observation, and one verdict per case. Anything else
+ * throws, which stops the run without an evidence file rather than producing a
+ * green one. A `!!x`, a count, a status code, a truthy object or an accidental
+ * `undefined` from a short-circuit can no longer become a pass.
+ */
 function record(caseId, passed, observed) {
+  if (arguments.length !== 3) {
+    throw new TypeError(`record(caseId, passed, observed) takes exactly 3 arguments; ${arguments.length} given for "${caseId}"`);
+  }
+  if (typeof passed !== "boolean") {
+    throw new TypeError(`record("${caseId}") needs a real boolean verdict; got ${typeof passed} (${JSON.stringify(passed) ?? String(passed)})`);
+  }
+  if (typeof caseId !== "string" || caseId.trim() === "") {
+    throw new TypeError("record() needs a non-empty case id");
+  }
+  if (typeof observed !== "string" || observed.trim() === "") {
+    throw new TypeError(`record("${caseId}") needs a non-empty observation; an unexplained verdict is not evidence`);
+  }
+  if (verdicts.has(caseId)) {
+    throw new Error(`record("${caseId}") was called twice; a second verdict would silently overwrite the first`);
+  }
   verdicts.set(caseId, { passed, observed });
   console.log(`  ${passed ? "ok  " : "FAIL"} ${caseId} — ${observed}`);
 }
@@ -155,12 +183,23 @@ async function callApp(pathname, { method = "GET", cookie = null, body = null, h
       body: body === null ? undefined : typeof body === "string" ? body : JSON.stringify(body),
       redirect: "manual"
     });
-    const text = await res.text();
+    const buffer = Buffer.from(await res.arrayBuffer());
+    const text = buffer.toString("utf8");
     let json = null;
     try { json = JSON.parse(text); } catch { /* HTML or empty is fine */ }
-    return { status: res.status, json, text };
+    // Headers and raw bytes are part of the evidence: a redirect is only a
+    // refusal if you can say where it points, and a delivered packet is only
+    // delivered if the bytes it carries parse as the artifact.
+    return {
+      status: res.status,
+      json,
+      text,
+      bytes: buffer,
+      location: res.headers.get("location"),
+      contentType: res.headers.get("content-type")
+    };
   } catch (error) {
-    return { status: `unreachable: ${error.message}`, json: null, text: "" };
+    return { status: `unreachable: ${error.message}`, json: null, text: "", bytes: Buffer.alloc(0), location: null, contentType: null };
   }
 }
 
@@ -173,7 +212,35 @@ const evidence = {
   cardEntryNote: "Stripe's hosted Checkout page cannot be driven from CI without a browser. Every field of the completion event comes from the real session read back from Stripe; payment_status is the single overridden field. The phone test covers the card entry itself."
 };
 
+// What this matrix does and does not prove about jurisdictions. It buys and
+// delivers ONE matter on whichever route the evaluator will actually sell, and
+// that is a proof about the payment and delivery machinery — not about
+// Pennsylvania or Illinois coverage. Those are established per route in
+// docs/RCAP_ROUTE_REACHABILITY.md and restated here so a green matrix can never
+// be read as jurisdiction proof it did not perform.
+const JURISDICTION_SCOPE = {
+  note: "This matrix proves payment, finalization and delivery for one sellable matter. It is not evidence about any jurisdiction it did not transact.",
+  pennsylvania: {
+    sellablePathways: 0,
+    inspectedPathways: 11,
+    disposition: "intentional guidance",
+    evidence: "every one of the 11 inspected PA pathways carries the recorded Lawrence hold lawrence_review=hold_guidance_only; the evaluator returns guidance_only with pa.lawrence_hold_guidance_only (Path J: pa.guidance_only_no_user_filed_court_petition). No $50 Checkout should open for those held routes.",
+    isEvaluatorDefect: false
+  },
+  illinois: {
+    sellablePathways: 3,
+    inspectedPathways: 9,
+    sellable: [
+      "juvenile-automatic-or-petition-expungement",
+      "adult-conviction-sealing",
+      "felony-prostitution-relief"
+    ],
+    evidence: "each reaches packet_ready_with_caution with paymentAllowed=true under a witnessing public answer set recorded in docs/RCAP_ROUTE_REACHABILITY.md."
+  }
+};
+
 function finish() {
+  evidence.jurisdictionScope = JURISDICTION_SCOPE;
   const missing = REQUIRED_CASES.filter((c) => !verdicts.has(c));
   const failed = [...verdicts.entries()].filter(([, v]) => !v.passed).map(([c]) => c);
   evidence.requiredCases = REQUIRED_CASES;
@@ -416,9 +483,15 @@ let route = null;
       if (built.spec) { route = { state: profile.jurisdiction.code, pathwayLabel: label, pathwayId: pathway.id }; break outer; }
     }
   }
+  // record() takes (caseId, passed, observed). This call passed FOUR arguments:
+  // a stray "seeded_item_agrees_with_the_authoritative_resolver" sat where
+  // `passed` belongs, so `passed` was a non-empty string — always truthy — and
+  // `observed` was Boolean(route). This check could not fail. It reported ok
+  // even in the branch whose own message reads "nothing in the product is
+  // currently sellable-and-renderable", and the finish() below was the only
+  // thing still stopping the run.
   record(
     "renderable_route_selected_from_the_registry",
-  "seeded_item_agrees_with_the_authoritative_resolver",
     Boolean(route),
     route
       ? `${route.state} / ${route.pathwayLabel} — buildRenderJobSpec produced a spec, so this route is genuinely renderable rather than assumed to be`
@@ -436,7 +509,256 @@ const itemId = crypto.randomUUID();
 // that produces double quotes, which Postgres reads as an identifier.
 const sqlText = (value) => String(value).split("'").join("''");
 
-// --- 2b. Derive every route-specific value from the authorities ---------------
+// --- 2b. The reviewed packet information -------------------------------------
+//
+// A participant cannot buy or render a packet whose information they have not
+// completed and reviewed, and the application enforces that BEFORE it consults
+// payment: consumer-render-request checks the accuracy review first and returns
+// route_not_renderable, so an unreviewed item can never reach the 402 the
+// payment gate would give it. Checkout refuses the same item with 409
+// review_required.
+//
+// This harness previously seeded summary_json alone. commercialFlowForItem then
+// synthesised a flow at stage "not_started" with every required input missing,
+// so the deployment answered 403 and 409 — correctly — and the run read as an
+// application defect when the application was right and the seed was thin.
+//
+// The answers are not written by hand. They are converged: the authoritative
+// evaluator is asked what it still needs, each missing question is answered
+// from the profile's own options, and the loop repeats until the evaluator
+// itself returns a packet_ready route with paymentAllowed. Choosing values that
+// merely satisfy a gate is the mistake the packet_type hardcode above already
+// made once; this asks the engine instead of guessing at it.
+const { packetInformationModelFor, packetInformationReviewSafety } =
+  await import("../src/lib/expungement-ai/packet-information.ts");
+const { evaluateAuthoritativeScreeningResult } =
+  await import("../src/lib/expungement-ai/authoritative-screening-result.ts");
+const { getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
+const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
+
+// Answers that carry meaning rather than merely satisfying a type. A route sold
+// as a non-conviction expungement must not be seeded with a felony conviction,
+// and the Mississippi non-conviction route additionally requires these exact
+// neutral facts — packetInformationReviewSafety refuses any other value.
+const PREFERRED_ANSWERS = {
+  ownership_scope: "Yes",
+  jurisdiction_scope: "State or local",
+  case_outcome: "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+  offense_level: "Misdemeanor",
+  offense_category: "Misdemeanor",
+  record_type: "Arrest or charge",
+  resolved_timing_bucket: "gt_10_years",
+  court_requirements_completed: "yes",
+  pending_cases: "No",
+  trafficking_status: "No",
+  prior_relief: "No",
+  pardon_status: "No",
+  sentence_completion_date: "Yes",
+  financial_obligations: "Yes",
+  state_exclusion_categories: ["None of these"],
+  age_at_offense: "30",
+  charge: "Shoplifting",
+  county: "Hinds",
+  court: "Hinds County Circuit Court",
+  residency_or_location: "Jackson",
+  criminal_history: "No other cases",
+  disposition_date: "2005-01-10",
+  participant_full_legal_name: "Acceptance Test Participant",
+  contact_information: "hosted-acceptance@example.test"
+};
+
+function publicQuestionIndex(profile) {
+  const index = new Map();
+  (function walk(node) {
+    if (!node || typeof node !== "object") return;
+    if (Array.isArray(node)) { node.forEach(walk); return; }
+    if (typeof node.id === "string" && typeof node.type === "string" && (node.prompt || node.label)) {
+      if (!index.has(node.id)) index.set(node.id, node);
+    }
+    Object.values(node).forEach(walk);
+  })(projectPublicProfile(profile));
+  return index;
+}
+
+function answerForQuestion(question, id) {
+  const preferred = PREFERRED_ANSWERS[id];
+  const optionsAllow = !question || question.type !== "single_choice"
+    || !question.options?.length || question.options.includes(preferred);
+  if (preferred !== undefined && optionsAllow) return preferred;
+  if (!question) return "No";
+  if (question.type === "date_or_unknown") return "2005-01-10";
+  if (question.type === "number_or_range") return "30";
+  if (question.type === "multi_select" && question.options?.length) {
+    return [question.options.find((option) => /^none/i.test(option)) ?? question.options[0]];
+  }
+  if (question.type === "single_choice" && question.options?.length) {
+    return question.options.find((option) => /^(no\b|none)/i.test(option)) ?? question.options[0];
+  }
+  if (question.type?.startsWith("yes_no")) return "No";
+  return "None";
+}
+
+/**
+ * Answers whatever the authoritative evaluator says is still missing until it
+ * returns a sellable packet route, or gives up and says why. Returns null when
+ * this jurisdiction cannot be sold at all — which is a fact about the corpus,
+ * not a fault to paper over.
+ */
+function convergeSellableScreening(state) {
+  const profile = getProfileByJurisdiction(state);
+  if (!profile) return null;
+  const questions = publicQuestionIndex(profile);
+  let answers = {
+    ownership_scope: PREFERRED_ANSWERS.ownership_scope,
+    jurisdiction_scope: PREFERRED_ANSWERS.jurisdiction_scope,
+    case_outcome: PREFERRED_ANSWERS.case_outcome,
+    offense_level: PREFERRED_ANSWERS.offense_level,
+    disposition_date: PREFERRED_ANSWERS.disposition_date
+  };
+  let last = null;
+  for (let round = 0; round < 16; round += 1) {
+    let evaluation;
+    try {
+      evaluation = evaluateAuthoritativeScreeningResult({
+        jurisdiction: state,
+        profileVersion: profile.profileVersion,
+        matterId: itemId,
+        answers
+      }).evaluation;
+    } catch (error) {
+      // Packet-only fields are not evaluator questions. Drop exactly the ids it
+      // names and re-ask; every recognised route fact stays.
+      if (!error?.invalidQuestionIds?.length) return { state, failure: String(error?.message ?? error).slice(0, 160) };
+      for (const id of error.invalidQuestionIds) delete answers[id];
+      continue;
+    }
+    last = evaluation;
+    const sellable = (evaluation.resultCode === "packet_ready" || evaluation.resultCode === "packet_ready_with_caution")
+      && evaluation.paymentAllowed === true
+      && typeof evaluation.pathwayId === "string";
+    if (sellable) return { state, evaluation, answers, profile };
+    const missing = evaluation.missingQuestionIds ?? [];
+    if (!missing.length) {
+      return {
+        state,
+        failure: `${evaluation.resultCode} with nothing further to answer (${(evaluation.reasons ?? []).map((r) => r.code).join(",") || "no reason given"})`
+      };
+    }
+    for (const id of missing) answers[id] = answerForQuestion(questions.get(id), id);
+  }
+  return { state, failure: `did not settle in 16 rounds; last ${last?.resultCode ?? "(none)"}` };
+}
+
+/** Assembles the reviewed flow and asserts it with the application's own predicates. */
+function buildReviewedFlow(settled) {
+  const { state, evaluation, answers, profile } = settled;
+  const pathway = profile.packetGenerator.pathways.find((candidate) => candidate.pathwayId === evaluation.pathwayId);
+  if (!pathway) return { failure: `${state}: the evaluator chose ${evaluation.pathwayId}, which the packet generator does not offer` };
+
+  const baseItem = {
+    id: itemId,
+    type: "result",
+    title: "hosted acceptance payment journey",
+    state,
+    status: "packet_ready",
+    resultCode: "packet_ready",
+    createdAt: new Date().toISOString(),
+    summary: "hosted acceptance payment journey",
+    nextSteps: [],
+    paymentAllowed: true,
+    packetReady: true,
+    pathwayLabel: pathway.pathwayLabel,
+    packetType: "custom_pleading",
+    artifactRefs: {}
+  };
+  const model = packetInformationModelFor(baseItem);
+  if (!model) return { failure: `${state}: no packet-information model for ${pathway.pathwayLabel}` };
+
+  const packetAnswers = { ...answers };
+  for (const question of model.questions) {
+    if (!(question.id in packetAnswers)) packetAnswers[question.id] = answerForQuestion(question, question.id);
+  }
+  const stamp = new Date().toISOString();
+  const commercialFlow = {
+    version: 1,
+    entitlementSource: "consumer_payment",
+    productId: "expungement_packet",
+    screening: {
+      profileVersion: profile.profileVersion,
+      pathwayId: model.pathwayId,
+      pathwayLabel: model.pathwayLabel,
+      resultCode: "packet_ready",
+      paymentAllowed: true,
+      packetType: "custom_pleading",
+      packetPlan: model.packetPlan,
+      answers
+    },
+    packetInformation: {
+      stage: "ready_to_generate",
+      requiredInputIds: model.requiredInputIds,
+      serverFacts: { jurisdiction: state, pathway_id: model.pathwayId },
+      prefilledAnswers: {},
+      answers: packetAnswers,
+      missingInputIds: [],
+      updatedAt: stamp,
+      reviewedAt: stamp
+    }
+  };
+
+  const reviewedItem = { ...baseItem, artifactRefs: { commercialFlow } };
+  const reviewedModel = packetInformationModelFor(reviewedItem);
+  const safety = packetInformationReviewSafety(reviewedItem);
+  const complete = reviewedModel
+    && reviewedModel.stage === "ready_to_generate"
+    && reviewedModel.missingInputIds.length === 0
+    && Boolean(reviewedModel.reviewedAt)
+    && safety.safe;
+  if (!complete) {
+    return {
+      failure: `${state}: stage=${reviewedModel?.stage ?? "(none)"}, missing=${JSON.stringify(reviewedModel?.missingInputIds ?? null)}, reviewedAt=${reviewedModel?.reviewedAt ?? "null"}, safety=${safety.reason}`
+    };
+  }
+  return { state, pathway, commercialFlow, model: reviewedModel, safety, questionCount: model.questions.length };
+}
+
+// The route the registry offered is tried first; the remaining priority states
+// follow. A state whose waiting rule the evaluator cannot execute is reported
+// by name rather than silently skipped — that is a finding about the corpus.
+let reviewed = null;
+{
+  const attempts = [];
+  const candidates = [route.state, ...["MS", "IL", "PA"].filter((code) => code !== route.state)];
+  for (const state of candidates) {
+    const settled = convergeSellableScreening(state);
+    if (!settled || settled.failure) { attempts.push(`${state}: ${settled?.failure ?? "no profile"}`); continue; }
+    const built = buildReviewedFlow(settled);
+    if (built.failure) { attempts.push(built.failure); continue; }
+    reviewed = built;
+    break;
+  }
+  record(
+    "seeded_item_carries_reviewed_packet_information",
+    Boolean(reviewed),
+    reviewed
+      ? `${reviewed.state} / ${reviewed.pathway.pathwayLabel} — the evaluator itself returns a sellable route, all ${reviewed.model.requiredInputIds.length} required inputs are answered across ${reviewed.questionCount} questions, reviewedAt is set and review safety is ${reviewed.safety.reason}`
+      : `no jurisdiction produced a reviewed, sellable matter — ${attempts.join(" | ")}`
+  );
+  if (!reviewed) finish();
+  evidence.reviewedPacketInformation = {
+    state: reviewed.state,
+    pathwayId: reviewed.model.pathwayId,
+    pathwayLabel: reviewed.model.pathwayLabel,
+    profileVersion: reviewed.commercialFlow.screening.profileVersion,
+    requiredInputIds: reviewed.model.requiredInputIds,
+    reviewSafety: reviewed.safety.reason,
+    attempts
+  };
+  // The seeded row must describe the route that was proven sellable, not the
+  // one the render-spec scan happened to reach first.
+  route = { state: reviewed.state, pathwayLabel: reviewed.pathway.pathwayLabel, pathwayId: reviewed.model.pathwayId };
+  evidence.route = route;
+}
+// --- 2c. Derive every route-specific value from the authorities ---------------
 //
 // packet_type was previously hardcoded to 'official_pdf_overlay' because the
 // phase-26 CHECK constraint accepted it. That is not a derivation, it is a
@@ -487,10 +809,11 @@ evidence.derivedRouteIdentity = derived;
 const seedResult = await sql(`
   insert into public.consumer_briefcase_items
     (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
-     status, summary_json, payment_status, payment_allowed)
+     status, summary_json, artifact_refs_json, payment_status, payment_allowed)
   values ('${itemId}', '${A.id}', 'result', '${route.state}', '${sqlText(route.pathwayLabel)}',
           '${derived.resultCode}', '${derived.packetType}',
-          'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb, 'unpaid', true)
+          'packet_ready', '{"text":"hosted acceptance payment journey"}'::jsonb,
+          '${sqlText(JSON.stringify({ commercialFlow: reviewed.commercialFlow }))}'::jsonb, 'unpaid', true)
   returning id, status, result_code, pathway_label
 `);
 
@@ -562,7 +885,12 @@ const seedResult = await sql(`
 let session = null;
 {
   const res = await callApp("/api/expungement-ai/checkout", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
-  const sessionId = res.json?.sessionId ?? res.json?.id ?? null;
+  // The route answers with checkoutSessionId. Reading only sessionId/id meant
+  // that a perfectly successful 200 produced a null id, no Stripe fetch, and a
+  // FAIL whose own diagnostic then reported "Stripe holds session cs_test_…
+  // for this exact briefcase item" — the harness proving, in its failure text,
+  // that the thing it had just called missing did exist.
+  const sessionId = res.json?.checkoutSessionId ?? res.json?.sessionId ?? res.json?.id ?? null;
   let fetched = null;
   if (sessionId) {
     const stripeRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`, {
@@ -589,7 +917,7 @@ let session = null;
       const body = await list.json().catch(() => null);
       const mine = Array.isArray(body?.data) ? body.data.find((x) => x.client_reference_id === itemId) : null;
       sessionCreatedBeforeFailure = mine
-        ? `YES — Stripe holds session ${mine.id} for this exact briefcase item (amount_total=${mine.amount_total} ${mine.currency}, payment_status=${mine.payment_status}). The application created it and then failed AFTER the create, so the 503 is not Stripe refusing the request.`
+        ? `YES — Stripe holds session ${mine.id} for this exact briefcase item (amount_total=${mine.amount_total} ${mine.currency}, payment_status=${mine.payment_status}). The application created it and then failed AFTER the create, so the ${res.status} is not Stripe refusing the request.`
         : "no — Stripe holds no session carrying this briefcase item as client_reference_id, so the create itself did not succeed";
     } catch (error) {
       sessionCreatedBeforeFailure = `could not ask Stripe: ${error.message}`;
@@ -702,76 +1030,381 @@ const completionEvent = {
 }
 
 // --- 8. The pinned worker, by digest, against the hosted project -------------
-{
-  const service = await (async () => {
-    const res = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/api-keys?reveal=true`, {
-      headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}` }
-    });
-    const list = await res.json().catch(() => []);
-    return Array.isArray(list) ? list.find((k) => k.name === "service_role")?.api_key ?? "" : "";
-  })();
+//
+// Two things this step used to get wrong, and does not any more.
+//
+// The verdict. `exit 0 and the job is not 'failed'` reported a delivery success
+// for a job still sitting in 'claimed' with no artifact path and nothing in
+// storage. A worker process exit code is the exit code of one claim-to-finalize
+// cycle, not a statement about delivery: runWorkerCycle returns
+// {outcome:"failed", errorCode:"job_not_claimable"} and exits 0 when a single
+// RPC declines, and every non-terminal state is now a failure here.
+//
+// The diagnostics. stdout and stderr were concatenated and cut to the last 260
+// characters. docker writes pull progress to stderr, so what survived was one
+// character of pull output and none of the worker's own JSON cycle result — the
+// single line that names the boundary it stopped at was produced and then
+// thrown away. Both streams are now captured separately, in full, per cycle,
+// and written to the evidence directory that CI uploads.
+//
+// And the worker is run to a CONCLUSION rather than once. A claim lease is 600
+// seconds by default, so one shot followed by an immediate read cannot tell a
+// broken worker from a superseded claim; the lease is shortened here through
+// the worker's own documented environment contract and the cycle is repeated
+// until the job is terminal or the budget runs out.
+async function serviceRoleKey() {
+  const res = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/api-keys?reveal=true`, {
+    headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}` }
+  });
+  const list = await res.json().catch(() => []);
+  return Array.isArray(list) ? list.find((k) => k.name === "service_role")?.api_key ?? "" : "";
+}
 
-  const run = spawnSync("docker", [
-    "run", "--rm",
-    "-e", `NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}`,
-    "-e", `SUPABASE_URL=${SUPABASE_URL}`,
-    "-e", `SUPABASE_SERVICE_ROLE_KEY=${service}`,
-    WORKER_DIGEST_REF,
-    "node", "scripts/rcap-render-worker.mjs"
-  ], { encoding: "utf8", timeout: 300000 });
+const TERMINAL_SUCCESS = new Set(["artifact_validated", "delivered"]);
+// Everything a delivery may NOT be sitting in. In flight, failed, and the
+// dispositions a failed job can carry — none of these is a delivered packet,
+// and the previous verdict treated the absence of 'failed' as success.
+const NON_TERMINAL = new Set(["queued", "claimed", "rendering", "validating", "failed", "retryable", "expired"]);
+// Passed explicitly rather than inherited. resolveClaimSeconds() defaults to
+// 600, which is longer than this whole job step: a claim that goes stale can
+// then never be released inside the run, so one declined RPC and a genuine
+// worker defect look identical. Long enough for a real render and upload,
+// short enough that the queue's own recovery is observable here.
+const WORKER_CLAIM_SECONDS = 120;
 
-  const jobs = await sql(`
-    select status, attempt_count from public.packet_render_jobs
-     where briefcase_item_id = '${itemId}' order by created_at desc limit 1
+/** Every column of the job the diagnosis needs, in one read. */
+async function readJob() {
+  const res = await sql(`
+    select id, status, attempt_count, max_attempts, claimed_by, claim_expires_at,
+           fencing_token is not null as has_fencing_token,
+           -- A hash, never the token. extensions.digest is the same call phase 55
+           -- makes, so it is present wherever the migration sequence applied.
+           encode(extensions.digest(convert_to(coalesce(fencing_token::text, ''), 'utf8'), 'sha256'), 'hex') as fencing_token_sha256,
+           next_attempt_at,
+           error_code, failure_disposition,
+           left(coalesce(last_error_detail, ''), 1000) as last_error_detail,
+           renderer_kind, renderer_version, route_id, source_sha256,
+           profile_id, profile_version, person_id, matter_id, partner_id,
+           consumer_briefcase_item_id, consumer_auth_user_id,
+           output_storage_path, output_sha256, normalized_output_sha256,
+           output_byte_count, output_page_count, container_digest,
+           delivery_eligibility, accounting_result,
+           created_at, claimed_at, rendering_at, validating_at, artifact_validated_at
+      from public.packet_render_jobs
+     where briefcase_item_id = '${sqlText(itemId)}'
+     order by created_at desc limit 1
   `);
-  const job = Array.isArray(jobs.json) ? jobs.json[0] : null;
-  const output = `${run.stdout ?? ""}${run.stderr ?? ""}`.replace(/eyJ[A-Za-z0-9_.-]{20,}/g, "***REDACTED***");
+  return Array.isArray(res.json) ? res.json[0] ?? null : null;
+}
+
+const redact = (text) => String(text ?? "").replace(/eyJ[A-Za-z0-9_.-]{20,}/g, "***REDACTED***");
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * The worker's --once mode prints exactly one line: JSON.stringify of the cycle
+ * result. That single object names the boundary the cycle stopped at — idle,
+ * job_not_claimable, a validation error code, render_failed, or finalized with
+ * its accounting result — and it is the decisive diagnostic. It is parsed here,
+ * out of stdout ONLY, so nothing docker writes to stderr can obscure it.
+ */
+function parseCycleResult(stdout) {
+  const lines = String(stdout ?? "").split("\n").map((line) => line.trim()).filter(Boolean);
+  for (let i = lines.length - 1; i >= 0; i -= 1) {
+    if (!lines[i].startsWith("{")) continue;
+    try {
+      const parsed = JSON.parse(lines[i]);
+      if (parsed && typeof parsed.outcome === "string") return parsed;
+    } catch { /* not the cycle result */ }
+  }
+  return null;
+}
+
+/** The boundary a cycle result names, in the vocabulary the worker itself uses. */
+function cycleBoundary(result) {
+  if (!result) return "no cycle result was emitted";
+  if (result.outcome === "idle") return "no job — the worker claimed nothing";
+  if (result.outcome === "finalized") return `finalized (accounting=${result.accountingResult}, delivery=${result.deliveryEligibility})`;
+  if (result.outcome === "failed") return `failed at ${result.errorCode} (disposition=${result.disposition ?? "none recorded"})`;
+  return `unrecognised outcome ${result.outcome}`;
+}
+
+let finalJob = null;
+let finalCycleResult = null;
+{
+  const service = await serviceRoleKey();
+  const containerName = `rcap-acceptance-worker-${itemId.slice(0, 8)}`;
+  const command = [
+    "run", "--rm", "--name", containerName,
+    "-e", "NEXT_PUBLIC_SUPABASE_URL=<acceptance project url>",
+    "-e", "SUPABASE_URL=<acceptance project url>",
+    "-e", "SUPABASE_SERVICE_ROLE_KEY=<redacted>",
+    "-e", `RCAP_WORKER_CLAIM_SECONDS=${WORKER_CLAIM_SECONDS}`,
+    "-e", `RCAP_WORKER_CONTAINER_DIGEST=${WORKER_DIGEST_REF.split("@")[1] ?? WORKER_DIGEST_REF}`,
+    WORKER_DIGEST_REF, "node", "scripts/rcap-render-worker.mjs", "--once"
+  ];
+  const imageId = spawnSync("docker", ["image", "inspect", "--format", "{{.Id}}", WORKER_DIGEST_REF], { encoding: "utf8" });
+
+  const diagnostics = {
+    image: WORKER_DIGEST_REF,
+    immutableDigest: WORKER_DIGEST_REF.split("@")[1] ?? null,
+    localImageId: (imageId.stdout ?? "").trim() || null,
+    containerName,
+    // The sanitized command. The real invocation carries the same flags with
+    // the acceptance URL and the service key in place of the placeholders.
+    command: `docker ${command.join(" ")}`,
+    claimSeconds: WORKER_CLAIM_SECONDS,
+    cycles: []
+  };
+
+  for (let cycle = 1; cycle <= 4; cycle += 1) {
+    const jobBefore = await readJob();
+    const startedAt = new Date().toISOString();
+    // --cidfile is the only way to learn the container id of a --rm run; docker
+    // refuses to start if the path already exists, and may remove it on
+    // teardown, so it is read opportunistically and reported as absent rather
+    // than invented when teardown wins the race.
+    const cidFile = path.join(EVIDENCE_DIR, `.worker-cid-${cycle}`);
+    fs.rmSync(cidFile, { force: true });
+    const run = spawnSync("docker", [
+      "run", "--rm", "--cidfile", cidFile, "--name", `${containerName}-${cycle}`,
+      "-e", `NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}`,
+      "-e", `SUPABASE_URL=${SUPABASE_URL}`,
+      "-e", `SUPABASE_SERVICE_ROLE_KEY=${service}`,
+      "-e", `RCAP_WORKER_CLAIM_SECONDS=${WORKER_CLAIM_SECONDS}`,
+      "-e", `RCAP_WORKER_CONTAINER_DIGEST=${WORKER_DIGEST_REF.split("@")[1] ?? WORKER_DIGEST_REF}`,
+      WORKER_DIGEST_REF,
+      "node", "scripts/rcap-render-worker.mjs", "--once"
+    ], { encoding: "utf8", timeout: 300000, maxBuffer: 32 * 1024 * 1024 });
+    const finishedAt = new Date().toISOString();
+    const jobAfter = await readJob();
+
+    // Parsed out of stdout ONLY, before anything else is looked at: docker's
+    // pull progress goes to stderr, and mixing the two is what destroyed this
+    // diagnostic in run 32185795181.
+    const cycleResult = parseCycleResult(run.stdout);
+    const containerId = fs.existsSync(cidFile) ? fs.readFileSync(cidFile, "utf8").trim() : null;
+    fs.rmSync(cidFile, { force: true });
+    diagnostics.cycles.push({
+      cycle,
+      containerName: `${containerName}-${cycle}`,
+      containerId: containerId ?? "(removed with the container before it could be read)",
+      startedAt,
+      finishedAt,
+      exitCode: run.status,
+      exitSignal: run.signal ?? null,
+      spawnError: run.error ? String(run.error.message) : null,
+      cycleResult,
+      boundary: cycleBoundary(cycleResult),
+      stdout: redact(run.stdout),
+      stderr: redact(run.stderr),
+      jobStateBefore: jobBefore,
+      jobStateAfter: jobAfter
+    });
+    console.log(`  worker cycle ${cycle}: exit=${run.status} signal=${run.signal ?? "none"} boundary=${cycleBoundary(cycleResult)}; job ${jobBefore?.status ?? "(none)"} -> ${jobAfter?.status ?? "(none)"}`);
+    finalJob = jobAfter;
+    if (cycleResult) finalCycleResult = cycleResult;
+
+    if (jobAfter && TERMINAL_SUCCESS.has(jobAfter.status)) break;
+    if (jobAfter && jobAfter.status === "failed" && jobAfter.failure_disposition === "terminal") break;
+    if (cycle === 4) break;
+
+    // A stuck claim is recovered by the lease expiring; a retryable failure by
+    // its backoff elapsing. Wait for whichever the queue itself is waiting on
+    // rather than hammering it.
+    const waitUntil = [jobAfter?.claim_expires_at, jobAfter?.next_attempt_at]
+      .map((value) => (value ? Date.parse(value) : NaN))
+      .filter((value) => Number.isFinite(value));
+    const delayMs = waitUntil.length ? Math.max(...waitUntil) + 3000 - Date.now() : 5000;
+    await sleep(Math.min(Math.max(delayMs, 3000), 90000));
+  }
+
+  fs.writeFileSync(path.join(EVIDENCE_DIR, "worker-diagnostics.json"), `${JSON.stringify(diagnostics, null, 2)}\n`);
+  fs.writeFileSync(
+    path.join(EVIDENCE_DIR, "worker-console.log"),
+    diagnostics.cycles.map((c) =>
+      `===== cycle ${c.cycle} (${c.startedAt} -> ${c.finishedAt}) exit=${c.exitCode} signal=${c.exitSignal} =====\n`
+      + `----- stdout -----\n${c.stdout}\n----- stderr -----\n${c.stderr}\n`).join("\n")
+  );
+
+  // The nine conditions, each read from something that exists rather than from
+  // the absence of a failure. A claimed job is a failure. An exit code is not a
+  // delivery.
+  const job = finalJob;
+  const storagePath = job?.output_storage_path ?? null;
+  const declaredBytes = Number(job?.output_byte_count ?? 0);
+  let stored = { status: "not attempted", bytes: 0 };
+  let validation = null;
+  if (storagePath) {
+    stored = await fetch(`${SUPABASE_URL}/storage/v1/object/rcap-packet-artifacts-private/${storagePath}`, {
+      headers: { apikey: service, Authorization: `Bearer ${service}` }
+    }).then(async (r) => ({ status: r.status, bytes: r.ok ? Buffer.from(await r.arrayBuffer()) : Buffer.alloc(0) }))
+      .catch((error) => ({ status: `unreachable: ${error.message}`, bytes: Buffer.alloc(0) }));
+    if (stored.status === 200 && stored.bytes.length > 0) {
+      // The same validator the worker itself runs: it parses the PDF, reads its
+      // pages, checks the page geometry and recomputes both hashes.
+      validation = await validateRenderOutput(
+        { jobId: job.id, bytes: stored.bytes, containerDigest: job.container_digest ?? "acceptance-read-back" },
+        { expectedPageSize: { width: 612, height: 792 } }
+      );
+    }
+  }
+
+  const conditions = {
+    // The image is addressed by its immutable digest, not by a tag. A tag is an
+    // alias and can be moved; only the sha256 digest names these exact bytes.
+    pulled_by_immutable_digest: /@sha256:[0-9a-f]{64}$/.test(WORKER_DIGEST_REF),
+    // The worker said what it did, and said it about THIS job. A cycle that
+    // claimed nothing, or claimed some other queued job, proves nothing here.
+    cycle_result_emitted: Boolean(finalCycleResult),
+    cycle_result_names_this_job: Boolean(finalCycleResult) && Boolean(job) && finalCycleResult.jobId === job.id,
+    cycle_result_is_finalized: finalCycleResult?.outcome === "finalized",
+    terminal_successful_state: Boolean(job) && TERMINAL_SUCCESS.has(job.status),
+    not_in_flight: Boolean(job) && !NON_TERMINAL.has(job.status),
+    artifact_path_present: typeof storagePath === "string" && storagePath.trim() !== "",
+    nonzero_stored_byte_count: declaredBytes > 0,
+    storage_object_exists: stored.status === 200,
+    exact_bytes_re_read: Boolean(stored.bytes?.length) && stored.bytes.length === declaredBytes,
+    pdf_parses: Boolean(validation?.ok),
+    page_proof: Number(validation?.pageCount ?? 0) > 0 && Number(validation?.pageCount ?? 0) === Number(job?.output_page_count ?? -1),
+    immutable_hash_agrees: Boolean(validation?.ok)
+      && validation.outputSha256 === job?.output_sha256
+      && validation.normalizedOutputSha256 === job?.normalized_output_sha256
+  };
+  const unmet = Object.entries(conditions).filter(([, ok]) => !ok).map(([name]) => name);
+  const lastCycle = diagnostics.cycles.at(-1);
+
+  // The worker's own account and the database must agree. If the cycle says it
+  // finalized and the row is not artifact_validated — or the row is validated
+  // and no cycle claims to have finalized it — something between them is lying
+  // and neither reading may be quoted as the result.
+  const contradiction =
+    finalCycleResult?.outcome === "finalized" && job && !TERMINAL_SUCCESS.has(job.status)
+      ? `the worker reported finalized for ${finalCycleResult.jobId} but the job row is '${job.status}'`
+      : job && TERMINAL_SUCCESS.has(job.status) && finalCycleResult && finalCycleResult.outcome !== "finalized"
+        ? `the job row is '${job.status}' but the last cycle result was ${cycleBoundary(finalCycleResult)}`
+        : null;
+  if (contradiction) {
+    evidence.workerContradiction = contradiction;
+    console.error(`  CONTRADICTION ${contradiction}`);
+  }
+
   record(
     "worker_renders_and_stores_the_artifact",
-    run.status === 0 && Boolean(job) && job.status !== "failed",
-    `${WORKER_DIGEST_REF} exited ${run.status}; the job for this item is '${job?.status ?? "(no job row)"}' after ${job?.attempt_count ?? 0} attempt(s). Tail: ${output.slice(-260)}`
+    unmet.length === 0 && contradiction === null,
+    unmet.length === 0 && contradiction === null
+      ? `${WORKER_DIGEST_REF} drove job ${job.id} to '${job.status}' in ${diagnostics.cycles.length} cycle(s); its own cycle result reads ${cycleBoundary(finalCycleResult)}. ${declaredBytes} bytes at ${storagePath}, re-read and reparsed to ${validation.pageCount} page(s), output_sha256 and normalized_output_sha256 both recomputed from the stored bytes and equal to the values the finalization transaction recorded.`
+      : `job is '${job?.status ?? "(no job row)"}' after ${diagnostics.cycles.length} cycle(s) and ${job?.attempt_count ?? 0} attempt(s). WORKER CYCLE RESULT: ${cycleBoundary(finalCycleResult)}${finalCycleResult ? ` — ${JSON.stringify(finalCycleResult)}` : ""}.${contradiction ? ` CONTRADICTION: ${contradiction}.` : ""} Unmet: ${unmet.join(", ")}. Last cycle exit=${lastCycle?.exitCode} signal=${lastCycle?.exitSignal}; error_code=${job?.error_code ?? "(none)"}; disposition=${job?.failure_disposition ?? "(none)"}; detail=${(job?.last_error_detail ?? "(none)").slice(0, 300)}. Complete stdout and stderr for every cycle are in the uploaded worker-console.log and worker-diagnostics.json.`
   );
-  evidence.worker = { exitCode: run.status, jobStatus: job?.status ?? null };
+
+  evidence.worker = {
+    image: WORKER_DIGEST_REF,
+    immutableDigest: diagnostics.immutableDigest,
+    localImageId: diagnostics.localImageId,
+    claimSeconds: WORKER_CLAIM_SECONDS,
+    cycles: diagnostics.cycles.length,
+    exitCodes: diagnostics.cycles.map((c) => c.exitCode),
+    exitSignals: diagnostics.cycles.map((c) => c.exitSignal),
+    boundaries: diagnostics.cycles.map((c) => c.boundary),
+    cycleResult: finalCycleResult,
+    contradiction,
+    jobStatus: job?.status ?? null,
+    attemptCount: job?.attempt_count ?? null,
+    errorCode: job?.error_code ?? null,
+    failureDisposition: job?.failure_disposition ?? null,
+    conditions,
+    unmetConditions: unmet,
+    storedStatus: stored.status,
+    storedByteCount: stored.bytes?.length ?? 0,
+    validation: validation
+      ? { ok: validation.ok, errorCode: validation.errorCode ?? null, pageCount: validation.pageCount ?? null, byteCount: validation.byteCount ?? null }
+      : null
+  };
+  evidence.artifactPath = storagePath;
 }
 
 // --- 8b. Identity: the job is bound to server-owned person and matter --------
+//
+// Binding happens at ENQUEUE, not at finalization, and this case is written to
+// the boundary that actually exists. Phase 53 creates a consumer job with
+// person_id, matter_id and consumer_auth_user_id set in the same INSERT — there
+// is deliberately no later statement that attaches them — and phase 55's
+// BEFORE INSERT guard refuses the row outright unless those bindings match the
+// paid matter. So a bound job is provable the moment the 202 comes back.
+//
+// The previous version compared the job against consumer_packet_payment_
+// consumption, which phase 52 writes inside finalize_packet_render_job. That is
+// a post-validation accounting row: before an artifact validates it is correct
+// for it to be absent, and the LEFT JOIN then produced (null, null) and read as
+// a binding failure. This case no longer depends on the worker at all.
 {
   const rows = await sql(`
-    select j.person_id, j.matter_id, j.output_storage_path, j.output_sha256, j.status,
-           c.person_id as consumption_person_id, c.matter_id as consumption_matter_id,
-           c.first_render_job_id, c.provider_event_id
+    select j.id as job_id, j.status, j.person_id, j.matter_id, j.partner_id,
+           j.consumer_briefcase_item_id, j.consumer_auth_user_id,
+           b.user_id as item_owner, b.payment_person_id, b.payment_matter_id,
+           b.payment_product_id, b.provider_event_id,
+           public.consumer_matter_id_for_briefcase_item(b.id) as canonical_matter_id
       from public.packet_render_jobs j
-      left join public.consumer_packet_payment_consumption c
-        on c.consumer_briefcase_item_id = j.briefcase_item_id
-     where j.briefcase_item_id = '${itemId}'
+      join public.consumer_briefcase_items b on b.id = j.consumer_briefcase_item_id
+     where j.briefcase_item_id = '${sqlText(itemId)}'
      order by j.created_at desc limit 1
   `);
   const row = Array.isArray(rows.json) ? rows.json[0] : null;
-  // Both must be present AND agree. A job carrying a person the entitlement
-  // does not name would mean the packet was rendered for one identity and paid
-  // for by another.
-  const bound = Boolean(row?.person_id) && Boolean(row?.matter_id)
-    && row.person_id === row.consumption_person_id
-    && String(row.matter_id) === String(row.consumption_matter_id);
+  const same = (left, right) => left !== null && left !== undefined && String(left) === String(right);
+
+  // The phase-55 authority probe, asked directly: does this exact
+  // (item, user, product, person, matter) tuple authorize a paid render? And
+  // the negative controls — a substituted person and a substituted matter must
+  // both be refused, or the binding is decorative.
+  const authority = await sql(`
+    select
+      (select valid from public.consumer_packet_payment_authority(
+         '${sqlText(itemId)}', '${sqlText(A.id)}', public.expungement_packet_product_id(),
+         '${sqlText(row?.person_id ?? "00000000-0000-0000-0000-000000000000")}',
+         '${sqlText(row?.matter_id ?? "00000000-0000-0000-0000-000000000000")}')) as exact_valid,
+      (select reason from public.consumer_packet_payment_authority(
+         '${sqlText(itemId)}', '${sqlText(A.id)}', public.expungement_packet_product_id(),
+         '${sqlText(row?.person_id ?? "00000000-0000-0000-0000-000000000000")}',
+         '${sqlText(row?.matter_id ?? "00000000-0000-0000-0000-000000000000")}')) as exact_reason,
+      (select valid from public.consumer_packet_payment_authority(
+         '${sqlText(itemId)}', '${sqlText(A.id)}', public.expungement_packet_product_id(),
+         '11111111-1111-4111-8111-111111111111',
+         '${sqlText(row?.matter_id ?? "00000000-0000-0000-0000-000000000000")}')) as other_person_valid,
+      (select valid from public.consumer_packet_payment_authority(
+         '${sqlText(itemId)}', '${sqlText(A.id)}', public.expungement_packet_product_id(),
+         '${sqlText(row?.person_id ?? "00000000-0000-0000-0000-000000000000")}',
+         '22222222-2222-4222-8222-222222222222')) as other_matter_valid,
+      (select valid from public.consumer_packet_payment_authority(
+         '${sqlText(itemId)}', '${sqlText(B.id)}', public.expungement_packet_product_id(),
+         '${sqlText(row?.person_id ?? "00000000-0000-0000-0000-000000000000")}',
+         '${sqlText(row?.matter_id ?? "00000000-0000-0000-0000-000000000000")}')) as other_user_valid
+  `);
+  const auth = Array.isArray(authority.json) ? authority.json[0] : null;
+  const isFalse = (value) => value === false || value === "f" || value === "false";
+  const isTrue = (value) => value === true || value === "t" || value === "true";
+
+  const bound = Boolean(row)
+    && row.partner_id === null
+    && same(row.person_id, row.payment_person_id)
+    && same(row.matter_id, row.payment_matter_id)
+    && same(row.matter_id, row.canonical_matter_id)
+    && same(row.consumer_auth_user_id, row.item_owner)
+    && same(row.consumer_briefcase_item_id, itemId)
+    && isTrue(auth?.exact_valid)
+    && isFalse(auth?.other_person_valid)
+    && isFalse(auth?.other_matter_valid)
+    && isFalse(auth?.other_user_valid);
   record(
     "person_and_matter_are_bound_on_the_render_job",
     bound,
-    `render job person_id=${row?.person_id ?? "(null)"} matter_id=${row?.matter_id ?? "(null)"}; the payment consumption row names person_id=${row?.consumption_person_id ?? "(null)"} matter_id=${row?.consumption_matter_id ?? "(null)"} against Stripe event ${row?.provider_event_id ?? "(none)"} — these must agree, or the packet was rendered for one identity and paid for by another`
+    `render job ${row?.job_id ?? "(none)"} carries person_id=${row?.person_id ?? "(null)"} matter_id=${row?.matter_id ?? "(null)"} consumer_auth_user_id=${row?.consumer_auth_user_id ?? "(null)"}; the paid item names payment_person_id=${row?.payment_person_id ?? "(null)"} payment_matter_id=${row?.payment_matter_id ?? "(null)"} owner=${row?.item_owner ?? "(null)"}, and the database derives canonical matter ${row?.canonical_matter_id ?? "(null)"}. The phase-55 authority probe answers valid=${auth?.exact_valid ?? "(none)"} (${auth?.exact_reason ?? "no reason"}) for that exact tuple, and refuses every substitution: another person ${auth?.other_person_valid ?? "(none)"}, another matter ${auth?.other_matter_valid ?? "(none)"}, another user ${auth?.other_user_valid ?? "(none)"} — all of which must be false. Written in the enqueue INSERT and guarded there, so this is provable without any artifact; the accounting row finalization writes is asserted separately.`
   );
-  evidence.identityBinding = row ?? null;
-  evidence.artifactPath = row?.output_storage_path ?? null;
+  evidence.identityBinding = { job: row ?? null, authority: auth ?? null };
 }
 
 // --- 8c. The artifact is in PRIVATE storage ----------------------------------
 {
   const artifactPath = evidence.artifactPath;
-  const service = await (async () => {
-    const res = await fetch(`https://api.supabase.com/v1/projects/${PROJECT_REF}/api-keys?reveal=true`, {
-      headers: { Authorization: `Bearer ${SUPABASE_ACCESS_TOKEN}` }
-    });
-    const list = await res.json().catch(() => []);
-    return Array.isArray(list) ? list.find((k) => k.name === "service_role")?.api_key ?? "" : "";
-  })();
+  const service = await serviceRoleKey();
 
   const bucket = "rcap-packet-artifacts-private";
   // Anonymous, over the public object path. A 200 here would mean a paid
@@ -785,37 +1418,107 @@ const completionEvent = {
       }).then(async (r) => ({ status: r.status, bytes: r.ok ? (await r.arrayBuffer()).byteLength : 0 })).catch(() => ({ status: "unreachable", bytes: 0 }))
     : { status: "no artifact path recorded", bytes: 0 };
 
+  // Its own question, not an echo of the worker case: the worker case asks
+  // whether the finalized artifact identity is real, this one asks whether the
+  // object is private. Both need actual stored bytes, so a run with no artifact
+  // fails both — but for stated, separate reasons.
   record(
     "artifact_is_stored_privately_and_re_readable",
-    Boolean(artifactPath) && publicRead >= 400 && serviceRead.status === 200 && serviceRead.bytes > 0,
-    `anonymous read of the object path = ${publicRead} (must refuse); an authorized re-read returned ${serviceRead.status} with ${serviceRead.bytes} bytes — written once and readable back, but not by the public`
+    typeof artifactPath === "string" && artifactPath.trim() !== ""
+      && typeof publicRead === "number" && publicRead >= 400
+      && serviceRead.status === 200 && serviceRead.bytes > 0,
+    `artifact path ${artifactPath ?? "(none recorded)"}: anonymous read of the public object path = ${publicRead} (must refuse); an authorized re-read returned ${serviceRead.status} with ${serviceRead.bytes} bytes. Written once, readable back by an authorized reader, and not readable by the public.`
   );
   evidence.storage = { path: artifactPath, anonymous: publicRead, authorized: serviceRead };
 }
 
 // --- 9. Delivery: the owner, and nobody else ---------------------------------
 {
-  const download = `/api/expungement-ai/packet/download?briefcaseItemId=${itemId}`;
-  const owner = await callApp(download, { cookie: A.cookie });
-  const stranger = await callApp(download, { cookie: B.cookie });
-  const anonymous = await callApp(download);
-  const strangerRefused = typeof stranger.status === "number" && stranger.status >= 400;
-  const anonRefused = typeof anonymous.status === "number" && anonymous.status >= 400;
+  // The RCAP artifact is delivered by /api/rcap/packets/<jobId>/download, which
+  // authorizes the participant, re-reads the stored object, checks its identity
+  // against the finalized hashes and streams PDF bytes.
+  //
+  // This case used to call /api/expungement-ai/packet/download instead. That is
+  // the legacy DTC route: getConsumerPacketDownload serves artifactRefs.text and
+  // requires packetStatus === "ready", so it can never serve a render-job
+  // artifact and answers 409 not-ready for one. The owner's 409 in run
+  // 32185795181 was that route answering correctly about a packet it does not
+  // own — the case was pointed at the wrong surface, and B's 404 and the
+  // anonymous 307 were answers about the legacy route too.
+  const jobId = finalJob?.id ?? evidence.render?.jobId ?? null;
+  const download = `/api/rcap/packets/${jobId}/download`;
+  const owner = jobId ? await callApp(download, { cookie: A.cookie }) : { status: "no render job to download", bytes: Buffer.alloc(0), location: null };
+  const stranger = jobId ? await callApp(download, { cookie: B.cookie }) : { status: "no render job to download", bytes: Buffer.alloc(0), location: null };
+  const anonymous = jobId ? await callApp(download) : { status: "no render job to download", bytes: Buffer.alloc(0), location: null };
+  // The legacy consumer route is probed too, but only as evidence: it must not
+  // hand a stranger anything either, and it is not where this artifact lives.
+  const legacy = await callApp(`/api/expungement-ai/packet/download?briefcaseItemId=${itemId}`, { cookie: B.cookie });
+
+  // Refusals alone are not delivery. The old verdict ignored the owner
+  // entirely, so a run in which NOBODY could download — including the person
+  // who paid — passed this case on the strength of two 4xx answers. Delivery is
+  // proven by the owner receiving the validated artifact and nobody else
+  // receiving anything.
+  const ownerBytes = typeof owner.status === "number" && owner.status === 200 ? owner.bytes ?? Buffer.alloc(0) : Buffer.alloc(0);
+  const ownerPdf = ownerBytes.length > 0 && ownerBytes.subarray(0, 5).toString("latin1") === "%PDF-";
+  const ownerPdfContentType = /application\/pdf/i.test(owner.contentType ?? "");
+  const ownerHash = ownerBytes.length > 0 ? crypto.createHash("sha256").update(ownerBytes).digest("hex") : null;
+  const ownerServed = ownerPdf && ownerPdfContentType
+    && ownerHash === (evidence.worker?.validation ? finalJob?.output_sha256 : null);
+  // A sign-in redirect is a refusal; a redirect to anywhere else is not, and
+  // saying which one it was is the difference between evidence and a number.
+  const refused = (response) => {
+    if (typeof response.status !== "number") return false;
+    if (response.status >= 400) return true;
+    if (response.status >= 300 && response.status < 400) {
+      return typeof response.location === "string" && /sign-?in|login|auth/i.test(response.location);
+    }
+    return false;
+  };
   record(
     "delivery_serves_the_owner_and_refuses_everyone_else",
-    strangerRefused && anonRefused,
-    `owner A=${owner.status}; a different authenticated participant B=${stranger.status} (must refuse); anonymous=${anonymous.status} (must refuse). B paid for nothing and must receive nothing.`
+    ownerServed && refused(stranger) && refused(anonymous) && refused(legacy),
+    `GET ${download} — owner A=${owner.status} content-type=${owner.contentType ?? "(none)"} carrying ${ownerBytes.length} bytes (PDF header ${ownerPdf}, sha256 ${ownerHash ? `${ownerHash.slice(0, 16)}…` : "(none)"} vs the finalized ${finalJob?.output_sha256 ? `${String(finalJob.output_sha256).slice(0, 16)}…` : "(no finalized artifact)"}); a different authenticated participant B=${stranger.status}${stranger.location ? ` -> ${stranger.location}` : ""} (must refuse); anonymous=${anonymous.status}${anonymous.location ? ` -> ${anonymous.location}` : ""} (must refuse); the legacy consumer route answers B ${legacy.status} (must also refuse). The owner must receive the exact validated artifact; B paid for nothing and must receive nothing.`
   );
-  evidence.delivery = { owner: owner.status, stranger: stranger.status, anonymous: anonymous.status };
+  evidence.delivery = {
+    route: download,
+    owner: owner.status,
+    ownerByteCount: ownerBytes.length,
+    ownerSha256: ownerHash,
+    stranger: stranger.status,
+    strangerLocation: stranger.location ?? null,
+    anonymous: anonymous.status,
+    anonymousLocation: anonymous.location ?? null,
+    legacyRouteForStranger: legacy.status
+  };
 }
 
 // --- 10. Replay: Stripe retries, and must change nothing ---------------------
 {
-  const before = await sql(`
+  // Idempotency is a statement about counts before and after, and it is true or
+  // false whether or not anything ever rendered. The old verdict additionally
+  // demanded exactly one entitlement, which made it a test of finalization: the
+  // consumption row is written inside finalize_packet_render_job, so before an
+  // artifact validates a count of zero is the CORRECT answer and the case
+  // failed while reporting the very numbers that prove replay changed nothing.
+  //
+  // Provider event records, payment records, consumption rows, entitlements and
+  // render jobs are all counted on both sides. None of them may move.
+  const counts = () => sql(`
     select
-      (select count(*) from public.packet_render_jobs where briefcase_item_id = '${itemId}') as jobs,
-      (select count(*) from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${itemId}') as entitlements
+      (select count(*) from public.packet_render_jobs where briefcase_item_id = '${sqlText(itemId)}') as jobs,
+      (select count(*) from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${sqlText(itemId)}') as entitlements,
+      (select count(*) from public.packet_credit_ledger l
+        join public.packet_render_jobs j on j.id = l.render_job_id
+       where j.briefcase_item_id = '${sqlText(itemId)}') as ledger_events,
+      (select count(*) from public.consumer_briefcase_items
+        where id = '${sqlText(itemId)}' and payment_status = 'paid') as paid_payments,
+      (select count(*) from public.consumer_briefcase_items c
+        where c.provider_event_id is not null
+          and c.provider_event_id = (select provider_event_id from public.consumer_briefcase_items where id = '${sqlText(itemId)}')) as provider_event_records,
+      (select coalesce(provider_event_id, '(none)') from public.consumer_briefcase_items where id = '${sqlText(itemId)}') as provider_event_id
   `);
+  const before = await counts();
   const b = Array.isArray(before.json) ? before.json[0] : null;
 
   // Byte-identical redelivery of the SAME event id, correctly signed with a
@@ -827,20 +1530,17 @@ const completionEvent = {
     method: "POST", body: replay.body, headers: { "stripe-signature": replay.header }
   });
 
-  const after = await sql(`
-    select
-      (select count(*) from public.packet_render_jobs where briefcase_item_id = '${itemId}') as jobs,
-      (select count(*) from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${itemId}') as entitlements
-  `);
+  const after = await counts();
   const a = Array.isArray(after.json) ? after.json[0] : null;
 
-  const unchanged = b && a && String(a.jobs) === String(b.jobs) && String(a.entitlements) === String(b.entitlements);
+  const TRACKED = ["jobs", "entitlements", "ledger_events", "paid_payments", "provider_event_records", "provider_event_id"];
+  const moved = (b && a) ? TRACKED.filter((key) => String(b[key]) !== String(a[key])) : TRACKED;
   record(
     "event_replay_creates_no_second_entitlement_or_render_job",
-    replayRes.status === 200 && unchanged && String(a?.entitlements) === "1",
-    `replaying the same signed event returned ${replayRes.status} (outcome=${replayRes.json?.outcome ?? "none"}); render jobs ${b?.jobs} → ${a?.jobs}, payment entitlements ${b?.entitlements} → ${a?.entitlements}. Exactly one entitlement must exist and no second job may appear — a retry that charged twice or rendered twice would be indistinguishable from success without this count.`
+    replayRes.status === 200 && moved.length === 0,
+    `replaying the same signed event returned ${replayRes.status} (outcome=${replayRes.json?.outcome ?? "none"}); ${TRACKED.map((key) => `${key} ${b?.[key] ?? "?"} → ${a?.[key] ?? "?"}`).join(", ")}. ${moved.length === 0 ? "Nothing moved" : `MOVED: ${moved.join(", ")}`}. A retry that charged twice, entitled twice or queued a second render would be indistinguishable from success without these counts; whether the first job produced an artifact is a different question and is not asserted here.`
   );
-  evidence.replay = { status: replayRes.status, outcome: replayRes.json?.outcome ?? null, before: b, after: a };
+  evidence.replay = { status: replayRes.status, outcome: replayRes.json?.outcome ?? null, before: b, after: a, moved };
 }
 
 // Leave the acceptance database as it was found.
