@@ -3,7 +3,7 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 135,
+    "keep_available": 138,
     "wired": 113,
     "fix_then_wire": 27,
     "retire": 1,
@@ -1361,6 +1361,12 @@
       "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
+    "test-rcap-hosted-acceptance-verdict-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Proves each part of the hosted acceptance verdict guard is load-bearing. Nineteen mutations - record() stops counting arguments, accepts anything truthy, allows a case to be recorded twice, accepts an empty observation, a real call site regains a fourth argument, the worker verdict reads a process exit code again, a claimed job stops counting as in flight, the cycle result is parsed from stdout and stderr together, a worker account contradicting the database is tolerated, the claim duration reverts to the 600-second worker default, the immutable-digest condition is dropped, the binding case loses its substitution negative controls, the owner content type stops being checked, the jurisdiction scope disappears from the evidence, the worker output is concatenated and cut to a tail again, the binding case joins the finalization-written accounting row again, the replay case demands an entitlement only finalization writes, delivery passes on refusals alone, and delivery is pointed back at the legacy consumer route - each turn verify-rcap-hosted-acceptance-verdicts red for its own named check, with signal-safe byte restoration. Blocking alongside that verifier in rcap-all50-handoff.yml for the same image-input reason.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
+    },
     "test-rcap-image-fingerprint-mutations.mjs": {
       "disposition": "keep_available",
       "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails; kept out of the npm test chain string because package.json is an image input. 11 mutations - file drift, missing input, src/ and scripts/lib/ working-tree change, omitted fingerprint key, silent algorithm change, checkpoint tree substitution, stale base, rewritten hash, hand edit, waived equivalence - each turns verify-rcap-image-input-fingerprint red for its named reason, with signal-safe byte restoration.",
@@ -1485,6 +1491,12 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-consumer-lifecycle-boundaries.mjs": {
+      "disposition": "keep_available",
+      "reason": "Proves WHERE each consumer record is created, on an ephemeral PostgreSQL 16 cluster carrying the authorized migration sequence. Fourteen checks walk one consumer matter from checkout to finalized artifact: the canonical matter id is derived from the item, checkout stores the binding the webhook must match, the server-only writer records the payment and creates NO consumption row or ledger event, enqueue binds person, matter and owner in the INSERT itself and still creates none, claim/start_packet_render/start_packet_validation each accept the state before them (so a worker that leaves a job in 'claimed' is not being refused by this contract), finalization writes the consumption row and the credit ledger event with the same identity as the job, and a reported failure leaves the job 'failed' rather than 'claimed' and consumes nothing. The hosted acceptance matrix had guessed two of these boundaries and turned one unfinalized render into four separate-looking failures; this is the contract that matrix is now written against. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
+    },
     "verify-rcap-consumer-person-namespace.mjs": {
       "disposition": "wired",
       "reason": "Proves the fourteen properties the reserved consumer person namespace depends on, against a real cluster carrying 26-54. N1-N8 cover namespace behaviour; R1-R6 cover the role, tenant, reporting, entitlement, attribution and isolation dimensions Phase 54 enforces in the database. R6 is a positive control: the sanctioned server-side path still resolves consumer persons after the lockdown.",
@@ -1547,6 +1559,12 @@
       "reason": "Lane E's corrected-input proof: 43 assertions over the rendered hard-form artifacts (the F2 correction wave). Wired by the captain in window 2026-08-12-w3.",
       "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-hosted-acceptance-verdicts.mjs": {
+      "disposition": "keep_available",
+      "reason": "Proves the hosted Stripe payment matrix cannot report a verdict it has not earned. The matrix itself needs Stripe, Vercel and the acceptance project, but its verdict function does not: this extracts record() from the shipped bytes and executes it, requiring it to throw on a string, an empty string, a number, zero, an object, an array, null, undefined, a Boolean wrapper, one, two or four arguments, an empty case id and an empty observation, while still accepting real booleans and refusing a second verdict for the same case. It then scans every call site with a string-and-comment-aware masker (the four-argument call that made a case incapable of failing was invisible to node --check and to eslint), requires the worker case to be the conjunction of nine delivery conditions rather than a process exit code, requires queued/claimed/rendering/validating all to be failures, requires both worker streams to be captured in full and written to the uploaded evidence, and requires the binding, replay and delivery cases to stand on their own evidence rather than on finalization. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
+      "decidedBy": "recorded_decision",
+      "observedStatus": "added_since_audit"
     },
     "verify-rcap-hosted-checkout-gate.mjs": {
       "disposition": "keep_available",
