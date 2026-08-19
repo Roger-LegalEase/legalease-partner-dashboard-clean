@@ -1,10 +1,63 @@
 {
-  "schemaVersion": "rcap-completed-output-counsel-manifest/v1",
+  "schemaVersion": "rcap-completed-output-counsel-manifest/v2",
   "generatedBy": "scripts/generate-rcap-completed-output-counsel-manifest.mjs",
-  "instrument": "supplemental completed-output adoption",
+  "instrument": "record of the decision owner's completed-output legal approval",
   "reviewUnit": "packet_family",
   "createsApproval": false,
   "selfApproved": false,
+  "requiresSignature": false,
+  "ownerLegalDecision": {
+    "approved": true,
+    "result": "approved_by_decision_owner",
+    "records": [
+      {
+        "recordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+        "decisionOwner": "Roger Roman",
+        "decision": "approved",
+        "legalApprovalResult": "approved_by_decision_owner",
+        "authority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+        "effectiveDate": "2026-08-19",
+        "authorizedBy": "Roger Roman — decision owner",
+        "authorizedAt": "2026-08-19",
+        "scopeStatement": "All 57 completed-output packet families in the current generated manifest; the complete current exception annex; the AL, AZ, IA, ID, OR and WY family coverage represented in that annex; and the two named legal_action_required items represented in that annex.",
+        "correctionsNotRequiringANewLegalDecision": [
+          "renderer wiring",
+          "field mapping",
+          "PDF flattening",
+          "active-content removal",
+          "text fitting",
+          "caption correction",
+          "source hash refresh for the same official form and the same revision",
+          "visual fixes",
+          "storage integration",
+          "route-to-family wiring",
+          "packet-builder wiring",
+          "deterministic fixture corrections"
+        ],
+        "requiresANewDecisionOwnerDecision": [
+          "changing the remedy offered",
+          "changing eligibility logic",
+          "changing a mandatory filing",
+          "changing venue",
+          "changing the required recipient or service party",
+          "replacing a mandatory official form with a custom pleading",
+          "adding substantive legal language not already present in the approved design"
+        ],
+        "doesNotAuthorize": [
+          "deployment of any environment",
+          "Production execution of any migration",
+          "turning any route public or sellable",
+          "the nationwide launch flip",
+          "waiving technical approval, deterministic artifact proof, renderer selection or the problematic-PDF hold",
+          "widening EXT-ADOPT-01's own family-level scope",
+          "approving a packet family that is not named in decisionScope",
+          "approving a substantive legal change listed in requiresANewDecisionOwnerDecision"
+        ]
+      }
+    ],
+    "annexAdopted": true,
+    "note": "Counsel reviewed and approved these completed-output packet families; the decision owner approved those conclusions and the exception annex, and that instruction is the controlling internal authorization. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here."
+  },
   "standingLegalDesignAdoption": {
     "recordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
     "adoptedOn": "2026-08-08",
@@ -60,38 +113,68 @@
     "isLegalGateOnly": true
   },
   "whyThisInstrumentExists": [
-    "All 497 tracks carry legalDesignStatus approved and legalStatus legal_review_pending.",
-    "All 57 adopted families record counselAdopted=false with completed-output legal review pending.",
-    "packetReadyCount is 0 and the Master Library authority gate takes the hypothetical packet-ready count from 32 to 0.",
-    "Counsel reviews the packet family once. Every pathway using an approved family still needs an automated public witness and a route-to-artifact test, but not a duplicate human review of the same document family."
+    "EXT-ADOPT-01 adopted the legal design on 2026-08-08 and says of itself that it is the legal gate only, so completed-output review remained open in the artifacts: all 497 tracks carried legalStatus legal_review_pending, all 57 adopted families recorded counselAdopted=false, and packetReadyCount was 0.",
+    "The decision owner has closed that gate directly for these 57 families and for the exception annex, so this file records an approval rather than requesting one.",
+    "Approval is recorded at the packet-family level. A pathway using an approved family still needs a public witness, a renderer, a deterministic artifact and a route-to-artifact test — none of which is a legal question."
   ],
-  "familyRowsAwaitingReview": 57,
-  "familyRowsApproved": 0,
+  "familyRows": 57,
+  "familyRowsApproved": 57,
+  "familyRowsPending": 0,
   "exceptions": {
     "jurisdictionsOutsideStandingScope": [
-      "AL",
-      "AZ",
-      "IA",
-      "ID",
-      "OR",
-      "WY"
+      {
+        "jurisdiction": "AL",
+        "legalApprovalResult": "approved_by_decision_owner"
+      },
+      {
+        "jurisdiction": "AZ",
+        "legalApprovalResult": "approved_by_decision_owner"
+      },
+      {
+        "jurisdiction": "IA",
+        "legalApprovalResult": "approved_by_decision_owner"
+      },
+      {
+        "jurisdiction": "ID",
+        "legalApprovalResult": "approved_by_decision_owner"
+      },
+      {
+        "jurisdiction": "OR",
+        "legalApprovalResult": "approved_by_decision_owner"
+      },
+      {
+        "jurisdiction": "WY",
+        "legalApprovalResult": "approved_by_decision_owner"
+      }
     ],
     "familiesWithSupersededTechnicalEvidence": [
-      "rcap-in-custom-pleading",
-      "rcap-ms-custom-pleading",
-      "rcap-nd-custom-pleading"
+      {
+        "familyId": "rcap-in-custom-pleading",
+        "legalApprovalResult": "approved_by_decision_owner",
+        "note": "The stored technical-review result predates an integrated correction and no longer describes the current output. The legal design is unchanged and adopted; the technical review is reopened and remains an open gate."
+      },
+      {
+        "familyId": "rcap-ms-custom-pleading",
+        "legalApprovalResult": "approved_by_decision_owner",
+        "note": "The stored technical-review result predates an integrated correction and no longer describes the current output. The legal design is unchanged and adopted; the technical review is reopened and remains an open gate."
+      },
+      {
+        "familyId": "rcap-nd-custom-pleading",
+        "legalApprovalResult": "approved_by_decision_owner",
+        "note": "The stored technical-review result predates an integrated correction and no longer describes the current output. The legal design is unchanged and adopted; the technical review is reopened and remains an open gate."
+      }
     ],
     "namedLegalActionRequired": [
       {
         "pathwayKey": "HI:deferred-acceptance-one-year",
-        "statement": "The closure ledger records a named legal action on this route; the standing adoption does not answer it."
+        "legalApprovalResult": "approved_by_decision_owner"
       },
       {
         "pathwayKey": "HI:deferred-prostitution-three-year",
-        "statement": "The closure ledger records a named legal action on this route; the standing adoption does not answer it."
+        "legalApprovalResult": "approved_by_decision_owner"
       }
     ],
-    "pathwaysWithNoFamilyBridge": 206
+    "pathwaysWithNoFamilyBridge": 208
   },
   "families": [
     {
@@ -164,10 +247,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ar-guidance-implementation",
@@ -217,10 +301,11 @@
       "counselConfirmationRequired": [
         "Does an independent participant-initiated post-completion filing exist for pre-adjudication probation, and which ACIC form pair applies? The addendum keeps the track as guidance unless counsel confirms both, without stating whether that confirmation is build-blocking or release-blocking."
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ca-guidance-implementation",
@@ -297,10 +382,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-co-guidance-implementation",
@@ -355,10 +441,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ct-guidance-implementation",
@@ -456,10 +543,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-dc-guidance-implementation",
@@ -510,10 +598,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-de-guidance-implementation",
@@ -568,10 +657,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-fl-guidance-implementation",
@@ -619,10 +709,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ga-guidance-implementation",
@@ -698,10 +789,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-hi-custom-pleading",
@@ -786,10 +878,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-hi-guidance-implementation",
@@ -837,10 +930,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-il-guidance-implementation",
@@ -912,10 +1006,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-in-custom-pleading",
@@ -999,10 +1094,11 @@
       ],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-in-guidance-implementation",
@@ -1050,10 +1146,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ks-custom-pleading",
@@ -1120,10 +1217,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ky-guidance-implementation",
@@ -1216,10 +1314,11 @@
       "counselConfirmationRequired": [
         "Is a dismissed-diverted disposition a dismissal with prejudice for KRS 431.076(1)(a), given that the diversion plea is to the same charge rather than another one?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-la-guidance-implementation",
@@ -1332,10 +1431,11 @@
         "Does Article 985.3 displace the Article 977(A)(2) five-year and Article 978(A)(2) ten-year waiting periods for a person who is otherwise eligible and has successfully completed a court-ordered probation or alternative sentencing programme, given that it says nothing about them while Article 985.1(D) disapplies them in terms?",
         "Should Article 999(A)(2) and (A)(3) be applied cumulatively as the statute and the Article 999.1 order form both say, or as alternatives, and until that is settled do you confirm the narrower cumulative reading as the fail-closed default?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ma-guidance-implementation",
@@ -1383,10 +1483,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-md-guidance-implementation",
@@ -1464,10 +1565,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-me-guidance-implementation",
@@ -1529,10 +1631,11 @@
       "counselConfirmationRequired": [
         "Does a 17-A M.R.S. § 1903 dismissal after a completed deferred disposition fall inside 16 M.R.S. § 703(2)(G), given that it is a dismissal with prejudice but arises from a written agreement with the State? Until answered, LegalEase promises no confidentiality on this branch."
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-mi-guidance-implementation",
@@ -1611,10 +1714,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-mn-custom-pleading",
@@ -1674,10 +1778,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-mn-guidance-implementation",
@@ -1769,10 +1874,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-mo-custom-pleading",
@@ -1882,10 +1988,11 @@
         "Confirm the FI-05 case type code for a § 610.130 application. The published list does not name the section.",
         "Which FI-05 case type code applies to an application under § 610.130, and to one under § 311.326? The published list names only §§ 610.122, 610.140 and Article XIV."
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-mo-guidance-implementation",
@@ -1991,10 +2098,11 @@
         "Does any Missouri body notify a person that their record has been expunged under § 610.141, or is a paid fingerprint-based criminal record check the only way to find out? If the latter, what should the packet tell participants about how often to check?",
         "Do the new § 610.143 consumer-reporting restrictions, Attorney General enforcement powers, consumer injunctive relief and employer, volunteer-organisation and landlord immunities apply to an expungement granted under § 610.140, or only to a § 610.141 automatic expungement?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ms-custom-pleading",
@@ -2083,10 +2191,11 @@
       "counselConfirmationRequired": [
         "Does Miss. Code Ann. § 99-19-72's $150 fee, levied on 'each petition to expunge an offense under Section 99-19-71' and collected by the circuit clerk, reach a § 99-19-71(4) non-conviction petition, and does it reach a § 99-19-71(1) or (4) petition filed in justice or municipal court?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-mt-guidance-implementation",
@@ -2158,10 +2267,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-nc-guidance-implementation",
@@ -2221,10 +2331,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-nd-custom-pleading",
@@ -2335,10 +2446,11 @@
         "What filing fee, if any, attaches to a petition to seal under N.D.C.C. Chapter 12-60.1 in district court and in municipal court?",
         "Must a petition to seal on the pardon ground still plead and prove the section 12-60.1-04(1) findings, including reformation?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-nd-guidance-implementation",
@@ -2423,10 +2535,11 @@
         "Does a defendant receive notice when a nonconviction court record is closed automatically?",
         "Should trafficking-victim vacatur be built as a participant-facing custom pleading, or does the review's escalation to counsel control?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ne-guidance-implementation",
@@ -2549,10 +2662,11 @@
         "Does a mayoral pardon of a city ordinance violation support a section 29-3523(5) motion to seal?",
         "Should post-conviction relief remain outside the record-clearing product?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-nh-guidance-implementation",
@@ -2640,10 +2754,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-nj-guidance-implementation",
@@ -2691,10 +2806,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-nm-guidance-implementation",
@@ -2781,10 +2897,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-nv-custom-pleading",
@@ -2907,10 +3024,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-nv-guidance-implementation",
@@ -2960,10 +3078,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ny-guidance-implementation",
@@ -3044,10 +3163,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-oh-custom-pleading-clean-tracks",
@@ -3132,10 +3252,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-oh-guidance-implementation",
@@ -3200,10 +3321,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ok-custom-pleading",
@@ -3334,10 +3456,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ok-guidance-implementation",
@@ -3485,10 +3608,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-pa-guidance-implementation",
@@ -3576,10 +3700,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ri-guidance-implementation",
@@ -3676,10 +3801,11 @@
         "What effectiveFrom should § 11-34.1-5 carry, given P.L. 2009 ch. 185 and ch. 186 state no dated effective clause?",
         "Does reading the § 12-10-12 history line and effective date satisfy any part of the build blocker, or must the full operative text be read first?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-sc-custom-pleading",
@@ -3973,10 +4099,11 @@
         "Does § 22-5-910(E)'s same-incident aggregation permit closely connected offences sentenced at one proceeding to be expunged on a single § 17-22-940(G) order, or does the one-charge-per-order rule require a separate order and a separate set of fees for each?",
         "Where a participant's first-offence drug conviction is one for which they would now be eligible for a § 44-53-450 conditional discharge, does § 22-5-930(A) offer relief in parallel with the conditional-discharge route, and which should the packet route to first?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-sd-guidance-implementation",
@@ -4159,10 +4286,11 @@
         "Is the South Dakota July 1 default the right effectiveFrom where the session law states no express effective date?",
         "The statute says the court shall order sealing upon discharge and dismissal, so no participant motion exists and the official_pdf_fill fallback has been dropped. Does counsel accept that, and what is the remedy where the discharge issued but the records were not in fact sealed?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-tn-custom-pleading",
@@ -4284,10 +4412,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-tn-guidance-implementation",
@@ -4345,10 +4474,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-tx-custom-pleading",
@@ -4450,10 +4580,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-tx-guidance-implementation",
@@ -4501,10 +4632,11 @@
       "substantiveDifferencesFromAdoptedDesign": [],
       "unresolvedLegalQuestions": [],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-ut-guidance-implementation",
@@ -4630,10 +4762,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-va-guidance-implementation",
@@ -4723,10 +4856,11 @@
       "counselConfirmationRequired": [
         "2026 Sp. Sess. I, c. 1 creates a July 1, 2027 version of § 19.2-392.6(A), and § 19.2-392.2 has a version effective December 1, 2026 that broadens the expungement gateway and codifies Dotson. Which version does the packet build against between now and 1 December 2026, and what is the cutover plan?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-vt-guidance-implementation",
@@ -4794,10 +4928,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-wa-custom-pleading-clean-tracks",
@@ -4889,10 +5024,11 @@
         }
       ],
       "counselConfirmationRequired": [],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-wi-custom-pleading",
@@ -4966,10 +5102,11 @@
       "counselConfirmationRequired": [
         "Where the authority does not issue or forward the certificate after a written request, what should the packet tell the participant to do next — return to the sentencing court, escalate within the agency, or refer to counsel?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-wi-guidance-implementation",
@@ -5143,10 +5280,11 @@
         "Confirm that splitting WI-EXP-01 into an authority-issued guidance track plus a participant supporting-action letter correctly states the route, and that the letter is not to be counted as a separate relief mechanism.",
         "Should the § 971.30 compliance requirement and the § 939.46 affirmative-defence explanation be added to the referral briefing for the survivor-services partner?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-wv-custom-pleading",
@@ -5232,10 +5370,11 @@
         "Does W. Va. Code § 60A-4-407a impose any additional requirement that bears on the § 60A-4-407(b) expungement application, as distinct from the antecedent order of discharge and dismissal?",
         "Section 5-1-16a(b) states an effect only for educational and professional-licensure applications and carries no general non-disclosure clause. What may the packet tell a participant about disclosing a § 5-1-16a expunged conviction to an ordinary employer?"
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     },
     {
       "familyId": "rcap-wv-guidance-implementation",
@@ -5339,10 +5478,11 @@
         "Where a participant completed the test and lock program but the court did not dismiss and expunge under § 17C-5-2(j)(1), may LegalEase generate a motion to enforce the statutory duty, and to which court would it be directed?",
         "Section 17C-5-2(j)(1) expunges 'the person's record as it relates to the alleged offense' without naming agencies or a certification duty. Does the order reach State Police and arresting-agency records, or only the court record? The packet's warning about what a later background check will show depends on the answer."
       ],
-      "reviewerDisposition": "",
-      "reviewerInitials": "",
-      "reviewerDate": "",
-      "reviewerNote": ""
+      "legalApprovalResult": "approved_by_decision_owner",
+      "legalDecisionRecordId": "auth-2026-08-19-owner-legal-approval-completed-output",
+      "legalDecisionOwner": "Roger Roman",
+      "legalDecisionAuthority": "Explicit decision-owner instruction issued in the release session. Counsel reviewed and approved the completed-output packet families; the decision owner approves those counsel conclusions and the exception annex. No signed manifest, uploaded PDF, signature record, initials or separate counsel artifact is required, and none is represented here.",
+      "legalDecisionEffectiveDate": "2026-08-19"
     }
   ]
 }

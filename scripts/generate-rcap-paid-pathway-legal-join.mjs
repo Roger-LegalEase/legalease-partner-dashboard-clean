@@ -34,6 +34,15 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import {
+  OWNER_APPROVED,
+  OWNER_PENDING,
+  annexJurisdictionStatus,
+  familyLegalStatus,
+  legalActionStatus,
+  readOwnerLegalDecision
+} from "./lib/rcap-owner-legal-decision.mjs";
+
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CHECK = process.argv.includes("--check");
 const OUT = path.join(rootDir, "data/rcap-ledger/paid-pathway-legal-join.json");
@@ -126,6 +135,11 @@ for (const track of familyMap.tracks ?? []) {
   for (const familyJobId of families) addFamily(track.trackId, familyJobId);
 }
 
+// The decision-owner legal approval, read from the authorization queue. Absent
+// or declined, this is {approved:false} and every row falls back to the
+// counsel-record analysis, which is where this join started.
+const ownerDecision = readOwnerLegalDecision();
+
 const paid = (closure.pathways ?? []).filter((p) => p.category === "paid_packet_intended");
 
 const rows = [];
@@ -142,24 +156,67 @@ for (const pathway of paid) {
     || trackIds.some((id) => staleTracks.has(id));
   const explicitlyOutside = trackIds.some((id) => outsideStandingScopeTracks.has(id));
 
+  // Two different questions, kept apart on purpose.
+  //
+  // The legal question is "has the decision owner approved the legal design and
+  // completed output behind this route". The bridge question is "does this
+  // repository know which packet family the route uses at all". A route can be
+  // legally approved and still have no family bridge, and collapsing the two
+  // would let an owner decision paper over a missing bridge — which is exactly
+  // the data gap that has to be closed, not relabelled.
+  const ownerApprovedFamilies = families.filter((f) => familyLegalStatus(ownerDecision, f) === OWNER_APPROVED);
+  const ownerAnnexedLegalAction = hasLegalActionRequired && legalActionStatus(ownerDecision, key) === OWNER_APPROVED;
+  const ownerAnnexedJurisdiction = annexJurisdictionStatus(ownerDecision, pathway.jurisdiction) === OWNER_APPROVED;
+
+  // Legal status, decided only by the owner's recorded decision.
+  let legalStatus;
+  let legalStatement;
+  if (hasLegalActionRequired && !ownerAnnexedLegalAction) {
+    legalStatus = OWNER_PENDING;
+    legalStatement = "The closure ledger records a named legal action on this route, and no owner decision names it.";
+  } else if (families.length > 0 && ownerApprovedFamilies.length === families.length) {
+    legalStatus = OWNER_APPROVED;
+    legalStatement = `${ownerDecision.records[0].decisionOwner} approved the completed output of ${ownerApprovedFamilies.join(", ")} on ${ownerDecision.records[0].effectiveDate} under ${ownerDecision.records[0].recordId}${ownerAnnexedLegalAction ? ", including this route's named legal action through the exception annex" : ""}. EXT-ADOPT-01 adopted the legal design on ${adoption.adoptedOn}; the owner's decision closes the completed-output gate that adoption left open.`;
+  } else if (families.length > 0) {
+    legalStatus = OWNER_PENDING;
+    legalStatement = `The pathway resolves to ${families.length === 1 ? "packet family" : "packet families"} ${families.join(", ")}, and ${families.length - ownerApprovedFamilies.length} of them ${families.length - ownerApprovedFamilies.length === 1 ? "is" : "are"} not named by any owner legal decision.`;
+  } else if (ownerAnnexedLegalAction) {
+    legalStatus = OWNER_APPROVED;
+    legalStatement = `${ownerDecision.records[0].decisionOwner} approved this route's named legal action through the exception annex under ${ownerDecision.records[0].recordId}.`;
+  } else if (ownerAnnexedJurisdiction) {
+    legalStatus = OWNER_APPROVED;
+    legalStatement = `${ownerDecision.records[0].decisionOwner} approved ${pathway.jurisdiction} family coverage through the exception annex under ${ownerDecision.records[0].recordId}. Which family this route uses is still unknown to this repository.`;
+  } else {
+    legalStatus = OWNER_PENDING;
+    legalStatement = "No packet family is reachable from this pathway, so no owner decision reaches it either.";
+  }
+
+  // Bridge and coverage disposition. A missing bridge always wins: it is the
+  // reason the row cannot be trusted, whatever its legal status.
   let disposition;
   let statement;
-  if (hasLegalActionRequired) {
+  if (families.length === 0) {
+    disposition = trackIds.length === 0
+      ? "family_bridge_missing_no_track"
+      : "family_bridge_missing_no_family";
+    statement = trackIds.length === 0
+      ? `No registry track maps to this compiled pathway, so no packet family can be reached from it. ${legalStatement}`
+      : `Tracks ${trackIds.join(", ")} map to this pathway, but this repository carries no track-to-family bridge for them. ${legalStatement}`;
+  } else if (legalStatus === OWNER_APPROVED) {
+    disposition = OWNER_APPROVED;
+    statement = legalStatement;
+  } else if (hasLegalActionRequired) {
     disposition = "legal_action_required";
-    statement = "The closure ledger records a named legal action on this route; the standing adoption does not answer it.";
+    statement = legalStatement;
+  } else if (ownerDecision.approved) {
+    disposition = OWNER_PENDING;
+    statement = legalStatement;
   } else if (explicitlyOutside) {
     disposition = "genuinely_new_counsel_review_required";
     statement = "The D continuity analysis places this track outside the standing adoption's scope by name.";
   } else if (bound.length === 0 && families.length > 0) {
     disposition = "genuinely_new_counsel_review_required";
     statement = `The pathway resolves to packet ${families.length === 1 ? "family" : "families"} ${families.join(", ")}, and none is bound by EXT-ADOPT-01.`;
-  } else if (bound.length === 0) {
-    disposition = trackIds.length === 0
-      ? "family_bridge_missing_no_track"
-      : "family_bridge_missing_no_family";
-    statement = trackIds.length === 0
-      ? "No registry track maps to this compiled pathway, so no packet family and no counsel record can be reached from it."
-      : `Tracks ${trackIds.join(", ")} map to this pathway, but this repository carries no track-to-family bridge for them, so coverage is unknown rather than absent.`;
   } else if (!boundJurisdictions.has(pathway.jurisdiction)) {
     disposition = "genuinely_new_counsel_review_required";
     statement = `${pathway.jurisdiction} has no family bound by EXT-ADOPT-01.`;
@@ -194,7 +251,15 @@ for (const pathway of paid) {
       packetProofSha256: b.packetProofSha256 ?? null,
       legalDesignMemoSha256: b.legalDesignMemoSha256 ?? null
     })),
-    onlyPathwayProjectionMissing: disposition === "covered_by_existing_standing_adoption",
+    ownerLegalDecisionRecordId: ownerApprovedFamilies.length > 0 || ownerAnnexedLegalAction || ownerAnnexedJurisdiction
+      ? ownerDecision.records[0].recordId
+      : null,
+    ownerApprovedFamilies,
+    legalStatus,
+    legalStatement,
+    namedLegalActionRequired: hasLegalActionRequired,
+    familyBridgePresent: families.length > 0,
+    onlyPathwayProjectionMissing: disposition === OWNER_APPROVED || disposition === "covered_by_existing_standing_adoption",
     familyGates: bound.map((b) => ({ familyJobId: b.familyJobId, ...(proofGates.get(b.familyJobId) ?? {}) })),
     lawrenceRatification: pathway.lawrence?.lawrence_review ?? pathway.lawrence ?? null,
     ledgerSaysLegalReviewPending: (pathway.openBlockers ?? []).some((b) => b.id === "legal_review_pending"),
@@ -211,9 +276,19 @@ const counts = rows.reduce((acc, row) => {
 const ledger = {
   schemaVersion: "rcap-paid-pathway-legal-join/v1",
   generatedBy: "scripts/generate-rcap-paid-pathway-legal-join.mjs",
-  question: "For each intended-paid pathway, does an existing counsel record already cover it, or is a new counsel decision genuinely required?",
+  question: "For each intended-paid pathway, is its packet family covered by a recorded legal decision, or does a legal decision genuinely remain open?",
   createsApproval: false,
   widensAdoption: false,
+  ownerLegalDecision: ownerDecision.approved
+    ? {
+        approved: true,
+        result: ownerDecision.result,
+        records: ownerDecision.records,
+        familiesNamed: ownerDecision.families.size,
+        annexAdopted: ownerDecision.annexApproved,
+        note: "The decision owner closed the completed-output legal gate directly. No signature, signed manifest, uploaded approval evidence or separate counsel artifact is required or represented, and none is read by this generator."
+      }
+    : { approved: false, reason: ownerDecision.reason },
   adoption: {
     recordId: adoption.recordId,
     path: ADOPTION,
