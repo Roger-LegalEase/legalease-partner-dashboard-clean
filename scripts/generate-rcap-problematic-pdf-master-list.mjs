@@ -30,6 +30,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { ROOT_CAUSES } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const REGISTER = path.join(rootDir, "data/rcap-all50/problematic-pdf-register.json");
@@ -175,6 +176,35 @@ function formTokenFromLegacyId(documentId) {
 
 const registryByForm = registryFormIds();
 
+// Exactly one operational disposition per asset, from an explicit vocabulary.
+// "Held" told a reader nothing: it grouped a form whose route already delivers
+// a complete deferral with a form nobody can obtain, and an instruction sheet
+// no track reads with a petition an active track is waiting on.
+const DISPOSITIONS = {
+  active_track_delivery_hold: "An active track's packet delivery is blocked on this asset.",
+  official_source_required: "The verified source binary is unavailable, so nothing downstream can be attempted.",
+  certification_unproven: "Artifacts exist but cannot be certified: their active-content cleanliness or finalization cannot be established from the committed bytes.",
+  independent_review_required: "Certifiable artifacts exist and no independent review has approved them.",
+  legal_design_hold: "A substantive legal-design question is unresolved.",
+  reference_only: "An instruction, guidance or supporting-process document, not a filed component.",
+  orphaned: "No active track requires it and no candidate binding to one exists.",
+  optional: "A packet form no active track currently requires, with a plausible binding.",
+  archive_candidate: "Source-gated: retained for provenance, never runtime-selectable.",
+  retire_candidate: "Recorded as superseded, withdrawn or repealed; nothing should use it."
+};
+
+// Acquisition priority. Priority 4 is deliberately a refusal, not a queue
+// position: retrieving an orphaned or reference-only PDF to make a backlog
+// number move is work that buys nothing and creates a currentness obligation
+// for an asset nobody reads.
+const ACQUISITION_PRIORITIES = {
+  1: "Active-track source required for an otherwise packet-capable route.",
+  2: "Active-track source required before technical or visual review can begin.",
+  3: "Source needed to resolve currentness or supersession for a current participant treatment.",
+  4: "Orphaned, optional, historical or reference-only. do_not_acquire_without_a_named_current_use."
+};
+const PRIORITY_4_RULE = "do_not_acquire_without_a_named_current_use";
+
 const LANES = {
   A: "actionable_technical_or_visual_correction",
   B: "official_source_acquisition_required",
@@ -291,7 +321,71 @@ for (const entry of register.records) {
   }[lane];
 
   const artifacts = (auditRow?.artifacts ?? []).filter((a) => a.present);
+  const libraryFolder = record?.libraryFolder ?? null;
+  const documentRole = record?.documentRole ?? null;
+  const treatments = [...new Set(entry.affectedTracks.map((t) => t.treatmentKind).filter(Boolean))];
+  const packetCapableTreatment = treatments.includes("production_packet");
+  // A route whose participant already receives a complete guidance or exact
+  // deferral treatment is terminal by design, not a blocked packet route.
+  const servedByGuidanceOrDeferral = entry.affectedTracks.length > 0
+    && entry.affectedTracks.every((t) => ["guidance_only", "exact_supported_deferral", "exclusion"].includes(t.routeKind));
+  const certifiable = artifacts.length > 0 && artifacts.every((a) => a.byteInspectable && a.finalized);
   const { publisher, basis } = publisherFrom(record);
+
+  // ---- exactly one operational disposition ---------------------------------
+  // Ordered by what is most true about the asset's standing, not by severity:
+  // an asset nobody can obtain is source-required whatever else is wrong with
+  // it, and an asset no track reads is not a launch blocker however defective.
+  let disposition;
+  if (activeTrack) {
+    if (packetCapableTreatment && (missingBinary || !binaryPathInClone)) disposition = "active_track_delivery_hold";
+    else if (legalDesignHolds.length > 0) disposition = "legal_design_hold";
+    // A form whose binary is here and whose open question is where a value
+    // goes is waiting on a reviewer, not on bytes. Filing it as
+    // source-required would send someone to fetch a file that is already in
+    // the clone, and would quietly imply the answer is a re-render.
+    else if (awaitingPlacement && binaryPathInClone) disposition = "independent_review_required";
+    else if (artifacts.length === 0) disposition = "official_source_required";
+    else if (!certifiable) disposition = "certification_unproven";
+    else disposition = "independent_review_required";
+  } else if (missingBinary) {
+    disposition = "official_source_required";
+  } else if (libraryFolder === "05_SOURCE_GATED") {
+    disposition = "archive_candidate";
+  } else if (documentRole === "INSTRUCTIONS" || libraryFolder === "03_INSTRUCTIONS" || libraryFolder === "04_SUPPORTING_PROCESS") {
+    disposition = "reference_only";
+  } else if (/superseded|withdrawn|repealed/i.test(String(record?.freshnessStatus ?? ""))) {
+    disposition = "retire_candidate";
+  } else if (candidateRegistryFormId) {
+    disposition = "optional";
+  } else {
+    disposition = "orphaned";
+  }
+
+  // ---- acquisition priority -------------------------------------------------
+  // Only assets that actually need bytes get a queue position. Priority 4 is a
+  // standing refusal rather than a low position in the same queue.
+  let acquisitionPriority = null;
+  let acquisitionRule = null;
+  const needsBytes = missingBinary || !binaryPathInClone;
+  if (!needsBytes) {
+    acquisitionPriority = null;
+  } else if (!activeTrack) {
+    acquisitionPriority = 4;
+    acquisitionRule = PRIORITY_4_RULE;
+  } else if (packetCapableTreatment) {
+    acquisitionPriority = 1;
+  } else if (servedByGuidanceOrDeferral && entry.defectCategories.includes("stale_or_superseded")) {
+    // The participant is already served, and what the bytes would settle is
+    // which edition the record holds -- a currentness question, not a blocked
+    // review. Ordering this before the reviewability test matters: nothing in
+    // this lane is certifiable, so a reviewability-first rule would swallow
+    // every currentness item and the dimension would disappear.
+    acquisitionPriority = 3;
+  } else {
+    acquisitionPriority = 2;
+  }
+
 
   rows.push({
     // identity
@@ -343,6 +437,12 @@ for (const entry of register.records) {
     contactSheetShowsAFill: sheetRow ? sheetRow.panelsAreVisuallyIdentical === false : null,
     contactSheetEvidenceImage: sheetRow?.renderedEvidence ?? null,
     labelsAwaitingAPlacementDecision: (placementRow?.labelsAwaitingAPlacementDecision ?? []).length,
+    // Stated as the question a reviewer answers, not as a coordinate this lane
+    // guessed. No write box is proposed anywhere in this file.
+    precisePlacementQuestion: awaitingPlacement
+      ? `For ${entry.jurisdiction} ${entry.formId}, where does the participant value belong relative to each of these measured label positions: ${placementRow.labelsAwaitingAPlacementDecision.map((l) => `"${l.label}" (${l.factId}, page ${l.page} at x=${l.measuredLabelX}, baseline y=${l.measuredBaselineY})`).join("; ")}? The anchor capture derived ${placementRow.anchorsDerived} writable anchor(s) and asserts no coordinate for these labels because the document expresses no rectangle for them. The form's own footer states it shall not be modified and may be supplemented with additional material, so the answer must also say whether a value belongs on the form at all or on a supplement.`
+      : null,
+    placementLabels: placementRow?.labelsAwaitingAPlacementDecision ?? [],
     placementEvidenceImages: placementRow?.renderedEvidence ?? [],
     // defects and disposition
     defectCategories: entry.defectCategories,
@@ -363,13 +463,33 @@ for (const entry of register.records) {
     exactBlocker,
     exactNextAction,
     evidencePaths: entry.evidencePaths,
-    disposition: "HELD"
+    // Root causes, so a reader can see whether this asset's problems are its
+    // own or the lane's.
+    rootCauseIds: entry.rootCauseIds ?? [],
+    systemicRootCauseIds: entry.systemicRootCauseIds ?? [],
+    familySpecificRootCauseIds: entry.familySpecificRootCauseIds ?? [],
+    // Operational state.
+    disposition,
+    dispositionMeaning: DISPOSITIONS[disposition],
+    libraryFolder,
+    documentRole,
+    packetCapableTreatment,
+    servedByGuidanceOrDeferral,
+    certifiableArtifacts: certifiable,
+    acquisitionPriority,
+    acquisitionPriorityMeaning: acquisitionPriority ? ACQUISITION_PRIORITIES[acquisitionPriority] : "No bytes are missing for this asset.",
+    acquisitionRule,
+    // The release posture, which is a separate axis from the operational
+    // disposition and does not move in this lane.
+    releaseStatus: "HELD"
   });
 }
 
 rows.sort((a, b) => (a.jurisdiction + a.formNumber).localeCompare(b.jurisdiction + b.formNumber));
 
 const byLane = (lane) => rows.filter((r) => r.remediationLane === lane);
+const byDisposition = (d) => rows.filter((r) => r.disposition === d);
+const byPriority = (n) => rows.filter((r) => r.acquisitionPriority === n);
 const totals = {
   assetsTotal: rows.length,
   activeTrack: rows.filter((r) => r.activeTrackStatus === "active_track").length,
@@ -386,6 +506,25 @@ const totals = {
   assetsWhoseActiveContentVerdictIsUnprovable: rows.filter((r) => r.activeContentVerdict.startsWith("unprovable")).length,
   contactSheetsShowingAFill: rows.filter((r) => r.contactSheetShowsAFill === true).length,
   contactSheetsShowingNoFill: rows.filter((r) => r.contactSheetShowsAFill === false).length,
+  // Operational state, one asset one disposition.
+  activeTrackAssetsBlockingPacketPromotion: byDisposition("active_track_delivery_hold").length,
+  activeTrackAssetsSafelyServedByGuidanceOrDeferral: rows.filter((r) => r.activeTrackStatus === "active_track" && r.servedByGuidanceOrDeferral).length,
+  orphanedOrOptionalAssets: rows.filter((r) => r.activeTrackStatus === "orphaned_or_optional").length,
+  archiveCandidates: byDisposition("archive_candidate").length,
+  retirementCandidates: byDisposition("retire_candidate").length,
+  referenceOnly: byDisposition("reference_only").length,
+  orphaned: byDisposition("orphaned").length,
+  optional: byDisposition("optional").length,
+  officialSourceRequired: byDisposition("official_source_required").length,
+  certificationUnproven: byDisposition("certification_unproven").length,
+  independentReviewRequired: byDisposition("independent_review_required").length,
+  legalDesignHold: byDisposition("legal_design_hold").length,
+  // Acquisition, by priority. Priority 4 is a refusal, not a backlog position.
+  sourceAcquisitionCandidates: rows.filter((r) => r.acquisitionPriority !== null && r.acquisitionPriority !== 4).length,
+  sourceAcquisitionPriority1: byPriority(1).length,
+  sourceAcquisitionPriority2: byPriority(2).length,
+  sourceAcquisitionPriority3: byPriority(3).length,
+  sourceAcquisitionPriority4DoNotAcquire: byPriority(4).length,
   assetsAwaitingAPlacementDecision: rows.filter((r) => r.labelsAwaitingAPlacementDecision > 0).length,
   assetsWithNoTrackBinding: rows.filter((r) => r.trackBindingStatus.startsWith("no_track_binding_established")).length,
   assetsWithACandidateUnconfirmedTrackBinding: rows.filter((r) => r.candidateRegistryFormId).length,
@@ -395,6 +534,20 @@ const totals = {
   highSeverity: rows.filter((r) => r.severity === "high").length
 };
 
+for (const row of rows) {
+  if (!DISPOSITIONS[row.disposition]) fail(`${row.jurisdiction} ${row.formNumber} carries the unknown disposition ${row.disposition}`);
+  if (row.releaseStatus !== "HELD") fail(`${row.jurisdiction} ${row.formNumber} is not held`);
+  if (row.acquisitionPriority === 4 && row.acquisitionRule !== PRIORITY_4_RULE) {
+    fail(`${row.jurisdiction} ${row.formNumber} is priority 4 without the do-not-acquire rule`);
+  }
+  if (row.activeTrackStatus === "orphaned_or_optional"
+    && ["active_track_delivery_hold", "certification_unproven", "independent_review_required"].includes(row.disposition)) {
+    fail(`${row.jurisdiction} ${row.formNumber} is orphaned or optional yet carries the active-track disposition ${row.disposition}`);
+  }
+  for (const id of row.rootCauseIds) {
+    if (!ROOT_CAUSES[id]) fail(`${row.jurisdiction} ${row.formNumber} names the unknown root cause ${id}`);
+  }
+}
 if (totals.sellable !== 0) fail(`${totals.sellable} problematic asset(s) sit on a sellable route`);
 if (totals.publicPacketRoutes !== 0) fail(`${totals.publicPacketRoutes} problematic asset(s) sit on a public packet route`);
 
@@ -408,12 +561,18 @@ const payload = {
     contactSheetVisualProof: "data/rcap-all50/contact-sheet-visual-proof.json"
   },
   lanes: LANES,
+  dispositions: DISPOSITIONS,
+  acquisitionPriorities: ACQUISITION_PRIORITIES,
+  readingThisList: "Every asset carries exactly one operational disposition and, where bytes are missing, exactly one acquisition priority. `releaseStatus` is a separate axis and is HELD for every asset: no row here is approved, sellable, public, packet-ready or ready for checkout. An orphaned or optional asset is not a launch blocker; it is recorded so it is not lost.",
+  onTwoCountsThatOverlap: "`activeTrackAssetsSafelyServedByGuidanceOrDeferral` and `activeTrackAssetsBlockingPacketPromotion` overlap by one asset, and that is not a contradiction. Every active-track participant is served today by a guidance or exact-deferral treatment. One of those assets ALSO carries a production_packet treatment in the pinned legal design, so its route is the only one whose packet promotion is waiting on this lane. It is simultaneously safe for the participant now and the single packet blocker.",
+  highestPermissibleStatus: "READY FOR INDEPENDENT REGISTER AND EVIDENCE REVIEW. No new PDF correction occurred in this lane, so no form family is ready for independent correction review.",
   highestPermissibleDisposition: "READY FOR INDEPENDENT PDF REVIEW. No row in this list is approved for live, public, sellable or checkout, and this generator refuses to emit a list in which any problematic asset is sellable or on a public packet route.",
   totals,
   rows
 };
 
 // ---- documents --------------------------------------------------------------
+const payload_onTwoCountsThatOverlap = "`Active-track assets safely served by guidance or exact deferral` and `Active-track assets blocking packet promotion` overlap by one asset, and that is not a contradiction: every active-track participant is served today, and one of those assets also carries a production_packet treatment in the pinned legal design, making its route the only packet promotion waiting on this lane.";
 const md = [];
 md.push("# Problematic PDF master list");
 md.push("");
@@ -441,6 +600,23 @@ const TOTAL_LABELS = {
   assetsWhoseActiveContentVerdictIsUnprovable: "Assets whose active-content verdict is unprovable",
   contactSheetsShowingAFill: "Contact sheets that show a fill",
   contactSheetsShowingNoFill: "Contact sheets that show no fill",
+  activeTrackAssetsBlockingPacketPromotion: "Active-track assets blocking packet promotion",
+  activeTrackAssetsSafelyServedByGuidanceOrDeferral: "Active-track assets safely served by guidance or exact deferral",
+  orphanedOrOptionalAssets: "Orphaned or optional assets",
+  archiveCandidates: "Archive candidates",
+  retirementCandidates: "Retirement candidates",
+  referenceOnly: "Reference-only documents",
+  orphaned: "Orphaned",
+  optional: "Optional",
+  officialSourceRequired: "Official source required",
+  certificationUnproven: "Certification unproven",
+  independentReviewRequired: "Independent review required",
+  legalDesignHold: "Legal-design hold",
+  sourceAcquisitionCandidates: "Source-acquisition candidates (priorities 1-3)",
+  sourceAcquisitionPriority1: "Acquisition priority 1 — packet-capable route waiting",
+  sourceAcquisitionPriority2: "Acquisition priority 2 — review cannot begin",
+  sourceAcquisitionPriority3: "Acquisition priority 3 — currentness or supersession",
+  sourceAcquisitionPriority4DoNotAcquire: "Acquisition priority 4 — do not acquire without a named current use",
   assetsAwaitingAPlacementDecision: "Assets awaiting a write-box placement decision",
   assetsWithNoTrackBinding: "Assets with no track binding",
   assetsWithACandidateUnconfirmedTrackBinding: "Assets with a candidate, unconfirmed track binding",
@@ -475,45 +651,98 @@ for (const [key, name] of Object.entries(LANES)) {
 
 // The three queues someone actually works from, each row carrying everything
 // needed to act on it without opening another file.
-// Selected by predicate rather than by lane. A lane is the ONE thing that
-// stops work first, so an asset that needs both a binary and a currentness
-// answer lands in the acquisition lane and would drop out of a currentness
-// queue keyed on lane C -- while the currentness question is still open.
-const QUEUES = [
-  ["Exact source-acquisition queue", (r) => r.remediationLane === "B",
-   "Nobody in this repository can supply these. Each row names the form, the route it serves, what the participant gets meanwhile, and the exact bytes that are missing."],
-  ["Exact legal-design questions", (r) => r.remediationLane === "D",
-   "Each row is a substantive legal choice that no committed evidence resolves. Nothing on the form may be bound until it is answered and its carrier recorded."],
-  ["Exact currentness queue", (r) => r.defectCategories.some((c) => ["stale_or_superseded", "currentness_unverified"].includes(c)),
-   "Each row holds a binary that cannot be shown to be the currently published edition, whichever lane its first blocker puts it in."]
-];
-for (const [title, selects, blurb] of QUEUES) {
-  md.push(`## ${title}`);
+// ---- operational dispositions ----------------------------------------------
+md.push("## Operational dispositions");
+md.push("");
+md.push("Every asset carries exactly one. `releaseStatus` is a separate axis and is HELD for all 128 — nothing here is approved, sellable, public, packet-ready or ready for checkout.");
+md.push("");
+md.push("| Disposition | Meaning | Assets |");
+md.push("| --- | --- | ---: |");
+for (const [key, meaning] of Object.entries(DISPOSITIONS)) {
+  md.push(`| \`${key}\` | ${meaning} | ${byDisposition(key).length} |`);
+}
+md.push("");
+md.push(payload_onTwoCountsThatOverlap);
+md.push("");
+
+// ---- root causes ------------------------------------------------------------
+md.push("## Root causes");
+md.push("");
+md.push("How many assets carry a finding and how many distinct problems produce those findings are different questions. A systemic cause clears on every impacted asset at once; a family-specific one is this form's own work.");
+md.push("");
+md.push("| Root cause | Dimension | Scope | Impacted assets | Cleared by |");
+md.push("| --- | --- | --- | ---: | --- |");
+for (const cause of register.rootCauseIndex ?? []) {
+  md.push(`| \`${cause.rootCauseId}\` | ${cause.dimension} | ${cause.scope} | ${cause.impactedAssets} | ${cause.clearedBy} |`);
+}
+md.push("");
+
+// ---- acquisition queue, by priority ----------------------------------------
+md.push("## Source-acquisition queue");
+md.push("");
+md.push("Priority 4 is a standing refusal, not a low queue position: retrieving an orphaned or reference-only PDF to move a backlog number buys nothing and creates a currentness obligation for an asset nobody reads.");
+md.push("");
+for (const priority of [1, 2, 3, 4]) {
+  const queueRows = byPriority(priority);
+  md.push(`### Priority ${priority} — ${ACQUISITION_PRIORITIES[priority]}`);
   md.push("");
-  md.push(blurb);
+  md.push(`${queueRows.length} asset(s).`);
   md.push("");
-  const queueRows = rows.filter(selects);
   if (queueRows.length === 0) { md.push("_None._"); md.push(""); continue; }
-  for (const row of queueRows) {
-    md.push(`### ${row.jurisdiction} ${row.formNumber}${row.formName ? ` — ${row.formName}` : ""}`);
+  if (priority === 4) {
+    md.push("| Jurisdiction | Form | Disposition | Rule |");
+    md.push("| --- | --- | --- | --- |");
+    for (const row of queueRows) {
+      md.push(`| ${row.jurisdiction} | ${row.formNumber} | \`${row.disposition}\` | \`${row.acquisitionRule}\` |`);
+    }
     md.push("");
-    md.push(`- **Affected routes**: ${row.affectedTrackIds.join(", ") || "no active track requires it"}${row.routeKinds.length ? ` (route kind: ${row.routeKinds.join(", ")})` : ""}`);
-    md.push(`- **Participant treatment today**: ${row.participantTreatment.join(", ") || "no terminal treatment recorded against a track"}`);
-    md.push(`- **Checkout / payment / packet credit**: ${row.checkoutSuppressed ? "suppressed" : "NOT SUPPRESSED"} / ${row.paymentSuppressed ? "suppressed" : "NOT SUPPRESSED"} / ${row.packetCreditConsumed ? "CONSUMABLE" : "not consumed"}`);
-    md.push(`- **Recorded official source**: ${row.officialSourceUrl ?? "none recorded"}`);
-    md.push(`- **Publisher**: ${row.sourcePublisher ?? `not recorded (${row.sourcePublisherBasis})`}`);
-    md.push(`- **Revision / retrieved / SHA-256**: ${row.sourceRevision ?? "unrecorded"} / ${row.sourceRetrievalDate ?? "unrecorded"} / ${row.sourceSha256 ?? "unrecorded"}`);
-    md.push(`- **Currentness**: ${row.currentnessStatus}`);
-    md.push(`- **Owner**: ${row.owner}`);
-    md.push(`- **Exact missing evidence / blocker**: ${row.exactBlocker}`);
-    md.push(`- **Exact next action**: ${row.exactNextAction}`);
+    continue;
+  }
+  for (const row of queueRows) {
+    md.push(`#### ${row.jurisdiction} ${row.formNumber}${row.formName ? ` — ${row.formName}` : ""}`);
+    md.push("");
+    md.push(`- **Affected route**: ${row.affectedTrackIds.join(", ") || "no track binding established"}${row.routeKinds.length ? ` (route kind: ${row.routeKinds.join(", ")})` : ""}`);
+    md.push(`- **Active-track status**: ${row.activeTrackStatus}; disposition \`${row.disposition}\``);
+    md.push(`- **Participant already safely served**: ${row.servedByGuidanceOrDeferral ? `yes — ${row.participantTreatment.join(", ") || "terminal treatment recorded"}` : "no terminal treatment recorded against a track"}`);
+    md.push(`- **Controlling first-party publisher**: ${row.sourcePublisher ?? `not recorded (${row.sourcePublisherBasis})`}`);
+    md.push(`- **Official URL**: ${row.officialSourceUrl ?? "none recorded"}`);
+    md.push(`- **Expected revision / edition**: ${row.sourceRevision ?? "not recorded"}`);
+    md.push(`- **Currently pinned hash**: ${row.sourceSha256 ?? "none pinned"}`);
+    md.push(`- **Why the existing bytes are insufficient**: ${row.exactBlocker}`);
+    md.push(`- **Work unlocked by acquisition**: ${row.exactNextAction}`);
+    md.push(`- **Root causes**: ${row.rootCauseIds.join(", ") || "none recorded"}`);
     md.push("");
   }
 }
 
+md.push("## Exact legal-design questions");
+md.push("");
+const legalDesignRows = byDisposition("legal_design_hold");
+if (legalDesignRows.length === 0) {
+  md.push("_None recorded._ No production hold in this lane names a substantive legal choice; the holds are lifecycle and governance postures. The nearest open questions are the write-box placements below and the candidate track bindings in the acquisition queue.");
+  md.push("");
+} else {
+  for (const row of legalDesignRows) {
+    md.push(`- **${row.jurisdiction} ${row.formNumber}** — ${row.exactBlocker} Next: ${row.exactNextAction}`);
+  }
+  md.push("");
+}
+
+md.push("## Write-box placement decisions");
+md.push("");
+const placementRows = rows.filter((r) => r.labelsAwaitingAPlacementDecision > 0);
+if (placementRows.length === 0) { md.push("_None._"); md.push(""); } else {
+  md.push("| Jurisdiction | Form | Labels | Rendered evidence |");
+  md.push("| --- | --- | ---: | --- |");
+  for (const row of placementRows) {
+    md.push(`| ${row.jurisdiction} | ${row.formNumber} | ${row.labelsAwaitingAPlacementDecision} | ${row.placementEvidenceImages.join(", ") || "binary not in this clone"} |`);
+  }
+  md.push("");
+}
+
 md.push("## Independent review queue");
 md.push("");
-md.push("Every asset here is held. None is approved, public, sellable or ready for checkout, and nothing in this lane may promote itself.");
+md.push("Every asset here is held. None is approved, public, sellable, packet-ready or ready for checkout, and nothing in this lane may promote itself. No form family is ready for independent CORRECTION review, because no new PDF correction occurred: what is offered for review is the register, the evidence and the classification.");
 md.push("");
 md.push("| Jurisdiction | Form | Lane | Rendered artifact finalized | Active-content verdict | Contact sheet shows a fill | Independent review |");
 md.push("| --- | --- | --- | --- | --- | --- | --- |");
@@ -530,7 +759,10 @@ const CSV_COLUMNS = [
   "sourceBinaryPresentInClone", "sourceBinaryPathInClone", "currentnessStatus", "missingBinary",
   "structuralClass", "interactiveFieldCount", "anyFinalizedArtifact", "activeContentVerdict",
   "contactSheetShowsAFill", "defectCategories", "severity", "releaseRisk", "owner",
-  "independentReviewStatus", "exactBlocker", "exactNextAction", "disposition"
+  "independentReviewStatus", "disposition", "dispositionMeaning", "acquisitionPriority", "acquisitionRule",
+  "rootCauseIds", "systemicRootCauseIds", "familySpecificRootCauseIds",
+  "packetCapableTreatment", "servedByGuidanceOrDeferral", "certifiableArtifacts",
+  "labelsAwaitingAPlacementDecision", "exactBlocker", "exactNextAction", "releaseStatus"
 ];
 const csvCell = (value) => {
   const text = Array.isArray(value) ? value.join(" ") : value === null || value === undefined ? "" : String(value);
@@ -546,7 +778,7 @@ const html = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Problematic PDF review gallery</title>
+<title>Problematic PDF audit gallery</title>
 <style>
   :root { color-scheme: light dark; font-family: system-ui, -apple-system, Segoe UI, sans-serif; }
   body { margin: 0 auto; max-width: 72rem; padding: 2rem 1.25rem 4rem; line-height: 1.55; }
@@ -564,8 +796,31 @@ const html = `<!doctype html>
 </style>
 </head>
 <body>
-<h1>Problematic PDF review gallery</h1>
-<p class="lede">Generated by <code>scripts/generate-rcap-problematic-pdf-master-list.mjs</code>. Every asset below is <strong>held</strong>; none is approved, public, sellable or ready for checkout.</p>
+<h1>Problematic PDF audit gallery</h1>
+<p class="lede">Generated by <code>scripts/generate-rcap-problematic-pdf-master-list.mjs</code>. Every asset below is <strong>held</strong>; none is approved, public, sellable, packet-ready or ready for checkout.</p>
+
+<h2>What this package is</h2>
+<p><strong>Problematic PDF audit corrected — source acquisition required before remediation.</strong> No new PDF family was corrected here and no official source was acquired. What changed is the inventory's truthfulness, its evidence, its classification and its verification.</p>
+
+<h2>Operational dispositions</h2>
+<p>Every asset carries exactly one. Release status is a separate axis and is HELD for all of them.</p>
+<div class="wrap"><table>
+<tr><th>Disposition</th><th>Meaning</th><th>Assets</th></tr>
+${Object.entries(DISPOSITIONS).map(([key, meaning]) => `<tr><td class="lane">${escape(key)}</td><td>${escape(meaning)}</td><td>${byDisposition(key).length}</td></tr>`).join("\n")}
+</table></div>
+
+<h2>Root causes</h2>
+<p>How many assets carry a finding and how many distinct problems produce them are different questions. A systemic cause clears on every impacted asset at once.</p>
+<div class="wrap"><table>
+<tr><th>Root cause</th><th>Dimension</th><th>Scope</th><th>Impacted assets</th></tr>
+${(register.rootCauseIndex ?? []).map((c) => `<tr><td>${escape(c.rootCauseId)}</td><td>${escape(c.dimension)}</td><td>${escape(c.scope)}</td><td>${c.impactedAssets}</td></tr>`).join("\n")}
+</table></div>
+
+<h2>Source-acquisition priorities</h2>
+<div class="wrap"><table>
+<tr><th>Priority</th><th>Meaning</th><th>Assets</th></tr>
+${[1, 2, 3, 4].map((n) => `<tr><td class="lane">${n}</td><td>${escape(ACQUISITION_PRIORITIES[n])}</td><td>${byPriority(n).length}</td></tr>`).join("\n")}
+</table></div>
 
 <h2>Lane counts</h2>
 <div class="wrap"><table>
@@ -600,8 +855,8 @@ ${rows.filter((row) => row.placementEvidenceImages.length > 0).flatMap((row) => 
 
 <h2>Every asset</h2>
 <div class="wrap"><table>
-<tr><th>Jurisdiction</th><th>Form</th><th>Lane</th><th>Severity</th><th>Owner</th><th>Exact blocker</th><th>Exact next action</th></tr>
-${rows.map((row) => `<tr><td>${escape(row.jurisdiction)}</td><td>${escape(row.formNumber)}</td><td class="lane">${escape(row.remediationLane)}</td><td>${escape(row.severity)}</td><td>${escape(row.owner)}</td><td>${escape(row.exactBlocker)}</td><td>${escape(row.exactNextAction)}</td></tr>`).join("\n")}
+<tr><th>Jurisdiction</th><th>Form</th><th>Disposition</th><th>Acq.</th><th>Lane</th><th>Owner</th><th>Exact blocker</th><th>Exact next action</th></tr>
+${rows.map((row) => `<tr><td>${escape(row.jurisdiction)}</td><td>${escape(row.formNumber)}</td><td class="lane">${escape(row.disposition)}</td><td>${row.acquisitionPriority ?? "—"}</td><td class="lane">${escape(row.remediationLane)}</td><td>${escape(row.owner)}</td><td>${escape(row.exactBlocker)}</td><td>${escape(row.exactNextAction)}</td></tr>`).join("\n")}
 </table></div>
 </body>
 </html>
