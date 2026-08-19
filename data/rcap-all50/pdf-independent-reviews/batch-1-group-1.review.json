@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-group/v1",
+  "batch": "batch-1",
+  "group": 1,
+  "reviewDate": "2026-08-19",
+  "reviewerBranch": "claude/rcap-pdf-independent-review-batch-1",
+  "reviewedLaneBranch": "claude/rcap-problematic-pdf-full-remediation",
+  "reviewedLaneHead": "a7c9f0aa0dc19bb569783691e0bc0e65c0b57605",
+
+  "headline": "Nine families reviewed, zero approved. Group 1 reaches the same root cause as groups 2 and 3 independently: protection is decided from the AcroForm field name, the widget rects are captured and never consulted, and `manual` is not in NEVER_WRITE.",
+
+  "rootCauseConfirmedAThirdTime": {
+    "finding": "The widget rects ARE captured at implement-rcap-official-forms-d1.mjs:417-422 and written into field-census.json. They are simply never passed to the binder. The designed printed-label channel is dead code in this path: rcap-field-classification.mjs passes printedLabel || id, but the classification rows built at :428 carry no effectiveLabel, so :442 hands the binder undefined and rcap-field-semantics.mjs falls back to the raw field name.",
+    "whyThatMatters": "This is not a missing capability. The geometry exists on disk, one line away from the decision that needs it."
+  },
+
+  "verdicts": [
+    {
+      "family": "AK:tf-800-form-en", "jurisdiction": "AK", "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf", "page": 2, "fieldOrGeometry": "certDate, rect [128,357 89x14]",
+      "observed": "The page prints 'Certificate of Service' at y=385.5 and 'I certify on ' at y=358.9. certDate is bound to deterministic.filing_date and both fixtures write 2026-08-12 at x=128.8, y=359.7. Its companion time2 is refused, so the finished page reads 'I certify on 2026-08-12 at ________' — a half-completed sworn certification of service, dated by a platform that does not know when service occurred.",
+      "required": "Service-block fields remain protected.",
+      "why": "PROTECT_RULES has an explicit service_block category matching /certificate\\s*of\\s*service/. It is tested against the field name 'certDate', which does not match, while the deterministic.filing_date descriptor's /cert\\s*date/ does. The widget sits 28pt below the printed heading, on the certification line — geometry identifies the area unambiguously and is never consulted.",
+      "smallestCorrection": "Refuse a binding whose widget rect falls inside a page region whose printed heading matches service_block; or add cert\\s*date to the service_block pattern.",
+      "verifiedIndependently": "Yes — binding read from the committed production-field-map.json.",
+      "visualEvidence": "Present and read. Blank and filled clearly differ, every value on its correct line, readable, no caption duplication, no court-use encroachment on page 1. The certificate block is on page 2, below the raster's crop.",
+      "crossCheck": "This is the same defect group 2 found on AK:tf-805-form-en, same field name, same cause. Two families, one bug."
+    },
+    {
+      "family": "KY:aoc-334-form-en", "jurisdiction": "KY", "verdict": "correction_required",
+      "severity": "highest in this group",
+      "asset": "fixtures/canonical-filled.pdf", "page": 1, "fieldOrGeometry": "\"Defendants ssn\", rect [297,536 90x17]",
+      "observed": "The participant's full legal name is written at x=298.0, y=541.5 directly after the printed caption \"Defendant's SSN: ________________\".",
+      "required": "The field refuses. A name is not an SSN, and an SSN is not a participant-writable fact.",
+      "why": "There is no SSN protect rule at all. /defendant/ in the full_legal_name descriptor matches the field name 'Defendants ssn'. classify() does catch it and marks the field `manual`, but `manual` is absent from NEVER_WRITE so the guard never fires.",
+      "smallestCorrection": "Add \\bssn\\b|social\\s*security to PROTECT_RULES, and add `manual` to NEVER_WRITE.",
+      "verifiedIndependently": "Yes — binding { field: \"Defendants ssn\", class: \"manual\", factId: participant.full_legal_name } read from the committed field map.",
+      "gapInTheLanesOwnScan": "reports/protected-fields-scan.json reports violations: [] and pass: true. It is blind to this class, because the field is not classified protected — it is classified manual and written anyway.",
+      "secondCorrection": {
+        "observed": "The document ends 'So ORDERED this ____ day of ______, 2____' over a Judge line and recites that the conviction is hereby void. It is a court order, and determineOwnership() types it as a participant filing, so the captionOnly guard never applies.",
+        "why": "Ownership is keyed on documentRole, filename slug and officialTitle. The recorded officialTitle is a scraped mid-sentence fragment containing no order/judgment/decree token, so it falls through to the participant default.",
+        "required": "OWNERSHIP.COURT_ORDER, with captionOnly engaged."
+      },
+      "thirdCorrection": {
+        "observed": "revision REV-UNKNOWN with freshnessStatus revision_confirmation_required, and officialTitle a mid-sentence fragment — while the artifact itself prints AOC-334, Doc. Code: OVSR, Rev. 1-22.",
+        "required": "REV-2022-01 and the real title. The identity was legible in the binary and was not captured."
+      },
+      "alsoObserved": "The source's Reset and Print pushbutton captions are flattened into permanent ink at the page foot. Present in the contact sheet's blank panel too, so inherited rather than introduced — but it is UI chrome baked onto a filed court document."
+    },
+    {
+      "family": "KY:aoc-496-4-form-en", "jurisdiction": "KY", "verdict": "correction_required",
+      "contentResult": "Clean. The case number is written at the caption position on all four pages, all inside rect, and nothing lands in a protected area.",
+      "withdrawnFinding": "A first pass flagged 120 stacked county names at a single point. Withdrawn on measurement: the XObject's BBox and text matrix place every dropdown option outside the clip, so the county line renders blank and the binding was refused value_not_among_field_options. Recorded because a reviewer who stopped at the content stream would have filed it.",
+      "corrections": [
+        { "observed": "This is an ORDER ON APPLICATION TO VACATE AND EXPUNGE, but officialTitle is the bare string '496.4', so determineOwnership defaults to participant and captionOnly never engages.", "required": "court-order ownership", "sameAs": "KY:aoc-334-form-en" },
+        { "observed": "declaredFieldCount 94 against observedAcroFieldCount 75 — 19 fields unreconciled, while structuralClassAgrees reports true.", "required": "the declared and observed counts reconcile, or the discrepancy is explained." },
+        { "observed": "The boundary fixture contains no participant values at all: the long case number is its only binding and it is refused, so the fixture exercises nothing.", "required": "a boundary fixture that exercises at least one overflow path." }
+      ]
+    },
+    {
+      "family": "NC:aoc-cr-287-form-en", "jurisdiction": "NC", "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf", "page": 1, "fieldOrGeometry": "PetitionerAddr1 [37,667 278x13] and PetitionerAddr2 [37,655 278x13]",
+      "observed": "Both are bound to participant.street_address, so the street line is printed twice. The four-line 'Name And Address Of Petitioner' block reads: name / 118 Maple Street / 118 Maple Street / city state zip. The boundary fixture duplicates the long address on both lines at 7.5pt.",
+      "required": "Bind only line 1; leave line 2 blank absent a distinct address-line-2 fact.",
+      "verifiedIndependently": "Yes — both bindings read from the committed field map.",
+      "visualEvidence": "Present and read. The repeat is unmistakable in the filled panel.",
+      "whatIsCorrectlyProtected": "Excellent — 51 refusals by protected category, covering the presiding judge, the clerk certification, the granted/denied election, all six attorney fields, all eighteen agency fields, both signature blocks, race, and every arrest, offence and disposition date. Page 2, the entire order, receives nothing.",
+      "secondCorrection": { "fieldOrGeometry": "DriversLicenseState, class manual", "observed": "bound to participant.state and writing the residential state while DriversLicenseNumber stays blank — the raster shows a licence-issuing state with no licence number", "required": "a licence-issuing-state fact or a refusal" }
+    },
+    {
+      "family": "NC:aoc-cr-297-form-en", "jurisdiction": "NC", "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf", "page": 1, "fieldOrGeometry": "PetitionerStreetAddress [37,659 278x13] and PetitionerMailAddress [37,646 278x13]",
+      "observed": "The same duplicated address as AOC-CR-287: both bound to participant.street_address, written at y=662.1 and y=649.1, and duplicated again in the boundary fixture at 7.5pt.",
+      "required": "One address line receives the street address; the mailing line receives a mailing address or stays blank.",
+      "verifiedIndependently": "Yes — both bindings read from the committed field map.",
+      "whatIsCorrectlyProtected": "The strongest in the group — 85 protected refusals, including both service blocks, the judge's request-signed date, every disposition and disposition date, and all attorney and agency blocks. Page 2 receives nothing.",
+      "secondCorrection": {
+        "observed": "The recorded sourceUrl names the nonviolent-MISDEMEANORS instructions, while the binary prints 'UNDER G.S. 15A-145.5' / '(NONVIOLENT FELONY(IES))' and instructs the reader to use form AOC-CR-298 for misdemeanors.",
+        "required": "the sourceUrl of the felony form",
+        "note": "The sha256 pin still governs the bytes and the binary's identity is unambiguous, so this is a wrong provenance URL rather than an unresolved identity. It is exactly the kind of error that would send a later re-acquisition to the wrong document."
+      },
+      "alsoObserved": "DLState bound to participant.state, same as AOC-CR-287."
+    },
+    {
+      "family": "NE:cc-6-11-2-form-en", "jurisdiction": "NE", "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf", "page": 1, "fieldOrGeometry": "the caption band, y 640-700",
+      "observed": "In that band the finalized page has no printed page content at all — the whole caption is composed of AcroForm field values. The blank source reads 'IN THE ______ COURT OF ______' with '(Enter the type of court)' and '(Enter the county name)' beneath. The finalized artifact reads, in three stacked layers: 'District Court ... COUNTY, NEBRASKA' / 'District Court ... Example County' / 'Choose the court ... Choose the county'.",
+      "threeSeparateFailures": [
+        "The words 'IN THE ... COURT OF' are gone — they lived in the TYPEOFCOURTRESULTS value that was overwritten.",
+        "'District Court' prints twice, because three fields bind matter.court: TYPEOFCOURTDROPDOWN, TYPEOFCOURTRESULTS and 'enter the type of court'.",
+        "The literal prompts 'Choose the court' and 'Choose the county' are baked into a filed pleading, flattened from the source dropdowns' default appearance, over an opaque white background the same appearance paints."
+      ],
+      "required": "One value per caption slot; the court's own printed caption words preserved; no source placeholder text on a filed pleading.",
+      "smallestCorrection": "Bind exactly one court field and one county field, and refuse a write whose target widget's flattened appearance is a dropdown default.",
+      "verifiedIndependently": "Yes — all three matter.court bindings read from the committed field map.",
+      "contradictedRecord": "reports/protected-fields-scan.json reports placeholderValues: [] and pass: true.",
+      "workingCorrectly": "The boundary long name is refused rather than clipped, and multiline wrapping does work — the boundary county wraps across two lines.",
+      "sourceRecordGap": "source-record.json is a stub: officialTitle, revision, freshnessStatus, sourceStatus and declaredPages all null, declaredFieldCount 0 against 9 observed.",
+      "crossCheck": "Groups 2 and 3 found this same caption defect on NE:cc-6-11-form-en and NE:cc-6-12-form-en. All three Nebraska families share the caption block and share the bug."
+    },
+    {
+      "family": "NE:cc-6-15-1-form-en", "jurisdiction": "NE", "verdict": "correction_required",
+      "observed": "The identical caption defect at the same coordinates — the caption block is shared between the Nebraska forms. The body is otherwise correct: printed name, street address, city/state/zip, telephone and date all land inside their rects under the matching printed captions, and the boundary auto-shrinks without a single unfittable refusal.",
+      "required": "As NE:cc-6-11-2-form-en.",
+      "lesserObservations": [
+        "emailaddress is refused no_allowlisted_fact_matches — the descriptor cannot match the squashed name, so the form's email line stays blank though the fact exists. Safe, but a coverage miss the shared contract's bind test does not cover, since it only exercises separated labels.",
+        "datesigned writes the filing date beside a signature line that has no field and stays blank, producing a dated, unsigned page. Unlike AK this is the signer's own date on their own motion rather than a certificate of service, so it is recorded as an observation, not a protection failure."
+      ]
+    },
+    {
+      "family": "VA:cc-1473-form-en", "jurisdiction": "VA", "verdict": "correction_required",
+      "corrections": [
+        {
+          "page": 1, "fieldOrGeometry": "User.City, rect [74,676 373x16]",
+          "observed": "The widget sits on the line reading '.......... Circuit Court' and captioned 'CITY OR COUNTY' — the city or county OF THE CIRCUIT COURT. Both fixtures write participant.city there, so the filled panel reads 'Springfield .......... Circuit Court'.",
+          "required": "Refuse, or bind the court-locality fact rather than the participant's city.",
+          "why": "The binder matched /\\bcity\\b/ on the field name User.City. The printed caption identifies it as the court's locality.",
+          "visualEvidence": "Plainly visible in the committed raster, which was read."
+        },
+        {
+          "page": 1, "fieldOrGeometry": "User.CaseNumbers [92,427 483x16] and User.UnderlyingCaseNumbers [459,410 115x16]",
+          "observed": "Both receive matter.case_number. The first sits under 'If matter was heard on appeal from General District Court, list applicable General District Court case number(s):'; the second sits on '[ ] A copy of the warrant or indictment is attached ... Underlying Case No.(s)'. The circuit case number therefore appears in three places, two of which assert an appeal history and an attached warrant that the fact set does not establish.",
+          "required": "Both fields refuse unless the corresponding condition is established.",
+          "note": "This is the sharpest form of the defect class: the values are not merely misplaced, they make the filing assert facts that are not in evidence."
+        }
+      ],
+      "verifiedIndependently": "Yes — all three bindings read from the committed field map, plus User.PrintName bound while classified manual.",
+      "whatIsCorrectlyProtected": "19 protected refusals; page 2 receives nothing; User.Date beside the signature is correctly refused. The boundary refuses on the form's own MaxLen rather than truncating.",
+      "alsoObserved": "The source ResetButton is flattened into a grey 'Clear All Data' button at the top of the filed petition — visible in both raster panels, so inherited rather than introduced."
+    },
+    {
+      "family": "VT:200-00132a-form-en", "jurisdiction": "VT", "verdict": "correction_required",
+      "closestToApprovalInThisGroup": true,
+      "contentResult": "No content defect. Three writes only — docket number, defendant name, date of birth — each inside its own rect under the matching caption. The boundary shrinks the name and refuses the long docket. Page 2, the order, receives nothing.",
+      "corrections": [
+        { "asset": "artifact-provenance.json", "observed": "8 of the 20 contract fields present", "required": "all 20 non-null" }
+      ],
+      "structuralExposure": {
+        "finding": "The State's Attorney's and Defendant's signature blocks carry no semantic field names at all. Decoding the page gives the printed captions — Date, Signature, Printed Name, Mailing Address, Phone Number, Email Address for the defendant, and Date, Signature, Printed Name for the State's Attorney — over fields named 34b, 34c, 34d, 34e-34i, 34j, 34k, 34l.",
+          "why": "The prosecutor's signature, date and printed name are classified merely `manual` and survive only because no fact descriptor happens to match a bare number. That is protection by absence of a match, not protection by evidence. One new descriptor matching a numeric pattern would write on a prosecutor's signature block."
+      }
+    }
+  ],
+
+  "integrityBaseline": {
+    "result": "clean on all nine",
+    "observed": "72 of 72 hash bindings verified: source record to manifest, all 27 artifacts to manifest to sidecar outputSha256 to the rendered-artifacts report, plus field-classification and provenance to manifest. Every catalog is exactly Type/Pages with zero /AcroForm, /Names, /OpenAction or /AA. Zero /XFA, /JS, /JavaScript, /Launch, /SubmitForm, /ImportData, /GoToR, /RichMedia, /EmbeddedFile, /Widget, /FT. Zero /ObjStm, zero xref streams, one startxref, one %%EOF, empty /Annots on every page. Participant values are real page content invoked from the page content stream, not live widget appearances.",
+    "falsePositivesRunDownAndCleared": "/AA hits in both Nebraska fixtures occur only inside inflated embedded TrueType font programs — raw-file hits zero. A /Link hit is a marked-content tag in the page content stream, not an annotation."
+  },
+
+  "additionalCrossFamilyFindings": {
+    "fieldMapSha256DoesNotHashTheFieldMap": "The sidecar's fieldMapSha256 reproduces exactly as the hash of the bindings array, not of production-field-map.json. So the bindings are pinned but pageGeometry, the source sha256 and captionOnly are not. And classificationSha256 is null everywhere, so field-classification.json is pinned only by this review manifest, not by the artifact's own sidecar.",
+    "participantFillableContradictsProductionHolds": "All nine record participantFillable: true, yet all but VA still carry the hold not_participant_fillable_no_fixture_fill — a hold emitted only when that flag is false. Fixtures with fills shipped anyway.",
+    "fixtureMatrixIncomplete": "Two rendered fixtures per family. Ordinary, long legal name, long address and long case number are covered; multiline is exercised only on NE. There is no rendered fixture for a missing optional value and none for the protected-field case. fixtures/negative.json asserts that nothing is written with no participant facts, but its refusedFields are copied from the canonical render — the empty-facts case is asserted, never rendered."
+  },
+
+  "exactPdfLaneAction": "The rects are already on disk in field-census.json, one line away from the decision that needs them. Pass them, and pass the printed caption as effectiveLabel, then add `manual` to NEVER_WRITE and add an SSN protect rule. Re-derive and re-render before any per-family work.",
+  "exactSessionAAction": "None of the nine can be counted platform_ready, and none of them has anywhere to record an approval regardless."
+}
