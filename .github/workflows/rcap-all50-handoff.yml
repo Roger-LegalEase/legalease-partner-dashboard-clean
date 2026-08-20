@@ -143,6 +143,12 @@ jobs:
       - name: Prove the hosted acceptance verdict guard is load-bearing
         run: node scripts/test-rcap-hosted-acceptance-verdict-mutations.mjs
 
+      - name: Verify the hosted job read only selects real columns
+        run: node scripts/verify-rcap-hosted-job-read-columns.mjs
+
+      - name: Prove the job-read column guard is load-bearing
+        run: node scripts/verify-rcap-hosted-job-read-columns.mjs --mutations
+
       - name: Verify a transacting phase cannot run against a route-disabled Preview
         run: node scripts/verify-rcap-staging-scoped-preview-contract.mjs
 

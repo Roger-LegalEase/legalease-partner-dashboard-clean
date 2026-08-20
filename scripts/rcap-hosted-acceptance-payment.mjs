@@ -1097,7 +1097,7 @@ async function readJob() {
            profile_id, profile_version, person_id, matter_id, partner_id,
            consumer_briefcase_item_id, consumer_auth_user_id,
            output_storage_path, output_sha256, normalized_output_sha256,
-           output_byte_count, output_page_count, container_digest,
+           output_byte_count, page_count, container_digest,
            delivery_eligibility, accounting_result,
            created_at, claimed_at, rendering_at, validating_at, artifact_validated_at
       from public.packet_render_jobs
@@ -1322,7 +1322,7 @@ let finalCycleResult = null;
     storage_object_exists: stored.status === 200,
     exact_bytes_re_read: Boolean(stored.bytes?.length) && stored.bytes.length === declaredBytes,
     pdf_parses: Boolean(validation?.ok),
-    page_proof: Number(validation?.pageCount ?? 0) > 0 && Number(validation?.pageCount ?? 0) === Number(job?.output_page_count ?? -1),
+    page_proof: Number(validation?.pageCount ?? 0) > 0 && Number(validation?.pageCount ?? 0) === Number(job?.page_count ?? -1),
     immutable_hash_agrees: Boolean(validation?.ok)
       && validation.outputSha256 === job?.output_sha256
       && validation.normalizedOutputSha256 === job?.normalized_output_sha256

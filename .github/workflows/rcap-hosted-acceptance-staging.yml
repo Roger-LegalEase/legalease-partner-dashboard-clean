@@ -35,6 +35,11 @@ on:
         required: false
         type: string
         default: ""
+      contradiction_job_id:
+        description: "Exact packet_render_jobs id to diagnose (worker_contract phase)"
+        required: false
+        type: string
+        default: ""
       preview_hostname:
         description: "Exact existing Vercel Preview hostname to REUSE. Supplying it forbids creating a new deployment: a candidate that does not match every condition refuses rather than silently deploying another Preview."
         required: false
@@ -255,7 +260,7 @@ jobs:
             accept)        DEPLOY=false; MATRIX=true;  GATE=false ;;
             payment)       DEPLOY=true;  MATRIX=true;  GATE=false ;;
             checkout_gate) DEPLOY=false; MATRIX=false; GATE=true  ;;
-            migrate|preflight|vercel_audit) DEPLOY=false; MATRIX=false; GATE=false ;;
+            migrate|preflight|vercel_audit|worker_contract) DEPLOY=false; MATRIX=false; GATE=false ;;
             *)
               echo "::error::unknown phase '$PHASE'; refusing rather than defaulting to a weaker phase"
               exit 1
@@ -266,6 +271,9 @@ jobs:
             echo "deploy=$DEPLOY"
             echo "matrix=$MATRIX"
             echo "gate=$GATE"
+            # A read-only diagnosis phase: no Preview, no Checkout, no payment,
+            # but it does need the registry to probe inside the published image.
+            if [ "$PHASE" = "worker_contract" ]; then echo "diagnose=true"; else echo "diagnose=false"; fi
             # Any phase that transacts — Checkout, payment, worker, artifact,
             # delivery — needs an OPEN, identity-narrowed delivery route. Derived
             # from the same decision rather than written out again, so it cannot
@@ -302,6 +310,19 @@ jobs:
       # A supplied-but-mismatching candidate REFUSES. Deploying a fresh Preview
       # in that case looks like resilience and is actually the loss of the
       # operator's instruction to test one specific deployment.
+      # Read-only diagnosis of the worker/job contract contradiction. Creates no
+      # Preview, no Checkout and no payment; it reads the stored render job and
+      # executes a probe INSIDE the published image.
+      - name: Diagnose the worker contract contradiction
+        id: worker_contract
+        if: steps.contract.outputs.diagnose == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          CONTRADICTION_JOB_ID: ${{ inputs.contradiction_job_id }}
+        run: node scripts/rcap-worker-contract-contradiction.mjs
+
       - name: Resolve the Preview this run will use
         id: resolve_preview
         if: steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
@@ -370,7 +391,7 @@ jobs:
 
       - name: Log in to the container registry for the pinned worker image
         id: registry_login
-        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
