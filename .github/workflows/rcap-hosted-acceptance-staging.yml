@@ -31,7 +31,12 @@ on:
         required: true
         type: string
       preview_deployment_id:
-        description: "Exact existing Vercel Preview deployment id; required only by checkout_gate"
+        description: "Exact existing Vercel Preview deployment id; optional — resolved from preview_hostname when omitted"
+        required: false
+        type: string
+        default: ""
+      preview_hostname:
+        description: "Exact existing Vercel Preview hostname to REUSE. Supplying it forbids creating a new deployment: a candidate that does not match every condition refuses rather than silently deploying another Preview."
         required: false
         type: string
         default: ""
@@ -119,6 +124,7 @@ jobs:
         env:
           PHASE_INPUT: ${{ inputs.phase }}
           PREVIEW_DEPLOYMENT_ID_INPUT: ${{ inputs.preview_deployment_id }}
+          PREVIEW_HOSTNAME_INPUT: ${{ inputs.preview_hostname }}
           APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
           WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
           WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
@@ -135,8 +141,15 @@ jobs:
             printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
               || { echo "::error::checkout_gate requires one exact Vercel deployment id"; exit 1; }
           elif [ -n "$PREVIEW_DEPLOYMENT_ID_INPUT" ]; then
-            echo "::error::preview_deployment_id is accepted only by checkout_gate"
-            exit 1
+            # A reuse candidate is legitimate for any phase that resolves a
+            # Preview. It is still shape-checked, so a typo refuses here rather
+            # than reaching the resolver as an unresolvable id.
+            printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
+              || { echo "::error::preview_deployment_id must be one exact Vercel deployment id"; exit 1; }
+          fi
+          if [ -n "$PREVIEW_HOSTNAME_INPUT" ]; then
+            printf '%s' "$PREVIEW_HOSTNAME_INPUT" | grep -Eq '^[A-Za-z0-9.-]+\.vercel\.app$' \
+              || { echo "::error::preview_hostname must be one exact *.vercel.app hostname"; exit 1; }
           fi
 
       - name: Check out repository history
@@ -256,9 +269,34 @@ jobs:
           } >> "$GITHUB_OUTPUT"
           echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE"
 
+      # ONE boundary for which Preview the matrix runs against. Always executes
+      # for any phase needing a Preview, and returns exactly one of:
+      # reused_exact_ready_preview, created_one_new_preview,
+      # refused_no_exact_preview.
+      #
+      # A supplied-but-mismatching candidate REFUSES. Deploying a fresh Preview
+      # in that case looks like resilience and is actually the loss of the
+      # operator's instruction to test one specific deployment.
+      - name: Resolve the Preview this run will use
+        id: resolve_preview
+        if: steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          # The resolver reads the CANDIDATE from the inputs. Everything
+          # downstream reads the RESOLVED identity from this step's outputs.
+          HOSTED_PREVIEW_HOSTNAME: ${{ inputs.preview_hostname }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+        run: node scripts/rcap-hosted-resolve-preview.mjs
+
       - name: Deploy the frozen application SHA to Vercel Preview
         id: deploy_preview
-        if: steps.contract.outputs.deploy == 'true'
+        # Suppressed entirely when the resolver reused an exact READY Preview:
+        # reuse means no Vercel deployment command runs at all.
+        if: steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -330,7 +368,8 @@ jobs:
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
-          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -391,6 +430,8 @@ jobs:
           PHASE: ${{ inputs.phase }}
           RUNS_MATRIX: ${{ steps.contract.outputs.matrix }}
           RUNS_GATE: ${{ steps.contract.outputs.gate }}
+          O_RESOLVE: ${{ steps.resolve_preview.outcome }}
+          O_REUSED: ${{ steps.resolve_preview.outputs.reused }}
           O_DEPLOY: ${{ steps.deploy_preview.outcome }}
           O_AUTH: ${{ steps.auth_identities.outcome }}
           O_BUILD: ${{ steps.matrix_build.outcome }}
@@ -413,7 +454,13 @@ jobs:
           }
           echo "phase=$PHASE matrix=$RUNS_MATRIX checkoutGate=$RUNS_GATE"
           if [ "$RUNS_MATRIX" = "true" ]; then
-            require "deploy or reuse Preview"            "$O_DEPLOY"
+            require "Preview resolution boundary"        "$O_RESOLVE"
+            # Reuse legitimately skips the raw deploy step; a non-reuse run must have deployed.
+            if [ "$O_REUSED" != "true" ]; then
+              require "deploy one new Preview"            "$O_DEPLOY"
+            else
+              echo "  ok       Preview reused; no deployment command executed"
+            fi
             require "acceptance Auth and identities"     "$O_AUTH"
             require "frozen application build"           "$O_BUILD"
             require "registry login for accepted worker" "$O_REGISTRY"
