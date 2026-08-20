@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "rcap-gate-b-wave-c-independent-review-verdicts/v1",
+  "shard": "b",
+  "shardIndex": 1,
+  "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "reviewerBranch": "claude/gate-b-wave-c-review-zr5151",
+  "reviewedBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewerBranchDistinctFromReviewedBranch": true,
+  "vocabulary": [
+    "approved_platform_ready",
+    "correction_required",
+    "substantive_owner_decision_required"
+  ],
+  "frozenDenominator": [
+    "AK:tf-800-form-en",
+    "AK:tf-805-form-en",
+    "KY:aoc-334-form-en",
+    "KY:aoc-496-3-form-en",
+    "NC:aoc-cr-287-form-en",
+    "NC:aoc-cr-288-form-en",
+    "NC:aoc-cr-296-form-en",
+    "NC:aoc-cr-298-form-en",
+    "NC:aoc-cv-226-support-en",
+    "NE:cc-6-11-2-form-en",
+    "NE:cc-6-11-form-en",
+    "NE:cc-6-12-form-en",
+    "NE:cc-6-15-1-form-en",
+    "VA:cc-1201-form-en",
+    "VA:cc-1473-form-en",
+    "VT:600-00228-support-en"
+  ],
+  "assignedFamilies": [
+    "NC:aoc-cr-287-form-en",
+    "NC:aoc-cr-288-form-en",
+    "NC:aoc-cr-296-form-en",
+    "NC:aoc-cr-298-form-en"
+  ],
+  "familiesReviewed": 4,
+  "counts": {
+    "approved_platform_ready": 0,
+    "correction_required": 3,
+    "substantive_owner_decision_required": 1
+  },
+  "verdicts": [
+    {
+      "familyId": "NC:aoc-cr-287-form-en",
+      "verdict": "correction_required",
+      "finalizedArtifactSha256": "cc44d0a733fcd4a2bc2b501f3e1c3ac2e0a70dc44d82890e79a321a8cd3a0c0d",
+      "completeVisualEvidenceSha256": "cf6f90cb3ffc53dcebe32d0e380d5fa0841cdd816a111a622fa7666551c20d2b",
+      "reviewRecord": "data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/NC-aoc-cr-287-form-en.review.json"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "verdict": "correction_required",
+      "finalizedArtifactSha256": "a505c3064c1d61c99ffcf74c5ba3a6d3bd59083410a0a5de9468c8f45bb8ae4e",
+      "completeVisualEvidenceSha256": "90d0d8d4b94e3df0c4a7b5522f156bbb0dcbc0f276731819646615c9c2581979",
+      "reviewRecord": "data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/NC-aoc-cr-288-form-en.review.json"
+    },
+    {
+      "familyId": "NC:aoc-cr-296-form-en",
+      "verdict": "substantive_owner_decision_required",
+      "finalizedArtifactSha256": "13f3068260ae17d8846bc8345ceaa57fa705273ad785bcc418becfa777c00720",
+      "completeVisualEvidenceSha256": "7dd64abc064d5ed8ef312bbaae18d99bf36bf2e3cd005bc5a96ce742fc0232e5",
+      "reviewRecord": "data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/NC-aoc-cr-296-form-en.review.json"
+    },
+    {
+      "familyId": "NC:aoc-cr-298-form-en",
+      "verdict": "correction_required",
+      "finalizedArtifactSha256": "9347fb6f136048fd14df03de50655c143cdcbd9eb2c1796b69a33adf3792c4c3",
+      "completeVisualEvidenceSha256": "d68e7da42b530c9dad149efd83f3377924f9641824df6af1b7b7ece6f07091ac",
+      "reviewRecord": "data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/NC-aoc-cr-298-form-en.review.json"
+    }
+  ],
+  "shardLevelBlocker": {
+    "id": "WCB-SOURCE-UNVERIFIABLE",
+    "statement": "No family in this shard could be approved, because \u00a72 could not be performed for any of them. RCAP_BUNDLE_EXTRACT is unset and the required corpus is absent from this filesystem, so no official source SHA-256 could be recomputed by this reviewer. \u00a72 forbids treating another lane's receipt as source proof, and receipts are all that remain.",
+    "appliesTo": [
+      "NC:aoc-cr-287-form-en",
+      "NC:aoc-cr-288-form-en",
+      "NC:aoc-cr-296-form-en",
+      "NC:aoc-cr-298-form-en"
+    ],
+    "notAnArtifactDefect": true,
+    "clearedBy": "mount the Edition 1 Master Library extract at the declared path, export RCAP_BUNDLE_EXTRACT, and re-run the \u00a72 step for these four families"
+  },
+  "whatWasVerifiedDespiteTheBlocker": [
+    "every non-source hash recomputed from disk and compared with both evidence records and the committed provenance sidecar",
+    "every relevant page of every family inspected as an image, blank against filled",
+    "every bound value located in the artifact's content stream and its bounding box compared with the rectangle its own map declares",
+    "the whole document searched for every canonical fact so that a value in an unintended place would surface wherever it sat",
+    "blank and filled halves of every contact-sheet page diffed word by word",
+    "flattening, XFA, JavaScript and action residue checked on every artifact",
+    "each historical objection rechecked against these bytes rather than read off its prior flag"
+  ],
+  "notAPromotion": "This record issues reviewer verdicts only. It promotes nothing, edits no historical verdict, and repairs nothing."
+}
