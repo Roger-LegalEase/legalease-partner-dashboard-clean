@@ -20,14 +20,17 @@
     {
       "field": "Def.Address.State",
       "reason": "value_not_among_field_options",
-      "factId": "participant.street_address"
+      "factId": "participant.state"
     },
     {
-      "field": "Def.Address.Zip",
-      "reason": "value_exceeds_form_max_length",
-      "maxLength": 5,
-      "valueLength": 16,
-      "factId": "participant.street_address"
+      "field": "Def.Info.JailId",
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
+      "field": "Def.VitalStats.SSN",
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "field": "Charge.violation.date",

@@ -36,6 +36,15 @@ const { resolvePacketRoute } = await import("../src/lib/rcap/documents/packet-ro
 const { terminalTreatmentForTrack } = await import("../src/lib/rcap/documents/guidance-packet-registry.ts");
 
 const OVERLAY_DIR = path.join(rootDir, "data/rcap-all50/overlays/production");
+const REVIEWS_DIR = path.join(rootDir, "data/rcap-all50/pdf-independent-reviews");
+// Where a blank official form could be, if the corpus is mounted. The gate
+// compares a reviewed source SHA against real bytes, so it needs somewhere to
+// look — and an unmounted corpus makes that condition fail rather than pass.
+const CORPUS_ROOTS = [
+  process.env.OFFICIAL_FORMS_SOURCE_DIR || null,
+  path.join(rootDir, "private/source-imports"),
+  path.join(rootDir, "private/Nationwide Record Clearing")
+].filter((candidate) => candidate && fs.existsSync(candidate));
 const LEDGER = path.join(rootDir, "data/rcap-ledger/track-terminalization.json");
 const QUEUE = path.join(rootDir, "data/rcap-all50/review-artifacts/d-track-queue.json");
 const F2 = path.join(rootDir, "data/rcap-all50/review-artifacts/f2-dispositions.json");
@@ -538,6 +547,9 @@ const OUTRANKED_BY_APPROVAL = new Set(["never_independently_approved", "visually
 for (const entry of [...records]) {
   const approval = platformReadyVerdict({
     overlayDir: OVERLAY_DIR,
+    reviewsDir: REVIEWS_DIR,
+    rootDir,
+    corpusRoots: CORPUS_ROOTS,
     familyIds: entry.familyIds,
     artifacts: (entry.familyIds ?? []).flatMap((id) => auditByFamily.get(id)?.artifacts ?? []).filter((a) => a.present)
   });

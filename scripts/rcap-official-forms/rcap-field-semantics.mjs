@@ -34,15 +34,35 @@ export const PROTECT_RULES = [
   ["money", /\$|\bfee\b|\bfees\b|\bcost[s]?\b|\bamount\b|\bbalance\b|\bpaid\b|\bpayment\b|\brestitution\b|\bfine[s]?\b|\bsurcharge\b|\bdollar|\bowed\b|\barrears\b/],
   ["race", /\brace\b|\bethnic|\bskin\b|\bcomplexion\b/],
   ["responsible_official", /responsible\s*(official|party|person)|authorized\s*(official|representative|signer)|custodian\s*of\s*record|records?\s*officer|designee/],
+  // A government identifier is never a fact the platform supplies. KY AOC-334,
+  // AOC-496 and AOC-496.2 each wrote the participant's full legal name into a
+  // "Defendant's SSN" box, because nothing claimed the box and
+  // full_legal_name's /\bdef\b/ pattern did. Jail and booking identifiers sit
+  // in the same rule: they identify a person through a custodial system the
+  // platform has no knowledge of, and AOC-496 put a name in one of those too.
+  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#)\b/],
   ["signature", /signature|\bsigned\b|\bsign\s*here\b|^\s*sign\b|\bsig\b|\binitials?\b/],
   ["notarization", /notar|jurat|acknowledg(ed|ment)\s*before\s*me|sworn\s*to\s*before|my\s*commission\s*expires|seal\s*of\s*office/],
-  ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|service\s*of\s*process|process\s*server|\bserved\s*(on|by|upon)\b|date\s*served|manner\s*of\s*service/],
+  // `cert date` was the hole. The rule matched the printed heading and the
+  // filing_date descriptor matched /cert\s*date/, so on AK TF-800 and TF-805 a
+  // field named certDate — sitting 28pt under a printed "Certificate of
+  // Service" — took the platform's filing date and produced a half-completed
+  // sworn certification: "I certify on 2026-08-12 at ______". A service block
+  // is a statement about something a person did, so nothing in it is
+  // deterministic.
+  ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|service\s*of\s*process|process\s*server|\bserved\s*(on|by|upon)\b|date\s*served|manner\s*of\s*service|\bcert\s*(date|time)\b|certif(y|ied|icate)\s*(on|date)/],
   ["licensing_board", /licens(e|ing)\s*(board|authority|agency)|board\s*of\s*(nursing|medicine|pharmacy|education|examiners)|professional\s*board|certification\s*board/],
   ["agency", /\bagency\b|\bsheriff\b|\bpolice\b|law\s*enforcement|\bbureau\b|state\s*patrol|\bprobation\b|\bparole\b|department\s*of\s*(public\s*safety|justice|corrections)|\bdps\b|\bsbi\b|\bacic\b|\bapsin\b|\bfbi\b/],
   ["court", /\bjudge\b|magistrate|commissioner|hearing\s*officer|referee|so\s*ordered|it\s*is\s*(hereby\s*)?ordered|ordered\s*(and\s*)?adjudged|adjudged|\bdecree\b|is\s*(hereby\s*)?(granted|denied)|court\s*use\s*only|for\s*(court|office|clerk|official)\s*use|do\s*not\s*write|\bruling\b/],
   ["clerk", /\bclerk\b|deputy\s*clerk|file\s*stamp|filed\s*stamp|filing\s*stamp|court\s*seal|scan\s*num|\bbarcode\b|entered\s*on|\bdistribution\b/],
   ["prosecutor", /prosecut|district\s*attorney|commonwealth\s*s?\s*attorney|state\s*s?\s*attorney|county\s*attorney|solicitor/],
-  ["attorney", /\battorney\b|\bcounsel\b|\besq\b|law\s*firm|bar\s*(no|num|number)/],
+  // `atty` is how North Carolina's AOC forms abbreviate it, and the rule
+  // spelled only the long form. NC AOC-CR-288 names the attorney block
+  // NameAtty / CityAtty / StateAtty / ZipCodeAtty, none of which contain
+  // "attorney", so the petitioner's own name and address were written into
+  // "Name And Address Of Petitioner's Attorney" — a filed petition asserting
+  // the petitioner is represented by counsel who is the petitioner.
+  ["attorney", /\battorney\b|\battys?\b|\bcounsel\b|\besq\b|law\s*firm|bar\s*(no|num|number)|\bvsb\b/],
   ["outside_party", /\bopposing\b|third\s*party|\bvictim\b|\bcomplainant\b|\bemployer\b|\bwitness\b|\bco-?defendant\b/],
   ["disposition_or_hearing", /\bdisposition\b|hearing\s*(date|time|result)|\bsentenc(e|ing)\b|\bconvict(ed|ion)\b|\bplea\b|\bverdict\b/]
 ];
@@ -68,8 +88,14 @@ export const FACT_DESCRIPTORS = [
   // contact value substitutes for it, and no email is ever synthesised from
   // other participant data: a missing email leaves the line blank.
   { factId: "participant.email", valueType: "string", match: /\be[-\s]?mail\b/ },
-  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b/, refuseWhen: /\be[-\s]?mail\b/ },
-  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b/ },
+  // The address guards, widened. `\baddress\b` matched a City box on KY
+  // AOC-496.2 (Def.Address.City) and printed the street line there as well as
+  // on the street line, and it matched a bank-name box on NC AOC-CV-226's
+  // affidavit of indigency, where the applicant's street address was printed
+  // as the name of their bank. A haystack that names a more specific slot than
+  // "address" is that slot, not the street line.
+  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b/, refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal|\bcounty\b|\bbank\b|\bemployer\b|\bcourt\b/ },
+  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b|\bcourt\b|\bcounty\s*(of|or)\s*city\b/ },
   { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/ },
   { factId: "participant.phone", valueType: "string", match: /\bphone\b|telephone/, refuseWhen: /\be[-\s]?mail\b/ },
   { factId: "participant.state", valueType: "string", match: /\bstate\b/ },
@@ -77,7 +103,15 @@ export const FACT_DESCRIPTORS = [
   { factId: "matter.court", valueType: "string", match: /court\s*name|type\s*of\s*court|judicial\s*(district|circuit)/ },
   { factId: "matter.case_number", valueType: "string", match: /case\s*(no|num|#)|docket|cause\s*(no|num)|file\s*(no|num)|case\s*id/ },
   { factId: "matter.citation_number", valueType: "string", match: /citation\s*(no|num)/ },
-  { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/ },
+  // full_legal_name's patterns are broad on purpose — a party token is how
+  // most forms label the filer's own name — and that breadth is what put the
+  // petitioner's name on NC AOC-CR-288's "Name And Address Of Petitioner's
+  // Attorney" block, on AOC-CR-296's "District Attorney Name" line, in KY's
+  // SSN and Jail ID boxes, and on AOC-CV-226's bank-name line. The protect
+  // rules stop the attorney, prosecutor and identifier cases now; this refusal
+  // stops the rest, where the haystack names a slot that is plainly not a
+  // person's name.
+  { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/, refuseWhen: /\bbank\b|\bstreet\b|\baddr(ess)?\b|\bcity\b|\bzip\b|postal|\bphone\b|telephone|\be[-\s]?mail\b|\bemployer\b|\bschool\b|\bcourt\s*name\b|type\s*of\s*court|\bcounty\b/ },
   { factId: "deterministic.filing_date", valueType: "date", match: /date\s*signed|signature\s*date|date\s*of\s*(this\s*)?(filing|signature)|today\s*s?\s*date|^\s*dated?\s*$|cert\s*date/ },
   // Legally sensitive dates. These describe the criminal event itself, and a
   // wrong value misstates the record to a court, so they never bind on a name

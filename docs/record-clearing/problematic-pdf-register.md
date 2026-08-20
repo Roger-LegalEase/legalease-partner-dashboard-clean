@@ -8,35 +8,35 @@ Terminalizing a track around a broken PDF is a legitimate product decision. It i
 
 | Measure | Count |
 | --- | ---: |
-| Problematic Pdfs Total | 87 |
+| Problematic Pdfs Total | 69 |
 | Platform Ready | 1 |
-| Retired From Operational Inventory | 40 |
-| Retired Family Directories | 45 |
+| Retired From Operational Inventory | 58 |
+| Retired Family Directories | 65 |
 | Active Track Problematic Pdfs | 45 |
-| Orphaned Or Optional Pdfs | 4 |
-| Missing Pdf Binaries | 39 |
-| Assets With At Least One Technical Finding | 85 |
-| Assets With At Least One Visual Finding | 49 |
-| Assets With At Least One Source Finding | 81 |
-| Unique Systemic Technical Root Causes | 3 |
-| Unique Family Specific Technical Defects | 97 |
+| Orphaned Or Optional Pdfs | 2 |
+| Missing Pdf Binaries | 23 |
+| Assets With At Least One Technical Finding | 43 |
+| Assets With At Least One Visual Finding | 47 |
+| Assets With At Least One Source Finding | 63 |
+| Unique Systemic Technical Root Causes | 0 |
+| Unique Family Specific Technical Defects | 53 |
 | Unique Systemic Visual Root Causes | 3 |
 | Unique Family Specific Visual Defects | 27 |
 | Unique Systemic Source Root Causes | 2 |
 | Unique Family Specific Source Defects | 5 |
-| Unique Root Causes In Play | 20 |
-| Technical Defects | 85 |
-| Visual Defects | 49 |
-| Unfinalized Rendered Artifacts | 3 |
-| Rendered Artifacts Not Byte Inspectable | 1 |
+| Unique Root Causes In Play | 16 |
+| Technical Defects | 43 |
+| Visual Defects | 47 |
+| Unfinalized Rendered Artifacts | 2 |
+| Rendered Artifacts Not Byte Inspectable | 0 |
 | Contact Sheets Showing No Fill | 4 |
 | Protected Fields Populated By The Factory | 0 |
-| Source Or Currentness Defects | 81 |
-| Legal Design Or Adoption Holds | 88 |
+| Source Or Currentness Defects | 63 |
+| Legal Design Or Adoption Holds | 70 |
 | Tracks Safely Terminalized Around A Problem Pdf | 34 |
 | Problem Pdf Routes Still Sellable | 0 |
 | Problem Pdf Routes Still Public | 0 |
-| Post Launch High Priority Pdf Fixes | 5 |
+| Post Launch High Priority Pdf Fixes | 4 |
 
 `Problem PDF routes still sellable` and `Problem PDF routes still public` must both be zero for launch.
 
@@ -50,7 +50,7 @@ Problem PDFs tied to one or more of the 497 launch tracks. Each one names the te
 - **Source SHA**: 94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -76,6 +76,7 @@ Defects:
 - `visually_unsafe` — Field "Check Box5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "transcript" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "confidentialBecause" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "certDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "time2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "mail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "hd" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -94,6 +95,7 @@ Defects:
 - `visually_unsafe` — Field "Check Box5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "transcript" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "confidentialBecause" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "certDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "time2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "mail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "hd" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -101,7 +103,6 @@ Defects:
 - `visually_unsafe` — Field "emailCB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "needText1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "signature0" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -114,7 +115,7 @@ Defects:
 - **Source SHA**: 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54 (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -131,6 +132,7 @@ Defects:
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `visually_unsafe` — Field "why" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "reason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "certDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "time2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "mail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "hd" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -140,6 +142,7 @@ Defects:
 - `visually_unsafe` — Field "signature0" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "why" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "reason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "certDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "time2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "mail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "hd" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -147,7 +150,6 @@ Defects:
 - `visually_unsafe` — Field "emailCB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "needText1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "signature0" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -160,7 +162,7 @@ Defects:
 - **Source SHA**: c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582 (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -210,7 +212,6 @@ Defects:
 - `visually_unsafe` — Field "rule" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "dateSigned" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "signature" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -223,7 +224,7 @@ Defects:
 - **Source SHA**: 7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, stale_or_superseded, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, stale_or_superseded, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: technical_approved_for_at_least_one_served_track
 - **Owner**: Terminal A route owner
@@ -253,9 +254,9 @@ Defects:
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Defendants ssn" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "listed charges" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case  No" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Defendants ssn" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -271,8 +272,8 @@ Defects:
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Defendants ssn" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "listed charges" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -285,7 +286,7 @@ Defects:
 - **Source SHA**: 5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde (revision REV-2016-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -303,7 +304,8 @@ Defects:
 - `visually_unsafe` — Field "Case.County" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Court Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -323,14 +325,14 @@ Defects:
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.CaseNum" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Info.JailId" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.VitalStats.SSN" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.County" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Court Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.City" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -349,7 +351,6 @@ Defects:
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -362,7 +363,7 @@ Defects:
 - **Source SHA**: 3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, stale_or_superseded, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, stale_or_superseded, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: technical_approved_for_at_least_one_served_track
 - **Owner**: Terminal A route owner
@@ -499,7 +500,6 @@ Defects:
 - `visually_unsafe` — Field "59" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset Form" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print Form" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -512,7 +512,7 @@ Defects:
 - **Source SHA**: 70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182 (revision REV-2023-06)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: technical_approved_for_at_least_one_served_track
 - **Owner**: Terminal A route owner
@@ -676,7 +676,6 @@ Defects:
 - `visually_unsafe` — Field "77" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "78" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "79" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -688,7 +687,7 @@ Defects:
 - **Source SHA**: 4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd (revision REV-2016-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -710,6 +709,8 @@ Defects:
 - `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.PhoneNo" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -732,8 +733,6 @@ Defects:
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.CaseNum" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Info.JailId" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.VitalStats.SSN" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.County" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Line1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -741,6 +740,8 @@ Defects:
 - `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.PhoneNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -762,7 +763,6 @@ Defects:
 - `visually_unsafe` — Field "Agencies" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -775,7 +775,7 @@ Defects:
 - **Source SHA**: 715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, never_independently_approved, stale_or_superseded, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, never_independently_approved, stale_or_superseded, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -842,7 +842,6 @@ Defects:
 - `visually_unsafe` — Field "check offenses listed" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check denied" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check felony chg" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -972,7 +971,7 @@ Defects:
 - **Source SHA**: a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed (revision REV-2025-12)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -995,6 +994,7 @@ Defects:
 - `visually_unsafe` — Field "SuperiorCourtCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DriversLicenseNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DriversLicenseState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FullSocialSecurityNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AgeAtTimeOfOffense" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionersAttorneyName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1106,6 +1106,7 @@ Defects:
 - `visually_unsafe` — Field "SuperiorCourtCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DriversLicenseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DriversLicenseState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FullSocialSecurityNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AgeAtTimeOfOffense" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionersAttorneyName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1204,7 +1205,6 @@ Defects:
 - `visually_unsafe` — Field "DateOfDismissal8" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfDismissal9" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfDismissal10" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -1363,7 +1363,7 @@ Defects:
 - **Source SHA**: 776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08 (revision REV-2025-03)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1386,8 +1386,12 @@ Defects:
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SNN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Age" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "NameAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "StAddrAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAddrAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "CityAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "StateAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ZipCodeAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NameAgency1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AddrAgency1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAgency1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1500,8 +1504,12 @@ Defects:
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SNN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Age" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "NameAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "StAddrAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAddrAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "CityAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "StateAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ZipCodeAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NameAgency1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AddrAgency1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAgency1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1600,7 +1608,6 @@ Defects:
 - `visually_unsafe` — Field "DeputyCSCCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AssistantCSCCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ClerkOfSuperiorCourtCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -1642,7 +1649,7 @@ Defects:
 - **Source SHA**: 48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d (revision REV-2025-03)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -1887,7 +1894,6 @@ Defects:
 - `visually_unsafe` — Field "DeputyCSCCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AssistantCSCCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ClerkOfSuperiorCourtCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -1929,7 +1935,7 @@ Defects:
 - **Source SHA**: 99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c (revision REV-2025-06)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2141,7 +2147,6 @@ Defects:
 - `visually_unsafe` — Field "DepCSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AsstCSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -2183,7 +2188,7 @@ Defects:
 - **Source SHA**: 8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2389,7 +2394,6 @@ Defects:
 - `visually_unsafe` — Field "DepCSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AsstCSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -2433,7 +2437,7 @@ Defects:
 - **Source SHA**: 74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f (revision REV-2023-04)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2447,12 +2451,13 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressState" fails the unfittable_refused_not_clipped check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TotalAssets" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TotalLiabilities" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "BondType" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "YesHaveServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NoHaveNotServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantIsDefendantCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2479,6 +2484,7 @@ Defects:
 - `visually_unsafe` — Field "TotalMonthlyExpenses" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "BondAmount" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ByWhomPosted" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "BankNameAndAccountType" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MotorVehicles" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "LastIncomeTaxFiledYearLastTwoDigits" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "LastIncomeTaxFiledRefundCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2510,14 +2516,13 @@ Defects:
 - `visually_unsafe` — Field "JuratCommissionExpiresDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "JuratCountyWhereNotarized" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantEmploymentIncomeMonthlyAmount" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressCity" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressState" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressZip" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TotalAssets" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TotalLiabilities" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "BondType" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "YesHaveServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NoHaveNotServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantIsDefendantCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2544,6 +2549,7 @@ Defects:
 - `visually_unsafe` — Field "TotalMonthlyExpenses" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "BondAmount" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ByWhomPosted" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "BankNameAndAccountType" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MotorVehicles" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "LastIncomeTaxFiledYearLastTwoDigits" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "LastIncomeTaxFiledRefundCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2575,7 +2581,6 @@ Defects:
 - `visually_unsafe` — Field "JuratCommissionExpiresDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "JuratCountyWhereNotarized" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantEmploymentIncomeMonthlyAmount" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -2622,7 +2627,7 @@ Defects:
 - **Source SHA**: 8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2647,7 +2652,6 @@ Defects:
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -2661,7 +2665,7 @@ Defects:
 - **Source SHA**: c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2696,7 +2700,6 @@ Defects:
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -2710,7 +2713,7 @@ Defects:
 - **Source SHA**: 68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2754,7 +2757,6 @@ Defects:
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -2799,7 +2801,7 @@ Defects:
 - **Source SHA**: d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -2839,7 +2841,6 @@ Defects:
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -2852,7 +2853,7 @@ Defects:
 - **Source SHA**: 43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -3006,7 +3007,6 @@ Defects:
 - `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "datesigned" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -3020,7 +3020,7 @@ Defects:
 - **Source SHA**: 7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78 (revision REV-2026-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -3035,7 +3035,6 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `visually_unsafe` — Field "User.VSBCaseNumber" fails the unfittable_refused_not_clipped check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ResetButton" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3108,9 +3107,9 @@ Defects:
 - `visually_unsafe` — Field "User.CityAttorney" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.EmailPetitioner" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.EmailAttorney" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.VSBCaseNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryCityOrCounty" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CaseNumber1201" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.VSBCaseNumber" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryFullNameOfArrest" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ResetButton" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CaseNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3185,7 +3184,7 @@ Defects:
 - `visually_unsafe` — Field "User.CityAttorney" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.EmailPetitioner" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.EmailAttorney" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `visually_unsafe` — Field "User.VSBCaseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -3200,7 +3199,7 @@ Defects:
 - **Source SHA**: 6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219 (revision REV-2026-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -3277,7 +3276,6 @@ Defects:
 - `visually_unsafe` — Field "User.CB1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -3289,12 +3287,12 @@ Defects:
 - **Source SHA**: ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, unfinalized_rendered_artifact, visually_unsafe
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: high
-- **Exact next action**: Re-render VT 200-00130 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2025-07 of VT 200-00130 is the currently published form, against the issuing body's own publication.
 
 Defects:
 
@@ -3303,13 +3301,6 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
-- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
-- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf: no provenance record names this artifact. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
-- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
-- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
-- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
-- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf: no provenance record names this artifact. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 - `visually_unsafe` — Field "Unit" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3599,7 +3590,7 @@ Defects:
 - **Source SHA**: 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 (revision REV-2026-04)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -3772,7 +3763,6 @@ Defects:
 - `visually_unsafe` — Field "115" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "116" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "117" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -3933,33 +3923,6 @@ Defects:
 
 _No active launch track is proven to require this asset._
 
-### VT 200-00131 — Response to Petition to Expunge or Seal
-
-- **Family ids**: VT:200-00131-en, VT:200-00131-form-en
-- **Source SHA**: 5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a (revision REV-2018-07)
-- **Binary present**: true
-- **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Confirm that revision REV-2018-07 of VT 200-00131 is the currently published form, against the issuing body's own publication.
-
-Defects:
-
-- `currentness_unverified` — Revision REV-2018-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
-- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
-- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
-- `multi_widget_ambiguity` — The asset exposes 21 fields and binds none of them. _(implementation-index.json:bound)_
-
-_No active launch track is proven to require this asset._
-
 ### VT 200-00331 — Request for Criminal Record Search
 
 - **Family ids**: VT:200-00331-en, VT:200-00331-support-en
@@ -3985,34 +3948,6 @@ Defects:
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `missing_required_packet_component` — Every field on this AcroForm is manual or unwritable, so it produces no filled component. _(implementation-index.json:status)_
 - `multi_widget_ambiguity` — The asset exposes 30 fields and binds none of them. _(implementation-index.json:bound)_
-
-_No active launch track is proven to require this asset._
-
-### VT 200-00631 — Request for Sealing Order in Special Index
-
-- **Family ids**: VT:200-00631-en, VT:200-00631-form-en
-- **Source SHA**: a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3 (revision REV-2019-09)
-- **Binary present**: true
-- **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, missing_required_packet_component, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Confirm that revision REV-2019-09 of VT 200-00631 is the currently published form, against the issuing body's own publication.
-
-Defects:
-
-- `currentness_unverified` — Revision REV-2019-09 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
-- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
-- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
-- `missing_required_packet_component` — Every field on this AcroForm is manual or unwritable, so it produces no filled component. _(implementation-index.json:status)_
-- `multi_widget_ambiguity` — The asset exposes 10 fields and binds none of them. _(implementation-index.json:bound)_
 
 _No active launch track is proven to require this asset._
 
@@ -4203,58 +4138,6 @@ Defects:
 
 _No active launch track is proven to require this asset._
 
-### AR 3-Misdemeanor-Petition-8_01_2023.pdf — 3-Misdemeanor-Petition-8_01_2023.pdf
-
-- **Family ids**: AR:3-misdemeanor-petition-8-01-2023
-- **Source SHA**: 63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for AR 3-Misdemeanor-Petition-8_01_2023.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — 3-Misdemeanor-Petition-8_01_2023.pdf is expected at LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — pinned_hash_absent_from_canonical_library _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### AR 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf — 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf
-
-- **Family ids**: AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f
-- **Source SHA**: 09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for AR 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf is expected at LegalEase Arkanasa/7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — source_gated_never_runtime_selectable _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
 ### AR Arkansas-Petition-Order-Forms.html — Arkansas-Petition-Order-Forms.html
 
 - **Family ids**: AR:arkansas-petition-order-forms
@@ -4272,108 +4155,6 @@ Defects:
 
 - `missing_binary` — Arkansas-Petition-Order-Forms.html is expected at LegalEase Arkanasa/Arkansas-Petition-Order-Forms.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
 - `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — pinned_hash_absent_from_canonical_library _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### AR Felony-Petition-Form-f.pdf — Felony-Petition-Form-f.pdf
-
-- **Family ids**: AR:felony-petition-form-f
-- **Source SHA**: 6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for AR Felony-Petition-Form-f.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — Felony-Petition-Form-f.pdf is expected at LegalEase Arkanasa/Felony-Petition-Form-f.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — source_gated_never_runtime_selectable _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### KY 496.2.pdf — 496.2.pdf
-
-- **Family ids**: KY:496-2
-- **Source SHA**: 5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for KY 496.2.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — 496.2.pdf is expected at LegalEase Kentucky/496.2.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### KY 496.3.pdf — 496.3.pdf
-
-- **Family ids**: KY:496-3
-- **Source SHA**: 3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for KY 496.3.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — 496.3.pdf is expected at LegalEase Kentucky/496.3.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### KY 497.2.pdf — 497.2.pdf
-
-- **Family ids**: KY:497-2
-- **Source SHA**: 080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for KY 497.2.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — 497.2.pdf is expected at LegalEase Kentucky/497.2.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4478,84 +4259,6 @@ Defects:
 
 - `missing_binary` — Kentucky-Expungement-Forms.html is expected at LegalEase Kentucky/files-4/Kentucky-Expungement-Forms.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
 - `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — pinned_hash_absent_from_canonical_library _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### NC cr287_1.pdf — cr287_1.pdf
-
-- **Family ids**: NC:cr287-1
-- **Source SHA**: sha256_unrecorded_in_repo
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for NC cr287_1.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — cr287_1.pdf is expected at LegalEase North Carolina/cr287_1.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — pinned_hash_absent_from_canonical_library _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### NC cr297.pdf — cr297.pdf
-
-- **Family ids**: NC:cr297
-- **Source SHA**: sha256_unrecorded_in_repo
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for NC cr297.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — cr297.pdf is expected at LegalEase North Carolina/cr297.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — pinned_hash_absent_from_canonical_library _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### NC cr298_1.pdf — cr298_1.pdf
-
-- **Family ids**: NC:cr298-1
-- **Source SHA**: sha256_unrecorded_in_repo
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for NC cr298_1.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — cr298_1.pdf is expected at LegalEase North Carolina/cr298_1.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4824,183 +4527,6 @@ Defects:
 
 _No active launch track is proven to require this asset._
 
-### VT 200-00129 – Petition to Expunge Criminal History.pdf — 200-00129 – Petition to Expunge Criminal History.pdf
-
-- **Family ids**: VT:200-00129-petition-to-expunge-criminal-history
-- **Source SHA**: 6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for VT 200-00129 – Petition to Expunge Criminal History.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — 200-00129 – Petition to Expunge Criminal History.pdf is expected at LegalEase Vermont/200-00129 – Petition to Expunge Criminal History.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### VT 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf — 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf
-
-- **Family ids**: VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record
-- **Source SHA**: 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for VT 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf is expected at LegalEase Vermont/200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### VT 200-00131.pdf — 200-00131.pdf
-
-- **Family ids**: VT:200-00131
-- **Source SHA**: 5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for VT 200-00131.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — 200-00131.pdf is expected at LegalEase Vermont/200-00131.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### VT 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf — 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf
-
-- **Family ids**: VT:200-00132-stipulation-to-seal-criminal-history-record-order
-- **Source SHA**: 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for VT 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf is expected at LegalEase Vermont/200-00132 – Stipulation to Seal Criminal History Record + Order.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### VT 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf — 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf
-
-- **Family ids**: VT:200-00132a-stipulation-to-expunge-criminal-history-record-order
-- **Source SHA**: 9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for VT 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf is expected at LegalEase Vermont/200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### VT 200-00631.pdf — 200-00631.pdf
-
-- **Family ids**: VT:200-00631
-- **Source SHA**: a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for VT 200-00631.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — 200-00631.pdf is expected at LegalEase Vermont/200-00631.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
-### VT 400-00171.pdf — 400-00171.pdf
-
-- **Family ids**: VT:400-00171
-- **Source SHA**: b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a
-- **Binary present**: false
-- **Structural class**: dirty_acroform; participant fillable: unrecorded
-- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
-- **Technical disposition**: no_implementation_record
-- **Legal disposition**: no_independent_approval
-- **Owner**: Terminal A route owner
-- **Post-launch priority**: low
-- **Exact next action**: Supply the exact verified binary for VT 400-00171.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
-
-Defects:
-
-- `missing_binary` — 400-00171.pdf is expected at LegalEase Vermont/400-00171.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
-- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
-- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
-- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — pinned_hash_absent_from_canonical_library _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-
-_No active launch track is proven to require this asset._
-
 ### VT application-waive-filing-fees-and-service-costs.html — application-waive-filing-fees-and-service-costs.html
 
 - **Family ids**: VT:application-waive-filing-fees-and-service-costs
@@ -5037,7 +4563,7 @@ Assets needing technical, visual, source, currentness, legal-design or adoption 
 - **Source SHA**: 94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5063,6 +4589,7 @@ Defects:
 - `visually_unsafe` — Field "Check Box5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "transcript" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "confidentialBecause" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "certDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "time2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "mail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "hd" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5081,6 +4608,7 @@ Defects:
 - `visually_unsafe` — Field "Check Box5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "transcript" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "confidentialBecause" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "certDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "time2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "mail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "hd" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5088,7 +4616,6 @@ Defects:
 - `visually_unsafe` — Field "emailCB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "needText1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "signature0" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -5101,7 +4628,7 @@ Defects:
 - **Source SHA**: 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54 (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5118,6 +4645,7 @@ Defects:
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `visually_unsafe` — Field "why" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "reason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "certDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "time2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "mail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "hd" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5127,6 +4655,7 @@ Defects:
 - `visually_unsafe` — Field "signature0" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "why" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "reason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "certDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "time2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "mail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "hd" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5134,7 +4663,6 @@ Defects:
 - `visually_unsafe` — Field "emailCB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "needText1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "signature0" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -5147,7 +4675,7 @@ Defects:
 - **Source SHA**: c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582 (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5197,7 +4725,6 @@ Defects:
 - `visually_unsafe` — Field "rule" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "dateSigned" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "signature" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -5210,7 +4737,7 @@ Defects:
 - **Source SHA**: 7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, stale_or_superseded, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, stale_or_superseded, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: technical_approved_for_at_least_one_served_track
 - **Owner**: Terminal A route owner
@@ -5240,9 +4767,9 @@ Defects:
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Defendants ssn" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "listed charges" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case  No" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Defendants ssn" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5258,8 +4785,8 @@ Defects:
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Defendants ssn" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "listed charges" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5272,7 +4799,7 @@ Defects:
 - **Source SHA**: 5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde (revision REV-2016-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5290,7 +4817,8 @@ Defects:
 - `visually_unsafe` — Field "Case.County" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Court Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5310,14 +4838,14 @@ Defects:
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.CaseNum" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Info.JailId" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.VitalStats.SSN" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.County" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Court Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.City" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5336,7 +4864,6 @@ Defects:
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -5349,7 +4876,7 @@ Defects:
 - **Source SHA**: 3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, stale_or_superseded, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, stale_or_superseded, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: technical_approved_for_at_least_one_served_track
 - **Owner**: Terminal A route owner
@@ -5486,7 +5013,6 @@ Defects:
 - `visually_unsafe` — Field "59" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset Form" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print Form" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5499,7 +5025,7 @@ Defects:
 - **Source SHA**: 70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182 (revision REV-2023-06)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: technical_approved_for_at_least_one_served_track
 - **Owner**: Terminal A route owner
@@ -5663,7 +5189,6 @@ Defects:
 - `visually_unsafe` — Field "77" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "78" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "79" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5675,7 +5200,7 @@ Defects:
 - **Source SHA**: 4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd (revision REV-2016-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5697,6 +5222,8 @@ Defects:
 - `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.PhoneNo" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5719,8 +5246,6 @@ Defects:
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.CaseNum" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Info.JailId" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.VitalStats.SSN" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.County" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Line1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5728,6 +5253,8 @@ Defects:
 - `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.PhoneNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5749,7 +5276,6 @@ Defects:
 - `visually_unsafe` — Field "Agencies" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -5762,7 +5288,7 @@ Defects:
 - **Source SHA**: 715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b (revision REV-UNKNOWN)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, never_independently_approved, stale_or_superseded, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, never_independently_approved, stale_or_superseded, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5829,7 +5355,6 @@ Defects:
 - `visually_unsafe` — Field "check offenses listed" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check denied" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check felony chg" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -5959,7 +5484,7 @@ Defects:
 - **Source SHA**: a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed (revision REV-2025-12)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5982,6 +5507,7 @@ Defects:
 - `visually_unsafe` — Field "SuperiorCourtCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DriversLicenseNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DriversLicenseState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FullSocialSecurityNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AgeAtTimeOfOffense" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionersAttorneyName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6093,6 +5619,7 @@ Defects:
 - `visually_unsafe` — Field "SuperiorCourtCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DriversLicenseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DriversLicenseState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FullSocialSecurityNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AgeAtTimeOfOffense" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionersAttorneyName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6191,7 +5718,6 @@ Defects:
 - `visually_unsafe` — Field "DateOfDismissal8" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfDismissal9" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfDismissal10" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -6350,7 +5876,7 @@ Defects:
 - **Source SHA**: 776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08 (revision REV-2025-03)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -6373,8 +5899,12 @@ Defects:
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SNN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Age" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "NameAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "StAddrAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAddrAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "CityAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "StateAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ZipCodeAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NameAgency1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AddrAgency1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAgency1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6487,8 +6017,12 @@ Defects:
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SNN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Age" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "NameAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "StAddrAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAddrAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "CityAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "StateAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ZipCodeAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NameAgency1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AddrAgency1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAgency1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6587,7 +6121,6 @@ Defects:
 - `visually_unsafe` — Field "DeputyCSCCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AssistantCSCCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ClerkOfSuperiorCourtCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -6629,7 +6162,7 @@ Defects:
 - **Source SHA**: 48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d (revision REV-2025-03)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -6874,7 +6407,6 @@ Defects:
 - `visually_unsafe` — Field "DeputyCSCCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AssistantCSCCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ClerkOfSuperiorCourtCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -6916,7 +6448,7 @@ Defects:
 - **Source SHA**: 99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c (revision REV-2025-06)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -7128,7 +6660,6 @@ Defects:
 - `visually_unsafe` — Field "DepCSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AsstCSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7170,7 +6701,7 @@ Defects:
 - **Source SHA**: 8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -7376,7 +6907,6 @@ Defects:
 - `visually_unsafe` — Field "DepCSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AsstCSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7420,7 +6950,7 @@ Defects:
 - **Source SHA**: 74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f (revision REV-2023-04)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -7434,12 +6964,13 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressState" fails the unfittable_refused_not_clipped check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TotalAssets" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TotalLiabilities" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "BondType" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "YesHaveServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NoHaveNotServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantIsDefendantCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7466,6 +6997,7 @@ Defects:
 - `visually_unsafe` — Field "TotalMonthlyExpenses" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "BondAmount" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ByWhomPosted" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "BankNameAndAccountType" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MotorVehicles" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "LastIncomeTaxFiledYearLastTwoDigits" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "LastIncomeTaxFiledRefundCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7497,14 +7029,13 @@ Defects:
 - `visually_unsafe` — Field "JuratCommissionExpiresDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "JuratCountyWhereNotarized" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantEmploymentIncomeMonthlyAmount" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressCity" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressState" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressZip" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TotalAssets" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "TotalLiabilities" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "BondType" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "YesHaveServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NoHaveNotServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantIsDefendantCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7531,6 +7062,7 @@ Defects:
 - `visually_unsafe` — Field "TotalMonthlyExpenses" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "BondAmount" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ByWhomPosted" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "BankNameAndAccountType" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MotorVehicles" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "LastIncomeTaxFiledYearLastTwoDigits" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "LastIncomeTaxFiledRefundCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7562,7 +7094,6 @@ Defects:
 - `visually_unsafe` — Field "JuratCommissionExpiresDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "JuratCountyWhereNotarized" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantEmploymentIncomeMonthlyAmount" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7609,7 +7140,7 @@ Defects:
 - **Source SHA**: 8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -7634,7 +7165,6 @@ Defects:
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7648,7 +7178,7 @@ Defects:
 - **Source SHA**: c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -7683,7 +7213,6 @@ Defects:
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7697,7 +7226,7 @@ Defects:
 - **Source SHA**: 68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -7741,7 +7270,6 @@ Defects:
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7786,7 +7314,7 @@ Defects:
 - **Source SHA**: d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -7826,7 +7354,6 @@ Defects:
 - `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7839,7 +7366,7 @@ Defects:
 - **Source SHA**: 43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -7993,7 +7520,6 @@ Defects:
 - `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "datesigned" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -8007,7 +7533,7 @@ Defects:
 - **Source SHA**: 7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78 (revision REV-2026-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -8022,7 +7548,6 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
-- `visually_unsafe` — Field "User.VSBCaseNumber" fails the unfittable_refused_not_clipped check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ResetButton" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8095,9 +7620,9 @@ Defects:
 - `visually_unsafe` — Field "User.CityAttorney" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.EmailPetitioner" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.EmailAttorney" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.VSBCaseNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryCityOrCounty" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CaseNumber1201" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.VSBCaseNumber" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryFullNameOfArrest" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ResetButton" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CaseNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8172,7 +7697,7 @@ Defects:
 - `visually_unsafe` — Field "User.CityAttorney" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.EmailPetitioner" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.EmailAttorney" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
+- `visually_unsafe` — Field "User.VSBCaseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -8187,7 +7712,7 @@ Defects:
 - **Source SHA**: 6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219 (revision REV-2026-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -8264,7 +7789,6 @@ Defects:
 - `visually_unsafe` — Field "User.CB1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -8276,12 +7800,12 @@ Defects:
 - **Source SHA**: ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed (revision REV-2025-07)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, rendered_artifact_not_byte_inspectable, unfinalized_rendered_artifact, visually_unsafe
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
-- **Post-launch priority**: high
-- **Exact next action**: Re-render VT 200-00130 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its contact sheet shows a filled panel. This requires the verified source binary, which is not in the clone.
+- **Post-launch priority**: medium
+- **Exact next action**: Confirm that revision REV-2025-07 of VT 200-00130 is the currently published form, against the issuing body's own publication.
 
 Defects:
 
@@ -8290,13 +7814,6 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
-- `rendered_artifact_not_byte_inspectable` — fixtures/canonical-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
-- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf: no provenance record names this artifact. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
-- `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
-- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf is not a finalized participant artifact: not flattened live form fields survive. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
-- `rendered_artifact_not_byte_inspectable` — fixtures/boundary-filled.pdf is serialized with object streams, so the active-content residue scan cannot give a clean verdict on it. _(finalized-artifact-audit.json:families[].artifacts[].byteInspectable)_
-- `unfinalized_rendered_artifact` — fixtures/boundary-filled.pdf: no provenance record names this artifact. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 - `visually_unsafe` — Field "Unit" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8586,7 +8103,7 @@ Defects:
 - **Source SHA**: 263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 (revision REV-2026-04)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe, xfa_javascript_or_active_content_residue
+- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
 - **Technical disposition**: no_implementation_record
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -8759,7 +8276,6 @@ Defects:
 - `visually_unsafe` — Field "115" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "116" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "117" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `xfa_javascript_or_active_content_residue` — contact-sheet/blank-vs-filled.pdf carries active content residue. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |

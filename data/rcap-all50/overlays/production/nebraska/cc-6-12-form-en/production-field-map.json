@@ -27,11 +27,6 @@
       "factId": "matter.case_number"
     },
     {
-      "field": "Adult name",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "datesigned",
       "class": "deterministic",
       "factId": "deterministic.filing_date"
@@ -78,6 +73,11 @@
     }
   ],
   "bindingRefusals": [
+    {
+      "field": "Adult name",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
     {
       "field": "Text3",
       "reason": "no_allowlisted_fact_matches",
@@ -144,7 +144,52 @@
       "category": null
     }
   ],
-  "unwritableFields": [],
+  "unwritableFields": [
+    {
+      "field": "Adult name",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box1",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box2",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box3",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box4",
+      "class": "manual"
+    },
+    {
+      "field": "emailaddress",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box7",
+      "class": "manual"
+    },
+    {
+      "field": "noemailreason",
+      "class": "manual"
+    },
+    {
+      "field": "noemailreason2",
+      "class": "manual"
+    },
+    {
+      "field": "DROPDOWNCOUNTY2",
+      "class": "manual"
+    },
+    {
+      "field": "fullcountystatementRIGHT",
+      "class": "manual"
+    }
+  ],
   "manualFields": [
     "Adult name",
     "Check Box1",

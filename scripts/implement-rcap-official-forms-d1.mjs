@@ -148,7 +148,13 @@ function classify(name, type, ownership) {
   return "manual";
 }
 const POPULATABLE = new Set(["participant", "deterministic"]);
-const NEVER_WRITE = new Set(["prohibited", "protected", "signature", "court_or_agency", "outside_party"]);
+// `manual` belongs in this set. It is what the classifier returns when it could
+// not decide what a field is, and a field nobody could classify is the last one
+// that should be written to. Its absence let the binder write into a box the
+// classifier had already declined to describe — and verify-rcap-official-forms-d1
+// carried the identical omission, so the verifier could not catch what the
+// binder allowed.
+const NEVER_WRITE = new Set(["prohibited", "protected", "signature", "court_or_agency", "outside_party", "manual"]);
 
 // --- fact bindings ----------------------------------------------------------
 // Strictly most-specific first. `PetitionerCity` and `Def.VitalStats.DOB` both

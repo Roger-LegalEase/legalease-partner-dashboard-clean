@@ -39,6 +39,12 @@ const AUDIT = path.join(rootDir, "data/rcap-all50/finalized-artifact-audit.json"
 const SHEET_PROOF = path.join(rootDir, "data/rcap-all50/contact-sheet-visual-proof.json");
 const PLACEMENT = path.join(rootDir, "data/rcap-all50/overlay-placement-evidence.json");
 const OVERLAY_DIR = path.join(rootDir, "data/rcap-all50/overlays/production");
+const REVIEWS_DIR = path.join(rootDir, "data/rcap-all50/pdf-independent-reviews");
+const CORPUS_ROOTS = [
+  process.env.OFFICIAL_FORMS_SOURCE_DIR || null,
+  path.join(rootDir, "private/source-imports"),
+  path.join(rootDir, "private/Nationwide Record Clearing")
+].filter((candidate) => candidate && fs.existsSync(candidate));
 const OUT_JSON = path.join(rootDir, "data/rcap-all50/problematic-pdf-master-list.json");
 const OUT_MD = path.join(rootDir, "docs/record-clearing/problematic-pdf-master-list.md");
 const OUT_CSV = path.join(rootDir, "docs/record-clearing/problematic-pdf-master-list.csv");
@@ -207,7 +213,14 @@ const registryByForm = registryFormIds();
 function reviewVerdictFor(familyIds, artifacts) {
   // One shared derivation, imported rather than restated. The register needs the
   // same answer and cannot ask this generator for it without closing a cycle.
-  return platformReadyVerdict({ overlayDir: OVERLAY_DIR, familyIds, artifacts });
+  return platformReadyVerdict({
+    overlayDir: OVERLAY_DIR,
+    reviewsDir: REVIEWS_DIR,
+    rootDir,
+    corpusRoots: CORPUS_ROOTS,
+    familyIds,
+    artifacts
+  });
 }
 
 // Exactly one operational disposition per asset, from an explicit vocabulary.

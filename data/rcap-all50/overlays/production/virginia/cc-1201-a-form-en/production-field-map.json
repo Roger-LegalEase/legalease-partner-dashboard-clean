@@ -43,11 +43,6 @@
       "factId": "matter.case_number"
     },
     {
-      "field": "User.FullNameOfArrest",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "User.CityOrCounty",
       "class": "participant",
       "factId": "participant.city"
@@ -56,11 +51,6 @@
       "field": "User.AncillaryCaseNumber",
       "class": "participant",
       "factId": "matter.case_number"
-    },
-    {
-      "field": "User.AncillaryFullNameOfArrest",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
     },
     {
       "field": "User.AncillaryCityOrCounty",
@@ -73,11 +63,6 @@
       "factId": "matter.charges[0].case_number"
     },
     {
-      "field": "User.AncillaryFullNameOfArrest1",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "User.AncillaryCityOrCounty1",
       "class": "participant",
       "factId": "participant.city"
@@ -86,11 +71,6 @@
       "field": "User.AncillaryCaseNumberD",
       "class": "participant",
       "factId": "matter.case_number"
-    },
-    {
-      "field": "User.AncillaryFullNameOfArrestD",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
     },
     {
       "field": "User.AncillaryCityOrCountyD",
@@ -138,6 +118,11 @@
       "field": "User.Reasonably",
       "reason": "no_allowlisted_fact_matches",
       "category": null
+    },
+    {
+      "field": "User.FullNameOfArrest",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     },
     {
       "field": "User.CB1",
@@ -275,6 +260,11 @@
       "category": null
     },
     {
+      "field": "User.AncillaryFullNameOfArrest",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
+    {
       "field": "User.CB7",
       "reason": "non_text_field_type",
       "category": "type_guard"
@@ -375,6 +365,11 @@
       "category": null
     },
     {
+      "field": "User.AncillaryFullNameOfArrest1",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
+    {
       "field": "User.CB71",
       "reason": "non_text_field_type",
       "category": "type_guard"
@@ -460,6 +455,11 @@
       "category": null
     },
     {
+      "field": "User.AncillaryFullNameOfArrestD",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
+    {
       "field": "User.CB7D",
       "reason": "non_text_field_type",
       "category": "type_guard"
@@ -515,7 +515,288 @@
       "category": "sensitive_fact"
     }
   ],
-  "unwritableFields": [],
+  "unwritableFields": [
+    {
+      "field": "ResetButton",
+      "class": "manual"
+    },
+    {
+      "field": "User.DateOfDisp",
+      "class": "manual"
+    },
+    {
+      "field": "User.Agency",
+      "class": "manual"
+    },
+    {
+      "field": "User.DCN",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB4",
+      "class": "manual"
+    },
+    {
+      "field": "User.Reasonably",
+      "class": "manual"
+    },
+    {
+      "field": "User.FullNameOfArrest",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB1",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB2",
+      "class": "manual"
+    },
+    {
+      "field": "User.WarrantSummons",
+      "class": "manual"
+    },
+    {
+      "field": "User.CCourt",
+      "class": "manual"
+    },
+    {
+      "field": "User.GDCourt",
+      "class": "manual"
+    },
+    {
+      "field": "User.JDCourt",
+      "class": "manual"
+    },
+    {
+      "field": "User.CBAncillaryMatter",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryAddendum",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryPetition",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryMatter1",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryMatter3",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryMatter4",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryMatter2",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryDateOfDisp",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryAgency",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryDCN",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB6",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryReasonably",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryFullNameOfArrest",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB7",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryCCourt",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB8",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB9",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryGDCourt",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryJDCourt",
+      "class": "manual"
+    },
+    {
+      "field": "User.CBAncillaryMatter1",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryAddendum1",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryPetition1",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryMatter11",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryMatter21",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryMatter31",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryMatter41",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryDateOfDisp1",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryAgency1",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryDCN1",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB61",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryReasonably1",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryFullNameOfArrest1",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB71",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryCCourt1",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryGDCourt1",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryJDCourt1",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB81",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB91",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryMatterD1",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryMatterD2",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryMatterD3",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryMatterD4",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryDateOfDispD",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryAgencyD",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryDCND",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB6D",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryReasonablyD",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryFullNameOfArrestD",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB7D",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryCCourtD",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryGDCourtD",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB8D",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB9D",
+      "class": "manual"
+    },
+    {
+      "field": "User.CBAncillaryMatterD",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryAddendumD",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryPetitionD",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryJDCourtD",
+      "class": "manual"
+    }
+  ],
   "manualFields": [
     "ResetButton",
     "User.DateOfDisp",

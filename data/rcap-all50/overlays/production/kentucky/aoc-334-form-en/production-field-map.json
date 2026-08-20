@@ -34,11 +34,6 @@
       "field": "Defendant",
       "class": "participant",
       "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "Defendants ssn",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
     }
   ],
   "bindingRefusals": [
@@ -113,12 +108,46 @@
       "category": null
     },
     {
+      "field": "Defendants ssn",
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
       "field": "listed charges",
       "reason": "no_allowlisted_fact_matches",
       "category": null
     }
   ],
-  "unwritableFields": [],
+  "unwritableFields": [
+    {
+      "field": "Court",
+      "class": "manual"
+    },
+    {
+      "field": "Division",
+      "class": "manual"
+    },
+    {
+      "field": "Date",
+      "class": "manual"
+    },
+    {
+      "field": "2",
+      "class": "manual"
+    },
+    {
+      "field": "Reset",
+      "class": "manual"
+    },
+    {
+      "field": "Print",
+      "class": "manual"
+    },
+    {
+      "field": "Defendants ssn",
+      "class": "manual"
+    }
+  ],
   "manualFields": [
     "Court",
     "Division",

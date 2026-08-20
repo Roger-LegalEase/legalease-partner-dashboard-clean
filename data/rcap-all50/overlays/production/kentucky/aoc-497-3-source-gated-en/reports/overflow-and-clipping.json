@@ -34,8 +34,15 @@
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Jail ID Number",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Defendants SSN",
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "fixture": "canonical",
@@ -167,8 +174,8 @@
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "ATTY_LABEL",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "attorney"
     },
     {
       "fixture": "boundary",
@@ -186,23 +193,6 @@
       },
       "minFontSize": 6,
       "requiredWidthAtMin": 143.6
-    },
-    {
-      "fixture": "boundary",
-      "check": "unfittable_refused_not_clipped",
-      "field": "Defendants SSN",
-      "factId": "participant.full_legal_name",
-      "outcome": "refused",
-      "reason": "value_exceeds_widget_width_at_minimum_font",
-      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
-      "rect": {
-        "x": 444,
-        "y": 487,
-        "width": 128,
-        "height": 17
-      },
-      "minFontSize": 6,
-      "requiredWidthAtMin": 195.6
     },
     {
       "fixture": "boundary",
@@ -253,8 +243,15 @@
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Jail ID Number",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Defendants SSN",
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "fixture": "boundary",
@@ -386,8 +383,8 @@
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "ATTY_LABEL",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "attorney"
     }
   ]
 }

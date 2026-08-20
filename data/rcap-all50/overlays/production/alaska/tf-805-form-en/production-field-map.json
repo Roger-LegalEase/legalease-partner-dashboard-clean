@@ -55,11 +55,6 @@
       "field": "partyNames",
       "class": "participant",
       "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "certDate",
-      "class": "deterministic",
-      "factId": "deterministic.filing_date"
     }
   ],
   "bindingRefusals": [
@@ -72,6 +67,11 @@
       "field": "reason",
       "reason": "no_allowlisted_fact_matches",
       "category": null
+    },
+    {
+      "field": "certDate",
+      "reason": "protected_category",
+      "category": "service_block"
     },
     {
       "field": "time2",
@@ -110,6 +110,34 @@
     }
   ],
   "unwritableFields": [
+    {
+      "field": "why",
+      "class": "manual"
+    },
+    {
+      "field": "reason",
+      "class": "manual"
+    },
+    {
+      "field": "time2",
+      "class": "manual"
+    },
+    {
+      "field": "mail",
+      "class": "manual"
+    },
+    {
+      "field": "hd",
+      "class": "manual"
+    },
+    {
+      "field": "tf",
+      "class": "manual"
+    },
+    {
+      "field": "needText1",
+      "class": "manual"
+    },
     {
       "field": "signature0",
       "class": "signature"

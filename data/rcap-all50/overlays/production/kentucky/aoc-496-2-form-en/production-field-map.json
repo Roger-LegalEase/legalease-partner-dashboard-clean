@@ -44,17 +44,17 @@
     {
       "field": "Def.Address.City",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.city"
     },
     {
       "field": "Def.Address.State",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.state"
     },
     {
       "field": "Def.Address.Zip",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.zip"
     },
     {
       "field": "Def.PhoneNo",
@@ -62,19 +62,9 @@
       "factId": "participant.phone"
     },
     {
-      "field": "Def.Info.JailId",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "Def.VitalStats.DOB",
       "class": "participant",
       "factId": "participant.date_of_birth"
-    },
-    {
-      "field": "Def.VitalStats.SSN",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
     }
   ],
   "bindingRefusals": [
@@ -87,6 +77,16 @@
       "field": "Court Division",
       "reason": "no_allowlisted_fact_matches",
       "category": null
+    },
+    {
+      "field": "Def.Info.JailId",
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
+      "field": "Def.VitalStats.SSN",
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "field": "Charge.violation.date",
@@ -179,7 +179,56 @@
       "category": null
     }
   ],
-  "unwritableFields": [],
+  "unwritableFields": [
+    {
+      "field": "Case.Division",
+      "class": "manual"
+    },
+    {
+      "field": "Court Division",
+      "class": "manual"
+    },
+    {
+      "field": "Def.Info.JailId",
+      "class": "manual"
+    },
+    {
+      "field": "Def.VitalStats.SSN",
+      "class": "manual"
+    },
+    {
+      "field": "Victims.List",
+      "class": "manual"
+    },
+    {
+      "field": "PWRI.List",
+      "class": "manual"
+    },
+    {
+      "field": "Agencies",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box19",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box20",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box21",
+      "class": "manual"
+    },
+    {
+      "field": "Print",
+      "class": "manual"
+    },
+    {
+      "field": "Reset",
+      "class": "manual"
+    }
+  ],
   "manualFields": [
     "Case.Division",
     "Court Division",

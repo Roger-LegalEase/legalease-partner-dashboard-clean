@@ -37,19 +37,9 @@
       "factId": "participant.full_legal_name"
     },
     {
-      "field": "Def.Info.JailId",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "Def.VitalStats.DOB",
       "class": "participant",
       "factId": "participant.date_of_birth"
-    },
-    {
-      "field": "Def.VitalStats.SSN",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
     }
   ],
   "bindingRefusals": [
@@ -82,6 +72,16 @@
       "field": "Def.PhoneNo",
       "reason": "court_issued_order_accepts_caption_facts_only",
       "category": "court"
+    },
+    {
+      "field": "Def.Info.JailId",
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
+      "field": "Def.VitalStats.SSN",
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "field": "Text1",
@@ -191,8 +191,52 @@
   ],
   "unwritableFields": [
     {
+      "field": "Case.Division",
+      "class": "manual"
+    },
+    {
+      "field": "Def.Info.JailId",
+      "class": "manual"
+    },
+    {
+      "field": "Def.VitalStats.SSN",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box2",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box3",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box4",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box5",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box6",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box7",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box8",
+      "class": "manual"
+    },
+    {
       "field": "Other",
       "class": "court_or_agency"
+    },
+    {
+      "field": "Check Box9",
+      "class": "manual"
     },
     {
       "field": "Agencies",

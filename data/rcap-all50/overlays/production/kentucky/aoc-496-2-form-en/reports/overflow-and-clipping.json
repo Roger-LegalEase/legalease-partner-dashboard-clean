@@ -28,16 +28,21 @@
       "check": "binding_refused",
       "field": "Def.Address.State",
       "reason": "value_not_among_field_options",
-      "factId": "participant.street_address"
+      "factId": "participant.state"
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
-      "field": "Def.Address.Zip",
-      "reason": "value_exceeds_form_max_length",
-      "maxLength": 5,
-      "valueLength": 16,
-      "factId": "participant.street_address"
+      "field": "Def.Info.JailId",
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Def.VitalStats.SSN",
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "fixture": "canonical",
@@ -184,40 +189,6 @@
     },
     {
       "fixture": "boundary",
-      "check": "unfittable_refused_not_clipped",
-      "field": "Def.Info.JailId",
-      "factId": "participant.full_legal_name",
-      "outcome": "refused",
-      "reason": "value_exceeds_widget_width_at_minimum_font",
-      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
-      "rect": {
-        "x": 440,
-        "y": 493,
-        "width": 89,
-        "height": 16
-      },
-      "minFontSize": 6,
-      "requiredWidthAtMin": 195.6
-    },
-    {
-      "fixture": "boundary",
-      "check": "unfittable_refused_not_clipped",
-      "field": "Def.VitalStats.SSN",
-      "factId": "participant.full_legal_name",
-      "outcome": "refused",
-      "reason": "value_exceeds_widget_width_at_minimum_font",
-      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
-      "rect": {
-        "x": 302,
-        "y": 469,
-        "width": 101,
-        "height": 17
-      },
-      "minFontSize": 6,
-      "requiredWidthAtMin": 195.6
-    },
-    {
-      "fixture": "boundary",
       "check": "binding_refused",
       "field": "Case.Division",
       "reason": "no_allowlisted_fact_matches",
@@ -243,15 +214,15 @@
       "field": "Def.Address.City",
       "reason": "value_exceeds_form_max_length",
       "maxLength": 20,
-      "valueLength": 75,
-      "factId": "participant.street_address"
+      "valueLength": 47,
+      "factId": "participant.city"
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Def.Address.State",
       "reason": "value_not_among_field_options",
-      "factId": "participant.street_address"
+      "factId": "participant.state"
     },
     {
       "fixture": "boundary",
@@ -259,8 +230,22 @@
       "field": "Def.Address.Zip",
       "reason": "value_exceeds_form_max_length",
       "maxLength": 5,
-      "valueLength": 75,
-      "factId": "participant.street_address"
+      "valueLength": 10,
+      "factId": "participant.zip"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Def.Info.JailId",
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Def.VitalStats.SSN",
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "fixture": "boundary",

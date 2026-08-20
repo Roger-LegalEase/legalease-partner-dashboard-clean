@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "rcap-pdf-inventory-closure-ledger/v1",
+  "generatedBy": "scripts/generate-rcap-pdf-inventory-closure.mjs",
+  "purpose": "The denominator, and exactly what stands between it and zero.",
+  "head": "a7c9f0aa0dc19bb569783691e0bc0e65c0b57605",
+  "reproducedThroughCanonicalGenerators": [
+    "scripts/generate-rcap-problematic-pdf-register.mjs --check",
+    "scripts/generate-rcap-problematic-pdf-master-list.mjs --check",
+    "scripts/generate-rcap-pdf-retirement-determination.mjs --check",
+    "scripts/verify-rcap-manifest-only-retention.mjs"
+  ],
+  "equation": {
+    "originalOperationalPdfAssets": 128,
+    "platformReady": 1,
+    "retired": 58,
+    "retainedProblematic": 69,
+    "sums": true,
+    "changedByThisLane": 0,
+    "whyNothingMoved": "Every route to moving a row terminates at the same place: the source corpus is not mounted in this environment and outbound retrieval is refused, so no retirement can satisfy its seventh condition, no source can be accepted, and no family can be re-rendered."
+  },
+  "retainedBreakdown": {
+    "retainedMissing": 23,
+    "retainedSourceUnknown": 11,
+    "retainedUnreviewed": 42,
+    "reviewedAndAwaitingCorrection": 26,
+    "reviewedAndApproved": 0
+  },
+  "unreviewedIsUnreviewable": {
+    "operationalFamilies": 81,
+    "reviewed": 27,
+    "excludedFromReview": {
+      "not_finalized": 72,
+      "retired_from_operational_inventory": 45,
+      "not_visibility_proven": 2
+    },
+    "whyNotFinalizedCannotBeReviewed": "An independent review reads an artifact. A family with no finalized artifact has nothing to read, and finalizing one means rendering it from its source — which is the same corpus that is not mounted.",
+    "whyNotVisibilityProvenCannotBeReviewed": "Two families carry artifacts whose blank-versus-filled control does not discriminate, so a visual verdict on them would be an assertion rather than an observation.",
+    "reviewableFamiliesRemainingAtThisHead": 0
+  },
+  "workstreams": {
+    "retirements": {
+      "candidates": 30,
+      "proven": 18,
+      "refused": 1,
+      "blocked": 12
+    },
+    "sources": {
+      "rows": 39,
+      "identityProven": 10,
+      "accepted": 0,
+      "genuinelyUnresolved": 12
+    },
+    "independentReview": {
+      "familiesReviewed": 27,
+      "artifactHashesRevalidated": 60,
+      "approved": 0,
+      "correctionRequired": 26,
+      "sourceIdentityUnresolved": 1
+    },
+    "correctionPackets": {
+      "produced": 27,
+      "rootCauses": 11,
+      "handTo": "claude/rcap-problematic-pdf-full-remediation"
+    }
+  },
+  "completionGate": {
+    "required": {
+      "platformReadyPlusRetired": 128,
+      "retainedProblematic": 0,
+      "retainedMissing": 0,
+      "retainedSourceUnknown": 0,
+      "retainedUnreviewed": 0
+    },
+    "observed": {
+      "platformReadyPlusRetired": 59,
+      "retainedProblematic": 69,
+      "retainedMissing": 23,
+      "retainedSourceUnknown": 11,
+      "retainedUnreviewed": 42
+    },
+    "met": false
+  },
+  "blockers": [
+    {
+      "id": "BLK-CORPUS-UNMOUNTED",
+      "statement": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 is mounted and verifies to the byte. private/Nationwide Record Clearing is still absent, and it is a different tree.",
+      "state": "partially_cleared",
+      "cleared": [
+        "workstream 2 — 13 identities proven against real bytes, with receipts",
+        "workstream 3 — all 27 reviewed families' sources are readable, so no source identity is unconfirmable any more",
+        "the master list moved 18 assets out of source-acquisition into actionable-now"
+      ],
+      "blocks": [],
+      "whatWouldClearIt": "Deliver private/Nationwide Record Clearing — the 409-form LegalEase <State>/ tree the overlay factory reads. The Master Library does not substitute: none of the 30 candidates' files is in it.",
+      "ownedBy": "environment"
+    },
+    {
+      "id": "BLK-EGRESS-REFUSED",
+      "statement": "Outbound HTTPS to court publisher hosts is refused by the agent proxy with 403 at CONNECT.",
+      "blocks": [
+        "workstream 2 — the last step of the search order, official public source retrieval"
+      ],
+      "whatWouldClearIt": "An egress allowance for the recorded official publisher hosts.",
+      "ownedBy": "environment"
+    },
+    {
+      "id": "BLK-NO-APPROVAL-CHANNEL",
+      "statement": "26 of the 27 reviewed families are AcroForm-fill and carry production-field-map.json, which the shared platform-ready gate did not read. They could not record an approval however clean their review.",
+      "blocks": [],
+      "state": "cleared",
+      "clearedBy": "platformReadyVerdict now consults the canonical independent-review records as a second approval source, under a twelve-condition contract proven by fifteen mutation controls.",
+      "whatItDidNotClear": "No record carries an approval to consume: the 27 verdicts are 26 correction_required and 1 source_identity_unresolved. The channel is open and nothing has yet earned it.",
+      "ownedBy": "this lane, and done"
+    },
+    {
+      "id": "BLK-NO-APPROVED-RECORD",
+      "statement": "Every canonical review record refuses at condition 1 — its verdict is not the canonical approved verdict. The gate has somewhere to read an approval from and there is no approval to read.",
+      "blocks": [
+        "workstream 3 — every increment to platform_ready"
+      ],
+      "whatWouldClearIt": "The correction packets, worked through in their stated order, then a re-review that returns approved_platform_ready against the re-rendered bytes.",
+      "ownedBy": "claude/rcap-problematic-pdf-full-remediation, then the review lane"
+    }
+  ]
+}

@@ -1,0 +1,585 @@
+{
+  "schemaVersion": "rcap-pdf-retirement-adjudication/v2",
+  "generatedBy": "scripts/generate-rcap-retirement-adjudication.mjs",
+  "purpose": "The seventh retirement condition, evaluated against the operational Nationwide tree, and the retirements that follow from it.",
+  "sourceTree": {
+    "path": "private/Nationwide Record Clearing",
+    "mounted": true,
+    "filesDelivered": 187,
+    "pdfsDelivered": 63,
+    "authority": "Confirmed by the owner as the operational Nationwide Record Clearing tree, distinct from Master Library Edition 1. The operational tree is what defines the operational inventory."
+  },
+  "againstThePreviousManifest": {
+    "formsThePreviousManifestNamed": 170,
+    "ofThoseStillInTheOperationalTree": 170,
+    "noLongerInTheOperationalTree": 0,
+    "formsTheRegenerationProduces": 170,
+    "measuredHow": "buildOverlayFactory() run against this tree, twice, byte-identical apart from its own generatedAt stamp. 170 logical records from 187 physical files and 63 PDFs; 0 unresolved source references; 1 blocked form (an encrypted PA PDF).",
+    "whyThisIsRecorded": "The previous manifest was built from a larger tree. Every count that moved here moved because the operational corpus is smaller than the one that produced the old manifest, and that is worth being able to point at later rather than rediscovering."
+  },
+  "whatTheRetirementDoesAndDoesNotMean": {
+    "does": "The asset has left the operational inventory: out of the problematic denominator, out of the acquisition queue, out of every scan that expects it to become deliverable. Nothing was deleted.",
+    "doesNot": "It does not mean no official form exists. 10 of the 18 retired assets have a current official binary this lane proved in the Master Library, with a receipt naming its SHA-256. If one is ever wanted back, the acquisition is already done and each marker carries its own reversal instructions.",
+    "whichIsWhyItIsWrittenDown": "A future reader finding KY 496.2 retired should be able to see immediately that the form was obtainable and the retirement was about operational reach, not availability."
+  },
+  "totals": {
+    "candidates": 30,
+    "conditionSevenFails": 12,
+    "conditionSevenPasses": 18,
+    "retirementsProven": 18,
+    "ofThoseWithAProvenOfficialSourceElsewhere": 10,
+    "refusedForALegalDesignBinding": 1
+  },
+  "notes": [
+    "Derived, not forced: 18 of 30, not 30. The 12 whose files are in the operational tree fail condition 7 — the manifest names them again on every regeneration — and stay in the inventory.",
+    "VA CC-1473 is not among the candidates at all. The determination finds it on the legal-design registry, the D-track queue and the overlay manifest, so it is retained on evidence rather than by exception.",
+    "Retirement was written by scripts/retire-rcap-problematic-pdf-assets.mjs from the regenerated determination. This lane wrote no marker by hand."
+  ],
+  "refusedRetirements": [
+    {
+      "assetId": "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+      "formId": "CC-1473",
+      "trackIds": [
+        "va_exp_nonconviction"
+      ],
+      "why": "the byte-pinned legal-design registry names this asset, so the manifest is not the only thing depending on it"
+    }
+  ],
+  "candidates": [
+    {
+      "assetId": "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "jurisdiction": "AK",
+      "formNumber": "ak-record-relief-forms.html",
+      "formFamilyIds": [
+        "AK:ak-record-relief-forms"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": true,
+      "regeneratedManifestWouldNameIt": true,
+      "conditionSevenVerdict": "fails",
+      "retired": false,
+      "why": "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "jurisdiction": "AK",
+      "formNumber": "RequestToSealCrimInfo.pdf",
+      "formFamilyIds": [
+        "AK:requesttosealcriminfo"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": true,
+      "regeneratedManifestWouldNameIt": true,
+      "conditionSevenVerdict": "fails",
+      "retired": false,
+      "why": "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory.",
+      "aProvenOfficialSourceExistsElsewhere": {
+        "familyId": "AK:requesttosealcriminfo",
+        "sha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a"
+      },
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "jurisdiction": "AL",
+      "formNumber": "al-expungement-petition.html",
+      "formFamilyIds": [
+        "AL:al-expungement-petition"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": true,
+      "regeneratedManifestWouldNameIt": true,
+      "conditionSevenVerdict": "fails",
+      "retired": false,
+      "why": "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "AL|criminal-forms.html|55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "jurisdiction": "AL",
+      "formNumber": "criminal-forms.html",
+      "formFamilyIds": [
+        "AL:criminal-forms"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": true,
+      "regeneratedManifestWouldNameIt": true,
+      "conditionSevenVerdict": "fails",
+      "retired": false,
+      "why": "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "AL|criminal-record-expungement.html|021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "jurisdiction": "AL",
+      "formNumber": "criminal-record-expungement.html",
+      "formFamilyIds": [
+        "AL:criminal-record-expungement"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": true,
+      "regeneratedManifestWouldNameIt": true,
+      "conditionSevenVerdict": "fails",
+      "retired": false,
+      "why": "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "AR|3-Misdemeanor-Petition-8_01_2023.pdf|63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+      "jurisdiction": "AR",
+      "formNumber": "3-Misdemeanor-Petition-8_01_2023.pdf",
+      "formFamilyIds": [
+        "AR:3-misdemeanor-petition-8-01-2023"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "AR|7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "jurisdiction": "AR",
+      "formNumber": "7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+      "formFamilyIds": [
+        "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "AR|Arkansas-Petition-Order-Forms.html|f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+      "jurisdiction": "AR",
+      "formNumber": "Arkansas-Petition-Order-Forms.html",
+      "formFamilyIds": [
+        "AR:arkansas-petition-order-forms"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": true,
+      "regeneratedManifestWouldNameIt": true,
+      "conditionSevenVerdict": "fails",
+      "retired": false,
+      "why": "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "AR|Felony-Petition-Form-f.pdf|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "jurisdiction": "AR",
+      "formNumber": "Felony-Petition-Form-f.pdf",
+      "formFamilyIds": [
+        "AR:felony-petition-form-f"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "jurisdiction": "KY",
+      "formNumber": "496.2.pdf",
+      "formFamilyIds": [
+        "KY:496-2"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": {
+        "familyId": "KY:496-2",
+        "documentId": "AOC-496.2",
+        "revision": "REV-2016-07",
+        "sha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde"
+      },
+      "readMeAlongsideTheRetirement": "Retired from the operational inventory, but an official binary exists in the Master Library — AOC-496.2 REV-2016-07, 5d1ca608d94911a3…. Retirement here means nothing on the platform reaches it, not that the form is unobtainable."
+    },
+    {
+      "assetId": "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "jurisdiction": "KY",
+      "formNumber": "496.3.pdf",
+      "formFamilyIds": [
+        "KY:496-3"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": {
+        "familyId": "KY:496-3",
+        "documentId": "AOC-496.3",
+        "revision": "REV-UNKNOWN",
+        "sha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa"
+      },
+      "readMeAlongsideTheRetirement": "Retired from the operational inventory, but an official binary exists in the Master Library — AOC-496.3 REV-UNKNOWN, 3225f34ea85bb9e4…. Retirement here means nothing on the platform reaches it, not that the form is unobtainable."
+    },
+    {
+      "assetId": "KY|497.2.pdf|080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+      "jurisdiction": "KY",
+      "formNumber": "497.2.pdf",
+      "formFamilyIds": [
+        "KY:497-2"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "KY|Kentucky-Expungement-Forms.html|c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+      "jurisdiction": "KY",
+      "formNumber": "Kentucky-Expungement-Forms.html",
+      "formFamilyIds": [
+        "KY:kentucky-expungement-forms"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": true,
+      "regeneratedManifestWouldNameIt": true,
+      "conditionSevenVerdict": "fails",
+      "retired": false,
+      "why": "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "NC|cr287_1.pdf|sha256_unrecorded_in_repo",
+      "jurisdiction": "NC",
+      "formNumber": "cr287_1.pdf",
+      "formFamilyIds": [
+        "NC:cr287-1"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "NC|cr297.pdf|sha256_unrecorded_in_repo",
+      "jurisdiction": "NC",
+      "formNumber": "cr297.pdf",
+      "formFamilyIds": [
+        "NC:cr297"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "NC|cr298_1.pdf|sha256_unrecorded_in_repo",
+      "jurisdiction": "NC",
+      "formNumber": "cr298_1.pdf",
+      "formFamilyIds": [
+        "NC:cr298-1"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+      "jurisdiction": "NC",
+      "formNumber": "expungements.html",
+      "formFamilyIds": [
+        "NC:expungements"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": true,
+      "regeneratedManifestWouldNameIt": true,
+      "conditionSevenVerdict": "fails",
+      "retired": false,
+      "why": "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "NC|forms.html|1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+      "jurisdiction": "NC",
+      "formNumber": "forms.html",
+      "formFamilyIds": [
+        "NC:forms"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": true,
+      "regeneratedManifestWouldNameIt": true,
+      "conditionSevenVerdict": "fails",
+      "retired": false,
+      "why": "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "NC|nc-expunction-petition.html|912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c",
+      "jurisdiction": "NC",
+      "formNumber": "nc-expunction-petition.html",
+      "formFamilyIds": [
+        "NC:nc-expunction-petition"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": true,
+      "regeneratedManifestWouldNameIt": true,
+      "conditionSevenVerdict": "fails",
+      "retired": false,
+      "why": "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "VA|va-expungement-sealing-forms.html|b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+      "jurisdiction": "VA",
+      "formNumber": "va-expungement-sealing-forms.html",
+      "formFamilyIds": [
+        "VA:va-expungement-sealing-forms"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": true,
+      "regeneratedManifestWouldNameIt": true,
+      "conditionSevenVerdict": "fails",
+      "retired": false,
+      "why": "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "VT|200-00129 – Petition to Expunge Criminal History.pdf|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+      "jurisdiction": "VT",
+      "formNumber": "200-00129 – Petition to Expunge Criminal History.pdf",
+      "formFamilyIds": [
+        "VT:200-00129-petition-to-expunge-criminal-history"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": {
+        "familyId": "VT:200-00129-petition-to-expunge-criminal-history",
+        "documentId": "200-00129",
+        "revision": "REV-2025-07",
+        "sha256": "6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5"
+      },
+      "readMeAlongsideTheRetirement": "Retired from the operational inventory, but an official binary exists in the Master Library — 200-00129 REV-2025-07, 6b855b1976bb10bb…. Retirement here means nothing on the platform reaches it, not that the form is unobtainable."
+    },
+    {
+      "assetId": "VT|200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "jurisdiction": "VT",
+      "formNumber": "200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf",
+      "formFamilyIds": [
+        "VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": {
+        "familyId": "VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record",
+        "documentId": "200-00130A",
+        "revision": "REV-UNKNOWN",
+        "sha256": "8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078"
+      },
+      "readMeAlongsideTheRetirement": "Retired from the operational inventory, but an official binary exists in the Master Library — 200-00130A REV-UNKNOWN, 8a44b91cd2f48af4…. Retirement here means nothing on the platform reaches it, not that the form is unobtainable."
+    },
+    {
+      "assetId": "VT|200-00131|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "jurisdiction": "VT",
+      "formNumber": "200-00131",
+      "formFamilyIds": [
+        "VT:200-00131-en",
+        "VT:200-00131-form-en"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": {
+        "familyId": "VT:200-00131",
+        "documentId": "200-00131",
+        "revision": "REV-2018-07",
+        "sha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a"
+      },
+      "readMeAlongsideTheRetirement": "Retired from the operational inventory, but an official binary exists in the Master Library — 200-00131 REV-2018-07, 5afb8d524b52a6e9…. Retirement here means nothing on the platform reaches it, not that the form is unobtainable."
+    },
+    {
+      "assetId": "VT|200-00131.pdf|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "jurisdiction": "VT",
+      "formNumber": "200-00131.pdf",
+      "formFamilyIds": [
+        "VT:200-00131"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": {
+        "familyId": "VT:200-00131",
+        "documentId": "200-00131",
+        "revision": "REV-2018-07",
+        "sha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a"
+      },
+      "readMeAlongsideTheRetirement": "Retired from the operational inventory, but an official binary exists in the Master Library — 200-00131 REV-2018-07, 5afb8d524b52a6e9…. Retirement here means nothing on the platform reaches it, not that the form is unobtainable."
+    },
+    {
+      "assetId": "VT|200-00132 – Stipulation to Seal Criminal History Record + Order.pdf|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "jurisdiction": "VT",
+      "formNumber": "200-00132 – Stipulation to Seal Criminal History Record + Order.pdf",
+      "formFamilyIds": [
+        "VT:200-00132-stipulation-to-seal-criminal-history-record-order"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": {
+        "familyId": "VT:200-00132-stipulation-to-seal-criminal-history-record-order",
+        "documentId": "200-00132",
+        "revision": "REV-2025-07",
+        "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2"
+      },
+      "readMeAlongsideTheRetirement": "Retired from the operational inventory, but an official binary exists in the Master Library — 200-00132 REV-2025-07, 088116244572ec7c…. Retirement here means nothing on the platform reaches it, not that the form is unobtainable."
+    },
+    {
+      "assetId": "VT|200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "jurisdiction": "VT",
+      "formNumber": "200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf",
+      "formFamilyIds": [
+        "VT:200-00132a-stipulation-to-expunge-criminal-history-record-order"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": {
+        "familyId": "VT:200-00132-stipulation-to-seal-criminal-history-record-order",
+        "documentId": "200-00132",
+        "revision": "REV-2025-07",
+        "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2"
+      },
+      "readMeAlongsideTheRetirement": "Retired from the operational inventory, but an official binary exists in the Master Library — 200-00132 REV-2025-07, 088116244572ec7c…. Retirement here means nothing on the platform reaches it, not that the form is unobtainable."
+    },
+    {
+      "assetId": "VT|200-00631|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "jurisdiction": "VT",
+      "formNumber": "200-00631",
+      "formFamilyIds": [
+        "VT:200-00631-en",
+        "VT:200-00631-form-en"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": {
+        "familyId": "VT:200-00631",
+        "documentId": "200-00631",
+        "revision": "REV-2019-09",
+        "sha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3"
+      },
+      "readMeAlongsideTheRetirement": "Retired from the operational inventory, but an official binary exists in the Master Library — 200-00631 REV-2019-09, a4afde13b306a87f…. Retirement here means nothing on the platform reaches it, not that the form is unobtainable."
+    },
+    {
+      "assetId": "VT|200-00631.pdf|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "jurisdiction": "VT",
+      "formNumber": "200-00631.pdf",
+      "formFamilyIds": [
+        "VT:200-00631"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": {
+        "familyId": "VT:200-00631",
+        "documentId": "200-00631",
+        "revision": "REV-2019-09",
+        "sha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3"
+      },
+      "readMeAlongsideTheRetirement": "Retired from the operational inventory, but an official binary exists in the Master Library — 200-00631 REV-2019-09, a4afde13b306a87f…. Retirement here means nothing on the platform reaches it, not that the form is unobtainable."
+    },
+    {
+      "assetId": "VT|400-00171.pdf|b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
+      "jurisdiction": "VT",
+      "formNumber": "400-00171.pdf",
+      "formFamilyIds": [
+        "VT:400-00171"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": false,
+      "regeneratedManifestWouldNameIt": false,
+      "conditionSevenVerdict": "passes",
+      "retired": true,
+      "why": "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    },
+    {
+      "assetId": "VT|application-waive-filing-fees-and-service-costs.html|1b9348d18347d3adb278a209046c3593e595c385b1c2081c6a33142767196b59",
+      "jurisdiction": "VT",
+      "formNumber": "application-waive-filing-fees-and-service-costs.html",
+      "formFamilyIds": [
+        "VT:application-waive-filing-fees-and-service-costs"
+      ],
+      "repositoryConditionsProven": true,
+      "sourceFilePresentInDelivery": true,
+      "regeneratedManifestWouldNameIt": true,
+      "conditionSevenVerdict": "fails",
+      "retired": false,
+      "why": "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory.",
+      "aProvenOfficialSourceExistsElsewhere": null,
+      "readMeAlongsideTheRetirement": null
+    }
+  ]
+}

@@ -52,11 +52,6 @@
       "factId": "matter.case_number"
     },
     {
-      "field": "User.PrintName",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "User.AddressOf",
       "class": "participant",
       "factId": "participant.street_address"
@@ -154,6 +149,11 @@
       "category": "attorney"
     },
     {
+      "field": "User.PrintName",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
+    {
       "field": "User.CheckPetitionerContact",
       "reason": "non_text_field_type",
       "category": "type_guard"
@@ -185,8 +185,8 @@
     },
     {
       "field": "User.PetetionerVSB",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "attorney"
     },
     {
       "field": "User.HearDateTime",
@@ -224,7 +224,108 @@
       "category": "type_guard"
     }
   ],
-  "unwritableFields": [],
+  "unwritableFields": [
+    {
+      "field": "ResetButton",
+      "class": "manual"
+    },
+    {
+      "field": "User.Officer",
+      "class": "manual"
+    },
+    {
+      "field": "User.Title",
+      "class": "manual"
+    },
+    {
+      "field": "User.Check0",
+      "class": "manual"
+    },
+    {
+      "field": "User.ArrestingAgency",
+      "class": "manual"
+    },
+    {
+      "field": "User.Check5",
+      "class": "manual"
+    },
+    {
+      "field": "User.Check7",
+      "class": "manual"
+    },
+    {
+      "field": "User.Because",
+      "class": "manual"
+    },
+    {
+      "field": "User.DateOfFinalDisposition1",
+      "class": "manual"
+    },
+    {
+      "field": "User.DateOfFinalDisposition2",
+      "class": "manual"
+    },
+    {
+      "field": "User.DisposingCourt1",
+      "class": "manual"
+    },
+    {
+      "field": "User.DisposingCourt2",
+      "class": "manual"
+    },
+    {
+      "field": "User.CheckAttorney",
+      "class": "manual"
+    },
+    {
+      "field": "User.PrintName",
+      "class": "manual"
+    },
+    {
+      "field": "User.CheckAttorneyContact",
+      "class": "manual"
+    },
+    {
+      "field": "User.CheckAttorneyPhone",
+      "class": "manual"
+    },
+    {
+      "field": "User.CheckAttorneyEmail",
+      "class": "manual"
+    },
+    {
+      "field": "User.PetetionerVSB",
+      "class": "manual"
+    },
+    {
+      "field": "User.HearDateTime",
+      "class": "manual"
+    },
+    {
+      "field": "User.Date",
+      "class": "manual"
+    },
+    {
+      "field": "User.EndDate",
+      "class": "manual"
+    },
+    {
+      "field": "User.CBCertify",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB1",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB2",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB3",
+      "class": "manual"
+    }
+  ],
   "manualFields": [
     "ResetButton",
     "User.Officer",

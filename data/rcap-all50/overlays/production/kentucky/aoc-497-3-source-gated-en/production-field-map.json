@@ -37,11 +37,6 @@
       "factId": "participant.date_of_birth"
     },
     {
-      "field": "Defendants SSN",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "Case No",
       "class": "participant",
       "factId": "matter.case_number"
@@ -70,8 +65,13 @@
     },
     {
       "field": "Jail ID Number",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
+      "field": "Defendants SSN",
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "field": "Date",
@@ -165,14 +165,26 @@
     },
     {
       "field": "ATTY_LABEL",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "attorney"
     }
   ],
   "unwritableFields": [
     {
       "field": "Court",
       "class": "court_or_agency"
+    },
+    {
+      "field": "Division",
+      "class": "manual"
+    },
+    {
+      "field": "Jail ID Number",
+      "class": "manual"
+    },
+    {
+      "field": "Defendants SSN",
+      "class": "manual"
     },
     {
       "field": "Date",
@@ -187,12 +199,20 @@
       "class": "court_or_agency"
     },
     {
+      "field": "an abovenamed agency ordered to",
+      "class": "manual"
+    },
+    {
       "field": "Date_2",
       "class": "court_or_agency"
     },
     {
       "field": "2_2",
       "class": "court_or_agency"
+    },
+    {
+      "field": "Agency Records Custodian",
+      "class": "manual"
     },
     {
       "field": "Area_C",
@@ -205,6 +225,10 @@
     {
       "field": "Notice",
       "class": "court_or_agency"
+    },
+    {
+      "field": "Attorney_name",
+      "class": "manual"
     },
     {
       "field": "ATTY_LABEL",

@@ -4,23 +4,6 @@
   "findings": [
     {
       "fixture": "canonical",
-      "check": "unfittable_refused_not_clipped",
-      "field": "User.VSBCaseNumber",
-      "factId": "matter.case_number",
-      "outcome": "refused",
-      "reason": "value_exceeds_widget_width_at_minimum_font",
-      "value": "24-CR-001234",
-      "rect": {
-        "x": 549,
-        "y": 447,
-        "width": 28,
-        "height": 12
-      },
-      "minFontSize": 6,
-      "requiredWidthAtMin": 39.3
-    },
-    {
-      "fixture": "canonical",
       "check": "binding_refused",
       "field": "ResetButton",
       "reason": "non_text_field_type",
@@ -30,8 +13,8 @@
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "User.SSN",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "fixture": "canonical",
@@ -524,6 +507,13 @@
       "category": "attorney"
     },
     {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "User.VSBCaseNumber",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
       "fixture": "boundary",
       "check": "unfittable_refused_not_clipped",
       "field": "User.AncillaryCityOrCounty",
@@ -552,23 +542,6 @@
         "x": 134,
         "y": 579,
         "width": 53,
-        "height": 12
-      },
-      "minFontSize": 6,
-      "requiredWidthAtMin": 118
-    },
-    {
-      "fixture": "boundary",
-      "check": "unfittable_refused_not_clipped",
-      "field": "User.VSBCaseNumber",
-      "factId": "matter.case_number",
-      "outcome": "refused",
-      "reason": "value_exceeds_widget_width_at_minimum_font",
-      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
-      "rect": {
-        "x": 549,
-        "y": 447,
-        "width": 28,
         "height": 12
       },
       "minFontSize": 6,
@@ -611,8 +584,8 @@
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "User.SSN",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "fixture": "boundary",
@@ -1101,6 +1074,13 @@
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "User.EmailAttorney",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "User.VSBCaseNumber",
       "reason": "protected_category",
       "category": "attorney"
     }

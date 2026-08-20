@@ -110,6 +110,13 @@
     {
       "fixture": "canonical",
       "check": "binding_refused",
+      "field": "Defendants ssn",
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
       "field": "listed charges",
       "reason": "no_allowlisted_fact_matches",
       "category": null
@@ -130,23 +137,6 @@
       },
       "minFontSize": 6,
       "requiredWidthAtMin": 118
-    },
-    {
-      "fixture": "boundary",
-      "check": "unfittable_refused_not_clipped",
-      "field": "Defendants ssn",
-      "factId": "participant.full_legal_name",
-      "outcome": "refused",
-      "reason": "value_exceeds_widget_width_at_minimum_font",
-      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
-      "rect": {
-        "x": 297,
-        "y": 536,
-        "width": 90,
-        "height": 17
-      },
-      "minFontSize": 6,
-      "requiredWidthAtMin": 195.6
     },
     {
       "fixture": "boundary",
@@ -252,6 +242,13 @@
       "field": "Text1",
       "reason": "no_allowlisted_fact_matches",
       "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Defendants ssn",
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "fixture": "boundary",

@@ -52,16 +52,6 @@
       "factId": "participant.zip"
     },
     {
-      "field": "ApplicantStreetNumberAndStreetNameLine1",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "ApplicantStreetNumberAndStreetNameLine2",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "ApplicantFullPermanentMailingAddressAddr1",
       "class": "participant",
       "factId": "participant.street_address"
@@ -74,17 +64,17 @@
     {
       "field": "ApplicantFullPermanentMailingAddressCity",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.city"
     },
     {
       "field": "ApplicantFullPermanentMailingAddressState",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.state"
     },
     {
       "field": "ApplicantFullPermanentMailingAddressZip",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.zip"
     },
     {
       "field": "ApplicantTelephoneNumber",
@@ -95,11 +85,6 @@
       "field": "ApplicantDateOfBirth",
       "class": "participant",
       "factId": "participant.date_of_birth"
-    },
-    {
-      "field": "BankNameAndAccountType",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
     }
   ],
   "bindingRefusals": [
@@ -127,6 +112,16 @@
       "field": "SuperiorCourtDivisionCkBox",
       "reason": "non_text_field_type",
       "category": "type_guard"
+    },
+    {
+      "field": "ApplicantStreetNumberAndStreetNameLine1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "ApplicantStreetNumberAndStreetNameLine2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "YesHaveServedInUnitedStatesArmedForcesCkBox",
@@ -255,6 +250,11 @@
     },
     {
       "field": "ByWhomPosted",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "BankNameAndAccountType",
       "reason": "no_allowlisted_fact_matches",
       "category": null
     },
@@ -415,6 +415,186 @@
     }
   ],
   "unwritableFields": [
+    {
+      "field": "TotalAssets",
+      "class": "manual"
+    },
+    {
+      "field": "TotalLiabilities",
+      "class": "manual"
+    },
+    {
+      "field": "BondType",
+      "class": "manual"
+    },
+    {
+      "field": "DistrictCourtDivisionCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "SuperiorCourtDivisionCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "YesHaveServedInUnitedStatesArmedForcesCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "NoHaveNotServedInUnitedStatesArmedForcesCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "OtherIncomeMonthlyAmount",
+      "class": "manual"
+    },
+    {
+      "field": "SpouseEmploymentIncomeMonthlyAmount",
+      "class": "manual"
+    },
+    {
+      "field": "TotalMonthlyIncome",
+      "class": "manual"
+    },
+    {
+      "field": "BuyingShelterCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "RentingShelterCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "VehicleInstallmentPaymentsCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "OtherInstallmentPaymentsCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "OtherMonthlyExpensesDescription",
+      "class": "manual"
+    },
+    {
+      "field": "NumberOfDependents",
+      "class": "manual"
+    },
+    {
+      "field": "ShelterMonthlyExpensesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "FoodMonthlyExpensesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "UtilitiesMonthlyExpensesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "HealthCareMonthlyExpensesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "InstallmentPaymentsMonthlyExpensesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "CarMonthlyExpensesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "SupportPaymentsMonthlyExpensesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "OtherMonthlyExpensesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "TotalMonthlyExpenses",
+      "class": "manual"
+    },
+    {
+      "field": "BondAmount",
+      "class": "manual"
+    },
+    {
+      "field": "ByWhomPosted",
+      "class": "manual"
+    },
+    {
+      "field": "BankNameAndAccountType",
+      "class": "manual"
+    },
+    {
+      "field": "MotorVehicles",
+      "class": "manual"
+    },
+    {
+      "field": "LastIncomeTaxFiledYearLastTwoDigits",
+      "class": "manual"
+    },
+    {
+      "field": "LastIncomeTaxFiledRefundCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "LastIncomeTaxFiledOweCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "CashOnHandAndInBankAccountsAssetsAmount",
+      "class": "manual"
+    },
+    {
+      "field": "MotorVehiclesAssetsAmount",
+      "class": "manual"
+    },
+    {
+      "field": "RealEstateAssetsAmount",
+      "class": "manual"
+    },
+    {
+      "field": "PersonalPropertyAssetsAmount",
+      "class": "manual"
+    },
+    {
+      "field": "IncomeTaxAssetsAmount",
+      "class": "manual"
+    },
+    {
+      "field": "OtherAssetsAmount",
+      "class": "manual"
+    },
+    {
+      "field": "MotorVehiclesLiabilitiesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "RealEstateLiabilitiesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "PersonalPropertyLiabilitiesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "OtherDebtsLiabilitiesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "IncomeTaxLiabilitiesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "OtherLiabilitiesAmount",
+      "class": "manual"
+    },
+    {
+      "field": "GovernmentalAgenciesOrOtherEntitesAuthorizedToBeContactedAndOrToReleaseInformation",
+      "class": "manual"
+    },
     {
       "field": "SignedByApplicantDate",
       "class": "signature"

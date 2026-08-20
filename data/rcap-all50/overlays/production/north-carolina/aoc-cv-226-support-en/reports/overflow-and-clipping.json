@@ -4,23 +4,6 @@
   "findings": [
     {
       "fixture": "canonical",
-      "check": "unfittable_refused_not_clipped",
-      "field": "ApplicantFullPermanentMailingAddressState",
-      "factId": "participant.street_address",
-      "outcome": "refused",
-      "reason": "value_exceeds_widget_width_at_minimum_font",
-      "value": "118 Maple Street",
-      "rect": {
-        "x": 232,
-        "y": 573,
-        "width": 24,
-        "height": 13
-      },
-      "minFontSize": 6,
-      "requiredWidthAtMin": 45.7
-    },
-    {
-      "fixture": "canonical",
       "check": "binding_refused",
       "field": "TotalAssets",
       "reason": "no_allowlisted_fact_matches",
@@ -53,6 +36,20 @@
       "field": "SuperiorCourtDivisionCkBox",
       "reason": "non_text_field_type",
       "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "ApplicantStreetNumberAndStreetNameLine1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "ApplicantStreetNumberAndStreetNameLine2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "fixture": "canonical",
@@ -233,6 +230,13 @@
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "ByWhomPosted",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "BankNameAndAccountType",
       "reason": "no_allowlisted_fact_matches",
       "category": null
     },
@@ -455,57 +459,6 @@
     },
     {
       "fixture": "boundary",
-      "check": "unfittable_refused_not_clipped",
-      "field": "ApplicantFullPermanentMailingAddressCity",
-      "factId": "participant.street_address",
-      "outcome": "refused",
-      "reason": "value_exceeds_widget_width_at_minimum_font",
-      "value": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
-      "rect": {
-        "x": 36,
-        "y": 573,
-        "width": 196,
-        "height": 13
-      },
-      "minFontSize": 6,
-      "requiredWidthAtMin": 214.7
-    },
-    {
-      "fixture": "boundary",
-      "check": "unfittable_refused_not_clipped",
-      "field": "ApplicantFullPermanentMailingAddressState",
-      "factId": "participant.street_address",
-      "outcome": "refused",
-      "reason": "value_exceeds_widget_width_at_minimum_font",
-      "value": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
-      "rect": {
-        "x": 232,
-        "y": 573,
-        "width": 24,
-        "height": 13
-      },
-      "minFontSize": 6,
-      "requiredWidthAtMin": 214.7
-    },
-    {
-      "fixture": "boundary",
-      "check": "unfittable_refused_not_clipped",
-      "field": "ApplicantFullPermanentMailingAddressZip",
-      "factId": "participant.street_address",
-      "outcome": "refused",
-      "reason": "value_exceeds_widget_width_at_minimum_font",
-      "value": "12345 Southwest Grandview Boulevard Northeast, Building 7, Apartment 4321-B",
-      "rect": {
-        "x": 255,
-        "y": 573,
-        "width": 59,
-        "height": 13
-      },
-      "minFontSize": 6,
-      "requiredWidthAtMin": 214.7
-    },
-    {
-      "fixture": "boundary",
       "check": "binding_refused",
       "field": "TotalAssets",
       "reason": "no_allowlisted_fact_matches",
@@ -538,6 +491,20 @@
       "field": "SuperiorCourtDivisionCkBox",
       "reason": "non_text_field_type",
       "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "ApplicantStreetNumberAndStreetNameLine1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "ApplicantStreetNumberAndStreetNameLine2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "fixture": "boundary",
@@ -718,6 +685,13 @@
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "ByWhomPosted",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "BankNameAndAccountType",
       "reason": "no_allowlisted_fact_matches",
       "category": null
     },
