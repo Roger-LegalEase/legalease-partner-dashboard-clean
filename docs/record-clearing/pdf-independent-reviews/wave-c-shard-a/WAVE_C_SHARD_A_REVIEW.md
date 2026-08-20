@@ -1,3 +1,8 @@
+> **SUPERSEDED — see [`FINAL_SHARD_A_REVIEW.md`](FINAL_SHARD_A_REVIEW.md).** This pass reviewed
+> the `ef957a9` lineage, which carries the pre-correction *frozen* artifacts, because `e94fb456`
+> was not present in this clone until the remotes were fetched. Its verdicts describe bytes that
+> are not the assigned base and must not be consumed. Retained unchanged as the record of that pass.
+
 # Gate B Independent Review — Wave C, Shard A
 
 **Four families reviewed. Two approved, two require correction.**
