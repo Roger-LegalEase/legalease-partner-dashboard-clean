@@ -428,7 +428,7 @@ function bodySizeOf(lines) {
  * into, not which divisions matter. Deciding that a region is court-owned
  * belongs to the semantics module, which holds the protect rules.
  */
-export function pageRegions(page, precomputedLines = null) {
+export function pageRegions(page, precomputedLines = null, { isFirstPage = true } = {}) {
   const lines = precomputedLines ?? groupIntoLines(extractTextItems(page));
   const body = bodySizeOf(lines);
   const headings = lines
@@ -447,7 +447,13 @@ export function pageRegions(page, precomputedLines = null) {
   // fee-waiver application, not a fee box, and "PETITION TO SEAL POLICE
   // RECORDS" is a petition, not a police-use-only band. Without this a single
   // word in a title silences the whole form.
-  const topmostPrinted = lines.reduce((max, l) => Math.max(max, l.y), -Infinity);
+  // Only the first page has a document title. The topmost heading of page 2 is
+  // a section heading like FINDINGS OF FACT, and suppressing it as a title
+  // disarms the one region on the page that most needs protecting -- which is
+  // exactly how a petitioner's name reached the judge's findings on NC
+  // AOC-CR-288 without anything objecting. Callers that know the page number
+  // say so; the default keeps the original behaviour for callers that do not.
+  const topmostPrinted = isFirstPage ? lines.reduce((max, l) => Math.max(max, l.y), -Infinity) : Infinity;
 
   return headings.map((heading, i) => ({
     heading: heading.text.trim(),

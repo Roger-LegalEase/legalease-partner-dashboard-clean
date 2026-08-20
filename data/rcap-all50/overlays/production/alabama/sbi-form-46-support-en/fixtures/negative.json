@@ -3,319 +3,386 @@
   "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
   "refusedFields": [
     {
+      "field": "Full Name First Middle Last Suffix",
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
+    },
+    {
       "field": "Male",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Female",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "AliasesNickname",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
+    },
+    {
+      "field": "City",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "State",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "Zip Code",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "SSN",
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
+    },
+    {
+      "field": "Date of Birth",
       "reason": "protected_category",
-      "category": "government_identifier"
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "MMDDYYYY Drivers License Number",
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
+    },
+    {
+      "field": "Issuing State",
       "reason": "protected_category",
-      "category": "government_identifier"
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "White",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Black",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Asian",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Indian",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Other please specify",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
+    },
+    {
+      "field": "Work Phone",
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "Employer Name",
-      "reason": "protected_category",
-      "category": "outside_party"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
+    },
+    {
+      "field": "Contractor Name",
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "State Agency",
-      "reason": "protected_category",
-      "category": "agency"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Job RoleClassification",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
+    },
+    {
+      "field": "Supervisor Name",
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Completed Application signed by applicant and two witnesses OR notarized",
-      "reason": "protected_category",
-      "category": "signature"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "The required copy of my valid photo identification",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "A classifiable copy of my own fingerprints taken by an authorized law enforcement agency as required",
-      "reason": "protected_category",
-      "category": "agency"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "If applying for state employmentlicensurecertification reference that agencys fee requirements for a backgroundcheck",
-      "reason": "protected_category",
-      "category": "money"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "PERSONAL REQUESTS ONLY The required 2500 administrative fee must be in the form of a money order or Cashiers check",
-      "reason": "protected_category",
-      "category": "money"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Name  Address of Requesting Agency or Authorized Agent",
-      "reason": "protected_category",
-      "category": "agency"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Applicant Signature",
-      "reason": "protected_category",
-      "category": "signature"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Date",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Name of Witness",
       "reason": "protected_category",
-      "category": "outside_party"
+      "category": "outside_party",
+      "regionHeading": null
     },
     {
       "field": "Name of Witness_2",
       "reason": "protected_category",
-      "category": "outside_party"
+      "category": "outside_party",
+      "regionHeading": null
     },
     {
       "field": "Address of Witness",
       "reason": "protected_category",
-      "category": "outside_party"
+      "category": "outside_party",
+      "regionHeading": null
     },
     {
       "field": "Address of Witness_2",
       "reason": "protected_category",
-      "category": "outside_party"
+      "category": "outside_party",
+      "regionHeading": null
+    },
+    {
+      "field": "City State and Zip",
+      "reason": "protected_category",
+      "category": "outside_party",
+      "regionHeading": null
     },
     {
       "field": "Sworn to and subscribed before me this",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "day of",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Notary Signature",
-      "reason": "protected_category",
-      "category": "signature"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "My Commission Expires",
-      "reason": "protected_category",
-      "category": "notarization"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "FOR ALEA OFFICIAL USE ONLY TCN",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "SID AL",
-      "reason": "protected_category",
-      "category": "government_identifier"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Billed",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Paid",
-      "reason": "protected_category",
-      "category": "money"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "No Charge",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "field": "Received By Initials",
-      "reason": "protected_category",
-      "category": "signature"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Processed By initials",
-      "reason": "protected_category",
-      "category": "signature"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Check",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Background Check Qty Total",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Status",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Initials",
-      "reason": "protected_category",
-      "category": "signature"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Certified Letter Qty Total",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "I",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Alabama Law Enforcement Agency Criminal Records and Identification Unit on",
-      "reason": "protected_category",
-      "category": "agency"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "AGENCY1",
-      "reason": "protected_category",
-      "category": "agency"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "ARREST CHARGEDISPOSITION CHALLENGED1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "AGENCY2",
-      "reason": "protected_category",
-      "category": "agency"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "ARREST CHARGEDISPOSITION CHALLENGED2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "DATE AGENCY ARREST CHARGE/DISPOSITION CHALLENGED"
     },
     {
       "field": "AGENCY3",
-      "reason": "protected_category",
-      "category": "agency"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "ARREST CHARGEDISPOSITION CHALLENGED3",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "DATE AGENCY ARREST CHARGE/DISPOSITION CHALLENGED"
     },
     {
       "field": "AGENCY4",
-      "reason": "protected_category",
-      "category": "agency"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "ARREST CHARGEDISPOSITION CHALLENGED4",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "DATE AGENCY ARREST CHARGE/DISPOSITION CHALLENGED"
     },
     {
       "field": "AGENCY5",
-      "reason": "protected_category",
-      "category": "agency"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "ARREST CHARGEDISPOSITION CHALLENGED5",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "DATE AGENCY ARREST CHARGE/DISPOSITION CHALLENGED"
     },
     {
       "field": "Signature",
-      "reason": "protected_category",
-      "category": "signature"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Date_2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Text1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Text2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Text3",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Text4",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Text5",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Text6",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "DATE",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Text7",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     }
   ]
 }

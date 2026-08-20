@@ -24,164 +24,201 @@
     {
       "field": "Case No",
       "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "County dropdown",
       "class": "participant",
-      "factId": "matter.county"
+      "factId": "matter.county",
+      "factBasis": "field_name",
+      "effectiveLabel": "CjustitiaCourt ________________________"
     },
     {
       "field": "NAME",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "VS"
     },
     {
       "field": "ADDRESS",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": "________________________________________________ NAME DEFEND"
     },
     {
       "field": "address2",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": "________________________________________________ ADDRESS"
     },
     {
       "field": "phone number",
       "class": "participant",
-      "factId": "participant.phone"
-    },
-    {
-      "field": "Defendants Birthdate",
-      "class": "participant",
-      "factId": "participant.date_of_birth"
+      "factId": "participant.phone",
+      "factBasis": "field_name",
+      "effectiveLabel": "________________________________________________"
     }
   ],
   "bindingRefusals": [
     {
       "field": "Court",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     },
     {
       "field": "Division",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "area code",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Jail ID Number",
       "reason": "protected_category",
-      "category": "government_identifier"
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "Defendants Birthdate",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "ssn",
       "reason": "protected_category",
-      "category": "government_identifier"
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "ViolationArrest Date",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "check sixty days",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "check sixty  before filing",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "check five years",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "CHARGE",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "CHARGE_2",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "CHARGE_3",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "CHARGE_4",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "CHARGE_5",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "CHARGE_6",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "check not current charges",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "other charges",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "requiring expungement",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "THEREFORE, IT IS HEREBY ORDERED:"
     },
     {
       "field": "2_2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "THEREFORE, IT IS HEREBY ORDERED:"
     },
     {
       "field": "undefined_2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "THEREFORE, IT IS HEREBY ORDERED:"
     },
     {
       "field": "Print",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "AGENCY CERTIFICATION"
     },
     {
       "field": "Reset",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "AGENCY CERTIFICATION"
     },
     {
       "field": "check offenses listed",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "check denied",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "court",
+      "regionHeading": null
     },
     {
       "field": "check felony chg",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     }
   ],
   "unwritableFields": [
@@ -224,6 +261,10 @@
     {
       "field": "2_2",
       "class": "manual"
+    },
+    {
+      "field": "undefined_2",
+      "class": "unused"
     },
     {
       "field": "Print",

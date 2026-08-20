@@ -343,6 +343,17 @@ export async function finalizeOfficialForm({
   census,
   facts,
   explicitMappings = {},
+  // Fields the classifier decided, by ROLE, that the participant does not
+  // complete. Supplied by the caller because only the caller has the
+  // classification, and required here because deciding twice means deciding
+  // differently: the driver refused these and recorded them in the map's
+  // unwritableFields, then called this function, which re-derived every
+  // decision from the census alone and wrote them anyway. KY AOC-334's `Court`
+  // and `Date`, VA CC-1201's `User.FullName` and `User.Sex`, NE DC 1:15's
+  // `adoptionof` and VT 600-00228's `3` were all refused in their own maps and
+  // present in their own bytes -- and the comment beside the driver's refusal
+  // asserted the factory would refuse them at render time, which nothing did.
+  unwritableFields = [],
   captionOnly = false,
   documentAcceptsFill = true,
   nonFilingNotice = null,
@@ -381,8 +392,20 @@ export async function finalizeOfficialForm({
   // first, the writable ones are reduced to one per slot, and only then is
   // anything written — so the artifact and the map agree about which widget
   // carries the value.
+  const unwritableByRole = new Set((unwritableFields ?? []).map((f) => String(f?.field ?? f?.name ?? f)));
+
   const allowed = [];
   for (const field of census) {
+    // Role first, and it is not overridable. The name channel can only ever
+    // widen what binds; a class the classifier declined to call participant is
+    // the caller's finding about the whole field, and no pattern match on its
+    // name is entitled to reverse it.
+    if (unwritableByRole.has(field.name)) {
+      report.refused.push({ field: field.name, reason: "classified_unwritable_by_role", category: "role" });
+      report.protectedFields.push({ field: field.name, category: "role" });
+      continue;
+    }
+
     const decision = decideBinding(
       { name: field.name, pdfType: field.type, effectiveLabel: field.effectiveLabel, regionHeading: field.regionHeading },
       { explicitMappings, captionOnly, availableChargeRows, documentAcceptsFill }

@@ -78,6 +78,47 @@ export const REGIONAL_PROTECT_CATEGORIES = new Set([
   "attorney", "outside_party", "responsible_official", "licensing_board", "agency"
 ]);
 
+// What a printed SECTION HEADING means, which is not the same question as what
+// a field name means.
+//
+// NC AOC-CR-288 is the case. Page 2 prints "FINDINGS OF FACT" and under it
+// "ORDER"; the fields in that band are named PetitionerIsEligibleBecauseText1
+// and PetitionerIsEligibleCbx. Every one of those names is innocent, the
+// petitioner's own name is in them, and the binder wrote the petitioner's name
+// into the judge's findings — a filed document on which the petitioner appears
+// to have made the court's findings for it.
+//
+// These patterns are deliberately NOT in PROTECT_RULES. "Order" as a substring
+// of a field name is far too common to deny on — order of protection, birth
+// order, ordered list — but a form that prints ORDER as a section heading is
+// telling the reader that everything below it is the court speaking. The
+// distinction is the position, so the vocabulary is separate.
+export const REGION_HEADING_RULES = [
+  ["court", /findings?\s*of\s*fact|conclusions?\s*of\s*law|^\s*order\b|\border\s*of\s*(the\s*)?court\b|\bjudgment\b|\bdecree\b|\bdetermination\b|to\s*be\s*completed\s*by\s*the\s*court|court\s*findings/i],
+  ["clerk", /certification\s*by\s*(the\s*)?clerk|clerk\s*s?\s*certificate|entry\s*of\s*(judgment|record)/i],
+  ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|return\s*of\s*service/i],
+  ["notarization", /acknowledg(e?ment|ed)|jurat|verification|sworn\s*statement/i]
+];
+
+/**
+ * The protected category a printed section heading opens, if any.
+ *
+ * The heading vocabulary is tried first because it is the more specific claim,
+ * and the field-name vocabulary second so a heading that names a judge or a
+ * prosecutor still counts. A heading that matches neither opens no protected
+ * region, which is the safe answer only because the field-name rules still run
+ * independently on every binding.
+ */
+export function regionProtectCategoryOf(heading) {
+  const text = String(heading ?? "").trim();
+  if (!text) return null;
+  for (const [category, pattern] of REGION_HEADING_RULES) {
+    if (pattern.test(text)) return category;
+  }
+  const byName = protectCategoryOf(text);
+  return byName && REGIONAL_PROTECT_CATEGORIES.has(byName) ? byName : null;
+}
+
 // --- allowlisted fact descriptors ------------------------------------------
 // The ONLY things that may ever be written. Each declares the value type it
 // carries and, where the fact is legally sensitive, that it may not bind
@@ -227,7 +268,13 @@ export function decideBinding(field, options = {}) {
   // as sections silenced every field on a form headed "APPLICATION TO WAIVE
   // FILING FEES". And a document's own title never protects, because a title
   // names the form rather than an area of it.
-  const regionCategory = regionHeading && !regionIsDocumentTitle ? protectCategoryOf(regionHeading) : null;
+  // The heading vocabulary, not the field-name one. NC AOC-CR-288 prints
+  // "FINDINGS OF FACT" over the judge's block on page 2 and the field-name
+  // rules match none of it, so the region channel above -- which exists
+  // precisely for this -- returned null and the petitioner's name was written
+  // into the court's own findings. A heading is a different kind of claim from
+  // a field name and needs its own words.
+  const regionCategory = regionHeading && !regionIsDocumentTitle ? regionProtectCategoryOf(regionHeading) : null;
   if (regionCategory && REGIONAL_PROTECT_CATEGORIES.has(regionCategory)) {
     return { writable: false, reason: "protected_page_region", category: regionCategory, regionHeading };
   }
