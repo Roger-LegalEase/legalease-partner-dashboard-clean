@@ -17,6 +17,38 @@ import crypto from "node:crypto";
 
 const OUT_DIR = path.resolve("acquired-source");
 
+/**
+ * The receipt filename.
+ *
+ * The planner supplies a slug that carries a digest of the full source key
+ * (jurisdiction | form number | canonical URL), because several queue records
+ * name the same document and naming a receipt by jurisdiction and form number
+ * alone made those receipts collide: the collector downloads every artifact
+ * into one directory, so two receipts became one file holding two JSON
+ * documents and JSON.parse stopped at the seam.
+ *
+ * The fallback keeps this script runnable outside the workflow; it is not
+ * collision-free, which is exactly why the planner supplies the real one.
+ */
+function receiptSlug() {
+  const supplied = (process.env.RCAP_RECEIPT_SLUG ?? "").trim();
+  if (supplied) return supplied.replace(/[^A-Za-z0-9._-]/g, "-");
+  return `${(process.env.RCAP_JURISDICTION ?? "XX").trim().toUpperCase()}-${(process.env.RCAP_FORM_NUMBER ?? "unknown").trim()}`
+    .replace(/[^A-Za-z0-9._-]/g, "-");
+}
+
+/** Everything this one acquisition answers for. */
+function coverage() {
+  const ids = (process.env.RCAP_COVERED_ASSET_IDS ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+  return {
+    sourceKey: process.env.RCAP_SOURCE_KEY ?? null,
+    receiptSlug: receiptSlug(),
+    canonicalUrl: process.env.RCAP_CANONICAL_URL ?? null,
+    coveredAssetIds: ids,
+    coveredQueueEntryCount: Number(process.env.RCAP_COVERED_ENTRY_COUNT ?? (ids.length || 1))
+  };
+}
+
 // Matrix runs record what happened and carry on; a single dispatch still fails
 // loudly. A refusal, a 404 or a DNS failure is evidence about the source, and
 // losing forty other acquisitions to it would be the wrong trade.
@@ -46,10 +78,10 @@ function fail(message) {
   console.error(`FAIL official-source acquisition — ${message}`);
   if (TOLERATE_FAILURE) {
     fs.mkdirSync(OUT_DIR, { recursive: true });
-    const slug = `${(process.env.RCAP_JURISDICTION ?? "XX").trim().toUpperCase()}-${(process.env.RCAP_FORM_NUMBER ?? "unknown").trim()}`
-      .replace(/[^A-Za-z0-9._-]/g, "-");
+    const slug = receiptSlug();
     fs.writeFileSync(path.join(OUT_DIR, `${slug}.receipt.json`), `${JSON.stringify({
       schemaVersion: "rcap-official-source-receipt/v1",
+      ...coverage(),
       outcome: "not_acquired",
       jurisdiction: process.env.RCAP_JURISDICTION ?? null,
       formNumber: process.env.RCAP_FORM_NUMBER ?? null,
@@ -127,7 +159,7 @@ const structuralClass = !looksLikePdf ? "not_a_pdf"
       : "flat_pdf";
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
-const slug = `${jurisdiction}-${formNumber}`.replace(/[^A-Za-z0-9._-]/g, "-");
+const slug = receiptSlug();
 const binaryName = `${slug}${looksLikePdf ? ".pdf" : ".bin"}`;
 fs.writeFileSync(path.join(OUT_DIR, binaryName), bytes);
 
@@ -142,6 +174,7 @@ const linkedDocuments = looksLikePdf ? [] : [...new Set(
 
 const receipt = {
   schemaVersion: "rcap-official-source-receipt/v1",
+  ...coverage(),
   acquiredBy: ".github/workflows/rcap-official-source-acquisition.yml",
   outcome: "acquired",
   jurisdiction,
