@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "aoc-cr-296-form-en",
-  "documentOwnership": "participant_completed",
+  "documentOwnership": "prosecutor_controlled",
   "sha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
   "pageGeometry": [
     {
@@ -17,46 +17,10 @@
       "orientation": "portrait"
     }
   ],
-  "captionOnly": false,
+  "captionOnly": true,
   "factoryVersion": "d0-remediated-v1",
   "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
-  "bindings": [
-    {
-      "field": "ConsJdgmntFileNum",
-      "class": "participant",
-      "factId": "matter.case_number",
-      "factBasis": "field_name",
-      "effectiveLabel": "File No.Scan No.(s)"
-    },
-    {
-      "field": "County",
-      "class": "participant",
-      "factId": "matter.county",
-      "factBasis": "field_name",
-      "effectiveLabel": "STATE OF NORTH CAROLINA"
-    },
-    {
-      "field": "PetitionerName",
-      "class": "participant",
-      "factId": "participant.full_legal_name",
-      "factBasis": "field_name",
-      "effectiveLabel": "Name And Address Of Defendant (type or print full name)"
-    },
-    {
-      "field": "City",
-      "class": "participant",
-      "factId": "participant.city",
-      "factBasis": "field_name",
-      "effectiveLabel": null
-    },
-    {
-      "field": "DLState",
-      "class": "participant",
-      "factId": "participant.state",
-      "factBasis": "field_name",
-      "effectiveLabel": null
-    }
-  ],
+  "bindings": [],
   "bindingRefusals": [
     {
       "field": "ScanNumbers",
@@ -1192,5 +1156,43 @@
   "overflowPolicy": {
     "longText": "shrink_to_fit_then_addendum",
     "multiline": "wrap_within_widget_rect"
-  }
+  },
+  "ownerDisposition": "prosecutor-controlled; no participant binding is delivered from this map",
+  "bindingsWithheldByOwnerDisposition": [
+    {
+      "field": "ConsJdgmntFileNum",
+      "class": "participant",
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": "File No.Scan No.(s)"
+    },
+    {
+      "field": "County",
+      "class": "participant",
+      "factId": "matter.county",
+      "factBasis": "field_name",
+      "effectiveLabel": "STATE OF NORTH CAROLINA"
+    },
+    {
+      "field": "PetitionerName",
+      "class": "participant",
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "Name And Address Of Defendant (type or print full name)"
+    },
+    {
+      "field": "City",
+      "class": "participant",
+      "factId": "participant.city",
+      "factBasis": "field_name",
+      "effectiveLabel": null
+    },
+    {
+      "field": "DLState",
+      "class": "participant",
+      "factId": "participant.state",
+      "factBasis": "field_name",
+      "effectiveLabel": null
+    }
+  ]
 }

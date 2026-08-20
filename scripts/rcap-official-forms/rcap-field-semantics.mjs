@@ -40,7 +40,13 @@ export const PROTECT_RULES = [
   // full_legal_name's /\bdef\b/ pattern did. Jail and booking identifiers sit
   // in the same rule: they identify a person through a custodial system the
   // platform has no knowledge of, and AOC-496 put a name in one of those too.
-  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#)\b/],
+  // The driver's-licence cluster is a cluster, not one field. NC AOC-CR-296
+  // names its columns DLNo, DLState and DLExpires; only DLNo matched, so
+  // `DLState` took participant.state and the canonical fixture printed the
+  // applicant's residence state in the Drivers License State column. The state
+  // that issued a licence and the state someone lives in are different facts,
+  // and the field prints no caption, so nothing but its name could refuse it.
+  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#)\b|\bdl\s*(state|exp|expires|expiration|class|type|issued)\b|licen[cs]e\s*(state|class|expires|expiration)/],
   ["signature", /signature|\bsigned\b|\bsign\s*here\b|^\s*sign\b|\bsig\b|\binitials?\b/],
   ["notarization", /notar|jurat|acknowledg(ed|ment)\s*before\s*me|sworn\s*to\s*before|my\s*commission\s*expires|seal\s*of\s*office/],
   // `cert date` was the hole. The rule matched the printed heading and the
@@ -134,8 +140,18 @@ export function regionProtectCategoryOf(heading) {
 // The ONLY things that may ever be written. Each declares the value type it
 // carries and, where the fact is legally sensitive, that it may not bind
 // without the caller naming the field explicitly.
+// A second address block is not a second address.
+//
+// NC AOC-CV-226 prints "Full Permanent Mailing Address Of Applicant (if
+// different than above)". It is conditional by its own printed words: it is
+// completed only when the applicant's mailing address differs from the one
+// already given. Writing the same street, city, state and ZIP into both blocks
+// files an affidavit asserting the two are different and then showing them
+// identical. The platform holds one address, so it fills one block.
+export const ALTERNATE_BLOCK = /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/;
+
 export const FACT_DESCRIPTORS = [
-  { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/ },
+  { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "participant.date_of_birth", valueType: "date", match: /\bdob\b|date\s*of\s*birth|birth\s*date/ },
   { factId: "participant.first_name", valueType: "string", match: /first\s*name/ },
   { factId: "participant.last_name", valueType: "string", match: /last\s*name|surname/ },
@@ -157,11 +173,11 @@ export const FACT_DESCRIPTORS = [
   // affidavit of indigency, where the applicant's street address was printed
   // as the name of their bank. A haystack that names a more specific slot than
   // "address" is that slot, not the street line.
-  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b/, refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal|\bcounty\b|\bbank\b|\bemployer\b|\bcourt\b/ },
-  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b|\bcourt\b|\bcounty\s*(of|or)\s*city\b/ },
-  { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/ },
+  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b/, refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal|\bcounty\b|\bbank\b|\bemployer\b|\bcourt\b|\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
+  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b|\bcourt\b|\bcounty\s*(of|or)\s*city\b|\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
+  { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "participant.phone", valueType: "string", match: /\bphone\b|telephone/, refuseWhen: /\be[-\s]?mail\b/ },
-  { factId: "participant.state", valueType: "string", match: /\bstate\b/ },
+  { factId: "participant.state", valueType: "string", match: /\bstate\b/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "matter.county", valueType: "string", match: /\bcounty\b/ },
   { factId: "matter.court", valueType: "string", match: /court\s*name|type\s*of\s*court|judicial\s*(district|circuit)/ },
   { factId: "matter.case_number", valueType: "string", match: /case\s*(no|num|#)|docket|cause\s*(no|num)|file\s*(no|num)|case\s*id/ },

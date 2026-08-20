@@ -82,10 +82,16 @@ export async function sidecarStatus(familyDir) {
     const cov = provenanceCoversArtifact(sidecar, a.artifact, fs.readFileSync(target), { sourceSha256: sidecar.sourceSha256 });
     return { artifact: a.artifact, bound: cov.covered === true, reason: cov.reason ?? null };
   });
+  // A family that deliberately renders nothing has no artifact binding to
+  // satisfy. NC AOC-CR-296 is prosecutor-controlled and its fixtures are
+  // withdrawn; scoring that as a sidecar failure would report an owner
+  // disposition as a defect.
+  const withdrawn = Array.isArray(sidecar.artifactsWithdrawn) && sidecar.artifactsWithdrawn.length > 0
+    && artifactsBound.length === 0;
   const conformant = schemaOk && missingFields.length === 0
-    && artifactsBound.length > 0 && artifactsBound.every((a) => a.bound);
+    && (withdrawn || (artifactsBound.length > 0 && artifactsBound.every((a) => a.bound)));
   return {
-    present: true, schemaVersion: sidecar.schemaVersion, schemaOk,
+    present: true, schemaVersion: sidecar.schemaVersion, schemaOk, artifactsWithdrawn: withdrawn,
     requiredFields: SIDECAR_REQUIRED_FIELDS.length,
     fieldsPresent: SIDECAR_REQUIRED_FIELDS.length - missingFields.length,
     missingFields, artifactsBound, conformant,
@@ -93,7 +99,9 @@ export async function sidecarStatus(familyDir) {
     escalationResolved: conformant,
     escalation: "ESC-SIDECAR-NONCONFORMANT",
     escalationBasis: conformant
-      ? "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+      ? (withdrawn
+        ? "measured at this head: schema correct and every required field present; this family renders no artifact by owner disposition, so there is no artifact binding to satisfy"
+        : "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash")
       : "a current measured failure remains; see missingFields and artifactsBound"
   };
 }
