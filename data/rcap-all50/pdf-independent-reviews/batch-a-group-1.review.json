@@ -1,0 +1,375 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-group/v1",
+  "batch": "batch-a",
+  "group": "group1",
+  "reviewDate": "2026-08-20",
+  "reviewer": "independent-reviewer-a",
+  "reviewerBranch": "claude/rcap-pdf-independent-review-a-qkff6d",
+  "reviewedLaneBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewedLaneHead": "ea1a16b6358086c3c24fbd66e2fd005173d3ad87",
+  "headline": "Four families, four corrections, no approvals. Two are artifact-clean and blocked only by absent source bytes. Two carry real defects in the bytes, and the deeper fact under both is that no family was re-rendered: the maps are corrected and the artifacts are not.",
+  "independence": "This reviewer did not create any artifact, sidecar, raster, map, classification or shared correction reviewed here. The batch-1 record was read for its findings and left untouched; no batch-1 verdict was copied forward, and each verdict below was reached from the evidence at this head.",
+  "theOneFindingThatMattersMost": {
+    "finding": "The Gate B rerender processed zero families, and the record produced from it nonetheless marks per-family objections as provenAgainstThisFamilysBytes: true.",
+    "evidence": "gate-b-family-rerender-evidence.json records rerenderAttempt.result as 'ran to completion and processed 0 families, 0 fields, 0 contact sheets', artifactsChanged: 0, privateCorpusMountedInThisClone: false, and newArtifactSha256 equal to currentCanonicalArtifactSha256 for all 17 families. Its own notAnApproval field says 'no objection is proven against any family's own bytes, because no family's bytes changed.' The families[] array then sets provenAgainstThisFamilysBytes: true on 28 objections.",
+    "whyItMatters": "KY:aoc-334-form-en is the case that shows the cost. Its map refuses 'Court' and 'Date'; its artifact writes to both. A reader trusting the per-family field would conclude the geometry correction had reached the bytes. It has not.",
+    "smallestCorrection": "In gate-b-family-rerender-evidence.json, set provenAgainstThisFamilysBytes to false wherever no re-render occurred, so the field agrees with the notAnApproval statement directly above it. That record is not this reviewer's to edit."
+  },
+  "crossFamilyFindings": [
+    {
+      "id": "A-X1-NO-RERENDER",
+      "families": [
+        "AK:tf-800-form-en",
+        "AK:tf-805-form-en",
+        "KY:aoc-334-form-en",
+        "KY:aoc-496-3-form-en"
+      ],
+      "observed": "All four canonical artifact hashes at this head equal the hashes gate-b recorded before its rerender attempt. Nothing was regenerated.",
+      "consequence": "Where a shared correction changed the map, the artifact no longer agrees with it. AK tf-800 and tf-805 happen to agree anyway because their pre-correction render already refused certDate's companion and the corrected map only formalised the refusal; the two KY families do not agree.",
+      "required": "Re-render every family against the corrected binder before any family is put forward for approval again."
+    },
+    {
+      "id": "A-X2-SCAN-DOES-NOT-COMPARE",
+      "families": [
+        "KY:aoc-334-form-en",
+        "KY:aoc-496-3-form-en"
+      ],
+      "observed": "reports/protected-fields-scan.json reports pass: true for both. For aoc-334 it counts 7 written fields against a map declaring 5 bindings; for aoc-496-3 it counts 1 against a map declaring 2. It never compares the two numbers, so both an undeclared write and a silently dropped write pass it.",
+      "required": "The scan compares written fields against declared bindings and fails on either direction of mismatch.",
+      "smallestCorrection": "Add a written-versus-bound reconciliation to the scan. One check catches both defects."
+    },
+    {
+      "id": "A-X3-NEVER-WRITE-COVERS-ONLY-MANUAL",
+      "families": [
+        "KY:aoc-334-form-en"
+      ],
+      "observed": "ESC-MANUAL-NOT-NEVER-WRITE added the literal class 'manual' to NEVER_WRITE. Field 'Text1' is classified 'unused' and is bound and written.",
+      "required": "NEVER_WRITE is expressed as an allowlist of writable classes rather than a denylist of one, so a new class name cannot reopen the hole.",
+      "smallestCorrection": "Write to participant classes only; refuse everything else by default."
+    },
+    {
+      "id": "A-X4-RASTER-COVERS-PAGE-1-ONLY",
+      "families": [
+        "AK:tf-800-form-en",
+        "AK:tf-805-form-en",
+        "KY:aoc-496-3-form-en"
+      ],
+      "observed": "The rendered evidence for every multi-page family is a single 1342x930 PNG carrying page 1 of the contact sheet and a sliver of page 2. AK tf-800 is 3 pages, AK tf-805 is 2, KY aoc-496-3 is 3. The Certificate of Service, notarisation and judicial blocks all sit below the crop.",
+      "consequence": "For AK tf-800 and tf-805 the certification line is exactly what the historical objection asked a reviewer to confirm blank, and it is not in the picture. Both were verified blank from the artifact bytes instead, and both hold.",
+      "required": "Rasterise every page of the contact sheet, so the visual channel covers the protected blocks rather than page 1 alone.",
+      "note": "Recorded as a batch-level evidence gap, not as a per-family correction, since batch-1 recorded the same crop and the areas concerned were verified by other means here."
+    },
+    {
+      "id": "A-X5-APPROVAL-CHANNEL-ABSENT",
+      "families": [
+        "AK:tf-800-form-en",
+        "AK:tf-805-form-en",
+        "KY:aoc-334-form-en",
+        "KY:aoc-496-3-form-en"
+      ],
+      "observed": "None of the four family packages carries an overlay-profile.json, and production-field-map.json carries no independentReview field. rcap-platform-ready.mjs reads the profile, so an approval recorded here has no channel to reach the gate.",
+      "consequence": "Even a clean approval could not promote any of these four families today.",
+      "status": "unchanged since batch-1 recorded it."
+    }
+  ],
+  "verdicts": [
+    {
+      "family": "AK:tf-800-form-en",
+      "jurisdiction": "AK",
+      "documentId": "TF-800",
+      "verdict": "correction_required",
+      "headline": "Artifact-clean on every axis this reviewer could verify. Not approved, because the official source bytes are not present at this head and the source SHA-256 could not be recomputed.",
+      "whatWasVerifiedClean": {
+        "visibleFormIdentity": "The artifact prints 'TF-800 (5/25)' and 'Admin. R. 37.6' on every page foot. The committed revision REV-2025-05 and officialTitle 'Request to Make Case Records Confidential or Sealed Under Administrative Rule 37.6' both agree with the ink. Identity and revision are correct.",
+        "mapToArtifactAgreement": "production-field-map.json declares 7 bindings over fields carrying 9 widgets in total (caseNo alone has 3 widgets, on pages 1, 2 and 3). The finalized artifact draws exactly 9 participant values. Map and bytes agree with nothing unaccounted for.",
+        "visualPlacement": "Read from the rendered blank-versus-filled raster. Name, Address, Email, Daytime Phone, Case Name, Case No. and Party Names each sit on their own printed rule, fully inside the rule, left-aligned to the caption. No clipping, no truncation, no duplicated printed caption, no value straddling two lines.",
+        "panelsDiffer": "differingPixelFraction 0.011975 against a known-different control at 0.369582; the control discriminates, so the measurement means something.",
+        "protectedAreasPage1": "Verified on the raster: the confidential/sealed checkboxes, the Document(s) and hearing lines and the reasons block are unwritten.",
+        "protectedAreasPages2And3": "Not rasterised \u2014 see the raster gap below \u2014 so verified directly from the artifact bytes instead. Page 2 and page 3 each carry exactly one participant value, the legitimate repeating caseNo header. The Certificate of Service block ('I certify on ___ at ___ [date/time]', 'I served these people:', 'Signature:'), the notarisation block ('(SEAL)', 'Court clerk, notary public, or other person', 'My commission expires') and the page-3 judicial block ('Superior Court Master / Date / Judicial Officer / Date' and the clerk's distribution certificate) are all blank.",
+        "flattening": "Parsed structurally: no AcroForm, zero form fields, zero annotations, no OpenAction, no additional actions and no JavaScript name tree in either the canonical or the boundary artifact. Flattened and active-content clean.",
+        "boundaryFixture": "boundaryFixtureApplied true; 38 findings, all binding_refused, none clipped or truncated.",
+        "provenanceSidecar": "All 20 required fields present and non-null, schemaVersion rcap-artifact-provenance/v1, and provenanceCoversArtifact() from the canonical module returns covered=true for all three artifacts when passed the bytes on disk and the pinned source SHA. sourceUrl is present in pinned master-library: form carrying the path and the SHA, which the schema permits.",
+        "rasterBinding": "The visual proof records contact sheet dd7b228ac0400cb6\u2026, which is the contact sheet on disk. The raster evidence is bound to the current artifact."
+      },
+      "historicalObjections": [
+        {
+          "objection": "batch-1 group-1: certDate is bound to deterministic.filing_date and both fixtures write a filing date onto the 'I certify on ___' line inside the Certificate of Service block on page 2.",
+          "status": "closed",
+          "proof": "production-field-map.json now carries bindingRefusals entry { field: 'certDate', reason: 'protected_category', category: 'service_block' }. The artifact contains no ISO date anywhere on any page, and page 2 carries only the caseNo header. Verified against the map and against the bytes, not against the lane's claim."
+        },
+        {
+          "objection": "ESC-GEOMETRY-NOT-AN-INPUT \u2014 protection must be established by geometry, not label alone.",
+          "status": "closed for this family",
+          "proof": "Every protected slot on this form is blank in the finalized bytes and the field map records 13 protected refusals. No participant value reaches a court, clerk, service, signature, notarisation or decision area."
+        },
+        {
+          "objection": "ESC-SIDECAR-NONCONFORMANT \u2014 the provenance module must emit all 20 fields and the contract verifier must read a committed sidecar.",
+          "status": "closed",
+          "proof": "The committed sidecar carries all 20 fields non-null and binds to all three artifacts by hash. gate-b-family-rerender-evidence.json still records this escalation as open and owned by another lane; against this family's committed sidecar it is closed, and that record is stale on this point."
+        }
+      ],
+      "corrections": [
+        {
+          "findingId": "A-SOURCE-BYTES-ABSENT",
+          "exactFamily": "AK:tf-800-form-en",
+          "exactArtifact": "the official source binary, pinned as private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
+          "page": null,
+          "fieldOrGeometry": "not applicable \u2014 this is an evidence-completeness finding, not a defect in the family's artifacts",
+          "observed": "The source binary is not present at this head. RCAP_BUNDLE_EXTRACT is unset, private/ does not exist in the clone, and a whole-filesystem search found no copy. The reviewer could not recompute 94bab52533d74551\u2026 from bytes and could only read it back out of the family's own committed JSON.",
+          "required": "The reviewer recomputes the source SHA-256 from the official bytes and confirms it equals the value the source-record, the source-receipt and the provenance sidecar all pin.",
+          "smallestCorrection": "Mount the Edition 1 Master Library extract and set RCAP_BUNDLE_EXTRACT for the review environment, or materialise the family's own source copy at data/rcap-all50/overlays/production/alaska/tf-800-form-en/source/ so the pinned path resolves. No change to any artifact, map, classification or sidecar is required or requested.",
+          "severity": "blocks approval only"
+        }
+      ],
+      "whyNotApproved": "Approval requires pinning every current hash, and one of the mandated hashes \u2014 the source SHA-256 \u2014 could not be recomputed from bytes at this head. Approving would mean taking the source identity from JSON, which this review is explicitly not permitted to do. Nothing found in this family's own artifacts stands in the way of approval.",
+      "wouldApproveWhen": "the source binary resolves and its SHA-256 recomputes to 94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd, with no other change",
+      "rasterGap": {
+        "observed": "The contact sheet is 3 pages; docs/record-clearing/pdf-visual-evidence/AK-tf-800-form-en-contact-sheet-page-01.png rasterises page 1 and the top ~2cm of page 2 only. The Certificate of Service, notarisation and judicial blocks are below the crop.",
+        "handling": "Not raised as a correction against this family. The batch-1 reviewer recorded the same crop, and the areas concerned were verified here directly from the artifact bytes and found blank. Recorded so the gap is visible rather than silently covered.",
+        "recommendation": "rasterise every page of the contact sheet, so the visual channel covers the protected blocks rather than page 1 alone"
+      },
+      "verifiedIndependently": "Yes. Every hash in this record was recomputed from the bytes on disk. Placement was read off the rendered raster with targeted crops. Flattening was established by parsing the PDF structure. Page 2 and 3 emptiness was established by extracting the drawn text per page. No claim in gate-b-family-rerender-evidence.json was taken on trust."
+    },
+    {
+      "family": "AK:tf-805-form-en",
+      "jurisdiction": "AK",
+      "documentId": "TF-805",
+      "verdict": "correction_required",
+      "headline": "Artifact-clean on every axis this reviewer could verify, and the cleanest of the four. Not approved, for the same source-bytes reason as tf-800.",
+      "whatWasVerifiedClean": {
+        "visibleFormIdentity": "The artifact prints 'TF-805 (5/25)' and 'Admin. R. 40(b) & (c)'. Committed revision REV-2025-05 and the officialTitle both agree with the ink.",
+        "mapToArtifactAgreement": "7 bindings over 7 single-widget fields; the artifact draws exactly 7 participant values. Exact agreement, nothing unaccounted for.",
+        "visualPlacement": "Name, Address, Email, Daytime Phone, Case Name, Case No. and Party Names each sit on their own printed rule. No clipping, no truncation, no duplicated caption.",
+        "panelsDiffer": "differingPixelFraction 0.011622 against a control at 0.383703; the control discriminates.",
+        "protectedAreasPage1": "Verified on the raster: the Verification block is untouched \u2014 Date blank, Your Signature blank, 'Subscribed and sworn to or affirmed before me at ___, Alaska on ___' blank, (SEAL) blank, 'Court clerk, notary public, or other person authorized to administer oaths' blank, 'My commission expires' blank. Both Administrative Rule 40(b) and 40(c) ground checkboxes are unchecked, matching the blank panel.",
+        "protectedAreasPage2": "Not rasterised; verified from the artifact bytes. Page 2 carries zero participant ink of any kind. The Certificate of Service block, the 'Presiding Judge / Date' line and the clerk's distribution certificate are all blank.",
+        "flattening": "No AcroForm, zero fields, zero annotations, no OpenAction, no JavaScript, in both canonical and boundary artifacts.",
+        "boundaryFixture": "boundaryFixtureApplied true; 20 findings, all binding_refused, none clipped or truncated.",
+        "provenanceSidecar": "All 20 fields present and non-null; covered=true against the bytes for all three artifacts.",
+        "rasterBinding": "Visual proof records 9e30b4beea7a121f\u2026, which is the contact sheet on disk. Bound to the current artifact."
+      },
+      "historicalObjections": [
+        {
+          "objection": "batch-1 group-2: the filing date is written into 'I certify on ___ at ___ [date/time]' under the printed heading 'Certificate of Service' on page 2.",
+          "status": "closed",
+          "proof": "The map now records certDate under bindingRefusals as protected_category / service_block, and page 2 of the finalized artifact contains no participant ink at all. Verified from the bytes."
+        },
+        {
+          "objection": "ESC-GEOMETRY-NOT-AN-INPUT.",
+          "status": "closed for this family",
+          "proof": "8 protected refusals recorded; every court, service, signature and notarisation slot on both pages is blank in the finalized bytes."
+        },
+        {
+          "objection": "ESC-SIDECAR-NONCONFORMANT.",
+          "status": "closed",
+          "proof": "The committed sidecar carries all 20 fields non-null and binds to all three artifacts by hash. The gate-b record is stale on this point."
+        }
+      ],
+      "corrections": [
+        {
+          "findingId": "A-SOURCE-BYTES-ABSENT",
+          "exactFamily": "AK:tf-805-form-en",
+          "exactArtifact": "the official source binary, pinned as private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-or-c__REV-2025-05__EN.pdf",
+          "page": null,
+          "fieldOrGeometry": "not applicable \u2014 evidence completeness, not an artifact defect",
+          "observed": "The source binary is not present at this head; 96306d64eda397e2\u2026 could not be recomputed from bytes.",
+          "required": "The reviewer recomputes the source SHA-256 from the official bytes and confirms it equals the pinned value.",
+          "smallestCorrection": "Mount the Edition 1 Master Library extract and set RCAP_BUNDLE_EXTRACT, or materialise the family's own source copy. No artifact, map, classification or sidecar change is required.",
+          "severity": "blocks approval only"
+        }
+      ],
+      "whyNotApproved": "One mandated hash \u2014 the source SHA-256 \u2014 could not be recomputed from bytes. Nothing in this family's artifacts stands in the way of approval.",
+      "wouldApproveWhen": "the source binary resolves and its SHA-256 recomputes to 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54, with no other change",
+      "rasterGap": {
+        "observed": "The contact sheet is 2 pages; the rendered PNG covers page 1 and the top of page 2 only.",
+        "handling": "Not raised as a correction. Page 2 was verified blank directly from the artifact bytes.",
+        "recommendation": "rasterise every page of the contact sheet"
+      },
+      "verifiedIndependently": "Yes. Every hash recomputed from bytes; placement read off the raster; flattening established by parsing the PDF structure; page-2 emptiness established by per-page text extraction."
+    },
+    {
+      "family": "KY:aoc-334-form-en",
+      "jurisdiction": "KY",
+      "documentId": "AOC-334",
+      "verdict": "correction_required",
+      "severity": "highest in this batch",
+      "headline": "The finalized artifact draws two participant values that the current field map does not declare, both onto court-owned slots, and the map itself binds the participant's name into a judicial decision area. The bytes predate the map; the corrections recorded against this family have not reached the artifact.",
+      "rootCause": "gate-b-family-rerender-evidence.json states plainly that the rerender 'ran to completion and processed 0 families' because no extract was mounted, and that newArtifactSha256 equals currentCanonicalArtifactSha256 for every family. That is confirmed here: the finalized bytes are the pre-correction render, while production-field-map.json is post-correction. The gate-b record nonetheless marks ESC-GEOMETRY-NOT-AN-INPUT and ESC-MANUAL-NOT-NEVER-WRITE as provenAgainstThisFamilysBytes: true. Against this family's actual bytes they are not proven, and that field is wrong.",
+      "corrections": [
+        {
+          "findingId": "A-KY334-UNDECLARED-WRITES",
+          "exactFamily": "KY:aoc-334-form-en",
+          "exactArtifact": "fixtures/canonical-filled.pdf (sha256 463863b831f9d9157dd0f98e0d61260552225aba19482b406cae03dd01911df4)",
+          "page": 1,
+          "fieldOrGeometry": "field 'Court', rect [442,714 130x17]; and field 'Date', the decision-date slot beneath 'has successfully completed the terms of treatment, probation, or sentence on'",
+          "observed": "production-field-map.json declares 5 bindings, each over a single-widget field, so 5 drawn values are expected. The artifact draws 7: the case number 24-CR-001234 twice and the participant name Jordan Avery Reyes four times. The two undeclared draws land on 'Court' \u2014 which prints 24-CR-001234 directly beneath the correctly-filled 'Case No.' line, so the case number appears twice in the caption box and the court's own identity slot carries a case number \u2014 and on 'Date', which prints Jordan Avery Reyes on the rule captioned 'Date'. Both fields are listed in the current map's unwritableFields as class 'manual'. reports/overflow-and-clipping.json independently records the boundary fixture resolving { field: 'Date', factId: 'participant.full_legal_name' }, which is how the name reached a date slot.",
+          "required": "The finalized artifact draws exactly the values the current field map declares, and no others. 'Court' and 'Date' are unwritable and stay blank.",
+          "smallestCorrection": "Re-render this family against the corrected binder so the artifact is regenerated from the current map. No map edit is needed \u2014 the map is already correct; only the bytes are stale.",
+          "verifiedIndependently": "Yes \u2014 draw count taken from the finalized PDF's own page content, binding count from the committed map, widget counts from the committed census."
+        },
+        {
+          "findingId": "A-KY334-NAME-INTO-SEALING-ORDER",
+          "exactFamily": "KY:aoc-334-form-en",
+          "exactArtifact": "production-field-map.json (sha256 c66afd0829b6e0e80395089cfa1a67c43154803f146a0c2c073afc0cb867bb05) and fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrGeometry": "field 'Text1', class 'unused', rect [400,272 171x10]; and field 'listed charges', rect [40,231 533x41]",
+          "observed": "Both fields are bound to participant.full_legal_name with factBasis 'printed_label' off the same truncated label fragment, 'their custody regarding the above-named Defendant and above-'. That fragment is the sentence 'The Kentucky State Police and other following agencies listed below are hereby ordered to seal any records in their custody regarding the above-named Defendant and above-listed charge(s): ___'. The slot is the court's list of agencies ordered to seal. On the page the participant's name is printed into it twice \u2014 once small and inline after 'charge(s):' and once large on the rule below. 'Text1' additionally carries class 'unused' and is bound and written anyway.",
+          "required": "The agency-list slot in the sealing order is a court decision area and stays blank. A field classified anything other than participant is never written.",
+          "smallestCorrection": "Add 'unused' alongside 'manual' in NEVER_WRITE in both the binder and the verifier, and refuse a printed_label match whose label is a truncated mid-sentence fragment rather than a field caption. Then re-render.",
+          "whyTheExistingCorrectionMissedIt": "ESC-MANUAL-NOT-NEVER-WRITE added exactly the string 'manual' to NEVER_WRITE. 'Text1' is classified 'unused', so the same defect survives verbatim under a different class name. The escalation is closed as written and the hole it was meant to shut is still open.",
+          "verifiedIndependently": "Yes \u2014 bindings read from the committed map, geometry from the committed census, and the printed result read off the rendered raster with a targeted crop."
+        },
+        {
+          "findingId": "A-KY334-STALE-RASTER",
+          "exactFamily": "KY:aoc-334-form-en",
+          "exactArtifact": "docs/record-clearing/pdf-visual-evidence/KY-aoc-334-form-en-contact-sheet-page-01.png (sha256 48f7228fc9cd8f7cd0187f1ba58788f8b293babdf6b870ea6d15d76d5efe7233)",
+          "page": 1,
+          "fieldOrGeometry": "the binding between the raster evidence and the artifact it depicts",
+          "observed": "data/rcap-all50/contact-sheet-visual-proof.json records this family's contact sheet as 585d94fbc5f9a19b4c4911871275f6c87ec07c073a56ceb00fc0eb76740dcb6f. The contact sheet on disk is deaffe86f139e6b050732f0066c5b3ffe0dea27d65d5e69e47273a698787a675. The visual evidence is therefore bound to a contact sheet that is not the current one. The same entry records knownDifferentControl: null and controlDiscriminates: null, so its differingPixelFraction of 0.004237 is not measured against any control and does not establish that the panels differ for the right reason. It is also the only one of the four whose recorded pagesOnSheet is 1 while the artifact is 1 page \u2014 that part is consistent.",
+          "required": "Raster evidence is bound by hash to the contact sheet on disk, and the blank-versus-filled measurement is taken against a control known to differ.",
+          "smallestCorrection": "Re-run the contact-sheet visual proof for this family after the re-render so the recorded contact-sheet hash is the one on disk and a discrimination control is captured.",
+          "note": "The findings above were confirmed against the current artifact's own page content, not only against this raster, so the stale raster does not weaken them."
+        },
+        {
+          "findingId": "A-KY334-IDENTITY-UNRECORDED",
+          "exactFamily": "KY:aoc-334-form-en",
+          "exactArtifact": "source-record.json",
+          "page": 1,
+          "fieldOrGeometry": "revision and officialTitle",
+          "observed": "revision is REV-UNKNOWN with freshnessStatus revision_confirmation_required, and officialTitle is the scraped body fragment 'is hereby void; and all records pertaining thereto that are in custody of the court and any records in the custody of\u2026'. The artifact's own page-1 header prints 'AOC-334', 'Doc. Code: OVSR', 'Rev. 1-22' and the title 'ORDER VOIDING CONVICTION AND SEALING RECORDS'.",
+          "required": "revision REV-2022-01 and officialTitle 'Order Voiding Conviction and Sealing Records'.",
+          "smallestCorrection": "Capture identity from the printed header. Unchanged since batch-1 raised it.",
+          "status": "open \u2014 carried forward from batch-1 unclosed"
+        }
+      ],
+      "ownerDecisionEscalated": {
+        "id": "A-KY334-OWNERSHIP",
+        "question": "Should the platform fill this document at all?",
+        "observed": "AOC-334 is ORDER VOIDING CONVICTION AND SEALING RECORDS. It recites that 'Defendant's conviction is hereby void', ends 'So ORDERED this ___ day of ___, 2___' over a Judge rule, and carries a CERTIFICATION block for an agency records custodian. It is an order the court issues, not a filing the participant completes. production-field-map.json types it documentOwnership 'participant_completed' with captionOnly false, so participant facts are bound throughout the body rather than to the caption alone.",
+        "whyItFallsThrough": "Ownership is keyed on documentRole, filename slug and officialTitle, and the recorded officialTitle is the mid-sentence fragment above, which carries no order/judgment/decree token. Fixing the title (A-KY334-IDENTITY-UNRECORDED) may change the ownership determination as a side effect, which is a further reason to fix it deliberately rather than incidentally.",
+        "required": "OWNERSHIP.COURT_ORDER with captionOnly engaged, if the product intends to prepare this form for a participant at all.",
+        "status": "open \u2014 raised in batch-1, unresolved. Recorded here as an owner decision rather than a reviewer determination, because whether a court's own order is prepared for filing is a product and counsel question, not a rendering question.",
+        "note": "This family's verdict is correction_required rather than substantive_owner_decision_required because the four corrections above are concrete defects that must be fixed whichever way the ownership question is decided."
+      },
+      "historicalObjections": [
+        {
+          "objection": "batch-1 group-1: the participant's full legal name is written into 'Defendants ssn' at [297,536 90x17], directly after the printed caption \"Defendant's SSN:\".",
+          "status": "closed",
+          "proof": "The map now records { field: 'Defendants ssn', reason: 'protected_category', category: 'government_identifier' } under bindingRefusals, and the SSN rule is blank in the finalized bytes and on the raster. This one is genuinely closed, and ESC-NO-SSN-RULE with it."
+        },
+        {
+          "objection": "batch-1 group-1: ownership typed as a participant filing on a court order.",
+          "status": "open",
+          "proof": "documentOwnership is still participant_completed and captionOnly is still false. Escalated above."
+        },
+        {
+          "objection": "batch-1 group-1: revision REV-UNKNOWN and a scraped officialTitle.",
+          "status": "open",
+          "proof": "Both unchanged at this head."
+        },
+        {
+          "objection": "batch-1 group-1: the source's Reset and Print pushbutton captions are flattened into permanent ink at the page foot.",
+          "status": "open, and confirmed inherited rather than introduced",
+          "proof": "Both captions appear in the blank panel as well as the filled panel of the contact sheet, so they come from the source form. Structurally the artifact is clean \u2014 no AcroForm, zero fields, zero annotations, no JavaScript \u2014 so these are static ink, not live widgets. Recorded as cosmetic: UI chrome printed on a document intended for filing."
+        },
+        {
+          "objection": "ESC-MANUAL-NOT-NEVER-WRITE \u2014 'manual' must be in NEVER_WRITE in both binder and verifier.",
+          "status": "closed as written, but incomplete",
+          "proof": "'manual' is now refused. 'unused' is not, and field 'Text1' is classified 'unused' and written. See A-KY334-NAME-INTO-SEALING-ORDER."
+        },
+        {
+          "objection": "ESC-GEOMETRY-NOT-AN-INPUT \u2014 a binding whose rect falls in a court-owned region is refused whatever the field is called.",
+          "status": "NOT proven against this family's bytes",
+          "proof": "The finalized artifact still writes into 'Court' and 'Date', both court-owned. gate-b-family-rerender-evidence.json records provenAgainstThisFamilysBytes: true for this escalation on this family. That is contradicted by the bytes and should be corrected in that record."
+        },
+        {
+          "objection": "ESC-SIDECAR-NONCONFORMANT.",
+          "status": "closed",
+          "proof": "The committed sidecar carries all 20 fields non-null and binds to all three artifacts by hash."
+        }
+      ],
+      "gapInTheLanesOwnScan": "reports/protected-fields-scan.json reports writtenFields: 7, violations: [], pass: true \u2014 while the field map it is meant to police declares only 5 bindings. The scan counts what was written but never compares that count to what was bound, so two writes with no binding at all pass it silently. This is the same blindness batch-1 recorded on this family, in a new form.",
+      "verifiedIndependently": "Yes. Draw counts and their values were taken from the finalized PDF's page content; bindings, refusals and unwritable lists from the committed field map; widget geometry from the committed census; placement confirmed on the rendered raster with targeted crops of the caption box, the decision-date line and the agency-list block."
+    },
+    {
+      "family": "KY:aoc-496-3-form-en",
+      "jurisdiction": "KY",
+      "documentId": "AOC-496.3",
+      "verdict": "correction_required",
+      "headline": "A participant application whose finalized artifact carries a single value. One of its two declared bindings never reaches the page, and every scan reports pass.",
+      "corrections": [
+        {
+          "findingId": "A-KY4963-COUNTY-DROPPED",
+          "exactFamily": "KY:aoc-496-3-form-en",
+          "exactArtifact": "fixtures/canonical-filled.pdf (sha256 850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a)",
+          "page": 1,
+          "fieldOrGeometry": "field '3 County Dropdown', type dropdown, single widget rect [452,693 124x13], bound to matter.county",
+          "observed": "production-field-map.json declares 2 bindings and reports/populated-fields.json lists both. The finalized artifact draws exactly one participant value, the case number. The county never reaches the page: the County rule in the caption box is blank on the raster, and the artifact's page content contains no county value. reports/protected-fields-scan.json records writtenFields: 1 against a map declaring 2 bindings, with violations: [], valuesWrittenButNotVisible: [] and pass: true.",
+          "required": "Either the dropdown writes and is proven visible, or it is recorded in bindingRefusals with a reason. A declared binding that silently produces nothing is neither.",
+          "smallestCorrection": "Make the dropdown write path agree with the map \u2014 either render the selected option, or move '3 County Dropdown' to bindingRefusals with its reason \u2014 and have the scan compare writtenFields against declared bindings so a silent drop fails rather than passes.",
+          "status": "open \u2014 carried forward from batch-1 group-3 unchanged, and confirmed here against the current bytes",
+          "verifiedIndependently": "Yes \u2014 2 bindings read from the committed map, 1 drawn value read from the finalized PDF's own page content, and the blank County rule confirmed on the raster."
+        },
+        {
+          "findingId": "A-KY4963-IDENTITY-UNRECORDED",
+          "exactFamily": "KY:aoc-496-3-form-en",
+          "exactArtifact": "source-record.json / source-receipt.json",
+          "page": 1,
+          "fieldOrGeometry": "revision and officialTitle",
+          "observed": "revision REV-UNKNOWN with freshnessStatus revision_confirmation_required, and officialTitle is the scraped body fragment 'In support of this Application, the Defendant states as follows:'. The artifact's own page-1 header prints 'AOC-496.3', 'Doc. Code: AFEX', 'Rev. 6-23' and the title 'APPLICATION TO VACATE AND EXPUNGE FELONY CONVICTION'.",
+          "required": "revision REV-2023-06 and officialTitle 'Application to Vacate and Expunge Felony Conviction'.",
+          "smallestCorrection": "Capture identity from the printed header. Unchanged since batch-1 raised it.",
+          "status": "open \u2014 carried forward from batch-1 unclosed"
+        },
+        {
+          "findingId": "A-SOURCE-BYTES-ABSENT",
+          "exactFamily": "KY:aoc-496-3-form-en",
+          "exactArtifact": "the official source binary pinned by source-receipt.json",
+          "page": null,
+          "fieldOrGeometry": "not applicable \u2014 evidence completeness",
+          "observed": "The source binary is not present at this head; 3225f34ea85bb9e4\u2026 could not be recomputed from bytes.",
+          "required": "The reviewer recomputes the source SHA-256 from the official bytes.",
+          "smallestCorrection": "Mount the Edition 1 Master Library extract and set RCAP_BUNDLE_EXTRACT.",
+          "severity": "blocks approval only"
+        }
+      ],
+      "whatWasVerifiedClean": {
+        "fieldSafety": "Clean, and the strongest in this batch. 61 fields refuse, 17 of them protected refusals, and 60 of the form's fields are named with bare ordinals and refuse with no_allowlisted_fact_matches. Fail-closed is working as designed.",
+        "protectedAreas": "Jail ID Number and Defendant's SSN are both blank on the raster and in the bytes \u2014 the government_identifier rule holds. No court, clerk, prosecutor, attorney, service, signature, notarisation or decision area carries a value.",
+        "flattening": "No AcroForm, zero fields, zero annotations, no OpenAction and no JavaScript name tree in either artifact. A raw byte scan finds the sequence '/JS' once, inside a compressed image stream; parsed structurally there is no JavaScript action anywhere. Flattened and active-content clean.",
+        "boundaryFixture": "boundaryFixtureApplied true; 122 binding refusals and 1 unfittable_refused_not_clipped on '1 Case Number' \u2014 refused rather than clipped, which is the correct behaviour.",
+        "provenanceSidecar": "All 20 fields present and non-null; covered=true against the bytes for all three artifacts.",
+        "rasterBinding": "Visual proof records afb520375e80cc44\u2026, which is the contact sheet on disk. Bound to the current artifact, control discriminates at 0.294345.",
+        "captionBoxCorrectness": "Worth recording next to KY:aoc-334: here the Court rule in the caption box is correctly blank while the Case No. rule carries the case number. The two KY families are rendered by the same binder and disagree, which is further evidence that aoc-334's bytes are stale rather than its map wrong."
+      },
+      "historicalObjections": [
+        {
+          "objection": "batch-1 group-3: the county dropdown is declared and listed but never reaches the page.",
+          "status": "open",
+          "proof": "Confirmed unchanged against the current bytes. See A-KY4963-COUNTY-DROPPED."
+        },
+        {
+          "objection": "batch-1 group-3: revision REV-UNKNOWN, should be REV-2023-06.",
+          "status": "open",
+          "proof": "Unchanged at this head."
+        },
+        {
+          "objection": "batch-1 group-3: officialTitle is a scraped body fragment; declaredFieldCount 70 vs observedAcroFieldCount 62, unexplained.",
+          "status": "open",
+          "proof": "Both unchanged at this head."
+        },
+        {
+          "objection": "ESC-GEOMETRY-NOT-AN-INPUT.",
+          "status": "closed for this family",
+          "proof": "17 protected refusals; no participant value reaches any protected area in the finalized bytes."
+        },
+        {
+          "objection": "ESC-SIDECAR-NONCONFORMANT.",
+          "status": "closed",
+          "proof": "The committed sidecar carries all 20 fields non-null and binds to all three artifacts by hash."
+        }
+      ],
+      "verifiedIndependently": "Yes. Binding count from the committed map, drawn-value count from the finalized PDF's page content, placement and blankness confirmed on the rendered raster, flattening established by parsing the PDF structure."
+    }
+  ]
+}

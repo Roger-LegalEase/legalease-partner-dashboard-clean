@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-group/v1",
+  "batch": "batch-b",
+  "group": 1,
+  "reviewDate": "2026-08-20",
+  "reviewerBranch": "claude/pdf-reviewer-batch-b-cd8wrg",
+  "reviewedLaneBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewedLaneHead": "ea1a16b6358086c3c24fbd66e2fd005173d3ad87",
+  "headline": "Four families reviewed, none approved. Two are clean on everything this clone can check and are blocked only because the reviewed source binary is not here. Two are not clean: AOC-CR-288 writes the petitioner's name into the judge's findings of fact, and AOC-CR-296 is the district attorney's petition being shipped as a participant filing.",
+  "whatWasCheckedFromBytes": [
+    "every hash the record names, recomputed from the file on disk",
+    "the provenance sidecar, through the canonical rcap-artifact-provenance module rather than by reading its fields",
+    "the rendered page text of each canonical fixture, for what is actually printed and where",
+    "PDF structure of all twelve artifacts: flattening, XFA, JavaScript, OpenAction, additional actions, Launch, embedded files, active-content residue",
+    "the printed form identity and revision on the artifact face, against the recorded revision",
+    "each binding's widget rect, region heading and captured caption, from the committed census and field map"
+  ],
+  "theFindingThatMattersMost": {
+    "finding": "Captured geometry still does not decide bindings.",
+    "where": "NC:aoc-cr-288-form-en, PetitionerIsEligibleBecauseText1, page 2, region FINDINGS OF FACT",
+    "why": "The map records the judge's finding as this field's captured caption and binds the petitioner's name to it anyway, on the field name. ESC-GEOMETRY-NOT-AN-INPUT is recorded as proven against this family's bytes; it is not.",
+    "consequence": "Every family in the rerender that carries that escalation as proven needs the same page-region check re-run before it is presented as closed. This reviewer verified four; twelve were not in scope."
+  },
+  "whyNoApprovalIsPossibleHere": "The reviewed source binary is not in this clone. `private/source-imports/` and `private/Nationwide Record Clearing/` do not exist, `$RCAP_BUNDLE_EXTRACT` is unset and its default path is absent, and the family package carries no materialised copy. The pinned archive path and the recorded digest are both present, but a digest cannot be recomputed from bytes that are not here, so condition 3 of the canonical approval contract (rcap-platform-ready.mjs, `resolveSourceBinary` then a SHA compare) cannot be satisfied by any reviewer in this environment.",
+  "automatedGreenIsNotEvidence": "All four families pass every automated report in the package — 0 violations, pass=true, allVisible=true on each. Two of the four carry defects anyway. The visibility check asks whether a bound value appears somewhere on the page; it does not ask whether the page is a place that value may appear. That is the gap both findings came through.",
+  "verdicts": [
+    {
+      "family": "NC:aoc-cr-287-form-en",
+      "jurisdiction": "NC",
+      "documentId": "AOC-CR-287",
+      "verdict": "correction_required",
+      "asset": "the family as a whole",
+      "observed": "Everything this environment can check, checks out. All fourteen hashes the record names — source-record digest, field map, classification, provenance sidecar, three artifacts, raster — match the bytes on disk. The sidecar is rcap-artifact-provenance/v1 with 24 of 24 fields populated, no nulls, and `provenanceCoversArtifact` returns covered for all three artifacts against the recorded source digest. The raster is a real 223,750-byte PNG bound to the contact-sheet hash it depicts. All five bound facts render on their correct lines in the petitioner block on page 1; no binding lands on page 2. Both fixtures and the contact sheet are flattened (0 AcroForm fields), with no XFA, no /JavaScript, no /OpenAction, no /AA, no /Launch and no /EmbeddedFiles, and the active-content scan returns no hits on inspectable bytes. Protected areas are clean: 6 fields written, 113 refused, 60 of them protected-category, 0 violations. Three unfittable file numbers are refused rather than clipped — fail-closed, which is the correct outcome. The printed face reads 'AOC-CR-287, Rev. 12/25', which agrees with the recorded REV-2025-12.",
+      "required": "Make the reviewed source binary resolvable, then this family can be reviewed to a conclusion.",
+      "why": "The reviewed source binary is not in this clone. `private/source-imports/` and `private/Nationwide Record Clearing/` do not exist, `$RCAP_BUNDLE_EXTRACT` is unset and its default path is absent, and the family package carries no materialised copy. The pinned archive path and the recorded digest are both present, but a digest cannot be recomputed from bytes that are not here, so condition 3 of the canonical approval contract (rcap-platform-ready.mjs, `resolveSourceBinary` then a SHA compare) cannot be satisfied by any reviewer in this environment. This is the only thing standing between this family and an approval. It is an environment gap, not a defect in the implementation: nothing I could inspect is wrong.",
+      "smallestCorrection": "Mount the Master Library extract and set $RCAP_BUNDLE_EXTRACT, or materialise the family's own source copy at the package path the canonical resolver already searches, and re-present the family for review.",
+      "verifiedIndependently": "Yes — every hash recomputed from disk by this reviewer; bindings read from the committed production-field-map.json; page text and PDF structure read from the artifact bytes.",
+      "visualEvidence": "Present and read. Blank and filled panels differ. Every value on its correct line, readable, no clipping, no caption duplication, no court-use encroachment.",
+      "priorObjections": {
+        "ESC-GEOMETRY-NOT-AN-INPUT": "closed — no binding falls in a court-owned region; the five participant bindings all sit in the page-1 petitioner block",
+        "ESC-NO-REFUSE-WHEN": "closed — 113 refusals recorded, including every protected category",
+        "ESC-SIDECAR-NONCONFORMANT": "closed — sidecar is conformant and complete, 24/24 fields, verified through the canonical provenance module"
+      },
+      "openCorrections": 1
+    },
+    {
+      "family": "NC:aoc-cr-288-form-en",
+      "jurisdiction": "NC",
+      "documentId": "AOC-CR-288",
+      "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf",
+      "page": 2,
+      "fieldOrGeometry": "PetitionerIsEligibleBecauseText1, page 2, rect [71,674 519x?], regionHeading FINDINGS OF FACT",
+      "observed": "The finished document writes the petitioner's name into the judge's findings of fact. Page 2 of the canonical fixture reads:  '5. Petitioner is [ ] is not eligible for an expunction of the offense(s) listed on Side One. If not eligible, it is because:'  and on the line beneath it, 'Jordan Avery Reyes'. That line is the court's free-text statement of WHY a petitioner was found ineligible. It is on the ORDER side, under the printed heading FINDINGS OF FACT, and it is signed by the presiding judge, not by the petitioner. The filed page therefore asserts that the petitioner is ineligible because of their own name.",
+      "required": "A binding whose widget sits inside a court-owned page region must be refused, whatever the field is named.",
+      "why": "This is the exact defect ESC-GEOMETRY-NOT-AN-INPUT was raised to fix, and the rerender evidence records it as `provenAgainstThisFamilysBytes: true` for this family. That claim does not hold here. The binder had everything it needed: field-census.json carries the widget on page 2 with `regionHeading: \"FINDINGS OF FACT\"`, and the committed production-field-map.json records this binding with `effectiveLabel: \"5. Petitioner is is not eligible for an expunction of the of\"` — the judge's finding, captured verbatim. The caption and the region were both read, and the binding was made anyway on `factBasis: \"field_name\"`, because the AcroForm field name contains the token 'Petitioner'. Geometry and caption are being captured and recorded, and are still not deciding. Every automated report scores this family green: the protected-fields scan reports 0 violations and pass=true, and the visibility check reports allVisible=true — because the name IS visible; the check asks whether the value appears on the page, not whether the page is a place it may appear.",
+      "smallestCorrection": "Refuse a binding whose widget rect falls inside a page region whose printed heading matches the court/order category — FINDINGS OF FACT and ORDER on this form — before any field-name match is considered. This family's map must then be re-derived and the artifacts re-rendered.",
+      "secondCorrection": "The claim `provenAgainstThisFamilysBytes: true` for ESC-GEOMETRY-NOT-AN-INPUT is false for NC:aoc-cr-288-form-en and should be withdrawn. It was recorded without a check that would have caught this, and the same check should be re-run against the other fifteen families in the rerender before any of them is presented as closed on that escalation.",
+      "verifiedIndependently": "Yes — the rendered line was read out of the artifact's page-2 content stream; the binding, its captured caption and its region heading were read from the committed field map and field census.",
+      "visualEvidence": "Present and read. The defect is on page 2; the committed raster is page 1 only, which is why the visual evidence does not show it. A one-page raster cannot evidence a two-sided form.",
+      "alsoObserved": "The reviewed source binary is not in this clone. `private/source-imports/` and `private/Nationwide Record Clearing/` do not exist, `$RCAP_BUNDLE_EXTRACT` is unset and its default path is absent, and the family package carries no materialised copy. The pinned archive path and the recorded digest are both present, but a digest cannot be recomputed from bytes that are not here, so condition 3 of the canonical approval contract (rcap-platform-ready.mjs, `resolveSourceBinary` then a SHA compare) cannot be satisfied by any reviewer in this environment. That blocks approval independently, but it is not the finding here.",
+      "priorObjections": {
+        "ESC-GEOMETRY-NOT-AN-INPUT": "STILL PRESENT — see above; recorded as proven against this family's bytes, and it is not",
+        "ESC-MANUAL-NOT-NEVER-WRITE": "closed — no manual-class field is written",
+        "ESC-NO-REFUSE-WHEN": "closed — 122 refusals recorded",
+        "ESC-SIDECAR-NONCONFORMANT": "closed — sidecar conformant and complete, 24/24"
+      },
+      "openCorrections": 2
+    },
+    {
+      "family": "NC:aoc-cr-296-form-en",
+      "jurisdiction": "NC",
+      "documentId": "AOC-CR-296",
+      "verdict": "substantive_owner_decision_required",
+      "asset": "the family as a whole",
+      "observed": "AOC-CR-296 is the DISTRICT ATTORNEY's petition. Its printed face says so twice: the note under the caption reads 'This petition, which is filed by the district attorney, does not require the payment of a filing fee', and the party block is headed 'Name And Address Of Defendant', not 'Of Petitioner'. The form is carried in this corpus as `documentOwnership: participant_completed` with `participantFillable: true`, and the map binds the participant's name into the defendant block and the participant's city and state into the defendant's identifying row. A participant cannot file this document. The packet would hand a person a petition that only a prosecutor has standing to bring.",
+      "required": "An owner has to decide whether AOC-CR-296 belongs in a participant-completed packet at all.",
+      "why": "This is not a binding bug with a smallest correction, which is why it is not filed as one. Three answers are defensible and they lead to different work: retire the family from the participant lane; keep it as a non-fillable informational exhibit showing what the district attorney would file; or keep it fillable and route it through a DA-facing channel that does not exist yet. Choosing one is a product and legal-posture decision, not a reviewer's. Fixing the field bindings before that decision is made risks polishing an asset that should not ship in this lane.",
+      "subordinateTechnicalFinding": {
+        "fieldOrGeometry": "DLState, page 1, rect [177,602 45x?]",
+        "observed": "`DLState` is bound to `participant.state` on `factBasis: \"field_name\"` with no caption captured (`effectiveLabel: null`), and the canonical fixture renders 'XX' in the Drivers License State column. The residence state and the state that issued a driver's licence are different facts; the binder matched on the substring 'State'. 'XX' is also placeholder-shaped, and the placeholder scan reports placeholderValues=0.",
+        "smallestCorrection": "Refuse `DLState` — the driver's-licence row is identifying data the platform does not hold — or bind it to an explicit driver's-licence-state fact. Whichever way the ownership decision goes, this binding is wrong as it stands.",
+        "note": "Recorded as subordinate because it is moot if the family leaves the participant lane."
+      },
+      "verifiedIndependently": "Yes — the printed DA note and the 'Name And Address Of Defendant' caption were read out of the artifact's page-1 content stream; ownership flags read from the committed source record and field map.",
+      "visualEvidence": "Present and read. Panels differ; no clipping and no caption duplication. The rendered 'XX' in the driver's-licence row is visible on the sheet.",
+      "alsoObserved": "The reviewed source binary is not in this clone. `private/source-imports/` and `private/Nationwide Record Clearing/` do not exist, `$RCAP_BUNDLE_EXTRACT` is unset and its default path is absent, and the family package carries no materialised copy. The pinned archive path and the recorded digest are both present, but a digest cannot be recomputed from bytes that are not here, so condition 3 of the canonical approval contract (rcap-platform-ready.mjs, `resolveSourceBinary` then a SHA compare) cannot be satisfied by any reviewer in this environment. It blocks approval independently of the ownership question.",
+      "priorObjections": {
+        "ESC-GEOMETRY-NOT-AN-INPUT": "closed on placement — no binding falls in a court-owned region; but see DLState, where field-name matching still decides a binding with no caption",
+        "ESC-NO-REFUSE-WHEN": "closed — 120 refusals recorded",
+        "ESC-SIDECAR-NONCONFORMANT": "closed — sidecar conformant and complete, 24/24"
+      },
+      "openCorrections": 1
+    },
+    {
+      "family": "NC:aoc-cr-298-form-en",
+      "jurisdiction": "NC",
+      "documentId": "AOC-CR-298",
+      "verdict": "correction_required",
+      "asset": "the family as a whole",
+      "observed": "As with AOC-CR-287, everything checkable here is clean. All fourteen recorded hashes match disk. The sidecar is conformant and complete at 24 of 24 fields with no nulls, and covers all three artifacts against the recorded source digest through the canonical provenance module. The raster is a real 307,566-byte PNG bound to the contact-sheet hash. All five bound facts render in the page-1 petitioner block; nothing is written on page 2, which carries the order and the two judge signature blocks. All three artifacts are flattened with no XFA, JavaScript, OpenAction, additional actions, Launch or embedded files, and no active-content residue. Protected areas are clean: 6 written, 101 refused, 95 of them protected-category, 0 violations. One unfittable file number is refused rather than clipped. The repeated 'To Any Presiding Judge…' and judge-signature lines are the form's own two-sided printing, not overlay caption duplication. The printed face reads 'AOC-CR-298, Side Two, Rev. 7/25', agreeing with the recorded REV-2025-07.",
+      "required": "Make the reviewed source binary resolvable, then this family can be reviewed to a conclusion.",
+      "why": "The reviewed source binary is not in this clone. `private/source-imports/` and `private/Nationwide Record Clearing/` do not exist, `$RCAP_BUNDLE_EXTRACT` is unset and its default path is absent, and the family package carries no materialised copy. The pinned archive path and the recorded digest are both present, but a digest cannot be recomputed from bytes that are not here, so condition 3 of the canonical approval contract (rcap-platform-ready.mjs, `resolveSourceBinary` then a SHA compare) cannot be satisfied by any reviewer in this environment. As with AOC-CR-287 this is the only bar to approval, and it is an environment gap rather than an implementation defect.",
+      "smallestCorrection": "Mount the Master Library extract and set $RCAP_BUNDLE_EXTRACT, or materialise the family's own source copy at the package path the canonical resolver already searches, and re-present the family for review.",
+      "verifiedIndependently": "Yes — every hash recomputed from disk; bindings read from the committed field map; page text and PDF structure read from the artifact bytes.",
+      "visualEvidence": "Present and read. Panels differ, values on their correct lines, no clipping, no caption duplication, no court-use encroachment.",
+      "priorObjections": {
+        "ESC-GEOMETRY-NOT-AN-INPUT": "closed — no binding falls in a court-owned region",
+        "ESC-SERVICE-BLOCK-BY-NAME": "closed — no service-block field is written; the certification blocks are refused",
+        "ESC-SIDECAR-NONCONFORMANT": "closed — sidecar conformant and complete, 24/24"
+      },
+      "openCorrections": 1
+    }
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-batch/v1",
+  "batch": "batch-a",
+  "purpose": "Independent Reviewer A, batch A. Four families reviewed afresh against the evidence at the frozen head. This record does not adopt, extend or restate the batch-1 verdicts; batch-1 is left exactly as it stands.",
+  "reviewer": "independent-reviewer-a",
+  "reviewerBranch": "claude/rcap-pdf-independent-review-a-qkff6d",
+  "reviewedLaneBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewedLaneHead": "ea1a16b6358086c3c24fbd66e2fd005173d3ad87",
+  "reviewDate": "2026-08-20",
+  "derivedFrom": [
+    "data/rcap-all50/pdf-independent-reviews/gate-b-family-rerender-evidence.json",
+    "data/rcap-all50/contact-sheet-visual-proof.json",
+    "the four family packages named below, read as bytes"
+  ],
+  "inclusionRule": "Exactly the four families named in the batch-A instruction, resolved to their canonical family IDs from the evidence manifest and frozen before review.",
+  "frozenFamilyIds": [
+    "AK:tf-800-form-en",
+    "AK:tf-805-form-en",
+    "KY:aoc-334-form-en",
+    "KY:aoc-496-3-form-en"
+  ],
+  "baseVerification": {
+    "headAtReview": "ea1a16b6358086c3c24fbd66e2fd005173d3ad87",
+    "headMatchesInstruction": true,
+    "worktreeClean": true,
+    "branchNamedByInstruction": "claude/rcap-pdf-independent-review-wave-a",
+    "branchActuallyUsed": "claude/rcap-pdf-independent-review-a-qkff6d",
+    "branchDeviationReason": "The instruction named claude/rcap-pdf-independent-review-wave-a. No such ref exists on the remote, and this session is bound by its harness to claude/rcap-pdf-independent-review-a-qkff6d. The designated branch was used and the deviation is recorded rather than silently resolved.",
+    "sourceCorpusMounted": false,
+    "rcapBundleExtractSet": false,
+    "sourceLibraryFilesFound": 0,
+    "sourceLibraryPdfsFound": 0,
+    "sourceLibraryFilesRequired": 499,
+    "sourceLibraryPdfsRequired": 329,
+    "howChecked": "RCAP_BUNDLE_EXTRACT is unset in this environment; private/ does not exist in the clone; a whole-filesystem search for the Master Library, for private/source-imports, and for the four families' own source basenames returned nothing outside the repository's own derived artifacts.",
+    "consequence": "No official source binary is readable at this head, so no family's source SHA-256 could be recomputed from bytes. Every sourceSha256 in this manifest is carried from the family's committed source-record.json and artifact-provenance.json, which agree with each other, and is explicitly NOT reviewer-verified."
+  },
+  "whatWasRecomputedFromBytes": [
+    "every field-map SHA-256",
+    "every field-classification SHA-256",
+    "every canonical-filled.pdf SHA-256",
+    "every boundary-filled.pdf SHA-256",
+    "every artifact-provenance.json SHA-256",
+    "every contact-sheet SHA-256",
+    "every rendered raster-evidence PNG SHA-256",
+    "the flattening and active-content state of all eight finalized PDFs, parsed structurally",
+    "the participant ink actually drawn on every page of every canonical artifact"
+  ],
+  "totals": {
+    "familiesFrozen": 4,
+    "familiesWithAVerdict": 4,
+    "approved_platform_ready": 0,
+    "correction_required": 4,
+    "substantive_owner_decision_required": 0
+  },
+  "groups": {
+    "group1": [
+      "AK:tf-800-form-en",
+      "AK:tf-805-form-en",
+      "KY:aoc-334-form-en",
+      "KY:aoc-496-3-form-en"
+    ]
+  },
+  "families": [
+    {
+      "familyId": "AK:tf-800-form-en",
+      "jurisdiction": "AK",
+      "familySlug": "tf-800-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en",
+      "documentId": "TF-800",
+      "sourceSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "sourceBytesVerifiedInThisClone": false,
+      "sourceResolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "de4d5014a0d9934c9b256959b7947ee0acbffb67eab2e8099f0d614276b1b807"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "931ef62a7cf75a0a6e1597e3bab78987fbc86aaf9a1a1bf30a6e19dbff3f6287"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "dd7b228ac0400cb6abfd618b595fbe095edaeb92b52778f5ebe3fa63a9768a23"
+        }
+      ],
+      "contactSheetSha256": "dd7b228ac0400cb6abfd618b595fbe095edaeb92b52778f5ebe3fa63a9768a23",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/AK-tf-800-form-en-contact-sheet-page-01.png",
+      "renderedEvidenceSha256": "ab0eb071fd708123457b98146e3545244c61d2a8df0ba195ddfaa1de0b488968",
+      "renderedEvidenceBoundToCurrentContactSheet": true,
+      "contactSheetSha256RecordedByVisualProof": "dd7b228ac0400cb6abfd618b595fbe095edaeb92b52778f5ebe3fa63a9768a23",
+      "pagesOnSheet": 3,
+      "pagesRasterised": 1,
+      "controlDiscriminates": true,
+      "blankVsFilledDifferingPixelFraction": 0.011975,
+      "fieldClassificationSha256": "9601aca231e14099b45946f4f40c5481b7bcaac4ee8afd4af60fd6b859b161fe",
+      "fieldMapPath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en/production-field-map.json",
+      "fieldMapSha256": "01dc07e5c489a7986f7b8d1c60e0643d4eb77f9c7413f4a3f99eaafe0ff3d6c5",
+      "provenanceSha256": "78f7ad22e61d22b3d88a2157734ec6e434c31a44bdd8a5de6701014de97604f5",
+      "familyKind": "acroform_fill",
+      "recordedRevision": "REV-2025-05",
+      "recordedFreshnessStatus": "candidate_current_source",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field and this family package has no overlay-profile.json, so rcap-platform-ready.mjs has no channel through which this family could be recorded approved. Unchanged since batch-1."
+    },
+    {
+      "familyId": "AK:tf-805-form-en",
+      "jurisdiction": "AK",
+      "familySlug": "tf-805-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en",
+      "documentId": "TF-805",
+      "sourceSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "sourceBytesVerifiedInThisClone": false,
+      "sourceResolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "d8bdd48265050a708de1c59411f58da7c02bb34ef2110cd1e13657d805d37a5a"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "0c29b6b481d971497d8a7446aa0cdc818a724a941a60484ed25b53d48c83f949"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "9e30b4beea7a121f9c7d51f3f748f1c7b50aa95d4e0accb9891f0bd67b2f837d"
+        }
+      ],
+      "contactSheetSha256": "9e30b4beea7a121f9c7d51f3f748f1c7b50aa95d4e0accb9891f0bd67b2f837d",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/AK-tf-805-form-en-contact-sheet-page-01.png",
+      "renderedEvidenceSha256": "95f1b2304d75abcb965ed118ad0ba710d78b1d16a583a198926806c58e3c3987",
+      "renderedEvidenceBoundToCurrentContactSheet": true,
+      "contactSheetSha256RecordedByVisualProof": "9e30b4beea7a121f9c7d51f3f748f1c7b50aa95d4e0accb9891f0bd67b2f837d",
+      "pagesOnSheet": 2,
+      "pagesRasterised": 1,
+      "controlDiscriminates": true,
+      "blankVsFilledDifferingPixelFraction": 0.011622,
+      "fieldClassificationSha256": "2d82a1fc0d0f8a3d347b15210caf4fc77795d316a51aa37ce240750602305337",
+      "fieldMapPath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en/production-field-map.json",
+      "fieldMapSha256": "45eb1789cf1b5d5ebeb1ca8d74244efcb0541e24cd752c2aa8795ddee5eebbb0",
+      "provenanceSha256": "451381b015662e038344ef75f82a92e19f16b2e3d42abbf675fa98fd66d019b9",
+      "familyKind": "acroform_fill",
+      "recordedRevision": "REV-2025-05",
+      "recordedFreshnessStatus": "candidate_current_source",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field and this family package has no overlay-profile.json, so rcap-platform-ready.mjs has no channel through which this family could be recorded approved. Unchanged since batch-1."
+    },
+    {
+      "familyId": "KY:aoc-334-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-334-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
+      "documentId": "AOC-334",
+      "sourceSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "sourceBytesVerifiedInThisClone": false,
+      "sourceResolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "463863b831f9d9157dd0f98e0d61260552225aba19482b406cae03dd01911df4"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "57164795e0597d11afb546f6e37445b6d9674af665038976fd66421d12cc82e6"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "deaffe86f139e6b050732f0066c5b3ffe0dea27d65d5e69e47273a698787a675"
+        }
+      ],
+      "contactSheetSha256": "deaffe86f139e6b050732f0066c5b3ffe0dea27d65d5e69e47273a698787a675",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/KY-aoc-334-form-en-contact-sheet-page-01.png",
+      "renderedEvidenceSha256": "48f7228fc9cd8f7cd0187f1ba58788f8b293babdf6b870ea6d15d76d5efe7233",
+      "renderedEvidenceBoundToCurrentContactSheet": false,
+      "contactSheetSha256RecordedByVisualProof": "585d94fbc5f9a19b4c4911871275f6c87ec07c073a56ceb00fc0eb76740dcb6f",
+      "pagesOnSheet": 1,
+      "pagesRasterised": 1,
+      "controlDiscriminates": null,
+      "blankVsFilledDifferingPixelFraction": 0.004237,
+      "fieldClassificationSha256": "615555bc8239ed0333f35c095f0d7493e7d3d1f1b5a39d38384a7244471f5d12",
+      "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/production-field-map.json",
+      "fieldMapSha256": "c66afd0829b6e0e80395089cfa1a67c43154803f146a0c2c073afc0cb867bb05",
+      "provenanceSha256": "6e84230cd15ae697ebcd84152f0378ff596ce79b75c30f53f618452b83b1bf08",
+      "familyKind": "acroform_fill",
+      "recordedRevision": "REV-UNKNOWN",
+      "recordedFreshnessStatus": "revision_confirmation_required",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field and this family package has no overlay-profile.json, so rcap-platform-ready.mjs has no channel through which this family could be recorded approved. Unchanged since batch-1."
+    },
+    {
+      "familyId": "KY:aoc-496-3-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-496-3-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en",
+      "documentId": "AOC-496.3",
+      "sourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "sourceBytesVerifiedInThisClone": false,
+      "sourceResolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "sha256": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "sha256": "d3344eed7672e3ee8be9a85e15fe5447e91a287dfc1d33837f3587ecae7b7d79"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "sha256": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb"
+        }
+      ],
+      "contactSheetSha256": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/KY-aoc-496-3-form-en-contact-sheet-page-01.png",
+      "renderedEvidenceSha256": "221b22043e7427da7bfdc28cbbdce62a548949392a46b0ef67870960450dd2fe",
+      "renderedEvidenceBoundToCurrentContactSheet": true,
+      "contactSheetSha256RecordedByVisualProof": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb",
+      "pagesOnSheet": 3,
+      "pagesRasterised": 1,
+      "controlDiscriminates": true,
+      "blankVsFilledDifferingPixelFraction": 0.001497,
+      "fieldClassificationSha256": "cbf854ac3989ce91325931b3a88b14211c76fdd208a68e8f4eb54c4c74026ac0",
+      "fieldMapPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en/production-field-map.json",
+      "fieldMapSha256": "4b9b78afd4fc9e6b021783e92ad5e22f47b9380e52f2f59142c2cc36ef0b894c",
+      "provenanceSha256": "fbd356b53209557af63f33d19d92fcc2db1925adb220770eadd5c0ebab271ad5",
+      "familyKind": "acroform_fill",
+      "recordedRevision": "REV-UNKNOWN",
+      "recordedFreshnessStatus": "revision_confirmation_required",
+      "approvalChannel": "none_available",
+      "approvalChannelNote": "production-field-map.json carries no independentReview field and this family package has no overlay-profile.json, so rcap-platform-ready.mjs has no channel through which this family could be recorded approved. Unchanged since batch-1."
+    }
+  ],
+  "excluded": []
+}
