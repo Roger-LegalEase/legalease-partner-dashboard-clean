@@ -3,7 +3,7 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 150,
+    "keep_available": 153,
     "wired": 126,
     "fix_then_wire": 27,
     "retire": 1,
@@ -1632,6 +1632,12 @@
       "observedStatus": "added_since_audit",
       "decidedBy": "captain"
     },
+    "verify-rcap-immutable-image-preflight.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-rcap-lane-b-exact-deferrals.mjs": {
       "disposition": "wired",
       "reason": "The acceptance contract for lane-B exact supported deferrals. It derives the packet set from repository bytes rather than a list, checks all ten recognition safeguards per packet, and asks the authoritative route resolver whether the packet's promise that nothing is being sold is actually true of the runtime. Its --mutations suite requires eight deliberate breakages to come back red, including blind promotion of all nine packets. Wired by the captain in window 2026-08-12-w3.",
@@ -1829,6 +1835,18 @@
       "decidedBy": "generated"
     },
     "verify-rcap-staging-scoped-preview-contract.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-target-replay-scope.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-target-worker-journey.mjs": {
       "disposition": "keep_available",
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
       "observedStatus": "added_since_audit",
