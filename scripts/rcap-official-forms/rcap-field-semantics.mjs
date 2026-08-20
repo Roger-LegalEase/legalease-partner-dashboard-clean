@@ -266,7 +266,6 @@ export const CAPTION_FACTS = new Set([
 export function isUndecodableText(value) {
   const text = String(value ?? "");
   if (text === "") return false;
-  // eslint-disable-next-line no-control-regex
   return /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(text);
 }
 

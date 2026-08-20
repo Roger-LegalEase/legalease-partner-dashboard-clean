@@ -14,7 +14,7 @@ import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances
   textDrawnByAppearance, fieldHoldsAValue, clearWidgetAppearance } from "./rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFTextField, PDFDropdown, PDFName, StandardFonts, rgb } = require("pdf-lib");
+const { PDFDocument, PDFTextField, PDFDropdown, StandardFonts, rgb } = require("pdf-lib");
 
 // A fixed instant: a fresh document otherwise stamps the wall clock into its
 // info dictionary, and every render of the same facts would differ.
