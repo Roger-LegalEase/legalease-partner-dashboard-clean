@@ -310,19 +310,6 @@ jobs:
       # A supplied-but-mismatching candidate REFUSES. Deploying a fresh Preview
       # in that case looks like resilience and is actually the loss of the
       # operator's instruction to test one specific deployment.
-      # Read-only diagnosis of the worker/job contract contradiction. Creates no
-      # Preview, no Checkout and no payment; it reads the stored render job and
-      # executes a probe INSIDE the published image.
-      - name: Diagnose the worker contract contradiction
-        id: worker_contract
-        if: steps.contract.outputs.diagnose == 'true'
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
-          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
-          CONTRADICTION_JOB_ID: ${{ inputs.contradiction_job_id }}
-        run: node scripts/rcap-worker-contract-contradiction.mjs
-
       - name: Resolve the Preview this run will use
         id: resolve_preview
         if: steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
@@ -405,8 +392,25 @@ jobs:
       # synthesizes a completion event, runs the worker, or cleans up the item.
       - name: Install frozen application dependencies for the Checkout gate
         id: gate_deps
-        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true'
         run: npm ci
+
+      # Placed AFTER the registry login and the dependency install, because it
+      # needs both: it pulls the private image by digest, and it imports the
+      # repository's TypeScript modules through scripts/lib/ts-esm-loader.mjs,
+      # which resolves `typescript` from node_modules. Run 32401384171 put this
+      # step before both and died on ERR_MODULE_NOT_FOUND for 'typescript'
+      # before it could read anything — the same shape as the All50 bootstrap
+      # defect: a guard placed ahead of the step that gives it a runtime.
+      - name: Diagnose the worker contract contradiction
+        id: worker_contract
+        if: steps.contract.outputs.diagnose == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          CONTRADICTION_JOB_ID: ${{ inputs.contradiction_job_id }}
+        run: node scripts/rcap-worker-contract-contradiction.mjs
 
       # Bound to the contract's own GATE flag alone. This is the REUSE-ONLY human
       # Checkout gate: it prepares one real Sandbox Session for Roger and stops
@@ -484,6 +488,8 @@ jobs:
           O_CONTRACT: ${{ steps.contract.outcome }}
           RUNS_MATRIX: ${{ steps.contract.outputs.matrix }}
           RUNS_GATE: ${{ steps.contract.outputs.gate }}
+          RUNS_DIAGNOSE: ${{ steps.contract.outputs.diagnose }}
+          O_DIAGNOSE: ${{ steps.worker_contract.outcome }}
           O_RESOLVE: ${{ steps.resolve_preview.outcome }}
           O_REUSED: ${{ steps.resolve_preview.outputs.reused }}
           O_DEPLOY: ${{ steps.deploy_preview.outcome }}
@@ -550,6 +556,10 @@ jobs:
             require "frozen dependencies"                "$O_DEPS"
             require "Checkout gate pins the accepted release" "$O_VERIFY_GATE"
             require "Sandbox Checkout and unpaid 402"    "$O_GATE"
+          elif [ "$RUNS_DIAGNOSE" = "true" ]; then
+            require "registry login for accepted worker" "$O_REGISTRY"
+            require "frozen dependencies"                "$O_DEPS"
+            require "worker contract diagnosis"          "$O_DIAGNOSE"
           else
             echo "  phase does not claim the matrix; nothing to assert here."
           fi
