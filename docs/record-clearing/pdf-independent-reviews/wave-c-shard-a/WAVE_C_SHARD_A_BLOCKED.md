@@ -1,3 +1,14 @@
+> **SUPERSEDED — 2026-08-20.** The reviewer source pack for shard A was supplied after this
+> record was written, providing the four official source PDFs (hash-verified) that blockers 2
+> and 3 said were missing. The review was then performed and four verdicts issued: see
+> [`WAVE_C_SHARD_A_REVIEW.md`](WAVE_C_SHARD_A_REVIEW.md) and
+> `data/rcap-all50/pdf-independent-reviews/wave-c-shard-a/verdicts.json`.
+>
+> This record is preserved unchanged below because two of its findings still stand: base commit
+> `e94fb456` remains absent from this repository, and the Wave-C evidence contract (all-page
+> packages, raster manifests, a sidecar schema able to express them) still does not exist here.
+> Those are carried forward as scope caveats on the review.
+
 # Gate B Independent Review — Wave C, Shard A — BLOCKED
 
 **Outcome:** blocked, preconditions unmet. **Verdicts issued: 0.**

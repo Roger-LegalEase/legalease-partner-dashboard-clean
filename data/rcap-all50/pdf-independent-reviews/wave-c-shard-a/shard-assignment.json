@@ -1,81 +1,85 @@
 {
-  "schemaVersion": "rcap-pdf-independent-review-shard-assignment/v1",
+  "schemaVersion": "rcap-pdf-independent-review-shard-assignment/v2",
   "wave": "c",
   "shardName": "a",
   "shardIndex": 0,
   "reviewerRole": "independent-pdf-reviewer",
-  "outcome": "blocked_preconditions_unmet",
-  "verdictsIssued": 0,
-  "purpose": "Reviewer-owned record of the Wave-C shard-a assignment attempt. The review base named in the assignment does not exist in this repository and the required official-source corpus is not present on this host, so no family could be made reviewable and no verdict was issued. No approval may be inferred from this record.",
-  "requiredBase": {
-    "baseCommit": "e94fb456",
-    "observed": "not a valid git object in this repository",
-    "evidence": "git cat-file -t e94fb456 -> fatal: Not a valid object name e94fb456; absent from all 336 commits across all refs including origin/main"
+  "outcome": "review_completed_with_scope_caveats",
+  "verdictsIssued": 4,
+  "supersedes": "v1 blocked_preconditions_unmet record (same path), written before the reviewer source pack was supplied",
+  "purpose": "Reviewer-owned assignment record for Wave-C shard A. Four families were reviewed end to end against real official source bytes and page-by-page visual inspection. The scope caveats below are recorded because they change what this review does and does not establish; they were not worked around.",
+  "assignmentBasis": {
+    "method": "given_by_reviewer_source_pack",
+    "notDerivedFromDenominator": true,
+    "explanation": "The assignment specifies deriving a 16-family denominator at base e94fb456 and taking slice [0:4]. That derivation remains impossible in this repository (see scopeCaveats). The four families below were instead named explicitly by the reviewer source pack manifest (rcap-wave-c-review-source-pack/v1, shard a, familyCount 4). This review therefore verifies those four families on their own evidence; it does not establish that they are the correct slice of a 16-family denominator.",
+    "packManifest": {
+      "schemaVersion": "rcap-wave-c-review-source-pack/v1",
+      "shard": "a",
+      "baseCommit": "e94fb456",
+      "familyCount": 4,
+      "sourcePdfsVerifiedBySha256": 4
+    },
+    "familiesAssigned": [
+      "AK:tf-800-form-en",
+      "AK:tf-805-form-en",
+      "KY:aoc-334-form-en",
+      "KY:aoc-496-3-form-en"
+    ],
+    "eachFamilyAccountedForExactlyOnce": true,
+    "includesNebraskaDc115": false
   },
-  "observedHead": {
-    "commit": "ef957a94cf370f60937d1ab36a3b1f4d33c7bfb0",
-    "shortCommit": "ef957a9",
-    "branch": "claude/optimistic-davinci-be3t2m",
-    "worktreeCleanBeforeReview": true,
-    "gitDiffCheck": "clean"
-  },
-  "requiredCorpus": {
+  "corpus": {
     "envVar": "RCAP_BUNDLE_EXTRACT",
-    "path": "/home/user/legalease-rcap-pdf-inventory-closure/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
-    "observed": "absent",
-    "evidence": "/home/user/legalease-rcap-pdf-inventory-closure does not exist; the only worktree on this host is /home/user/legalease-partner-dashboard-clean (git worktree list)",
-    "expectedSourceLibraryFiles": 499,
-    "expectedPdfs": 329,
-    "observedSourceLibraryFiles": 0,
-    "observedPdfs": 0
+    "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "installedFromPack": true,
+    "pdfCount": 4,
+    "fileCount": 4,
+    "expectedFullLibraryFiles": 499,
+    "expectedFullLibraryPdfs": 329,
+    "isFullLibrary": false,
+    "remainsUncommitted": true,
+    "gitignoreRule": ".gitignore:53 private/",
+    "note": "The pack is explicit that it is a four-PDF review-input pack, not the 499-file Master Library. Every source byte needed for these four families is present and hash-verified; nothing beyond them is."
   },
-  "denominatorDerivation": {
-    "required": 16,
-    "derived": 0,
-    "sliceRequested": { "start": 0, "end": 4 },
-    "familiesAssigned": [],
-    "predicateStatus": [
-      { "predicate": "current source binary present and hash-matched", "status": "underivable", "reason": "official-source corpus absent from host; source bytes cannot be read or hashed" },
-      { "predicate": "current finalized artifact hash present", "status": "partially_present", "reason": "63 artifact-provenance.json sidecars carry outputSha256 for their artifacts" },
-      { "predicate": "source-backed rerender complete", "status": "underivable", "reason": "no source-backed rerender record exists at this HEAD" },
-      { "predicate": "all-page evidence package present", "status": "underivable", "reason": "no all-page evidence record exists at this HEAD" },
-      { "predicate": "every relevant artifact page rasterized", "status": "false_for_all", "reason": "9 contact sheets exist across 63 families and all are page-01 only; zero page-02+ rasters are committed" },
-      { "predicate": "raster manifest matches the current artifact hash", "status": "underivable", "reason": "no raster manifest exists at this HEAD" },
-      { "predicate": "current sidecar satisfies the canonical contract", "status": "false_for_all", "reason": "sidecar schema is rcap-artifact-provenance/v1, which has no key for raster-manifest SHA, all-page evidence SHA, contact-sheet SHA, boundary-artifact SHA, rerender completion or open-correction state; 0 of 63 sidecars carry classificationSha256" },
-      { "predicate": "no open technical correction", "status": "underivable", "reason": "no technical-correction register exists at this HEAD" },
-      { "predicate": "not NE DC-1-15", "status": "evaluable", "reason": "the NE DC-1-15 family exists at data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en and was excluded as instructed" }
-    ]
+  "scopeCaveats": [
+    {
+      "caveat": "base_commit_absent",
+      "detail": "The assignment and the pack both pin base commit e94fb456. That commit is not a valid git object in this repository and is absent from all refs. Review was performed against the artifacts as committed at HEAD ef957a9 (reviewer records added on top). Every hash in verdicts.json was recomputed from the bytes actually on disk, so the verdicts describe the artifacts reviewed, whatever commit they are labelled with."
+    },
+    {
+      "caveat": "sixteen_family_denominator_underivable",
+      "detail": "No all-page evidence package, raster manifest, or source-backed rerender record exists at this HEAD, and the sidecar schema rcap-artifact-provenance/v1 has no key able to express them. The denominator predicates therefore remain underivable and the required count of exactly 16 reviewable families could not be checked."
+    },
+    {
+      "caveat": "no_repository_raster_evidence",
+      "detail": "The repository carries 9 contact sheets, all page-01, for 63 families. All-page visual evidence for this review was generated by the reviewer (pypdfium2 scale=2.0) rather than read from a committed raster manifest. Reviewer raster SHA-256 values are pinned per family in verdicts.json so the inspection is reproducible."
+    },
+    {
+      "caveat": "classification_present_but_unpinned",
+      "detail": "field-classification.json exists on disk for all four families but every sidecar pins classificationSha256: null. The reviewer recomputed and pinned the classification file hash independently. Ownership was not left ambiguous for these four: all four are AcroForm families with a full nine-class classification on disk, so the relaxed flat-overlay allowance in the assignment did not need to be relied on."
+    },
+    {
+      "caveat": "field_map_hash_referent_is_not_the_file",
+      "detail": "sidecar fieldMapSha256 does not hash production-field-map.json. It hashes JSON.stringify of the derived bindings array alone (scripts/implement-rcap-official-forms-d1.mjs:644 passes bindings; rcap-artifact-provenance.mjs:120 hashes it). All four reproduce exactly under that referent. Recorded because the key name invites a false mismatch finding on recomputation; not a defect."
+    }
+  ],
+  "historicalObjections": {
+    "recordsFound": 0,
+    "provenAgainstThisFamilysBytesFlagsFound": 0,
+    "detail": "No prior independent-review wave records, correction records, or provenAgainstThisFamilysBytes flags exist at this HEAD for any of the four families. Step 6 had no input. No historical verdict was edited, because none exists.",
+    "historicalRecordPreservedUnchanged": true
   },
-  "evidenceContractGap": {
-    "finding": "The Wave-C evidence contract is not present in this repository. Six of the nine selection predicates are not merely failing but unrepresentable in the schema that exists here.",
-    "presentAtHead": [
-      "data/rcap-all50/overlays/production/<state>/<family>/artifact-provenance.json (63 families, schema rcap-artifact-provenance/v1)",
-      "data/rcap-all50/finalized-artifact-audit.json",
-      "data/rcap-all50/overlay-placement-evidence.json",
-      "data/rcap-all50/contact-sheet-visual-proof.json",
-      "docs/record-clearing/pdf-visual-evidence/ (9 contact sheets, page-01 only)"
-    ],
-    "absentAtHead": [
-      "data/rcap-all50/pdf-independent-reviews/ (no prior wave records)",
-      "docs/record-clearing/pdf-independent-reviews/ (no prior wave records)",
-      "any all-page evidence package",
-      "any raster manifest",
-      "any source-backed rerender record",
-      "any wave-a or wave-b independent-review verdict",
-      "any provenAgainstThisFamilysBytes flag or historical correction record"
-    ],
-    "interpretation": "The committed visual evidence at this HEAD is the page-1-only contract that the Wave-C assignment describes as superseded. The defect class the assignment names first -- participant values in page-2 findings or order regions -- is precisely the class that cannot be checked against the evidence present here."
-  },
-  "stepsNotPerformed": {
-    "step2_sourceByteVerification": "not performed -- no source bytes on host. The assignment forbids accepting another lane's receipt as source proof, so no substitute was used.",
-    "step3_hashRecomputation": "not performed for source, classification, boundary, raster-manifest, contact-sheet or all-page evidence hashes -- those referents do not exist at this HEAD.",
-    "step4_allPageVisualInspection": "not performed -- no blank source PDFs and no page-02+ rasters available to inspect.",
-    "step6_historicalObjections": "not performed -- no historical correction records exist at this HEAD.",
-    "step7_verdicts": "no verdict issued. Approval requires direct geometric and visual proof, which is unavailable; issuing verdicts without it would defeat the purpose of the gate."
+  "verdictSummary": {
+    "approved_platform_ready": ["AK:tf-800-form-en", "AK:tf-805-form-en"],
+    "correction_required": ["KY:aoc-334-form-en", "KY:aoc-496-3-form-en"],
+    "substantive_owner_decision_required": []
   },
   "scopeCompliance": {
     "pathsWritten": [
       "data/rcap-all50/pdf-independent-reviews/wave-c-shard-a/shard-assignment.json",
+      "data/rcap-all50/pdf-independent-reviews/wave-c-shard-a/verdicts.json",
+      "data/rcap-all50/pdf-independent-reviews/wave-c-shard-a/verify-wave-c-shard-a.mjs",
+      "docs/record-clearing/pdf-independent-reviews/wave-c-shard-a/WAVE_C_SHARD_A_REVIEW.md",
       "docs/record-clearing/pdf-independent-reviews/wave-c-shard-a/WAVE_C_SHARD_A_BLOCKED.md"
     ],
     "artifactsModified": false,
@@ -88,6 +92,7 @@
     "implementationCodeModified": false,
     "registerCountsModified": false,
     "retirementRecordsModified": false,
-    "mainModified": false
+    "mainModified": false,
+    "nothingRepaired": true
   }
 }
