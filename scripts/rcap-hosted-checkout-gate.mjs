@@ -34,9 +34,16 @@ const STRIPE_KEY = process.env.HOSTED_STRIPE_TEST_SECRET ?? "";
 const BYPASS = (process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "").trim();
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 
-const EXPECTED_APPLICATION_SHA = "264d2a240e5c857f55ee645f2683830e94f67c19";
+// Pinned as literals on purpose: if these were read from the workflow
+// environment the comparison below would be `X === X` and would prove nothing.
+// Moving the release therefore has to be an intentional edit to this file.
+//
+// Rebound from the superseded pair (application 264d2a24, worker
+// sha256:1d30530b) to the accepted release. The old pins are not wrong about
+// history — they are simply no longer what this gate is gating.
+const EXPECTED_APPLICATION_SHA = "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926";
 const EXPECTED_PROJECT_REF = "hyflxnlhpmiqxvvcoiia";
-const EXPECTED_WORKER_DIGEST = "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101";
+const EXPECTED_WORKER_DIGEST = "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530";
 const EXPECTED_WORKER_REF = `ghcr.io/roger-legalease/rcap-render-worker@${EXPECTED_WORKER_DIGEST}`;
 const PA_PATHWAY = "Path A — Non-conviction expungement";
 const EXPECTED_EVENTS = [
@@ -271,10 +278,23 @@ async function main() {
   ].filter(([, value]) => !value).map(([name]) => name);
   if (missing.length > 0) throw new GateFailure("required_inputs_present", `missing ${missing.join(", ")}`);
 
+  // Report the MISMATCH, not just the observed values. Printing only what
+  // arrived made a stale pin in this file read as though the workflow had sent
+  // the wrong identities: every value on the line looked correct, because each
+  // one was the accepted value being compared against a superseded expectation.
+  const inputMismatches = [
+    ["application SHA", APPLICATION_SHA, EXPECTED_APPLICATION_SHA],
+    ["acceptance project ref", PROJECT_REF, EXPECTED_PROJECT_REF],
+    ["worker digest reference", WORKER_REF, EXPECTED_WORKER_REF]
+  ].filter(([, actual, expected]) => actual !== expected)
+    .map(([label, actual, expected]) => `${label}: received ${actual}, this gate pins ${expected}`);
+  if (!STRIPE_KEY.startsWith("sk_test_")) inputMismatches.push("Stripe key is not a sk_test_ sandbox key");
   record(
     "immutable_inputs_exact",
-    APPLICATION_SHA === EXPECTED_APPLICATION_SHA && PROJECT_REF === EXPECTED_PROJECT_REF && WORKER_REF === EXPECTED_WORKER_REF && STRIPE_KEY.startsWith("sk_test_"),
-    `application=${APPLICATION_SHA}; project=${PROJECT_REF}; worker=${WORKER_REF}; Stripe key is sk_test_=${STRIPE_KEY.startsWith("sk_test_")}`
+    inputMismatches.length === 0,
+    inputMismatches.length === 0
+      ? `application=${APPLICATION_SHA}; project=${PROJECT_REF}; worker=${WORKER_REF}; Stripe key is sk_test_=true`
+      : `${inputMismatches.length} mismatch(es) — ${inputMismatches.join("; ")}`
   );
 
   // Exact existing deployment only. There is intentionally no list-and-pick or
