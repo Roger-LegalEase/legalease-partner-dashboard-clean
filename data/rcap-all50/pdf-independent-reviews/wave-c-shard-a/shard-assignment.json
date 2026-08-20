@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-shard-assignment/v1",
+  "wave": "c",
+  "shardName": "a",
+  "shardIndex": 0,
+  "reviewerRole": "independent-pdf-reviewer",
+  "outcome": "blocked_preconditions_unmet",
+  "verdictsIssued": 0,
+  "purpose": "Reviewer-owned record of the Wave-C shard-a assignment attempt. The review base named in the assignment does not exist in this repository and the required official-source corpus is not present on this host, so no family could be made reviewable and no verdict was issued. No approval may be inferred from this record.",
+  "requiredBase": {
+    "baseCommit": "e94fb456",
+    "observed": "not a valid git object in this repository",
+    "evidence": "git cat-file -t e94fb456 -> fatal: Not a valid object name e94fb456; absent from all 336 commits across all refs including origin/main"
+  },
+  "observedHead": {
+    "commit": "ef957a94cf370f60937d1ab36a3b1f4d33c7bfb0",
+    "shortCommit": "ef957a9",
+    "branch": "claude/optimistic-davinci-be3t2m",
+    "worktreeCleanBeforeReview": true,
+    "gitDiffCheck": "clean"
+  },
+  "requiredCorpus": {
+    "envVar": "RCAP_BUNDLE_EXTRACT",
+    "path": "/home/user/legalease-rcap-pdf-inventory-closure/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "observed": "absent",
+    "evidence": "/home/user/legalease-rcap-pdf-inventory-closure does not exist; the only worktree on this host is /home/user/legalease-partner-dashboard-clean (git worktree list)",
+    "expectedSourceLibraryFiles": 499,
+    "expectedPdfs": 329,
+    "observedSourceLibraryFiles": 0,
+    "observedPdfs": 0
+  },
+  "denominatorDerivation": {
+    "required": 16,
+    "derived": 0,
+    "sliceRequested": { "start": 0, "end": 4 },
+    "familiesAssigned": [],
+    "predicateStatus": [
+      { "predicate": "current source binary present and hash-matched", "status": "underivable", "reason": "official-source corpus absent from host; source bytes cannot be read or hashed" },
+      { "predicate": "current finalized artifact hash present", "status": "partially_present", "reason": "63 artifact-provenance.json sidecars carry outputSha256 for their artifacts" },
+      { "predicate": "source-backed rerender complete", "status": "underivable", "reason": "no source-backed rerender record exists at this HEAD" },
+      { "predicate": "all-page evidence package present", "status": "underivable", "reason": "no all-page evidence record exists at this HEAD" },
+      { "predicate": "every relevant artifact page rasterized", "status": "false_for_all", "reason": "9 contact sheets exist across 63 families and all are page-01 only; zero page-02+ rasters are committed" },
+      { "predicate": "raster manifest matches the current artifact hash", "status": "underivable", "reason": "no raster manifest exists at this HEAD" },
+      { "predicate": "current sidecar satisfies the canonical contract", "status": "false_for_all", "reason": "sidecar schema is rcap-artifact-provenance/v1, which has no key for raster-manifest SHA, all-page evidence SHA, contact-sheet SHA, boundary-artifact SHA, rerender completion or open-correction state; 0 of 63 sidecars carry classificationSha256" },
+      { "predicate": "no open technical correction", "status": "underivable", "reason": "no technical-correction register exists at this HEAD" },
+      { "predicate": "not NE DC-1-15", "status": "evaluable", "reason": "the NE DC-1-15 family exists at data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en and was excluded as instructed" }
+    ]
+  },
+  "evidenceContractGap": {
+    "finding": "The Wave-C evidence contract is not present in this repository. Six of the nine selection predicates are not merely failing but unrepresentable in the schema that exists here.",
+    "presentAtHead": [
+      "data/rcap-all50/overlays/production/<state>/<family>/artifact-provenance.json (63 families, schema rcap-artifact-provenance/v1)",
+      "data/rcap-all50/finalized-artifact-audit.json",
+      "data/rcap-all50/overlay-placement-evidence.json",
+      "data/rcap-all50/contact-sheet-visual-proof.json",
+      "docs/record-clearing/pdf-visual-evidence/ (9 contact sheets, page-01 only)"
+    ],
+    "absentAtHead": [
+      "data/rcap-all50/pdf-independent-reviews/ (no prior wave records)",
+      "docs/record-clearing/pdf-independent-reviews/ (no prior wave records)",
+      "any all-page evidence package",
+      "any raster manifest",
+      "any source-backed rerender record",
+      "any wave-a or wave-b independent-review verdict",
+      "any provenAgainstThisFamilysBytes flag or historical correction record"
+    ],
+    "interpretation": "The committed visual evidence at this HEAD is the page-1-only contract that the Wave-C assignment describes as superseded. The defect class the assignment names first -- participant values in page-2 findings or order regions -- is precisely the class that cannot be checked against the evidence present here."
+  },
+  "stepsNotPerformed": {
+    "step2_sourceByteVerification": "not performed -- no source bytes on host. The assignment forbids accepting another lane's receipt as source proof, so no substitute was used.",
+    "step3_hashRecomputation": "not performed for source, classification, boundary, raster-manifest, contact-sheet or all-page evidence hashes -- those referents do not exist at this HEAD.",
+    "step4_allPageVisualInspection": "not performed -- no blank source PDFs and no page-02+ rasters available to inspect.",
+    "step6_historicalObjections": "not performed -- no historical correction records exist at this HEAD.",
+    "step7_verdicts": "no verdict issued. Approval requires direct geometric and visual proof, which is unavailable; issuing verdicts without it would defeat the purpose of the gate."
+  },
+  "scopeCompliance": {
+    "pathsWritten": [
+      "data/rcap-all50/pdf-independent-reviews/wave-c-shard-a/shard-assignment.json",
+      "docs/record-clearing/pdf-independent-reviews/wave-c-shard-a/WAVE_C_SHARD_A_BLOCKED.md"
+    ],
+    "artifactsModified": false,
+    "sourceBinariesModified": false,
+    "mapsModified": false,
+    "classificationsModified": false,
+    "sidecarsModified": false,
+    "rastersModified": false,
+    "evidenceGeneratorsModified": false,
+    "implementationCodeModified": false,
+    "registerCountsModified": false,
+    "retirementRecordsModified": false,
+    "mainModified": false
+  }
+}
