@@ -30,15 +30,29 @@ jobs:
         if: ${{ steps.scope.outputs.rcapAffected != 'true' }}
         run: echo "RCAP not affected; skipping RCAP handoff verification."
 
+      # UNCONDITIONAL, and it must stay that way.
+      #
+      # The release guards further down — worker publication, source-SHA tag
+      # integrity, image-input fingerprint, digest binding, deployment closure —
+      # deliberately run for every change, including workflow-only ones, because
+      # a workflow edit is exactly how those guarantees get weakened. They import
+      # repository dependencies.
+      #
+      # When these two steps were scope-gated, a tools-only diff produced: scope
+      # says RCAP unaffected -> Node skipped -> npm ci skipped -> the
+      # unconditional tag guard runs anyway -> MODULE_NOT_FOUND on js-yaml. The
+      # guard had not failed its contract; the job had failed to give it the
+      # environment it was promised.
+      #
+      # There is exactly one installation per job. Do not add a second, and do
+      # not put either step behind the scope condition again.
       - name: Set up Node
-        if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
       - name: Install dependencies
-        if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
         run: npm ci
 
       - name: Lint
