@@ -79,6 +79,11 @@ function failures(harness) {
     "the claimed job id is not taken from the worker's own cycle result");
   fail(/function rowsThatChanged\(/.test(harness) && /rowsThatChanged\(claimBefore, claimAfter\)/.test(harness),
     "there is no row-state fallback for a cycle that emitted nothing parsable");
+  // The snapshot must cover the rows a cycle can touch, including the target.
+  // Taking the oldest N rows pushes the newest out of the window, and the
+  // target is the newest row there is.
+  fail(/where status in \('queued', 'claimed', 'rendering', 'validating', 'failed', 'retryable', 'expired'\)\s*\n\s*or id = '\$\{sqlText\(jobId\)\}'/.test(harness),
+    "the claim-state snapshot is not scoped to the rows a cycle could touch plus the target, so the one job it exists to watch can fall outside its window");
   // More than one row moved => unprovable, never a guess at the likeliest.
   fail(/changedRows\.length === 1/.test(harness),
     "the row-state fallback does not require exactly one row to have moved");
@@ -131,8 +136,14 @@ function failures(harness) {
     "acceptance_backlog_predecessor_repeated",
     "acceptance_target_claim_identity_unproven",
     "acceptance_target_terminal_failure",
-    "acceptance_wait_budget_exhausted"
+    "acceptance_wait_budget_exhausted",
+    // Reaching the target and not finishing it is a different fact from never
+    // reaching it. Folding the two together would blame other runs' backlog for
+    // this run's unfinished render.
+    "acceptance_target_did_not_finalize_within_bound"
   ]) fail(harness.includes(code), `the journey has no typed failure named ${code}`);
+  fail(/journey\.targetCycles > 0 && inFlight && !TERMINAL_SUCCESS\.has\(inFlight\.status\)/.test(harness),
+    "running out of cycles with the target still in flight is not distinguished from never reaching the target");
 
   return out;
 }
@@ -177,7 +188,11 @@ if (MUTATIONS) {
     ["a 202 that names no job no longer stops the run", (h) =>
       h.replace("  if (res.status !== 202 || returnedJobId === null) finish();", "")],
     ["the backlog-convergence failure loses its name", (h) =>
-      h.replace(/acceptance_backlog_did_not_converge/g, "failed")]
+      h.replace(/acceptance_backlog_did_not_converge/g, "failed")],
+    ["an unfinished target is reported as a backlog that never drained", (h) =>
+      h.replace("if (!journey.failure && journey.targetCycles > 0 && inFlight && !TERMINAL_SUCCESS.has(inFlight.status)) {", "if (false) {")],
+    ["the claim-state snapshot goes back to the oldest 500 rows, losing the target", (h) =>
+      h.replace("     where status in ('queued', 'claimed', 'rendering', 'validating', 'failed', 'retryable', 'expired')\n        or id = '${sqlText(jobId)}'", "     order by created_at\n     limit 500")]
   ];
 
   let undetected = 0;

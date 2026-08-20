@@ -1469,14 +1469,23 @@ const CLAIM_STATE_FIELDS = [
   "rendering_at", "validating_at", "artifact_validated_at", "fencingTokenSha256"
 ];
 
-async function claimStateSnapshot() {
+async function claimStateSnapshot(jobId = targetJobId) {
+  // Scoped to the rows a cycle could possibly touch — everything not already
+  // terminal, plus the target itself — rather than to the first 500 rows by
+  // age. `order by created_at limit 500` would push the NEWEST rows out of the
+  // window on a project that has accumulated more than that, and the target is
+  // the newest row there is: the one job this snapshot exists to watch would be
+  // the first one it stopped seeing.
+  //
+  // A row that finalizes leaves this set between the two snapshots; a
+  // disappearance is treated as a change, which is exactly what it is.
   const res = await sql(`
     select id, status, attempt_count, claimed_by, claimed_at, claim_expires_at,
            fencing_token, next_attempt_at, error_code, failure_disposition,
            rendering_at, validating_at, artifact_validated_at
       from public.packet_render_jobs
-     order by created_at
-     limit 500
+     where status in ('queued', 'claimed', 'rendering', 'validating', 'failed', 'retryable', 'expired')
+        or id = '${sqlText(jobId)}'
   `);
   if (!Array.isArray(res.json)) return { readOutcome: "query_error" };
   const byId = new Map();
@@ -1707,6 +1716,17 @@ let finalCycleResult = null;
       journey.failure = {
         code: "acceptance_backlog_did_not_converge",
         detail: `${cycle} cycle(s) ran against a bound of ${cycleBound} derived from ${initialClaimablePredecessors} claimable predecessor(s), and the worker never claimed the target. ${journey.backlogCycles} cycle(s) claimed other runs' backlog (${journey.backlogJobsClaimed.join(", ") || "none recorded"}), ${journey.noJobCycles} claimed nothing at all.`
+      };
+    }
+    // The remaining way to run out of cycles: the worker DID reach the target,
+    // but the target had not finished by the time the bound was spent. That is
+    // a different fact from a backlog that never drained, and naming it as one
+    // would blame other runs' queue for this run's unfinished render.
+    const inFlight = journey.targetRowFinal;
+    if (!journey.failure && journey.targetCycles > 0 && inFlight && !TERMINAL_SUCCESS.has(inFlight.status)) {
+      journey.failure = {
+        code: "acceptance_target_did_not_finalize_within_bound",
+        detail: `the worker claimed the target on ${journey.targetCycles} cycle(s) but it is still '${inFlight.status}' (attempt ${inFlight.attempt_count ?? "?"} of ${inFlight.max_attempts ?? "?"}, error ${inFlight.error_code ?? "none"}) after ${cycle} of a possible ${boundCeiling} cycle(s). The backlog is not the explanation: the target was reached.`
       };
     }
     return journey;
