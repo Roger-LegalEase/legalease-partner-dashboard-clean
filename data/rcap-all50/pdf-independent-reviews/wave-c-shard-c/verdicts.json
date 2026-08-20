@@ -1,11 +1,24 @@
 {
-  "schemaVersion": "rcap-independent-review-verdicts/v1",
+  "schemaVersion": "rcap-independent-review-verdicts/v2-source-verified",
   "wave": "C",
   "shardName": "c",
   "shardIndex": 2,
   "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
-  "headAtReview": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "headAtReview": "f3251dbd5b829999a90aa83562fbd0c94a55267b",
   "reviewer": "independent-reviewer-wave-c-shard-c",
+  "supersedes": {
+    "schemaVersion": "rcap-independent-review-verdicts/v1",
+    "commit": "f3251dbd5b829999a90aa83562fbd0c94a55267b",
+    "why": "the first pass could not execute section 2 because no source corpus was mounted. The shard-c reviewer source pack supplied the four official sources, so source bytes are now verified and the findings are restated on source-derived geometry and source field semantics.",
+    "whatChanged": [
+      "source verification moved from impossible to performed",
+      "all 130 census widget rectangles independently confirmed against the source AcroForm",
+      "the county finding is corrected: the value is not in its intended slot. 'enter the county' is a caption hint field and 'fullcountystatementRIGHT' is the county data slot, per the source calculate action",
+      "'COUNTY, NEBRASKA' is corrected from 'printed source text' to the flattened default value of the fullcountystatementRIGHT form field",
+      "a new correction is added for TYPEOFCOURTRESULTS losing the export phrase its calculate action defines",
+      "a new correction is added for the Nebraska source records declaring no revision, title, page count or field count"
+    ]
+  },
   "allowedVerdictVocabulary": [
     "approved_platform_ready",
     "correction_required",
@@ -17,7 +30,8 @@
     "correction_required": 3,
     "substantive_owner_decision_required": 1
   },
-  "noApprovalsPossibleReason": "section 2 of the review contract (recompute SHA-256 from the official source bytes, inspect the visible form number and revision on the blank source) could not be performed. Per the contract this reviewer refuses to accept another lane's receipt as source proof, so no family in this shard is eligible for approved_platform_ready on the source axis regardless of its other findings.",
+  "whyNoApprovals": "source identity is now verified for all four families, so the earlier environmental blocker is cleared. No family is approved because each carries at least one confirmed defect in its current bytes.",
+  "standingGateBlocker": "this pack carries only the four PDFs assigned to shard c. It is not the 499-file / 329-PDF Master Library, so the corpus-wide inventory counts required by the review contract remain unverified; they are outside this shard's four families and are reported as a standing gate-level blocker, not as a family defect.",
   "verdicts": [
     {
       "familyId": "NC:aoc-cv-226-support-en",
@@ -28,9 +42,18 @@
       "reviewer": "independent-reviewer-wave-c-shard-c",
       "pinnedHashes": {
         "familyPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
+        "sourceArchivePath": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
         "sourceSha256Pinned": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-        "sourceSha256RecomputedByThisReviewer": null,
-        "sourceRecomputeStatus": "impossible_corpus_absent",
+        "sourceSha256RecomputedByThisReviewer": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+        "sourceRecomputeStatus": "verified",
+        "sourceByteLength": 269426,
+        "sourceDigestAgreesWith": [
+          "source-record.json",
+          "source-receipt.json",
+          "artifact-provenance.json",
+          "artifact-provenance.json#sourceUrl",
+          "gate-b-evidence-completion.json"
+        ],
         "fieldMapSha256": "9a0c3db3f30605a50e8b13509dc318ecc95d4cfd7a97f42294723529b9c39a8f",
         "classificationSha256": "48f7f1fe65e18d12a9ca765300fa7fba123f1d49dde9960d36329f04ea046152",
         "provenanceSidecarSha256": "ac840da90d5b08c7fae1382b721ba7391ff1422f111acaa6232fd27a7ee9af2d",
@@ -49,15 +72,29 @@
             "sha256": "65778b0df213f6bdee8536b917d053c539a1e1d9be325687e7bea04b80d4a30a"
           }
         ],
-        "completeVisualEvidenceSha256": "f6714e0317a769c473f06aa7c8c0b9333a3e8ae25ba6d4dbaeaf8907af0676d9",
+        "completeVisualEvidenceSha256": "76811e6a1eab1142f48394652e66ecd9a50be2bd9a51938cb086c87d18a53dfc",
         "allHashesMatchDiskAndRecords": true
       },
       "sourceVerification": {
-        "blocker": "source-bytes verification could not be executed",
-        "requiredCorpus": "RCAP_BUNDLE_EXTRACT=/home/user/legalease-rcap-pdf-inventory-closure/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
-        "observed": "the path does not exist on this review machine; an exhaustive filesystem search found no Master Library extract, no 499-file source library and no 329 PDFs; the repository's private/ tree is gitignored and was never materialized in this clone",
-        "consequence": "section 2 of the review contract (recompute SHA-256 from the official source bytes, inspect the visible form number and revision on the blank source) could not be performed. Per the contract this reviewer refuses to accept another lane's receipt as source proof, so no family in this shard is eligible for approved_platform_ready on the source axis regardless of its other findings.",
-        "whatWasVerifiedInstead": "the pinned source digest was carried forward unverified and is recorded as such; the blank-source appearance was inspected only through the blank panel embedded in each family's committed contact sheet"
+        "status": "performed",
+        "corpus": "reviewer source pack rcap-wave-c-review-source-pack/v1 (shard c), installed to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and left uncommitted under the gitignored private/ tree",
+        "packSha256": "48a551b1a7ffa5e1e5412385b746dad1f67bb125c1a3dd488c1c41dbcb127326",
+        "method": "SHA-256 recomputed by this reviewer from the source bytes on disk and compared against each family's own pinned identities (source-record.json, source-receipt.json, artifact-provenance.json, the digest embedded in the sidecar sourceUrl, and gate-b-evidence-completion.json). The pack's own manifest.json was NOT used as proof \u2014 it is another lane's receipt.",
+        "result": "all four sources recompute equal to every pinned identity; byte lengths match source-record.json",
+        "visibleFormNumberAndRevision": "read off page 1 of each blank source and compared with the record",
+        "scopeLimitation": "this pack carries only the four PDFs assigned to shard c. It is not the 499-file / 329-PDF Master Library, so the corpus-wide inventory counts required by the review contract remain unverified; they are outside this shard's four families and are reported as a standing gate-level blocker, not as a family defect."
+      },
+      "sourceIdentityInspection": {
+        "visibleFormNumberAndRevision": "AOC-CV-226, Rev. 4/23, (c) 2023 Administrative Office of the Courts",
+        "recordedRevision": "REV-2023-04",
+        "agrees": true,
+        "declaredVsObserved": {
+          "pages": "2/2 agree",
+          "acroFields": "78/78 agree",
+          "structuralClass": "acroform/acroform agree"
+        },
+        "xfaInSource": false,
+        "note": "this family's source-record.json declares every identity attribute and each one agrees with the bytes"
       },
       "structuralResult": {
         "flattened": true,
@@ -68,11 +105,7 @@
         "javaScript": false,
         "openAction": false,
         "additionalActions": false,
-        "checkedOn": [
-          "fixtures/canonical-filled.pdf",
-          "fixtures/boundary-filled.pdf",
-          "contact-sheet/blank-vs-filled.pdf"
-        ]
+        "note": "the blank source carries 70 JavaScript objects; the finalized artifact carries none \u2014 active content is fully stripped"
       },
       "allPageVisualResult": {
         "pagesInspected": [
@@ -83,11 +116,13 @@
           1,
           2
         ],
-        "page2Result": "clean \u2014 Governmental Agencies box, SWORN/AFFIRMED block, clerk checkboxes (Deputy CSC, Assistant CSC, Clerk Of Superior Court, Magistrate), Notary, SEAL, County Where Notarized, Date My Commission Expires, Signature Of Applicant, Name Of Applicant and the Plaintiff/Defendant checkboxes are all blank",
-        "drawsInsideIntendedRect": 11,
-        "drawsOutsideIntendedRect": 0,
+        "geometryBasis": "widget rectangles recomputed by this reviewer from the source AcroForm; all 78 census rects confirmed equal to source",
+        "drawsInsideTheirBoundFieldRect": 11,
+        "drawsOutsideTheirBoundFieldRect": 0,
         "writesIntoProtectedRect": 0,
-        "closesLaneNotLocatable": "the lane recorded ApplicantState and ApplicantFullPermanentMailingAddressState as notLocatableBecauseTooShort; this reviewer located both: 'XX' at (237,158,251,173) inside ApplicantState (232,158,257,174) and 'XX' at (237,204,252,219) inside ApplicantFullPermanentMailingAddressState (232,206,256,219)"
+        "page2Result": "clean \u2014 Governmental Agencies box, SWORN/AFFIRMED block, Deputy CSC, Assistant CSC, Clerk Of Superior Court, Magistrate, Notary, SEAL, County Where Notarized, Date My Commission Expires, Signature Of Applicant, Name Of Applicant and the Plaintiff/Defendant checkboxes all blank",
+        "closesLaneNotLocatable": "the lane's notLocatableBecauseTooShort entries for ApplicantState and ApplicantFullPermanentMailingAddressState are closed: 'XX' at (237,158,251,173) inside ApplicantState (232,158,257,174) and 'XX' at (237,204,252,219) inside ApplicantFullPermanentMailingAddressState (232,206,256,219)",
+        "blankSourceComparison": "every address widget in the blank source carries an empty value, so every value visible in the filled artifact was written by this build"
       },
       "corrections": [
         {
@@ -95,20 +130,20 @@
           "artifact": "fixtures/canonical-filled.pdf",
           "page": 1,
           "field": "ApplicantFullPermanentMailingAddressAddr1 / ApplicantFullPermanentMailingAddressAddr2",
-          "rectangle": "(38,181,316,194) and (37,193,315,206)",
-          "observed": "field-classification.json classifies both as class 'participant', but production-field-map.json refuses both with reason 'protected_category', category 'money'. Their effectiveLabel is stored as undecoded Identity-H glyph ids; decoded it reads 'Full Permanent Mailing Address'. The street lines of the applicant's mailing-address block are therefore blank on the filed affidavit.",
-          "required": "a street-address line classified 'participant' must either be written from participant.street_address or be left blank by an explicit recorded ownership decision \u2014 not refused as 'money', a protected financial category that contradicts this family's own classification file",
-          "smallestCorrection": "decode the field label through the font's ToUnicode CMap before classifying, so an address line is not routed into the money category by an unreadable label; then re-derive the map and re-render"
+          "rectangle": "source widget rects (38,181,315,194) and (37,193,315,206), directly beneath the printed caption 'Full Permanent Mailing Address Of Applicant (if different than above)' at y=174",
+          "observed": "field-classification.json classifies both 'participant'; production-field-map.json refuses both as 'protected_category' category 'money'. Source geometry confirms they are the street lines of the mailing-address block, not financial fields. Their effectiveLabel is stored as undecoded Identity-H glyph ids that decode to 'Full Permanent Mailing Address'.",
+          "required": "a street-address line must not be routed into the money category; the classification and the binder must agree",
+          "smallestCorrection": "decode captured labels through the font ToUnicode CMap before classifying, so an unreadable label cannot fall through to a protected financial category; then re-derive the map and re-render"
         },
         {
           "family": "NC:aoc-cv-226-support-en",
           "artifact": "fixtures/canonical-filled.pdf",
           "page": 1,
           "field": "ApplicantStreetNumberAndStreetNameLine1 / ApplicantStreetNumberAndStreetNameLine2",
-          "rectangle": "primary address block, beneath 'Street Number And Street Name, Including Apartment Or Unit Number If Applicable'",
-          "observed": "classified 'participant' with a clean effectiveLabel, refused with 'no_allowlisted_fact_matches'. participant.street_address ('118 Maple Street') is an available fact and is bound in all three Nebraska families in this same shard. Combined with the finding above, the applicant has no street address anywhere on a sworn affidavit of indigency.",
-          "required": "participant.street_address is offered to a field whose printed label is 'Street Number And Street Name'",
-          "smallestCorrection": "extend the street_address descriptor's accept list to the 'Street Number And Street Name' label form; the refuseWhen guard added under ESC-NO-REFUSE-WHEN currently over-refuses this label"
+          "rectangle": "source widget rects (37,117,315,133) and (37,133,315,149), directly beneath the printed caption 'Street Number And Street Name, Including Apartment Or Unit Number If Applicable' at y=104",
+          "observed": "classified 'participant' with a clean label, refused 'no_allowlisted_fact_matches' although participant.street_address ('118 Maple Street') is available and is bound in all three Nebraska families in this shard. Combined with the finding above, the filed sworn affidavit of indigency carries no street address anywhere.",
+          "required": "participant.street_address is offered to a field whose printed caption is 'Street Number And Street Name'",
+          "smallestCorrection": "accept the 'Street Number And Street Name' caption form in the street_address descriptor; the refuseWhen guard added under ESC-NO-REFUSE-WHEN currently over-refuses it"
         },
         {
           "family": "NC:aoc-cv-226-support-en",
@@ -116,9 +151,9 @@
           "page": 1,
           "field": "ApplicantFullPermanentMailingAddressCity / State / Zip",
           "rectangle": "(36,206,232,219), (232,206,256,219), (255,206,314,219)",
-          "observed": "'Springfield', 'XX' and '01234' are written into the 'Full Permanent Mailing Address Of Applicant (if different than above)' block with values identical to the 'City, State And Zip Code' block above it. The same three participant values therefore appear twice on the page, in two different fields.",
-          "required": "a block the printed form conditions on being 'different than above' is not populated with values identical to the block above it; each participant value appears once",
-          "smallestCorrection": "gate the conditional mailing-address block on the mailing address differing from the primary address, and leave it unwritten when they are equal"
+          "observed": "'Springfield', 'XX' and '01234' are written here with values identical to the 'City, State And Zip Code' block above. All six source widgets are empty in the blank, so both copies were written by this build. The same three participant values therefore appear twice, filling a block the printed form conditions on being 'different than above'.",
+          "required": "the conditional block stays unwritten when the mailing address equals the primary address; each participant value appears once",
+          "smallestCorrection": "gate the conditional mailing-address block on the two addresses differing"
         }
       ],
       "historicalObjectionReview": [
@@ -126,137 +161,21 @@
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
           "originalObjection": "protection established by geometry where required, not label alone",
           "priorFlag": "provenAgainstThisFamilysBytes: true",
-          "reviewerFinding": "CONFIRMED CLOSED against these exact bytes \u2014 no participant value lands in any court-owned region; page 2 (notarization, clerk, seal, applicant signature) is entirely blank and this family's regionHeading values are clean text",
+          "reviewerFinding": "CONFIRMED CLOSED against these exact bytes, now on source-derived geometry: all 78 census rects equal the source AcroForm rects, no participant value lands in a court-owned region, and page 2 is entirely blank",
           "historicalRecordPreserved": true
         },
         {
           "escalationId": "ESC-NO-REFUSE-WHEN",
           "originalObjection": "participant-writable entries correct",
           "priorFlag": "provenAgainstThisFamilysBytes: true",
-          "reviewerFinding": "NOT CLOSED against these exact bytes. The record's own familyOwnedFollowUp states 'the duplicated address lines ... clear with the binding'. They have not cleared: participant.city, participant.state and participant.zip are still each written into two address blocks. The guard simultaneously over-refuses the primary street lines and under-refuses the duplicated city/state/zip.",
+          "reviewerFinding": "NOT CLOSED. The record's own follow-up says 'the duplicated address lines ... clear with the binding'; they have not. The guard over-refuses both street blocks and still writes city, state and zip twice. Verified against the blank source, whose address widgets are all empty.",
           "historicalRecordPreserved": true
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
           "originalObjection": "artifact provenance complete and hash-matched",
           "priorFlag": "sharedCorrectionStatus: open, ownedByAnotherLane: true",
-          "reviewerFinding": "the emit half is satisfied on current bytes \u2014 the committed sidecar carries 24 fields with no null; the contract-verifier half remains another lane's and is not closed here",
-          "historicalRecordPreserved": true
-        }
-      ]
-    },
-    {
-      "familyId": "NE:cc-6-11-form-en",
-      "documentId": "CC-6-11",
-      "officialTitle": "Petition To Set Aside A Criminal Conviction",
-      "revision": null,
-      "verdict": "correction_required",
-      "reviewer": "independent-reviewer-wave-c-shard-c",
-      "pinnedHashes": {
-        "familyPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
-        "sourceSha256Pinned": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
-        "sourceSha256RecomputedByThisReviewer": null,
-        "sourceRecomputeStatus": "impossible_corpus_absent",
-        "fieldMapSha256": "47369372a099621f8e7eecc3e947b8ef0042441f30a613fa3c5bce82d426795f",
-        "classificationSha256": "fa0322013e7120728cdff833ec6ca1620d0fea8a5b9f7134bfb4165e4d6c759a",
-        "provenanceSidecarSha256": "b77f4c4d45eb10cea7391700f47084a7cd70f1c99dad9fa20c6edb480efbd182",
-        "canonicalArtifactSha256": "0adfe77241308e5262a2a7fe53168ab211989dc5926293e08ebe38cd4aaf7942",
-        "boundaryArtifactSha256": "09cd21272f739bb7e0aad7fcfe6db3b363abe707a1f1dc9783cda3e24c66b8fe",
-        "contactSheetSha256": "51bdf6a6f366968f0964a83674b36cce464363339efa95f68e4a9dc2b990a9e3",
-        "allPageRasterManifest": [
-          {
-            "page": 1,
-            "path": "docs/record-clearing/pdf-visual-evidence/NE-cc-6-11-form-en-contact-sheet-page-01.png",
-            "sha256": "7a01fde2ce0fc3e43583151cf1f396b9850b2476dd560294ba2fd30c6a0bc76f"
-          }
-        ],
-        "completeVisualEvidenceSha256": "cceffb26f1a67a83fde8cd85bb03e1ee495bef0a8ecc3348d447c22c0898521b",
-        "allHashesMatchDiskAndRecords": true
-      },
-      "sourceVerification": {
-        "blocker": "source-bytes verification could not be executed",
-        "requiredCorpus": "RCAP_BUNDLE_EXTRACT=/home/user/legalease-rcap-pdf-inventory-closure/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
-        "observed": "the path does not exist on this review machine; an exhaustive filesystem search found no Master Library extract, no 499-file source library and no 329 PDFs; the repository's private/ tree is gitignored and was never materialized in this clone",
-        "consequence": "section 2 of the review contract (recompute SHA-256 from the official source bytes, inspect the visible form number and revision on the blank source) could not be performed. Per the contract this reviewer refuses to accept another lane's receipt as source proof, so no family in this shard is eligible for approved_platform_ready on the source axis regardless of its other findings.",
-        "whatWasVerifiedInstead": "the pinned source digest was carried forward unverified and is recorded as such; the blank-source appearance was inspected only through the blank panel embedded in each family's committed contact sheet"
-      },
-      "structuralResult": {
-        "flattened": true,
-        "acroFormFields": 0,
-        "widgets": 0,
-        "annots": 0,
-        "xfa": false,
-        "javaScript": false,
-        "openAction": false,
-        "additionalActions": false,
-        "note": "a raw byte scan reports '/AA' in some artifacts; this reviewer resolved it to the font subset prefix 'AAAZSD+TimesNewRomanPSMT' and confirmed no object dictionary carries an /AA key. Not a defect."
-      },
-      "allPageVisualResult": {
-        "pagesInspected": [
-          1
-        ],
-        "pagesRasterized": [
-          1
-        ],
-        "drawsInsideIntendedRect": 7,
-        "drawsOutsideIntendedRect": 0,
-        "signatureBlockResult": "Signature, Date, *Email address and the no-email checkbox and reason lines are blank"
-      },
-      "corrections": [
-        {
-          "family": "NE:cc-6-11-form-en",
-          "artifact": "fixtures/canonical-filled.pdf and contact-sheet/blank-vs-filled.pdf",
-          "page": 1,
-          "field": "TYPEOFCOURTDROPDOWN and DROPDOWNCOUNTY2 (both refused, neither written)",
-          "rectangle": "TYPEOFCOURTDROPDOWN (142,119,221,133); DROPDOWNCOUNTY2 (290,119,369,133)",
-          "observed": "the stale chooser prompts survive onto the finalized filed page. 'Choose the court' is drawn at (144.3,120.2,198.6,131.0), inside the TYPEOFCOURTDROPDOWN rect, and 'Choose the county' at (291.8,120.2,351.3,131.0), inside the DROPDOWNCOUNTY2 rect. Both appear in the filled panel of the committed contact sheet and in the page-01 raster.",
-          "required": "an unselected chooser's value and stale appearance stream are cleared before flatten, so no prompt string appears in the filed page content stream",
-          "smallestCorrection": "at finalize, clear the appearance stream of every widget that was refused or left unwritten before flattening, instead of preserving the source appearance; refusing to write a widget must not leave its prompt on the page"
-        },
-        {
-          "family": "NE:cc-6-11-form-en",
-          "artifact": "fixtures/canonical-filled.pdf",
-          "page": 1,
-          "field": "TYPEOFCOURTDROPDOWN appearance over the printed caption",
-          "rectangle": "prompt (144.3,120.2,198.6,131.0) over static caption '(Enter the type of court)' (147.8,117.8,225.0,128.5)",
-          "observed": "the surviving prompt overprints the court's own printed caption; the two strings collide and neither is legible in the raster",
-          "required": "no unreadable fitting or overprinting in the caption band",
-          "smallestCorrection": "same as above \u2014 clearing the unselected chooser's appearance removes the collision"
-        },
-        {
-          "family": "NE:cc-6-11-form-en",
-          "artifact": "fixtures/canonical-filled.pdf",
-          "page": 1,
-          "field": "enter the county (bound) overlapping fullcountystatementRIGHT (refused)",
-          "rectangle": "drawn 'Example County' (278,107,359,123); intended anchor 'enter the county' (277,106,381,133); refused 'fullcountystatementRIGHT' (279,102,505,120)",
-          "observed": "the value is 100% inside its intended anchor, but the intended anchor and the refused field overlap by 51% and the drawn value falls 82% inside the refused field. selectOnePerSlot() reduced the court-side trio to one binding with reason 'duplicate_widget_for_one_slot', but the county-side pair was not detected: fullcountystatementRIGHT was refused only as 'no_allowlisted_fact_matches'. Ownership of the county caption slot is therefore geometrically ambiguous. Separately, because 'COUNTY, NEBRASKA' is printed source text, the filed caption reads 'Example County COUNTY, NEBRASKA'.",
-          "required": "exactly one field per caption slot is bound and the overlapping siblings are refused as duplicates of that slot; the rendered caption does not double the word County",
-          "smallestCorrection": "run the same overlap reduction over the county caption slot that already runs over the court slot, and write the bare county name into the slot that precedes the printed 'COUNTY, NEBRASKA'"
-        },
-        {
-          "family": "NE:cc-6-11-form-en",
-          "artifact": "field-census.json / field-classification.json",
-          "page": 1,
-          "field": "regionHeading and effectiveLabel capture (all fields)",
-          "rectangle": "n/a \u2014 map and census inputs",
-          "observed": "regionHeading is stored as undecoded Identity-H glyph ids for every field in this family; decoding with the subset offset recovers real text ('Neb. Rev. Stat. \u00a7 29-2264', 'PETITION TO SET ASIDE', 'vs .'). The heading channel that ESC-GEOMETRY-NOT-AN-INPUT relies on is therefore fed unmatchable strings, so any heading-keyed protection cannot fire for this family \u2014 the same guard whose failure held NE DC-1-15 back.",
-          "required": "captured headings and labels are decoded through the font's ToUnicode CMap before they are used as classification inputs",
-          "smallestCorrection": "apply the ToUnicode CMap in the anchor-capture module when extracting heading and label text"
-        }
-      ],
-      "historicalObjectionReview": [
-        {
-          "escalationId": "ESC-CAPTION-VARIANTS",
-          "originalObjection": "no clipping, no silent truncation, no duplicated preprinted caption",
-          "priorFlag": "sharedCorrectionStatus: corrected, provenAgainstThisFamilysBytes: true",
-          "reviewerFinding": "NOT CLOSED against these exact bytes. The record's own mutation test is 'Flatten a form with an unselected dropdown: the prompt string must not appear in the page content stream.' Both prompt strings appear in the page content stream of the current finalized artifact and in the committed page-01 raster. The prior provenAgainstThisFamilysBytes flag does not hold.",
-          "historicalRecordPreserved": true
-        },
-        {
-          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
-          "originalObjection": "artifact provenance complete and hash-matched",
-          "priorFlag": "sharedCorrectionStatus: open, ownedByAnotherLane: true",
-          "reviewerFinding": "the committed sidecar carries 24 fields with no null, satisfying the emit half on current bytes; the contract-verifier half remains another lane's",
+          "reviewerFinding": "emit half satisfied on current bytes \u2014 24 sidecar fields, no null, and the sidecar's sourceSha256 and sourceUrl digest both recompute equal to the source bytes; the contract-verifier half remains another lane's",
           "historicalRecordPreserved": true
         }
       ]
@@ -270,9 +189,18 @@
       "reviewer": "independent-reviewer-wave-c-shard-c",
       "pinnedHashes": {
         "familyPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en",
+        "sourceArchivePath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
         "sourceSha256Pinned": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
-        "sourceSha256RecomputedByThisReviewer": null,
-        "sourceRecomputeStatus": "impossible_corpus_absent",
+        "sourceSha256RecomputedByThisReviewer": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+        "sourceRecomputeStatus": "verified",
+        "sourceByteLength": 2766067,
+        "sourceDigestAgreesWith": [
+          "source-record.json",
+          "source-receipt.json",
+          "artifact-provenance.json",
+          "artifact-provenance.json#sourceUrl",
+          "gate-b-evidence-completion.json"
+        ],
         "fieldMapSha256": "5aaf9bd5792bd8e52f14464cb047adbe1fa8cbfef53c273125ac95eddda2cc46",
         "classificationSha256": "5c14f1969fd2689e6640a04d5a0a2d3d5a49db5cbc81f25bf3aa76a7e5ed559a",
         "provenanceSidecarSha256": "f57d68f717ad03d8809fc4d3d72200234a1a5ec02346083f1f7847e57f53a93f",
@@ -286,15 +214,29 @@
             "sha256": "499c098b011799add304bbce90a653ccb0fcaec58adab9cf240f6228c57a83dc"
           }
         ],
-        "completeVisualEvidenceSha256": "9dd474331166137b5f2d72c59a69bff3b46edaeff16df0dca72c54fdfd9af300",
+        "completeVisualEvidenceSha256": "855565140956a3c9ddb48b65594fd9f4fe2080e1c18d86601dad51d5f0151cb4",
         "allHashesMatchDiskAndRecords": true
       },
       "sourceVerification": {
-        "blocker": "source-bytes verification could not be executed",
-        "requiredCorpus": "RCAP_BUNDLE_EXTRACT=/home/user/legalease-rcap-pdf-inventory-closure/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
-        "observed": "the path does not exist on this review machine; an exhaustive filesystem search found no Master Library extract, no 499-file source library and no 329 PDFs; the repository's private/ tree is gitignored and was never materialized in this clone",
-        "consequence": "section 2 of the review contract (recompute SHA-256 from the official source bytes, inspect the visible form number and revision on the blank source) could not be performed. Per the contract this reviewer refuses to accept another lane's receipt as source proof, so no family in this shard is eligible for approved_platform_ready on the source axis regardless of its other findings.",
-        "whatWasVerifiedInstead": "the pinned source digest was carried forward unverified and is recorded as such; the blank-source appearance was inspected only through the blank panel embedded in each family's committed contact sheet"
+        "status": "performed",
+        "corpus": "reviewer source pack rcap-wave-c-review-source-pack/v1 (shard c), installed to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and left uncommitted under the gitignored private/ tree",
+        "packSha256": "48a551b1a7ffa5e1e5412385b746dad1f67bb125c1a3dd488c1c41dbcb127326",
+        "method": "SHA-256 recomputed by this reviewer from the source bytes on disk and compared against each family's own pinned identities (source-record.json, source-receipt.json, artifact-provenance.json, the digest embedded in the sidecar sourceUrl, and gate-b-evidence-completion.json). The pack's own manifest.json was NOT used as proof \u2014 it is another lane's receipt.",
+        "result": "all four sources recompute equal to every pinned identity; byte lengths match source-record.json",
+        "visibleFormNumberAndRevision": "read off page 1 of each blank source and compared with the record",
+        "scopeLimitation": "this pack carries only the four PDFs assigned to shard c. It is not the 499-file / 329-PDF Master Library, so the corpus-wide inventory counts required by the review contract remain unverified; they are outside this shard's four families and are reported as a standing gate-level blocker, not as a family defect."
+      },
+      "sourceIdentityInspection": {
+        "visibleFormNumberAndRevision": "CC 6:11.2 Rev. 12/2020",
+        "recordedRevision": null,
+        "revisionEncodedInArchivePath": "REV-2020-12",
+        "agrees": "the visible revision matches the archive path, but source-record.json records no revision at all",
+        "declaredVsObserved": {
+          "pages": "declaredPages null vs 1 observed",
+          "acroFields": "declaredFieldCount 0 vs 9 observed",
+          "structuralClass": "structuralClassDeclared null vs 'acroform' observed"
+        },
+        "xfaInSource": false
       },
       "structuralResult": {
         "flattened": true,
@@ -305,7 +247,7 @@
         "javaScript": false,
         "openAction": false,
         "additionalActions": false,
-        "note": "a raw byte scan reports '/AA' in some artifacts; this reviewer resolved it to the font subset prefix 'AAAZSD+TimesNewRomanPSMT' and confirmed no object dictionary carries an /AA key. Not a defect."
+        "note": "the blank source carries ComboBox calculate JavaScript; the finalized artifact carries none. A raw byte scan reports '/AA' on CC 6:12; that resolves to the font subset prefix 'AAAZSD+TimesNewRomanPSMT' and is not a defect."
       },
       "allPageVisualResult": {
         "pagesInspected": [
@@ -314,50 +256,62 @@
         "pagesRasterized": [
           1
         ],
-        "drawsInsideIntendedRect": 3,
-        "drawsOutsideIntendedRect": 0,
-        "signatureBlockResult": "the order body, Dated, BY THE COURT and JUDGE regions are entirely blank"
+        "geometryBasis": "widget rectangles recomputed by this reviewer from the source AcroForm; all 9 census rects confirmed equal to source",
+        "drawsInsideTheirBoundFieldRect": "all",
+        "drawsIntoTheWrongSlot": 1,
+        "writesIntoProtectedRect": 0,
+        "protectedRegionsResult": "the order body, Dated, BY THE COURT and JUDGE regions are entirely blank"
       },
       "corrections": [
         {
           "family": "NE:cc-6-11-2-form-en",
           "artifact": "fixtures/canonical-filled.pdf and contact-sheet/blank-vs-filled.pdf",
           "page": 1,
-          "field": "TYPEOFCOURTDROPDOWN and DROPDOWNCOUNTY2 (both refused, neither written)",
+          "field": "TYPEOFCOURTDROPDOWN and DROPDOWNCOUNTY2 (ComboBoxes, both refused, neither written)",
           "rectangle": "TYPEOFCOURTDROPDOWN (142,119,221,133); DROPDOWNCOUNTY2 (290,119,369,133)",
-          "observed": "the stale chooser prompts survive onto the finalized filed page. 'Choose the court' is drawn at (144.3,120.2,198.6,131.0), inside the TYPEOFCOURTDROPDOWN rect, and 'Choose the county' at (291.8,120.2,351.3,131.0), inside the DROPDOWNCOUNTY2 rect. Both appear in the filled panel of the committed contact sheet and in the page-01 raster.",
+          "observed": "both ComboBoxes keep their unselected default option, whose display label is 'Choose the court' and 'Choose the county'. Those labels flatten onto the filed page at (144.3,120.2,198.6,131.0) and (291.8,120.2,351.3,131.0) \u2014 inside their own widget rects \u2014 and 'Choose the court' overprints the caption hint field 'enter the type of court' at (147.8,117.8,225.0,128.5) so neither string is legible.",
           "required": "an unselected chooser's value and stale appearance stream are cleared before flatten, so no prompt string appears in the filed page content stream",
-          "smallestCorrection": "at finalize, clear the appearance stream of every widget that was refused or left unwritten before flattening, instead of preserving the source appearance; refusing to write a widget must not leave its prompt on the page"
+          "smallestCorrection": "clear the appearance stream of every refused or unwritten widget before flattening; refusing to write a widget must not leave its prompt on the page"
         },
         {
           "family": "NE:cc-6-11-2-form-en",
           "artifact": "fixtures/canonical-filled.pdf",
           "page": 1,
-          "field": "TYPEOFCOURTDROPDOWN appearance over the printed caption",
-          "rectangle": "prompt (144.3,120.2,198.6,131.0) over static caption '(Enter the type of court)' (147.8,117.8,225.0,128.5)",
-          "observed": "the surviving prompt overprints the court's own printed caption; the two strings collide and neither is legible in the raster",
-          "required": "no unreadable fitting or overprinting in the caption band",
-          "smallestCorrection": "same as above \u2014 clearing the unselected chooser's appearance removes the collision"
+          "field": "matter.county written into 'enter the county' instead of 'fullcountystatementRIGHT'",
+          "rectangle": "drawn 'Example County' at (278,107,359,123), inside 'enter the county' (277,106,381,133); the intended slot 'fullcountystatementRIGHT' is (279,102,505,120)",
+          "observed": "the source proves the slot semantics. 'enter the county' is a caption hint field whose source value is literally '(Enter the county name)'. 'fullcountystatementRIGHT' is the county data slot: its source calculate action is `event.value = this.getField(\"DROPDOWNCOUNTY2\").value;` and its unselected default is '                            COUNTY, NEBRASKA '. The build wrote the county into the hint field and left the data slot at its default, so the filed caption reads 'Example County COUNTY, NEBRASKA'. The value is inside the rectangle of the field it was bound to, but that field is the wrong slot.",
+          "required": "matter.county is written into fullcountystatementRIGHT in the form the field's own calculate action defines (for example 'EXAMPLE COUNTY, NEBRASKA'), the caption hint field is cleared, and the caption does not double the word County",
+          "smallestCorrection": "rebind matter.county from 'enter the county' to 'fullcountystatementRIGHT' and clear the hint field, mirroring how the court side already binds TYPEOFCOURTRESULTS rather than 'enter the type of court'"
         },
         {
           "family": "NE:cc-6-11-2-form-en",
           "artifact": "fixtures/canonical-filled.pdf",
           "page": 1,
-          "field": "enter the county (bound) overlapping fullcountystatementRIGHT (refused)",
-          "rectangle": "drawn 'Example County' (278,107,359,123); intended anchor 'enter the county' (277,106,381,133); refused 'fullcountystatementRIGHT' (279,102,505,120)",
-          "observed": "the value is 100% inside its intended anchor, but the intended anchor and the refused field overlap by 51% and the drawn value falls 82% inside the refused field. selectOnePerSlot() reduced the court-side trio to one binding with reason 'duplicate_widget_for_one_slot', but the county-side pair was not detected: fullcountystatementRIGHT was refused only as 'no_allowlisted_fact_matches'. Ownership of the county caption slot is therefore geometrically ambiguous. Separately, because 'COUNTY, NEBRASKA' is printed source text, the filed caption reads 'Example County COUNTY, NEBRASKA'.",
-          "required": "exactly one field per caption slot is bound and the overlapping siblings are refused as duplicates of that slot; the rendered caption does not double the word County",
-          "smallestCorrection": "run the same overlap reduction over the county caption slot that already runs over the court slot, and write the bare county name into the slot that precedes the printed 'COUNTY, NEBRASKA'"
+          "field": "TYPEOFCOURTRESULTS",
+          "rectangle": "(43,102,280,120)",
+          "observed": "the bare court name 'District Court' is written. The source calculate action for this field is `event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value;`, and the dropdown's export values are full phrases such as 'IN THE DISTRICT COURT OF'. The filed caption therefore loses the phrase the court's own form composes.",
+          "required": "the field carries the export-value phrase its calculate action defines, not a bare court name",
+          "smallestCorrection": "map matter.court to the ComboBox export value rather than a display name"
+        },
+        {
+          "family": "NE:cc-6-11-2-form-en",
+          "artifact": "source-record.json",
+          "page": 1,
+          "field": "source identity declarations",
+          "rectangle": "n/a \u2014 provenance record",
+          "observed": "the form visibly prints 'CC 6:11.2 Rev. 12/2020' and the archive path encodes REV-2020-12, but source-record.json records revision null, officialTitle null, declaredPages null, structuralClassDeclared null, freshnessStatus null and declaredFieldCount 0 against 9 observed. pageCountAgrees and structuralClassAgrees are therefore null rather than true: nothing is declared, so nothing can disagree.",
+          "required": "the printed form number and revision are captured into the source record so a superseded edition can be detected",
+          "smallestCorrection": "populate revision, officialTitle, declaredPages, declaredFieldCount and structuralClassDeclared for the Nebraska families from the source, as the NC family already does"
         },
         {
           "family": "NE:cc-6-11-2-form-en",
           "artifact": "field-census.json / field-classification.json",
           "page": 1,
-          "field": "regionHeading and effectiveLabel capture (all fields)",
+          "field": "regionHeading and effectiveLabel capture",
           "rectangle": "n/a \u2014 map and census inputs",
-          "observed": "regionHeading is stored as undecoded Identity-H glyph ids for every field in this family; decoding with the subset offset recovers real text ('Neb. Rev. Stat. \u00a7 29-2264', 'PETITION TO SET ASIDE', 'vs .'). The heading channel that ESC-GEOMETRY-NOT-AN-INPUT relies on is therefore fed unmatchable strings, so any heading-keyed protection cannot fire for this family \u2014 the same guard whose failure held NE DC-1-15 back.",
-          "required": "captured headings and labels are decoded through the font's ToUnicode CMap before they are used as classification inputs",
-          "smallestCorrection": "apply the ToUnicode CMap in the anchor-capture module when extracting heading and label text"
+          "observed": "regionHeading is stored as undecoded Identity-H glyph ids for every field in this family; decoding with the subset offset recovers real text such as 'Neb. Rev. Stat. \u00a7 29-2264', 'PETITION TO SET ASIDE' and 'vs .'. The heading channel ESC-GEOMETRY-NOT-AN-INPUT relies on is therefore fed unmatchable strings and cannot fire \u2014 the same guard whose failure held NE DC-1-15 back.",
+          "required": "captured headings and labels are decoded through the font ToUnicode CMap before use as classification inputs",
+          "smallestCorrection": "apply the ToUnicode CMap in the anchor-capture module"
         }
       ],
       "historicalObjectionReview": [
@@ -365,14 +319,165 @@
           "escalationId": "ESC-CAPTION-VARIANTS",
           "originalObjection": "no clipping, no silent truncation, no duplicated preprinted caption",
           "priorFlag": "sharedCorrectionStatus: corrected, provenAgainstThisFamilysBytes: true",
-          "reviewerFinding": "NOT CLOSED against these exact bytes. The record's own mutation test is 'Flatten a form with an unselected dropdown: the prompt string must not appear in the page content stream.' Both prompt strings appear in the page content stream of the current finalized artifact and in the committed page-01 raster. The prior provenAgainstThisFamilysBytes flag does not hold.",
+          "reviewerFinding": "NOT CLOSED against these exact bytes. The record's own mutation test is 'Flatten a form with an unselected dropdown: the prompt string must not appear in the page content stream.' Both prompt strings appear in the current finalized artifact and in the committed page-01 raster. With the source in hand the failure is broader than the prompt: the county fact is written into a caption hint field rather than the county data slot, and the court field loses the export phrase its own calculate action defines.",
           "historicalRecordPreserved": true
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
           "originalObjection": "artifact provenance complete and hash-matched",
           "priorFlag": "sharedCorrectionStatus: open, ownedByAnotherLane: true",
-          "reviewerFinding": "the committed sidecar carries 24 fields with no null, satisfying the emit half on current bytes; the contract-verifier half remains another lane's",
+          "reviewerFinding": "emit half satisfied on current bytes \u2014 24 sidecar fields, no null, sourceSha256 recomputes equal to the source bytes; the contract-verifier half remains another lane's",
+          "historicalRecordPreserved": true
+        }
+      ]
+    },
+    {
+      "familyId": "NE:cc-6-11-form-en",
+      "documentId": "CC-6-11",
+      "officialTitle": "Petition To Set Aside A Criminal Conviction",
+      "revision": null,
+      "verdict": "correction_required",
+      "reviewer": "independent-reviewer-wave-c-shard-c",
+      "pinnedHashes": {
+        "familyPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
+        "sourceArchivePath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11__cc-6-11-petition-to-set-aside-a-criminal-conviction__REV-2024-04__EN.pdf",
+        "sourceSha256Pinned": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+        "sourceSha256RecomputedByThisReviewer": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+        "sourceRecomputeStatus": "verified",
+        "sourceByteLength": 3003355,
+        "sourceDigestAgreesWith": [
+          "source-record.json",
+          "source-receipt.json",
+          "artifact-provenance.json",
+          "artifact-provenance.json#sourceUrl",
+          "gate-b-evidence-completion.json"
+        ],
+        "fieldMapSha256": "47369372a099621f8e7eecc3e947b8ef0042441f30a613fa3c5bce82d426795f",
+        "classificationSha256": "fa0322013e7120728cdff833ec6ca1620d0fea8a5b9f7134bfb4165e4d6c759a",
+        "provenanceSidecarSha256": "b77f4c4d45eb10cea7391700f47084a7cd70f1c99dad9fa20c6edb480efbd182",
+        "canonicalArtifactSha256": "0adfe77241308e5262a2a7fe53168ab211989dc5926293e08ebe38cd4aaf7942",
+        "boundaryArtifactSha256": "09cd21272f739bb7e0aad7fcfe6db3b363abe707a1f1dc9783cda3e24c66b8fe",
+        "contactSheetSha256": "51bdf6a6f366968f0964a83674b36cce464363339efa95f68e4a9dc2b990a9e3",
+        "allPageRasterManifest": [
+          {
+            "page": 1,
+            "path": "docs/record-clearing/pdf-visual-evidence/NE-cc-6-11-form-en-contact-sheet-page-01.png",
+            "sha256": "7a01fde2ce0fc3e43583151cf1f396b9850b2476dd560294ba2fd30c6a0bc76f"
+          }
+        ],
+        "completeVisualEvidenceSha256": "4fcb254970ef325df347157dc9020510a1b5b1d753a512d50ef594e6753e4abf",
+        "allHashesMatchDiskAndRecords": true
+      },
+      "sourceVerification": {
+        "status": "performed",
+        "corpus": "reviewer source pack rcap-wave-c-review-source-pack/v1 (shard c), installed to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and left uncommitted under the gitignored private/ tree",
+        "packSha256": "48a551b1a7ffa5e1e5412385b746dad1f67bb125c1a3dd488c1c41dbcb127326",
+        "method": "SHA-256 recomputed by this reviewer from the source bytes on disk and compared against each family's own pinned identities (source-record.json, source-receipt.json, artifact-provenance.json, the digest embedded in the sidecar sourceUrl, and gate-b-evidence-completion.json). The pack's own manifest.json was NOT used as proof \u2014 it is another lane's receipt.",
+        "result": "all four sources recompute equal to every pinned identity; byte lengths match source-record.json",
+        "visibleFormNumberAndRevision": "read off page 1 of each blank source and compared with the record",
+        "scopeLimitation": "this pack carries only the four PDFs assigned to shard c. It is not the 499-file / 329-PDF Master Library, so the corpus-wide inventory counts required by the review contract remain unverified; they are outside this shard's four families and are reported as a standing gate-level blocker, not as a family defect."
+      },
+      "sourceIdentityInspection": {
+        "visibleFormNumberAndRevision": "CC 6:11 Rev. 04/2024",
+        "recordedRevision": null,
+        "revisionEncodedInArchivePath": "REV-2024-04",
+        "agrees": "the visible revision matches the archive path, but source-record.json records no revision at all",
+        "declaredVsObserved": {
+          "pages": "declaredPages null vs 1 observed",
+          "acroFields": "declaredFieldCount 0 vs 19 observed",
+          "structuralClass": "structuralClassDeclared null vs 'acroform' observed"
+        },
+        "xfaInSource": false
+      },
+      "structuralResult": {
+        "flattened": true,
+        "acroFormFields": 0,
+        "widgets": 0,
+        "annots": 0,
+        "xfa": false,
+        "javaScript": false,
+        "openAction": false,
+        "additionalActions": false,
+        "note": "the blank source carries ComboBox calculate JavaScript; the finalized artifact carries none. A raw byte scan reports '/AA' on CC 6:12; that resolves to the font subset prefix 'AAAZSD+TimesNewRomanPSMT' and is not a defect."
+      },
+      "allPageVisualResult": {
+        "pagesInspected": [
+          1
+        ],
+        "pagesRasterized": [
+          1
+        ],
+        "geometryBasis": "widget rectangles recomputed by this reviewer from the source AcroForm; all 19 census rects confirmed equal to source",
+        "drawsInsideTheirBoundFieldRect": "all",
+        "drawsIntoTheWrongSlot": 1,
+        "writesIntoProtectedRect": 0,
+        "protectedRegionsResult": "Signature, Date, *Email address and the no-email checkbox and reason lines are blank"
+      },
+      "corrections": [
+        {
+          "family": "NE:cc-6-11-form-en",
+          "artifact": "fixtures/canonical-filled.pdf and contact-sheet/blank-vs-filled.pdf",
+          "page": 1,
+          "field": "TYPEOFCOURTDROPDOWN and DROPDOWNCOUNTY2 (ComboBoxes, both refused, neither written)",
+          "rectangle": "TYPEOFCOURTDROPDOWN (142,119,221,133); DROPDOWNCOUNTY2 (290,119,369,133)",
+          "observed": "both ComboBoxes keep their unselected default option, whose display label is 'Choose the court' and 'Choose the county'. Those labels flatten onto the filed page at (144.3,120.2,198.6,131.0) and (291.8,120.2,351.3,131.0) \u2014 inside their own widget rects \u2014 and 'Choose the court' overprints the caption hint field 'enter the type of court' at (147.8,117.8,225.0,128.5) so neither string is legible.",
+          "required": "an unselected chooser's value and stale appearance stream are cleared before flatten, so no prompt string appears in the filed page content stream",
+          "smallestCorrection": "clear the appearance stream of every refused or unwritten widget before flattening; refusing to write a widget must not leave its prompt on the page"
+        },
+        {
+          "family": "NE:cc-6-11-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "field": "matter.county written into 'enter the county' instead of 'fullcountystatementRIGHT'",
+          "rectangle": "drawn 'Example County' at (278,107,359,123), inside 'enter the county' (277,106,381,133); the intended slot 'fullcountystatementRIGHT' is (279,102,505,120)",
+          "observed": "the source proves the slot semantics. 'enter the county' is a caption hint field whose source value is literally '(Enter the county name)'. 'fullcountystatementRIGHT' is the county data slot: its source calculate action is `event.value = this.getField(\"DROPDOWNCOUNTY2\").value;` and its unselected default is '                            COUNTY, NEBRASKA '. The build wrote the county into the hint field and left the data slot at its default, so the filed caption reads 'Example County COUNTY, NEBRASKA'. The value is inside the rectangle of the field it was bound to, but that field is the wrong slot.",
+          "required": "matter.county is written into fullcountystatementRIGHT in the form the field's own calculate action defines (for example 'EXAMPLE COUNTY, NEBRASKA'), the caption hint field is cleared, and the caption does not double the word County",
+          "smallestCorrection": "rebind matter.county from 'enter the county' to 'fullcountystatementRIGHT' and clear the hint field, mirroring how the court side already binds TYPEOFCOURTRESULTS rather than 'enter the type of court'"
+        },
+        {
+          "family": "NE:cc-6-11-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "field": "TYPEOFCOURTRESULTS",
+          "rectangle": "(43,102,280,120)",
+          "observed": "the bare court name 'District Court' is written. The source calculate action for this field is `event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value;`, and the dropdown's export values are full phrases such as 'IN THE DISTRICT COURT OF'. The filed caption therefore loses the phrase the court's own form composes.",
+          "required": "the field carries the export-value phrase its calculate action defines, not a bare court name",
+          "smallestCorrection": "map matter.court to the ComboBox export value rather than a display name"
+        },
+        {
+          "family": "NE:cc-6-11-form-en",
+          "artifact": "source-record.json",
+          "page": 1,
+          "field": "source identity declarations",
+          "rectangle": "n/a \u2014 provenance record",
+          "observed": "the form visibly prints 'CC 6:11 Rev. 04/2024' and the archive path encodes REV-2024-04, but source-record.json records revision null, officialTitle null, declaredPages null, structuralClassDeclared null, freshnessStatus null and declaredFieldCount 0 against 19 observed. pageCountAgrees and structuralClassAgrees are therefore null rather than true: nothing is declared, so nothing can disagree.",
+          "required": "the printed form number and revision are captured into the source record so a superseded edition can be detected",
+          "smallestCorrection": "populate revision, officialTitle, declaredPages, declaredFieldCount and structuralClassDeclared for the Nebraska families from the source, as the NC family already does"
+        },
+        {
+          "family": "NE:cc-6-11-form-en",
+          "artifact": "field-census.json / field-classification.json",
+          "page": 1,
+          "field": "regionHeading and effectiveLabel capture",
+          "rectangle": "n/a \u2014 map and census inputs",
+          "observed": "regionHeading is stored as undecoded Identity-H glyph ids for every field in this family; decoding with the subset offset recovers real text such as 'Neb. Rev. Stat. \u00a7 29-2264', 'PETITION TO SET ASIDE' and 'vs .'. The heading channel ESC-GEOMETRY-NOT-AN-INPUT relies on is therefore fed unmatchable strings and cannot fire \u2014 the same guard whose failure held NE DC-1-15 back.",
+          "required": "captured headings and labels are decoded through the font ToUnicode CMap before use as classification inputs",
+          "smallestCorrection": "apply the ToUnicode CMap in the anchor-capture module"
+        }
+      ],
+      "historicalObjectionReview": [
+        {
+          "escalationId": "ESC-CAPTION-VARIANTS",
+          "originalObjection": "no clipping, no silent truncation, no duplicated preprinted caption",
+          "priorFlag": "sharedCorrectionStatus: corrected, provenAgainstThisFamilysBytes: true",
+          "reviewerFinding": "NOT CLOSED against these exact bytes. The record's own mutation test is 'Flatten a form with an unselected dropdown: the prompt string must not appear in the page content stream.' Both prompt strings appear in the current finalized artifact and in the committed page-01 raster. With the source in hand the failure is broader than the prompt: the county fact is written into a caption hint field rather than the county data slot, and the court field loses the export phrase its own calculate action defines.",
+          "historicalRecordPreserved": true
+        },
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "originalObjection": "artifact provenance complete and hash-matched",
+          "priorFlag": "sharedCorrectionStatus: open, ownedByAnotherLane: true",
+          "reviewerFinding": "emit half satisfied on current bytes \u2014 24 sidecar fields, no null, sourceSha256 recomputes equal to the source bytes; the contract-verifier half remains another lane's",
           "historicalRecordPreserved": true
         }
       ]
@@ -386,9 +491,18 @@
       "reviewer": "independent-reviewer-wave-c-shard-c",
       "pinnedHashes": {
         "familyPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
+        "sourceArchivePath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
         "sourceSha256Pinned": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
-        "sourceSha256RecomputedByThisReviewer": null,
-        "sourceRecomputeStatus": "impossible_corpus_absent",
+        "sourceSha256RecomputedByThisReviewer": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "sourceRecomputeStatus": "verified",
+        "sourceByteLength": 1682731,
+        "sourceDigestAgreesWith": [
+          "source-record.json",
+          "source-receipt.json",
+          "artifact-provenance.json",
+          "artifact-provenance.json#sourceUrl",
+          "gate-b-evidence-completion.json"
+        ],
         "fieldMapSha256": "0edfe6609cb78c6596df570f13b892cd4254ae7bf6470ce226f17e6445b9e28c",
         "classificationSha256": "5ccd63ccd6031d77c19f9ec404218c86650cf8e663f1ffe2475d4076254cf10b",
         "provenanceSidecarSha256": "a21e3a708f26a848913b7526e18e5e36c1dfe62b7a4f61537cf6f590e460266e",
@@ -407,15 +521,29 @@
             "sha256": "7a34bf7ca7ab7fd686f46b9b5a7323f9bf8e4b33594c3e72394fa8d6a56d8481"
           }
         ],
-        "completeVisualEvidenceSha256": "954e4a29f5eb0097ec6fa995922378ae4388856468044fe3bb0766b910b8b669",
+        "completeVisualEvidenceSha256": "2c00c2c72995dd7a7bf30fb7c4898ce1d76948bce74e87b2ff2a762e2357be05",
         "allHashesMatchDiskAndRecords": true
       },
       "sourceVerification": {
-        "blocker": "source-bytes verification could not be executed",
-        "requiredCorpus": "RCAP_BUNDLE_EXTRACT=/home/user/legalease-rcap-pdf-inventory-closure/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
-        "observed": "the path does not exist on this review machine; an exhaustive filesystem search found no Master Library extract, no 499-file source library and no 329 PDFs; the repository's private/ tree is gitignored and was never materialized in this clone",
-        "consequence": "section 2 of the review contract (recompute SHA-256 from the official source bytes, inspect the visible form number and revision on the blank source) could not be performed. Per the contract this reviewer refuses to accept another lane's receipt as source proof, so no family in this shard is eligible for approved_platform_ready on the source axis regardless of its other findings.",
-        "whatWasVerifiedInstead": "the pinned source digest was carried forward unverified and is recorded as such; the blank-source appearance was inspected only through the blank panel embedded in each family's committed contact sheet"
+        "status": "performed",
+        "corpus": "reviewer source pack rcap-wave-c-review-source-pack/v1 (shard c), installed to private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and left uncommitted under the gitignored private/ tree",
+        "packSha256": "48a551b1a7ffa5e1e5412385b746dad1f67bb125c1a3dd488c1c41dbcb127326",
+        "method": "SHA-256 recomputed by this reviewer from the source bytes on disk and compared against each family's own pinned identities (source-record.json, source-receipt.json, artifact-provenance.json, the digest embedded in the sidecar sourceUrl, and gate-b-evidence-completion.json). The pack's own manifest.json was NOT used as proof \u2014 it is another lane's receipt.",
+        "result": "all four sources recompute equal to every pinned identity; byte lengths match source-record.json",
+        "visibleFormNumberAndRevision": "read off page 1 of each blank source and compared with the record",
+        "scopeLimitation": "this pack carries only the four PDFs assigned to shard c. It is not the 499-file / 329-PDF Master Library, so the corpus-wide inventory counts required by the review contract remain unverified; they are outside this shard's four families and are reported as a standing gate-level blocker, not as a family defect."
+      },
+      "sourceIdentityInspection": {
+        "visibleFormNumberAndRevision": "CC 6:12 Rev. 04/2024",
+        "recordedRevision": null,
+        "revisionEncodedInArchivePath": "REV-2024-04",
+        "agrees": "the visible revision matches the archive path, but source-record.json records no revision at all",
+        "declaredVsObserved": {
+          "pages": "declaredPages null vs 2 observed",
+          "acroFields": "declaredFieldCount 0 vs 24 observed",
+          "structuralClass": "structuralClassDeclared null vs 'acroform' observed"
+        },
+        "xfaInSource": false
       },
       "structuralResult": {
         "flattened": true,
@@ -425,7 +553,8 @@
         "xfa": false,
         "javaScript": false,
         "openAction": false,
-        "additionalActions": false
+        "additionalActions": false,
+        "note": "the blank source carries ComboBox calculate JavaScript; the finalized artifact carries none. A raw byte scan reports '/AA' on CC 6:12; that resolves to the font subset prefix 'AAAZSD+TimesNewRomanPSMT' and is not a defect."
       },
       "allPageVisualResult": {
         "pagesInspected": [
@@ -436,48 +565,61 @@
           1,
           2
         ],
-        "drawsInsideIntendedRect": 7,
-        "drawsOutsideIntendedRect": 0,
+        "geometryBasis": "widget rectangles recomputed by this reviewer from the source AcroForm; all 24 census rects confirmed equal to source",
+        "drawsInsideTheirBoundFieldRect": "all",
+        "drawsIntoTheWrongSlot": 1,
         "writesIntoProtectedRect": 0,
-        "page2Result": "clean \u2014 Signature, Date, *Email address, the no-email checkbox and both reason lines are blank; Printed Name, Street Address, City/State/ZIP and Telephone are correctly placed"
-      },
-      "ownerDecision": {
-        "question": "Should the movant's own name be written into the caption of CC 6:12, as it is on the companion Nebraska forms in this shard?",
-        "field": "Adult name",
-        "rectangle": "(108,247,305,261) \u2014 the 'vs. ____, (your full name) Defendant.' caption slot on page 1",
-        "observed": "field-classification.json classifies 'Adult name' as 'manual' and production-field-map.json refuses it with 'classified_unwritable_by_role'. The caption of the filed Motion therefore carries no movant name, while the same participant's name is printed on page 2 under 'Printed Name'. The two companion Nebraska families in this shard resolve the identical caption slot the other way: NE:cc-6-11-form-en and NE:cc-6-11-2-form-en both bind their caption field 'defendant' to participant.full_legal_name and write it.",
-        "whyThisIsNotAMechanicalCorrection": "both readings are defensible \u2014 a caption name may be reserved for hand completion, or it may be participant-owned like every other instance of the same fact on the same document. The three Nebraska forms currently disagree with each other, and nothing in the classification records which reading is intended. Choosing for the owner would decide document ownership, which is outside a reviewer's authority.",
-        "decisionNeededFrom": "the RCAP document-ownership owner"
+        "protectedRegionsResult": "Signature, Date, *Email address and the no-email checkbox and reason lines are blank"
       },
       "corrections": [
         {
           "family": "NE:cc-6-12-form-en",
           "artifact": "fixtures/canonical-filled.pdf and contact-sheet/blank-vs-filled.pdf",
           "page": 1,
-          "field": "TYPEOFCOURTDROPDOWN and DROPDOWNCOUNTY2 (both refused, neither written)",
+          "field": "TYPEOFCOURTDROPDOWN and DROPDOWNCOUNTY2 (ComboBoxes, both refused, neither written)",
           "rectangle": "TYPEOFCOURTDROPDOWN (142,119,221,133); DROPDOWNCOUNTY2 (290,119,369,133)",
-          "observed": "'Choose the court' at (144.3,120.2,198.6,131.0) and 'Choose the county' at (291.8,120.2,351.3,131.0) survive onto the finalized filed page; 'Choose the court' overprints the printed caption '(Enter the type of court)' at (147.8,117.8,225.0,128.5)",
-          "required": "an unselected chooser's value and stale appearance stream are cleared before flatten",
-          "smallestCorrection": "clear the appearance stream of every refused or unwritten widget before flattening"
+          "observed": "both ComboBoxes keep their unselected default option, whose display label is 'Choose the court' and 'Choose the county'. Those labels flatten onto the filed page at (144.3,120.2,198.6,131.0) and (291.8,120.2,351.3,131.0) \u2014 inside their own widget rects \u2014 and 'Choose the court' overprints the caption hint field 'enter the type of court' at (147.8,117.8,225.0,128.5) so neither string is legible.",
+          "required": "an unselected chooser's value and stale appearance stream are cleared before flatten, so no prompt string appears in the filed page content stream",
+          "smallestCorrection": "clear the appearance stream of every refused or unwritten widget before flattening; refusing to write a widget must not leave its prompt on the page"
         },
         {
           "family": "NE:cc-6-12-form-en",
           "artifact": "fixtures/canonical-filled.pdf",
           "page": 1,
-          "field": "enter the county (bound) overlapping fullcountystatementRIGHT (refused)",
-          "rectangle": "drawn (278,107,359,123); anchor (277,106,381,133); refused (279,102,505,120)",
-          "observed": "51% widget overlap undetected by selectOnePerSlot(); filed caption reads 'Example County COUNTY, NEBRASKA'",
-          "required": "one field per caption slot; no doubled County",
-          "smallestCorrection": "extend the overlap reduction to the county caption slot"
+          "field": "matter.county written into 'enter the county' instead of 'fullcountystatementRIGHT'",
+          "rectangle": "drawn 'Example County' at (278,107,359,123), inside 'enter the county' (277,106,381,133); the intended slot 'fullcountystatementRIGHT' is (279,102,505,120)",
+          "observed": "the source proves the slot semantics. 'enter the county' is a caption hint field whose source value is literally '(Enter the county name)'. 'fullcountystatementRIGHT' is the county data slot: its source calculate action is `event.value = this.getField(\"DROPDOWNCOUNTY2\").value;` and its unselected default is '                            COUNTY, NEBRASKA '. The build wrote the county into the hint field and left the data slot at its default, so the filed caption reads 'Example County COUNTY, NEBRASKA'. The value is inside the rectangle of the field it was bound to, but that field is the wrong slot.",
+          "required": "matter.county is written into fullcountystatementRIGHT in the form the field's own calculate action defines (for example 'EXAMPLE COUNTY, NEBRASKA'), the caption hint field is cleared, and the caption does not double the word County",
+          "smallestCorrection": "rebind matter.county from 'enter the county' to 'fullcountystatementRIGHT' and clear the hint field, mirroring how the court side already binds TYPEOFCOURTRESULTS rather than 'enter the type of court'"
+        },
+        {
+          "family": "NE:cc-6-12-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "field": "TYPEOFCOURTRESULTS",
+          "rectangle": "(43,102,280,120)",
+          "observed": "the bare court name 'District Court' is written. The source calculate action for this field is `event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value;`, and the dropdown's export values are full phrases such as 'IN THE DISTRICT COURT OF'. The filed caption therefore loses the phrase the court's own form composes.",
+          "required": "the field carries the export-value phrase its calculate action defines, not a bare court name",
+          "smallestCorrection": "map matter.court to the ComboBox export value rather than a display name"
+        },
+        {
+          "family": "NE:cc-6-12-form-en",
+          "artifact": "source-record.json",
+          "page": 1,
+          "field": "source identity declarations",
+          "rectangle": "n/a \u2014 provenance record",
+          "observed": "the form visibly prints 'CC 6:12 Rev. 04/2024' and the archive path encodes REV-2024-04, but source-record.json records revision null, officialTitle null, declaredPages null, structuralClassDeclared null, freshnessStatus null and declaredFieldCount 0 against 24 observed. pageCountAgrees and structuralClassAgrees are therefore null rather than true: nothing is declared, so nothing can disagree.",
+          "required": "the printed form number and revision are captured into the source record so a superseded edition can be detected",
+          "smallestCorrection": "populate revision, officialTitle, declaredPages, declaredFieldCount and structuralClassDeclared for the Nebraska families from the source, as the NC family already does"
         },
         {
           "family": "NE:cc-6-12-form-en",
           "artifact": "field-census.json / field-classification.json",
           "page": 1,
-          "field": "regionHeading capture",
-          "rectangle": "n/a",
-          "observed": "7 of 24 fields carry regionHeading stored as undecoded Identity-H glyph ids",
-          "required": "headings decoded through the ToUnicode CMap before use as classification inputs",
+          "field": "regionHeading and effectiveLabel capture",
+          "rectangle": "n/a \u2014 map and census inputs",
+          "observed": "regionHeading is stored as undecoded Identity-H glyph ids for 7 of 24 fields; decoding with the subset offset recovers real text such as 'Neb. Rev. Stat. \u00a7 29-2264', 'PETITION TO SET ASIDE' and 'vs .'. The heading channel ESC-GEOMETRY-NOT-AN-INPUT relies on is therefore fed unmatchable strings and cannot fire \u2014 the same guard whose failure held NE DC-1-15 back.",
+          "required": "captured headings and labels are decoded through the font ToUnicode CMap before use as classification inputs",
           "smallestCorrection": "apply the ToUnicode CMap in the anchor-capture module"
         }
       ],
@@ -486,17 +628,25 @@
           "escalationId": "ESC-CAPTION-VARIANTS",
           "originalObjection": "no clipping, no silent truncation, no duplicated preprinted caption",
           "priorFlag": "sharedCorrectionStatus: corrected, provenAgainstThisFamilysBytes: true",
-          "reviewerFinding": "NOT CLOSED against these exact bytes; the record's own mutation test fails \u2014 both prompt strings appear in the finalized page content stream",
+          "reviewerFinding": "NOT CLOSED against these exact bytes. The record's own mutation test is 'Flatten a form with an unselected dropdown: the prompt string must not appear in the page content stream.' Both prompt strings appear in the current finalized artifact and in the committed page-01 raster. With the source in hand the failure is broader than the prompt: the county fact is written into a caption hint field rather than the county data slot, and the court field loses the export phrase its own calculate action defines.",
           "historicalRecordPreserved": true
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
           "originalObjection": "artifact provenance complete and hash-matched",
           "priorFlag": "sharedCorrectionStatus: open, ownedByAnotherLane: true",
-          "reviewerFinding": "emit half satisfied on current bytes (24 fields, no null); verifier half remains another lane's",
+          "reviewerFinding": "emit half satisfied on current bytes \u2014 24 sidecar fields, no null, sourceSha256 recomputes equal to the source bytes; the contract-verifier half remains another lane's",
           "historicalRecordPreserved": true
         }
-      ]
+      ],
+      "ownerDecision": {
+        "question": "Should the movant's own name be written into the caption of CC 6:12, as it is on both companion Nebraska forms in this shard?",
+        "field": "Adult name",
+        "rectangle": "source widget rect (108,247,305,261) \u2014 the 'vs. ____, (your full name) Defendant.' caption slot on page 1",
+        "observed": "classified 'manual' and refused 'classified_unwritable_by_role', so the filed Motion carries no movant name in its caption while the same participant's name is printed on page 2. NE:cc-6-11-form-en and NE:cc-6-11-2-form-en bind their equivalent caption field 'defendant' to participant.full_legal_name and write it. The source shows the field is an ordinary empty text widget in the caption, identical in kind to the companion forms'.",
+        "whyThisIsNotAMechanicalCorrection": "both readings are defensible \u2014 a caption name may be reserved for hand completion, or it may be participant-owned like every other instance of the same fact on the same document. The three Nebraska forms currently disagree with each other and nothing records which reading is intended. Choosing would decide document ownership, which is outside a reviewer's authority.",
+        "decisionNeededFrom": "the RCAP document-ownership owner"
+      }
     }
   ]
 }
