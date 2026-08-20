@@ -45,6 +45,7 @@ function fail(message) {
 
 const shardB = readJson(`${REVIEWS}/wave-c-shard-b/verdicts.json`);
 const shardC = readJson(`${REVIEWS}/wave-c-shard-c/verdicts.json`);
+const shardD = readJson(`${REVIEWS}/wave-c-shard-d/verdicts.json`);
 
 const BASE = shardB.reviewBaseCommit;
 if (shardC.reviewBaseCommit !== BASE) {
@@ -61,8 +62,7 @@ if (shardC.reviewBaseCommit !== BASE) {
  * with no verdict rollup. Both are pending, not counted.
  */
 const NOT_CONSUMED = [
-  { shard: "a", because: "ran in the wrong environment, never reached the review base, derived zero families and issued zero verdicts; its blocker-only record is not a review result" },
-  { shard: "d", because: "the transcript ends mid-review with no final verdict rollup and no consumable final commit" }
+  { shard: "a", because: "ran in the wrong environment, never reached the review base, derived zero families and issued zero verdicts; its blocker-only record is not a review result, and no corrected shard-a branch has appeared" }
 ];
 
 /** One row per correction the wave has to carry, taken from the reviewers' own findings. */
@@ -218,23 +218,37 @@ const record = {
   ],
   notConsumed: NOT_CONSUMED,
   notAPromotion:
-    "No family is approved and nothing is promoted. Both shards refused every family at the same step: the official source bytes were absent from the environment they ran in, and the contract forbids accepting the producing lane's own receipt as source proof. That refusal is a statement about where the reviewer ran, not about any artifact.",
-  theEnvironmentBlocker: {
-    id: "WCB-SOURCE-UNVERIFIABLE",
-    appliesTo: "every family in both shards",
+    "Two families carry a current approved_platform_ready verdict from an independent reviewer that recomputed their source bytes. Neither is promoted here, and the reason is structural rather than substantive: the canonical loader does not read the layout these shards write. See approvals.whyTheyAreNotYetAtTheGate.",
+  approvals: {
     statement:
-      "RCAP_BUNDLE_EXTRACT was unset and no Master Library extract was present on the reviewers' filesystem, so no official source SHA-256 could be recomputed.",
-    isAnArtifactDefect: false,
-    correction:
-      "Run the re-review in a worktree that has the Edition 1 extract mounted with RCAP_BUNDLE_EXTRACT exported. Four such worktrees exist and were verified to recompute all six named source hashes to their pinned values; the reviewers that produced these records ran elsewhere.",
-    everythingElseStands:
-      "Both shards completed every other section, and both suites pass in their own worktrees. Only §2 needs repeating."
+      "Shard B approved two families after recomputing their official source SHA-256 from real bytes. This lane recomputed both independently against its own extract and agrees; every artifact, map, classification, sidecar, contact-sheet and raster digest the two records reference also matches disk.",
+    records: [
+      { familyId: "NC:aoc-cr-287-form-en", shard: "b", verdict: "approved_platform_ready",
+        record: `${REVIEWS}/wave-c-shard-b/NC-aoc-cr-287-form-en.review.json` },
+      { familyId: "NC:aoc-cr-288-form-en", shard: "b", verdict: "approved_platform_ready",
+        record: `${REVIEWS}/wave-c-shard-b/NC-aoc-cr-288-form-en.review.json` }
+    ],
+    whyTheyAreNotYetAtTheGate:
+      "loadReviewRecords discovers a batch as a top-level `<batch>-manifest.json` plus `<batch>-group-N.review.json` files. The wave C shards write `wave-c-shard-<x>/assignment.json` and one `.review.json` per family inside a subdirectory, so the canonical loader does not see them and the gate cannot evaluate the two approvals. This lane will not close that gap by authoring manifest and group files itself: a record that carries an approval has to be written by the reviewer who issued it, and synthesising one here would be this lane approving its own work through a formatting change. Either the reviewers emit the canonical layout, or the loader is taught this one — and the second is a change to the platform-ready gate, which is not this lane's to make.",
+    denominatorConsequence:
+      "retained_problematic stays at 85. The two approvals are real and recorded; they are not counted until the gate can read them."
   },
+  sourceVerification: {
+    resolvedFor: ["b", "c", "d"],
+    statement:
+      "The blocker that refused every family in the first pass is gone. Shards B, C and D each recomputed the official source SHA-256 from real bytes and each agrees with the pinned identity. This lane recomputed the same digests independently against its own mounted Edition 1 extract and agrees with both.",
+    shardBCaveat:
+      "Shard B verified from a targeted four-file source pack rather than the whole library, and says so itself. Its §2 is satisfied for its four assigned families, which is what its verdicts rest on; the whole-corpus preconditions of 499 files and 329 PDFs remain uncounted by that reviewer and are the captain's to hold.",
+    shardCSuiteNote:
+      "Shard C's own suite refuses to pass without RCAP_BUNDLE_EXTRACT set, which is the correct behaviour: run with the extract mounted it reports every source byte recomputed and agreeing. Run without, it fails rather than assuming."
+  },
+
   totals: {
-    familiesReviewed: 8,
-    newApprovals: 0,
-    correctionReturns: 6,
-    ownerDecisionsReported: 2,
+    familiesReviewed: 12,
+    newApprovals: 2,
+    approvalsAcceptedAtTheGate: 0,
+    correctionReturns: 7,
+    ownerDecisionsReported: 3,
     ownerDecisionsResolved: OWNER_DECISIONS.length,
     correctionsDispatched: CORRECTIONS.length,
     escalationsReopened: REOPENED.length,
@@ -261,13 +275,21 @@ function markdown() {
   lines.push("");
   lines.push(record.notAPromotion);
   lines.push("");
-  lines.push("## The blocker that is not a defect");
+  lines.push("## Source verification");
   lines.push("");
-  lines.push(`**${record.theEnvironmentBlocker.id}** — ${record.theEnvironmentBlocker.statement}`);
+  lines.push(record.sourceVerification.statement);
   lines.push("");
-  lines.push(record.theEnvironmentBlocker.correction);
+  lines.push(record.sourceVerification.shardBCaveat);
   lines.push("");
-  lines.push(record.theEnvironmentBlocker.everythingElseStands);
+  lines.push(record.sourceVerification.shardCSuiteNote);
+  lines.push("");
+  lines.push("## Approvals");
+  lines.push("");
+  lines.push(record.approvals.statement);
+  lines.push("");
+  for (const a of record.approvals.records) lines.push(`- **${a.familyId}** — ${a.shard}, source recomputed and agreeing with the pin`);
+  lines.push("");
+  lines.push(record.approvals.whyTheyAreNotYetAtTheGate);
   lines.push("");
   lines.push("## Not consumed");
   lines.push("");
@@ -334,7 +356,7 @@ for (const [rel, content] of outputs) {
 if (checkOnly && stale) fail(`${stale} output(s) are stale; re-run scripts/generate-rcap-gate-b-correction-wave-2.mjs`);
 
 console.log(
-  `OK correction wave 2 — 8 families reviewed at ${BASE.slice(0, 8)}, ${record.totals.newApprovals} approvals, ` +
+  `OK correction wave 2 — ${record.totals.familiesReviewed} families reviewed at ${BASE.slice(0, 8)}, ${record.totals.newApprovals} approval(s) recorded / ${record.totals.approvalsAcceptedAtTheGate} accepted at the gate, ` +
     `${record.totals.correctionReturns} correction returns, ${record.totals.ownerDecisionsResolved} owner decisions resolved; ` +
     `${record.totals.correctionsDispatched} corrections dispatched over ${record.totals.familiesInThisWave} families, ` +
     `${record.totals.escalationsReopened} escalations reopened`

@@ -113,10 +113,42 @@ for (const f of assignment.assignedFamilies) {
       `findings: ${f}/${fnd.id} states the smallest correction`);
   }
 
-  // approval requires a source recomputation this reviewer could perform
-  if (rec.verdict === "approved_platform_ready")
-    fail(rec.sourceVerification.performed === true,
-      `approval: ${f} may not be approved without source verification`);
+  // approval requires a source digest this reviewer recomputed and matched
+  const sv = rec.sourceVerification;
+  if (rec.verdict === "approved_platform_ready") {
+    fail(sv.performed === true, `approval: ${f} may not be approved without source verification`);
+    fail(sv.sourceHashMatches === true, `approval: ${f} source digest matches its committed pin`);
+    fail(sv.byteLengthMatches === true, `approval: ${f} source byte length matches its committed pin`);
+    fail(sv.visibleIdentityAgreesWithPin === true, `approval: ${f} visible form identity agrees with the pin`);
+    fail((sv.flattenedDataRunsInSource ?? []).length === 0,
+      `approval: ${f} source carries no flattened data run`);
+    fail(rec.findings.length === 0, `approval: ${f} carries no open finding`);
+  }
+
+  // when source verification is claimed, it must be recomputed here and match the
+  // committed source-record.json digest — never the pack's own manifest
+  if (sv.performed === true) {
+    const svr = read(path.join(ROOT, "source-verification.json"));
+    const entry = svr.families.find((x) => x.familyId === f);
+    fail(entry !== undefined, `source: ${f} appears in the shard source-verification record`);
+    fail(entry.recomputedSourceSha256 === sv.recomputedSourceSha256,
+      `source: ${f} digest agrees with the shard source-verification record`);
+    fail(sv.recomputedSourceSha256 === sv.pinnedSourceSha256,
+      `source: ${f} recomputed digest equals the committed pin`);
+    const srPath = path.join(rec.hashEvidence.familyPackagePath, "source-record.json");
+    fail(read(srPath).sha256 === sv.recomputedSourceSha256,
+      `source: ${f} digest equals source-record.json, the committed pin`);
+    fail(/not the pack manifest/.test(sv.comparedAgainst ?? ""),
+      `source: ${f} states it compared against the committed pin, not the pack manifest`);
+  }
+
+  // advisories, where present, must be as fully formed as findings
+  for (const a of rec.advisories ?? []) {
+    fail(typeof a.observation === "string" && a.observation.length > 0,
+      `advisory: ${f}/${a.id} states an observation`);
+    fail(typeof a.smallestCorrection === "string" && a.smallestCorrection.length > 0,
+      `advisory: ${f}/${a.id} states the smallest correction`);
+  }
 }
 
 // 5. reviewer branch is distinct from the reviewed branch
@@ -133,7 +165,12 @@ for (const p of changed)
   fail(REVIEWER_ROOTS.some((r) => p.startsWith(r)), `scope: ${p} is reviewer-owned`);
 fail(changed.length > 0, "scope: this review changed something");
 
-// 7. whitespace
+// 7. the private corpus stays out of the index
+const tracked = execFileSync("git", ["ls-files"], { encoding: "utf8" })
+  .split("\n").filter((l) => /(^|\/)private\/|Master_Library/.test(l));
+fail(tracked.length === 0, "corpus: no private source file is tracked by git");
+
+// 8. whitespace
 try {
   execFileSync("git", ["diff", "--check", base, "HEAD"], { encoding: "utf8" });
   fail(true, "git diff --check is clean");

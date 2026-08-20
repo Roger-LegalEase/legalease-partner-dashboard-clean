@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "rcap-gate-b-wave-c-shard-assignment/v1",
+  "shard": "d",
+  "shardIndex": 3,
+  "reviewer": "Reviewer D (independent, Wave C)",
+  "writtenBeforeReviewBegan": true,
+  "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "reviewedBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewerBranch": "claude/gate-b-wave-c-review-kibrgo",
+  "reviewerBranchDistinctFromReviewedBranch": true,
+  "denominatorDerivation": {
+    "recordsRead": [
+      "data/rcap-all50/pdf-independent-reviews/gate-b-family-rerender-evidence.json",
+      "data/rcap-all50/pdf-independent-reviews/gate-b-evidence-completion.json"
+    ],
+    "rerenderFamilies": 17,
+    "evidenceCompletionFamilies": 16,
+    "heldBack": [
+      "NE:dc-1-15-form-en"
+    ],
+    "criteriaApplied": [
+      "current source binary present and hash-matched (sourceSha256MatchesRecord)",
+      "current finalized artifact hash present (artifactSha256)",
+      "source-backed rerender complete (present in rerender evidence with a new artifact)",
+      "all-page evidence package present (rasterEvidence)",
+      "every relevant artifact page rasterized (coverageComplete, pagesCarryingFields covered)",
+      "raster manifest matches the current artifact hash (rasterEvidence.artifactSha256)",
+      "current sidecar satisfies the canonical contract (sidecarFields=24, sidecarNullFields=0)",
+      "no open technical correction",
+      "not NE DC-1-15"
+    ],
+    "reviewableFamilies": 16,
+    "requiredReviewableFamilies": 16,
+    "denominatorMatchesRequirement": true
+  },
+  "frozenSixteen": [
+    "AK:tf-800-form-en",
+    "AK:tf-805-form-en",
+    "KY:aoc-334-form-en",
+    "KY:aoc-496-3-form-en",
+    "NC:aoc-cr-287-form-en",
+    "NC:aoc-cr-288-form-en",
+    "NC:aoc-cr-296-form-en",
+    "NC:aoc-cr-298-form-en",
+    "NC:aoc-cv-226-support-en",
+    "NE:cc-6-11-2-form-en",
+    "NE:cc-6-11-form-en",
+    "NE:cc-6-12-form-en",
+    "NE:cc-6-15-1-form-en",
+    "VA:cc-1201-form-en",
+    "VA:cc-1473-form-en",
+    "VT:600-00228-support-en"
+  ],
+  "sliceRule": {
+    "start": 12,
+    "end": 16,
+    "sortOrder": "lexicographic on canonical familyId"
+  },
+  "assignedFamilies": [
+    "NE:cc-6-15-1-form-en",
+    "VA:cc-1201-form-en",
+    "VA:cc-1473-form-en",
+    "VT:600-00228-support-en"
+  ],
+  "assignedCount": 4,
+  "neDc115Excluded": true,
+  "overlapCheck": {
+    "shardA": [
+      "AK:tf-800-form-en",
+      "AK:tf-805-form-en",
+      "KY:aoc-334-form-en",
+      "KY:aoc-496-3-form-en"
+    ],
+    "shardB": [
+      "NC:aoc-cr-287-form-en",
+      "NC:aoc-cr-288-form-en",
+      "NC:aoc-cr-296-form-en",
+      "NC:aoc-cr-298-form-en"
+    ],
+    "shardC": [
+      "NC:aoc-cv-226-support-en",
+      "NE:cc-6-11-2-form-en",
+      "NE:cc-6-11-form-en",
+      "NE:cc-6-12-form-en"
+    ],
+    "shardD": [
+      "NE:cc-6-15-1-form-en",
+      "VA:cc-1201-form-en",
+      "VA:cc-1473-form-en",
+      "VT:600-00228-support-en"
+    ],
+    "disjoint": true
+  },
+  "pinnedAtAssignment": [
+    {
+      "familyId": "NE:cc-6-15-1-form-en",
+      "familyPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+      "documentId": "CC-6-15.1",
+      "officialTitle": null,
+      "revision": null,
+      "recordedSourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+      "recordedFieldMapSha256": "472a431e086fe8897fe5c98c689ee1caac64cbea5a5b271c8f35ef12f529e001",
+      "recordedClassificationSha256": "4d96ca534e4cf44dbf110b3886850aa866f40bad9d626c7e38042aa596941940",
+      "recordedProvenanceSha256": "7ee872202e8f3408b074c195c872ea94da5bde124a52b4ef6f1956121b3c1380",
+      "recordedArtifactSha256": {
+        "fixtures/canonical-filled.pdf": "41d2dfd959fddfe8df4a0d062e0599abf114f2f93d1694125a5cf0b2379ee55d",
+        "fixtures/boundary-filled.pdf": "ef0bb178a26fc79464a43d5da0d07cc942bb33eec3597ac3ba51839a334c750a",
+        "contact-sheet/blank-vs-filled.pdf": "bdf404f876e66464cba20010e15819522c380d068b7642bcddd5b901d943184f"
+      },
+      "recordedRasterPages": [
+        1
+      ],
+      "pagesCarryingFields": [
+        1
+      ],
+      "openObjectionsAtAssignment": [
+        "ESC-SIDECAR-NONCONFORMANT"
+      ]
+    },
+    {
+      "familyId": "VA:cc-1201-form-en",
+      "familyPackagePath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
+      "documentId": "CC-1201",
+      "officialTitle": "PETITION FOR SEALING PURSUANT",
+      "revision": "REV-2026-07",
+      "recordedSourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "recordedFieldMapSha256": "b4b831c8a6f23ad46e703ddf7d02de6ef83207d0195d111853fe8679ad42fc77",
+      "recordedClassificationSha256": "916a63d37011854fd6d44332a9f07584283424475ab6a1349542775d116cfa49",
+      "recordedProvenanceSha256": "09ab0a741a5b49f69e8abb3304a2cdd78e9443e8f4da2f967fbd5a7d416019c2",
+      "recordedArtifactSha256": {
+        "fixtures/canonical-filled.pdf": "3793af1fb7f254d2e7d178f7d81823d031762d68b2c8b0faa8e94c4a28cbbe91",
+        "fixtures/boundary-filled.pdf": "000c74fd830a6c112df0beb14c33051d714dd406d5a8d24ded05ffc39e4eee9a",
+        "contact-sheet/blank-vs-filled.pdf": "50ea6d547e8ea2eec0db196c84f0d0610ed9baa5aa2d103415b37740e5bc5f4a"
+      },
+      "recordedRasterPages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "pagesCarryingFields": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "openObjectionsAtAssignment": [
+        "ESC-SIDECAR-NONCONFORMANT"
+      ]
+    },
+    {
+      "familyId": "VA:cc-1473-form-en",
+      "familyPackagePath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
+      "documentId": "CC-1473",
+      "officialTitle": "PETITION FOR EXPUNGEMENT",
+      "revision": "REV-2026-07",
+      "recordedSourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "recordedFieldMapSha256": "dcbb79528f461ef9da578f7f4e44e8657d0f9ff3d40d753ea8737f3798e68748",
+      "recordedClassificationSha256": "a7d5bd94c9cf54070b2b35d73a71171728fa80d2f5a3c9486fed6a19e1df40ef",
+      "recordedProvenanceSha256": "c7180dce387e50c74969c0bb82573c3b5d988edb4412ee43426ce37b2041a18d",
+      "recordedArtifactSha256": {
+        "fixtures/canonical-filled.pdf": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+        "fixtures/boundary-filled.pdf": "778d9be31c08cbfe0fd03519de48e926ea6528d1701de7c19b711584d53b232e",
+        "contact-sheet/blank-vs-filled.pdf": "db394760780d9d8f2e064fdecbf3f849deda423d88f716956ddaec3061a84be3"
+      },
+      "recordedRasterPages": [
+        1,
+        2
+      ],
+      "pagesCarryingFields": [
+        1,
+        2
+      ],
+      "openObjectionsAtAssignment": [
+        "ESC-SIDECAR-NONCONFORMANT"
+      ]
+    },
+    {
+      "familyId": "VT:600-00228-support-en",
+      "familyPackagePath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en",
+      "documentId": "600-00228",
+      "officialTitle": "Application to Waive Filing Fees and Service Costs",
+      "revision": "REV-2026-04",
+      "recordedSourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "recordedFieldMapSha256": "a8cedf897ca41fe905e33c120805b5e90f40007abc06490b3b744718c809f0a4",
+      "recordedClassificationSha256": "5ec93c3958c355910b69c746dcf584394dc8b95cf1c403aadfdcb08cc406ac57",
+      "recordedProvenanceSha256": "e5e8d163aa0e1951077a9212ed9064623b63bebb16601abe60b4b6c8d0572e2d",
+      "recordedArtifactSha256": {
+        "fixtures/canonical-filled.pdf": "3badbfe515021b919e42eab8f487030cae408aaaf0d983d26d22a42ae3468b6e",
+        "fixtures/boundary-filled.pdf": "37eb5ff468c72187bdcd61a68d08b93c9f080ba08fe61929c1b9b8f0760ce39e",
+        "contact-sheet/blank-vs-filled.pdf": "991176ec5412fc285362f2f080ee041ed7b843e99f013d0d9b4b471f3c676490"
+      },
+      "recordedRasterPages": [
+        1,
+        2
+      ],
+      "pagesCarryingFields": [
+        1,
+        2
+      ],
+      "openObjectionsAtAssignment": [
+        "ESC-SIDECAR-NONCONFORMANT"
+      ]
+    }
+  ]
+}

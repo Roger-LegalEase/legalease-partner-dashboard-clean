@@ -15,6 +15,7 @@
       "data/rcap-all50/pdf-independent-reviews/gate-b-evidence-completion.json"
     ],
     "criteriaAppliedAgainstDisk": [
+      "current source binary present and hash-matched (verified for the four assigned families from the shard-c reviewer source pack; not verifiable for the other twelve, whose sources this pack does not carry)",
       "current finalized artifact hash present and recomputed-equal on disk",
       "all-page evidence package present",
       "every relevant artifact page rasterized",
@@ -23,9 +24,9 @@
       "not NE DC-1-15"
     ],
     "criterionNotIndependentlyVerifiable": {
-      "criterion": "current source binary present and hash-matched",
-      "why": "the required corpus RCAP_BUNDLE_EXTRACT=/home/user/legalease-rcap-pdf-inventory-closure/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 is absent from this review machine; the gitignored private/ tree was never materialized in this clone",
-      "consequence": "carried as an open blocker into every verdict in this shard; not silently treated as satisfied"
+      "criterion": "corpus-wide inventory counts (499 source-library files, 329 PDFs)",
+      "why": "the shard-c reviewer source pack carries only the four PDFs assigned to this shard; it is not the full Master Library",
+      "consequence": "reported as a standing gate-level blocker, not as a family defect. Every source this shard actually reviews is verified from bytes."
     },
     "familiesQualifying": 16,
     "heldBackByTheImplementationLane": [
@@ -90,5 +91,14 @@
       "data/rcap-all50/pdf-independent-reviews/wave-c-shard-c/",
       "docs/record-clearing/pdf-independent-reviews/wave-c-shard-c/"
     ]
+  },
+  "sourceCorpus": {
+    "installedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pack": "rcap-wave-c-review-source-pack/v1 shard c",
+    "packSha256": "48a551b1a7ffa5e1e5412385b746dad1f67bb125c1a3dd488c1c41dbcb127326",
+    "pdfCount": 4,
+    "gitignored": true,
+    "committed": false,
+    "proofMethod": "each source SHA-256 recomputed from bytes and compared against the family's own source-record.json, source-receipt.json, artifact-provenance.json and the digest embedded in the sidecar sourceUrl; the pack manifest was not used as proof"
   }
 }

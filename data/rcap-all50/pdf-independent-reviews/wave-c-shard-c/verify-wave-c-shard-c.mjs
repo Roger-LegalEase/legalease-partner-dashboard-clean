@@ -67,9 +67,26 @@ for (const v of record.verdicts) {
     check(got === r.sha256, `${v.familyId}: raster page ${r.page} sha mismatch — disk ${got}, record ${r.sha256}`);
   }
   check(h.allPageRasterManifest.length > 0, `${v.familyId}: no raster pages recorded`);
-  // the source digest is carried forward unverified and must say so
-  check(h.sourceSha256RecomputedByThisReviewer === null && h.sourceRecomputeStatus === 'impossible_corpus_absent',
-    `${v.familyId}: source recompute status must record that the corpus was absent`);
+  // the source must be recomputed from bytes and agree with every pinned identity
+  check(h.sourceRecomputeStatus === 'verified', `${v.familyId}: source recompute status is ${h.sourceRecomputeStatus}, expected verified`);
+  const bundle = process.env.RCAP_BUNDLE_EXTRACT;
+  if (!bundle) { failures.push('RCAP_BUNDLE_EXTRACT is not set — source verification cannot be re-proven'); }
+  else {
+    const src = `${bundle}/${h.sourceArchivePath}`;
+    if (!existsSync(src)) { failures.push(`${v.familyId}: source absent at ${src}`); }
+    else {
+      const got = sha256(src);
+      check(got === h.sourceSha256RecomputedByThisReviewer, `${v.familyId}: source sha drifted — disk ${got}, record ${h.sourceSha256RecomputedByThisReviewer}`);
+      check(got === h.sourceSha256Pinned, `${v.familyId}: source sha does not match the pinned identity`);
+      // and against the family's own records, not the pack manifest
+      const rc = JSON.parse(readFileSync(`${pkg}/source-receipt.json`, 'utf8'));
+      const sr = JSON.parse(readFileSync(`${pkg}/source-record.json`, 'utf8'));
+      const sc = JSON.parse(readFileSync(`${pkg}/artifact-provenance.json`, 'utf8'));
+      check(got === rc.sha256, `${v.familyId}: source sha disagrees with source-receipt.json`);
+      check(got === sr.sha256, `${v.familyId}: source sha disagrees with source-record.json`);
+      check(got === sc.sourceSha256, `${v.familyId}: source sha disagrees with artifact-provenance.json`);
+    }
+  }
 }
 
 // 4. verdict vocabulary
@@ -106,12 +123,19 @@ const changed = execFileSync('git', ['diff', '--name-only', `${base}`, 'HEAD']).
 for (const p of changed ? changed.split('\n') : []) {
   check(ALLOWED_PATH_PREFIXES.some((a) => p.startsWith(a)), `non-review path changed: ${p}`);
 }
-const untracked = execFileSync('git', ['status', '--porcelain']).toString().trim();
-for (const line of untracked ? untracked.split('\n') : []) {
-  const p = line.slice(3);
+// NB: do not trim() this — the porcelain status prefix is two columns plus a
+// space, and trimming would eat the leading column of the first line.
+const dirty = execFileSync('git', ['status', '--porcelain', '-z']).toString();
+for (const entry of dirty.split('\0')) {
+  if (!entry) continue;
+  const p = entry.slice(3);
   check(ALLOWED_PATH_PREFIXES.some((a) => p.startsWith(a)), `non-review path dirty: ${p}`);
 }
 execFileSync('git', ['diff', '--check']);
+
+// the private source corpus must never be committed
+const tracked = execFileSync('git', ['ls-files', 'private/']).toString().trim();
+check(tracked === '', 'private/ source corpus is tracked by git and must not be');
 
 if (failures.length) {
   console.error('FOCUSED INDEPENDENT-REVIEW VERIFIER: FAIL');
@@ -123,3 +147,4 @@ console.log(`  shard c, base ${record.reviewBaseCommit.slice(0, 8)}, branch ${br
 console.log(`  ${record.verdicts.length} families, each accounted for exactly once`);
 console.log(`  approved ${record.totals.approved_platform_ready}, correction ${record.totals.correction_required}, owner decision ${record.totals.substantive_owner_decision_required}`);
 console.log('  all referenced map, classification, sidecar, artifact, contact-sheet and raster hashes match disk');
+console.log('  source bytes recomputed and agreeing with every pinned identity; private/ uncommitted');

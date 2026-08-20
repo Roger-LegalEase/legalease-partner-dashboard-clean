@@ -1,19 +1,27 @@
 # Gate B correction wave 2 — wave C shards B and C
 
-No family is approved and nothing is promoted. Both shards refused every family at the same step: the official source bytes were absent from the environment they ran in, and the contract forbids accepting the producing lane's own receipt as source proof. That refusal is a statement about where the reviewer ran, not about any artifact.
+Two families carry a current approved_platform_ready verdict from an independent reviewer that recomputed their source bytes. Neither is promoted here, and the reason is structural rather than substantive: the canonical loader does not read the layout these shards write. See approvals.whyTheyAreNotYetAtTheGate.
 
-## The blocker that is not a defect
+## Source verification
 
-**WCB-SOURCE-UNVERIFIABLE** — RCAP_BUNDLE_EXTRACT was unset and no Master Library extract was present on the reviewers' filesystem, so no official source SHA-256 could be recomputed.
+The blocker that refused every family in the first pass is gone. Shards B, C and D each recomputed the official source SHA-256 from real bytes and each agrees with the pinned identity. This lane recomputed the same digests independently against its own mounted Edition 1 extract and agrees with both.
 
-Run the re-review in a worktree that has the Edition 1 extract mounted with RCAP_BUNDLE_EXTRACT exported. Four such worktrees exist and were verified to recompute all six named source hashes to their pinned values; the reviewers that produced these records ran elsewhere.
+Shard B verified from a targeted four-file source pack rather than the whole library, and says so itself. Its §2 is satisfied for its four assigned families, which is what its verdicts rest on; the whole-corpus preconditions of 499 files and 329 PDFs remain uncounted by that reviewer and are the captain's to hold.
 
-Both shards completed every other section, and both suites pass in their own worktrees. Only §2 needs repeating.
+Shard C's own suite refuses to pass without RCAP_BUNDLE_EXTRACT set, which is the correct behaviour: run with the extract mounted it reports every source byte recomputed and agreeing. Run without, it fails rather than assuming.
+
+## Approvals
+
+Shard B approved two families after recomputing their official source SHA-256 from real bytes. This lane recomputed both independently against its own extract and agrees; every artifact, map, classification, sidecar, contact-sheet and raster digest the two records reference also matches disk.
+
+- **NC:aoc-cr-287-form-en** — b, source recomputed and agreeing with the pin
+- **NC:aoc-cr-288-form-en** — b, source recomputed and agreeing with the pin
+
+loadReviewRecords discovers a batch as a top-level `<batch>-manifest.json` plus `<batch>-group-N.review.json` files. The wave C shards write `wave-c-shard-<x>/assignment.json` and one `.review.json` per family inside a subdirectory, so the canonical loader does not see them and the gate cannot evaluate the two approvals. This lane will not close that gap by authoring manifest and group files itself: a record that carries an approval has to be written by the reviewer who issued it, and synthesising one here would be this lane approving its own work through a formatting change. Either the reviewers emit the canonical layout, or the loader is taught this one — and the second is a change to the platform-ready gate, which is not this lane's to make.
 
 ## Not consumed
 
-- **shard a** — ran in the wrong environment, never reached the review base, derived zero families and issued zero verdicts; its blocker-only record is not a review result
-- **shard d** — the transcript ends mid-review with no final verdict rollup and no consumable final commit
+- **shard a** — ran in the wrong environment, never reached the review base, derived zero families and issued zero verdicts; its blocker-only record is not a review result, and no corrected shard-a branch has appeared
 
 ## Reopened
 
