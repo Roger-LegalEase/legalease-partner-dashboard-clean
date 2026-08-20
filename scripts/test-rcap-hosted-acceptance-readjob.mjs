@@ -64,15 +64,20 @@ if (process.argv.includes("--mutations")) {
 
   // 1 — the exact defect: hash in SQL again, through a function the acceptance
   //     project does not expose.
+  // Each anchor runs to the FOLLOWING line. The target-aware journey added a
+  // claim-state snapshot and a claim-order read that select the same columns
+  // and guard the same non-array error body, so the one-line anchors these
+  // mutations used became prefixes of three different queries — `swap` then
+  // refused them as ambiguous rather than silently mutating the wrong one.
   mutation("the token is hashed in SQL again", () => {
-    swap("           fencing_token, next_attempt_at,",
-      "           encode(extensions.digest(convert_to(coalesce(fencing_token::text, ''), 'utf8'), 'sha256'), 'hex') as fencing_token_sha256, next_attempt_at,");
+    swap("           fencing_token, next_attempt_at,\n           error_code, failure_disposition,",
+      "           encode(extensions.digest(convert_to(coalesce(fencing_token::text, ''), 'utf8'), 'sha256'), 'hex') as fencing_token_sha256, next_attempt_at,\n           error_code, failure_disposition,");
   }, "FAIL R-source-no-sql-hash");
 
   // 2 — a failed query is reported as an absent job, which is what turned a
   //     broken diagnostic into a finding about the product.
   mutation("a failed query is reported as no_row", () => {
-    swap("  if (!Array.isArray(res.json)) {", "  if (false) {");
+    swap("  if (!Array.isArray(res.json)) {\n    const detail =", "  if (false) {\n    const detail =");
     swap("  const row = res.json[0] ?? null;", "  const row = Array.isArray(res.json) ? res.json[0] ?? null : null;");
   }, "FAIL R-6");
 
@@ -103,7 +108,13 @@ function check(id, title, ok, observed) {
 // Extract readJob and jobRowOrNull from the shipped bytes and run them against
 // an injected transport. Reimplementing them here would prove nothing.
 // ---------------------------------------------------------------------------
-const start = source.indexOf("async function readJob() {");
+// The signature carries the target id now: the read is bound to the job the
+// paid render returned, not to "the newest row for this briefcase item". A
+// webhook replay enqueues a second job for the same item, so the old anchor
+// would silently start describing a different row than the one that was paid
+// for. Anchored on the name and the opening brace so the parameter list can
+// evolve without this extractor going quietly stale.
+const start = source.search(/async function readJob\([^)]*\) \{/);
 const end = source.indexOf("const jobRowOrNull =", start);
 const tail = source.indexOf("\n", source.indexOf("readOutcome === \"row\" ? read : null)", end));
 if (start < 0 || end < 0 || tail < 0) {
@@ -116,6 +127,7 @@ export let sqlCalls = [];
 export let nextResponse = null;
 const sql = async (query) => { sqlCalls.push(query); return nextResponse; };
 const itemId = "22222222-2222-4222-8222-222222222222";
+export const targetJobId = "14c626c2-d287-4d5f-8fef-172fec8e52b9";
 const sqlText = (value) => String(value).split("'").join("''");
 const redactSecrets = (text) => String(text ?? "").replace(/eyJ[A-Za-z0-9_.-]{20,}/g, "***REDACTED***");
 export const setResponse = (value) => { nextResponse = value; };
@@ -178,6 +190,29 @@ check("R-9", "the artifact identity the worker case compares against survives",
   row.output_storage_path === ROW.output_storage_path && row.output_sha256 === ROW.output_sha256,
   `path=${row.output_storage_path} sha=${row.output_sha256}`);
 
+// The read follows the id it is given, and defaults to the run's target. This
+// is the whole point of the signature change: a webhook replay enqueues a
+// second job for the same briefcase item, and the old read took whichever was
+// newest.
+{
+  mod.sqlCalls.length = 0;
+  mod.setResponse({ status: 200, json: [structuredClone(ROW)] });
+  await mod.readJob();
+  const defaulted = mod.sqlCalls.at(-1);
+  mod.sqlCalls.length = 0;
+  const OTHER = "cab14012-a0ad-44d1-80d2-d0d4bebc87d8";
+  await mod.readJob(OTHER);
+  const explicit = mod.sqlCalls.at(-1);
+  check("R-target-bound", "the read selects the id it is given, and defaults to this run's target job",
+    defaulted.includes(`where id = '${mod.targetJobId}'`)
+    && explicit.includes(`where id = '${OTHER}'`)
+    && !explicit.includes(mod.targetJobId)
+    // consumer_briefcase_item_id is legitimately SELECTED — the binding case
+    // reads it. What must not come back is a WHERE that picks the row by item.
+    && !/where\s+(consumer_)?briefcase_item_id/.test(defaulted),
+    `defaulted query names the target: ${defaulted.includes(mod.targetJobId)}; explicit query names the id passed: ${explicit.includes(OTHER)}`);
+}
+
 // 7 — an actually empty result is no_row.
 mod.setResponse({ status: 200, json: [] });
 const empty = await mod.readJob();
@@ -230,8 +265,16 @@ check("R-source-outcomes", "the read distinguishes row, no_row and query_error",
   /readOutcome: "query_error"/.test(source) && /readOutcome: "no_row"/.test(source) && /readOutcome: "row"/.test(source),
   "the three read outcomes are not all distinguished");
 check("R-source-downstream", "downstream cases consume the row through jobRowOrNull",
-  /finalJob = jobRowOrNull\(jobAfter\);/.test(source),
+  /jobRowOrNull\(jobAfter\);/.test(source),
   "a read outcome is being used directly as a job row");
+// The read is bound to the job the paid render returned. Selecting the newest
+// row for the briefcase item was safe only while exactly one job existed per
+// item — and the replay case deliberately makes a second one, so the artifact,
+// delivery and replay cases could each have been describing a different row.
+check("R-source-target-bound", "the job read selects by the target job id, not by the newest row for the item",
+  /where id = '\$\{sqlText\(jobId\)\}'/.test(source)
+  && !/from public\.packet_render_jobs\s*\n\s*where briefcase_item_id/.test(source),
+  "the read still takes the newest row for the briefcase item, so a replay-enqueued second job can silently replace the paid one");
 
 fs.rmSync(tempDir, { recursive: true, force: true });
 console.log("");
