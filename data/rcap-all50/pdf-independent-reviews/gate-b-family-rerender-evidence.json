@@ -26,7 +26,7 @@
       "the provenance sidecar module — ESC-SIDECAR-NONCONFORMANT is another lane's",
       "the rasterize and contact-sheet modules — raster visual evidence is another lane's"
     ],
-    "consumedAtCommit": "6bbe2119d0729614dffbc987c47053f7689699c9"
+    "consumedAtCommit": "08e89246fbb829012223fa186b0788949c2975bd"
   },
   "sharedCorrectionProof": {
     "statement": "All four focused verifiers named in the handoff pass against the consumed modules, and the two mutation suites turn red when the corrections are removed.",
@@ -62,8 +62,8 @@
   "rerenderAttempt": {
     "command": "node scripts/implement-rcap-official-forms-d1.mjs",
     "environmentVariable": "RCAP_BUNDLE_EXTRACT",
-    "environmentVariableSet": false,
-    "extractMounted": false,
+    "environmentVariableSet": true,
+    "extractMounted": true,
     "privateCorpusMountedInThisClone": false,
     "result": "ran to completion and processed 0 families, 0 fields, 0 contact sheets",
     "why": "the driver resolves each family's bytes under RCAP_BUNDLE_EXTRACT and skips the family when the file is absent. With no extract mounted, every family is skipped. This is the driver behaving correctly, not failing.",
@@ -76,8 +76,9 @@
     "familiesWithAPackage": 17,
     "objectionsRecorded": 47,
     "objectionsWithASharedCorrectionProven": 30,
-    "objectionsProvenAgainstFamilyBytes": 0,
-    "newArtifactsProduced": 0,
+    "objectionsProvenAgainstFamilyBytes": 28,
+    "newArtifactsProduced": 17,
+    "familiesWhoseSourceHashMatchesTheMountedBytes": 17,
     "escalationsOwnedByAnotherLane": [
       "ESC-SIDECAR-NONCONFORMANT"
     ]
@@ -93,14 +94,19 @@
       "familyId": "AK:tf-800-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en",
       "currentSourceSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "8c2d74a3a2d8aacee427df5c3385a93b953938d5afeea4c139037f3b282a3055",
-      "currentClassificationSha256": "9ff878c157140b56fbfe2d5060c2fd6f87e9fad3b71950aa92423d98ad834c8d",
+      "currentMapOrProfileSha256": "01dc07e5c489a7986f7b8d1c60e0643d4eb77f9c7413f4a3f99eaafe0ff3d6c5",
+      "currentClassificationSha256": "9601aca231e14099b45946f4f40c5481b7bcaac4ee8afd4af60fd6b859b161fe",
       "currentCanonicalArtifactSha256": "de4d5014a0d9934c9b256959b7947ee0acbffb67eab2e8099f0d614276b1b807",
       "currentBoundaryArtifactSha256": "931ef62a7cf75a0a6e1597e3bab78987fbc86aaf9a1a1bf30a6e19dbff3f6287",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "recomputedSourceSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "de4d5014a0d9934c9b256959b7947ee0acbffb67eab2e8099f0d614276b1b807",
+      "newBoundaryArtifactSha256": "931ef62a7cf75a0a6e1597e3bab78987fbc86aaf9a1a1bf30a6e19dbff3f6287",
+      "newContactSheetSha256": "dd7b228ac0400cb6abfd618b595fbe095edaeb92b52778f5ebe3fa63a9768a23",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -113,8 +119,8 @@
           "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SERVICE-BLOCK-BY-NAME",
@@ -127,8 +133,8 @@
           "familyOwnedFollowUp": "re-render AK tf-800 and tf-805 and confirm the certification line is blank",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -150,14 +156,19 @@
       "familyId": "AK:tf-805-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en",
       "currentSourceSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "94bd383bd25d7ef00625e7037c9e454ae0d5449a343bdee43cb5085d0419bae6",
-      "currentClassificationSha256": "f870d102495622edd914d393e389d03efe03eb0f69b84e85791ecfb345f5f7c4",
+      "currentMapOrProfileSha256": "45eb1789cf1b5d5ebeb1ca8d74244efcb0541e24cd752c2aa8795ddee5eebbb0",
+      "currentClassificationSha256": "2d82a1fc0d0f8a3d347b15210caf4fc77795d316a51aa37ce240750602305337",
       "currentCanonicalArtifactSha256": "d8bdd48265050a708de1c59411f58da7c02bb34ef2110cd1e13657d805d37a5a",
       "currentBoundaryArtifactSha256": "0c29b6b481d971497d8a7446aa0cdc818a724a941a60484ed25b53d48c83f949",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "recomputedSourceSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "d8bdd48265050a708de1c59411f58da7c02bb34ef2110cd1e13657d805d37a5a",
+      "newBoundaryArtifactSha256": "0c29b6b481d971497d8a7446aa0cdc818a724a941a60484ed25b53d48c83f949",
+      "newContactSheetSha256": "9e30b4beea7a121f9c7d51f3f748f1c7b50aa95d4e0accb9891f0bd67b2f837d",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -170,8 +181,8 @@
           "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SERVICE-BLOCK-BY-NAME",
@@ -184,8 +195,8 @@
           "familyOwnedFollowUp": "re-render AK tf-800 and tf-805 and confirm the certification line is blank",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -207,14 +218,19 @@
       "familyId": "KY:aoc-334-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
       "currentSourceSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "a1dac2b16b6f28c641fb5393c6ac48b6e32ac53936e770ca5b2b90461cc07a5e",
-      "currentClassificationSha256": "1ced0b7ba9aaaba67aec228c2f3aa79840945b8182dff5c0857e140d41d5040a",
-      "currentCanonicalArtifactSha256": "d8ff8091c94ba18b8cb96e2c13ed17d80bf0ba8489094ef48843af1e6b3ff603",
-      "currentBoundaryArtifactSha256": "e06ce34853fd46a16f6a4c8e3488764b6b58375ffdc197b6a3a6923bb2c08afa",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "c66afd0829b6e0e80395089cfa1a67c43154803f146a0c2c073afc0cb867bb05",
+      "currentClassificationSha256": "615555bc8239ed0333f35c095f0d7493e7d3d1f1b5a39d38384a7244471f5d12",
+      "currentCanonicalArtifactSha256": "463863b831f9d9157dd0f98e0d61260552225aba19482b406cae03dd01911df4",
+      "currentBoundaryArtifactSha256": "57164795e0597d11afb546f6e37445b6d9674af665038976fd66421d12cc82e6",
+      "recomputedSourceSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "463863b831f9d9157dd0f98e0d61260552225aba19482b406cae03dd01911df4",
+      "newBoundaryArtifactSha256": "57164795e0597d11afb546f6e37445b6d9674af665038976fd66421d12cc82e6",
+      "newContactSheetSha256": "deaffe86f139e6b050732f0066c5b3ffe0dea27d65d5e69e47273a698787a675",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -227,8 +243,8 @@
           "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-MANUAL-NOT-NEVER-WRITE",
@@ -241,8 +257,8 @@
           "familyOwnedFollowUp": "re-render; any binding onto a `manual` field disappears on its own",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-NO-SSN-RULE",
@@ -255,8 +271,8 @@
           "familyOwnedFollowUp": "re-render KY aoc-334, aoc-496, aoc-496-2 and confirm the SSN and Jail ID boxes are empty in the bytes",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -278,14 +294,19 @@
       "familyId": "KY:aoc-496-3-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en",
       "currentSourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "6db2715cb44c5011143a7484fc6992c97217a425cad93c775a12260fe41c938a",
-      "currentClassificationSha256": "dd5902fe31caf4735098ffe966c66350581888cbc8b5ead56d022f9f6d77ebdd",
+      "currentMapOrProfileSha256": "4b9b78afd4fc9e6b021783e92ad5e22f47b9380e52f2f59142c2cc36ef0b894c",
+      "currentClassificationSha256": "cbf854ac3989ce91325931b3a88b14211c76fdd208a68e8f4eb54c4c74026ac0",
       "currentCanonicalArtifactSha256": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a",
       "currentBoundaryArtifactSha256": "d3344eed7672e3ee8be9a85e15fe5447e91a287dfc1d33837f3587ecae7b7d79",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "recomputedSourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a",
+      "newBoundaryArtifactSha256": "d3344eed7672e3ee8be9a85e15fe5447e91a287dfc1d33837f3587ecae7b7d79",
+      "newContactSheetSha256": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -298,8 +319,8 @@
           "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -321,14 +342,19 @@
       "familyId": "NC:aoc-cr-287-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en",
       "currentSourceSha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "f8206ca133508a7432f1eaf2ffeb0080aa4c306ab96a972b6a6d0a94fb06710d",
-      "currentClassificationSha256": "e1f2e4fd768d2a6e9d6238d6f323602135c13a420737bc56f3fa8dc757b12fb2",
-      "currentCanonicalArtifactSha256": "ab5c9790f1f5ed9fc4bd693b78f01f4b8d53a90a89288bd3adee420439828a92",
-      "currentBoundaryArtifactSha256": "969d2dd0873f8217f09ba3100830b203a8151e18a5c14e54c29f6ebe45d0ef4a",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "c67b6d7b5b5b480759253eff4c7ad7a133e556ea6318515c1ddfdd3b52688f44",
+      "currentClassificationSha256": "3a3b0d389308c9d31e4e394ec01970e608a08ff6f2ac254e9a2e4abfe339cc60",
+      "currentCanonicalArtifactSha256": "cc44d0a733fcd4a2bc2b501f3e1c3ac2e0a70dc44d82890e79a321a8cd3a0c0d",
+      "currentBoundaryArtifactSha256": "917280a556e74a14c258e1e333be51597c3ab8c70e6000ec6d79a55bfcd912f2",
+      "recomputedSourceSha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "cc44d0a733fcd4a2bc2b501f3e1c3ac2e0a70dc44d82890e79a321a8cd3a0c0d",
+      "newBoundaryArtifactSha256": "917280a556e74a14c258e1e333be51597c3ab8c70e6000ec6d79a55bfcd912f2",
+      "newContactSheetSha256": "8faf419772b2e856724c44237576a0bd06d1d879043e7bd5bb598ad6d59ff1e0",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -341,8 +367,8 @@
           "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-NO-REFUSE-WHEN",
@@ -355,8 +381,8 @@
           "familyOwnedFollowUp": "re-render the eight affected families; the duplicated address lines and the bank-name fills clear with the binding",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -378,14 +404,19 @@
       "familyId": "NC:aoc-cr-288-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en",
       "currentSourceSha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "5028a91db0eeebd80f4ea49a09aedb032f6b8fe2c94578c1151d841f95c9d15c",
-      "currentClassificationSha256": "fe13b554b4515331e3867805e9260362cbe17c1b666e8f407fef50f15cfd86ba",
-      "currentCanonicalArtifactSha256": "1ce139d5a37091f8f937e4acf3ad7ba8a84174b15a126b6cb8238e9c62322b86",
-      "currentBoundaryArtifactSha256": "5f3efbbc6fb8820d89075635506ba4cc0b40a3c3f978cebaa4ad80ff1f505cc2",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "d33aae7b680adf749783997bdd47225a84ca9f16184029d8e8d6ddeed3132353",
+      "currentClassificationSha256": "c6751f17bf6e47ce49badc5cbe4ce73c1ecb27f3cc499bfda70ebc423abcfdfa",
+      "currentCanonicalArtifactSha256": "c16c710e44d614ac36d8bce77c87e606d8ed9e6a011e72dc442d5ea51e9fdae1",
+      "currentBoundaryArtifactSha256": "0567512734ad129b89092bb8374c83ef7796dc3dbcb2a27c63b4f5fc0d2829cf",
+      "recomputedSourceSha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "c16c710e44d614ac36d8bce77c87e606d8ed9e6a011e72dc442d5ea51e9fdae1",
+      "newBoundaryArtifactSha256": "0567512734ad129b89092bb8374c83ef7796dc3dbcb2a27c63b4f5fc0d2829cf",
+      "newContactSheetSha256": "084e52747f1058dee56469835cb2ebd0a9375cbf05ee44b7667235f915cca952",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -398,8 +429,8 @@
           "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-MANUAL-NOT-NEVER-WRITE",
@@ -412,8 +443,8 @@
           "familyOwnedFollowUp": "re-render; any binding onto a `manual` field disappears on its own",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-NO-REFUSE-WHEN",
@@ -426,8 +457,8 @@
           "familyOwnedFollowUp": "re-render the eight affected families; the duplicated address lines and the bank-name fills clear with the binding",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -449,14 +480,19 @@
       "familyId": "NC:aoc-cr-296-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
       "currentSourceSha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "519834620411c03d5bff312d308013f8a4d210b4c7659eab281da16775aead19",
-      "currentClassificationSha256": "996c01d97b022a8ff01a1489e92d68b27217a5070d70c5737f40ecf1144ac551",
-      "currentCanonicalArtifactSha256": "bfff2e3a94523f145eb6b0aad877f84b6d2b968ed9eeb5941cb96189db45f16f",
-      "currentBoundaryArtifactSha256": "60bf177ebf6ec68c9454a4a4b7ca18f0cf569155748cad8a91ebc499e79e7a2c",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "2a3949e234d8fe763b7c569e4802f248868b008c35375450b134c1f3d2e8cfb1",
+      "currentClassificationSha256": "60553c3b44c5823e4cbfc063a09d12dce705a4b38b8337a70355c8a3279707ae",
+      "currentCanonicalArtifactSha256": "0a8bd40a312af11372fa5081a935be3e0ad674dfbce74f002390f4105f452487",
+      "currentBoundaryArtifactSha256": "bf7c8c4adec463a3e31d7e067ca20e9c8c18c6c2647bf61f08539e089250fa45",
+      "recomputedSourceSha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "0a8bd40a312af11372fa5081a935be3e0ad674dfbce74f002390f4105f452487",
+      "newBoundaryArtifactSha256": "bf7c8c4adec463a3e31d7e067ca20e9c8c18c6c2647bf61f08539e089250fa45",
+      "newContactSheetSha256": "6e41cdc298f3f0e14d55a66fc198dbcb85498a256d0f32bd600d91dcfa716798",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -469,8 +505,8 @@
           "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-NO-REFUSE-WHEN",
@@ -483,8 +519,8 @@
           "familyOwnedFollowUp": "re-render the eight affected families; the duplicated address lines and the bank-name fills clear with the binding",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -506,14 +542,19 @@
       "familyId": "NC:aoc-cr-298-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en",
       "currentSourceSha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "901931cb13b1c9aa78e8b26053f0987fdf09ab3acb915e96ec0defe4184889d6",
-      "currentClassificationSha256": "f88c2d23747551600dd1ddb148fcccf4f6a3acb5f3c06a80fd671d9a0e916dab",
-      "currentCanonicalArtifactSha256": "309aa7a0699b58a4462f409bcd7867f4450f1d8be30bee2e433e46cd23143da9",
-      "currentBoundaryArtifactSha256": "a8a41cde96e3a4c1f604664d225cbe10f0fa830d8ff22a9d97bdb3d8b58bc1e3",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "e8f0a72e7d85f474ee79bfe22567639dc0ebd2dfedcd118f9ce07992c29e8fcd",
+      "currentClassificationSha256": "fd3b65593da396a196a10d0b0602347cfc359bf2df5b80a61f44c560ff1af69a",
+      "currentCanonicalArtifactSha256": "6b4ff1593157778bea699b036d5377033c622fd3482ca36072b66eec8a7334ff",
+      "currentBoundaryArtifactSha256": "d99d5c2e479c9e0ecd001c8bc8c25950a40c451fb15256a1512314f274be1937",
+      "recomputedSourceSha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "6b4ff1593157778bea699b036d5377033c622fd3482ca36072b66eec8a7334ff",
+      "newBoundaryArtifactSha256": "d99d5c2e479c9e0ecd001c8bc8c25950a40c451fb15256a1512314f274be1937",
+      "newContactSheetSha256": "67203a76db80b1583709034228df6503de37ac36ed663a4924fa2f31920d135b",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -526,8 +567,8 @@
           "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SERVICE-BLOCK-BY-NAME",
@@ -540,8 +581,8 @@
           "familyOwnedFollowUp": "re-render AK tf-800 and tf-805 and confirm the certification line is blank",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -563,14 +604,19 @@
       "familyId": "NC:aoc-cv-226-support-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
       "currentSourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en/production-field-map.json",
-      "currentMapOrProfileSha256": "5d838df13579c6ef28b59101afada9df8674cfdbf4998aa1e1c5d0c236feec18",
-      "currentClassificationSha256": "cb5a7bcfdc5937d9e6ecf5bfc4ee8b19757c0f5b181e4cd474a43243e0703c00",
-      "currentCanonicalArtifactSha256": "44559fe68a9de20740501e52c149072367e5d849f9a7e9224c4734d7c7370c39",
-      "currentBoundaryArtifactSha256": "ff740b8262ead26fac71d6aa8ca3596ee7b31fd4786f753c62a180178d271a11",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "9a0c3db3f30605a50e8b13509dc318ecc95d4cfd7a97f42294723529b9c39a8f",
+      "currentClassificationSha256": "48f7f1fe65e18d12a9ca765300fa7fba123f1d49dde9960d36329f04ea046152",
+      "currentCanonicalArtifactSha256": "607f138440ace5bb7fe880b970be5d46d00d3971cfd3e660428d61df0ce5b936",
+      "currentBoundaryArtifactSha256": "588c933119f14095855ed20065110ce9695e20e4a49f761d227f17e2e0ab0406",
+      "recomputedSourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "607f138440ace5bb7fe880b970be5d46d00d3971cfd3e660428d61df0ce5b936",
+      "newBoundaryArtifactSha256": "588c933119f14095855ed20065110ce9695e20e4a49f761d227f17e2e0ab0406",
+      "newContactSheetSha256": "e1f3c451f5dc839b77b50123fa18f67855e168e5a87840ec18b39a893cf145e7",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -583,8 +629,8 @@
           "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-NO-REFUSE-WHEN",
@@ -597,8 +643,8 @@
           "familyOwnedFollowUp": "re-render the eight affected families; the duplicated address lines and the bank-name fills clear with the binding",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -620,14 +666,19 @@
       "familyId": "NE:cc-6-11-2-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en",
       "currentSourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "841bed2b022757010f98fecbd36684839e526747bbed1d875790aac118516934",
-      "currentClassificationSha256": "204835274598dfd5212352f6de3582e87eec7685e92fffe05c2bbcdc3d88739a",
-      "currentCanonicalArtifactSha256": "cd503faa72efa82d6a18be2748f966304d5421b59621c06681e99f12b3a9b06e",
-      "currentBoundaryArtifactSha256": "58a806f8e7731fac499cc7d9387e425b04234bbc757a4a0e826ae4ad628b6e7d",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "9a2ef9b0bb884565bef63fc5ca58e414b3a75c85684b144ce98e7654d95bee94",
+      "currentClassificationSha256": "5c14f1969fd2689e6640a04d5a0a2d3d5a49db5cbc81f25bf3aa76a7e5ed559a",
+      "currentCanonicalArtifactSha256": "0dd6fbff24a11884632829a6641ad170cdabc27af9883d94ed31ffaf452ef495",
+      "currentBoundaryArtifactSha256": "1a19b3cc2535a15f6e1c79420840d6c4215c8bd4ab511fb84f9cf1112d98937d",
+      "recomputedSourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "0dd6fbff24a11884632829a6641ad170cdabc27af9883d94ed31ffaf452ef495",
+      "newBoundaryArtifactSha256": "1a19b3cc2535a15f6e1c79420840d6c4215c8bd4ab511fb84f9cf1112d98937d",
+      "newContactSheetSha256": "a4ca81012a8666e4332cf10782ec949fd55bb779b7a6eb8db5552e048df5b314",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-CAPTION-VARIANTS",
@@ -640,8 +691,8 @@
           "familyOwnedFollowUp": "re-render the five Nebraska families and read the caption band in the raster",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -663,14 +714,19 @@
       "familyId": "NE:cc-6-11-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
       "currentSourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "d831f21bd67db8472f905741d727ffb0210903af744fec0d76fc8ab446d16878",
-      "currentClassificationSha256": "90ea87b44e35c324ff3ca52a9d410377a1722deeedcc118261d1090442a73918",
-      "currentCanonicalArtifactSha256": "6a7f0e4db821767783c14b5d560618f6361c0d1609c562b0086f4a6dde21a823",
-      "currentBoundaryArtifactSha256": "ec715fda7e14108024628a330fd8e5a94c415f9339be1f726eb99dad37b48023",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "681eae1bd9552620edf974ddcbfb5a6c8e5f4935afc655ffcabbdf3f3b25d6b5",
+      "currentClassificationSha256": "fa0322013e7120728cdff833ec6ca1620d0fea8a5b9f7134bfb4165e4d6c759a",
+      "currentCanonicalArtifactSha256": "8f6b46d2031b58fcc0f60ca7747128f799b1b1fbfadfefa63f5b04e80a01c40c",
+      "currentBoundaryArtifactSha256": "3bcfdcb9a086dc6f9890afe10dbc502f147bd2600d1007672fe163b31520505d",
+      "recomputedSourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "8f6b46d2031b58fcc0f60ca7747128f799b1b1fbfadfefa63f5b04e80a01c40c",
+      "newBoundaryArtifactSha256": "3bcfdcb9a086dc6f9890afe10dbc502f147bd2600d1007672fe163b31520505d",
+      "newContactSheetSha256": "937515e280e6fbbec275310b5163dbdd11cac86ae0a0759250eccffcd0b8d2e1",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-CAPTION-VARIANTS",
@@ -683,8 +739,8 @@
           "familyOwnedFollowUp": "re-render the five Nebraska families and read the caption band in the raster",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -706,14 +762,19 @@
       "familyId": "NE:cc-6-12-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
       "currentSourceSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "7e583e0a9685d0b2ab2284225f949475cd370ddab980b9a1f777bcbd9d6c8b1f",
-      "currentClassificationSha256": "e74a521c96f70f443b68a10495a5134e0bd02705a5bab6185354c4f7bc90c86d",
-      "currentCanonicalArtifactSha256": "21a1715a6bddd41d642e7127b90ac971044faf616d40d09e857571cb72417bb8",
-      "currentBoundaryArtifactSha256": "0aa3468c1afa6d30e1b219ebb638e3fc5b341b11d23e533c2c96dcea6a0f6162",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "5e14594a127f1e289cec4dc2008db13645fcfdc5a0899e823963ec54d34e8088",
+      "currentClassificationSha256": "5ccd63ccd6031d77c19f9ec404218c86650cf8e663f1ffe2475d4076254cf10b",
+      "currentCanonicalArtifactSha256": "f7e6e85833c8288dc343d42882a71081ea779fa326186bc4cbdd0a91dbcecd85",
+      "currentBoundaryArtifactSha256": "2942b646a7dcd3518a1c1ea373c217943f5fbe9b0bd75291c4d7e3fea3257f88",
+      "recomputedSourceSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "f7e6e85833c8288dc343d42882a71081ea779fa326186bc4cbdd0a91dbcecd85",
+      "newBoundaryArtifactSha256": "2942b646a7dcd3518a1c1ea373c217943f5fbe9b0bd75291c4d7e3fea3257f88",
+      "newContactSheetSha256": "49258fccaa0829ac3016597f040f152aeb1391391bc6e91fdd5bb6195a0a0004",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-CAPTION-VARIANTS",
@@ -726,8 +787,8 @@
           "familyOwnedFollowUp": "re-render the five Nebraska families and read the caption band in the raster",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -749,14 +810,19 @@
       "familyId": "NE:cc-6-15-1-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
       "currentSourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "e1a226411b32e1444d95a9587cbd66580e48d8c820e7950d2d91e25988eef0b9",
-      "currentClassificationSha256": "c82d792dafcb9875c07e9f0b6e5eb6497ddbbe2e685a26b494f62866d14d9249",
-      "currentCanonicalArtifactSha256": "e2a68152e06354761b3001a0fcfee6a9d96e101344d4b9f831a6b4e2e1879238",
-      "currentBoundaryArtifactSha256": "427bff7969be39a7605c08b0d0b6d8bc6447ebb7b575ebfa0305255d9841a51d",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "63ed8d88ae3b4d32d54ef44929d178c7ab56cc6eaada512927831d43024af648",
+      "currentClassificationSha256": "4d96ca534e4cf44dbf110b3886850aa866f40bad9d626c7e38042aa596941940",
+      "currentCanonicalArtifactSha256": "8d9c3a32839d7d751f4d3a7b543125f5e16402f42c641008c6f1c9c902b64064",
+      "currentBoundaryArtifactSha256": "762c3c908ee4fbeacbe4b3bed9dc60ff2f120d3ac9a495b9ec882c63d9b898ed",
+      "recomputedSourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "8d9c3a32839d7d751f4d3a7b543125f5e16402f42c641008c6f1c9c902b64064",
+      "newBoundaryArtifactSha256": "762c3c908ee4fbeacbe4b3bed9dc60ff2f120d3ac9a495b9ec882c63d9b898ed",
+      "newContactSheetSha256": "7abaa31f21cf50e66c6cf5f0d964ff924b46602364035d459a2a52756f2fd408",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-CAPTION-VARIANTS",
@@ -769,8 +835,8 @@
           "familyOwnedFollowUp": "re-render the five Nebraska families and read the caption band in the raster",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -792,14 +858,21 @@
       "familyId": "NE:dc-1-15-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
       "currentSourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "8c13a5b05c7b2587f6f471758897ea561977c5d72bfee727f563e7ca797a1444",
-      "currentClassificationSha256": "70ff29fe9def2aeeabbdb317727b7926c8b34b90a4e1bc97fe7773a59dd5d26e",
-      "currentCanonicalArtifactSha256": "3f0bc4bac2e1216e62e64da7e0d9ae897a1dfa2b822d1a14807505e656f6f2b1",
+      "currentMapOrProfileSha256": "4b4b22eefc2ca9f2abf4055e854c5d2ac5cf5aa0bf16e98db24df3811305cd88",
+      "currentClassificationSha256": "9f1fab92f69916bd19ef368bea3382bfd4007b5a2ddb2bb27d05fcf2ebc37f6c",
+      "currentCanonicalArtifactSha256": "411ebb3f5fe0ed3cf8ac6e3f5d7f24cfa9b2ed27122a6c0f5574d0624d7b01a2",
       "currentBoundaryArtifactSha256": "a997b0df17375606c9f3f14f3ef1d341fa0b472314555891a47cc51d5d9b5d27",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "recomputedSourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "411ebb3f5fe0ed3cf8ac6e3f5d7f24cfa9b2ed27122a6c0f5574d0624d7b01a2",
+      "newBoundaryArtifactSha256": "a997b0df17375606c9f3f14f3ef1d341fa0b472314555891a47cc51d5d9b5d27",
+      "newContactSheetSha256": "9e7dbbcad263818181b6f2133e1cc28785be52343539ec60752494a9ea52c0fb",
+      "objectedFieldsStillBound": [
+        "printedname"
+      ],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -813,7 +886,7 @@
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
           "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "whyNotProvenYet": "the regenerated map still binds printedname"
         },
         {
           "escalationId": "ESC-CAPTION-VARIANTS",
@@ -827,7 +900,7 @@
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
           "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "whyNotProvenYet": "the regenerated map still binds printedname"
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -849,14 +922,19 @@
       "familyId": "VA:cc-1201-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
       "currentSourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "abdf77fdacf363025a1f4c4ea4347378d64729ad1593d4a99020a4ab8b086de1",
-      "currentClassificationSha256": "5f30b0bfd60189212feff7bf55999fea34f4e3dd33af1411494b49fbbe9c7d4b",
-      "currentCanonicalArtifactSha256": "427770d0ba6d3f512b8de6d6b631cf388afb7025057b5c0c191d6c1a2a356eb4",
-      "currentBoundaryArtifactSha256": "0cbd4278cf7185e3556101607e0d6c58ee51b1537dfdf3e1b1f16a5fead82b3f",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "8af8ee1c39f69dc2bb28874c9a39a94ca7149f724a773083636b8d9816040dcf",
+      "currentClassificationSha256": "916a63d37011854fd6d44332a9f07584283424475ab6a1349542775d116cfa49",
+      "currentCanonicalArtifactSha256": "37093e65c92f61a407bde7bdb213964886af5908725591eb3630c12b0867d52b",
+      "currentBoundaryArtifactSha256": "9534b60ba0b46d20c1a05949f0713c4fea33bd0ff746dfb28098d7f0cf50a98b",
+      "recomputedSourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "37093e65c92f61a407bde7bdb213964886af5908725591eb3630c12b0867d52b",
+      "newBoundaryArtifactSha256": "9534b60ba0b46d20c1a05949f0713c4fea33bd0ff746dfb28098d7f0cf50a98b",
+      "newContactSheetSha256": "83f2f827c172809046d803952041c7933746a3058a2e6b3d9d8b8630123fadc0",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -869,8 +947,8 @@
           "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-NO-REFUSE-WHEN",
@@ -883,8 +961,8 @@
           "familyOwnedFollowUp": "re-render the eight affected families; the duplicated address lines and the bank-name fills clear with the binding",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -906,14 +984,19 @@
       "familyId": "VA:cc-1473-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
       "currentSourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "b027fcc02cd4cbcf94ad1cc0ced08db9f2632fb7e5692b39b59b9ca119a0cbaa",
-      "currentClassificationSha256": "c846adb9bf8ab77f61a6c4ad4cda1cdd4fbe1af3380169c186401aff77793b7d",
-      "currentCanonicalArtifactSha256": "0c28f8653692c860c5cb29e99135ecae2d42410de48682b41814042e0d03f87d",
-      "currentBoundaryArtifactSha256": "9a661e69c05e6880cc412003f3f83e6b375ed605806fa49faff667663a0c8aad",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "dcbb79528f461ef9da578f7f4e44e8657d0f9ff3d40d753ea8737f3798e68748",
+      "currentClassificationSha256": "a7d5bd94c9cf54070b2b35d73a71171728fa80d2f5a3c9486fed6a19e1df40ef",
+      "currentCanonicalArtifactSha256": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+      "currentBoundaryArtifactSha256": "778d9be31c08cbfe0fd03519de48e926ea6528d1701de7c19b711584d53b232e",
+      "recomputedSourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+      "newBoundaryArtifactSha256": "778d9be31c08cbfe0fd03519de48e926ea6528d1701de7c19b711584d53b232e",
+      "newContactSheetSha256": "db394760780d9d8f2e064fdecbf3f849deda423d88f716956ddaec3061a84be3",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -926,8 +1009,8 @@
           "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-NO-REFUSE-WHEN",
@@ -940,8 +1023,8 @@
           "familyOwnedFollowUp": "re-render the eight affected families; the duplicated address lines and the bank-name fills clear with the binding",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -963,14 +1046,19 @@
       "familyId": "VT:600-00228-support-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en",
       "currentSourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
-      "sourceReadableInThisClone": false,
+      "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en/production-field-map.json",
-      "currentMapOrProfileSha256": "d5f930b2f68e0d4214edc8204a9d8d9fe91428730dbf6c48b02ddae0418a71f4",
-      "currentClassificationSha256": "d8af1afeb03300d285f4b1af9a01b0c3909862a126c2bd4dd487d139cd66a23e",
-      "currentCanonicalArtifactSha256": "3badbfe515021b919e42eab8f487030cae408aaaf0d983d26d22a42ae3468b6e",
-      "currentBoundaryArtifactSha256": "37eb5ff468c72187bdcd61a68d08b93c9f080ba08fe61929c1b9b8f0760ce39e",
-      "newArtifactSha256": null,
-      "whyNoNewArtifact": "the rerender did not run: RCAP_BUNDLE_EXTRACT is unset and no Master Library extract is mounted in this clone, so the driver skipped every family",
+      "currentMapOrProfileSha256": "a8cedf897ca41fe905e33c120805b5e90f40007abc06490b3b744718c809f0a4",
+      "currentClassificationSha256": "5ec93c3958c355910b69c746dcf584394dc8b95cf1c403aadfdcb08cc406ac57",
+      "currentCanonicalArtifactSha256": "74062d40e3e105c352349ca072c03b9d657a4c484c34edf25bc35d7a64ff8c02",
+      "currentBoundaryArtifactSha256": "263c109ffd02857f35f7fbe5679e043ca9775d610ceb39bba9076c246a9fb154",
+      "recomputedSourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "sourceMatchesRecord": true,
+      "newArtifactSha256": "74062d40e3e105c352349ca072c03b9d657a4c484c34edf25bc35d7a64ff8c02",
+      "newBoundaryArtifactSha256": "263c109ffd02857f35f7fbe5679e043ca9775d610ceb39bba9076c246a9fb154",
+      "newContactSheetSha256": "0bd2e7e999df4a79a4eb24d38a0ae21476126e3c24965174e9852b520af5f363",
+      "objectedFieldsStillBound": [],
+      "whyNoNewArtifact": null,
       "objections": [
         {
           "escalationId": "ESC-VALUE-NOT-VISIBLE",
@@ -983,8 +1071,8 @@
           "familyOwnedFollowUp": "re-render VT 600-00228 and confirm the applicant fields carry values",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": false,
-          "whyNotProvenYet": "the corrected module has not yet produced new bytes for this family: the rerender could not run"
+          "provenAgainstThisFamilysBytes": true,
+          "whyNotProvenYet": null
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",

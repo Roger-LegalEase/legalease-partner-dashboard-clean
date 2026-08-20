@@ -18,99 +18,133 @@
     {
       "field": "defendant",
       "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "datesigned",
-      "class": "deterministic",
-      "factId": "deterministic.filing_date"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "\u0000Y\u0000V\u0000\u0003\u0000\u0011\u0000\u0003"
     },
     {
       "field": "printedname",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "Printed Name"
     },
     {
       "field": "streetaddress",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": "Street Address/P.O. Box"
     },
     {
       "field": "citystatezip",
       "class": "participant",
-      "factId": "participant.city_state_zip"
+      "factId": "participant.city_state_zip",
+      "factBasis": "field_name",
+      "effectiveLabel": "Street Address/P.O. Box"
     },
     {
       "field": "telephone number",
       "class": "participant",
-      "factId": "participant.phone"
-    },
-    {
-      "field": "TYPEOFCOURTDROPDOWN",
-      "class": "participant",
-      "factId": "matter.court"
+      "factId": "participant.phone",
+      "factBasis": "field_name",
+      "effectiveLabel": "Telephone Number"
     },
     {
       "field": "TYPEOFCOURTRESULTS",
       "class": "participant",
-      "factId": "matter.court"
-    },
-    {
-      "field": "enter the type of court",
-      "class": "participant",
-      "factId": "matter.court"
+      "factId": "matter.court",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "enter the county",
       "class": "participant",
-      "factId": "matter.county"
+      "factId": "matter.county",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     }
   ],
   "bindingRefusals": [
     {
       "field": "Text2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Text5",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "Text6",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "Check Box7",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "noemailreason",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "noemailreason2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
+    {
+      "field": "datesigned",
+      "reason": "protected_category",
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "emailaddress",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     },
     {
       "field": "DROPDOWNCOUNTY2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "fullcountystatementRIGHT",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "enter the type of court",
+      "reason": "duplicate_widget_for_one_slot",
+      "category": "caption_slot",
+      "factId": "matter.court",
+      "keptInstead": "TYPEOFCOURTRESULTS",
+      "overlapsWith": [
+        "TYPEOFCOURTDROPDOWN",
+        "TYPEOFCOURTRESULTS"
+      ]
+    },
+    {
+      "field": "TYPEOFCOURTDROPDOWN",
+      "reason": "duplicate_widget_for_one_slot",
+      "category": "caption_slot",
+      "factId": "matter.court",
+      "keptInstead": "TYPEOFCOURTRESULTS",
+      "overlapsWith": [
+        "TYPEOFCOURTRESULTS",
+        "enter the type of court"
+      ]
     }
   ],
   "unwritableFields": [
