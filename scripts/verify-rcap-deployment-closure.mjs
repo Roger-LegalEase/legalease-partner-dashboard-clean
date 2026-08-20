@@ -25,8 +25,17 @@ import { fileURLToPath } from "node:url";
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const emitEvidence = process.argv.includes("--emit-evidence");
 
-/** The accepted application source. Image-input equality is proven against it. */
-const APPLICATION_SHA = "15c5050052e0f78cb5a5904bd2de668b3f3f725a";
+/**
+ * The accepted application source. Image-input equality is proven against it.
+ *
+ * Rebound from 15c50500 — the provisioning lane's own accepted SHA, which
+ * arrived with this file when main merged — to the reconciled release source.
+ * 5ac0d8d6 is the commit the accepted worker digest was built from, and both
+ * the application and worker input sets are byte-identical between it and this
+ * head. Leaving the provisioning lane's SHA here would assert that this
+ * release's deployment closes over bytes it does not contain.
+ */
+const APPLICATION_SHA = "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8";
 
 /** Exactly the paths a Next.js build consumes. */
 const APPLICATION_INPUTS = ["src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "public"];
