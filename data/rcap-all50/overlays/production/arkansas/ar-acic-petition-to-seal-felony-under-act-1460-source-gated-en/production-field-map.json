@@ -36,269 +36,330 @@
     {
       "field": "Case No",
       "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": "vs. Case No"
     },
     {
       "field": "First Middle and Last name",
       "class": "participant",
-      "factId": "participant.last_name"
+      "factId": "participant.last_name",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "1 The Defendant was arrested on the",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "1.The Defendant was arrested on theday of ,"
+    },
+    {
+      "field": "and charged with the offenses of",
+      "class": "participant",
+      "factId": "participant.full_legal_name",
+      "factBasis": "printed_label",
+      "effectiveLabel": "1.The Defendant was arrested on theday of ,"
+    },
+    {
+      "field": "offenses of 1",
+      "class": "participant",
+      "factId": "participant.full_legal_name",
+      "factBasis": "printed_label",
+      "effectiveLabel": "2.The Defendant either pled guilty or nolo contendere or was"
     },
     {
       "field": "Defendant",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "State",
       "class": "participant",
-      "factId": "participant.state"
+      "factId": "participant.state",
+      "factBasis": "field_name",
+      "effectiveLabel": "City: ______________________ Date"
     },
     {
       "field": "Defendants Address",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": "State: _____ Zip code:________"
     },
     {
       "field": "Zip code",
       "class": "participant",
-      "factId": "participant.zip"
+      "factId": "participant.zip",
+      "factBasis": "field_name",
+      "effectiveLabel": "State: _____ Zip code:________"
     },
     {
       "field": "COUNTY OF",
       "class": "participant",
-      "factId": "matter.county"
+      "factId": "matter.county",
+      "factBasis": "field_name",
+      "effectiveLabel": "COUNTY OF"
     },
     {
       "field": "Comes the Petitioner",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "Comes the Petitioner, , under oath and states that the"
     },
     {
       "field": "Petitioner",
       "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "DOB",
-      "class": "participant",
-      "factId": "participant.date_of_birth"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     }
   ],
   "bindingRefusals": [
     {
       "field": "IN THE CIRCUIT COURT OF",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "DIVISION",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "day of",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "field": "and charged with the offenses of",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "A Class 1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "A Class 2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "felony",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "misdemeanor in violation of A C A",
       "reason": "non_text_field_type",
-      "category": "type_guard"
-    },
-    {
-      "field": "offenses of 1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "offenses of 2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "A Class 1_2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "A Class 2_2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "felony_2",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "misdemeanor in violation of A C A_2",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "8",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "undefined",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "undefined_2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "9",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     },
     {
       "field": "undefined_3",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "unused"
     },
     {
       "field": "federal court and the status of thatthose charges isare as follows",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "IS or",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "IS NOT required to register as a sex offender under the",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "prays this Court enter an Order Sealing the above referenced felony convictions",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     },
     {
       "field": "1_2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "2_2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Defendants Signature",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "Date",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Subscribed and sworn to before me on this",
       "reason": "protected_category",
-      "category": "notarization"
+      "category": "notarization",
+      "regionHeading": null
     },
     {
       "field": "undefined_4",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "notarization",
+      "regionHeading": null
     },
     {
       "field": "20",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Notary Public",
       "reason": "protected_category",
-      "category": "notarization"
+      "category": "notarization",
+      "regionHeading": null
     },
     {
       "field": "MyCommissionexpires",
       "reason": "protected_category",
-      "category": "notarization"
+      "category": "notarization",
+      "regionHeading": null
     },
     {
       "field": "Race",
       "reason": "protected_category",
-      "category": "race"
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "Arrest Tracking Number",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "Sex",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "SID No",
       "reason": "protected_category",
-      "category": "government_identifier"
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "DOB",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "FBI No If known",
       "reason": "protected_category",
-      "category": "government_identifier"
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "copy of the foregoing Petition has been provided to the Prosecuting",
       "reason": "protected_category",
-      "category": "prosecutor"
+      "category": "prosecutor",
+      "regionHeading": null
     },
     {
       "field": "Defendant or Defendants Attorney",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "Date_2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     }
   ],
   "unwritableFields": [
@@ -351,8 +412,20 @@
       "class": "manual"
     },
     {
+      "field": "undefined",
+      "class": "unused"
+    },
+    {
+      "field": "undefined_2",
+      "class": "unused"
+    },
+    {
       "field": "9",
       "class": "manual"
+    },
+    {
+      "field": "undefined_3",
+      "class": "unused"
     },
     {
       "field": "IS or",
@@ -385,6 +458,10 @@
     {
       "field": "Subscribed and sworn to before me on this",
       "class": "protected"
+    },
+    {
+      "field": "undefined_4",
+      "class": "unused"
     },
     {
       "field": "20",

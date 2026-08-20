@@ -38,6 +38,9 @@ import { fileURLToPath } from "node:url";
 import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenance.mjs";
 import { visibleTextOfDocument, missingExpectedValues } from "./rcap-official-forms/rcap-contact-sheet.mjs";
 import { rasterizePdf } from "./rcap-official-forms/rcap-pdf-rasterize.mjs";
+import { auditPlacements, pagesRequiringRaster, rasterContract, placementValuesFor, EVIDENCE_CONTRACT_VERSION }
+  from "./rcap-official-forms/rcap-evidence-contract.mjs";
+import { CANONICAL } from "./implement-rcap-official-forms-d1.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument } = require("pdf-lib");
@@ -228,24 +231,61 @@ for (const family of evidence.families) {
   }
   sidecarsWritten += 1;
 
-  // 4 — real raster evidence, bound to the contact sheet it depicts.
+  // 4 — raster evidence for EVERY page that carries a field, bound by hash to
+  // the artifact it depicts.
+  //
+  // This rendered page 1 alone. Both independent reviewers then returned
+  // page-2 defects it could not have shown -- a petitioner's name inside the
+  // judge's findings on NC AOC-CR-288, a value in a refused reason box on NC
+  // AOC-CR-298 -- and one of them recorded the crop itself as an evidence gap.
+  // A picture of the first page of a three-page form is evidence about the
+  // first page, and approving the form on it is a category error.
+  const census = JSON.parse(fs.readFileSync(rel("field-census.json"), "utf8"));
+  const requiredPages = pagesRequiringRaster(census);
   const sheet = rel("contact-sheet/blank-vs-filled.pdf");
-  const rasterRel = path.join(RASTER_DIR, `${record.jurisdiction ?? family.familyId.split(":")[0]}-${path.basename(dir)}-contact-sheet-page-01.png`);
-  let rasterSha = null;
-  let rasterBlank = null;
+  const sheetSha = fs.existsSync(sheet) ? sha256File(sheet) : null;
+  const rasterPages = [];
   if (fs.existsSync(sheet)) {
-    const rendered = await rasterizePdf({ file: sheet, outDir: fs.mkdtempSync(path.join(workRoot, "f-")), pages: [1], scale: 1.6 });
-    const first = rendered.find((r) => r.page === 1);
-    if (!first) fail(`${family.familyId}: the contact sheet did not rasterise`);
-    rasterBlank = first.looksBlank === true;
-    if (rasterBlank) fail(`${family.familyId}: the contact sheet rasterised with no ink`);
-    if (!checkOnly) {
-      fs.mkdirSync(abs(RASTER_DIR), { recursive: true });
-      fs.copyFileSync(first.file, abs(rasterRel));
+    // The contact sheet lays each form page out as its own sheet page, so the
+    // pages the form needs shown are the pages the sheet is asked for.
+    const sheetDoc = await PDFDocument.load(fs.readFileSync(sheet), { ignoreEncryption: true, updateMetadata: false });
+    const wanted = requiredPages.filter((n) => n <= sheetDoc.getPageCount());
+    const rendered = await rasterizePdf({ file: sheet, outDir: fs.mkdtempSync(path.join(workRoot, "f-")), pages: wanted, scale: 1.6 });
+    for (const page of rendered) {
+      if (page.looksBlank === true) fail(`${family.familyId}: contact-sheet page ${page.page} rasterised with no ink`);
+      const pageRel = path.join(RASTER_DIR,
+        `${record.jurisdiction ?? family.familyId.split(":")[0]}-${path.basename(dir)}-contact-sheet-page-${String(page.page).padStart(2, "0")}.png`);
+      if (!checkOnly) {
+        fs.mkdirSync(abs(RASTER_DIR), { recursive: true });
+        fs.copyFileSync(page.file, abs(pageRel));
+      }
+      rasterPages.push({ page: page.page, path: pageRel, sha256: sha256File(page.file),
+        widthPx: page.widthPx, heightPx: page.heightPx });
+      rastersWritten += 1;
     }
-    rasterSha = sha256File(first.file);
-    rastersWritten += 1;
   }
+  const coverage = rasterContract({
+    requiredPages, renderedPages: rasterPages.map((p) => p.page),
+    manifestArtifactSha256: sheetSha, currentArtifactSha256: sheetSha
+  });
+  const rasterSha = rasterPages.length ? rasterPages[0].sha256 : null;
+
+  // 4b — where every participant value actually landed, measured in geometry.
+  //
+  // "The value is visible on the page" was the old question and both reviewers
+  // showed it is the wrong one: KY AOC-334's case number was plainly visible,
+  // spelled exactly right, and inside the box captioned Court.
+  const populated = fs.existsSync(rel("reports/populated-fields.json"))
+    ? JSON.parse(fs.readFileSync(rel("reports/populated-fields.json"), "utf8"))
+    : [];
+  const canonicalArtifact = rel("fixtures/canonical-filled.pdf");
+  const placementValues = placementValuesFor({ populatedFields: populated, facts: CANONICAL });
+  const placement = fs.existsSync(canonicalArtifact)
+    ? auditPlacements({
+        doc: await PDFDocument.load(fs.readFileSync(canonicalArtifact), { ignoreEncryption: true, updateMetadata: false }),
+        census, map: JSON.parse(fs.readFileSync(mapPath, "utf8")), values: placementValues.values
+      })
+    : null;
 
   // 5 — the two measurements against the finished bytes.
   const canonical = rel("fixtures/canonical-filled.pdf");
@@ -253,9 +293,6 @@ for (const family of evidence.families) {
     ? await PDFDocument.load(fs.readFileSync(canonical), { ignoreEncryption: true, updateMetadata: false })
     : null;
   const visibleText = canonicalDoc ? visibleTextOfDocument(canonicalDoc) : "";
-  const populated = fs.existsSync(rel("reports/populated-fields.json"))
-    ? JSON.parse(fs.readFileSync(rel("reports/populated-fields.json"), "utf8"))
-    : [];
   const boundFacts = new Set((Array.isArray(populated) ? populated : Object.values(populated))
     .filter((row) => row && row.class === "participant")
     .map((row) => row.factId));
@@ -281,7 +318,20 @@ for (const family of evidence.families) {
     sidecarFields: Object.keys(sidecar).length,
     sidecarNullFields: nulls.length,
     artifactSha256: Object.fromEntries(artifacts.map((a) => [a.rel, sha256(a.bytes)])),
-    rasterEvidence: rasterSha ? { path: rasterRel, sha256: rasterSha, boundToArtifact: "contact-sheet/blank-vs-filled.pdf", artifactSha256: sha256File(sheet) } : null,
+    rasterEvidence: rasterPages.length
+      ? { pages: rasterPages, boundToArtifact: "contact-sheet/blank-vs-filled.pdf", artifactSha256: sheetSha,
+          pagesCarryingFields: requiredPages, coverageComplete: coverage.complete, coverageRefusals: coverage.refusals }
+      : null,
+    placement: placement
+      ? { contractVersion: EVIDENCE_CONTRACT_VERSION,
+          valuesChecked: Object.keys(placementValues.values).length,
+          refusedAtRender: placementValues.refusedAtRender,
+          notLocatableBecauseTooShort: placementValues.tooShortToLocate,
+          drawnIntoAProtectedSlot: placement.drawnIntoAProtectedSlot,
+          placedOutsideIntendedGeometry: placement.placedOutsideIntendedGeometry,
+          declaredButNeverDrawn: placement.declaredButNeverDrawn,
+          refusals: placement.refusals, clean: placement.clean }
+      : null,
     visibleValues: {
       expected: declaredExpected,
       expectedBecauseTheFamilyBindsThem: [...boundFacts].filter((f) => FIXTURE_VALUES[f]),
@@ -294,7 +344,12 @@ for (const family of evidence.families) {
       clean: protectedWritten === 0
     },
     openObjections: (family.objections ?? []).filter((o) => !o.provenAgainstThisFamilysBytes).map((o) => o.escalationId),
-    readyForIndependentReview: missing.length === 0 && protectedWritten === 0 && nulls.length === 0 && Boolean(rasterSha)
+    // A package is reviewable only when the reviewer can see every page that
+    // carries a field and every value is measurably inside the box declared
+    // for it. Text visibility and a page-1 picture were what the previous
+    // contract asked for, and eight families passed it carrying defects.
+    readyForIndependentReview: missing.length === 0 && protectedWritten === 0 && nulls.length === 0
+      && rasterPages.length > 0 && coverage.complete && Boolean(placement?.clean)
   });
 }
 
@@ -335,11 +390,24 @@ function markdown() {
   lines.push("");
   lines.push(record.heldBack.why);
   lines.push("");
-  lines.push("| family | sidecar | source SHA | raster | values visible | protected clean | open objections |");
-  lines.push("| --- | :-: | :-: | :-: | :-: | :-: | --- |");
+  lines.push("| family | sidecar | source SHA | pages carrying fields | pages rasterised | values inside their own box | protected geometry clean | open objections |");
+  lines.push("| --- | :-: | :-: | :-: | :-: | :-: | :-: | --- |");
   for (const f of families) {
-    lines.push(`| ${f.familyId} | ${f.sidecarFields - f.sidecarNullFields}/${f.sidecarFields} | recomputed | ${f.rasterEvidence ? "yes" : "no"} | ${f.visibleValues.allVisible ? "yes" : "NO"} | ${f.protectedAreas.clean ? "yes" : "NO"} | ${f.openObjections.join(", ") || "none"} |`);
+    const required = f.rasterEvidence?.pagesCarryingFields ?? [];
+    const shown = (f.rasterEvidence?.pages ?? []).map((p) => p.page);
+    lines.push(`| ${f.familyId} | ${f.sidecarFields - f.sidecarNullFields}/${f.sidecarFields} | recomputed | ${required.join(", ") || "—"} | ${shown.join(", ") || "none"} | ${f.placement?.clean ? "yes" : "NO"} | ${f.protectedAreas.clean ? "yes" : "NO"} | ${f.openObjections.join(", ") || "none"} |`);
   }
+  lines.push("");
+  lines.push("## What a reviewer is being asked to check, and what changed");
+  lines.push("");
+  lines.push("The previous package rendered page 1 and asked whether each expected value appeared somewhere in the document's text. Both independent reviewers returned defects that question cannot reach:");
+  lines.push("");
+  lines.push("- **NC AOC-CR-288** carried the petitioner's name inside the judge's `FINDINGS OF FACT` block on page 2. The evidence rendered page 1.");
+  lines.push("- **KY AOC-334** drew the case number into the box captioned `Court` and the petitioner's name onto the rule captioned `Date`. Both were plainly visible and spelled exactly as expected, so a text check passed them.");
+  lines.push("");
+  lines.push("So the package now shows every page that carries a field, and asks a geometric question instead of a textual one: is each value inside the rectangle its own map declared for it, and is any value inside a field or printed section the participant does not complete. `scripts/verify-rcap-evidence-contract-controls.mjs` reproduces all three defects from the artifact bytes committed at the reviewed commit and requires the contract to refuse each one.");
+  lines.push("");
+  lines.push("Reviewers should note that the corpus was re-rendered against the corrected binder. Recompute each source SHA-256 from the official bytes before approving anything; the hashes below were recomputed here but that is this lane's claim, not the reviewer's finding.");
   lines.push("");
   return lines.join("\n");
 }

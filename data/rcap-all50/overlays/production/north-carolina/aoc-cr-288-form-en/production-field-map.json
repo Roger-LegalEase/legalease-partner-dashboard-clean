@@ -55,13 +55,6 @@
       "factId": "participant.city",
       "factBasis": "field_name",
       "effectiveLabel": null
-    },
-    {
-      "field": "PetitionerIsEligibleBecauseText1",
-      "class": "participant",
-      "factId": "participant.full_legal_name",
-      "factBasis": "field_name",
-      "effectiveLabel": "5. Petitioner is is not eligible for an expunction of the of"
     }
   ],
   "bindingRefusals": [
@@ -727,21 +720,33 @@
     },
     {
       "field": "PetitionerIsEligibleCbx",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "regionHeading": null
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "PetitionerIsNotEligibleCbx",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "regionHeading": null
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
+    },
+    {
+      "field": "PetitionerIsEligibleBecauseText1",
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
+    },
+    {
+      "field": "PetitionerIsEligibleBecauseText2",
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "PetitionGrantedCbx",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "regionHeading": null
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "ORDER"
     },
     {
       "field": "PetitionDeniedCbx",
@@ -790,16 +795,6 @@
       "reason": "protected_category",
       "category": "signature",
       "regionHeading": null
-    },
-    {
-      "field": "PetitionerIsEligibleBecauseText2",
-      "reason": "duplicate_widget_for_one_slot",
-      "category": "caption_slot",
-      "factId": "participant.full_legal_name",
-      "keptInstead": "PetitionerIsEligibleBecauseText1",
-      "overlapsWith": [
-        "PetitionerIsEligibleBecauseText1"
-      ]
     }
   ],
   "unwritableFields": [
