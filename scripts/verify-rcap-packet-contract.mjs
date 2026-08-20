@@ -57,13 +57,15 @@ function failures(harness, renderRequest, repository) {
   // Both docker invocations: the one that actually runs the worker, and the
   // sanitized copy written into the evidence as "the command". A flag on only
   // one of them either does nothing or misreports what ran.
-  // Anchored on the `-e` argument, not on the name appearing somewhere. The
-  // gate's own observation text quotes the flag, and counting that as a third
-  // invocation would let a real docker site go missing while the count stayed
-  // plausible.
+  // Three docker invocations carry the flag: the sanitized command written into
+  // the evidence, the run that actually claims and renders, and the pre-charge
+  // probe that measures the packet read. Anchored on the `-e` argument rather
+  // than on the name appearing anywhere — the gate's own observation text quotes
+  // the flag, and counting prose would let a real site go missing while the
+  // count stayed plausible.
   const dockerEnvLines = code.split("\n").filter((line) => /"-e",\s*`ENABLE_SUPABASE_PARTNER_DATA=/.test(line));
-  fail(dockerEnvLines.length === 2,
-    `the worker container is given ENABLE_SUPABASE_PARTNER_DATA on ${dockerEnvLines.length} of the 2 docker invocations; without it getRcapDocumentPacket returns null without querying rcap_document_packets and every packet reads as missing`);
+  fail(dockerEnvLines.length === 3,
+    `ENABLE_SUPABASE_PARTNER_DATA reaches ${dockerEnvLines.length} of the 3 docker invocations (reported command, worker run, pre-charge probe); without it getRcapDocumentPacket returns null without querying rcap_document_packets and every packet reads as missing`);
   fail(/const WORKER_PARTNER_DATA_FLAG = "true";/.test(code),
     "WORKER_PARTNER_DATA_FLAG is not pinned to \"true\"; the worker would fall back to local_seeded and see no packets");
   fail(!/ENABLE_SUPABASE_PARTNER_DATA=\$\{process\.env/.test(code),
@@ -125,6 +127,14 @@ function failures(harness, renderRequest, repository) {
   fail(/if \(!proven\) finish\(\);/.test(code),
     "a job pointing at the wrong packet does not stop the run");
 
+  // --- the packet read is MEASURED inside the image, before the charge -----
+  fail(/import\("\/app\/src\/lib\/rcap\/documents\/source-repository\.ts"\)/.test(code),
+    "the pre-charge probe no longer exercises the image's own packet reader, so the flag fix is argued rather than measured");
+  fail(/const imageResolvesPacket = Boolean\(probe\)\s*\n\s*&& probe\.packetRead\?\.attempted === true\s*\n\s*&& probe\.packetRead\.resolved === true;/.test(code),
+    "a packet read that was never attempted, or that resolved nothing, would still pass the pre-charge gate");
+  fail(/&& imageResolvesPacket\s*\n\s*&& backlog\.readOutcome === "read";/.test(code),
+    "the pre-charge verdict does not require the image to resolve a real packet, so the run could still spend a Checkout with a blind worker");
+
   // --- another packet's artifact may not satisfy the target ----------------
   fail(/exact_bytes_re_read/.test(code) && /immutable_hash_agrees/.test(code),
     "the artifact conditions no longer tie the stored bytes to the target job's own finalized hashes");
@@ -169,7 +179,15 @@ if (MUTATIONS) {
     ["the harness writes its own packet row", (h) =>
       h.replace("  const priorRows = await sql(`", "  await sql(`insert into public.rcap_document_packets (id) values ('x')`);\n  const priorRows = await sql(`")],
     ["the packet inputs row is no longer required", (h) =>
-      h.replace("const inputsPersisted = Number(row?.packet_input_rows ?? 0) === 1;", "const inputsPersisted = true;")]
+      h.replace("const inputsPersisted = Number(row?.packet_input_rows ?? 0) === 1;", "const inputsPersisted = true;")],
+    ["a packet read that was never attempted counts as working", (h) =>
+      h.replace("  const imageResolvesPacket = Boolean(probe)\n    && probe.packetRead?.attempted === true\n    && probe.packetRead.resolved === true;", "  const imageResolvesPacket = true;")],
+    ["the pre-charge verdict stops requiring the image to resolve a packet", (h) =>
+      h.replace("    && imageResolvesPacket\n", "")],
+    ["the pre-charge probe runs without the flag the worker will use", (h) =>
+      h.replace("    \"-e\", `ENABLE_SUPABASE_PARTNER_DATA=${WORKER_PARTNER_DATA_FLAG}`,\n    WORKER_DIGEST_REF, \"--input-type=module\"", "    WORKER_DIGEST_REF, \"--input-type=module\"")],
+    ["the probe stops importing the image's packet reader", (h) =>
+      h.replace("const { getRcapDocumentPacket } = await import(\"/app/src/lib/rcap/documents/source-repository.ts\");", "")]
   ];
 
   let undetected = 0;

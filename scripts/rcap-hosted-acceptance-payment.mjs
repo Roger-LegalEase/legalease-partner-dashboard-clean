@@ -977,6 +977,17 @@ const seedResult = await sql(`
   // The image's own registry and contract, through the image's own loader.
   // `docker run <digest> node -e` executes the shipped bytes; there is no mount
   // and no host path, so this cannot accidentally measure the checkout instead.
+  // A consumer packet that is already in the acceptance project. Any real row
+  // will do: the question is whether the image's reader can resolve one at all,
+  // not whether this run's packet exists yet — it legitimately does not, because
+  // the application's canonical writer creates it on the PAID render request.
+  const probePacketRow = await sql(`
+    select id from public.rcap_document_packets
+     where briefcase_id is not null
+     order by created_at desc limit 1
+  `);
+  const probePacketId = Array.isArray(probePacketRow.json) ? probePacketRow.json[0]?.id ?? null : null;
+  const probeService = await serviceRoleKey();
   const probeSource = `
 import { register } from "node:module";
 register("./scripts/lib/ts-esm-loader.mjs", "file:///app/");
@@ -999,16 +1010,40 @@ try {
   claim = { attempted: true, accepted: false,
     errorCode: error instanceof RenderContractError ? error.errorCode : "non_contract_error" };
 }
+// The packet read, exercised inside the image before a cent is spent. This is
+// the exact call that produced "packet ... not found" in run 32416556886, and
+// the exact call the flag governs: with ENABLE_SUPABASE_PARTNER_DATA unset,
+// getRcapDocumentPacket returns null WITHOUT querying the table, so a packet
+// that exists reads as missing. Probing a row known to exist turns that from an
+// argument into a measurement.
+const { getRcapDocumentPacket } = await import("/app/src/lib/rcap/documents/source-repository.ts");
+const probePacketId = ${JSON.stringify(probePacketId)};
+let packetRead = { attempted: false };
+if (probePacketId) {
+  try {
+    const found = await getRcapDocumentPacket(probePacketId);
+    packetRead = { attempted: true, resolved: Boolean(found), state: found?.state ?? null, pathway: found?.pathway ?? null };
+  } catch (error) {
+    packetRead = { attempted: true, resolved: false, error: String(error?.message ?? error).slice(0, 200) };
+  }
+}
 console.log("PREFLIGHT_JSON " + JSON.stringify({
   profilesLoaded: profiles.length,
   distinctProfileVersions: versions.length,
   admitsProfileVersion: versions.includes(tuple.profileVersion),
   claim,
+  packetRead,
+  partnerDataFlag: process.env.ENABLE_SUPABASE_PARTNER_DATA ?? "(unset)",
   cwd: process.cwd()
 }));
 `;
   const probeRun = spawnSync("docker", [
-    "run", "--rm", "--entrypoint", "node", WORKER_DIGEST_REF, "--input-type=module", "-e", probeSource
+    "run", "--rm", "--entrypoint", "node",
+    "-e", `NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}`,
+    "-e", `SUPABASE_URL=${SUPABASE_URL}`,
+    "-e", `SUPABASE_SERVICE_ROLE_KEY=${probeService}`,
+    "-e", `ENABLE_SUPABASE_PARTNER_DATA=${WORKER_PARTNER_DATA_FLAG}`,
+    WORKER_DIGEST_REF, "--input-type=module", "-e", probeSource
   ], { encoding: "utf8", timeout: 300000, maxBuffer: 32 * 1024 * 1024 });
   const probeLine = String(probeRun.stdout ?? "").split("\n").find((l) => l.startsWith("PREFLIGHT_JSON "));
   let probe = null;
@@ -1023,17 +1058,25 @@ console.log("PREFLIGHT_JSON " + JSON.stringify({
   const backlog = await readClaimOrder(null, preflightRoute.rendererKind);
 
   const imageAdmits = Boolean(probe) && probe.claim?.attempted === true && probe.claim.accepted === true && probe.admitsProfileVersion === true;
+  // The packet read, measured inside the image before any charge. A probe that
+  // was never attempted is not a pass: an unread packet is exactly the state
+  // that produced "packet ... not found", and treating "we did not look" as
+  // "it works" would reinstate the defect with a green tick over it.
+  const imageResolvesPacket = Boolean(probe)
+    && probe.packetRead?.attempted === true
+    && probe.packetRead.resolved === true;
   const passed = preflightRoute.routeKind === "legacy_verified"
     && preflightRoute.sellable === true
     && dependsOnHeldPdf === false
     && digestPinned
     && digestMatches
     && imageAdmits
+    && imageResolvesPacket
     && backlog.readOutcome === "read";
   record(
     "immutable_image_admits_the_tuple_before_any_charge",
     passed,
-    `pathway ${JSON.stringify(preflightRoute.routeId)} is ${preflightRoute.routeKind} and sellable=${preflightRoute.sellable}; sourceSha256=${JSON.stringify(preflightRoute.sourceSha256)} and the problematic-PDF register holds ${heldShas.size} source hash(es) across ${registerLines.length} row(s), ${heldForJurisdiction} of them for ${preflightRoute.profileId} — this route depends on a held binary: ${dependsOnHeldPdf}. The tuple the job will carry is ${tuple.profileId}@${tuple.profileVersion}. ${WORKER_DIGEST_REF} was pulled by immutable digest (${digestPinned}) and the digest actually present matches the pin (${digestMatches}; ${pulledDigests.join(" ") || "no repo digest reported"}). Executing the image's OWN shipped modules by digest — no bind mount, no host path — it loaded ${probe?.profilesLoaded ?? "(probe produced no verdict)"} profile(s) across ${probe?.distinctProfileVersions ?? "?"} distinct version(s) from cwd ${probe?.cwd ?? "?"}, admits that profile version (${probe?.admitsProfileVersion ?? "unknown"}) and assertClaimAcceptable ${probe?.claim?.attempted ? (probe.claim.accepted ? "ACCEPTED it" : `refused it at ${probe.claim.errorCode}`) : "was never reached"}. The claimable queue for renderer ${preflightRoute.rendererKind} currently holds ${backlog.readOutcome === "read" ? `${backlog.currentlyClaimable} job(s) (${backlog.totalQueued} queued in total)` : `an unreadable count (${backlog.detail ?? "no detail"})`}, so the target this run enqueues will start behind ${backlog.readOutcome === "read" ? backlog.currentlyClaimable : "an unknown number of"} claimable predecessor(s). Nothing has been charged at this point.`
+    `pathway ${JSON.stringify(preflightRoute.routeId)} is ${preflightRoute.routeKind} and sellable=${preflightRoute.sellable}; sourceSha256=${JSON.stringify(preflightRoute.sourceSha256)} and the problematic-PDF register holds ${heldShas.size} source hash(es) across ${registerLines.length} row(s), ${heldForJurisdiction} of them for ${preflightRoute.profileId} — this route depends on a held binary: ${dependsOnHeldPdf}. The tuple the job will carry is ${tuple.profileId}@${tuple.profileVersion}. ${WORKER_DIGEST_REF} was pulled by immutable digest (${digestPinned}) and the digest actually present matches the pin (${digestMatches}; ${pulledDigests.join(" ") || "no repo digest reported"}). Executing the image's OWN shipped modules by digest — no bind mount, no host path — it loaded ${probe?.profilesLoaded ?? "(probe produced no verdict)"} profile(s) across ${probe?.distinctProfileVersions ?? "?"} distinct version(s) from cwd ${probe?.cwd ?? "?"}, admits that profile version (${probe?.admitsProfileVersion ?? "unknown"}) and assertClaimAcceptable ${probe?.claim?.attempted ? (probe.claim.accepted ? "ACCEPTED it" : `refused it at ${probe.claim.errorCode}`) : "was never reached"}. Inside that same image, with ENABLE_SUPABASE_PARTNER_DATA=${probe?.partnerDataFlag ?? "(no probe)"}, getRcapDocumentPacket resolved an existing consumer packet ${probePacketId ?? "(none found to probe)"}: ${probe?.packetRead?.resolved ?? "not attempted"}${probe?.packetRead?.state ? ` (state ${probe.packetRead.state}, pathway ${probe.packetRead.pathway})` : ""}${probe?.packetRead?.error ? ` — ${probe.packetRead.error}` : ""}. That is the exact call that answered "packet not found" in run 32416556886 for a row that existed, because without the flag the reader returns null WITHOUT querying the table. The claimable queue for renderer ${preflightRoute.rendererKind} currently holds ${backlog.readOutcome === "read" ? `${backlog.currentlyClaimable} job(s) (${backlog.totalQueued} queued in total)` : `an unreadable count (${backlog.detail ?? "no detail"})`}, so the target this run enqueues will start behind ${backlog.readOutcome === "read" ? backlog.currentlyClaimable : "an unknown number of"} claimable predecessor(s). Nothing has been charged at this point.`
   );
   evidence.imagePreflight = {
     tuple,
@@ -1046,6 +1089,8 @@ console.log("PREFLIGHT_JSON " + JSON.stringify({
     digestMatches,
     pulledDigests,
     probe,
+    imageResolvesPacket,
+    probePacketId,
     probeStderrTail: probe ? null : redactSecrets(`${probeRun.stdout ?? ""}${probeRun.stderr ?? ""}`).slice(-1200),
     backlogBeforeEnqueue: backlog
   };
