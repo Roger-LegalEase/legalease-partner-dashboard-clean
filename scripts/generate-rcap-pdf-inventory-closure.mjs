@@ -73,12 +73,24 @@ function corpusMountState(corpusIndex) {
   const nationwideRoot = ["private/Nationwide Record Clearing", process.env.OFFICIAL_FORMS_SOURCE_DIR || null]
     .find((candidate) => exists(candidate) && !String(candidate).includes("Master_Library")) ?? null;
 
+  // Mounted is not the same as complete. The delivered Nationwide tree yields
+  // 170 forms where the committed manifest was built from 409, and a
+  // regeneration from a short tree drops assets for reasons that have nothing
+  // to do with what depends on them. Condition 7 keys off completeness, not
+  // presence — see data/rcap-all50/pdf-retirement-evidence/retirement-adjudication.json.
+  const adjudication = fs.existsSync(abs("data/rcap-all50/pdf-retirement-evidence/retirement-adjudication.json"))
+    ? JSON.parse(fs.readFileSync(abs("data/rcap-all50/pdf-retirement-evidence/retirement-adjudication.json"), "utf8"))
+    : null;
+  const nationwideIsComplete = adjudication ? adjudication.completeness.theTreeIsNotComplete === false : false;
+
   return {
     declaredCorpusRoot: declaredRoot,
     nationwideSourceDir: "private/Nationwide Record Clearing",
     masterLibraryMounted: Boolean(masterLibraryRoot),
     masterLibraryRoot,
-    nationwideSourceMounted: Boolean(nationwideRoot),
+    nationwideSourceMounted: Boolean(nationwideRoot) && nationwideIsComplete,
+    nationwideSourcePresentButIncomplete: Boolean(nationwideRoot) && !nationwideIsComplete,
+    nationwideCompleteness: adjudication?.completeness ?? null,
     nationwideSourceRoot: nationwideRoot,
     corpusIsMounted: Boolean(masterLibraryRoot),
     pdfsTheIndexRecords: corpusIndex.totals?.pdfsIndexed ?? null,
@@ -432,8 +444,10 @@ function retirementConditions(handoff, mount) {
         required: "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
         state: mount.nationwideSourceMounted ? "regenerate_and_confirm" : "cannot_be_evaluated_here",
         why: mount.nationwideSourceMounted
-          ? "the Nationwide tree is mounted; run the overlay factory generator and confirm"
-          : "data/rcap-all50/overlays/overlay-factory-manifest.json is generated from private/Nationwide Record Clearing. The Master Library is mounted and is a different tree — it carries none of these assets — so this condition is still unevaluable."
+          ? "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+          : mount.nationwideSourcePresentButIncomplete
+            ? "the Nationwide tree is mounted but carries 170 of the 409 forms the committed manifest was built from. Regenerating against it drops 18 of the 30 candidates because their source files are not in the delivery — see data/rcap-all50/pdf-retirement-evidence/retirement-adjudication.json. That is a measurement of what shipped, not a proof about what depends on the asset."
+            : "data/rcap-all50/overlays/overlay-factory-manifest.json is generated from private/Nationwide Record Clearing. The Master Library is mounted and is a different tree — it carries none of these assets — so this condition is still unevaluable."
       },
       retired: false,
       whyNotRetired:

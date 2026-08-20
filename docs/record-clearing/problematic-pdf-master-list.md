@@ -16,7 +16,7 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Lane D — legal-design hold | 0 |
 | Lane E — orphaned or optional | 4 |
 | Lane F — missing binary, complete participant deferral | 0 |
-| Verified source binaries present in this clone | 62 |
+| Verified source binaries present in this clone | 64 |
 | Assets with a finalized rendered artifact | 31 |
 | Assets whose active-content verdict is unprovable | 0 |
 | Contact sheets that show a fill | 27 |
