@@ -1,0 +1,268 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-group/v1",
+  "batch": "wave-c-final-a",
+  "group": 1,
+  "reviewDate": "2026-08-20",
+  "reviewerBranch": "claude/optimistic-davinci-be3t2m",
+  "reviewedLaneBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewedLaneHead": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "headline": "Four families at e94fb456: AK TF-800 and TF-805 approved on all-page evidence with every historical objection closed against these bytes; KY AOC-334 closed its SSN objection but now prints the participant name into the agency list inside the court's order; KY AOC-496.3 was never re-rendered by the correction wave and still draws its entire county option list below the rule line.",
+  "normalizationNote": "Re-emission of final-verdicts.json in the canonical layout. No re-review was performed and no verdict, hash or finding was changed.",
+  "verdicts": [
+    {
+      "family": "AK:tf-800-form-en",
+      "jurisdiction": "AK",
+      "verdict": "approved_platform_ready",
+      "verifiedIndependently": "Yes — source bytes recomputed from the shard pack, every pinned hash recomputed from the reviewed base, and every relevant page inspected blank-versus-filled.",
+      "visualEvidence": "All 3 relevant page(s) inspected. Generated content isolated by differencing the blank source against the finalized artifact, so source-inherent marks are not read as generated text.",
+      "structuralResult": {
+        "flattened": true,
+        "acroFormFieldsSurviving": 0,
+        "annotationsSurviving": 0,
+        "xfa": false,
+        "javaScript": false,
+        "additionalActions": false,
+        "openAction": false
+      },
+      "protectedRegionResult": {
+        "courtJudgeClerkProsecutorAttorneyBlank": true,
+        "signatureBlank": true,
+        "notarizationBlank": true,
+        "serviceBlockBlank": true,
+        "decisionOrOrderRegionBlank": true,
+        "agencyRegionBlank": true
+      },
+      "historicalObjections": [
+        {
+          "objectionId": "RC-M-SERVICE-BLOCK-BY-NAME",
+          "originalObjection": "certDate on page 2: the filing date was written into the Certificate of Service blank (\"I certify on ___\"), fired from the field name rather than the printed service-block heading.",
+          "closedByCurrentBytes": true,
+          "howVerified": "The certDate binding is absent from production-field-map.json at this base, page 2 adds only the case number, and the rendered Certificate of Service block is blank on the current artifact. Verified visually and geometrically against the current bytes, not from the prior flag."
+        },
+        {
+          "objectionId": "RC-P-SIDECAR-NONCONFORMANT",
+          "originalObjection": "Sidecar missing formFamily, officialFormNumber, officialTitle, sourcePublisher, sourceUrl, sourceMetadataFingerprint, classificationSha256, packetSpecSha256 and the result blocks.",
+          "closedByCurrentBytes": true,
+          "howVerified": "Every one of those keys is populated on the current sidecar; recomputed classificationSha256 from field-classification.json bytes and it matches."
+        },
+        {
+          "objectionId": "RC-C-GEOMETRY-NOT-AN-INPUT",
+          "originalObjection": "Binding decided without the widget rect or printed caption as an input.",
+          "closedByCurrentBytes": true,
+          "howVerified": "Bindings now carry factBasis and effectiveLabel; every drawn value was checked for containment inside its own widget rect on every page and none is outside or clipped."
+        },
+        {
+          "objectionId": "RC-B-NO-APPROVAL-CHANNEL",
+          "originalObjection": "No channel existed in which an approval could be recorded.",
+          "closedByCurrentBytes": true,
+          "howVerified": "This reviewer record is that channel; the verdict below is recorded against pinned current hashes."
+        }
+      ],
+      "observations": [],
+      "rerenderStatus": {
+        "reRenderedSinceCorrectionWave": true,
+        "historicallyFrozenCanonicalSha256": "9583d1f2228dc3ba9a36b3cf61f3cfc36e8ac90246c1d9b965138bc4054cd227",
+        "currentCanonicalSha256": "de4d5014a0d9934c9b256959b7947ee0acbffb67eab2e8099f0d614276b1b807",
+        "note": "artifact differs from the frozen hash: re-rendered by the correction wave"
+      },
+      "openCorrections": 0,
+      "approvalBasis": "Every participant value lies inside the widget rect of the field it is bound to, fully contained and legible; court, judge, clerk, notarization, service and decision regions are blank; the artifact is flattened with no active content; and every historical objection is closed against these exact bytes."
+    },
+    {
+      "family": "AK:tf-805-form-en",
+      "jurisdiction": "AK",
+      "verdict": "approved_platform_ready",
+      "verifiedIndependently": "Yes — source bytes recomputed from the shard pack, every pinned hash recomputed from the reviewed base, and every relevant page inspected blank-versus-filled.",
+      "visualEvidence": "All 2 relevant page(s) inspected. Generated content isolated by differencing the blank source against the finalized artifact, so source-inherent marks are not read as generated text.",
+      "structuralResult": {
+        "flattened": true,
+        "acroFormFieldsSurviving": 0,
+        "annotationsSurviving": 0,
+        "xfa": false,
+        "javaScript": false,
+        "additionalActions": false,
+        "openAction": false
+      },
+      "protectedRegionResult": {
+        "courtJudgeClerkProsecutorAttorneyBlank": true,
+        "signatureBlank": true,
+        "notarizationBlank": true,
+        "serviceBlockBlank": true,
+        "decisionOrOrderRegionBlank": true,
+        "agencyRegionBlank": true
+      },
+      "historicalObjections": [
+        {
+          "objectionId": "RC-M-SERVICE-BLOCK-BY-NAME",
+          "originalObjection": "certDate: the filing date was written into the \"I certify on ___\" blank of the Certificate of Service.",
+          "closedByCurrentBytes": true,
+          "howVerified": "certDate binding absent at this base; page 2 adds nothing at all; the Certificate of Service renders blank on the current artifact."
+        },
+        {
+          "objectionId": "RC-P-SIDECAR-NONCONFORMANT",
+          "originalObjection": "Sidecar missing the same twelve provenance and result fields.",
+          "closedByCurrentBytes": true,
+          "howVerified": "All populated on the current sidecar; classification hash recomputed and matches."
+        },
+        {
+          "objectionId": "RC-C-GEOMETRY-NOT-AN-INPUT",
+          "originalObjection": "Binding decided without geometry as an input.",
+          "closedByCurrentBytes": true,
+          "howVerified": "All 16 drawn values on page 1 sit fully inside their own widget rects; page 2 draws nothing."
+        },
+        {
+          "objectionId": "RC-B-NO-APPROVAL-CHANNEL",
+          "originalObjection": "No approval channel existed.",
+          "closedByCurrentBytes": true,
+          "howVerified": "Recorded here against pinned current hashes."
+        }
+      ],
+      "observations": [],
+      "rerenderStatus": {
+        "reRenderedSinceCorrectionWave": true,
+        "historicallyFrozenCanonicalSha256": "4ff71dd8d636a2bb5340737dafb4d258bba2b0d950065654528af52d2d88a979",
+        "currentCanonicalSha256": "d8bdd48265050a708de1c59411f58da7c02bb34ef2110cd1e13657d805d37a5a",
+        "note": "artifact differs from the frozen hash: re-rendered by the correction wave"
+      },
+      "openCorrections": 0,
+      "approvalBasis": "Every participant value lies inside the widget rect of the field it is bound to, fully contained and legible; court, judge, clerk, notarization, service and decision regions are blank; the artifact is flattened with no active content; and every historical objection is closed against these exact bytes."
+    },
+    {
+      "family": "KY:aoc-334-form-en",
+      "jurisdiction": "KY",
+      "verdict": "correction_required",
+      "verifiedIndependently": "Yes — source bytes recomputed from the shard pack, every pinned hash recomputed from the reviewed base, and every relevant page inspected blank-versus-filled.",
+      "visualEvidence": "All 1 relevant page(s) inspected. Generated content isolated by differencing the blank source against the finalized artifact, so source-inherent marks are not read as generated text.",
+      "structuralResult": {
+        "flattened": true,
+        "acroFormFieldsSurviving": 0,
+        "annotationsSurviving": 0,
+        "xfa": false,
+        "javaScript": false,
+        "additionalActions": false,
+        "openAction": false
+      },
+      "protectedRegionResult": {
+        "courtJudgeClerkProsecutorAttorneyBlank": true,
+        "signatureBlank": true,
+        "notarizationBlank": true,
+        "serviceBlockBlank": true,
+        "decisionOrOrderRegionBlank": false,
+        "agencyRegionBlank": false
+      },
+      "historicalObjections": [
+        {
+          "objectionId": "RC-M-NO-SSN-RULE",
+          "originalObjection": "\"Defendants ssn\" rect [297,536 90x17] on page 1 received the participant's full legal name; no SSN protect rule existed.",
+          "closedByCurrentBytes": true,
+          "howVerified": "The Defendants ssn binding is gone from the current map and the SSN slot renders blank on the current artifact. Confirmed by eye on the current bytes, not from the prior flag."
+        },
+        {
+          "objectionId": "RC-C-MANUAL-NOT-NEVER-WRITE",
+          "originalObjection": "A manual-class field was writable rather than never-write.",
+          "closedByCurrentBytes": true,
+          "howVerified": "No binding on this family now names a field that also appears in manualFields, unwritableFields or bindingRefusals."
+        },
+        {
+          "objectionId": "RC-P-SIDECAR-NONCONFORMANT",
+          "originalObjection": "Sidecar missing the provenance and result fields.",
+          "closedByCurrentBytes": true,
+          "howVerified": "All populated; officialFormNumber now AOC-334."
+        },
+        {
+          "objectionId": "RC-C-GEOMETRY-NOT-AN-INPUT",
+          "originalObjection": "Binding decided without the widget rect or printed caption as an input.",
+          "closedByCurrentBytes": false,
+          "howVerified": "NOT closed. Geometry is now an input, but the printed-caption path it enabled is what places the participant name inside the court order region — see the correction below. The cause is addressed in form and reopened in effect on these bytes."
+        },
+        {
+          "objectionId": "RC-B-NO-APPROVAL-CHANNEL",
+          "originalObjection": "No approval channel existed.",
+          "closedByCurrentBytes": true,
+          "howVerified": "Channel exists; this family is not approved for a substantive reason, not a channel one."
+        }
+      ],
+      "observations": [
+        "sourceRevision is pinned REV-UNKNOWN while the footer prints \"Rev. 1-22\". Provenance fidelity gap, unchanged from the prior wave.",
+        "\"County dropdown\" is refused at this base and the County line renders blank, matching the blank source."
+      ],
+      "rerenderStatus": {
+        "reRenderedSinceCorrectionWave": true,
+        "historicallyFrozenCanonicalSha256": "5f01b700543a2e9b6499ff80cb6afe7a43c31d1b4ca47e29088282dd8628a03c",
+        "currentCanonicalSha256": "d56f10d2f71407fb290808b57cc7eb0adb5fdc66fb31859e8e10815963248247",
+        "note": "artifact differs from the frozen hash: re-rendered by the correction wave"
+      },
+      "openCorrections": 1,
+      "asset": "fixtures/canonical-filled.pdf",
+      "page": 1,
+      "fieldOrGeometry": "AcroForm text field \"listed charges\", the writable run inside the court's agency-sealing paragraph",
+      "observed": "The participant's full legal name is printed inside the ORDER paragraph. The page reads: \"The Kentucky State Police and other following agencies listed below are hereby ordered to seal any records in their custody regarding the above-named Defendant and above-listed charge(s):\" followed on the next line by \"Jordan Avery Reyes\". The map binds {\"field\":\"listed charges\",\"class\":\"participant\",\"factId\":\"participant.full_legal_name\",\"factBasis\":\"printed_label\",\"effectiveLabel\":\"their custody regarding the above-named Defendant and above-\"} — the label match is against the court's own order sentence, so the participant name lands in the space where the agencies ordered to seal are listed.",
+      "required": "The agency list inside the order is court and agency space and must be blank of participant-derived content. \"listed charges\" must not receive participant.full_legal_name; if it is to be written at all it holds charge text, and on an order the participant does not supply it.",
+      "why": "Recorded against the exact bytes at the reviewed base; see observed.",
+      "smallestCorrection": "Drop the \"listed charges\" binding from production-field-map.json, or exclude printed_label matches whose effectiveLabel falls inside a court-owned decision or agency paragraph, then re-render this family and refresh the sidecar. The Case No, Defendant and Defendants Birthdate bindings are correct and unaffected."
+    },
+    {
+      "family": "KY:aoc-496-3-form-en",
+      "jurisdiction": "KY",
+      "verdict": "correction_required",
+      "verifiedIndependently": "Yes — source bytes recomputed from the shard pack, every pinned hash recomputed from the reviewed base, and every relevant page inspected blank-versus-filled.",
+      "visualEvidence": "All 3 relevant page(s) inspected. Generated content isolated by differencing the blank source against the finalized artifact, so source-inherent marks are not read as generated text.",
+      "structuralResult": {
+        "flattened": true,
+        "acroFormFieldsSurviving": 0,
+        "annotationsSurviving": 0,
+        "xfa": false,
+        "javaScript": false,
+        "additionalActions": false,
+        "openAction": false
+      },
+      "protectedRegionResult": {
+        "courtJudgeClerkProsecutorAttorneyBlank": true,
+        "signatureBlank": true,
+        "notarizationBlank": true,
+        "serviceBlockBlank": true,
+        "decisionOrOrderRegionBlank": true,
+        "agencyRegionBlank": true
+      },
+      "historicalObjections": [
+        {
+          "objectionId": "RC-C-GEOMETRY-NOT-AN-INPUT",
+          "originalObjection": "\"3 County Dropdown\" (rect x=452 y=693 w=124): the map declares the binding but the draw does not land in the widget rect.",
+          "closedByCurrentBytes": false,
+          "howVerified": "NOT closed. The canonical artifact at this base is byte-identical to the historically frozen hash 850a0936..., i.e. this family was never re-rendered. The defect reproduces exactly on the current bytes and was confirmed visually."
+        },
+        {
+          "objectionId": "RC-P-SIDECAR-NONCONFORMANT",
+          "originalObjection": "Sidecar missing the provenance and result fields.",
+          "closedByCurrentBytes": true,
+          "howVerified": "The sidecar was refreshed even though the artifact was not; every field is populated and every pinned hash recomputes."
+        },
+        {
+          "objectionId": "RC-B-NO-APPROVAL-CHANNEL",
+          "originalObjection": "No approval channel existed.",
+          "closedByCurrentBytes": true,
+          "howVerified": "Channel exists; this family is not approved for a substantive reason."
+        }
+      ],
+      "observations": [
+        "sourceRevision is pinned REV-UNKNOWN while the footer prints \"Rev. 6-23\".",
+        "The applicant NAME, ADDRESS and PHONE lines on page 1 are refused (fields carry bare ordinal names) and render blank, so this application artifact is fail-closed but not participant-complete.",
+        "Page 3 retains the court's own \"Print Form\"/\"Reset Form\" button captions as flattened inert graphics. Source-inherent, not generated content."
+      ],
+      "rerenderStatus": {
+        "reRenderedSinceCorrectionWave": false,
+        "historicallyFrozenCanonicalSha256": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a",
+        "currentCanonicalSha256": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a",
+        "note": "byte-identical to the frozen artifact: never re-rendered"
+      },
+      "openCorrections": 1,
+      "asset": "fixtures/canonical-filled.pdf",
+      "page": 1,
+      "fieldOrGeometry": "AcroForm choice field \"3 County Dropdown\" (/Ch, 121 options), rect [452.0, 692.8, 576.0, 706.2]",
+      "observed": "A single 791-glyph run is drawn at y1=692.2 spanning x=[452.0..507.6] — starting at the rect left edge but below its lower bound, so the County rule line clips it to an illegible smear. The run is the field's entire /Opt list (all 120 Kentucky counties plus the blank option) concatenated: 121 options totalling 792 characters against 791 glyphs drawn. The field's value /V is \" \", so nothing is selected. This artifact is byte-identical to the historically frozen hash, so the family was never re-rendered and the original objection reproduces exactly.",
+      "required": "A /Ch field must flatten to its selected value only, drawn once, legibly, inside the widget rect. With /V = \" \" the County region must render blank, as the blank source does.",
+      "why": "Recorded against the exact bytes at the reviewed base; see observed.",
+      "smallestCorrection": "In the /Ch flatten path draw /V rather than the /Opt list and skip the draw when /V is empty or whitespace; then re-render this family — it is the one family in this shard that the correction wave never re-rendered. The 1 Case Number binding is correct and unaffected."
+    }
+  ]
+}
