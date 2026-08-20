@@ -124,6 +124,23 @@ export function regionProtectCategoryOf(heading) {
   return byName && REGIONAL_PROTECT_CATEGORIES.has(byName) ? byName : null;
 }
 
+/**
+ * The facts that ATTEST rather than inform.
+ *
+ * A signature block is not uniformly protected: VA CC-1201 asks for the
+ * petitioner's address and telephone inside it, and those are contact details
+ * the participant supplies like any other. What the platform must never put
+ * there is the pair that makes a declaration executed — the name printed beside
+ * a signature it did not write, and the date that signature was given. VT
+ * 600-00228 heads its last block "Section 5: Signatures and Declaration" and
+ * puts a printed-name line in it; the reviewer's note that Section 5 is
+ * properly blank is what this keeps true.
+ */
+export const ATTESTING_FACTS = new Set([
+  "participant.full_legal_name", "participant.first_name", "participant.last_name",
+  "participant.middle_name", "deterministic.filing_date"
+]);
+
 // --- allowlisted fact descriptors ------------------------------------------
 // The ONLY things that may ever be written. Each declares the value type it
 // carries and, where the fact is legally sensitive, that it may not bind
@@ -144,7 +161,12 @@ export const FACT_DESCRIPTORS = [
   // The email fact binds only to the canonical participant email. No other
   // contact value substitutes for it, and no email is ever synthesised from
   // other participant data: a missing email leaves the line blank.
-  { factId: "participant.email", valueType: "string", match: /\be[-\s]?mail\b/ },
+  // The email line, not the line asking why there is no email. Nebraska's
+  // forms print "If you do not have an email address, state the reason" under
+  // the email line, and a platform that writes the address into both has
+  // answered a question nobody asked with the answer to a different one.
+  { factId: "participant.email", valueType: "string", match: /\be[-\s]?mail\b/,
+    refuseWhen: /\breason\b|\bwhy\b|do(es)?\s*not\s*have|\bno\s*e[-\s]?mail\b|unable\s*to/ },
   // The alternative block, and it is tried first because its own name contains
   // the primary block's. NC AOC-CV-226 prints a second address block headed
   // "Full Permanent Mailing Address (if different than above)": the primary
@@ -158,7 +180,7 @@ export const FACT_DESCRIPTORS = [
   // form marks out as another one -- "Full Permanent Mailing Address (if
   // different than above)" -- is conditional.
   { factId: "participant.mailing_street_address", valueType: "string", requiresDistinctAlternate: true,
-    match: /(full|permanent|alternat(e|ive)|secondary|other)\s*(permanent\s*)?mailing\s*(address|addr)/,
+    match: /(full|permanent|alternat(e|ive)|secondary|other)\s*(permanent\s*)?mailing\s*(address|addr)|mailing\s*(address|addr).{0,24}if\s*different/,
     refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal/ },
   { factId: "participant.mailing_city", valueType: "string", requiresDistinctAlternate: true,
     match: /(full|permanent|alternat(e|ive)|secondary|other)\s*(permanent\s*)?mailing\s*address\s*city/ },
@@ -180,8 +202,17 @@ export const FACT_DESCRIPTORS = [
   { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b|street\s*(number|name|no\b)/, refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal|\bcounty\b|\bbank\b|\bemployer\b|\bcourt\b/ },
   { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b|\bcourt\b|\bcounty\s*(of|or)\s*city\b|\bcity\s*(of|or)\s*county\b/ },
   { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/ },
-  { factId: "participant.phone", valueType: "string", match: /\bphone\b|telephone/, refuseWhen: /\be[-\s]?mail\b/ },
-  { factId: "participant.state", valueType: "string", match: /\bstate\b/ },
+  // The participant's own number, not their employer's. VT 600-00228 prints
+  // "Home / Cell Phone" and "Work Phone" on one line, and the platform holds
+  // one phone fact: writing it into both states as fact that the applicant's
+  // employer can be reached on their mobile.
+  { factId: "participant.phone", valueType: "string", match: /\bphone\b|telephone/,
+    refuseWhen: /\be[-\s]?mail\b|\bwork\b|\bbusiness\b|\bemployer\b|\bfax\b/ },
+  // "State" is also a verb, and forms use it constantly: "If you do not have
+  // an email address, state the reason". Read as a jurisdiction that caption
+  // put "XX" on a line asking why the participant has no email.
+  { factId: "participant.state", valueType: "string", match: /\bstate\b/,
+    refuseWhen: /\bstate\s+(the|your|his|her|their|why|whether|all|each|any|briefly|fully|reason)\b|\bplease\s*state\b|\bstates?\s+that\b/ },
   { factId: "matter.county", valueType: "string", match: /\bcounty\b/ },
   { factId: "matter.court", valueType: "string", match: /court\s*name|type\s*of\s*court|judicial\s*(district|circuit)/ },
   { factId: "matter.case_number", valueType: "string", match: /case\s*(no|num|#)|docket|cause\s*(no|num)|file\s*(no|num)|case\s*id/,
@@ -195,7 +226,7 @@ export const FACT_DESCRIPTORS = [
   // rules stop the attorney, prosecutor and identifier cases now; this refusal
   // stops the rest, where the haystack names a slot that is plainly not a
   // person's name.
-  { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|\badult\s*name\b|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/, refuseWhen: /\bbank\b|\bstreet\b|\baddr(ess)?\b|\bcity\b|\bzip\b|postal|\bphone\b|telephone|\be[-\s]?mail\b|\bemployer\b|\bschool\b|\bcourt\s*name\b|type\s*of\s*court|\bcounty\b/ },
+  { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|\badult\s*name\b|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/, refuseWhen: /name\s*change|change\s*of\s*name|\bbank\b|\bstreet\b|\baddr(ess)?\b|\bcity\b|\bzip\b|postal|\bphone\b|telephone|\be[-\s]?mail\b|\bemployer\b|\bschool\b|\bcourt\s*name\b|type\s*of\s*court|\bcounty\b/ },
   { factId: "deterministic.filing_date", valueType: "date", match: /date\s*signed|signature\s*date|date\s*of\s*(this\s*)?(filing|signature)|today\s*s?\s*date|^\s*dated?\s*$|cert\s*date/ },
   // Legally sensitive dates. These describe the criminal event itself, and a
   // wrong value misstates the record to a court, so they never bind on a name
@@ -469,6 +500,13 @@ export function decideBinding(field, options = {}) {
         captionFactIds: fromLabel.map((d) => d.factId)
       };
     }
+  }
+
+  // A signature block protects what attests, not what informs.
+  if (regionHeading && !regionIsDocumentTitle
+    && protectCategoryOf(regionHeading) === "signature" && ATTESTING_FACTS.has(descriptor.factId)) {
+    return { writable: false, reason: "attesting_value_inside_a_signature_block",
+      category: "signature", factId: descriptor.factId, regionHeading };
   }
 
   // What the form prints AFTER the blank, on the blank's own line, describes

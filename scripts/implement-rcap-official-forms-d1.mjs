@@ -25,7 +25,7 @@ import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines, captureWidgetContext } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { decideBinding as decideTypedBinding, selectOnePerSlot } from "./rcap-official-forms/rcap-field-semantics.mjs";
-import { finalizeOfficialForm, finalizeFlatOverlay, NonFilingHoldError }
+import { finalizeOfficialForm, finalizeFlatOverlay, NonFilingHoldError, printedFormTextOn }
   from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenance.mjs";
 import { buildContactSheet, ContactSheetProofError, visibleTextOfDocument, missingExpectedValues }
@@ -169,6 +169,11 @@ const RULES = [
   // agency's own address. It is transcribed from the participant's record,
   // never populated from the participant's contact facts.
   [/agency|sheriff|police|law\s*enforcement|bureau|state\s*patrol|probation|parole/, "manual"],
+  // A box asking WHY is a box the participant writes prose into. NC
+  // AOC-CR-298 names one NotEligibleReason and prints it inside numbered
+  // paragraph 12, so the paragraph's own number and party word read as its
+  // caption; nothing the platform holds is an answer to it.
+  [/\breason\b|\bexplain\b|\bdescribe\b|\bcomments?\b|\bnarrative\b/, "manual"],
   [/\bage\s*at\b|age\s*of\s*(the\s*)?(petitioner|defendant)|\bage\b/, "manual"],
   [/\bdivision\b/, "manual"],
   [/date\s*signed|signature\s*date|date\s*of\s*(this\s*)?(filing|signature)|today\s*s?\s*date|^\s*dated?\s*$|cert\s*date/, "deterministic"],
@@ -186,10 +191,42 @@ const RULES = [
   [/charge|offense|statute|violation|\bcount\b|arrest\s*date|date\s*of\s*arrest|conviction\s*date|disposition\s*date/, "participant"]
 ];
 const UNUSED_NAME = /^\s*$|^(text|field|untitled|undefined|blank|fill)\s*\d*\s*(\|\||$)/;
+// A field name that carries no words at all: a bare number, or a generic stem
+// and a number. These are the names whose printed caption is the only thing
+// that says what the box is for.
+const NAMELESS_FIELD = /^(text|field|untitled|undefined|blank|fill|line|box)?\s*\d{1,4}[a-z]?$/i;
 
-function classify(name, type, ownership) {
+/**
+ * `effectiveLabel` is the caption the form prints beside the field, and it is
+ * consulted only where the NAME says nothing.
+ *
+ * VT 600-00228 names its fields 2, 3, 4, 5a, 6 and 7. No rule matches a digit,
+ * so every one of them classified `manual` — and `manual` is not writable, so
+ * the role refusal held even after the binder learned to read printed labels.
+ * A fee-waiver application whose whole purpose is to state the applicant's
+ * identity and means was filed with no name, no address, no phone and no email
+ * on it, while every one of those facts sat in the fact set.
+ *
+ * The order is what keeps this safe: the name is asked first and every family
+ * whose names already work is untouched, and the caption is run through the
+ * same rules in the same order, so an unwritable class still wins over a
+ * participant one. A caption that says "Certificate of Service" protects the
+ * field exactly as that field name would.
+ */
+export function classify(name, type, ownership, effectiveLabel = null) {
   const hay = haystack(name);
   for (const [re, cls] of RULES) if (re.test(hay)) return cls;
+  // ...and only where the name is CONTENTLESS. VT names its fields 2, 3, 4,
+  // 5a; a name like that says nothing, so the caption is all there is. A name
+  // that says something and matches no rule is a different case: NC
+  // AOC-CR-298's NotEligibleReason sits inside numbered paragraph 12, whose
+  // own number and party word are the nearest printed words to it, and reading
+  // those as its caption would classify a free-text reason box as the
+  // petitioner's name.
+  if (effectiveLabel && effectiveLabel !== name && NAMELESS_FIELD.test(String(name).trim())) {
+    const labelHay = haystack(effectiveLabel);
+    for (const [re, cls] of RULES) if (re.test(labelHay)) return cls;
+  }
   if (UNUSED_NAME.test(hay)) return "unused";
   // A named election the renderer cannot decide from participant facts.
   if (type === "checkbox" || type === "radio" || type === "dropdown" || type === "optionlist") return "manual";
@@ -527,7 +564,8 @@ for (const fam of index.families) {
   const ownership = determineOwnership(record, printedLines);
   const pageIndexOf = new Map(pages.map((p, i) => [p.ref.toString(), i + 1]));
   let fields = [];
-  try { fields = doc.getForm().getFields(); } catch { fields = []; }
+  let acroForm = null;
+  try { acroForm = doc.getForm(); fields = acroForm.getFields(); } catch { acroForm = null; fields = []; }
 
   const census = fields.map((f) => {
     const type = fieldType(f);
@@ -589,7 +627,9 @@ for (const fam of index.families) {
   }
 
   const classification = census.map((c) => ({
-    name: c.name, type: c.type, class: classify(c.name, c.type, ownership),
+    name: c.name, type: c.type, class: classify(c.name, c.type, ownership, c.effectiveLabel),
+    classBasis: classify(c.name, c.type, ownership) === classify(c.name, c.type, ownership, c.effectiveLabel)
+      ? "field_name" : "printed_label",
     effectiveLabel: c.effectiveLabel, labelBasis: c.labelBasis, trailingLabel: c.trailingLabel,
     regionHeading: c.regionHeading, regionIsDocumentTitle: c.regionIsDocumentTitle === true
   }));
@@ -625,8 +665,16 @@ for (const fam of index.families) {
     // the map refuses. It did not before: the comment here asserted the factory
     // would refuse these at render time and nothing did, and six families
     // carried values in fields their own maps called unwritable.
+    // The same question the finalizer asks, asked here so the map and the
+    // artifact cannot disagree about it. Nebraska prints "IN THE", "COURT OF"
+    // and "COUNTY, NEBRASKA" through fields; a map that declared a binding on
+    // one of those would be declaring a write the renderer correctly refuses.
+    const printsTheForm = acroForm ? printedFormTextOn(acroForm, doc, c.name) : null;
     if (decision.writable && isUnwritableClass(c.class)) {
       bindingRefusals.push({ field: c.name, reason: "classified_unwritable_by_role", category: c.class });
+    } else if (decision.writable && printsTheForm) {
+      bindingRefusals.push({ field: c.name, reason: "widget_appearance_carries_printed_form_text",
+        category: "source_text", factId: decision.factId, drawnText: printsTheForm });
     } else if (decision.writable) {
       // `factBasis` says which channel bound it — the field's own name, or the
       // caption the form prints beside it. A map that does not say which is a

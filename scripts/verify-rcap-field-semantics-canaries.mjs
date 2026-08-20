@@ -250,6 +250,48 @@ const PRINTED_CANARIES = [
     consequence: "an election caption used to unprotect a signature block, which is a kind of box rather than a party"
   },
   {
+    id: "SIGNATURE-BLOCK-KEEPS-THE-NAME-OUT-VT",
+    family: "VT:600-00228-support-en",
+    field: "117",
+    printed: { label: "Printed Name" },
+    options: { regionHeading: "Section 5: Signatures and Declaration" },
+    expect: (r) => r.writable === false && r.reason === "attesting_value_inside_a_signature_block",
+    consequence: "a name printed beside a signature this platform did not write, on a declaration under penalty of perjury"
+  },
+  {
+    id: "SIGNATURE-BLOCK-STILL-TAKES-CONTACT-DETAILS",
+    family: "VA:cc-1201-form-en",
+    field: "User.AddressOfPetAtt",
+    printed: { label: "ADDRESS" },
+    options: { regionHeading: "SIGNATURE OF PETITIONER" },
+    expect: (r) => r.writable === true && r.factId === "participant.street_address",
+    consequence: "the petitioner's address refused off the block the form asks for it in, because a signature line shares the block"
+  },
+  {
+    id: "WORK-PHONE-IS-NOT-THE-PARTICIPANT-VT",
+    family: "VT:600-00228-support-en",
+    field: "7",
+    printed: { label: "Work Phone" },
+    expect: (r) => r.writable === false,
+    consequence: "the applicant's own number filed as the number their employer can be reached on"
+  },
+  {
+    id: "NO-EMAIL-REASON-IS-NOT-AN-EMAIL-NE",
+    family: "NE:cc-6-11-form-en",
+    field: "noemailreason",
+    printed: { label: "If you do not have an email address, state the reason" },
+    expect: (r) => r.writable === false,
+    consequence: "the participant's email address filed as their reason for not having one"
+  },
+  {
+    id: "ALT-BLOCK-BY-THE-FORM-S-OWN-CONDITION-VT",
+    family: "VT:600-00228-support-en",
+    field: "5",
+    printed: { label: "Mailing Address: (if different from street address)" },
+    expect: (r) => r.writable === false && r.reason === "alternate_address_block_not_established_as_different",
+    consequence: "a block the form conditions on being different, filled with the address it is different from"
+  },
+  {
     id: "UNDECODABLE-CAPTION-DECIDES-NOTHING",
     family: "NC:aoc-cv-226-support-en",
     field: "ApplicantStreetNumberAndStreetNameLine1",
@@ -270,7 +312,10 @@ for (const canary of CANARIES) {
 
 console.log("  canaries, with the words the form prints");
 for (const canary of PRINTED_CANARIES) {
-  const result = printed(canary.field, canary.printed);
+  const result = canary.options
+    ? decideBinding({ name: canary.field, pdfType: "text", effectiveLabel: canary.printed.label ?? null,
+      trailingLabel: canary.printed.trailing ?? null, regionHeading: canary.options.regionHeading ?? null }, {})
+    : printed(canary.field, canary.printed);
   const passed = canary.expect(result);
   console.log(`    ${passed ? "ok  " : "FAIL"} ${canary.id.padEnd(44)} ${canary.field.padEnd(24)} → ${result.writable ? `writes ${result.factId}` : `refused ${result.reason}${result.category ? `/${result.category}` : ""}`}`);
   if (!passed) failures.push(`${canary.id} (${canary.family}): ${canary.consequence}`);

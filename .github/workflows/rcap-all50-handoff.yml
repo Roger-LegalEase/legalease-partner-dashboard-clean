@@ -219,6 +219,31 @@ jobs:
       - name: Prove the shared PDF contract guards are load-bearing
         run: node scripts/verify-rcap-shared-pdf-contract.mjs --mutations
 
+      # What a widget carries onto a filed page, proved on flattened bytes.
+      # A refused widget keeps the source's own chooser prompt unless its
+      # appearance is cleared as well as its value — Nebraska's choosers carry
+      # no value at all — and a field the form PRINTS through must not be
+      # written into, or the statute's own caption comes off the filing.
+      - name: Verify what a widget carries onto a filed page
+        run: node scripts/verify-rcap-widget-appearance-canaries.mjs
+
+      # The caption and region channels the binder decides from, measured out
+      # of real PDFs this suite builds rather than asserted against a matcher.
+      - name: Verify the widget context channels
+        run: node scripts/verify-rcap-widget-geometry-canaries.mjs
+
+      # Every field-semantics correction, with the mutation that proves each one
+      # is load-bearing.
+      - name: Verify the typed fail-closed binder
+        run: node scripts/verify-rcap-field-semantics-canaries.mjs
+
+      # An evidence record that changes when nothing changed is not evidence.
+      # Every generator runs twice and the digest of the whole tree has to be
+      # identical afterwards, every check mode runs against the committed bytes,
+      # and every field named `current` is recomputed from the file it names.
+      - name: Verify the evidence records reproduce themselves
+        run: node scripts/verify-rcap-evidence-determinism.mjs
+
       # The 41 intended-paid pathways with no registry track keep everything a
       # pathway can have without one — the compiled pathway verbatim, its
       # pathway-level packet set, the legal-design evidence covering its

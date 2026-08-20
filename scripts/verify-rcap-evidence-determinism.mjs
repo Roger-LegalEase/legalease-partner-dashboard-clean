@@ -111,6 +111,78 @@ for (const { script, check } of GENERATORS) {
   console.log(`    ${result.ok ? "ok  " : "FAIL"} ${script} ${check.join(" ")} (${result.seconds}s)`);
 }
 
+// ---------------------------------------------------------------------------
+// A field named `current` pins current bytes.
+//
+// The rerender evidence carried a second copy of each artifact digest under a
+// "new" name. Both were read off the same file, so they agreed when written and
+// stopped agreeing the moment anything rendered — and at the wave C review base
+// three families had been rendered again while the record still described the
+// previous run's bytes, with every "proven against this family's bytes" flag on
+// them resting on digests that were no longer the artifact.
+//
+// The historical copies are gone. This is the guard that keeps them gone: every
+// field whose name begins with `current` is recomputed from the file it claims
+// to describe, and a `current*` field this table does not know how to resolve
+// is a failure rather than something nobody checked.
+// ---------------------------------------------------------------------------
+
+const CURRENT_PINS = [
+  {
+    record: "data/rcap-all50/pdf-independent-reviews/gate-b-family-rerender-evidence.json",
+    rows: (json) => json.families ?? [],
+    resolve: {
+      currentMapOrProfileSha256: (row) => row.currentMapOrProfilePath,
+      currentClassificationSha256: (row) => `${row.familyPackagePath}/field-classification.json`,
+      currentCanonicalArtifactSha256: (row) => `${row.familyPackagePath}/fixtures/canonical-filled.pdf`,
+      currentBoundaryArtifactSha256: (row) => `${row.familyPackagePath}/fixtures/boundary-filled.pdf`,
+      currentContactSheetSha256: (row) => `${row.familyPackagePath}/contact-sheet/blank-vs-filled.pdf`,
+      currentSourceSha256: null
+    }
+  },
+  {
+    record: "data/rcap-all50/pdf-independent-reviews/wave-c-corrections/wave-c-corrections.json",
+    rows: (json) => json.families ?? [],
+    resolve: {
+      currentCanonicalArtifactSha256: (row) => `${row.familyPackagePath}/fixtures/canonical-filled.pdf`,
+      currentContactSheetSha256: (row) => `${row.familyPackagePath}/contact-sheet/blank-vs-filled.pdf`
+    }
+  }
+];
+
+const digestOf = (rel) => {
+  const abs = path.join(rootDir, rel);
+  return fs.existsSync(abs) ? createHash("sha256").update(fs.readFileSync(abs)).digest("hex") : null;
+};
+
+console.log("  current* fields, against the bytes on disk");
+let pinsChecked = 0;
+for (const { record, rows, resolve } of CURRENT_PINS) {
+  const file = path.join(rootDir, record);
+  if (!fs.existsSync(file)) { failures.push(`${record} is absent, so its pins cannot be checked`); continue; }
+  const json = JSON.parse(fs.readFileSync(file, "utf8"));
+  for (const row of rows(json)) {
+    for (const key of Object.keys(row)) {
+      if (!/^current[A-Z]/.test(key) || !key.endsWith("Sha256")) continue;
+      if (!(key in resolve)) {
+        failures.push(`${record}: ${key} is named "current" and nothing here knows which file it pins`);
+        continue;
+      }
+      // A source digest is pinned from the record, not recomputed: the
+      // official bytes are not in the repository and a receipt is not source
+      // proof. It is listed so it cannot be silently added later.
+      if (resolve[key] === null) continue;
+      const rel = resolve[key](row);
+      const expected = digestOf(rel);
+      pinsChecked += 1;
+      if ((row[key] ?? null) !== expected) {
+        failures.push(`${record}: ${row.familyId ?? "row"}.${key} is ${row[key] ?? "null"}; ${rel} hashes to ${expected ?? "nothing (the file is absent)"}`);
+      }
+    }
+  }
+}
+console.log(`    ${failures.length === 0 ? "ok  " : "    "} ${pinsChecked} current* digests recomputed from the files they name`);
+
 if (failures.length) {
   console.error(`FAIL evidence determinism — ${failures.length} problem(s)`);
   for (const failure of failures) console.error(`  ${failure}`);
@@ -119,5 +191,6 @@ if (failures.length) {
 
 console.log(
   `OK evidence determinism — ${GENERATORS.length} generators run twice, ` +
-  `${after.files} files identical across both passes, every check mode green`
+  `${after.files} files identical across both passes, every check mode green, ` +
+  `${pinsChecked} current* digests recomputed from the files they name`
 );

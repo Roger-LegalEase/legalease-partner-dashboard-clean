@@ -13,23 +13,23 @@ every correction below is proved at the module level by its own canaries and re-
 
 | family | chooser prompts on the page | fields whose captured channels are glyph ids | channels that change when re-measured | bindings that change |
 | --- | --- | --- | --- | --- |
-| `AK:tf-800-form-en` | 0 | 0 | 21 | 0 |
+| `AK:tf-800-form-en` | 0 | 0 | 23 | 0 |
 | `AK:tf-805-form-en` | 0 | 1 | 13 | 0 |
-| `KY:aoc-334-form-en` | 0 | 2 | 18 | 2 |
-| `KY:aoc-496-3-form-en` | 0 | 60 | 62 | 0 |
+| `KY:aoc-334-form-en` | 0 | 2 | 18 | 3 |
+| `KY:aoc-496-3-form-en` | 0 | 60 | 62 | 1 |
 | `NC:aoc-cr-287-form-en` | 0 | 15 | 96 | 4 |
-| `NC:aoc-cr-288-form-en` | 0 | 17 | 120 | 4 |
-| `NC:aoc-cr-296-form-en` | 0 | 13 | 120 | 0 |
+| `NC:aoc-cr-288-form-en` | 0 | 17 | 110 | 4 |
+| `NC:aoc-cr-296-form-en` | 0 | 13 | 109 | 0 |
 | `NC:aoc-cr-298-form-en` | 0 | 13 | 101 | 4 |
 | `NC:aoc-cv-226-support-en` | 0 | 3 | 75 | 4 |
 | `NE:cc-6-11-2-form-en` | 2 | 9 | 9 | 0 |
 | `NE:cc-6-11-form-en` | 2 | 19 | 19 | 1 |
-| `NE:cc-6-12-form-en` | 2 | 15 | 20 | 1 |
-| `NE:cc-6-15-1-form-en` | 2 | 21 | 21 | 0 |
-| `NE:dc-1-15-form-en` | 2 | 74 | 74 | 0 |
-| `VA:cc-1201-form-en` | 0 | 1 | 80 | 3 |
-| `VA:cc-1473-form-en` | 0 | 0 | 34 | 0 |
-| `VT:600-00228-support-en` | 0 | 10 | 80 | 0 |
+| `NE:cc-6-12-form-en` | 2 | 15 | 20 | 2 |
+| `NE:cc-6-15-1-form-en` | 2 | 21 | 21 | 1 |
+| `NE:dc-1-15-form-en` | 2 | 74 | 74 | 4 |
+| `VA:cc-1201-form-en` | 0 | 1 | 73 | 2 |
+| `VA:cc-1473-form-en` | 0 | 0 | 33 | 0 |
+| `VT:600-00228-support-en` | 0 | 10 | 79 | 5 |
 
 ## Record corrections applied
 

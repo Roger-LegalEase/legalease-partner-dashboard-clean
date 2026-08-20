@@ -40,7 +40,7 @@ import { createRequire } from "node:module";
 import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
 import { attributePageText, recaptureFieldContext, blankPagesOf } from "./rcap-official-forms/rcap-blank-panel.mjs";
 import { decideBinding, selectOnePerSlot, isUndecodableText } from "./rcap-official-forms/rcap-field-semantics.mjs";
-import { prosecutorOwnershipEvidence } from "./implement-rcap-official-forms-d1.mjs";
+import { prosecutorOwnershipEvidence, classify } from "./implement-rcap-official-forms-d1.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument } = require("pdf-lib");
@@ -410,7 +410,12 @@ for (const [familyId, dir] of familyDirs) {
           regionIsDocumentTitle: context.regionIsDocumentTitle === true },
         { captionOnly: map.captionOnly === true, availableChargeRows: 1, documentAcceptsFill: true }
       );
-      if (decision.writable && !WRITABLE_CLASSES.has(entry.class)) {
+      // The ROLE a rerender would give it, not the one recorded before the
+      // caption channel reached the classifier: VT names its fields as bare
+      // digits, so every one of them classified `manual` and the role refusal
+      // held even after the binder learned to read printed labels.
+      const role = classify(entry.name, entry.type, classification.documentOwnership, context.effectiveLabel ?? null);
+      if (decision.writable && !WRITABLE_CLASSES.has(role)) {
         refusals.set(entry.name, "classified_unwritable_by_role");
       } else if (decision.writable) {
         const field = byName.get(entry.name);

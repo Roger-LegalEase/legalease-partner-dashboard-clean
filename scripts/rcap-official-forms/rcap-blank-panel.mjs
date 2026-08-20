@@ -43,7 +43,16 @@ const unscale = (item) => ({
   y: (item.y - PANEL_MARGIN) / PANEL_SCALE,
   size: item.size / PANEL_SCALE,
   width: (item.width ?? 0) / PANEL_SCALE,
-  chars: (item.chars ?? []).map((c) => ({ ...c, x: (c.x - PANEL_MARGIN) / PANEL_SCALE, w: c.w / PANEL_SCALE }))
+  // Every measurement a character carries, not just its position: the cell
+  // splitter compares gaps against the character's own font size, and a size
+  // left in sheet space made every threshold six-tenths of what it should be —
+  // and made a 12-point section heading read as 7.4-point body text.
+  chars: (item.chars ?? []).map((c) => ({
+    ...c,
+    x: (c.x - PANEL_MARGIN) / PANEL_SCALE,
+    w: c.w / PANEL_SCALE,
+    size: (c.size ?? item.size) / PANEL_SCALE
+  }))
 });
 
 /**

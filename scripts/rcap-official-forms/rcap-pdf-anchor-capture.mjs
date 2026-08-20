@@ -731,6 +731,9 @@ const CAPTION_MAX_CHARS = 60;
 const FULL_WIDTH_HEADING_SHARE = 0.6;
 // Two heading lines this close together are one title block.
 const TITLE_BLOCK_LINE_GAP = 26;
+// How near the page's left text margin a heading has to start to be read as
+// heading the page rather than its own column.
+const LEFT_MARGIN_TOLERANCE = 3;
 
 const overlaps1d = (a1, a2, b1, b2) => Math.min(a2, b2) - Math.max(a1, b1) > 0;
 const overlapWidth = (a1, a2, b1, b2) => Math.max(0, Math.min(a2, b2) - Math.max(a1, b1));
@@ -788,7 +791,15 @@ export function pageRegions(page, precomputedLines = null, { isFirstPage = true 
       headings.push({
         text, size: cell.size ?? null, y: line.y, x: cell.x, x2: cell.x2,
         basis: larger ? "set_larger_than_body_text" : "printed_in_full_capitals",
+        // A heading that starts at the page's own left text margin heads the
+        // page, whatever its width. VT 600-00228 prints "Section 5: Signatures
+        // and Declaration" at the margin and puts its signature and
+        // printed-name boxes on the right half of the page; measured on
+        // overlap alone that heading governed nothing, and the block it names
+        // stopped being protected. NC's title block, which is what the column
+        // constraint exists for, is set at x 371 — not at the margin.
         spansPage: (cell.x2 - cell.x) / printedWidth >= FULL_WIDTH_HEADING_SHARE
+          || cell.x <= printedLeft + LEFT_MARGIN_TOLERANCE
       });
     }
   }
