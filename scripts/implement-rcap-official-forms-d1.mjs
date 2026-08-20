@@ -379,8 +379,31 @@ await main();
 }
 
 async function main() {
+// The source root has to be there before anything is processed.
+//
+// Every family resolves its bytes under SRC and is skipped when the file is
+// absent, which is correct per family and catastrophic in aggregate: with no
+// extract mounted, EVERY family is skipped, and the run then rewrote
+// implementation-index.json from an empty result set. A no-source run
+// therefore replaced a populated index with one describing nothing, deleting
+// the record of 146 families while reporting success and exiting 0.
+//
+// A run that processed nothing has learned nothing, and must not be allowed to
+// overwrite what a run that processed everything recorded. So the source root
+// is validated up front, and the index write below is gated on having actually
+// rendered something.
+if (!fs.existsSync(SRC) || !fs.statSync(SRC).isDirectory()) {
+  console.error(`FAIL official-forms D1 — the source root is absent: ${SRC}`);
+  console.error("Set RCAP_BUNDLE_EXTRACT to the mounted Master Library extract. Nothing was written.");
+  process.exit(1);
+}
+
 const index = readJson(path.join(OUT, "verified-binary-index.json"));
 const results = [];
+// Families whose pinned bytes were actually read and matched. Not results.length:
+// that also counts families skipped for an approved map or for source drift,
+// and a run made entirely of skips is exactly the run this guard exists to stop.
+let processedFamilies = 0;
 
 for (const fam of index.families) {
   const jurisdictionSlug = { WI: "wisconsin", AL: "alabama", AR: "arkansas", VA: "virginia", AK: "alaska",
@@ -410,6 +433,8 @@ for (const fam of index.families) {
   const bytes = fs.readFileSync(abs);
   const sha = crypto.createHash("sha256").update(bytes).digest("hex");
   if (sha !== record.sha256) { results.push({ family: fam.familySlug, status: "source_drift_detected" }); continue; }
+  // Past the byte read and the hash match: this family is genuinely source-backed.
+  processedFamilies += 1;
 
   const ownership = determineOwnership(record);
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
@@ -835,6 +860,19 @@ for (const fam of index.families) {
     candidateLabels: candidateLabels.length, filled, contactSheet,
     findings: findings.length, status: record.implementationStatus,
     holds: record.productionHolds?.length ?? 0 });
+}
+
+// A run that rendered nothing does not get to describe the corpus.
+//
+// The index is left exactly as it was -- not rewritten with the same content,
+// not touched at all -- so a refusal is provably non-destructive by mtime as
+// well as by hash.
+if (processedFamilies === 0) {
+  console.error("FAIL official-forms D1 — 0 source-backed families were processed.");
+  console.error(`Source root: ${SRC}`);
+  console.error("Every family was skipped, which means the extract does not carry their pinned bytes.");
+  console.error("implementation-index.json was NOT written and is unchanged.");
+  process.exit(1);
 }
 
 fs.writeFileSync(path.join(OUT, "implementation-index.json"), JSON.stringify({
