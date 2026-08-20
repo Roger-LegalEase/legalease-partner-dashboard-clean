@@ -249,7 +249,20 @@ for (const packet of packets.packets) {
       && blocking.length === 0,
     blockedBy: blocking.length
       ? `${blocking.length} shared-module cause(s): ${blocking.join(", ")}`
-      : (owner === "source_lane" ? "the source lane" : null)
+      : (owner === "source_lane" ? "the source lane" : null),
+    // A family whose bytes this container COULD re-render, and where doing it
+    // now would cost more than it buys. Recorded so the restraint is a
+    // decision on the record rather than an omission someone finds later.
+    heldRender: rerenderable && blocking.length
+      ? {
+        couldRerenderHere: true,
+        heldBecause: `re-rendering would change every artifact hash while ${blocking.join(", ")} is still live, so the new artifact would carry the same disqualifying defect`,
+        andWouldCost: packet.familyId === "WI:cr-266-form-en"
+          ? "the corpus's only platform_ready approval, which names the current hashes — the gate would refuse the new bytes and platform_ready would fall to 0 with nothing gained"
+          : "a second re-render once the shared fix lands, and a reviewer's time on bytes that are already superseded",
+        doItWhen: `${blocking.join(", ")} is corrected, then re-render once and hand the new hashes to the reviewer`
+      }
+      : null
   });
 }
 
