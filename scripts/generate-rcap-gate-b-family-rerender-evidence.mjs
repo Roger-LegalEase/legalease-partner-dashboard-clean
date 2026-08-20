@@ -185,13 +185,26 @@ for (const familyId of handoff.familiesUnblockedForRerender ?? []) {
     currentClassificationSha256: sha256(rel("field-classification.json")),
     currentCanonicalArtifactSha256: sha256(rel("fixtures/canonical-filled.pdf")),
     currentBoundaryArtifactSha256: sha256(rel("fixtures/boundary-filled.pdf")),
+    currentContactSheetSha256: sha256(rel("contact-sheet/blank-vs-filled.pdf")),
     // The field the rerender exists to fill. Empty, with the reason attached,
     // rather than back-filled from bytes the corrected modules never touched.
     recomputedSourceSha256,
     sourceMatchesRecord,
-    newArtifactSha256: rerenderRan ? sha256(canonicalArtifact) : null,
-    newBoundaryArtifactSha256: rerenderRan ? sha256(rel("fixtures/boundary-filled.pdf")) : null,
-    newContactSheetSha256: rerenderRan ? sha256(rel("contact-sheet/blank-vs-filled.pdf")) : null,
+    // There is no second copy of these hashes to go stale.
+    //
+    // This record used to carry `newArtifactSha256` beside
+    // `currentCanonicalArtifactSha256`. Both were read off the same file, so
+    // they agreed at the moment they were written and then stopped agreeing
+    // the next time anything rendered: at the wave C review base three
+    // families had been rendered again, the record still carried the previous
+    // run's digests under a "new" name, and every
+    // `provenAgainstThisFamilysBytes: true` flag on those three had been proven
+    // against bytes that were no longer the artifact. A field that is a
+    // snapshot inside a record that is regenerated is a trap.
+    //
+    // Whether this run produced the artifact is a boolean; the digests are
+    // whatever is on disk right now.
+    artifactProducedByThisRerender: rerenderRan,
     objectedFieldsStillBound,
     whyNoNewArtifact: rerenderRan
       ? null
@@ -201,6 +214,36 @@ for (const familyId of handoff.familiesUnblockedForRerender ?? []) {
 }
 
 const objectionCount = families.reduce((n, f) => n + (f.objections?.length ?? 0), 0);
+
+/**
+ * Runs each focused verifier and records what it actually printed.
+ *
+ * The last line of a passing verifier in this repository is its own summary,
+ * which is the honest "observed" value: it names the counts that run produced
+ * rather than the counts some earlier run produced.
+ */
+const VERIFIERS = [
+  "scripts/verify-rcap-widget-geometry-canaries.mjs",
+  "scripts/verify-rcap-widget-appearance-canaries.mjs",
+  "scripts/verify-rcap-field-semantics-canaries.mjs",
+  "scripts/verify-rcap-official-forms-d1.mjs",
+  "scripts/verify-rcap-shared-pdf-contract.mjs"
+];
+
+const VERIFIER_RESULTS = VERIFIERS.map((script) => {
+  const command = `node ${script}`;
+  if (!fs.existsSync(path.join(rootDir, script))) {
+    return { command, result: "absent", observed: "the verifier named here is not in this tree" };
+  }
+  try {
+    const out = execFileSync("node", [script], { cwd: rootDir, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    const lines = out.trim().split("\n").filter(Boolean);
+    return { command, result: "pass", observed: lines[lines.length - 1] ?? "" };
+  } catch (error) {
+    const out = `${error.stdout ?? ""}${error.stderr ?? ""}`.trim().split("\n").filter(Boolean);
+    return { command, result: "fail", observed: out[out.length - 1] ?? String(error.message) };
+  }
+});
 
 const payload = {
   schemaVersion: "rcap-gate-b-family-rerender-evidence/v1",
@@ -233,13 +276,12 @@ const payload = {
     consumedAtCommit: consumedAt
   },
   sharedCorrectionProof: {
-    statement: "All four focused verifiers named in the handoff pass against the consumed modules, and the two mutation suites turn red when the corrections are removed.",
-    verifiers: [
-      { command: "node scripts/verify-rcap-widget-geometry-canaries.mjs", result: "pass", observed: "15 canaries across 3 measured fixtures, 8 mutations each turn their canary; the printed label cannot unprotect a court-owned slot and no chooser prompt survives onto a filed page" },
-      { command: "node scripts/verify-rcap-field-semantics-canaries.mjs", result: "pass", observed: "14 canaries, 7 mutations each turn their canary red, four controls still bind. Includes the NameAtty and prosecutor-slot canaries this reviewer's findings turned on" },
-      { command: "node scripts/verify-rcap-official-forms-d1.mjs", result: "pass", observed: "146 family packages structurally complete and sha-pinned, 62 completed implementation packages rendered with no unwritable field written" },
-      { command: "node scripts/verify-rcap-shared-pdf-contract.mjs", result: "pass", observed: "geometry from content_stream, 5/5 CR-266 anchors bound, 7/7 classified" }
-    ],
+    statement: "Every focused verifier below was RUN by this generator against the consumed modules; the result and the last line of its output are what it printed here, not what it printed once.",
+    // A remembered result is a claim about a run nobody can point at. These
+    // four lines used to carry hand-written "pass" verdicts and hand-written
+    // observations, so the record asserted a state of the world it had not
+    // checked and could not have noticed changing.
+    verifiers: VERIFIER_RESULTS,
     spotChecksOnTheConsumedSource: [
       "implement-rcap-official-forms-d1.mjs now ASSIGNS effectiveLabel and passes it with regionHeading into decideBinding — the channel this reviewer found was dead code is live",
       "decideBinding destructures effectiveLabel, regionHeading and regionIsDocumentTitle, so the binder sees the page rather than only the internal field name",
@@ -247,17 +289,28 @@ const payload = {
     ],
     whatThisProvesAndWhatItDoesNot: "It proves the shared modules behave correctly on their own canaries and fixtures. It does not prove any individual family's artifact is now correct, because no family artifact was regenerated."
   },
-  rerenderAttempt: {
+  // What the rerender needs, measured now.
+  //
+  // This block used to be a paragraph about a run that happened once. It said
+  // "ran to completion and processed 0 families" and "artifactsChanged: 0"
+  // whatever the truth was, so at the wave C review base it sat inside a
+  // record whose own per-family entries showed seventeen artifacts had been
+  // produced, and contradicted them. A narrative field inside a regenerated
+  // record cannot stay true; only measurements can.
+  rerenderPreconditions: {
     command: "node scripts/implement-rcap-official-forms-d1.mjs",
     environmentVariable: "RCAP_BUNDLE_EXTRACT",
     environmentVariableSet: Boolean(extractPath),
     extractMounted,
     privateCorpusMountedInThisClone: corpusMounted,
-    result: "ran to completion and processed 0 families, 0 fields, 0 contact sheets",
-    why: "the driver resolves each family's bytes under RCAP_BUNDLE_EXTRACT and skips the family when the file is absent. With no extract mounted, every family is skipped. This is the driver behaving correctly, not failing.",
-    artifactsChanged: 0,
-    verifiedHow: "the canonical fixture hash of all 17 families was captured before the run and recompared after; all 17 are unchanged",
-    incidentalFindingForThePdfLane: "the run rewrites data/rcap-all50/overlays/production/implementation-index.json from whatever it processed, so running the driver WITHOUT the extract empties the index — it removed 1320 lines here and was reverted. The driver should refuse to rewrite the index when it processed nothing, rather than recording an empty run over a full one."
+    familiesWhoseSourceIsReadableHere: families.filter((f) => f.sourceReadableInThisClone).length,
+    familiesInThisRecord: families.length,
+    // The driver skips a family whose pinned bytes it cannot open, so with no
+    // extract mounted every family is skipped. That is the driver behaving
+    // correctly, and it is why nothing below is proven against family bytes
+    // when this reads false.
+    theDriverCanRunHere: extractMounted && families.some((f) => f.sourceReadableInThisClone),
+    knownDriverHazard: "the driver rewrites data/rcap-all50/overlays/production/implementation-index.json from whatever it processed, so a run without the extract would describe an empty corpus. The driver refuses to write the index when it processed nothing."
   },
   totals: {
     familiesInHandoff: (handoff.familiesUnblockedForRerender ?? []).length,
@@ -268,7 +321,7 @@ const payload = {
     // generator was written no rerender could run, and a literal zero stops
     // being a description the moment one does.
     objectionsProvenAgainstFamilyBytes: families.reduce((n, f) => n + (f.objections ?? []).filter((o) => o.provenAgainstThisFamilysBytes).length, 0),
-    newArtifactsProduced: families.filter((f) => f.newArtifactSha256).length,
+    artifactsProducedByThisRerender: families.filter((f) => f.artifactProducedByThisRerender).length,
     familiesWhoseSourceHashMatchesTheMountedBytes: families.filter((f) => f.sourceMatchesRecord).length,
     escalationsOwnedByAnotherLane: [...OWNED_BY_ANOTHER_LANE]
   },
@@ -290,5 +343,5 @@ if (checkOnly) {
   fs.writeFileSync(OUT, json);
 }
 
-const rerendered = families.filter((f) => f.newArtifactSha256).length;
+const rerendered = families.filter((f) => f.artifactProducedByThisRerender).length;
 console.log(`OK rerender evidence — ${families.length} families, ${rerendered} with new artifact bytes, ${objectionCount} objections recorded; ${payload.totals.objectionsProvenAgainstFamilyBytes} proven against family bytes`);

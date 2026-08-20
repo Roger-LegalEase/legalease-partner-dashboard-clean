@@ -152,12 +152,20 @@ export const FACT_DESCRIPTORS = [
   // a second address the participant never gave. These descriptors resolve
   // their own facts, and they bind only when the caller says the alternative
   // address is genuinely different.
+  // The qualifier is what makes this the SECOND block. A line captioned plainly
+  // "Mailing Address" is where a form asks for the one address it wants, and
+  // it must keep binding the participant's street address; only a block the
+  // form marks out as another one -- "Full Permanent Mailing Address (if
+  // different than above)" -- is conditional.
   { factId: "participant.mailing_street_address", valueType: "string", requiresDistinctAlternate: true,
-    match: /(full\s*)?(permanent\s*)?mailing\s*address\s*(addr(ess)?)?\s*(line\s*)?\d?$|mailing\s*address\s*addr/,
+    match: /(full|permanent|alternat(e|ive)|secondary|other)\s*(permanent\s*)?mailing\s*(address|addr)/,
     refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal/ },
-  { factId: "participant.mailing_city", valueType: "string", requiresDistinctAlternate: true, match: /mailing\s*address\s*city/ },
-  { factId: "participant.mailing_state", valueType: "string", requiresDistinctAlternate: true, match: /mailing\s*address\s*state/ },
-  { factId: "participant.mailing_zip", valueType: "string", requiresDistinctAlternate: true, match: /mailing\s*address\s*(zip|postal)/ },
+  { factId: "participant.mailing_city", valueType: "string", requiresDistinctAlternate: true,
+    match: /(full|permanent|alternat(e|ive)|secondary|other)\s*(permanent\s*)?mailing\s*address\s*city/ },
+  { factId: "participant.mailing_state", valueType: "string", requiresDistinctAlternate: true,
+    match: /(full|permanent|alternat(e|ive)|secondary|other)\s*(permanent\s*)?mailing\s*address\s*state/ },
+  { factId: "participant.mailing_zip", valueType: "string", requiresDistinctAlternate: true,
+    match: /(full|permanent|alternat(e|ive)|secondary|other)\s*(permanent\s*)?mailing\s*address\s*(zip|postal)/ },
   // The address guards, widened. `\baddress\b` matched a City box on KY
   // AOC-496.2 (Def.Address.City) and printed the street line there as well as
   // on the street line, and it matched a bank-name box on NC AOC-CV-226's

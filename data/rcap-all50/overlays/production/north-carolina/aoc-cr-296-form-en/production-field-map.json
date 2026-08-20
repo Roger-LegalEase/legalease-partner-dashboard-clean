@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-acroform-map/v5",
   "family": "aoc-cr-296-form-en",
-  "documentOwnership": "participant_completed",
+  "documentOwnership": "prosecutor_completed",
   "sha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
   "pageGeometry": [
     {
@@ -20,43 +20,7 @@
   "captionOnly": false,
   "factoryVersion": "d0-remediated-v1",
   "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
-  "bindings": [
-    {
-      "field": "ConsJdgmntFileNum",
-      "class": "participant",
-      "factId": "matter.case_number",
-      "factBasis": "field_name",
-      "effectiveLabel": "File No.Scan No.(s)"
-    },
-    {
-      "field": "County",
-      "class": "participant",
-      "factId": "matter.county",
-      "factBasis": "field_name",
-      "effectiveLabel": "STATE OF NORTH CAROLINA"
-    },
-    {
-      "field": "PetitionerName",
-      "class": "participant",
-      "factId": "participant.full_legal_name",
-      "factBasis": "field_name",
-      "effectiveLabel": "Name And Address Of Defendant (type or print full name)"
-    },
-    {
-      "field": "City",
-      "class": "participant",
-      "factId": "participant.city",
-      "factBasis": "field_name",
-      "effectiveLabel": null
-    },
-    {
-      "field": "DLState",
-      "class": "participant",
-      "factId": "participant.state",
-      "factBasis": "field_name",
-      "effectiveLabel": null
-    }
-  ],
+  "bindings": [],
   "bindingRefusals": [
     {
       "field": "ScanNumbers",
@@ -783,6 +747,46 @@
       "reason": "protected_category",
       "category": "signature",
       "regionHeading": null
+    },
+    {
+      "field": "ConsJdgmntFileNum",
+      "reason": "document_is_not_a_participant_filing",
+      "category": "prosecutor_completed",
+      "factId": "matter.case_number",
+      "withdrawnFrom": "bindings",
+      "why": "DISTRICT ATTORNEY PETITION"
+    },
+    {
+      "field": "County",
+      "reason": "document_is_not_a_participant_filing",
+      "category": "prosecutor_completed",
+      "factId": "matter.county",
+      "withdrawnFrom": "bindings",
+      "why": "DISTRICT ATTORNEY PETITION"
+    },
+    {
+      "field": "PetitionerName",
+      "reason": "document_is_not_a_participant_filing",
+      "category": "prosecutor_completed",
+      "factId": "participant.full_legal_name",
+      "withdrawnFrom": "bindings",
+      "why": "DISTRICT ATTORNEY PETITION"
+    },
+    {
+      "field": "City",
+      "reason": "document_is_not_a_participant_filing",
+      "category": "prosecutor_completed",
+      "factId": "participant.city",
+      "withdrawnFrom": "bindings",
+      "why": "DISTRICT ATTORNEY PETITION"
+    },
+    {
+      "field": "DLState",
+      "reason": "document_is_not_a_participant_filing",
+      "category": "prosecutor_completed",
+      "factId": "participant.state",
+      "withdrawnFrom": "bindings",
+      "why": "DISTRICT ATTORNEY PETITION"
     }
   ],
   "unwritableFields": [
@@ -1192,5 +1196,34 @@
   "overflowPolicy": {
     "longText": "shrink_to_fit_then_addendum",
     "multiline": "wrap_within_widget_rect"
+  },
+  "withdrawal": {
+    "reason": "AOC-CR-296 is a District Attorney petition. It is captioned DISTRICT ATTORNEY PETITION, its identity block is Name And Address Of Defendant, it signs off on a District Attorney Name line, it notes on its own face that it is filed by the district attorney and needs no filing fee, and page 2 closes with a NOTE TO DISTRICT ATTORNEY. The platform bound and wrote it as a participant filing.",
+    "evidence": {
+      "owner": "prosecutor_or_district_attorney",
+      "titleLine": "DISTRICT ATTORNEY PETITION",
+      "statementLine": "NOTE: This petition, which is filed by the district attorney, does not require the payment of",
+      "basis": "the document's own printed text, read from its page content"
+    },
+    "fieldsWithdrawn": [
+      "ConsJdgmntFileNum",
+      "County",
+      "PetitionerName",
+      "City",
+      "DLState"
+    ],
+    "artifactsWithdrawn": {
+      "fixtures/canonical-filled.pdf": "13f3068260ae17d8846bc8345ceaa57fa705273ad785bcc418becfa777c00720",
+      "fixtures/boundary-filled.pdf": "aff9db5184b05036230e5f37f447b79558b00dd5a73c0b8fce6583b11f856036"
+    },
+    "contactSheetRetained": {
+      "contact-sheet/blank-vs-filled.pdf": "a12f03576f0914d7c953679222525db96922ffd1a642702a4f1180d8f03c7c7e",
+      "why": "it is the evidence of what was produced, and it carries the only rendering of this form's blank that this repository has"
+    },
+    "participantGuidancePreserved": {
+      "pathway": "NC youthful convictions at 16-17 before 2019-12-01, G.S. 15A-145.8A",
+      "whatTheParticipantDoes": "The district attorney petitions on the participant's behalf under G.S. 15A-145.8A. The participant's own filings in the North Carolina pathway are AOC-CR-287 (dismissal), AOC-CR-288 (acquittal), AOC-CR-297 (nonviolent felony), AOC-CR-298 (nonviolent misdemeanour) and, where the filing fee is at issue, AOC-CV-226. Those are unaffected by this withdrawal.",
+      "thisFormRemainsInThePathwayAs": "guidance: what it is, who files it, and what the participant supplies to the district attorney's office"
+    }
   }
 }

@@ -327,7 +327,36 @@ if (fs.existsSync(indexPath)) {
       }
     }
 
-    if (fam.status === "implemented_pending_independent_review" || fam.status === "overlay_implemented_pending_independent_review") {
+    // A family withdrawn because the participant does not complete the form.
+    //
+    // Wave C found NC AOC-CR-296 -- captioned DISTRICT ATTORNEY PETITION,
+    // signed off on a District Attorney Name line, noting on its own face that
+    // the district attorney files it -- bound and rendered as a participant
+    // filing. Withdrawing it leaves a package that has a contact sheet and no
+    // participant fixture, which is a legitimate state and needs its own
+    // clauses rather than the ones for a rendered family.
+    const withdrawal = map.withdrawal ?? null;
+    if (withdrawal) {
+      assert(record.participantFillable === false,
+        `${id}: a withdrawn family is not participant fillable`);
+      assert(record.participantCompleted === false,
+        `${id}: a withdrawn family records that the participant does not complete it`);
+      assert((map.bindings ?? []).length === 0,
+        `${id}: a withdrawn family binds nothing`);
+      assert(Boolean(withdrawal.evidence?.titleLine || withdrawal.evidence?.statementLine),
+        `${id}: the withdrawal quotes the words the form says it in`);
+      assert(withdrawal.artifactsWithdrawn && Object.keys(withdrawal.artifactsWithdrawn).length > 0,
+        `${id}: the withdrawal records the digest of every artifact it withdrew`);
+      for (const rel of Object.keys(withdrawal.artifactsWithdrawn ?? {})) {
+        assert(!fs.existsSync(path.join(dir, rel)),
+          `${id}: ${rel} was withdrawn and is gone`);
+      }
+      assert(Boolean(withdrawal.participantGuidancePreserved),
+        `${id}: the pathway keeps the guidance this document supports`);
+    }
+
+    if (!withdrawal
+      && (fam.status === "implemented_pending_independent_review" || fam.status === "overlay_implemented_pending_independent_review")) {
       implemented++;
       for (const f of ["fixtures/canonical-filled.pdf", "fixtures/boundary-filled.pdf", "contact-sheet/blank-vs-filled.pdf"]) {
         const p2 = path.join(dir, f);
@@ -379,8 +408,16 @@ if (fs.existsSync(indexPath)) {
           assert(proof.panelsDiffer === true,
             `${id}: the blank and filled panels differ`);
           const canonical = path.join(dir, "fixtures/canonical-filled.pdf");
-          assert(fs.existsSync(canonical) && sha256File(canonical) === proof.finalizedSha256,
-            `${id}: the contact sheet is pinned to the finalized artifact it depicts`);
+          if (withdrawal) {
+            // The fixture the sheet depicts was withdrawn. The digest it was
+            // pinned to is still the record of what it depicts, so that is
+            // what is checked.
+            assert(proof.finalizedArtifactWithdrawn?.sha256 === proof.finalizedSha256,
+              `${id}: the contact sheet records the digest of the withdrawn artifact it depicts`);
+          } else {
+            assert(fs.existsSync(canonical) && sha256File(canonical) === proof.finalizedSha256,
+              `${id}: the contact sheet is pinned to the finalized artifact it depicts`);
+          }
         }
       }
     }

@@ -42,16 +42,26 @@
   "declaredPages": 2,
   "pageCountAgrees": true,
   "renderStrategy": "acroform_fill",
-  "participantFillable": true,
+  "participantFillable": false,
   "generationAllowed": false,
   "productionHolds": [
     "state_manifest_generation_allowed_no",
     "edition_1_runtime_disabled",
-    "f_independent_visual_review_required"
+    "f_independent_visual_review_required",
+    "not_participant_fillable_no_fixture_fill",
+    "prosecutor_owned_no_participant_fill"
   ],
-  "ownershipDetermination": "Participant-completed filing. Participant and deterministic fields are bound; every other class is unwritable.",
+  "ownershipDetermination": "Prosecutor's instrument. The district attorney completes and files it, so the participant does not complete it and the platform produces no participant fill. It stays in the pathway as guidance.",
   "coBrandingRule": "No LegalEase or partner branding may be added to the official form.",
-  "implementationStatus": "implemented_pending_independent_review",
+  "implementationStatus": "no_fill_prosecutor_owned_document",
   "censusBasis": "first_hand_inspection_of_verified_binary",
-  "documentOwnership": "participant_completed"
+  "documentOwnership": "prosecutor_completed",
+  "documentOwner": "prosecutor_or_district_attorney",
+  "documentOwnerEvidence": {
+    "owner": "prosecutor_or_district_attorney",
+    "titleLine": "DISTRICT ATTORNEY PETITION",
+    "statementLine": "NOTE: This petition, which is filed by the district attorney, does not require the payment of",
+    "basis": "the document's own printed text, read from its page content"
+  },
+  "participantCompleted": false
 }
