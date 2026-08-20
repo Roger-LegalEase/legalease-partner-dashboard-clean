@@ -497,6 +497,18 @@ console.log(`  deployment URL: ${previewUrl}`);
   console.log("");
   if (missing.length > 0) console.error(`DEPLOY INCOMPLETE — no verdict for: ${missing.join(", ")}`);
   if (failed.length > 0) console.error(`DEPLOY FAILED — ${failed.join(", ")}`);
+  // Publish the identity this step resolved or created. Without it the
+  // resolver's outputs are the only source downstream, and those are
+  // deliberately empty on the create path — the deployment does not exist yet
+  // when the resolver runs. Run 32382623729 failed exactly there: the Checkout
+  // gate received an empty HOSTED_PREVIEW_DEPLOYMENT_ID after a successful
+  // deploy, and reported a missing input rather than a wrong one.
+  if (process.env.GITHUB_OUTPUT) {
+    fs.appendFileSync(process.env.GITHUB_OUTPUT, [
+      `hostname=${previewUrl ? String(previewUrl).replace(/^https?:\/\//, "") : ""}`,
+      `deployment_id=${evidence.deployment?.id ?? ""}`
+    ].join("\n") + "\n");
+  }
   if (evidence.passed) console.log(`DEPLOY PASSED — ${previewUrl} on ${PROJECT_REF}, Preview only, production untouched.`);
   process.exit(evidence.passed ? 0 : 1);
 }

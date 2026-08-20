@@ -114,7 +114,6 @@ includesEvery(hosted, [
   // The resolver reads the CANDIDATE from the inputs; the gate reads the
   // RESOLVED identity from the one resolution boundary.
   "HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}",
-  "HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}",
   "node scripts/rcap-hosted-checkout-gate.mjs",
   "node scripts/verify-rcap-hosted-checkout-gate.mjs",
   "checkout_gate requires one exact Vercel deployment id"
@@ -142,6 +141,10 @@ check(!/if:\s*inputs\.phase == 'checkout_gate'\s*$/m.test(verifyStep),
 // `checkout_gate` must remain a gate-only phase: it may not run the matrix.
 check(/checkout_gate\)\s*DEPLOY=false;\s*MATRIX=false;\s*GATE=true/.test(hosted),
   "the contract no longer confines checkout_gate to the gate alone");
+// Resolver first, deploy step as the only permitted fallback for the create
+// path; never a raw input on a consumer step.
+check(/HOSTED_PREVIEW_DEPLOYMENT_ID: \$\{\{ steps\.resolve_preview\.outputs\.deployment_id( \|\| steps\.deploy_preview\.outputs\.deployment_id)? \}\}/.test(hosted),
+  "the gate does not receive the deployment id from the resolution boundary");
 check(hosted.includes("PREVIEW_DEPLOYMENT_ID_INPUT: ${{ inputs.preview_deployment_id }}"),
   "workflow must transport the deployment id through the environment");
 check(!hosted.includes('"${{ inputs.preview_deployment_id }}"'),
