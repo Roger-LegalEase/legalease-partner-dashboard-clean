@@ -10,7 +10,8 @@ import { createRequire } from "node:module";
 import crypto from "node:crypto";
 import { decideBinding, resolveFact, valueMatchesType, selectOnePerSlot, isChooserPrompt } from "./rcap-field-semantics.mjs";
 import { fitTextToWidget, applyFitToTextField, MIN_READABLE_FONT_SIZE } from "./rcap-text-fitting.mjs";
-import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances } from "./rcap-active-content.mjs";
+import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances,
+  textDrawnByAppearance, fieldHoldsAValue, clearWidgetAppearance } from "./rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFDropdown, PDFName, StandardFonts, rgb } = require("pdf-lib");
@@ -321,6 +322,31 @@ export async function finalizeFlatOverlay({
   return { bytes, report };
 }
 
+/**
+ * The form's own printed words, where a field draws them.
+ *
+ * Returns the text a field's appearance draws when the field holds no value of
+ * its own and the text is not that field's chooser prompt; null otherwise. A
+ * field for which this returns text is a field the form prints through, and
+ * writing into it deletes what it prints.
+ */
+export function printedFormTextOn(form, pdfDoc, fieldName) {
+  let handle;
+  try { handle = form.getField(fieldName); } catch { return null; }
+  if (!handle) return null;
+  if (fieldHoldsAValue(handle.acroField)) return null;
+  const drawn = (handle.acroField.getWidgets() ?? [])
+    .map((widget) => textDrawnByAppearance(widget, pdfDoc.context))
+    .filter((text) => typeof text === "string" && text.trim() !== "")
+    .join(" ")
+    .trim();
+  if (drawn === "") return null;
+  let options = [];
+  try { options = typeof handle.getOptions === "function" ? handle.getOptions() ?? [] : []; } catch { options = []; }
+  if (options.length > 0 && isChooserPrompt(drawn, options)) return null;
+  return drawn;
+}
+
 export class NonFilingHoldError extends Error {
   constructor(notice) {
     super(`document states it is not for filing: ${String(notice).slice(0, 160)}`);
@@ -419,6 +445,26 @@ export async function finalizeOfficialForm({
       }
       continue;
     }
+    // A widget whose own appearance draws the form's printed words is how the
+    // form prints those words. Writing into it regenerates the appearance and
+    // the words are gone: Nebraska draws "IN THE" and "COURT OF" through
+    // TYPEOFCOURTRESULTS and "(Enter the county name)" through `enter the
+    // county`, and CC-6-15.1's filed caption band came out as "District
+    // CourtExample County COUNTY, NEBRASKA" with the statute's own wording
+    // erased off a court filing.
+    //
+    // The test is the field's own state, not a list of field names: no /V and
+    // no /DV means the field holds nothing, so whatever its appearance draws
+    // arrived with the blank. A chooser's prompt is the exception -- that is
+    // the widget describing itself, not the form printing.
+    const printed = printedFormTextOn(form, pdfDoc, field.name);
+    if (printed) {
+      report.refused.push({ field: field.name, reason: "widget_appearance_carries_printed_form_text",
+        category: "source_text", factId: decision.factId, drawnText: printed });
+      report.protectedFields.push({ field: field.name, category: "source_text" });
+      continue;
+    }
+
     allowed.push({
       field, decision,
       name: field.name, factId: decision.factId, pdfType: field.type,
@@ -498,28 +544,74 @@ export async function finalizeOfficialForm({
     report.expectedValues.push(text);
   }
 
-  // A choice field nobody selected still carries the source document's own
-  // chooser prompt, and flattening draws it onto the page as ordinary ink:
-  // Nebraska's forms ship selected on "Choose the court" and "Choose the
-  // county", so a filed pleading told the court to choose one.
+  // Every widget this run did not write is now settled, one way or the other.
   //
-  // Clearing the value alone does not do it. pdf-lib leaves the widget's
-  // existing appearance stream in place and the prompt renders from that, so
-  // the stale appearance goes too and flatten regenerates from nothing. A
-  // field this run WROTE is never touched here.
+  // Refusing to write a field is not the same as leaving nothing behind. The
+  // widget still carries whatever picture of itself the source authored, and
+  // flattening paints that picture onto the filed page. Nebraska's court and
+  // county choosers carry no value at all and an appearance drawing "Choose
+  // the court" and "Choose the county"; the previous pass looked at the
+  // SELECTED value, found none, and moved on, so five filed pleadings told the
+  // court to choose one. A refusal that leaves the widget's default appearance
+  // standing has not refused anything a reader can see.
+  //
+  // The opposite mistake costs the court's own words. On the same Nebraska
+  // forms the statutory caption is drawn through fields -- "IN THE", "COURT
+  // OF", "COUNTY, NEBRASKA", "(Enter the county name)" -- and clearing those
+  // appearances, or writing over them, erases printed form text from a filed
+  // document.
+  //
+  // So each unwritten widget is dispositioned rather than treated alike, and
+  // the disposition is recorded for the evidence contract:
+  //
+  //   cleared  -- it held a value, or its appearance is its own chooser
+  //               prompt. Value, appearance, background and border go, and
+  //               flatten regenerates nothing.
+  //   preserved_source_text -- it holds no value and its appearance draws
+  //               words. Those words came with the blank; they are the form
+  //               talking and are left untouched.
+  //   nothing_to_clear -- it draws nothing.
   const written = new Set(report.written.map((w) => w.field));
   report.promptsSuppressed = [];
+  report.appearanceDispositions = [];
   for (const handle of form.getFields()) {
     const name = handle.getName();
     if (written.has(name)) continue;
-    if (typeof handle.getOptions !== "function" || typeof handle.getSelected !== "function") continue;
-    let selected = [];
+    const acro = handle.acroField;
+    const holdsValue = fieldHoldsAValue(acro);
     let options = [];
-    try { selected = handle.getSelected() ?? []; options = handle.getOptions() ?? []; } catch { continue; }
-    if (!selected.some((value) => isChooserPrompt(value, options))) continue;
-    handle.acroField.dict.delete(PDFName.of("V"));
-    for (const widget of handle.acroField.getWidgets()) widget.dict.delete(PDFName.of("AP"));
-    report.promptsSuppressed.push({ field: name, suppressed: selected });
+    try { options = typeof handle.getOptions === "function" ? handle.getOptions() ?? [] : []; } catch { options = []; }
+    const drawn = (acro.getWidgets() ?? [])
+      .map((widget) => textDrawnByAppearance(widget, pdfDoc.context))
+      .filter((text) => typeof text === "string" && text.trim() !== "");
+    const drawnText = drawn.join(" ").trim();
+
+    // A chooser's own prompt, whether it is the selected value or only the
+    // picture the widget was shipped with.
+    const promptDrawn = drawnText !== "" && options.length > 0 && isChooserPrompt(drawnText, options);
+    let selected = [];
+    try { selected = typeof handle.getSelected === "function" ? handle.getSelected() ?? [] : []; } catch { selected = []; }
+    const promptSelected = selected.some((value) => isChooserPrompt(value, options));
+
+    if (promptDrawn || promptSelected || holdsValue) {
+      clearWidgetAppearance(handle);
+      report.appearanceDispositions.push({ field: name, disposition: "cleared",
+        because: promptDrawn || promptSelected ? "the widget's appearance is the source document's own chooser prompt"
+          : "the field carried a value this run did not write",
+        drawnText: drawnText || null });
+      if (promptDrawn || promptSelected) {
+        report.promptsSuppressed.push({ field: name, suppressed: promptSelected ? selected : [drawnText] });
+      }
+      continue;
+    }
+
+    if (drawnText !== "") {
+      report.appearanceDispositions.push({ field: name, disposition: "preserved_source_text",
+        because: "the field holds no value, so what its appearance draws came with the blank form",
+        drawnText });
+      continue;
+    }
+    report.appearanceDispositions.push({ field: name, disposition: "nothing_to_clear", drawnText: null });
   }
 
   const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc, { defaultFont: helvetica });

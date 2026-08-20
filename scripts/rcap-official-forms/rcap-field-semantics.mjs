@@ -40,7 +40,12 @@ export const PROTECT_RULES = [
   // full_legal_name's /\bdef\b/ pattern did. Jail and booking identifiers sit
   // in the same rule: they identify a person through a custodial system the
   // platform has no knowledge of, and AOC-496 put a name in one of those too.
-  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#)\b/],
+  // The licence block, not just the licence number. NC AOC-CR-296 names the
+  // issuing state DLState, and `\bstate\b` claimed it as the participant's
+  // state of residence: the licence-issuing state is part of a government
+  // identifier the platform has no knowledge of, and the canonical fixture
+  // hid the difference only because both read "XX".
+  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#|state|st|class|exp|issuer)\b|licen[cs]e\s*(state|class|expir)/],
   ["signature", /signature|\bsigned\b|\bsign\s*here\b|^\s*sign\b|\bsig\b|\binitials?\b/],
   ["notarization", /notar|jurat|acknowledg(ed|ment)\s*before\s*me|sworn\s*to\s*before|my\s*commission\s*expires|seal\s*of\s*office/],
   // `cert date` was the hole. The rule matched the printed heading and the
@@ -140,20 +145,39 @@ export const FACT_DESCRIPTORS = [
   // contact value substitutes for it, and no email is ever synthesised from
   // other participant data: a missing email leaves the line blank.
   { factId: "participant.email", valueType: "string", match: /\be[-\s]?mail\b/ },
+  // The alternative block, and it is tried first because its own name contains
+  // the primary block's. NC AOC-CV-226 prints a second address block headed
+  // "Full Permanent Mailing Address (if different than above)": the primary
+  // participant facts must not be copied into it, or a sworn affidavit states
+  // a second address the participant never gave. These descriptors resolve
+  // their own facts, and they bind only when the caller says the alternative
+  // address is genuinely different.
+  { factId: "participant.mailing_street_address", valueType: "string", requiresDistinctAlternate: true,
+    match: /(full\s*)?(permanent\s*)?mailing\s*address\s*(addr(ess)?)?\s*(line\s*)?\d?$|mailing\s*address\s*addr/,
+    refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal/ },
+  { factId: "participant.mailing_city", valueType: "string", requiresDistinctAlternate: true, match: /mailing\s*address\s*city/ },
+  { factId: "participant.mailing_state", valueType: "string", requiresDistinctAlternate: true, match: /mailing\s*address\s*state/ },
+  { factId: "participant.mailing_zip", valueType: "string", requiresDistinctAlternate: true, match: /mailing\s*address\s*(zip|postal)/ },
   // The address guards, widened. `\baddress\b` matched a City box on KY
   // AOC-496.2 (Def.Address.City) and printed the street line there as well as
   // on the street line, and it matched a bank-name box on NC AOC-CV-226's
   // affidavit of indigency, where the applicant's street address was printed
   // as the name of their bank. A haystack that names a more specific slot than
   // "address" is that slot, not the street line.
-  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b/, refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal|\bcounty\b|\bbank\b|\bemployer\b|\bcourt\b/ },
-  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b|\bcourt\b|\bcounty\s*(of|or)\s*city\b/ },
+  //
+  // "Street Number And Street Name" is a street address written out. It
+  // matched nothing at all, so NC AOC-CV-226's sworn affidavit of indigency
+  // was filed with no street address anywhere on it while the participant's
+  // city, state and zip were each printed twice.
+  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b|street\s*(number|name|no\b)/, refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal|\bcounty\b|\bbank\b|\bemployer\b|\bcourt\b/ },
+  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b|\bcourt\b|\bcounty\s*(of|or)\s*city\b|\bcity\s*(of|or)\s*county\b/ },
   { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/ },
   { factId: "participant.phone", valueType: "string", match: /\bphone\b|telephone/, refuseWhen: /\be[-\s]?mail\b/ },
   { factId: "participant.state", valueType: "string", match: /\bstate\b/ },
   { factId: "matter.county", valueType: "string", match: /\bcounty\b/ },
   { factId: "matter.court", valueType: "string", match: /court\s*name|type\s*of\s*court|judicial\s*(district|circuit)/ },
-  { factId: "matter.case_number", valueType: "string", match: /case\s*(no|num|#)|docket|cause\s*(no|num)|file\s*(no|num)|case\s*id/ },
+  { factId: "matter.case_number", valueType: "string", match: /case\s*(no|num|#)|docket|cause\s*(no|num)|file\s*(no|num)|case\s*id/,
+    refuseWhenTrailing: /\b(addendums?|attachments?|exhibits?|pages?|copies|counts?|items?)\s+(are|is|were|was)\s+attached\b|^\s*(addendums?|attachments?|exhibits?|pages?|copies)\b/ },
   { factId: "matter.citation_number", valueType: "string", match: /citation\s*(no|num)/ },
   // full_legal_name's patterns are broad on purpose — a party token is how
   // most forms label the filer's own name — and that breadth is what put the
@@ -163,7 +187,7 @@ export const FACT_DESCRIPTORS = [
   // rules stop the attorney, prosecutor and identifier cases now; this refusal
   // stops the rest, where the haystack names a slot that is plainly not a
   // person's name.
-  { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/, refuseWhen: /\bbank\b|\bstreet\b|\baddr(ess)?\b|\bcity\b|\bzip\b|postal|\bphone\b|telephone|\be[-\s]?mail\b|\bemployer\b|\bschool\b|\bcourt\s*name\b|type\s*of\s*court|\bcounty\b/ },
+  { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|\badult\s*name\b|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/, refuseWhen: /\bbank\b|\bstreet\b|\baddr(ess)?\b|\bcity\b|\bzip\b|postal|\bphone\b|telephone|\be[-\s]?mail\b|\bemployer\b|\bschool\b|\bcourt\s*name\b|type\s*of\s*court|\bcounty\b/ },
   { factId: "deterministic.filing_date", valueType: "date", match: /date\s*signed|signature\s*date|date\s*of\s*(this\s*)?(filing|signature)|today\s*s?\s*date|^\s*dated?\s*$|cert\s*date/ },
   // Legally sensitive dates. These describe the criminal event itself, and a
   // wrong value misstates the record to a court, so they never bind on a name
@@ -190,6 +214,47 @@ export const CAPTION_FACTS = new Set([
 // Field names arrive as camelCase, dotted paths, PascalCase and squashed
 // lowercase, so every rule is matched against a haystack holding a
 // separator-normalized and a fully squashed form at once.
+/**
+ * Whether a measured string is text the document could actually decode.
+ *
+ * A caption read out of an Identity-H run with no usable /ToUnicode entry is a
+ * string of glyph ids, and glyph ids are not words: NC AOC-CV-226's "Full
+ * Permanent Mailing Address" arrived as codes whose Latin-1 reading contains a
+ * dollar sign, the money rule matched it, and the applicant's mailing address
+ * was refused as a fee. An undecodable subject can neither protect nor bind --
+ * it says nothing, so it is allowed to decide nothing.
+ */
+export function isUndecodableText(value) {
+  const text = String(value ?? "");
+  if (text === "") return false;
+  // eslint-disable-next-line no-control-regex
+  return /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(text);
+}
+
+/** The separator-normalized reading of a field name, without the squashed form. */
+export function spacedName(name) {
+  return String(name ?? "")
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
+    .replace(/[._\-/\\]+/g, " ")
+    .replace(/([a-zA-Z])(\d)/g, "$1 $2")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+/**
+ * The line number a continuation field carries, or null.
+ *
+ * A street address printed over two lines is one address: "Addr1" holds it and
+ * "Addr2" holds the rest of it, and writing the whole value into both prints
+ * the participant's street twice on a filed affidavit.
+ */
+export function continuationLineOf(name) {
+  const m = /(?:line|addr(?:ess)?|ln)\s*(\d{1,2})$/.exec(spacedName(name));
+  return m ? Number(m[1]) : null;
+}
+
 export function haystack(name) {
   const raw = String(name ?? "");
   const spaced = raw
@@ -203,16 +268,52 @@ export function haystack(name) {
   return `${spaced} || ${raw.toLowerCase().replace(/[^a-z0-9]+/g, "")}`;
 }
 
+// The protect categories that name a PARTY who might complete a box, as
+// opposed to a kind of box nobody but the court completes.
+const PARTY_PROTECT_CATEGORIES = new Set([
+  "attorney", "prosecutor", "outside_party", "responsible_official", "agency", "licensing_board"
+]);
+
+const ELECTION_MARKER = /(\[\s*\]|\(\s*\)|\u2610|\u25a1)/g;
+const PARTICIPANT_TOKEN = /\bpetitioner\b|\bapplicant\b|\bdefendant\b|\bmovant\b|\brespondent\b/i;
+
+/**
+ * Whether a printed caption offers the participant and somebody else as a
+ * CHOICE rather than naming an owner.
+ *
+ * VA CC-1473 captions its contact rules "ADDRESS OF [ ] PETITIONER [ ]
+ * ATTORNEY FOR PETITIONER" with both elections drawn between the words. Read
+ * as a statement of ownership the word "ATTORNEY" refuses the box, and the
+ * petitioner's own address comes off their own petition. The caption is not
+ * making that claim: it is offering two, one of which is the participant, and
+ * which one applies is the election checkbox's business -- and those are
+ * classified `manual` and never ticked.
+ *
+ * This narrows nothing that names one owner: "SIGNATURE OF [ ] PETITIONER [ ]
+ * ATTORNEY" is still a signature block, because `signature` is a kind of box
+ * rather than a party.
+ */
+export function isElectionCaption(text) {
+  const value = String(text ?? "");
+  const markers = value.match(ELECTION_MARKER);
+  return markers !== null && markers.length >= 2 && PARTICIPANT_TOKEN.test(value);
+}
+
 export function protectCategoryOf(name) {
   const hay = haystack(name);
   for (const [category, re] of PROTECT_RULES) if (re.test(hay)) return category;
   return null;
 }
 
+// A trailing one- or two-digit number is a row index only when it is the whole
+// number. VA CC-1201 names a field `User.CaseNumber1201` after the form it is
+// printed on; the lazy prefix let "1201" be read as "12" plus row "01", and
+// the petition's addendum-count box was filled with the first charge's case
+// number as though it were row one of a charge table.
 function rowIndexOf(name) {
-  const m = /^(.*?)(\d{1,2})$/.exec(String(name).trim());
+  const m = /^(?:.*\D)?(\d{1,2})$/.exec(String(name).trim());
   if (!m) return null;
-  const n = Number(m[2]);
+  const n = Number(m[1]);
   return n >= 1 && n <= 40 ? n - 1 : null;
 }
 
@@ -233,22 +334,41 @@ export function descriptorsMatching(subject) {
  * and it can never override a protect rule or a type guard.
  */
 export function decideBinding(field, options = {}) {
-  const { name, pdfType, effectiveLabel, regionHeading, regionIsDocumentTitle = false } = field;
+  const { name, pdfType, regionHeading, regionIsDocumentTitle = false } = field;
   const {
     explicitMappings = {},
     captionOnly = false,
     availableChargeRows = 0,
-    documentAcceptsFill = true
+    documentAcceptsFill = true,
+    // Whether the caller has established that this participant's alternative
+    // mailing address is genuinely different from their street address. A
+    // second address block is conditional on the paper -- "if different than
+    // above" -- so it is conditional here.
+    alternateAddressDiffers = false
   } = options;
 
   if (!documentAcceptsFill) return { writable: false, reason: "document_does_not_accept_fill" };
+
+  // A caption the document could not decode is not a caption. It is dropped
+  // rather than matched, so glyph ids can neither protect a field nor bind it.
+  const rawLabel = field.effectiveLabel ?? null;
+  const effectiveLabel = isUndecodableText(rawLabel) ? null : rawLabel;
+  const rawTrailing = field.trailingLabel ?? null;
+  const trailingLabel = isUndecodableText(rawTrailing) ? null : rawTrailing;
+  const labelDropped = rawLabel !== null && effectiveLabel === null;
 
   // The label a form prints beside a positional widget names it, but it is
   // also matched against the protect rules -- a measured label must not become
   // a way around them.
   const subject = effectiveLabel ?? name;
 
-  const category = protectCategoryOf(subject) ?? protectCategoryOf(name);
+  let category = protectCategoryOf(subject) ?? protectCategoryOf(name);
+  let electionCaptionIgnored = null;
+  if (category && subject !== name && effectiveLabel && isElectionCaption(effectiveLabel)
+    && PARTY_PROTECT_CATEGORIES.has(category) && protectCategoryOf(effectiveLabel) === category) {
+    electionCaptionIgnored = { category, effectiveLabel };
+    category = protectCategoryOf(name);
+  }
   if (category) return { writable: false, reason: "protected_category", category };
 
   // Geometry. A widget sits inside a printed section of the page, and when
@@ -307,6 +427,58 @@ export function decideBinding(field, options = {}) {
   // list rather than something to resolve at runtime.
   const descriptor = matches[0];
 
+  // The field name and the printed caption are two claims about one box, and
+  // where they disagree about WHAT KIND OF VALUE the box takes, the disagreement
+  // is the finding. VA CC-1201 names a field `User.CourtName` on a rule the
+  // form captions "CITY OR COUNTY" and continues "Circuit Court": the name says
+  // court, the paper says locality, and the petition was filed reading
+  // "District Court ... Circuit Court". Neither channel is trusted over the
+  // other; the box is left alone and the conflict is reported.
+  //
+  // The test is whether the caption says ANYTHING that supports the name's
+  // reading, not whether the caption would resolve to the same descriptor on
+  // its own. NC AOC-CR-296 captions its name box "Name And Address Of
+  // Defendant (type or print full name)"; that caption also names an address,
+  // so resolving it alone yields the street-address descriptor -- but it says
+  // "name" twice, so it does not contradict the field name and the box binds.
+  //
+  // Both printed channels count as support. NC's AOC forms print the county
+  // blank under the heading "STATE OF NORTH CAROLINA" and follow it with the
+  // word "County" on the same line, so the caption above says nothing about a
+  // county and the words after the blank say exactly that.
+  if (factBasis === "field_name" && effectiveLabel && effectiveLabel !== name) {
+    const fromLabel = descriptorsMatching(effectiveLabel);
+    const supported = descriptor.match.test(haystack(effectiveLabel))
+      || (trailingLabel ? descriptor.match.test(haystack(trailingLabel)) : false);
+    if (fromLabel.length > 0 && !supported) {
+      return {
+        writable: false,
+        reason: "field_name_and_printed_caption_disagree",
+        category: "channel_conflict",
+        factId: descriptor.factId,
+        effectiveLabel,
+        trailingLabel,
+        captionFactIds: fromLabel.map((d) => d.factId)
+      };
+    }
+  }
+
+  // What the form prints AFTER the blank, on the blank's own line, describes
+  // what the blank is for. "____ addendums are attached to this petition" is a
+  // count of attachments; VA CC-1201 wrote a case number there.
+  if (trailingLabel && descriptor.refuseWhenTrailing && descriptor.refuseWhenTrailing.test(haystack(trailingLabel))) {
+    return { writable: false, reason: "printed_words_after_the_blank_describe_a_different_value",
+      category: "trailing_context", factId: descriptor.factId, trailingLabel };
+  }
+
+  // A second address block is written only when the caller has established
+  // that it differs; otherwise the participant's one address stays in the one
+  // block the form asks for it in.
+  if (descriptor.requiresDistinctAlternate && alternateAddressDiffers !== true) {
+    return { writable: false, reason: "alternate_address_block_not_established_as_different",
+      category: "conditional_block", factId: descriptor.factId };
+  }
+
   const explicit = explicitMappings[name];
   if (descriptor.requiresExplicitMapping && explicit !== descriptor.factId) {
     return { writable: false, reason: "requires_explicit_mapping", category: "sensitive_fact", factId: descriptor.factId };
@@ -333,7 +505,16 @@ export function decideBinding(field, options = {}) {
     }
   }
 
-  return { writable: true, factId: descriptor.factId, valueType: descriptor.valueType, factBasis };
+  // A continuation line of a block whose first line already carries the fact.
+  const continuation = continuationLineOf(name);
+  if (continuation !== null && continuation > 1) {
+    return { writable: false, reason: "continuation_line_of_a_block_written_on_its_first_line",
+      category: "block_continuation", factId: descriptor.factId, lineNumber: continuation };
+  }
+
+  return { writable: true, factId: descriptor.factId, valueType: descriptor.valueType, factBasis,
+    ...(labelDropped ? { labelDroppedAsUndecodable: true } : {}),
+    ...(electionCaptionIgnored ? { electionCaptionIgnored } : {}) };
 }
 
 /** Confirms a resolved value matches the type its descriptor declared. */

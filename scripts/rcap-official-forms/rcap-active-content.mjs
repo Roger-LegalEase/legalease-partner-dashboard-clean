@@ -26,7 +26,7 @@ import {
 } from "../rcap-hard-form-xfa-shadow-fill.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFName, PDFDict, PDFArray, PDFDocument } = require("pdf-lib");
+const { PDFName, PDFDict, PDFArray, PDFDocument, PDFRawStream, decodePDFRawStream } = require("pdf-lib");
 
 export { neutralizeXfa, stripDocumentActions, stripLinkAnnotations, scanAnnotationActions };
 
@@ -57,6 +57,96 @@ export function ensureDefaultAppearances(form) {
     } catch { /* a field that cannot carry one is left as-is */ }
   }
   return repaired;
+}
+
+// ---------------------------------------------------------------------------
+// What a widget's own appearance stream draws.
+//
+// A widget carries a pre-rendered picture of itself, authored by whoever built
+// the form. Flattening paints that picture onto the page, so the picture --
+// not the field's value -- is what a filed document ends up carrying.
+//
+// Two things live in those pictures on this corpus, and they need opposite
+// treatment:
+//
+//   * a CHOOSER PROMPT. Nebraska's court and county dropdowns ship with an
+//     appearance drawing "Choose the court" and "Choose the county" and no /V
+//     at all. Nothing selected them, so nothing cleared them, and pdf-lib does
+//     not regenerate an appearance a widget already has: five filed Nebraska
+//     pleadings tell the court to choose one.
+//   * PRINTED FORM TEXT. Nebraska draws its statutory caption through fields
+//     too -- TYPEOFCOURTRESULTS' appearance is the words "IN THE" and "COURT
+//     OF", fullcountystatementRIGHT's is "COUNTY, NEBRASKA", and "(Enter the
+//     county name)" is a third. Writing a value into one of those regenerates
+//     its appearance and the caption is gone: CC-6-15.1's filed caption band
+//     reads "District CourtExample County COUNTY, NEBRASKA" with the form's own
+//     words erased.
+//
+// Telling them apart does not need a rule about Nebraska. A widget with no /V
+// and no /DV holds no value, so whatever its appearance draws came with the
+// blank: it is the form talking. If the field is a chooser and the words are
+// its own prompt, they are a prompt. Everything else is the court's printed
+// text and is left exactly as it is.
+// ---------------------------------------------------------------------------
+
+/** Every string an appearance stream shows, in the order it shows them. */
+export function textDrawnByAppearance(widget, ctx) {
+  let ap;
+  try { ap = widget.getAppearances?.()?.normal; } catch { return null; }
+  if (!ap) return null;
+  // An /N that is a dictionary of states (a checkbox) is not a text picture.
+  let stream = ap;
+  if (!(stream instanceof PDFRawStream)) {
+    if (!(ap instanceof PDFDict)) return null;
+    const first = [...ap.entries()][0];
+    if (!first) return null;
+    try { stream = ctx.lookup(first[1]); } catch { return null; }
+    if (!(stream instanceof PDFRawStream)) return null;
+  }
+  let body;
+  try { body = Buffer.from(decodePDFRawStream(stream).decode()).toString("latin1"); } catch { return null; }
+  const parts = [];
+  for (const m of body.matchAll(/\(((?:\\.|[^()\\])*)\)\s*Tj|<([0-9A-Fa-f]+)>\s*Tj/g)) {
+    if (m[1] !== undefined) {
+      parts.push(m[1].replace(/\\([0-7]{1,3})/g, (_, o) => String.fromCharCode(parseInt(o, 8)))
+        .replace(/\\(.)/g, "$1"));
+    } else if (m[2] !== undefined) {
+      parts.push(Buffer.from(m[2], "hex").toString("latin1"));
+    }
+  }
+  return parts.join("");
+}
+
+/** Whether the field holds a value of its own: /V or /DV, at field level. */
+export function fieldHoldsAValue(acroField) {
+  for (const key of ["V", "DV"]) {
+    const entry = acroField.dict.get(PDFName.of(key));
+    if (entry === undefined) continue;
+    const text = String(entry ?? "").trim();
+    if (text !== "" && text !== "/" && text !== "/Off") return true;
+  }
+  return false;
+}
+
+/**
+ * Clears a widget so that flattening draws nothing for it.
+ *
+ * The value goes, the stale appearance goes, and the widget's own background
+ * and border go with them: an appearance regenerated over a /MK background
+ * paints an opaque rectangle across whatever the form printed underneath, and
+ * on Nebraska's caption band that rectangle is what removed "IN THE".
+ */
+export function clearWidgetAppearance(field) {
+  field.acroField.dict.delete(PDFName.of("V"));
+  field.acroField.dict.delete(PDFName.of("DV"));
+  for (const widget of field.acroField.getWidgets()) {
+    widget.dict.delete(PDFName.of("AP"));
+    const mk = widget.dict.get(PDFName.of("MK"));
+    if (mk instanceof PDFDict) {
+      mk.delete(PDFName.of("BG"));
+      mk.delete(PDFName.of("BC"));
+    }
+  }
 }
 
 /**
