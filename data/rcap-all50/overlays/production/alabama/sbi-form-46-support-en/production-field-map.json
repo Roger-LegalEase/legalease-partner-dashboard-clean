@@ -34,11 +34,6 @@
   "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
-      "field": "Full Name First Middle Last Suffix",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "Applicant Current Address",
       "class": "participant",
       "factId": "participant.street_address"
@@ -74,19 +69,9 @@
       "factId": "participant.phone"
     },
     {
-      "field": "Contractor Name",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "Work Email Address",
       "class": "participant",
       "factId": "participant.email"
-    },
-    {
-      "field": "Supervisor Name",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
     },
     {
       "field": "City State and Zip",
@@ -100,6 +85,11 @@
     }
   ],
   "bindingRefusals": [
+    {
+      "field": "Full Name First Middle Last Suffix",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
     {
       "field": "Male",
       "reason": "non_text_field_type",
@@ -117,13 +107,13 @@
     },
     {
       "field": "SSN",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "field": "MMDDYYYY Drivers License Number",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "field": "White",
@@ -156,6 +146,11 @@
       "category": "outside_party"
     },
     {
+      "field": "Contractor Name",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
+    {
       "field": "State Agency",
       "reason": "protected_category",
       "category": "agency"
@@ -164,6 +159,11 @@
       "field": "Job RoleClassification",
       "reason": "no_allowlisted_fact_matches",
       "category": null
+    },
+    {
+      "field": "Supervisor Name",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     },
     {
       "field": "Completed Application signed by applicant and two witnesses OR notarized",
@@ -252,8 +252,8 @@
     },
     {
       "field": "SID AL",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "field": "Billed",
@@ -418,12 +418,108 @@
   ],
   "unwritableFields": [
     {
+      "field": "Full Name First Middle Last Suffix",
+      "class": "manual"
+    },
+    {
+      "field": "Male",
+      "class": "manual"
+    },
+    {
+      "field": "Female",
+      "class": "manual"
+    },
+    {
+      "field": "AliasesNickname",
+      "class": "manual"
+    },
+    {
+      "field": "SSN",
+      "class": "manual"
+    },
+    {
+      "field": "MMDDYYYY Drivers License Number",
+      "class": "manual"
+    },
+    {
+      "field": "White",
+      "class": "manual"
+    },
+    {
+      "field": "Black",
+      "class": "manual"
+    },
+    {
+      "field": "Asian",
+      "class": "manual"
+    },
+    {
+      "field": "Indian",
+      "class": "manual"
+    },
+    {
+      "field": "Other please specify",
+      "class": "manual"
+    },
+    {
+      "field": "Employer Name",
+      "class": "manual"
+    },
+    {
+      "field": "Contractor Name",
+      "class": "manual"
+    },
+    {
+      "field": "State Agency",
+      "class": "manual"
+    },
+    {
+      "field": "Job RoleClassification",
+      "class": "manual"
+    },
+    {
+      "field": "Supervisor Name",
+      "class": "manual"
+    },
+    {
       "field": "Completed Application signed by applicant and two witnesses OR notarized",
       "class": "protected"
     },
     {
+      "field": "The required copy of my valid photo identification",
+      "class": "manual"
+    },
+    {
+      "field": "A classifiable copy of my own fingerprints taken by an authorized law enforcement agency as required",
+      "class": "manual"
+    },
+    {
+      "field": "If applying for state employmentlicensurecertification reference that agencys fee requirements for a backgroundcheck",
+      "class": "manual"
+    },
+    {
+      "field": "PERSONAL REQUESTS ONLY The required 2500 administrative fee must be in the form of a money order or Cashiers check",
+      "class": "manual"
+    },
+    {
+      "field": "Name  Address of Requesting Agency or Authorized Agent",
+      "class": "manual"
+    },
+    {
       "field": "Applicant Signature",
       "class": "signature"
+    },
+    {
+      "field": "Date",
+      "class": "manual"
+    },
+    {
+      "field": "Sworn to and subscribed before me this",
+      "class": "manual"
+    },
+    {
+      "field": "day of",
+      "class": "manual"
     },
     {
       "field": "Notary Signature",
@@ -434,8 +530,88 @@
       "class": "protected"
     },
     {
+      "field": "FOR ALEA OFFICIAL USE ONLY TCN",
+      "class": "manual"
+    },
+    {
+      "field": "SID AL",
+      "class": "manual"
+    },
+    {
+      "field": "Billed",
+      "class": "manual"
+    },
+    {
+      "field": "Paid",
+      "class": "manual"
+    },
+    {
+      "field": "Received By Initials",
+      "class": "manual"
+    },
+    {
+      "field": "Processed By initials",
+      "class": "manual"
+    },
+    {
+      "field": "Check",
+      "class": "manual"
+    },
+    {
+      "field": "Background Check Qty Total",
+      "class": "manual"
+    },
+    {
+      "field": "Status",
+      "class": "manual"
+    },
+    {
+      "field": "Initials",
+      "class": "manual"
+    },
+    {
+      "field": "Certified Letter Qty Total",
+      "class": "manual"
+    },
+    {
+      "field": "I",
+      "class": "manual"
+    },
+    {
+      "field": "Alabama Law Enforcement Agency Criminal Records and Identification Unit on",
+      "class": "manual"
+    },
+    {
+      "field": "AGENCY1",
+      "class": "manual"
+    },
+    {
+      "field": "AGENCY2",
+      "class": "manual"
+    },
+    {
+      "field": "AGENCY3",
+      "class": "manual"
+    },
+    {
+      "field": "AGENCY4",
+      "class": "manual"
+    },
+    {
+      "field": "AGENCY5",
+      "class": "manual"
+    },
+    {
       "field": "Signature",
       "class": "signature"
+    },
+    {
+      "field": "Date_2",
+      "class": "manual"
+    },
+    {
+      "field": "DATE",
+      "class": "manual"
     }
   ],
   "manualFields": [

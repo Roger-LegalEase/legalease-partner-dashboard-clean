@@ -54,6 +54,20 @@
     {
       "fixture": "canonical",
       "check": "binding_refused",
+      "field": "Def.Info.JailId",
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Def.VitalStats.SSN",
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
       "field": "Text1",
       "reason": "no_allowlisted_fact_matches",
       "category": null
@@ -217,40 +231,6 @@
     },
     {
       "fixture": "boundary",
-      "check": "unfittable_refused_not_clipped",
-      "field": "Def.Info.JailId",
-      "factId": "participant.full_legal_name",
-      "outcome": "refused",
-      "reason": "value_exceeds_widget_width_at_minimum_font",
-      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
-      "rect": {
-        "x": 440,
-        "y": 522,
-        "width": 89,
-        "height": 17
-      },
-      "minFontSize": 6,
-      "requiredWidthAtMin": 195.6
-    },
-    {
-      "fixture": "boundary",
-      "check": "unfittable_refused_not_clipped",
-      "field": "Def.VitalStats.SSN",
-      "factId": "participant.full_legal_name",
-      "outcome": "refused",
-      "reason": "value_exceeds_widget_width_at_minimum_font",
-      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
-      "rect": {
-        "x": 319,
-        "y": 498,
-        "width": 106,
-        "height": 17
-      },
-      "minFontSize": 6,
-      "requiredWidthAtMin": 195.6
-    },
-    {
-      "fixture": "boundary",
       "check": "binding_refused",
       "field": "Case.Division",
       "reason": "no_allowlisted_fact_matches",
@@ -297,6 +277,20 @@
       "field": "Def.PhoneNo",
       "reason": "court_issued_order_accepts_caption_facts_only",
       "category": "court"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Def.Info.JailId",
+      "reason": "protected_category",
+      "category": "government_identifier"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Def.VitalStats.SSN",
+      "reason": "protected_category",
+      "category": "government_identifier"
     },
     {
       "fixture": "boundary",

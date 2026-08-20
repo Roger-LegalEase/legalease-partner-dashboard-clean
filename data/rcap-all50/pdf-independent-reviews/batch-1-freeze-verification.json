@@ -9,8 +9,8 @@
   "totals": {
     "familiesInFreeze": 27,
     "artifactsInFreeze": 81,
-    "artifactHashesStillMatching": 81,
-    "artifactHashesDrifted": 0,
+    "artifactHashesStillMatching": 60,
+    "artifactHashesDrifted": 21,
     "artifactsAbsent": 0,
     "classificationHashesStillMatching": 27
   },
@@ -21,7 +21,29 @@
     "sourceIdentityUnresolved": 1,
     "substantiveOwnerDecisionRequired": 0
   },
-  "drifted": [],
+  "drifted": [
+    "AK:tf-800-form-en:fixtures/canonical-filled.pdf",
+    "AK:tf-800-form-en:fixtures/boundary-filled.pdf",
+    "AK:tf-800-form-en:contact-sheet/blank-vs-filled.pdf",
+    "AK:tf-805-form-en:fixtures/canonical-filled.pdf",
+    "AK:tf-805-form-en:fixtures/boundary-filled.pdf",
+    "AK:tf-805-form-en:contact-sheet/blank-vs-filled.pdf",
+    "KY:aoc-334-form-en:fixtures/canonical-filled.pdf",
+    "KY:aoc-334-form-en:contact-sheet/blank-vs-filled.pdf",
+    "KY:aoc-496-2-form-en:fixtures/canonical-filled.pdf",
+    "KY:aoc-496-2-form-en:contact-sheet/blank-vs-filled.pdf",
+    "KY:aoc-496-form-en:fixtures/canonical-filled.pdf",
+    "KY:aoc-496-form-en:contact-sheet/blank-vs-filled.pdf",
+    "NC:aoc-cr-287-form-en:fixtures/canonical-filled.pdf",
+    "NC:aoc-cr-287-form-en:fixtures/boundary-filled.pdf",
+    "NC:aoc-cr-287-form-en:contact-sheet/blank-vs-filled.pdf",
+    "NC:aoc-cr-288-form-en:fixtures/canonical-filled.pdf",
+    "NC:aoc-cr-288-form-en:fixtures/boundary-filled.pdf",
+    "NC:aoc-cr-288-form-en:contact-sheet/blank-vs-filled.pdf",
+    "NC:aoc-cv-226-support-en:fixtures/canonical-filled.pdf",
+    "NC:aoc-cv-226-support-en:fixtures/boundary-filled.pdf",
+    "NC:aoc-cv-226-support-en:contact-sheet/blank-vs-filled.pdf"
+  ],
   "missing": [],
   "families": [
     {
@@ -30,18 +52,21 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "9583d1f2228dc3ba9a36b3cf61f3cfc36e8ac90246c1d9b965138bc4054cd227"
+          "state": "drifted",
+          "frozen": "9583d1f2228dc3ba9a36b3cf61f3cfc36e8ac90246c1d9b965138bc4054cd227",
+          "observed": "de4d5014a0d9934c9b256959b7947ee0acbffb67eab2e8099f0d614276b1b807"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "3f2e1b74436925ff7a926ff5b8d77a99d4d49248e64be7372c1bf6fd26adb1fb"
+          "state": "drifted",
+          "frozen": "3f2e1b74436925ff7a926ff5b8d77a99d4d49248e64be7372c1bf6fd26adb1fb",
+          "observed": "931ef62a7cf75a0a6e1597e3bab78987fbc86aaf9a1a1bf30a6e19dbff3f6287"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "e5ecf77f72e9ddd2e9c08b4e3e82484f796df4d08b4c343f0cc973d7cd67477e"
+          "state": "drifted",
+          "frozen": "e5ecf77f72e9ddd2e9c08b4e3e82484f796df4d08b4c343f0cc973d7cd67477e",
+          "observed": "dd7b228ac0400cb6abfd618b595fbe095edaeb92b52778f5ebe3fa63a9768a23"
         }
       ],
       "classificationStillMatches": true
@@ -52,18 +77,21 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "4ff71dd8d636a2bb5340737dafb4d258bba2b0d950065654528af52d2d88a979"
+          "state": "drifted",
+          "frozen": "4ff71dd8d636a2bb5340737dafb4d258bba2b0d950065654528af52d2d88a979",
+          "observed": "d8bdd48265050a708de1c59411f58da7c02bb34ef2110cd1e13657d805d37a5a"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "17be2f738b14985830733ad6df42e946900b6cd0f6dcec0513a76ce4761cb099"
+          "state": "drifted",
+          "frozen": "17be2f738b14985830733ad6df42e946900b6cd0f6dcec0513a76ce4761cb099",
+          "observed": "0c29b6b481d971497d8a7446aa0cdc818a724a941a60484ed25b53d48c83f949"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "2233423100912bd9fbc5362241dbf7c7eb712532c8591dd9d6c89aa20d1d9c91"
+          "state": "drifted",
+          "frozen": "2233423100912bd9fbc5362241dbf7c7eb712532c8591dd9d6c89aa20d1d9c91",
+          "observed": "9e30b4beea7a121f9c7d51f3f748f1c7b50aa95d4e0accb9891f0bd67b2f837d"
         }
       ],
       "classificationStillMatches": true
@@ -96,8 +124,9 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "5f01b700543a2e9b6499ff80cb6afe7a43c31d1b4ca47e29088282dd8628a03c"
+          "state": "drifted",
+          "frozen": "5f01b700543a2e9b6499ff80cb6afe7a43c31d1b4ca47e29088282dd8628a03c",
+          "observed": "d8ff8091c94ba18b8cb96e2c13ed17d80bf0ba8489094ef48843af1e6b3ff603"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
@@ -106,8 +135,9 @@
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "af53ae57fff29b2499617a5a3b3d9c85008f284102ff135a06e3b370801ed139"
+          "state": "drifted",
+          "frozen": "af53ae57fff29b2499617a5a3b3d9c85008f284102ff135a06e3b370801ed139",
+          "observed": "585d94fbc5f9a19b4c4911871275f6c87ec07c073a56ceb00fc0eb76740dcb6f"
         }
       ],
       "classificationStillMatches": true
@@ -118,8 +148,9 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "2dd15a6598e351b7334c9dad0a0f7533a2b0c4a8a5eda1dee4c324d8febc2c10"
+          "state": "drifted",
+          "frozen": "2dd15a6598e351b7334c9dad0a0f7533a2b0c4a8a5eda1dee4c324d8febc2c10",
+          "observed": "b735b7f9109d76f5056bbd870537847b583b37d1a6d8adc615d843afeaed3f9d"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
@@ -128,8 +159,9 @@
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "92e092df5ab1a8bd99e67ce508179baac17ef595b2c6326088e432db04d53221"
+          "state": "drifted",
+          "frozen": "92e092df5ab1a8bd99e67ce508179baac17ef595b2c6326088e432db04d53221",
+          "observed": "cebe4246be89b42d8899726d44114b926789ede357dc159e4b477577506d5f37"
         }
       ],
       "classificationStillMatches": true
@@ -184,8 +216,9 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "8d3b618342b8e20955109569e9b0f3ebb77e1464ee82b879ae409743ebbf3a45"
+          "state": "drifted",
+          "frozen": "8d3b618342b8e20955109569e9b0f3ebb77e1464ee82b879ae409743ebbf3a45",
+          "observed": "a1140fed1d827683878f1bdf7f15ccd00f873f265264d7a579a3eb4eee30622c"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
@@ -194,8 +227,9 @@
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "3794c895d3fa9290f33615368c08017649c54d40ae7dbb0d3f75404643e48fc7"
+          "state": "drifted",
+          "frozen": "3794c895d3fa9290f33615368c08017649c54d40ae7dbb0d3f75404643e48fc7",
+          "observed": "be7063a863f195956996e969e1c56728e15b6465991af6735f4cabd6279c0bb8"
         }
       ],
       "classificationStillMatches": true
@@ -228,18 +262,21 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "c6807758e58b8ee0cb9c91f6da8bb50a4c3ab838329e3e47fce9cf0fe6123f4f"
+          "state": "drifted",
+          "frozen": "c6807758e58b8ee0cb9c91f6da8bb50a4c3ab838329e3e47fce9cf0fe6123f4f",
+          "observed": "ab5c9790f1f5ed9fc4bd693b78f01f4b8d53a90a89288bd3adee420439828a92"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "5d585951d26a48adc458406da52f3180864c456d2c2f3e4485d605b4ec2548ae"
+          "state": "drifted",
+          "frozen": "5d585951d26a48adc458406da52f3180864c456d2c2f3e4485d605b4ec2548ae",
+          "observed": "969d2dd0873f8217f09ba3100830b203a8151e18a5c14e54c29f6ebe45d0ef4a"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "ffd0db5aac3eabfe2db2003c4634014259853a8731b882abd8892e94af4df8d5"
+          "state": "drifted",
+          "frozen": "ffd0db5aac3eabfe2db2003c4634014259853a8731b882abd8892e94af4df8d5",
+          "observed": "9f5121fb1bda58993e0fee9947deb09379e6ea12f567be670531c4d0beaadece"
         }
       ],
       "classificationStillMatches": true
@@ -250,18 +287,21 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "96ff5609fb6a0e9168e6e86c36112a538a231334155ac166a1027302c154a1d6"
+          "state": "drifted",
+          "frozen": "96ff5609fb6a0e9168e6e86c36112a538a231334155ac166a1027302c154a1d6",
+          "observed": "1ce139d5a37091f8f937e4acf3ad7ba8a84174b15a126b6cb8238e9c62322b86"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "5a00ee6811f8681cf257daa094b46ec7e64ca172f9f9dbc94716678845e69c2a"
+          "state": "drifted",
+          "frozen": "5a00ee6811f8681cf257daa094b46ec7e64ca172f9f9dbc94716678845e69c2a",
+          "observed": "5f3efbbc6fb8820d89075635506ba4cc0b40a3c3f978cebaa4ad80ff1f505cc2"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "5703d476da2e832cddb97aa8ffd247b19b250b1ba82b5aa1c1f2f94a948ee618"
+          "state": "drifted",
+          "frozen": "5703d476da2e832cddb97aa8ffd247b19b250b1ba82b5aa1c1f2f94a948ee618",
+          "observed": "b02069368a58249bfb8a13e747482db885c90bf42a673d2b735bc12c06c4a1b1"
         }
       ],
       "classificationStillMatches": true
@@ -338,18 +378,21 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "8ebd1ccf32044b3b52689d5231ef4d0ddd8c06f74a5a38eb54a2d0be1ee47a53"
+          "state": "drifted",
+          "frozen": "8ebd1ccf32044b3b52689d5231ef4d0ddd8c06f74a5a38eb54a2d0be1ee47a53",
+          "observed": "44559fe68a9de20740501e52c149072367e5d849f9a7e9224c4734d7c7370c39"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "52ca5719efcb4fe94313e0ee2dfb569ccd2b8550ee4959af1461af233b230739"
+          "state": "drifted",
+          "frozen": "52ca5719efcb4fe94313e0ee2dfb569ccd2b8550ee4959af1461af233b230739",
+          "observed": "ff740b8262ead26fac71d6aa8ca3596ee7b31fd4786f753c62a180178d271a11"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "26bb43ea85d42b881dbd8b9d21d09067f2c5a44285b0420114f3aab5104088b4"
+          "state": "drifted",
+          "frozen": "26bb43ea85d42b881dbd8b9d21d09067f2c5a44285b0420114f3aab5104088b4",
+          "observed": "3a7c1eb7e2699086ad8069395638b36cc3e787f2849a6657bc6699d47d10e2ab"
         }
       ],
       "classificationStillMatches": true
