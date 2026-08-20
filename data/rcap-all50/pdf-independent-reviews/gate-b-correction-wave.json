@@ -1,0 +1,362 @@
+{
+  "schemaVersion": "rcap-pdf-gate-b-correction-wave/v1",
+  "generatedBy": "scripts/generate-rcap-gate-b-correction-wave.mjs",
+  "purpose": "The eight shared escalations as one deterministic table, the release-input classification that gates them, and the state of each correction.",
+  "consumedInventoryCommits": [
+    "c78eb99f",
+    "acc73fdd",
+    "4e018401",
+    "abed7631"
+  ],
+  "approvalChannelPreservedAt": "080c2013",
+  "howTheyWereConsumed": "By lineage, not by import. All five commits are ancestors of this branch's head — this is the lane that produced them — so there is nothing to cherry-pick and no risk of importing a partial view of a record this branch already carries whole.",
+  "releaseInputClassification": {
+    "workerImageInputPaths": [
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "scripts/rcap-render-worker.mjs",
+      "scripts/lib/",
+      "src/",
+      "deploy/rcap-render-worker/Dockerfile"
+    ],
+    "workerImageInputPathsReadFrom": "scripts/generate-rcap-staging-action.mjs",
+    "applicationInputPaths": [
+      "src/",
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "next.config.ts"
+    ],
+    "correctionPaths": [
+      {
+        "path": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+        "exists": true,
+        "insideWorkerImageInputs": false,
+        "insideApplicationInputs": false
+      },
+      {
+        "path": "scripts/rcap-official-forms/rcap-artifact-provenance.mjs",
+        "exists": true,
+        "insideWorkerImageInputs": false,
+        "insideApplicationInputs": false
+      },
+      {
+        "path": "scripts/implement-rcap-official-forms-d1.mjs",
+        "exists": true,
+        "insideWorkerImageInputs": false,
+        "insideApplicationInputs": false
+      },
+      {
+        "path": "scripts/verify-rcap-official-forms-d1.mjs",
+        "exists": true,
+        "insideWorkerImageInputs": false,
+        "insideApplicationInputs": false
+      },
+      {
+        "path": "scripts/verify-rcap-shared-pdf-contract.mjs",
+        "exists": true,
+        "insideWorkerImageInputs": false,
+        "insideApplicationInputs": false
+      },
+      {
+        "path": "scripts/verify-rcap-field-semantics-canaries.mjs",
+        "exists": true,
+        "insideWorkerImageInputs": false,
+        "insideApplicationInputs": false
+      }
+    ],
+    "pathsInsideEitherSet": [],
+    "applicationInputChange": false,
+    "workerInputChange": false,
+    "verdict": "All correction paths are outside both sets. Proceed on this branch; no rebuild, no republication, and Gate A Preview and payment acceptance are untouched by construction.",
+    "whyThisHolds": "The Dockerfile copies scripts/rcap-render-worker.mjs, scripts/lib/ and src/. Neither scripts/lib/ nor src/ contains any reference to scripts/rcap-official-forms/, so the corrected modules are not reachable from the image even transitively — they run at build time in this repository, not inside the worker."
+  },
+  "totals": {
+    "escalations": 8,
+    "corrected": 7,
+    "open": 1,
+    "familiesWaiting": 26,
+    "retainedManifestAssets": 12
+  },
+  "escalations": [
+    {
+      "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
+      "sharedModule": "scripts/rcap-official-forms/rcap-field-semantics.mjs, scripts/implement-rcap-official-forms-d1.mjs",
+      "currentDefect": "decideBinding() receives { name, pdfType, effectiveLabel } and effectiveLabel is undefined for every field of every family, so `subject = effectiveLabel ?? name` resolves to the internal AcroForm field name. Widget rects are captured into field-census.json and never passed. Geometry is not an input to protection.",
+      "requiredBehaviour": "The widget rect and the printed caption above it are inputs to decideBinding, and a binding whose rect falls inside a court-owned page region is refused whatever the field is called.",
+      "affectedFamilyIds": [
+        "AK:tf-800-form-en",
+        "AK:tf-805-form-en",
+        "KY:aoc-334-form-en",
+        "KY:aoc-496-3-form-en",
+        "NC:aoc-cr-287-form-en",
+        "NC:aoc-cr-288-form-en",
+        "NC:aoc-cr-296-form-en",
+        "NC:aoc-cr-298-form-en",
+        "NC:aoc-cv-226-support-en",
+        "VA:cc-1201-form-en",
+        "VA:cc-1473-form-en",
+        "NE:dc-1-15-form-en"
+      ],
+      "affectedAssetIds": [
+        "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+        "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+        "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+        "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+        "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+        "NC|AOC-CR-288|776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+        "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+        "NC|AOC-CR-298|8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+        "NC|AOC-CV-226|74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+        "VA|CC-1201|7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+        "VA|CC-1473|6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "NE|DC-1-15|43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b"
+      ],
+      "familiesAffected": 12,
+      "reviewerConditionFailed": "protection established by geometry where required, not label alone",
+      "smallestSharedCorrection": "The widget rect and the printed caption above it are inputs to decideBinding, and a binding whose rect falls inside a court-owned page region is refused whatever the field is called.",
+      "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
+      "mutationThatMustTurnRed": "Rename a protected field to an innocuous name and re-derive: the binder must still refuse it on geometry.",
+      "whyNoFamilyCorrectionSubstitutes": "The field maps are generated. A hand-edited map is overwritten by the next re-derivation, and hand-editing 20 of them would leave the defect live for every family added afterwards.",
+      "status": "corrected",
+      "correctedBy": "captureWidgetContext() and pageRegions() in the existing content-stream geometry module feed decideBinding a widget's rect and the printed section heading above it; a binding inside a REGIONAL_PROTECT_CATEGORIES region is refused whatever the field is called",
+      "note": null
+    },
+    {
+      "escalationId": "ESC-MANUAL-NOT-NEVER-WRITE",
+      "sharedModule": "scripts/implement-rcap-official-forms-d1.mjs:151, scripts/verify-rcap-official-forms-d1.mjs:206",
+      "currentDefect": "NEVER_WRITE is { prohibited, protected, signature, court_or_agency, outside_party }. `manual` is absent from both sets, so a field the classifier declined to classify can still be bound and written, and the verifier carries the identical omission so it cannot catch what the binder allowed.",
+      "requiredBehaviour": "`manual` is in NEVER_WRITE in both the binder and the verifier.",
+      "affectedFamilyIds": [
+        "KY:aoc-334-form-en",
+        "KY:aoc-496-2-form-en",
+        "KY:aoc-496-form-en",
+        "NC:aoc-cr-288-form-en"
+      ],
+      "affectedAssetIds": [
+        "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+        "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+        "KY|AOC-496|4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+        "NC|AOC-CR-288|776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08"
+      ],
+      "familiesAffected": 4,
+      "reviewerConditionFailed": "every discovered entry classified exactly once, and no participant value written to a protected area",
+      "smallestSharedCorrection": "`manual` is in NEVER_WRITE in both the binder and the verifier.",
+      "familyOwnedFollowUp": "re-render; any binding onto a `manual` field disappears on its own",
+      "mutationThatMustTurnRed": "Classify a field `manual` and bind it: the binder must refuse, and the verifier must fail if it did not.",
+      "whyNoFamilyCorrectionSubstitutes": "The classification is correct — the field really is manual. What is wrong is that `manual` is not treated as unwritable, which is one constant in shared code.",
+      "status": "corrected",
+      "correctedBy": "`manual` added to NEVER_WRITE in the binder and to NEVER_WRITE_CLASSES in the verifier, kept identical",
+      "note": null
+    },
+    {
+      "escalationId": "ESC-NO-SSN-RULE",
+      "sharedModule": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "currentDefect": "PROTECT_RULES carries no SSN pattern, so a Defendant's SSN box is an ordinary writable field and takes the participant's full legal name.",
+      "requiredBehaviour": "\\bssn\\b|social\\s*security is a protect rule.",
+      "affectedFamilyIds": [
+        "KY:aoc-334-form-en",
+        "KY:aoc-496-2-form-en",
+        "KY:aoc-496-form-en"
+      ],
+      "affectedAssetIds": [
+        "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+        "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+        "KY|AOC-496|4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd"
+      ],
+      "familiesAffected": 3,
+      "reviewerConditionFailed": "court, clerk, judge, prosecutor, agency, signature, service, notarization and decision fields protected",
+      "smallestSharedCorrection": "\\bssn\\b|social\\s*security is a protect rule.",
+      "familyOwnedFollowUp": "re-render KY aoc-334, aoc-496, aoc-496-2 and confirm the SSN and Jail ID boxes are empty in the bytes",
+      "mutationThatMustTurnRed": "Offer full_legal_name to a field named `Def.VitalStats.SSN`: it must be refused.",
+      "whyNoFamilyCorrectionSubstitutes": "Three families hit this today and every future family with an SSN box hits it tomorrow. A local refusal in three field maps leaves the rule missing.",
+      "status": "corrected",
+      "correctedBy": "a government_identifier protect rule covering SSN, SID, FBI number, jail and booking identifiers, DOC number and driver's licence",
+      "note": null
+    },
+    {
+      "escalationId": "ESC-NO-REFUSE-WHEN",
+      "sharedModule": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "currentDefect": "Descriptor matchers are positive-only. street_address matches a City box and a bank-name box; full_legal_name matches an attorney-name line and a street line. The first pattern that hits wins, so the address prints twice and the petitioner is named as their own attorney.",
+      "requiredBehaviour": "Descriptors carry refuseWhen guards: street_address declines city/state/zip subjects, full_legal_name declines street and bank subjects.",
+      "affectedFamilyIds": [
+        "KY:aoc-496-2-form-en",
+        "KY:aoc-497-form-en",
+        "NC:aoc-cr-287-form-en",
+        "NC:aoc-cr-288-form-en",
+        "NC:aoc-cr-296-form-en",
+        "NC:aoc-cr-297-form-en",
+        "NC:aoc-cv-226-support-en",
+        "VA:cc-1201-form-en",
+        "VA:cc-1473-form-en"
+      ],
+      "affectedAssetIds": [
+        "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+        "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+        "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+        "NC|AOC-CR-288|776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+        "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+        "NC|AOC-CR-297|99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+        "NC|AOC-CV-226|74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+        "VA|CC-1201|7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+        "VA|CC-1473|6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219"
+      ],
+      "familiesAffected": 9,
+      "reviewerConditionFailed": "participant-writable entries correct",
+      "smallestSharedCorrection": "Descriptors carry refuseWhen guards: street_address declines city/state/zip subjects, full_legal_name declines street and bank subjects.",
+      "familyOwnedFollowUp": "re-render the eight affected families; the duplicated address lines and the bank-name fills clear with the binding",
+      "mutationThatMustTurnRed": "Offer street_address to a field named `Def.Address.City`: it must be refused rather than matched.",
+      "whyNoFamilyCorrectionSubstitutes": "The guard belongs to the descriptor, which is shared. Eight families would each need the same local exception.",
+      "status": "corrected",
+      "correctedBy": "refuseWhen guards on street_address and full_legal_name, and the attorney rule extended to `atty` and `vsb`",
+      "note": null
+    },
+    {
+      "escalationId": "ESC-SERVICE-BLOCK-BY-NAME",
+      "sharedModule": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "currentDefect": "The service_block protect rule matches /certificate\\s*of\\s*service/ against the field NAME, while deterministic.filing_date matches /cert\\s*date/. A field called certDate under a printed 'Certificate of Service' heading is therefore filled by the platform, producing a half-completed sworn certification of service dated by a system that does not know when service occurred.",
+      "requiredBehaviour": "service_block fires from the block's printed heading, or cert-date is removed from the filing_date matcher.",
+      "affectedFamilyIds": [
+        "AK:tf-800-form-en",
+        "AK:tf-805-form-en",
+        "NC:aoc-cr-298-form-en"
+      ],
+      "affectedAssetIds": [
+        "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+        "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+        "NC|AOC-CR-298|8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b"
+      ],
+      "familiesAffected": 3,
+      "reviewerConditionFailed": "service fields protected",
+      "smallestSharedCorrection": "service_block fires from the block's printed heading, or cert-date is removed from the filing_date matcher.",
+      "familyOwnedFollowUp": "re-render AK tf-800 and tf-805 and confirm the certification line is blank",
+      "mutationThatMustTurnRed": "Offer filing_date to `certDate` under a service heading: it must be refused.",
+      "whyNoFamilyCorrectionSubstitutes": "This is a sworn statement. A per-family suppression that a re-render can undo is not an acceptable control for it.",
+      "status": "corrected",
+      "correctedBy": "`cert date`, `cert time` and `certify on` added to the service_block rule",
+      "note": null
+    },
+    {
+      "escalationId": "ESC-CAPTION-VARIANTS",
+      "sharedModule": "scripts/implement-rcap-official-forms-d1.mjs and the shared content-stream geometry module",
+      "currentDefect": "Every widget in a multi-purpose caption band is bound. After flattening, variants that JavaScript used to show and hide all render at once, overlapping, covering the court's own printed words, and unfilled dropdowns keep their prompt text ('Choose the court') as ink on a filed pleading.",
+      "requiredBehaviour": "Exactly one field per caption slot is bound and the rest refused; an unfilled dropdown's prompt is suppressed at flatten.",
+      "affectedFamilyIds": [
+        "NE:cc-6-11-2-form-en",
+        "NE:cc-6-11-form-en",
+        "NE:cc-6-12-form-en",
+        "NE:cc-6-15-1-form-en",
+        "NE:dc-1-15-form-en"
+      ],
+      "affectedAssetIds": [
+        "NE|CC-6-11.2|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+        "NE|CC-6-11|c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+        "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "NE|CC-6-15.1|d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+        "NE|DC-1-15|43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b"
+      ],
+      "familiesAffected": 5,
+      "reviewerConditionFailed": "no clipping, no silent truncation, no duplicated preprinted caption",
+      "smallestSharedCorrection": "Exactly one field per caption slot is bound and the rest refused; an unfilled dropdown's prompt is suppressed at flatten.",
+      "familyOwnedFollowUp": "re-render the five Nebraska families and read the caption band in the raster",
+      "mutationThatMustTurnRed": "Flatten a form with an unselected dropdown: the prompt string must not appear in the page content stream.",
+      "whyNoFamilyCorrectionSubstitutes": "Five Nebraska families share one caption block. The selection rule is in the binder, not in any of their maps.",
+      "status": "corrected",
+      "correctedBy": "selectOnePerSlot() reduces overlapping widgets carrying one fact to a single binding, the finalizer decides before it writes so the artifact and the map agree, and an unselected chooser's value and stale appearance stream are both cleared before flatten",
+      "note": null
+    },
+    {
+      "escalationId": "ESC-VALUE-NOT-VISIBLE",
+      "sharedModule": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "currentDefect": "VT 600-00228 names its fields as bare digits. With only the name channel available every descriptor refuses no_allowlisted_fact_matches, and the finished fee-waiver application carries none of the applicant's information.",
+      "requiredBehaviour": "The printed label is captured into effectiveLabel and matched.",
+      "affectedFamilyIds": [
+        "VT:600-00228-support-en"
+      ],
+      "affectedAssetIds": [
+        "VT|600-00228|263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654"
+      ],
+      "familiesAffected": 1,
+      "reviewerConditionFailed": "expected participant values visibly present",
+      "smallestSharedCorrection": "The printed label is captured into effectiveLabel and matched.",
+      "familyOwnedFollowUp": "re-render VT 600-00228 and confirm the applicant fields carry values",
+      "mutationThatMustTurnRed": "Offer full_legal_name to a field named `2` sitting under a printed 'Name' caption: it must bind, not refuse.",
+      "whyNoFamilyCorrectionSubstitutes": "explicitFieldMappings for 15 numbered fields is exactly the local workaround the freeze forbids, and it is the same missing channel as ESC-GEOMETRY-NOT-AN-INPUT seen from the other side.",
+      "status": "corrected",
+      "correctedBy": "the printed caption beside a widget is captured and matched as a fallback when the field's own name matches nothing, so VT 600-00228's numbered fields bind without a single explicitFieldMapping",
+      "note": "the same missing channel as ESC-GEOMETRY-NOT-AN-INPUT, seen from the other side, and closed in the same commit"
+    },
+    {
+      "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+      "sharedModule": "scripts/rcap-official-forms/rcap-artifact-provenance.mjs, scripts/verify-rcap-shared-pdf-contract.mjs",
+      "currentDefect": "0 of 27 committed sidecars carry the 20 fields the shared contract requires; 12 fields are null in a typical one. The contract's verifier proves its P-block against a sidecar it synthesises from a canary and never opens a committed one, so nothing had compared them.",
+      "requiredBehaviour": "The provenance module emits all 20 fields, and the contract verifier reads a committed sidecar.",
+      "affectedFamilyIds": [
+        "AK:tf-800-form-en",
+        "AK:tf-805-form-en",
+        "AK:tf-810-form-en",
+        "KY:aoc-334-form-en",
+        "KY:aoc-496-2-form-en",
+        "KY:aoc-496-3-form-en",
+        "KY:aoc-496-4-form-en",
+        "KY:aoc-496-form-en",
+        "KY:aoc-497-form-en",
+        "NC:aoc-cr-287-form-en",
+        "NC:aoc-cr-288-form-en",
+        "NC:aoc-cr-296-form-en",
+        "NC:aoc-cr-297-form-en",
+        "NC:aoc-cr-298-form-en",
+        "NC:aoc-cv-226-support-en",
+        "VA:cc-1201-form-en",
+        "VA:cc-1473-form-en",
+        "WI:cr-266-form-en",
+        "NE:cc-6-11-2-form-en",
+        "NE:cc-6-11-form-en",
+        "NE:cc-6-12-form-en",
+        "NE:cc-6-15-1-form-en",
+        "NE:dc-1-15-form-en",
+        "VT:200-00132-form-en",
+        "VT:200-00132a-form-en",
+        "VT:600-00228-support-en"
+      ],
+      "affectedAssetIds": [
+        "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+        "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+        "AK|TF-810|c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+        "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+        "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+        "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+        "KY|AOC-496.4|70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+        "KY|AOC-496|4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+        "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+        "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+        "NC|AOC-CR-288|776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+        "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+        "NC|AOC-CR-297|99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+        "NC|AOC-CR-298|8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+        "NC|AOC-CV-226|74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+        "VA|CC-1201|7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+        "VA|CC-1473|6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "WI|CR-266|9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+        "NE|CC-6-11.2|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+        "NE|CC-6-11|c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+        "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "NE|CC-6-15.1|d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+        "NE|DC-1-15|43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+        "VT|200-00132|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+        "VT|200-00132A|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+        "VT|600-00228|263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654"
+      ],
+      "familiesAffected": 26,
+      "reviewerConditionFailed": "artifact provenance complete and hash-matched",
+      "smallestSharedCorrection": "The provenance module emits all 20 fields, and the contract verifier reads a committed sidecar.",
+      "familyOwnedFollowUp": "re-render every family; the sidecar is emitted by the shared module, not written per family",
+      "mutationThatMustTurnRed": "Null one field in a committed sidecar: the contract verifier must go red.",
+      "whyNoFamilyCorrectionSubstitutes": "Hand-populating 27 sidecars would satisfy the count and leave the emitter and its verifier both wrong, so the 28th would be non-conformant again.",
+      "status": "open",
+      "correctedBy": null,
+      "note": "held exclusively by the evidence-completion lane, which owns the provenance sidecar schema and writer, its call sites, its verification and the raster evidence. The shared-correction lane does not open those paths."
+    }
+  ]
+}

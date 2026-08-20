@@ -36,254 +36,305 @@
     {
       "field": "Case No",
       "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": "vs. Case No. _______________"
     },
     {
       "field": "First Middle and Last name",
       "class": "participant",
-      "factId": "participant.last_name"
+      "factId": "participant.last_name",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "County_2",
       "class": "participant",
-      "factId": "matter.county"
+      "factId": "matter.county",
+      "factBasis": "field_name",
+      "effectiveLabel": "from _________ County ___________ Court pursuant to A.C.A.§1"
     },
     {
       "field": "County_3",
       "class": "participant",
-      "factId": "matter.county"
-    },
-    {
-      "field": "DOB",
-      "class": "participant",
-      "factId": "participant.date_of_birth"
+      "factId": "matter.county",
+      "factBasis": "field_name",
+      "effectiveLabel": "Concurred in the Order Sealing case number(s) _____________ "
     },
     {
       "field": "County",
       "class": "participant",
-      "factId": "matter.county"
+      "factId": "matter.county",
+      "factBasis": "field_name",
+      "effectiveLabel": "_______ DIVISION"
     },
     {
       "field": "Defendant",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "Defendant, _______________________, to Dismiss and Seal the "
     }
   ],
   "bindingRefusals": [
     {
       "field": "COURT OF",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "DIVISION",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "1",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "in",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "court_or_agency"
     },
     {
       "field": "was found guilty of",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "in violation of ACA",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "Judge",
       "reason": "protected_category",
-      "category": "court"
+      "category": "court",
+      "regionHeading": null
     },
     {
       "field": "Date",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Court",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "court_or_agency"
     },
     {
       "field": "Judge_2",
       "reason": "protected_category",
-      "category": "court"
+      "category": "court",
+      "regionHeading": null
     },
     {
       "field": "Date_2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Race",
       "reason": "protected_category",
-      "category": "race"
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "Sex",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "DOB",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "Arrest Tracking Number",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "FBI No if known",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "Day",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "court_or_agency"
     },
     {
       "field": "Month",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "court_or_agency"
     },
     {
       "field": "Year",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Class Letter",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "Check Box74",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "Check Box75",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "ACA Code",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "guilty charge",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "aca code 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "day 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "month 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "year 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "prob months",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "Check Box76",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "Check Box77",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "Charges 1",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Charges 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Day 3",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Month 3",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Year 3",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Case no 2",
       "reason": "repeating_row_without_indexed_fact",
-      "category": "charge_row"
+      "category": "charge_row",
+      "regionHeading": null
     },
     {
       "field": "Check Box78",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "Check Box79",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "Case no 3",
       "reason": "repeating_row_without_indexed_fact",
-      "category": "charge_row"
+      "category": "charge_row",
+      "regionHeading": null
     },
     {
       "field": "From",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "court_or_agency"
     },
     {
       "field": "from 2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row",
+      "regionHeading": null
     },
     {
       "field": "SID",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     }
   ],
   "unwritableFields": [
@@ -292,6 +343,10 @@
       "class": "court_or_agency"
     },
     {
+      "field": "DIVISION",
+      "class": "manual"
+    },
+    {
       "field": "1",
       "class": "court_or_agency"
     },
@@ -360,6 +415,14 @@
       "class": "court_or_agency"
     },
     {
+      "field": "Check Box74",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box75",
+      "class": "manual"
+    },
+    {
       "field": "ACA Code",
       "class": "court_or_agency"
     },
@@ -384,6 +447,14 @@
       "class": "court_or_agency"
     },
     {
+      "field": "Check Box76",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box77",
+      "class": "manual"
+    },
+    {
       "field": "Day 3",
       "class": "court_or_agency"
     },
@@ -396,12 +467,24 @@
       "class": "court_or_agency"
     },
     {
+      "field": "Check Box78",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box79",
+      "class": "manual"
+    },
+    {
       "field": "From",
       "class": "court_or_agency"
     },
     {
       "field": "from 2",
       "class": "court_or_agency"
+    },
+    {
+      "field": "SID",
+      "class": "manual"
     }
   ],
   "manualFields": [

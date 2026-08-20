@@ -98,6 +98,17 @@ for (const asset of determination.assets) {
       surfacesProbed: determination.surfacesProbed.map((s) => s.name),
       useSitesFound: 0,
       affectedTrackIds: [],
+      // Said plainly, because a later reader WILL find this asset listed in the
+      // overlay factory manifest and needs to know that is not a contradiction.
+      // That manifest is a census of the source corpus -- one row per file
+      // present -- so it names these bytes for as long as the bytes exist, which
+      // is forever, because retirement deletes nothing. It is not a use.
+      ...(asset.censusAppearances?.length
+        ? {
+            stillNamedByTheCorpusCensus: asset.censusAppearances.map((site) => site.surface),
+            whyThatIsNotAUse: "A census records that the bytes exist, not that anything uses them. It would name this file whether or not any route, track or packet did. See scripts/verify-rcap-corpus-census-surface.mjs."
+          }
+        : {}),
       // The identity of what is being retired, kept so a later reader can tell
       // whether a form they are looking at is this one.
       historicalSource: {
@@ -109,7 +120,7 @@ for (const asset of determination.assets) {
         libraryFolder: record.libraryFolder ?? null,
         documentRole: record.documentRole ?? null
       },
-      reversal: "Name this asset from any packet component, composed route, guidance packet, overlay manifest, field-map draft or application source, re-run the retirement determination, and delete this marker. It returns to the operational inventory and must then be remediated like every other retained asset."
+      reversal: "Name this asset from any packet component, composed route, guidance packet, terminal treatment, field-map draft or application source, re-run the retirement determination, and delete this marker. It returns to the operational inventory and must then be remediated like every other retained asset. Adding it to the corpus census does not reverse anything: the census already names every file in the corpus, so it carries no information about whether the platform uses this one."
     };
     const file = path.join(dir, MARKER);
     const json = `${JSON.stringify(marker, null, 2)}\n`;

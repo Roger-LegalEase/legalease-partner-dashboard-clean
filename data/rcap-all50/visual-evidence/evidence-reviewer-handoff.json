@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "rcap-evidence-reviewer-handoff/v1",
+  "generatedBy": "the visual-evidence lane",
+  "purpose": "What changed in the evidence package, and what each reviewer should re-read. This lane renders and validates evidence; it issues no verdict and adopts none.",
+  "base": "ea1a16b6358086c3c24fbd66e2fd005173d3ad87",
+  "consumedReadOnly": {
+    "reviewerA": "130149d63cec5ea81e7eca5fd02d61fb7255706e (claude/rcap-pdf-independent-review-a-qkff6d)",
+    "reviewerB": "06d676869618fd9ed2b5915057104bc46299d0f0 (claude/pdf-reviewer-batch-b-cd8wrg)",
+    "note": "Neither review branch was merged. Findings were read and reproduced against the artifacts; no verdict was copied, restated or altered."
+  },
+  "whatTheContractNowProves": [
+    "every page of every reviewed artifact is rasterised, blank panel beside filled panel, not page 1 alone",
+    "every raster is bound by hash to the contact sheet on disk, and the whole ordered package carries one visualEvidenceSha256",
+    "every declared participant value is proven to sit inside its own widget rectangle, not merely to occur somewhere on the page",
+    "a value that crosses its rectangle, lands outside every declared slot, or is drawn where no binding declared it, is a failure",
+    "a binding whose widget sits under a court-owned printed heading is refused on the region, whatever the field is named",
+    "a binding onto any non-participant class is refused, not only onto the literal class `manual`",
+    "a recorded contact-sheet hash that is not the bytes on disk is reported stale"
+  ],
+  "newFindingsThisLaneProducedThatNeitherReviewCarries": [
+    {
+      "id": "EV-NC298-PAGE2-FINDINGS-OF-FACT",
+      "familyId": "NC:aoc-cr-298-form-en",
+      "severity": "high",
+      "observed": "Page 2 of fixtures/canonical-filled.pdf draws 'Jordan Avery Reyes' at (70.4, 369.7) on the rule beneath printed item 12, 'Petitioner [ ] is [ ] is not eligible for an expunction of the offense(s) listed on Side One. If not eligible, it is because:', under the printed heading FINDINGS OF FACT and immediately above the printed ORDER band. The map declares 5 bindings and the artifact draws 6 values; this is the sixth, and no binding declares it. It intersects the unwritable fields EligibleCkBox, NotEligibleCkBox and NotEligibleReason.",
+      "whyItWasNotSeen": "Reviewer B recorded 'nothing is written on page 2' for this family. That reading is consistent with the evidence B was given: the committed package carried one PNG and it was page 1. The value is on page 2, below the crop.",
+      "reviewerBRecordAffected": "batch-b-group-1.review.json, NC:aoc-cr-298-form-en \u2014 'All five bound facts render in the page-1 petitioner block; nothing is written on page 2'",
+      "evidenceNow": "docs/record-clearing/pdf-visual-evidence/all-page/NC-aoc-cr-298-form-en/contact-sheet-page-02.png shows the value present in the filled panel and absent in the blank panel",
+      "action": "Reviewer B re-reviews NC:aoc-cr-298-form-en against the page-2 evidence. This lane does not change B's verdict."
+    },
+    {
+      "id": "EV-NC296-PAGE2-FINDINGS-OF-FACT",
+      "familyId": "NC:aoc-cr-296-form-en",
+      "severity": "high",
+      "observed": "The same defect. Page 2 draws 'Jordan Avery Reyes' at (70.7, 671.0) on the rule beneath printed item 5, 'The defendant [ ] is [ ] is not eligible for an expunction of the offense(s) listed on Side One. If not eligible, it is because:', under FINDINGS OF FACT. Unclaimed by any binding; intersects the unwritable fields Reason and ReasonCont.",
+      "whyItWasNotSeen": "Same page-1 crop. Reviewer B's verdict for this family turns on the district-attorney ownership question and did not reach page 2.",
+      "action": "Carry alongside B's existing substantive_owner_decision_required; it is a second, independent defect."
+    },
+    {
+      "id": "EV-CONTACT-SHEET-STALENESS-14",
+      "familyId": "corpus-wide",
+      "severity": "medium",
+      "observed": "14 of the 63 families in data/rcap-all50/contact-sheet-visual-proof.json recorded a contact-sheet hash that is not the file on disk, including NC:aoc-cr-287, NC:aoc-cr-288, NC:aoc-cr-296 and NC:aoc-cr-298 \u2014 three of Reviewer B's four \u2014 and KY:aoc-334, which Reviewer A found independently.",
+      "recordedBeforeTheFix": "data/rcap-all50/visual-evidence/contact-sheet-staleness-ledger.json",
+      "action": "None for the reviewers. Recorded so the scale is visible: this was one family in one review, and it was fourteen."
+    }
+  ],
+  "reviewerAFindingsReproduced": [
+    {
+      "finding": "KY:aoc-334 case number drawn in the Court rect",
+      "reproducedBy": "canary-2-ky334-case-number-in-court",
+      "result": "reproduced"
+    },
+    {
+      "finding": "KY:aoc-334 participant name drawn on the Date rule",
+      "reproducedBy": "canary-3-ky334-name-in-date",
+      "result": "reproduced"
+    },
+    {
+      "finding": "KY:aoc-334 participant name in the agency-list slot through a field classed `unused`",
+      "reproducedBy": "canary-4-ky334-agency-list-slot",
+      "result": "reproduced, and generalised: any non-participant class is now refused, not only `manual`"
+    },
+    {
+      "finding": "KY:aoc-496-3 county binding declared and never drawn",
+      "reproducedBy": "canary-5-ky4963-county-declared-not-drawn",
+      "result": "reproduced"
+    },
+    {
+      "finding": "KY:aoc-334 raster bound to a stale contact sheet",
+      "reproducedBy": "contact-sheet-current-* package check and the staleness ledger",
+      "result": "reproduced, and found in 13 further families"
+    },
+    {
+      "finding": "AK tf-800 and tf-805 artifact-clean; sidecars 20/20",
+      "reproducedBy": "sidecar-escalation-status.json and the geometry contract",
+      "result": "verified independently \u2014 both families pass the geometry contract with zero findings and both sidecars satisfy the canonical contract"
+    },
+    {
+      "finding": "raster covers page 1 only for every multi-page family",
+      "reproducedBy": "the all-page package",
+      "result": "closed for the four families in this batch; 9 of 9 expected pages rasterised"
+    }
+  ],
+  "reviewerBFindingsReproduced": [
+    {
+      "finding": "NC:aoc-cr-288 petitioner name bound into the page-2 FINDINGS OF FACT region",
+      "reproducedBy": "canary-1-nc288-findings-of-fact",
+      "result": "reproduced, and a rename mutation proves the refusal now rests on the region rather than the field name"
+    },
+    {
+      "finding": "NC:aoc-cr-287 clean apart from the absent source binary",
+      "reproducedBy": "the geometry contract",
+      "result": "confirmed \u2014 zero findings; used as the green baseline every mutation starts from"
+    },
+    {
+      "finding": "NC:aoc-cr-298 clean apart from the absent source binary",
+      "reproducedBy": "the geometry contract on all pages",
+      "result": "NOT confirmed \u2014 see EV-NC298-PAGE2-FINDINGS-OF-FACT"
+    },
+    {
+      "finding": "NC:aoc-cr-296 is the district attorney's petition, carried as participant_completed",
+      "reproducedBy": "not this lane's question",
+      "result": "untouched; an owner decision, plus the new page-2 defect above"
+    },
+    {
+      "finding": "'Raster page 2 as well as page 1' (B's exact lane action 5)",
+      "reproducedBy": "the all-page package",
+      "result": "done, and generalised to every page of every artifact"
+    }
+  ],
+  "firstBatch": {
+    "AK:tf-800-form-en": {
+      "writableGeometryPass": true,
+      "protectedGeometryPass": true,
+      "findings": []
+    },
+    "AK:tf-805-form-en": {
+      "writableGeometryPass": true,
+      "protectedGeometryPass": true,
+      "findings": []
+    },
+    "NC:aoc-cr-287-form-en": {
+      "writableGeometryPass": true,
+      "protectedGeometryPass": true,
+      "findings": []
+    },
+    "NC:aoc-cr-298-form-en": {
+      "writableGeometryPass": false,
+      "protectedGeometryPass": false,
+      "findings": [
+        {
+          "check": "value_drawn_outside_every_declared_slot",
+          "factId": "participant.full_legal_name",
+          "page": 2,
+          "value": "Jordan Avery Reyes"
+        },
+        {
+          "check": "participant_value_in_protected_geometry",
+          "field": "EligibleCkBox",
+          "page": 2,
+          "basis": "unwritable_field",
+          "regionHeading": "FINDINGS OF FACT",
+          "value": "Jordan Avery Reyes"
+        },
+        {
+          "check": "participant_value_in_protected_geometry",
+          "field": "NotEligibleCkBox",
+          "page": 2,
+          "basis": "unwritable_field",
+          "regionHeading": "FINDINGS OF FACT",
+          "value": "Jordan Avery Reyes"
+        },
+        {
+          "check": "participant_value_in_protected_geometry",
+          "field": "NotEligibleReason",
+          "page": 2,
+          "basis": "unwritable_field",
+          "regionHeading": "FINDINGS OF FACT",
+          "value": "Jordan Avery Reyes"
+        }
+      ]
+    }
+  },
+  "whatThisLaneDidNotDo": [
+    "it issued no review verdict and altered none",
+    "it did not merge either review branch",
+    "it changed no family field map, classification, source binary or PDF artifact",
+    "it changed no register count, retirement record, src/**, package file, worker input or hosted acceptance"
+  ]
+}

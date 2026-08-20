@@ -36,6 +36,7 @@ import crypto from "node:crypto";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { rasterizePdf, pageGeometry } from "./rcap-official-forms/rcap-pdf-rasterize.mjs";
+import { loadReviewRecords } from "./rcap-official-forms/rcap-platform-ready.mjs";
 
 const require = createRequire(import.meta.url);
 const sharp = require("sharp");
@@ -65,7 +66,7 @@ const SHEET = { margin: 28, gap: 24, panelScale: 0.62, header: 34 };
 // One representative family per jurisdiction keeps a human-readable rendering
 // of the finding in the repository without committing a rendered page for all
 // 62 sheets.
-const EVIDENCE_FAMILIES = new Set([
+const REPRESENTATIVE_FAMILIES = [
   "AK:tf-800-form-en", "AL:sbi-form-46-support-en", "AR:ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
   "KY:aoc-496-5-form-en", "NC:aoc-cr-287-form-en", "NE:cc-6-11-form-en",
   "VA:cc-1473-form-en", "VT:200-00132-form-en",
@@ -73,7 +74,20 @@ const EVIDENCE_FAMILIES = new Set([
   // this branch: a reviewer can see a real fill beside the blank form, and
   // compare it against the 54 sheets that still show two blank forms.
   "WI:cr-266-form-en"
-]);
+];
+
+// A family under independent review needs its own rendered page, not a
+// representative from its jurisdiction. The reviewers reported this directly:
+// nine PNGs for twenty-seven families, and a contact-sheet PDF is not the
+// rasterised blank-versus-filled check the contract asks them to inspect. The
+// set is read from the frozen review manifests rather than listed, so a family
+// admitted to a later batch gets its evidence without anyone remembering to
+// add it here.
+const REVIEWED_FAMILIES = [...loadReviewRecords(
+  path.join(rootDir, "data/rcap-all50/pdf-independent-reviews")
+).byFamily.keys()];
+
+const EVIDENCE_FAMILIES = new Set([...REPRESENTATIVE_FAMILIES, ...REVIEWED_FAMILIES]);
 
 const readJson = (file, fallback = null) => {
   if (!fs.existsSync(file)) return fallback;
@@ -213,7 +227,13 @@ for (const stateDir of fs.readdirSync(ROOT).sort()) {
     const cached = cache[sheetSha] ?? null;
     const cachedEvidenceStillPresent = !cached?.renderedEvidence
       || fs.existsSync(path.join(rootDir, cached.renderedEvidence));
-    if (cached && cachedEvidenceStillPresent) {
+    // A family that has since joined the evidence set was measured before
+    // anyone wanted its picture, so its cache entry carries renderedEvidence:
+    // null. Left alone that reads as "no evidence was asked for" and the PNG
+    // is never produced — the measurement is cached, the image is not.
+    const evidenceOwedButAbsent = EVIDENCE_FAMILIES.has(familyId)
+      && !fs.existsSync(path.join(EVIDENCE_DIR, `${jurisdiction}-${familyDir}-contact-sheet-page-01.png`));
+    if (cached && cachedEvidenceStillPresent && !evidenceOwedButAbsent) {
       cacheHits.push(familyId);
       families.push({
         familyId, jurisdiction, familySlug: familyDir,

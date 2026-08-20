@@ -24,162 +24,262 @@
     {
       "field": "Case.County",
       "class": "participant",
-      "factId": "matter.county"
+      "factId": "matter.county",
+      "factBasis": "field_name",
+      "effectiveLabel": "County ____________________"
     },
     {
       "field": "Case.CaseNum",
       "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "Def.Name.Company",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "VS"
     },
     {
       "field": "Def.Address.Line1",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": "________________________________________________ NAME DEFEND"
     },
     {
       "field": "Def.Address.City",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.city",
+      "factBasis": "field_name",
+      "effectiveLabel": "________________________________________________ ADDRESS"
     },
     {
       "field": "Def.Address.State",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.state",
+      "factBasis": "field_name",
+      "effectiveLabel": "________________________________________________ ADDRESS"
     },
     {
       "field": "Def.Address.Zip",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.zip",
+      "factBasis": "field_name",
+      "effectiveLabel": "________________________________________________ ADDRESS"
     },
     {
       "field": "Def.PhoneNo",
       "class": "participant",
-      "factId": "participant.phone"
-    },
-    {
-      "field": "Def.Info.JailId",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "Def.VitalStats.DOB",
-      "class": "participant",
-      "factId": "participant.date_of_birth"
-    },
-    {
-      "field": "Def.VitalStats.SSN",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.phone",
+      "factBasis": "field_name",
+      "effectiveLabel": "________________________________________________"
     }
   ],
   "bindingRefusals": [
     {
       "field": "Case.Division",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Court Division",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "Def.Info.JailId",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "Def.VitalStats.DOB",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "Def.VitalStats.SSN",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "Charge.violation.date",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "Charge1",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "Charge2",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "Charge3",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "Charge4",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "Charge5",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "Charge6",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "Victims.List",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Text11",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "PWRI.List",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Text12",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Agencies",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Check Box19",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "Check Box20",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "Check Box21",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "Print",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "Reset",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "Text1",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     }
   ],
-  "unwritableFields": [],
+  "unwritableFields": [
+    {
+      "field": "Case.Division",
+      "class": "manual"
+    },
+    {
+      "field": "Court Division",
+      "class": "manual"
+    },
+    {
+      "field": "Def.Info.JailId",
+      "class": "manual"
+    },
+    {
+      "field": "Def.VitalStats.SSN",
+      "class": "manual"
+    },
+    {
+      "field": "Victims.List",
+      "class": "manual"
+    },
+    {
+      "field": "Text11",
+      "class": "unused"
+    },
+    {
+      "field": "PWRI.List",
+      "class": "manual"
+    },
+    {
+      "field": "Text12",
+      "class": "unused"
+    },
+    {
+      "field": "Agencies",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box19",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box20",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box21",
+      "class": "manual"
+    },
+    {
+      "field": "Print",
+      "class": "manual"
+    },
+    {
+      "field": "Reset",
+      "class": "manual"
+    },
+    {
+      "field": "Text1",
+      "class": "unused"
+    }
+  ],
   "manualFields": [
     "Case.Division",
     "Court Division",

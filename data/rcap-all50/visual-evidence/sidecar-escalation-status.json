@@ -1,0 +1,4102 @@
+{
+  "schemaVersion": "rcap-sidecar-escalation-status/v1",
+  "generatedBy": "scripts/generate-rcap-sidecar-escalation-status.mjs",
+  "escalation": "ESC-SIDECAR-NONCONFORMANT",
+  "purpose": "The measured status of the provenance-sidecar escalation, family by family. Replaces a global 'open' inherited from a record written before these sidecars existed.",
+  "contract": {
+    "schema": "rcap-artifact-provenance/v1",
+    "requiredFields": [
+      "jurisdiction",
+      "assetId",
+      "documentId",
+      "formFamily",
+      "officialFormNumber",
+      "officialTitle",
+      "sourcePublisher",
+      "sourceUrl",
+      "sourceRevision",
+      "sourceSha256",
+      "sourceMetadataFingerprint",
+      "fieldMapSha256",
+      "classificationSha256",
+      "packetSpecSha256",
+      "factoryVersion",
+      "rendererVersion",
+      "generatedAt",
+      "activeContentResult",
+      "flatteningResult",
+      "protectedFieldResult"
+    ],
+    "requiredFieldCount": 20,
+    "bindingRule": "provenanceCoversArtifact() from scripts/rcap-official-forms/rcap-artifact-provenance.mjs must return covered for every artifact the sidecar names, against the bytes on disk and the recorded source digest",
+    "note": "Sidecars may carry more fields than the contract requires; the count here is of required fields present and non-null, not of every key in the file."
+  },
+  "totals": {
+    "familiesWithASidecar": 63,
+    "conformant": 16,
+    "stillFailing": 47
+  },
+  "readingThis": "47 family/families carry a current measured failure and retain the escalation; the rest are resolved.",
+  "stillFailing": [
+    {
+      "familyId": "AK:dps-cri-103-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AK:tf-810-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AL:c-94a-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AL:sbi-form-46-support-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-order-of-probation-under-act-346-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "KY:aoc-333-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "KY:aoc-496-2-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "KY:aoc-496-4-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "KY:aoc-496-5-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "KY:aoc-496-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "KY:aoc-497-3-source-gated-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "KY:aoc-497-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-es",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-es",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "NC:aoc-cr-297-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-es",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-vi",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "NE:dc-1-15-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceRevision",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "NE:dc-6-7-2-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceRevision",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "VA:cc-1201-a-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "VA:cc-1203-a-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "VA:cc-1203-b-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "VT:200-00130-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "VT:200-00132-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "VT:200-00132a-form-en",
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    },
+    {
+      "familyId": "WI:cr-266-form-en",
+      "missingFields": [
+        "assetId",
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ]
+    }
+  ],
+  "families": [
+    {
+      "familyId": "AK:dps-cri-103-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/alaska/dps-cri-103-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "b844e3b1265b367d08dfd9e9a1c4db1dd183a53c9858fe2812ed60af9b08a157",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AK:tf-800-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "78f7ad22e61d22b3d88a2157734ec6e434c31a44bdd8a5de6701014de97604f5",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "AK:tf-805-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "451381b015662e038344ef75f82a92e19f16b2e3d42abbf675fa98fd66d019b9",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "AK:tf-810-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-810-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "f71795e805490fb83f2939ebd6d57f02ec6b8ee17177c81f8124645b31fd9bf8",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AL:c-94a-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "8f6d7c2092f42a36c27b0932ee1c458bd8466f7e1a82593f513e63d31e21649f",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AL:sbi-form-46-support-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "f56350ff6b1b76609a2a31ef31dc2ff23d51adb620eb30daae88ca09b970278b",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-order-of-probation-under-act-346-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-of-probation-under-act-346-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "2a47aa80482e6bb48efdec1933af0202ced4a36cc641995fb6c65ec4b311f329",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "508bbbab75d066d8821f634ea170621b962fbaf9991e311f52c7f8837497d474",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "a95c060c72c68ec4153d498ad3025344e4a1679b16282f0302f11460ba8275a1",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "d5d061d1328e27986b19f55616e553e2099d89253559ff13c4284e56319846cb",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "dd8910e1af4d32796158457626aeb45c5665bcbdca8dbaa14824e22b2e12dbf9",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "31f08b558b73d714c5ec0200592e1e9f924738585160712466493116a4b165e9",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "a46202512cc38ba0e2112d326c56a517af32538b50c03f7547c88be255ae851d",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "49d4b3014f2d506b577766ef21d89903cc47ecc542c730223b1cfd3e2d11acbf",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "4c3653d92e0d158a2d3f8efc941550282516acba7519391867374455191bd59c",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "44928079080a85b158eda806d41a5187613898494c763a69489a3e182d0bcd2f",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "eca601c2a25979a087367de888fbe0cb3ac22f001296c93d7d1bfa70e39f7019",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "48f7fc5d8231c98fdadffb778f653f153f1dd64950eaf5e1456a3528d4d2d633",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "642deabc0b8a794ea89a4fa974bc140d50476bf09ed122032dc92cf45c080a36",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "ab4233b49685f6e2ba82c61d0060b4912daaa687b4bda7304cac9109a5597801",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "8f76f9ec1d6178f9de5e113995a1de192a081b8daf70291668cb834c5d5f666d",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "371cca868c53f253c22d02e0843a4d2100069c3a5a168c52adb42ffbbed01326",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "13bb81b592cd47c3b278e9e111cd456b6421906c0477af36144b121e2f3103fb",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "8bdee4c241001eb4eab61e376922e15d66c1bd61c66a71bc6eded351f3fafa53",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "ab725aa7298c4ed628334b3e46344b003c6c16d07860bfb866ca832aae88667e",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "96b3426f3fcc35874aecc2941e3dbf52935d2ff13e85433008efaf0369755bdd",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "d14beb303540509ff1b1792719ebd750ffc148f69095866dace0013e47fbf535",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "KY:aoc-333-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "4ad5aaeb1d7509f953f72a7b1ca17d1de66611abe571c25912cac7675b9326a5",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "KY:aoc-334-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "67f251d7a79db9543db75f48c539ed573de796f1b3dee29aead1b009cb85109e",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "KY:aoc-496-2-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "eb73b2985f2a30fd1302e0fe70933bff1e509406254df0a0f15e683cfe9662a8",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "KY:aoc-496-3-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "fbd356b53209557af63f33d19d92fcc2db1925adb220770eadd5c0ebab271ad5",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "KY:aoc-496-4-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "066b703f161c8b1c189d372d292499221aa11e9c8c2fa4eafe0487f2e8caf1ed",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "KY:aoc-496-5-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-5-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "285adb9626625bf9a63be210a18bb470df4d59c9de0615960e50c1099260b0a8",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "KY:aoc-496-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "911a7389a864e1a0ffa0defca3f2538031ef08aa72b7eedee6db45c76195ef81",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "KY:aoc-497-3-source-gated-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-497-3-source-gated-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "44db16a8e0da2a6bb7ad739954cb726159bcf395014d29a71fe6a84165e71625",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "KY:aoc-497-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "b7a0f6efd027fabd5b00f4d35b7aba35aa3dd5c317beee0f275a962eda9ef413",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "1f0549c79ea9d50dce103c622e0ad23cd601b42c6fd30b1534628ff182646da1",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-es",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-es",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "99792084c925b3aa19d6accad5dd69f097f6b83053cf4b5753734080f02b9a1b",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "bc44d51d68cd655cbb7d100d7526f9327d1f3197b9a30e7b42f95776d0db72ce",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-es",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-es",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "7d6303c06e0633792fb7cf4dd792645082b7f074d74d4b265a5af9e7f7921a12",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "NC:aoc-cr-296-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [],
+      "sidecarSha256": "013dd3c576f6b36bf5101725bfa44e414f73dad7028ea3c4170d50ffad60f274",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured at this head: schema correct and every required field present; this family renders no artifact by owner disposition, so there is no artifact binding to satisfy"
+    },
+    {
+      "familyId": "NC:aoc-cr-297-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "989312ce2f6ffd3896572badbdaa4f2e6911d2466188f2980ec722def66252d5",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "NC:aoc-cr-298-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "e50ec67066d35e4bedf46aac5f5397dd55eb1cc77034c6a363785d7b9a26c8c7",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "ac840da90d5b08c7fae1382b721ba7391ff1422f111acaa6232fd27a7ee9af2d",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-es",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-es",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "80a53d3b151e79b46c555677f145322c6ef702c247fe658d9e5322465d9158bd",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-vi",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-vi",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "cdadccab559eb365b241b699854fdaf4eb722e71529e6cdae87087aefa9d3323",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "NE:cc-6-11-2-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "f57d68f717ad03d8809fc4d3d72200234a1a5ec02346083f1f7847e57f53a93f",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "NE:cc-6-11-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "b77f4c4d45eb10cea7391700f47084a7cd70f1c99dad9fa20c6edb480efbd182",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "NE:cc-6-12-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "a21e3a708f26a848913b7526e18e5e36c1dfe62b7a4f61537cf6f590e460266e",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "NE:cc-6-15-1-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "7ee872202e8f3408b074c195c872ea94da5bde124a52b4ef6f1956121b3c1380",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "NE:dc-1-15-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 8,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceRevision",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "c30bbd5fddedb4d90850c3430033c5ff20f4b8ca7e4f1280618819720c75d517",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "NE:dc-6-7-2-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/dc-6-7-2-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 8,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceRevision",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "1a99d7609f5f83db64e7ce1787131b4e84ee15974be70c3a568bb31a2273cae9",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "VA:cc-1201-a-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "3a83a88bffacb93fbee1f6919d61db217585bb312052d8cb25bec8b2e4e37352",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "VA:cc-1201-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "09ab0a741a5b49f69e8abb3304a2cdd78e9443e8f4da2f967fbd5a7d416019c2",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "VA:cc-1203-a-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "3e016f0bd4c0806d0c7131b4519e5930cf547720b18315afe8a7713992c7a4a6",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "VA:cc-1203-b-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1203-b-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "6cad1f0308801fea00aa28f2d2161a333466f79cfc771ea7bfc83c8d56f2df6a",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "9d230496bb460782061579275dc02123720bed8821bd3599e92ab30353d0453b",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "VA:cc-1473-form-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "c7180dce387e50c74969c0bb82573c3b5d988edb4412ee43426ce37b2041a18d",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "VT:200-00130-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/vermont/200-00130-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "5bc091ad7facead3d4c9c7dae2a59e98aa6435f1e661f243a52a5ebcc9398b13",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "VT:200-00132-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/vermont/200-00132-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "f847d045f185ae6db43c48b05be914a2f241ce3afe379350b40387d4b9885692",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "VT:200-00132a-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/vermont/200-00132a-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 9,
+      "missingFields": [
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "917231a0ba5a367faa47da4c79ee3721b0374a153b7e29d4e1a68bf823c0b259",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    },
+    {
+      "familyId": "VT:600-00228-support-en",
+      "familyIdFromSidecar": true,
+      "familyPath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 20,
+      "missingFields": [],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "e5e8d163aa0e1951077a9212ed9064623b63bebb16601abe60b4b6c8d0572e2d",
+      "conformant": true,
+      "escalationStatus": "resolved_for_this_family",
+      "basis": "measured against this family's committed sidecar at this head: schema correct, every required field present and non-null, and every named artifact bound by hash"
+    },
+    {
+      "familyId": "WI:cr-266-form-en",
+      "familyIdFromSidecar": false,
+      "familyPath": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en",
+      "schemaVersion": "rcap-artifact-provenance/v1",
+      "schemaOk": true,
+      "requiredFields": 20,
+      "fieldsPresent": 8,
+      "missingFields": [
+        "assetId",
+        "formFamily",
+        "officialFormNumber",
+        "officialTitle",
+        "sourcePublisher",
+        "sourceUrl",
+        "sourceMetadataFingerprint",
+        "classificationSha256",
+        "packetSpecSha256",
+        "activeContentResult",
+        "flatteningResult",
+        "protectedFieldResult"
+      ],
+      "artifactsBound": [
+        {
+          "artifact": "fixtures/canonical-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "fixtures/boundary-filled.pdf",
+          "bound": true,
+          "reason": null
+        },
+        {
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "bound": true,
+          "reason": null
+        }
+      ],
+      "sidecarSha256": "eb9030aa74c08404fe11ba5c46878c8569269cf78f82ce7021d4495be4e0a1ad",
+      "conformant": false,
+      "escalationStatus": "open",
+      "basis": "a current measured failure remains; see missingFields and artifactsBound"
+    }
+  ]
+}

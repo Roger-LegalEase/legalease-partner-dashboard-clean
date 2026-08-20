@@ -23,13 +23,14 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
-import { decideBinding as decideTypedBinding } from "./rcap-official-forms/rcap-field-semantics.mjs";
+import { extractTextItems, groupIntoLines, captureWidgetContext } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { decideBinding as decideTypedBinding, selectOnePerSlot } from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { finalizeOfficialForm, finalizeFlatOverlay, NonFilingHoldError }
   from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenance.mjs";
 import { buildContactSheet, ContactSheetProofError, visibleTextOfDocument, missingExpectedValues }
   from "./rcap-official-forms/rcap-contact-sheet.mjs";
+import { reconcileWrittenAgainstDeclared } from "./rcap-official-forms/rcap-evidence-contract.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown, PDFOptionList, StandardFonts, rgb } = require("pdf-lib");
@@ -148,7 +149,20 @@ function classify(name, type, ownership) {
   return "manual";
 }
 const POPULATABLE = new Set(["participant", "deterministic"]);
-const NEVER_WRITE = new Set(["prohibited", "protected", "signature", "court_or_agency", "outside_party"]);
+// Which classes may be written, stated as an allowlist.
+//
+// This was a denylist of the classes that may not be, and a denylist is only
+// ever as complete as the last class somebody remembered to add. `manual` was
+// added after the binder wrote into a box the classifier had declined to
+// describe; `unused` was not, and KY AOC-334's `Text1` -- classified `unused`
+// -- was bound and written anyway. The classifier emits `unused`,
+// `not_applicable`, `manual_participant` and `prosecutor_or_outside_party`
+// besides, none of which the denylist named.
+//
+// Inverted, a class nobody has thought about yet is refused by default, and
+// adding a tenth class to the classifier cannot silently reopen the hole.
+const WRITABLE_CLASSES = new Set(["participant", "deterministic", "participant_writable"]);
+const isUnwritableClass = (klass) => !WRITABLE_CLASSES.has(String(klass));
 
 // --- fact bindings ----------------------------------------------------------
 // Strictly most-specific first. `PetitionerCity` and `Def.VitalStats.DOB` both
@@ -310,7 +324,7 @@ function resolveFact(facts, id) {
   return facts["matter.charges"]?.[Number(m[1])]?.[m[2]];
 }
 
-const CANONICAL = {
+export const CANONICAL = {
   "participant.full_legal_name": "Jordan Avery Reyes", "participant.first_name": "Jordan",
   "participant.last_name": "Reyes", "participant.middle_name": "Avery",
   "participant.street_address": "118 Maple Street", "participant.city": "Springfield",
@@ -373,8 +387,31 @@ await main();
 }
 
 async function main() {
+// The source root has to be there before anything is processed.
+//
+// Every family resolves its bytes under SRC and is skipped when the file is
+// absent, which is correct per family and catastrophic in aggregate: with no
+// extract mounted, EVERY family is skipped, and the run then rewrote
+// implementation-index.json from an empty result set. A no-source run
+// therefore replaced a populated index with one describing nothing, deleting
+// the record of 146 families while reporting success and exiting 0.
+//
+// A run that processed nothing has learned nothing, and must not be allowed to
+// overwrite what a run that processed everything recorded. So the source root
+// is validated up front, and the index write below is gated on having actually
+// rendered something.
+if (!fs.existsSync(SRC) || !fs.statSync(SRC).isDirectory()) {
+  console.error(`FAIL official-forms D1 — the source root is absent: ${SRC}`);
+  console.error("Set RCAP_BUNDLE_EXTRACT to the mounted Master Library extract. Nothing was written.");
+  process.exit(1);
+}
+
 const index = readJson(path.join(OUT, "verified-binary-index.json"));
 const results = [];
+// Families whose pinned bytes were actually read and matched. Not results.length:
+// that also counts families skipped for an approved map or for source drift,
+// and a run made entirely of skips is exactly the run this guard exists to stop.
+let processedFamilies = 0;
 
 for (const fam of index.families) {
   const jurisdictionSlug = { WI: "wisconsin", AL: "alabama", AR: "arkansas", VA: "virginia", AK: "alaska",
@@ -404,6 +441,8 @@ for (const fam of index.families) {
   const bytes = fs.readFileSync(abs);
   const sha = crypto.createHash("sha256").update(bytes).digest("hex");
   if (sha !== record.sha256) { results.push({ family: fam.familySlug, status: "source_drift_detected" }); continue; }
+  // Past the byte read and the hash match: this family is genuinely source-backed.
+  processedFamilies += 1;
 
   const ownership = determineOwnership(record);
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
@@ -425,7 +464,49 @@ for (const fam of index.families) {
     if (["dropdown", "optionlist", "radio"].includes(type)) { try { e.options = f.getOptions(); } catch {} }
     return e;
   });
-  const classification = census.map((c) => ({ name: c.name, type: c.type, class: classify(c.name, c.type, ownership) }));
+  // The widget context channel. Until now the binder saw a field's internal
+  // AcroForm name and nothing else: not the words the form prints beside the
+  // box, and not the section of the page the box sits in. Both are measured
+  // here, out of this document's own content streams, and attached to the
+  // census so the binder, the finalizer and every later reader see the same
+  // three channels.
+  //
+  // A widget with no rectangle, or on a page whose content stream will not
+  // decode, gets nulls. A missing channel is a missing channel; it is never
+  // filled in with a guess.
+  const widgetsByPage = new Map();
+  for (const entry of census) {
+    for (const w of entry.widgets) {
+      if (!w.page || !w.rect) continue;
+      if (!widgetsByPage.has(w.page)) widgetsByPage.set(w.page, []);
+      widgetsByPage.get(w.page).push({ name: entry.name, rect: w.rect });
+    }
+  }
+  const contextByField = new Map();
+  for (const [pageNumber, widgets] of widgetsByPage) {
+    const page = pages[pageNumber - 1];
+    if (!page) continue;
+    let contexts = [];
+    try { contexts = captureWidgetContext(page, widgets); } catch { contexts = []; }
+    for (const context of contexts) {
+      // A field with widgets on more than one page keeps the first context
+      // measured for it: the same field drawn twice is one field, and its
+      // binding is decided once.
+      if (!contextByField.has(context.name)) contextByField.set(context.name, context);
+    }
+  }
+  for (const entry of census) {
+    const context = contextByField.get(entry.name) ?? null;
+    entry.effectiveLabel = context?.effectiveLabel ?? null;
+    entry.labelBasis = context?.labelBasis ?? "no_widget_geometry_available";
+    entry.regionHeading = context?.regionHeading ?? null;
+    entry.regionBasis = context?.regionBasis ?? "no_widget_geometry_available";
+  }
+
+  const classification = census.map((c) => ({
+    name: c.name, type: c.type, class: classify(c.name, c.type, ownership),
+    effectiveLabel: c.effectiveLabel, regionHeading: c.regionHeading
+  }));
 
   const noFill = ownership === OWNERSHIP.INSTRUCTIONAL || ownership === OWNERSHIP.OUTSIDE_PARTY;
   // Binding is decided by the typed, fail-closed binder rather than by a
@@ -439,7 +520,7 @@ for (const fam of index.families) {
   const bindingRefusals = [];
   for (const c of classification) {
     const decision = decideTypedBinding(
-      { name: c.name, pdfType: c.type, effectiveLabel: c.effectiveLabel },
+      { name: c.name, pdfType: c.type, effectiveLabel: c.effectiveLabel, regionHeading: c.regionHeading },
       { explicitMappings, captionOnly: ownership === OWNERSHIP.COURT_ORDER,
         availableChargeRows, documentAcceptsFill: !noFill }
     );
@@ -447,17 +528,42 @@ for (const fam of index.families) {
     // from its ROLE. Where they disagree the role wins. Arkansas's Act 346
     // order carries "Judges Printed Name", classified court_or_agency here and
     // matched as a name by the binder, and the map recorded a binding of the
-    // participant's legal name onto the judge's line. The factory refuses it
-    // at render time, so no artifact was wrong -- but a map that records a
-    // binding nothing may act on is a map that will mislead the next reader.
-    if (decision.writable && NEVER_WRITE.has(c.class)) {
+    // participant's legal name onto the judge's line. The same role refusal is
+    // now handed to the finalizer as well, so the artifact refuses exactly what
+    // the map refuses. It did not before: the comment here asserted the factory
+    // would refuse these at render time and nothing did, and six families
+    // carried values in fields their own maps called unwritable.
+    if (decision.writable && isUnwritableClass(c.class)) {
       bindingRefusals.push({ field: c.name, reason: "classified_unwritable_by_role", category: c.class });
     } else if (decision.writable) {
-      bindings.push({ field: c.name, class: c.class, factId: decision.factId });
+      // `factBasis` says which channel bound it — the field's own name, or the
+      // caption the form prints beside it. A map that does not say which is a
+      // map a reviewer cannot check against the paper.
+      bindings.push({ field: c.name, class: c.class, factId: decision.factId,
+        factBasis: decision.factBasis ?? "field_name",
+        effectiveLabel: c.effectiveLabel ?? null });
     } else {
-      bindingRefusals.push({ field: c.name, reason: decision.reason, category: decision.category ?? null });
+      bindingRefusals.push({ field: c.name, reason: decision.reason, category: decision.category ?? null,
+        regionHeading: decision.regionHeading ?? null });
     }
   }
+  // One widget per slot. The per-field decisions above are each correct and
+  // still put three widgets on Nebraska's caption band, all matching
+  // matter.court and all overlapping between x 138 and x 242. This pass keeps
+  // one and records the rest as refusals, so the map says which widget carries
+  // the value and why the others do not.
+  const censusByName = new Map(census.map((c) => [c.name, c]));
+  const slots = selectOnePerSlot(bindings.map((b) => {
+    const entry = censusByName.get(b.field);
+    return { ...b, name: b.field, pdfType: entry?.type ?? null,
+      page: entry?.widgets?.[0]?.page ?? null, rect: entry?.widgets?.[0]?.rect ?? null };
+  }));
+  bindings.length = 0;
+  for (const keeper of slots.kept) bindings.push({ field: keeper.field, class: keeper.class, factId: keeper.factId,
+    factBasis: keeper.factBasis, effectiveLabel: keeper.effectiveLabel ?? null });
+  for (const loser of slots.refused) bindingRefusals.push({ field: loser.field, reason: loser.reason,
+    category: loser.category, factId: loser.factId, keptInstead: loser.keptInstead, overlapsWith: loser.overlapsWith });
+
   const boundNames = new Set(bindings.map((b) => b.field));
 
   fs.mkdirSync(path.join(familyDir, "fixtures"), { recursive: true });
@@ -543,7 +649,7 @@ for (const fam of index.families) {
       bindingBasis: "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
       bindings,
       bindingRefusals,
-      unwritableFields: classification.filter((c) => NEVER_WRITE.has(c.class)).map((c) => ({ field: c.name, class: c.class })),
+      unwritableFields: classification.filter((c) => isUnwritableClass(c.class)).map((c) => ({ field: c.name, class: c.class })),
       manualFields: classification.filter((c) => c.class === "manual").map((c) => c.name),
       anchorCapture: mapKind === "flat_overlay"
         ? { basis: "text drawn by this exact sha256, read from the page content streams",
@@ -594,6 +700,9 @@ for (const fam of index.families) {
         const result = mapKind === "acroform"
           ? await finalizeOfficialForm({
               sourceBytes: bytes, expectedSha256: sha, census, facts, explicitMappings,
+              // The same role refusals the map records, so the artifact and the
+              // map cannot disagree about what may be written.
+              unwritableFields: classification.filter((c) => isUnwritableClass(c.class)).map((c) => ({ field: c.name, class: c.class })),
               captionOnly: ownership === OWNERSHIP.COURT_ORDER,
               nonFilingNotice: notForFilingNotice,
               title: `${fam.jurisdiction} ${record.documentId}`
@@ -667,11 +776,28 @@ for (const fam of index.families) {
   }
 
   // Reports.
+  // What the map DECLARES, annotated with what the renderer actually DID.
+  //
+  // This listed the declared bindings alone, so a binding the renderer refused
+  // read as populated. KY AOC-496.3 and four Nebraska families declare a county
+  // dropdown, the fixture county is not among the form's real options, the
+  // renderer correctly refused it -- and this file said it was populated, while
+  // the scan below counted 1 written against 2 declared and passed. A declared
+  // binding that silently produces nothing is neither written nor refused, and
+  // the record has to be able to say which.
+  const writtenByRenderer = new Map((finalizedReport?.written ?? []).map((w) => [String(w.field ?? w.anchor), w]));
+  const refusedByRenderer = new Map((finalizedReport?.refused ?? []).map((r) => [String(r.field ?? r.anchor), r]));
   fs.writeFileSync(path.join(familyDir, "reports/populated-fields.json"), JSON.stringify(
-    bindings.map((b) => ({ field: b.field, class: b.class, factId: b.factId })), null, 2) + "\n");
+    bindings.map((b) => ({
+      field: b.field, class: b.class, factId: b.factId,
+      written: finalizedReport ? writtenByRenderer.has(b.field) : null,
+      notWrittenBecause: finalizedReport && !writtenByRenderer.has(b.field)
+        ? (refusedByRenderer.get(b.field)?.reason ?? "the renderer neither wrote nor refused this field")
+        : null
+    })), null, 2) + "\n");
   fs.writeFileSync(path.join(familyDir, "reports/protected-fields.json"), JSON.stringify({
     documentOwnership: ownership, wholeDocumentUnwritable: noFill,
-    unwritableFields: classification.filter((c) => NEVER_WRITE.has(c.class)).map((c) => ({ field: c.name, class: c.class })),
+    unwritableFields: classification.filter((c) => isUnwritableClass(c.class)).map((c) => ({ field: c.name, class: c.class })),
     manualFields: classification.filter((c) => c.class === "manual").map((c) => c.name) }, null, 2) + "\n");
   fs.writeFileSync(path.join(familyDir, "reports/overflow-and-clipping.json"), JSON.stringify({
     schemaVersion: "rcap-overflow-report/v2", boundaryFixtureApplied: !noFill && mapKind === "acroform" && bindings.length > 0,
@@ -705,6 +831,16 @@ for (const fam of index.families) {
     const protectedNames = new Set(protectedList.map((p) => p.field));
     const writtenProtected = finalizedReport.written.filter((w) => protectedNames.has(w.field ?? w.anchor));
     const residue = finalizedReport.activeContentScan?.hits ?? [];
+    // Compared against the declaration this family actually has. A flat overlay
+    // declares anchors and its report writes anchor labels; an AcroForm family
+    // declares bindings and writes field names. Reconciling one against the
+    // other reported every overlay anchor as an undeclared write, which is not
+    // a defect in the family -- it is a defect in the comparison.
+    const reconciliation = reconcileWrittenAgainstDeclared({
+      writtenFields: finalizedReport.written.map((w) => w.field ?? w.anchor),
+      declaredBindings: mapKind === "acroform" ? bindings.map((b) => b.field) : anchors.map((a) => a.label),
+      refusedFields: finalizedReport.refused
+    });
     fs.writeFileSync(path.join(familyDir, "reports/protected-fields-scan.json"), JSON.stringify({
       scanBasis: "finalized flattened artifact: what the renderer wrote, against what is visible on the page",
       writtenFields: finalizedReport.written.length,
@@ -714,10 +850,18 @@ for (const fam of index.families) {
       valuesWrittenButNotVisible: missing,
       placeholderValues: placeholder ? [placeholder[0]] : [],
       activeContentResidue: residue,
+      // Written against declared, in both directions.
+      //
+      // The scan reported both numbers and never compared them, so an
+      // undeclared write and a silently dropped write both passed. One
+      // comparison catches both, and both had been found by hand.
+      writtenVersusDeclared: reconciliation,
       pass: writtenProtected.length === 0 && missing.length === 0 && !placeholder && residue.length === 0
+        && reconciliation.balanced
     }, null, 2) + "\n");
-    if (writtenProtected.length || missing.length || placeholder || residue.length) {
-      findings.push({ check: "protected_or_visibility_violation", writtenProtected, missing, residue });
+    if (writtenProtected.length || missing.length || placeholder || residue.length || !reconciliation.balanced) {
+      findings.push({ check: "protected_or_visibility_violation", writtenProtected, missing, residue,
+        writtenVersusDeclared: reconciliation.balanced ? null : reconciliation.refusals });
     }
   }
 
@@ -764,6 +908,19 @@ for (const fam of index.families) {
     candidateLabels: candidateLabels.length, filled, contactSheet,
     findings: findings.length, status: record.implementationStatus,
     holds: record.productionHolds?.length ?? 0 });
+}
+
+// A run that rendered nothing does not get to describe the corpus.
+//
+// The index is left exactly as it was -- not rewritten with the same content,
+// not touched at all -- so a refusal is provably non-destructive by mtime as
+// well as by hash.
+if (processedFamilies === 0) {
+  console.error("FAIL official-forms D1 — 0 source-backed families were processed.");
+  console.error(`Source root: ${SRC}`);
+  console.error("Every family was skipped, which means the extract does not carry their pinned bytes.");
+  console.error("implementation-index.json was NOT written and is unchanged.");
+  process.exit(1);
 }
 
 fs.writeFileSync(path.join(OUT, "implementation-index.json"), JSON.stringify({

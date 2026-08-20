@@ -1,0 +1,887 @@
+{
+  "schemaVersion": "rcap-external-source-operator-package/v2",
+  "generatedBy": "scripts/generate-rcap-external-source-operator-package.mjs",
+  "purpose": "Every live source row that cannot be closed in this clone, partitioned by what actually has to happen to it, regenerated from the canonical inventory head.",
+  "canonicalInventoryHead": {
+    "branch": "claude/rcap-pdf-inventory-closure-ty4m7x",
+    "contains": "abed7631 — the operational corpus consumed",
+    "denominator": "source-resolution.json liveRowsStillOutstanding",
+    "supersedes": "the 26-row denominator this lane emitted at 15894478, which predates the corpus being consumed"
+  },
+  "corporaReconciliation": {
+    "masterLibraryMounted": true,
+    "nationwideSourceMounted": true,
+    "mountedWhere": "the canonical inventory head, not this clone",
+    "thisCloneHasNoCorpus": true,
+    "consequence": "Both corpora were consumed against real bytes at the inventory head and the result is committed. This clone cannot re-hash them, so the corpus is reconciled through that committed record rather than re-read. Nothing here re-derives a corpus fact; it consumes one.",
+    "operationalManifestReconciled": {
+      "formsThePreviousManifestNamed": 170,
+      "ofThoseStillInTheOperationalTree": 170,
+      "noLongerInTheOperationalTree": 0,
+      "formsTheRegenerationProduces": 170,
+      "measuredHow": "buildOverlayFactory() run against this tree, twice, byte-identical apart from its own generatedAt stamp. 170 logical records from 187 physical files and 63 PDFs; 0 unresolved source references; 1 blocked form (an encrypted PA PDF).",
+      "whyThisIsRecorded": "The previous manifest was built from a larger tree. Every count that moved here moved because the operational corpus is smaller than the one that produced the old manifest, and that is worth being able to point at later rather than rediscovering."
+    }
+  },
+  "egress": {
+    "officialPublisherRetrieval": "refused",
+    "observed": "CONNECT tunnel failed, response 403 — the agent proxy denies outbound HTTPS to court publisher hosts",
+    "consequence": "The ninth and last step of the search order cannot be run from this environment at all."
+  },
+  "doNotRetryTheProxy": "The blocked proxy is not retried anywhere in this package or its script. Every download is written to be run by an operator on their own machine.",
+  "preservedByName": {
+    "VA:cc1473": "The pinned edition and the corpus edition are different bytes under the same form number and revision. exact_form_and_revision_found is true of the identifiers and false of the document; re-pinning without comparing would silently change which edition was reviewed.",
+    "VA:cc1473inst": "This asset is the instruction sheet and the only CC-1473 asset in the corpus is the petition form. That is a wrong identity offered as a match, not a drift between editions, and accepting it would bind the family to a document it is not.",
+    "NC:cr297": "Its recorded URL stays an explicit refused input until reconstructed from the official landing page.",
+    "prohibitedDecoys": "A LegalEase draft, sample or shadow-batch render is never an official source. Enforced in urlUsability(), not left to judgement."
+  },
+  "totals": {
+    "canonicalLiveRows": 23,
+    "directAcquisitions": 0,
+    "landingPageResolutions": 14,
+    "driftComparisons": 3,
+    "genuinelyUnknown": 6,
+    "downloadableByScriptToday": 2,
+    "refusedInputs": 3,
+    "excludedByTheCanonicalDenominator": 16
+  },
+  "refusedInputs": [
+    {
+      "familyId": "NC:cr297",
+      "jurisdiction": "NC",
+      "url": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instruc",
+      "why": "the recorded URL is a joined record rather than a URL (12 commas, 531 characters); it embeds a corpus path and flags and cannot be fetched",
+      "preserved": true
+    },
+    {
+      "familyId": "VT:200-00131",
+      "jurisdiction": "VT",
+      "url": "https://www.vtcourts.gov/media/116,www.vtcourts.gov,2026-08-02,REV-2018-07,5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f55",
+      "why": "the recorded URL is a joined record rather than a URL (12 commas, 372 characters); it embeds a corpus path and flags and cannot be fetched",
+      "preserved": false
+    },
+    {
+      "familyId": "VT:200-00631",
+      "jurisdiction": "VT",
+      "url": "https://www.vtcourts.gov/media/11473,www.vtcourts.gov,2026-08-02,REV-2019-09,a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b8",
+      "why": "the recorded URL is a joined record rather than a URL (12 commas, 377 characters); it embeds a corpus path and flags and cannot be fetched",
+      "preserved": false
+    }
+  ],
+  "denominatorDisagreement": {
+    "statement": "16 rows are excluded because the canonical inventory head records them retired. This lane's corrected retirement probe says 16 of them are still named by an operational surface.",
+    "why": "The inventory head's application_source probe reads only .ts/.tsx/.mjs/.js, so it never opens src/lib/rcap-engine/compiled/profiles/*.json — the compiled engine profiles that packet-planner.ts turns into a packet plan's sourceFormIds. This lane fixed that probe at 9b520a95; the fix is not in the inventory head's own generator.",
+    "highestStakes": "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f, AR:3-misdemeanor-petition-8-01-2023 and AR:felony-petition-form-f are each named by exact source hash inside a formCandidates block of src/lib/rcap-engine/compiled/profiles/AR-arkansas.json, under pathwayIds situation-a-non-convictions, situation-b-misdemeanor-convictions and situation-c-felony-convictions, all mode official_form_overlay_or_source_form_set. Retiring an asset a paid pathway plans around is the one direction a retirement must never fail in.",
+    "recommendation": "Re-run the retirement determination with the corrected probe on the inventory head, then re-derive the live denominator. Until that happens these rows are excluded from the partitions above and listed here instead of being dropped.",
+    "rows": [
+      {
+        "familyId": "AR:3-misdemeanor-petition-8-01-2023",
+        "jurisdiction": "AR",
+        "disposition": "genuinely_no_official_source_identified",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f",
+        "jurisdiction": "AR",
+        "disposition": "genuinely_no_official_source_identified",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "AR:felony-petition-form-f",
+        "jurisdiction": "AR",
+        "disposition": "genuinely_no_official_source_identified",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "KY:496-2",
+        "jurisdiction": "KY",
+        "disposition": "exact_form_and_revision_found",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "legal_design_registry",
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "KY:496-3",
+        "jurisdiction": "KY",
+        "disposition": "exact_pinned_hash_found",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "legal_design_registry",
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "KY:497-2",
+        "jurisdiction": "KY",
+        "disposition": "genuinely_no_official_source_identified",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "legal_design_registry",
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "NC:cr287-1",
+        "jurisdiction": "NC",
+        "disposition": "source_drift_requires_comparison",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "NC:cr297",
+        "jurisdiction": "NC",
+        "disposition": "source_drift_requires_comparison",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "NC:cr298-1",
+        "jurisdiction": "NC",
+        "disposition": "source_drift_requires_comparison",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "VT:200-00129-petition-to-expunge-criminal-history",
+        "jurisdiction": "VT",
+        "disposition": "exact_pinned_hash_found",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "legal_design_registry",
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record",
+        "jurisdiction": "VT",
+        "disposition": "exact_pinned_hash_found",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "VT:200-00131",
+        "jurisdiction": "VT",
+        "disposition": "exact_pinned_hash_found",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "VT:200-00132-stipulation-to-seal-criminal-history-record-order",
+        "jurisdiction": "VT",
+        "disposition": "exact_form_and_revision_found",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "legal_design_registry",
+          "d_track_queue",
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "VT:200-00132a-stipulation-to-expunge-criminal-history-record-order",
+        "jurisdiction": "VT",
+        "disposition": "exact_pinned_hash_found",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "legal_design_registry",
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "VT:200-00631",
+        "jurisdiction": "VT",
+        "disposition": "exact_form_and_revision_found",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "application_source"
+        ]
+      },
+      {
+        "familyId": "VT:400-00171",
+        "jurisdiction": "VT",
+        "disposition": "genuinely_no_official_source_identified",
+        "excludedBecause": "the canonical inventory head records this family as retired from the operational inventory",
+        "currentDeterminationSaysRetained": true,
+        "namedByOperationalSurfaces": [
+          "application_source"
+        ]
+      }
+    ]
+  },
+  "officialHostsByJurisdiction": {
+    "AK": [
+      "public.courts.alaska.gov",
+      "courts.alaska.gov",
+      "www.courts.alaska.gov"
+    ],
+    "AL": [
+      "judicial.alabama.gov",
+      "www.alacourt.gov",
+      "alacourt.gov",
+      "paroles.alabama.gov"
+    ],
+    "AR": [
+      "www.arcourts.gov",
+      "arcourts.gov",
+      "courts.arkansas.gov",
+      "www.courts.arkansas.gov"
+    ],
+    "KY": [
+      "www.kycourts.gov",
+      "kycourts.gov"
+    ],
+    "NC": [
+      "www.nccourts.gov",
+      "nccourts.gov"
+    ],
+    "NE": [
+      "nebraskajudicial.gov",
+      "www.nebraskajudicial.gov",
+      "supremecourt.nebraska.gov"
+    ],
+    "VA": [
+      "www.vacourts.gov",
+      "vacourts.gov"
+    ],
+    "VT": [
+      "www.vtcourts.gov",
+      "vtcourts.gov"
+    ],
+    "WI": [
+      "www.wicourts.gov",
+      "wicourts.gov",
+      "www.wisdoj.gov",
+      "wisdoj.gov"
+    ]
+  },
+  "downloadScript": {
+    "path": "data/rcap-all50/pdf-source-handoffs/acquire-official-sources.command",
+    "platform": "macOS",
+    "credentials": "none — curl over HTTPS, no token, no proxy",
+    "verifies": "each pinned download against its sha256; a mismatch is moved aside for the drift comparison rather than kept"
+  },
+  "partitions": {
+    "direct_acquisition": [],
+    "landing_page_resolution": [
+      {
+        "familyId": "AL:al-expungement-petition",
+        "jurisdiction": "AL",
+        "formNumber": "al-expungement-petition.html",
+        "formNumberCandidates": [
+          "al-expungement-petition"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "official_landing_page_requires_resolution",
+        "identityProven": false,
+        "resolvedBy": "the asset is a captured web page; no PDF archive contains it",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/al-al-expungement-petition.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": "https://paroles.alabama.gov/resources/forms/",
+        "recordedUrlIsUnusable": null,
+        "whatTheOperatorMustResolve": "Find the link on https://paroles.alabama.gov/resources/forms/ that serves al-expungement-petition.html, confirm the printed form number and revision on the served document, then record the exact binary URL. Do not download the landing page itself as the source.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "AL:criminal-forms",
+        "jurisdiction": "AL",
+        "formNumber": "criminal-forms.html",
+        "formNumberCandidates": [
+          "criminal-forms"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "official_landing_page_requires_resolution",
+        "identityProven": false,
+        "resolvedBy": "the asset is a captured web page; no PDF archive contains it",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/al-criminal-forms.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": "https://judicial.alabama.gov/library/criminal_forms",
+        "recordedUrlIsUnusable": null,
+        "whatTheOperatorMustResolve": "Find the link on https://judicial.alabama.gov/library/criminal_forms that serves criminal-forms.html, confirm the printed form number and revision on the served document, then record the exact binary URL. Do not download the landing page itself as the source.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "AL:criminal-record-expungement",
+        "jurisdiction": "AL",
+        "formNumber": "criminal-record-expungement.html",
+        "formNumberCandidates": [
+          "criminal-record-expungement"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "official_landing_page_requires_resolution",
+        "identityProven": false,
+        "resolvedBy": "the asset is a captured web page; no PDF archive contains it",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/al-criminal-record-expungement.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": "https://paroles.alabama.gov/resources/forms/",
+        "recordedUrlIsUnusable": null,
+        "whatTheOperatorMustResolve": "Find the link on https://paroles.alabama.gov/resources/forms/ that serves criminal-record-expungement.html, confirm the printed form number and revision on the served document, then record the exact binary URL. Do not download the landing page itself as the source.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "AK:ak-record-relief-forms",
+        "jurisdiction": "AK",
+        "formNumber": "ak-record-relief-forms.html",
+        "formNumberCandidates": [
+          "ak-record-relief-forms"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "official_landing_page_requires_resolution",
+        "identityProven": false,
+        "resolvedBy": "the asset is a captured web page; no PDF archive contains it",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/ak-ak-record-relief-forms.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": null,
+        "recordedUrlIsUnusable": "no URL is recorded",
+        "whatTheOperatorMustResolve": "The recorded URL cannot be used. Start from the AK publisher's forms index (public.courts.alaska.gov, courts.alaska.gov, www.courts.alaska.gov), find the link that serves this form, and confirm the printed form number and revision on the served document.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "AK:requesttosealcriminfo",
+        "jurisdiction": "AK",
+        "formNumber": "RequestToSealCrimInfo.pdf",
+        "formNumberCandidates": [
+          "requesttosealcriminfo"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "exact_pinned_hash_found",
+        "identityProven": true,
+        "resolvedBy": "the Master Manifest duplicate table, then the corpus",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/ak-requesttosealcriminfo.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": null,
+        "recordedUrlIsUnusable": "no URL is recorded",
+        "whatTheOperatorMustResolve": "The recorded URL cannot be used. Start from the AK publisher's forms index (public.courts.alaska.gov, courts.alaska.gov, www.courts.alaska.gov), find the link that serves this form, and confirm the printed form number and revision on the served document.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "AR:arkansas-petition-order-forms",
+        "jurisdiction": "AR",
+        "formNumber": "Arkansas-Petition-Order-Forms.html",
+        "formNumberCandidates": [
+          "arkansas-petition-order-forms"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "official_landing_page_requires_resolution",
+        "identityProven": false,
+        "resolvedBy": "the asset is a captured web page; no PDF archive contains it",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/ar-arkansas-petition-order-forms.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": null,
+        "recordedUrlIsUnusable": "no URL is recorded",
+        "whatTheOperatorMustResolve": "The recorded URL cannot be used. Start from the AR publisher's forms index (www.arcourts.gov, arcourts.gov, courts.arkansas.gov, www.courts.arkansas.gov), find the link that serves this form, and confirm the printed form number and revision on the served document.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "KY:kentucky-expungement-forms",
+        "jurisdiction": "KY",
+        "formNumber": "Kentucky-Expungement-Forms.html",
+        "formNumberCandidates": [
+          "kentucky-expungement-forms"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "official_landing_page_requires_resolution",
+        "identityProven": false,
+        "resolvedBy": "the asset is a captured web page; no PDF archive contains it",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/ky-kentucky-expungement-forms.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+        "recordedUrlIsUnusable": null,
+        "whatTheOperatorMustResolve": "Find the link on https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx that serves Kentucky-Expungement-Forms.html, confirm the printed form number and revision on the served document, then record the exact binary URL. Do not download the landing page itself as the source.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "NE:cc-6-11",
+        "jurisdiction": "NE",
+        "formNumber": "CC-6-11.pdf",
+        "formNumberCandidates": [
+          "cc-6-11",
+          "CC-6-11"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "exact_pinned_hash_found",
+        "identityProven": true,
+        "resolvedBy": "the Master Manifest duplicate table, then the corpus",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/ne-cc-6-11.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": null,
+        "recordedUrlIsUnusable": "no URL is recorded",
+        "whatTheOperatorMustResolve": "The recorded URL cannot be used. Start from the NE publisher's forms index (nebraskajudicial.gov, www.nebraskajudicial.gov, supremecourt.nebraska.gov), find the link that serves this form, and confirm the printed form number and revision on the served document.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "NE:cc-6-11-2",
+        "jurisdiction": "NE",
+        "formNumber": "CC-6-11-2.pdf",
+        "formNumberCandidates": [
+          "cc-6-11-2",
+          "CC-6-11-2"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "exact_form_and_revision_found",
+        "identityProven": true,
+        "resolvedBy": "form number and revision, confirmed against corpus bytes",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/ne-cc-6-11-2.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": null,
+        "recordedUrlIsUnusable": "no URL is recorded",
+        "whatTheOperatorMustResolve": "The recorded URL cannot be used. Start from the NE publisher's forms index (nebraskajudicial.gov, www.nebraskajudicial.gov, supremecourt.nebraska.gov), find the link that serves this form, and confirm the printed form number and revision on the served document.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "NC:expungements",
+        "jurisdiction": "NC",
+        "formNumber": "expungements.html",
+        "formNumberCandidates": [
+          "expungements"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "official_landing_page_requires_resolution",
+        "identityProven": false,
+        "resolvedBy": "the asset is a captured web page; no PDF archive contains it",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/nc-expungements.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": "https://www.nccourts.gov/documents/forms",
+        "recordedUrlIsUnusable": null,
+        "whatTheOperatorMustResolve": "Find the link on https://www.nccourts.gov/documents/forms that serves expungements.html, confirm the printed form number and revision on the served document, then record the exact binary URL. Do not download the landing page itself as the source.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "NC:forms",
+        "jurisdiction": "NC",
+        "formNumber": "forms.html",
+        "formNumberCandidates": [
+          "forms"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "official_landing_page_requires_resolution",
+        "identityProven": false,
+        "resolvedBy": "the asset is a captured web page; no PDF archive contains it",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/nc-forms.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": "https://www.nccourts.gov/documents/forms",
+        "recordedUrlIsUnusable": null,
+        "whatTheOperatorMustResolve": "Find the link on https://www.nccourts.gov/documents/forms that serves forms.html, confirm the printed form number and revision on the served document, then record the exact binary URL. Do not download the landing page itself as the source.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "NC:forms-2",
+        "jurisdiction": "NC",
+        "formNumber": "forms-2.html",
+        "formNumberCandidates": [
+          "forms-2"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "official_landing_page_requires_resolution",
+        "identityProven": false,
+        "resolvedBy": "the asset is a captured web page; no PDF archive contains it",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/nc-forms-2.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": "https://www.nccourts.gov/documents/forms",
+        "recordedUrlIsUnusable": null,
+        "whatTheOperatorMustResolve": "Find the link on https://www.nccourts.gov/documents/forms that serves forms-2.html, confirm the printed form number and revision on the served document, then record the exact binary URL. Do not download the landing page itself as the source.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "NC:nc-expunction-petition",
+        "jurisdiction": "NC",
+        "formNumber": "nc-expunction-petition.html",
+        "formNumberCandidates": [
+          "nc-expunction-petition"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "official_landing_page_requires_resolution",
+        "identityProven": false,
+        "resolvedBy": "the asset is a captured web page; no PDF archive contains it",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/nc-nc-expunction-petition.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": "https://www.nccourts.gov/documents/forms",
+        "recordedUrlIsUnusable": null,
+        "whatTheOperatorMustResolve": "Find the link on https://www.nccourts.gov/documents/forms that serves nc-expunction-petition.html, confirm the printed form number and revision on the served document, then record the exact binary URL. Do not download the landing page itself as the source.",
+        "nothingIsDownloadableUntilResolved": true
+      },
+      {
+        "familyId": "VA:va-expungement-sealing-forms",
+        "jurisdiction": "VA",
+        "formNumber": "va-expungement-sealing-forms.html",
+        "formNumberCandidates": [
+          "va-expungement-sealing-forms"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "official_landing_page_requires_resolution",
+        "identityProven": false,
+        "resolvedBy": "the asset is a captured web page; no PDF archive contains it",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/va-va-expungement-sealing-forms.pdf",
+        "partition": "landing_page_resolution",
+        "officialLandingPage": "https://www.vacourts.gov/courts/circuit/resources/forms/",
+        "recordedUrlIsUnusable": null,
+        "whatTheOperatorMustResolve": "Find the link on https://www.vacourts.gov/courts/circuit/resources/forms/ that serves va-expungement-sealing-forms.html, confirm the printed form number and revision on the served document, then record the exact binary URL. Do not download the landing page itself as the source.",
+        "nothingIsDownloadableUntilResolved": true
+      }
+    ],
+    "drift_comparison": [
+      {
+        "familyId": "NE:cc-6-12",
+        "jurisdiction": "NE",
+        "formNumber": "CC-6-12.pdf",
+        "formNumberCandidates": [
+          "cc-6-12",
+          "CC-6-12"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "source_drift_requires_comparison",
+        "identityProven": false,
+        "resolvedBy": "2 editions of this form number are in the corpus",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/ne-cc-6-12.pdf",
+        "partition": "drift_comparison",
+        "preservedAsDrift": false,
+        "whyPreserved": null,
+        "oldPinnedSourceHash": null,
+        "oldPinnedRevision": null,
+        "competingEditions": [
+          {
+            "corpusPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
+            "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28"
+          },
+          {
+            "corpusPath": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+            "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a"
+          }
+        ],
+        "newOfficialSourceHash": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "newVisibleRevision": null,
+        "substantiveComparisonRequired": [
+          "page count of both editions",
+          "field or anchor census of both, and every field that appears, disappears or moves",
+          "the statutory citation printed on each",
+          "the printed revision marker on each",
+          "whether any participant-writable field changed meaning"
+        ],
+        "currentnessQuestion": "Does the pinned edition remain current, is it superseded by the newer edition, or is the newer edition a different document sharing a form number?",
+        "provisionalDisposition": "unresolved_pending_comparison",
+        "doNotDownloadOverIt": true,
+        "officialUrlForComparison": "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf",
+        "comparisonFetchDestination": "drift-comparison/ne-cc-6-12.pdf",
+        "hostVerifiedOfficial": true
+      },
+      {
+        "familyId": "VA:cc1473",
+        "jurisdiction": "VA",
+        "formNumber": "cc1473.pdf",
+        "formNumberCandidates": [
+          "cc1473",
+          "CC-1473"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "exact_form_and_revision_found",
+        "identityProven": true,
+        "resolvedBy": "form number and revision, confirmed against corpus bytes",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/va-cc1473.pdf",
+        "partition": "drift_comparison",
+        "preservedAsDrift": true,
+        "whyPreserved": "The pinned edition and the corpus edition are different bytes under the same form number and revision. exact_form_and_revision_found is true of the identifiers and false of the document; re-pinning without comparing would silently change which edition was reviewed.",
+        "oldPinnedSourceHash": null,
+        "oldPinnedRevision": null,
+        "competingEditions": [
+          {
+            "corpusPath": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+            "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219"
+          }
+        ],
+        "newOfficialSourceHash": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "newVisibleRevision": "REV-2026-07",
+        "substantiveComparisonRequired": [
+          "page count of both editions",
+          "field or anchor census of both, and every field that appears, disappears or moves",
+          "the statutory citation printed on each",
+          "the printed revision marker on each",
+          "whether any participant-writable field changed meaning"
+        ],
+        "currentnessQuestion": "Does the pinned edition remain current, is it superseded by the newer edition, or is the newer edition a different document sharing a form number?",
+        "provisionalDisposition": "unresolved_pending_comparison",
+        "doNotDownloadOverIt": true,
+        "officialUrlForComparison": "https://www.vacourts.gov/forms/circuit/cc1473.pdf",
+        "comparisonFetchDestination": "drift-comparison/va-cc1473.pdf",
+        "hostVerifiedOfficial": true
+      },
+      {
+        "familyId": "VA:cc1473inst",
+        "jurisdiction": "VA",
+        "formNumber": "cc1473inst.pdf",
+        "formNumberCandidates": [
+          "cc1473inst",
+          "CC-1473"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "exact_form_and_revision_found",
+        "identityProven": true,
+        "resolvedBy": "form number and revision, confirmed against corpus bytes",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/va-cc1473inst.pdf",
+        "partition": "drift_comparison",
+        "preservedAsDrift": true,
+        "whyPreserved": "This asset is the instruction sheet and the only CC-1473 asset in the corpus is the petition form. That is a wrong identity offered as a match, not a drift between editions, and accepting it would bind the family to a document it is not.",
+        "oldPinnedSourceHash": null,
+        "oldPinnedRevision": null,
+        "competingEditions": [
+          {
+            "corpusPath": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+            "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219"
+          }
+        ],
+        "newOfficialSourceHash": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "newVisibleRevision": "REV-2026-07",
+        "substantiveComparisonRequired": [
+          "page count of both editions",
+          "field or anchor census of both, and every field that appears, disappears or moves",
+          "the statutory citation printed on each",
+          "the printed revision marker on each",
+          "whether any participant-writable field changed meaning"
+        ],
+        "currentnessQuestion": "Does the pinned edition remain current, is it superseded by the newer edition, or is the newer edition a different document sharing a form number?",
+        "provisionalDisposition": "wrong_identity_offered",
+        "doNotDownloadOverIt": true,
+        "officialUrlForComparison": null,
+        "whyNoComparisonFetch": "no exact official binary URL is recorded; the landing page must be resolved first"
+      }
+    ],
+    "genuinely_unknown": [
+      {
+        "familyId": "AL:cr-65-expunge-petition-10-2024",
+        "jurisdiction": "AL",
+        "formNumber": "cr-65-expunge-petition-10-2024.pdf",
+        "formNumberCandidates": [
+          "cr-65-expunge-petition-10-2024",
+          "CR-65"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "genuinely_no_official_source_identified",
+        "identityProven": false,
+        "resolvedBy": "no file in the mounted corpus carries this form number for this jurisdiction",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/al-cr-65-expunge-petition-10-2024.pdf",
+        "partition": "genuinely_unknown",
+        "whatWasChecked": [
+          "data/rcap-all50/unmatched-source-reconciliation.json",
+          "data/rcap-all50/local-source-corpus-index.json",
+          "data/rcap-all50/source-acquisition-queue.json"
+        ],
+        "whatWouldResolveIt": "A publisher-confirmed URL for this exact document, or a determination that the asset is a captured web page with no underlying official form — in which case it is not an acquisition and should leave the source denominator.",
+        "likelyACapturedWebPage": false
+      },
+      {
+        "familyId": "AL:cr-65a-order-on-petition-for-expungement-10-2024",
+        "jurisdiction": "AL",
+        "formNumber": "cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+        "formNumberCandidates": [
+          "cr-65a-order-on-petition-for-expungement-10-2024",
+          "CR-65A"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "genuinely_no_official_source_identified",
+        "identityProven": false,
+        "resolvedBy": "no file in the mounted corpus carries this form number for this jurisdiction",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/al-cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+        "partition": "genuinely_unknown",
+        "whatWasChecked": [
+          "data/rcap-all50/unmatched-source-reconciliation.json",
+          "data/rcap-all50/local-source-corpus-index.json",
+          "data/rcap-all50/source-acquisition-queue.json"
+        ],
+        "whatWouldResolveIt": "A publisher-confirmed URL for this exact document, or a determination that the asset is a captured web page with no underlying official form — in which case it is not an acquisition and should leave the source denominator.",
+        "likelyACapturedWebPage": false
+      },
+      {
+        "familyId": "KY:jv-29",
+        "jurisdiction": "KY",
+        "formNumber": "JV-29.pdf",
+        "formNumberCandidates": [
+          "jv-29",
+          "AOC-JV-29",
+          "JV-29"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "genuinely_no_official_source_identified",
+        "identityProven": false,
+        "resolvedBy": "no file in the mounted corpus carries this form number for this jurisdiction",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/ky-jv-29.pdf",
+        "partition": "genuinely_unknown",
+        "whatWasChecked": [
+          "data/rcap-all50/unmatched-source-reconciliation.json",
+          "data/rcap-all50/local-source-corpus-index.json",
+          "data/rcap-all50/source-acquisition-queue.json"
+        ],
+        "whatWouldResolveIt": "A publisher-confirmed URL for this exact document, or a determination that the asset is a captured web page with no underlying official form — in which case it is not an acquisition and should leave the source denominator.",
+        "likelyACapturedWebPage": false
+      },
+      {
+        "familyId": "KY:jv-29-1",
+        "jurisdiction": "KY",
+        "formNumber": "JV-29.1.pdf",
+        "formNumberCandidates": [
+          "jv-29-1",
+          "AOC-JV-29.1",
+          "JV-29-1"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "genuinely_no_official_source_identified",
+        "identityProven": false,
+        "resolvedBy": "no file in the mounted corpus carries this form number for this jurisdiction",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/ky-jv-29-1.pdf",
+        "partition": "genuinely_unknown",
+        "whatWasChecked": [
+          "data/rcap-all50/unmatched-source-reconciliation.json",
+          "data/rcap-all50/local-source-corpus-index.json",
+          "data/rcap-all50/source-acquisition-queue.json"
+        ],
+        "whatWouldResolveIt": "A publisher-confirmed URL for this exact document, or a determination that the asset is a captured web page with no underlying official form — in which case it is not an acquisition and should leave the source denominator.",
+        "likelyACapturedWebPage": false
+      },
+      {
+        "familyId": "KY:jv-30",
+        "jurisdiction": "KY",
+        "formNumber": "JV-30.pdf",
+        "formNumberCandidates": [
+          "jv-30",
+          "AOC-JV-30",
+          "JV-30"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "genuinely_no_official_source_identified",
+        "identityProven": false,
+        "resolvedBy": "no file in the mounted corpus carries this form number for this jurisdiction",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/ky-jv-30.pdf",
+        "partition": "genuinely_unknown",
+        "whatWasChecked": [
+          "data/rcap-all50/unmatched-source-reconciliation.json",
+          "data/rcap-all50/local-source-corpus-index.json",
+          "data/rcap-all50/source-acquisition-queue.json"
+        ],
+        "whatWouldResolveIt": "A publisher-confirmed URL for this exact document, or a determination that the asset is a captured web page with no underlying official form — in which case it is not an acquisition and should leave the source denominator.",
+        "likelyACapturedWebPage": false
+      },
+      {
+        "familyId": "VT:application-waive-filing-fees-and-service-costs",
+        "jurisdiction": "VT",
+        "formNumber": "application-waive-filing-fees-and-service-costs.html",
+        "formNumberCandidates": [
+          "application-waive-filing-fees-and-service-costs"
+        ],
+        "officialPublisher": null,
+        "expectedRevision": null,
+        "pinnedHash": null,
+        "canonicalDisposition": "genuinely_no_official_source_identified",
+        "identityProven": false,
+        "resolvedBy": "no file in the mounted corpus carries this form number for this jurisdiction",
+        "canonicalDestination": "private/Nationwide Record Clearing/ — the family's recorded relativePath",
+        "receiptDestination": "data/rcap-all50/pdf-source-receipts/vt-application-waive-filing-fees-and-service-costs.pdf",
+        "partition": "genuinely_unknown",
+        "whatWasChecked": [
+          "data/rcap-all50/unmatched-source-reconciliation.json",
+          "data/rcap-all50/local-source-corpus-index.json",
+          "data/rcap-all50/source-acquisition-queue.json"
+        ],
+        "whatWouldResolveIt": "A publisher-confirmed URL for this exact document, or a determination that the asset is a captured web page with no underlying official form — in which case it is not an acquisition and should leave the source denominator.",
+        "likelyACapturedWebPage": false
+      }
+    ]
+  }
+}

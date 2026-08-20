@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-group/v1",
+  "batch": "batch-1",
+  "group": 3,
+  "reviewDate": "2026-08-19",
+  "reviewerBranch": "claude/rcap-pdf-independent-review-batch-1",
+  "reviewedLaneBranch": "claude/rcap-problematic-pdf-full-remediation",
+  "reviewedLaneHead": "a7c9f0aa0dc19bb569783691e0bc0e65c0b57605",
+
+  "headline": "Nine families reviewed, zero approved. Group 3 reaches the same root cause as group 2 from a different direction: protection has no geometry input at all, and the one family that does have geometry-based protection is the one that gets it right.",
+
+  "rootCauseConfirmedIndependently": {
+    "finding": "decideBinding() in scripts/rcap-official-forms/rcap-field-semantics.mjs takes only { name, pdfType, effectiveLabel }. There is no rect, no page, no zone — no geometry input exists. Combined with effectiveLabel being undefined everywhere (see group 2), every protection decision is made from the PDF's internal field name alone.",
+    "theContrastThatProvesIt": "WI cr-266-form-en is the only family in this group with geometry-based protection: overlay-profile.json declares protectedRules[] as bands over the rules the form itself draws, independent of any label. It is also the only family in this group with no field-safety defect. The mechanism that would fix the other eight already exists and already works.",
+    "aSecondDemonstration": {
+      "claim": "The same field, in the same block, is protected in one family and written in another, decided by the source author's capitalisation.",
+      "AK:tf-810-form-en": "field `dateSigned` — haystack becomes 'date signed', \\bsigned\\b fires the signature rule, refused.",
+      "NE:cc-6-12-form-en": "field `datesigned` — haystack becomes 'datesigned', no word boundary, no match, bound to deterministic.filing_date and written beside a blank signature line.",
+      "conclusion": "Geometry would treat both identically. The name does not."
+    }
+  },
+
+  "verdicts": [
+    {
+      "family": "AK:tf-810-form-en", "jurisdiction": "AK", "verdict": "correction_required",
+      "fieldSafety": "clean — dateSigned and signature both refused protected_category/signature and confirmed empty in the bytes; the clerk band at the page foot carries no AcroForm fields at all.",
+      "corrections": [
+        { "asset": "artifact-provenance.json", "observed": "12 of the 20 contract fields are null", "required": "all 20 non-null", "smallestCorrection": "populate from records already in the package — source-record.json carries title, publisher and revision; field-classification.json supplies classificationSha256" },
+        { "asset": "docs/record-clearing/pdf-visual-evidence/AK-tf-810-form-en-contact-sheet-page-01.png", "observed": "absent", "required": "a rasterized blank-vs-filled PNG", "smallestCorrection": "rasterize the family's existing contact-sheet PDF to that path" }
+      ],
+      "note": "source-record.json carries the hold not_participant_fillable_no_fixture_fill while the fixtures fill six participant fields. Not blocking, but the record contradicts the artifact."
+    },
+    {
+      "family": "KY:aoc-496-3-form-en", "jurisdiction": "KY", "verdict": "correction_required",
+      "fieldSafety": "clean — 60 of 62 fields are named with bare ordinals and every one refuses no_allowlisted_fact_matches. Fail-closed working as designed.",
+      "corrections": [
+        { "page": 1, "fieldOrGeometry": "3 County Dropdown (rect x=452 y=693 w=124)", "observed": "production-field-map.json declares the binding and reports/populated-fields.json lists it, but reports/protected-fields-scan.json records writtenFields: 1, the contact-sheet proof expects only the case number, and the artifact object renders a single space. The county value never reached the page.", "required": "either the dropdown writes and is proven visible, or it is recorded as refused with a reason", "smallestCorrection": "make the dropdown write path consistent with the map, or move the field to bindingRefusals" },
+        { "asset": "source-record.json / source-receipt.json", "observed": "revision REV-UNKNOWN with freshnessStatus revision_confirmation_required", "required": "REV-2023-06", "why": "the artifact's own page-1 header prints AOC-496.3 / Rev. 6-23, and the artifact creation date of 2023-05-17 is consistent with it. The revision is not unknown; it is unrecorded." }
+      ],
+      "alsoRecorded": "officialTitle is a scraped body fragment ('In support of this Application, the Defendant states as follows:'), not a title. declaredFieldCount 70 vs observedAcroFieldCount 62, unexplained."
+    },
+    {
+      "family": "KY:aoc-497-form-en", "jurisdiction": "KY", "verdict": "correction_required",
+      "corrections": [
+        { "page": 1, "fieldOrGeometry": "ADDRESS (rect x=38 y=581 w=269) and address2 (rect x=38 y=563 w=269)", "observed": "both bind participant.street_address, so '118 Maple Street' is rendered twice, on two consecutive caption rules. The block reads NAME / ADDRESS / (unlabeled continuation, conventionally city-state-zip).", "required": "the second rule receives a distinct value or stays blank; the same street line must not appear twice", "smallestCorrection": "rebind address2 to a city-state-zip fact, or move it to bindingRefusals", "verifiedIndependently": "Yes — both bindings read from the committed production-field-map.json." },
+        { "asset": "source-record.json / source-receipt.json", "observed": "revision REV-UNKNOWN and documentRole PETITION, with officialTitle a scraped sentence", "required": "REV-2020-07, documentRole ORDER, and the printed title", "why": "the artifact prints AOC-497 / Rev. 7-20 and is titled EXPUNGEMENT ORDER. Page 2 carries 'THEREFORE, IT IS HEREBY ORDERED', a DENIED/GRANTED election, a judge signature block and an agency certification. This is a court-issued order recorded as a petition." }
+      ],
+      "ownerDecision": "Whether AOC-497 should be captionOnly: true. It is currently false, and the platform's own doctrine in rcap-field-semantics.mjs is that a caption fact is the only thing a court-issued order accepts. participant.street_address and participant.phone are not caption facts and are written."
+    },
+    {
+      "family": "NC:aoc-cr-296-form-en", "jurisdiction": "NC", "verdict": "correction_required",
+      "severity": "highest in this group",
+      "asset": "fixtures/canonical-filled.pdf", "page": 1,
+      "fieldOrGeometry": "PetitionNotFiledSignName, widget rect x=117 y=128 w=238",
+      "observed": "The participant's full legal name is drawn at x=118.32, y=132.00. The court's printed caption row sits 12.3pt above at y=144.34 and reads, in three runs: 'Date' at x=38.62, 'District Attorney Name (type or print)' at x=118.58, 'Signature' at x=358.10. The written value begins 0.26pt left of the District Attorney caption. It is on the district attorney's printed-name line, above the DA's certification sentence. The form's own header states that this petition is filed by the district attorney.",
+      "required": "The petitioner's name must never be written on a district attorney's name line. The field must refuse under prosecutor or court.",
+      "why": "Protection is label-only. The haystack for 'PetitionNotFiledSignName' is 'petition not filed sign name', which matches no prosecutor pattern and no signature pattern (\\bsig\\b does not match 'sign'), so \\bname\\b binds full_legal_name. Geometry independently identifies this area — the caption 12pt above names the district attorney — and geometry is never consulted.",
+      "smallestCorrection": "Add a geometry-based protected band over the DA certification block, using the protectedRules mechanism that already exists and works in WI; or pass the printed caption as effectiveLabel so the existing prosecutor rule fires.",
+      "explicitlyNotTheFix": "Do not add 'PetitionNotFiledSignName' to a deny list. That is the label-only pattern the binder's own header says it inverted, and it would leave the next differently-named field exposed.",
+      "verifiedIndependently": "Yes — binding { field: PetitionNotFiledSignName, class: \"manual\", factId: participant.full_legal_name } read from the committed field map. Note the class is `manual`, so this is also an instance of the NEVER_WRITE gap.",
+      "secondCorrection": { "fieldOrGeometry": "DLState (rect x=177 y=602 w=45)", "observed": "bound to participant.state and rendering the residential state under the caption row 'Drivers License No. | State | Race | Sex'", "required": "a licence-issuing-state fact, or a refusal", "smallestCorrection": "move DLState to bindingRefusals" },
+      "ownerDecision": "AOC-CR-296 is titled DISTRICT ATTORNEY PETITION AND ORDER OF EXPUNCTION and is filed by the district attorney, yet documentOwnership is participant_completed. Whether a DA-filed petition belongs in a participant-fill lane at all is an owner call."
+    },
+    {
+      "family": "NC:aoc-cv-226-support-en", "jurisdiction": "NC", "verdict": "correction_required",
+      "severity": "highest in this group",
+      "asset": "fixtures/canonical-filled.pdf", "page": 1,
+      "observed": "Six fields carry the wrong fact onto a sworn affidavit of indigency. The applicant's legal name is printed as their street address on both street-address lines, and again as their bank name under 'Cash On Hand And In Bank Accounts (list name of bank and account type)'. Their street address is printed in the City box and the Zip box, and the State box is blank only because 24pt cannot hold it.",
+      "fieldsAndBindings": [
+        "ApplicantStreetNumberAndStreetNameLine1 -> participant.full_legal_name",
+        "ApplicantStreetNumberAndStreetNameLine2 -> participant.full_legal_name",
+        "ApplicantFullPermanentMailingAddressCity -> participant.street_address",
+        "ApplicantFullPermanentMailingAddressState -> participant.street_address",
+        "ApplicantFullPermanentMailingAddressZip -> participant.street_address",
+        "BankNameAndAccountType -> participant.full_legal_name"
+      ],
+      "required": "Street-address lines receive the street address; City, State and Zip receive city, state and zip; BankNameAndAccountType refuses.",
+      "why": "\\bname\\b on full_legal_name matches 'Street Name' and 'Bank Name'. /mailing\\s*addr/ on street_address matches 'MailingAddressCity', 'MailingAddressState' and 'MailingAddressZip', and outranks the city, state and zip descriptors because it comes earlier in the descriptor list.",
+      "smallestCorrection": "Add refuseWhen guards in rcap-field-semantics.mjs so street_address declines a haystack ending in city|state|zip, and full_legal_name declines street\\s*name and bank\\s*name. Do not repair per field in the map.",
+      "verifiedIndependently": "Yes — all six bindings read from the committed production-field-map.json.",
+      "whatIsCorrectlyProtected": "25 money refusals, the entire Jurat block under notarization, both applicant signature fields, and the employer blocks as outside_party. Page 2 carries zero participant values.",
+      "gapInTheLanesOwnScan": "reports/protected-fields-scan.json reports violations: [] and pass: true. That is accurate for protected-field refusal, and it is why this was not caught: the scan does not check that a written field received the correct fact, which is exactly what fails here."
+    },
+    {
+      "family": "NE:cc-6-12-form-en", "jurisdiction": "NE", "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf", "page": 1,
+      "observed": "Three defects in the venue caption. (i) The court name is printed twice from two overlapping widgets — TYPEOFCOURTRESULTS and 'enter the type of court' overlap in x 138-242 and both bind matter.court, rendering 'District Court' at two positions about 5pt apart. (ii) The source's dropdown placeholders remain visible beneath the written values: 'Choose the court' and 'Choose the county' both render at 8pt in the finalized artifact. (iii) TYPEOFCOURTDROPDOWN is recorded as written with matter.court in both the field map and the populated-fields report, yet its own flattened appearance still shows the placeholder — a value written but not visible.",
+      "required": "One value per caption slot; no source placeholder text on a finalized filing; a field the map records as written must be visible.",
+      "smallestCorrection": "Bind exactly one of the three matter.court fields and refuse the others; regenerate dropdown appearance streams from the bound value rather than carrying the source appearance forward; make the scan compare rendered strings against the source's default appearance text.",
+      "contradictedRecord": "reports/protected-fields-scan.json reports placeholderValues: [], valuesWrittenButNotVisible: [] and pass: true. All three are contradicted by the bytes.",
+      "verifiedIndependently": "Yes — TYPEOFCOURTDROPDOWN and TYPEOFCOURTRESULTS both bind matter.court in the committed field map.",
+      "secondCorrection": { "page": 2, "fieldOrGeometry": "datesigned (rect x=370 y=618 w=138)", "observed": "the filing date is rendered beside a signature rule that is left blank, so the artifact shows a dated but unsigned declaration", "why": "the identical field is protected in AK because 'dateSigned' yields the haystack 'date signed' and \\bsigned\\b fires; 'datesigned' yields no word boundary and no match", "smallestCorrection": "a geometry band over the signature block, or normalise squashed names in the haystack" },
+      "sourceRecordGap": "source-record.json is a shell: documentRole, officialTitle, revision, workflowKey, sourceStatus, freshnessStatus, structuralClassDeclared and declaredPages are all null, and declaredFieldCount is 0 against 24 observed. No currentness disposition exists for this family. The revision is available twice over — the receipt records REV-2024-04 and the artifact prints 'CC 6:12 Rev. 04/2024'."
+    },
+    {
+      "family": "VA:cc-1201-form-en", "jurisdiction": "VA", "verdict": "correction_required",
+      "corrections": [
+        { "page": 4, "fieldOrGeometry": "User.CaseNumber1201 (rect x=134 y=579 w=53)", "observed": "the case number is written, shrunk to 7pt, into a blank whose printed line reads '...FORM CC-1201(A). ..... addendums are attached to this petition' and whose sub-caption directly beneath is the single word NUMBER. The blank asks how many addendum sheets are attached.", "required": "a count, or a refusal", "smallestCorrection": "move User.CaseNumber1201 to bindingRefusals — no allowlisted fact represents an addendum count", "verifiedIndependently": "Yes — bound to matter.charges[0].case_number in the committed field map." },
+        { "page": 4, "fieldOrGeometry": "User.VSBCaseNumber (rect x=549 y=447 w=28)", "observed": "bound to matter.case_number. The printed line reads '[ ] ATTORNEY FOR PETITIONER (VSB No. ...)' — this is the attorney of record's Virginia State Bar number. Both fixtures render blank only because 28pt cannot hold a 12-character value; a shorter case number would print.", "required": "refuse under attorney, as its five siblings already do", "smallestCorrection": "extend the attorney protect pattern to catch vsb, or refuse the field explicitly", "note": "This one is latent rather than visible. It does not show in these fixtures and would show with a shorter case number." }
+      ],
+      "whatIsCorrectlyProtected": "Race, both signature lines, the whole attorney contact block, arrest and charge facts, agency fields and conviction date are all refused.",
+      "alsoRecorded": "The artifact creation date of 2026-05-19 predates the printed 07/26 revision by about six weeks. declaredFieldCount 103 vs observedAcroFieldCount 90. Three fields classified manual are written."
+    },
+    {
+      "family": "VT:200-00132-form-en", "jurisdiction": "VT", "verdict": "correction_required",
+      "closestToApproval": true,
+      "fieldSafety": "The cleanest in the group. 33 fields, all classified, all on page 1; page 2 — the ORDER — carries no fields at all. Only three caption fields are written: docket number, defendant name, date of birth. The entire defendant signature block and the entire State's Attorney block refuse. This is a bilateral stipulation and nothing was written on the prosecutor's half.",
+      "visualEvidence": "Present and correct. The rasterized sheet was read: the case number sits on its rule, the name and date of birth sit inside the boxed caption each on its own line, and everything else — the offence table, the agency rules, the consent checkboxes, the whole defendant block and the whole State's Attorney block — is identically blank in both panels. Panels clearly differ, no value overlaps a caption, no caption is duplicated, text is legible.",
+      "corrections": [
+        { "asset": "artifact-provenance.json", "observed": "8 of the 20 contract fields present, 12 null. artifacts[].pageCount is present.", "required": "all 20 non-null", "smallestCorrection": "populate the 12 — five come straight from source-record.json, classificationSha256 is the hash of the family's own field-classification.json, and the three result objects already exist in reports/protected-fields-scan.json" }
+      ],
+      "note": "Had the sidecar been complete this family would be approved_platform_ready. It is the one family in this batch whose only finding is the corpus-wide sidecar gap."
+    },
+    {
+      "family": "WI:cr-266-form-en", "jurisdiction": "WI", "verdict": "correction_required",
+      "recheckedAtThisHead": "Both findings raised at the previous lane head 600c740 survive at a7c9f0aa. Neither was fixed.",
+      "fieldSafety": "Exemplary, and the standard the other eight should meet. This is the only family in the group with geometry-based protection: protectedRules[] declares bands over the rules the form itself draws, independent of any label, and it works. The Signature anchor is deliberately supplied and correctly refused — the signature rule carries only the form's own marker in both fixtures. Every written value's extent was re-measured against its rule; the tightest clearance is 6.7pt and the Case No. value stops 42.5pt clear of the court-use cell divider.",
+      "sourceIdentity": "Fully verified — the only family in the group whose source binary is present. Hashed to 9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412, exact match, 130,733 bytes, 1 page, no AcroForm, no XFA. Revision REV-2024-05 confirmed by the printed footer.",
+      "visualEvidence": "Present and correct. Read directly: the venue reads 'Example ____ COUNTY' with the value on the rule and the printed word COUNTY after it, no doubling; the signature line carries only the form's own marker in both panels; email, telephone, date and bar number are blank in both.",
+      "corrections": [
+        { "asset": "artifact-provenance.json", "observed": "The file has 11 keys total. Of the 20 required, 7 are present and 13 are absent entirely. No artifacts[].pageCount on any of the three entries, so the contract's page-count clause fails too.", "required": "20 fields non-null and pageCount >= 1", "smallestCorrection": "emit the sidecar through the canonical provenance module with the argument set the shared-contract verifier itself constructs", "unchangedSince": "600c740" },
+        { "asset": "fixtures/canonical-filled.pdf and fixtures/boundary-filled.pdf", "observed": "both Info dicts read /CreationDate D:20260101000000Z, while the source's own Info dict reads /CreationDate D:20240624114823-05'00'", "required": "/CreationDate from the source; /ModDate the deterministic stamp", "why": "carryDates() at HEAD falls back to the stamp only when the source has no valid date, which is not the case here. These bytes were produced by pre-a7c9f0aa code.", "consequence": "Re-rendering on the canonical factory changes both files and both hashes, which falsifies the round-4 claim in overlay-profile.json that both fixtures re-derive byte-for-byte from the round-4 code.", "smallestCorrection": "re-render both fixtures on HEAD and re-record the artifact hashes in the overlay profile's approval, the provenance sidecar, the rendered-artifacts report, the contact-sheet proof and the batch manifest", "unchangedSince": "600c740" }
+      ],
+      "openItemNotBlocking": "The overlay profile's own stillOpen note about the protected-rule band being +/-3pt while a 9pt glyph's ink extends -1.86 to +6.46 is a real correlated blind spot and remains open, but no anchor on this form falls in the vulnerable range."
+    }
+  ],
+
+  "artifactSafety": {
+    "result": "clean across all 27 artifacts in this group",
+    "observed": "All 27 exist, parse, and their hashes match the manifest, the provenance sidecar and the rendered-artifacts report exactly. Page counts match the source page count in every case. Zero /Widget annotations, every /Annots literally empty, no /AcroForm or /Names in any catalog, zero /XFA, /JS, /JavaScript, /OpenAction, /AA, /Launch, /SubmitForm, /ImportData, /GoToR, /RichMedia, /EmbeddedFile, /Movie, /Sound, and /ObjStm count zero in all 27.",
+    "falsePositivesRunDownAndCleared": "Raw byte-grep hits for /JS and /AA turned out to be font subset prefixes (JSDDSQ+Wingdings-Regular, AAAZSD+TimesNewRomanPSMT) and random Flate bytes.",
+    "clipping": "Every flattened value was measured against its own XObject clip path across all 18 fixtures. Zero overflow beyond clip. Every boundary overflow refuses rather than clipping or shrinking below the 6pt floor. The WI refusal arithmetic was checked by hand and clears by 0.49pt — a genuine refusal, not a bogus one."
+  },
+
+  "fixtureMatrixGap": {
+    "finding": "The shared fixture matrix covers ordinary, long legal name, long address and long case number. Three required cases are not exercised anywhere in this group.",
+    "multiline": "No fixture exercises the multiline wrap path, despite overflowPolicy declaring wrap_within_widget_rect. NE's two multiline widgets receive single-line values and NC-226's three multiline widgets are all refused.",
+    "missingOptionalValue": "There is no rendered negative or empty-facts artifact. fixtures/negative.json is a JSON assertion only, and WI has none at all.",
+    "protectedField": "Only WI carries a real rendered protected-field fixture — the deliberate Signature anchor with expectedOutcome refused_protected_category. Elsewhere the protected-field case is asserted in JSON rather than rendered.",
+    "owner": "PDF rendering lane"
+  },
+
+  "visualEvidenceGap": {
+    "present": ["VT:200-00132-form-en", "WI:cr-266-form-en"],
+    "absent": [
+      "AK-tf-810-form-en", "KY-aoc-496-3-form-en", "KY-aoc-497-form-en", "NC-aoc-cr-296-form-en",
+      "NC-aoc-cv-226-support-en", "NE-cc-6-12-form-en", "VA-cc-1201-form-en"
+    ],
+    "note": "The repository holds nine PNGs for twenty-seven families, roughly one per jurisdiction. The contact-sheet PDFs were confirmed to be real evidence rather than stubs — each embeds the blank source page and the finalized artifact page as form XObjects — but a PDF is not the rasterized blank-versus-filled check the contract asks for."
+  },
+
+  "ownerDecisionsFlagged": [
+    "NC-296 is a district-attorney-filed petition recorded as participant_completed.",
+    "KY-497 is a court-issued expungement order with captionOnly false.",
+    "NE cc-6-12 pre-prints a filing date beside a signature line that is left blank.",
+    "Geometry-based protection exists in exactly one family corpus-wide. Whether it becomes the standard is an owner decision, not a per-family fix."
+  ],
+
+  "exactPdfLaneAction": "Two shared fixes, in this order. First give decideBinding a geometry input and a caption input — the protectedRules mechanism in WI's overlay profile already demonstrates both — because six of these nine findings are a label matching or failing to match a name the court never sees. Second, add the missing refuseWhen guards so street_address declines city/state/zip haystacks and full_legal_name declines street-name and bank-name. Then re-derive the field maps and re-render before any per-family work.",
+  "exactSessionAAction": "None of the nine can be counted platform_ready. VT 200-00132 is the closest in the whole batch — its only finding is the corpus-wide provenance sidecar gap — and it would approve the moment that sidecar is emitted through the canonical module."
+}

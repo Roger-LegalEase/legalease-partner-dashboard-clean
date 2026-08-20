@@ -203,7 +203,13 @@ assert(families >= 40, `all 40 D1 family packages present (found ${families})`);
 // group; an overlay anchor is placed against a denied label; a rendered
 // fixture modified an unwritable field; or a family claims a fixture or
 // contact sheet it does not have.
-const NEVER_WRITE_CLASSES = new Set(["prohibited", "protected", "signature", "court_or_agency", "outside_party"]);
+// Kept identical to the binder's WRITABLE_CLASSES, and inverted for the same
+// reason. A verifier that carries a shorter denylist than the binder cannot
+// catch what the binder allows, and that is exactly what happened: both listed
+// `manual` and neither listed `unused`, so a field the classifier had marked
+// unused was bound, written, and passed.
+const WRITABLE_CLASSES = new Set(["participant", "deterministic", "participant_writable"]);
+const isUnwritableClass = (klass) => !WRITABLE_CLASSES.has(String(klass));
 const CAPTION_ONLY_FACTS = new Set([
   "participant.full_legal_name", "participant.first_name", "participant.last_name", "participant.middle_name",
   "participant.date_of_birth", "matter.county", "matter.court", "matter.case_number", "matter.citation_number"
@@ -271,7 +277,7 @@ if (fs.existsSync(indexPath)) {
     assert(map.sha256 === record.sha256, `${id}: map pinned to the source record's sha256 (drift red)`);
 
     for (const b of map.bindings ?? []) {
-      assert(!NEVER_WRITE_CLASSES.has(classOf.get(b.field)), `${id}: binding on '${b.field}' does not target an unwritable class`);
+      assert(!isUnwritableClass(classOf.get(b.field)), `${id}: binding on '${b.field}' does not target an unwritable class`);
       assert(!["checkbox", "radio", "optionlist"].includes(typeOf.get(b.field)), `${id}: binding on '${b.field}' does not target an election control`);
       if (map.captionOnly) {
         const base = b.factId.replace(/^matter\.charges\[\d+\]\./, "matter.");
@@ -299,7 +305,15 @@ if (fs.existsSync(indexPath)) {
         || String(a.expectedOutcome ?? "").startsWith("refused");
       assert(!denied || declaredRefusal,
         `${id}: overlay anchor '${a.label}' is placed against a denied label without declaring that it must be refused`);
-      assert(!NEVER_WRITE_CLASSES.has(classOf.get(a.label)) || declaredRefusal,
+      // Only where a class was actually recorded. A flat overlay has no AcroForm
+      // fields, so its classification is empty and every anchor label looks up
+      // to undefined -- which an allowlist reads as "not writable" and a
+      // denylist read as "not denied". Neither is a finding about the anchor:
+      // the class channel simply has nothing to say about a field that does
+      // not exist. The denied-label, protected-rule and write-box checks around
+      // this one are what constrain an overlay anchor, and they still run.
+      const classRecorded = classOf.has(a.label);
+      assert(!classRecorded || !isUnwritableClass(classOf.get(a.label)) || declaredRefusal,
         `${id}: overlay anchor '${a.label}' targets an unwritable class without declaring that it must be refused`);
       assert(a.writeBox.width > 0 && a.writeBox.height > 0, `${id}: overlay anchor '${a.label}' has a positive write box`);
       // A write box that lands on a rule the map itself calls protected is the

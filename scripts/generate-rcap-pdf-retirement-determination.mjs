@@ -23,6 +23,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -49,10 +50,31 @@ const normalize = (value) => String(value ?? "")
 const surfaces = [];
 const unreadable = [];
 
-function addSurface(name, description, runtime, collect) {
+// A surface is one of two things, and the difference decides what a hit means.
+//
+// An OPERATIONAL surface can reach the asset: route it, bind it to a track,
+// put it in a packet, feed it to a renderer. A hit there is a dependency, and
+// the asset is retained until the owner of that surface removes it.
+//
+// A CORPUS_CENSUS surface only records that the bytes exist. It emits a row per
+// file found in a source folder, and it would emit that row whether or not
+// anything used the file. A hit there is not a use, and it cannot be cleared by
+// regenerating -- the row goes away only if the historical bytes are deleted,
+// which retirement explicitly refuses to do. Counting a census as a dependency
+// makes retirement unreachable for exactly the assets nothing uses, which is
+// backwards.
+//
+// Only overlay_factory_manifest is classified as a census, and only because
+// scripts/verify-rcap-corpus-census-surface.mjs establishes it on four
+// independent legs. If that verifier stops passing, the classification is
+// withdrawn and its assets return to retained.
+const OPERATIONAL = "operational";
+const CORPUS_CENSUS = "corpus_census";
+
+function addSurface(name, description, runtime, collect, surfaceClass = OPERATIONAL) {
   try {
     const ids = collect();
-    surfaces.push({ name, description, runtime, identifierCount: ids.size, ids });
+    surfaces.push({ name, description, runtime, surfaceClass, identifierCount: ids.size, ids });
   } catch (error) {
     unreadable.push({ name, reason: String(error.message).slice(0, 200) });
   }
@@ -84,14 +106,65 @@ function idsFromTree(dir, filter = () => true) {
 }
 
 // The pinned legal design: which forms a packet component actually requires.
+/**
+ * The pinned bytes of a registry file the ledger names, whatever the clone depth.
+ *
+ * The pin is a commit plus a sha256 per file. Reading it out of the commit is
+ * the direct route, but a shallow clone does not have that commit, and the read
+ * then fails in a way that reads as "this surface has no dependencies" -- the
+ * one failure this determination cannot tolerate. So a clone without the commit
+ * falls back to the working-tree file and requires its hash to equal the pin.
+ *
+ * That is the same bytes by definition: the pin is a content hash, so a file
+ * matching it is the pinned content no matter which object store it came from.
+ * A file that does not match is refused rather than used, and the surface goes
+ * to unreadable, which halts the determination exactly as before.
+ */
+function pinnedRegistryBytes(ledger, relativePath) {
+  const { commit, sha256 } = ledger.registrySource;
+  try {
+    return { text: execFileSync("git", ["show", `${commit}:${relativePath}`],
+      { cwd: rootDir, encoding: "utf8", maxBuffer: 256 * 1024 * 1024 }), readVia: `git show ${commit}` };
+  } catch (gitError) {
+    const expected = sha256?.[relativePath];
+    if (!expected) throw new Error(`${relativePath} is not hash-pinned by the ledger, and ${commit} is not in this clone: ${gitError.message}`);
+    const file = path.join(rootDir, relativePath);
+    if (!fs.existsSync(file)) throw new Error(`${relativePath} is absent from this clone and ${commit} is not in it either`);
+    const text = fs.readFileSync(file, "utf8");
+    const actual = createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+    if (actual !== expected) {
+      throw new Error(`${relativePath} does not match the pinned sha256 (expected ${expected}, found ${actual}); the working tree is not the pinned edition`);
+    }
+    return { text, readVia: `working tree, sha256-verified against the pin ${expected}` };
+  }
+}
+
+const REGISTRY_PATH = "data/record-clearing/legal-design-track-registry.json";
+let legalDesignRegistryPin = null;
+
 addSurface("legal_design_registry", "The byte-pinned legal-design track registry's packet components.", false, () => {
   const ledger = readJson(path.join(rootDir, "data/rcap-ledger/track-terminalization.json"));
-  const raw = execFileSync("git", ["show", `${ledger.registrySource.commit}:data/record-clearing/legal-design-track-registry.json`],
-    { cwd: rootDir, encoding: "utf8", maxBuffer: 256 * 1024 * 1024 });
+  const { text: raw } = pinnedRegistryBytes(ledger, REGISTRY_PATH);
+  legalDesignRegistryPin = {
+    path: REGISTRY_PATH,
+    commit: ledger.registrySource.commit,
+    sha256: ledger.registrySource.sha256?.[REGISTRY_PATH] ?? null
+  };
   const ids = new Set();
   for (const track of JSON.parse(raw).tracks) {
     for (const component of track.packetSet?.components ?? []) {
       if (component.officialFormId) ids.add(normalize(component.officialFormId));
+      // The component also names the exact file it is served from, and the
+      // corpus keys several assets by that filename rather than by the form id
+      // -- KY 496.2.pdf is component AOC-496.2, and those two do not normalize
+      // to the same string. Reading only the form id made a required packet
+      // component look like an asset nothing referenced.
+      if (component.officialSourceUrl) {
+        try {
+          const basename = decodeURIComponent(new URL(component.officialSourceUrl).pathname.split("/").pop() ?? "");
+          if (basename) ids.add(normalize(basename));
+        } catch { /* a component whose url will not parse names no file */ }
+      }
     }
   }
   return ids;
@@ -112,8 +185,11 @@ addSurface("guidance_packets", "Guidance packets the runtime registry loads.", t
 addSurface("terminalization_treatments", "Terminal treatments the runtime registry loads.", true,
   () => idsFromTree(path.join(rootDir, "data/rcap-all50/terminalization-treatments"), (f) => f.endsWith(".json")));
 
-addSurface("overlay_factory_manifest", "The overlay factory manifest the internal preview reads.", true,
-  () => new Set(stringsIn(readJson(path.join(rootDir, "data/rcap-all50/overlays/overlay-factory-manifest.json"), {})).map(normalize)));
+// A census of the source corpus, not a dependency on it. See CORPUS_CENSUS
+// above and scripts/verify-rcap-corpus-census-surface.mjs for the proof.
+addSurface("overlay_factory_manifest", "A census of the source corpus: one row per file found, read only by the internal-admin preview.", true,
+  () => new Set(stringsIn(readJson(path.join(rootDir, "data/rcap-all50/overlays/overlay-factory-manifest.json"), {})).map(normalize)),
+  CORPUS_CENSUS);
 
 addSurface("all_state_build_manifest", "The all-state build manifest the internal preview reads.", true,
   () => new Set(stringsIn(readJson(path.join(rootDir, "data/rcap-all50/all-state-build-manifest.json"), {})).map(normalize)));
@@ -129,17 +205,41 @@ addSurface("field_map_drafts", "Field-map drafts read at runtime by official-pdf
   return ids;
 });
 
-addSurface("application_source", "Identifiers named literally in src/.", true, () => {
+// Anything under src/ that names an asset, by whatever key it uses to name it.
+//
+// This probe used to read only .ts/.tsx/.mjs/.js and only match identifiers
+// shaped `letters-digit...`, and both limits hid real dependencies:
+//
+//   - src/lib/rcap-engine/compiled/profiles/*.json are the compiled engine
+//     profiles. profile-registry.ts loads them from disk at run time and
+//     packet-planner.ts turns their formCandidates into the sourceFormIds of a
+//     packet plan. They were never opened, because they are .json.
+//   - The identifier shape cannot produce `7_Nolle_Prosequi_..._2020_F.pdf`,
+//     `496.2.pdf`, `cr287_1.pdf`, `forms.html` or `200-00131`, so even in the
+//     files it did read, an asset named by filename was invisible.
+//
+// Together those two holes made assets that a paid pathway plans around report
+// zero use sites. So this now reads every source file under src/, JSON
+// included, and collects three kinds of name: the form-number shape as before,
+// any filename with a document extension, and any sha256. The sha256 is the
+// strongest of the three -- it is the asset's own byte identity, so it cannot
+// collide with a different form the way a normalized form number can.
+addSurface("application_source", "Identifiers, filenames and source hashes named literally in src/, including the compiled engine profiles.", true, () => {
   const ids = new Set();
+  const add = (value) => { const id = normalize(value); if (id.length >= 3) ids.add(id); };
   const walk = (dir) => {
     if (!fs.existsSync(dir)) return;
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) walk(full);
-      else if (/\.(ts|tsx|mjs|js)$/.test(entry.name)) {
-        const text = fs.readFileSync(full, "utf8");
-        for (const match of text.match(/[A-Za-z]{2,8}-\d[\dA-Za-z.-]*/g) ?? []) ids.add(normalize(match));
-      }
+      if (entry.isDirectory()) { walk(full); continue; }
+      if (!/\.(ts|tsx|mjs|js|json)$/.test(entry.name)) continue;
+      const text = fs.readFileSync(full, "utf8");
+      // The form-number shape this probe has always matched.
+      for (const match of text.match(/[A-Za-z]{2,8}-\d[\dA-Za-z.-]*/g) ?? []) add(match);
+      // A filename carrying a document extension, however it is punctuated.
+      for (const match of text.match(/[^"'\s/\\]+\.(?:pdf|html?|docx?|rtf)/gi) ?? []) add(match);
+      // A source hash: exact byte identity, immune to form-number collisions.
+      for (const match of text.match(/\b[0-9a-f]{64}\b/g) ?? []) add(match);
     }
   };
   walk(path.join(rootDir, "src"));
@@ -200,7 +300,7 @@ const SURFACE_REMOVAL = {
   composed_routes: "a route decision: a composed route lists it as a component",
   guidance_packets: "a participant-facing decision: a guidance packet the runtime registry loads names it",
   terminalization_treatments: "a participant-facing decision: a terminal treatment the runtime registry loads names it",
-  overlay_factory_manifest: "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement",
+  overlay_factory_manifest: "nothing: this is a census of the source corpus, not a use of the asset. It emits a row per file present and would emit that row whether or not anything used the file, so it never blocks a retirement. It appears here only so the message is correct if scripts/verify-rcap-corpus-census-surface.mjs ever stops passing and the classification is withdrawn",
   all_state_build_manifest: "regeneration of the all-state build manifest the internal preview reads",
   field_map_drafts: "removal of a field-map draft that src/lib/record-clearing/official-pdf-shadow-batch.ts reads at run time",
   application_source: "an application-source change: the identifier appears literally in src/, which this lane does not modify"
@@ -212,38 +312,101 @@ const SURFACE_REMOVAL = {
  * A retention that does not say what is holding it cannot be acted on, and
  * "retained" then reads as a permanent state rather than a blocked one.
  */
-function retirementBlockedBy(hits) {
-  if (hits.length === 0) return {};
-  const surfaces = [...new Set(hits.map((h) => h.surface))];
+function retirementBlockedBy(useSites) {
+  if (useSites.length === 0) return {};
+  const surfaces = [...new Set(useSites.map((h) => h.surface))];
   return {
     retirementBlockedBy: surfaces.map((surface) => ({
       surface,
       removalRequires: SURFACE_REMOVAL[surface] ?? "a decision by the owner of that surface"
-    })),
-    // The interesting case: the only thing naming the asset is a manifest this
-    // lane generates from its own family packages. That is close to circular
-    // and worth separating from a genuine downstream dependency -- but it is
-    // still a runtime input, so it is a blocked retirement, not a free one.
-    heldOnlyByThisLanesOwnManifest: surfaces.length === 1 && surfaces[0] === "overlay_factory_manifest"
+    }))
   };
+}
+
+// The words a family slug appends to a form number to say what the document is
+// and what language it is in. Surveyed from the family directories themselves,
+// not guessed: every trailing run in the corpus decomposes into these tokens
+// plus, sometimes, a form-variant letter.
+//
+// A variant letter is deliberately NOT in here. `A` in CC-6-11.2A is part of
+// the form number -- CC-6-11.2 is a different Nebraska form -- so stripping it
+// would make one form's registry binding look like another form's dependency.
+const DOCUMENT_ROLE_SUFFIXES = [
+  "INSTRUCTIONS", "INSTRUCTION", "INST", "SOURCEGATED", "SUPPORT", "FORMS", "FORM"
+];
+const LANGUAGE_SUFFIXES = ["EN", "ES", "VI"];
+const STRIPPABLE_SUFFIXES = [...DOCUMENT_ROLE_SUFFIXES, ...LANGUAGE_SUFFIXES];
+
+/**
+ * The bare form number inside an identifier that carries document-role suffixes.
+ *
+ * A surface names the form: `CC-1473`. The corpus names the file that carries
+ * it: `cc1473inst.pdf`, the instructions for that same form. Normalized those
+ * are CC1473 and CC1473INST, which do not compare equal, so a registry binding
+ * on the form is invisible to a probe that only knows the filename -- and the
+ * asset reads as depended on by nothing. That is exactly how VA CC-1473 came
+ * out of this probe with zero use sites while the byte-pinned registry named it
+ * as the required primary filing of va_exp_nonconviction.
+ *
+ * So role and language words are peeled off the end, one at a time:
+ * CC1473INST -> CC1473, and CC1201AFORMEN -> CC1201AFORM -> CC1201A, which then
+ * stops because `A` is a form variant rather than a role word.
+ *
+ * Peeling only ever ADDS identifiers, so it can only add hits, so it can only
+ * move an asset from retirement candidate to retained. Where this errs it errs
+ * toward keeping the asset, which is the direction a retirement probe should
+ * fail in.
+ */
+function formNumberStems(identifier) {
+  const stems = [];
+  let stem = identifier;
+  for (let guard = 0; guard < 8; guard += 1) {
+    const suffix = STRIPPABLE_SUFFIXES.find((candidate) => stem.endsWith(candidate) && stem.length > candidate.length);
+    if (!suffix) break;
+    const trimmed = stem.slice(0, -suffix.length);
+    // A stem still has to look like a form number, or it is not one.
+    if (trimmed.length < 3 || !/\d/.test(trimmed)) break;
+    stems.push(trimmed);
+    stem = trimmed;
+  }
+  return stems;
 }
 
 const assets = [...byIdentity.values()].map((row) => {
   const affectedTrackIds = [...new Set(row.formFamilyIds.flatMap((id) => queueTracks.get(id) ?? []))].sort();
   // Both keys, because the corpus names the same form both ways.
-  const candidates = [...new Set([
+  const literal = [
     normalize(row.formNumber),
     ...row.formFamilyIds.map((id) => normalize(id.split(":")[1] ?? id))
-  ])].filter((c) => c.length >= 3);
+  ];
+  // The asset's own source hash, when one is recorded. A surface that names the
+  // bytes rather than the form number -- a compiled engine profile's
+  // formCandidates, say -- is naming exactly this asset and nothing else, so
+  // this is the one identifier that cannot match the wrong form.
+  const sha = row.assetId.split("|")[2];
+  const shaIdentifier = /^[0-9a-f]{64}$/.test(sha ?? "") ? [normalize(sha)] : [];
+  const candidates = [...new Set([...literal, ...literal.flatMap(formNumberStems), ...shaIdentifier])]
+    .filter((c) => c.length >= 3);
 
   const hits = [];
   for (const surface of surfaces) {
     const matched = candidates.filter((c) => surface.ids.has(c));
-    if (matched.length > 0) hits.push({ surface: surface.name, runtime: surface.runtime, matchedIdentifiers: matched });
+    if (matched.length > 0) {
+      hits.push({ surface: surface.name, runtime: surface.runtime, surfaceClass: surface.surfaceClass, matchedIdentifiers: matched });
+    }
   }
 
-  const usedByPlatform = hits.length > 0 || affectedTrackIds.length > 0;
-  const usedAtRuntime = hits.some((h) => h.runtime);
+  // A use site is a hit on a surface that could reach the asset. A census
+  // appearance is a hit on a surface that only records the bytes exist. Both
+  // are kept -- nothing is dropped from the evidence -- but only the first kind
+  // is a reason to retain, because only the first kind can be cleared without
+  // deleting the historical source.
+  const useSites = hits.filter((h) => h.surfaceClass !== CORPUS_CENSUS);
+  const censusAppearances = hits.filter((h) => h.surfaceClass === CORPUS_CENSUS);
+
+  const usedByPlatform = useSites.length > 0 || affectedTrackIds.length > 0;
+  const usedAtRuntime = useSites.some((h) => h.runtime);
+  const heldOnlyByTheCorpusCensus = useSites.length === 0 && affectedTrackIds.length === 0 && censusAppearances.length > 0;
 
   return {
     jurisdiction: row.jurisdiction,
@@ -256,17 +419,21 @@ const assets = [...byIdentity.values()].map((row) => {
     probedIdentifiers: candidates,
     usedByPlatform,
     usedAtRuntime,
-    useSites: hits,
+    useSites,
+    censusAppearances,
+    heldOnlyByTheCorpusCensus,
     determination: usedByPlatform ? "retain_and_remediate" : "retirement_candidate",
     // Recorded, never inferred: an asset that no surface names still had to be
     // checked against every surface for that to mean anything.
     determinationBasis: usedByPlatform
-      ? `Named by ${hits.length} surface(s): ${hits.map((h) => h.surface).join(", ")}.`
-      : `No surface names it. Probed ${surfaces.length} surface(s) against ${candidates.length} identifier(s).`,
+      ? `Named by ${useSites.length} operational surface(s): ${useSites.map((h) => h.surface).join(", ")}.`
+      : heldOnlyByTheCorpusCensus
+        ? `No operational surface names it. Probed ${surfaces.length} surface(s) against ${candidates.length} identifier(s); the only hit is the corpus census (${censusAppearances.map((h) => h.surface).join(", ")}), which records that the bytes exist rather than that anything uses them.`
+        : `No surface names it. Probed ${surfaces.length} surface(s) against ${candidates.length} identifier(s).`,
     // What would actually have to change for this asset to be retirable. A
     // retention that does not say what is holding it cannot be acted on, and
     // "retained" then reads as a permanent state rather than a blocked one.
-    ...retirementBlockedBy(hits)
+    ...retirementBlockedBy(useSites)
   };
 });
 
@@ -279,6 +446,7 @@ const totals = {
   surfacesUnreadable: unreadable.length,
   retainAndRemediate: retainable.length,
   retirementCandidates: retirable.length,
+  retirementCandidatesHeldOnlyByTheCorpusCensus: retirable.filter((a) => a.heldOnlyByTheCorpusCensus).length,
   retainedBecauseOfARuntimeSurface: assets.filter((a) => a.usedAtRuntime).length,
   assetsWithNoTrackBinding: assets.filter((a) => a.activeTrackStatus === "no_track_binding").length,
   assetsWithNoTrackBindingRetainedAnyway: assets.filter((a) => a.activeTrackStatus === "no_track_binding" && a.usedByPlatform).length,
@@ -289,8 +457,19 @@ const payload = {
   schemaVersion: "rcap-pdf-retirement-determination/v1",
   generatedBy: "scripts/generate-rcap-pdf-retirement-determination.mjs",
   purpose: "Whether the platform uses each problematic asset anywhere, probed across every surface that could reach it, so retirement rests on a checked absence rather than an assumed one.",
-  rule: "An asset named by ANY surface is retained and must be remediated. Only an asset named by none is a retirement candidate. Difficulty of repair is never a reason to retire.",
-  surfacesProbed: surfaces.map(({ name, description, runtime, identifierCount }) => ({ name, description, runtime, identifierCount })),
+  rule: "An asset named by ANY operational surface is retained and must be remediated. Only an asset no operational surface names is a retirement candidate. Difficulty of repair is never a reason to retire.",
+  surfaceClasses: {
+    operational: "A surface that can reach the asset: route it, bind it to a track, put it in a packet, feed it to a renderer. A hit here is a dependency and retains the asset.",
+    corpus_census: "A surface that only records that the bytes exist, emitting a row per file found in the source folder whether or not anything uses it. A hit here is not a use. It cannot be cleared by regenerating -- the row goes away only if the historical bytes are deleted, and retirement deletes nothing -- so counting it as a dependency would make retirement unreachable for precisely the assets nothing uses.",
+    proof: "scripts/verify-rcap-corpus-census-surface.mjs establishes the census classification on four independent legs and fails if any stops holding.",
+    proofRecord: "data/rcap-all50/pdf-retirement-evidence/corpus-census-surface-proof.json"
+  },
+  // The pin, not the route to it. Whether the bytes came out of the commit or
+  // out of a hash-verified working tree is a property of the clone, and
+  // recording it here would make this artifact differ between clones that read
+  // byte-identical input.
+  legalDesignRegistryPin,
+  surfacesProbed: surfaces.map(({ name, description, runtime, surfaceClass, identifierCount }) => ({ name, description, runtime, surfaceClass, identifierCount })),
   surfacesUnreadable: unreadable,
   totals,
   assets

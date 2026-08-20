@@ -24,92 +24,144 @@
     {
       "field": "name",
       "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "address",
-      "class": "participant",
-      "factId": "participant.street_address"
-    },
-    {
-      "field": "email",
-      "class": "participant",
-      "factId": "participant.email"
-    },
-    {
-      "field": "dayPhone",
-      "class": "participant",
-      "factId": "participant.phone"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "Address"
     },
     {
       "field": "caseName",
       "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "caseNo",
-      "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "Party Names"
     },
     {
       "field": "partyNames",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "Party Names"
     },
     {
-      "field": "certDate",
-      "class": "deterministic",
-      "factId": "deterministic.filing_date"
+      "field": "address",
+      "class": "participant",
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": "Address"
+    },
+    {
+      "field": "email",
+      "class": "participant",
+      "factId": "participant.email",
+      "factBasis": "field_name",
+      "effectiveLabel": "Email: Daytime Phone"
+    },
+    {
+      "field": "dayPhone",
+      "class": "participant",
+      "factId": "participant.phone",
+      "factBasis": "field_name",
+      "effectiveLabel": "By providing an email address, you agree that the court and "
+    },
+    {
+      "field": "caseNo",
+      "class": "participant",
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": "Case Name: Case No"
     }
   ],
   "bindingRefusals": [
     {
       "field": "why",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "reason",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "certDate",
+      "reason": "protected_category",
+      "category": "service_block",
+      "regionHeading": null
     },
     {
       "field": "time2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "service_block",
+      "regionHeading": null
     },
     {
       "field": "mail",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "hd",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "tf",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "emailCB",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "service_block",
+      "regionHeading": null
     },
     {
       "field": "needText1",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "signature0",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     }
   ],
   "unwritableFields": [
+    {
+      "field": "why",
+      "class": "manual"
+    },
+    {
+      "field": "reason",
+      "class": "manual"
+    },
+    {
+      "field": "time2",
+      "class": "manual"
+    },
+    {
+      "field": "mail",
+      "class": "manual"
+    },
+    {
+      "field": "hd",
+      "class": "manual"
+    },
+    {
+      "field": "tf",
+      "class": "manual"
+    },
+    {
+      "field": "needText1",
+      "class": "manual"
+    },
     {
       "field": "signature0",
       "class": "signature"

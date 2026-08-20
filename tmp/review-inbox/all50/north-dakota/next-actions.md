@@ -7,4 +7,4 @@
 - Source freshness review remains pending before live approval.
 
 Blocked forms: 0
-Partial maps: 9
+Partial maps: 0

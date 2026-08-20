@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review/v1",
+  "batch": "VT form-en families whose automated family checks are green",
+  "verdict": "source_identity_unresolved",
+  "reviewDate": "2026-08-19",
+  "reviewerBranch": "claude/rcap-pdf-source-retirement-review-unuodi",
+  "reviewerHead": "216749b22cc810e87b719a7b394c2941cbaa26b7",
+  "reviewedLaneHead": "600c740fe39ce30b9e3105354930896fa451c9a5",
+
+  "families": [
+    { "family": "VT:200-00130-form-en", "pinnedSourceSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed", "masterListDisposition": "certification_unproven" },
+    { "family": "VT:200-00132-form-en", "pinnedSourceSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2", "masterListDisposition": "independent_review_required" },
+    { "family": "VT:200-00132a-form-en", "pinnedSourceSha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec", "masterListDisposition": "independent_review_required" }
+  ],
+
+  "whyThisVerdictAndNotApproval": "These three have green automated family checks — every present artifact finalized, zero failures, contact sheets showing a fill against a discriminating control — and they are genuinely waiting on a reviewer rather than on the renderer. But the review a reviewer owes them cannot be performed in this clone: their pinned source binaries are absent. Every PDF in the tree was hashed and none matches any of the three pins. Without the source there is no way to verify the pinned SHA, re-derive the field census, check placement against the rules the form prints, or compare the fill to the real blank. Those are the contract items that matter most, and every one of them needs the bytes.",
+
+  "whatWasCheckedAndHeld": [
+    "All three carry independentTechnicalReview: null and implementationStatus implemented_pending_independent_review — the lane has not claimed them as reviewed.",
+    "None carries an overlay-profile.json, so none is inside the field-classification coverage denominator.",
+    "All three carry provenance sidecars with the same 13-field contract gap recorded against WI CR-266 (see WI-cr-266-form-en.review.json, correction 2). That is a shared call-site gap and fixing it once fixes all of them."
+  ],
+
+  "whatWouldChangeThisVerdict": "Mount private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1. All three are exact-pinned-sha256 matches in data/rcap-all50/local-source-corpus-index.json and appear in data/rcap-all50/pdf-source-handoffs/source-materialization-handoff.json as materializableOnCorpusMount. The moment the corpus is readable these become reviewable in full, with no acquisition needed.",
+
+  "notADefect": "Nothing here says these families are wrong. They are unreviewable in this environment, which is a different statement and a different owner's problem.",
+
+  "exactPdfLaneAction": "Nothing to correct. Do not treat this as a rejection.",
+  "exactSessionAAction": "Count these as reviewed-and-blocked-on-source, not as unreviewed. The blocker is corpus availability, not review capacity."
+}
