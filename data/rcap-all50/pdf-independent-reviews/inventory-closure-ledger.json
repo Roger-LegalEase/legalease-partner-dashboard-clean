@@ -103,12 +103,21 @@
     },
     {
       "id": "BLK-NO-APPROVAL-CHANNEL",
-      "statement": "26 of the 27 reviewed families are AcroForm-fill and carry production-field-map.json, which the shared platform-ready gate does not read. They cannot record an approval however clean their review.",
+      "statement": "26 of the 27 reviewed families are AcroForm-fill and carry production-field-map.json, which the shared platform-ready gate did not read. They could not record an approval however clean their review.",
+      "blocks": [],
+      "state": "cleared",
+      "clearedBy": "platformReadyVerdict now consults the canonical independent-review records as a second approval source, under a twelve-condition contract proven by fifteen mutation controls.",
+      "whatItDidNotClear": "No record carries an approval to consume: the 27 verdicts are 26 correction_required and 1 source_identity_unresolved. The channel is open and nothing has yet earned it.",
+      "ownedBy": "this lane, and done"
+    },
+    {
+      "id": "BLK-NO-APPROVED-RECORD",
+      "statement": "Every canonical review record refuses at condition 1 — its verdict is not the canonical approved verdict. The gate has somewhere to read an approval from and there is no approval to read.",
       "blocks": [
-        "workstream 3 — every approval, and therefore every increment to platform_ready"
+        "workstream 3 — every increment to platform_ready"
       ],
-      "whatWouldClearIt": "A change to the shared platform-ready module, which this lane is forbidden to make.",
-      "ownedBy": "claude/rcap-problematic-pdf-full-remediation"
+      "whatWouldClearIt": "The correction packets, worked through in their stated order, then a re-review that returns approved_platform_ready against the re-rendered bytes.",
+      "ownedBy": "claude/rcap-problematic-pdf-full-remediation, then the review lane"
     }
   ]
 }

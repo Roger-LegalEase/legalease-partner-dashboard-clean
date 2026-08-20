@@ -81,11 +81,18 @@ Cleared by: An egress allowance for the recorded official publisher hosts. (owne
 
 ### BLK-NO-APPROVAL-CHANNEL
 
-26 of the 27 reviewed families are AcroForm-fill and carry production-field-map.json, which the shared platform-ready gate does not read. They cannot record an approval however clean their review.
+26 of the 27 reviewed families are AcroForm-fill and carry production-field-map.json, which the shared platform-ready gate did not read. They could not record an approval however clean their review.
 
-- blocks workstream 3 — every approval, and therefore every increment to platform_ready
 
-Cleared by: A change to the shared platform-ready module, which this lane is forbidden to make. (owned by claude/rcap-problematic-pdf-full-remediation)
+Cleared by: undefined (owned by this lane, and done)
+
+### BLK-NO-APPROVED-RECORD
+
+Every canonical review record refuses at condition 1 — its verdict is not the canonical approved verdict. The gate has somewhere to read an approval from and there is no approval to read.
+
+- blocks workstream 3 — every increment to platform_ready
+
+Cleared by: The correction packets, worked through in their stated order, then a re-review that returns approved_platform_ready against the re-rendered bytes. (owned by claude/rcap-problematic-pdf-full-remediation, then the review lane)
 
 ## Completion gate
 
