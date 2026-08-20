@@ -122,6 +122,43 @@ async function sql(query) {
     && row.profile_version === EXPECTED_PROFILE_VERSION;
 }
 
+// --- the claim is unscoped: which job would the worker actually take? --------
+//
+// claim_packet_render_job selects `where status = 'queued' ... order by
+// created_at ... limit 1`, with no scoping to the run that seeded the job. So a
+// worker started for THIS run claims the OLDEST queued job in the whole
+// acceptance project — which, after several acceptance runs, is very unlikely
+// to be this run's job. That is a Classification A mechanism: the image admits
+// the stored tuple, but the tuple the worker was handed came from a different
+// row.
+{
+  const backlog = await sql(`
+    select id, status, profile_id, profile_version, renderer_kind, created_at, attempt_count,
+           left(coalesce(error_code, ''), 80) as error_code
+      from public.packet_render_jobs
+     where status = 'queued'
+     order by created_at
+     limit 20
+  `);
+  const rows = Array.isArray(backlog.json) ? backlog.json : [];
+  const stored = report.storedJob?.row ?? null;
+  const admitted = report.sourceTree?.admitsExpectedVersion === true;
+  const olderThanStored = stored
+    ? rows.filter((r) => r.id !== stored.id && new Date(r.created_at) < new Date(stored.created_at))
+    : [];
+  report.claimBacklog = {
+    queryUsable: Array.isArray(backlog.json),
+    queuedJobs: rows.length,
+    // The job the unscoped claim would actually hand the worker.
+    wouldClaim: rows[0] ? { id: rows[0].id, profileId: rows[0].profile_id, profileVersion: rows[0].profile_version, createdAt: rows[0].created_at } : null,
+    wouldClaimIsThisRunsJob: Boolean(stored && rows[0] && rows[0].id === stored.id),
+    olderQueuedJobsAhead: olderThanStored.length,
+    distinctQueuedProfileVersions: [...new Set(rows.map((r) => r.profile_version))].sort(),
+    rows: rows.map((r) => ({ id: r.id, status: r.status, profileId: r.profile_id, profileVersion: r.profile_version, createdAt: r.created_at, attemptCount: r.attempt_count, errorCode: r.error_code }))
+  };
+  void admitted;
+}
+
 // --- boundary 1 and 3: the source tree ---------------------------------------
 {
   const { getAllJurisdictionProfiles, getProfileByJurisdiction } =
@@ -294,6 +331,11 @@ console.log(`stored version hex    : ${report.storedProfileVersionEncodings?.utf
 console.log(`source tree           : ${report.sourceTree.profilesLoaded} profiles, admits=${report.sourceTree.admitsExpectedVersion}, assertClaim=${JSON.stringify(report.sourceTree.assertClaim)}`);
 console.log(`image                 : ${report.image?.probe ? `${report.image.probe.profilesLoaded} profiles, admits=${report.image.probe.admitsExpectedVersion}, compiledDir=${report.image.probe.compiledDirExists}, cwd=${report.image.probe.cwd}` : "(no verdict)"}`);
 console.log(`profile-set hash      : ${report.image?.probe?.profileSetHash ?? "(none)"}`);
+console.log(`stored job status     : ${report.storedJob?.row ? `${report.storedJob.row.status} attempts=${report.storedJob.row.attempt_count} error=${report.storedJob.row.error_code ?? "(none)"}` : "(unread)"}`);
+console.log(`queued backlog        : ${report.claimBacklog?.queuedJobs ?? "(unread)"} queued; ${report.claimBacklog?.olderQueuedJobsAhead ?? "?"} older than this run's job`);
+console.log(`unscoped claim takes  : ${report.claimBacklog?.wouldClaim ? `${report.claimBacklog.wouldClaim.id} (${report.claimBacklog.wouldClaim.profileId}/${report.claimBacklog.wouldClaim.profileVersion}) created ${report.claimBacklog.wouldClaim.createdAt}` : "(nothing queued)"}`);
+console.log(`is that this run's job: ${report.claimBacklog?.wouldClaimIsThisRunsJob}`);
+console.log(`queued profileVersions: ${JSON.stringify(report.claimBacklog?.distinctQueuedProfileVersions ?? [])}`);
 console.log("");
 console.log(report.verdict);
 console.log(`CLASSIFICATION: ${report.classification}`);
