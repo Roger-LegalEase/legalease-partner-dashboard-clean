@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review/v1",
+  "family": "VT:200-00130-form-en",
+  "verdict": "correction_required",
+  "supersedes": {
+    "record": "data/rcap-all50/pdf-independent-reviews/batch-1-group-2.review.json",
+    "priorVerdict": "source_identity_unresolved",
+    "status": "historical, retained unedited",
+    "whyItIsSuperseded": "The prior verdict rested on one thing only: the source bytes were unreadable in this clone, so the pinned identity could not be independently confirmed. The source lane has now proven that identity. The verdict is reissued rather than amended, and the earlier record stands as written."
+  },
+
+  "reviewDate": "2026-08-20",
+  "reviewerBranch": "claude/rcap-pdf-independent-review-batch-1",
+  "reviewedLaneBranch": "claude/rcap-problematic-pdf-full-remediation",
+  "reviewedLaneHead": "a7c9f0aa0dc19bb569783691e0bc0e65c0b57605",
+  "hashesAreCurrentAt": {
+    "laneTip": "5aabf4d0be39eda77e63bbe43535f5ebd3c6884c",
+    "howEstablished": "git diff --stat a7c9f0aa 5aabf4d0 over this family's package and over docs/record-clearing/pdf-visual-evidence/ returns empty. The family is byte-identical at the newer lane tip, so every hash pinned below is the current one and not a stale snapshot."
+  },
+
+  "sourceIdentity": {
+    "officialIdentity": "VT 200-00130, Petition to Seal Criminal History",
+    "jurisdiction": "VT",
+    "formNumber": "200-00130",
+    "revision": "REV-2025-07",
+    "sourceSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+    "sourceUrl": "https://www.vtcourts.gov/media/114",
+    "corpusLocation": "Master Library Edition 1, STATES/VT/02_PACKET_FORMS/",
+    "receiptMatchedBy": "exact_pinned_sha256",
+    "resolved": true,
+    "basisForAccepting": "The source lane's proof, consumed as an input rather than re-litigated.",
+    "whatThisReviewerDidAndDidNotDo": "The recorded identity was checked for internal consistency across source-record.json, source-receipt.json, production-field-map.json and artifact-provenance.json — all four pin ff914f49 and REV-2025-07, and the receipt records an exact pinned-hash match. What this reviewer did NOT do is hash the source bytes: 279 PDFs in this clone were hashed and none matches ff914f49, and private/ still does not exist here. The identity is accepted on the source lane's proof, not on a local hash, and saying so is the difference between a verified claim and a relayed one.",
+    "consequenceForTheVerdict": "None. Source identity is no longer a blocker for this family, and it is not why this verdict is correction_required."
+  },
+
+  "contractItems": {
+    "fieldSafety": {
+      "result": "pass",
+      "observed": "48 fields, 48 classified — 3 participant, 45 manual. Exactly 3 bindings, all caption facts, all re-read from the committed field map: Docket Number to matter.case_number, Defendant to participant.full_legal_name, DOB to participant.date_of_birth. 45 refusals. No court, clerk, prosecutor, signature, service or legal-decision field is written; the offence rows, the conviction dates and every election are refused. Page 2 carries no fields.",
+      "note": "This family is not exposed to the corpus-wide label-only protection defect in the way its siblings are — not because protection is geometry-aware here (it is not), but because only three fields carry a name any fact descriptor matches. That is protection by absence of a match rather than by evidence, which is worth stating even though nothing is wrong in the output."
+    },
+    "artifactSafety": {
+      "result": "pass",
+      "observed": "Both fixtures and the contact sheet parse, carry the expected page count, and are free of live AcroForm fields, widgets, XFA, JavaScript, OpenAction, additional actions, unsafe annotation actions and object streams. /Annots is empty on every page. Participant values are in the page content stream. No clipping and no silent truncation; the boundary docket number is refused rather than clipped."
+    },
+    "packetFamilyMapping": { "result": "pass", "observed": "All records pin the same source hash. The withdrawn sibling VT:200-00130-en carries only fixtures/withdrawn.json naming this family as its superseder, and holds no fixture PDFs — re-confirmed at this head." },
+    "provenanceSidecar": { "result": "fail", "seeCorrection": 1 },
+    "visualEvidence": { "result": "fail", "seeCorrection": 2 }
+  },
+
+  "corrections": [
+    {
+      "id": 1,
+      "family": "VT:200-00130-form-en",
+      "asset": "data/rcap-all50/overlays/production/vermont/200-00130-form-en/artifact-provenance.json",
+      "assetSha256": "f350142fb779be675bbf667b55120431cce89dba1f5e2c696e33e893bdfbcb65",
+      "page": "n/a — the sidecar, not the PDF",
+      "fieldOrGeometry": "12 of the 20 required top-level fields",
+      "observedResult": "8 of 20 present: jurisdiction, assetId, sourceRevision, sourceSha256, fieldMapSha256, factoryVersion, rendererVersion, generatedAt. Absent or null: formFamily, officialFormNumber, officialTitle, sourcePublisher, sourceUrl, sourceMetadataFingerprint, classificationSha256, packetSpecSha256, activeContentResult, flatteningResult, protectedFieldResult, fixtureIdentity. artifacts[].pageCount IS present and >= 1 on all three entries.",
+      "requiredResult": "All 20 fields non-null per scripts/verify-rcap-shared-pdf-contract.mjs:204-211, plus artifacts[].pageCount >= 1 at :213.",
+      "smallestCorrection": "This is a shared call-site gap, not a VT one — 0 of 27 batch-1 families satisfy it. Pass the remaining arguments where the renderer calls the canonical provenance module; every one is already in scope. For this family specifically, five come straight from source-record.json (officialFormNumber 200-00130, officialTitle, sourcePublisher, sourceUrl https://www.vtcourts.gov/media/114, formFamily), classificationSha256 is the hash of this package's own field-classification.json, and the three result objects already exist in the package's reports.",
+      "failingFixture": "The P-block of scripts/verify-rcap-shared-pdf-contract.mjs, run against this committed sidecar rather than against the one it synthesizes from a canary.",
+      "evidencePath": "the sidecar itself"
+    },
+    {
+      "id": 2,
+      "family": "VT:200-00130-form-en",
+      "asset": "docs/record-clearing/pdf-visual-evidence/VT-200-00130-form-en-contact-sheet-page-01.png",
+      "page": "contact sheet, page 1",
+      "fieldOrGeometry": "n/a — the evidence artifact",
+      "observedResult": "The file does not exist. Re-confirmed at this head and confirmed unchanged at lane tip 5aabf4d0.",
+      "requiredResult": "A rasterized blank-versus-filled PNG at that exact path, so the required visual check can be performed by someone other than the builder.",
+      "smallestCorrection": "Rasterize the family's existing contact-sheet PDF (9c34f37911dc2cc0279280478a7cead31b17de4a6169038e4d2620699dd890a3) to that path. The sheet itself is genuine two-panel evidence; only the raster is missing.",
+      "failingFixture": "The visual-evidence clause of the review contract — values on the correct line, no overlap with court-use areas, no caption duplication, no unexplained blank required field, readable at ordinary and zoomed viewing. None of it can be discharged without the raster.",
+      "evidencePath": "absence of the named file"
+    }
+  ],
+
+  "whyNotApprovedPlatformReady": [
+    "The provenance sidecar does not meet the contract the platform states (correction 1).",
+    "The required rasterized visual evidence does not exist, so one contract item could not be discharged at all (correction 2).",
+    "Independently of both: this is an acroform_fill family, and rcap-platform-ready.mjs reads independentReview only from overlay-profile.json. production-field-map.json has no such field, so there is nowhere to record an approval of this family even if one were issued. The same gate also requires classification counts (classifiedFieldsOrAnchors equal to discoveredFieldsOrAnchors) that this package's classification schema does not carry."
+  ],
+
+  "whyNotSubstantiveOwnerDecisionRequired": "No open question here needs an owner. Both remaining items are mechanical, both have a known smallest correction, and neither involves a legal-design or ownership judgement. Currentness is settled at REV-2025-07 by the source lane.",
+
+  "pinnedHashesAtThisReview": {
+    "note": "Recorded as the exact state reviewed. These are current — the family is byte-identical at lane tip 5aabf4d0. They are NOT an approval pin; corrections 1 and 2 will move the sidecar hash and add the visual-evidence hash.",
+    "source": { "sha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed", "readableInThisClone": false },
+    "canonicalFixture": { "path": "data/rcap-all50/overlays/production/vermont/200-00130-form-en/fixtures/canonical-filled.pdf", "sha256": "8523aca4ae536e662f1e0b5c21f883996a4e866db1d1a7c08b72c78602bf865e" },
+    "boundaryFixture": { "path": "data/rcap-all50/overlays/production/vermont/200-00130-form-en/fixtures/boundary-filled.pdf", "sha256": "eb68699331c34738921bd0192574a011877b90f6a33eaa33ee1f73070f8fa3e3" },
+    "contactSheet": { "path": "data/rcap-all50/overlays/production/vermont/200-00130-form-en/contact-sheet/blank-vs-filled.pdf", "sha256": "9c34f37911dc2cc0279280478a7cead31b17de4a6169038e4d2620699dd890a3" },
+    "fieldMap": { "path": "data/rcap-all50/overlays/production/vermont/200-00130-form-en/production-field-map.json", "sha256": "ada7aa6cee2e9a5a4d158583e5abef7b58e768de495204808882732c283a53d1" },
+    "classification": { "path": "data/rcap-all50/overlays/production/vermont/200-00130-form-en/field-classification.json", "sha256": "79027e685e0b3933c83a2f7f0ec5da1b79e2c6ff2ebb1a0bf35e3138986fbe9c" },
+    "provenanceSidecar": { "path": "data/rcap-all50/overlays/production/vermont/200-00130-form-en/artifact-provenance.json", "sha256": "f350142fb779be675bbf667b55120431cce89dba1f5e2c696e33e893bdfbcb65" },
+    "sourceRecord": { "path": "data/rcap-all50/overlays/production/vermont/200-00130-form-en/source-record.json", "sha256": "a428d4e13b61fc1de51a87c3c8a8b13a8386337298cfa5fea4d1b3428536d695" },
+    "sourceReceipt": { "path": "data/rcap-all50/overlays/production/vermont/200-00130-form-en/source-receipt.json", "sha256": "44b9848b4b09085d9022f5e95b723b3cd00441094e72912665ae415a23c7ff94" },
+    "visualEvidence": { "path": "docs/record-clearing/pdf-visual-evidence/VT-200-00130-form-en-contact-sheet-page-01.png", "sha256": null, "state": "absent" }
+  },
+
+  "exactPdfLaneAction": "Two mechanical items. Rasterize the existing contact sheet to the named path, and emit the sidecar through the canonical provenance module — the latter is one shared fix covering all 27 batch-1 families, not a VT change. Nothing about the form, the field map, the classification or the fixtures needs to change.",
+  "exactSessionAAction": "Do not count this family platform_ready yet. It is the second-closest in batch-1 after VT 200-00132, its source identity is now settled, and both remaining items are mechanical. Note that it is an acroform_fill family, so even a clean re-review has nowhere to be recorded until the approval channel exists."
+}
