@@ -74,8 +74,8 @@
   },
   "totals": {
     "escalations": 8,
-    "corrected": 4,
-    "open": 4,
+    "corrected": 7,
+    "open": 1,
     "familiesWaiting": 26,
     "retainedManifestAssets": 12
   },
@@ -119,8 +119,8 @@
       "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
       "mutationThatMustTurnRed": "Rename a protected field to an innocuous name and re-derive: the binder must still refuse it on geometry.",
       "whyNoFamilyCorrectionSubstitutes": "The field maps are generated. A hand-edited map is overwritten by the next re-derivation, and hand-editing 20 of them would leave the defect live for every family added afterwards.",
-      "status": "open",
-      "correctedBy": null,
+      "status": "corrected",
+      "correctedBy": "captureWidgetContext() and pageRegions() in the existing content-stream geometry module feed decideBinding a widget's rect and the printed section heading above it; a binding inside a REGIONAL_PROTECT_CATEGORIES region is refused whatever the field is called",
       "note": null
     },
     {
@@ -262,8 +262,8 @@
       "familyOwnedFollowUp": "re-render the five Nebraska families and read the caption band in the raster",
       "mutationThatMustTurnRed": "Flatten a form with an unselected dropdown: the prompt string must not appear in the page content stream.",
       "whyNoFamilyCorrectionSubstitutes": "Five Nebraska families share one caption block. The selection rule is in the binder, not in any of their maps.",
-      "status": "open",
-      "correctedBy": null,
+      "status": "corrected",
+      "correctedBy": "selectOnePerSlot() reduces overlapping widgets carrying one fact to a single binding, the finalizer decides before it writes so the artifact and the map agree, and an unselected chooser's value and stale appearance stream are both cleared before flatten",
       "note": null
     },
     {
@@ -283,9 +283,9 @@
       "familyOwnedFollowUp": "re-render VT 600-00228 and confirm the applicant fields carry values",
       "mutationThatMustTurnRed": "Offer full_legal_name to a field named `2` sitting under a printed 'Name' caption: it must bind, not refuse.",
       "whyNoFamilyCorrectionSubstitutes": "explicitFieldMappings for 15 numbered fields is exactly the local workaround the freeze forbids, and it is the same missing channel as ESC-GEOMETRY-NOT-AN-INPUT seen from the other side.",
-      "status": "open",
-      "correctedBy": null,
-      "note": "the same missing channel as ESC-GEOMETRY-NOT-AN-INPUT, seen from the other side: with no printed label reaching the binder, a form whose fields are named as bare digits refuses everything"
+      "status": "corrected",
+      "correctedBy": "the printed caption beside a widget is captured and matched as a fallback when the field's own name matches nothing, so VT 600-00228's numbered fields bind without a single explicitFieldMapping",
+      "note": "the same missing channel as ESC-GEOMETRY-NOT-AN-INPUT, seen from the other side, and closed in the same commit"
     },
     {
       "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -356,7 +356,7 @@
       "whyNoFamilyCorrectionSubstitutes": "Hand-populating 27 sidecars would satisfy the count and leave the emitter and its verifier both wrong, so the 28th would be non-conformant again.",
       "status": "open",
       "correctedBy": null,
-      "note": null
+      "note": "held exclusively by the evidence-completion lane, which owns the provenance sidecar schema and writer, its call sites, its verification and the raster evidence. The shared-correction lane does not open those paths."
     }
   ]
 }

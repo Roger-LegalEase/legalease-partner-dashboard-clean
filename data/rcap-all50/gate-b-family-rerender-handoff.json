@@ -1,0 +1,976 @@
+{
+  "schemaVersion": "rcap-pdf-gate-b-family-rerender-handoff/v1",
+  "generatedBy": "scripts/generate-rcap-gate-b-rerender-handoff.mjs",
+  "purpose": "What the PDF implementation lane needs to rerender the families this lane's shared corrections unblock: the commit, the module, the families, the exact command, the verifiers, the expected outputs, and the review findings each rerender is expected to close.",
+  "handTo": "the PDF implementation lane — this lane rerenders nothing and modifies no family-owned file",
+  "whatThisIsNot": "not an approval, and not a promotion. A corrected module and fresh artifact bytes change what the reviewer is looking at; they do not change the verdict. The sequence is shared correction, family rerender, new artifact hashes, independent re-review, canonical approved record, and only then automatic platform_ready promotion. The 26 correction records remain historical whatever this produces.",
+  "sequenceThatMustFollow": [
+    "shared correction (this lane, done)",
+    "family rerender (PDF implementation lane)",
+    "new artifact hashes",
+    "independent re-review",
+    "canonical approved record",
+    "automatic platform_ready promotion"
+  ],
+  "totals": {
+    "corrections": 2,
+    "familiesUnblockedForRerender": 17,
+    "familiesStillBlocked": 9,
+    "correctionDenominator": 26
+  },
+  "familiesUnblockedForRerender": [
+    "AK:tf-800-form-en",
+    "AK:tf-805-form-en",
+    "KY:aoc-334-form-en",
+    "KY:aoc-496-3-form-en",
+    "NC:aoc-cr-287-form-en",
+    "NC:aoc-cr-288-form-en",
+    "NC:aoc-cr-296-form-en",
+    "NC:aoc-cr-298-form-en",
+    "NC:aoc-cv-226-support-en",
+    "NE:cc-6-11-2-form-en",
+    "NE:cc-6-11-form-en",
+    "NE:cc-6-12-form-en",
+    "NE:cc-6-15-1-form-en",
+    "NE:dc-1-15-form-en",
+    "VA:cc-1201-form-en",
+    "VA:cc-1473-form-en",
+    "VT:600-00228-support-en"
+  ],
+  "familiesStillBlocked": [
+    {
+      "familyId": "KY:aoc-496-4-form-en",
+      "reason": "none of this lane's three corrections reach this family",
+      "namedInEscalations": [
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "heldBy": "the evidence-completion lane, exclusively"
+        }
+      ],
+      "waitingOn": [
+        "ESC-SIDECAR-NONCONFORMANT — the evidence-completion lane, exclusively"
+      ],
+      "fieldFindingsAlreadyClosed": false
+    },
+    {
+      "familyId": "NC:aoc-cr-297-form-en",
+      "reason": "none of this lane's three corrections reach this family",
+      "namedInEscalations": [
+        {
+          "escalationId": "ESC-NO-REFUSE-WHEN",
+          "heldBy": "corrected on this branch's ancestor f974a96a"
+        },
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "heldBy": "the evidence-completion lane, exclusively"
+        }
+      ],
+      "waitingOn": [
+        "ESC-SIDECAR-NONCONFORMANT — the evidence-completion lane, exclusively"
+      ],
+      "fieldFindingsAlreadyClosed": true
+    },
+    {
+      "familyId": "VT:200-00132a-form-en",
+      "reason": "none of this lane's three corrections reach this family",
+      "namedInEscalations": [
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "heldBy": "the evidence-completion lane, exclusively"
+        }
+      ],
+      "waitingOn": [
+        "ESC-SIDECAR-NONCONFORMANT — the evidence-completion lane, exclusively"
+      ],
+      "fieldFindingsAlreadyClosed": false
+    },
+    {
+      "familyId": "KY:aoc-496-2-form-en",
+      "reason": "none of this lane's three corrections reach this family",
+      "namedInEscalations": [
+        {
+          "escalationId": "ESC-MANUAL-NOT-NEVER-WRITE",
+          "heldBy": "corrected on this branch's ancestor f974a96a"
+        },
+        {
+          "escalationId": "ESC-NO-SSN-RULE",
+          "heldBy": "corrected on this branch's ancestor f974a96a"
+        },
+        {
+          "escalationId": "ESC-NO-REFUSE-WHEN",
+          "heldBy": "corrected on this branch's ancestor f974a96a"
+        },
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "heldBy": "the evidence-completion lane, exclusively"
+        }
+      ],
+      "waitingOn": [
+        "ESC-SIDECAR-NONCONFORMANT — the evidence-completion lane, exclusively"
+      ],
+      "fieldFindingsAlreadyClosed": true
+    },
+    {
+      "familyId": "KY:aoc-496-form-en",
+      "reason": "none of this lane's three corrections reach this family",
+      "namedInEscalations": [
+        {
+          "escalationId": "ESC-MANUAL-NOT-NEVER-WRITE",
+          "heldBy": "corrected on this branch's ancestor f974a96a"
+        },
+        {
+          "escalationId": "ESC-NO-SSN-RULE",
+          "heldBy": "corrected on this branch's ancestor f974a96a"
+        },
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "heldBy": "the evidence-completion lane, exclusively"
+        }
+      ],
+      "waitingOn": [
+        "ESC-SIDECAR-NONCONFORMANT — the evidence-completion lane, exclusively"
+      ],
+      "fieldFindingsAlreadyClosed": true
+    },
+    {
+      "familyId": "AK:tf-810-form-en",
+      "reason": "none of this lane's three corrections reach this family",
+      "namedInEscalations": [
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "heldBy": "the evidence-completion lane, exclusively"
+        }
+      ],
+      "waitingOn": [
+        "ESC-SIDECAR-NONCONFORMANT — the evidence-completion lane, exclusively"
+      ],
+      "fieldFindingsAlreadyClosed": false
+    },
+    {
+      "familyId": "KY:aoc-497-form-en",
+      "reason": "none of this lane's three corrections reach this family",
+      "namedInEscalations": [
+        {
+          "escalationId": "ESC-NO-REFUSE-WHEN",
+          "heldBy": "corrected on this branch's ancestor f974a96a"
+        },
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "heldBy": "the evidence-completion lane, exclusively"
+        }
+      ],
+      "waitingOn": [
+        "ESC-SIDECAR-NONCONFORMANT — the evidence-completion lane, exclusively"
+      ],
+      "fieldFindingsAlreadyClosed": true
+    },
+    {
+      "familyId": "VT:200-00132-form-en",
+      "reason": "none of this lane's three corrections reach this family",
+      "namedInEscalations": [
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "heldBy": "the evidence-completion lane, exclusively"
+        }
+      ],
+      "waitingOn": [
+        "ESC-SIDECAR-NONCONFORMANT — the evidence-completion lane, exclusively"
+      ],
+      "fieldFindingsAlreadyClosed": false
+    },
+    {
+      "familyId": "WI:cr-266-form-en",
+      "reason": "none of this lane's three corrections reach this family",
+      "namedInEscalations": [
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "heldBy": "the evidence-completion lane, exclusively"
+        }
+      ],
+      "waitingOn": [
+        "ESC-SIDECAR-NONCONFORMANT — the evidence-completion lane, exclusively"
+      ],
+      "fieldFindingsAlreadyClosed": false
+    }
+  ],
+  "corrections": [
+    {
+      "correction": "the label and geometry channel",
+      "closesEscalations": [
+        "ESC-VALUE-NOT-VISIBLE",
+        "ESC-GEOMETRY-NOT-AN-INPUT"
+      ],
+      "correctionCommit": "11ff2b01427e95f5cf8a1a1c61812a8baaefc12e",
+      "correctionCommitSubject": "the binder can see the page now",
+      "sharedModulesChanged": [
+        "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+        "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+        "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+        "scripts/implement-rcap-official-forms-d1.mjs"
+      ],
+      "affectedFamilyIds": [
+        "AK:tf-800-form-en",
+        "AK:tf-805-form-en",
+        "KY:aoc-334-form-en",
+        "KY:aoc-496-3-form-en",
+        "NC:aoc-cr-287-form-en",
+        "NC:aoc-cr-288-form-en",
+        "NC:aoc-cr-296-form-en",
+        "NC:aoc-cr-298-form-en",
+        "NC:aoc-cv-226-support-en",
+        "NE:dc-1-15-form-en",
+        "VA:cc-1201-form-en",
+        "VA:cc-1473-form-en",
+        "VT:600-00228-support-en"
+      ],
+      "familiesAffected": 13,
+      "exactRerenderCommand": "RCAP_BUNDLE_EXTRACT=<path to the mounted Expungement_AI_RCAP_Master_Library_Edition_1 extract> node scripts/implement-rcap-official-forms-d1.mjs",
+      "rerenderPreconditions": [
+        "the Master Library extract is mounted and each family's source-record.json sha256 recomputes from the actual bytes; the driver refuses a family on source drift rather than rendering from bytes the record does not describe",
+        "a family whose overlay-profile.json carries an approved independent review is skipped by the driver by design — regenerating a reviewed family is a deliberate act and the approval is deleted first"
+      ],
+      "focusedVerifiersRequired": [
+        "node scripts/verify-rcap-widget-geometry-canaries.mjs",
+        "node scripts/verify-rcap-field-semantics-canaries.mjs",
+        "node scripts/verify-rcap-official-forms-d1.mjs",
+        "node scripts/verify-rcap-shared-pdf-contract.mjs"
+      ],
+      "expectedArtifactOutputsPerFamily": [
+        "production-field-map.json",
+        "field-census.json",
+        "field-classification.json",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/boundary-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf",
+        "reports/protected-fields.json",
+        "reports/populated-fields.json",
+        "reports/overflow-and-clipping.json"
+      ],
+      "whatChangesInARerender": [
+        "field-census.json entries gain effectiveLabel, labelBasis, regionHeading and regionBasis, measured from each page's own content stream",
+        "bindings gain factBasis, which says whether the field's name or the form's printed caption produced the fact",
+        "a binding inside a protected page region is refused with reason protected_page_region and the heading that refused it"
+      ],
+      "familyOwnedMapOrProfileChangesStillNecessary": "none expected. The maps are generated; a binding that disappears does so because a shared rule refused it, and a binding that appears does so because the form's own printed caption named the box. No explicitFieldMappings should need adding — for VT 600-00228 in particular, adding them was the local workaround the freeze forbade.",
+      "families": [
+        {
+          "familyId": "AK:tf-800-form-en",
+          "jurisdiction": "AK",
+          "assetId": "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+          "familyPath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en",
+          "sourceSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+          "reviewedFieldMapSha256": "bbc994d51418b1b4a89151e1c63a1dc39bc6f0867400b79f7aefcc525043c4a7",
+          "reviewedClassificationSha256": "9ff878c157140b56fbfe2d5060c2fd6f87e9fad3b71950aa92423d98ad834c8d",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "9583d1f2228dc3ba9a36b3cf61f3cfc36e8ac90246c1d9b965138bc4054cd227",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "3f2e1b74436925ff7a926ff5b8d77a99d4d49248e64be7372c1bf6fd26adb1fb",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "e5ecf77f72e9ddd2e9c08b4e3e82484f796df4d08b4c343f0cc973d7cd67477e",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": 2,
+            "fieldOrGeometry": "certDate, rect [128,357 89x14]",
+            "observed": "The page prints 'Certificate of Service' at y=385.5 and 'I certify on ' at y=358.9. certDate is bound to deterministic.filing_date and both fixtures write 2026-08-12 at x=128.8, y=359.7. Its companion time2 is refused, so the finished page reads 'I certify on 2026-08-12 at ________' — a half-completed sworn certification of service, dated by a platform that does not know when service occurred.",
+            "required": "Service-block fields remain protected.",
+            "smallestCorrection": "Refuse a binding whose widget rect falls inside a page region whose printed heading matches service_block; or add cert\\s*date to the service_block pattern."
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "AK:tf-805-form-en",
+          "jurisdiction": "AK",
+          "assetId": "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+          "familyPath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en",
+          "sourceSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+          "reviewedFieldMapSha256": "d8c9de27b79072451a1188354ea6e7ae04677ab41800771d045c57ca7a6dfbff",
+          "reviewedClassificationSha256": "f870d102495622edd914d393e389d03efe03eb0f69b84e85791ecfb345f5f7c4",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "4ff71dd8d636a2bb5340737dafb4d258bba2b0d950065654528af52d2d88a979",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "17be2f738b14985830733ad6df42e946900b6cd0f6dcec0513a76ce4761cb099",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "2233423100912bd9fbc5362241dbf7c7eb712532c8591dd9d6c89aa20d1d9c91",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": 2,
+            "fieldOrGeometry": "certDate",
+            "observed": "The filing date is written into the blank of 'I certify on ___ at ___ [date/time] I gave a copy of this document', under the printed heading 'Certificate of Service'.",
+            "required": "Service-block fields remain protected.",
+            "smallestCorrection": "Refuse certDate — either drop the cert-date pattern from the filing_date matcher, or fire service_block from the block's printed heading."
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "KY:aoc-334-form-en",
+          "jurisdiction": "KY",
+          "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+          "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
+          "sourceSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+          "reviewedFieldMapSha256": "5c7841efa3f183e878babb0e9cf4c077b367b1f30a8773cce2c955f62b128d35",
+          "reviewedClassificationSha256": "1ced0b7ba9aaaba67aec228c2f3aa79840945b8182dff5c0857e140d41d5040a",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "5f01b700543a2e9b6499ff80cb6afe7a43c31d1b4ca47e29088282dd8628a03c",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "e06ce34853fd46a16f6a4c8e3488764b6b58375ffdc197b6a3a6923bb2c08afa",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "af53ae57fff29b2499617a5a3b3d9c85008f284102ff135a06e3b370801ed139",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": 1,
+            "fieldOrGeometry": "\"Defendants ssn\", rect [297,536 90x17]",
+            "observed": "The participant's full legal name is written at x=298.0, y=541.5 directly after the printed caption \"Defendant's SSN: ________________\".",
+            "required": "The field refuses. A name is not an SSN, and an SSN is not a participant-writable fact.",
+            "smallestCorrection": "Add \\bssn\\b|social\\s*security to PROTECT_RULES, and add `manual` to NEVER_WRITE."
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "KY:aoc-496-3-form-en",
+          "jurisdiction": "KY",
+          "assetId": "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+          "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en",
+          "sourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+          "reviewedFieldMapSha256": "f3d1492c77a7331ac3f8d6aa698ef8db626524a4ba487b9244104f7416940f44",
+          "reviewedClassificationSha256": "dd5902fe31caf4735098ffe966c66350581888cbc8b5ead56d022f9f6d77ebdd",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "d3344eed7672e3ee8be9a85e15fe5447e91a287dfc1d33837f3587ecae7b7d79",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": null,
+            "fieldOrGeometry": null,
+            "observed": null,
+            "required": null,
+            "smallestCorrection": null
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "NC:aoc-cr-287-form-en",
+          "jurisdiction": "NC",
+          "assetId": "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en",
+          "sourceSha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "reviewedFieldMapSha256": "a8eb280efba4794559950c11576015df1dded1917e79443e38fd17b1600e1060",
+          "reviewedClassificationSha256": "e1f2e4fd768d2a6e9d6238d6f323602135c13a420737bc56f3fa8dc757b12fb2",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "c6807758e58b8ee0cb9c91f6da8bb50a4c3ab838329e3e47fce9cf0fe6123f4f",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "5d585951d26a48adc458406da52f3180864c456d2c2f3e4485d605b4ec2548ae",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "ffd0db5aac3eabfe2db2003c4634014259853a8731b882abd8892e94af4df8d5",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": 1,
+            "fieldOrGeometry": "PetitionerAddr1 [37,667 278x13] and PetitionerAddr2 [37,655 278x13]",
+            "observed": "Both are bound to participant.street_address, so the street line is printed twice. The four-line 'Name And Address Of Petitioner' block reads: name / 118 Maple Street / 118 Maple Street / city state zip. The boundary fixture duplicates the long address on both lines at 7.5pt.",
+            "required": "Bind only line 1; leave line 2 blank absent a distinct address-line-2 fact.",
+            "smallestCorrection": null
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "NC:aoc-cr-288-form-en",
+          "jurisdiction": "NC",
+          "assetId": "NC|AOC-CR-288|776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+          "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en",
+          "sourceSha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+          "reviewedFieldMapSha256": "68ab64f8e7332aaef2664b13997f8b82e506ef8104c9dab801d918843ee30631",
+          "reviewedClassificationSha256": "fe13b554b4515331e3867805e9260362cbe17c1b666e8f407fef50f15cfd86ba",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "96ff5609fb6a0e9168e6e86c36112a538a231334155ac166a1027302c154a1d6",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "5a00ee6811f8681cf257daa094b46ec7e64ca172f9f9dbc94716678845e69c2a",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "5703d476da2e832cddb97aa8ffd247b19b250b1ba82b5aa1c1f2f94a948ee618",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": "1 and 2",
+            "fieldOrGeometry": "NameAtty, CityAtty, StateAtty, ZipCodeAtty (p1); PetitionerIsEligibleBecauseText1/Text2 (p2); PetitionNotFiledSignName",
+            "observed": "The petitioner's own name and address are written into the block captioned 'Name And Address Of Petitioner's Attorney For Expunction Petition', so the filed petition asserts the petitioner is represented by counsel who is the petitioner. On page 2, under the heading 'FINDINGS OF FACT' and the line 'Petitioner is / is not eligible ... If not eligible, it is because:', both reason lines carry the petitioner's name. The clerk-certification signature name is also written.",
+            "required": "The attorney block, the findings-of-fact lines and the clerk-certification block all refuse.",
+            "smallestCorrection": "Extend the attorney rule to \\batty\\b; add `manual` to NEVER_WRITE; refuse any field whose geometry falls on the order/findings side of a petition-and-order form."
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "NC:aoc-cr-296-form-en",
+          "jurisdiction": "NC",
+          "assetId": "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+          "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
+          "sourceSha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+          "reviewedFieldMapSha256": "bc25d4f46dc0335789c36586302cebe3e1205c51e3ae35bfdb6ee8ea10ae380e",
+          "reviewedClassificationSha256": "996c01d97b022a8ff01a1489e92d68b27217a5070d70c5737f40ecf1144ac551",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "bfff2e3a94523f145eb6b0aad877f84b6d2b968ed9eeb5941cb96189db45f16f",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "60bf177ebf6ec68c9454a4a4b7ca18f0cf569155748cad8a91ebc499e79e7a2c",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "a27ecc3ac56f79238d959cd950175e696190f804fa7b33488863a9301b3b6daa",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": 1,
+            "fieldOrGeometry": "PetitionNotFiledSignName, widget rect x=117 y=128 w=238",
+            "observed": "The participant's full legal name is drawn at x=118.32, y=132.00. The court's printed caption row sits 12.3pt above at y=144.34 and reads, in three runs: 'Date' at x=38.62, 'District Attorney Name (type or print)' at x=118.58, 'Signature' at x=358.10. The written value begins 0.26pt left of the District Attorney caption. It is on the district attorney's printed-name line, above the DA's certification sentence. The form's own header states that this petition is filed by the district attorney.",
+            "required": "The petitioner's name must never be written on a district attorney's name line. The field must refuse under prosecutor or court.",
+            "smallestCorrection": "Add a geometry-based protected band over the DA certification block, using the protectedRules mechanism that already exists and works in WI; or pass the printed caption as effectiveLabel so the existing prosecutor rule fires."
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "NC:aoc-cr-298-form-en",
+          "jurisdiction": "NC",
+          "assetId": "NC|AOC-CR-298|8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+          "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en",
+          "sourceSha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+          "reviewedFieldMapSha256": "54e231a8c474a77df38f1e66980a3959d1d5557172f71250d4d1350665ff5cfd",
+          "reviewedClassificationSha256": "f88c2d23747551600dd1ddb148fcccf4f6a3acb5f3c06a80fd671d9a0e916dab",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "309aa7a0699b58a4462f409bcd7867f4450f1d8be30bee2e433e46cd23143da9",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "a8a41cde96e3a4c1f604664d225cbe10f0fa830d8ff22a9d97bdb3d8b58bc1e3",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "d9ea7ca6523c7816c2bb3e47035fcf909e1f73b3a2cc8432ae04ce449b8dea84",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": 1,
+            "fieldOrGeometry": "EmailAddressOfRecord",
+            "observed": "The participant's own email address is written onto the line reading 'email (from ICMS/OFS) to the district attorney at ___, the email address of record with this court for that person', inside the block headed 'I certify that a copy of this motion was served by:'. The finalized certificate of service therefore states that the district attorney's address of record with the court is the petitioner's own address.",
+            "required": "Prosecutor and service fields remain protected.",
+            "smallestCorrection": "Refuse EmailAddressOfRecord — fire prosecutor or service_block from the printed line, or deny it explicitly."
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "NC:aoc-cv-226-support-en",
+          "jurisdiction": "NC",
+          "assetId": "NC|AOC-CV-226|74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
+          "sourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "reviewedFieldMapSha256": "5d87be753d03339029d4145c3a01fc2dd1c9c10b9c26eaaaa8388be96fce13bb",
+          "reviewedClassificationSha256": "cb5a7bcfdc5937d9e6ecf5bfc4ee8b19757c0f5b181e4cd474a43243e0703c00",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "8ebd1ccf32044b3b52689d5231ef4d0ddd8c06f74a5a38eb54a2d0be1ee47a53",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "52ca5719efcb4fe94313e0ee2dfb569ccd2b8550ee4959af1461af233b230739",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "26bb43ea85d42b881dbd8b9d21d09067f2c5a44285b0420114f3aab5104088b4",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": 1,
+            "fieldOrGeometry": null,
+            "observed": "Six fields carry the wrong fact onto a sworn affidavit of indigency. The applicant's legal name is printed as their street address on both street-address lines, and again as their bank name under 'Cash On Hand And In Bank Accounts (list name of bank and account type)'. Their street address is printed in the City box and the Zip box, and the State box is blank only because 24pt cannot hold it.",
+            "required": "Street-address lines receive the street address; City, State and Zip receive city, state and zip; BankNameAndAccountType refuses.",
+            "smallestCorrection": "Add refuseWhen guards in rcap-field-semantics.mjs so street_address declines a haystack ending in city|state|zip, and full_legal_name declines street\\s*name and bank\\s*name. Do not repair per field in the map."
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "NE:dc-1-15-form-en",
+          "jurisdiction": "NE",
+          "assetId": "NE|DC-1-15|43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+          "familyPath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
+          "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+          "reviewedFieldMapSha256": "4e8b9b3c21d06e1b9c6d6a3f3bd363252143e06ae2e5319d1044f8deb796af7a",
+          "reviewedClassificationSha256": "70ff29fe9def2aeeabbdb317727b7926c8b34b90a4e1bc97fe7773a59dd5d26e",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "3f0bc4bac2e1216e62e64da7e0d9ae897a1dfa2b822d1a14807505e656f6f2b1",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "a997b0df17375606c9f3f14f3ef1d341fa0b472314555891a47cc51d5d9b5d27",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "1481d199522a0cadd82b42b7193260bec525869304c815ad32dc0aa88701a131",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": "1 and 2",
+            "fieldOrGeometry": "caption band y 540-640; printedname",
+            "observed": "This is a multi-purpose caption form whose variants are normally shown and hidden by JavaScript. With the script stripped and everything flattened, the adoption, emancipation, name-change and estate captions all render at once, overlapping, and the participant's name is stamped three times at three different variants. On page 2, under the heading 'Certificate of Service', the printed name is written again.",
+            "required": "One caption variant, one name, and the service-block printed name refused.",
+            "smallestCorrection": "Bind one caption field only; refuse printedname under a certificate-of-service heading."
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "VA:cc-1201-form-en",
+          "jurisdiction": "VA",
+          "assetId": "VA|CC-1201|7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+          "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
+          "sourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+          "reviewedFieldMapSha256": "972deb9e7377c2915e41be6cf00ca9259915edfefaecbf28f773e6ca7e3a290b",
+          "reviewedClassificationSha256": "5f30b0bfd60189212feff7bf55999fea34f4e3dd33af1411494b49fbbe9c7d4b",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "427770d0ba6d3f512b8de6d6b631cf388afb7025057b5c0c191d6c1a2a356eb4",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "0cbd4278cf7185e3556101607e0d6c58ee51b1537dfdf3e1b1f16a5fead82b3f",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "6b58a4a3bf5fade40c2fcea53aabe0a7734cacdf3edfdc701a3bd971c31c57d8",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": null,
+            "fieldOrGeometry": null,
+            "observed": null,
+            "required": null,
+            "smallestCorrection": null
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "VA:cc-1473-form-en",
+          "jurisdiction": "VA",
+          "assetId": "VA|CC-1473|6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
+          "sourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "reviewedFieldMapSha256": "6dfc37578b2d543178b5271036d63a866cada0252b2a4eed987474d2ad0dcfa6",
+          "reviewedClassificationSha256": "c846adb9bf8ab77f61a6c4ad4cda1cdd4fbe1af3380169c186401aff77793b7d",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "0c28f8653692c860c5cb29e99135ecae2d42410de48682b41814042e0d03f87d",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "9a661e69c05e6880cc412003f3f83e6b375ed605806fa49faff667663a0c8aad",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "02384e76303d212325e4fcf5eb4e4d502ff81c6642af3a9a17f57b5cdba02a29",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": null,
+            "fieldOrGeometry": null,
+            "observed": null,
+            "required": null,
+            "smallestCorrection": null
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "VT:600-00228-support-en",
+          "jurisdiction": "VT",
+          "assetId": "VT|600-00228|263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+          "familyPath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en",
+          "sourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+          "reviewedFieldMapSha256": "19b8b64e13174cdc1fe8cfbdbd52b471cbb5e300218284190cd350aefcfb2f9e",
+          "reviewedClassificationSha256": "d8af1afeb03300d285f4b1af9a01b0c3909862a126c2bd4dd487d139cd66a23e",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "3badbfe515021b919e42eab8f487030cae408aaaf0d983d26d22a42ae3468b6e",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "37eb5ff468c72187bdcd61a68d08b93c9f080ba08fe61929c1b9b8f0760ce39e",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "991176ec5412fc285362f2f080ee041ed7b843e99f013d0d9b4b471f3c676490",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": 1,
+            "fieldOrGeometry": "fields named 2, 3, 4, 5, 5a, 6, 7, 8, 17-20, 23, 24, 27, 29",
+            "observed": "A fee-waiver application carrying none of the applicant's information. Exactly two fields fill — docket number and case name. Every substantive field is refused no_allowlisted_fact_matches: name, street address, city/state/zip, email, phone, household size, employer name and address, type of assistance, gross income from wages. All are blank with no explanation.",
+            "required": "The applicant's name, address, contact details and income fields carry the participant's facts.",
+            "smallestCorrection": "Capture the printed label into effectiveLabel, or add explicitFieldMappings for these numbered fields."
+          },
+          "inCorrectionDenominator": true
+        }
+      ]
+    },
+    {
+      "correction": "one widget per slot, and the chooser prompt",
+      "closesEscalations": [
+        "ESC-CAPTION-VARIANTS"
+      ],
+      "correctionCommit": "3202da9f84ac1491f8fe22696d42292a729248d9",
+      "correctionCommitSubject": "one widget per slot, and no chooser prompt on a filed page",
+      "sharedModulesChanged": [
+        "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+        "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+        "scripts/implement-rcap-official-forms-d1.mjs"
+      ],
+      "affectedFamilyIds": [
+        "NE:cc-6-11-2-form-en",
+        "NE:cc-6-11-form-en",
+        "NE:cc-6-12-form-en",
+        "NE:cc-6-15-1-form-en",
+        "NE:dc-1-15-form-en"
+      ],
+      "familiesAffected": 5,
+      "exactRerenderCommand": "RCAP_BUNDLE_EXTRACT=<path to the mounted Expungement_AI_RCAP_Master_Library_Edition_1 extract> node scripts/implement-rcap-official-forms-d1.mjs",
+      "rerenderPreconditions": [
+        "the Master Library extract is mounted and each family's source-record.json sha256 recomputes from the actual bytes; the driver refuses a family on source drift rather than rendering from bytes the record does not describe",
+        "a family whose overlay-profile.json carries an approved independent review is skipped by the driver by design — regenerating a reviewed family is a deliberate act and the approval is deleted first"
+      ],
+      "focusedVerifiersRequired": [
+        "node scripts/verify-rcap-widget-geometry-canaries.mjs",
+        "node scripts/verify-rcap-field-semantics-canaries.mjs",
+        "node scripts/verify-rcap-official-forms-d1.mjs",
+        "node scripts/verify-rcap-shared-pdf-contract.mjs"
+      ],
+      "expectedArtifactOutputsPerFamily": [
+        "production-field-map.json",
+        "field-census.json",
+        "field-classification.json",
+        "fixtures/canonical-filled.pdf",
+        "fixtures/boundary-filled.pdf",
+        "contact-sheet/blank-vs-filled.pdf",
+        "reports/protected-fields.json",
+        "reports/populated-fields.json",
+        "reports/overflow-and-clipping.json"
+      ],
+      "whatChangesInARerender": [
+        "overlapping widgets carrying one fact collapse to a single binding; the losers move into bindingRefusals as duplicate_widget_for_one_slot naming which widget was kept instead",
+        "the finalize report gains slotArbitration (candidates, kept, refusedAsDuplicate) and promptsSuppressed",
+        "an unselected chooser's prompt no longer appears in the finalized page's content stream, so the contact sheet's filled panel loses 'Choose the court' and 'Choose the county'"
+      ],
+      "familyOwnedMapOrProfileChangesStillNecessary": "none expected, but the caption band is the thing to read in the raster. The arbitration decides by a stated order — text before choice field, then larger, then topmost, leftmost, name — and if a Nebraska form turns out to want a different widget than that order picks, that is a finding against the order, which is shared, rather than against the family.",
+      "families": [
+        {
+          "familyId": "NE:cc-6-11-2-form-en",
+          "jurisdiction": "NE",
+          "assetId": "NE|CC-6-11.2|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en",
+          "sourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "reviewedFieldMapSha256": "969bb535f56dc9fc7fdb8acf66a081ea4a4ce1276774e638b27801a1185ca489",
+          "reviewedClassificationSha256": "204835274598dfd5212352f6de3582e87eec7685e92fffe05c2bbcdc3d88739a",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "cd503faa72efa82d6a18be2748f966304d5421b59621c06681e99f12b3a9b06e",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "58a806f8e7731fac499cc7d9387e425b04234bbc757a4a0e826ae4ad628b6e7d",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "e69a23f741eb79656e8c8970a1062250b47c0d85500301409f1f3c9e29e3e27d",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": 1,
+            "fieldOrGeometry": "the caption band, y 640-700",
+            "observed": "In that band the finalized page has no printed page content at all — the whole caption is composed of AcroForm field values. The blank source reads 'IN THE ______ COURT OF ______' with '(Enter the type of court)' and '(Enter the county name)' beneath. The finalized artifact reads, in three stacked layers: 'District Court ... COUNTY, NEBRASKA' / 'District Court ... Example County' / 'Choose the court ... Choose the county'.",
+            "required": "One value per caption slot; the court's own printed caption words preserved; no source placeholder text on a filed pleading.",
+            "smallestCorrection": "Bind exactly one court field and one county field, and refuse a write whose target widget's flattened appearance is a dropdown default."
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "NE:cc-6-11-form-en",
+          "jurisdiction": "NE",
+          "assetId": "NE|CC-6-11|c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+          "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
+          "sourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+          "reviewedFieldMapSha256": "e0929ba98de4a6426765e48f2115b6a2e74f79f6949db6b8b5c14df0caf9d391",
+          "reviewedClassificationSha256": "90ea87b44e35c324ff3ca52a9d410377a1722deeedcc118261d1090442a73918",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "6a7f0e4db821767783c14b5d560618f6361c0d1609c562b0086f4a6dde21a823",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "ec715fda7e14108024628a330fd8e5a94c415f9339be1f726eb99dad37b48023",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "878bea5971981a938047052eedc3a71685a4cb0c2a1c6160832ae0a2a1da62d9",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": 1,
+            "fieldOrGeometry": "caption band y 663-678; emailaddress",
+            "observed": "The blank sheet reads 'IN THE ____ COURT OF ____ COUNTY, NEBRASKA'. The filled sheet reads 'District Court District CourtExample County COUNTY, NEBRASKA', with the unfilled dropdown prompts 'Choose the court' and 'Choose the county' still printed beneath, and the court's own printed words 'IN THE' and 'COURT OF' covered by field appearances. Separately, the '*Email address:' line is blank, the box for 'I do not have the ability to receive emails' is unchecked, and the reason line is blank — on a form stating that Supreme Court Rule 2-208 requires the address.",
+            "required": "One court value and one county value on the correct line, no placeholder residue, the court's caption words intact, and the required email supplied or its absence explained.",
+            "smallestCorrection": "Bind exactly one field per caption slot and refuse the rest; suppress unfilled dropdown prompts on flatten; make the email matcher tolerate squashed names."
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "NE:cc-6-12-form-en",
+          "jurisdiction": "NE",
+          "assetId": "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
+          "sourceSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "reviewedFieldMapSha256": "d79a3cf70c51ab2b0704745232fb54d506a21f514cac7f0e39c68e5fac3261df",
+          "reviewedClassificationSha256": "e74a521c96f70f443b68a10495a5134e0bd02705a5bab6185354c4f7bc90c86d",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "21a1715a6bddd41d642e7127b90ac971044faf616d40d09e857571cb72417bb8",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "0aa3468c1afa6d30e1b219ebb638e3fc5b341b11d23e533c2c96dcea6a0f6162",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "02c41c6227027aef9015aad59b42a4bc579971513d6baffa3745b3756cc780b3",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": 1,
+            "fieldOrGeometry": null,
+            "observed": "Three defects in the venue caption. (i) The court name is printed twice from two overlapping widgets — TYPEOFCOURTRESULTS and 'enter the type of court' overlap in x 138-242 and both bind matter.court, rendering 'District Court' at two positions about 5pt apart. (ii) The source's dropdown placeholders remain visible beneath the written values: 'Choose the court' and 'Choose the county' both render at 8pt in the finalized artifact. (iii) TYPEOFCOURTDROPDOWN is recorded as written with matter.court in both the field map and the populated-fields report, yet its own flattened appearance still shows the placeholder — a value written but not visible.",
+            "required": "One value per caption slot; no source placeholder text on a finalized filing; a field the map records as written must be visible.",
+            "smallestCorrection": "Bind exactly one of the three matter.court fields and refuse the others; regenerate dropdown appearance streams from the bound value rather than carrying the source appearance forward; make the scan compare rendered strings against the source's default appearance text."
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "NE:cc-6-15-1-form-en",
+          "jurisdiction": "NE",
+          "assetId": "NE|CC-6-15.1|d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+          "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+          "sourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+          "reviewedFieldMapSha256": "fe26ec93c27590dde7676779921932f29f3eb983b99578181809e14ec2d78038",
+          "reviewedClassificationSha256": "c82d792dafcb9875c07e9f0b6e5eb6497ddbbe2e685a26b494f62866d14d9249",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "e2a68152e06354761b3001a0fcfee6a9d96e101344d4b9f831a6b4e2e1879238",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "427bff7969be39a7605c08b0d0b6d8bc6447ebb7b575ebfa0305255d9841a51d",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "2960c343551b8c81ba96291792a8480c62cc73cc6c7d5a3d0c80a7bd298ea7be",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": null,
+            "fieldOrGeometry": null,
+            "observed": "The identical caption defect at the same coordinates — the caption block is shared between the Nebraska forms. The body is otherwise correct: printed name, street address, city/state/zip, telephone and date all land inside their rects under the matching printed captions, and the boundary auto-shrinks without a single unfittable refusal.",
+            "required": "As NE:cc-6-11-2-form-en.",
+            "smallestCorrection": null
+          },
+          "inCorrectionDenominator": true
+        },
+        {
+          "familyId": "NE:dc-1-15-form-en",
+          "jurisdiction": "NE",
+          "assetId": "NE|DC-1-15|43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+          "familyPath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
+          "sourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+          "reviewedFieldMapSha256": "4e8b9b3c21d06e1b9c6d6a3f3bd363252143e06ae2e5319d1044f8deb796af7a",
+          "reviewedClassificationSha256": "70ff29fe9def2aeeabbdb317727b7926c8b34b90a4e1bc97fe7773a59dd5d26e",
+          "reviewedArtifactSha256": [
+            {
+              "rel": "fixtures/canonical-filled.pdf",
+              "kind": "canonical_fixture",
+              "sha256": "3f0bc4bac2e1216e62e64da7e0d9ae897a1dfa2b822d1a14807505e656f6f2b1",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "fixtures/boundary-filled.pdf",
+              "kind": "boundary_fixture",
+              "sha256": "a997b0df17375606c9f3f14f3ef1d341fa0b472314555891a47cc51d5d9b5d27",
+              "presentOnDisk": true
+            },
+            {
+              "rel": "contact-sheet/blank-vs-filled.pdf",
+              "kind": "contact_sheet",
+              "sha256": "1481d199522a0cadd82b42b7193260bec525869304c815ad32dc0aa88701a131",
+              "presentOnDisk": true
+            }
+          ],
+          "reviewFindingToClose": {
+            "page": "1 and 2",
+            "fieldOrGeometry": "caption band y 540-640; printedname",
+            "observed": "This is a multi-purpose caption form whose variants are normally shown and hidden by JavaScript. With the script stripped and everything flattened, the adoption, emancipation, name-change and estate captions all render at once, overlapping, and the participant's name is stamped three times at three different variants. On page 2, under the heading 'Certificate of Service', the printed name is written again.",
+            "required": "One caption variant, one name, and the service-block printed name refused.",
+            "smallestCorrection": "Bind one caption field only; refuse printedname under a certificate-of-service heading."
+          },
+          "inCorrectionDenominator": true
+        }
+      ]
+    }
+  ]
+}

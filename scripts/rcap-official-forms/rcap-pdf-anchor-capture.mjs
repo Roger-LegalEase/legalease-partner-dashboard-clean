@@ -372,3 +372,158 @@ export function groupIntoLines(items, yTolerance = 2.2) {
     };
   }).filter((l) => l.text.length > 0);
 }
+
+// ---------------------------------------------------------------------------
+// The widget context channel.
+//
+// An AcroForm widget has two things the binder never saw: the words the form
+// prints beside it, and the section of the page it sits in. Both are already
+// measurable here — this file decodes the content stream and reports every
+// drawn string at the position it is drawn — and neither reached decideBinding,
+// which received only the internal field name.
+//
+// That single gap produced failures in both directions. VT 600-00228 names its
+// fields as bare digits, so a fee-waiver application filled nothing: with only
+// the name channel, every descriptor refused. AK TF-800 names a field certDate
+// and NE DC 1:15 names one printedname, both sitting under a printed
+// "Certificate of Service" heading, so the platform dated and signed a sworn
+// certification of service it knows nothing about: with only the name channel,
+// nothing said where the widget was.
+//
+// Nothing below infers a coordinate or invents a label. Every string returned
+// is one the document draws, at the position it draws it.
+// ---------------------------------------------------------------------------
+
+// How far left of a widget a caption may sit and still be its caption. Wider
+// than this and the "label" is something else on the same line.
+const CAPTION_GAP_LEFT = 72;
+// How far above a widget a caption may sit. One line of ordinary body text.
+const CAPTION_GAP_ABOVE = 16;
+// A caption is a label, not a paragraph.
+const CAPTION_MAX_CHARS = 60;
+
+const overlaps1d = (a1, a2, b1, b2) => Math.min(a2, b2) - Math.max(a1, b1) > 0;
+
+/** The modal font size of a page's body text, used to recognise a heading. */
+function bodySizeOf(lines) {
+  const counts = new Map();
+  for (const line of lines) {
+    const size = Math.round((line.size ?? 0) * 2) / 2;
+    if (size > 0) counts.set(size, (counts.get(size) ?? 0) + 1);
+  }
+  let best = 0, bestCount = -1;
+  for (const [size, count] of counts) if (count > bestCount || (count === bestCount && size < best)) { best = size; bestCount = count; }
+  return best;
+}
+
+/**
+ * The page's printed sections, top to bottom.
+ *
+ * A heading is a printed line that is set larger than the page's body text or
+ * is written in full capitals — the two ways a paper form marks a new section.
+ * A section runs from its heading down to the next one, which is what stops a
+ * heading near the top of the page from claiming everything below it.
+ *
+ * The regions are descriptive: this function says what the page is divided
+ * into, not which divisions matter. Deciding that a region is court-owned
+ * belongs to the semantics module, which holds the protect rules.
+ */
+export function pageRegions(page, precomputedLines = null) {
+  const lines = precomputedLines ?? groupIntoLines(extractTextItems(page));
+  const body = bodySizeOf(lines);
+  const headings = lines
+    .filter((line) => {
+      const text = line.text.trim();
+      if (text.length < 3 || text.length > CAPTION_MAX_CHARS * 2) return false;
+      const larger = body > 0 && (line.size ?? 0) >= body + 0.5;
+      const capitals = /[A-Z]/.test(text) && text === text.toUpperCase();
+      return larger || capitals;
+    })
+    .sort((a, b) => b.y - a.y);
+
+  // The first thing a form prints is what the form is. A title names the whole
+  // document rather than an area of it, so the region it opens is marked and
+  // never used to protect anything: "APPLICATION TO WAIVE FILING FEES" is a
+  // fee-waiver application, not a fee box, and "PETITION TO SEAL POLICE
+  // RECORDS" is a petition, not a police-use-only band. Without this a single
+  // word in a title silences the whole form.
+  const topmostPrinted = lines.reduce((max, l) => Math.max(max, l.y), -Infinity);
+
+  return headings.map((heading, i) => ({
+    heading: heading.text.trim(),
+    size: heading.size ?? null,
+    // The region starts at the heading's own baseline and ends where the next
+    // heading begins, or at the foot of the page.
+    yTop: heading.y,
+    yBottom: i + 1 < headings.length ? headings[i + 1].y : -Infinity,
+    isDocumentTitle: i === 0 && heading.y >= topmostPrinted - 0.5,
+    basis: body > 0 && (heading.size ?? 0) >= body + 0.5 ? "set_larger_than_body_text" : "printed_in_full_capitals"
+  }));
+}
+
+/**
+ * For each widget: the caption the form prints beside it, and the printed
+ * section it sits in.
+ *
+ * `widgets` is [{ name, rect: { x, y, width, height } }]. A widget with no
+ * rectangle gets nulls rather than a guess.
+ *
+ * The caption is looked for to the LEFT on the same line first, because that
+ * is how a form labels a box, and only then ABOVE, because that is how a form
+ * labels a column. A caption found above must overlap the widget horizontally,
+ * or it belongs to a different column.
+ */
+export function captureWidgetContext(page, widgets, { precomputedLines = null } = {}) {
+  const lines = precomputedLines ?? groupIntoLines(extractTextItems(page));
+  const regions = pageRegions(page, lines);
+
+  return widgets.map((widget) => {
+    const rect = widget.rect ?? null;
+    if (!rect) {
+      return { name: widget.name, effectiveLabel: null, labelBasis: "widget_has_no_rectangle", regionHeading: null, regionBasis: null };
+    }
+    const top = rect.y + rect.height;
+    const midline = rect.y + rect.height / 2;
+
+    // Same line, to the left. `x2` is where the run actually ends, so the gap
+    // is measured from the last printed character rather than from the start
+    // of the line.
+    let best = null;
+    for (const line of lines) {
+      if (Math.abs(line.y - rect.y) > rect.height && Math.abs(line.y - midline) > rect.height) continue;
+      for (const run of line.runs) {
+        if (run.x2 > rect.x + 1) continue;
+        const gap = rect.x - run.x2;
+        if (gap < 0 || gap > CAPTION_GAP_LEFT) continue;
+        if (!best || gap < best.gap) best = { text: line.text.slice(0, CAPTION_MAX_CHARS * 2), gap, basis: "printed_to_the_left_on_the_same_line" };
+      }
+    }
+
+    // Above, in the same column.
+    if (!best) {
+      for (const line of lines) {
+        const gap = line.y - top;
+        if (gap < 0 || gap > CAPTION_GAP_ABOVE) continue;
+        const lineX2 = Math.max(...line.runs.map((r) => r.x2));
+        if (!overlaps1d(line.x, lineX2, rect.x, rect.x + rect.width)) continue;
+        if (!best || gap < best.gap) best = { text: line.text, gap, basis: "printed_directly_above_in_the_same_column" };
+      }
+    }
+
+    const region = regions.find((r) => midline <= r.yTop && midline > r.yBottom) ?? null;
+
+    return {
+      name: widget.name,
+      // A caption is punctuation-trimmed but never reworded: "Name:" is the
+      // label "Name", and "(Enter the county name)" stays exactly that.
+      effectiveLabel: best ? best.text.replace(/[\s:*.]+$/, "").trim().slice(0, CAPTION_MAX_CHARS) || null : null,
+      labelBasis: best ? best.basis : "no_printed_caption_within_reach",
+      labelGap: best ? Number(best.gap.toFixed(1)) : null,
+      regionHeading: region ? region.heading : null,
+      regionIsDocumentTitle: region ? region.isDocumentTitle === true : false,
+      regionBasis: region
+        ? (region.isDocumentTitle ? `${region.basis}; this is the document's title, which names the form rather than an area of it` : region.basis)
+        : "widget_sits_above_the_first_printed_heading"
+    };
+  });
+}

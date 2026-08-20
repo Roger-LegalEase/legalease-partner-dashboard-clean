@@ -19,13 +19,13 @@ The Dockerfile copies scripts/rcap-render-worker.mjs, scripts/lib/ and src/. Nei
 
 | id | shared module | families | reviewer condition failed | status |
 | --- | --- | ---: | --- | --- |
-| ESC-GEOMETRY-NOT-AN-INPUT | `scripts/rcap-official-forms/rcap-field-semantics.mjs` | 12 | protection established by geometry where required, not label alone | open |
+| ESC-GEOMETRY-NOT-AN-INPUT | `scripts/rcap-official-forms/rcap-field-semantics.mjs` | 12 | protection established by geometry where required, not label alone | corrected |
 | ESC-MANUAL-NOT-NEVER-WRITE | `scripts/implement-rcap-official-forms-d1.mjs:151` | 4 | every discovered entry classified exactly once, and no participant value written to a protected area | corrected |
 | ESC-NO-SSN-RULE | `scripts/rcap-official-forms/rcap-field-semantics.mjs` | 3 | court, clerk, judge, prosecutor, agency, signature, service, notarization and decision fields protected | corrected |
 | ESC-NO-REFUSE-WHEN | `scripts/rcap-official-forms/rcap-field-semantics.mjs` | 9 | participant-writable entries correct | corrected |
 | ESC-SERVICE-BLOCK-BY-NAME | `scripts/rcap-official-forms/rcap-field-semantics.mjs` | 3 | service fields protected | corrected |
-| ESC-CAPTION-VARIANTS | `scripts/implement-rcap-official-forms-d1.mjs and the shared content-stream geometry module` | 5 | no clipping, no silent truncation, no duplicated preprinted caption | open |
-| ESC-VALUE-NOT-VISIBLE | `scripts/rcap-official-forms/rcap-field-semantics.mjs` | 1 | expected participant values visibly present | open |
+| ESC-CAPTION-VARIANTS | `scripts/implement-rcap-official-forms-d1.mjs and the shared content-stream geometry module` | 5 | no clipping, no silent truncation, no duplicated preprinted caption | corrected |
+| ESC-VALUE-NOT-VISIBLE | `scripts/rcap-official-forms/rcap-field-semantics.mjs` | 1 | expected participant values visibly present | corrected |
 | ESC-SIDECAR-NONCONFORMANT | `scripts/rcap-official-forms/rcap-artifact-provenance.mjs` | 26 | artifact provenance complete and hash-matched | open |
 
 ### ESC-GEOMETRY-NOT-AN-INPUT
@@ -39,6 +39,8 @@ The Dockerfile copies scripts/rcap-render-worker.mjs, scripts/lib/ and src/. Nei
 **Family-owned follow-up** — re-derive each field map and re-render; the maps are generated, so no family file is hand-edited
 
 **Mutation that must turn red** — Rename a protected field to an innocuous name and re-derive: the binder must still refuse it on geometry.
+
+**Corrected by** — captureWidgetContext() and pageRegions() in the existing content-stream geometry module feed decideBinding a widget's rect and the printed section heading above it; a binding inside a REGIONAL_PROTECT_CATEGORIES region is refused whatever the field is called
 
 **Families** — AK:tf-800-form-en, AK:tf-805-form-en, KY:aoc-334-form-en, KY:aoc-496-3-form-en, NC:aoc-cr-287-form-en, NC:aoc-cr-288-form-en, NC:aoc-cr-296-form-en, NC:aoc-cr-298-form-en, NC:aoc-cv-226-support-en, VA:cc-1201-form-en, VA:cc-1473-form-en, NE:dc-1-15-form-en
 
@@ -118,6 +120,8 @@ The Dockerfile copies scripts/rcap-render-worker.mjs, scripts/lib/ and src/. Nei
 
 **Mutation that must turn red** — Flatten a form with an unselected dropdown: the prompt string must not appear in the page content stream.
 
+**Corrected by** — selectOnePerSlot() reduces overlapping widgets carrying one fact to a single binding, the finalizer decides before it writes so the artifact and the map agree, and an unselected chooser's value and stale appearance stream are both cleared before flatten
+
 **Families** — NE:cc-6-11-2-form-en, NE:cc-6-11-form-en, NE:cc-6-12-form-en, NE:cc-6-15-1-form-en, NE:dc-1-15-form-en
 
 ### ESC-VALUE-NOT-VISIBLE
@@ -131,6 +135,8 @@ The Dockerfile copies scripts/rcap-render-worker.mjs, scripts/lib/ and src/. Nei
 **Family-owned follow-up** — re-render VT 600-00228 and confirm the applicant fields carry values
 
 **Mutation that must turn red** — Offer full_legal_name to a field named `2` sitting under a printed 'Name' caption: it must bind, not refuse.
+
+**Corrected by** — the printed caption beside a widget is captured and matched as a fallback when the field's own name matches nothing, so VT 600-00228's numbered fields bind without a single explicitFieldMapping
 
 **Families** — VT:600-00228-support-en
 

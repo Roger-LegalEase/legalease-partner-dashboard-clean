@@ -67,6 +67,17 @@ export const PROTECT_RULES = [
   ["disposition_or_hearing", /\bdisposition\b|hearing\s*(date|time|result)|\bsentenc(e|ing)\b|\bconvict(ed|ion)\b|\bplea\b|\bverdict\b/]
 ];
 
+// The protect categories that describe an AREA of a page rather than a box.
+// A widget inside a section headed by one of these is in territory the
+// participant does not complete, whatever the widget is called.
+//
+// The rest are deliberately absent. A "$" or a race question is a property of
+// one field; a heading that mentions a fee does not make the page a fee block.
+export const REGIONAL_PROTECT_CATEGORIES = new Set([
+  "service_block", "notarization", "court", "clerk", "prosecutor",
+  "attorney", "outside_party", "responsible_official", "licensing_board", "agency"
+]);
+
 // --- allowlisted fact descriptors ------------------------------------------
 // The ONLY things that may ever be written. Each declares the value type it
 // carries and, where the fact is legally sensitive, that it may not bind
@@ -164,6 +175,12 @@ function rowIndexOf(name) {
   return n >= 1 && n <= 40 ? n - 1 : null;
 }
 
+/** The allowlisted facts one subject string matches, refusals already applied. */
+export function descriptorsMatching(subject) {
+  const hay = haystack(subject);
+  return FACT_DESCRIPTORS.filter((d) => d.match.test(hay) && !(d.refuseWhen && d.refuseWhen.test(hay)));
+}
+
 /**
  * Decides, for one field, whether anything may be written into it.
  *
@@ -175,7 +192,7 @@ function rowIndexOf(name) {
  * and it can never override a protect rule or a type guard.
  */
 export function decideBinding(field, options = {}) {
-  const { name, pdfType, effectiveLabel } = field;
+  const { name, pdfType, effectiveLabel, regionHeading, regionIsDocumentTitle = false } = field;
   const {
     explicitMappings = {},
     captionOnly = false,
@@ -193,12 +210,49 @@ export function decideBinding(field, options = {}) {
   const category = protectCategoryOf(subject) ?? protectCategoryOf(name);
   if (category) return { writable: false, reason: "protected_category", category };
 
+  // Geometry. A widget sits inside a printed section of the page, and when
+  // that section's own heading is one the protect rules name, the widget is in
+  // court-owned territory whatever it is called. AK TF-800's certDate and NE
+  // DC 1:15's printedname both sit under a printed "Certificate of Service"
+  // and neither name says so; a platform that fills them signs and dates a
+  // sworn statement about service it has no knowledge of.
+  //
+  // This is the channel that makes protection independent of naming: renaming
+  // a protected field to something innocuous does not move it off the page.
+  //
+  // Two guards keep this narrow, and the canary suite put both there. Only
+  // REGIONAL_PROTECT_CATEGORIES apply: those name an area of a page that
+  // somebody other than the participant completes. `money`, `race` and
+  // `disposition_or_hearing` describe a box, not a section, and reading them
+  // as sections silenced every field on a form headed "APPLICATION TO WAIVE
+  // FILING FEES". And a document's own title never protects, because a title
+  // names the form rather than an area of it.
+  const regionCategory = regionHeading && !regionIsDocumentTitle ? protectCategoryOf(regionHeading) : null;
+  if (regionCategory && REGIONAL_PROTECT_CATEGORIES.has(regionCategory)) {
+    return { writable: false, reason: "protected_page_region", category: regionCategory, regionHeading };
+  }
+
   if (!WRITABLE_PDF_TYPES.has(pdfType)) {
     return { writable: false, reason: "non_text_field_type", category: "type_guard", pdfType };
   }
 
-  const hay = haystack(subject);
-  const matches = FACT_DESCRIPTORS.filter((d) => d.match.test(hay) && !(d.refuseWhen && d.refuseWhen.test(hay)));
+  // Two channels, tried in order, and the order matters. The field NAME is
+  // authored by whoever built the form and is usually the more precise of the
+  // two, so it is asked first and every family whose names already work is
+  // unaffected. The printed LABEL is the fallback, for forms whose names carry
+  // no words at all: VT 600-00228 names its fields 2, 3, 4, 5, 5a, and with
+  // only the name channel a fee-waiver application filled nothing — no name,
+  // no address, no income — and said nothing about why.
+  //
+  // The fallback widens what can bind, never what can be written: both
+  // channels have already been past the protect rules above, and the label is
+  // checked against refuseWhen exactly as the name is.
+  let factBasis = "field_name";
+  let matches = descriptorsMatching(name);
+  if (matches.length === 0 && effectiveLabel && effectiveLabel !== name) {
+    matches = descriptorsMatching(effectiveLabel);
+    factBasis = matches.length > 0 ? "printed_label" : factBasis;
+  }
   if (matches.length === 0) return { writable: false, reason: "no_allowlisted_fact_matches" };
 
   // Most-specific-first ordering makes the first match the intended one; a
@@ -228,11 +282,11 @@ export function decideBinding(field, options = {}) {
         return { writable: false, reason: "repeating_row_without_indexed_fact", category: "charge_row", factId: descriptor.factId, rowIndex: row };
       }
       const leaf = descriptor.factId.slice("matter.".length);
-      return { writable: true, factId: `matter.charges[${row}].${leaf}`, valueType: descriptor.valueType, rowIndex: row };
+      return { writable: true, factId: `matter.charges[${row}].${leaf}`, valueType: descriptor.valueType, rowIndex: row, factBasis };
     }
   }
 
-  return { writable: true, factId: descriptor.factId, valueType: descriptor.valueType };
+  return { writable: true, factId: descriptor.factId, valueType: descriptor.valueType, factBasis };
 }
 
 /** Confirms a resolved value matches the type its descriptor declared. */
@@ -249,4 +303,126 @@ export function resolveFact(facts, factId) {
   const m = /^matter\.charges\[(\d+)\]\.(.+)$/.exec(factId);
   if (!m) return facts[factId];
   return facts["matter.charges"]?.[Number(m[1])]?.[m[2]];
+}
+
+// --- one widget per slot ----------------------------------------------------
+//
+// A binding decision is made one field at a time, which is correct for
+// deciding whether a field MAY be written and wrong for deciding whether it
+// SHOULD be. Nebraska's caption band is the case that shows the difference:
+// CC 6:12 carries TYPEOFCOURTRESULTS, TYPEOFCOURTDROPDOWN and a field named
+// "enter the type of court", all three overlapping between x 138 and x 242,
+// and all three legitimately matching matter.court. Each decision was right on
+// its own and the page rendered "District Court" twice, about 5pt apart, over
+// the court's own printed caption words.
+//
+// So this is a second pass over the decisions, not a change to any of them: a
+// fact that has already been allowed is placed once per slot.
+//
+// A slot is a group of widgets on one page that overlap each other and carry
+// the same fact. Overlap is the whole test — two widgets that do not overlap
+// are two places the form means the value to appear, and a form that prints a
+// name in the caption and again above the signature line is not defective.
+
+const CHOICE_PDF_TYPES = new Set(["dropdown", "optionlist"]);
+
+const rectsOverlap = (a, b) =>
+  Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x) > 0 &&
+  Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y) > 0;
+
+/**
+ * Ranks two widgets competing for one slot. Lower sorts first and wins.
+ *
+ * The ordering is stated rather than discovered, because an arbitrary winner
+ * is an unreviewable one:
+ *
+ *   1. a text field beats a choice field. A dropdown renders from an
+ *      appearance stream the source document authored, and the source's is
+ *      what carries "Choose the court";
+ *   2. the larger box beats the smaller. The bigger widget is the one the form
+ *      means to be read;
+ *   3. then topmost, then leftmost, then the name, so the result does not
+ *      depend on the order the fields happen to arrive in.
+ */
+function slotRank(a, b) {
+  const choice = (w) => (CHOICE_PDF_TYPES.has(w.pdfType) ? 1 : 0);
+  if (choice(a) !== choice(b)) return choice(a) - choice(b);
+  const area = (w) => (w.rect ? w.rect.width * w.rect.height : 0);
+  if (area(a) !== area(b)) return area(b) - area(a);
+  if (a.rect && b.rect && a.rect.y !== b.rect.y) return b.rect.y - a.rect.y;
+  if (a.rect && b.rect && a.rect.x !== b.rect.x) return a.rect.x - b.rect.x;
+  return String(a.name).localeCompare(String(b.name));
+}
+
+/**
+ * Reduces already-writable candidates to one widget per slot.
+ *
+ * `candidates` is [{ name, factId, pdfType, page, rect }]. Returns
+ * { kept, refused } where every input appears in exactly one of them, so the
+ * count is conserved and a family map still accounts for every field.
+ *
+ * A candidate with no page or no rectangle is kept untouched: without geometry
+ * there is no way to tell whether it collides with anything, and refusing on
+ * an absence would drop bindings that are fine.
+ */
+export function selectOnePerSlot(candidates) {
+  const kept = [];
+  const refused = [];
+  const grouped = new Map();
+
+  for (const candidate of candidates) {
+    if (!candidate.rect || !candidate.page) { kept.push(candidate); continue; }
+    const key = `${candidate.page}::${candidate.factId}`;
+    if (!grouped.has(key)) grouped.set(key, []);
+    grouped.get(key).push(candidate);
+  }
+
+  for (const group of grouped.values()) {
+    // Slots are built by transitive overlap: A overlapping B and B overlapping
+    // C is one slot, even where A and C do not touch. Three widgets stacked
+    // down a caption band are one place on the paper.
+    const slots = [];
+    for (const candidate of group) {
+      const touching = slots.filter((slot) => slot.some((m) => rectsOverlap(m.rect, candidate.rect)));
+      if (touching.length === 0) { slots.push([candidate]); continue; }
+      const merged = touching.flat().concat(candidate);
+      for (const slot of touching) slots.splice(slots.indexOf(slot), 1);
+      slots.push(merged);
+    }
+    for (const slot of slots) {
+      if (slot.length === 1) { kept.push(slot[0]); continue; }
+      const ordered = [...slot].sort(slotRank);
+      const winner = ordered[0];
+      kept.push(winner);
+      for (const loser of ordered.slice(1)) {
+        refused.push({
+          ...loser,
+          reason: "duplicate_widget_for_one_slot",
+          category: "caption_slot",
+          keptInstead: winner.name,
+          overlapsWith: slot.filter((m) => m.name !== loser.name).map((m) => m.name)
+        });
+      }
+    }
+  }
+
+  return { kept, refused };
+}
+
+/**
+ * Whether a choice field's current value is the source document's own chooser
+ * prompt rather than a selection.
+ *
+ * Nebraska's dropdowns ship selected on "Choose the court" and "Choose the
+ * county". Left alone through a flatten those strings are drawn onto the page
+ * as ordinary ink, and a filed pleading tells the court to choose one.
+ */
+export function isChooserPrompt(value, options = []) {
+  const text = String(value ?? "").trim();
+  if (text === "") return false;
+  if (/^[\s_\-–—.·•]+$/.test(text)) return true;
+  if (/^(--+|choose|select|pick|click|please\s+(choose|select|pick)|enter\s+the)\b/i.test(text)) return true;
+  // A value that is the first option of a list it does not otherwise resemble
+  // is the list's own placeholder: forms put the prompt in slot zero.
+  return options.length > 1 && String(options[0]).trim() === text && /\b(choose|select|pick|none)\b/i.test(text);
 }

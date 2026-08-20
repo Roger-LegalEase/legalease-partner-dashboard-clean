@@ -8,12 +8,12 @@
 // one, because an intermediate is not what gets filed.
 import { createRequire } from "node:module";
 import crypto from "node:crypto";
-import { decideBinding, resolveFact, valueMatchesType } from "./rcap-field-semantics.mjs";
+import { decideBinding, resolveFact, valueMatchesType, selectOnePerSlot, isChooserPrompt } from "./rcap-field-semantics.mjs";
 import { fitTextToWidget, applyFitToTextField, MIN_READABLE_FONT_SIZE } from "./rcap-text-fitting.mjs";
 import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances } from "./rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFTextField, PDFDropdown, StandardFonts, rgb } = require("pdf-lib");
+const { PDFDocument, PDFTextField, PDFDropdown, PDFName, StandardFonts, rgb } = require("pdf-lib");
 
 // A fixed instant: a fresh document otherwise stamps the wall clock into its
 // info dictionary, and every render of the same facts would differ.
@@ -376,20 +376,41 @@ export async function finalizeOfficialForm({
     expectedValues: []
   };
 
+  // Deciding and writing used to happen in one pass, which cannot see that two
+  // widgets are competing for one place on the paper. Every field is decided
+  // first, the writable ones are reduced to one per slot, and only then is
+  // anything written — so the artifact and the map agree about which widget
+  // carries the value.
+  const allowed = [];
   for (const field of census) {
     const decision = decideBinding(
-      { name: field.name, pdfType: field.type, effectiveLabel: field.effectiveLabel },
+      { name: field.name, pdfType: field.type, effectiveLabel: field.effectiveLabel, regionHeading: field.regionHeading },
       { explicitMappings, captionOnly, availableChargeRows, documentAcceptsFill }
     );
 
     if (!decision.writable) {
-      report.refused.push({ field: field.name, reason: decision.reason, category: decision.category ?? null });
-      if (decision.reason === "protected_category" || decision.category === "type_guard") {
+      report.refused.push({ field: field.name, reason: decision.reason, category: decision.category ?? null,
+        regionHeading: decision.regionHeading ?? null });
+      if (decision.reason === "protected_category" || decision.reason === "protected_page_region" || decision.category === "type_guard") {
         report.protectedFields.push({ field: field.name, category: decision.category });
       }
       continue;
     }
+    allowed.push({
+      field, decision,
+      name: field.name, factId: decision.factId, pdfType: field.type,
+      page: field.widgets?.[0]?.page ?? 1, rect: field.widgets?.[0]?.rect ?? null
+    });
+  }
 
+  const slots = selectOnePerSlot(allowed);
+  for (const loser of slots.refused) {
+    report.refused.push({ field: loser.name, reason: loser.reason, category: loser.category,
+      factId: loser.factId, keptInstead: loser.keptInstead });
+  }
+  report.slotArbitration = { candidates: allowed.length, kept: slots.kept.length, refusedAsDuplicate: slots.refused.length };
+
+  for (const { field, decision } of slots.kept) {
     const value = resolveFact(facts, decision.factId);
     if (!valueMatchesType(value, decision.valueType)) {
       report.refused.push({ field: field.name, reason: "no_value_or_type_mismatch", factId: decision.factId });
@@ -452,6 +473,30 @@ export async function finalizeOfficialForm({
       fontSize: fit.fontSize, outcome: fit.outcome, lines: fit.lines.length
     });
     report.expectedValues.push(text);
+  }
+
+  // A choice field nobody selected still carries the source document's own
+  // chooser prompt, and flattening draws it onto the page as ordinary ink:
+  // Nebraska's forms ship selected on "Choose the court" and "Choose the
+  // county", so a filed pleading told the court to choose one.
+  //
+  // Clearing the value alone does not do it. pdf-lib leaves the widget's
+  // existing appearance stream in place and the prompt renders from that, so
+  // the stale appearance goes too and flatten regenerates from nothing. A
+  // field this run WROTE is never touched here.
+  const written = new Set(report.written.map((w) => w.field));
+  report.promptsSuppressed = [];
+  for (const handle of form.getFields()) {
+    const name = handle.getName();
+    if (written.has(name)) continue;
+    if (typeof handle.getOptions !== "function" || typeof handle.getSelected !== "function") continue;
+    let selected = [];
+    let options = [];
+    try { selected = handle.getSelected() ?? []; options = handle.getOptions() ?? []; } catch { continue; }
+    if (!selected.some((value) => isChooserPrompt(value, options))) continue;
+    handle.acroField.dict.delete(PDFName.of("V"));
+    for (const widget of handle.acroField.getWidgets()) widget.dict.delete(PDFName.of("AP"));
+    report.promptsSuppressed.push({ field: name, suppressed: selected });
   }
 
   const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc, { defaultFont: helvetica });
