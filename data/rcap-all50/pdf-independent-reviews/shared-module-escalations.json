@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "rcap-pdf-shared-module-escalation/v1",
+  "generatedBy": "scripts/generate-rcap-pdf-correction-queue.mjs",
+  "purpose": "The shared PDF modules are frozen and these are the defects that live in them. One escalation each, naming the module, the current behaviour, the required behaviour, the families waiting, the mutation that should fail, and why no family-owned edit substitutes.",
+  "handTo": "claude/rcap-problematic-pdf-full-remediation",
+  "freezeRespected": "This lane wrote no shared-module change and no family-local workaround for any of these.",
+  "totals": {
+    "escalations": 8,
+    "familiesWaiting": 26
+  },
+  "escalations": [
+    {
+      "id": "ESC-GEOMETRY-NOT-AN-INPUT",
+      "module": "scripts/rcap-official-forms/rcap-field-semantics.mjs, scripts/implement-rcap-official-forms-d1.mjs",
+      "currentBehaviour": "decideBinding() receives { name, pdfType, effectiveLabel } and effectiveLabel is undefined for every field of every family, so `subject = effectiveLabel ?? name` resolves to the internal AcroForm field name. Widget rects are captured into field-census.json and never passed. Geometry is not an input to protection.",
+      "requiredBehaviour": "The widget rect and the printed caption above it are inputs to decideBinding, and a binding whose rect falls inside a court-owned page region is refused whatever the field is called.",
+      "mutationThatShouldFail": "Rename a protected field to an innocuous name and re-derive: the binder must still refuse it on geometry.",
+      "whyNoFamilyCorrectionSolvesIt": "The field maps are generated. A hand-edited map is overwritten by the next re-derivation, and hand-editing 20 of them would leave the defect live for every family added afterwards.",
+      "affectedFamilies": [
+        "AK:tf-800-form-en",
+        "AK:tf-805-form-en",
+        "KY:aoc-334-form-en",
+        "KY:aoc-496-3-form-en",
+        "NC:aoc-cr-287-form-en",
+        "NC:aoc-cr-288-form-en",
+        "NC:aoc-cr-296-form-en",
+        "NC:aoc-cr-298-form-en",
+        "NC:aoc-cv-226-support-en",
+        "VA:cc-1201-form-en",
+        "VA:cc-1473-form-en",
+        "NE:dc-1-15-form-en"
+      ]
+    },
+    {
+      "id": "ESC-MANUAL-NOT-NEVER-WRITE",
+      "module": "scripts/implement-rcap-official-forms-d1.mjs:151, scripts/verify-rcap-official-forms-d1.mjs:206",
+      "currentBehaviour": "NEVER_WRITE is { prohibited, protected, signature, court_or_agency, outside_party }. `manual` is absent from both sets, so a field the classifier declined to classify can still be bound and written, and the verifier carries the identical omission so it cannot catch what the binder allowed.",
+      "requiredBehaviour": "`manual` is in NEVER_WRITE in both the binder and the verifier.",
+      "mutationThatShouldFail": "Classify a field `manual` and bind it: the binder must refuse, and the verifier must fail if it did not.",
+      "whyNoFamilyCorrectionSolvesIt": "The classification is correct — the field really is manual. What is wrong is that `manual` is not treated as unwritable, which is one constant in shared code.",
+      "affectedFamilies": [
+        "KY:aoc-334-form-en",
+        "KY:aoc-496-2-form-en",
+        "KY:aoc-496-form-en",
+        "NC:aoc-cr-288-form-en"
+      ]
+    },
+    {
+      "id": "ESC-NO-SSN-RULE",
+      "module": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "currentBehaviour": "PROTECT_RULES carries no SSN pattern, so a Defendant's SSN box is an ordinary writable field and takes the participant's full legal name.",
+      "requiredBehaviour": "\\bssn\\b|social\\s*security is a protect rule.",
+      "mutationThatShouldFail": "Offer full_legal_name to a field named `Def.VitalStats.SSN`: it must be refused.",
+      "whyNoFamilyCorrectionSolvesIt": "Three families hit this today and every future family with an SSN box hits it tomorrow. A local refusal in three field maps leaves the rule missing.",
+      "affectedFamilies": [
+        "KY:aoc-334-form-en",
+        "KY:aoc-496-2-form-en",
+        "KY:aoc-496-form-en"
+      ]
+    },
+    {
+      "id": "ESC-NO-REFUSE-WHEN",
+      "module": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "currentBehaviour": "Descriptor matchers are positive-only. street_address matches a City box and a bank-name box; full_legal_name matches an attorney-name line and a street line. The first pattern that hits wins, so the address prints twice and the petitioner is named as their own attorney.",
+      "requiredBehaviour": "Descriptors carry refuseWhen guards: street_address declines city/state/zip subjects, full_legal_name declines street and bank subjects.",
+      "mutationThatShouldFail": "Offer street_address to a field named `Def.Address.City`: it must be refused rather than matched.",
+      "whyNoFamilyCorrectionSolvesIt": "The guard belongs to the descriptor, which is shared. Eight families would each need the same local exception.",
+      "affectedFamilies": [
+        "KY:aoc-496-2-form-en",
+        "KY:aoc-497-form-en",
+        "NC:aoc-cr-287-form-en",
+        "NC:aoc-cr-288-form-en",
+        "NC:aoc-cr-296-form-en",
+        "NC:aoc-cr-297-form-en",
+        "NC:aoc-cv-226-support-en",
+        "VA:cc-1201-form-en",
+        "VA:cc-1473-form-en"
+      ]
+    },
+    {
+      "id": "ESC-SERVICE-BLOCK-BY-NAME",
+      "module": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "currentBehaviour": "The service_block protect rule matches /certificate\\s*of\\s*service/ against the field NAME, while deterministic.filing_date matches /cert\\s*date/. A field called certDate under a printed 'Certificate of Service' heading is therefore filled by the platform, producing a half-completed sworn certification of service dated by a system that does not know when service occurred.",
+      "requiredBehaviour": "service_block fires from the block's printed heading, or cert-date is removed from the filing_date matcher.",
+      "mutationThatShouldFail": "Offer filing_date to `certDate` under a service heading: it must be refused.",
+      "whyNoFamilyCorrectionSolvesIt": "This is a sworn statement. A per-family suppression that a re-render can undo is not an acceptable control for it.",
+      "affectedFamilies": [
+        "AK:tf-800-form-en",
+        "AK:tf-805-form-en",
+        "NC:aoc-cr-298-form-en"
+      ]
+    },
+    {
+      "id": "ESC-CAPTION-VARIANTS",
+      "module": "scripts/implement-rcap-official-forms-d1.mjs and the shared content-stream geometry module",
+      "currentBehaviour": "Every widget in a multi-purpose caption band is bound. After flattening, variants that JavaScript used to show and hide all render at once, overlapping, covering the court's own printed words, and unfilled dropdowns keep their prompt text ('Choose the court') as ink on a filed pleading.",
+      "requiredBehaviour": "Exactly one field per caption slot is bound and the rest refused; an unfilled dropdown's prompt is suppressed at flatten.",
+      "mutationThatShouldFail": "Flatten a form with an unselected dropdown: the prompt string must not appear in the page content stream.",
+      "whyNoFamilyCorrectionSolvesIt": "Five Nebraska families share one caption block. The selection rule is in the binder, not in any of their maps.",
+      "affectedFamilies": [
+        "NE:cc-6-11-2-form-en",
+        "NE:cc-6-11-form-en",
+        "NE:cc-6-12-form-en",
+        "NE:cc-6-15-1-form-en",
+        "NE:dc-1-15-form-en"
+      ]
+    },
+    {
+      "id": "ESC-VALUE-NOT-VISIBLE",
+      "module": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "currentBehaviour": "VT 600-00228 names its fields as bare digits. With only the name channel available every descriptor refuses no_allowlisted_fact_matches, and the finished fee-waiver application carries none of the applicant's information.",
+      "requiredBehaviour": "The printed label is captured into effectiveLabel and matched.",
+      "mutationThatShouldFail": "Offer full_legal_name to a field named `2` sitting under a printed 'Name' caption: it must bind, not refuse.",
+      "whyNoFamilyCorrectionSolvesIt": "explicitFieldMappings for 15 numbered fields is exactly the local workaround the freeze forbids, and it is the same missing channel as ESC-GEOMETRY-NOT-AN-INPUT seen from the other side.",
+      "affectedFamilies": [
+        "VT:600-00228-support-en"
+      ]
+    },
+    {
+      "id": "ESC-SIDECAR-NONCONFORMANT",
+      "module": "scripts/rcap-official-forms/rcap-artifact-provenance.mjs, scripts/verify-rcap-shared-pdf-contract.mjs",
+      "currentBehaviour": "0 of 27 committed sidecars carry the 20 fields the shared contract requires; 12 fields are null in a typical one. The contract's verifier proves its P-block against a sidecar it synthesises from a canary and never opens a committed one, so nothing had compared them.",
+      "requiredBehaviour": "The provenance module emits all 20 fields, and the contract verifier reads a committed sidecar.",
+      "mutationThatShouldFail": "Null one field in a committed sidecar: the contract verifier must go red.",
+      "whyNoFamilyCorrectionSolvesIt": "Hand-populating 27 sidecars would satisfy the count and leave the emitter and its verifier both wrong, so the 28th would be non-conformant again.",
+      "affectedFamilies": [
+        "AK:tf-800-form-en",
+        "AK:tf-805-form-en",
+        "AK:tf-810-form-en",
+        "KY:aoc-334-form-en",
+        "KY:aoc-496-2-form-en",
+        "KY:aoc-496-3-form-en",
+        "KY:aoc-496-4-form-en",
+        "KY:aoc-496-form-en",
+        "KY:aoc-497-form-en",
+        "NC:aoc-cr-287-form-en",
+        "NC:aoc-cr-288-form-en",
+        "NC:aoc-cr-296-form-en",
+        "NC:aoc-cr-297-form-en",
+        "NC:aoc-cr-298-form-en",
+        "NC:aoc-cv-226-support-en",
+        "VA:cc-1201-form-en",
+        "VA:cc-1473-form-en",
+        "WI:cr-266-form-en",
+        "NE:cc-6-11-2-form-en",
+        "NE:cc-6-11-form-en",
+        "NE:cc-6-12-form-en",
+        "NE:cc-6-15-1-form-en",
+        "NE:dc-1-15-form-en",
+        "VT:200-00132-form-en",
+        "VT:200-00132a-form-en",
+        "VT:600-00228-support-en"
+      ]
+    }
+  ]
+}
