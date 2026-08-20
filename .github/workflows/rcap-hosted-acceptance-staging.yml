@@ -176,16 +176,6 @@ jobs:
         with:
           node-version: 20
 
-      # Runs in every phase that runs the gate, not just the gate-only phase.
-      # It used to be `inputs.phase == 'checkout_gate'`, so a `full` run executed
-      # the Checkout gate while nothing verified it — and the gate reached a
-      # hosted acceptance run still pinning a superseded application SHA and
-      # worker digest. A guard that skips the phase it most needs to cover is
-      # not a guard.
-      - name: Verify the reuse-only human Checkout gate
-        if: steps.contract.outputs.gate == 'true' || steps.contract.outputs.matrix == 'true'
-        run: node scripts/verify-rcap-hosted-checkout-gate.mjs
-
       - name: Verify the read-only post-failure Vercel audit
         if: inputs.phase == 'vercel_audit'
         run: node scripts/verify-rcap-vercel-failure-audit.mjs
@@ -274,6 +264,22 @@ jobs:
             echo "gate=$GATE"
           } >> "$GITHUB_OUTPUT"
           echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE"
+
+      # Runs in every phase that runs the gate, not just the gate-only phase.
+      # It used to be `inputs.phase == 'checkout_gate'`, so a `full` run executed
+      # the Checkout gate while nothing verified it — and the gate reached a
+      # hosted acceptance run still pinning a superseded application SHA and
+      # worker digest. A guard that skips the phase it most needs to cover is
+      # not a guard.
+      #
+      # It must sit AFTER the contract step: a condition reading
+      # steps.contract.outputs.* from a position above that step resolves to the
+      # empty string and silently skips — the same class of defect this step
+      # exists to catch, which is exactly how it behaved when placed earlier.
+      - name: Verify the reuse-only human Checkout gate
+        id: verify_checkout_gate
+        if: steps.contract.outputs.gate == 'true' || steps.contract.outputs.matrix == 'true'
+        run: node scripts/verify-rcap-hosted-checkout-gate.mjs
 
       # ONE boundary for which Preview the matrix runs against. Always executes
       # for any phase needing a Preview, and returns exactly one of:
@@ -434,6 +440,7 @@ jobs:
         if: always()
         env:
           PHASE: ${{ inputs.phase }}
+          O_CONTRACT: ${{ steps.contract.outcome }}
           RUNS_MATRIX: ${{ steps.contract.outputs.matrix }}
           RUNS_GATE: ${{ steps.contract.outputs.gate }}
           O_RESOLVE: ${{ steps.resolve_preview.outcome }}
@@ -443,6 +450,7 @@ jobs:
           O_BUILD: ${{ steps.matrix_build.outcome }}
           O_REGISTRY: ${{ steps.registry_login.outcome }}
           O_DEPS: ${{ steps.gate_deps.outcome }}
+          O_VERIFY_GATE: ${{ steps.verify_checkout_gate.outcome }}
           O_GATE: ${{ steps.checkout_gate.outcome }}
           O_GOLDEN: ${{ steps.golden_journey.outcome }}
           O_PAYMENT: ${{ steps.payment_journey.outcome }}
@@ -458,7 +466,20 @@ jobs:
               *)       echo "  $2  $1"; fail=1 ;;
             esac
           }
-          echo "phase=$PHASE matrix=$RUNS_MATRIX checkoutGate=$RUNS_GATE"
+          echo "phase=$PHASE contract=$O_CONTRACT matrix=$RUNS_MATRIX checkoutGate=$RUNS_GATE"
+          # Without this, a contract step that failed or never ran leaves
+          # RUNS_MATRIX empty, the assertions below are all skipped, and this
+          # gate reports success having checked nothing — the exact vacuous pass
+          # it exists to prevent. Every phase must reach a real decision.
+          if [ "$O_CONTRACT" != "success" ]; then
+            echo "  $O_CONTRACT  execution contract did not produce a decision; nothing downstream can be trusted"
+            echo "::error::the phase contract did not run to success, so this gate cannot assert the matrix ran; this run is not acceptance evidence"
+            exit 1
+          fi
+          case "$RUNS_MATRIX/$RUNS_GATE" in
+            true/*|false/true|false/false) ;;
+            *) echo "::error::the contract emitted matrix='$RUNS_MATRIX' gate='$RUNS_GATE', which is not a decision this gate can read"; exit 1 ;;
+          esac
           if [ "$RUNS_MATRIX" = "true" ]; then
             require "Preview resolution boundary"        "$O_RESOLVE"
             # Reuse legitimately skips the raw deploy step; a non-reuse run must have deployed.
@@ -471,6 +492,7 @@ jobs:
             require "frozen application build"           "$O_BUILD"
             require "registry login for accepted worker" "$O_REGISTRY"
             require "frozen dependencies"                "$O_DEPS"
+            require "Checkout gate pins the accepted release" "$O_VERIFY_GATE"
             require "Sandbox Checkout and unpaid 402"    "$O_GATE"
             require "hosted golden-journey matrix"       "$O_GOLDEN"
             require "Stripe payment and packet delivery" "$O_PAYMENT"
@@ -478,6 +500,7 @@ jobs:
           elif [ "$RUNS_GATE" = "true" ]; then
             require "registry login for accepted worker" "$O_REGISTRY"
             require "frozen dependencies"                "$O_DEPS"
+            require "Checkout gate pins the accepted release" "$O_VERIFY_GATE"
             require "Sandbox Checkout and unpaid 402"    "$O_GATE"
           else
             echo "  phase does not claim the matrix; nothing to assert here."

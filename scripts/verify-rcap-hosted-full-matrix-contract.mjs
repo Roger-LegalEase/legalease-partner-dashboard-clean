@@ -37,12 +37,37 @@ const REQUIRED_MATRIX_IDS = [
 
 function stepsOf(text) {
   const doc = yaml.load(text);
-  return Object.values(doc.jobs)[0].steps.map((s) => ({
+  return Object.values(doc.jobs)[0].steps.map((s, index) => ({
+    index,
     name: s.name ?? "",
     id: s.id ?? null,
     if: s.if === undefined ? null : String(s.if),
     run: typeof s.run === "string" ? s.run : ""
   }));
+}
+
+/**
+ * A condition reading `steps.X.outputs.*` from ABOVE step X does not error — it
+ * resolves to the empty string, so the condition is false and the step skips
+ * without a word. That is the silent-skip failure mode this whole file exists to
+ * prevent, arriving through step ORDER rather than through a phase list, and it
+ * is invisible in review because the condition itself reads correctly.
+ */
+function forwardReferenceProblems(steps) {
+  const positionOf = new Map(steps.filter((s) => s.id).map((s) => [s.id, s.index]));
+  const problems = [];
+  for (const step of steps) {
+    if (!step.if) continue;
+    for (const [, referenced] of step.if.matchAll(/steps\.([A-Za-z0-9_-]+)\.outputs\./g)) {
+      const at = positionOf.get(referenced);
+      if (at === undefined) {
+        problems.push(`'${step.name}' reads steps.${referenced}.outputs.* but no step carries that id, so the condition is always false`);
+      } else if (at >= step.index) {
+        problems.push(`'${step.name}' (step ${step.index + 1}) reads steps.${referenced}.outputs.* but '${referenced}' is step ${at + 1}; the value is empty at that point and the step silently skips`);
+      }
+    }
+  }
+  return problems;
 }
 
 function failures(hostedText, callerText) {
@@ -94,6 +119,8 @@ function failures(hostedText, callerText) {
     fail(/exit 1/.test(gate.run), "the gate never fails the job");
   }
 
+  for (const problem of forwardReferenceProblems(steps)) fail(false, problem);
+
   // The verdict must be earned from emitted evidence.
   fail(/verify-rcap-hosted-acceptance-verdicts\.mjs/.test(hostedText),
     "the workflow never runs the hosted verdict verifier, so a run could report success with no evidence behind it");
@@ -133,7 +160,17 @@ if (MUTATIONS) {
       [h.replace(`            *)\n              echo "::error::unknown phase '$PHASE'; refusing rather than defaulting to a weaker phase"\n              exit 1\n              ;;`,
                  "            *)             DEPLOY=true;  MATRIX=false; GATE=false ;;"), c]],
     ["the hosted verdict verifier is dropped", (h, c) =>
-      [h.replace("node scripts/verify-rcap-hosted-acceptance-verdicts.mjs", "echo skipped"), c]]
+      [h.replace("node scripts/verify-rcap-hosted-acceptance-verdicts.mjs", "echo skipped"), c]],
+    // Order, not wording: the condition still reads correctly and is now always
+    // false, which is the shape that let the Checkout gate go unverified.
+    ["a contract-gated step is moved above the contract step", (h, c) => {
+      const step = "      - name: Verify the reuse-only human Checkout gate\n        id: verify_checkout_gate\n        if: steps.contract.outputs.gate == 'true' || steps.contract.outputs.matrix == 'true'\n        run: node scripts/verify-rcap-hosted-checkout-gate.mjs\n";
+      const without = h.replace(step, "");
+      return [without.replace("      - name: Set up Node\n", `${step}\n      - name: Set up Node\n`), c];
+    }],
+    ["a step is gated on a step id that does not exist", (h, c) =>
+      [h.replace("if: steps.contract.outputs.matrix == 'true'\n        env:\n          SUPABASE_ACCESS_TOKEN",
+                 "if: steps.no_such_step.outputs.matrix == 'true'\n        env:\n          SUPABASE_ACCESS_TOKEN"), c]]
   ];
 
   let undetected = 0;
