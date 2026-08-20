@@ -62,10 +62,21 @@ function failures(hosted, caller, resolver) {
   }
 
   // 9. downstream reads the resolved identity from the one boundary.
-  fail(/HOSTED_PREVIEW_HOSTNAME: \$\{\{ steps\.resolve_preview\.outputs\.hostname \}\}/.test(hosted),
+  // The resolver first, with the deploy step as the only permitted fallback:
+  // on the create path the resolver's outputs are legitimately empty, because
+  // the deployment does not exist yet when the resolver runs. What must never
+  // appear downstream is a raw `inputs.preview_*`, which would bypass the
+  // boundary entirely.
+  fail(/HOSTED_PREVIEW_HOSTNAME: \$\{\{ steps\.resolve_preview\.outputs\.hostname( \|\| steps\.deploy_preview\.outputs\.hostname)? \}\}/.test(hosted),
     "downstream steps do not read the hostname from the resolution boundary");
-  fail(/HOSTED_PREVIEW_DEPLOYMENT_ID: \$\{\{ steps\.resolve_preview\.outputs\.deployment_id \}\}/.test(hosted),
+  fail(/HOSTED_PREVIEW_DEPLOYMENT_ID: \$\{\{ steps\.resolve_preview\.outputs\.deployment_id( \|\| steps\.deploy_preview\.outputs\.deployment_id)? \}\}/.test(hosted),
     "downstream steps do not read the deployment id from the resolution boundary");
+  {
+    const consumers = steps.filter((s) => s.id && s.id !== "resolve_preview");
+    const bypassing = consumers.filter((s) => /HOSTED_PREVIEW_(HOSTNAME|DEPLOYMENT_ID): \$\{\{ inputs\./.test(JSON.stringify(s.env ?? {})));
+    fail(bypassing.length === 0,
+      `${bypassing.map((s) => s.id).join(", ")} read the Preview identity straight from the workflow inputs, bypassing the resolution boundary`);
+  }
 
   // 11. the gate asserts the boundary, not the raw deploy step.
   const gate = byId.get("antiskip");
@@ -128,7 +139,7 @@ if (MUTATIONS) {
     ["an exact reuse match still runs the deploy step", (h, c, r) =>
       [h.replace(" && steps.resolve_preview.outputs.reused != 'true'", ""), c, r]],
     ["downstream uses a hostname other than the resolved one", (h, c, r) =>
-      [h.replace("HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}", "HOSTED_PREVIEW_HOSTNAME: ${{ inputs.preview_hostname }}"), c, r]],
+      [h.replace("HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}", "HOSTED_PREVIEW_HOSTNAME: ${{ inputs.preview_hostname }}"), c, r]],
     ["the deployment id is never resolved from the hostname", (h, c, r) =>
       [h, c, r.replace(/deploymentIdWasResolvedFromHostname/g, "unused")]],
     ["the anti-skip gate treats reuse as a skipped requirement", (h, c, r) =>

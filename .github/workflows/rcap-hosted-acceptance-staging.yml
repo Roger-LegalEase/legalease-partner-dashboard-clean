@@ -387,16 +387,21 @@ jobs:
         if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
         run: npm ci
 
+      # Bound to the contract's own GATE flag alone. This is the REUSE-ONLY human
+      # Checkout gate: it prepares one real Sandbox Session for Roger and stops
+      # unpaid. `payment` sets GATE=false because the automated payment journey
+      # covers the unpaid-402 and cs_test_ Checkout cases itself, so running this
+      # under `payment` contradicted the contract that scheduled the phase.
       - name: Prepare one real Pennsylvania Sandbox Checkout and stop unpaid
         id: checkout_gate
-        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
+        if: steps.contract.outputs.gate == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
-          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id }}
-          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -508,7 +513,14 @@ jobs:
             require "registry login for accepted worker" "$O_REGISTRY"
             require "frozen dependencies"                "$O_DEPS"
             require "Checkout gate pins the accepted release" "$O_VERIFY_GATE"
-            require "Sandbox Checkout and unpaid 402"    "$O_GATE"
+            # Only a phase whose contract set GATE=true runs the reuse-only human
+            # Checkout gate. Requiring it unconditionally would demand a step the
+            # contract deliberately did not schedule.
+            if [ "$RUNS_GATE" = "true" ]; then
+              require "Sandbox Checkout and unpaid 402"  "$O_GATE"
+            else
+              echo "  ok       reuse-only Checkout gate not scheduled by this phase"
+            fi
             require "hosted golden-journey matrix"       "$O_GOLDEN"
             require "Stripe payment and packet delivery" "$O_PAYMENT"
             require "PA / MS / IL galleries"             "$O_GALLERY"

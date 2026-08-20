@@ -31,10 +31,11 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const MUTATIONS = process.argv.includes("--mutations");
 const HOSTED = ".github/workflows/rcap-hosted-acceptance-staging.yml";
 const RESOLVER = "scripts/rcap-hosted-resolve-preview.mjs";
+const DEPLOY = "scripts/rcap-hosted-acceptance-deploy.mjs";
 
 const read = (p) => fs.readFileSync(path.join(rootDir, p), "utf8");
 
-function failures(hosted, resolver) {
+function failures(hosted, resolver, deployScript) {
   const out = [];
   const fail = (condition, message) => { if (!condition) out.push(message); };
   const doc = yaml.load(hosted);
@@ -117,6 +118,26 @@ function failures(hosted, resolver) {
   fail(/await findExistingExactPreview\s*\(\)/.test(resolver),
     "R6 the resolver never calls the search, so it authorises a new Preview without looking for an existing one");
 
+  // The reuse-only human Checkout gate runs only when the contract scheduled it.
+  // Running it under `payment` (GATE=false) contradicted the contract and asked
+  // for a supplied deployment id the create path cannot have.
+  if (checkoutStep) {
+    fail(String(checkoutStep.if).trim() === "steps.contract.outputs.gate == 'true'",
+      "the reuse-only Checkout gate is not bound to the contract's GATE flag alone, so a phase that sets GATE=false still runs it");
+  }
+  if (gate) {
+    fail(/if \[ "\$RUNS_GATE" = "true" \]; then\s*\n\s*require "Sandbox Checkout and unpaid 402"/.test(gate.run ?? ""),
+      "the anti-skip gate demands the Checkout gate even in phases whose contract did not schedule it");
+  }
+
+  // Identity after a fresh create. The resolver's outputs are deliberately empty
+  // on the create path — the deployment does not exist when the resolver runs —
+  // so the deploy step must publish what it created, and downstream must read it.
+  fail(/hostname=\$\{previewUrl/.test(deployScript) && /deployment_id=\$\{evidence\.deployment\?\.id/.test(deployScript),
+    "the deploy step does not publish the Preview identity it created, so downstream receives an empty deployment id");
+  fail(/steps\.resolve_preview\.outputs\.deployment_id \|\| steps\.deploy_preview\.outputs\.deployment_id/.test(hosted),
+    "downstream does not fall back to the deploy step's deployment id after a fresh create");
+
   // R7 — at most one new Preview.
   fail(deployStep !== undefined, "R7 the deploy step is gone");
   if (deployStep) {
@@ -160,7 +181,8 @@ function failures(hosted, resolver) {
 
 const hosted = read(HOSTED);
 const resolver = read(RESOLVER);
-const base = failures(hosted, resolver);
+const deployScript = read(DEPLOY);
+const base = failures(hosted, resolver, deployScript);
 
 if (MUTATIONS) {
   if (base.length > 0) {
@@ -205,17 +227,28 @@ if (MUTATIONS) {
       [h.replace("        if: inputs.phase == 'migrate' || inputs.phase == 'full' || inputs.phase == 'payment'",
                  "        if: inputs.phase == 'migrate' || inputs.phase == 'full'"), r]],
     ["the resolution record stops reporting the observed route state", (h, r) =>
-      [h, r.replace("routeState: extra.routeState ?? null,", "")]]
+      [h, r.replace("routeState: extra.routeState ?? null,", "")]],
+    ["the reuse-only Checkout gate runs in a phase whose contract set GATE=false", (h, r) =>
+      [h.replace("        id: checkout_gate\n        if: steps.contract.outputs.gate == 'true'",
+                 "        id: checkout_gate\n        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'"), r]],
+    ["the anti-skip gate demands a Checkout gate the contract never scheduled", (h, r) =>
+      [h.replace('            if [ "$RUNS_GATE" = "true" ]; then\n              require "Sandbox Checkout and unpaid 402"  "$O_GATE"',
+                 '            if true; then\n              require "Sandbox Checkout and unpaid 402"  "$O_GATE"'), r]],
+    ["the deploy step stops publishing the identity it created", (h, r, d) =>
+      [h, r, d.replace("`deployment_id=${evidence.deployment?.id ?? \"\"}`", "`unused=${\"\"}`")]],
+    ["downstream stops falling back to the deploy step's deployment id", (h, r, d) =>
+      [h.replace("${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}",
+                 "${{ steps.resolve_preview.outputs.deployment_id }}"), r, d]]
   ];
 
   let undetected = 0;
   for (const [label, mutate] of M) {
-    const [h, r] = mutate(hosted, resolver);
-    if (h === hosted && r === resolver) {
+    const [h, r, d] = mutate(hosted, resolver, deployScript);
+    if (h === hosted && r === resolver && (d ?? deployScript) === deployScript) {
       console.log(`MISSED   ${label} (anchor did not match)`); undetected += 1; continue;
     }
     let caught;
-    try { caught = failures(h, r).length > base.length; } catch { caught = true; }
+    try { caught = failures(h, r, d ?? deployScript).length > base.length; } catch { caught = true; }
     console.log(`${caught ? "caught  " : "MISSED  "} ${label}`);
     if (!caught) undetected += 1;
   }
