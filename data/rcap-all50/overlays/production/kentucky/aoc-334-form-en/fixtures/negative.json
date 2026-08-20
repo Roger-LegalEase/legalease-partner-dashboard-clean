@@ -3,6 +3,11 @@
   "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
   "refusedFields": [
     {
+      "field": "Court",
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
+    },
+    {
       "field": "CHARGE",
       "reason": "requires_explicit_mapping",
       "category": "sensitive_fact",
@@ -10,9 +15,8 @@
     },
     {
       "field": "Division",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "ViolationArrest  Date",
@@ -51,22 +55,24 @@
       "regionHeading": null
     },
     {
+      "field": "Date",
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
+    },
+    {
       "field": "2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Reset",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Print",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "County dropdown",
@@ -75,10 +81,14 @@
       "regionHeading": null
     },
     {
+      "field": "Text1",
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
+    },
+    {
       "field": "Defendants ssn",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     }
   ]
 }

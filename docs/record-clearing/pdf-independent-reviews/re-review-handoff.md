@@ -10,7 +10,6 @@ Each family below carries a correction_required verdict against superseded bytes
 | AK:tf-805-form-en | certDate | no | 3 |
 | KY:aoc-334-form-en | Defendants ssn | no | 3 |
 | KY:aoc-496-2-form-en | Def.VitalStats.SSN, Def.Info.JailId | no | 3 |
-| KY:aoc-496-4-form-en | — | no | 3 |
 | KY:aoc-496-form-en | Def.VitalStats.SSN, Def.Info.JailId | no | 3 |
 | KY:aoc-497-form-en | Def.Address.City | no | 3 |
 | NC:aoc-cr-287-form-en | PetitionerAddr2 | no | 3 |
@@ -26,7 +25,3 @@ Each family below carries a correction_required verdict against superseded bytes
 | NE:dc-1-15-form-en | — | no | 2 |
 | VA:cc-1201-form-en | — | no | 3 |
 | VA:cc-1473-form-en | — | no | 3 |
-| VT:200-00130-form-en | — | no | 3 |
-| VT:200-00132-form-en | — | no | 3 |
-| VT:200-00132a-form-en | — | no | 3 |
-| VT:600-00228-support-en | — | no | 3 |

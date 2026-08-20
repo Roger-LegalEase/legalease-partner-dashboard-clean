@@ -3,22 +3,24 @@
   "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
   "refusedFields": [
     {
+      "field": "Court",
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
+    },
+    {
       "field": "Division",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "area code",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Jail ID Number",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Defendants Birthdate",
@@ -28,9 +30,8 @@
     },
     {
       "field": "ssn",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "ViolationArrest Date",
@@ -40,33 +41,30 @@
     },
     {
       "field": "check sixty days",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "check sixty  before filing",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "check five years",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "CHARGE",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact",
-      "regionHeading": null
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "CHARGE_2",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact",
-      "regionHeading": null
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "CHARGE_3",
@@ -106,51 +104,44 @@
     },
     {
       "field": "requiring expungement",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "THEREFORE, IT IS HEREBY ORDERED:"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "2_2",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "THEREFORE, IT IS HEREBY ORDERED:"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "undefined_2",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "THEREFORE, IT IS HEREBY ORDERED:"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Print",
-      "reason": "protected_page_region",
-      "category": "agency",
-      "regionHeading": "AGENCY CERTIFICATION"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "Reset",
-      "reason": "protected_page_region",
-      "category": "agency",
-      "regionHeading": "AGENCY CERTIFICATION"
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "check offenses listed",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "regionHeading": null
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "check denied",
-      "reason": "protected_category",
-      "category": "court",
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "check felony chg",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "role"
     },
     {
       "field": "County dropdown",
