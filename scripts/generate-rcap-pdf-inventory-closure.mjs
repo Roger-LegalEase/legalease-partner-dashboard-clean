@@ -31,6 +31,7 @@ const HANDOFF = "data/rcap-all50/manifest-only-retirement-handoff.json";
 const RECONCILIATION = "data/rcap-all50/unmatched-source-reconciliation.json";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
 const ACQUISITION_QUEUE = "data/rcap-all50/source-acquisition-queue.json";
+const ARTIFACT_AUDIT = "data/rcap-all50/finalized-artifact-audit.json";
 const BATCH_MANIFEST = "data/rcap-all50/pdf-independent-reviews/batch-1-manifest.json";
 const BATCH_VERDICTS = "data/rcap-all50/pdf-independent-reviews/batch-1-verdicts.json";
 const BATCH_CROSS = "data/rcap-all50/pdf-independent-reviews/batch-1-cross-family-findings.json";
@@ -583,7 +584,7 @@ function disposeMissingBinaries(reconciliation, corpusIndex, queue, mount) {
 // The 128-asset equation.
 // ---------------------------------------------------------------------------
 
-function ledger({ register, master, freeze, packets, retirement, sources, mount, head }) {
+function ledger({ register, master, audit, batchManifest, freeze, packets, retirement, sources, mount, head }) {
   const t = register.totals;
   const platformReady = t.platformReady;
   const retired = t.retiredFromOperationalInventory;
@@ -616,6 +617,19 @@ function ledger({ register, master, freeze, packets, retirement, sources, mount,
       retainedUnreviewed: problematic - freeze.totals.familiesInFreeze,
       reviewedAndAwaitingCorrection: packets.totals.correctionRequired,
       reviewedAndApproved: packets.totals.approvedPlatformReady
+    },
+    // Why the unreviewed remainder was not reviewed. It is not a backlog this
+    // lane declined to work: a family with no finalized artifact has nothing to
+    // inspect, and producing one means rendering, which needs the source bytes.
+    unreviewedIsUnreviewable: {
+      operationalFamilies: audit.totals.operationalFamilies,
+      reviewed: freeze.totals.familiesInFreeze,
+      excludedFromReview: batchManifest.totals.excludedByReason,
+      whyNotFinalizedCannotBeReviewed:
+        "An independent review reads an artifact. A family with no finalized artifact has nothing to read, and finalizing one means rendering it from its source — which is the same corpus that is not mounted.",
+      whyNotVisibilityProvenCannotBeReviewed:
+        "Two families carry artifacts whose blank-versus-filled control does not discriminate, so a visual verdict on them would be an assertion rather than an observation.",
+      reviewableFamiliesRemainingAtThisHead: 0
     },
     workstreams: {
       retirements: {
@@ -793,6 +807,7 @@ const handoff = readJson(HANDOFF);
 const reconciliation = readJson(RECONCILIATION);
 const corpusIndex = readJson(CORPUS_INDEX);
 const queue = readJson(ACQUISITION_QUEUE);
+const audit = readJson(ARTIFACT_AUDIT);
 const batchManifest = readJson(BATCH_MANIFEST);
 const batchVerdicts = readJson(BATCH_VERDICTS);
 const groups = BATCH_GROUPS.map(readJson);
@@ -807,7 +822,7 @@ const freeze = freezeVerification(batchManifest, batchVerdicts, head);
 const packets = correctionPackets(groups, batchVerdicts, batchManifest);
 const retirement = retirementConditions(handoff, mount);
 const sources = disposeMissingBinaries(reconciliation, corpusIndex, queue, mount);
-const closure = ledger({ register, master, freeze, packets, retirement, sources, mount, head });
+const closure = ledger({ register, master, audit, batchManifest, freeze, packets, retirement, sources, mount, head });
 const md = markdown(closure, packets, sources, retirement, freeze);
 
 const outputs = [
