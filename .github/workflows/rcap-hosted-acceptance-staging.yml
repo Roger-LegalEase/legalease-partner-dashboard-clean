@@ -466,6 +466,8 @@ jobs:
           node scripts/verify-rcap-immutable-image-preflight.mjs --mutations
           node scripts/verify-rcap-hosted-job-read-columns.mjs
           node scripts/verify-rcap-hosted-job-read-columns.mjs --mutations
+          node scripts/verify-rcap-packet-contract.mjs
+          node scripts/verify-rcap-packet-contract.mjs --mutations
 
       - name: Run the hosted Stripe payment and packet-delivery journey
         id: payment_journey

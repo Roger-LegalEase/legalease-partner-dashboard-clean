@@ -46,6 +46,34 @@ const WEBHOOK_SECRET = process.env.HOSTED_STRIPE_TEST_WEBHOOK_SECRET ?? "";
 
 const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 
+/**
+ * The flag that decides whether the worker can SEE the document packet.
+ *
+ * The Gate A blocker in run 32416556886 was `render_failed — packet
+ * fb3fb0df-6fef-4abe-a1f1-6462543c06a4 not found`, and the packet was not
+ * missing. The application's own canonical writer, resolveConsumerPacketId,
+ * had already inserted that exact row and read it back — a 202 is not
+ * reachable otherwise, because a null packet id returns identity_unresolved.
+ *
+ * The row existed; the worker refused to look for it. getRcapDocumentPacket
+ * asks sourcePacketPersistenceMode() first, which asks getPartnerRepositoryMode(),
+ * which returns "local_seeded" whenever ENABLE_SUPABASE_PARTNER_DATA !== "true".
+ * In that mode the reader returns null WITHOUT querying the table at all, so a
+ * perfectly good packet reads as absent.
+ *
+ * The Vercel deployment sets this flag (rcap-hosted-acceptance-deploy.mjs) and
+ * so does the golden-journey worker (rcap-hosted-acceptance-matrix.mjs) — which
+ * is exactly why that worker "drained the queue and exited 0" while this one
+ * could not render a single packet. This container was the only place it was
+ * missing.
+ *
+ * A constant rather than an inherited value: inheriting the runner's
+ * environment would make the worker's behaviour depend on how CI happened to be
+ * configured, and the point of running by immutable digest is that the run is
+ * reproducible from what is written here.
+ */
+const WORKER_PARTNER_DATA_FLAG = "true";
+
 if (!SUPABASE_ACCESS_TOKEN || !/^[a-z]{20}$/.test(PROJECT_REF) || !VERCEL_TOKEN) {
   console.error("PAYMENT: SUPABASE_ACCESS_TOKEN, ACCEPTANCE_SUPABASE_PROJECT_REF and VERCEL_TOKEN are required");
   process.exit(1);
@@ -97,12 +125,17 @@ const REQUIRED_CASES = [
   // Before a single cent is spent: the published image, by digest, admits the
   // exact tuple the job about to be created will carry.
   "immutable_image_admits_the_tuple_before_any_charge",
+  // The packet id the render will use is known, and unclaimed by anyone else,
+  // before a cent is spent.
+  "packet_contract_is_provable_before_checkout",
   "unpaid_render_is_refused_for_payment",
   "checkout_session_created_against_stripe_sandbox",
   "forged_webhook_signature_is_rejected",
   "signed_webhook_records_the_payment",
   "payment_is_server_authoritative_in_the_database",
   "paid_render_is_queued",
+  // The job points at a REAL packet row, and it is this run's.
+  "render_job_carries_the_persisted_document_packet",
   "worker_renders_and_stores_the_artifact",
   "person_and_matter_are_bound_on_the_render_job",
   "artifact_is_stored_privately_and_re_readable",
@@ -535,6 +568,7 @@ const runNamespace = {
   providerEventId: null,
   checkoutSessionId: null,
   renderJobId: null,
+  documentPacketId: null,
   artifactIdentity: null
 };
 evidence.runNamespace = runNamespace;
@@ -1018,6 +1052,68 @@ console.log("PREFLIGHT_JSON " + JSON.stringify({
   if (!passed) finish();
 }
 
+// --- 3b. The packet contract, before Stripe ---------------------------------
+//
+// What can honestly be proven here, and what cannot.
+//
+// The canonical writer for the row the worker loads is the APPLICATION's
+// resolveConsumerPacketId, and it runs on the paid render request. So the row
+// legitimately does not exist yet: creating a document packet for an item
+// nobody has paid for would be a worse contract, not a better one. This gate
+// therefore proves everything about the packet that is knowable before the
+// charge, and case 4 below proves the row itself once it exists.
+//
+// The id is not a secret and not a guess. resolveConsumerPacketId derives it
+// deterministically from the briefcase item, so the exact id the render will
+// use is computable now — which is what makes "the job received the real
+// packet id" checkable rather than merely asserted afterwards.
+const expectedPacketId = (() => {
+  const h = crypto.createHash("sha256").update(`rcap:consumer-packet:v1:${itemId}`).digest("hex");
+  const variant = ((parseInt(h[16], 16) & 0x3) | 0x8).toString(16);
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-4${h.slice(13, 16)}-${variant}${h.slice(17, 20)}-${h.slice(20, 32)}`;
+})();
+{
+  // A row at this id that belongs to someone else would make the render either
+  // fail closed or, worse, render another participant's packet. Absent is the
+  // correct answer; present-and-ours is acceptable; present-and-foreign is not.
+  const priorRows = await sql(`
+    select id, partner_slug, user_id, briefcase_id
+      from public.rcap_document_packets
+     where id = '${sqlText(expectedPacketId)}'
+  `);
+  const priorUsable = Array.isArray(priorRows.json);
+  const prior = priorUsable ? priorRows.json[0] ?? null : null;
+  const priorIsForeign = Boolean(prior)
+    && (String(prior.user_id) !== String(A.id) || String(prior.briefcase_id) !== String(itemId));
+
+  // The defect this run exists to close. getRcapDocumentPacket returns null
+  // WITHOUT querying the table whenever ENABLE_SUPABASE_PARTNER_DATA is not
+  // "true", so a packet that exists reads as missing. Asserted against the
+  // command this run will actually execute, not against a written intention.
+  // The value only. Whether BOTH docker invocations actually carry it is a
+  // question about the file, not about this moment, and it is held statically
+  // by verify-rcap-packet-contract — reaching forward to the command array the
+  // worker block has not built yet would be a temporal dead zone, and asserting
+  // against a copy of it would prove nothing about what runs.
+  const workerSeesPackets = WORKER_PARTNER_DATA_FLAG === "true";
+
+  const contractHolds = priorUsable && !priorIsForeign && workerSeesPackets;
+  record(
+    "packet_contract_is_provable_before_checkout",
+    contractHolds,
+    `the render for briefcase item ${itemId} will use packet ${expectedPacketId}, derived by the same deterministic rule the application's canonical writer uses, so this run knows the id before it pays rather than learning it afterwards. A packet row at that id ${prior ? `already exists and belongs to user ${prior.user_id} / item ${prior.briefcase_id} (this run: ${A.id} / ${itemId}) — foreign: ${priorIsForeign}` : priorUsable ? "does not exist yet, which is correct: the application's canonical writer creates it on the PAID render request, and a packet for an unpaid item would be the wrong contract" : `could not be read (${priorRows.status})`}. The worker container will run with ENABLE_SUPABASE_PARTNER_DATA=${WORKER_PARTNER_DATA_FLAG} (${workerSeesPackets}) — without it getRcapDocumentPacket returns null without ever querying rcap_document_packets, which is exactly how run 32416556886 reported "packet fb3fb0df-6fef-4abe-a1f1-6462543c06a4 not found" for a row that existed. Nothing has been charged at this point.`
+  );
+  evidence.packetContract = {
+    expectedPacketId,
+    priorRowReadable: priorUsable,
+    priorRow: prior,
+    priorIsForeign,
+    workerPartnerDataFlag: WORKER_PARTNER_DATA_FLAG,
+    workerSeesPackets
+  };
+  if (!contractHolds) finish();
+}
+
 {
   const res = await callApp("/api/expungement-ai/packet/render", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
   record(
@@ -1196,6 +1292,56 @@ let targetJobId = null;
   runNamespace.renderJobId = targetJobId;
 }
 
+// --- 7b. The job carries the REAL packet, and the packet is this run's -------
+//
+// Both rows, read directly, and compared to the id this run computed BEFORE it
+// paid. Run 32416556886 died at `packet ... not found`, and the only way to
+// tell "the packet is missing" from "the worker cannot see the packet" is to
+// look at the row: if it is here, bound to this item, then a worker that
+// cannot load it is misconfigured, not starved.
+{
+  const rows = await sql(`
+    select
+      (select packet_id from public.packet_render_jobs where id = '${sqlText(targetJobId)}') as job_packet_id,
+      (select count(*) from public.rcap_document_packets where id = '${sqlText(expectedPacketId)}') as packet_rows,
+      (select coalesce(user_id::text, '(null)') from public.rcap_document_packets where id = '${sqlText(expectedPacketId)}') as packet_user,
+      (select coalesce(briefcase_id::text, '(null)') from public.rcap_document_packets where id = '${sqlText(expectedPacketId)}') as packet_item,
+      (select coalesce(partner_slug, '(null)') from public.rcap_document_packets where id = '${sqlText(expectedPacketId)}') as packet_partner,
+      (select coalesce(state, '(null)') from public.rcap_document_packets where id = '${sqlText(expectedPacketId)}') as packet_state,
+      (select count(*) from public.rcap_document_packet_inputs where document_packet_id = '${sqlText(expectedPacketId)}') as packet_input_rows
+  `);
+  const usable = Array.isArray(rows.json);
+  const row = usable ? rows.json[0] ?? null : null;
+  const jobPacketId = row?.job_packet_id ?? null;
+
+  const packetExists = Number(row?.packet_rows ?? 0) === 1;
+  const idsMatch = jobPacketId !== null && String(jobPacketId) === expectedPacketId;
+  const boundToThisRun = String(row?.packet_user ?? "") === String(A.id)
+    && String(row?.packet_item ?? "") === String(itemId);
+  const inputsPersisted = Number(row?.packet_input_rows ?? 0) === 1;
+  const stateMatches = String(row?.packet_state ?? "") === String(evidence.route?.state ?? "");
+
+  const proven = usable && packetExists && idsMatch && boundToThisRun && inputsPersisted && stateMatches;
+  record(
+    "render_job_carries_the_persisted_document_packet",
+    proven,
+    `render job ${targetJobId} carries packet_id=${jobPacketId ?? "(unreadable)"}; this run computed ${expectedPacketId} before Checkout and the two ${idsMatch ? "match" : "DO NOT MATCH"}. The packet row exists: ${packetExists} (${row?.packet_rows ?? "?"} row(s)), bound to user ${row?.packet_user ?? "?"} and briefcase item ${row?.packet_item ?? "?"} — this run is ${A.id} / ${itemId}, bound: ${boundToThisRun}; partner_slug=${row?.packet_partner ?? "?"}, state=${row?.packet_state ?? "?"} against route state ${evidence.route?.state ?? "?"} (${stateMatches}); the reviewed answer snapshot is persisted alongside it: ${inputsPersisted}. Written by the application's own canonical writer on the paid render request — this harness never invents a packet id, never inserts a packet row and never writes to packet_render_jobs. A worker that cannot load THIS row is misconfigured, not starved.`
+  );
+  evidence.packetBinding = {
+    expectedPacketId,
+    jobPacketId,
+    packetExists,
+    idsMatch,
+    boundToThisRun,
+    inputsPersisted,
+    stateMatches,
+    packetPartnerSlug: row?.packet_partner ?? null,
+    packetState: row?.packet_state ?? null
+  };
+  runNamespace.documentPacketId = expectedPacketId;
+  if (!proven) finish();
+}
+
 // --- 8. The pinned worker, by digest, against the hosted project -------------
 //
 // Two things this step used to get wrong, and does not any more.
@@ -1238,7 +1384,6 @@ const NON_TERMINAL = new Set(["queued", "claimed", "rendering", "validating", "f
 // worker defect look identical. Long enough for a real render and upload,
 // short enough that the queue's own recovery is observable here.
 const WORKER_CLAIM_SECONDS = 120;
-
 /**
  * Every column of the job the diagnosis needs, in one read.
  *
@@ -1581,6 +1726,7 @@ let finalCycleResult = null;
     "-e", "NEXT_PUBLIC_SUPABASE_URL=<acceptance project url>",
     "-e", "SUPABASE_URL=<acceptance project url>",
     "-e", "SUPABASE_SERVICE_ROLE_KEY=<redacted>",
+    "-e", `ENABLE_SUPABASE_PARTNER_DATA=${WORKER_PARTNER_DATA_FLAG}`,
     "-e", `RCAP_WORKER_CLAIM_SECONDS=${WORKER_CLAIM_SECONDS}`,
     "-e", `RCAP_WORKER_CONTAINER_DIGEST=${WORKER_DIGEST_REF.split("@")[1] ?? WORKER_DIGEST_REF}`,
     WORKER_DIGEST_REF, "node", "scripts/rcap-render-worker.mjs", "--once"
@@ -1751,6 +1897,7 @@ let finalCycleResult = null;
       "-e", `NEXT_PUBLIC_SUPABASE_URL=${SUPABASE_URL}`,
       "-e", `SUPABASE_URL=${SUPABASE_URL}`,
       "-e", `SUPABASE_SERVICE_ROLE_KEY=${service}`,
+      "-e", `ENABLE_SUPABASE_PARTNER_DATA=${WORKER_PARTNER_DATA_FLAG}`,
       "-e", `RCAP_WORKER_CLAIM_SECONDS=${WORKER_CLAIM_SECONDS}`,
       "-e", `RCAP_WORKER_CONTAINER_DIGEST=${WORKER_DIGEST_REF.split("@")[1] ?? WORKER_DIGEST_REF}`,
       WORKER_DIGEST_REF,

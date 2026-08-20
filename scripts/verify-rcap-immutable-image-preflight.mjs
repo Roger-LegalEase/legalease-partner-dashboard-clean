@@ -100,7 +100,11 @@ if (MUTATIONS) {
       h.replace("const imageAdmits = Boolean(probe) && probe.claim?.attempted === true && probe.claim.accepted === true && probe.admitsProfileVersion === true;",
         "const imageAdmits = !probe || probe.claim?.accepted !== false;")],
     ["a failed preflight no longer stops the run before the charge", (h) =>
-      h.replace("  if (!passed) finish();\n}\n\n{\n  const res = await callApp(\"/api/expungement-ai/packet/render\"", "}\n\n{\n  const res = await callApp(\"/api/expungement-ai/packet/render\"")],
+      // Anchored on the preflight's own stop, not on what follows it. The
+      // original anchor spanned forward into the next block, so inserting the
+      // packet-contract gate between them silently stopped the mutation from
+      // applying — and a mutation that cannot apply proves nothing.
+      h.replace("  if (!passed) finish();", "  ")],
     ["the probe mounts host source over the image", (h) =>
       h.replace('"run", "--rm", "--entrypoint", "node", WORKER_DIGEST_REF, "--input-type=module", "-e", probeSource',
         '"run", "--rm", "-v", `${rootDir}:/app`, "--entrypoint", "node", WORKER_DIGEST_REF, "--input-type=module", "-e", probeSource')]
