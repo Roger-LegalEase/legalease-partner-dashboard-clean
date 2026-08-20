@@ -24,7 +24,7 @@ import crypto from "node:crypto";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { extractTextItems, groupIntoLines, captureWidgetContext } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
-import { decideBinding as decideTypedBinding } from "./rcap-official-forms/rcap-field-semantics.mjs";
+import { decideBinding as decideTypedBinding, selectOnePerSlot } from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { finalizeOfficialForm, finalizeFlatOverlay, NonFilingHoldError }
   from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenance.mjs";
@@ -512,6 +512,23 @@ for (const fam of index.families) {
         regionHeading: decision.regionHeading ?? null });
     }
   }
+  // One widget per slot. The per-field decisions above are each correct and
+  // still put three widgets on Nebraska's caption band, all matching
+  // matter.court and all overlapping between x 138 and x 242. This pass keeps
+  // one and records the rest as refusals, so the map says which widget carries
+  // the value and why the others do not.
+  const censusByName = new Map(census.map((c) => [c.name, c]));
+  const slots = selectOnePerSlot(bindings.map((b) => {
+    const entry = censusByName.get(b.field);
+    return { ...b, name: b.field, pdfType: entry?.type ?? null,
+      page: entry?.widgets?.[0]?.page ?? null, rect: entry?.widgets?.[0]?.rect ?? null };
+  }));
+  bindings.length = 0;
+  for (const keeper of slots.kept) bindings.push({ field: keeper.field, class: keeper.class, factId: keeper.factId,
+    factBasis: keeper.factBasis, effectiveLabel: keeper.effectiveLabel ?? null });
+  for (const loser of slots.refused) bindingRefusals.push({ field: loser.field, reason: loser.reason,
+    category: loser.category, factId: loser.factId, keptInstead: loser.keptInstead, overlapsWith: loser.overlapsWith });
+
   const boundNames = new Set(bindings.map((b) => b.field));
 
   fs.mkdirSync(path.join(familyDir, "fixtures"), { recursive: true });

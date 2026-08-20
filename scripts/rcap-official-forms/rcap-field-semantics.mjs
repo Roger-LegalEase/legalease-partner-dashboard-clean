@@ -304,3 +304,125 @@ export function resolveFact(facts, factId) {
   if (!m) return facts[factId];
   return facts["matter.charges"]?.[Number(m[1])]?.[m[2]];
 }
+
+// --- one widget per slot ----------------------------------------------------
+//
+// A binding decision is made one field at a time, which is correct for
+// deciding whether a field MAY be written and wrong for deciding whether it
+// SHOULD be. Nebraska's caption band is the case that shows the difference:
+// CC 6:12 carries TYPEOFCOURTRESULTS, TYPEOFCOURTDROPDOWN and a field named
+// "enter the type of court", all three overlapping between x 138 and x 242,
+// and all three legitimately matching matter.court. Each decision was right on
+// its own and the page rendered "District Court" twice, about 5pt apart, over
+// the court's own printed caption words.
+//
+// So this is a second pass over the decisions, not a change to any of them: a
+// fact that has already been allowed is placed once per slot.
+//
+// A slot is a group of widgets on one page that overlap each other and carry
+// the same fact. Overlap is the whole test — two widgets that do not overlap
+// are two places the form means the value to appear, and a form that prints a
+// name in the caption and again above the signature line is not defective.
+
+const CHOICE_PDF_TYPES = new Set(["dropdown", "optionlist"]);
+
+const rectsOverlap = (a, b) =>
+  Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x) > 0 &&
+  Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y) > 0;
+
+/**
+ * Ranks two widgets competing for one slot. Lower sorts first and wins.
+ *
+ * The ordering is stated rather than discovered, because an arbitrary winner
+ * is an unreviewable one:
+ *
+ *   1. a text field beats a choice field. A dropdown renders from an
+ *      appearance stream the source document authored, and the source's is
+ *      what carries "Choose the court";
+ *   2. the larger box beats the smaller. The bigger widget is the one the form
+ *      means to be read;
+ *   3. then topmost, then leftmost, then the name, so the result does not
+ *      depend on the order the fields happen to arrive in.
+ */
+function slotRank(a, b) {
+  const choice = (w) => (CHOICE_PDF_TYPES.has(w.pdfType) ? 1 : 0);
+  if (choice(a) !== choice(b)) return choice(a) - choice(b);
+  const area = (w) => (w.rect ? w.rect.width * w.rect.height : 0);
+  if (area(a) !== area(b)) return area(b) - area(a);
+  if (a.rect && b.rect && a.rect.y !== b.rect.y) return b.rect.y - a.rect.y;
+  if (a.rect && b.rect && a.rect.x !== b.rect.x) return a.rect.x - b.rect.x;
+  return String(a.name).localeCompare(String(b.name));
+}
+
+/**
+ * Reduces already-writable candidates to one widget per slot.
+ *
+ * `candidates` is [{ name, factId, pdfType, page, rect }]. Returns
+ * { kept, refused } where every input appears in exactly one of them, so the
+ * count is conserved and a family map still accounts for every field.
+ *
+ * A candidate with no page or no rectangle is kept untouched: without geometry
+ * there is no way to tell whether it collides with anything, and refusing on
+ * an absence would drop bindings that are fine.
+ */
+export function selectOnePerSlot(candidates) {
+  const kept = [];
+  const refused = [];
+  const grouped = new Map();
+
+  for (const candidate of candidates) {
+    if (!candidate.rect || !candidate.page) { kept.push(candidate); continue; }
+    const key = `${candidate.page}::${candidate.factId}`;
+    if (!grouped.has(key)) grouped.set(key, []);
+    grouped.get(key).push(candidate);
+  }
+
+  for (const group of grouped.values()) {
+    // Slots are built by transitive overlap: A overlapping B and B overlapping
+    // C is one slot, even where A and C do not touch. Three widgets stacked
+    // down a caption band are one place on the paper.
+    const slots = [];
+    for (const candidate of group) {
+      const touching = slots.filter((slot) => slot.some((m) => rectsOverlap(m.rect, candidate.rect)));
+      if (touching.length === 0) { slots.push([candidate]); continue; }
+      const merged = touching.flat().concat(candidate);
+      for (const slot of touching) slots.splice(slots.indexOf(slot), 1);
+      slots.push(merged);
+    }
+    for (const slot of slots) {
+      if (slot.length === 1) { kept.push(slot[0]); continue; }
+      const ordered = [...slot].sort(slotRank);
+      const winner = ordered[0];
+      kept.push(winner);
+      for (const loser of ordered.slice(1)) {
+        refused.push({
+          ...loser,
+          reason: "duplicate_widget_for_one_slot",
+          category: "caption_slot",
+          keptInstead: winner.name,
+          overlapsWith: slot.filter((m) => m.name !== loser.name).map((m) => m.name)
+        });
+      }
+    }
+  }
+
+  return { kept, refused };
+}
+
+/**
+ * Whether a choice field's current value is the source document's own chooser
+ * prompt rather than a selection.
+ *
+ * Nebraska's dropdowns ship selected on "Choose the court" and "Choose the
+ * county". Left alone through a flatten those strings are drawn onto the page
+ * as ordinary ink, and a filed pleading tells the court to choose one.
+ */
+export function isChooserPrompt(value, options = []) {
+  const text = String(value ?? "").trim();
+  if (text === "") return false;
+  if (/^[\s_\-–—.·•]+$/.test(text)) return true;
+  if (/^(--+|choose|select|pick|click|please\s+(choose|select|pick)|enter\s+the)\b/i.test(text)) return true;
+  // A value that is the first option of a list it does not otherwise resemble
+  // is the list's own placeholder: forms put the prompt in slot zero.
+  return options.length > 1 && String(options[0]).trim() === text && /\b(choose|select|pick|none)\b/i.test(text);
+}

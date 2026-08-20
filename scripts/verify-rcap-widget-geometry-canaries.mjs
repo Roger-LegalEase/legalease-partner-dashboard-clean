@@ -30,12 +30,13 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { captureWidgetContext, pageRegions, groupIntoLines, extractTextItems } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
-import { decideBinding } from "./rcap-official-forms/rcap-field-semantics.mjs";
+import { captureWidgetContext, pageRegions, groupIntoLines, extractTextItems, extractPageGeometry } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { decideBinding, selectOnePerSlot, isChooserPrompt } from "./rcap-official-forms/rcap-field-semantics.mjs";
+import { sanitizeAndFlatten } from "./rcap-official-forms/rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const { PDFDocument, StandardFonts } = require(path.join(rootDir, "node_modules/pdf-lib"));
+const { PDFDocument, StandardFonts, PDFName } = require(path.join(rootDir, "node_modules/pdf-lib"));
 
 const failures = [];
 const note = (message) => failures.push(message);
@@ -242,6 +243,160 @@ for (const mutation of MUTATIONS) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// The caption band — ESC-CAPTION-VARIANTS.
+//
+// Nebraska's five families share one caption block. CC 6:12 carries three
+// widgets that all legitimately match matter.court, overlapping between x 138
+// and x 242, and the page rendered "District Court" twice about 5pt apart over
+// the court's own printed words. The rects below are CC 6:12's, read from its
+// committed field census.
+// ---------------------------------------------------------------------------
+
+const NE_CAPTION_BAND = [
+  { name: "TYPEOFCOURTRESULTS", factId: "matter.court", pdfType: "text", page: 1, rect: { x: 43, y: 672, width: 237, height: 18 } },
+  { name: "TYPEOFCOURTDROPDOWN", factId: "matter.court", pdfType: "dropdown", page: 1, rect: { x: 142, y: 659, width: 79, height: 14 } },
+  { name: "enter the type of court", factId: "matter.court", pdfType: "text", page: 1, rect: { x: 138, y: 659, width: 104, height: 27 } },
+  { name: "enter the county", factId: "matter.county", pdfType: "text", page: 1, rect: { x: 277, y: 659, width: 104, height: 27 } },
+  // The negative control, and it is the reason the rule is overlap rather than
+  // "one widget per fact". A form that prints the filer's name in the caption
+  // and again above the signature line is not defective, and both must survive.
+  { name: "printedname", factId: "participant.full_legal_name", pdfType: "text", page: 1, rect: { x: 60, y: 200, width: 200, height: 14 } },
+  { name: "signatureprintedname", factId: "participant.full_legal_name", pdfType: "text", page: 1, rect: { x: 60, y: 120, width: 200, height: 14 } }
+];
+
+const arbitrated = selectOnePerSlot(NE_CAPTION_BAND);
+const keptNames = arbitrated.kept.map((k) => k.name);
+
+console.log("  caption slots");
+console.log(`    kept    ${keptNames.join(", ")}`);
+console.log(`    refused ${arbitrated.refused.map((r) => `${r.name} → kept ${r.keptInstead}`).join("; ") || "(none)"}`);
+
+const SLOT_CANARIES = [
+  {
+    id: "SLOT-ONE-COURT-VALUE", family: "NE:cc-6-12-form-en",
+    holds: () => arbitrated.kept.filter((k) => k.factId === "matter.court").length === 1,
+    consequence: "\"District Court\" printed twice about 5pt apart, over the court's own printed caption words"
+  },
+  {
+    id: "SLOT-DROPDOWN-LOSES", family: "NE:cc-6-12-form-en",
+    holds: () => arbitrated.refused.some((r) => r.name === "TYPEOFCOURTDROPDOWN"),
+    consequence: "the slot decided in favour of a widget that renders from the source's own appearance stream, which is what carries the placeholder"
+  },
+  {
+    id: "SLOT-COUNT-CONSERVED", family: "NE:cc-6-12-form-en",
+    holds: () => arbitrated.kept.length + arbitrated.refused.length === NE_CAPTION_BAND.length,
+    consequence: "a field silently dropped from the map, so the family package no longer accounts for every widget"
+  },
+  {
+    id: "SLOT-NON-OVERLAPPING-SURVIVE", family: "control",
+    holds: () => keptNames.includes("printedname") && keptNames.includes("signatureprintedname"),
+    consequence: "the signature-block name would stop printing because the caption already carries one"
+  },
+  {
+    id: "SLOT-OTHER-FACTS-UNTOUCHED", family: "control",
+    holds: () => keptNames.includes("enter the county"),
+    consequence: "the county would stop printing"
+  }
+];
+
+for (const canary of SLOT_CANARIES) {
+  const passed = canary.holds();
+  console.log(`    ${passed ? "ok  " : "FAIL"} ${canary.id}`);
+  if (!passed) note(`${canary.id} (${canary.family}): ${canary.consequence}`);
+}
+
+// ---------------------------------------------------------------------------
+// The chooser prompt, proven on flattened bytes rather than asserted.
+// ---------------------------------------------------------------------------
+
+async function flattenedTextAfter(mutate) {
+  const doc = await PDFDocument.create();
+  const page = doc.addPage([612, 792]);
+  const font = await doc.embedFont(StandardFonts.Helvetica);
+  const form = doc.getForm();
+  const dropdown = form.createDropdown("TYPEOFCOURTDROPDOWN");
+  dropdown.addOptions(["Choose the court", "DISTRICT", "COUNTY"]);
+  dropdown.select("Choose the court");
+  dropdown.addToPage(page, { x: 142, y: 659, width: 79, height: 14, font });
+  const source = await doc.save();
+
+  const loaded = await PDFDocument.load(source, { ignoreEncryption: true, updateMetadata: false });
+  const helvetica = await loaded.embedFont(StandardFonts.Helvetica);
+  mutate(loaded.getForm(), loaded);
+  const { clean } = await sanitizeAndFlatten(loaded, { defaultFont: helvetica });
+  const out = await clean.save({ useObjectStreams: false, updateMetadata: false });
+  const reloaded = await PDFDocument.load(out, { ignoreEncryption: true });
+  return groupIntoLines(extractPageGeometry(reloaded.getPages()[0]).text).map((l) => l.text);
+}
+
+/** What the finalizer now does to an unselected chooser: value AND appearance. */
+const suppressPrompt = (form) => {
+  const handle = form.getDropdown("TYPEOFCOURTDROPDOWN");
+  if (!handle.getSelected().some((v) => isChooserPrompt(v, handle.getOptions()))) return;
+  handle.acroField.dict.delete(PDFName.of("V"));
+  for (const widget of handle.acroField.getWidgets()) widget.dict.delete(PDFName.of("AP"));
+};
+
+const promptLeftAlone = await flattenedTextAfter(() => {});
+const promptSuppressed = await flattenedTextAfter(suppressPrompt);
+const promptValueOnly = await flattenedTextAfter((form) => {
+  form.getDropdown("TYPEOFCOURTDROPDOWN").acroField.dict.delete(PDFName.of("V"));
+});
+const realSelection = await flattenedTextAfter((form) => form.getDropdown("TYPEOFCOURTDROPDOWN").select("DISTRICT"));
+
+console.log("  chooser prompt, on flattened bytes");
+console.log(`    left alone     → ${JSON.stringify(promptLeftAlone)}`);
+console.log(`    suppressed     → ${JSON.stringify(promptSuppressed)}`);
+console.log(`    value only     → ${JSON.stringify(promptValueOnly)}`);
+console.log(`    real selection → ${JSON.stringify(realSelection)}`);
+
+if (promptSuppressed.some((t) => /choose the court/i.test(t))) {
+  note("PROMPT-SUPPRESSED: the source's chooser prompt survives finalization and is drawn onto the filed page as ordinary ink");
+}
+if (!realSelection.includes("DISTRICT")) {
+  note("PROMPT-STILL-WRITES: a dropdown the finalizer selected does not render its value — suppression has broken the ordinary path");
+}
+if (!isChooserPrompt("Choose the court", ["Choose the court", "DISTRICT"]) || isChooserPrompt("DISTRICT", ["Choose the court", "DISTRICT"])) {
+  note("PROMPT-RECOGNITION: isChooserPrompt no longer separates a prompt from a selection");
+}
+
+console.log("  mutations, caption band");
+const SLOT_MUTATIONS = [
+  {
+    id: "arbitrate by fact alone, ignoring overlap",
+    detected: () => {
+      const byFact = new Map();
+      for (const c of NE_CAPTION_BAND) if (!byFact.has(c.factId)) byFact.set(c.factId, c);
+      return !([...byFact.values()].map((c) => c.name).includes("signatureprintedname"));
+    },
+    proves: "overlap is what separates a duplicate from a legitimate repeat; dropping it takes the signature-block name with it"
+  },
+  {
+    id: "withhold the widget rectangles",
+    detected: () => {
+      const blind = selectOnePerSlot(NE_CAPTION_BAND.map((c) => ({ ...c, rect: null })));
+      return blind.refused.length === 0 && blind.kept.length === NE_CAPTION_BAND.length;
+    },
+    proves: "the arbitration is geometric; with no rectangles it correctly refuses nothing, which is exactly the pre-correction behaviour"
+  },
+  {
+    id: "clear the prompt value but keep its appearance stream",
+    detected: () => promptValueOnly.some((t) => /choose the court/i.test(t)),
+    proves: "deleting /V alone leaves the prompt rendering from the stale appearance stream, so the appearance must go too"
+  },
+  {
+    id: "leave the unselected chooser alone",
+    detected: () => promptLeftAlone.some((t) => /choose the court/i.test(t)),
+    proves: "without suppression the prompt reaches the filed page — the baseline failure the reviewer read on five Nebraska families"
+  }
+];
+for (const mutation of SLOT_MUTATIONS) {
+  const detected = mutation.detected();
+  console.log(`    ${detected ? "ok  " : "FAIL"} ${mutation.id}`);
+  if (!detected) note(`mutation "${mutation.id}" changed nothing — ${mutation.proves}, and this mutation does not show it`);
+}
+
 // The capture itself has to be reaching the document, not returning empty and
 // passing by vacuum. A suite whose fixtures measure nothing would report every
 // "refused" canary green.
@@ -257,6 +412,7 @@ if (failures.length) {
 }
 
 console.log(
-  `OK widget-geometry canaries — ${CANARIES.length} canaries hold across 2 measured fixtures, ` +
-    `${MUTATIONS.length} mutations each turn their canary, and the printed label cannot unprotect a court-owned slot`
+  `OK widget-geometry canaries — ${CANARIES.length + SLOT_CANARIES.length} canaries hold across 3 measured fixtures, ` +
+    `${MUTATIONS.length + SLOT_MUTATIONS.length} mutations each turn their canary, the printed label cannot unprotect a ` +
+    `court-owned slot, and no chooser prompt survives onto a filed page`
 );
