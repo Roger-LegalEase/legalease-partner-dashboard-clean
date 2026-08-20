@@ -44,7 +44,7 @@
       "name": "overlay_factory_manifest",
       "description": "The overlay factory manifest the internal preview reads.",
       "runtime": true,
-      "identifierCount": 1979
+      "identifierCount": 790
     },
     {
       "name": "all_state_build_manifest",
@@ -70,12 +70,12 @@
     "assetsProbed": 128,
     "surfacesProbed": 10,
     "surfacesUnreadable": 0,
-    "retainAndRemediate": 88,
-    "retirementCandidates": 40,
-    "retainedBecauseOfARuntimeSurface": 50,
+    "retainAndRemediate": 70,
+    "retirementCandidates": 58,
+    "retainedBecauseOfARuntimeSurface": 32,
     "assetsWithNoTrackBinding": 104,
-    "assetsWithNoTrackBindingRetainedAnyway": 64,
-    "alreadyCarryingARetirementMarker": 40
+    "assetsWithNoTrackBindingRetainedAnyway": 46,
+    "alreadyCarryingARetirementMarker": 58
   },
   "assets": [
     {
@@ -149,13 +149,6 @@
       "usedAtRuntime": true,
       "useSites": [
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CR65EXPUNGEPETITION102024"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -164,12 +157,8 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 1 surface(s): application_source.",
       "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        },
         {
           "surface": "application_source",
           "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
@@ -194,13 +183,6 @@
       "usedAtRuntime": true,
       "useSites": [
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CR65AORDERONPETITIONFOREXPUNGEMENT102024"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -209,12 +191,8 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 1 surface(s): application_source.",
       "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        },
         {
           "surface": "application_source",
           "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
@@ -567,32 +545,17 @@
       "familyIds": [
         "AR:3-misdemeanor-petition-8-01-2023"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "3MISDEMEANORPETITION8012023"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "3MISDEMEANORPETITION8012023"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "AR",
@@ -601,32 +564,17 @@
       "familyIds": [
         "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "7NOLLEPROSEQUIDISMISSEDACQUITTALPETITION2020F"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "7NOLLEPROSEQUIDISMISSEDACQUITTALPETITION2020F"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "AR",
@@ -1109,32 +1057,17 @@
       "familyIds": [
         "AR:felony-petition-form-f"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "FELONYPETITIONFORMF"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "FELONYPETITIONFORMF"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "KY",
@@ -1143,32 +1076,17 @@
       "familyIds": [
         "KY:496-2"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "4962"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "4962"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "KY",
@@ -1177,32 +1095,17 @@
       "familyIds": [
         "KY:496-3"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "4963"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "4963"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "KY",
@@ -1211,32 +1114,17 @@
       "familyIds": [
         "KY:497-2"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "4972"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "4972"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "KY",
@@ -1545,13 +1433,6 @@
       "usedAtRuntime": true,
       "useSites": [
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "JV29"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -1560,12 +1441,8 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 1 surface(s): application_source.",
       "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        },
         {
           "surface": "application_source",
           "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
@@ -1590,13 +1467,6 @@
       "usedAtRuntime": true,
       "useSites": [
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "JV291"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -1605,12 +1475,8 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 1 surface(s): application_source.",
       "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        },
         {
           "surface": "application_source",
           "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
@@ -1635,13 +1501,6 @@
       "usedAtRuntime": true,
       "useSites": [
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "JV30"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -1650,12 +1509,8 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 1 surface(s): application_source.",
       "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        },
         {
           "surface": "application_source",
           "removalRequires": "an application-source change: the identifier appears literally in src/, which this lane does not modify"
@@ -1721,13 +1576,6 @@
           ]
         },
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CC611"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -1736,15 +1584,11 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, application_source.",
       "retirementBlockedBy": [
         {
           "surface": "legal_design_registry",
           "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
-        },
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
         },
         {
           "surface": "application_source",
@@ -1777,13 +1621,6 @@
           ]
         },
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CC6112"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -1792,15 +1629,11 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, application_source.",
       "retirementBlockedBy": [
         {
           "surface": "legal_design_registry",
           "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
-        },
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
         },
         {
           "surface": "application_source",
@@ -1834,13 +1667,6 @@
           ]
         },
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CC6112"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -1849,15 +1675,11 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, application_source.",
       "retirementBlockedBy": [
         {
           "surface": "legal_design_registry",
           "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
-        },
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
         },
         {
           "surface": "application_source",
@@ -1911,13 +1733,6 @@
           ]
         },
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CC611"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -1926,15 +1741,11 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 3 surface(s): legal_design_registry, overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 2 surface(s): legal_design_registry, application_source.",
       "retirementBlockedBy": [
         {
           "surface": "legal_design_registry",
           "removalRequires": "a legal-design decision: the byte-pinned registry names this asset as a packet component, so retiring it changes what a packet contains"
-        },
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
         },
         {
           "surface": "application_source",
@@ -2009,13 +1820,6 @@
           ]
         },
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CC612"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -2024,7 +1828,7 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, application_source.",
       "retirementBlockedBy": [
         {
           "surface": "legal_design_registry",
@@ -2033,10 +1837,6 @@
         {
           "surface": "d_track_queue",
           "removalRequires": "a D-queue decision: a committed family relationship names it"
-        },
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
         },
         {
           "surface": "application_source",
@@ -2079,13 +1879,6 @@
           ]
         },
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CC612"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -2094,7 +1887,7 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, application_source.",
       "retirementBlockedBy": [
         {
           "surface": "legal_design_registry",
@@ -2103,10 +1896,6 @@
         {
           "surface": "d_track_queue",
           "removalRequires": "a D-queue decision: a committed family relationship names it"
-        },
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
         },
         {
           "surface": "application_source",
@@ -2149,13 +1938,6 @@
           ]
         },
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CC612"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -2164,7 +1946,7 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, application_source.",
       "retirementBlockedBy": [
         {
           "surface": "legal_design_registry",
@@ -2173,10 +1955,6 @@
         {
           "surface": "d_track_queue",
           "removalRequires": "a D-queue decision: a committed family relationship names it"
-        },
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
         },
         {
           "surface": "application_source",
@@ -3181,32 +2959,17 @@
       "familyIds": [
         "NC:cr287-1"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "CR2871"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CR2871"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "NC",
@@ -3215,32 +2978,17 @@
       "familyIds": [
         "NC:cr297"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "CR297"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CR297"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "NC",
@@ -3249,32 +2997,17 @@
       "familyIds": [
         "NC:cr298-1"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "CR2981"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CR2981"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "NC",
@@ -3450,33 +3183,18 @@
       "familyIds": [
         "VT:200-00129-petition-to-expunge-criminal-history"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "20000129–PETITIONTOEXPUNGECRIMINALHISTORY",
         "20000129PETITIONTOEXPUNGECRIMINALHISTORY"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "20000129–PETITIONTOEXPUNGECRIMINALHISTORY"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
     },
     {
       "jurisdiction": "VT",
@@ -3557,32 +3275,17 @@
       "familyIds": [
         "VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "20000130AFILINGAPETITIONTOEXPUNGEORSEALACRIMINALRECORD"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "20000130AFILINGAPETITIONTOEXPUNGEORSEALACRIMINALRECORD"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "VT",
@@ -3591,32 +3294,17 @@
       "familyIds": [
         "VT:200-00131"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "20000131"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "20000131"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "VT",
@@ -3626,7 +3314,7 @@
         "VT:200-00131-en",
         "VT:200-00131-form-en"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
@@ -3634,26 +3322,11 @@
         "20000131EN",
         "20000131FORMEN"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "20000131"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 3 identifier(s)."
     },
     {
       "jurisdiction": "VT",
@@ -3712,33 +3385,18 @@
       "familyIds": [
         "VT:200-00132-stipulation-to-seal-criminal-history-record-order"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "20000132–STIPULATIONTOSEALCRIMINALHISTORYRECORD+ORDER",
         "20000132STIPULATIONTOSEALCRIMINALHISTORYRECORDORDER"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "20000132–STIPULATIONTOSEALCRIMINALHISTORYRECORD+ORDER"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
     },
     {
       "jurisdiction": "VT",
@@ -3784,33 +3442,18 @@
       "familyIds": [
         "VT:200-00132a-stipulation-to-expunge-criminal-history-record-order"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "20000132A–STIPULATIONTOEXPUNGECRIMINALHISTORYRECORD+ORDER",
         "20000132ASTIPULATIONTOEXPUNGECRIMINALHISTORYRECORDORDER"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "20000132A–STIPULATIONTOEXPUNGECRIMINALHISTORYRECORD+ORDER"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 2 identifier(s)."
     },
     {
       "jurisdiction": "VT",
@@ -3856,32 +3499,17 @@
       "familyIds": [
         "VT:200-00631"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "20000631"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "20000631"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "VT",
@@ -3891,7 +3519,7 @@
         "VT:200-00631-en",
         "VT:200-00631-form-en"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
@@ -3899,26 +3527,11 @@
         "20000631EN",
         "20000631FORMEN"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "20000631"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 3 identifier(s)."
     },
     {
       "jurisdiction": "VT",
@@ -3927,32 +3540,17 @@
       "familyIds": [
         "VT:400-00171"
       ],
-      "alreadyRetired": false,
+      "alreadyRetired": true,
       "activeTrackStatus": "no_track_binding",
       "affectedTrackIds": [],
       "probedIdentifiers": [
         "40000171"
       ],
-      "usedByPlatform": true,
-      "usedAtRuntime": true,
-      "useSites": [
-        {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "40000171"
-          ]
-        }
-      ],
-      "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 1 surface(s): overlay_factory_manifest.",
-      "retirementBlockedBy": [
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
-        }
-      ],
-      "heldOnlyByThisLanesOwnManifest": true
+      "usedByPlatform": false,
+      "usedAtRuntime": false,
+      "useSites": [],
+      "determination": "retirement_candidate",
+      "determinationBasis": "No surface names it. Probed 10 surface(s) against 1 identifier(s)."
     },
     {
       "jurisdiction": "VT",
@@ -4399,14 +3997,6 @@
           ]
         },
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CR266",
-            "CR266EN"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -4415,7 +4005,7 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, application_source.",
       "retirementBlockedBy": [
         {
           "surface": "legal_design_registry",
@@ -4424,10 +4014,6 @@
         {
           "surface": "d_track_queue",
           "removalRequires": "a D-queue decision: a committed family relationship names it"
-        },
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
         },
         {
           "surface": "application_source",
@@ -4472,13 +4058,6 @@
           ]
         },
         {
-          "surface": "overlay_factory_manifest",
-          "runtime": true,
-          "matchedIdentifiers": [
-            "CR267"
-          ]
-        },
-        {
           "surface": "application_source",
           "runtime": true,
           "matchedIdentifiers": [
@@ -4487,7 +4066,7 @@
         }
       ],
       "determination": "retain_and_remediate",
-      "determinationBasis": "Named by 4 surface(s): legal_design_registry, d_track_queue, overlay_factory_manifest, application_source.",
+      "determinationBasis": "Named by 3 surface(s): legal_design_registry, d_track_queue, application_source.",
       "retirementBlockedBy": [
         {
           "surface": "legal_design_registry",
@@ -4496,10 +4075,6 @@
         {
           "surface": "d_track_queue",
           "removalRequires": "a D-queue decision: a committed family relationship names it"
-        },
-        {
-          "surface": "overlay_factory_manifest",
-          "removalRequires": "regeneration of data/rcap-all50/overlays/overlay-factory-manifest.json, which src/lib/rcap/all50-internal-preview.ts reads at runtime. It is generated from `private/Nationwide Record Clearing/`, which is not in this clone, so it cannot be regenerated here, and hand-editing a runtime manifest is not a retirement"
         },
         {
           "surface": "application_source",

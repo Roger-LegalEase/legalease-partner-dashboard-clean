@@ -1,6 +1,6 @@
 # Source resolution against the mounted corpus
 
-Corpus: `private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1` — 499 files, 329 PDFs, index agrees: true.
+Corpus: `private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1` — 686 files, 392 PDFs, index agrees: false.
 
 Reviewed families whose source is readable now: 27 of 27.
 
@@ -16,7 +16,7 @@ Reviewed families whose source is readable now: 27 of 27.
 
 | family | form | revision | sha256 | corpus path |
 | --- | --- | --- | --- | --- |
-| AK:requesttosealcriminfo | DPS-SEAL-REQ-2-04 | REV-2004-02 | `1fb64733f46c397b…` | `STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-SEAL-REQ-2-04__request-to-seal-criminal-justice-information__REV-2004-02__EN.pdf` |
+| AK:requesttosealcriminfo | undefined | — | `1fb64733f46c397b…` | `LegalEase Alaska/RequestToSealCrimInfo.pdf` |
 | KY:496-2 | AOC-496.2 | REV-2016-07 | `5d1ca608d94911a3…` | `STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf` |
 | KY:496-3 | AOC-496.3 | REV-UNKNOWN | `3225f34ea85bb9e4…` | `STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf` |
 | NE:cc-6-11 | CC-6-11 | REV-2024-04 | `c0dcc5c093790f0a…` | `STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11__cc-6-11-petition-to-set-aside-a-criminal-conviction__REV-2024-04__EN.pdf` |

@@ -2,12 +2,12 @@
 
 Status: build-first review artifacts generated
 
-Forms found: 15
-PDF forms: 7
+Forms found: 9
+PDF forms: 1
 Mapped forms: 0
-Partial maps: 7
-Rendered samples: 7
+Partial maps: 1
+Rendered samples: 1
 Blocked forms: 0
-Visual review pending: 7
+Visual review pending: 1
 
 This folder is for QA, visual review, and attorney review. It is not live approval.

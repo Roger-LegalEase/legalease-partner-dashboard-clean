@@ -8,8 +8,8 @@ Head: `a7c9f0aa0dc19bb569783691e0bc0e65c0b57605`
 | --- | ---: |
 | original operational PDF assets | 128 |
 | platform_ready | 1 |
-| retired | 40 |
-| retained_problematic | 87 |
+| retired | 58 |
+| retained_problematic | 69 |
 | changed by this lane | 0 |
 
 Every route to moving a row terminates at the same place: the source corpus is not mounted in this environment and outbound retrieval is refused, so no retirement can satisfy its seventh condition, no source can be accepted, and no family can be re-rendered.
@@ -65,8 +65,6 @@ Order of work:
 
 private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 is mounted and verifies to the byte. private/Nationwide Record Clearing is still absent, and it is a different tree.
 
-- blocks workstream 1 — the seventh retirement condition, for all 30 candidates
-- blocks workstream 2 — materialisation, which belongs to the implementation lane in any case
 
 Cleared by: Deliver private/Nationwide Record Clearing — the 409-form LegalEase <State>/ tree the overlay factory reads. The Master Library does not substitute: none of the 30 candidates' files is in it. (owned by environment)
 
@@ -97,10 +95,10 @@ Cleared by: The correction packets, worked through in their stated order, then a
 
 | | required | observed |
 | --- | ---: | ---: |
-| platform_ready + retired | 128 | 41 |
-| retained_problematic | 0 | 87 |
-| retained_missing | 0 | 39 |
-| retained_source_unknown | 0 | 12 |
-| retained_unreviewed | 0 | 60 |
+| platform_ready + retired | 128 | 59 |
+| retained_problematic | 0 | 69 |
+| retained_missing | 0 | 23 |
+| retained_source_unknown | 0 | 11 |
+| retained_unreviewed | 0 | 42 |
 
 Not met.

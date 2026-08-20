@@ -29,6 +29,8 @@ const checkOnly = process.argv.includes("--check");
 const CORPUS_ROOT = process.env.OFFICIAL_FORMS_SOURCE_DIR
   ?? path.join(rootDir, "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1");
 const BOOTSTRAP = path.join(rootDir, "private/source-imports");
+const NATIONWIDE_ROOT = path.join(rootDir, "private/Nationwide Record Clearing");
+const OVERLAY_DIR = path.join(rootDir, "data/rcap-all50/overlays/production");
 
 const RECONCILIATION = "data/rcap-all50/unmatched-source-reconciliation.json";
 const CORPUS_INDEX = "data/rcap-all50/local-source-corpus-index.json";
@@ -49,25 +51,41 @@ function fail(message) {
 
 if (!fs.existsSync(CORPUS_ROOT)) fail(`the corpus is not mounted at ${path.relative(rootDir, CORPUS_ROOT)}`);
 
-/** Every file in the mounted corpus, hashed once. */
+/**
+ * Every file in both mounted corpora, hashed once.
+ *
+ * Two trees, and they are not interchangeable: the Master Library holds the
+ * canonical official editions, the Nationwide tree holds what the operational
+ * overlay factory reads. A row can resolve in either, and which one it
+ * resolved in is recorded, because a Nationwide hit and a Master Library hit
+ * do not mean the same thing about currency.
+ */
 function corpusFiles() {
+  const roots = [
+    { corpus: "master_library", root: CORPUS_ROOT },
+    { corpus: "nationwide_record_clearing", root: NATIONWIDE_ROOT }
+  ].filter((entry) => fs.existsSync(entry.root));
+
   const out = [];
-  (function walk(dir) {
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
-      const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) walk(full);
-      else out.push(full);
-    }
-  })(CORPUS_ROOT);
-  return out.map((full) => {
-    const bytes = fs.readFileSync(full);
-    return {
-      corpusPath: path.relative(CORPUS_ROOT, full).split(path.sep).join("/"),
-      absolute: full,
-      sha256: sha256(bytes),
-      byteLength: bytes.length
-    };
-  });
+  for (const { corpus, root } of roots) {
+    (function walk(dir) {
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) walk(full);
+        else {
+          const bytes = fs.readFileSync(full);
+          out.push({
+            corpus,
+            corpusPath: path.relative(root, full).split(path.sep).join("/"),
+            absolute: full,
+            sha256: sha256(bytes),
+            byteLength: bytes.length
+          });
+        }
+      }
+    })(root);
+  }
+  return out;
 }
 
 /**
@@ -176,6 +194,25 @@ const corpusIndex = readJson(CORPUS_INDEX);
 const batchManifest = readJson(BATCH_MANIFEST);
 const files = corpusFiles();
 const bySha = new Map(files.map((f) => [f.sha256, f]));
+
+/**
+ * Which family packages now carry a retirement marker.
+ *
+ * A retired asset has left the operational inventory, so its row is history
+ * rather than work. Reporting the same 39 outstanding rows after 18 of them
+ * were retired would overstate what is left to acquire.
+ */
+const retiredSlugs = new Set();
+if (fs.existsSync(OVERLAY_DIR)) {
+  for (const state of fs.readdirSync(OVERLAY_DIR)) {
+    const statePath = path.join(OVERLAY_DIR, state);
+    if (!fs.statSync(statePath).isDirectory()) continue;
+    for (const family of fs.readdirSync(statePath)) {
+      if (fs.existsSync(path.join(statePath, family, "retirement.json"))) retiredSlugs.add(family.toLowerCase());
+    }
+  }
+}
+const isRetired = (familyId) => retiredSlugs.has(String(familyId).split(":").pop().toLowerCase());
 const byBase = new Map();
 for (const file of files) {
   const key = norm(path.basename(file.corpusPath));
@@ -324,6 +361,8 @@ for (const row of reconciliation.rows) {
     familyId: row.familyId,
     jurisdiction: row.jurisdiction,
     formNumberCandidates: row.formNumberCandidates,
+    retiredFromOperationalInventory: isRetired(row.familyId),
+    foundInCorpus: file?.corpus ?? null,
     disposition,
     resolvedBy,
     identityProven: Boolean(file),
@@ -417,7 +456,12 @@ const record = {
     ...tally,
     identityProven: rows.filter((r) => r.identityProven).length,
     receiptsWritten: receipts.length,
-    stillGenericMissingBinary: 0
+    stillGenericMissingBinary: 0,
+    retiredSinceTheRowsWereWritten: rows.filter((r) => r.retiredFromOperationalInventory).length,
+    liveRowsStillOutstanding: rows.filter((r) => !r.retiredFromOperationalInventory).length,
+    liveRowsWithAProvenIdentity: rows.filter((r) => !r.retiredFromOperationalInventory && r.identityProven).length,
+    foundInMasterLibrary: rows.filter((r) => r.foundInCorpus === "master_library").length,
+    foundInNationwideTree: rows.filter((r) => r.foundInCorpus === "nationwide_record_clearing").length
   },
   rows
 };

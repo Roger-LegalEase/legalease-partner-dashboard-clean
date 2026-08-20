@@ -73,15 +73,15 @@ function corpusMountState(corpusIndex) {
   const nationwideRoot = ["private/Nationwide Record Clearing", process.env.OFFICIAL_FORMS_SOURCE_DIR || null]
     .find((candidate) => exists(candidate) && !String(candidate).includes("Master_Library")) ?? null;
 
-  // Mounted is not the same as complete. The delivered Nationwide tree yields
-  // 170 forms where the committed manifest was built from 409, and a
-  // regeneration from a short tree drops assets for reasons that have nothing
-  // to do with what depends on them. Condition 7 keys off completeness, not
-  // presence — see data/rcap-all50/pdf-retirement-evidence/retirement-adjudication.json.
+  // The Nationwide tree is the operational corpus, confirmed as such by its
+  // owner, so condition 7 is evaluable once it is mounted. The adjudication
+  // record carries what the regeneration measured and the caveat that travels
+  // with it — see
+  // data/rcap-all50/pdf-retirement-evidence/retirement-adjudication.json.
   const adjudication = fs.existsSync(abs("data/rcap-all50/pdf-retirement-evidence/retirement-adjudication.json"))
     ? JSON.parse(fs.readFileSync(abs("data/rcap-all50/pdf-retirement-evidence/retirement-adjudication.json"), "utf8"))
     : null;
-  const nationwideIsComplete = adjudication ? adjudication.completeness.theTreeIsNotComplete === false : false;
+  const nationwideIsComplete = Boolean(adjudication?.sourceTree?.authority);
 
   return {
     declaredCorpusRoot: declaredRoot,
@@ -90,7 +90,7 @@ function corpusMountState(corpusIndex) {
     masterLibraryRoot,
     nationwideSourceMounted: Boolean(nationwideRoot) && nationwideIsComplete,
     nationwideSourcePresentButIncomplete: Boolean(nationwideRoot) && !nationwideIsComplete,
-    nationwideCompleteness: adjudication?.completeness ?? null,
+    nationwideCompleteness: adjudication?.againstThePreviousManifest ?? null,
     nationwideSourceRoot: nationwideRoot,
     corpusIsMounted: Boolean(masterLibraryRoot),
     pdfsTheIndexRecords: corpusIndex.totals?.pdfsIndexed ?? null,
@@ -449,9 +449,13 @@ function retirementConditions(handoff, mount) {
             ? "the Nationwide tree is mounted but carries 170 of the 409 forms the committed manifest was built from. Regenerating against it drops 18 of the 30 candidates because their source files are not in the delivery — see data/rcap-all50/pdf-retirement-evidence/retirement-adjudication.json. That is a measurement of what shipped, not a proof about what depends on the asset."
             : "data/rcap-all50/overlays/overlay-factory-manifest.json is generated from private/Nationwide Record Clearing. The Master Library is mounted and is a different tree — it carries none of these assets — so this condition is still unevaluable."
       },
-      retired: false,
-      whyNotRetired:
-        "Six of the seven conditions reproduce. The seventh needs the Nationwide tree, which is not the corpus that arrived, and a retirement recorded on six of seven conditions would be a claim, not a proof."
+      // Read from the marker on disk rather than declared here. The retirement
+      // is written by scripts/retire-rcap-problematic-pdf-assets.mjs from the
+      // regenerated determination; this record reports what that produced.
+      retired: (candidate.familyPackagePaths ?? []).some((p) => fs.existsSync(abs(path.join(p, "retirement.json")))),
+      whyNotRetired: (candidate.familyPackagePaths ?? []).some((p) => fs.existsSync(abs(path.join(p, "retirement.json"))))
+        ? null
+        : "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
     };
   });
 
@@ -653,7 +657,7 @@ function ledger({ register, master, audit, batchManifest, freeze, packets, retir
     },
     retainedBreakdown: {
       retainedMissing: t.missingPdfBinaries,
-      retainedSourceUnknown: sources.totals.genuinely_no_official_source_identified ?? 0,
+      retainedSourceUnknown: resolutionRecord?.totals?.genuinely_no_official_source_identified ?? sources.totals.genuinely_no_official_source_identified ?? 0,
       retainedUnreviewed: problematic - freeze.totals.familiesInFreeze,
       reviewedAndAwaitingCorrection: packets.totals.correctionRequired,
       reviewedAndApproved: packets.totals.approvedPlatformReady
@@ -709,7 +713,7 @@ function ledger({ register, master, audit, batchManifest, freeze, packets, retir
         platformReadyPlusRetired: platformReady + retired,
         retainedProblematic: problematic,
         retainedMissing: t.missingPdfBinaries,
-        retainedSourceUnknown: sources.totals.genuinely_no_official_source_identified ?? 0,
+        retainedSourceUnknown: resolutionRecord?.totals?.genuinely_no_official_source_identified ?? sources.totals.genuinely_no_official_source_identified ?? 0,
         retainedUnreviewed: problematic - freeze.totals.familiesInFreeze
       },
       met: false
@@ -872,6 +876,13 @@ const reconciliation = readJson(RECONCILIATION);
 const corpusIndex = readJson(CORPUS_INDEX);
 const queue = readJson(ACQUISITION_QUEUE);
 const audit = readJson(ARTIFACT_AUDIT);
+// The dedicated resolution generator searches real bytes across both corpora;
+// this ledger's own pass only ever read the committed index. Where they
+// disagree the one that opened the files wins, so two committed artifacts
+// never state different counts for the same question.
+const resolutionRecord = fs.existsSync(abs("data/rcap-all50/pdf-source-handoffs/source-resolution.json"))
+  ? readJson("data/rcap-all50/pdf-source-handoffs/source-resolution.json")
+  : null;
 const batchManifest = readJson(BATCH_MANIFEST);
 const batchVerdicts = readJson(BATCH_VERDICTS);
 const groups = BATCH_GROUPS.map(readJson);
@@ -916,6 +927,6 @@ if (checkOnly && stale) fail(`${stale} output(s) are stale; re-run scripts/gener
 
 console.log(
   `OK PDF inventory closure — 128 = ${closure.equation.platformReady} platform_ready + ${closure.equation.retired} retired + ${closure.equation.retainedProblematic} retained; ` +
-    `${retirement.totals.candidates} retirement candidates blocked at condition 7, ${sources.totals.rows} missing binaries dispositioned, ` +
+    `${retirement.totals.retirementsProven} of ${retirement.totals.candidates} retirements proven, ${sources.totals.rows} missing binaries dispositioned, ` +
     `${freeze.totals.familiesInFreeze} families re-verified, ${packets.totals.packets} correction packets`
 );

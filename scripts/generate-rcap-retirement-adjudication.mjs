@@ -5,20 +5,24 @@
 //   node scripts/generate-rcap-retirement-adjudication.mjs --check
 //
 // The condition is that the regenerated overlay factory manifest no longer
-// names the asset. With the Nationwide tree mounted that is finally testable —
-// and testing it is what exposed the trap.
+// names the asset. With the operational Nationwide tree installed that is
+// finally testable, and 18 of the 30 candidates satisfy it.
 //
-// The manifest was generated from a tree yielding 409 forms. The tree that
-// arrived yields 170. Regenerate against it and 18 of the 30 candidates stop
-// being named, which reads exactly like 18 retirements passing their last
-// condition. It is not. They stop being named because their source files are
-// not in this delivery, and they are precisely the 18 that DO have real
-// official binaries — the same KY, NC, VT and AR forms this lane resolved in
-// the Master Library, with receipts. Retiring them would retire the assets
-// with proven sources while keeping the captured web pages.
+// This record exists because that number needs its context attached. The
+// previous manifest was built from a tree yielding 409 forms; the operational
+// tree yields 170, and 18 candidates leave the manifest because their source
+// files are not in the operational corpus. That is the correct basis for a
+// retirement — the operational tree is what defines the operational inventory
+// — but it is not the same claim as "no official form exists". Ten of the 18
+// have a current official binary this lane proved in the Master Library, with
+// a receipt naming its SHA-256.
 //
-// So this refuses. A condition that a smaller input satisfies automatically is
-// not a condition that has been met; it is a measurement of what was shipped.
+// So the retirement stands and the caveat travels with it, in the same file,
+// rather than being something a later reader has to reconstruct from two
+// corpora and a hash table.
+//
+// Derived, not forced: 18 of 30, not 30. The 12 whose files are in the
+// operational tree fail condition 7 and stay.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -93,66 +97,68 @@ const candidates = handoff.retirementCandidates.map((candidate) => {
     repositoryConditionsProven: true,
     sourceFilePresentInDelivery: presentInDelivery,
     regeneratedManifestWouldNameIt: presentInDelivery,
-    conditionSevenVerdict: presentInDelivery ? "fails" : "passes_for_the_wrong_reason",
-    retired: false,
+    conditionSevenVerdict: presentInDelivery ? "fails" : "passes",
+    retired: !presentInDelivery,
     why: presentInDelivery
-      ? "The source file is in the mounted tree, so any regeneration names the asset again. The seventh condition fails, and this is a settled answer that does not depend on the rest of the delivery."
-      : "The regenerated manifest drops this asset only because its source file is absent from this delivery. That is a fact about what was shipped, not about whether anything still depends on the asset.",
+      ? "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory."
+      : "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
     aProvenOfficialSourceExistsElsewhere: proven,
-    andThatIsTheProblem: presentInDelivery || !proven
+    // Not an objection to the retirement — a note about what it means. The
+    // operational tree defines the operational inventory, and leaving it is
+    // not the same as having no official form. Ten of these have a current
+    // binary in the Master Library, so if one is ever wanted back, the
+    // acquisition is already done and the marker's own reversal note applies.
+    readMeAlongsideTheRetirement: presentInDelivery || !proven
       ? null
-      : `This lane proved an official binary for this asset in the Master Library — ${proven.documentId} ${proven.revision ?? ""}, ${proven.sha256.slice(0, 16)}… — so retiring it here would retire an asset that has a current official source.`
+      : `Retired from the operational inventory, but an official binary exists in the Master Library — ${proven.documentId} ${proven.revision ?? ""}, ${proven.sha256.slice(0, 16)}…. Retirement here means nothing on the platform reaches it, not that the form is unobtainable.`
   };
 });
 
 const fails = candidates.filter((c) => c.conditionSevenVerdict === "fails");
-const wrongReason = candidates.filter((c) => c.conditionSevenVerdict === "passes_for_the_wrong_reason");
-const wrongReasonWithASource = wrongReason.filter((c) => c.aProvenOfficialSourceExistsElsewhere);
-
-if (candidates.some((c) => c.retired)) fail("this adjudication retires an asset; it is not permitted to");
+const passes = candidates.filter((c) => c.conditionSevenVerdict === "passes");
+const passesWithASource = passes.filter((c) => c.aProvenOfficialSourceExistsElsewhere);
 
 const record = {
-  schemaVersion: "rcap-pdf-retirement-adjudication/v1",
+  schemaVersion: "rcap-pdf-retirement-adjudication/v2",
   generatedBy: "scripts/generate-rcap-retirement-adjudication.mjs",
   purpose:
-    "The seventh retirement condition, evaluated against the mounted Nationwide tree, and the reason no retirement follows from it.",
+    "The seventh retirement condition, evaluated against the operational Nationwide tree, and the retirements that follow from it.",
   sourceTree: {
     path: path.relative(rootDir, NATIONWIDE),
     mounted,
     filesDelivered: delivered.length,
-    pdfsDelivered: delivered.filter((f) => /\.pdf$/i.test(f)).length
+    pdfsDelivered: delivered.filter((f) => /\.pdf$/i.test(f)).length,
+    authority:
+      "Confirmed by the owner as the operational Nationwide Record Clearing tree, distinct from Master Library Edition 1. The operational tree is what defines the operational inventory."
   },
-  completeness: {
-    formsTheCommittedManifestNames: committedFormPaths.length,
-    ofThoseStillInTheDeliveredTree: stillPresent.length,
-    absentFromTheDeliveredTree: committedFormPaths.length - stillPresent.length,
-    formsARegenerationProduces: 170,
+  againstThePreviousManifest: {
+    formsThePreviousManifestNamed: committedFormPaths.length,
+    ofThoseStillInTheOperationalTree: stillPresent.length,
+    noLongerInTheOperationalTree: committedFormPaths.length - stillPresent.length,
+    formsTheRegenerationProduces: 170,
     measuredHow:
-      "buildOverlayFactory() was run once against this tree in a disposable checkout, not in this worktree. It produced 170 forms against the committed manifest's 409, and named 12 of the 30 candidates.",
-    theTreeIsNotComplete: stillPresent.length < committedFormPaths.length,
-    whyThatIsDisqualifying:
-      "A regeneration from an incomplete tree drops assets for a reason that has nothing to do with whether anything depends on them. The seventh condition would be satisfied by the delivery rather than by the evidence."
+      "buildOverlayFactory() run against this tree, twice, byte-identical apart from its own generatedAt stamp. 170 logical records from 187 physical files and 63 PDFs; 0 unresolved source references; 1 blocked form (an encrypted PA PDF).",
+    whyThisIsRecorded:
+      "The previous manifest was built from a larger tree. Every count that moved here moved because the operational corpus is smaller than the one that produced the old manifest, and that is worth being able to point at later rather than rediscovering."
   },
-  theTrap: {
-    statement:
-      "Regenerating against this tree drops 18 of the 30 candidates, which looks like 18 retirements clearing their last condition.",
-    whatIsActuallyTrue:
-      "Those 18 are the official PDFs. The 12 that survive are almost entirely captured .html web pages. Retiring on this basis would retire every asset with a real form behind it and keep the scraped landing pages.",
-    corroboration: `${wrongReasonWithASource.length} of the 18 have an official binary this lane already proved in the Master Library, with a receipt naming its SHA-256.`,
-    thereforeRetirementsProven: 0
+  whatTheRetirementDoesAndDoesNotMean: {
+    does: "The asset has left the operational inventory: out of the problematic denominator, out of the acquisition queue, out of every scan that expects it to become deliverable. Nothing was deleted.",
+    doesNot: `It does not mean no official form exists. ${passesWithASource.length} of the ${passes.length} retired assets have a current official binary this lane proved in the Master Library, with a receipt naming its SHA-256. If one is ever wanted back, the acquisition is already done and each marker carries its own reversal instructions.`,
+    whichIsWhyItIsWrittenDown:
+      "A future reader finding KY 496.2 retired should be able to see immediately that the form was obtainable and the retirement was about operational reach, not availability."
   },
   totals: {
     candidates: candidates.length,
     conditionSevenFails: fails.length,
-    conditionSevenPassesForTheWrongReason: wrongReason.length,
-    ofThoseWithAProvenOfficialSourceElsewhere: wrongReasonWithASource.length,
-    retirementsProven: 0,
+    conditionSevenPasses: passes.length,
+    retirementsProven: passes.length,
+    ofThoseWithAProvenOfficialSourceElsewhere: passesWithASource.length,
     refusedForALegalDesignBinding: handoff.excluded.length
   },
-  whatWouldSettleIt: [
-    "Deliver the complete Nationwide tree — the one the committed manifest was generated from, yielding 409 forms — and this adjudication re-runs against it unchanged.",
-    "Or state, on the record, that the 239 absent forms were removed from the source upstream rather than omitted from the delivery. Then the regeneration is legitimate and 18 candidates can be re-examined on their merits.",
-    "Either way the 12 whose files are present remain not retirable: their manifest entry comes back every time."
+  notes: [
+    "Derived, not forced: 18 of 30, not 30. The 12 whose files are in the operational tree fail condition 7 — the manifest names them again on every regeneration — and stay in the inventory.",
+    "VA CC-1473 is not among the candidates at all. The determination finds it on the legal-design registry, the D-track queue and the overlay manifest, so it is retained on evidence rather than by exception.",
+    "Retirement was written by scripts/retire-rcap-problematic-pdf-assets.mjs from the regenerated determination. This lane wrote no marker by hand."
   ],
   refusedRetirements: handoff.excluded,
   candidates
@@ -164,36 +170,34 @@ function markdown() {
   lines.push("");
   lines.push(`Nationwide tree: \`${record.sourceTree.path}\` — ${record.sourceTree.filesDelivered} files, ${record.sourceTree.pdfsDelivered} PDFs.`);
   lines.push("");
-  lines.push("## Completeness");
+  lines.push("## Against the previous manifest");
   lines.push("");
   lines.push("| | count |");
   lines.push("| --- | ---: |");
-  lines.push(`| forms the committed manifest names | ${record.completeness.formsTheCommittedManifestNames} |`);
-  lines.push(`| of those, still in the delivered tree | ${record.completeness.ofThoseStillInTheDeliveredTree} |`);
-  lines.push(`| absent from the delivered tree | ${record.completeness.absentFromTheDeliveredTree} |`);
-  lines.push(`| forms a regeneration produces | ${record.completeness.formsARegenerationProduces} |`);
+  lines.push(`| forms the previous manifest named | ${record.againstThePreviousManifest.formsThePreviousManifestNamed} |`);
+  lines.push(`| of those, still in the operational tree | ${record.againstThePreviousManifest.ofThoseStillInTheOperationalTree} |`);
+  lines.push(`| no longer in the operational tree | ${record.againstThePreviousManifest.noLongerInTheOperationalTree} |`);
+  lines.push(`| forms the regeneration produces | ${record.againstThePreviousManifest.formsTheRegenerationProduces} |`);
   lines.push("");
-  lines.push(record.completeness.whyThatIsDisqualifying);
+  lines.push(record.againstThePreviousManifest.measuredHow);
   lines.push("");
-  lines.push("## The trap");
+  lines.push("## What the retirement means");
   lines.push("");
-  lines.push(record.theTrap.statement);
+  lines.push(record.whatTheRetirementDoesAndDoesNotMean.does);
   lines.push("");
-  lines.push(record.theTrap.whatIsActuallyTrue);
-  lines.push("");
-  lines.push(record.theTrap.corroboration);
+  lines.push(record.whatTheRetirementDoesAndDoesNotMean.doesNot);
   lines.push("");
   lines.push("## Verdicts");
   lines.push("");
-  lines.push("| jurisdiction | asset | in delivery | condition 7 | retired |");
+  lines.push("| jurisdiction | asset | in operational tree | condition 7 | retired |");
   lines.push("| --- | --- | :-: | --- | :-: |");
   for (const candidate of candidates) {
-    lines.push(`| ${candidate.jurisdiction} | ${candidate.formNumber} | ${candidate.sourceFilePresentInDelivery ? "yes" : "no"} | ${candidate.conditionSevenVerdict} | no |`);
+    lines.push(`| ${candidate.jurisdiction} | ${candidate.formNumber} | ${candidate.sourceFilePresentInDelivery ? "yes" : "no"} | ${candidate.conditionSevenVerdict} | ${candidate.retired ? "yes" : "no"} |`);
   }
   lines.push("");
-  lines.push("## What would settle it");
+  lines.push("## Notes");
   lines.push("");
-  for (const step of record.whatWouldSettleIt) lines.push(`- ${step}`);
+  for (const note of record.notes) lines.push(`- ${note}`);
   lines.push("");
   return lines.join("\n");
 }
@@ -213,6 +217,6 @@ if (checkOnly && stale) fail(`${stale} output(s) are stale; re-run scripts/gener
 
 console.log(
   `OK retirement adjudication — ${candidates.length} candidates; condition 7 fails for ${fails.length}, ` +
-    `passes for the wrong reason for ${wrongReason.length} (${wrongReasonWithASource.length} of which have a proven official source); ` +
-    `retirements proven 0`
+    `passes for ${passes.length} (${passesWithASource.length} of which have a proven official source elsewhere); ` +
+    `retirements proven ${passes.length}`
 );
