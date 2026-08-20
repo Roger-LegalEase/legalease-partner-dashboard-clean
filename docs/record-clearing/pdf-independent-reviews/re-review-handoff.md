@@ -8,9 +8,25 @@ Each family below carries a correction_required verdict against superseded bytes
 | --- | --- | :-: | ---: |
 | AK:tf-800-form-en | certDate | no | 3 |
 | AK:tf-805-form-en | certDate | no | 3 |
-| KY:aoc-334-form-en | Defendants ssn | no | 2 |
-| KY:aoc-496-2-form-en | Def.VitalStats.SSN, Def.Info.JailId | no | 2 |
-| KY:aoc-496-form-en | Def.VitalStats.SSN, Def.Info.JailId | no | 2 |
-| NC:aoc-cr-287-form-en | PetitionerAddr2 | YES | 3 |
+| KY:aoc-334-form-en | Defendants ssn | no | 3 |
+| KY:aoc-496-2-form-en | Def.VitalStats.SSN, Def.Info.JailId | no | 3 |
+| KY:aoc-496-4-form-en | — | no | 3 |
+| KY:aoc-496-form-en | Def.VitalStats.SSN, Def.Info.JailId | no | 3 |
+| KY:aoc-497-form-en | Def.Address.City | no | 3 |
+| NC:aoc-cr-287-form-en | PetitionerAddr2 | no | 3 |
 | NC:aoc-cr-288-form-en | NameAtty, CityAtty, StateAtty, ZipCodeAtty | no | 3 |
+| NC:aoc-cr-296-form-en | DistrictAttorneyName | no | 3 |
+| NC:aoc-cr-297-form-en | PetitionerMailAddress | YES | 3 |
+| NC:aoc-cr-298-form-en | EmailAddressOfRecord | no | 3 |
 | NC:aoc-cv-226-support-en | NameOfBank, BankStreetAddress | no | 3 |
+| NE:cc-6-11-2-form-en | — | no | 3 |
+| NE:cc-6-11-form-en | — | no | 3 |
+| NE:cc-6-12-form-en | — | no | 3 |
+| NE:cc-6-15-1-form-en | — | no | 3 |
+| NE:dc-1-15-form-en | — | no | 2 |
+| VA:cc-1201-form-en | — | no | 3 |
+| VA:cc-1473-form-en | — | no | 3 |
+| VT:200-00130-form-en | — | no | 3 |
+| VT:200-00132-form-en | — | no | 3 |
+| VT:200-00132a-form-en | — | no | 3 |
+| VT:600-00228-support-en | — | no | 3 |

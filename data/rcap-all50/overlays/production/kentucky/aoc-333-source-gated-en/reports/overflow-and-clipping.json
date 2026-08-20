@@ -4,66 +4,77 @@
   "findings": [
     {
       "fixture": "canonical",
-      "check": "binding_refused",
-      "field": "Court",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "check": "unfittable_refused_not_clipped",
+      "field": "2",
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Jordan Avery Reyes",
+      "rect": {
+        "x": 235,
+        "y": 483,
+        "width": 28,
+        "height": 19
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 53.6
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Division",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "fixture": "canonical",
-      "check": "binding_refused",
-      "field": "on",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "fixture": "canonical",
-      "check": "binding_refused",
-      "field": "2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "prosecutor",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "So ORDERED this",
       "reason": "protected_category",
-      "category": "court"
+      "category": "court",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "day of",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "2_2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Reset",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "clerk",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Print",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "clerk",
+      "regionHeading": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Company",
+      "reason": "duplicate_widget_for_one_slot",
+      "category": "caption_slot",
+      "factId": "participant.full_legal_name",
+      "keptInstead": "following agencies"
     },
     {
       "fixture": "canonical",
@@ -71,20 +82,6 @@
       "field": "County dropdown",
       "reason": "value_not_among_field_options",
       "factId": "matter.county"
-    },
-    {
-      "fixture": "canonical",
-      "check": "binding_refused",
-      "field": "Company",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "fixture": "canonical",
-      "check": "binding_refused",
-      "field": "following agencies",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
     },
     {
       "fixture": "boundary",
@@ -105,66 +102,94 @@
     },
     {
       "fixture": "boundary",
-      "check": "binding_refused",
-      "field": "Court",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "check": "unfittable_refused_not_clipped",
+      "field": "on",
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "rect": {
+        "x": 55,
+        "y": 483,
+        "width": 167,
+        "height": 19
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6
+    },
+    {
+      "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "field": "2",
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "rect": {
+        "x": 235,
+        "y": 483,
+        "width": 28,
+        "height": 19
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Division",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "fixture": "boundary",
-      "check": "binding_refused",
-      "field": "on",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "fixture": "boundary",
-      "check": "binding_refused",
-      "field": "2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "prosecutor",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "So ORDERED this",
       "reason": "protected_category",
-      "category": "court"
+      "category": "court",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "day of",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "2_2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Reset",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "clerk",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Print",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "clerk",
+      "regionHeading": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Company",
+      "reason": "duplicate_widget_for_one_slot",
+      "category": "caption_slot",
+      "factId": "participant.full_legal_name",
+      "keptInstead": "following agencies"
     },
     {
       "fixture": "boundary",
@@ -172,20 +197,6 @@
       "field": "County dropdown",
       "reason": "value_not_among_field_options",
       "factId": "matter.county"
-    },
-    {
-      "fixture": "boundary",
-      "check": "binding_refused",
-      "field": "Company",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "fixture": "boundary",
-      "check": "binding_refused",
-      "field": "following agencies",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
     }
   ]
 }

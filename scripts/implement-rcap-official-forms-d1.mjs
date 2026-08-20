@@ -23,8 +23,8 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
-import { extractTextItems, groupIntoLines } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
-import { decideBinding as decideTypedBinding } from "./rcap-official-forms/rcap-field-semantics.mjs";
+import { extractTextItems, groupIntoLines, captureWidgetContext } from "./rcap-official-forms/rcap-pdf-anchor-capture.mjs";
+import { decideBinding as decideTypedBinding, selectOnePerSlot } from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { finalizeOfficialForm, finalizeFlatOverlay, NonFilingHoldError }
   from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenance.mjs";
@@ -431,7 +431,49 @@ for (const fam of index.families) {
     if (["dropdown", "optionlist", "radio"].includes(type)) { try { e.options = f.getOptions(); } catch {} }
     return e;
   });
-  const classification = census.map((c) => ({ name: c.name, type: c.type, class: classify(c.name, c.type, ownership) }));
+  // The widget context channel. Until now the binder saw a field's internal
+  // AcroForm name and nothing else: not the words the form prints beside the
+  // box, and not the section of the page the box sits in. Both are measured
+  // here, out of this document's own content streams, and attached to the
+  // census so the binder, the finalizer and every later reader see the same
+  // three channels.
+  //
+  // A widget with no rectangle, or on a page whose content stream will not
+  // decode, gets nulls. A missing channel is a missing channel; it is never
+  // filled in with a guess.
+  const widgetsByPage = new Map();
+  for (const entry of census) {
+    for (const w of entry.widgets) {
+      if (!w.page || !w.rect) continue;
+      if (!widgetsByPage.has(w.page)) widgetsByPage.set(w.page, []);
+      widgetsByPage.get(w.page).push({ name: entry.name, rect: w.rect });
+    }
+  }
+  const contextByField = new Map();
+  for (const [pageNumber, widgets] of widgetsByPage) {
+    const page = pages[pageNumber - 1];
+    if (!page) continue;
+    let contexts = [];
+    try { contexts = captureWidgetContext(page, widgets); } catch { contexts = []; }
+    for (const context of contexts) {
+      // A field with widgets on more than one page keeps the first context
+      // measured for it: the same field drawn twice is one field, and its
+      // binding is decided once.
+      if (!contextByField.has(context.name)) contextByField.set(context.name, context);
+    }
+  }
+  for (const entry of census) {
+    const context = contextByField.get(entry.name) ?? null;
+    entry.effectiveLabel = context?.effectiveLabel ?? null;
+    entry.labelBasis = context?.labelBasis ?? "no_widget_geometry_available";
+    entry.regionHeading = context?.regionHeading ?? null;
+    entry.regionBasis = context?.regionBasis ?? "no_widget_geometry_available";
+  }
+
+  const classification = census.map((c) => ({
+    name: c.name, type: c.type, class: classify(c.name, c.type, ownership),
+    effectiveLabel: c.effectiveLabel, regionHeading: c.regionHeading
+  }));
 
   const noFill = ownership === OWNERSHIP.INSTRUCTIONAL || ownership === OWNERSHIP.OUTSIDE_PARTY;
   // Binding is decided by the typed, fail-closed binder rather than by a
@@ -445,7 +487,7 @@ for (const fam of index.families) {
   const bindingRefusals = [];
   for (const c of classification) {
     const decision = decideTypedBinding(
-      { name: c.name, pdfType: c.type, effectiveLabel: c.effectiveLabel },
+      { name: c.name, pdfType: c.type, effectiveLabel: c.effectiveLabel, regionHeading: c.regionHeading },
       { explicitMappings, captionOnly: ownership === OWNERSHIP.COURT_ORDER,
         availableChargeRows, documentAcceptsFill: !noFill }
     );
@@ -459,11 +501,34 @@ for (const fam of index.families) {
     if (decision.writable && NEVER_WRITE.has(c.class)) {
       bindingRefusals.push({ field: c.name, reason: "classified_unwritable_by_role", category: c.class });
     } else if (decision.writable) {
-      bindings.push({ field: c.name, class: c.class, factId: decision.factId });
+      // `factBasis` says which channel bound it — the field's own name, or the
+      // caption the form prints beside it. A map that does not say which is a
+      // map a reviewer cannot check against the paper.
+      bindings.push({ field: c.name, class: c.class, factId: decision.factId,
+        factBasis: decision.factBasis ?? "field_name",
+        effectiveLabel: c.effectiveLabel ?? null });
     } else {
-      bindingRefusals.push({ field: c.name, reason: decision.reason, category: decision.category ?? null });
+      bindingRefusals.push({ field: c.name, reason: decision.reason, category: decision.category ?? null,
+        regionHeading: decision.regionHeading ?? null });
     }
   }
+  // One widget per slot. The per-field decisions above are each correct and
+  // still put three widgets on Nebraska's caption band, all matching
+  // matter.court and all overlapping between x 138 and x 242. This pass keeps
+  // one and records the rest as refusals, so the map says which widget carries
+  // the value and why the others do not.
+  const censusByName = new Map(census.map((c) => [c.name, c]));
+  const slots = selectOnePerSlot(bindings.map((b) => {
+    const entry = censusByName.get(b.field);
+    return { ...b, name: b.field, pdfType: entry?.type ?? null,
+      page: entry?.widgets?.[0]?.page ?? null, rect: entry?.widgets?.[0]?.rect ?? null };
+  }));
+  bindings.length = 0;
+  for (const keeper of slots.kept) bindings.push({ field: keeper.field, class: keeper.class, factId: keeper.factId,
+    factBasis: keeper.factBasis, effectiveLabel: keeper.effectiveLabel ?? null });
+  for (const loser of slots.refused) bindingRefusals.push({ field: loser.field, reason: loser.reason,
+    category: loser.category, factId: loser.factId, keptInstead: loser.keptInstead, overlapsWith: loser.overlapsWith });
+
   const boundNames = new Set(bindings.map((b) => b.field));
 
   fs.mkdirSync(path.join(familyDir, "fixtures"), { recursive: true });

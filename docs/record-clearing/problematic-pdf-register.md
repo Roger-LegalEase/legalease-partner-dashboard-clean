@@ -239,7 +239,6 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `visually_unsafe` — Field "Court" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ViolationArrest  Date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -248,16 +247,14 @@ Defects:
 - `visually_unsafe` — Field "CHARGE_4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE_5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE_6" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Defendants ssn" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "listed charges" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case  No" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Date" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Text1" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ViolationArrest  Date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -266,14 +263,11 @@ Defects:
 - `visually_unsafe` — Field "CHARGE_4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE_5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE_6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Defendants ssn" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "listed charges" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -301,10 +295,9 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `visually_unsafe` — Field "Case.Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Court Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.DOB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -324,14 +317,13 @@ Defects:
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.CaseNum" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Court Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Address.City" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.DOB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -351,6 +343,10 @@ Defects:
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Address.City" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -378,7 +374,6 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `visually_unsafe` — Field "2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "6" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -438,9 +433,9 @@ Defects:
 - `visually_unsafe` — Field "59" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset Form" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print Form" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "1 Case Number" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -500,6 +495,7 @@ Defects:
 - `visually_unsafe` — Field "59" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset Form" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print Form" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -527,22 +523,18 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "64" fails the unfittable_refused_not_clipped check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "65" fails the unfittable_refused_not_clipped check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "6" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "7" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "8" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "9" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "10" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "11" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "12" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "13" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "14" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "15" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "16" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "17" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "18" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "18a" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "19" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -584,11 +576,8 @@ Defects:
 - `visually_unsafe` — Field "60" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "61" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "62" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "63" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "67" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "64" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "68" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "65" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset Form" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print Form" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "70" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -601,23 +590,23 @@ Defects:
 - `visually_unsafe` — Field "77" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "78" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "79" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "4" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "14" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "17" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "1 Case Number" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "63" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "64" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "65" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "7" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "8" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "9" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "10" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "11" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "12" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "13" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "14" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "15" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "16" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "17" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "18" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "18a" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "19" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -659,11 +648,8 @@ Defects:
 - `visually_unsafe` — Field "60" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "61" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "62" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "63" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "67" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "64" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "68" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "65" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset Form" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print Form" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "70" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -676,6 +662,7 @@ Defects:
 - `visually_unsafe` — Field "77" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "78" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "79" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -703,13 +690,13 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `visually_unsafe` — Field "Case.Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Line1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.City" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.PhoneNo" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.DOB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -732,15 +719,16 @@ Defects:
 - `visually_unsafe` — Field "Agencies" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.CaseNum" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Line1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.City" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.PhoneNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.DOB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -763,6 +751,7 @@ Defects:
 - `visually_unsafe` — Field "Agencies" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -789,11 +778,10 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `visually_unsafe` — Field "Court" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "area code" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Jail ID Number" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Defendants Birthdate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ssn" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ViolationArrest Date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check sixty days" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -815,12 +803,12 @@ Defects:
 - `visually_unsafe` — Field "check offenses listed" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check denied" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check felony chg" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case No" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "area code" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Jail ID Number" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Defendants Birthdate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ssn" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ViolationArrest Date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check sixty days" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -842,6 +830,7 @@ Defects:
 - `visually_unsafe` — Field "check offenses listed" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check denied" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check felony chg" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -993,8 +982,11 @@ Defects:
 - `visually_unsafe` — Field "ReasonCont" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerZip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DriversLicenseNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DriversLicenseState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DateOfBirth" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FullSocialSecurityNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AgeAtTimeOfOffense" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionersAttorneyName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1095,6 +1087,7 @@ Defects:
 - `visually_unsafe` — Field "DateOfDismissal8" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfDismissal9" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfDismissal10" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerAddr2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FileNumber1" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FileNumber2" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FileNumber3" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1105,8 +1098,11 @@ Defects:
 - `visually_unsafe` — Field "ReasonCont" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerZip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DriversLicenseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DriversLicenseState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DateOfBirth" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FullSocialSecurityNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AgeAtTimeOfOffense" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionersAttorneyName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1205,6 +1201,7 @@ Defects:
 - `visually_unsafe` — Field "DateOfDismissal8" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfDismissal9" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfDismissal10" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerAddr2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -1381,9 +1378,13 @@ Defects:
 - `visually_unsafe` — Field "District" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Superior" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAddr" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ZipCode" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DLState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SNN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Age" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NameAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1411,6 +1412,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CkBox_Attchmt" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Fileno:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Description:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DOOF:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1478,6 +1480,7 @@ Defects:
 - `visually_unsafe` — Field "DispositionDate:11" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SeekingExpunge15A-146Cbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionNotFiledSignDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionNotFiledSignName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionerCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionerAttorneyCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionerNotConvictedFelonyMisdemeanorCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1492,16 +1495,20 @@ Defects:
 - `visually_unsafe` — Field "DeputyCSCCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AssistantCSCCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ClerkOfSuperiorCourtCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Fileno:1" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerIsEligibleBecauseText2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Fileno:2" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Fileno:3" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "District" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Superior" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAddr" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ZipCode" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DLState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SNN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Age" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NameAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1529,6 +1536,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CkBox_Attchmt" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Fileno:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Description:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DOOF:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1594,6 +1602,7 @@ Defects:
 - `visually_unsafe` — Field "DispositionDate:11" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SeekingExpunge15A-146Cbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionNotFiledSignDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionNotFiledSignName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionerCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionerAttorneyCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionerNotConvictedFelonyMisdemeanorCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1608,6 +1617,7 @@ Defects:
 - `visually_unsafe` — Field "DeputyCSCCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AssistantCSCCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ClerkOfSuperiorCourtCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerIsEligibleBecauseText2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -1666,10 +1676,14 @@ Defects:
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "District" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Superior" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "StreetAddr" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAddr" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ZipCode" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SNN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Age" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NameAgency1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1691,6 +1705,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CkBox_Attchmt" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Fileno:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Description:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DOOF:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1764,10 +1779,10 @@ Defects:
 - `visually_unsafe` — Field "DispositionDate:12" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SeekingExpunge15A-146Cbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionNotFiledSignDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionNotFiledSignName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Expunge" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Should" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ShouldNot" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Reason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ReasonCont" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionGrantedCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionDeniedCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1778,16 +1793,19 @@ Defects:
 - `visually_unsafe` — Field "DeputyCSCCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AssistantCSCCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ClerkOfSuperiorCourtCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Fileno:1" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Fileno:2" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Fileno:3" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "District" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Superior" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "StreetAddr" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAddr" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ZipCode" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SNN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Age" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NameAgency1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1809,6 +1827,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CkBox_Attchmt" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Fileno:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Description:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DOOF:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1880,10 +1899,10 @@ Defects:
 - `visually_unsafe` — Field "DispositionDate:12" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SeekingExpunge15A-146Cbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionNotFiledSignDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionNotFiledSignName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Expunge" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Should" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ShouldNot" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Reason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ReasonCont" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionGrantedCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionDeniedCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1953,9 +1972,13 @@ Defects:
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerZip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DLState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyStreetAddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -1982,6 +2005,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttachmentCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "FileNumber:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "OffenseDescription:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfOffense:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2004,6 +2028,7 @@ Defects:
 - `visually_unsafe` — Field "DepositingCopyCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EmailCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ICMS/OFSCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "EmailAddressOfRecord" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ServiceAcceptedCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2038,7 +2063,6 @@ Defects:
 - `visually_unsafe` — Field "FindingsItem12CkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EligibleCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NotEligibleCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "NotEligibleReason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsGrantedCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsDeniedCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "JudgeSignedDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2048,14 +2072,17 @@ Defects:
 - `visually_unsafe` — Field "DepCSCCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AsstCSCCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CSCCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "FileNumber:1" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FileNumber:2" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerZip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DLState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyStreetAddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2082,6 +2109,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttachmentCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "FileNumber:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "OffenseDescription:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfOffense:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2103,6 +2131,7 @@ Defects:
 - `visually_unsafe` — Field "DepositingCopyCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EmailCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ICMS/OFSCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "EmailAddressOfRecord" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ServiceAcceptedCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2137,7 +2166,6 @@ Defects:
 - `visually_unsafe` — Field "FindingsItem12CkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EligibleCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NotEligibleCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "NotEligibleReason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsGrantedCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsDeniedCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "JudgeSignedDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2206,9 +2234,13 @@ Defects:
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerZip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DLState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyStreetAddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2235,6 +2267,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttachmentCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "FileNumber:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "OffenseDescription:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfOffense:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2257,6 +2290,7 @@ Defects:
 - `visually_unsafe` — Field "DepositingCopyCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EmailCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ICMS/OFSCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "EmailAddressOfRecord" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ServiceAcceptedCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2288,7 +2322,6 @@ Defects:
 - `visually_unsafe` — Field "FindingsItem11CkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EligibleCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NotEligibleCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "NotEligibleReason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsGrantedCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsDeniedCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "JudgeSignedDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2298,14 +2331,18 @@ Defects:
 - `visually_unsafe` — Field "DepCSCCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AsstCSCCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CSCCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "FileNumber:1" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerMailAddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FileNumber:2" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerZip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DLState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyStreetAddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2332,6 +2369,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttachmentCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "FileNumber:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "OffenseDescription:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfOffense:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2353,6 +2391,7 @@ Defects:
 - `visually_unsafe` — Field "DepositingCopyCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EmailCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ICMS/OFSCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "EmailAddressOfRecord" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ServiceAcceptedCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2384,7 +2423,6 @@ Defects:
 - `visually_unsafe` — Field "FindingsItem11CkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EligibleCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NotEligibleCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "NotEligibleReason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsGrantedCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsDeniedCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "JudgeSignedDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2394,6 +2432,7 @@ Defects:
 - `visually_unsafe` — Field "DepCSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AsstCSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerMailAddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -2458,6 +2497,8 @@ Defects:
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressAddr1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressAddr2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "YesHaveServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NoHaveNotServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantIsDefendantCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2523,6 +2564,8 @@ Defects:
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressAddr1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressAddr2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "YesHaveServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NoHaveNotServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantIsDefendantCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2643,15 +2686,17 @@ Defects:
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `visually_unsafe` — Field "Text2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "defendant" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -2684,22 +2729,22 @@ Defects:
 - `visually_unsafe` — Field "Text6" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box7" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "noemailreason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "noemailreason2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "datesigned" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "defendant" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box7" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "noemailreason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "noemailreason2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "datesigned" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -2734,13 +2779,13 @@ Defects:
 - `visually_unsafe` — Field "Check Box2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "datesigned" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box7" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "noemailreason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "noemailreason2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case No" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Adult name" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2750,13 +2795,13 @@ Defects:
 - `visually_unsafe` — Field "Check Box2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "datesigned" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box7" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "noemailreason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "noemailreason2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -2824,10 +2869,10 @@ Defects:
 - `visually_unsafe` — Field "Check Box5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box6" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box7" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2837,10 +2882,10 @@ Defects:
 - `visually_unsafe` — Field "Check Box5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box7" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -2928,7 +2973,6 @@ Defects:
 - `visually_unsafe` — Field "Text72" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text73" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "streetaddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "citystatezip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2936,8 +2980,9 @@ Defects:
 - `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "datesigned" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emancipationpetitioner" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "defendant" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "emancipationpetitioner" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "defendant" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text20" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text24" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "divorce" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -2999,7 +3044,6 @@ Defects:
 - `visually_unsafe` — Field "Text72" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text73" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "streetaddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "citystatezip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3007,6 +3051,9 @@ Defects:
 - `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "datesigned" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "emancipationpetitioner" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "defendant" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -3037,9 +3084,9 @@ Defects:
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 - `visually_unsafe` — Field "ResetButton" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Race" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.ChargeDesc" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.ChargeCaseNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.DCN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Reasonably" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3058,7 +3105,9 @@ Defects:
 - `visually_unsafe` — Field "User.AncillaryReasonably" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB7" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CityOrCounty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.WarrantSummons" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.AncillaryCityOrCounty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryCourt" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryChargeDoc" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB8" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3108,15 +3157,16 @@ Defects:
 - `visually_unsafe` — Field "User.EmailPetitioner" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.EmailAttorney" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.VSBCaseNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.AncillaryCityOrCounty" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.HomePhoneOfPetAtt" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CityOfPetAtt" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.EmailOfPetAtt" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CaseNumber1201" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryFullNameOfArrest" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ResetButton" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.CaseNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.Sex" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Race" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.ChargeDesc" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.ChargeCaseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.DCN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Reasonably" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3135,7 +3185,9 @@ Defects:
 - `visually_unsafe` — Field "User.AncillaryReasonably" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB7" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CityOrCounty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.WarrantSummons" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.AncillaryCityOrCounty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryCourt" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryChargeDoc" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB8" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3185,6 +3237,10 @@ Defects:
 - `visually_unsafe` — Field "User.EmailPetitioner" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.EmailAttorney" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.VSBCaseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.HomePhoneOfPetAtt" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CityOfPetAtt" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.EmailOfPetAtt" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CaseNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -3230,12 +3286,15 @@ Defects:
 - `visually_unsafe` — Field "User.DisposingCourt2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitioner" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorney" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.PrintName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.PetetionerPhoneNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitionerContact" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorneyContact" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitionerPhone" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorneyPhone" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitionerEmail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorneyEmail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.PetetionerEmail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.PetetionerVSB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.HearDateTime" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3245,12 +3304,10 @@ Defects:
 - `visually_unsafe` — Field "User.CB2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ResetButton" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.CaseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Officer" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Title" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Check0" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.SpecificCharge" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.UnderlyingCaseNumbers" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.DateOfArrest" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.ArrestingAgency" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Check5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3262,12 +3319,15 @@ Defects:
 - `visually_unsafe` — Field "User.DisposingCourt2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitioner" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorney" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.PrintName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.PetetionerPhoneNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitionerContact" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorneyContact" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitionerPhone" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorneyPhone" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitionerEmail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorneyEmail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.PetetionerEmail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.PetetionerVSB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.HearDateTime" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3276,6 +3336,8 @@ Defects:
 - `visually_unsafe` — Field "User.CB1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CaseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.UnderlyingCaseNumbers" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -3322,7 +3384,6 @@ Defects:
 - `visually_unsafe` — Field "17" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "18" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "19" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "19a" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "21" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "20" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "22" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3348,10 +3409,9 @@ Defects:
 - `visually_unsafe` — Field "41" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "42" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Docket Number" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "2" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Unit" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3368,7 +3428,6 @@ Defects:
 - `visually_unsafe` — Field "17" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "18" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "19" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "19a" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "21" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "20" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "22" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3440,22 +3499,20 @@ Defects:
 - `visually_unsafe` — Field "33" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34a" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34e" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34f" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check box 1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "chec box 2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34d" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34g" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34c" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34b" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34h" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34i" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34j" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34k" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34l" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "35" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "36" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Docket Number" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "34d" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "34l" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "34h" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Unit" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "22" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "23" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3471,19 +3528,14 @@ Defects:
 - `visually_unsafe` — Field "33" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34a" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34e" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34f" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check box 1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "chec box 2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34d" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34g" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34c" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34b" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34h" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34i" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34j" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34k" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34l" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "35" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "36" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
@@ -3539,16 +3591,14 @@ Defects:
 - `visually_unsafe` — Field "chec box 2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34b" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34c" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34d" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34e" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34f" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34g" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34h" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34i" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34j" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34k" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34l" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Docket Number" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "34d" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "34l" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "34h" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Unit" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "22" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "23" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3570,15 +3620,10 @@ Defects:
 - `visually_unsafe` — Field "chec box 2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34b" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34c" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34d" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34e" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34f" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34g" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34h" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34i" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34j" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34k" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34l" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -3608,11 +3653,6 @@ Defects:
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Unit" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "6" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "7" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "8" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "15" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "16" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3624,8 +3664,6 @@ Defects:
 - `visually_unsafe` — Field "22" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "23" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "24" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "5a" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "27" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "29" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "31" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3687,11 +3725,6 @@ Defects:
 - `visually_unsafe` — Field "Docket Number" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Unit" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "7" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "8" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "15" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "16" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -3703,8 +3736,6 @@ Defects:
 - `visually_unsafe` — Field "22" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "23" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "24" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "5a" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "27" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "29" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "31" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5164,7 +5195,6 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `visually_unsafe` — Field "Court" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ViolationArrest  Date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5173,16 +5203,14 @@ Defects:
 - `visually_unsafe` — Field "CHARGE_4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE_5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE_6" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Defendants ssn" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "listed charges" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case  No" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Date" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Text1" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ViolationArrest  Date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5191,14 +5219,11 @@ Defects:
 - `visually_unsafe` — Field "CHARGE_4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE_5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CHARGE_6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Defendants ssn" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "listed charges" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5226,10 +5251,9 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `visually_unsafe` — Field "Case.Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Court Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.DOB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5249,14 +5273,13 @@ Defects:
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.CaseNum" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Court Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Address.City" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.DOB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5276,6 +5299,10 @@ Defects:
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Address.City" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -5303,7 +5330,6 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `visually_unsafe` — Field "2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "6" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5363,9 +5389,9 @@ Defects:
 - `visually_unsafe` — Field "59" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset Form" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print Form" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "1 Case Number" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5425,6 +5451,7 @@ Defects:
 - `visually_unsafe` — Field "59" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset Form" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print Form" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5452,22 +5479,18 @@ Defects:
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `visually_unsafe` — Field "64" fails the unfittable_refused_not_clipped check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "65" fails the unfittable_refused_not_clipped check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "6" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "7" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "8" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "9" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "10" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "11" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "12" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "13" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "14" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "15" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "16" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "17" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "18" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "18a" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "19" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5509,11 +5532,8 @@ Defects:
 - `visually_unsafe` — Field "60" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "61" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "62" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "63" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "67" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "64" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "68" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "65" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset Form" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print Form" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "70" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5526,23 +5546,23 @@ Defects:
 - `visually_unsafe` — Field "77" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "78" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "79" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "4" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "14" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "17" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "1 Case Number" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "63" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "64" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "65" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "7" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "8" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "9" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "10" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "11" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "12" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "13" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "14" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "15" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "16" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "17" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "18" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "18a" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "19" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5584,11 +5604,8 @@ Defects:
 - `visually_unsafe` — Field "60" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "61" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "62" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "63" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "67" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "64" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "68" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "65" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset Form" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print Form" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "70" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5601,6 +5618,7 @@ Defects:
 - `visually_unsafe` — Field "77" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "78" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "79" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "3 County Dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5628,13 +5646,13 @@ Defects:
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `visually_unsafe` — Field "Case.Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Line1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.City" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.PhoneNo" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.DOB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5657,15 +5675,16 @@ Defects:
 - `visually_unsafe` — Field "Agencies" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.CaseNum" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case.Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Line1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.City" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Address.Zip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.PhoneNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.Info.JailId" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Def.VitalStats.DOB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Def.VitalStats.SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Charge.violation.date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5688,6 +5707,7 @@ Defects:
 - `visually_unsafe` — Field "Agencies" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Print" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Reset" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Case.County" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -5714,11 +5734,10 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `visually_unsafe` — Field "Court" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "area code" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Jail ID Number" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Defendants Birthdate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ssn" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ViolationArrest Date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check sixty days" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5740,12 +5759,12 @@ Defects:
 - `visually_unsafe` — Field "check offenses listed" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check denied" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check felony chg" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case No" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "area code" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Jail ID Number" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Defendants Birthdate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ssn" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ViolationArrest Date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check sixty days" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -5767,6 +5786,7 @@ Defects:
 - `visually_unsafe` — Field "check offenses listed" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check denied" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check felony chg" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "County dropdown" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -5918,8 +5938,11 @@ Defects:
 - `visually_unsafe` — Field "ReasonCont" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerZip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DriversLicenseNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DriversLicenseState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DateOfBirth" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FullSocialSecurityNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AgeAtTimeOfOffense" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionersAttorneyName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6020,6 +6043,7 @@ Defects:
 - `visually_unsafe` — Field "DateOfDismissal8" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfDismissal9" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfDismissal10" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerAddr2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FileNumber1" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FileNumber2" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FileNumber3" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6030,8 +6054,11 @@ Defects:
 - `visually_unsafe` — Field "ReasonCont" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerZip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DriversLicenseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DriversLicenseState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DateOfBirth" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FullSocialSecurityNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AgeAtTimeOfOffense" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionersAttorneyName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6130,6 +6157,7 @@ Defects:
 - `visually_unsafe` — Field "DateOfDismissal8" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfDismissal9" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfDismissal10" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerAddr2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -6306,9 +6334,13 @@ Defects:
 - `visually_unsafe` — Field "District" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Superior" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAddr" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ZipCode" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DLState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SNN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Age" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NameAtty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6336,6 +6368,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CkBox_Attchmt" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Fileno:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Description:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DOOF:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6403,6 +6436,7 @@ Defects:
 - `visually_unsafe` — Field "DispositionDate:11" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SeekingExpunge15A-146Cbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionNotFiledSignDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionNotFiledSignName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionerCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionerAttorneyCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionerNotConvictedFelonyMisdemeanorCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6417,16 +6451,20 @@ Defects:
 - `visually_unsafe` — Field "DeputyCSCCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AssistantCSCCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ClerkOfSuperiorCourtCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Fileno:1" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerIsEligibleBecauseText2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Fileno:2" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Fileno:3" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "District" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Superior" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAddr" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ZipCode" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DLState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SNN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Age" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NameAtty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6454,6 +6492,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CkBox_Attchmt" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Fileno:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Description:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DOOF:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6519,6 +6558,7 @@ Defects:
 - `visually_unsafe` — Field "DispositionDate:11" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SeekingExpunge15A-146Cbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionNotFiledSignDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionNotFiledSignName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionerCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionerAttorneyCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionerNotConvictedFelonyMisdemeanorCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6533,6 +6573,7 @@ Defects:
 - `visually_unsafe` — Field "DeputyCSCCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AssistantCSCCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ClerkOfSuperiorCourtCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerIsEligibleBecauseText2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -6591,10 +6632,14 @@ Defects:
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "District" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Superior" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "StreetAddr" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAddr" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "State" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ZipCode" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SNN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Age" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NameAgency1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6616,6 +6661,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CkBox_Attchmt" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Fileno:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Description:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DOOF:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6689,10 +6735,10 @@ Defects:
 - `visually_unsafe` — Field "DispositionDate:12" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SeekingExpunge15A-146Cbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionNotFiledSignDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionNotFiledSignName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Expunge" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Should" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ShouldNot" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Reason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ReasonCont" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionGrantedCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionDeniedCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6703,16 +6749,19 @@ Defects:
 - `visually_unsafe` — Field "DeputyCSCCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AssistantCSCCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ClerkOfSuperiorCourtCbx" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Fileno:1" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Fileno:2" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Fileno:3" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "District" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Superior" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "StreetAddr" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "MailAddr" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "State" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ZipCode" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SNN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Age" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NameAgency1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6734,6 +6783,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CkBox_Attchmt" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "Fileno:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Description:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DOOF:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6805,10 +6855,10 @@ Defects:
 - `visually_unsafe` — Field "DispositionDate:12" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SeekingExpunge15A-146Cbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionNotFiledSignDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionNotFiledSignName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Expunge" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Should" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ShouldNot" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Reason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ReasonCont" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionGrantedCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionDeniedCbx" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6878,9 +6928,13 @@ Defects:
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerZip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DLState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyStreetAddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6907,6 +6961,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttachmentCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "FileNumber:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "OffenseDescription:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfOffense:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6929,6 +6984,7 @@ Defects:
 - `visually_unsafe` — Field "DepositingCopyCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EmailCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ICMS/OFSCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "EmailAddressOfRecord" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ServiceAcceptedCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6963,7 +7019,6 @@ Defects:
 - `visually_unsafe` — Field "FindingsItem12CkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EligibleCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NotEligibleCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "NotEligibleReason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsGrantedCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsDeniedCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "JudgeSignedDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -6973,14 +7028,17 @@ Defects:
 - `visually_unsafe` — Field "DepCSCCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AsstCSCCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CSCCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "FileNumber:1" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FileNumber:2" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerZip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DLState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyStreetAddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7007,6 +7065,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttachmentCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "FileNumber:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "OffenseDescription:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfOffense:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7028,6 +7087,7 @@ Defects:
 - `visually_unsafe` — Field "DepositingCopyCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EmailCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ICMS/OFSCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "EmailAddressOfRecord" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ServiceAcceptedCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7062,7 +7122,6 @@ Defects:
 - `visually_unsafe` — Field "FindingsItem12CkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EligibleCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NotEligibleCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "NotEligibleReason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsGrantedCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsDeniedCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "JudgeSignedDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7131,9 +7190,13 @@ Defects:
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerZip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DLState" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyStreetAddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7160,6 +7223,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttachmentCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "FileNumber:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "OffenseDescription:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfOffense:1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7182,6 +7246,7 @@ Defects:
 - `visually_unsafe` — Field "DepositingCopyCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EmailCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ICMS/OFSCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "EmailAddressOfRecord" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ServiceAcceptedCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7213,7 +7278,6 @@ Defects:
 - `visually_unsafe` — Field "FindingsItem11CkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EligibleCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NotEligibleCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "NotEligibleReason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsGrantedCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsDeniedCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "JudgeSignedDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7223,14 +7287,18 @@ Defects:
 - `visually_unsafe` — Field "DepCSCCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AsstCSCCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CSCCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "FileNumber:1" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerMailAddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "FileNumber:2" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DistrictCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerZip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DLNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DLState" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Race" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Sex" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "DOB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttorneyStreetAddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7257,6 +7325,7 @@ Defects:
 - `visually_unsafe` — Field "StateAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ZipAgency3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AttachmentCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "FileNumber:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ArrestDate:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "OffenseDescription:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DateOfOffense:1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7278,6 +7347,7 @@ Defects:
 - `visually_unsafe` — Field "DepositingCopyCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EmailCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ICMS/OFSCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "EmailAddressOfRecord" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PersonServingSignedName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ServiceAcceptedCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7309,7 +7379,6 @@ Defects:
 - `visually_unsafe` — Field "FindingsItem11CkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "EligibleCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NotEligibleCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "NotEligibleReason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsGrantedCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "PetitionIsDeniedCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "JudgeSignedDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7319,6 +7388,7 @@ Defects:
 - `visually_unsafe` — Field "DepCSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "AsstCSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "CSCCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "PetitionerMailAddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7383,6 +7453,8 @@ Defects:
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressAddr1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressAddr2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "YesHaveServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NoHaveNotServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantIsDefendantCkBox" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7448,6 +7520,8 @@ Defects:
 - `visually_unsafe` — Field "SuperiorCourtDivisionCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantStreetNumberAndStreetNameLine2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressAddr1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "ApplicantFullPermanentMailingAddressAddr2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "YesHaveServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "NoHaveNotServedInUnitedStatesArmedForcesCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ApplicantIsDefendantCkBox" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7568,15 +7642,17 @@ Defects:
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `visually_unsafe` — Field "Text2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "defendant" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7609,22 +7685,22 @@ Defects:
 - `visually_unsafe` — Field "Text6" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box7" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "noemailreason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "noemailreason2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "datesigned" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "defendant" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box7" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "noemailreason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "noemailreason2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "datesigned" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7659,13 +7735,13 @@ Defects:
 - `visually_unsafe` — Field "Check Box2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "datesigned" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box7" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "noemailreason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "noemailreason2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Case No" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Adult name" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7675,13 +7751,13 @@ Defects:
 - `visually_unsafe` — Field "Check Box2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "datesigned" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box7" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "noemailreason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "noemailreason2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7749,10 +7825,10 @@ Defects:
 - `visually_unsafe` — Field "Check Box5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box6" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box7" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7762,10 +7838,10 @@ Defects:
 - `visually_unsafe` — Field "Check Box5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Check Box7" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "enter the type of court" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7853,7 +7929,6 @@ Defects:
 - `visually_unsafe` — Field "Text72" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text73" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "streetaddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "citystatezip" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7861,8 +7936,9 @@ Defects:
 - `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "datesigned" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emancipationpetitioner" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "defendant" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "emancipationpetitioner" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "defendant" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text20" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text24" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "divorce" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7924,7 +8000,6 @@ Defects:
 - `visually_unsafe` — Field "Text72" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text73" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "fullcountystatementRIGHT" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "DROPDOWNCOUNTY2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "streetaddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "citystatezip" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7932,6 +8007,9 @@ Defects:
 - `visually_unsafe` — Field "emailaddress" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "datesigned" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Text1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "emancipationpetitioner" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "defendant" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "TYPEOFCOURTDROPDOWN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
@@ -7962,9 +8040,9 @@ Defects:
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 - `visually_unsafe` — Field "ResetButton" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.SSN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.Sex" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Race" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.ChargeDesc" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.ChargeCaseNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.DCN" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Reasonably" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7983,7 +8061,9 @@ Defects:
 - `visually_unsafe` — Field "User.AncillaryReasonably" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB7" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CityOrCounty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.WarrantSummons" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.AncillaryCityOrCounty" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryCourt" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryChargeDoc" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB8" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8033,15 +8113,16 @@ Defects:
 - `visually_unsafe` — Field "User.EmailPetitioner" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.EmailAttorney" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.VSBCaseNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.AncillaryCityOrCounty" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.HomePhoneOfPetAtt" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CityOfPetAtt" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.EmailOfPetAtt" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CaseNumber1201" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryFullNameOfArrest" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ResetButton" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.CaseNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.SSN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.Sex" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Race" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.ChargeDesc" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.ChargeCaseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.DCN" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Reasonably" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8060,7 +8141,9 @@ Defects:
 - `visually_unsafe` — Field "User.AncillaryReasonably" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB7" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CityOrCounty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.WarrantSummons" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.AncillaryCityOrCounty" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryCourt" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.AncillaryChargeDoc" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB8" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8110,6 +8193,10 @@ Defects:
 - `visually_unsafe` — Field "User.EmailPetitioner" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.EmailAttorney" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.VSBCaseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.HomePhoneOfPetAtt" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CityOfPetAtt" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.EmailOfPetAtt" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CaseNo" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -8155,12 +8242,15 @@ Defects:
 - `visually_unsafe` — Field "User.DisposingCourt2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitioner" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorney" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.PrintName" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.PetetionerPhoneNumber" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitionerContact" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorneyContact" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitionerPhone" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorneyPhone" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitionerEmail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorneyEmail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.PetetionerEmail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.PetetionerVSB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.HearDateTime" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Date" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8170,12 +8260,10 @@ Defects:
 - `visually_unsafe` — Field "User.CB2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "ResetButton" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.CaseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Officer" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Title" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Check0" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.SpecificCharge" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "User.UnderlyingCaseNumbers" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.DateOfArrest" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.ArrestingAgency" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Check5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8187,12 +8275,15 @@ Defects:
 - `visually_unsafe` — Field "User.DisposingCourt2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitioner" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorney" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.PrintName" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.PetetionerPhoneNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitionerContact" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorneyContact" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitionerPhone" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorneyPhone" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckPetitionerEmail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CheckAttorneyEmail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.PetetionerEmail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.PetetionerVSB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.HearDateTime" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.Date" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8201,6 +8292,8 @@ Defects:
 - `visually_unsafe` — Field "User.CB1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "User.CB3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.CaseNumber" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "User.UnderlyingCaseNumbers" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -8247,7 +8340,6 @@ Defects:
 - `visually_unsafe` — Field "17" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "18" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "19" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "19a" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "21" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "20" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "22" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8273,10 +8365,9 @@ Defects:
 - `visually_unsafe` — Field "41" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "42" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Docket Number" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "2" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Unit" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8293,7 +8384,6 @@ Defects:
 - `visually_unsafe` — Field "17" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "18" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "19" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "19a" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "21" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "20" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "22" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8365,22 +8455,20 @@ Defects:
 - `visually_unsafe` — Field "33" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34a" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34e" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34f" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check box 1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "chec box 2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34d" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34g" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34c" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34b" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34h" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34i" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34j" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34k" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34l" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "35" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "36" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Docket Number" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "34d" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "34l" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "34h" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Unit" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "22" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "23" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8396,19 +8484,14 @@ Defects:
 - `visually_unsafe` — Field "33" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34a" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34e" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34f" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "check box 1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "chec box 2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34d" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34g" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34c" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34b" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34h" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34i" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34j" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34k" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34l" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "35" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "36" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
@@ -8464,16 +8547,14 @@ Defects:
 - `visually_unsafe` — Field "chec box 2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34b" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34c" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34d" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34e" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34f" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34g" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34h" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34i" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34j" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34k" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34l" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Docket Number" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "34d" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "34l" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
+- `visually_unsafe` — Field "34h" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Unit" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "22" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "23" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8495,15 +8576,10 @@ Defects:
 - `visually_unsafe` — Field "chec box 2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34b" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34c" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34d" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34e" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34f" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34g" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34h" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34i" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34j" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "34k" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "34l" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -8533,11 +8609,6 @@ Defects:
 - `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Unit" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "6" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "7" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "8" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "15" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "16" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8549,8 +8620,6 @@ Defects:
 - `visually_unsafe` — Field "22" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "23" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "24" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "5a" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "27" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "29" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "31" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8612,11 +8681,6 @@ Defects:
 - `visually_unsafe` — Field "Docket Number" fails the unfittable_refused_not_clipped check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Division" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Unit" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "6" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "7" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "8" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "15" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "16" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -8628,8 +8692,6 @@ Defects:
 - `visually_unsafe` — Field "22" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "23" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "24" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "5a" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "27" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "29" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "31" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_

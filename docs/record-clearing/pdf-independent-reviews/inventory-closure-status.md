@@ -31,7 +31,7 @@ No row is left at generic `missing_binary`. 10 rows have their identity proven a
 
 ## Workstream 3 — independent review
 
-The 27 automated-green families were reviewed at this exact head by `claude/rcap-pdf-independent-review-batch-1`. This lane adopted that review rather than repeating it, and re-verified the freeze: 60 of 81 artifact hashes still match the bytes on disk, 21 drifted, 0 absent.
+The 27 automated-green families were reviewed at this exact head by `claude/rcap-pdf-independent-review-batch-1`. This lane adopted that review rather than repeating it, and re-verified the freeze: 10 of 81 artifact hashes still match the bytes on disk, 71 drifted, 0 absent.
 
 Verdicts: 0 approved, 26 correction_required, 1 source_identity_unresolved.
 

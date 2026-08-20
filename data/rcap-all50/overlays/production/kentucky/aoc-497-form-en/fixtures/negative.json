@@ -3,134 +3,159 @@
   "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
   "refusedFields": [
     {
-      "field": "Court",
+      "field": "Division",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "area code",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "Jail ID Number",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "Defendants Birthdate",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "ssn",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "ViolationArrest Date",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "check sixty days",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
+    },
+    {
+      "field": "check sixty  before filing",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
+    },
+    {
+      "field": "check five years",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
+    },
+    {
+      "field": "CHARGE",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
+    },
+    {
+      "field": "CHARGE_2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
+    },
+    {
+      "field": "CHARGE_3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
+    },
+    {
+      "field": "CHARGE_4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
+    },
+    {
+      "field": "CHARGE_5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
+    },
+    {
+      "field": "CHARGE_6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
+    },
+    {
+      "field": "check not current charges",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
+    },
+    {
+      "field": "other charges",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "requiring expungement",
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "THEREFORE, IT IS HEREBY ORDERED:"
+    },
+    {
+      "field": "2_2",
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "THEREFORE, IT IS HEREBY ORDERED:"
+    },
+    {
+      "field": "undefined_2",
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "THEREFORE, IT IS HEREBY ORDERED:"
+    },
+    {
+      "field": "Print",
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "AGENCY CERTIFICATION"
+    },
+    {
+      "field": "Reset",
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "AGENCY CERTIFICATION"
+    },
+    {
+      "field": "check offenses listed",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
+    },
+    {
+      "field": "check denied",
+      "reason": "protected_category",
+      "category": "court",
+      "regionHeading": null
+    },
+    {
+      "field": "check felony chg",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "County dropdown",
       "reason": "value_not_among_field_options",
       "factId": "matter.county"
-    },
-    {
-      "field": "Division",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "field": "area code",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "field": "Jail ID Number",
-      "reason": "protected_category",
-      "category": "government_identifier"
-    },
-    {
-      "field": "ssn",
-      "reason": "protected_category",
-      "category": "government_identifier"
-    },
-    {
-      "field": "ViolationArrest Date",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
-    },
-    {
-      "field": "check sixty days",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
-    },
-    {
-      "field": "check sixty  before filing",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
-    },
-    {
-      "field": "check five years",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
-    },
-    {
-      "field": "CHARGE",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
-    },
-    {
-      "field": "CHARGE_2",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
-    },
-    {
-      "field": "CHARGE_3",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
-    },
-    {
-      "field": "CHARGE_4",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
-    },
-    {
-      "field": "CHARGE_5",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
-    },
-    {
-      "field": "CHARGE_6",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
-    },
-    {
-      "field": "check not current charges",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
-    },
-    {
-      "field": "other charges",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "field": "requiring expungement",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "field": "2_2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "field": "undefined_2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "field": "Print",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
-    },
-    {
-      "field": "Reset",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
-    },
-    {
-      "field": "check offenses listed",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
-    },
-    {
-      "field": "check denied",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
-    },
-    {
-      "field": "check felony chg",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
     }
   ]
 }

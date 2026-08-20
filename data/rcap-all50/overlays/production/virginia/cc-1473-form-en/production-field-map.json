@@ -24,204 +24,251 @@
     {
       "field": "User.CaseNumber",
       "class": "participant",
-      "factId": "matter.case_number"
-    },
-    {
-      "field": "User.City",
-      "class": "participant",
-      "factId": "participant.city"
-    },
-    {
-      "field": "User.DOB",
-      "class": "participant",
-      "factId": "participant.date_of_birth"
-    },
-    {
-      "field": "User.PetitionerName",
-      "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": "PETITION FOR EXPUNGEMENT Case No"
     },
     {
       "field": "User.CaseNumbers",
       "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "User.UnderlyingCaseNumbers",
       "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": "[ ] A copy of the warrant or indictment is attached to this "
+    },
+    {
+      "field": "User.City",
+      "class": "participant",
+      "factId": "participant.city",
+      "factBasis": "field_name",
+      "effectiveLabel": null
+    },
+    {
+      "field": "User.DOB",
+      "class": "participant",
+      "factId": "participant.date_of_birth",
+      "factBasis": "field_name",
+      "effectiveLabel": "Petitioners date of birth is"
+    },
+    {
+      "field": "User.PetitionerName",
+      "class": "participant",
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "Petitioners full name at the time of arrest"
     },
     {
       "field": "User.AddressOf",
       "class": "participant",
-      "factId": "participant.street_address"
-    },
-    {
-      "field": "User.PetetionerPhoneNumber",
-      "class": "participant",
-      "factId": "participant.phone"
-    },
-    {
-      "field": "User.PetetionerEmail",
-      "class": "participant",
-      "factId": "participant.email"
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     }
   ],
   "bindingRefusals": [
     {
       "field": "ResetButton",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.Officer",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.Title",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.Check0",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.SpecificCharge",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "User.DateOfArrest",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "User.ArrestingAgency",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "User.Check5",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.Check7",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.Because",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.DateOfFinalDisposition1",
       "reason": "protected_category",
-      "category": "disposition_or_hearing"
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.DateOfFinalDisposition2",
       "reason": "protected_category",
-      "category": "disposition_or_hearing"
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.DisposingCourt1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.DisposingCourt2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.CheckPetitioner",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "User.CheckAttorney",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "User.PrintName",
-      "reason": "classified_unwritable_by_role",
-      "category": "manual"
+      "reason": "protected_category",
+      "category": "signature",
+      "regionHeading": null
+    },
+    {
+      "field": "User.PetetionerPhoneNumber",
+      "reason": "protected_page_region",
+      "category": "attorney",
+      "regionHeading": "ADDRESS OF [ ] PETITIONER [ ] ATTORNEY FOR PETITIONER"
     },
     {
       "field": "User.CheckPetitionerContact",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "User.CheckAttorneyContact",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "User.CheckPetitionerPhone",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "User.CheckAttorneyPhone",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "User.CheckPetitionerEmail",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "User.CheckAttorneyEmail",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
+    },
+    {
+      "field": "User.PetetionerEmail",
+      "reason": "protected_page_region",
+      "category": "attorney",
+      "regionHeading": "TELEPHONE NUMBER OF [ ] PETITIONER [ ] ATTORNEY FOR PETITIONER"
     },
     {
       "field": "User.PetetionerVSB",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "User.HearDateTime",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "attorney",
+      "regionHeading": "VSB NUMBER OF ATTORNEY FOR PETITIONER (IF APPLICABLE)"
     },
     {
       "field": "User.Date",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "User.EndDate",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "attorney",
+      "regionHeading": "VSB NUMBER OF ATTORNEY FOR PETITIONER (IF APPLICABLE)"
     },
     {
       "field": "User.CBCertify",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_page_region",
+      "category": "attorney",
+      "regionHeading": "VSB NUMBER OF ATTORNEY FOR PETITIONER (IF APPLICABLE)"
     },
     {
       "field": "User.CB1",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB2",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB3",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     }
   ],
   "unwritableFields": [

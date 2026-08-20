@@ -1,0 +1,892 @@
+{
+  "schemaVersion": "rcap-binary-identity-ledger/v1",
+  "generatedBy": "scripts/generate-rcap-binary-identity-ledger.mjs",
+  "purpose": "One row per SHA-256 claimed by more than one asset id, with a proven relationship and an explained disposition for every id.",
+  "whySameDigestIsNotEnough": "The same bytes can be a petition in one packet and a source-gated reference in another. Collapsing them because the hash matches deletes an operational role rather than a redundancy, so the hash opens the question and never answers it.",
+  "rules": [
+    "1. same digest alone does not authorise deduplication",
+    "2. a duplicate alias can retire only after every operational reference is repointed to the canonical asset",
+    "3. a retained operational reference prevents retirement",
+    "4. distinct operational roles may remain separate even when bytes match",
+    "5. a conflicted group with no proven relationship remains retained",
+    "6. no group may leave contradictory dispositions unexplained"
+  ],
+  "totals": {
+    "logicalAssets": 128,
+    "uniqueBinaryDigests": 112,
+    "digestsClaimedByMoreThanOneAsset": 12,
+    "conflictedGroups": 4,
+    "trueAliasGroups": 0,
+    "distinctRoleGroups": 12,
+    "unprovenGroups": 0,
+    "unresolvedContradictions": 0
+  },
+  "groups": [
+    {
+      "digest": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "assetIds": [
+        "AK|DPS-SEAL-REQ-2-04|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+        "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a"
+      ],
+      "conflicted": true,
+      "relationship": "distinct_operational_roles",
+      "canonicalAssetId": null,
+      "rule": "rule 4 — distinct operational roles may remain separate even when bytes match",
+      "sameOperationalRole": false,
+      "members": [
+        {
+          "assetId": "AK|DPS-SEAL-REQ-2-04|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+          "jurisdiction": "AK",
+          "formNumber": "DPS-SEAL-REQ-2-04",
+          "revision": "REV-2004-02",
+          "language": "EN",
+          "documentRole": "INSTRUCTIONS",
+          "libraryFolder": "05_SOURCE_GATED",
+          "sourcePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-SEAL-REQ-2-04__request-to-seal-criminal-justice-information__REV-2004-02__EN.pdf",
+          "familyIds": [
+            "AK:dps-seal-req-2-04-source-gated-en"
+          ],
+          "runtimeReferences": [],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 0,
+          "determination": "retirement_candidate",
+          "retirementMarker": "data/rcap-all50/overlays/production/alaska/dps-seal-req-2-04-source-gated-en/retirement.json"
+        },
+        {
+          "assetId": "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+          "jurisdiction": "AK",
+          "formNumber": "RequestToSealCrimInfo.pdf",
+          "revision": null,
+          "language": null,
+          "documentRole": null,
+          "libraryFolder": null,
+          "sourcePath": null,
+          "familyIds": [
+            "AK:requesttosealcriminfo"
+          ],
+          "runtimeReferences": [
+            "overlay_factory_manifest",
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [
+            "overlay_factory_manifest"
+          ],
+          "operationalReferenceCount": 2,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        }
+      ],
+      "dispositions": [
+        {
+          "assetId": "AK|DPS-SEAL-REQ-2-04|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+          "disposition": "retirable_on_its_own_merits",
+          "because": "rule 4 — a separate operational role that happens to share bytes; it stands or falls on its own references"
+        },
+        {
+          "assetId": "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+          "disposition": "retained",
+          "because": "rule 3 — 2 surviving operational reference(s): overlay_factory_manifest, application_source"
+        }
+      ],
+      "contradictionRemains": false
+    },
+    {
+      "digest": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "assetIds": [
+        "AR|7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+        "AR|AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61"
+      ],
+      "conflicted": true,
+      "relationship": "distinct_operational_roles",
+      "canonicalAssetId": null,
+      "rule": "rule 4 — distinct operational roles may remain separate even when bytes match",
+      "sameOperationalRole": false,
+      "members": [
+        {
+          "assetId": "AR|7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+          "jurisdiction": "AR",
+          "formNumber": "7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+          "revision": null,
+          "language": null,
+          "documentRole": null,
+          "libraryFolder": null,
+          "sourcePath": null,
+          "familyIds": [
+            "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        },
+        {
+          "assetId": "AR|AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+          "jurisdiction": "AR",
+          "formNumber": "AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO",
+          "revision": "REV-2020-04-22",
+          "language": "EN",
+          "documentRole": "PETITION",
+          "libraryFolder": "05_SOURCE_GATED",
+          "sourcePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
+          "familyIds": [
+            "AR:ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e"
+          ],
+          "runtimeReferences": [],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 0,
+          "determination": "retirement_candidate",
+          "retirementMarker": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e/retirement.json"
+        }
+      ],
+      "dispositions": [
+        {
+          "assetId": "AR|7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): application_source"
+        },
+        {
+          "assetId": "AR|AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+          "disposition": "retirable_on_its_own_merits",
+          "because": "rule 4 — a separate operational role that happens to share bytes; it stands or falls on its own references"
+        }
+      ],
+      "contradictionRemains": false
+    },
+    {
+      "digest": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "assetIds": [
+        "AR|AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+        "AR|Felony-Petition-Form-f.pdf|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b"
+      ],
+      "conflicted": true,
+      "relationship": "distinct_operational_roles",
+      "canonicalAssetId": null,
+      "rule": "rule 4 — distinct operational roles may remain separate even when bytes match",
+      "sameOperationalRole": false,
+      "members": [
+        {
+          "assetId": "AR|AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+          "jurisdiction": "AR",
+          "formNumber": "AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460",
+          "revision": "REV-2021-07-21",
+          "language": "EN",
+          "documentRole": "PETITION",
+          "libraryFolder": "05_SOURCE_GATED",
+          "sourcePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+          "familyIds": [
+            "AR:ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en"
+          ],
+          "runtimeReferences": [],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 0,
+          "determination": "retirement_candidate",
+          "retirementMarker": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en/retirement.json"
+        },
+        {
+          "assetId": "AR|Felony-Petition-Form-f.pdf|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+          "jurisdiction": "AR",
+          "formNumber": "Felony-Petition-Form-f.pdf",
+          "revision": null,
+          "language": null,
+          "documentRole": null,
+          "libraryFolder": null,
+          "sourcePath": null,
+          "familyIds": [
+            "AR:felony-petition-form-f"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        }
+      ],
+      "dispositions": [
+        {
+          "assetId": "AR|AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+          "disposition": "retirable_on_its_own_merits",
+          "because": "rule 4 — a separate operational role that happens to share bytes; it stands or falls on its own references"
+        },
+        {
+          "assetId": "AR|Felony-Petition-Form-f.pdf|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): application_source"
+        }
+      ],
+      "contradictionRemains": false
+    },
+    {
+      "digest": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "assetIds": [
+        "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+        "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde"
+      ],
+      "conflicted": false,
+      "relationship": "distinct_operational_roles",
+      "canonicalAssetId": null,
+      "rule": "rule 4 — distinct operational roles may remain separate even when bytes match",
+      "sameOperationalRole": false,
+      "members": [
+        {
+          "assetId": "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+          "jurisdiction": "KY",
+          "formNumber": "496.2.pdf",
+          "revision": null,
+          "language": null,
+          "documentRole": null,
+          "libraryFolder": null,
+          "sourcePath": null,
+          "familyIds": [
+            "KY:496-2"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        },
+        {
+          "assetId": "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+          "jurisdiction": "KY",
+          "formNumber": "AOC-496.2",
+          "revision": "REV-2016-07",
+          "language": "EN",
+          "documentRole": "PETITION",
+          "libraryFolder": "02_PACKET_FORMS",
+          "sourcePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
+          "familyIds": [
+            "KY:aoc-496-2-form-en"
+          ],
+          "runtimeReferences": [],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [
+            "legal_design_registry"
+          ],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        }
+      ],
+      "dispositions": [
+        {
+          "assetId": "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): application_source"
+        },
+        {
+          "assetId": "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): legal_design_registry"
+        }
+      ],
+      "contradictionRemains": false
+    },
+    {
+      "digest": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "assetIds": [
+        "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+        "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa"
+      ],
+      "conflicted": false,
+      "relationship": "distinct_operational_roles",
+      "canonicalAssetId": null,
+      "rule": "rule 4 — distinct operational roles may remain separate even when bytes match",
+      "sameOperationalRole": false,
+      "members": [
+        {
+          "assetId": "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+          "jurisdiction": "KY",
+          "formNumber": "496.3.pdf",
+          "revision": null,
+          "language": null,
+          "documentRole": null,
+          "libraryFolder": null,
+          "sourcePath": null,
+          "familyIds": [
+            "KY:496-3"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        },
+        {
+          "assetId": "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+          "jurisdiction": "KY",
+          "formNumber": "AOC-496.3",
+          "revision": "REV-UNKNOWN",
+          "language": "EN",
+          "documentRole": "APPLICATION",
+          "libraryFolder": "02_PACKET_FORMS",
+          "sourcePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+          "familyIds": [
+            "KY:aoc-496-3-form-en"
+          ],
+          "runtimeReferences": [],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [
+            "legal_design_registry"
+          ],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        }
+      ],
+      "dispositions": [
+        {
+          "assetId": "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): application_source"
+        },
+        {
+          "assetId": "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): legal_design_registry"
+        }
+      ],
+      "contradictionRemains": false
+    },
+    {
+      "digest": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "assetIds": [
+        "NE|CC-6-11-2.pdf|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+        "NE|CC-6-11.2|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6"
+      ],
+      "conflicted": false,
+      "relationship": "distinct_operational_roles",
+      "canonicalAssetId": null,
+      "rule": "rule 4 — distinct operational roles may remain separate even when bytes match",
+      "sameOperationalRole": false,
+      "members": [
+        {
+          "assetId": "NE|CC-6-11-2.pdf|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "jurisdiction": "NE",
+          "formNumber": "CC-6-11-2.pdf",
+          "revision": null,
+          "language": null,
+          "documentRole": null,
+          "libraryFolder": null,
+          "sourcePath": null,
+          "familyIds": [
+            "NE:cc-6-11-2"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [
+            "legal_design_registry"
+          ],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 2,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        },
+        {
+          "assetId": "NE|CC-6-11.2|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "jurisdiction": "NE",
+          "formNumber": "CC-6-11.2",
+          "revision": null,
+          "language": "EN",
+          "documentRole": null,
+          "libraryFolder": "02_PACKET_FORMS",
+          "sourcePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
+          "familyIds": [
+            "NE:cc-6-11-2-form-en"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [
+            "legal_design_registry"
+          ],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 2,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        }
+      ],
+      "dispositions": [
+        {
+          "assetId": "NE|CC-6-11-2.pdf|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "disposition": "retained",
+          "because": "rule 3 — 2 surviving operational reference(s): legal_design_registry, application_source"
+        },
+        {
+          "assetId": "NE|CC-6-11.2|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "disposition": "retained",
+          "because": "rule 3 — 2 surviving operational reference(s): legal_design_registry, application_source"
+        }
+      ],
+      "contradictionRemains": false
+    },
+    {
+      "digest": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "assetIds": [
+        "NE|CC-6-12.pdf|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28"
+      ],
+      "conflicted": false,
+      "relationship": "distinct_operational_roles",
+      "canonicalAssetId": null,
+      "rule": "rule 4 — distinct operational roles may remain separate even when bytes match",
+      "sameOperationalRole": false,
+      "members": [
+        {
+          "assetId": "NE|CC-6-12.pdf|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "jurisdiction": "NE",
+          "formNumber": "CC-6-12.pdf",
+          "revision": null,
+          "language": null,
+          "documentRole": null,
+          "libraryFolder": null,
+          "sourcePath": null,
+          "familyIds": [
+            "NE:cc-6-12"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [
+            "d_track_queue"
+          ],
+          "legalDesignReferences": [
+            "legal_design_registry"
+          ],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 3,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        },
+        {
+          "assetId": "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "jurisdiction": "NE",
+          "formNumber": "CC-6-12",
+          "revision": null,
+          "language": "EN",
+          "documentRole": null,
+          "libraryFolder": "02_PACKET_FORMS",
+          "sourcePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
+          "familyIds": [
+            "NE:cc-6-12-form-en"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [
+            "d_track_queue"
+          ],
+          "legalDesignReferences": [
+            "legal_design_registry"
+          ],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 3,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        }
+      ],
+      "dispositions": [
+        {
+          "assetId": "NE|CC-6-12.pdf|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "disposition": "retained",
+          "because": "rule 3 — 3 surviving operational reference(s): legal_design_registry, d_track_queue, application_source"
+        },
+        {
+          "assetId": "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "disposition": "retained",
+          "because": "rule 3 — 3 surviving operational reference(s): legal_design_registry, d_track_queue, application_source"
+        }
+      ],
+      "contradictionRemains": false
+    },
+    {
+      "digest": "8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "assetIds": [
+        "VT|200-00130A|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+        "VT|200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078"
+      ],
+      "conflicted": true,
+      "relationship": "distinct_operational_roles",
+      "canonicalAssetId": null,
+      "rule": "rule 4 — distinct operational roles may remain separate even when bytes match",
+      "sameOperationalRole": false,
+      "members": [
+        {
+          "assetId": "VT|200-00130A|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+          "jurisdiction": "VT",
+          "formNumber": "200-00130A",
+          "revision": "REV-UNKNOWN",
+          "language": "EN",
+          "documentRole": "INSTRUCTIONS",
+          "libraryFolder": "03_INSTRUCTIONS",
+          "sourcePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
+          "familyIds": [
+            "VT:200-00130a-en",
+            "VT:200-00130a-instructions-en"
+          ],
+          "runtimeReferences": [],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 0,
+          "determination": "retirement_candidate",
+          "retirementMarker": "data/rcap-all50/overlays/production/vermont/200-00130a-en/retirement.json"
+        },
+        {
+          "assetId": "VT|200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+          "jurisdiction": "VT",
+          "formNumber": "200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf",
+          "revision": null,
+          "language": null,
+          "documentRole": null,
+          "libraryFolder": null,
+          "sourcePath": null,
+          "familyIds": [
+            "VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        }
+      ],
+      "dispositions": [
+        {
+          "assetId": "VT|200-00130A|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+          "disposition": "retirable_on_its_own_merits",
+          "because": "rule 4 — a separate operational role that happens to share bytes; it stands or falls on its own references"
+        },
+        {
+          "assetId": "VT|200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): application_source"
+        }
+      ],
+      "contradictionRemains": false
+    },
+    {
+      "digest": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "assetIds": [
+        "VT|200-00131.pdf|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+        "VT|200-00131|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a"
+      ],
+      "conflicted": false,
+      "relationship": "distinct_operational_roles",
+      "canonicalAssetId": null,
+      "rule": "rule 4 — distinct operational roles may remain separate even when bytes match",
+      "sameOperationalRole": false,
+      "members": [
+        {
+          "assetId": "VT|200-00131.pdf|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+          "jurisdiction": "VT",
+          "formNumber": "200-00131.pdf",
+          "revision": null,
+          "language": null,
+          "documentRole": null,
+          "libraryFolder": null,
+          "sourcePath": null,
+          "familyIds": [
+            "VT:200-00131"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        },
+        {
+          "assetId": "VT|200-00131|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+          "jurisdiction": "VT",
+          "formNumber": "200-00131",
+          "revision": "REV-2018-07",
+          "language": "EN",
+          "documentRole": "RESPONSE",
+          "libraryFolder": "02_PACKET_FORMS",
+          "sourcePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf",
+          "familyIds": [
+            "VT:200-00131-en",
+            "VT:200-00131-form-en"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        }
+      ],
+      "dispositions": [
+        {
+          "assetId": "VT|200-00131.pdf|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): application_source"
+        },
+        {
+          "assetId": "VT|200-00131|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): application_source"
+        }
+      ],
+      "contradictionRemains": false
+    },
+    {
+      "digest": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "assetIds": [
+        "VT|200-00132|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+        "VT|200-00132 – Stipulation to Seal Criminal History Record + Order.pdf|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2"
+      ],
+      "conflicted": false,
+      "relationship": "distinct_operational_roles",
+      "canonicalAssetId": null,
+      "rule": "rule 4 — distinct operational roles may remain separate even when bytes match",
+      "sameOperationalRole": false,
+      "members": [
+        {
+          "assetId": "VT|200-00132|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "jurisdiction": "VT",
+          "formNumber": "200-00132",
+          "revision": "REV-2025-07",
+          "language": "EN",
+          "documentRole": "PACKET",
+          "libraryFolder": "02_PACKET_FORMS",
+          "sourcePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+          "familyIds": [
+            "VT:200-00132-en",
+            "VT:200-00132-form-en"
+          ],
+          "runtimeReferences": [],
+          "packetFamilyReferences": [
+            "d_track_queue"
+          ],
+          "legalDesignReferences": [
+            "legal_design_registry"
+          ],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 2,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        },
+        {
+          "assetId": "VT|200-00132 – Stipulation to Seal Criminal History Record + Order.pdf|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "jurisdiction": "VT",
+          "formNumber": "200-00132 – Stipulation to Seal Criminal History Record + Order.pdf",
+          "revision": null,
+          "language": null,
+          "documentRole": null,
+          "libraryFolder": null,
+          "sourcePath": null,
+          "familyIds": [
+            "VT:200-00132-stipulation-to-seal-criminal-history-record-order"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        }
+      ],
+      "dispositions": [
+        {
+          "assetId": "VT|200-00132|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "disposition": "retained",
+          "because": "rule 3 — 2 surviving operational reference(s): legal_design_registry, d_track_queue"
+        },
+        {
+          "assetId": "VT|200-00132 – Stipulation to Seal Criminal History Record + Order.pdf|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): application_source"
+        }
+      ],
+      "contradictionRemains": false
+    },
+    {
+      "digest": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "assetIds": [
+        "VT|200-00132A|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+        "VT|200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec"
+      ],
+      "conflicted": false,
+      "relationship": "distinct_operational_roles",
+      "canonicalAssetId": null,
+      "rule": "rule 4 — distinct operational roles may remain separate even when bytes match",
+      "sameOperationalRole": false,
+      "members": [
+        {
+          "assetId": "VT|200-00132A|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+          "jurisdiction": "VT",
+          "formNumber": "200-00132A",
+          "revision": "REV-2025-07",
+          "language": "EN",
+          "documentRole": "PACKET",
+          "libraryFolder": "02_PACKET_FORMS",
+          "sourcePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+          "familyIds": [
+            "VT:200-00132a-en",
+            "VT:200-00132a-form-en"
+          ],
+          "runtimeReferences": [],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [
+            "legal_design_registry"
+          ],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        },
+        {
+          "assetId": "VT|200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+          "jurisdiction": "VT",
+          "formNumber": "200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf",
+          "revision": null,
+          "language": null,
+          "documentRole": null,
+          "libraryFolder": null,
+          "sourcePath": null,
+          "familyIds": [
+            "VT:200-00132a-stipulation-to-expunge-criminal-history-record-order"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        }
+      ],
+      "dispositions": [
+        {
+          "assetId": "VT|200-00132A|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): legal_design_registry"
+        },
+        {
+          "assetId": "VT|200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): application_source"
+        }
+      ],
+      "contradictionRemains": false
+    },
+    {
+      "digest": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "assetIds": [
+        "VT|200-00631.pdf|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+        "VT|200-00631|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3"
+      ],
+      "conflicted": false,
+      "relationship": "distinct_operational_roles",
+      "canonicalAssetId": null,
+      "rule": "rule 4 — distinct operational roles may remain separate even when bytes match",
+      "sameOperationalRole": false,
+      "members": [
+        {
+          "assetId": "VT|200-00631.pdf|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+          "jurisdiction": "VT",
+          "formNumber": "200-00631.pdf",
+          "revision": null,
+          "language": null,
+          "documentRole": null,
+          "libraryFolder": null,
+          "sourcePath": null,
+          "familyIds": [
+            "VT:200-00631"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        },
+        {
+          "assetId": "VT|200-00631|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+          "jurisdiction": "VT",
+          "formNumber": "200-00631",
+          "revision": "REV-2019-09",
+          "language": "EN",
+          "documentRole": "ORDER",
+          "libraryFolder": "02_PACKET_FORMS",
+          "sourcePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf",
+          "familyIds": [
+            "VT:200-00631-en",
+            "VT:200-00631-form-en"
+          ],
+          "runtimeReferences": [
+            "application_source"
+          ],
+          "packetFamilyReferences": [],
+          "legalDesignReferences": [],
+          "operationalManifestReferences": [],
+          "operationalReferenceCount": 1,
+          "determination": "retain_and_remediate",
+          "retirementMarker": null
+        }
+      ],
+      "dispositions": [
+        {
+          "assetId": "VT|200-00631.pdf|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): application_source"
+        },
+        {
+          "assetId": "VT|200-00631|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+          "disposition": "retained",
+          "because": "rule 3 — 1 surviving operational reference(s): application_source"
+        }
+      ],
+      "contradictionRemains": false
+    }
+  ]
+}

@@ -4,220 +4,260 @@
   "findings": [
     {
       "fixture": "canonical",
+      "check": "unfittable_refused_not_clipped",
+      "field": "Day",
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Jordan Avery Reyes",
+      "rect": {
+        "x": 334,
+        "y": 334,
+        "width": 54,
+        "height": 17
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 53.6
+    },
+    {
+      "fixture": "canonical",
       "check": "binding_refused",
       "field": "COURT OF",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "DIVISION",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Judge",
       "reason": "protected_category",
-      "category": "court"
+      "category": "court",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Date",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "court",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Race",
       "reason": "protected_category",
-      "category": "race"
+      "category": "race",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Arrest Tracking Number",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Sex",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "DOB",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "FBI No if known",
       "reason": "protected_category",
-      "category": "government_identifier"
-    },
-    {
-      "fixture": "canonical",
-      "check": "binding_refused",
-      "field": "Day",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "fixture": "canonical",
-      "check": "binding_refused",
-      "field": "Month",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Year",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Class Letter",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "ACA Code",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Offense",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "ACA Code 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Day 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Month 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Year 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Probation Years",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Fine",
       "reason": "protected_category",
-      "category": "money"
+      "category": "money",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Check Box53",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Check Box54",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Check Box55",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Check Box56",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Charges 1",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Charges 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "SID",
       "reason": "protected_category",
-      "category": "government_identifier"
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Check Box57",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "Check Box58",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
@@ -255,220 +295,277 @@
     },
     {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "field": "Day",
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "rect": {
+        "x": 334,
+        "y": 334,
+        "width": 54,
+        "height": 17
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6
+    },
+    {
+      "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "field": "Month",
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "rect": {
+        "x": 114,
+        "y": 315,
+        "width": 109,
+        "height": 17
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6
+    },
+    {
+      "fixture": "boundary",
       "check": "binding_refused",
       "field": "COURT OF",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "DIVISION",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Judge",
       "reason": "protected_category",
-      "category": "court"
+      "category": "court",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Date",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "court",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Race",
       "reason": "protected_category",
-      "category": "race"
+      "category": "race",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Arrest Tracking Number",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Sex",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "DOB",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "FBI No if known",
       "reason": "protected_category",
-      "category": "government_identifier"
-    },
-    {
-      "fixture": "boundary",
-      "check": "binding_refused",
-      "field": "Day",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
-    },
-    {
-      "fixture": "boundary",
-      "check": "binding_refused",
-      "field": "Month",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Year",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Class Letter",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "ACA Code",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Offense",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "ACA Code 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Day 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Month 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Year 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Probation Years",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Fine",
       "reason": "protected_category",
-      "category": "money"
+      "category": "money",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Check Box53",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Check Box54",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Check Box55",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Check Box56",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Charges 1",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Charges 2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "SID",
       "reason": "protected_category",
-      "category": "government_identifier"
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Check Box57",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "Check Box58",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     }
   ]
 }
