@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "rcap-pdf-owner-disposition/v1",
+  "purpose": "Owner decisions answering review records that returned substantive_owner_decision_required. A disposition states what the owner decided; it does not itself change any family's inputs, and it names what has to happen for the decision to take effect.",
+  "decidedBy": "Roger",
+  "recordedBy": "claude/pdf-reviewer-batch-b-cd8wrg",
+  "dispositions": [
+    {
+      "familyId": "NC:aoc-cr-296-form-en",
+      "documentId": "AOC-CR-296",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
+      "answering": {
+        "record": "data/rcap-all50/pdf-independent-reviews/batch-b-group-1.review.json",
+        "verdict": "substantive_owner_decision_required",
+        "question": "AOC-CR-296 is the district attorney's petition — its printed face names the DA as filer and its party block reads 'Name And Address Of Defendant' — and it is carried as participant_completed and participantFillable. Does it belong in a participant packet at all?"
+      },
+      "decision": {
+        "documentOwner": "prosecutor / district attorney",
+        "participantCompleted": false,
+        "participantFillable": false,
+        "checkoutMayDependOnThisForm": false,
+        "mayBeNamedAsProsecutorControlledDependency": true,
+        "participantReceivesGuidance": true,
+        "pathwaySellable": "only where supported participant-filed documents independently justify a paid packet"
+      },
+      "whatThisMeans": [
+        "AOC-CR-296 is not delivered as a participant artifact. It is not filled, not rendered into a participant packet, and not presented as something the participant completes or files.",
+        "No checkout, entitlement or packet-completion gate may require this form to be completed. A pathway that would only be sellable because this form is counted is not sellable.",
+        "The form may be NAMED to the participant as a step that a prosecutor controls, so the participant understands what has to happen and who has to do it.",
+        "The participant receives clear guidance explaining that the district attorney files this petition, and what the participant can do to ask the district attorney to bring it.",
+        "The underlying North Carolina pathway remains sellable only where participant-filed documents that ARE supported independently justify the paid packet on their own."
+      ],
+      "notMarkedPlatformReady": "This disposition does not make AOC-CR-296 platform-ready as a participant artifact, and must not be read as an approval. It answers the ownership question and nothing else.",
+      "toTakeEffect": {
+        "note": "This record changes no family input. Applying the decision means editing the family's own source-record.json (documentOwnership, participantFillable, generationAllowed) and re-deriving the package, which changes that family's hashes and is therefore a rerender.",
+        "requiredChanges": [
+          "source-record.json: documentOwnership -> prosecutor_controlled; participantFillable -> false; participantCompleted -> false",
+          "re-derive the field map and classification so no participant fact binds",
+          "remove AOC-CR-296 from any participant packet manifest and from any checkout dependency",
+          "author the participant guidance text that names the DA as the filer"
+        ],
+        "notDoneInThisWave": "The correction wave was scoped to three rerender families — KY AOC-334, KY AOC-496.3 and NC AOC-CR-288 — and CR-296 is not one of them. Its inputs are left byte-for-byte unchanged so no unrelated family hash moves."
+      }
+    }
+  ]
+}

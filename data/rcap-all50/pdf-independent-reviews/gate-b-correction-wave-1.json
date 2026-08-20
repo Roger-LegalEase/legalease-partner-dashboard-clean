@@ -1,0 +1,216 @@
+{
+  "schemaVersion": "rcap-pdf-technical-correction/v1",
+  "wave": "gate-b-review-corrections-wave-1",
+  "correctedBy": "claude/pdf-reviewer-batch-b-cd8wrg",
+  "basedOn": "ea1a16b6358086c3c24fbd66e2fd005173d3ad87",
+  "answering": [
+    "data/rcap-all50/pdf-independent-reviews/batch-1-group-1.review.json",
+    "data/rcap-all50/pdf-independent-reviews/batch-b-group-1.review.json"
+  ],
+  "notAnApproval": "This record issues no verdict and promotes nothing. The binder corrections are proven at module level against each family's own committed census; the artifacts they would change have not been rerendered, and until they are these families still carry their correction_required records.",
+  "rerenderStatus": {
+    "attempted": true,
+    "succeeded": false,
+    "artifactsRerendered": 0,
+    "why": "The reviewed source binary is not in this clone and is not anywhere on this machine: all 861 PDFs on disk were hashed and none matches the pinned digest. private/source-imports/ and private/Nationwide Record Clearing/ do not exist, $RCAP_BUNDLE_EXTRACT is unset and its default path is absent. scripts/implement-rcap-official-forms-d1.mjs refuses to start without it \u2014 'FAIL official-forms D1 \u2014 the source root is absent ... Nothing was written.' No artifact in this corpus can be rerendered from this session by anyone."
+  },
+  "codeCorrections": [
+    {
+      "id": "COR-1-ADJUDICATIVE-REGION",
+      "module": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "rule": "court",
+      "added": "findings? of fact | conclusions? of law | is (not )?eligible | eligibility (determination|finding) | has successfully completed",
+      "closes": [
+        "NC:aoc-cr-288-form-en PetitionerIsEligibleBecauseText1",
+        "KY:aoc-334-form-en Date"
+      ],
+      "why": "A findings-of-fact block, a conclusions-of-law block and an eligibility determination are the court speaking. The region heading and the caption were captured on both families and matched nothing, so the field name decided."
+    },
+    {
+      "id": "COR-2-RECORDS-CUSTODY",
+      "module": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "rule": "agency",
+      "added": "agencies | their custody | records? in (their|its|the) custody | custody of (the )?records? | above-listed charges? | listed charges?",
+      "closes": [
+        "KY:aoc-334-form-en Text1",
+        "KY:aoc-334-form-en listed charges"
+      ],
+      "why": "KY AOC-334's records-custody clause directs every agency holding records 'in their custody regarding the above-named Defendant and above-listed charge(s)' to expunge them. The two blanks under it name the AGENCIES and the CHARGES; both took the participant's name through the printed-label channel."
+    }
+  ],
+  "blastRadius": {
+    "familiesReDerivedFromCommittedCensus": 82,
+    "familiesWhoseBindingsChanged": 2,
+    "bindingsRemoved": [
+      "KY:aoc-334-form-en Text1<-participant.full_legal_name",
+      "KY:aoc-334-form-en listed charges<-participant.full_legal_name",
+      "NC:aoc-cr-288-form-en PetitionerIsEligibleBecauseText1<-participant.full_legal_name"
+    ],
+    "bindingsAdded": [],
+    "method": "decideBinding is a pure function of (name, pdfType, effectiveLabel, regionHeading), all of which are committed in each family's field-census.json and field-classification.json. Every family's binding set was re-derived before and after the change and diffed. No Master Library mount is needed to do this, and no other family moved."
+  },
+  "families": [
+    {
+      "familyId": "KY:aoc-334-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
+      "documentId": "AOC-334",
+      "currentSourceSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "sourceBinaryResolvable": false,
+      "currentMapSha256": "c66afd0829b6e0e80395089cfa1a67c43154803f146a0c2c073afc0cb867bb05",
+      "currentClassificationSha256": "615555bc8239ed0333f35c095f0d7493e7d3d1f1b5a39d38384a7244471f5d12",
+      "currentProvenanceSha256": "6e84230cd15ae697ebcd84152f0378ff596ce79b75c30f53f618452b83b1bf08",
+      "artifactSha256": {
+        "fixtures/canonical-filled.pdf": "463863b831f9d9157dd0f98e0d61260552225aba19482b406cae03dd01911df4",
+        "fixtures/boundary-filled.pdf": "57164795e0597d11afb546f6e37445b6d9674af665038976fd66421d12cc82e6",
+        "contact-sheet/blank-vs-filled.pdf": "deaffe86f139e6b050732f0066c5b3ffe0dea27d65d5e69e47273a698787a675"
+      },
+      "oldArtifactSha256": {
+        "fixtures/canonical-filled.pdf": "463863b831f9d9157dd0f98e0d61260552225aba19482b406cae03dd01911df4",
+        "fixtures/boundary-filled.pdf": "57164795e0597d11afb546f6e37445b6d9674af665038976fd66421d12cc82e6",
+        "contact-sheet/blank-vs-filled.pdf": "deaffe86f139e6b050732f0066c5b3ffe0dea27d65d5e69e47273a698787a675"
+      },
+      "newArtifactSha256": null,
+      "newArtifactWhyNone": "not rerendered \u2014 source binary absent",
+      "reviewerFindings": [
+        {
+          "finding": "case number in the Court field",
+          "reproduced": "The canonical fixture draws 24-CR-001234 twice on page 1: at x=462 y=736 inside 'Case  No' [461,732 111w], and at x=443 y=719 inside 'Court' [442,714 130w].",
+          "rootCause": "The artifact is older than its own map. The committed map already refuses Court: bindingRefusals carries {field: Court, reason: classified_unwritable_by_role, category: manual}, and 'manual' is in NEVER_WRITE. The committed artifact was rendered before that was true.",
+          "status": "closed_in_inputs_pending_rerender",
+          "familyByteProof": "production-field-map.json refuses Court; field-classification.json classes it manual; NEVER_WRITE contains manual at scripts/implement-rcap-official-forms-d1.mjs:157. The map declares 5 bindings; protected-fields-scan.json reports writtenFields: 7. Those two undeclared writes are Court and Date."
+        },
+        {
+          "finding": "participant name in the Date field",
+          "reproduced": "The canonical fixture draws 'Jordan Avery Reyes' at x=41 y=407 inside 'Date' [40,403 167w]. Date's printed caption is the order recital 'The above-named Defendant has successfully completed the ter...'.",
+          "rootCause": "Same stale artifact. Additionally the caption was not protected by any rule, so protection rested entirely on the manual classification.",
+          "status": "closed_by_rule_and_in_inputs_pending_rerender",
+          "familyByteProof": "decideBinding on the committed classification entry for Date now returns {writable:false, reason:'protected_category', category:'court'} via COR-1, independently of the manual class. Before COR-1 it returned writable participant.full_legal_name."
+        },
+        {
+          "finding": "participant name in the court or agency-list slot",
+          "reproduced": "'Jordan Avery Reyes' at x=401 y=274 inside 'Text1' [400,272 171w] and at x=41 y=259 inside 'listed charges' [40,231 533w]. Both carry the caption 'their custody regarding the above-named Defendant and above-listed charge(s)' and sit under regionHeading 'CHARGE: ____ CHARGE: ____'.",
+          "rootCause": "Live map defect, still produced by the current code before COR-2. Both fields bound participant.full_legal_name through the printed-label channel because nothing in the records-custody clause matched a protect rule.",
+          "status": "closed_by_rule_pending_rerender",
+          "familyByteProof": "decideBinding on the committed classification entries now returns {writable:false, reason:'protected_category', category:'agency'} for both. Renaming 'listed charges' to 'Text9' still refuses, so the refusal is the caption and not the name."
+        }
+      ],
+      "requirements": {
+        "everyParticipantValueMapsToAParticipantWritableField": "holds after correction \u2014 the surviving bindings are Case  No, Defendant and Defendants Birthdate, all class participant",
+        "courtRemainsBlank": "holds \u2014 refused as classified_unwritable_by_role (manual). Residual risk recorded below.",
+        "dateRemainsBlank": "holds \u2014 now refused as protected_category [court] by rule, and no participant-owned date field is supported on this form",
+        "agencyListAndCourtUseRegionsRemainBlank": "holds \u2014 Text1 and listed charges refused as protected_category [agency]",
+        "currentSourceHashPreserved": "holds \u2014 no source byte was touched; the digest is unchanged",
+        "allPagesRerendered": "NOT DONE \u2014 source binary absent",
+        "noUndeclaredExtraDrawRemains": "NOT PROVEN \u2014 the two undeclared draws (Court, Date) exist only in the stale artifact. Proving they are gone requires the rerender."
+      },
+      "residualRisk": "Court is kept blank by its 'manual' classification, not by a protect rule. Its captured caption is 'Rev. 1-2\\x00\\x15MOTUCase No. ____________________' \u2014 the anchor capture has merged the revision footer with the Case No. label, and that garbled caption is what made the binder offer matter.case_number. The caption capture on this family is unreliable and should be looked at on its own."
+    },
+    {
+      "familyId": "KY:aoc-496-3-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en",
+      "documentId": "AOC-496.3",
+      "currentSourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "sourceBinaryResolvable": false,
+      "currentMapSha256": "4b9b78afd4fc9e6b021783e92ad5e22f47b9380e52f2f59142c2cc36ef0b894c",
+      "currentClassificationSha256": "cbf854ac3989ce91325931b3a88b14211c76fdd208a68e8f4eb54c4c74026ac0",
+      "currentProvenanceSha256": "fbd356b53209557af63f33d19d92fcc2db1925adb220770eadd5c0ebab271ad5",
+      "artifactSha256": {
+        "fixtures/canonical-filled.pdf": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a",
+        "fixtures/boundary-filled.pdf": "d3344eed7672e3ee8be9a85e15fe5447e91a287dfc1d33837f3587ecae7b7d79",
+        "contact-sheet/blank-vs-filled.pdf": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb"
+      },
+      "oldArtifactSha256": {
+        "fixtures/canonical-filled.pdf": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a",
+        "fixtures/boundary-filled.pdf": "d3344eed7672e3ee8be9a85e15fe5447e91a287dfc1d33837f3587ecae7b7d79",
+        "contact-sheet/blank-vs-filled.pdf": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb"
+      },
+      "newArtifactSha256": null,
+      "newArtifactWhyNone": "not rerendered \u2014 source binary absent, and see root cause: no code change is warranted",
+      "reviewerFindings": [
+        {
+          "finding": "the map declares two bindings but only one value appears",
+          "reproduced": "'24-CR-001234' renders at x=466 y=736. 'Example County' appears nowhere in the artifact. Both bindings are declared: '1 Case Number'<-matter.case_number and '3 County Dropdown'<-matter.county, both classified participant.",
+          "rootCause": "NOT a binder or geometry defect. '3 County Dropdown' is a dropdown whose committed census records 121 options \u2014 the real Kentucky counties, 'Adair' through 'Woodford'. The canonical fixture county is 'Example County', which is not a Kentucky county. rcap-official-form-finalize.mjs tries the exact option, then the value with a trailing ' county' stripped ('example'), finds neither, and refuses. The family's own report already records it: overflow-and-clipping.json carries {field: '3 County Dropdown', reason: 'value_not_among_field_options', factId: 'matter.county'} for both fixtures.",
+          "status": "root_caused_no_code_change",
+          "familyByteProof": "field-census.json options[] for '3 County Dropdown' contains 121 entries and none is 'Example County' or 'Example'. decideBinding returns writable matter.county both before and after this wave's corrections, so the binding is correct and the geometry is correct.",
+          "whyNoFixShipped": "The refusal is correct behaviour: the form constrains its own values and the renderer will not write one the form cannot hold. In production a participant's real county IS among the 121 options and this binding works. What is broken is the synthetic fixture value, and it is broken identically on SEVEN Kentucky families that share this dropdown \u2014 aoc-333, aoc-496, aoc-496-2, aoc-496-3, aoc-496-4, aoc-496-5 and aoc-497. Making the canonical fixture county jurisdiction-aware is a fixture-data change across all seven, which is wider than this wave's authorised three, and it cannot be verified from here because none of the seven can be rerendered. Escalated rather than shipped."
+        }
+      ],
+      "requirements": {
+        "countyValueVisiblyRendersInTheIntendedCountyField": "NOT DONE \u2014 requires a jurisdiction-valid fixture county and a rerender",
+        "bothDeclaredBindingsAppearInTheirOwnIntendedGeometry": "NOT DONE \u2014 same",
+        "noHiddenOrOffPageDraw": "holds \u2014 the county is not drawn anywhere, hidden or otherwise; the refusal is recorded, not silent",
+        "noClipping": "holds \u2014 the only findings on this family are binding_refused and unfittable_refused_not_clipped",
+        "currentSourceHashPreserved": "holds \u2014 no source byte was touched"
+      }
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en",
+      "documentId": "AOC-CR-288",
+      "currentSourceSha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "sourceBinaryResolvable": false,
+      "currentMapSha256": "d33aae7b680adf749783997bdd47225a84ca9f16184029d8e8d6ddeed3132353",
+      "currentClassificationSha256": "c6751f17bf6e47ce49badc5cbe4ce73c1ecb27f3cc499bfda70ebc423abcfdfa",
+      "currentProvenanceSha256": "ecbc88535bb9f125e43720e76ca9ad943fe1e4a12a5adf05ea0eaff8187e0087",
+      "artifactSha256": {
+        "fixtures/canonical-filled.pdf": "c16c710e44d614ac36d8bce77c87e606d8ed9e6a011e72dc442d5ea51e9fdae1",
+        "fixtures/boundary-filled.pdf": "0567512734ad129b89092bb8374c83ef7796dc3dbcb2a27c63b4f5fc0d2829cf",
+        "contact-sheet/blank-vs-filled.pdf": "084e52747f1058dee56469835cb2ebd0a9375cbf05ee44b7667235f915cca952"
+      },
+      "oldArtifactSha256": {
+        "fixtures/canonical-filled.pdf": "c16c710e44d614ac36d8bce77c87e606d8ed9e6a011e72dc442d5ea51e9fdae1",
+        "fixtures/boundary-filled.pdf": "0567512734ad129b89092bb8374c83ef7796dc3dbcb2a27c63b4f5fc0d2829cf",
+        "contact-sheet/blank-vs-filled.pdf": "084e52747f1058dee56469835cb2ebd0a9375cbf05ee44b7667235f915cca952"
+      },
+      "newArtifactSha256": null,
+      "newArtifactWhyNone": "not rerendered \u2014 source binary absent",
+      "reviewerFindings": [
+        {
+          "finding": "participant name in the judge's findings-of-fact section on page 2",
+          "reproduced": "Page 2 of the canonical fixture reads '5. Petitioner is [ ] is not eligible for an expunction of the offense(s) listed on Side One. If not eligible, it is because:' and beneath it 'Jordan Avery Reyes'. The widget is PetitionerIsEligibleBecauseText1, page 2, rect [71,674 519w], regionHeading 'FINDINGS OF FACT', captured caption '5. Petitioner is is not eligible for an expunction of the of'.",
+          "rootCause": "Live map defect, still produced by the current code before COR-1. The region heading and the caption were both captured and recorded in the committed map, and neither matched any protect rule, so factBasis 'field_name' bound participant.full_legal_name because the AcroForm name contains 'Petitioner'.",
+          "status": "closed_by_rule_pending_rerender",
+          "familyByteProof": "decideBinding on the committed classification entry now returns {writable:false, reason:'protected_category', category:'court'}. Renaming the field to 'Notes1' still refuses, so the refusal comes from the FINDINGS OF FACT region and the eligibility caption, not from the name. Re-deriving the whole family from its committed census leaves five bindings, all on page 1."
+        }
+      ],
+      "requirements": {
+        "findingsEligibilityAndJudicialOrderFieldsRemainProtected": "holds after correction \u2014 PetitionerIsEligibleBecauseText1 is the only binding that was in a judge-controlled region and it is now refused",
+        "petitionerValuesAppearOnlyInTheParticipantPortion": "holds in the re-derived map \u2014 the five surviving bindings (ConsJdgmntFileNum, County, NamePetitioner, StreetAddr, City) are all page 1, participant class",
+        "bothPagesRerender": "NOT DONE \u2014 source binary absent",
+        "noPage2ParticipantValueRemainsInAJudgeControlledRegion": "holds in the re-derived map; NOT PROVEN in bytes until the rerender"
+      }
+    }
+  ],
+  "unrelatedFamilyHashes": {
+    "artifactsChanged": 0,
+    "mapsChanged": 0,
+    "classificationsChanged": 0,
+    "how": "No generator was run and no data file under data/rcap-all50/overlays/production was written. Verified by git: the working tree contains no modification under that path."
+  },
+  "verifiers": [
+    "scripts/verify-rcap-adjudicative-region-protection.mjs \u2014 24 checks, added by this wave",
+    "scripts/rcap-official-forms/d0-canary-verify.mjs \u2014 107 checks across 4 canaries and 6 mutations",
+    "scripts/verify-rcap-pdf-independent-review-records.mjs \u2014 2 batches, 27 family records"
+  ],
+  "mutation": {
+    "what": "Both PROTECT_RULES extensions reverted to their pre-correction form.",
+    "result": "verify-rcap-adjudicative-region-protection.mjs fails with 13 problems of 24 checks, naming every field this wave closed and both rename mutations. Restoring the rules returns it to green.",
+    "whyItMatters": "The assertions are driven from the committed census and classification of the affected families, so they fail against the real inputs rather than a restatement of them."
+  },
+  "whatIsStillRequired": [
+    "Mount the Master Library extract and set RCAP_BUNDLE_EXTRACT.",
+    "Re-derive and rerender KY AOC-334 and NC AOC-CR-288, then confirm from the new bytes that Court, Date, Text1, listed charges and PetitionerIsEligibleBecauseText1 are all blank and that the declared and written field counts agree.",
+    "Decide the Kentucky fixture-county question across all seven affected families, then rerender them.",
+    "Raster page 2 as well as page 1 \u2014 the AOC-CR-288 defect sits below the crop of the committed evidence, which is why a page-1 raster scored it green.",
+    "Hand the new bytes to an independent reviewer. This wave approves nothing."
+  ],
+  "incidentalFinding": {
+    "what": "The D0 canary contact sheets are not byte-reproducible in this environment.",
+    "observed": "Running scripts/rcap-official-forms/d0-canary-verify.mjs rewrites data/rcap-all50/overlays/canary-d0/acroform-contact-sheet.pdf and flat-contact-sheet.pdf with different bytes, and canary-evidence.json records new contactSheetSha256 values. The filled artifacts' outputSha256 are unchanged, and the written/refused counts are unchanged.",
+    "isolated": "Reverting this wave's PROTECT_RULES changes and re-running reproduces the identical drift, so it is not caused by the corrections. It is the rasterisation step differing with the container's font or renderer version.",
+    "whyItMatters": "Contact-sheet SHA-256 is what the evidence records bind raster proof to. A hash that moves with the machine that produced it cannot bind evidence across machines: a reviewer on a different container recomputing a contact-sheet digest will find a mismatch that means nothing about the document. The artifact hashes are stable; the contact sheets are not.",
+    "notFixedHere": "Out of scope for this wave, and the canary files have been restored to their committed bytes so nothing spurious is recorded.",
+    "recommendation": "Either pin the rasteriser and fonts, or bind raster evidence to the artifact digest and the page index rather than to the sheet's own bytes."
+  }
+}

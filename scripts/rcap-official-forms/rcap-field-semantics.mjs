@@ -52,8 +52,26 @@ export const PROTECT_RULES = [
   // deterministic.
   ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|service\s*of\s*process|process\s*server|\bserved\s*(on|by|upon)\b|date\s*served|manner\s*of\s*service|\bcert\s*(date|time)\b|certif(y|ied|icate)\s*(on|date)/],
   ["licensing_board", /licens(e|ing)\s*(board|authority|agency)|board\s*of\s*(nursing|medicine|pharmacy|education|examiners)|professional\s*board|certification\s*board/],
-  ["agency", /\bagency\b|\bsheriff\b|\bpolice\b|law\s*enforcement|\bbureau\b|state\s*patrol|\bprobation\b|\bparole\b|department\s*of\s*(public\s*safety|justice|corrections)|\bdps\b|\bsbi\b|\bacic\b|\bapsin\b|\bfbi\b/],
-  ["court", /\bjudge\b|magistrate|commissioner|hearing\s*officer|referee|so\s*ordered|it\s*is\s*(hereby\s*)?ordered|ordered\s*(and\s*)?adjudged|adjudged|\bdecree\b|is\s*(hereby\s*)?(granted|denied)|court\s*use\s*only|for\s*(court|office|clerk|official)\s*use|do\s*not\s*write|\bruling\b/],
+  // The records-custody clause was the hole. KY AOC-334 prints "...all agencies
+  // having records in their custody regarding the above-named Defendant and
+  // above-listed charge(s)" and puts two blanks under it — Text1 and a field
+  // literally named "listed charges". The blanks name the AGENCIES that hold
+  // the records and the CHARGES those records concern; neither is the
+  // participant. No word in the printed clause said "agency" in a form this
+  // rule matched, so full_legal_name's /\bdef\b/ took both blanks through the
+  // printed-label channel and the finished order asked the court to direct
+  // "Jordan Avery Reyes" to expunge its own records.
+  ["agency", /\bagency\b|\bagencies\b|\bsheriff\b|\bpolice\b|law\s*enforcement|\bbureau\b|state\s*patrol|\bprobation\b|\bparole\b|department\s*of\s*(public\s*safety|justice|corrections)|\bdps\b|\bsbi\b|\bacic\b|\bapsin\b|\bfbi\b|\btheir\s*custody\b|records?\s*in\s*(their|its|the)\s*custody|custody\s*of\s*(the\s*)?records?|above-?\s*listed\s*charges?|\blisted\s*charges?\b/],
+  // Adjudicative sections were not named. NC AOC-CR-288 heads side two
+  // "FINDINGS OF FACT" and prints, as finding 5, "Petitioner is / is not
+  // eligible for an expunction ... If not eligible, it is because:" over a
+  // 519pt box the judge completes. The region heading and the caption were
+  // both captured and neither matched anything here, so the field name's
+  // "Petitioner" bound the participant's own name and the filed order read
+  // "...it is because: Jordan Avery Reyes". A findings-of-fact block, a
+  // conclusions-of-law block and an eligibility determination are the court
+  // speaking; the participant completes none of them.
+  ["court", /\bjudge\b|magistrate|commissioner|hearing\s*officer|referee|so\s*ordered|it\s*is\s*(hereby\s*)?ordered|ordered\s*(and\s*)?adjudged|adjudged|\bdecree\b|is\s*(hereby\s*)?(granted|denied)|court\s*use\s*only|for\s*(court|office|clerk|official)\s*use|do\s*not\s*write|\bruling\b|findings?\s*of\s*fact|conclusions?\s*of\s*law|is\s*(not\s*)?eligible\b|eligibility\s*(determination|finding)|has\s*successfully\s*completed/],
   ["clerk", /\bclerk\b|deputy\s*clerk|file\s*stamp|filed\s*stamp|filing\s*stamp|court\s*seal|scan\s*num|\bbarcode\b|entered\s*on|\bdistribution\b/],
   ["prosecutor", /prosecut|district\s*attorney|commonwealth\s*s?\s*attorney|state\s*s?\s*attorney|county\s*attorney|solicitor/],
   // `atty` is how North Carolina's AOC forms abbreviate it, and the rule
