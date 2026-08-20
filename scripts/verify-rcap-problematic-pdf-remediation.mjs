@@ -318,13 +318,29 @@ function runChecks() {
   const evidenceDir = "docs/record-clearing/pdf-visual-evidence";
   if (fs.existsSync(abs(evidenceDir))) {
     const placement = readJson(PLACEMENT, { families: [] });
+    // The all-page evidence package references its own rasters from one record
+    // per family. Without this source every page of it reads as orphaned, which
+    // would be the check misreading a newer evidence class rather than a real
+    // orphan.
+    const allPageDir = "data/rcap-all50/visual-evidence";
+    const allPageRasters = fs.existsSync(abs(allPageDir))
+      ? fs.readdirSync(abs(allPageDir))
+        .filter((f) => f.endsWith(".evidence.json"))
+        .flatMap((f) => (readJson(`${allPageDir}/${f}`, { rasters: [] }).rasters ?? []).map((r) => r.file))
+      : [];
     const referenced = new Set([
       ...(placement.families ?? []).flatMap((f) => f.renderedEvidence ?? []),
       ...(sheetProof.families ?? []).map((f) => f.renderedEvidence).filter(Boolean),
-      ...master.rows.flatMap((r) => [r.contactSheetEvidenceImage, ...(r.placementEvidenceImages ?? [])]).filter(Boolean)
+      ...master.rows.flatMap((r) => [r.contactSheetEvidenceImage, ...(r.placementEvidenceImages ?? [])]).filter(Boolean),
+      ...allPageRasters
     ]);
-    for (const file of fs.readdirSync(abs(evidenceDir))) {
-      const rel = `${evidenceDir}/${file}`;
+    // Walk the tree rather than the top level. A flat read treated a directory
+    // of evidence as one unreferenced entry and never looked at the images
+    // inside it, so a whole package could go stale under a name the check had
+    // already complained about.
+    const walk = (dir) => fs.readdirSync(abs(dir), { withFileTypes: true })
+      .flatMap((entry) => entry.isDirectory() ? walk(`${dir}/${entry.name}`) : [`${dir}/${entry.name}`]);
+    for (const rel of walk(evidenceDir)) {
       if (!referenced.has(rel)) {
         fail("no_orphaned_evidence_images", `${rel} is referenced by no generated artifact; it is evidence for a question that has moved on`);
       }
