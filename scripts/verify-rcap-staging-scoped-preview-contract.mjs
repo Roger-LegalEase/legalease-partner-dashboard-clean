@@ -138,6 +138,35 @@ function failures(hosted, resolver, deployScript) {
   fail(/steps\.resolve_preview\.outputs\.deployment_id \|\| steps\.deploy_preview\.outputs\.deployment_id/.test(hosted),
     "downstream does not fall back to the deploy step's deployment id after a fresh create");
 
+  // Environment provisioning order. Three times now a step has been placed
+  // ahead of the step that gives it a runtime: the All50 guards before npm ci,
+  // a contract-gated condition above the contract, and the worker-contract
+  // diagnosis before both the registry login and the dependency install — which
+  // died on ERR_MODULE_NOT_FOUND for 'typescript' before it read anything.
+  // The condition always looks right; only the position is wrong.
+  {
+    const positionOf = (id) => steps.findIndex((s) => s.id === id);
+    const diagnose = positionOf("worker_contract");
+    const registry = positionOf("registry_login");
+    const deps = positionOf("gate_deps");
+    fail(diagnose !== -1, "the worker-contract diagnosis step is missing or lost its id");
+    if (diagnose !== -1) {
+      fail(registry !== -1 && registry < diagnose,
+        "the worker-contract diagnosis runs before the registry login, so it cannot pull the private image by digest");
+      fail(deps !== -1 && deps < diagnose,
+        "the worker-contract diagnosis runs before dependencies are installed, so its TypeScript loader cannot resolve 'typescript'");
+      const depsStep = byId.get("gate_deps");
+      if (depsStep) {
+        fail(/diagnose == 'true'/.test(String(depsStep.if)),
+          "the dependency install does not cover the diagnosis phase, so the diagnosis would run against an empty node_modules");
+      }
+    }
+    if (gate) {
+      fail(/RUNS_DIAGNOSE/.test(gate.run ?? ""),
+        "the anti-skip gate does not assert the diagnosis ran in a phase that claims it");
+    }
+  }
+
   // R7 — at most one new Preview.
   fail(deployStep !== undefined, "R7 the deploy step is gone");
   if (deployStep) {
@@ -236,6 +265,17 @@ if (MUTATIONS) {
                  '            if true; then\n              require "Sandbox Checkout and unpaid 402"  "$O_GATE"'), r]],
     ["the deploy step stops publishing the identity it created", (h, r, d) =>
       [h, r, d.replace("`deployment_id=${evidence.deployment?.id ?? \"\"}`", "`unused=${\"\"}`")]],
+    ["the diagnosis is moved ahead of the registry login and npm ci", (h, r, d) => {
+      const block = h.match(/      # Placed AFTER the registry login[\s\S]*?run: node scripts\/rcap-worker-contract-contradiction\.mjs/);
+      if (!block) return [h, r, d];
+      const without = h.replace(block[0] + "\n", "");
+      return [without.replace("      - name: Normalize the execution contract for this phase", block[0] + "\n\n      - name: Normalize the execution contract for this phase"), r, d];
+    }],
+    ["the dependency install stops covering the diagnosis phase", (h, r, d) =>
+      [h.replace("        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true'\n        run: npm ci",
+                 "        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'\n        run: npm ci"), r, d]],
+    ["the anti-skip gate stops asserting the diagnosis", (h, r, d) =>
+      [h.replace(/RUNS_DIAGNOSE/g, "RUNS_UNUSED"), r, d]],
     ["downstream stops falling back to the deploy step's deployment id", (h, r, d) =>
       [h.replace("${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}",
                  "${{ steps.resolve_preview.outputs.deployment_id }}"), r, d]]
