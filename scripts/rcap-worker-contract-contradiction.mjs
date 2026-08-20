@@ -48,6 +48,35 @@ const JOB_ID = (process.env.CONTRADICTION_JOB_ID ?? "").trim();
 const EXPECTED_PROFILE_ID = "MS";
 const EXPECTED_PROFILE_VERSION = "2026-06-19-source-conversion-1";
 
+// --- the exact target namespace, from the payment run that produced it -------
+//
+// The target is identified by IDENTITY, never by jurisdiction or creation time.
+// "the newest MS job" is not a target: the acceptance project accumulates MS
+// jobs from every run, and picking the newest silently re-points this whole
+// report at whichever run happened to go last.
+//
+// These are the identities hosted run 32393413747 printed for its own payment
+// journey — the render-job id it received in the paid render 202, and the auth
+// user, person and matter the enqueue INSERT bound to it. The row this report
+// describes must agree with all of them or the report refuses to draw a
+// conclusion.
+const TARGET_NAMESPACE = {
+  renderJobId: (process.env.TARGET_RENDER_JOB_ID ?? "14c626c2-d287-4d5f-8fef-172fec8e52b9").trim(),
+  authUserId: (process.env.TARGET_AUTH_USER_ID ?? "b6dc86a3-12bb-490d-b130-48d95d426a1e").trim(),
+  personId: (process.env.TARGET_PERSON_ID ?? "c2b1ec38-1ef9-4ad1-a20f-4bf574f20ea2").trim(),
+  matterId: (process.env.TARGET_MATTER_ID ?? "e214c6fc-3ad8-4e63-a747-50cadf497046").trim(),
+  providerEventId: (process.env.TARGET_PROVIDER_EVENT_ID ?? "evt_hosted_acceptance_d01c2ff88f3a42c3a2d3").trim(),
+  checkoutSessionId: (process.env.TARGET_CHECKOUT_SESSION_ID
+    ?? "cs_test_a1mjKYs2WeW4Brtt1GjMicF0SuOyDqVF6Xk7oPrKEDgCp2INril2iiNSGw").trim(),
+  sourceRun: "32393413747"
+};
+
+// A DIFFERENT row, from the earlier worker-contract diagnosis. It is named here
+// so it can never be confused with the payment-run target above: two distinct
+// jobs, two distinct facts, and conflating them would attribute one run's
+// failure to the other.
+const DIAGNOSTIC_ONLY_JOB_ID = "cab14012-a0ad-44d1-80d2-d0d4bebc87d8";
+
 const secrets = [SUPABASE_ACCESS_TOKEN].filter(Boolean);
 const sanitize = (value) => {
   let text = String(value ?? "");
@@ -90,9 +119,20 @@ async function sql(query) {
 
 // --- boundary 2: the stored render job, read directly ------------------------
 {
-  const where = JOB_ID
-    ? `where id = '${JOB_ID.replace(/'/g, "''")}'`
-    : `where profile_id = '${EXPECTED_PROFILE_ID}' order by created_at desc limit 1`;
+  // Identity only. The previous fallback — newest row for this jurisdiction —
+  // is exactly the attribution error this report exists to expose, so it is
+  // gone rather than merely deprecated: there is no code path here that can
+  // name a target by jurisdiction or by creation time.
+  const resolvedJobId = JOB_ID || TARGET_NAMESPACE.renderJobId;
+  report.targetResolution = {
+    resolvedJobId,
+    resolvedFrom: JOB_ID ? "CONTRADICTION_JOB_ID" : `the paid render 202 of run ${TARGET_NAMESPACE.sourceRun}`,
+    namespace: TARGET_NAMESPACE,
+    identifiedByJurisdictionOrCreationTime: false,
+    distinctDiagnosticOnlyJobId: DIAGNOSTIC_ONLY_JOB_ID,
+    targetIsTheDiagnosticOnlyJob: resolvedJobId === DIAGNOSTIC_ONLY_JOB_ID
+  };
+  const where = `where id = '${resolvedJobId.replace(/'/g, "''")}'`;
   const result = await sql(`
     select id, status, attempt_count, max_attempts, claimed_by, claim_expires_at, fencing_token,
            next_attempt_at, error_code, failure_disposition,
@@ -120,6 +160,74 @@ async function sql(query) {
   report.storedTupleMatchesExpected = Boolean(row)
     && row.profile_id === EXPECTED_PROFILE_ID
     && row.profile_version === EXPECTED_PROFILE_VERSION;
+
+  // Corroboration, not decoration. The row must answer to the SAME namespace
+  // the payment run printed — user, person, matter, briefcase item — or it is
+  // not that run's target and nothing below may be said about it.
+  const agreement = row
+    ? {
+        renderJobId: row.id === TARGET_NAMESPACE.renderJobId,
+        authUserId: String(row.consumer_auth_user_id ?? "") === TARGET_NAMESPACE.authUserId,
+        personId: String(row.person_id ?? "") === TARGET_NAMESPACE.personId,
+        matterId: String(row.matter_id ?? "") === TARGET_NAMESPACE.matterId
+      }
+    : null;
+  report.targetResolution.namespaceAgreement = agreement;
+  report.targetResolution.namespaceFullyAgrees = Boolean(agreement) && Object.values(agreement).every(Boolean);
+  report.targetResolution.briefcaseItemId = row?.consumer_briefcase_item_id ?? null;
+}
+
+// --- the other row, kept distinct --------------------------------------------
+//
+// cab14012 is a DIFFERENT job from the payment-run target. Reading both and
+// showing that they are two rows is the only way a reader can be sure this
+// report has not quietly merged them.
+{
+  const other = await sql(`
+    select id, status, created_at, profile_id, profile_version, attempt_count,
+           consumer_briefcase_item_id, consumer_auth_user_id
+      from public.packet_render_jobs
+     where id = '${DIAGNOSTIC_ONLY_JOB_ID}'
+  `);
+  const otherRow = Array.isArray(other.json) ? other.json[0] ?? null : null;
+  report.diagnosticOnlyJob = {
+    id: DIAGNOSTIC_ONLY_JOB_ID,
+    queryUsable: Array.isArray(other.json),
+    // Absent is a legitimate answer and is reported as such, never as "same row".
+    present: Boolean(otherRow),
+    row: otherRow,
+    isTheSameRowAsTheTarget: otherRow ? otherRow.id === report.targetResolution?.resolvedJobId : false,
+    note: "the earlier worker-contract diagnosis named this job; the payment-run target is a different row and the two are never merged"
+  };
+}
+
+// --- the historically claimed job, or an honest admission --------------------
+//
+// Which row the worker actually claimed during run 32393413747's four cycles is
+// a question about that run, and it can only be answered from that run's own
+// evidence. The console log records each cycle's BOUNDARY but not the jobId the
+// cycle result carried; the pre- and post-cycle row reads that would have shown
+// which row moved both returned `query_error` (the 42703 that blinded the run);
+// and the full cycle JSON lives in the uploaded evidence artifact.
+//
+// So it is recorded as unproven. It is not guessed, and a plausible candidate
+// is not promoted to a finding by being the only one available — that is how a
+// backlog job's failure got attributed to a target in the first place.
+{
+  report.historicalClaimedJob = {
+    run: TARGET_NAMESPACE.sourceRun,
+    identity: "unproven",
+    provable: false,
+    reason: "the run's console log records each cycle's boundary but not the jobId its cycle result carried; both the pre-cycle and post-cycle row reads returned query_error (column \"output_page_count\" does not exist), so no before/after row state and no attempt-count transition survive; and no fencing-token fingerprint was captured for that run",
+    evidenceConsidered: [
+      "cycle result JSON on stdout — only the final {\"outcome\":\"idle\"} was echoed in full; cycles 1 and 2 were summarised to their boundary",
+      "before/after row state — both reads returned query_error, so neither side exists",
+      "attempt-count transition — unreadable for the same reason",
+      "fencing-token fingerprint — never captured for that run",
+      "claim timestamps — unreadable for the same reason"
+    ],
+    doNotGuess: "no candidate is nominated; an unattributable historical cycle stays unattributed"
+  };
 }
 
 // --- the claim is unscoped: which row would the worker actually be handed? ---
@@ -383,6 +491,11 @@ console.log(`target claim rank     : ${report.claimOrder?.targetClaimRank ?? "(n
 console.log(`claimable predecessors: ${report.claimOrder?.claimablePredecessors ?? "?"} — versions ${JSON.stringify(report.claimOrder?.distinctPredecessorProfileVersions ?? [])}`);
 console.log(`SQL predicts first    : ${report.claimOrder?.predictedFirstClaim ? `${report.claimOrder.predictedFirstClaim.id} (${report.claimOrder.predictedFirstClaim.profileId}/${report.claimOrder.predictedFirstClaim.profileVersion})` : "(nothing claimable)"}`);
 console.log(`predicted is target   : ${report.claimOrder?.predictedFirstClaimIsTarget}`);
+console.log(`payment-run target    : ${report.targetResolution?.resolvedJobId} (from ${report.targetResolution?.resolvedFrom})`);
+console.log(`namespace agreement   : ${JSON.stringify(report.targetResolution?.namespaceAgreement ?? null)} — fully agrees=${report.targetResolution?.namespaceFullyAgrees}`);
+console.log(`identified by jurisdiction or creation time: ${report.targetResolution?.identifiedByJurisdictionOrCreationTime}`);
+console.log(`diagnostic-only job   : ${report.diagnosticOnlyJob?.id} present=${report.diagnosticOnlyJob?.present} sameRowAsTarget=${report.diagnosticOnlyJob?.isTheSameRowAsTheTarget}`);
+console.log(`historical claimed job: ${report.historicalClaimedJob?.identity} — ${report.historicalClaimedJob?.reason}`);
 console.log("");
 console.log(report.verdict);
 console.log(`CLASSIFICATION: ${report.classification}`);

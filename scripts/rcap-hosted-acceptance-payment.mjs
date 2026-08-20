@@ -94,6 +94,9 @@ const REQUIRED_CASES = [
   "bypass_reaches_the_application_not_the_protection_layer",
   "renderable_route_selected_from_the_registry",
   "seeded_item_agrees_with_the_authoritative_resolver",
+  // Before a single cent is spent: the published image, by digest, admits the
+  // exact tuple the job about to be created will carry.
+  "immutable_image_admits_the_tuple_before_any_charge",
   "unpaid_render_is_refused_for_payment",
   "checkout_session_created_against_stripe_sandbox",
   "forged_webhook_signature_is_rejected",
@@ -509,6 +512,33 @@ const itemId = crypto.randomUUID();
 // that produces double quotes, which Postgres reads as an identifier.
 const sqlText = (value) => String(value).split("'").join("''");
 
+/**
+ * This run's namespace: the exact identities every count, every verdict and
+ * every replay assertion below is filtered by.
+ *
+ * The acceptance project is shared. Jobs abandoned by earlier runs are still
+ * queued, still claimable and still older than anything this run creates, and
+ * `claim_packet_render_job` is unscoped — it orders by created_at across the
+ * WHOLE project. So "a job", "an artifact" and "a worker cycle" are not facts
+ * about this run unless they are tied to one of these identities. Run
+ * 32393413747 reported a backlog job's failure as this run's result, and named
+ * a profile version the published image demonstrably admits.
+ *
+ * Each field is filled at the boundary that mints it and never inferred: the
+ * render-job id comes from the paid render response and from nowhere else.
+ */
+const runNamespace = {
+  briefcaseItemId: itemId,
+  authUserId: A.id,
+  personId: null,
+  matterId: null,
+  providerEventId: null,
+  checkoutSessionId: null,
+  renderJobId: null,
+  artifactIdentity: null
+};
+evidence.runNamespace = runNamespace;
+
 // --- 2b. The reviewed packet information -------------------------------------
 //
 // A participant cannot buy or render a packet whose information they have not
@@ -806,6 +836,10 @@ const derived = (() => {
 evidence.derivedRouteIdentity = derived;
 
 // --- 3. Seed the participant's item, unpaid ----------------------------------
+//
+// The authoritative route this run will sell, hoisted so the pre-charge image
+// preflight below can name the exact tuple the render job will carry.
+let preflightRoute = null;
 const seedResult = await sql(`
   insert into public.consumer_briefcase_items
     (id, user_id, item_type, jurisdiction, pathway_label, result_code, packet_type,
@@ -869,6 +903,119 @@ const seedResult = await sql(`
     `stored pathway_label=${JSON.stringify(seeded.pathway_label)}`
   );
   if (!agrees) finish();
+  preflightRoute = derived;
+}
+
+// --- 3b. What the published image will accept, BEFORE anything is charged ----
+//
+// Run 32393413747 spent a real Stripe Sandbox Checkout, a signed webhook and a
+// durable render job before discovering anything about whether the pinned
+// worker would accept the tuple it was about to be handed — and then blamed a
+// profile version the image demonstrably admits. Money and durable rows are
+// spent last here, not first.
+//
+// Everything asserted below is knowable before a charge:
+//
+//   * the pathway is authoritative and sellable (the resolver already said so);
+//   * it depends on no problematic PDF, so no held binary can fail the render;
+//   * the tuple the job will carry is known exactly;
+//   * the PUBLISHED IMAGE, executing its own shipped modules by digest with no
+//     bind mount and no host path, admits that exact tuple;
+//   * the digest actually pulled is the digest this run pins;
+//   * and the queue depth the target will have to get through is recorded, so
+//     a later "the worker never reached it" is a measurement rather than a
+//     surprise.
+{
+  const tuple = { profileId: preflightRoute.profileId, profileVersion: preflightRoute.profileVersion };
+  const digestPinned = /@sha256:[0-9a-f]{64}$/.test(WORKER_DIGEST_REF);
+
+  // No problematic-PDF dependency. The register is the authority; a route that
+  // composes its own document (sourceSha256 null) depends on no binary at all,
+  // and a route that names one must not name a held one.
+  const registerCsv = fs.existsSync(path.join(rootDir, "docs/record-clearing/problematic-pdf-register.csv"))
+    ? fs.readFileSync(path.join(rootDir, "docs/record-clearing/problematic-pdf-register.csv"), "utf8")
+    : "";
+  const registerLines = registerCsv.split("\n").slice(1).filter((line) => line.trim() !== "");
+  const heldShas = new Set(registerLines.map((line) => line.split(",")[3]).filter(Boolean));
+  const heldForJurisdiction = registerLines.filter((line) => line.split(",")[0] === preflightRoute.profileId).length;
+  const dependsOnHeldPdf = typeof preflightRoute.sourceSha256 === "string" && heldShas.has(preflightRoute.sourceSha256);
+
+  // The image's own registry and contract, through the image's own loader.
+  // `docker run <digest> node -e` executes the shipped bytes; there is no mount
+  // and no host path, so this cannot accidentally measure the checkout instead.
+  const probeSource = `
+import { register } from "node:module";
+register("./scripts/lib/ts-esm-loader.mjs", "file:///app/");
+const { getAllJurisdictionProfiles } = await import("/app/src/lib/rcap-engine/profile-registry.ts");
+const { assertClaimAcceptable, RenderContractError } = await import("/app/src/lib/rcap/render/job-contract.ts");
+const profiles = getAllJurisdictionProfiles();
+const versions = [...new Set(profiles.map((p) => String(p.profileVersion)))].sort();
+const tuple = ${JSON.stringify(tuple)};
+let claim = { attempted: false };
+try {
+  assertClaimAcceptable(
+    { id: "00000000-0000-4000-8000-000000000000", rendererKind: ${JSON.stringify(preflightRoute.rendererKind)},
+      sourceSha256: ${JSON.stringify(preflightRoute.sourceSha256 ?? null)},
+      profileVersion: tuple.profileVersion, fencingToken: "preflight" },
+    { knownJobIds: new Set(["00000000-0000-4000-8000-000000000000"]), allowedSourceShas: new Set(),
+      knownProfileVersions: new Set(versions), supportedRendererKinds: new Set([${JSON.stringify(preflightRoute.rendererKind)}]) }
+  );
+  claim = { attempted: true, accepted: true, errorCode: null };
+} catch (error) {
+  claim = { attempted: true, accepted: false,
+    errorCode: error instanceof RenderContractError ? error.errorCode : "non_contract_error" };
+}
+console.log("PREFLIGHT_JSON " + JSON.stringify({
+  profilesLoaded: profiles.length,
+  distinctProfileVersions: versions.length,
+  admitsProfileVersion: versions.includes(tuple.profileVersion),
+  claim,
+  cwd: process.cwd()
+}));
+`;
+  const probeRun = spawnSync("docker", [
+    "run", "--rm", "--entrypoint", "node", WORKER_DIGEST_REF, "--input-type=module", "-e", probeSource
+  ], { encoding: "utf8", timeout: 300000, maxBuffer: 32 * 1024 * 1024 });
+  const probeLine = String(probeRun.stdout ?? "").split("\n").find((l) => l.startsWith("PREFLIGHT_JSON "));
+  let probe = null;
+  try { probe = probeLine ? JSON.parse(probeLine.slice("PREFLIGHT_JSON ".length)) : null; } catch { probe = null; }
+
+  const repoDigests = spawnSync("docker", ["image", "inspect", "--format", "{{join .RepoDigests \"\\n\"}}", WORKER_DIGEST_REF], { encoding: "utf8" });
+  const pulledDigests = (repoDigests.stdout ?? "").trim().split("\n").filter(Boolean);
+  const pinnedDigest = WORKER_DIGEST_REF.split("@")[1] ?? "";
+  const digestMatches = pulledDigests.some((d) => d.endsWith(`@${pinnedDigest}`));
+
+  // The queue the target will have to get through, measured before it exists.
+  const backlog = await readClaimOrder(null, preflightRoute.rendererKind);
+
+  const imageAdmits = Boolean(probe) && probe.claim?.attempted === true && probe.claim.accepted === true && probe.admitsProfileVersion === true;
+  const passed = preflightRoute.routeKind === "legacy_verified"
+    && preflightRoute.sellable === true
+    && dependsOnHeldPdf === false
+    && digestPinned
+    && digestMatches
+    && imageAdmits
+    && backlog.readOutcome === "read";
+  record(
+    "immutable_image_admits_the_tuple_before_any_charge",
+    passed,
+    `pathway ${JSON.stringify(preflightRoute.routeId)} is ${preflightRoute.routeKind} and sellable=${preflightRoute.sellable}; sourceSha256=${JSON.stringify(preflightRoute.sourceSha256)} and the problematic-PDF register holds ${heldShas.size} source hash(es) across ${registerLines.length} row(s), ${heldForJurisdiction} of them for ${preflightRoute.profileId} — this route depends on a held binary: ${dependsOnHeldPdf}. The tuple the job will carry is ${tuple.profileId}@${tuple.profileVersion}. ${WORKER_DIGEST_REF} was pulled by immutable digest (${digestPinned}) and the digest actually present matches the pin (${digestMatches}; ${pulledDigests.join(" ") || "no repo digest reported"}). Executing the image's OWN shipped modules by digest — no bind mount, no host path — it loaded ${probe?.profilesLoaded ?? "(probe produced no verdict)"} profile(s) across ${probe?.distinctProfileVersions ?? "?"} distinct version(s) from cwd ${probe?.cwd ?? "?"}, admits that profile version (${probe?.admitsProfileVersion ?? "unknown"}) and assertClaimAcceptable ${probe?.claim?.attempted ? (probe.claim.accepted ? "ACCEPTED it" : `refused it at ${probe.claim.errorCode}`) : "was never reached"}. The claimable queue for renderer ${preflightRoute.rendererKind} currently holds ${backlog.readOutcome === "read" ? `${backlog.currentlyClaimable} job(s) (${backlog.totalQueued} queued in total)` : `an unreadable count (${backlog.detail ?? "no detail"})`}, so the target this run enqueues will start behind ${backlog.readOutcome === "read" ? backlog.currentlyClaimable : "an unknown number of"} claimable predecessor(s). Nothing has been charged at this point.`
+  );
+  evidence.imagePreflight = {
+    tuple,
+    routeKind: preflightRoute.routeKind,
+    sellable: preflightRoute.sellable,
+    sourceSha256: preflightRoute.sourceSha256 ?? null,
+    problematicPdfRegisterRows: registerLines.length,
+    dependsOnHeldPdf,
+    digestPinned,
+    digestMatches,
+    pulledDigests,
+    probe,
+    probeStderrTail: probe ? null : redactSecrets(`${probeRun.stdout ?? ""}${probeRun.stderr ?? ""}`).slice(-1200),
+    backlogBeforeEnqueue: backlog
+  };
+  if (!passed) finish();
 }
 
 {
@@ -960,6 +1107,7 @@ let session = null;
   evidence.sessionCreatedBeforeFailure = sessionCreatedBeforeFailure;
   if (!session) finish();
   evidence.checkout = { sessionId: session.id, amountTotal: session.amount_total, currency: session.currency, expectedCents: consumerPacketPriceCents ?? null };
+  runNamespace.checkoutSessionId = session.id;
 }
 
 // --- 5. The webhook: a forgery first, then the genuine signature -------------
@@ -978,6 +1126,7 @@ const completionEvent = {
   // is overridden, because completing the hosted page needs a browser.
   data: { object: { ...session, payment_status: "paid" } }
 };
+runNamespace.providerEventId = completionEvent.id;
 
 {
   const timestamp = Math.floor(Date.now() / 1000);
@@ -1019,14 +1168,32 @@ const completionEvent = {
 }
 
 // --- 7. The render, now that payment is authoritative ------------------------
+//
+// THE TARGET IS MINTED HERE, AND ONLY HERE. The job id in this 202 is the one
+// row this run is entitled to make statements about, and it is the only value
+// in this file permitted to name the target.
+//
+// Nothing below may infer the target from a worker cycle. The claim function is
+// unscoped to the run — it hands out the oldest currently-claimable job in the
+// whole acceptance project — so "the job the next cycle touched" is routinely
+// some other run's abandoned work. Inferring the target that way is exactly how
+// run 32393413747 attributed a backlog job's `profile_version_unknown` to this
+// pathway, against a profile version the published image demonstrably admits.
+let targetJobId = null;
 {
   const res = await callApp("/api/expungement-ai/packet/render", { method: "POST", cookie: A.cookie, body: { briefcaseItemId: itemId } });
+  const returnedJobId = typeof res.json?.jobId === "string" && res.json.jobId.trim() !== "" ? res.json.jobId.trim() : null;
+  // A 202 that names no job is not a queued render: there would be nothing to
+  // follow, and the journey below would have to guess. It does not guess.
   record(
     "paid_render_is_queued",
-    res.status === 202,
-    `POST /api/expungement-ai/packet/render for the same item after payment = ${res.status} (must be 202), jobId=${res.json?.jobId ?? "(none)"} — the identical request that was 402 moments ago`
+    res.status === 202 && returnedJobId !== null,
+    `POST /api/expungement-ai/packet/render for the same item after payment = ${res.status} (must be 202), jobId=${returnedJobId ?? "(none)"} — the identical request that was 402 moments ago. This job id is THE TARGET for the rest of this run; every worker cycle below is classified against it and no other row may satisfy a target case.`
   );
-  evidence.render = { status: res.status, jobId: res.json?.jobId ?? null };
+  evidence.render = { status: res.status, jobId: returnedJobId };
+  if (res.status !== 202 || returnedJobId === null) finish();
+  targetJobId = returnedJobId;
+  runNamespace.renderJobId = targetJobId;
 }
 
 // --- 8. The pinned worker, by digest, against the hosted project -------------
@@ -1086,8 +1253,14 @@ const WORKER_CLAIM_SECONDS = 120;
  * The raw token never leaves this function: it is hashed immediately, the
  * fingerprint replaces it on the returned object, and the local binding goes
  * out of scope. Nothing printed or written carries it.
+ *
+ * Read by EXACT JOB IDENTITY, never by briefcase item. Two rows can carry this
+ * run's item: the paid render enqueues one, and a webhook replay that lands on
+ * the recovery path enqueues another. `order by created_at desc limit 1` would
+ * then silently switch which row the artifact, delivery and replay cases were
+ * talking about, halfway through the run. The target is the id the 202 named.
  */
-async function readJob() {
+async function readJob(jobId = targetJobId) {
   const res = await sql(`
     select id, status, attempt_count, max_attempts, claimed_by, claim_expires_at,
            fencing_token, next_attempt_at,
@@ -1101,8 +1274,7 @@ async function readJob() {
            delivery_eligibility, accounting_result,
            created_at, claimed_at, rendering_at, validating_at, artifact_validated_at
       from public.packet_render_jobs
-     where briefcase_item_id = '${sqlText(itemId)}'
-     order by created_at desc limit 1
+     where id = '${sqlText(jobId)}'
   `);
 
   // The Management API answers a failed query with a non-array body carrying a
@@ -1183,6 +1355,212 @@ function cycleBoundary(result) {
   return `unrecognised outcome ${result.outcome}`;
 }
 
+// --- the queue the claim function will actually walk --------------------------
+//
+// This mirrors `claim_packet_render_job` (phase 50) EXACTLY:
+//
+//   where status = 'queued'
+//     and (next_attempt_at is null or next_attempt_at <= now())
+//     and renderer_kind = any (...)
+//   order by created_at
+//   for update skip locked
+//   limit 1
+//
+// `queued` and `currently claimable` are different sets. A retryable job whose
+// next_attempt_at is in the future is queued and cannot be claimed; counting it
+// as a predecessor over-states the backlog, and omitting the predicate
+// altogether under-states it. Either error names the wrong row as the one
+// standing in front of the target, so the predicate is reproduced rather than
+// approximated.
+// A declaration rather than a const arrow: readClaimOrder is called by the
+// pre-charge preflight, which runs earlier in the file than this line, and a
+// const would still be in its temporal dead zone there.
+function claimablePredicate(rendererKind) {
+  return `
+       status = 'queued'
+       and (next_attempt_at is null or next_attempt_at <= now())
+       ${rendererKind ? `and renderer_kind = '${sqlText(rendererKind)}'` : ""}`;
+}
+
+/** Where the target sits in claim order, and exactly what stands ahead of it. */
+async function readClaimOrder(jobId, rendererKind) {
+  const res = await sql(`
+    select id, status, attempt_count, max_attempts, next_attempt_at, created_at,
+           renderer_kind, profile_id, profile_version, consumer_briefcase_item_id,
+           left(coalesce(error_code, ''), 80) as error_code
+      from public.packet_render_jobs
+     where ${claimablePredicate(rendererKind)}
+     order by created_at
+     limit 200
+  `);
+  const queued = await sql(`select count(*)::int as n from public.packet_render_jobs where status = 'queued'`);
+  if (!Array.isArray(res.json)) {
+    return {
+      readOutcome: "query_error",
+      detail: redactSecrets(typeof res.json?.message === "string" ? res.json.message : String(res.text ?? "")).slice(0, 300)
+    };
+  }
+  const rows = res.json;
+  const rank = rows.findIndex((r) => r.id === jobId);
+  const predecessors = rank >= 0 ? rows.slice(0, rank) : rows;
+  return {
+    readOutcome: "read",
+    predicateMirrorsLiveClaimFunction: true,
+    rendererKindFilter: rendererKind ?? null,
+    totalQueued: Array.isArray(queued.json) ? (queued.json[0]?.n ?? null) : null,
+    currentlyClaimable: rows.length,
+    targetIsClaimable: rank >= 0,
+    targetClaimRank: rank >= 0 ? rank + 1 : null,
+    claimablePredecessors: predecessors.length,
+    predictedFirstClaim: rows[0]?.id ?? null,
+    predictedFirstClaimIsTarget: Boolean(rows[0]) && rows[0].id === jobId,
+    distinctPredecessorProfileVersions: [...new Set(predecessors.map((r) => r.profile_version))].sort(),
+    predecessors: predecessors.map((r) => ({
+      id: r.id,
+      createdAt: r.created_at,
+      status: r.status,
+      attemptCount: r.attempt_count,
+      maxAttempts: r.max_attempts,
+      nextAttemptAt: r.next_attempt_at,
+      rendererKind: r.renderer_kind,
+      profileId: r.profile_id,
+      profileVersion: r.profile_version,
+      errorCode: r.error_code || null,
+      belongsToThisRunNamespace: r.consumer_briefcase_item_id === itemId
+    }))
+  };
+}
+
+/**
+ * The next instant the QUEUE ITSELF is waiting on: the earliest future
+ * next_attempt_at among queued work, and the target's own lease expiry when it
+ * is sitting claimed. Sleeping to a canonical instant is the difference between
+ * waiting for the queue to become claimable and hammering it on a guess.
+ */
+async function canonicalWakeInstant(jobId, rendererKind) {
+  const res = await sql(`
+    select
+      (select min(next_attempt_at) from public.packet_render_jobs
+        where status = 'queued' and next_attempt_at is not null and next_attempt_at > now()
+          ${rendererKind ? `and renderer_kind = '${sqlText(rendererKind)}'` : ""}) as queue_next_attempt_at,
+      (select claim_expires_at from public.packet_render_jobs where id = '${sqlText(jobId)}') as target_claim_expires_at,
+      (select next_attempt_at from public.packet_render_jobs where id = '${sqlText(jobId)}') as target_next_attempt_at,
+      now() as server_now
+  `);
+  const row = Array.isArray(res.json) ? res.json[0] ?? null : null;
+  if (!row) return { source: "unreadable", at: null };
+  const candidates = [
+    ["the target's own retry backoff", row.target_next_attempt_at],
+    ["the target's claim lease expiry", row.target_claim_expires_at],
+    ["the earliest future retry in the claimable queue", row.queue_next_attempt_at]
+  ].filter(([, value]) => value && Number.isFinite(Date.parse(value)));
+  if (candidates.length === 0) return { source: "nothing in the queue is waiting on a clock", at: null };
+  candidates.sort((left, right) => Date.parse(left[1]) - Date.parse(right[1]));
+  return { source: candidates[0][0], at: candidates[0][1], serverNow: row.server_now ?? null };
+}
+
+// The mutable claim state of every job, used to say WHICH row a cycle touched
+// when the worker's own account cannot. The fencing token is hashed here, in
+// Node — extensions.digest is not available on the acceptance project — and the
+// raw value never leaves this function.
+const CLAIM_STATE_FIELDS = [
+  "status", "attempt_count", "claimed_by", "claimed_at", "claim_expires_at",
+  "next_attempt_at", "error_code", "failure_disposition",
+  "rendering_at", "validating_at", "artifact_validated_at", "fencingTokenSha256"
+];
+
+async function claimStateSnapshot() {
+  const res = await sql(`
+    select id, status, attempt_count, claimed_by, claimed_at, claim_expires_at,
+           fencing_token, next_attempt_at, error_code, failure_disposition,
+           rendering_at, validating_at, artifact_validated_at
+      from public.packet_render_jobs
+     order by created_at
+     limit 500
+  `);
+  if (!Array.isArray(res.json)) return { readOutcome: "query_error" };
+  const byId = new Map();
+  for (const row of res.json) {
+    const rawToken = row.fencing_token;
+    delete row.fencing_token;
+    byId.set(row.id, {
+      ...row,
+      fencingTokenSha256: typeof rawToken === "string" && rawToken.trim() !== ""
+        ? crypto.createHash("sha256").update(rawToken, "utf8").digest("hex")
+        : null
+    });
+  }
+  return { readOutcome: "read", byId };
+}
+
+/** Every job whose claim state moved across a cycle, or null if unreadable. */
+function rowsThatChanged(before, after) {
+  if (before?.readOutcome !== "read" || after?.readOutcome !== "read") return null;
+  const changed = new Set();
+  for (const [id, now] of after.byId) {
+    const then = before.byId.get(id);
+    if (!then) { changed.add(id); continue; }
+    if (CLAIM_STATE_FIELDS.some((field) => String(then[field] ?? "") !== String(now[field] ?? ""))) changed.add(id);
+  }
+  for (const id of before.byId.keys()) if (!after.byId.has(id)) changed.add(id);
+  return [...changed];
+}
+
+/**
+ * Which job this cycle actually claimed, and therefore what the cycle is
+ * allowed to mean.
+ *
+ * The published image's cycle result carries `jobId` on every outcome that
+ * claimed anything — `idle` is the only shape without one, and it is without
+ * one because nothing was claimed. So stdout is the primary source and no
+ * worker change is needed to obtain it; the row-state diff is the corroborating
+ * fallback for a cycle that emitted nothing parsable.
+ *
+ * Identity is MANDATORY. An unattributable cycle is not evidence about the
+ * target in either direction, and is never allowed to become one by default.
+ */
+function classifyCycle(cycleResult, changedRows, jobId) {
+  const fromStdout = typeof cycleResult?.jobId === "string" && cycleResult.jobId.trim() !== ""
+    ? cycleResult.jobId.trim() : null;
+  if (fromStdout) {
+    return {
+      claimedJobId: fromStdout,
+      identitySource: "the worker's own cycle result on stdout named the claimed job",
+      classification: fromStdout === jobId ? "target_cycle" : "backlog_cycle"
+    };
+  }
+  if (changedRows === null) {
+    return {
+      claimedJobId: null,
+      identitySource: cycleResult?.outcome === "idle"
+        ? "the cycle result reported idle, but the corroborating row snapshot could not be read"
+        : "no cycle result named a job and the corroborating row snapshot could not be read",
+      classification: "claimed_identity_unproven"
+    };
+  }
+  if (changedRows.length === 0) {
+    return {
+      claimedJobId: null,
+      identitySource: cycleResult?.outcome === "idle"
+        ? "the cycle result reported idle and no job row's claim state moved — the two agree"
+        : "no cycle result named a job and no job row's claim state moved",
+      classification: "no_job"
+    };
+  }
+  if (changedRows.length === 1) {
+    return {
+      claimedJobId: changedRows[0],
+      identitySource: "exactly one job row's claim state moved across this cycle",
+      classification: changedRows[0] === jobId ? "target_cycle" : "backlog_cycle"
+    };
+  }
+  return {
+    claimedJobId: null,
+    identitySource: `${changedRows.length} job rows moved across this cycle (${changedRows.slice(0, 5).join(", ")}), so no single row can be attributed to it`,
+    classification: "claimed_identity_unproven"
+  };
+}
+
 let finalJob = null;
 let finalJobRead = null;
 let finalCycleResult = null;
@@ -1212,8 +1590,135 @@ let finalCycleResult = null;
     cycles: []
   };
 
-  for (let cycle = 1; cycle <= 4; cycle += 1) {
-    const jobBefore = await readJob();
+  // --- the derived bound, and the budget it is spent against ------------------
+  //
+  // Four cycles was a guess, and it was the wrong guess: run 32393413747 spent
+  // all four on a shared project backlog and never reached its own job. The
+  // bound is DERIVED from what actually stands in front of the target, so a
+  // deeper backlog gets more cycles and an empty one gets no wasted work.
+  //
+  //   cycleBound = claimable predecessors + 1 target cycle + churn allowance
+  //
+  // The allowance covers work that becomes claimable mid-journey (a retryable
+  // job whose backoff elapses while the run is in progress). It is small,
+  // explicit and a CEILING: the bound is recomputed after every cycle from the
+  // backlog that remains, and may tighten, but a bound that follows a growing
+  // queue upward without limit is not a bound.
+  const QUEUE_CHURN_ALLOWANCE = 2;
+  const WAIT_BUDGET_MS = 8 * 60 * 1000;
+  const MAX_SINGLE_WAIT_MS = 90_000;
+  const MIN_SINGLE_WAIT_MS = 3_000;
+
+  /**
+   * Drive the pinned worker until it claims THIS run's target job, or until a
+   * derived bound or an explicit wait budget says it never will.
+   *
+   * Every cycle is classified before it is permitted to mean anything. A
+   * backlog cycle may not satisfy the target verdict, may not fail it, and may
+   * not supply artifact, delivery or replay evidence — it is progress through
+   * other runs' work and is reported as exactly that.
+   */
+  async function runTargetWorkerJourney(jobId) {
+    const journey = {
+      targetJobId: jobId,
+      targetJobIdSource: "the jobId returned by the paid render request (HTTP 202)",
+      queueChurnAllowance: QUEUE_CHURN_ALLOWANCE,
+      waitBudgetMs: WAIT_BUDGET_MS,
+      waitedMs: 0,
+      cyclesRun: 0,
+      backlogCycles: 0,
+      targetCycles: 0,
+      noJobCycles: 0,
+      unprovenCycles: 0,
+      backlogJobsClaimed: [],
+      failure: null,
+      targetCycleResult: null,
+      targetRowFinal: null,
+      targetReadFinal: null
+    };
+
+    const initialTargetRead = await readJob(jobId);
+    const initialTargetRow = jobRowOrNull(initialTargetRead);
+    journey.initialTargetRead = initialTargetRead;
+    journey.rendererKind = initialTargetRow?.renderer_kind ?? null;
+    journey.targetProfileTuple = initialTargetRow
+      ? `${initialTargetRow.profile_id}@${initialTargetRow.profile_version}`
+      : null;
+    journey.targetReadFinal = initialTargetRead;
+    journey.targetRowFinal = initialTargetRow;
+
+    const initialOrder = await readClaimOrder(jobId, journey.rendererKind);
+    journey.initialClaimOrder = initialOrder;
+    if (initialOrder.readOutcome !== "read") {
+      journey.failure = {
+        code: "acceptance_target_claim_identity_unproven",
+        detail: `the claim order could not be read (${initialOrder.detail ?? "no detail"}), so the number of claimable predecessors standing in front of the target is unknown and no cycle bound can be derived from it`
+      };
+      return journey;
+    }
+    const initialClaimablePredecessors = initialOrder.claimablePredecessors;
+    journey.initialClaimablePredecessors = initialClaimablePredecessors;
+    journey.targetClaimRank = initialOrder.targetClaimRank;
+    const boundCeiling = initialClaimablePredecessors + 1 + QUEUE_CHURN_ALLOWANCE;
+    journey.cycleBoundCeiling = boundCeiling;
+    let cycleBound = boundCeiling;
+    journey.cycleBoundHistory = [];
+
+    console.log(`  target ${jobId} is rank ${initialOrder.targetClaimRank ?? "(not claimable)"} of ${initialOrder.currentlyClaimable} currently-claimable job(s) (${initialOrder.totalQueued ?? "?"} queued in total); ${initialClaimablePredecessors} claimable predecessor(s); cycle bound ${cycleBound} = ${initialClaimablePredecessors} + 1 + ${QUEUE_CHURN_ALLOWANCE}`);
+
+    let cycle = 0;
+    while (cycle < cycleBound) {
+      cycle += 1;
+      journey.cyclesRun = cycle;
+      const outcome = await runOneCycle(cycle, jobId, journey);
+      if (outcome === "stop") break;
+
+      const order = await readClaimOrder(jobId, journey.rendererKind);
+      journey.cycleBoundHistory.push({
+        afterCycle: cycle,
+        claimablePredecessors: order.readOutcome === "read" ? order.claimablePredecessors : null,
+        targetClaimRank: order.readOutcome === "read" ? order.targetClaimRank : null
+      });
+      if (order.readOutcome === "read" && order.targetIsClaimable) {
+        // Recomputed from what remains, never above the declared ceiling.
+        cycleBound = Math.min(boundCeiling, Math.max(cycle + 1, cycle + order.claimablePredecessors + 1));
+      }
+      if (cycle >= cycleBound) break;
+
+      // Sleep only to an instant the queue itself is waiting on, and only
+      // inside the declared budget. A fixed poll interval would burn the
+      // budget on a queue that is not going to change for another minute.
+      const wake = await canonicalWakeInstant(jobId, journey.rendererKind);
+      const requested = wake.at ? Date.parse(wake.at) + 3000 - Date.now() : MIN_SINGLE_WAIT_MS;
+      const waitMs = Math.min(Math.max(requested, MIN_SINGLE_WAIT_MS), MAX_SINGLE_WAIT_MS);
+      if (journey.waitedMs + waitMs > WAIT_BUDGET_MS) {
+        journey.failure = {
+          code: "acceptance_wait_budget_exhausted",
+          detail: `waiting a further ${waitMs}ms for ${wake.source} would exceed the declared ${WAIT_BUDGET_MS}ms wait budget, of which ${journey.waitedMs}ms has been spent across ${cycle} cycle(s)`
+        };
+        break;
+      }
+      journey.waitedMs += waitMs;
+      console.log(`  waiting ${waitMs}ms for ${wake.source}${wake.at ? ` (${wake.at})` : ""}; ${journey.waitedMs}/${WAIT_BUDGET_MS}ms of the wait budget spent`);
+      await sleep(waitMs);
+    }
+
+    if (!journey.failure && journey.targetCycles === 0) {
+      journey.failure = {
+        code: "acceptance_backlog_did_not_converge",
+        detail: `${cycle} cycle(s) ran against a bound of ${cycleBound} derived from ${initialClaimablePredecessors} claimable predecessor(s), and the worker never claimed the target. ${journey.backlogCycles} cycle(s) claimed other runs' backlog (${journey.backlogJobsClaimed.join(", ") || "none recorded"}), ${journey.noJobCycles} claimed nothing at all.`
+      };
+    }
+    return journey;
+  }
+
+  /**
+   * One worker cycle, attributed before it is interpreted. Returns "stop" when
+   * the journey may not usefully continue.
+   */
+  async function runOneCycle(cycle, jobId, journey) {
+    const claimBefore = await claimStateSnapshot();
+    const jobBefore = await readJob(jobId);
     const startedAt = new Date().toISOString();
     // --cidfile is the only way to learn the container id of a --rm run; docker
     // refuses to start if the path already exists, and may remove it on
@@ -1232,12 +1737,18 @@ let finalCycleResult = null;
       "node", "scripts/rcap-render-worker.mjs", "--once"
     ], { encoding: "utf8", timeout: 300000, maxBuffer: 32 * 1024 * 1024 });
     const finishedAt = new Date().toISOString();
-    const jobAfter = await readJob();
+    // The target is read INDEPENDENTLY of whatever the cycle claimed. Its row
+    // is a fact about this run; the cycle result is a fact about whichever row
+    // the unscoped claim function happened to hand out.
+    const jobAfter = await readJob(jobId);
+    const claimAfter = await claimStateSnapshot();
 
     // Parsed out of stdout ONLY, before anything else is looked at: docker's
     // pull progress goes to stderr, and mixing the two is what destroyed this
     // diagnostic in run 32185795181.
     const cycleResult = parseCycleResult(run.stdout);
+    const changedRows = rowsThatChanged(claimBefore, claimAfter);
+    const identity = classifyCycle(cycleResult, changedRows, jobId);
     const containerId = fs.existsSync(cidFile) ? fs.readFileSync(cidFile, "utf8").trim() : null;
     fs.rmSync(cidFile, { force: true });
     diagnostics.cycles.push({
@@ -1251,29 +1762,112 @@ let finalCycleResult = null;
       spawnError: run.error ? String(run.error.message) : null,
       cycleResult,
       boundary: cycleBoundary(cycleResult),
+      classification: identity.classification,
+      claimedJobId: identity.claimedJobId,
+      claimedJobIdentitySource: identity.identitySource,
+      rowsThatMoved: changedRows,
+      claimedTuple: identity.claimedJobId
+        ? claimedTupleFor(identity.claimedJobId, claimAfter)
+        : null,
       stdout: redact(run.stdout),
       stderr: redact(run.stderr),
-      jobStateBefore: jobBefore,
-      jobStateAfter: jobAfter
+      targetStateBefore: jobBefore,
+      targetStateAfter: jobAfter
     });
-    console.log(`  worker cycle ${cycle}: exit=${run.status} signal=${run.signal ?? "none"} boundary=${cycleBoundary(cycleResult)}; job ${jobBefore?.status ?? `(${jobBefore?.readOutcome ?? "unread"})`} -> ${jobAfter?.status ?? `(${jobAfter?.readOutcome ?? "unread"})`}`);
-    finalJobRead = jobAfter;
-    finalJob = jobRowOrNull(jobAfter);
-    if (cycleResult) finalCycleResult = cycleResult;
+    console.log(`  worker cycle ${cycle} [${identity.classification}]: exit=${run.status} signal=${run.signal ?? "none"} claimed=${identity.claimedJobId ?? "(nothing)"} boundary=${cycleBoundary(cycleResult)}; target ${jobBefore?.status ?? `(${jobBefore?.readOutcome ?? "unread"})`} -> ${jobAfter?.status ?? `(${jobAfter?.readOutcome ?? "unread"})`}`);
 
-    if (finalJob && TERMINAL_SUCCESS.has(finalJob.status)) break;
-    if (finalJob && finalJob.status === "failed" && finalJob.failure_disposition === "terminal") break;
-    if (cycle === 4) break;
+    // The target row is recorded on every cycle, because it is read directly.
+    journey.targetReadFinal = jobAfter;
+    journey.targetRowFinal = jobRowOrNull(jobAfter);
 
-    // A stuck claim is recovered by the lease expiring; a retryable failure by
-    // its backoff elapsing. Wait for whichever the queue itself is waiting on
-    // rather than hammering it.
-    const waitUntil = [finalJob?.claim_expires_at, finalJob?.next_attempt_at]
-      .map((value) => (value ? Date.parse(value) : NaN))
-      .filter((value) => Number.isFinite(value));
-    const delayMs = waitUntil.length ? Math.max(...waitUntil) + 3000 - Date.now() : 5000;
-    await sleep(Math.min(Math.max(delayMs, 3000), 90000));
+    if (identity.classification === "claimed_identity_unproven") {
+      journey.unprovenCycles += 1;
+      journey.failure = {
+        code: "acceptance_target_claim_identity_unproven",
+        detail: `cycle ${cycle} cannot be attributed to a job: ${identity.identitySource}. An unattributable cycle is not evidence about the target in either direction, so the journey stops rather than crediting or blaming this run for it.`
+      };
+      return "stop";
+    }
+
+    if (identity.classification === "backlog_cycle") {
+      journey.backlogCycles += 1;
+      // A predecessor claimed twice has not moved out of the way, so the
+      // backlog is not draining and further cycles would repeat forever.
+      if (journey.backlogJobsClaimed.includes(identity.claimedJobId)) {
+        journey.failure = {
+          code: "acceptance_backlog_predecessor_repeated",
+          detail: `job ${identity.claimedJobId} was claimed for a second time on cycle ${cycle}; it is not leaving the claimable queue, so the backlog is not draining and no number of further cycles would reach the target`
+        };
+        return "stop";
+      }
+      journey.backlogJobsClaimed.push(identity.claimedJobId);
+      // Explicitly NOT recorded as the run's cycle result. This cycle is
+      // progress through another run's work and proves nothing about here.
+      return "continue";
+    }
+
+    if (identity.classification === "no_job") {
+      journey.noJobCycles += 1;
+      return "continue";
+    }
+
+    // target_cycle — and only here may a cycle result become this run's.
+    journey.targetCycles += 1;
+    journey.targetCycleResult = cycleResult;
+    const target = journey.targetRowFinal;
+    if (target && TERMINAL_SUCCESS.has(target.status)) return "stop";
+    if (target && target.status === "failed" && target.failure_disposition === "terminal") {
+      journey.failure = {
+        code: "acceptance_target_terminal_failure",
+        detail: `the target failed terminally at ${target.error_code ?? "(no error code)"} on cycle ${cycle}: ${(target.last_error_detail ?? "(no detail)").slice(0, 300)}`
+      };
+      return "stop";
+    }
+    if (target && Number(target.attempt_count ?? 0) >= Number(target.max_attempts ?? 0) && Number(target.max_attempts ?? 0) > 0) {
+      journey.failure = {
+        code: "acceptance_target_terminal_failure",
+        detail: `the target has exhausted its retries (${target.attempt_count}/${target.max_attempts}) at ${target.error_code ?? "(no error code)"}`
+      };
+      return "stop";
+    }
+    return "continue";
   }
+
+  /** The claimed job's profile tuple, read from the same snapshot that named it. */
+  function claimedTupleFor(claimedJobId, snapshot) {
+    if (snapshot?.readOutcome !== "read") return null;
+    const row = snapshot.byId.get(claimedJobId);
+    return row ? { status: row.status, attemptCount: row.attempt_count, errorCode: row.error_code ?? null } : null;
+  }
+
+  const journey = await runTargetWorkerJourney(targetJobId);
+  diagnostics.journey = journey;
+  finalJobRead = journey.targetReadFinal;
+  finalJob = journey.targetRowFinal;
+  // Set by a target cycle and by nothing else, so a backlog job's account can
+  // never be quoted as this run's result.
+  finalCycleResult = journey.targetCycleResult;
+  evidence.targetJourney = {
+    targetJobId: journey.targetJobId,
+    targetJobIdSource: journey.targetJobIdSource,
+    rendererKind: journey.rendererKind ?? null,
+    targetProfileTuple: journey.targetProfileTuple ?? null,
+    initialClaimablePredecessors: journey.initialClaimablePredecessors ?? null,
+    targetClaimRank: journey.targetClaimRank ?? null,
+    queueChurnAllowance: journey.queueChurnAllowance,
+    cycleBoundCeiling: journey.cycleBoundCeiling ?? null,
+    cycleBoundHistory: journey.cycleBoundHistory ?? [],
+    waitBudgetMs: journey.waitBudgetMs,
+    waitedMs: journey.waitedMs,
+    cyclesRun: journey.cyclesRun,
+    backlogCycles: journey.backlogCycles,
+    targetCycles: journey.targetCycles,
+    noJobCycles: journey.noJobCycles,
+    unprovenCycles: journey.unprovenCycles,
+    backlogJobsClaimed: journey.backlogJobsClaimed,
+    initialClaimOrder: journey.initialClaimOrder ?? null,
+    failure: journey.failure
+  };
 
   fs.writeFileSync(path.join(EVIDENCE_DIR, "worker-diagnostics.json"), `${JSON.stringify(diagnostics, null, 2)}\n`);
   fs.writeFileSync(
@@ -1310,13 +1904,30 @@ let finalCycleResult = null;
     // The image is addressed by its immutable digest, not by a tag. A tag is an
     // alias and can be moved; only the sha256 digest names these exact bytes.
     pulled_by_immutable_digest: /@sha256:[0-9a-f]{64}$/.test(WORKER_DIGEST_REF),
-    // The worker said what it did, and said it about THIS job. A cycle that
-    // claimed nothing, or claimed some other queued job, proves nothing here.
+    // --- the journey reached THIS run's job, and knows that it did -----------
+    target_job_id_from_the_paid_render_response: typeof targetJobId === "string" && targetJobId.trim() !== "",
+    // Every cycle was attributable to a specific row. An unattributable cycle
+    // cannot be credited or blamed here, and is never allowed to pass by
+    // default.
+    every_cycle_attributed_to_a_job: journey.unprovenCycles === 0,
+    // At least one cycle provably claimed the target. Without this, a run that
+    // spent its whole budget on other runs' backlog would be reporting on work
+    // it never did — which is precisely what run 32393413747 did.
+    target_cycle_observed: journey.targetCycles > 0,
+    backlog_converged: journey.failure === null,
+    // The worker said what it did, and said it about THIS job. finalCycleResult
+    // is only ever set by a cycle proven to have claimed the target, so this is
+    // a second, independent reading of the same fact.
     cycle_result_emitted: Boolean(finalCycleResult),
     cycle_result_names_this_job: Boolean(finalCycleResult) && Boolean(job) && finalCycleResult.jobId === job.id,
     cycle_result_is_finalized: finalCycleResult?.outcome === "finalized",
     terminal_successful_state: Boolean(job) && TERMINAL_SUCCESS.has(job.status),
     not_in_flight: Boolean(job) && !NON_TERMINAL.has(job.status),
+    // --- the lifecycle the target actually walked, timestamp by timestamp ----
+    target_admitted_and_claimed: Boolean(job?.claimed_at),
+    target_rendering_started: Boolean(job?.rendering_at),
+    target_validation_started: Boolean(job?.validating_at),
+    target_finalized: Boolean(job?.artifact_validated_at),
     artifact_path_present: typeof storagePath === "string" && storagePath.trim() !== "",
     nonzero_stored_byte_count: declaredBytes > 0,
     storage_object_exists: stored.status === 200,
@@ -1349,8 +1960,8 @@ let finalCycleResult = null;
     "worker_renders_and_stores_the_artifact",
     unmet.length === 0 && contradiction === null,
     unmet.length === 0 && contradiction === null
-      ? `${WORKER_DIGEST_REF} drove job ${job.id} to '${job.status}' in ${diagnostics.cycles.length} cycle(s); its own cycle result reads ${cycleBoundary(finalCycleResult)}. ${declaredBytes} bytes at ${storagePath}, re-read and reparsed to ${validation.pageCount} page(s), output_sha256 and normalized_output_sha256 both recomputed from the stored bytes and equal to the values the finalization transaction recorded.`
-      : `job read outcome ${finalJobRead?.readOutcome ?? "never attempted"}${finalJobRead?.readOutcome === "query_error" ? ` (${finalJobRead.readErrorClass}: ${finalJobRead.readErrorMessage}) — this is the diagnostic failing, NOT evidence that no job exists` : ""}; job is '${job?.status ?? (finalJobRead?.readOutcome === "no_row" ? "(no job row)" : "(unread)")}' after ${diagnostics.cycles.length} cycle(s) and ${job?.attempt_count ?? 0} attempt(s). WORKER CYCLE RESULT: ${cycleBoundary(finalCycleResult)}${finalCycleResult ? ` — ${JSON.stringify(finalCycleResult)}` : ""}.${contradiction ? ` CONTRADICTION: ${contradiction}.` : ""} Unmet: ${unmet.join(", ")}. Last cycle exit=${lastCycle?.exitCode} signal=${lastCycle?.exitSignal}; error_code=${job?.error_code ?? "(none)"}; disposition=${job?.failure_disposition ?? "(none)"}; detail=${(job?.last_error_detail ?? "(none)").slice(0, 300)}. Complete stdout and stderr for every cycle are in the uploaded worker-console.log and worker-diagnostics.json.`
+      ? `${WORKER_DIGEST_REF} drove THIS RUN'S TARGET job ${job.id} — the id returned by the paid render request, not a row inferred from a worker cycle — to '${job.status}'. ${diagnostics.cycles.length} cycle(s) ran against a bound of ${journey.cycleBoundCeiling} derived from ${journey.initialClaimablePredecessors} claimable predecessor(s) + 1 target cycle + a ${journey.queueChurnAllowance}-cycle churn allowance: ${journey.backlogCycles} spent on other runs' backlog, ${journey.noJobCycles} idle, ${journey.targetCycles} on the target. Its own cycle result reads ${cycleBoundary(finalCycleResult)} and names ${finalCycleResult?.jobId}. ${declaredBytes} bytes at ${storagePath}, re-read and reparsed to ${validation.pageCount} page(s), output_sha256 and normalized_output_sha256 both recomputed from the stored bytes and equal to the values the finalization transaction recorded.`
+      : `TARGET ${targetJobId ?? "(never minted)"}${journey.failure ? ` — ${journey.failure.code}: ${journey.failure.detail}` : ""}. Target read outcome ${finalJobRead?.readOutcome ?? "never attempted"}${finalJobRead?.readOutcome === "query_error" ? ` (${finalJobRead.readErrorClass}: ${finalJobRead.readErrorMessage}) — this is the diagnostic failing, NOT evidence that no job exists` : ""}; the target is '${job?.status ?? (finalJobRead?.readOutcome === "no_row" ? "(no job row)" : "(unread)")}' after ${diagnostics.cycles.length} cycle(s) and ${job?.attempt_count ?? 0} attempt(s), of which ${journey.targetCycles} provably claimed it, ${journey.backlogCycles} claimed other runs' backlog (${journey.backlogJobsClaimed.join(", ") || "none"}), ${journey.noJobCycles} claimed nothing and ${journey.unprovenCycles} could not be attributed. It entered the journey at claim rank ${journey.targetClaimRank ?? "(not claimable)"} behind ${journey.initialClaimablePredecessors ?? "(unknown)"} claimable predecessor(s). TARGET CYCLE RESULT: ${cycleBoundary(finalCycleResult)}${finalCycleResult ? ` — ${JSON.stringify(finalCycleResult)}` : " (no cycle provably claimed the target, so no cycle result may be quoted as this run's)"}.${contradiction ? ` CONTRADICTION: ${contradiction}.` : ""} Unmet: ${unmet.join(", ")}. Last cycle exit=${lastCycle?.exitCode} signal=${lastCycle?.exitSignal}; error_code=${job?.error_code ?? "(none)"}; disposition=${job?.failure_disposition ?? "(none)"}; detail=${(job?.last_error_detail ?? "(none)").slice(0, 300)}. Complete stdout and stderr for every cycle are in the uploaded worker-console.log and worker-diagnostics.json.`
   );
 
   evidence.worker = {
@@ -1362,6 +1973,9 @@ let finalCycleResult = null;
     exitCodes: diagnostics.cycles.map((c) => c.exitCode),
     exitSignals: diagnostics.cycles.map((c) => c.exitSignal),
     boundaries: diagnostics.cycles.map((c) => c.boundary),
+    classifications: diagnostics.cycles.map((c) => c.classification),
+    claimedJobIds: diagnostics.cycles.map((c) => c.claimedJobId),
+    journeyFailure: journey.failure,
     cycleResult: finalCycleResult,
     contradiction,
     jobReadOutcome: finalJobRead?.readOutcome ?? null,
@@ -1383,6 +1997,11 @@ let finalCycleResult = null;
       : null
   };
   evidence.artifactPath = storagePath;
+  // The artifact's identity, bound into the run namespace so the replay
+  // snapshot below compares the same object rather than "an artifact".
+  runNamespace.artifactIdentity = job && storagePath
+    ? { jobId: job.id, storagePath, outputSha256: job.output_sha256 ?? null, byteCount: declaredBytes, pageCount: job.page_count ?? null }
+    : null;
 }
 
 // --- 8b. Identity: the job is bound to server-owned person and matter --------
@@ -1408,10 +2027,11 @@ let finalCycleResult = null;
            public.consumer_matter_id_for_briefcase_item(b.id) as canonical_matter_id
       from public.packet_render_jobs j
       join public.consumer_briefcase_items b on b.id = j.consumer_briefcase_item_id
-     where j.briefcase_item_id = '${sqlText(itemId)}'
-     order by j.created_at desc limit 1
+     where j.id = '${sqlText(targetJobId)}'
   `);
   const row = Array.isArray(rows.json) ? rows.json[0] : null;
+  runNamespace.personId = row?.person_id ?? null;
+  runNamespace.matterId = row?.matter_id ?? null;
   const same = (left, right) => left !== null && left !== undefined && String(left) === String(right);
 
   // The phase-55 authority probe, asked directly: does this exact
@@ -1508,7 +2128,9 @@ let finalCycleResult = null;
   // 32185795181 was that route answering correctly about a packet it does not
   // own — the case was pointed at the wrong surface, and B's 404 and the
   // anonymous 307 were answers about the legacy route too.
-  const jobId = finalJob?.id ?? evidence.render?.jobId ?? null;
+  // The TARGET, always. Falling back to `finalJob?.id` would let a run whose
+  // target never rendered download whatever row the journey last looked at.
+  const jobId = targetJobId;
   const download = `/api/rcap/packets/${jobId}/download`;
   const owner = jobId ? await callApp(download, { cookie: A.cookie }) : { status: "no render job to download", bytes: Buffer.alloc(0), location: null };
   const stranger = jobId ? await callApp(download, { cookie: B.cookie }) : { status: "no render job to download", bytes: Buffer.alloc(0), location: null };
@@ -1567,10 +2189,25 @@ let finalCycleResult = null;
   //
   // Provider event records, payment records, consumption rows, entitlements and
   // render jobs are all counted on both sides. None of them may move.
+  // Every count is filtered by an identity in THIS RUN'S namespace — the
+  // briefcase item, the auth user, the target render job — and the target's own
+  // finalized identity is snapshotted alongside them. The acceptance project is
+  // shared, so a project-wide count would move whenever anything else in the
+  // queue moved and would report unrelated backlog as an idempotency defect.
+  // Project-wide movement is measured too, separately, and is never allowed to
+  // make this verdict red.
   const counts = () => sql(`
     select
       (select count(*) from public.packet_render_jobs where briefcase_item_id = '${sqlText(itemId)}') as jobs,
+      (select count(*) from public.packet_render_jobs where id = '${sqlText(targetJobId)}') as target_job,
+      (select coalesce(status, '(absent)') from public.packet_render_jobs where id = '${sqlText(targetJobId)}') as target_status,
+      (select coalesce(output_sha256, '(none)') from public.packet_render_jobs where id = '${sqlText(targetJobId)}') as target_output_sha256,
+      (select coalesce(output_storage_path, '(none)') from public.packet_render_jobs where id = '${sqlText(targetJobId)}') as target_storage_path,
+      (select coalesce(page_count, -1) from public.packet_render_jobs where id = '${sqlText(targetJobId)}') as target_page_count,
+      (select coalesce(output_byte_count, -1) from public.packet_render_jobs where id = '${sqlText(targetJobId)}') as target_byte_count,
+      (select coalesce(attempt_count, -1) from public.packet_render_jobs where id = '${sqlText(targetJobId)}') as target_attempt_count,
       (select count(*) from public.consumer_packet_payment_consumption where consumer_briefcase_item_id = '${sqlText(itemId)}') as entitlements,
+      (select count(*) from public.packet_credit_ledger where render_job_id = '${sqlText(targetJobId)}') as target_ledger_events,
       (select count(*) from public.packet_credit_ledger l
         join public.packet_render_jobs j on j.id = l.render_job_id
        where j.briefcase_item_id = '${sqlText(itemId)}') as ledger_events,
@@ -1581,8 +2218,16 @@ let finalCycleResult = null;
           and c.provider_event_id = (select provider_event_id from public.consumer_briefcase_items where id = '${sqlText(itemId)}')) as provider_event_records,
       (select coalesce(provider_event_id, '(none)') from public.consumer_briefcase_items where id = '${sqlText(itemId)}') as provider_event_id
   `);
+  /** Movement anywhere else in the shared project — reported, never asserted. */
+  const projectWide = () => sql(`
+    select
+      (select count(*) from public.packet_render_jobs) as all_jobs,
+      (select count(*) from public.packet_render_jobs where status = 'queued') as all_queued
+  `);
   const before = await counts();
   const b = Array.isArray(before.json) ? before.json[0] : null;
+  const projectBefore = await projectWide();
+  const pb = Array.isArray(projectBefore.json) ? projectBefore.json[0] : null;
 
   // Byte-identical redelivery of the SAME event id, correctly signed with a
   // fresh timestamp — exactly what Stripe does when it retries, and what
@@ -1595,15 +2240,35 @@ let finalCycleResult = null;
 
   const after = await counts();
   const a = Array.isArray(after.json) ? after.json[0] : null;
+  const projectAfter = await projectWide();
+  const pa = Array.isArray(projectAfter.json) ? projectAfter.json[0] : null;
 
-  const TRACKED = ["jobs", "entitlements", "ledger_events", "paid_payments", "provider_event_records", "provider_event_id"];
+  const TRACKED = [
+    "jobs", "entitlements", "ledger_events", "paid_payments", "provider_event_records", "provider_event_id",
+    // The target's own identity, which a replay may not disturb in any way.
+    "target_job", "target_status", "target_output_sha256", "target_storage_path",
+    "target_page_count", "target_byte_count", "target_attempt_count", "target_ledger_events"
+  ];
   const moved = (b && a) ? TRACKED.filter((key) => String(b[key]) !== String(a[key])) : TRACKED;
+  const projectMoved = (pb && pa)
+    ? ["all_jobs", "all_queued"].filter((key) => String(pb[key]) !== String(pa[key]))
+    : ["(project-wide counts unreadable)"];
   record(
     "event_replay_creates_no_second_entitlement_or_render_job",
     replayRes.status === 200 && moved.length === 0,
-    `replaying the same signed event returned ${replayRes.status} (outcome=${replayRes.json?.outcome ?? "none"}); ${TRACKED.map((key) => `${key} ${b?.[key] ?? "?"} → ${a?.[key] ?? "?"}`).join(", ")}. ${moved.length === 0 ? "Nothing moved" : `MOVED: ${moved.join(", ")}`}. A retry that charged twice, entitled twice or queued a second render would be indistinguishable from success without these counts; whether the first job produced an artifact is a different question and is not asserted here.`
+    `replaying the same signed event returned ${replayRes.status} (outcome=${replayRes.json?.outcome ?? "none"}); ${TRACKED.map((key) => `${key} ${b?.[key] ?? "?"} → ${a?.[key] ?? "?"}`).join(", ")}. ${moved.length === 0 ? "Nothing in this run's namespace moved" : `MOVED: ${moved.join(", ")}`}. Every count above is filtered by this run's own identities — briefcase item ${itemId}, target render job ${targetJobId} — and the target's finalized identity is compared field by field, so a replay that re-rendered, re-hashed or re-attempted THE TARGET would show here. Project-wide, ${projectMoved.length === 0 ? "nothing moved either" : `${projectMoved.join(", ")} moved`} (all_jobs ${pb?.all_jobs ?? "?"} → ${pa?.all_jobs ?? "?"}, all_queued ${pb?.all_queued ?? "?"} → ${pa?.all_queued ?? "?"}); that is the shared acceptance project's own backlog and is reported rather than asserted, because other runs' rows are not this run's idempotency.`
   );
-  evidence.replay = { status: replayRes.status, outcome: replayRes.json?.outcome ?? null, before: b, after: a, moved };
+  evidence.replay = {
+    status: replayRes.status,
+    outcome: replayRes.json?.outcome ?? null,
+    scopedTo: { briefcaseItemId: itemId, targetJobId, authUserId: A.id },
+    before: b,
+    after: a,
+    moved,
+    projectWideBefore: pb,
+    projectWideAfter: pa,
+    projectWideMoved: projectMoved
+  };
 }
 
 // Leave the acceptance database as it was found.

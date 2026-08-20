@@ -445,6 +445,28 @@ jobs:
 
       # Runs even when the matrix fails: the gallery URLs are what Roger opens
       # on a phone, and they are worth having in the evidence either way.
+      # Before the journey spends a real Sandbox Checkout: the harness must
+      # still follow THIS run's job, still read columns that exist, still scope
+      # its replay to its own identities, and still refuse to charge before the
+      # published image has admitted the tuple. Run 32393413747 spent all of
+      # that and then reported another run's backlog job as its own result.
+      #
+      # Deliberately ABOVE the payment step and below `npm ci`: a guard placed
+      # after the thing it guards is not a guard, and one placed before its
+      # runtime does not run at all.
+      - name: The payment harness still follows this run's own job
+        id: verify_harness
+        if: steps.contract.outputs.matrix == 'true'
+        run: |
+          node scripts/verify-rcap-target-worker-journey.mjs
+          node scripts/verify-rcap-target-worker-journey.mjs --mutations
+          node scripts/verify-rcap-target-replay-scope.mjs
+          node scripts/verify-rcap-target-replay-scope.mjs --mutations
+          node scripts/verify-rcap-immutable-image-preflight.mjs
+          node scripts/verify-rcap-immutable-image-preflight.mjs --mutations
+          node scripts/verify-rcap-hosted-job-read-columns.mjs
+          node scripts/verify-rcap-hosted-job-read-columns.mjs --mutations
+
       - name: Run the hosted Stripe payment and packet-delivery journey
         id: payment_journey
         if: steps.contract.outputs.matrix == 'true'
@@ -500,6 +522,7 @@ jobs:
           O_VERIFY_GATE: ${{ steps.verify_checkout_gate.outcome }}
           O_GATE: ${{ steps.checkout_gate.outcome }}
           O_GOLDEN: ${{ steps.golden_journey.outcome }}
+          O_VERIFY_HARNESS: ${{ steps.verify_harness.outcome }}
           O_PAYMENT: ${{ steps.payment_journey.outcome }}
           O_GALLERY: ${{ steps.galleries.outcome }}
         run: |
@@ -549,6 +572,7 @@ jobs:
               echo "  ok       reuse-only Checkout gate not scheduled by this phase"
             fi
             require "hosted golden-journey matrix"       "$O_GOLDEN"
+            require "payment harness follows this run's job" "$O_VERIFY_HARNESS"
             require "Stripe payment and packet delivery" "$O_PAYMENT"
             require "PA / MS / IL galleries"             "$O_GALLERY"
           elif [ "$RUNS_GATE" = "true" ]; then
