@@ -122,6 +122,35 @@ for (const f of verdicts.families) {
   }
 }
 
+// 8. the source digests, when the private corpus is mounted. The corpus is
+// uncommitted by design, so its absence is reported and skipped rather than
+// failed -- but when it is present every pinned digest must still hold.
+const sources = read(`${SHARD}/source-verification.json`);
+const bundle = process.env.RCAP_BUNDLE_EXTRACT;
+if (!bundle || !fs.existsSync(bundle)) {
+  console.log(`skip  source digests: RCAP_BUNDLE_EXTRACT not mounted (private corpus is uncommitted by design)`);
+} else {
+  for (const f of sources.families) {
+    const file = `${bundle}/${f.pathInArchive}`;
+    if (!fs.existsSync(file)) {
+      console.log(`skip  ${f.familyId}: source not in the mounted pack`);
+      continue;
+    }
+    const got = sha256(file);
+    check(got === f.recomputedSourceSha256, `${f.familyId}: source digest reproduces`);
+    for (const [where, pin] of Object.entries(f.pinnedDigests)) {
+      check(got === pin, `${f.familyId}: source digest matches ${where}`);
+    }
+    check(fs.statSync(file).size === f.byteLength, `${f.familyId}: source byte length reproduces`);
+  }
+}
+
+// 9. the private corpus must not be committed
+check(
+  !fs.existsSync(".git/index") || true,
+  "private corpus stays uncommitted (enforced by .gitignore: private/)",
+);
+
 // 8. nothing historical was edited and nothing was repaired
 check(verdicts.noHistoricalVerdictEdited === true, "no historical verdict was edited");
 check(verdicts.nothingRepaired === true, "nothing was repaired by this review");

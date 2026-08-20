@@ -39,22 +39,51 @@ No overlap with shards A, B or C. NE DC-1-15 is not in the batch.
 
 No family is approved.
 
-## Source bytes — blocked
+## Source bytes — verified
 
-`RCAP_BUNDLE_EXTRACT` is not present in this container. The required corpus
-path does not exist, and no copy of the Master Library exists anywhere on the
-filesystem. The SHA-256 of the official source bytes could therefore not be
-recomputed for any assigned family, and this review does not accept another
-lane's receipt as source proof.
+The four official source PDFs for this shard were supplied after the first pass
+as a reviewer source pack and installed under
+`private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1`. They
+remain uncommitted, enforced by `.gitignore:53 private/`.
 
-What was verified instead: the visible official form number and revision, read
-from the blank panel of each family's hash-verified contact sheet, agree with
-the pinned identity in all four cases — `CC 6:15.1 NEW 05/2021` against
-REV-2021-05, `FORM CC-1201 (MASTER) … 07/26` and `FORM CC-1473 (MASTER …) 07/26`
-against REV-2026-07, and `600-00228 … (04/2026)` against REV-2026-04.
+Every digest was recomputed by this reviewer from the installed bytes and
+compared against the family's own pinned identity in three independent places —
+`source-receipt.json`, `source-record.json` and `artifact-provenance.json`. The
+pack's own manifest was not treated as proof.
 
-The digest itself remains unverified. No family in this shard could have been
-approved on source grounds even had its artifact been clean.
+| Family | Recomputed SHA-256 | Bytes | Pins | Visible form no. / revision |
+|---|---|---|---|---|
+| NE CC-6-15.1 | `d1fb1340…` | 2,909,936 | 3/3 match | `CC 6:15.1 NEW 05/2021` ✓ |
+| VA CC-1201 | `7b56d8e1…` | 282,919 | 3/3 match | `FORM CC-1201 (MASTER) … 07/26` ✓ |
+| VA CC-1473 | `6176c2f5…` | 120,875 | 3/3 match | `FORM CC-1473 (MASTER …) 07/26` ✓ |
+| VT 600-00228 | `263d4e19…` | 2,871,072 | 3/3 match | `600-00228 … (04/2026)` ✓ |
+
+**Zero source mismatches.** Byte lengths match all three recorded places,
+`canonicalBundlePath` agrees with the receipt path, XFA is absent in all four
+as the receipts claim, and page counts agree. No approval was refused on source
+grounds.
+
+One scope caveat, stated plainly: the pack is a four-file review-input pack, not
+the 499-file / 329-PDF Master Library the brief names as the required corpus.
+Every source *this shard reviews* is verified; the brief's corpus-size
+precondition remains unmet globally and is not something this shard can close.
+
+### Registered source-versus-artifact comparison
+
+With the real sources in hand, the blank official form and the finalized
+artifact were rasterized through the same engine at identical scale and compared
+per pixel. This is reliable for page 1 of each document and for the single-page
+NE form; for pages 2 and beyond the PDF viewer's `#page` navigation did not
+reposition consistently between the two documents, so those captures are not
+registered and were **not** used as evidence — pages 2+ were reviewed from the
+hash-bound contact sheets, as in the first pass.
+
+| Family | Page | Source ink destroyed | Reading |
+|---|---|---|---|
+| NE CC-6-15.1 | 1 | **402 px** | preprinted wording destroyed — see below |
+| VA CC-1201 | 1 | 0 | nothing preprinted damaged; the defects are wrong values in right rectangles |
+| VA CC-1473 | 1 | 0 | nothing preprinted damaged |
+| VT 600-00228 | 1 | 17 px | benign — the unfilled widgets' background shading, which flattening removes by design |
 
 ## Hashes
 
@@ -74,25 +103,45 @@ than trusted.
 
 ### `NE:cc-6-15-1-form-en` — correction_required
 
-Page 1, caption band. The drawn values obliterate the form's own preprinted
-wording. Column-wise ink measurement over the caption row shows the blank panel
-carrying ink across the `IN THE` columns and the filled panel carrying **zero**
-ink over the same columns; `COURT OF` is overwritten by the drawn value
-`District Court`; the two values abut with no separator, so the statutory
-caption renders `District CourtExample County COUNTY, NEBRASKA`. On the
-sub-caption row the printed italic `(Enter the county name)` is gone from the
-filled panel while the unselected chooser's prompt `Choose the county` survives
-the flatten — the exact inverse of what ESC-CAPTION-VARIANTS requires.
-Confirmed twice: on the committed contact-sheet raster and on an independent
-rasterization of `fixtures/canonical-filled.pdf` by this reviewer.
+Page 1, caption band. The artifact destroys wording that is printed in the
+official source. Rendered directly from the verified source bytes
+(`d1fb1340…`), the band reads cleanly:
 
-Second defect: all 21 classification entries store `effectiveLabel` and
-`regionHeading` as raw Identity-H glyph ids at a fixed +29 offset from ASCII,
-never mapped through the font's ToUnicode CMap, so `Neb. Rev. Stat.` is recorded
-as `1HE\x11\x035HY\x11\x036WDW\x11`. The other three families have none of this.
-This matters because the heading-vocabulary region channel added at this review
-base has no legible input on this family — which is the mechanism by which the
-caption-band draw went unrefused.
+```
+IN THE ________ COURT OF ________ COUNTY, NEBRASKA
+       [Choose the court]   [Choose the county]
+```
+
+The finalized artifact (`41d2dfd9…`) renders:
+
+```
+              District CourtExample County  COUNTY, NEBRASKA
+   (Enter the type of court)      Choose the county
+   Choose the court
+```
+
+A registered per-pixel comparison puts numbers on it: **402 source-ink pixels
+destroyed** and 1037 added, with the destroyed columns falling exactly on
+`x 429-479` (`IN THE`) and `x 557-634` (`COURT OF`). `COUNTY, NEBRASKA` is
+untouched, which serves as the alignment control. The two values also abut with
+no separator, so the statutory caption reads `District CourtExample County`.
+
+Three further things the source comparison exposed. The flatten *materialises*
+the italic captions `(Enter the type of court)` and `(Enter the county name)`,
+which the official form's own rendering keeps hidden behind the chooser widgets.
+The unselected chooser prompts `Choose the court` and `Choose the county`
+survive the flatten — the exact inverse of what ESC-CAPTION-VARIANTS requires.
+And the contact sheet's **blank** panel already carries the materialised
+captions, so it is not a faithful rendering of the official form: comparing the
+artifact against that blank hides part of the very damage recorded here.
+
+Second defect, unchanged: all 21 classification entries store `effectiveLabel`
+and `regionHeading` as raw Identity-H glyph ids at a fixed +29 offset from
+ASCII, never mapped through the font's ToUnicode CMap, so `Neb. Rev. Stat.` is
+recorded as `1HE\x11\x035HY\x11\x036WDW\x11`. The other three families have
+none of this. The heading-vocabulary region channel added at this review base
+therefore has nothing legible to match on this family — which is the mechanism
+by which the caption-band draw went unrefused.
 
 ### `VA:cc-1201-form-en` — correction_required
 
@@ -193,6 +242,7 @@ sidecar and the raster coverage.
 ## Records
 
 - `data/rcap-all50/pdf-independent-reviews/wave-c-shard-d/assignment.json`
+- `data/rcap-all50/pdf-independent-reviews/wave-c-shard-d/source-verification.json`
 - `data/rcap-all50/pdf-independent-reviews/wave-c-shard-d/hash-verification.json`
 - `data/rcap-all50/pdf-independent-reviews/wave-c-shard-d/historical-objection-review.json`
 - `data/rcap-all50/pdf-independent-reviews/wave-c-shard-d/verdicts.json`
@@ -203,3 +253,13 @@ Run the focused verifier with:
 ```
 node data/rcap-all50/pdf-independent-reviews/wave-c-shard-d/verify-wave-c-shard-d.mjs
 ```
+
+With the private corpus mounted it also reproduces every source digest:
+
+```
+RCAP_BUNDLE_EXTRACT="$PWD/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1" \
+  node data/rcap-all50/pdf-independent-reviews/wave-c-shard-d/verify-wave-c-shard-d.mjs
+```
+
+Without it the source block reports `skip` rather than failing, because the
+corpus is uncommitted by design.

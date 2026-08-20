@@ -5,12 +5,15 @@
   "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
   "method": "every digest below was recomputed from the bytes on disk at the review base by the reviewer, not copied from any lane record",
   "sourceByteVerification": {
-    "status": "blocked",
+    "status": "complete_for_this_shard",
+    "resolvedBy": "the shard-d reviewer source pack was installed to private/source-imports/ after the first pass; see source-verification.json",
     "requiredCorpus": "/home/user/legalease-rcap-pdf-inventory-closure/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
-    "corpusPresentInThisContainer": false,
-    "whatWasCheckedInstead": "the visible official form number and revision were read from the blank panel of each family's hash-verified contact sheet and compared with the pinned identity",
-    "whatRemainsUnverified": "the SHA-256 of the official source bytes could not be recomputed for any assigned family; the pinned source digest rests on another lane's receipt alone, which this review does not accept as source proof",
-    "consequence": "no family in this shard could be approved on source grounds even if its artifact were otherwise clean"
+    "corpusUsed": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 (four-file review-input pack)",
+    "corpusSizePreconditionMet": false,
+    "corpusSizeNote": "the brief required 499 source-library files and 329 PDFs; the pack carries the 4 PDFs assigned to this shard, so the global precondition is still unmet while every source this shard reviews is verified",
+    "sourceDigestsRecomputed": 4,
+    "sourceMismatches": 0,
+    "privateCorpusRemainsUncommitted": true
   },
   "families": [
     {
@@ -18,7 +21,7 @@
       "familyPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
       "documentId": "CC-6-15.1",
       "pinnedSourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
-      "pinnedSourceSha256RecomputedByThisReviewer": false,
+      "pinnedSourceSha256RecomputedByThisReviewer": true,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "rasterManifestBoundToArtifact": "contact-sheet/blank-vs-filled.pdf",
@@ -106,14 +109,17 @@
           "recordedIn": "artifact-provenance.json"
         }
       ],
-      "allChecksMatch": true
+      "allChecksMatch": true,
+      "recomputedSourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+      "sourceMatchesPinnedIdentity": true,
+      "sourceByteLengthMatches": true
     },
     {
       "familyId": "VA:cc-1201-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
       "documentId": "CC-1201",
       "pinnedSourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
-      "pinnedSourceSha256RecomputedByThisReviewer": false,
+      "pinnedSourceSha256RecomputedByThisReviewer": true,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "rasterManifestBoundToArtifact": "contact-sheet/blank-vs-filled.pdf",
@@ -225,14 +231,17 @@
           "recordedIn": "artifact-provenance.json"
         }
       ],
-      "allChecksMatch": true
+      "allChecksMatch": true,
+      "recomputedSourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "sourceMatchesPinnedIdentity": true,
+      "sourceByteLengthMatches": true
     },
     {
       "familyId": "VA:cc-1473-form-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
       "documentId": "CC-1473",
       "pinnedSourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
-      "pinnedSourceSha256RecomputedByThisReviewer": false,
+      "pinnedSourceSha256RecomputedByThisReviewer": true,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "rasterManifestBoundToArtifact": "contact-sheet/blank-vs-filled.pdf",
@@ -328,14 +337,17 @@
           "recordedIn": "artifact-provenance.json"
         }
       ],
-      "allChecksMatch": true
+      "allChecksMatch": true,
+      "recomputedSourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "sourceMatchesPinnedIdentity": true,
+      "sourceByteLengthMatches": true
     },
     {
       "familyId": "VT:600-00228-support-en",
       "familyPackagePath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en",
       "documentId": "600-00228",
       "pinnedSourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
-      "pinnedSourceSha256RecomputedByThisReviewer": false,
+      "pinnedSourceSha256RecomputedByThisReviewer": true,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "rasterManifestBoundToArtifact": "contact-sheet/blank-vs-filled.pdf",
@@ -431,7 +443,10 @@
           "recordedIn": "artifact-provenance.json"
         }
       ],
-      "allChecksMatch": true
+      "allChecksMatch": true,
+      "recomputedSourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "sourceMatchesPinnedIdentity": true,
+      "sourceByteLengthMatches": true
     }
   ],
   "totals": {
@@ -439,6 +454,6 @@
     "familiesWhereEveryOnDiskHashMatches": 4,
     "totalHashChecks": 45,
     "totalHashMismatches": 0,
-    "sourceDigestsRecomputed": 0
+    "sourceDigestsRecomputed": 4
   }
 }

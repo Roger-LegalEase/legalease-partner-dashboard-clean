@@ -16,7 +16,8 @@
     "familiesReviewed": 4,
     "approved_platform_ready": 0,
     "correction_required": 3,
-    "substantive_owner_decision_required": 1
+    "substantive_owner_decision_required": 1,
+    "sourceMismatches": 0
   },
   "families": [
     {
@@ -28,8 +29,7 @@
       "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
       "pinnedHashes": {
         "sourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
-        "sourceSha256RecomputedByThisReviewer": false,
-        "sourceSha256WhyNot": "the required Master Library corpus is not present in this container; see hash-verification.json",
+        "sourceSha256RecomputedByThisReviewer": true,
         "visibleFormNumberAndRevisionAgreeWithThePin": true,
         "fieldMapSha256": "472a431e086fe8897fe5c98c689ee1caac64cbea5a5b271c8f35ef12f529e001",
         "classificationSha256": "4d96ca534e4cf44dbf110b3886850aa866f40bad9d626c7e38042aa596941940",
@@ -39,7 +39,13 @@
         "contactSheetSha256": "bdf404f876e66464cba20010e15819522c380d068b7642bcddd5b901d943184f",
         "allPageRasterSha256": {
           "page-01": "ed4d5214a0d07056df1e0a1ca64f0c2d5f902f2ca98b210f0d48bf34914caeb2"
-        }
+        },
+        "sourceSha256VerifiedAgainst": [
+          "source-receipt.sha256",
+          "source-record.sha256",
+          "artifact-provenance.sourceSha256"
+        ],
+        "sourceByteLength": 2909936
       },
       "structuralFindings": {
         "pageCount": 1,
@@ -76,9 +82,10 @@
           "artifact": "fixtures/canonical-filled.pdf",
           "page": 1,
           "fieldOrRectangle": "TYPEOFCOURTRESULTS and 'enter the county' in the page-1 caption band (raster row y=174-181 of the page-01 contact-sheet raster)",
-          "observedResult": "The drawn values obliterate the form's own preprinted caption words. Column-wise ink measurement over the caption row shows the blank panel carrying ink across x=251-283 ('IN THE') and the filled panel carrying zero ink over the same columns; 'COURT OF' is overwritten by the drawn value 'District Court'; the two values abut with no separator so the band reads 'District CourtExample County COUNTY, NEBRASKA'. On the sub-caption row the printed italic '(Enter the county name)' is absent from the filled panel while the unselected chooser prompt 'Choose the county' survives the flatten.",
+          "observedResult": "The drawn values obliterate the form's own preprinted caption words. Column-wise ink measurement over the caption row shows the blank panel carrying ink across x=251-283 ('IN THE') and the filled panel carrying zero ink over the same columns; 'COURT OF' is overwritten by the drawn value 'District Court'; the two values abut with no separator so the band reads 'District CourtExample County COUNTY, NEBRASKA'. On the sub-caption row the printed italic '(Enter the county name)' is absent from the filled panel while the unselected chooser prompt 'Choose the county' survives the flatten. Re-proven against the official source bytes (SHA-256 d1fb1340\u2026, recomputed by this reviewer): the blank source and the finalized artifact were rasterized through the same engine at identical scale and compared per pixel. In the caption band the artifact destroys 402 pixels of source ink and adds 1037, and the destroyed columns are exactly x 429-479 ('IN THE') and x 557-634 ('COURT OF'), with 'COUNTY, NEBRASKA' unchanged as an alignment control. The official source renders the line cleanly as 'IN THE ___ COURT OF ___ COUNTY, NEBRASKA' with two tidy chooser widgets beneath it and no italic caption visible.",
           "requiredResult": "'IN THE', 'COURT OF' and '(Enter the county name)' must remain legible in the finalized artifact, each drawn value must sit inside its own slot without covering preprinted wording, the court-type and county values must be separated, and an unselected chooser's prompt must not survive the flatten.",
-          "smallestCorrection": "Constrain each caption-band draw to the horizontal span of its own widget rect between the preprinted words, and clear the unselected chooser's appearance stream before flatten as ESC-CAPTION-VARIANTS already requires."
+          "smallestCorrection": "Constrain each caption-band draw to the horizontal span of its own widget rect between the preprinted words, and clear the unselected chooser's appearance stream before flatten as ESC-CAPTION-VARIANTS already requires.",
+          "sourceProven": true
         },
         {
           "family": "NE:cc-6-15-1-form-en",
@@ -89,8 +96,29 @@
           "requiredResult": "Labels and region headings must be mapped through the font's ToUnicode CMap before they are recorded.",
           "smallestCorrection": "Apply the ToUnicode CMap when extracting caption text in the content-stream geometry module, so the heading-vocabulary channel added at this review base has legible input on this family.",
           "whyThisMatters": "The region channel the base commit added consults a heading vocabulary. With every heading unreadable that channel cannot match on this family, which is the mechanism by which the caption-band draw went unrefused."
+        },
+        {
+          "family": "NE:cc-6-15-1-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "the 'blank' panel of the contact sheet, page-1 caption band",
+          "observedResult": "The contact sheet's blank panel is not a faithful rendering of the official form. Rendered directly from the verified source bytes the caption band shows only 'IN THE ___ COURT OF ___ COUNTY, NEBRASKA' with two shaded chooser widgets below it; the contact sheet's blank panel additionally materialises the hidden italic captions '(Enter the type of court)' and '(Enter the county name)' overlapping the chooser prompts.",
+          "requiredResult": "The blank panel must depict the official source as it renders, so that a reviewer comparing panels sees caption damage rather than a blank that already carries it.",
+          "smallestCorrection": "Compose the blank panel from the unmodified source rather than from a flattened pass over it.",
+          "whyThisMatters": "Comparing the artifact against a blank that has already been through the same flatten hides exactly the class of damage found here."
         }
-      ]
+      ],
+      "sourceVerification": {
+        "recomputedFromOfficialBytes": true,
+        "matchesPinnedIdentity": true,
+        "visibleFormNumberAndRevision": {
+          "readFromRenderedSourcePage1": "CC 6:15.1   NEW  05/2021",
+          "pinnedDocumentId": "CC-6-15.1",
+          "pinnedRevision": "REV-2021-05",
+          "agrees": true
+        },
+        "sourceMismatch": false
+      }
     },
     {
       "familyId": "VA:cc-1201-form-en",
@@ -101,8 +129,7 @@
       "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
       "pinnedHashes": {
         "sourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
-        "sourceSha256RecomputedByThisReviewer": false,
-        "sourceSha256WhyNot": "the required Master Library corpus is not present in this container; see hash-verification.json",
+        "sourceSha256RecomputedByThisReviewer": true,
         "visibleFormNumberAndRevisionAgreeWithThePin": true,
         "fieldMapSha256": "b4b831c8a6f23ad46e703ddf7d02de6ef83207d0195d111853fe8679ad42fc77",
         "classificationSha256": "916a63d37011854fd6d44332a9f07584283424475ab6a1349542775d116cfa49",
@@ -115,7 +142,13 @@
           "page-02": "bbe3e8beda3e729d177a03affa962702a19486ef9347dbd8439a88dee112c0a5",
           "page-03": "f8266417b9910618074f8036e0c94a208ce24431de707c3175975b70caf498ca",
           "page-04": "fba6e9781a0119f0d5e6afdb9aaecae24c50b6a7fdf35a790e0baf02d44a6027"
-        }
+        },
+        "sourceSha256VerifiedAgainst": [
+          "source-receipt.sha256",
+          "source-record.sha256",
+          "artifact-provenance.sourceSha256"
+        ],
+        "sourceByteLength": 282919
       },
       "structuralFindings": {
         "pageCount": 4,
@@ -180,7 +213,18 @@
           "requiredResult": "A caption printed beneath a fill-in rule must be attributed to that rule.",
           "smallestCorrection": "Let the caption resolver consider text printed below a widget rect for caption-block layouts, and prefer the nearer of above/below."
         }
-      ]
+      ],
+      "sourceVerification": {
+        "recomputedFromOfficialBytes": true,
+        "matchesPinnedIdentity": true,
+        "visibleFormNumberAndRevision": {
+          "readFromRenderedSourcePage1": "FORM CC-1201, (MASTER) Page 1 of 4 07/26",
+          "pinnedDocumentId": "CC-1201",
+          "pinnedRevision": "REV-2026-07",
+          "agrees": true
+        },
+        "sourceMismatch": false
+      }
     },
     {
       "familyId": "VA:cc-1473-form-en",
@@ -191,8 +235,7 @@
       "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
       "pinnedHashes": {
         "sourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
-        "sourceSha256RecomputedByThisReviewer": false,
-        "sourceSha256WhyNot": "the required Master Library corpus is not present in this container; see hash-verification.json",
+        "sourceSha256RecomputedByThisReviewer": true,
         "visibleFormNumberAndRevisionAgreeWithThePin": true,
         "fieldMapSha256": "dcbb79528f461ef9da578f7f4e44e8657d0f9ff3d40d753ea8737f3798e68748",
         "classificationSha256": "a7d5bd94c9cf54070b2b35d73a71171728fa80d2f5a3c9486fed6a19e1df40ef",
@@ -203,7 +246,13 @@
         "allPageRasterSha256": {
           "page-01": "c48b6be0ac7c8f32056237b375f62fca9425639e16561df3dc3b3b27f1f16ae5",
           "page-02": "f128e04b657538b322afdc6360aa65e377d90c22d4f9f014e7182f20538799c3"
-        }
+        },
+        "sourceSha256VerifiedAgainst": [
+          "source-receipt.sha256",
+          "source-record.sha256",
+          "artifact-provenance.sourceSha256"
+        ],
+        "sourceByteLength": 120875
       },
       "structuralFindings": {
         "pageCount": 2,
@@ -253,7 +302,18 @@
           "observed": "The circuit case number is written into 'If matter was heard on appeal from General District Court, list applicable General District Court case number(s)' and into 'Underlying Case No.(s)' on the line gated by the unchecked box 'A copy of the warrant or indictment is attached to this petition'. Both are conditional slots and neither condition is established by the fact set.",
           "decision": "Whether the platform pre-fills conditional slots for participant review, or leaves a slot blank until its condition is asserted. As rendered the document states an appeal history and an attachment that the facts do not establish."
         }
-      ]
+      ],
+      "sourceVerification": {
+        "recomputedFromOfficialBytes": true,
+        "matchesPinnedIdentity": true,
+        "visibleFormNumberAndRevision": {
+          "readFromRenderedSourcePage1": "FORM CC-1473 (MASTER, Page 1 of 2) 07/26",
+          "pinnedDocumentId": "CC-1473",
+          "pinnedRevision": "REV-2026-07",
+          "agrees": true
+        },
+        "sourceMismatch": false
+      }
     },
     {
       "familyId": "VT:600-00228-support-en",
@@ -264,8 +324,7 @@
       "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
       "pinnedHashes": {
         "sourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
-        "sourceSha256RecomputedByThisReviewer": false,
-        "sourceSha256WhyNot": "the required Master Library corpus is not present in this container; see hash-verification.json",
+        "sourceSha256RecomputedByThisReviewer": true,
         "visibleFormNumberAndRevisionAgreeWithThePin": true,
         "fieldMapSha256": "a8cedf897ca41fe905e33c120805b5e90f40007abc06490b3b744718c809f0a4",
         "classificationSha256": "5ec93c3958c355910b69c746dcf584394dc8b95cf1c403aadfdcb08cc406ac57",
@@ -276,7 +335,13 @@
         "allPageRasterSha256": {
           "page-01": "a231d5fc85f20cf55f195be0c1150af3ab7301972787616dcabb5b260266c3e4",
           "page-02": "58b89cc5dad7031be51631ec46a602666baaf1461fb8c2c69690cda428598145"
-        }
+        },
+        "sourceSha256VerifiedAgainst": [
+          "source-receipt.sha256",
+          "source-record.sha256",
+          "artifact-provenance.sourceSha256"
+        ],
+        "sourceByteLength": 2871072
       },
       "structuralFindings": {
         "pageCount": 2,
@@ -328,7 +393,24 @@
           "requiredResult": "The applicant's name must appear in the applicant Name field; use of the Case Name box is a separate decision.",
           "smallestCorrection": "Bind participant.full_legal_name to field '3' under the 'Name: (First & Last)' caption; keep or drop the Case Name binding as the owner decides."
         }
-      ]
+      ],
+      "sourceVerification": {
+        "recomputedFromOfficialBytes": true,
+        "matchesPinnedIdentity": true,
+        "visibleFormNumberAndRevision": {
+          "readFromRenderedSourcePage1": "600-00228 \u2013 Application to Waive Filing Fees & Service Costs (04/2026)",
+          "pinnedDocumentId": "600-00228",
+          "pinnedRevision": "REV-2026-04",
+          "agrees": true
+        },
+        "sourceMismatch": false
+      }
     }
-  ]
+  ],
+  "sourceVerification": {
+    "status": "complete_for_this_shard",
+    "record": "source-verification.json",
+    "sourceMismatches": 0,
+    "effectOnVerdicts": "none: no source mismatch was found, so no verdict worsened on source grounds, and no verdict improved either \u2014 the three corrections and the one owner decision rest on the artifacts, not on the source blocker that stood during the first pass"
+  }
 }

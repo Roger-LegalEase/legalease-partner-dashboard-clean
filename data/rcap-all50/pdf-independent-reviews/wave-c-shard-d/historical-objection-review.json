@@ -22,7 +22,7 @@
           "artifactAtThisReviewBase": "41d2dfd959fddfe8df4a0d062e0599abf114f2f93d1694125a5cf0b2379ee55d",
           "laneProofBoundToTheCurrentArtifact": false,
           "reviewerClosureFinding": "not_closed",
-          "reviewerReasoning": "The original objection was 'no clipping, no silent truncation, no duplicated preprinted caption', and the required behaviour included 'an unfilled dropdown's prompt is suppressed at flatten'. Against the current artifact 41d2dfd9\u2026 the duplication is gone but the caption damage is not: on page 1 the preprinted words 'IN THE' carry ink in the blank panel and zero ink in the filled panel at the same coordinates, 'COURT OF' is overwritten by the drawn value 'District Court', and the printed italic caption '(Enter the county name)' is absent from the filled panel while the unselected chooser's prompt 'Choose the county' survives the flatten. The stated required behaviour is inverted: the prompt survived and the printed caption did not."
+          "reviewerReasoning": "The original objection was 'no clipping, no silent truncation, no duplicated preprinted caption', and the required behaviour included 'an unfilled dropdown's prompt is suppressed at flatten'. Against the current artifact 41d2dfd9\u2026 the duplication is gone but the caption damage is not: on page 1 the preprinted words 'IN THE' carry ink in the blank panel and zero ink in the filled panel at the same coordinates, 'COURT OF' is overwritten by the drawn value 'District Court', and the printed italic caption '(Enter the county name)' is absent from the filled panel while the unselected chooser's prompt 'Choose the county' survives the flatten. The stated required behaviour is inverted: the prompt survived and the printed caption did not. Now re-proven against the official source bytes: a registered per-pixel comparison of the blank source and the finalized artifact shows 402 source-ink pixels destroyed in the caption band, in the exact columns occupied by 'IN THE' and 'COURT OF'."
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -36,7 +36,8 @@
           "reviewerClosureFinding": "closed_on_the_artifact_but_the_escalation_record_remains_open",
           "reviewerReasoning": "The escalation is recorded as sharedCorrectionStatus 'open' and ownedByAnotherLane. Measured against the current bytes the sidecar itself conforms: artifact-provenance.json carries 24 fields with no null field, and every digest it pins \u2014 fieldMapSha256, classificationSha256 and each artifacts[].outputSha256 with its byteLength and pageCount \u2014 was recomputed by this reviewer and matches disk. This reviewer therefore records no artifact-level sidecar defect for this family; closing the escalation record is another lane's to do."
         }
-      ]
+      ],
+      "sourceBytesVerifiedByThisReviewer": true
     },
     {
       "familyId": "VA:cc-1201-form-en",
@@ -80,7 +81,8 @@
           "reviewerClosureFinding": "closed_on_the_artifact_but_the_escalation_record_remains_open",
           "reviewerReasoning": "The escalation is recorded as sharedCorrectionStatus 'open' and ownedByAnotherLane. Measured against the current bytes the sidecar itself conforms: artifact-provenance.json carries 24 fields with no null field, and every digest it pins \u2014 fieldMapSha256, classificationSha256 and each artifacts[].outputSha256 with its byteLength and pageCount \u2014 was recomputed by this reviewer and matches disk. This reviewer therefore records no artifact-level sidecar defect for this family; closing the escalation record is another lane's to do."
         }
-      ]
+      ],
+      "sourceBytesVerifiedByThisReviewer": true
     },
     {
       "familyId": "VA:cc-1473-form-en",
@@ -124,7 +126,8 @@
           "reviewerClosureFinding": "closed_on_the_artifact_but_the_escalation_record_remains_open",
           "reviewerReasoning": "The escalation is recorded as sharedCorrectionStatus 'open' and ownedByAnotherLane. Measured against the current bytes the sidecar itself conforms: artifact-provenance.json carries 24 fields with no null field, and every digest it pins \u2014 fieldMapSha256, classificationSha256 and each artifacts[].outputSha256 with its byteLength and pageCount \u2014 was recomputed by this reviewer and matches disk. This reviewer therefore records no artifact-level sidecar defect for this family; closing the escalation record is another lane's to do."
         }
-      ]
+      ],
+      "sourceBytesVerifiedByThisReviewer": true
     },
     {
       "familyId": "VT:600-00228-support-en",
@@ -156,7 +159,13 @@
           "reviewerClosureFinding": "closed_on_the_artifact_but_the_escalation_record_remains_open",
           "reviewerReasoning": "The escalation is recorded as sharedCorrectionStatus 'open' and ownedByAnotherLane. Measured against the current bytes the sidecar itself conforms: artifact-provenance.json carries 24 fields with no null field, and every digest it pins \u2014 fieldMapSha256, classificationSha256 and each artifacts[].outputSha256 with its byteLength and pageCount \u2014 was recomputed by this reviewer and matches disk. This reviewer therefore records no artifact-level sidecar defect for this family; closing the escalation record is another lane's to do."
         }
-      ]
+      ],
+      "sourceBytesVerifiedByThisReviewer": true
     }
-  ]
+  ],
+  "sourceVerification": {
+    "status": "complete_for_this_shard",
+    "sourceMismatches": 0,
+    "record": "source-verification.json"
+  }
 }
