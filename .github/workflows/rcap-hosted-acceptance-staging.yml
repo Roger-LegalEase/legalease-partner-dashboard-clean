@@ -176,8 +176,14 @@ jobs:
         with:
           node-version: 20
 
+      # Runs in every phase that runs the gate, not just the gate-only phase.
+      # It used to be `inputs.phase == 'checkout_gate'`, so a `full` run executed
+      # the Checkout gate while nothing verified it — and the gate reached a
+      # hosted acceptance run still pinning a superseded application SHA and
+      # worker digest. A guard that skips the phase it most needs to cover is
+      # not a guard.
       - name: Verify the reuse-only human Checkout gate
-        if: inputs.phase == 'checkout_gate'
+        if: steps.contract.outputs.gate == 'true' || steps.contract.outputs.matrix == 'true'
         run: node scripts/verify-rcap-hosted-checkout-gate.mjs
 
       - name: Verify the read-only post-failure Vercel audit
