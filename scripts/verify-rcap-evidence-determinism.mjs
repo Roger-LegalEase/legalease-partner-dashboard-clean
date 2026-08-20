@@ -46,7 +46,10 @@ const failures = [];
  * is not either.
  */
 function treeDigest() {
-  const files = execFileSync("git", ["ls-files", "-z"], { cwd: rootDir, maxBuffer: 1 << 28 })
+  // Tracked AND new-but-not-ignored: a generator that writes a file for the
+  // first time is exactly the case a tracked-only digest would miss.
+  const files = execFileSync("git", ["ls-files", "-z", "--cached", "--others", "--exclude-standard"],
+    { cwd: rootDir, maxBuffer: 1 << 28 })
     .toString("utf8").split("\0").filter(Boolean).sort();
   const hash = createHash("sha256");
   for (const file of files) {
@@ -78,7 +81,7 @@ for (const { script, args } of GENERATORS) {
 }
 
 const before = treeDigest();
-console.log(`  tree after the first pass: ${before.digest.slice(0, 16)}… over ${before.files} tracked files`);
+console.log(`  tree after the first pass: ${before.digest.slice(0, 16)}… over ${before.files} files`);
 
 console.log("  second pass");
 for (const { script, args } of GENERATORS) {
@@ -87,7 +90,7 @@ for (const { script, args } of GENERATORS) {
 }
 
 const after = treeDigest();
-console.log(`  tree after the second pass: ${after.digest.slice(0, 16)}… over ${after.files} tracked files`);
+console.log(`  tree after the second pass: ${after.digest.slice(0, 16)}… over ${after.files} files`);
 
 if (before.digest !== after.digest) {
   const changed = execFileSync("git", ["status", "--porcelain"], { cwd: rootDir, maxBuffer: 1 << 28 }).toString("utf8");
@@ -109,5 +112,5 @@ if (failures.length) {
 
 console.log(
   `OK evidence determinism — ${GENERATORS.length} generators run twice, ` +
-  `${after.files} tracked files identical across both passes, every check mode green`
+  `${after.files} files identical across both passes, every check mode green`
 );

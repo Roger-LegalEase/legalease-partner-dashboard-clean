@@ -25,6 +25,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { extractTextItems, groupIntoLines, captureWidgetContext } from "./rcap-pdf-anchor-capture.mjs";
+import { sanitizeAndFlatten } from "./rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument } = require("pdf-lib");
@@ -148,5 +149,40 @@ export async function attributePageText(familyDir, finalizedRelPath = "fixtures/
       sourceInherent,
       participantDerived
     };
+  });
+}
+
+/**
+ * The same split, computed from the two binaries directly.
+ *
+ * `blankBytes` is the court's own form. It is sanitized and flattened first,
+ * exactly as the filed artifact is, because much of what a form prints it
+ * prints through field appearances -- Nebraska draws its statutory caption
+ * that way -- and an unflattened blank would make the form's own words look
+ * like ours.
+ *
+ * This is what a renderer can compute at render time; `attributePageText`
+ * above is the same question answered later, from what a family committed.
+ */
+export async function attributeAgainstBlank(blankBytes, finalizedBytes) {
+  const blankDoc = await PDFDocument.load(blankBytes, { ignoreEncryption: true, updateMetadata: false });
+  const { clean } = await sanitizeAndFlatten(blankDoc);
+  const flatBlank = await PDFDocument.load(await clean.save({ useObjectStreams: false, updateMetadata: false }),
+    { ignoreEncryption: true, updateMetadata: false });
+  const finalized = await PDFDocument.load(finalizedBytes, { ignoreEncryption: true, updateMetadata: false });
+
+  const blankByPage = flatBlank.getPages()
+    .map((page) => new Set(groupIntoLines(extractTextItems(page)).map((l) => normalize(l.text))));
+
+  return finalized.getPages().map((page, index) => {
+    const known = blankByPage[index] ?? new Set();
+    const sourceInherent = [];
+    const participantDerived = [];
+    for (const line of groupIntoLines(extractTextItems(page))) {
+      const text = normalize(line.text);
+      if (text === "") continue;
+      (known.has(text) ? sourceInherent : participantDerived).push({ text, x: line.x, y: line.y });
+    }
+    return { page: index + 1, sourceInherent, participantDerived };
   });
 }

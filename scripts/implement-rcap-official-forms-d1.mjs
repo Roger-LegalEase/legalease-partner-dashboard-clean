@@ -31,6 +31,7 @@ import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenan
 import { buildContactSheet, ContactSheetProofError, visibleTextOfDocument, missingExpectedValues }
   from "./rcap-official-forms/rcap-contact-sheet.mjs";
 import { reconcileWrittenAgainstDeclared } from "./rcap-official-forms/rcap-evidence-contract.mjs";
+import { attributeAgainstBlank } from "./rcap-official-forms/rcap-blank-panel.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown, PDFOptionList, StandardFonts, rgb } = require("pdf-lib");
@@ -930,8 +931,23 @@ for (const fam of index.families) {
       declaredBindings: mapKind === "acroform" ? bindings.map((b) => b.field) : anchors.map((a) => a.label),
       refusedFields: finalizedReport.refused
     });
+    // Which words on the filed page the court printed, and which this platform
+    // wrote.
+    //
+    // The scan's basis was "what the renderer wrote", and that is why every
+    // check called NC AOC-CR-298 clean while it carries a records officer's
+    // name in an AOC certification block: the renderer did not write it, the
+    // source did, and flattening makes it permanent. A protected region has to
+    // be able to tell the two apart, so the split is measured against the
+    // blank -- sanitized and flattened the same way, because a form prints
+    // through its own field appearances -- and recorded.
+    let attribution = null;
+    try { attribution = await attributeAgainstBlank(bytes, fs.readFileSync(path.join(familyDir, "fixtures/canonical-filled.pdf"))); }
+    catch { attribution = null; }
+
     fs.writeFileSync(path.join(familyDir, "reports/protected-fields-scan.json"), JSON.stringify({
-      scanBasis: "finalized flattened artifact: what the renderer wrote, against what is visible on the page",
+      scanBasis: "finalized flattened artifact: what the renderer wrote, against what is visible on the page, with "
+        + "every visible string attributed to the blank form or to this platform",
       writtenFields: finalizedReport.written.length,
       refusedFields: finalizedReport.refused.length,
       protectedFieldsRefused: protectedList.length,
@@ -945,6 +961,20 @@ for (const fam of index.families) {
       // undeclared write and a silently dropped write both passed. One
       // comparison catches both, and both had been found by hand.
       writtenVersusDeclared: reconciliation,
+      // Source-inherent text is not a defect and is never edited: a renderer
+      // that stripped it would be editing the court's own form. It is recorded
+      // so a reviewer can see it was seen.
+      pageTextAttribution: attribution
+        ? attribution.map((page) => ({
+          page: page.page,
+          sourceInherentLines: page.sourceInherent.length,
+          participantDerivedLines: page.participantDerived.length,
+          participantDerived: page.participantDerived.map((d) => d.text)
+        }))
+        : null,
+      attributionBasis: attribution
+        ? "each visible line compared against the same line on the sanitized, flattened blank"
+        : "not computed: the blank could not be read alongside the finalized artifact",
       pass: writtenProtected.length === 0 && missing.length === 0 && !placeholder && residue.length === 0
         && reconciliation.balanced
     }, null, 2) + "\n");

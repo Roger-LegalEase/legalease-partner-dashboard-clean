@@ -412,6 +412,33 @@ for (const [familyId, dir] of familyDirs) {
   let attribution = null;
   try { attribution = await attributePageText(path.join(rootDir, dir)); } catch { attribution = null; }
 
+  // Written into the family package as well as into this record. A reviewer
+  // opening one family should not have to open a corpus-wide file to learn
+  // which words on its filed page the court printed.
+  if (attribution) {
+    writeJson(path.join(dir, "reports/page-text-attribution.json"), {
+      schemaVersion: "rcap-page-text-attribution/v1",
+      familyId,
+      basis: "every visible line of the finalized artifact compared against the same line of the blank rendering "
+        + "committed in this family's own contact sheet, which is the court's form sanitized and flattened exactly "
+        + "as the filed artifact is",
+      whatThisAnswers: "which words on the filed page arrived with the court's form and which this platform wrote. "
+        + "A protected-region check whose basis is 'what the renderer wrote' cannot see a string that arrives with "
+        + "the source and is made permanent by flattening.",
+      sourceInherentTextIsNeverEdited: "a renderer that stripped or overwrote it would be editing the court's own form",
+      artifact: "fixtures/canonical-filled.pdf",
+      artifactSha256: sha256(rel("fixtures/canonical-filled.pdf")),
+      contactSheetSha256: sha256(rel("contact-sheet/blank-vs-filled.pdf")),
+      pages: attribution.map((page) => ({
+        page: page.page,
+        sourceInherentLines: page.sourceInherent.length,
+        participantDerivedLines: page.participantDerived.length,
+        participantDerived: page.participantDerived.map((d) => ({ text: d.text, x: d.x, y: d.y })),
+        sourceInherent: page.sourceInherent.map((d) => d.text)
+      }))
+    });
+  }
+
   families.push({
     familyId,
     familyPackagePath: dir,
