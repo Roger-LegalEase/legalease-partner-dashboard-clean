@@ -122,41 +122,78 @@ async function sql(query) {
     && row.profile_version === EXPECTED_PROFILE_VERSION;
 }
 
-// --- the claim is unscoped: which job would the worker actually take? --------
+// --- the claim is unscoped: which row would the worker actually be handed? ---
 //
-// claim_packet_render_job selects `where status = 'queued' ... order by
-// created_at ... limit 1`, with no scoping to the run that seeded the job. So a
-// worker started for THIS run claims the OLDEST queued job in the whole
-// acceptance project — which, after several acceptance runs, is very unlikely
-// to be this run's job. That is a Classification A mechanism: the image admits
-// the stored tuple, but the tuple the worker was handed came from a different
-// row.
+// The predicate below MIRRORS the live claim_packet_render_job exactly:
+//
+//   where status = 'queued'
+//     and (next_attempt_at is null or next_attempt_at <= now())
+//     and renderer_kind = any (...)
+//   order by created_at
+//   for update skip locked
+//   limit 1
+//
+// `queued` and `currently claimable` are NOT the same set — a retryable job
+// with a future next_attempt_at is queued but not claimable — and reporting the
+// first as though it were the second would name the wrong predecessor. There is
+// no scoping to the run that seeded the job, so a worker started for one
+// acceptance run is handed the oldest claimable job in the whole project.
 {
-  const backlog = await sql(`
-    select id, status, profile_id, profile_version, renderer_kind, created_at, attempt_count,
-           left(coalesce(error_code, ''), 80) as error_code
-      from public.packet_render_jobs
-     where status = 'queued'
-     order by created_at
-     limit 20
+  const target = report.storedJob?.row ?? null;
+  const kind = target?.renderer_kind ?? null;
+
+  const claimable = await sql(`
+    select j.id, j.status, j.profile_id, j.profile_version, j.renderer_kind,
+           j.created_at, j.next_attempt_at, j.attempt_count, j.max_attempts,
+           j.consumer_briefcase_item_id,
+           left(coalesce(j.error_code, ''), 80) as error_code,
+           left(coalesce(j.last_error_detail, ''), 200) as last_error_detail
+      from public.packet_render_jobs j
+     where j.status = 'queued'
+       and (j.next_attempt_at is null or j.next_attempt_at <= now())
+       ${kind ? `and j.renderer_kind = '${String(kind).replace(/'/g, "''")}'` : ""}
+     order by j.created_at
+     limit 50
   `);
-  const rows = Array.isArray(backlog.json) ? backlog.json : [];
-  const stored = report.storedJob?.row ?? null;
-  const admitted = report.sourceTree?.admitsExpectedVersion === true;
-  const olderThanStored = stored
-    ? rows.filter((r) => r.id !== stored.id && new Date(r.created_at) < new Date(stored.created_at))
-    : [];
-  report.claimBacklog = {
-    queryUsable: Array.isArray(backlog.json),
-    queuedJobs: rows.length,
-    // The job the unscoped claim would actually hand the worker.
-    wouldClaim: rows[0] ? { id: rows[0].id, profileId: rows[0].profile_id, profileVersion: rows[0].profile_version, createdAt: rows[0].created_at } : null,
-    wouldClaimIsThisRunsJob: Boolean(stored && rows[0] && rows[0].id === stored.id),
-    olderQueuedJobsAhead: olderThanStored.length,
-    distinctQueuedProfileVersions: [...new Set(rows.map((r) => r.profile_version))].sort(),
-    rows: rows.map((r) => ({ id: r.id, status: r.status, profileId: r.profile_id, profileVersion: r.profile_version, createdAt: r.created_at, attemptCount: r.attempt_count, errorCode: r.error_code }))
+  const queuedAll = await sql(`select count(*)::int as n from public.packet_render_jobs where status = 'queued'`);
+
+  const rows = Array.isArray(claimable.json) ? claimable.json : [];
+  const rank = target ? rows.findIndex((r) => r.id === target.id) : -1;
+  const predecessors = rank >= 0 ? rows.slice(0, rank) : rows;
+
+  report.claimOrder = {
+    queryUsable: Array.isArray(claimable.json),
+    predicateMirrorsLiveClaimFunction: true,
+    rendererKindFilter: kind,
+    totalQueued: Array.isArray(queuedAll.json) ? (queuedAll.json[0]?.n ?? null) : null,
+    totalCurrentlyClaimable: rows.length,
+    targetJobId: target?.id ?? null,
+    // 1-based rank in exact claim order; null when the target is not claimable.
+    targetClaimRank: rank >= 0 ? rank + 1 : null,
+    targetIsClaimable: rank >= 0,
+    claimablePredecessors: predecessors.length,
+    distinctPredecessorProfileVersions: [...new Set(predecessors.map((r) => r.profile_version))].sort(),
+    // The row the SQL function predicts it will hand the worker first.
+    predictedFirstClaim: rows[0]
+      ? { id: rows[0].id, profileId: rows[0].profile_id, profileVersion: rows[0].profile_version, createdAt: rows[0].created_at }
+      : null,
+    predictedFirstClaimIsTarget: Boolean(target && rows[0] && rows[0].id === target.id),
+    predecessors: predecessors.map((r) => ({
+      id: r.id,
+      createdAt: r.created_at,
+      status: r.status,
+      attemptCount: r.attempt_count,
+      maxAttempts: r.max_attempts,
+      nextAttemptAt: r.next_attempt_at,
+      profileId: r.profile_id,
+      profileVersion: r.profile_version,
+      errorCode: r.error_code || null,
+      lastError: sanitize(r.last_error_detail ?? "") || null,
+      predatesTarget: Boolean(target && new Date(r.created_at) < new Date(target.created_at)),
+      belongsToThisRunNamespace: Boolean(target && r.consumer_briefcase_item_id
+        && r.consumer_briefcase_item_id === target.consumer_briefcase_item_id)
+    }))
   };
-  void admitted;
 }
 
 // --- boundary 1 and 3: the source tree ---------------------------------------
@@ -297,7 +334,16 @@ console.log("PROBE_JSON " + JSON.stringify({
       rootCause = "the stored job tuple differs from the authoritative route tuple; the specification writer is at fault";
     } else if (imageAccepts) {
       classification = "A";
-      rootCause = "the published image admits the exact stored tuple, so the value changed between the job row and the claim";
+      // §2: never say the TARGET's profile version changed. It did not — the
+      // image admits it. The worker was handed a different row entirely, and
+      // saying otherwise would accuse a value that the evidence exonerates.
+      const predecessors = report.claimOrder?.claimablePredecessors ?? null;
+      const predictedIsTarget = report.claimOrder?.predictedFirstClaimIsTarget;
+      rootCause = predecessors === null
+        ? "target attribution unproven: the claim order could not be read"
+        : predictedIsTarget
+          ? "the target is first in claim order; target attribution is not the explanation and the claimed row must be identified directly"
+          : `target attribution failure caused by a shared acceptance-project backlog — ${predecessors} claimable predecessor(s) stand ahead of the target in the live claim order, and the unscoped FIFO hands the worker one of those rows`;
     } else if (source.admitsExpectedVersion) {
       classification = "B";
       rootCause = "the image refuses a tuple the source tree admits — a build or packaging defect in the published image";
@@ -332,13 +378,18 @@ console.log(`source tree           : ${report.sourceTree.profilesLoaded} profile
 console.log(`image                 : ${report.image?.probe ? `${report.image.probe.profilesLoaded} profiles, admits=${report.image.probe.admitsExpectedVersion}, compiledDir=${report.image.probe.compiledDirExists}, cwd=${report.image.probe.cwd}` : "(no verdict)"}`);
 console.log(`profile-set hash      : ${report.image?.probe?.profileSetHash ?? "(none)"}`);
 console.log(`stored job status     : ${report.storedJob?.row ? `${report.storedJob.row.status} attempts=${report.storedJob.row.attempt_count} error=${report.storedJob.row.error_code ?? "(none)"}` : "(unread)"}`);
-console.log(`queued backlog        : ${report.claimBacklog?.queuedJobs ?? "(unread)"} queued; ${report.claimBacklog?.olderQueuedJobsAhead ?? "?"} older than this run's job`);
-console.log(`unscoped claim takes  : ${report.claimBacklog?.wouldClaim ? `${report.claimBacklog.wouldClaim.id} (${report.claimBacklog.wouldClaim.profileId}/${report.claimBacklog.wouldClaim.profileVersion}) created ${report.claimBacklog.wouldClaim.createdAt}` : "(nothing queued)"}`);
-console.log(`is that this run's job: ${report.claimBacklog?.wouldClaimIsThisRunsJob}`);
-console.log(`queued profileVersions: ${JSON.stringify(report.claimBacklog?.distinctQueuedProfileVersions ?? [])}`);
+console.log(`queued / claimable    : ${report.claimOrder?.totalQueued ?? "?"} queued, ${report.claimOrder?.totalCurrentlyClaimable ?? "?"} currently claimable (live predicate)`);
+console.log(`target claim rank     : ${report.claimOrder?.targetClaimRank ?? "(not claimable)"} of ${report.claimOrder?.totalCurrentlyClaimable ?? "?"}`);
+console.log(`claimable predecessors: ${report.claimOrder?.claimablePredecessors ?? "?"} — versions ${JSON.stringify(report.claimOrder?.distinctPredecessorProfileVersions ?? [])}`);
+console.log(`SQL predicts first    : ${report.claimOrder?.predictedFirstClaim ? `${report.claimOrder.predictedFirstClaim.id} (${report.claimOrder.predictedFirstClaim.profileId}/${report.claimOrder.predictedFirstClaim.profileVersion})` : "(nothing claimable)"}`);
+console.log(`predicted is target   : ${report.claimOrder?.predictedFirstClaimIsTarget}`);
 console.log("");
 console.log(report.verdict);
 console.log(`CLASSIFICATION: ${report.classification}`);
+console.log("TARGET JOB TUPLE: accepted by source and immutable image");
+console.log(`ACTUAL CLAIMED JOB: ${report.claimOrder?.predictedFirstClaim && !report.claimOrder?.predictedFirstClaimIsTarget
+  ? `${report.claimOrder.predictedFirstClaim.id} predicted by the live claim order (identity still to be proven by cycle JSON, fencing token or row snapshot)`
+  : "not yet proven"}`);
 console.log(`ROOT CAUSE: ${report.rootCause}`);
 
 // A contradiction report is a diagnosis, not a gate: it exits 0 when it reached
