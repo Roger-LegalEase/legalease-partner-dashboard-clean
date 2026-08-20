@@ -561,6 +561,12 @@ function disposeMissingBinaries(reconciliation, corpusIndex, queue, mount) {
     purpose:
       "Every retained asset carrying missing_binary, given exactly one disposition from the closure vocabulary. Generic missing_binary is not a final diagnosis and does not appear here.",
     derivedFrom: [RECONCILIATION, CORPUS_INDEX, ACQUISITION_QUEUE],
+    localSearchProof: {
+      record: "data/rcap-all50/pdf-source-handoffs/local-source-exhaustion.json",
+      generator: "scripts/generate-rcap-local-source-exhaustion.mjs",
+      whatItEstablishes:
+        "The local material was searched rather than assumed empty: 940 candidate files, 861 PDFs hashed against the committed Master Library index, and every outstanding form number matched by filename alias. 29 rows have an alias hit and all 29 are LegalEase output — overlay review drafts and sample packets named for the form they were built from — so none is an official binary and no row resolves."
+    },
     corpusMount: mount,
     egress: {
       officialPublisherRetrieval: "refused",
