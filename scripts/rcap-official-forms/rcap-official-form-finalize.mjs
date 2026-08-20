@@ -378,13 +378,14 @@ export async function finalizeOfficialForm({
 
   for (const field of census) {
     const decision = decideBinding(
-      { name: field.name, pdfType: field.type, effectiveLabel: field.effectiveLabel },
+      { name: field.name, pdfType: field.type, effectiveLabel: field.effectiveLabel, regionHeading: field.regionHeading },
       { explicitMappings, captionOnly, availableChargeRows, documentAcceptsFill }
     );
 
     if (!decision.writable) {
-      report.refused.push({ field: field.name, reason: decision.reason, category: decision.category ?? null });
-      if (decision.reason === "protected_category" || decision.category === "type_guard") {
+      report.refused.push({ field: field.name, reason: decision.reason, category: decision.category ?? null,
+        regionHeading: decision.regionHeading ?? null });
+      if (decision.reason === "protected_category" || decision.reason === "protected_page_region" || decision.category === "type_guard") {
         report.protectedFields.push({ field: field.name, category: decision.category });
       }
       continue;

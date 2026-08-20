@@ -67,6 +67,17 @@ export const PROTECT_RULES = [
   ["disposition_or_hearing", /\bdisposition\b|hearing\s*(date|time|result)|\bsentenc(e|ing)\b|\bconvict(ed|ion)\b|\bplea\b|\bverdict\b/]
 ];
 
+// The protect categories that describe an AREA of a page rather than a box.
+// A widget inside a section headed by one of these is in territory the
+// participant does not complete, whatever the widget is called.
+//
+// The rest are deliberately absent. A "$" or a race question is a property of
+// one field; a heading that mentions a fee does not make the page a fee block.
+export const REGIONAL_PROTECT_CATEGORIES = new Set([
+  "service_block", "notarization", "court", "clerk", "prosecutor",
+  "attorney", "outside_party", "responsible_official", "licensing_board", "agency"
+]);
+
 // --- allowlisted fact descriptors ------------------------------------------
 // The ONLY things that may ever be written. Each declares the value type it
 // carries and, where the fact is legally sensitive, that it may not bind
@@ -164,6 +175,12 @@ function rowIndexOf(name) {
   return n >= 1 && n <= 40 ? n - 1 : null;
 }
 
+/** The allowlisted facts one subject string matches, refusals already applied. */
+export function descriptorsMatching(subject) {
+  const hay = haystack(subject);
+  return FACT_DESCRIPTORS.filter((d) => d.match.test(hay) && !(d.refuseWhen && d.refuseWhen.test(hay)));
+}
+
 /**
  * Decides, for one field, whether anything may be written into it.
  *
@@ -175,7 +192,7 @@ function rowIndexOf(name) {
  * and it can never override a protect rule or a type guard.
  */
 export function decideBinding(field, options = {}) {
-  const { name, pdfType, effectiveLabel } = field;
+  const { name, pdfType, effectiveLabel, regionHeading, regionIsDocumentTitle = false } = field;
   const {
     explicitMappings = {},
     captionOnly = false,
@@ -193,12 +210,49 @@ export function decideBinding(field, options = {}) {
   const category = protectCategoryOf(subject) ?? protectCategoryOf(name);
   if (category) return { writable: false, reason: "protected_category", category };
 
+  // Geometry. A widget sits inside a printed section of the page, and when
+  // that section's own heading is one the protect rules name, the widget is in
+  // court-owned territory whatever it is called. AK TF-800's certDate and NE
+  // DC 1:15's printedname both sit under a printed "Certificate of Service"
+  // and neither name says so; a platform that fills them signs and dates a
+  // sworn statement about service it has no knowledge of.
+  //
+  // This is the channel that makes protection independent of naming: renaming
+  // a protected field to something innocuous does not move it off the page.
+  //
+  // Two guards keep this narrow, and the canary suite put both there. Only
+  // REGIONAL_PROTECT_CATEGORIES apply: those name an area of a page that
+  // somebody other than the participant completes. `money`, `race` and
+  // `disposition_or_hearing` describe a box, not a section, and reading them
+  // as sections silenced every field on a form headed "APPLICATION TO WAIVE
+  // FILING FEES". And a document's own title never protects, because a title
+  // names the form rather than an area of it.
+  const regionCategory = regionHeading && !regionIsDocumentTitle ? protectCategoryOf(regionHeading) : null;
+  if (regionCategory && REGIONAL_PROTECT_CATEGORIES.has(regionCategory)) {
+    return { writable: false, reason: "protected_page_region", category: regionCategory, regionHeading };
+  }
+
   if (!WRITABLE_PDF_TYPES.has(pdfType)) {
     return { writable: false, reason: "non_text_field_type", category: "type_guard", pdfType };
   }
 
-  const hay = haystack(subject);
-  const matches = FACT_DESCRIPTORS.filter((d) => d.match.test(hay) && !(d.refuseWhen && d.refuseWhen.test(hay)));
+  // Two channels, tried in order, and the order matters. The field NAME is
+  // authored by whoever built the form and is usually the more precise of the
+  // two, so it is asked first and every family whose names already work is
+  // unaffected. The printed LABEL is the fallback, for forms whose names carry
+  // no words at all: VT 600-00228 names its fields 2, 3, 4, 5, 5a, and with
+  // only the name channel a fee-waiver application filled nothing — no name,
+  // no address, no income — and said nothing about why.
+  //
+  // The fallback widens what can bind, never what can be written: both
+  // channels have already been past the protect rules above, and the label is
+  // checked against refuseWhen exactly as the name is.
+  let factBasis = "field_name";
+  let matches = descriptorsMatching(name);
+  if (matches.length === 0 && effectiveLabel && effectiveLabel !== name) {
+    matches = descriptorsMatching(effectiveLabel);
+    factBasis = matches.length > 0 ? "printed_label" : factBasis;
+  }
   if (matches.length === 0) return { writable: false, reason: "no_allowlisted_fact_matches" };
 
   // Most-specific-first ordering makes the first match the intended one; a
@@ -228,11 +282,11 @@ export function decideBinding(field, options = {}) {
         return { writable: false, reason: "repeating_row_without_indexed_fact", category: "charge_row", factId: descriptor.factId, rowIndex: row };
       }
       const leaf = descriptor.factId.slice("matter.".length);
-      return { writable: true, factId: `matter.charges[${row}].${leaf}`, valueType: descriptor.valueType, rowIndex: row };
+      return { writable: true, factId: `matter.charges[${row}].${leaf}`, valueType: descriptor.valueType, rowIndex: row, factBasis };
     }
   }
 
-  return { writable: true, factId: descriptor.factId, valueType: descriptor.valueType };
+  return { writable: true, factId: descriptor.factId, valueType: descriptor.valueType, factBasis };
 }
 
 /** Confirms a resolved value matches the type its descriptor declared. */
