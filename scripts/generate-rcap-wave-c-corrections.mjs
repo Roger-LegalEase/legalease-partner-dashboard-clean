@@ -181,6 +181,31 @@ const CR296 = "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-for
     }
   }
 
+  // The all-page raster manifest for a withdrawn family stops being produced,
+  // which leaves its later pages referenced by nothing. An evidence image
+  // nothing references is evidence for a question that has moved on, and the
+  // corpus already refuses to keep one. Page 1 is still referenced by the
+  // contact-sheet visual proof and stays.
+  const RASTER_DIR = "docs/record-clearing/pdf-visual-evidence";
+  const rastersWithdrawn = {};
+  if (fs.existsSync(abs(RASTER_DIR))) {
+    for (const file of fs.readdirSync(abs(RASTER_DIR)).sort()) {
+      if (!file.startsWith("NC-aoc-cr-296-form-en-contact-sheet-page-")) continue;
+      if (file.endsWith("page-01.png")) continue;
+      const relRaster = `${RASTER_DIR}/${file}`;
+      rastersWithdrawn[relRaster] = sha256(abs(relRaster))
+        ?? map.withdrawal?.allPageRastersWithdrawn?.[relRaster] ?? null;
+      if (checkOnly) {
+        console.error(`FAIL wave C corrections — ${relRaster} is an all-page raster of a withdrawn family; re-run this generator`);
+        process.exit(1);
+      }
+      fs.rmSync(abs(relRaster));
+    }
+  }
+  for (const [key, value] of Object.entries(map.withdrawal?.allPageRastersWithdrawn ?? {})) {
+    if (!(key in rastersWithdrawn)) rastersWithdrawn[key] = value;
+  }
+
   // The contact-sheet proof pinned a fixture that no longer exists. It keeps
   // the digest it pinned -- that is the record of what the sheet depicts --
   // and says the fixture was withdrawn rather than pointing at a file nothing
@@ -219,6 +244,7 @@ const CR296 = "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-for
     evidence: owner,
     fieldsWithdrawn: withdrawn.map((b) => b.field),
     artifactsWithdrawn,
+    allPageRastersWithdrawn: rastersWithdrawn,
     contactSheetRetained: {
       "contact-sheet/blank-vs-filled.pdf": sha256(path.join(dir, "contact-sheet/blank-vs-filled.pdf")),
       why: "it is the evidence of what was produced, and it carries the only rendering of this form's blank that this "

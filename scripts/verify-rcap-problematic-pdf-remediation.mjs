@@ -21,6 +21,7 @@ import crypto from "node:crypto";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
 import { ROOT_CAUSES } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
+import { decideBinding } from "./rcap-official-forms/rcap-field-semantics.mjs";
 import { withTrackedMutation, assertTreeNotMidMutation } from "./lib/tracked-mutation-guard.mjs";
 import { execFileSync } from "node:child_process";
 
@@ -34,6 +35,7 @@ const MASTER = "data/rcap-all50/problematic-pdf-master-list.json";
 const F3 = "data/rcap-all50/review-artifacts/f3-visual-review.json";
 const RETIREMENT = "data/rcap-all50/pdf-retirement-determination.json";
 const PLACEMENT = "data/rcap-all50/overlay-placement-evidence.json";
+const EVIDENCE_COMPLETION = "data/rcap-all50/pdf-independent-reviews/gate-b-evidence-completion.json";
 const CLASSIFICATION = "data/rcap-all50/field-classification-coverage.json";
 const FINALIZER = "scripts/rcap-official-forms/rcap-official-form-finalize.mjs";
 const SEMANTICS = "scripts/rcap-official-forms/rcap-field-semantics.mjs";
@@ -318,9 +320,19 @@ function runChecks() {
   const evidenceDir = "docs/record-clearing/pdf-visual-evidence";
   if (fs.existsSync(abs(evidenceDir))) {
     const placement = readJson(PLACEMENT, { families: [] });
+    // The all-page raster manifests count as references.
+    //
+    // The evidence contract was widened to require a picture of EVERY page
+    // that carries a field, after two reviewers returned page-2 defects a
+    // page-1 crop could not have shown. The pages that widening produced were
+    // then reported here as orphans, because this list had never been told
+    // where they are referenced — so the corpus's own contract for complete
+    // visual evidence read as seventeen pieces of stale evidence.
+    const completion = readJson(EVIDENCE_COMPLETION, { families: [] });
     const referenced = new Set([
       ...(placement.families ?? []).flatMap((f) => f.renderedEvidence ?? []),
       ...(sheetProof.families ?? []).map((f) => f.renderedEvidence).filter(Boolean),
+      ...(completion.families ?? []).flatMap((f) => (f.rasterEvidence?.pages ?? []).map((p) => p.path)).filter(Boolean),
       ...master.rows.flatMap((r) => [r.contactSheetEvidenceImage, ...(r.placementEvidenceImages ?? [])]).filter(Boolean)
     ]);
     for (const file of fs.readdirSync(abs(evidenceDir))) {
@@ -461,14 +473,34 @@ function runChecks() {
   // check for "some refuseWhen exists somewhere in this file" went on passing
   // after the street-address guard was removed — the guard this defect is
   // actually about. A check that any sibling can satisfy is not a check.
+  // Asked of the descriptor OBJECT, not of the line of source it is written on.
+  //
+  // The text form of this check required the refusal to be the whole pattern —
+  // `refuseWhen: /\be[-\s]?mail\b/` and nothing after it — while the guard has
+  // always been the first alternative of several. It could therefore only ever
+  // fail, and it did, on every commit including the ones that added it. A check
+  // that cannot pass reports nothing about the thing it names, and it buries
+  // the check next to it that can.
   const semantics = fs.existsSync(abs(SEMANTICS)) ? fs.readFileSync(abs(SEMANTICS), "utf8") : "";
-  const streetDescriptor = semantics
+  const streetLine = semantics
     .split("\n")
     .find((line) => line.includes("participant.street_address") && line.includes("factId"));
-  if (!streetDescriptor) {
+  const streetRefusal = streetLine ? /refuseWhen:\s*\/(.*)\/\s*\}/.exec(streetLine)?.[1] ?? null : null;
+  if (!streetLine) {
     fail("email_never_binds_a_street_address", "the street-address descriptor is no longer present to be checked");
-  } else if (!/refuseWhen:\s*\/\\be\[-\\s\]\?mail\\b\//.test(streetDescriptor)) {
+  } else if (streetRefusal === null) {
+    fail("email_never_binds_a_street_address", "the street-address descriptor carries no refuseWhen at all");
+  } else if (!streetRefusal.includes("\\be[-\\s]?mail\\b")) {
     fail("email_never_binds_a_street_address", "the street-address descriptor no longer refuses an email label; \"Email Address\" contains \"address\" and will bind the wrong fact");
+  }
+  // And the behaviour the guard exists for, on the labels a form actually
+  // prints. The pattern check catches a removed guard; this catches a guard
+  // that is present and no longer reaches.
+  for (const label of ["Email Address", "E-mail Address", "Email", "E-mail"]) {
+    const decision = decideBinding({ name: label, pdfType: "text", effectiveLabel: label });
+    if (decision.writable && decision.factId === "participant.street_address") {
+      fail("email_never_binds_a_street_address", `${JSON.stringify(label)} binds the street address`);
+    }
   }
   // Ordering is the other half and is not a substitute for the guard. The
   // email descriptor must be reachable before street address, so the two
@@ -1315,8 +1347,25 @@ const CASES = [
     expect: "systemic_causes_are_counted_once",
     apply: () => {
       const register = readJson(REGISTER);
-      const systemic = register.rootCauseIndex.filter((c) => c.scope === "systemic" && c.dimension === "technical");
-      if (systemic.length === 0) throw new Error("no systemic technical root cause to inflate; this mutation cannot apply");
+      // Whichever systemic dimension this corpus actually has causes in.
+      //
+      // The mutation named `technical` outright, and the corpus has none:
+      // every technical cause here is family-specific. So it threw instead of
+      // mutating, and the whole mutation suite died at that line — invisibly,
+      // for as long as the suite refused to run at all because the baseline
+      // was red. The defect it exists to catch is arithmetic and dimension-
+      // independent: one systemic cause reported once per impacted asset.
+      const scopeAndDimension = (c) => ROOT_CAUSES[c.rootCauseId] ?? {};
+      const KEYS = { technical: "uniqueSystemicTechnicalRootCauses", visual: "uniqueSystemicVisualRootCauses", source: "uniqueSystemicSourceRootCauses" };
+      let target = null;
+      for (const dimension of ["technical", "visual", "source"]) {
+        const causes = register.rootCauseIndex.filter((c) => {
+          const meta = scopeAndDimension(c);
+          return meta.scope === "systemic" && meta.dimension === dimension;
+        });
+        if (causes.length > 0) { target = { dimension, causes, key: KEYS[dimension] }; break; }
+      }
+      if (!target) throw new Error("no systemic root cause of any dimension to inflate; this mutation cannot apply");
       // One systemic cause is given the several assets it actually spans, so the
       // inflation has something to inflate.
       //
@@ -1326,10 +1375,10 @@ const CASES = [
       // double-counting is detected. A mutation whose defect the data cannot
       // express is not a test, and it goes quiet precisely when the corpus is
       // small — which is when the count is easiest to get wrong.
-      systemic[0].impactedAssets = 4;
+      target.causes[0].impactedAssets = 4;
       // The classic inflation: report impacted assets as if each were its own
       // distinct problem.
-      register.totals.uniqueSystemicTechnicalRootCauses = systemic.reduce((n, c) => n + c.impactedAssets, 0);
+      register.totals[target.key] = target.causes.reduce((n, c) => n + (c.impactedAssets ?? 1), 0);
       fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
     }
   },
@@ -1420,7 +1469,16 @@ const CASES = [
       const lines = text.split("\n");
       const i = lines.findIndex((l) => l.includes("participant.street_address") && l.includes("factId"));
       if (i < 0) throw new Error("email mutation could not find the street-address descriptor");
-      lines[i] = lines[i].replace(/,\s*refuseWhen: \/\\be\[-\\s\]\?mail\\b\//, "");
+      // The guard is the FIRST ALTERNATIVE of the refusal, not the whole of
+      // it. Matching it as the whole pattern removed nothing, so this mutation
+      // reintroduced no defect and the check it points at proved nothing —
+      // which nobody could see while that check was failing on every commit
+      // for its own reasons.
+      const before = lines[i];
+      lines[i] = before
+        .replace(/(refuseWhen: \/)\\be\[-\\s\]\?mail\\b\|/, "$1")
+        .replace(/,\s*refuseWhen: \/\\be\[-\\s\]\?mail\\b\//, "");
+      if (lines[i] === before) throw new Error("email mutation changed nothing; the street-address refusal is not where this expects it");
       fs.writeFileSync(abs(SEMANTICS), lines.join("\n"));
     }
   },

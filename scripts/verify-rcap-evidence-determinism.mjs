@@ -32,7 +32,14 @@ const GENERATORS = [
   { script: "scripts/generate-rcap-gate-b-evidence-completion.mjs", args: ["--without-source-bytes"], check: ["--without-source-bytes", "--check"] },
   { script: "scripts/generate-rcap-overlay-placement-evidence.mjs", args: [], check: ["--check"] },
   { script: "scripts/generate-rcap-finalized-artifact-audit.mjs", args: [], check: ["--check"] },
-  { script: "scripts/generate-rcap-contact-sheet-visual-proof.mjs", args: [], check: ["--check"] }
+  { script: "scripts/generate-rcap-contact-sheet-visual-proof.mjs", args: [], check: ["--check"] },
+  // In dependency order: the register describes the corpus, the master list
+  // covers the register, and the acquisition queue covers the master list.
+  // Regenerating one without the others is what left all three describing
+  // different corpora.
+  { script: "scripts/generate-rcap-problematic-pdf-register.mjs", args: [], check: ["--check"] },
+  { script: "scripts/generate-rcap-problematic-pdf-master-list.mjs", args: [], check: ["--check"] },
+  { script: "scripts/generate-rcap-source-acquisition-queue.mjs", args: [], check: ["--check"] }
 ];
 
 const failures = [];
