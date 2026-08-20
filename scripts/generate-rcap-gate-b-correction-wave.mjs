@@ -102,7 +102,8 @@ const WAVE_DETAIL = {
   "ESC-GEOMETRY-NOT-AN-INPUT": {
     reviewerConditionFailed: "protection established by geometry where required, not label alone",
     familyOwnedFollowUp: "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
-    status: "open"
+    status: "corrected",
+    correctedBy: "captureWidgetContext() and pageRegions() in the existing content-stream geometry module feed decideBinding a widget's rect and the printed section heading above it; a binding inside a REGIONAL_PROTECT_CATEGORIES region is refused whatever the field is called"
   },
   "ESC-MANUAL-NOT-NEVER-WRITE": {
     reviewerConditionFailed: "every discovered entry classified exactly once, and no participant value written to a protected area",
@@ -131,18 +132,21 @@ const WAVE_DETAIL = {
   "ESC-CAPTION-VARIANTS": {
     reviewerConditionFailed: "no clipping, no silent truncation, no duplicated preprinted caption",
     familyOwnedFollowUp: "re-render the five Nebraska families and read the caption band in the raster",
-    status: "open"
+    status: "corrected",
+    correctedBy: "selectOnePerSlot() reduces overlapping widgets carrying one fact to a single binding, the finalizer decides before it writes so the artifact and the map agree, and an unselected chooser's value and stale appearance stream are both cleared before flatten"
   },
   "ESC-VALUE-NOT-VISIBLE": {
     reviewerConditionFailed: "expected participant values visibly present",
     familyOwnedFollowUp: "re-render VT 600-00228 and confirm the applicant fields carry values",
-    status: "open",
-    note: "the same missing channel as ESC-GEOMETRY-NOT-AN-INPUT, seen from the other side: with no printed label reaching the binder, a form whose fields are named as bare digits refuses everything"
+    status: "corrected",
+    correctedBy: "the printed caption beside a widget is captured and matched as a fallback when the field's own name matches nothing, so VT 600-00228's numbered fields bind without a single explicitFieldMapping",
+    note: "the same missing channel as ESC-GEOMETRY-NOT-AN-INPUT, seen from the other side, and closed in the same commit"
   },
   "ESC-SIDECAR-NONCONFORMANT": {
     reviewerConditionFailed: "artifact provenance complete and hash-matched",
     familyOwnedFollowUp: "re-render every family; the sidecar is emitted by the shared module, not written per family",
-    status: "open"
+    status: "open",
+    note: "held exclusively by the evidence-completion lane, which owns the provenance sidecar schema and writer, its call sites, its verification and the raster evidence. The shared-correction lane does not open those paths."
   }
 };
 

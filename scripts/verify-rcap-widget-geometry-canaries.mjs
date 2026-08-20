@@ -265,6 +265,19 @@ const NE_CAPTION_BAND = [
   { name: "signatureprintedname", factId: "participant.full_legal_name", pdfType: "text", page: 1, rect: { x: 60, y: 120, width: 200, height: 14 } }
 ];
 
+// NC AOC-CR-287, from its committed field census. The previous lane closed
+// seven of its eight drifting families and left this one open in writing: a
+// refuseWhen guard cannot fix two widgets competing for one fact, and it named
+// ESC-GEOMETRY-NOT-AN-INPUT as whose territory that was. Address line 1 and
+// address line 2 are stacked and share a point of vertical overlap, so the
+// slot pass reaches them and the street address prints once, on line 1.
+const NC_ADDRESS_LINES = [
+  { name: "PetitionerAddr1", factId: "participant.street_address", pdfType: "text", page: 1, rect: { x: 37, y: 667, width: 278, height: 13 } },
+  { name: "PetitionerAddr2", factId: "participant.street_address", pdfType: "text", page: 1, rect: { x: 37, y: 655, width: 278, height: 13 } },
+  { name: "PetitionerCity", factId: "participant.city", pdfType: "text", page: 1, rect: { x: 37, y: 640, width: 120, height: 13 } }
+];
+const ncArbitrated = selectOnePerSlot(NC_ADDRESS_LINES);
+
 const arbitrated = selectOnePerSlot(NE_CAPTION_BAND);
 const keptNames = arbitrated.kept.map((k) => k.name);
 
@@ -297,6 +310,17 @@ const SLOT_CANARIES = [
     id: "SLOT-OTHER-FACTS-UNTOUCHED", family: "control",
     holds: () => keptNames.includes("enter the county"),
     consequence: "the county would stop printing"
+  },
+  {
+    id: "SLOT-NC-287-ADDRESS-ONCE", family: "NC:aoc-cr-287-form-en",
+    holds: () => ncArbitrated.kept.filter((k) => k.factId === "participant.street_address").length === 1
+      && ncArbitrated.kept.some((k) => k.name === "PetitionerAddr1"),
+    consequence: "the petitioner's street address printed on both address lines — the finding the previous lane could not close and deferred to this one"
+  },
+  {
+    id: "SLOT-NC-287-CITY-KEPT", family: "NC:aoc-cr-287-form-en",
+    holds: () => ncArbitrated.kept.some((k) => k.name === "PetitionerCity"),
+    consequence: "the city line silenced by an arbitration that reached past the fact it was deciding"
   }
 ];
 
