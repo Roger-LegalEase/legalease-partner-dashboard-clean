@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-rollup/v1",
+  "batch": "wave-c-final-b",
+  "reviewDate": "2026-08-20",
+  "reviewerBranch": "claude/gate-b-wave-c-review-zr5151",
+  "reviewedLaneBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewedLaneHead": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "totals": {
+    "families": 4,
+    "approved_platform_ready": 2,
+    "correction_required": 1,
+    "substantive_owner_decision_required": 1,
+    "ownerDispositionRecorded": 1
+  },
+  "approved": [
+    "NC:aoc-cr-287-form-en",
+    "NC:aoc-cr-288-form-en"
+  ],
+  "correctionRequired": [
+    "NC:aoc-cr-298-form-en"
+  ],
+  "ownerDecision": [
+    "NC:aoc-cr-296-form-en"
+  ],
+  "sourceVerification": {
+    "performedForAllFour": true,
+    "allMatchTheirCommittedPins": true,
+    "comparedAgainst": "each family's committed source-record.json digest, not the source pack manifest",
+    "residualPrecondition": "the shard b source pack carried only these four PDFs, so the whole-corpus counts of 499 files and 329 PDFs remain uncounted and stay with the captain"
+  },
+  "theOneFindingThatMattersMost": {
+    "family": "NC:aoc-cr-298-form-en",
+    "finding": "The archived official source is not a blank form. 'Courtney Bailey' is in the source's own page content stream in Arial-BoldMT 10pt, in the data row beneath a caption set in Arial-ItalicMT 7pt like every caption on the form, with the adjacent Date and Signature cells empty. None of the source's 107 widgets carries a value, so it is a filled-in entry flattened into an otherwise-blank form before archiving.",
+    "whyItSurvivedTwoWaves": "It lies in no declared widget rectangle, so no classification or refusal reaches it, and protected-fields-scan.json states its own basis as what the renderer wrote.",
+    "chainOfCustody": "The source digest equals its committed pin exactly, so nothing was substituted after pinning. The defect is in what was acquired."
+  },
+  "exactPdfLaneAction": "Re-acquire AOC-CR-298 REV-2025-07 as a blank form, repin its digest, re-render. Null or correct its sourceUrl, which names the nonviolent-felony instructions rather than this form. Extend the protected-area check to audit what is visible inside a protected region rather than only what the renderer wrote.",
+  "reEmission": {
+    "of": "data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/",
+    "reviewerRecordCommit": "b3e3e98a",
+    "statement": "Canonical re-emission only. No re-review, no verdict change, no pinned hash change. No historical record was edited."
+  },
+  "approvalChannelFinding": {
+    "statement": "Both approved records clear all twelve numbered conditions of reviewRecordApproval \u2014 currency, verdict, the record-level verifier, independence, family identity on disk, the source binary compared byte-for-byte against the reviewed SHA from the mounted corpus, the field map, the classification hash, every artifact, the provenance sidecar, the visual evidence, and no open correction. They are then refused by the one unnumbered clause that follows: 'the field or anchor classification is not complete'.",
+    "mechanism": "That clause reads classification.discoveredFieldsOrAnchors and classification.classifiedFieldsOrAnchors from field-classification.json. The AcroForm schema these families carry, rcap-field-classification/v4-nine-class, records entries and classCounts and neither of those two keys, so both sides evaluate to NaN and NaN !== NaN refuses. It is not a property of these two families: 1 of the 114 committed field-classification.json files in the corpus carries those keys, and it is the flat-overlay family WI:cr-266-form-en.",
+    "effect": "No acroform_fill family can reach platform-ready through this channel at this head, whatever its review says.",
+    "notAReviewerFinding": "This is a gate observation recorded where batch-1 recorded the equivalent one, not a defect in either approved family and not a reason the verdicts differ. Reviewer B holds no scope to change it: the clause is implementation and field-classification.json is a classification path, both outside a reviewer's write scope.",
+    "relationToTheBatch1Finding": "batch-1 recorded that an AcroForm-fill family had nowhere to record an independent approval, because the gate read independentReview from overlay-profile.json only. The canonical review-record channel now supplies that place and these two families pass through all of it. A second AcroForm-shaped gap sits one clause further on.",
+    "smallestCorrectionForTheCaptain": "Either have the AcroForm classification emitter record discoveredFieldsOrAnchors and classifiedFieldsOrAnchors alongside classCounts, or have the clause fall back to the entries/classCounts shape when those keys are absent. Neither is a reviewer action.",
+    "observedRefusalText": {
+      "NC:aoc-cr-287-form-en": "NC:aoc-cr-287-form-en: the field or anchor classification is not complete",
+      "NC:aoc-cr-288-form-en": "NC:aoc-cr-288-form-en: the field or anchor classification is not complete",
+      "NC:aoc-cr-296-form-en": "NC:aoc-cr-296-form-en: condition 1 \u2014 the verdict is substantive_owner_decision_required, not approved_platform_ready",
+      "NC:aoc-cr-298-form-en": "NC:aoc-cr-298-form-en: condition 1 \u2014 the verdict is correction_required, not approved_platform_ready"
+    }
+  }
+}
