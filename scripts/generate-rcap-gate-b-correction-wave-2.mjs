@@ -46,6 +46,11 @@ function fail(message) {
 const shardB = readJson(`${REVIEWS}/wave-c-shard-b/verdicts.json`);
 const shardC = readJson(`${REVIEWS}/wave-c-shard-c/verdicts.json`);
 const shardD = readJson(`${REVIEWS}/wave-c-shard-d/verdicts.json`);
+// Shard A's authoritative record is final-verdicts.json. Its sibling
+// verdicts.json reviewed the ef957a9 lineage before e94fb456 was fetched into
+// that clone, and the reviewer marked it superseded itself. It is present in
+// the directory and is deliberately not read here.
+const shardA = readJson(`${REVIEWS}/wave-c-shard-a/final-verdicts.json`);
 
 const BASE = shardB.reviewBaseCommit;
 if (shardC.reviewBaseCommit !== BASE) {
@@ -62,7 +67,8 @@ if (shardC.reviewBaseCommit !== BASE) {
  * with no verdict rollup. Both are pending, not counted.
  */
 const NOT_CONSUMED = [
-  { shard: "a", because: "ran in the wrong environment, never reached the review base, derived zero families and issued zero verdicts; its blocker-only record is not a review result, and no corrected shard-a branch has appeared" }
+  { record: `${REVIEWS}/wave-c-shard-a/verdicts.json`,
+    because: "shard A's first pass reviewed the ef957a9 lineage before e94fb456 was fetched into that clone. The reviewer marked it superseded by final-verdicts.json and said so in the record; only the authoritative one is read here." }
 ];
 
 /** One row per correction the wave has to carry, taken from the reviewers' own findings. */
@@ -221,12 +227,16 @@ const record = {
     "Two families carry a current approved_platform_ready verdict from an independent reviewer that recomputed their source bytes. Neither is promoted here, and the reason is structural rather than substantive: the canonical loader does not read the layout these shards write. See approvals.whyTheyAreNotYetAtTheGate.",
   approvals: {
     statement:
-      "Shard B approved two families after recomputing their official source SHA-256 from real bytes. This lane recomputed both independently against its own extract and agrees; every artifact, map, classification, sidecar, contact-sheet and raster digest the two records reference also matches disk.",
+      "Four families carry an approval. Shard B approved two and shard A two, each after reading the blank official source: shard A recorded the visible form number and revision off the paper (TF-800 (5/25) and TF-805 (5/25)) and isolated generated content by differencing blank against finalized page by page. This lane recomputed all four official source digests independently against its own mounted extract and agrees with every one, and all 81 artifact, map, classification, sidecar, contact-sheet and raster digests the four shards reference match disk.",
     records: [
       { familyId: "NC:aoc-cr-287-form-en", shard: "b", verdict: "approved_platform_ready",
         record: `${REVIEWS}/wave-c-shard-b/NC-aoc-cr-287-form-en.review.json` },
       { familyId: "NC:aoc-cr-288-form-en", shard: "b", verdict: "approved_platform_ready",
-        record: `${REVIEWS}/wave-c-shard-b/NC-aoc-cr-288-form-en.review.json` }
+        record: `${REVIEWS}/wave-c-shard-b/NC-aoc-cr-288-form-en.review.json` },
+      { familyId: "AK:tf-800-form-en", shard: "a", verdict: "approved_platform_ready",
+        record: `${REVIEWS}/wave-c-shard-a/final-verdicts.json` },
+      { familyId: "AK:tf-805-form-en", shard: "a", verdict: "approved_platform_ready",
+        record: `${REVIEWS}/wave-c-shard-a/final-verdicts.json` }
     ],
     whyTheyAreNotYetAtTheGate:
       "loadReviewRecords discovers a batch as a top-level `<batch>-manifest.json` plus `<batch>-group-N.review.json` files. The wave C shards write `wave-c-shard-<x>/assignment.json` and one `.review.json` per family inside a subdirectory, so the canonical loader does not see them and the gate cannot evaluate the two approvals. This lane will not close that gap by authoring manifest and group files itself: a record that carries an approval has to be written by the reviewer who issued it, and synthesising one here would be this lane approving its own work through a formatting change. Either the reviewers emit the canonical layout, or the loader is taught this one — and the second is a change to the platform-ready gate, which is not this lane's to make.",
@@ -234,7 +244,7 @@ const record = {
       "retained_problematic stays at 85. The two approvals are real and recorded; they are not counted until the gate can read them."
   },
   sourceVerification: {
-    resolvedFor: ["b", "c", "d"],
+    resolvedFor: ["a", "b", "c", "d"],
     statement:
       "The blocker that refused every family in the first pass is gone. Shards B, C and D each recomputed the official source SHA-256 from real bytes and each agrees with the pinned identity. This lane recomputed the same digests independently against its own mounted Edition 1 extract and agrees with both.",
     shardBCaveat:
@@ -244,10 +254,10 @@ const record = {
   },
 
   totals: {
-    familiesReviewed: 12,
-    newApprovals: 2,
+    familiesReviewed: 16,
+    newApprovals: 4,
     approvalsAcceptedAtTheGate: 0,
-    correctionReturns: 7,
+    correctionReturns: 9,
     ownerDecisionsReported: 3,
     ownerDecisionsResolved: OWNER_DECISIONS.length,
     correctionsDispatched: CORRECTIONS.length,
@@ -293,7 +303,7 @@ function markdown() {
   lines.push("");
   lines.push("## Not consumed");
   lines.push("");
-  for (const n of NOT_CONSUMED) lines.push(`- **shard ${n.shard}** — ${n.because}`);
+  for (const n of NOT_CONSUMED) lines.push(`- \`${n.record}\` — ${n.because}`);
   lines.push("");
   lines.push("## Reopened");
   lines.push("");

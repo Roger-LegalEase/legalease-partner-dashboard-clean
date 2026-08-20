@@ -12,16 +12,18 @@ Shard C's own suite refuses to pass without RCAP_BUNDLE_EXTRACT set, which is th
 
 ## Approvals
 
-Shard B approved two families after recomputing their official source SHA-256 from real bytes. This lane recomputed both independently against its own extract and agrees; every artifact, map, classification, sidecar, contact-sheet and raster digest the two records reference also matches disk.
+Four families carry an approval. Shard B approved two and shard A two, each after reading the blank official source: shard A recorded the visible form number and revision off the paper (TF-800 (5/25) and TF-805 (5/25)) and isolated generated content by differencing blank against finalized page by page. This lane recomputed all four official source digests independently against its own mounted extract and agrees with every one, and all 81 artifact, map, classification, sidecar, contact-sheet and raster digests the four shards reference match disk.
 
 - **NC:aoc-cr-287-form-en** — b, source recomputed and agreeing with the pin
 - **NC:aoc-cr-288-form-en** — b, source recomputed and agreeing with the pin
+- **AK:tf-800-form-en** — a, source recomputed and agreeing with the pin
+- **AK:tf-805-form-en** — a, source recomputed and agreeing with the pin
 
 loadReviewRecords discovers a batch as a top-level `<batch>-manifest.json` plus `<batch>-group-N.review.json` files. The wave C shards write `wave-c-shard-<x>/assignment.json` and one `.review.json` per family inside a subdirectory, so the canonical loader does not see them and the gate cannot evaluate the two approvals. This lane will not close that gap by authoring manifest and group files itself: a record that carries an approval has to be written by the reviewer who issued it, and synthesising one here would be this lane approving its own work through a formatting change. Either the reviewers emit the canonical layout, or the loader is taught this one — and the second is a change to the platform-ready gate, which is not this lane's to make.
 
 ## Not consumed
 
-- **shard a** — ran in the wrong environment, never reached the review base, derived zero families and issued zero verdicts; its blocker-only record is not a review result, and no corrected shard-a branch has appeared
+- `data/rcap-all50/pdf-independent-reviews/wave-c-shard-a/verdicts.json` — shard A's first pass reviewed the ef957a9 lineage before e94fb456 was fetched into that clone. The reviewer marked it superseded by final-verdicts.json and said so in the record; only the authoritative one is read here.
 
 ## Reopened
 
