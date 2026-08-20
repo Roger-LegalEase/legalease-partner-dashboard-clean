@@ -14,6 +14,7 @@ import { createHash } from "node:crypto";
 import { PDFDocument } from "pdf-lib";
 import { packetRouteCanRender, resolvePacketRoute, type PacketRouteResolution } from "@/lib/rcap/documents/packet-route-resolver";
 import { PACKET_RENDERER_KIND, PACKET_RENDERER_VERSION } from "@/lib/rcap/documents/packet-document-renderer";
+import { getProfileByJurisdiction } from "@/lib/rcap-engine/profile-registry";
 
 export const RENDER_JOB_STATUSES = [
   "queued",
@@ -281,13 +282,26 @@ export function computeInputHash(input: {
  * Builds the job from server-derived facts only. Fails closed: a route that
  * cannot render never produces a job, so a queued job is by construction a route
  * we support.
+ *
+ * profileId and profileVersion are DERIVED here, from the same compiled profile
+ * the route was resolved against. They are deliberately not parameters.
+ *
+ * They used to be, and the consumer caller passed `profileId: item.state` — a
+ * stored Briefcase display value — beside a literal `profileVersion: "1.3.0"`.
+ * No compiled profile has ever carried that version, so the worker's allowlist
+ * refused every consumer job with `profile_version_unknown` before rendering
+ * anything, and no paid packet could be delivered at all. Hosted run
+ * 32195867963 is that failure, named by the worker's own cycle result.
+ *
+ * A literal is the wrong fix twice over: it was wrong then, and pinning today's
+ * corpus version would recreate the same failure on the next profile update.
+ * The version has to come from the object the route came from, so the two can
+ * never describe different profiles.
  */
 export function buildRenderJobSpec(input: {
   packetId: string;
   state?: string | null;
   pathway?: string | null;
-  profileId: string;
-  profileVersion: string;
   sourceSha256?: string | null;
   partnerSlug?: string | null;
   briefcaseItemId?: string | null;
@@ -310,14 +324,29 @@ export function buildRenderJobSpec(input: {
   const rendererVersion = rendererKind === PACKET_RENDERER_KIND ? PACKET_RENDERER_VERSION : "0.0.0";
   const routeId = `${route.jurisdiction}:${route.pathwayId}`;
 
+  // One authoritative object for the whole specification: the route was
+  // resolved for this jurisdiction, so the profile identity and version are
+  // read from that jurisdiction's compiled profile and nowhere else. A route
+  // the corpus cannot name a profile for is unverifiable, and an unverifiable
+  // job is refused here rather than queued for a worker to refuse later.
+  const profile = getProfileByJurisdiction(route.jurisdiction);
+  const profileVersion = profile?.profileVersion == null ? "" : String(profile.profileVersion).trim();
+  const profileId = profile?.jurisdiction?.code ? String(profile.jurisdiction.code).trim() : "";
+  if (!profile || profileId === "" || profileVersion === "") {
+    throw new RenderContractError(
+      "profile_version_unknown",
+      `Route ${routeId} resolved, but the compiled profile registry provides no profile identity and version for ${route.jurisdiction}; refusing to build an unverifiable job specification.`
+    );
+  }
+
   const spec: RenderJobSpec = {
     packetId: requireValue(input.packetId, "packetId"),
     routeId,
     rendererKind,
     rendererVersion,
     sourceSha256: input.sourceSha256 ?? null,
-    profileId: requireValue(input.profileId, "profileId"),
-    profileVersion: requireValue(input.profileVersion, "profileVersion"),
+    profileId,
+    profileVersion,
     partnerSlug: input.partnerSlug ?? null,
     briefcaseItemId: input.briefcaseItemId ?? null,
     inputHash: computeInputHash({
@@ -325,8 +354,8 @@ export function buildRenderJobSpec(input: {
       routeId,
       rendererKind,
       rendererVersion,
-      profileId: input.profileId,
-      profileVersion: input.profileVersion,
+      profileId,
+      profileVersion,
       sourceSha256: input.sourceSha256 ?? null,
       packetFields: input.packetFields
     })

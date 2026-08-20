@@ -1,31 +1,76 @@
 {
   "schemaVersion": "rcap-worker-publication-evidence/v1",
   "importedFrom": {
-    "branch": "claude/rcap-final-sprint-integration",
-    "commit": "15c5050052e0f78cb5a5904bd2de668b3f3f725a",
-    "note": "Imported from the canonical rcap-render-worker-publication artifact produced by successful workflow run 32300112439. The source SHA is the PR #115 merge commit on main."
+    "branch": "claude/rcap-48h-launch-integration",
+    "commit": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
+    "note": "Imported from the rcap-render-worker-publication artifact emitted by run 32307070302 attempt 1 (job 96242012785). The artifact blob host is unreachable from the integration environment, so the record was read from that job's log, where the workflow cats the same JSON it uploads. packageVisibility and the registry-resolution fields are determined here and described in their own notes."
   },
-  "publicationTimestamp": "2026-08-19T20:46:39Z",
-  "workflowRunId": "32300112439",
+  "publicationTimestamp": "2026-08-19T22:07:00Z",
+  "workflowRunId": 32307070302,
+  "workflowRunAttempt": 1,
   "workflowConclusion": "success",
-  "mainRegistrationSha": "7049de7f31388f0290d211cff5b74f15099de583",
-  "workflowSha256": "3341486aea46d9d24b202ad512134e748f889bcef25aca5ea884f6b41c19df35",
-  "sourceSha": "15c5050052e0f78cb5a5904bd2de668b3f3f725a",
+  "sourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
   "dockerfileSha256": "6079456600e00d9929f9d899b6e5c1be6919bbe844e44f2aba456f5036b9daa7",
   "lockfileSha256": "fc0208973470f108d82dc3defa99647fe1ee01c43a7bea5302487368ae36aae7",
   "imageRepository": "ghcr.io/roger-legalease/rcap-render-worker",
-  "imageTag": "15c5050052e0f78cb5a5904bd2de668b3f3f725a",
-  "immutableRegistryDigest": "sha256:31e76d760561d84f6df2e2e7d489fb4a9d0b8d07afb091605adb78beeb977428",
-  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:31e76d760561d84f6df2e2e7d489fb4a9d0b8d07afb091605adb78beeb977428",
+  "imageTag": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
+  "immutableRegistryDigest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
+  "digestPinnedReference": "ghcr.io/roger-legalease/rcap-render-worker@sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
   "packageVisibility": "private",
+  "packageVisibilityNote": "Determined for this publication, not copied forward from the superseded record. GHCR issued no anonymous pull token for roger-legalease/rcap-render-worker (HTTP 401) while two known-public GHCR repositories (actions/actions-runner, oras-project/oras) issued one (HTTP 200) over the same network path in the same check, so the refusal is the package's visibility rather than a blocked route.",
   "mutableLatestTagCreated": false,
   "publishOnlyNoDeploy": true,
   "workerClaimingStarted": false,
   "stagingAndProductionUnchanged": true,
-  "registryPullByDigestStatus": "verified",
-  "registryPullByDigestNote": "Verified against GHCR after workflow run 32300112439. The manifest resolved by immutable digest (HTTP 200); an authenticated pull by digest succeeded and docker inspect RepoDigests reported exactly sha256:31e76d760561d84f6df2e2e7d489fb4a9d0b8d07afb091605adb78beeb977428; the full-SHA tag resolved to that same digest via docker-content-digest; the latest tag returned HTTP 404 and is absent from the nine-tag list; an unauthenticated manifest request returned HTTP 401, confirming the package is not public. Runtime: an unconfigured start exited 2 with the fail-closed configuration message, the HEALTHCHECK command exited 0, a configured container reached the polling banner, and SIGTERM drained in 214 ms with exit code 0 emitting worker_stop_requested and worker_stopped. Worker claiming never started: the loopback job table held zero rows before and after. Secret scan clean across image env, history, labels and first-party filesystem; the only pattern hits were a startsWith(\"sk_live_\") guard in src/lib/stripe/server.ts and a shell variable reference in package.json, neither carrying secret material. No deployment and no staging or production mutation occurred.",
-  "canonicalIntegrationBranch": "claude/rcap-final-sprint-integration",
+  "canonicalIntegrationBranch": "main",
+  "releaseIntegrationBranch": "claude/rcap-48h-launch-integration",
+  "containedIn": "claude/rcap-48h-launch-integration",
   "dockerfilePath": "deploy/rcap-render-worker/Dockerfile",
-  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:15c5050052e0f78cb5a5904bd2de668b3f3f725a",
-  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32300112439"
+  "imageReference": "ghcr.io/roger-legalease/rcap-render-worker:5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
+  "workflowRunUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32307070302",
+  "exactlyOnePublication": {
+    "claim": "One image was published for this source SHA and its tag was never moved.",
+    "howItIsKnown": "Run 32307070302 succeeded on attempt 1; there was no re-run, so the tag guard was never exercised on this publication. The guard remains in place and refused an earlier re-run (32298320542 attempt 2) on the previous source, which is why that publication is also single.",
+    "attemptThatPublished": 1
+  },
+  "registryPullByDigestStatus": "publication_recorded_image_acceptance_pending",
+  "registryPullByDigestNote": "The digest is the one the registry returned to the publishing run. Authenticated pull, digest/tag agreement, OCI revision, non-root execution, fail-closed startup, health, graceful SIGTERM shutdown, scratch cleanliness and both secret scans are NOT claimed here; .github/workflows/rcap-worker-image-acceptance.yml proves all of them against this exact digest, on pull_request, at exact head.",
+  "supersededPublication": {
+    "sourceSha": "ef8c4851a55e8d69e9347752ba709e430218d8cb",
+    "immutableRegistryDigest": "sha256:763acd29a34f7f435e35e52654e1212a760e2608d355d5fc11f0c79e0e708784",
+    "disposition": "superseded_by_source_drift",
+    "why": "Historically valid for ef8c4851 and inert. Superseded only now that the final replacement exists: merging main brought 17 image-input paths from PR #115, so it is not image-input-equivalent to the reconciled head. Not deleted, not retagged."
+  },
+  "supersededChain": [
+    {
+      "sourceSha": "664b8ddd374642bf2bd1820f7e05224f3dd081bc",
+      "immutableRegistryDigest": "sha256:be782397379b2dd6db3f63353f38e1fe1b31095dbf9307abb73f97c1136cc9be",
+      "disposition": "superseded_by_source_drift",
+      "why": "Built from bytes not image-input-equivalent to the then-current release head."
+    },
+    {
+      "sourceSha": "1048d82e5c5ccd993d020dea971ec7a20969c859",
+      "immutableRegistryDigest": "sha256:62a4fa3003f863f902e94f6c21c64736d2beb5f5b96fbd698d78f55def619992",
+      "disposition": "superseded_by_source_drift",
+      "why": "Drifted on package.json and src/lib/rcap-engine/evaluator.ts."
+    },
+    {
+      "sourceSha": "ef8c4851a55e8d69e9347752ba709e430218d8cb",
+      "immutableRegistryDigest": "sha256:763acd29a34f7f435e35e52654e1212a760e2608d355d5fc11f0c79e0e708784",
+      "disposition": "superseded_by_source_drift",
+      "why": "Historically valid for ef8c4851 and inert. Superseded only now that the final replacement exists: merging main brought 17 image-input paths from PR #115, so it is not image-input-equivalent to the reconciled head. Not deleted, not retagged."
+    },
+    {
+      "sourceSha": "15c5050052e0f78cb5a5904bd2de668b3f3f725a",
+      "immutableRegistryDigest": "sha256:31e76d760561d84f6df2e2e7d489fb4a9d0b8d07afb091605adb78beeb977428",
+      "disposition": "parallel_lane_publication_not_accepted_by_this_release",
+      "why": "Published by the provisioning lane from its own merge commit on main. Historically valid for that source and left in the registry untouched. It is not image-input-equivalent to this integration's head, so it is not the digest this release accepts."
+    }
+  ],
+  "reconciliationStatus": {
+    "state": "published_at_reconciled_head",
+    "reconciledMainBase": "d2041a858cd67d0b3f0aa9ec351aff7f4fd517c9",
+    "why": "Built from the merge commit that reconciles this integration with current main, so the image inputs include PR #115's 17 paths. This is the one authorized final replacement.",
+    "priorDigestsRemainInRegistry": true
+  }
 }

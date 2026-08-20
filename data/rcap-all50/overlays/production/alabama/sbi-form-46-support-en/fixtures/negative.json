@@ -1,26 +1,321 @@
 {
-  "schemaVersion": "rcap-negative-fixture/v3",
-  "assertion": "With no participant facts supplied the renderer writes nothing, and no court, prosecutor, agency-use, signature, notarization, service or court-use-only field is ever written in any fixture.",
-  "unwritableFields": [
+  "schemaVersion": "rcap-negative-fixture/v4-typed",
+  "assertion": "With no participant facts supplied nothing is written. Every field starts protected: money, race, arrest and disposition dates without an explicit mapping, agency and licensing-board blocks, court, clerk, prosecutor and attorney fields, responsible officials, signatures, notarization, service blocks, outside parties, non-text controls and unindexed charge rows are refused by construction rather than by a deny pattern.",
+  "refusedFields": [
+    {
+      "field": "Male",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Female",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "AliasesNickname",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "SSN",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "MMDDYYYY Drivers License Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "White",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Black",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Asian",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Indian",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Other please specify",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Employer Name",
+      "reason": "protected_category",
+      "category": "outside_party"
+    },
+    {
+      "field": "State Agency",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "Job RoleClassification",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
     {
       "field": "Completed Application signed by applicant and two witnesses OR notarized",
-      "class": "protected"
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "The required copy of my valid photo identification",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "A classifiable copy of my own fingerprints taken by an authorized law enforcement agency as required",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "If applying for state employmentlicensurecertification reference that agencys fee requirements for a backgroundcheck",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "PERSONAL REQUESTS ONLY The required 2500 administrative fee must be in the form of a money order or Cashiers check",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "Name  Address of Requesting Agency or Authorized Agent",
+      "reason": "protected_category",
+      "category": "agency"
     },
     {
       "field": "Applicant Signature",
-      "class": "signature"
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "Date",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Name of Witness",
+      "reason": "protected_category",
+      "category": "outside_party"
+    },
+    {
+      "field": "Name of Witness_2",
+      "reason": "protected_category",
+      "category": "outside_party"
+    },
+    {
+      "field": "Address of Witness",
+      "reason": "protected_category",
+      "category": "outside_party"
+    },
+    {
+      "field": "Address of Witness_2",
+      "reason": "protected_category",
+      "category": "outside_party"
+    },
+    {
+      "field": "Sworn to and subscribed before me this",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "day of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Notary Signature",
-      "class": "protected"
+      "reason": "protected_category",
+      "category": "signature"
     },
     {
       "field": "My Commission Expires",
-      "class": "protected"
+      "reason": "protected_category",
+      "category": "notarization"
+    },
+    {
+      "field": "FOR ALEA OFFICIAL USE ONLY TCN",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "SID AL",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Billed",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Paid",
+      "reason": "protected_category",
+      "category": "money"
+    },
+    {
+      "field": "No Charge",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Received By Initials",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "Processed By initials",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "Check",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Background Check Qty Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Status",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Initials",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "Certified Letter Qty Total",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "I",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Alabama Law Enforcement Agency Criminal Records and Identification Unit on",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "AGENCY1",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ARREST CHARGEDISPOSITION CHALLENGED1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "AGENCY2",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ARREST CHARGEDISPOSITION CHALLENGED2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "AGENCY3",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ARREST CHARGEDISPOSITION CHALLENGED3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "AGENCY4",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ARREST CHARGEDISPOSITION CHALLENGED4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "AGENCY5",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ARREST CHARGEDISPOSITION CHALLENGED5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "field": "Signature",
-      "class": "signature"
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "Date_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DATE",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text7",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ]
 }

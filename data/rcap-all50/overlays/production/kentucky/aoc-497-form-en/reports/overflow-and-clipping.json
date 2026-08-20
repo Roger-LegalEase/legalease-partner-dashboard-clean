@@ -4,64 +4,384 @@
   "findings": [
     {
       "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
       "field": "County dropdown",
-      "check": "option_not_in_list",
-      "value": "Example County",
-      "optionCount": 121,
-      "handling": "left_blank_for_participant_selection"
+      "reason": "value_not_among_field_options",
+      "factId": "matter.county"
     },
     {
-      "fixture": "boundary",
-      "field": "Case No",
-      "check": "clipping",
-      "widgetWidth": 111,
-      "textWidthAt": 196.8,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
-      "fixture": "boundary",
-      "field": "County dropdown",
-      "check": "option_not_in_list",
-      "value": "Saint Bartholomew and the Northern Reaches County",
-      "optionCount": 121,
-      "handling": "left_blank_for_participant_selection"
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "area code",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
-      "fixture": "boundary",
-      "field": "NAME",
-      "check": "clipping",
-      "widgetWidth": 269,
-      "textWidthAt": 326.1,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Jail ID Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
-      "fixture": "boundary",
-      "field": "ADDRESS",
-      "check": "clipping",
-      "widgetWidth": 269,
-      "textWidthAt": 357.8,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "ssn",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
-      "fixture": "boundary",
-      "field": "address2",
-      "check": "clipping",
-      "widgetWidth": 269,
-      "textWidthAt": 357.8,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "ViolationArrest Date",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
-      "fixture": "boundary",
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "check sixty days",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "check sixty  before filing",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "check five years",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
       "field": "CHARGE",
-      "check": "clipping",
-      "widgetWidth": 181,
-      "textWidthAt": 613,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "CHARGE_2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "CHARGE_3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "CHARGE_4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "CHARGE_5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "CHARGE_6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "check not current charges",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "other charges",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "requiring expungement",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "2_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "undefined_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Print",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "check offenses listed",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "check denied",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "check felony chg",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
+      "field": "Case No",
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 463,
+        "y": 734,
+        "width": 111,
+        "height": 17
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Court",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "County dropdown",
+      "reason": "value_not_among_field_options",
+      "factId": "matter.county"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "area code",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Jail ID Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "ssn",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "ViolationArrest Date",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "check sixty days",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "check sixty  before filing",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "check five years",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "CHARGE",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "CHARGE_2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "CHARGE_3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "CHARGE_4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "CHARGE_5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "CHARGE_6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "check not current charges",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "other charges",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "requiring expungement",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "2_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "undefined_2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Print",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "check offenses listed",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "check denied",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "check felony chg",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     }
   ]
 }

@@ -1,0 +1,1969 @@
+{
+  "schemaVersion": "rcap-contact-sheet-visual-proof/v1",
+  "generatedBy": "scripts/generate-rcap-contact-sheet-visual-proof.mjs",
+  "purpose": "Whether each committed blank-versus-filled contact sheet actually shows a filled panel, measured by rendering the sheet and comparing the two panels pixel by pixel.",
+  "method": {
+    "renderer": "Chromium's bundled PDF engine, via scripts/rcap-official-forms/rcap-pdf-rasterize.mjs",
+    "scale": 1.6,
+    "panelGeometry": "Cropped with the sheet builder's own layout constants: 28pt margin, 24pt gap, 0.62 panel scale, 34pt header.",
+    "comparison": "Both panels are blurred to remove sub-pixel rounding noise, then compared over a plus-or-minus-three-pixel offset search; the best match is reported. A strict comparison reads two identical panels as 15% different purely because the renderer rounds the two panel origins onto the pixel grid differently.",
+    "verdict": "Panels are called visually identical when fewer than 0.1% of compared pixels differ by more than 24 greyscale levels after blurring.",
+    "control": "Where the sheet has a second page, that page's own two panels are measured the same way. They hold different content, so a control that does not read as clearly different means the measurement is not discriminating on this sheet and no verdict is recorded for it."
+  },
+  "readingThisProof": "A sheet whose panels are identical shows a reviewer two blank forms. It is not visual evidence of a fill, and a family carrying one has not been visually reviewed regardless of what the implementation index records.",
+  "totals": {
+    "contactSheetsRendered": 63,
+    "contactSheetsComparable": 63,
+    "contactSheetsWithAKnownDifferentControl": 54,
+    "contactSheetsShowingIdenticalPanels": 4,
+    "contactSheetsShowingADifference": 59,
+    "contactSheetsWithNoVerdict": 0,
+    "renderedEvidenceCommitted": 9
+  },
+  "families": [
+    {
+      "familyId": "AL:c-94a-source-gated-en",
+      "jurisdiction": "AL",
+      "familySlug": "c-94a-source-gated-en",
+      "documentId": "C-94A",
+      "contactSheet": "data/rcap-all50/overlays/production/alabama/c-94a-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "e5cb47a5a76605029c6714a52f75d833f6b44d246ba768834c79fb4e02b7b8eb",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.005948,
+        "differingPixelFraction": 0.010475,
+        "bestOffset": {
+          "dx": -3,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.056757,
+        "differingPixelFraction": 0.236615,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AL:sbi-form-46-support-en",
+      "jurisdiction": "AL",
+      "familySlug": "sbi-form-46-support-en",
+      "documentId": "SBI-FORM-46",
+      "contactSheet": "data/rcap-all50/overlays/production/alabama/sbi-form-46-support-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "70ae643b017f42e46f893191ae6947c365c77a9828cc226da34b30e31ffb12c6",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/AL-sbi-form-46-support-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.007639,
+        "differingPixelFraction": 0.017145,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.118651,
+        "differingPixelFraction": 0.456935,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AK:dps-cri-103-source-gated-en",
+      "jurisdiction": "AK",
+      "familySlug": "dps-cri-103-source-gated-en",
+      "documentId": "DPS-CRI-103",
+      "contactSheet": "data/rcap-all50/overlays/production/alaska/dps-cri-103-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "4bdaa9522ac45e99f870b8854fa4f930f7546187868ca26de44524901fed8247",
+      "renderedEvidence": null,
+      "pagesOnSheet": 1,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.00602,
+        "differingPixelFraction": 0.012881,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": null,
+      "controlDiscriminates": null,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AK:tf-800-form-en",
+      "jurisdiction": "AK",
+      "familySlug": "tf-800-form-en",
+      "documentId": "TF-800",
+      "contactSheet": "data/rcap-all50/overlays/production/alaska/tf-800-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "e5ecf77f72e9ddd2e9c08b4e3e82484f796df4d08b4c343f0cc973d7cd67477e",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/AK-tf-800-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.006788,
+        "differingPixelFraction": 0.011975,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.093587,
+        "differingPixelFraction": 0.369582,
+        "bestOffset": {
+          "dx": 1,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AK:tf-805-form-en",
+      "jurisdiction": "AK",
+      "familySlug": "tf-805-form-en",
+      "documentId": "TF-805",
+      "contactSheet": "data/rcap-all50/overlays/production/alaska/tf-805-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "2233423100912bd9fbc5362241dbf7c7eb712532c8591dd9d6c89aa20d1d9c91",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.006366,
+        "differingPixelFraction": 0.011622,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.108093,
+        "differingPixelFraction": 0.383703,
+        "bestOffset": {
+          "dx": -2,
+          "dy": -2
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AK:tf-810-form-en",
+      "jurisdiction": "AK",
+      "familySlug": "tf-810-form-en",
+      "documentId": "TF-810",
+      "contactSheet": "data/rcap-all50/overlays/production/alaska/tf-810-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "990913a7d7220a9262d96895cd27ab95ac4689f8be3c12a652146843218f9a21",
+      "renderedEvidence": null,
+      "pagesOnSheet": 1,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.007714,
+        "differingPixelFraction": 0.010506,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": null,
+      "controlDiscriminates": null,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-order-of-probation-under-act-346-source-gated-en",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-order-of-probation-under-act-346-source-gated-en",
+      "documentId": "AR-ACIC-ORDER-OF-PROBATION-UNDER-ACT-346",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-of-probation-under-act-346-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "9439f81037cadd0cb64d53c63765d9a8ea157f39d9056619e7c06cf9ede9d9f9",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.00327,
+        "differingPixelFraction": 0.002131,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.096861,
+        "differingPixelFraction": 0.295523,
+        "bestOffset": {
+          "dx": 2,
+          "dy": -1
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en",
+      "documentId": "AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-FIRST-OFFENDERS-ACT-346",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-first-offenders-act-346-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "af347122cea2986973a83cbd27be71834b961beecea6274eb826ec1b6283c5be",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003706,
+        "differingPixelFraction": 0.003606,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.084437,
+        "differingPixelFraction": 0.295835,
+        "bestOffset": {
+          "dx": 0,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-",
+      "documentId": "AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT-OFF",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-post-adjudication-drug-court-off-source-gated-/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "ea8af09e17fcb6b890fd42d067dd0b2ddd45081403b8c135fd82ebd37fa9eece",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002844,
+        "differingPixelFraction": 0.004132,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.072671,
+        "differingPixelFraction": 0.270325,
+        "bestOffset": {
+          "dx": 3,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-",
+      "documentId": "AR-ACIC-ORDER-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-OFFE",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-dismiss-and-seal-pre-adjudication-drug-court-offe-source-gated-/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "a67e3bb7fb20b4033f4115bb21815dbd0b945c5b7a59919c0ca517687213a672",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003975,
+        "differingPixelFraction": 0.004048,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.077462,
+        "differingPixelFraction": 0.265237,
+        "bestOffset": {
+          "dx": 3,
+          "dy": 3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-ARREST-UNDER-ACT-1460",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-arrest-under-act-1460-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "d79454bea06f20fa4fe7ef980c2e6c56a4460b9e5f80919d3137caaddd60ab24",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003164,
+        "differingPixelFraction": 0.003603,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.06971,
+        "differingPixelFraction": 0.240175,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSESSI",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-controlled-or-counterfeit-substance-possessi-source-gated-/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "993f45570c6c7eef941f9bd338a3d530227e23c9c92f573ef9fbf2e683aa0778",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003872,
+        "differingPixelFraction": 0.002186,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.08164,
+        "differingPixelFraction": 0.274636,
+        "bestOffset": {
+          "dx": 1,
+          "dy": 1
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-order-to-seal-felony-under-act-1460-source-gated-en",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-FELONY-UNDER-ACT-1460",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-felony-under-act-1460-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "3c2eb362a5b79efa5463ff2657e1243b3d55397741196408f5244066fd0fb74a",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/AR-ar-acic-order-to-seal-felony-under-act-1460-source-gated-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002775,
+        "differingPixelFraction": 0.005533,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.056229,
+        "differingPixelFraction": 0.22101,
+        "bestOffset": {
+          "dx": -3,
+          "dy": -1
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "1629bf597b06b176253e1134ba3714d444342096ca812d02ea5b734fc7d51eba",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003298,
+        "differingPixelFraction": 0.003216,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.078828,
+        "differingPixelFraction": 0.25462,
+        "bestOffset": {
+          "dx": -3,
+          "dy": -2
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-MISDEMEANORS-UNDER-ACT-1460",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-misdemeanors-under-act-1460-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "35518dcf152ce0014be97df90b7cf1b204c20687fb07f72390dee892b29fad5c",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002368,
+        "differingPixelFraction": 0.002035,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.061502,
+        "differingPixelFraction": 0.234082,
+        "bestOffset": {
+          "dx": 2,
+          "dy": 1
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO-CHA",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-nolle-prosequi-dismissal-acquittal-or-no-cha-source-gated-/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "b001cd2ad458af3ebc58052a7b568f0d14c8ffbc97c0106787f5ab7e8dfef732",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003031,
+        "differingPixelFraction": 0.002159,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.074721,
+        "differingPixelFraction": 0.265905,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-RECORDS-OF-PARDONED-OFFENDER-OR-YOUTHFUL-FEL",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-records-of-pardoned-offender-or-youthful-fel-source-gated-/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "1958e264ec1681b0fdb09c8d9f3f2f76bc75ee0dd46347c171803ca0b0e40a4a",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003911,
+        "differingPixelFraction": 0.006,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.072723,
+        "differingPixelFraction": 0.247517,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-",
+      "documentId": "AR-ACIC-ORDER-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-ACT-1",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-order-to-seal-under-community-punishment-act-531-and-act-1-source-gated-/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "96d60219b4085ab6b9ced8e50749bef8f93509e0e97dc2ccd6ff80fead584882",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.00289,
+        "differingPixelFraction": 0.002081,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.068367,
+        "differingPixelFraction": 0.240592,
+        "bestOffset": {
+          "dx": -1,
+          "dy": 3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e",
+      "documentId": "AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-POST-ADJUDICATION-DRUG-COURT",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-post-adjudication-drug-court-source-gated-e/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "609772e3e757aee440562dae69af9c110381e94264a67feb4cac12e11b21e5e2",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002545,
+        "differingPixelFraction": 0.004456,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.052258,
+        "differingPixelFraction": 0.209088,
+        "bestOffset": {
+          "dx": -3,
+          "dy": 3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-",
+      "documentId": "AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-PRE-ADJUDICATION-DRUG-COURT-O",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-pre-adjudication-drug-court-o-source-gated-/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "677080aaebea8ba55852a6ba6edb245266194274801544cda34860f51f4a21f3",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003462,
+        "differingPixelFraction": 0.003597,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.075295,
+        "differingPixelFraction": 0.248101,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e",
+      "documentId": "AR-ACIC-PETITION-TO-DISMISS-AND-SEAL-VETERANS-TREATMENT-SPECIALTY",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-dismiss-and-seal-veterans-treatment-specialty-source-gated-e/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "05279104a1c68569641c8160ce3b6db1548df3a1b55556b0e97587a934943c26",
+      "renderedEvidence": null,
+      "pagesOnSheet": 5,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003325,
+        "differingPixelFraction": 0.003331,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.071102,
+        "differingPixelFraction": 0.23968,
+        "bestOffset": {
+          "dx": 1,
+          "dy": 3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-ARREST-UNDER-ACT-1460",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-arrest-under-act-1460-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "9d6b7f175bec186a8736c0b2de621a82334cff31bc81e82c63c13e80afeab914",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003269,
+        "differingPixelFraction": 0.003547,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.063003,
+        "differingPixelFraction": 0.216439,
+        "bestOffset": {
+          "dx": 1,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-CONTROLLED-OR-COUNTERFEIT-SUBSTANCE-POSSE",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-controlled-or-counterfeit-substance-posse-source-gated-/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "31b7eb5bcdb365b37c81e5f6b3b78f18e63ecaded186311b3a7875efaae22d05",
+      "renderedEvidence": null,
+      "pagesOnSheet": 5,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002039,
+        "differingPixelFraction": 0.002227,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.051634,
+        "differingPixelFraction": 0.182355,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 1
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-felony-under-act-1460-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "1094cd314d30abdff4925519a4724c4cb157e847fb560a045b289db7f6cbc1ca",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002345,
+        "differingPixelFraction": 0.003847,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.056297,
+        "differingPixelFraction": 0.230077,
+        "bestOffset": {
+          "dx": -3,
+          "dy": 2
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-MISDEMEANOR-DWI-OR-BWI-CONVICTION",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-misdemeanor-dwi-or-bwi-conviction-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "c92884eec768575c76981a18231d48ffcbc667194cad71db546f1451c891e1f6",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002955,
+        "differingPixelFraction": 0.003263,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.063254,
+        "differingPixelFraction": 0.219791,
+        "bestOffset": {
+          "dx": -2,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-nolle-prosequi-dismissal-acquittal-or-no-source-gated-e/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "e9354eaccd8a46afead21ff9e91d2c9b2a3a1403ef4a1d2bc00887ed176caa76",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003427,
+        "differingPixelFraction": 0.00321,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.068804,
+        "differingPixelFraction": 0.243323,
+        "bestOffset": {
+          "dx": -3,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "AR:ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-",
+      "jurisdiction": "AR",
+      "familySlug": "ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-UNDER-COMMUNITY-PUNISHMENT-ACT-531-AND-AC",
+      "contactSheet": "data/rcap-all50/overlays/production/arkansas/ar-acic-petition-to-seal-under-community-punishment-act-531-and-ac-source-gated-/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "ead191c9afe4e55cb544eb312c863d8bd3a57480705e7999c96cc12af9732951",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002789,
+        "differingPixelFraction": 0.002026,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.070462,
+        "differingPixelFraction": 0.242507,
+        "bestOffset": {
+          "dx": 0,
+          "dy": -1
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "KY:aoc-333-source-gated-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-333-source-gated-en",
+      "documentId": "AOC-333",
+      "contactSheet": "data/rcap-all50/overlays/production/kentucky/aoc-333-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "59acbb86aaa9844ed1b417da7e183fd3f56af1fedc04c67fc348f3512f0367bb",
+      "renderedEvidence": null,
+      "pagesOnSheet": 1,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002887,
+        "differingPixelFraction": 0.003192,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": null,
+      "controlDiscriminates": null,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "KY:aoc-334-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-334-form-en",
+      "documentId": "AOC-334",
+      "contactSheet": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "af53ae57fff29b2499617a5a3b3d9c85008f284102ff135a06e3b370801ed139",
+      "renderedEvidence": null,
+      "pagesOnSheet": 1,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003286,
+        "differingPixelFraction": 0.005576,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": null,
+      "controlDiscriminates": null,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "KY:aoc-496-2-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-496-2-form-en",
+      "documentId": "AOC-496.2",
+      "contactSheet": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "92e092df5ab1a8bd99e67ce508179baac17ef595b2c6326088e432db04d53221",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.006029,
+        "differingPixelFraction": 0.013858,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.089577,
+        "differingPixelFraction": 0.324059,
+        "bestOffset": {
+          "dx": 0,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "KY:aoc-496-3-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-496-3-form-en",
+      "documentId": "AOC-496.3",
+      "contactSheet": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002937,
+        "differingPixelFraction": 0.001497,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.074276,
+        "differingPixelFraction": 0.294345,
+        "bestOffset": {
+          "dx": 3,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "KY:aoc-496-4-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-496-4-form-en",
+      "documentId": "AOC-496.4",
+      "contactSheet": "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "ea30f977b782d675043533c5f3c1c665cdfe3912f7632b1313bc438ffe2310f3",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002315,
+        "differingPixelFraction": 0.001283,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.074391,
+        "differingPixelFraction": 0.292001,
+        "bestOffset": {
+          "dx": 3,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "KY:aoc-496-5-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-496-5-form-en",
+      "documentId": "AOC-496.5",
+      "contactSheet": "data/rcap-all50/overlays/production/kentucky/aoc-496-5-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "97458219cfc1023f733ebda352b9f5596b4f8bc038427e8e3c903e2aaf1560ed",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/KY-aoc-496-5-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 1,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002636,
+        "differingPixelFraction": 0.003195,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": null,
+      "controlDiscriminates": null,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "KY:aoc-496-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-496-form-en",
+      "documentId": "AOC-496",
+      "contactSheet": "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "3794c895d3fa9290f33615368c08017649c54d40ae7dbb0d3f75404643e48fc7",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003782,
+        "differingPixelFraction": 0.007348,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.08168,
+        "differingPixelFraction": 0.291234,
+        "bestOffset": {
+          "dx": 3,
+          "dy": -2
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "KY:aoc-497-3-source-gated-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-497-3-source-gated-en",
+      "documentId": "AOC-497.3",
+      "contactSheet": "data/rcap-all50/overlays/production/kentucky/aoc-497-3-source-gated-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "181c5ef82417ce664715d8cfa8e27b1a97844de6812db8a612ccb90baa542203",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.004161,
+        "differingPixelFraction": 0.007459,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.072564,
+        "differingPixelFraction": 0.253099,
+        "bestOffset": {
+          "dx": -3,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "KY:aoc-497-form-en",
+      "jurisdiction": "KY",
+      "familySlug": "aoc-497-form-en",
+      "documentId": "AOC-497",
+      "contactSheet": "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "8f0966a78e9e8bc152972f9584a7deab0500d7abe759ac288ad742e095c9c3a4",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.004074,
+        "differingPixelFraction": 0.008316,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.077979,
+        "differingPixelFraction": 0.278675,
+        "bestOffset": {
+          "dx": 3,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NE:cc-6-11-2-form-en",
+      "jurisdiction": "NE",
+      "familySlug": "cc-6-11-2-form-en",
+      "documentId": "CC-6-11.2",
+      "contactSheet": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "e69a23f741eb79656e8c8970a1062250b47c0d85500301409f1f3c9e29e3e27d",
+      "renderedEvidence": null,
+      "pagesOnSheet": 1,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.002941,
+        "differingPixelFraction": 0.007054,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": null,
+      "controlDiscriminates": null,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NE:cc-6-11-form-en",
+      "jurisdiction": "NE",
+      "familySlug": "cc-6-11-form-en",
+      "documentId": "CC-6-11",
+      "contactSheet": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "878bea5971981a938047052eedc3a71685a4cb0c2a1c6160832ae0a2a1da62d9",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/NE-cc-6-11-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 1,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.005432,
+        "differingPixelFraction": 0.014693,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": null,
+      "controlDiscriminates": null,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NE:cc-6-12-form-en",
+      "jurisdiction": "NE",
+      "familySlug": "cc-6-12-form-en",
+      "documentId": "CC-6-12",
+      "contactSheet": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "02c41c6227027aef9015aad59b42a4bc579971513d6baffa3745b3756cc780b3",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.00313,
+        "differingPixelFraction": 0.008489,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.053068,
+        "differingPixelFraction": 0.172462,
+        "bestOffset": {
+          "dx": 1,
+          "dy": -2
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NE:cc-6-15-1-form-en",
+      "jurisdiction": "NE",
+      "familySlug": "cc-6-15-1-form-en",
+      "documentId": "CC-6-15.1",
+      "contactSheet": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "2960c343551b8c81ba96291792a8480c62cc73cc6c7d5a3d0c80a7bd298ea7be",
+      "renderedEvidence": null,
+      "pagesOnSheet": 1,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.004592,
+        "differingPixelFraction": 0.012673,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": null,
+      "controlDiscriminates": null,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NE:dc-1-15-form-en",
+      "jurisdiction": "NE",
+      "familySlug": "dc-1-15-form-en",
+      "documentId": "DC-1-15",
+      "contactSheet": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "1481d199522a0cadd82b42b7193260bec525869304c815ad32dc0aa88701a131",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.004559,
+        "differingPixelFraction": 0.012367,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.05779,
+        "differingPixelFraction": 0.194336,
+        "bestOffset": {
+          "dx": 1,
+          "dy": 3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NE:dc-6-7-2-form-en",
+      "jurisdiction": "NE",
+      "familySlug": "dc-6-7-2-form-en",
+      "documentId": "DC-6-7.2",
+      "contactSheet": "data/rcap-all50/overlays/production/nebraska/dc-6-7-2-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "f577caecca0901900197351f7ece6cb0738682e2c1501e9c42da3430b932deb2",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.005148,
+        "differingPixelFraction": 0.012912,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.058824,
+        "differingPixelFraction": 0.197868,
+        "bestOffset": {
+          "dx": -3,
+          "dy": 3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-en",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cr-287-form-en",
+      "documentId": "AOC-CR-287",
+      "contactSheet": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "ffd0db5aac3eabfe2db2003c4634014259853a8731b882abd8892e94af4df8d5",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-287-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.006088,
+        "differingPixelFraction": 0.012565,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.108088,
+        "differingPixelFraction": 0.421238,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 1
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-es",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cr-287-form-es",
+      "documentId": "AOC-CR-287",
+      "contactSheet": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-es/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "dcf460a900d5ad2d549e6d3fe9c4e227363db69647fa02f2117c1189143d2c13",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003524,
+        "differingPixelFraction": 0.000111,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.07182,
+        "differingPixelFraction": 0.319964,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": true
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cr-288-form-en",
+      "documentId": "AOC-CR-288",
+      "contactSheet": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "5703d476da2e832cddb97aa8ffd247b19b250b1ba82b5aa1c1f2f94a948ee618",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.006731,
+        "differingPixelFraction": 0.0164,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.10054,
+        "differingPixelFraction": 0.390571,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-es",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cr-288-form-es",
+      "documentId": "AOC-CR-288",
+      "contactSheet": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-es/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "4207052aad26f1efce64aaa8e4cebcd603e5a6ab98ae027a39ca80986cb60a15",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003489,
+        "differingPixelFraction": 0.000108,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.071144,
+        "differingPixelFraction": 0.317632,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": true
+    },
+    {
+      "familyId": "NC:aoc-cr-296-form-en",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cr-296-form-en",
+      "documentId": "AOC-CR-296",
+      "contactSheet": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "a27ecc3ac56f79238d959cd950175e696190f804fa7b33488863a9301b3b6daa",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.005764,
+        "differingPixelFraction": 0.012624,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.100721,
+        "differingPixelFraction": 0.38262,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NC:aoc-cr-297-form-en",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cr-297-form-en",
+      "documentId": "AOC-CR-297",
+      "contactSheet": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "8c7834867538502d3fdb0acaea34cfd51ad7e38101dfc6f195e107de9f19a2b0",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.007388,
+        "differingPixelFraction": 0.015206,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.112279,
+        "differingPixelFraction": 0.438303,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NC:aoc-cr-298-form-en",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cr-298-form-en",
+      "documentId": "AOC-CR-298",
+      "contactSheet": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "d9ea7ca6523c7816c2bb3e47035fcf909e1f73b3a2cc8432ae04ce449b8dea84",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.007396,
+        "differingPixelFraction": 0.015321,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.116628,
+        "differingPixelFraction": 0.452504,
+        "bestOffset": {
+          "dx": 0,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-en",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cv-226-support-en",
+      "documentId": "AOC-CV-226",
+      "contactSheet": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "26bb43ea85d42b881dbd8b9d21d09067f2c5a44285b0420114f3aab5104088b4",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.007759,
+        "differingPixelFraction": 0.019793,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.10318,
+        "differingPixelFraction": 0.393215,
+        "bestOffset": {
+          "dx": 0,
+          "dy": -1
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-es",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cv-226-support-es",
+      "documentId": "AOC-CV-226",
+      "contactSheet": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-es/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "e5c560c0c89d4596d87700b18da251b69a03df2e0b0acf52963467f6a87c50bf",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003155,
+        "differingPixelFraction": 0.000622,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.081232,
+        "differingPixelFraction": 0.353556,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": true
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-vi",
+      "jurisdiction": "NC",
+      "familySlug": "aoc-cv-226-support-vi",
+      "documentId": "AOC-CV-226",
+      "contactSheet": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-vi/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "87548340e2bf60451d0263e88202d3f96310e42ca117eb31b5de4ef6d87bfa1f",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003322,
+        "differingPixelFraction": 0.000622,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.081333,
+        "differingPixelFraction": 0.356423,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": true
+    },
+    {
+      "familyId": "VT:200-00130-form-en",
+      "jurisdiction": "VT",
+      "familySlug": "200-00130-form-en",
+      "documentId": "200-00130",
+      "contactSheet": "data/rcap-all50/overlays/production/vermont/200-00130-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "9c34f37911dc2cc0279280478a7cead31b17de4a6169038e4d2620699dd890a3",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003289,
+        "differingPixelFraction": 0.004682,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.079471,
+        "differingPixelFraction": 0.272196,
+        "bestOffset": {
+          "dx": -3,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "VT:200-00132-form-en",
+      "jurisdiction": "VT",
+      "familySlug": "200-00132-form-en",
+      "documentId": "200-00132",
+      "contactSheet": "data/rcap-all50/overlays/production/vermont/200-00132-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "b774d621d4e9e90232b9f7177874a121d42fdf9aa88bc82bd273273dea930e1e",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/VT-200-00132-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003598,
+        "differingPixelFraction": 0.004657,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.079551,
+        "differingPixelFraction": 0.267718,
+        "bestOffset": {
+          "dx": 0,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "VT:200-00132a-form-en",
+      "jurisdiction": "VT",
+      "familySlug": "200-00132a-form-en",
+      "documentId": "200-00132A",
+      "contactSheet": "data/rcap-all50/overlays/production/vermont/200-00132a-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "1c56457dbd05ac939c079150124c30d5124863a73b3254550d9b0c2b2621fb38",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003632,
+        "differingPixelFraction": 0.004657,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.081755,
+        "differingPixelFraction": 0.276364,
+        "bestOffset": {
+          "dx": -1,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "VT:600-00228-support-en",
+      "jurisdiction": "VT",
+      "familySlug": "600-00228-support-en",
+      "documentId": "600-00228",
+      "contactSheet": "data/rcap-all50/overlays/production/vermont/600-00228-support-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "991176ec5412fc285362f2f080ee041ed7b843e99f013d0d9b4b471f3c676490",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.00365,
+        "differingPixelFraction": 0.007976,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.092858,
+        "differingPixelFraction": 0.349334,
+        "bestOffset": {
+          "dx": -1,
+          "dy": 2
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "VA:cc-1201-a-form-en",
+      "jurisdiction": "VA",
+      "familySlug": "cc-1201-a-form-en",
+      "documentId": "CC-1201-A",
+      "contactSheet": "data/rcap-all50/overlays/production/virginia/cc-1201-a-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "b7d548227ea38d7f4ed99ae231a0ce8a5e68af23590d963f37cd50a1a611adea",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.005313,
+        "differingPixelFraction": 0.00857,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.078718,
+        "differingPixelFraction": 0.281863,
+        "bestOffset": {
+          "dx": 1,
+          "dy": -3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "VA:cc-1201-form-en",
+      "jurisdiction": "VA",
+      "familySlug": "cc-1201-form-en",
+      "documentId": "CC-1201",
+      "contactSheet": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "6b58a4a3bf5fade40c2fcea53aabe0a7734cacdf3edfdc701a3bd971c31c57d8",
+      "renderedEvidence": null,
+      "pagesOnSheet": 4,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.005604,
+        "differingPixelFraction": 0.009717,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.078886,
+        "differingPixelFraction": 0.291156,
+        "bestOffset": {
+          "dx": 1,
+          "dy": 3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "VA:cc-1203-a-form-en",
+      "jurisdiction": "VA",
+      "familySlug": "cc-1203-a-form-en",
+      "documentId": "CC-1203-A",
+      "contactSheet": "data/rcap-all50/overlays/production/virginia/cc-1203-a-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "c2747a818a120c0970c6789c72bfddd3eb8f7ed608c6cae40148c2e261156e89",
+      "renderedEvidence": null,
+      "pagesOnSheet": 3,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.004951,
+        "differingPixelFraction": 0.005762,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.08379,
+        "differingPixelFraction": 0.299491,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "VA:cc-1203-b-form-en",
+      "jurisdiction": "VA",
+      "familySlug": "cc-1203-b-form-en",
+      "documentId": "CC-1203-B",
+      "contactSheet": "data/rcap-all50/overlays/production/virginia/cc-1203-b-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "b40a99b25fdf6558bf5813f8ab961da327ec05236fded5594fd7345b26a661a7",
+      "renderedEvidence": null,
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.005228,
+        "differingPixelFraction": 0.010063,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.072152,
+        "differingPixelFraction": 0.226521,
+        "bestOffset": {
+          "dx": 0,
+          "dy": -2
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "VA:cc-1203-form-en",
+      "jurisdiction": "VA",
+      "familySlug": "cc-1203-form-en",
+      "documentId": "CC-1203",
+      "contactSheet": "data/rcap-all50/overlays/production/virginia/cc-1203-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "ea3c805d31bed4014b472c5a71bb9631af869c532ad3a0fcb974b20cebc9dbd6",
+      "renderedEvidence": null,
+      "pagesOnSheet": 6,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.00467,
+        "differingPixelFraction": 0.006361,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.077337,
+        "differingPixelFraction": 0.275106,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "VA:cc-1473-form-en",
+      "jurisdiction": "VA",
+      "familySlug": "cc-1473-form-en",
+      "documentId": "CC-1473",
+      "contactSheet": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "02384e76303d212325e4fcf5eb4e4d502ff81c6642af3a9a17f57b5cdba02a29",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/VA-cc-1473-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 2,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.005992,
+        "differingPixelFraction": 0.015441,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": {
+        "meanAbsoluteDifference": 0.063575,
+        "differingPixelFraction": 0.209796,
+        "bestOffset": {
+          "dx": 0,
+          "dy": 3
+        },
+        "pixelsCompared": 323352
+      },
+      "controlDiscriminates": true,
+      "panelsAreVisuallyIdentical": false
+    },
+    {
+      "familyId": "WI:cr-266-form-en",
+      "jurisdiction": "WI",
+      "familySlug": "cr-266-form-en",
+      "documentId": "CR-266",
+      "contactSheet": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/contact-sheet/blank-vs-filled.pdf",
+      "contactSheetSha256": "cd906b1d37fcdb549f0b507b29faaecea99259b6ac48beb57ddd0a542112f93d",
+      "renderedEvidence": "docs/record-clearing/pdf-visual-evidence/WI-cr-266-form-en-contact-sheet-page-01.png",
+      "pagesOnSheet": 1,
+      "renderFailure": null,
+      "comparable": true,
+      "blankVsFilled": {
+        "meanAbsoluteDifference": 0.003213,
+        "differingPixelFraction": 0.007184,
+        "bestOffset": {
+          "dx": -2,
+          "dy": 0
+        },
+        "pixelsCompared": 323352
+      },
+      "knownDifferentControl": null,
+      "controlDiscriminates": null,
+      "panelsAreVisuallyIdentical": false
+    }
+  ]
+}

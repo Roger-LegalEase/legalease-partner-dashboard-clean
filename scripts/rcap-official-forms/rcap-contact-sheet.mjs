@@ -17,6 +17,7 @@ import { createRequire } from "node:module";
 import crypto from "node:crypto";
 import { extractTextItems, groupIntoLines } from "./rcap-pdf-anchor-capture.mjs";
 import { DETERMINISTIC_STAMP } from "./rcap-official-form-finalize.mjs";
+import { sanitizeAndFlatten } from "./rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, StandardFonts, rgb } = require("pdf-lib");
@@ -95,11 +96,23 @@ export async function buildContactSheet({
     );
   }
 
+  // The blank panel is the court's own PDF, and embedding it raw carried its
+  // JavaScript, additional-actions and URI actions into the sheet. Every one of
+  // the 23 active-content findings in the register was on a contact sheet, none
+  // on a filed fixture: the finalizer had cleaned the artifact and this module
+  // then re-imported the dirt beside it. The blank is sanitized and flattened
+  // the same way the filed artifact is before it is embedded -- a review sheet
+  // wants the blank's appearance, not its interactivity.
+  const { clean: cleanBlankDoc } = await sanitizeAndFlatten(
+    await PDFDocument.load(blankBytes, { ignoreEncryption: true })
+  );
+  const sanitizedBlankBytes = await cleanBlankDoc.save({ useObjectStreams: false });
+
   const sheet = await PDFDocument.create();
   const font = await sheet.embedFont(StandardFonts.Helvetica);
   const pageCount = Math.min(blankDoc.getPageCount(), finalDoc.getPageCount());
   for (let i = 0; i < pageCount; i += 1) {
-    const [bp] = await sheet.embedPdf(blankBytes, [i]);
+    const [bp] = await sheet.embedPdf(sanitizedBlankBytes, [i]);
     const [fp] = await sheet.embedPdf(finalizedBytes, [i]);
     const W = bp.width, H = bp.height, gap = 24, margin = 28, header = 34;
     const page = sheet.addPage([W * scale * 2 + gap + margin * 2, H * scale + margin * 2 + header]);
@@ -109,9 +122,17 @@ export async function buildContactSheet({
     page.drawPage(fp, { x: margin + W * scale + gap, y: margin, xScale: scale, yScale: scale });
   }
 
+  // Stamped and serialized the same way the finalizer stamps a participant
+  // artifact. The sheet is evidence about a finalized artifact, and evidence
+  // that cannot itself pass the finalization contract is awkward to defend:
+  // without the producer string it cannot say which factory built it, and
+  // saved with object streams the active-content scan cannot see into it.
+  sheet.setProducer("LegalEase RCAP official-form factory (pdf-lib)");
+  sheet.setCreator("LegalEase RCAP");
+  sheet.setTitle(heading);
   sheet.setCreationDate(DETERMINISTIC_STAMP);
   sheet.setModificationDate(DETERMINISTIC_STAMP);
-  const bytes = await sheet.save();
+  const bytes = await sheet.save({ useObjectStreams: false });
 
   return {
     bytes,

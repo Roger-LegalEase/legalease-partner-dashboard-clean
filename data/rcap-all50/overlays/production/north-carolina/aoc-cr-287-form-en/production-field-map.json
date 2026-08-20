@@ -18,6 +18,8 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "PetitionerName",
@@ -60,219 +62,561 @@
       "factId": "participant.zip"
     },
     {
+      "field": "DriversLicenseState",
+      "class": "manual",
+      "factId": "participant.state"
+    },
+    {
       "field": "DateOfBirth",
       "class": "participant",
       "factId": "participant.date_of_birth"
     },
     {
-      "field": "ChargesLine1",
-      "class": "participant",
-      "factId": "matter.charges[0].charge"
-    },
-    {
-      "field": "ChargesLine2",
-      "class": "participant",
-      "factId": "matter.charges[1].charge"
-    },
-    {
       "field": "FileNumber1",
       "class": "participant",
       "factId": "matter.charges[0].case_number"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "ScanNumbers",
+      "reason": "protected_category",
+      "category": "clerk"
+    },
+    {
+      "field": "Race",
+      "reason": "protected_category",
+      "category": "race"
+    },
+    {
+      "field": "Sex",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "CkBox_Attchmt",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ReasonCont",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "SuperiorCourtCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "DistrictCourtCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "DriversLicenseNumber",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "FullSocialSecurityNumber",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "AgeAtTimeOfOffense",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "PetitionersAttorneyName",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "PetitionersAttorneyAddr1",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "PetitionersAttorneyAddr2",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "PetitionersAttorneyCity",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "PetitionersAttorneyState",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "PetitionersAttorneyZip",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "ArrestingAgencyName",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ArrestingAgencyAddr1",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ArrestingAgencyAddr2",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ArrestingAgencyCity",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ArrestingAgencyState",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "ArrestingAgencyZip",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency1Name",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency1Addr1",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency1Addr2",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency1City",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency1State",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency1Zip",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency2Name",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency2Addr1",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency2Addr2",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency2City",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency2State",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "OtherAgency2Zip",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "NoChargeDismissedDeferredProsecutionCkBox",
+      "reason": "protected_category",
+      "category": "prosecutor"
+    },
+    {
+      "field": "PetitionSignedDate",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "PetitionSignedByName",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "PetitionerCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "PetitionersAttorneyCkBox",
+      "reason": "protected_category",
+      "category": "attorney"
+    },
+    {
+      "field": "ThereIsACivilRevocationRecordCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ChargesLine1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "ChargesLine2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "ChargedWithMultipleNotAllDismissedCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ChargedWithMultipleAndAllDismissedCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "FindsNotAllDismissedCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "FindsAllDismissedCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "FindsThereIsACivilRevocationRecordCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "FindsShouldBeGrantedCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "FindsShouldNotBeGrantedCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ReasonLine1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "PetitionIsGrantedCkBox",
+      "reason": "protected_category",
+      "category": "court"
+    },
+    {
+      "field": "PetitionIsDeniedCkBox",
+      "reason": "protected_category",
+      "category": "court"
+    },
+    {
+      "field": "CertificationByClerkDate",
+      "reason": "protected_category",
+      "category": "clerk"
+    },
+    {
+      "field": "CertificationByClerkName",
+      "reason": "protected_category",
+      "category": "clerk"
+    },
+    {
+      "field": "PresidingJudgeName",
+      "reason": "protected_category",
+      "category": "court"
+    },
+    {
+      "field": "OrderSignedDate",
+      "reason": "protected_category",
+      "category": "signature"
+    },
+    {
+      "field": "DeputyCSCCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "AssistantCSCCkBox",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "ClerkOfSuperiorCourtCkBox",
+      "reason": "protected_category",
+      "category": "clerk"
     },
     {
       "field": "FileNumber2",
-      "class": "participant",
-      "factId": "matter.charges[1].case_number"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
     },
     {
       "field": "FileNumber3",
-      "class": "participant",
-      "factId": "matter.charges[2].case_number"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
     },
     {
       "field": "FileNumber4",
-      "class": "participant",
-      "factId": "matter.charges[3].case_number"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
     },
     {
       "field": "FileNumber5",
-      "class": "participant",
-      "factId": "matter.charges[4].case_number"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
     },
     {
       "field": "FileNumber6",
-      "class": "participant",
-      "factId": "matter.charges[5].case_number"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
     },
     {
       "field": "FileNumber7",
-      "class": "participant",
-      "factId": "matter.charges[6].case_number"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
     },
     {
       "field": "FileNumber8",
-      "class": "participant",
-      "factId": "matter.charges[7].case_number"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
     },
     {
       "field": "FileNumber9",
-      "class": "participant",
-      "factId": "matter.charges[8].case_number"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
     },
     {
       "field": "FileNumber10",
-      "class": "participant",
-      "factId": "matter.charges[9].case_number"
+      "reason": "repeating_row_without_indexed_fact",
+      "category": "charge_row"
     },
     {
       "field": "DateOfArrest1",
-      "class": "participant",
-      "factId": "matter.charges[0].arrest_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfArrest2",
-      "class": "participant",
-      "factId": "matter.charges[1].arrest_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfArrest3",
-      "class": "participant",
-      "factId": "matter.charges[2].arrest_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfArrest4",
-      "class": "participant",
-      "factId": "matter.charges[3].arrest_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfArrest5",
-      "class": "participant",
-      "factId": "matter.charges[4].arrest_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfArrest6",
-      "class": "participant",
-      "factId": "matter.charges[5].arrest_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfArrest7",
-      "class": "participant",
-      "factId": "matter.charges[6].arrest_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfArrest8",
-      "class": "participant",
-      "factId": "matter.charges[7].arrest_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfArrest9",
-      "class": "participant",
-      "factId": "matter.charges[8].arrest_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfArrest10",
-      "class": "participant",
-      "factId": "matter.charges[9].arrest_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "OffenseDescription1",
-      "class": "participant",
-      "factId": "matter.charges[0].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "OffenseDescription2",
-      "class": "participant",
-      "factId": "matter.charges[1].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "OffenseDescription3",
-      "class": "participant",
-      "factId": "matter.charges[2].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "OffenseDescription4",
-      "class": "participant",
-      "factId": "matter.charges[3].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "OffenseDescription5",
-      "class": "participant",
-      "factId": "matter.charges[4].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "OffenseDescription6",
-      "class": "participant",
-      "factId": "matter.charges[5].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "OffenseDescription7",
-      "class": "participant",
-      "factId": "matter.charges[6].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "OffenseDescription8",
-      "class": "participant",
-      "factId": "matter.charges[7].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "OffenseDescription9",
-      "class": "participant",
-      "factId": "matter.charges[8].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "OffenseDescription10",
-      "class": "participant",
-      "factId": "matter.charges[9].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfOffense1",
-      "class": "participant",
-      "factId": "matter.charges[0].offense_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfOffense2",
-      "class": "participant",
-      "factId": "matter.charges[1].offense_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfOffense3",
-      "class": "participant",
-      "factId": "matter.charges[2].offense_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfOffense4",
-      "class": "participant",
-      "factId": "matter.charges[3].offense_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfOffense5",
-      "class": "participant",
-      "factId": "matter.charges[4].offense_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfOffense6",
-      "class": "participant",
-      "factId": "matter.charges[5].offense_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfOffense7",
-      "class": "participant",
-      "factId": "matter.charges[6].offense_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfOffense8",
-      "class": "participant",
-      "factId": "matter.charges[7].offense_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfOffense9",
-      "class": "participant",
-      "factId": "matter.charges[8].offense_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "DateOfOffense10",
-      "class": "participant",
-      "factId": "matter.charges[9].offense_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "DateOfDismissal1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal3",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal4",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal7",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal8",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal9",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "DateOfDismissal10",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ],
   "unwritableFields": [

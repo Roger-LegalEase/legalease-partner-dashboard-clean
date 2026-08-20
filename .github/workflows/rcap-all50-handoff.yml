@@ -138,3 +138,168 @@ jobs:
       # where no ephemeral PostgreSQL is available.
       - name: Verify where each consumer record is actually created
         run: node scripts/verify-rcap-consumer-lifecycle-boundaries.mjs
+
+      # The application stamped every consumer render job with a literal
+      # profileVersion "1.3.0" that no compiled profile has ever carried, so the
+      # worker's allowlist refused every paid claim before rendering and no
+      # packet could be delivered (hosted run 32195867963). The value is now
+      # derived from the profile the route resolved against; these two steps
+      # hold that across all 51 jurisdictions and prove the guard is
+      # load-bearing, including against a fix that merely pins today's version.
+      - name: Verify render jobs derive their authoritative profile version
+        run: node scripts/verify-rcap-authoritative-profile-version.mjs
+
+      - name: Prove the authoritative profile-version guard is load-bearing
+        run: node scripts/verify-rcap-authoritative-profile-version.mjs --mutations
+
+      # The matrix's own job read hashed the claim token with a database
+      # function the acceptance project does not expose, so the query errored,
+      # the read returned null, and a job that plainly existed was reported as
+      # "(no job row)". A broken diagnostic must never read as a finding.
+      - name: Verify the hosted job read separates a failed query from a missing job
+        run: node scripts/test-rcap-hosted-acceptance-readjob.mjs
+
+      - name: Prove the hosted job-read guard is load-bearing
+        run: node scripts/test-rcap-hosted-acceptance-readjob.mjs --mutations
+
+      # The deterministic public witness drives one participant per intended-paid
+      # pathway through the real evaluator. It reported 13 pathways that never
+      # settled and 139 that "terminated on another pathway" — the first because
+      # the evaluator asked for questions the public profile never published, the
+      # second almost entirely because a resolved pathway was dropped from the
+      # result on the timing-gate and compiled-route failure branches. All 284
+      # now settle and reach their own pathway, and this holds that.
+      - name: Verify every intended-paid pathway is reachable through the public evaluator
+        run: node scripts/generate-rcap-public-witness-answer-sets.mjs --check
+
+      # One shared factory branch, not a renderer per pathway. These prove the
+      # branch admits a route only on all seven build inputs, sits behind every
+      # suppression and behind the live legacy generators, and never resolves
+      # sellable or credit-consumable — buildable in shadow is not approved.
+      - name: Verify the factory_v2 route registry is current
+        run: node scripts/generate-rcap-factory-v2-registry.mjs --check
+
+      - name: Verify the factory_v2 resolver branch
+        run: node scripts/verify-rcap-factory-v2-route.mjs
+
+      - name: Prove the factory_v2 admission and sale guards are load-bearing
+        run: node scripts/verify-rcap-factory-v2-route.mjs --mutations
+
+      # The evidence packet is a release artifact: every input must resolve from
+      # the working tree at HEAD, hash-pinned, with the canonical graph proven to
+      # be the artifact this tree's own generator produces.
+      - name: Verify the Session A evidence packet
+        run: node scripts/verify-rcap-session-a-evidence-packet.mjs
+
+      - name: Prove the evidence-packet guards are load-bearing
+        run: node scripts/verify-rcap-session-a-evidence-packet.mjs --mutations
+
+      # One launch graph, one denominator. It refuses to build if any consumed
+      # ledger disagrees about which intended-paid pathways exist, re-derives
+      # every counter from its own rows, and holds the nine-condition
+      # operationally-sellable predicate on every route.
+      - name: Verify the canonical launch graph is current
+        run: node scripts/generate-rcap-launch-graph.mjs --check
+
+      - name: Verify the canonical launch graph
+        run: node scripts/verify-rcap-launch-graph.mjs
+
+      - name: Prove the launch-graph denominator and predicate guards are load-bearing
+        run: node scripts/verify-rcap-launch-graph.mjs --mutations
+
+      # The five systemic PDF corrections, proved once for the corpus rather
+      # than family by family: content-stream geometry with the CR-266 defects
+      # as permanent canaries, black participant ink, the court's own metadata
+      # with partner branding refused at emit, a sidecar bound to the output
+      # hash, an email line that takes an email or nothing, and a field census
+      # where classified equals discovered.
+      - name: Verify the shared PDF finalization contract
+        run: node scripts/verify-rcap-shared-pdf-contract.mjs
+
+      - name: Prove the shared PDF contract guards are load-bearing
+        run: node scripts/verify-rcap-shared-pdf-contract.mjs --mutations
+
+      # The 41 intended-paid pathways with no registry track keep everything a
+      # pathway can have without one — the compiled pathway verbatim, its
+      # pathway-level packet set, the legal-design evidence covering its
+      # jurisdiction, and the named registry-owner action. None is dropped from
+      # the denominator to clear its disposition.
+      - name: Verify the registry-gap dossier is current
+        run: node scripts/generate-rcap-registry-gap-dossier.mjs --check
+
+      # The reachability evidence is gated on REPLAYING, not on claiming. Every
+      # one of the 284 fixtures is re-driven through the real public projection
+      # and evaluator and must reproduce the pathway, result code and payment
+      # decision it names. The canonical graph is required from this tree: the
+      # same replay scores 151 of 284 against the commit that used to be a
+      # silent fallback and 284 of 284 against HEAD, and only one of those
+      # describes the code that would ship.
+      - name: Verify the witness divergence diagnosis is current
+        run: node scripts/generate-rcap-witness-divergence-diagnosis.mjs --check
+
+      - name: Verify every intended-paid pathway replays to its own pathway
+        run: node scripts/verify-rcap-reachability-evidence.mjs
+
+      - name: Prove the reachability evidence guards are load-bearing
+        run: node scripts/verify-rcap-reachability-evidence.mjs --mutations
+
+      # The problematic-PDF lane's fail-closed contract, invoked directly for
+      # the same reason as the guards above: package.json is a worker image
+      # input, so an npm script entry would change the image fingerprint and
+      # force a rebuild for a check that alters nothing the image contains.
+      # This file is in neither image-input set.
+      #
+      # Unconditional on purpose. The two counters this asserts -- no
+      # problematic asset sellable, none on a public packet route -- must hold
+      # on every pull request, and a change that makes one of them false is
+      # exactly the change the scope detector would not call RCAP-affected.
+      - name: Verify the problematic-PDF register, evidence and dispositions
+        run: node scripts/verify-rcap-problematic-pdf-remediation.mjs
+
+      - name: Prove the problematic-PDF contract is load-bearing
+        run: node scripts/verify-rcap-problematic-pdf-remediation.mjs --mutations
+
+      - name: Verify the problematic-PDF contract is actually wired into this workflow
+        run: node scripts/verify-rcap-problematic-pdf-ci-wiring.mjs
+
+      # Retirement removes an asset from the problematic denominator, so the
+      # evidence behind it has to hold on every run: the determination must
+      # still probe every surface and still find none, and every retirement
+      # marker must still match what the determination says.
+      - name: Verify the PDF retirement determination is current
+        run: node scripts/generate-rcap-pdf-retirement-determination.mjs --check
+
+      - name: Verify every retirement marker matches its determination
+        run: node scripts/retire-rcap-problematic-pdf-assets.mjs --check
+
+      # Every discovered field or measured anchor carries exactly one class.
+      # An empty classification file is worse than none: it looks like the
+      # question was asked.
+      - name: Verify every discovered field or anchor is classified
+        run: node scripts/generate-rcap-field-classification.mjs --check
+
+      - name: Verify the flat-overlay renders are current
+        run: node scripts/render-rcap-flat-overlay-families.mjs --check
+
+      # An asset may not be retired because a generated manifest stopped naming
+      # it. Every reference class is re-derived against the canonical graph and
+      # every non-manifest runtime surface, per asset, so one form that quietly
+      # acquired a dependency cannot ride out on an aggregate count.
+      - name: Verify the manifest-only retention claim reproduces
+        run: node scripts/verify-rcap-manifest-only-retention.mjs
+
+      - name: Prove the manifest-only retention guards are load-bearing
+        run: node scripts/verify-rcap-manifest-only-retention.mjs --mutations
+
+      # A form whose own printed notice says DO NOT COMPLETE THIS FORM FOR
+      # FILING must never be filled, and must never stand in for the English
+      # form the participant actually files. Two Spanish artifacts were being
+      # reported as failures for correctly refusing.
+      - name: Verify the artifact dispositions are current
+        run: node scripts/generate-rcap-artifact-dispositions.mjs --check
+
+      - name: Verify court-declared non-filing components are never filled or filed
+        run: node scripts/verify-rcap-non-filing-components.mjs
+
+      - name: Prove the non-filing component guards are load-bearing
+        run: node scripts/verify-rcap-non-filing-components.mjs --mutations

@@ -4,33 +4,54 @@
   "findings": [
     {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
       "anchor": "IN THE ___________COURT OF ___ COUNTY, ARKANSAS",
-      "page": 1,
-      "check": "clipping",
-      "boxWidth": 97.3,
-      "textWidthAt": 131.6,
-      "fontSize": 5.5,
-      "handling": "shrunk_to_floor_then_reported"
+      "factId": "matter.county",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Saint Bartholomew and the Northern Reaches County",
+      "rect": {
+        "x": 288.6,
+        "y": 731,
+        "width": 97.3,
+        "height": 13.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 143.6
     },
     {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
       "anchor": "vs. Case No. ___",
-      "page": 1,
-      "check": "clipping",
-      "boxWidth": 105,
-      "textWidthAt": 108.2,
-      "fontSize": 5.5,
-      "handling": "shrunk_to_floor_then_reported"
+      "factId": "matter.case_number",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "0123-45-2026-CR-900123.00-AB-CDE/2201",
+      "rect": {
+        "x": 282,
+        "y": 610.3,
+        "width": 105,
+        "height": 13.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 118
     },
     {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
       "anchor": "___ DEFENDANT",
-      "page": 1,
-      "check": "clipping",
-      "boxWidth": 175.2,
-      "textWidthAt": 179.3,
-      "fontSize": 5.5,
-      "handling": "shrunk_to_floor_then_reported"
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "rect": {
+        "x": 74,
+        "y": 559.9,
+        "width": 175.2,
+        "height": 13.8
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6
     }
   ]
 }

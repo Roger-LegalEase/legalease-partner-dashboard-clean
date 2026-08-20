@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "rcap-participant-packet-proof/v1",
+  "jobId": "rcap-wa-custom-pleading-clean-tracks",
+  "parentJobId": "NEW-02-custom-pleading-families",
+  "jurisdiction": "WA",
+  "completionCommit": "8b892f0ef579788bb5de9b43c59996a0b41e0006",
+  "authorityEdition": "1.2",
+  "verifier": {
+    "path": "scripts/verify-rcap-washington-custom-pleading.mjs",
+    "sha256": "a4622844be8feaf75dea3f1dc1bc7b19edcfbf40bc1dd35380232fd653b415cf",
+    "result": "passed"
+  },
+  "implementationOutputs": [
+    {
+      "path": "src/lib/rcap/packets/jurisdictions/washington/custom-pleading.ts",
+      "sha256": "f95212a0b95319230f522883db8596628f18e201f9a741f22ad775b0d6120e60"
+    },
+    {
+      "path": "scripts/verify-rcap-washington-custom-pleading.mjs",
+      "sha256": "a4622844be8feaf75dea3f1dc1bc7b19edcfbf40bc1dd35380232fd653b415cf"
+    }
+  ],
+  "finalPdfCount": 2,
+  "assembledPageCount": 8,
+  "canonicalPacketCount": 2,
+  "variantPacketCount": 2,
+  "technicalFixtureCount": 4,
+  "technicalFixturePageCount": 18,
+  "samplePackets": [
+    {
+      "trackId": "wa_del_nonconviction",
+      "fixtureId": "wa-deletion-dismissed-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "wa-deletion-dismissed-1-technical-fixture.pdf",
+      "assembledSha256": "ccb3d304e19a74652ad53021d5d70a2e57d3b9d3d8cdab410e83495bb28cbcd7",
+      "assembledPageCount": 3
+    },
+    {
+      "trackId": "wa_vac_post_probation_9_95_240",
+      "fixtureId": "wa-vacation-subsection-one-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "wa-vacation-subsection-one-1-technical-fixture.pdf",
+      "assembledSha256": "ac774069443b963e8efbeb3587fe7c952aa01e3769a02c47547a06518597c7db",
+      "assembledPageCount": 5
+    },
+    {
+      "trackId": "wa_vac_post_probation_9_95_240",
+      "fixtureId": "wa-vacation-subsection-two-pre-1984-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "wa_vac_post_probation_9_95_240",
+      "assembledFileName": "wa-vacation-subsection-two-pre-1984-2-technical-fixture.pdf",
+      "assembledSha256": "f64eb4a896abc00b88c74ec8900ab409e26702781023d4edc2ea0eda33a1fbbb",
+      "assembledPageCount": 5
+    },
+    {
+      "trackId": "wa_vac_post_probation_9_95_240",
+      "fixtureId": "wa-vacation-verdict-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "wa_vac_post_probation_9_95_240",
+      "assembledFileName": "wa-vacation-verdict-2-technical-fixture.pdf",
+      "assembledSha256": "b227c84c7dcb7d9574441a7ce7556fbe4a5d7483e1a2e13ad81c3e41c805c35e",
+      "assembledPageCount": 5
+    }
+  ],
+  "deterministic": true,
+  "generatedPacketBytesTracked": false,
+  "runtimeStatus": "runtime_disabled",
+  "technicalEvidence": "complete",
+  "visualProof": "pending",
+  "visualReview": "formal_visual_review_pending",
+  "completedOutputLegalReview": "pending",
+  "counselAdopted": false,
+  "packetReady": false,
+  "productionEnabled": false
+}

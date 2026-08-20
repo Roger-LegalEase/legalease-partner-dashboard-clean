@@ -42,6 +42,16 @@ const OVERRIDES = {
     reason:
       "Lane B's acceptance contract for guidance/exclusion/deferral treatments. Red by design until lane B delivers every assigned state (window 2 imported the six completed B1 treatments; B2/B3 and the rest of B1 are still in flight), so it runs per-partition inside lane B and becomes a wired blocking step when the lane completes. Wiring it now would fail the chain on work that is assigned, not late."
   },
+  "verify-rcap-problematic-pdf-ci-wiring.mjs": {
+    disposition: "wired",
+    reason:
+      "Proves the problematic-PDF contract is actually reached by CI: the All50 handoff workflow must invoke it, and unconditionally, because a step guarded by the RCAP scope detector would be skipped on exactly the commit that flips a problematic route sellable. Invoked directly from the workflow rather than through npm test, since package.json is a worker image input. `--mutations` proves removing the step, making it conditional, or letting the disposition register drift each turn a named check red."
+  },
+  "verify-rcap-problematic-pdf-remediation.mjs": {
+    disposition: "wired",
+    reason:
+      "The problematic-PDF lane's fail-closed contract: the structural-class vocabulary, the finalized-artifact audit's internal consistency, every unfinalized artifact and factory-written protected field reaching the register, both launch counters at zero, the master list covering the register exactly once with no vague status and nothing released from HELD, lane A claimed only with a binary in the clone, every evidence path resolving, and no blank contact sheet signed off as visual evidence. Green, with `--mutations` proving all sixteen checks go red one at a time under the tracked mutation guard. Wired directly from .github/workflows/rcap-all50-handoff.yml, both the contract and its `--mutations` pass, alongside the migration-sequence, worker-tag and hosted-verdict guards that are invoked the same way and for the same reason: package.json is a worker image input, so an npm script entry would change the image fingerprint and force a rebuild for a check that alters nothing the image contains. verify-rcap-problematic-pdf-ci-wiring.mjs holds that invocation in place."
+  },
   "verify-rcap-official-forms-d1.mjs": {
     disposition: "wired",
     reason:
@@ -163,6 +173,18 @@ const OVERRIDES = {
     disposition: "keep_available",
     reason:
       "Proves each part of the source-SHA tag guard is load-bearing. Nine mutations - concurrency group no longer keyed on the source SHA, cancel-in-progress enabled, pre-push re-check removed, pre-build tag check removed, a latest alias added to the push, a short SHA accepted, a missing credential read as the tag being free, replacement no longer requiring a named authorization, and a registry lookup failure read as the tag being absent - each turn verify-rcap-worker-tag-guard red for its own named check, with signal-safe byte restoration. Blocking alongside that verifier in rcap-all50-handoff.yml for the same image-input reason.",
+    decidedBy: "captain"
+  },
+  "test-rcap-hosted-acceptance-readjob.mjs": {
+    disposition: "keep_available",
+    reason:
+      "The hosted matrix's job read, executed from the shipped bytes against a stubbed transport. It used to hash the fencing token with extensions.digest(...) through the Supabase Management API; that function is not exposed on the acceptance project, so the query errored, its non-array error body fell through an Array.isArray check, readJob returned null, and run 32195867963 reported a job that plainly existed — and that the binding case read successfully moments later — as \"(no job row)\". Fourteen checks: a real row returns with no database hashing anywhere in the query, the claim token is recorded as a deterministic Node-computed sha256 and never as itself, the raw token reaches neither the serialized diagnostics nor stdout nor stderr, person_id, matter_id and the artifact identity survive, an empty result is no_row, a PostgREST error body, an unparseable body and an error string are each query_error with a sanitized class and message carrying no credential, and only a genuine row passes jobRowOrNull. Its --mutations suite requires three breakages red: hashing in SQL again, collapsing query_error into no_row, and carrying the raw token out on the row. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-authoritative-profile-version.mjs": {
+    disposition: "keep_available",
+    reason:
+      "The render job's profile identity must come from the profile its route was resolved against. The consumer caller used to pass profileId: item.state beside a literal profileVersion: \"1.3.0\" that no compiled profile has ever carried, so the worker's allowlist refused every paid consumer claim with profile_version_unknown before rendering anything and no packet could be delivered (hosted run 32195867963, job ca12bf6b). Twenty-four checks: the value is derived from getProfileByJurisdiction(route.jurisdiction), no caller can name it, no version literal survives on the enqueue path, an underivable profile raises the same typed code the worker raises and the caller turns it into a typed outcome before anything durable exists; then every renderable route across all 51 compiled jurisdictions is built and checked for a nonempty id and version that exist together in the registry, come from the route's own profile, agree with the route id and renderer, and never reproduce the \"1.3.0\" stamp; hostile browser, Stripe and stale-Briefcase values are ignored; and the worker's real allowlist accepts all 49 specifications. Mississippi's hosted fixture, the three reachable Illinois sellable pathways and a composed-document route are proved by name; the absence of any renderable official-form overlay route is recorded rather than skipped; Pennsylvania is recorded as guidance-held in the evaluator while its routes still derive correctly. Its --mutations suite requires eight breakages red, including pinning today's corpus version, because that fix would recreate the same failure on the next profile update. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
     decidedBy: "captain"
   },
   "verify-rcap-consumer-lifecycle-boundaries.mjs": {

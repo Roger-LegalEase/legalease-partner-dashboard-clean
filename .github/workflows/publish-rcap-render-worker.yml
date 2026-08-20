@@ -42,6 +42,24 @@ env:
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   DOCKERFILE_PATH: deploy/rcap-render-worker/Dockerfile
   CANONICAL_INTEGRATION_BRANCH: main
+  # The live release-integration branch, pinned by exact name.
+  #
+  # The gate below exists to stop an image being built from outside the
+  # canonical integration history — from a stale feature branch, or from a SHA
+  # nobody integrated. It does NOT exist to force publication to follow the
+  # merge, and forcing that makes the release impossible: the required PR check
+  # runs `npm test`, which includes the staging-action gate, which refuses to
+  # pass until a worker has been published for the current image inputs. Requiring
+  # the merge first and the publication first at the same time is a deadlock, and
+  # the only ways out of it were an override or a merge over a red required
+  # check, both of which are worse than publishing from the head that is about to
+  # merge.
+  #
+  # So a SHA is accepted when it is contained in main OR in this exact branch.
+  # One literal name, no wildcard, no pattern, no run-time input: a SHA on any
+  # other branch is still refused, and which branch contained it is recorded in
+  # the publication evidence.
+  RELEASE_INTEGRATION_BRANCH: claude/rcap-48h-launch-integration
 
 jobs:
   publish:
@@ -69,6 +87,7 @@ jobs:
           fetch-depth: 0
 
       - name: Verify the SHA resolves and belongs to the canonical integration history
+        id: containment
         run: |
           set -euo pipefail
           SHA="${{ inputs.integration_sha }}"
@@ -77,11 +96,20 @@ jobs:
             exit 1
           fi
           git fetch --no-tags origin "${CANONICAL_INTEGRATION_BRANCH}"
-          if ! git merge-base --is-ancestor "$SHA" "origin/${CANONICAL_INTEGRATION_BRANCH}"; then
-            echo "::error::${SHA} is not contained in origin/${CANONICAL_INTEGRATION_BRANCH}. Refusing to publish an image from outside the canonical integration history."
-            exit 1
+          if git merge-base --is-ancestor "$SHA" "origin/${CANONICAL_INTEGRATION_BRANCH}"; then
+            echo "Verified ${SHA} is contained in origin/${CANONICAL_INTEGRATION_BRANCH}."
+            echo "contained_in=${CANONICAL_INTEGRATION_BRANCH}" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
-          echo "Verified ${SHA} is contained in origin/${CANONICAL_INTEGRATION_BRANCH}."
+          git fetch --no-tags origin "${RELEASE_INTEGRATION_BRANCH}"
+          if git merge-base --is-ancestor "$SHA" "origin/${RELEASE_INTEGRATION_BRANCH}"; then
+            echo "Verified ${SHA} is contained in origin/${RELEASE_INTEGRATION_BRANCH}, the live release-integration branch."
+            echo "This is a CANDIDATE publication from the head that is about to merge. It publishes an image and nothing else."
+            echo "contained_in=${RELEASE_INTEGRATION_BRANCH}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "::error::${SHA} is contained in neither origin/${CANONICAL_INTEGRATION_BRANCH} nor origin/${RELEASE_INTEGRATION_BRANCH}. Refusing to publish an image from outside the canonical integration history."
+          exit 1
 
       # Build from the exact accepted commit, not from the branch tip, which may
       # have moved since the SHA was cleared.
@@ -148,6 +176,16 @@ jobs:
           push: true
           # Exactly one tag. No `latest`, no branch tag, no second alias.
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ inputs.integration_sha }}
+          # The image must be able to say which source it was built from, so
+          # that the binding between a digest and its commit does not rest
+          # solely on a file this repository wrote about itself. Images
+          # published before this was added carry no revision and require an
+          # exact-digest compensating control; see
+          # data/rcap-render/worker-source-binding-exception.json.
+          labels: |
+            org.opencontainers.image.revision=${{ inputs.integration_sha }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.version=${{ inputs.integration_sha }}
           provenance: false
           sbom: false
 
@@ -160,6 +198,8 @@ jobs:
             "schemaVersion": "rcap-worker-publication/v1",
             "sourceSha": "${{ inputs.integration_sha }}",
             "canonicalIntegrationBranch": "${CANONICAL_INTEGRATION_BRANCH}",
+            "releaseIntegrationBranch": "${RELEASE_INTEGRATION_BRANCH}",
+            "containedIn": "${{ steps.containment.outputs.contained_in }}",
             "dockerfilePath": "${DOCKERFILE_PATH}",
             "dockerfileSha256": "${{ steps.inputs.outputs.dockerfile_sha256 }}",
             "lockfileSha256": "${{ steps.inputs.outputs.lockfile_sha256 }}",

@@ -13,6 +13,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
+import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument } = require("pdf-lib");
@@ -115,7 +116,11 @@ for (const stateDir of fs.existsSync(path.join(SRC, "STATES")) ? fs.readdirSync(
         lifecycleClassification: folder === "05_SOURCE_GATED" ? "binary_present_source_gated" : "binary_present_and_current",
         structuralClassObserved: structuralClass,
         structuralClassDeclared: row?.structural_class ?? null,
-        structuralClassAgrees: row?.structural_class ? row.structural_class === structuralClass : null,
+        // Compared through the shared vocabulary: the manifest says
+        // `acroform_pdf` where the binary inspector says `acroform`, and raw
+        // equality turned that spelling difference into a source-identity
+        // defect on every AcroForm in the corpus.
+        structuralClassAgrees: structuralClassesAgree(structuralClass, row?.structural_class ?? null),
         declaredFieldCount: row?.field_count === "" ? null : Number(row?.field_count ?? 0),
         observedAcroFieldCount: acroFields.length,
         pageGeometry: pages,

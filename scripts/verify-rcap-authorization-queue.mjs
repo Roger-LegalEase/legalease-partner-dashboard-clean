@@ -47,7 +47,14 @@ const VALID_KINDS = new Set([
   // route may serve traffic somewhere, and reusing it for "this file may exist
   // in the repository" would let a later reader take the existence of the file
   // as permission to turn it on.
-  "restricted_path_source_change"
+  "restricted_path_source_change",
+  // A legal decision made by the decision owner, recorded here because this is
+  // the register where Roger's decisions live. Deliberately not a
+  // route_enablement or a flag_change: approving the legal design and completed
+  // output of a packet family says nothing about whether that family may render,
+  // sell or be reached, and a later reader must not be able to take the legal
+  // approval as permission to turn anything on.
+  "owner_legal_decision"
 ]);
 const VALID_STATUS = new Set([
   "pending_authorization",
@@ -96,6 +103,28 @@ for (const entry of entries) {
     if (!entry.authorizedBy) failures.push(`${id}: status ${entry.status} with no authorizedBy`);
     if (!entry.authorizedAt) failures.push(`${id}: status ${entry.status} with no authorizedAt`);
   }
+  // A legal decision is only usable downstream if it names the owner, the
+  // result and the exact scope. Without all three a generator reading this
+  // entry would be guessing at what was approved.
+  if (entry.kind === "owner_legal_decision") {
+    if (!entry.decisionOwner) failures.push(`${id}: owner_legal_decision with no decisionOwner`);
+    if (!entry.legalApprovalResult) failures.push(`${id}: owner_legal_decision with no legalApprovalResult`);
+    if (!entry.authority) failures.push(`${id}: owner_legal_decision with no stated authority`);
+    if (!entry.effectiveDate) failures.push(`${id}: owner_legal_decision with no effectiveDate`);
+    const scope = entry.decisionScope;
+    if (!scope || typeof scope !== "object") {
+      failures.push(`${id}: owner_legal_decision with no decisionScope`);
+    } else if (!Array.isArray(scope.completedOutputPacketFamilies) || scope.completedOutputPacketFamilies.length === 0) {
+      failures.push(`${id}: owner_legal_decision names no packet families in decisionScope`);
+    }
+    // The decision closes a legal gate. It must not be readable as permission
+    // to deploy, enable a route or flip the launch.
+    const denied = new Set((entry.doesNotAuthorize || []).map((s) => String(s).toLowerCase()));
+    if (denied.size === 0) {
+      failures.push(`${id}: owner_legal_decision must state what it does not authorize`);
+    }
+  }
+
   if (entry.status === "executed" && !entry.executedAt) {
     failures.push(`${id}: executed with no executedAt`);
   }

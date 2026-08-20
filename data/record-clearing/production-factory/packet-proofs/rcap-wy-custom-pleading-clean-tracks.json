@@ -1,0 +1,175 @@
+{
+  "schemaVersion": "rcap-participant-packet-proof/v1",
+  "jobId": "rcap-wy-custom-pleading-clean-tracks",
+  "parentJobId": "NEW-02-custom-pleading-families",
+  "jurisdiction": "WY",
+  "completionCommit": "7e9aef36b8d8fe1b3ba79794e13790f43ba2a82d",
+  "authorityEdition": "1.2",
+  "verifier": {
+    "path": "scripts/verify-rcap-wyoming-custom-pleading.mjs",
+    "sha256": "275ecf191d717b65dc558980d25284eddafb5e613d206af6a5add4aca3c11d88",
+    "result": "passed"
+  },
+  "implementationOutputs": [
+    {
+      "path": "src/lib/rcap/packets/jurisdictions/wyoming/custom-pleading.ts",
+      "sha256": "ac5a52bfd296c008a8e93cebf68a2c5fe476184a891f47c2c1396c3815e124aa"
+    },
+    {
+      "path": "scripts/verify-rcap-wyoming-custom-pleading.mjs",
+      "sha256": "275ecf191d717b65dc558980d25284eddafb5e613d206af6a5add4aca3c11d88"
+    }
+  ],
+  "finalPdfCount": 1,
+  "assembledPageCount": 9,
+  "canonicalPacketCount": 1,
+  "variantPacketCount": 3,
+  "technicalFixtureCount": 4,
+  "technicalFixturePageCount": 38,
+  "componentScope": {
+    "basis": "data/record-clearing/legal-design-packet-set-manifests.json — declared components per track, partitioned by the output strategy this job's lane implements.",
+    "implementedOutputStrategy": "custom_pleading",
+    "filingComplete": false,
+    "filingCompleteMeaning": "False means a required component of the track's own packet set is not implemented here, so the assembled fixture is technical evidence and is not the complete filing. It says nothing about legal review, counsel adoption, packet readiness or runtime, which remain separate and closed.",
+    "tracks": [
+      {
+        "trackId": "wy_nc_1401",
+        "packetSetId": "wy_nc_1401-set",
+        "declaredComponentCount": 5,
+        "implementedComponents": [
+          {
+            "componentId": "wy_nc_1401-primary-filing-1",
+            "trackId": "wy_nc_1401",
+            "role": "primary_filing",
+            "order": 1,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "wy_nc_1401-proposed-order-2",
+            "trackId": "wy_nc_1401",
+            "role": "proposed_order",
+            "order": 2,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "wy_nc_1401-verification-3",
+            "trackId": "wy_nc_1401",
+            "role": "verification",
+            "order": 3,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          },
+          {
+            "componentId": "wy_nc_1401-certificate-of-service-4",
+            "trackId": "wy_nc_1401",
+            "role": "certificate_of_service",
+            "order": 4,
+            "requirement": "required",
+            "outputStrategy": "custom_pleading"
+          }
+        ],
+        "excludedComponents": [
+          {
+            "componentId": "wy_nc_1401-filing-instructions-5",
+            "trackId": "wy_nc_1401",
+            "role": "filing_instructions",
+            "order": 5,
+            "requirement": "required",
+            "outputStrategy": "process_guidance",
+            "excludedBecause": "declared under process_guidance, which this custom_pleading implementation does not own",
+            "implementedBy": "rcap-wy-guidance-implementation",
+            "implementedByLane": "guidance_implementation",
+            "implementationStatus": "completed"
+          }
+        ],
+        "filingComplete": false,
+        "filingCompleteBlockedBy": [
+          "wy_nc_1401-filing-instructions-5"
+        ],
+        "componentImplementationComplete": true,
+        "courtFilingComponents": [
+          "wy_nc_1401-primary-filing-1",
+          "wy_nc_1401-proposed-order-2",
+          "wy_nc_1401-verification-3",
+          "wy_nc_1401-certificate-of-service-4"
+        ],
+        "participantOnlyComponents": [
+          "wy_nc_1401-filing-instructions-5"
+        ]
+      }
+    ]
+  },
+  "assembledFilingSet": {
+    "meaning": "The packet the participant receives, assembled across every lane that contributes to the track. It is not this proof's own page count, which covers only the components this lane renders.",
+    "lanes": [
+      {
+        "trackId": "wy_nc_1401",
+        "contributedBy": "rcap-wy-guidance-implementation",
+        "lane": "guidance_implementation",
+        "verifier": {
+          "path": "scripts/verify-rcap-wyoming-guidance-implementation.mjs",
+          "sha256": "2aa2ddfa0bcbcc7b9e048accaedcd0d651214b828603a48014254b3f60725ae9",
+          "result": "passed"
+        },
+        "assembledComponentCount": 5,
+        "assembledPageCount": 13,
+        "contributedPageRange": {
+          "startPage": 10,
+          "endPage": 13
+        },
+        "contributedPageCount": 4,
+        "assembledSha256": null,
+        "assembledSha256Note": "No committed verifier publishes a digest for the assembled multi-lane packet. It is deterministic — the contributing verifier proves byte-identical output across two runs — but it is not published, so none is asserted here."
+      }
+    ]
+  },
+  "samplePackets": [
+    {
+      "trackId": "wy_nc_1401",
+      "fixtureId": "wy-1401-dismissed-by-prosecutor-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "wy-1401-dismissed-by-prosecutor-1-technical-fixture.pdf",
+      "assembledSha256": "dcff0885c8a549351ce3d955247d4f1d29303f60eecf55451dfbbad29e4f52bb",
+      "assembledPageCount": 9
+    },
+    {
+      "trackId": "wy_nc_1401",
+      "fixtureId": "wy-1401-charged-but-not-convicted-3",
+      "sampleRole": "variant",
+      "variantOfTrackId": "wy_nc_1401",
+      "assembledFileName": "wy-1401-charged-but-not-convicted-3-technical-fixture.pdf",
+      "assembledSha256": "c4237301491100946034c7bb6532f2f68472889f34bfa67f87ecab7c9720b006",
+      "assembledPageCount": 9
+    },
+    {
+      "trackId": "wy_nc_1401",
+      "fixtureId": "wy-1401-no-charges-ever-filed-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "wy_nc_1401",
+      "assembledFileName": "wy-1401-no-charges-ever-filed-2-technical-fixture.pdf",
+      "assembledSha256": "0fdf8ef31d43bb0df516b508ae8e4787db1636a230573064cf6e2a266d6ed35d",
+      "assembledPageCount": 10
+    },
+    {
+      "trackId": "wy_nc_1401",
+      "fixtureId": "wy-1401-repository-status-unknown-4",
+      "sampleRole": "variant",
+      "variantOfTrackId": "wy_nc_1401",
+      "assembledFileName": "wy-1401-repository-status-unknown-4-technical-fixture.pdf",
+      "assembledSha256": "9798e0e6c1969e57920e334dda03ca92873d10f15f648adb374c2f8526b4945a",
+      "assembledPageCount": 10
+    }
+  ],
+  "deterministic": true,
+  "generatedPacketBytesTracked": false,
+  "runtimeStatus": "runtime_disabled",
+  "technicalEvidence": "complete",
+  "visualProof": "pending",
+  "visualReview": "formal_visual_review_pending",
+  "completedOutputLegalReview": "pending",
+  "counselAdopted": false,
+  "packetReady": false,
+  "productionEnabled": false
+}

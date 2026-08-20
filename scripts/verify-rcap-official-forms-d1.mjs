@@ -12,6 +12,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { protectCategoryOf } from "./rcap-official-forms/rcap-field-semantics.mjs";
+import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_ROOT = path.join(rootDir, "data/rcap-all50/overlays/production");
@@ -78,7 +79,10 @@ for (const [slug, profileName] of Object.entries(JURISDICTIONS)) {
       assert(record.sha256VerifiedAgainstBundleManifest === true, `${slug}/${entry.name}: delivered bytes hash-verify against the canonical manifest`);
       assert(record.byteLengthMatches !== false, `${slug}/${entry.name}: byte length matches the manifest`);
       assert(record.pageCountAgrees !== false, `${slug}/${entry.name}: page count matches the manifest`);
-      if (record.structuralClassAgrees === false) {
+      // Judged through the shared vocabulary: `acroform_pdf` and `acroform`
+      // are the manifest's and the inspector's names for one class, and the
+      // raw comparison this replaced fired on every AcroForm in the corpus.
+      if (structuralClassesAgree(record.structuralClassObserved, record.structuralClassDeclared) === false) {
         console.warn(`  note ${slug}/${entry.name}: manifest declared '${record.structuralClassDeclared}', binary is '${record.structuralClassObserved}' — recorded for the captain, not a fabrication.`);
       }
       assert(Array.isArray(record.productionHolds) && record.productionHolds.includes("edition_1_runtime_disabled")
@@ -225,10 +229,40 @@ if (fs.existsSync(indexPath)) {
     assert(census.sha256 === record.sha256, `${id}: census pinned to the source record's sha256 (drift red)`);
     assert(census.fieldCount === census.fields.length, `${id}: census field count matches its own entries`);
 
+    const map0 = readJson(path.join(dir, fam.mapKind === "acroform" ? "production-field-map.json" : "overlay-profile.json"));
     const cls = readJson(path.join(dir, "field-classification.json"));
-    const classOf = new Map(cls.entries.map((e) => [e.name, e.class]));
+    // Classification entries name AcroForm fields by `name` and measured
+    // overlay captions by `label`. Keying on `name` alone made every lookup
+    // undefined for a flat family, which silently disabled the unwritable-class
+    // check below rather than failing it.
+    const classOf = new Map(cls.entries.map((e) => [e.name ?? e.label, e.class]));
     const typeOf = new Map(census.fields.map((e) => [e.name, e.type]));
-    assert(cls.entries.length === census.fields.length, `${id}: every censused field is classified`);
+    // A flat PDF has no AcroForm dictionary, so its census correctly reports
+    // zero fields and the thing that must be fully classified is the measured
+    // anchor inventory instead. Comparing 11 measured captions against 0
+    // AcroForm fields failed this family by name and took npm test with it,
+    // while proving nothing about whether anything was left unclassified.
+    if (census.fieldCount > 0) {
+      assert(cls.entries.length === census.fields.length, `${id}: every censused field is classified`);
+    } else if ((map0?.anchors ?? []).length > 0) {
+      // Only once a family HAS a measured inventory. A flat family whose source
+      // binary is not in the clone has nothing to classify yet, and that state
+      // is recorded on the master list as a missing binary rather than pretended
+      // to be a classification failure. What is refused is the other thing: a
+      // family with measured anchors and an empty classification, which the old
+      // check passed as 0 === 0.
+      assert(
+        Number(cls.classifiedFieldsOrAnchors) === Number(cls.discoveredFieldsOrAnchors),
+        `${id}: every discovered anchor or caption is classified (${cls.classifiedFieldsOrAnchors} of ${cls.discoveredFieldsOrAnchors})`
+      );
+      // The counts are the file's own claim about itself. An empty entries
+      // array with the counts left at 11/11 satisfied the assertion above and
+      // proved nothing, so the claim is checked against what is actually there.
+      assert(cls.entries.length === Number(cls.classifiedFieldsOrAnchors),
+        `${id}: the classification holds ${cls.entries.length} entries while claiming ${cls.classifiedFieldsOrAnchors} classified`);
+      assert(Number(cls.discoveredFieldsOrAnchors) >= (map0.anchors ?? []).length,
+        `${id}: the classified inventory covers every measured anchor`);
+    }
 
     const mapPath = path.join(dir, fam.mapKind === "acroform" ? "production-field-map.json" : "overlay-profile.json");
     assert(fs.existsSync(mapPath), `${id}: ${fam.mapKind} map present`);
@@ -244,9 +278,39 @@ if (fs.existsSync(indexPath)) {
         assert(CAPTION_ONLY_FACTS.has(base), `${id}: court-issued order binds caption facts only, saw '${b.factId}'`);
       }
     }
-    for (const a of map.anchorCapture?.anchors ?? []) {
-      assert(!ANCHOR_DENY.test(a.label), `${id}: overlay anchor '${a.label}' is not placed against a denied label`);
+    // Both the capture section and the map's own anchors. Reading only
+    // anchorCapture.anchors meant that on this family -- where that array is
+    // the pre-measurement record and is empty -- neither of these checks ran
+    // against any of the seven anchors actually rendered, including the one on
+    // the signature rule.
+    // Geometric protection is only as strong as each family remembering to
+    // declare it. A map with a caption the court owns and no protectedRules
+    // gets no protected-rule check at all, which is the failure mode that
+    // matters once this pattern is copied across fifty states.
+    const ownedCaptions = (map.anchors ?? []).filter((a) => ANCHOR_DENY.test(a.label));
+    assert(ownedCaptions.length === 0 || (map.protectedRules ?? []).length > 0,
+      `${id}: the map carries ${ownedCaptions.length} anchor(s) on a caption the court owns but declares no protectedRules, so nothing checks where a write box lands`);
+
+    for (const a of [...(map.anchorCapture?.anchors ?? []), ...(map.anchors ?? [])]) {
+      const denied = ANCHOR_DENY.test(a.label);
+      // An anchor on a denied label is permitted only when the map says out
+      // loud that it exists to be refused, and the factory must still refuse it.
+      const declaredRefusal = a.deliberatelyUnbound === true
+        || String(a.expectedOutcome ?? "").startsWith("refused");
+      assert(!denied || declaredRefusal,
+        `${id}: overlay anchor '${a.label}' is placed against a denied label without declaring that it must be refused`);
+      assert(!NEVER_WRITE_CLASSES.has(classOf.get(a.label)) || declaredRefusal,
+        `${id}: overlay anchor '${a.label}' targets an unwritable class without declaring that it must be refused`);
       assert(a.writeBox.width > 0 && a.writeBox.height > 0, `${id}: overlay anchor '${a.label}' has a positive write box`);
+      // A write box that lands on a rule the map itself calls protected is the
+      // failure the label check cannot see.
+      for (const r of map.protectedRules ?? []) {
+        const onProtectedRule = r.page === a.page
+          && Math.abs(r.y + 2 - a.writeBox.y) <= 3
+          && a.writeBox.x < r.endX && a.writeBox.x + a.writeBox.width > r.x;
+        assert(!onProtectedRule || declaredRefusal,
+          `${id}: overlay anchor '${a.label}' writes onto the protected rule at y=${r.y} (${r.caption ?? r.category})`);
+      }
     }
 
     if (fam.status === "implemented_pending_independent_review" || fam.status === "overlay_implemented_pending_independent_review") {
