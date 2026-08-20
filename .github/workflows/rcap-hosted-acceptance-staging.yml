@@ -215,8 +215,50 @@ jobs:
       # src, package.json, package-lock.json, tsconfig.json, next.config.ts and
       # public — so deploying this tree deploys the freeze, and the tools commit
       # carrying this step is not a new application freeze.
+      # ONE normalized contract, so a phase cannot be silently absent from a
+      # condition. `full` was listed on the deploy step and on none of the
+      # matrix steps, so hosted_full deployed a Preview, skipped every proof
+      # after it, and still concluded success. A green run that never attempted
+      # the matrix is worse than a red one: it reads as acceptance.
+      #
+      #   phase          deploy/reuse   matrix   checkout gate
+      #   full           yes            yes      yes
+      #   deploy         yes            no       no
+      #   accept         no             yes      no
+      #   payment        yes            yes      no
+      #   checkout_gate  no             no       yes
+      #   migrate        no             no       no
+      #   preflight      no             no       no
+      #   vercel_audit   no             no       no
+      #   anything else  FAIL CLOSED
+      - name: Normalize the execution contract for this phase
+        id: contract
+        run: |
+          set -euo pipefail
+          PHASE='${{ inputs.phase }}'
+          case "$PHASE" in
+            full)          DEPLOY=true;  MATRIX=true;  GATE=true  ;;
+            deploy)        DEPLOY=true;  MATRIX=false; GATE=false ;;
+            accept)        DEPLOY=false; MATRIX=true;  GATE=false ;;
+            payment)       DEPLOY=true;  MATRIX=true;  GATE=false ;;
+            checkout_gate) DEPLOY=false; MATRIX=false; GATE=true  ;;
+            migrate|preflight|vercel_audit) DEPLOY=false; MATRIX=false; GATE=false ;;
+            *)
+              echo "::error::unknown phase '$PHASE'; refusing rather than defaulting to a weaker phase"
+              exit 1
+              ;;
+          esac
+          {
+            echo "phase=$PHASE"
+            echo "deploy=$DEPLOY"
+            echo "matrix=$MATRIX"
+            echo "gate=$GATE"
+          } >> "$GITHUB_OUTPUT"
+          echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE"
+
       - name: Deploy the frozen application SHA to Vercel Preview
-        if: inputs.phase == 'deploy' || inputs.phase == 'full' || inputs.phase == 'payment'
+        id: deploy_preview
+        if: steps.contract.outputs.deploy == 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -238,7 +280,8 @@ jobs:
       # deployment and creates the named synthetic participants. Writes only
       # site_url and uri_allow_list, and only on the acceptance project.
       - name: Configure acceptance Auth and create the synthetic identities
-        if: inputs.phase == 'accept' || inputs.phase == 'payment'
+        id: auth_identities
+        if: steps.contract.outputs.matrix == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -251,7 +294,8 @@ jobs:
       # The golden-journey matrix needs a built application to serve the
       # runtime-classification cases, and the pinned worker image by digest.
       - name: Build the frozen application for the matrix runtimes
-        if: inputs.phase == 'accept' || inputs.phase == 'payment'
+        id: matrix_build
+        if: steps.contract.outputs.matrix == 'true'
         env:
           NEXT_TELEMETRY_DISABLED: "1"
         run: |
@@ -260,7 +304,8 @@ jobs:
           npm run build
 
       - name: Log in to the container registry for the pinned worker image
-        if: inputs.phase == 'accept' || inputs.phase == 'payment' || inputs.phase == 'checkout_gate'
+        id: registry_login
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -273,11 +318,13 @@ jobs:
       # while the item and Session are still unpaid. It never deploys, migrates,
       # synthesizes a completion event, runs the worker, or cleans up the item.
       - name: Install frozen application dependencies for the Checkout gate
-        if: inputs.phase == 'checkout_gate'
+        id: gate_deps
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
         run: npm ci
 
       - name: Prepare one real Pennsylvania Sandbox Checkout and stop unpaid
-        if: inputs.phase == 'checkout_gate'
+        id: checkout_gate
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -292,7 +339,8 @@ jobs:
         run: node scripts/rcap-hosted-checkout-gate.mjs
 
       - name: Run the hosted golden-journey matrix
-        if: inputs.phase == 'accept'
+        id: golden_journey
+        if: steps.contract.outputs.matrix == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -302,7 +350,8 @@ jobs:
       # Runs even when the matrix fails: the gallery URLs are what Roger opens
       # on a phone, and they are worth having in the evidence either way.
       - name: Run the hosted Stripe payment and packet-delivery journey
-        if: inputs.phase == 'payment'
+        id: payment_journey
+        if: steps.contract.outputs.matrix == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -317,7 +366,8 @@ jobs:
         run: node scripts/rcap-hosted-acceptance-payment.mjs
 
       - name: Prove the Pennsylvania, Mississippi and Illinois galleries render
-        if: (inputs.phase == 'accept' || inputs.phase == 'payment') && always()
+        id: galleries
+        if: always() && steps.contract.outputs.matrix == 'true'
         env:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -325,6 +375,70 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: node scripts/rcap-hosted-acceptance-gallery.mjs
+
+      # A hosted_full run that did not attempt the matrix must conclude
+      # FAILURE. Run 32330767286 concluded success having skipped steps 12-19,
+      # which is the exact shape of an unearned verdict: a READY Preview and a
+      # green tick, with no payment, no artifact and no download behind them.
+      #
+      # `always()` so the gate itself cannot be skipped by an earlier failure,
+      # and it asserts outcomes explicitly — `skipped`, `cancelled`, `failure`
+      # and an absent id all fail. Only `success` passes.
+      - name: Every required matrix step actually ran
+        id: antiskip
+        if: always()
+        env:
+          PHASE: ${{ inputs.phase }}
+          RUNS_MATRIX: ${{ steps.contract.outputs.matrix }}
+          RUNS_GATE: ${{ steps.contract.outputs.gate }}
+          O_DEPLOY: ${{ steps.deploy_preview.outcome }}
+          O_AUTH: ${{ steps.auth_identities.outcome }}
+          O_BUILD: ${{ steps.matrix_build.outcome }}
+          O_REGISTRY: ${{ steps.registry_login.outcome }}
+          O_DEPS: ${{ steps.gate_deps.outcome }}
+          O_GATE: ${{ steps.checkout_gate.outcome }}
+          O_GOLDEN: ${{ steps.golden_journey.outcome }}
+          O_PAYMENT: ${{ steps.payment_journey.outcome }}
+          O_GALLERY: ${{ steps.galleries.outcome }}
+        run: |
+          set -uo pipefail
+          fail=0
+          require() {
+            # $1 label, $2 outcome
+            case "${2:-}" in
+              success) echo "  ok       $1" ;;
+              "")      echo "  MISSING  $1 — the step id does not exist; the gate is asserting nothing"; fail=1 ;;
+              *)       echo "  $2  $1"; fail=1 ;;
+            esac
+          }
+          echo "phase=$PHASE matrix=$RUNS_MATRIX checkoutGate=$RUNS_GATE"
+          if [ "$RUNS_MATRIX" = "true" ]; then
+            require "deploy or reuse Preview"            "$O_DEPLOY"
+            require "acceptance Auth and identities"     "$O_AUTH"
+            require "frozen application build"           "$O_BUILD"
+            require "registry login for accepted worker" "$O_REGISTRY"
+            require "frozen dependencies"                "$O_DEPS"
+            require "Sandbox Checkout and unpaid 402"    "$O_GATE"
+            require "hosted golden-journey matrix"       "$O_GOLDEN"
+            require "Stripe payment and packet delivery" "$O_PAYMENT"
+            require "PA / MS / IL galleries"             "$O_GALLERY"
+          elif [ "$RUNS_GATE" = "true" ]; then
+            require "registry login for accepted worker" "$O_REGISTRY"
+            require "frozen dependencies"                "$O_DEPS"
+            require "Sandbox Checkout and unpaid 402"    "$O_GATE"
+          else
+            echo "  phase does not claim the matrix; nothing to assert here."
+          fi
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::a phase that claims the payment-to-PDF matrix did not run every required step; this run is not acceptance evidence"
+            exit 1
+          fi
+
+      # The verdict must come from the emitted evidence, not from the fact that
+      # the job reached its end.
+      - name: The emitted evidence earns the verdict it reports
+        if: always() && steps.contract.outputs.matrix == 'true'
+        run: node scripts/verify-rcap-hosted-acceptance-verdicts.mjs
 
       - name: Upload the hosted acceptance evidence
         if: always()
