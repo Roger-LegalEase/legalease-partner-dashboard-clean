@@ -38,6 +38,21 @@ const CANARIES = [
     guards: "government_identifier"
   },
   {
+    // The caption, not the field name. `listed charges` is innocent; the printed
+    // directive it sits under is not. KY AOC-334 orders "the Kentucky State
+    // Police and other following agencies listed below ... to seal any records
+    // in their custody regarding the above-named Defendant and above-listed
+    // charge(s):" and the slot beneath lists the AGENCIES. The harvester reached
+    // it as a tail fragment containing "Defendant", full_legal_name claimed it,
+    // and the petitioner's name was filed as the court's list of agencies.
+    id: "RECORDS-CUSTODY-KY-334",
+    family: "KY:aoc-334-form-en",
+    field: "their custody regarding the above-named Defendant and above-",
+    expect: (r) => r.writable === false && r.category === "agency",
+    consequence: "the participant's name filed as the list of agencies the court ordered to seal its records",
+    guards: "agency"
+  },
+  {
     id: "SSN-KY-496",
     family: "KY:aoc-496-form-en",
     field: "Def.VitalStats.SSN",
@@ -194,7 +209,11 @@ const MUTATIONS = [
   // changes nothing and proves nothing. That redundancy is fine; what still
   // needs proving is that the prosecutor rule is reachable by something, and
   // `solicitor` is a token only it carries.
-  { id: "drop prosecutor", field: "SolicitorOfRecordName", run: (f) => withoutProtectRule("prosecutor", f), mustBind: "participant.full_legal_name" }
+  { id: "drop prosecutor", field: "SolicitorOfRecordName", run: (f) => withoutProtectRule("prosecutor", f), mustBind: "participant.full_legal_name" },
+  // Without the records-custody clause the truncated KY AOC-334 caption falls
+  // straight through to full_legal_name on the word "Defendant", which is
+  // exactly how the defect happened.
+  { id: "drop records-custody from agency", field: "their custody regarding the above-named Defendant and above-", run: (f) => withoutProtectRule("agency", f), mustBind: "participant.full_legal_name" }
 ];
 
 console.log("  mutations");

@@ -52,7 +52,18 @@ export const PROTECT_RULES = [
   // deterministic.
   ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|service\s*of\s*process|process\s*server|\bserved\s*(on|by|upon)\b|date\s*served|manner\s*of\s*service|\bcert\s*(date|time)\b|certif(y|ied|icate)\s*(on|date)/],
   ["licensing_board", /licens(e|ing)\s*(board|authority|agency)|board\s*of\s*(nursing|medicine|pharmacy|education|examiners)|professional\s*board|certification\s*board/],
-  ["agency", /\bagency\b|\bsheriff\b|\bpolice\b|law\s*enforcement|\bbureau\b|state\s*patrol|\bprobation\b|\bparole\b|department\s*of\s*(public\s*safety|justice|corrections)|\bdps\b|\bsbi\b|\bacic\b|\bapsin\b|\bfbi\b/],
+  // The records-custody clause is the second half of this rule and it earns its
+  // place on KY AOC-334. The form prints "The Kentucky State Police and other
+  // following agencies listed below are hereby ordered to seal any records in
+  // their custody regarding the above-named Defendant and above-listed
+  // charge(s): ____". The slot lists the AGENCIES the court is ordering. The
+  // caption harvester reached it as the tail fragment "their custody regarding
+  // the above-named Defendant and above-", which contains the word "Defendant"
+  // and no word this rule knew — so full_legal_name claimed it and the
+  // petitioner's name was filed as the list of agencies ordered to seal.
+  // Matching the directive rather than the agency names closes it wherever the
+  // caption is truncated.
+  ["agency", /\bagency\b|\bagencies\b|\bsheriff\b|\bpolice\b|law\s*enforcement|\bbureau\b|state\s*patrol|\bprobation\b|\bparole\b|department\s*of\s*(public\s*safety|justice|corrections)|\bdps\b|\bsbi\b|\bacic\b|\bapsin\b|\bfbi\b|records?\s*in\s*(their|our|its)\s*custody|\bcustody\s*regarding\b|ordered\s*to\s*seal|records?\s*custodian/],
   ["court", /\bjudge\b|magistrate|commissioner|hearing\s*officer|referee|so\s*ordered|it\s*is\s*(hereby\s*)?ordered|ordered\s*(and\s*)?adjudged|adjudged|\bdecree\b|is\s*(hereby\s*)?(granted|denied)|court\s*use\s*only|for\s*(court|office|clerk|official)\s*use|do\s*not\s*write|\bruling\b/],
   ["clerk", /\bclerk\b|deputy\s*clerk|file\s*stamp|filed\s*stamp|filing\s*stamp|court\s*seal|scan\s*num|\bbarcode\b|entered\s*on|\bdistribution\b/],
   ["prosecutor", /prosecut|district\s*attorney|commonwealth\s*s?\s*attorney|state\s*s?\s*attorney|county\s*attorney|solicitor/],

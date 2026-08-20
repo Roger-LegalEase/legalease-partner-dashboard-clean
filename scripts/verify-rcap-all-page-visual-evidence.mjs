@@ -15,6 +15,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import {
   geometryOfFamily, participantInk, writableGeometryResult, protectedGeometryResult,
@@ -34,16 +35,36 @@ function check(id, ok, detail) {
   console.log(`  ${ok ? "ok  " : "FAIL"} ${id} — ${detail}`);
 }
 
-/** Reads a family's committed map + census and runs the geometry contract in memory. */
-async function analyse(familyId, { mutateMap, mutateCensus } = {}) {
+/**
+ * The bytes the reviewers were actually given.
+ *
+ * A canary that asserts "the contract catches this defect in this family" stops
+ * discriminating the moment the family is fixed — it goes red for the best
+ * possible reason and reads exactly like a regression. The defects below have
+ * since been corrected in the live packages, so each canary is pinned to the
+ * commit the reviewers read, and keeps proving the contract would refuse those
+ * bytes for as long as the contract exists.
+ */
+export const REVIEWED_BYTES_COMMIT = "ea1a16b6358086c3c24fbd66e2fd005173d3ad87";
+
+function blobAt(commit, relPath) {
+  return execFileSync("git", ["show", `${commit}:${relPath}`], { cwd: rootDir, maxBuffer: 64 * 1024 * 1024 });
+}
+
+/** Reads a family's map + census and runs the geometry contract in memory. */
+async function analyse(familyId, { mutateMap, mutateCensus, atCommit = null } = {}) {
   const dir = familyDirOf(familyId);
-  let map = JSON.parse(fs.readFileSync(path.join(dir, "production-field-map.json"), "utf8"));
-  let census = JSON.parse(fs.readFileSync(path.join(dir, "field-census.json"), "utf8"));
+  const rel = path.relative(rootDir, dir);
+  const read = (name) => atCommit
+    ? blobAt(atCommit, `${rel}/${name}`)
+    : fs.readFileSync(path.join(dir, name));
+  let map = JSON.parse(read("production-field-map.json").toString("utf8"));
+  let census = JSON.parse(read("field-census.json").toString("utf8"));
   if (mutateMap) map = mutateMap(structuredClone(map));
   if (mutateCensus) census = mutateCensus(structuredClone(census));
   const geometry = geometryOfFamily({ map, census });
   const { pageCount, ink } = await participantInk(
-    fs.readFileSync(path.join(dir, "fixtures/canonical-filled.pdf")), allFixtureValues());
+    read("fixtures/canonical-filled.pdf"), allFixtureValues());
   const writable = writableGeometryResult({ geometry, ink, facts: CANONICAL_FACTS, mapBindings: map.bindings });
   const prot = protectedGeometryResult({ geometry, ink, claimedRuns: writable.claimedRuns });
   const relevance = pageRelevance({ census, geometry, ink, pageCount });
@@ -53,11 +74,11 @@ async function analyse(familyId, { mutateMap, mutateCensus } = {}) {
 
 const hit = (a, c, pred = () => true) => a.fails.some((f) => f.check === c && pred(f));
 
-console.log("CANARIES — each defect a reviewer found, detected in the family it lives in");
+console.log(`CANARIES — each defect a reviewer found, detected in the bytes they read (${REVIEWED_BYTES_COMMIT.slice(0, 8)})`);
 
 // 1 — NC AOC-CR-288: the petitioner's name bound into the judge's findings of fact on page 2.
 {
-  const a = await analyse("NC:aoc-cr-288-form-en");
+  const a = await analyse("NC:aoc-cr-288-form-en", { atCommit: REVIEWED_BYTES_COMMIT });
   check("canary-1-nc288-findings-of-fact",
     hit(a, "binding_declared_in_court_owned_region",
       (f) => f.field === "PetitionerIsEligibleBecauseText1" && f.page === 2 && /FINDINGS OF FACT/i.test(f.regionHeading ?? "")),
@@ -65,7 +86,7 @@ console.log("CANARIES — each defect a reviewer found, detected in the family i
 }
 // 2 and 3 — KY AOC-334: the case number in Court, the participant's name in Date.
 {
-  const a = await analyse("KY:aoc-334-form-en");
+  const a = await analyse("KY:aoc-334-form-en", { atCommit: REVIEWED_BYTES_COMMIT });
   check("canary-2-ky334-case-number-in-court",
     hit(a, "participant_value_in_protected_geometry", (f) => f.field === "Court" && f.value === resolveFact("matter.case_number")),
     "the case number drawn inside the court-identity rect is caught");
@@ -82,7 +103,7 @@ console.log("CANARIES — each defect a reviewer found, detected in the family i
 }
 // 5 — KY AOC-496.3: a binding declared and never drawn.
 {
-  const a = await analyse("KY:aoc-496-3-form-en");
+  const a = await analyse("KY:aoc-496-3-form-en", { atCommit: REVIEWED_BYTES_COMMIT });
   check("canary-5-ky4963-county-declared-not-drawn",
     hit(a, "declared_binding_not_visible_in_its_rect",
       (f) => f.field === "3 County Dropdown" && f.value === resolveFact("matter.county")),
@@ -127,7 +148,7 @@ check("mutation-baseline-green", base.fails.length === 0,
 }
 // 10 — a protected-area value that only exists below the page-1 crop.
 {
-  const a = await analyse("NC:aoc-cr-298-form-en");
+  const a = await analyse("NC:aoc-cr-298-form-en", { atCommit: REVIEWED_BYTES_COMMIT });
   const page2Only = a.fails.filter((f) => f.page === 2);
   check("canary-10-protected-value-below-page-1-crop",
     page2Only.length > 0 && hit(a, "participant_value_in_protected_geometry", (f) => f.page === 2),
@@ -136,6 +157,7 @@ check("mutation-baseline-green", base.fails.length === 0,
 // The court-owned region must decide regardless of the field's name.
 {
   const a = await analyse("NC:aoc-cr-288-form-en", {
+    atCommit: REVIEWED_BYTES_COMMIT,
     mutateMap: (m) => {
       for (const b of m.bindings) if (b.field === "PetitionerIsEligibleBecauseText1") b.field = "HarmlessLookingField";
       return m;
