@@ -5,37 +5,32 @@ This shard reviewed artifacts it did not produce, and it repairs nothing.
 
 | Family | Verdict |
 | --- | --- |
-| NC:aoc-cr-287-form-en | correction_required |
-| NC:aoc-cr-288-form-en | correction_required |
+| NC:aoc-cr-287-form-en | **approved_platform_ready** |
+| NC:aoc-cr-288-form-en | **approved_platform_ready** |
 | NC:aoc-cr-296-form-en | substantive_owner_decision_required |
 | NC:aoc-cr-298-form-en | correction_required |
 
-Nothing in this shard is approved, and the reason is the same for all four.
+## The source bytes
 
-## The source bytes are not here
+The shard b source pack was installed into `private/source-imports/` and
+`RCAP_BUNDLE_EXTRACT` set, so §2 was performed in full. Each family's source was
+resolved through its own committed `canonicalBundlePath`, its SHA-256 recomputed
+from the bytes, and compared against the digest pinned in its committed
+`source-record.json` — **not** against the pack's own manifest, so the pack could
+not vouch for itself. All four match on digest and on byte length. Each source's
+visible form number and revision agree with its pinned identity, none of the
+sources carries a prefilled widget value, and none contains a fixture fact.
 
-`RCAP_BUNDLE_EXTRACT` is unset, and
-`/home/user/legalease-rcap-pdf-inventory-closure/private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1`
-does not exist on this filesystem. Searching the whole filesystem for that path,
-for any `STATES/` directory, for any `*Master_Library*` directory and for the
-pinned official PDFs by name returns nothing. The declared preconditions of 499
-source-library files and 329 PDFs could not be counted either.
+One residual stays with the captain: the pack carries only this shard's four
+PDFs, so the declared whole-corpus preconditions of 499 source-library files and
+329 PDFs remain uncounted. `private/` is gitignored and nothing from it is
+tracked.
 
-So §2 could not be performed. No official source SHA-256 was recomputed by this
-reviewer for any family. Five records — `source-record.json`,
-`source-receipt.json`, the rerender record, the all-page record and the
-provenance sidecar — agree on each family's source digest, but all five were
-written by the lane under review, and §2 says a receipt is not source proof.
-Approval would rest on precisely the evidence §2 excludes, so no family is
-approved. For AOC-CR-298, the one family carrying a published locator, an HTTPS
-fetch of the recorded URL was attempted and refused by this environment's egress
-policy.
-
-Everything that does not need the source bytes was done in full: every other
-hash recomputed from disk, every relevant page inspected as an image, every bound
-value located in the artifact's content stream and compared with the rectangle
-its own map declares, the whole document searched for every canonical fact, and
-the blank and filled halves of every contact-sheet page diffed word by word.
+Everything else was done as before: every other hash recomputed from disk, every
+relevant page inspected as an image, every bound value located in the artifact's
+content stream and compared with the rectangle its own map declares, the whole
+document searched for every canonical fact, and the blank and filled halves of
+every contact-sheet page diffed word by word.
 
 ## What the artifacts actually show
 
@@ -53,17 +48,25 @@ nowhere, which is the defect class NE DC-1-15 is still held for.
 
 ## The four findings that matter
 
-**AOC-CR-298 carries a stranger's name into an AOC certification block.** The
-finalized artifact shows `Courtney Bailey` in the *Name Of Records Officer (type
-or print)* cell of *REPORT BY ADMINISTRATIVE OFFICE OF THE COURTS* on page 2. The
-renderer did not write it — it is in the blank rendering too, so it arrives with
-the pinned source and flattening makes it permanent. It sits in no declared
-widget rectangle, so no classification or refusal reaches it, and
-`protected-fields-scan.json` states its own basis as *what the renderer wrote*,
-which is why every existing check calls this family clean. The string `Courtney`
-appears nowhere in this repository. Deciding whether the official blank form
-prints that name, or whether the archived source is a used copy, needs the source
-bytes.
+**The archived AOC-CR-298 source is not a blank form.** The finalized artifact
+shows `Courtney Bailey` in the *Name Of Records Officer (type or print)* cell of
+*REPORT BY ADMINISTRATIVE OFFICE OF THE COURTS* on page 2. With the source pack
+installed this is now settled, and it settles against the family. The name is in
+the **source's own page content stream**, at the same rectangle, in
+`Arial-BoldMT` at 10pt — while the caption directly above it, like every caption
+on the form, is `Arial-ItalicMT` at 7pt. The adjacent *Date* and *Signature Of
+Records Officer* cells are empty. None of the source's 107 widgets carries a
+value, so it is not a field default: it is a filled-in entry that was flattened
+into an otherwise-blank form before archiving. Across all four sources in this
+shard it is the only non-heading bold run that is not a form title.
+
+The source digest matches its committed pin exactly, so the chain of custody is
+intact and the renderer is blameless — the defect is in *what was acquired*. But
+every artifact rendered from this source carries a real person's name,
+permanently, inside an Administrative Office of the Courts certification block.
+It lies in no declared rectangle, so no classification reaches it, and
+`protected-fields-scan.json` states its own basis as *what the renderer wrote* —
+which is why this family reads clean everywhere else, through two review waves.
 
 **AOC-CR-298's recorded `sourceUrl` describes a different form.** It names
 nonviolent *felonies* and names the *instructions*; the artifact is AOC-CR-298
@@ -109,9 +112,23 @@ hazard anyway: here the class is *present*, is relied on, and is demonstrably no
 about the field it is attached to. Approval was not taken from any classification
 — every value was proved into its rectangle geometrically and then looked at.
 
+## Why two families are approved and two are not
+
+AOC-CR-287 and AOC-CR-288 are approved: sources verified from their own bytes,
+every value proved into its own rectangle and then looked at, every protected
+region blank, page 2 untouched, flattened and inert. Three advisories are
+recorded against them — cross-column region and caption attribution, silent
+omission of values too long for their cell, and an undecoded caption on
+AOC-CR-287 — and none of the three changes what those artifacts do. They are
+wave-level corrections, not family blockers.
+
+AOC-CR-296 and AOC-CR-298 are held for reasons that have nothing to do with their
+digests, both of which verified.
+
 ## Records
 
 - `data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/assignment.json`
+- `data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/source-verification.json`
 - `data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/verdicts.json`
 - `data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/NC-aoc-cr-{287,288,296,298}-form-en.review.json`
 - `data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/verify-wave-c-shard-b.mjs`
