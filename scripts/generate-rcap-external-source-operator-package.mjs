@@ -4,46 +4,50 @@
 //   node scripts/generate-rcap-external-source-operator-package.mjs
 //   node scripts/generate-rcap-external-source-operator-package.mjs --check
 //
-// Both local corpora are exhausted. Every row still without bytes now needs
-// something that cannot happen in this clone: a download from an official
-// publisher, a form-link resolved off a landing page, or a person comparing two
-// editions of the same form. Those are three different jobs with three
-// different costs, and a queue that does not separate them sends an operator to
-// fetch a URL that was never going to resolve.
+// Regenerated from the canonical inventory head (the one carrying abed7631,
+// "the operational corpus consumed"). The denominator is that head's own live
+// row count, not this lane's earlier one: both corpora were mounted there and
+// consumed against real bytes, which this clone cannot repeat -- private/ is
+// not mounted here, so the corpus is read through the committed resolution
+// record rather than re-hashed.
 //
-// So each remaining row is partitioned into exactly one of four:
+// Every remaining row needs something that cannot happen in a clone: a download
+// from a publisher, a form-link resolved off a landing page, or a person
+// comparing two editions. Those are three different jobs, and a queue that does
+// not separate them sends an operator to fetch a URL that was never going to
+// resolve.
 //
-//   1. direct_acquisition            — the exact official binary URL is known.
-//   2. landing_page_resolution       — the publisher's forms page is known, but
-//                                      the link to this form is not. A person
-//                                      has to resolve it before anything can be
-//                                      downloaded.
-//   3. drift_comparison              — a different edition of the same form is
-//                                      already in hand. Nothing should be
-//                                      re-pinned until someone establishes
-//                                      whether the pinned edition is still
-//                                      current, superseded, or a wrong identity.
-//   4. genuinely_unknown             — no official source has been identified by
-//                                      any route this repository holds.
+//   1. direct_acquisition       — the exact official binary URL is known.
+//   2. landing_page_resolution  — the publisher's forms index is known, the link
+//                                 to this form is not. A person resolves it
+//                                 before anything is downloadable.
+//   3. drift_comparison         — a different edition is already in hand.
+//                                 Nothing is re-pinned until someone decides
+//                                 whether the pinned edition is current,
+//                                 superseded, or a wrong identity.
+//   4. genuinely_unknown        — no official source identified by any route.
 //
-// Drift wins over the others. A row whose bytes exist under a different revision
-// does not need an acquisition, it needs a decision, and downloading over it
-// would destroy the comparison.
+// Three things are preserved by name because they were established the hard way
+// and must not be quietly reclassified by a regeneration:
 //
-// Two rules this package enforces rather than assumes:
-//
-//   - A LegalEase-generated draft, sample, shadow-batch render or review-inbox
-//     artifact is NEVER an official source. Any candidate URL or destination
-//     that looks like one is refused here, not caught later.
-//   - Every acquisition URL must be on the official host list recorded for its
-//     jurisdiction. A URL on any other host is refused.
+//   - VA CC-1473 stays a DRIFT COMPARISON. The canonical resolution files it as
+//     exact_form_and_revision_found, which is true of the form number and the
+//     revision and false of the bytes: the pinned hash and the corpus hash are
+//     different editions. Its sibling cc1473inst is worse -- an instruction
+//     sheet offered a petition form, which is a wrong identity, not a match.
+//   - NC cr297's recorded URL stays an explicit REFUSED INPUT until someone
+//     reconstructs it from the official landing page.
+//   - A LegalEase draft, sample or shadow-batch render is a PROHIBITED DECOY and
+//     never an official source, however exactly its filename matches.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const HANDOFF = path.join(rootDir, "data/rcap-all50/pdf-source-handoffs/source-materialization-handoff.json");
+const RESOLUTION = path.join(rootDir, "data/rcap-all50/pdf-source-handoffs/source-resolution.json");
+const DISPOSITIONS = path.join(rootDir, "data/rcap-all50/pdf-source-handoffs/missing-binary-dispositions.json");
 const QUEUE = path.join(rootDir, "data/rcap-all50/source-acquisition-queue.json");
+const DETERMINATION = path.join(rootDir, "data/rcap-all50/pdf-retirement-determination.json");
 const OUT = path.join(rootDir, "data/rcap-all50/pdf-source-handoffs/external-source-operator-package.json");
 const SCRIPT_OUT = path.join(rootDir, "data/rcap-all50/pdf-source-handoffs/acquire-official-sources.command");
 const checkOnly = process.argv.includes("--check");
@@ -53,180 +57,176 @@ const readJson = (file) => {
   return JSON.parse(fs.readFileSync(file, "utf8"));
 };
 
-const handoff = readJson(HANDOFF);
+const resolution = readJson(RESOLUTION);
+const dispositions = readJson(DISPOSITIONS);
 const queue = readJson(QUEUE);
-
-// Everything the queue knows about an asset, whichever set it landed in.
-const queueByAsset = new Map();
-for (const [setName, rows] of Object.entries(queue.sets ?? {})) {
-  for (const row of rows) queueByAsset.set(row.assetId, { set: setName, ...row });
-}
+const determination = readJson(DETERMINATION);
 const officialHosts = queue.officialHostsByJurisdiction ?? {};
 
-/** A source we must never treat as official, however convenient it looks. */
-const NOT_AN_OFFICIAL_SOURCE = /legalease|sample|draft|shadow-batch|review-inbox|field-map-draft|canonical-filled|boundary-filled|blank-vs-filled/i;
+const dispositionByFamily = new Map((dispositions.rows ?? []).map((row) => [row.familyId, row]));
+const queueByFamily = new Map();
+for (const rows of Object.values(queue.sets ?? {})) {
+  for (const row of rows) {
+    for (const familyId of row.routeOrFamilyDependency?.formFamilyIds ?? []) {
+      if (!queueByFamily.has(familyId)) queueByFamily.set(familyId, row);
+    }
+  }
+}
+
+/** Assets a LegalEase pipeline produced. Never a source, however well it matches. */
+const PROHIBITED_DECOY = /legalease|sample|draft|shadow-batch|review-inbox|field-map-draft|canonical-filled|boundary-filled|blank-vs-filled/i;
 
 /**
  * Whether a recorded URL is something an operator can actually fetch.
  *
- * Not a formality. `NC|cr297.pdf` carries a 531-character comma-joined CSV blob
- * in its `url` field -- a real URL, then a host, a date, a revision, a hash, a
- * `private/source-imports/...` corpus path and several flags, all run together.
- * An acquisition runner handed that fails, and the embedded corpus path is not
- * an official source at all. So a URL has to parse, be free of the comma that
- * betrays a joined record, sit on a host the publisher actually uses, and not
- * name a generated artifact.
+ * NC cr297 carries a 531-character comma-joined record in its `url` -- a real
+ * URL, then a host, a date, a revision, a hash, a private/source-imports corpus
+ * path and several flags, run together. A runner handed that fails, and the
+ * embedded corpus path is not a published location at all. So a URL must parse,
+ * carry no comma, name no corpus path, sit on a host the publisher uses, and
+ * not name a decoy.
  */
 function urlUsability(jurisdiction, url) {
   if (!url) return { usable: false, reason: "no URL is recorded" };
   const text = String(url);
-  if (NOT_AN_OFFICIAL_SOURCE.test(text)) {
-    return { usable: false, reason: "the recorded URL names a LegalEase-generated artifact; a draft or sample is never an official source" };
-  }
-  if (text.includes(",")) {
-    return { usable: false, reason: `the recorded URL is a joined record rather than a URL (${(text.match(/,/g) ?? []).length} commas, ${text.length} characters); it embeds a corpus path and flags and cannot be fetched` };
-  }
-  if (/private\/source-imports|Nationwide Record Clearing/.test(text)) {
-    return { usable: false, reason: "the recorded URL is a local corpus path, not a published location" };
-  }
+  if (PROHIBITED_DECOY.test(text)) return { usable: false, reason: "the recorded URL names a LegalEase-generated artifact; a draft or sample is a prohibited decoy, never an official source" };
+  if (text.includes(",")) return { usable: false, reason: `the recorded URL is a joined record rather than a URL (${(text.match(/,/g) ?? []).length} commas, ${text.length} characters); it embeds a corpus path and flags and cannot be fetched` };
+  if (/private\/source-imports|Nationwide Record Clearing/.test(text)) return { usable: false, reason: "the recorded URL is a local corpus path, not a published location" };
   let host;
   try { host = new URL(text).hostname.toLowerCase(); } catch { return { usable: false, reason: "the recorded URL does not parse" }; }
-  const official = (officialHosts[jurisdiction] ?? []).some((h) => host === h.toLowerCase());
-  if (!official) return { usable: false, reason: `host ${host} is not on the official host list recorded for ${jurisdiction}` };
+  if (!(officialHosts[jurisdiction] ?? []).some((h) => host === h.toLowerCase())) {
+    return { usable: false, reason: `host ${host} is not on the official host list recorded for ${jurisdiction}` };
+  }
   return { usable: true, host };
 }
 
-/** Where the verified binary belongs, and where its receipt goes. */
-function destinationsFor(row, queueRow) {
-  const familyDir = row.familyPackagePaths?.[0] ?? null;
-  const record = familyDir && fs.existsSync(path.join(rootDir, familyDir, "source-record.json"))
-    ? JSON.parse(fs.readFileSync(path.join(rootDir, familyDir, "source-record.json"), "utf8"))
-    : {};
-  const relativePath = record.relativePath ?? record.canonicalBundlePath ?? null;
-  const extension = path.extname(record.fileName ?? row.formNumber ?? "").toLowerCase() || ".pdf";
-  const slug = String(queueRow.formNumber ?? row.formNumber ?? "form")
-    .toLowerCase().replace(/\.(pdf|html?|docx?)$/i, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  return {
-    canonicalDestination: relativePath ? `private/Nationwide Record Clearing/${relativePath}` : null,
-    receiptDestination: `data/rcap-codex/remaining-tracks/source-receipts/${row.jurisdiction.toLowerCase()}-${slug}${extension}`,
-    familyPackagePath: familyDir
-  };
+// Families preserved as drift regardless of how the resolution filed them, with
+// the reason each is preserved. A regeneration must not quietly reclassify a
+// finding that cost a comparison to establish.
+const PRESERVED_AS_DRIFT = new Map([
+  ["VA:cc1473", "The pinned edition and the corpus edition are different bytes under the same form number and revision. exact_form_and_revision_found is true of the identifiers and false of the document; re-pinning without comparing would silently change which edition was reviewed."],
+  ["VA:cc1473inst", "This asset is the instruction sheet and the only CC-1473 asset in the corpus is the petition form. That is a wrong identity offered as a match, not a drift between editions, and accepting it would bind the family to a document it is not."]
+]);
+
+const assetByFamily = new Map();
+for (const asset of determination.assets ?? []) {
+  for (const familyId of asset.familyIds ?? []) assetByFamily.set(familyId, asset);
 }
 
 const rows = [];
-const refusals = [];
+const refusedInputs = [];
+const excludedByTheCanonicalDenominator = [];
 
-for (const row of handoff.rows ?? []) {
-  // A row with an exact corpus match is not an external problem.
-  if (row.matchClass === "exact_pinned_sha256") continue;
-
-  const queueRow = queueByAsset.get(row.assetId);
-  if (!queueRow) { refusals.push({ assetId: row.assetId, why: "no acquisition-queue record; cannot state a publisher or a URL" }); continue; }
-
-  const destinations = destinationsFor(row, queueRow);
+for (const row of resolution.rows ?? []) {
+  const queueRow = queueByFamily.get(row.familyId) ?? {};
+  const dispositionRow = dispositionByFamily.get(row.familyId) ?? {};
+  const asset = assetByFamily.get(row.familyId) ?? null;
   const url = queueRow.url ?? null;
   const usability = urlUsability(row.jurisdiction, url);
 
+  // The canonical denominator. The inventory head consumed both corpora with
+  // them mounted; its liveness flag is the number of record, and this clone
+  // cannot re-derive it against bytes it does not have.
+  if (row.retiredFromOperationalInventory) {
+    excludedByTheCanonicalDenominator.push({
+      familyId: row.familyId,
+      jurisdiction: row.jurisdiction,
+      disposition: row.disposition,
+      excludedBecause: "the canonical inventory head records this family as retired from the operational inventory",
+      // Recorded, not argued: this lane's corrected probe disagrees, and the
+      // disagreement is load-bearing for three of them.
+      currentDeterminationSaysRetained: asset ? asset.determination === "retain_and_remediate" : null,
+      namedByOperationalSurfaces: asset ? asset.useSites.map((s) => s.surface) : []
+    });
+    if (!usability.usable && url) {
+      refusedInputs.push({ familyId: row.familyId, jurisdiction: row.jurisdiction, url: String(url).slice(0, 120), why: usability.reason, preserved: row.familyId === "NC:cr297" });
+    }
+    continue;
+  }
+
   const base = {
-    assetId: row.assetId,
+    familyId: row.familyId,
     jurisdiction: row.jurisdiction,
-    formNumber: queueRow.formNumber ?? row.formNumber,
-    formName: queueRow.formName ?? null,
+    formNumber: queueRow.formNumber ?? row.formNumberCandidates?.[0] ?? null,
+    formNumberCandidates: row.formNumberCandidates ?? [],
     officialPublisher: queueRow.publisher ?? null,
-    expectedRevision: queueRow.expectedRevision ?? null,
-    pinnedHash: row.sourceSha256 ?? queueRow.pinnedHistoricalSha256 ?? null,
-    structuralClass: row.structuralClass ?? null,
-    acquisitionPriority: queueRow.acquisitionPriority ?? null,
-    acquisitionRule: queueRow.acquisitionRule ?? null,
-    anyIntendedPaidPathway: queueRow.routeOrFamilyDependency?.anyIntendedPaidPathway ?? false,
-    ...destinations
+    expectedRevision: queueRow.expectedRevision ?? dispositionRow.pinnedRevision ?? null,
+    pinnedHash: dispositionRow.pinnedSha256 ?? null,
+    canonicalDisposition: row.disposition,
+    identityProven: Boolean(row.identityProven),
+    resolvedBy: row.resolvedBy ?? null,
+    canonicalDestination: `private/Nationwide Record Clearing/ — the family's recorded relativePath`,
+    receiptDestination: `data/rcap-all50/pdf-source-receipts/${row.jurisdiction.toLowerCase()}-${String(row.familyId.split(":")[1] ?? "form").replace(/[^a-z0-9]+/gi, "-").toLowerCase()}.pdf`
   };
 
-  // ---- 3. drift comparison wins ---------------------------------------------
-  // These bytes exist. Downloading over them would destroy the comparison the
-  // row actually needs.
-  if ((row.supersedingCandidates ?? []).length > 0) {
-    const candidate = row.supersedingCandidates[0];
-    const roleAgrees = row.supersedingCandidates.some((c) => c.roleAgrees);
+  if (url && !usability.usable) {
+    refusedInputs.push({ familyId: row.familyId, jurisdiction: row.jurisdiction, url: String(url).slice(0, 120), why: usability.reason, preserved: row.familyId === "NC:cr297" });
+  }
+
+  // ---- 3. drift comparison, including the preserved cases -------------------
+  const preservedReason = PRESERVED_AS_DRIFT.get(row.familyId);
+  if (row.disposition === "source_drift_requires_comparison" || preservedReason) {
+    const competing = row.competingEditions ?? [];
     rows.push({
       ...base,
       partition: "drift_comparison",
-      oldPinnedSourceHash: row.sourceSha256 ?? null,
-      oldPinnedRevision: queueRow.expectedRevision ?? null,
-      newOfficialSourceHash: candidate.sha256 ?? null,
-      newVisibleRevision: candidate.revision ?? null,
-      newSourceLocation: candidate.bundlePath ?? null,
-      newAssetClass: candidate.assetClass ?? null,
-      recordedComponentRole: candidate.recordedComponentRole ?? null,
+      preservedAsDrift: Boolean(preservedReason),
+      whyPreserved: preservedReason ?? null,
+      oldPinnedSourceHash: dispositionRow.pinnedSha256 ?? null,
+      oldPinnedRevision: dispositionRow.pinnedRevision ?? null,
+      competingEditions: competing,
+      newOfficialSourceHash: competing[0]?.sha256 ?? row.source?.sha256 ?? null,
+      newVisibleRevision: competing[0]?.revision ?? row.source?.revision ?? null,
       substantiveComparisonRequired: [
         "page count of both editions",
-        "field or anchor census of both editions, and every field that appears, disappears or moves",
-        "the statutory citation printed on each edition",
-        "the printed revision marker on each edition",
+        "field or anchor census of both, and every field that appears, disappears or moves",
+        "the statutory citation printed on each",
+        "the printed revision marker on each",
         "whether any participant-writable field changed meaning"
       ],
-      currentnessQuestion: roleAgrees
-        ? "Does the pinned edition remain current, is it superseded by the newer edition, or is the newer edition a different document that shares a form number?"
-        : "The document roles disagree, so start there: the pinned asset and the offered replacement are not the same kind of document.",
-      provisionalDisposition: roleAgrees ? "unresolved_pending_comparison" : "wrong_identity_offered",
-      whyNotADirectAcquisition: "A different edition of this form is already in hand. Re-pinning without a comparison would silently change which edition was reviewed.",
+      currentnessQuestion: "Does the pinned edition remain current, is it superseded by the newer edition, or is the newer edition a different document sharing a form number?",
+      provisionalDisposition: preservedReason && row.familyId === "VA:cc1473inst" ? "wrong_identity_offered" : "unresolved_pending_comparison",
       doNotDownloadOverIt: true,
-      // A comparison needs both editions. Where the current official binary URL
-      // is known and fetchable, downloading it is the step that ENABLES the
-      // comparison -- into a comparison directory, never over the pinned bytes.
       ...(queueRow.urlKind === "direct_binary" && usability.usable
-        ? { officialUrlForComparison: url, comparisonFetchDestination: `drift-comparison/${path.basename(destinations.receiptDestination)}`, hostVerifiedOfficial: true }
+        ? { officialUrlForComparison: url, comparisonFetchDestination: `drift-comparison/${path.basename(base.receiptDestination)}`, hostVerifiedOfficial: true }
         : { officialUrlForComparison: null, whyNoComparisonFetch: usability.usable ? "no exact official binary URL is recorded; the landing page must be resolved first" : usability.reason })
     });
     continue;
   }
 
   // ---- 1. direct acquisition -------------------------------------------------
-  if (queueRow.urlKind === "direct_binary") {
-    if (!usability.usable) {
-      refusals.push({ assetId: row.assetId, url, why: usability.reason, consequence: "treated as a landing-page resolution instead of a download" });
-    } else {
-      rows.push({ ...base, partition: "direct_acquisition", officialUrl: url, urlKind: queueRow.urlKind, hostVerifiedOfficial: true });
-      continue;
-    }
-  }
-
-  // ---- 2. landing-page resolution -------------------------------------------
-  if (url) {
-    if (!usability.usable) {
-      refusals.push({ assetId: row.assetId, url: String(url).slice(0, 120), why: usability.reason, consequence: "recorded as a landing-page row with no usable link; the publisher's forms index must be resolved by hand" });
-      rows.push({
-        ...base, partition: "landing_page_resolution", officialLandingPage: null, urlKind: queueRow.urlKind ?? null,
-        recordedUrlIsUnusable: usability.reason,
-        whatTheOperatorMustResolve: `The recorded URL for ${queueRow.formNumber ?? row.formNumber} cannot be used. Start from the ${row.jurisdiction} publisher's forms index (${(officialHosts[row.jurisdiction] ?? []).join(", ") || "no official host recorded"}), find the link that serves this form, and confirm the printed form number and revision on the served document.`,
-        nothingIsDownloadableUntilResolved: true
-      });
-      continue;
-    }
-    rows.push({
-      ...base,
-      partition: "landing_page_resolution",
-      officialLandingPage: url,
-      urlKind: queueRow.urlKind ?? null,
-      hostVerifiedOfficial: true,
-      whatTheOperatorMustResolve: `Find the link on ${url} that serves ${queueRow.formNumber ?? row.formNumber}, confirm the printed form number and revision on the served document, then record the exact binary URL. Do not download the landing page itself as the source.`,
-      nothingIsDownloadableUntilResolved: true
-    });
+  if (queueRow.urlKind === "direct_binary" && usability.usable) {
+    rows.push({ ...base, partition: "direct_acquisition", officialUrl: url, urlKind: queueRow.urlKind, hostVerifiedOfficial: true });
     continue;
   }
 
   // ---- 4. genuinely unknown --------------------------------------------------
+  if (row.disposition === "genuinely_no_official_source_identified") {
+    rows.push({
+      ...base,
+      partition: "genuinely_unknown",
+      whatWasChecked: resolution.searchOrder ?? dispositions.derivedFrom ?? [
+        "the mounted Master Library, by exact pinned hash and by form number and revision",
+        "the mounted Nationwide operational tree",
+        "the acquisition queue's committed link inventory",
+        "the official host list recorded for this jurisdiction"
+      ],
+      whatWouldResolveIt: "A publisher-confirmed URL for this exact document, or a determination that the asset is a captured web page with no underlying official form — in which case it is not an acquisition and should leave the source denominator.",
+      likelyACapturedWebPage: /\.html?$/i.test(row.formNumberCandidates?.[0] ?? "")
+    });
+    continue;
+  }
+
+  // ---- 2. landing-page resolution -------------------------------------------
   rows.push({
     ...base,
-    partition: "genuinely_unknown",
-    whatWasChecked: [
-      "the local source-corpus index, by exact pinned hash",
-      "the acquisition queue's committed link inventory",
-      "the official host list recorded for this jurisdiction",
-      "the family's own source record for a recorded official URL"
-    ],
-    whatWouldResolveIt: "A publisher-confirmed URL for this exact document, or a determination that the asset is a captured web page with no underlying official form — in which case it is not an acquisition at all and should leave the source denominator.",
-    likelyNotAForm: row.structuralClass === "html_form"
+    partition: "landing_page_resolution",
+    officialLandingPage: usability.usable ? url : null,
+    recordedUrlIsUnusable: usability.usable ? null : usability.reason,
+    whatTheOperatorMustResolve: usability.usable
+      ? `Find the link on ${url} that serves ${base.formNumber ?? row.familyId}, confirm the printed form number and revision on the served document, then record the exact binary URL. Do not download the landing page itself as the source.`
+      : `The recorded URL cannot be used. Start from the ${row.jurisdiction} publisher's forms index (${(officialHosts[row.jurisdiction] ?? []).join(", ") || "no official host recorded"}), find the link that serves this form, and confirm the printed form number and revision on the served document.`,
+    nothingIsDownloadableUntilResolved: true
   });
 }
 
@@ -235,13 +235,9 @@ const direct = partition("direct_acquisition");
 const landing = partition("landing_page_resolution");
 const drift = partition("drift_comparison");
 const unknown = partition("genuinely_unknown");
+const driftFetches = drift.filter((r) => r.officialUrlForComparison);
 
 // ---- the operator's download script -----------------------------------------
-// Credential-free and Mac-native: it uses curl, which ships with macOS, asks for
-// no token, and writes only into a directory the operator names. It verifies
-// each download against the pinned hash where one exists and REFUSES to keep a
-// file whose hash does not match, because a silently different edition is the
-// exact failure this whole package exists to prevent.
 const scriptLines = [
   "#!/bin/bash",
   "# Acquire the official source binaries this repository still needs.",
@@ -252,136 +248,142 @@ const scriptLines = [
   "#",
   "# It downloads ONLY exact official binary URLs on publisher hosts. Rows that",
   "# need a landing page resolved, an edition compared, or a source identified at",
-  "# all are deliberately not here -- a script cannot do any of those, and",
+  "# all are deliberately absent -- a script cannot do any of those, and",
   "# pretending it can is how a wrong edition gets pinned.",
   "#",
-  "# Every download is hash-checked where a hash is pinned. A file whose hash does",
-  "# not match is MOVED ASIDE, not kept: a different edition of the right form is",
-  "# still the wrong bytes, and it needs the drift comparison rather than a pin.",
+  "# No LegalEase draft, sample or shadow-batch render is ever fetched. Those are",
+  "# prohibited decoys: they carry the right filenames and are not the form.",
   "set -u",
   "",
   'DEST="${1:-$HOME/Downloads/rcap-official-sources}"',
   'mkdir -p "$DEST/mismatched"',
   'echo "Downloading into: $DEST"',
-  'echo',
+  "echo",
   "",
   "ok=0; mismatched=0; failed=0",
   "",
   "fetch() {",
   '  local url="$1" out="$2" expected="$3" label="$4"',
   '  echo "==> $label"',
-  '  if ! curl --fail --location --silent --show-error --proto \'=https\' --tlsv1.2 \\',
+  "  if ! curl --fail --location --silent --show-error --proto '=https' --tlsv1.2 \\",
   '       --connect-timeout 20 --max-time 180 --retry 2 --retry-delay 3 \\',
   '       -o "$DEST/$out" "$url"; then',
   '    echo "    FAILED to download $url"; failed=$((failed+1)); return',
   "  fi",
   '  if [ -n "$expected" ]; then',
-  '    local actual; actual=$(shasum -a 256 "$DEST/$out" | awk \'{print $1}\')',
+  "    local actual; actual=$(shasum -a 256 \"$DEST/$out\" | awk '{print $1}')",
   '    if [ "$actual" != "$expected" ]; then',
   '      echo "    HASH MISMATCH — expected $expected"',
   '      echo "                    got      $actual"',
-  '      echo "    This is a different edition. Moved to mismatched/ for the drift comparison."',
+  '      echo "    A different edition. Moved to mismatched/ for the drift comparison."',
   '      mv "$DEST/$out" "$DEST/mismatched/$out"; mismatched=$((mismatched+1)); return',
   "    fi",
   '    echo "    ok — hash matches the pin"',
   "  else",
-  '    echo "    downloaded (no pinned hash to verify against; record its hash before pinning)"',
+  '    echo "    downloaded (no pinned hash; record its sha256 before anything is pinned)"',
   "  fi",
   "  ok=$((ok+1))",
   "}",
   ""
 ];
-const driftFetches = drift.filter((row) => row.officialUrlForComparison);
-
 if (direct.length > 0) {
-  scriptLines.push('echo "--- Direct acquisitions: the pinned edition, hash-verified ---"', 'echo');
+  scriptLines.push('echo "--- Direct acquisitions: the pinned edition, hash-verified ---"', "echo");
   for (const row of direct) {
-    const outName = path.basename(row.receiptDestination);
-    scriptLines.push(`fetch "${row.officialUrl}" "${outName}" "${row.pinnedHash ?? ""}" "${row.jurisdiction} ${row.formNumber} — ${row.officialPublisher ?? "publisher not recorded"}"`);
+    scriptLines.push(`fetch "${row.officialUrl}" "${path.basename(row.receiptDestination)}" "${row.pinnedHash ?? ""}" "${row.jurisdiction} ${row.formNumber ?? row.familyId} — ${row.officialPublisher ?? "publisher not recorded"}"`);
   }
   scriptLines.push("");
 }
-
 if (driftFetches.length > 0) {
-  // No expected hash on purpose. These fetch the CURRENT official edition in
-  // order to compare it against the pinned one, so the bytes are supposed to
-  // differ. Verifying them against the old pin would fail every time and would
-  // move aside exactly the file the comparison needs.
+  // No expected hash on purpose: these fetch the CURRENT edition in order to
+  // compare it against the pinned one, so the bytes are supposed to differ.
+  // Verifying them against the old pin would move aside exactly the file the
+  // comparison needs.
   scriptLines.push(
     'echo "--- Drift comparisons: the CURRENT official edition, for comparison only ---"',
-    'echo "    These are NOT pinned. They are expected to differ from the pinned"',
-    'echo "    edition -- that is what the comparison is for. Nothing here should"',
-    'echo "    replace a pinned source until someone has compared the two."',
-    'echo',
+    'echo "    NOT pinned. These are expected to differ from the pinned edition --"',
+    'echo "    that is what the comparison is for. Nothing here replaces a pinned"',
+    'echo "    source until someone has compared the two."',
+    "echo",
     'mkdir -p "$DEST/drift-comparison"'
   );
   for (const row of driftFetches) {
-    const outName = `drift-comparison/${path.basename(row.receiptDestination)}`;
-    scriptLines.push(`fetch "${row.officialUrlForComparison}" "${outName}" "" "${row.jurisdiction} ${row.formNumber} — current edition for drift comparison (pinned: ${row.oldPinnedRevision ?? "revision unrecorded"})"`);
+    scriptLines.push(`fetch "${row.officialUrlForComparison}" "${row.comparisonFetchDestination}" "" "${row.jurisdiction} ${row.formNumber ?? row.familyId} — current edition for drift comparison (pinned: ${row.oldPinnedRevision ?? "revision unrecorded"})"`);
   }
   scriptLines.push("");
 }
-scriptLines.push(
-  "",
-  'echo',
-  'echo "Downloaded and verified : $ok"',
-  'echo "Hash mismatches (drift) : $mismatched"',
-  'echo "Failed                  : $failed"',
-  'echo',
-  'echo "Verified files are in $DEST. Hand them back with their sha256."',
-  'echo "Anything in $DEST/mismatched is a DIFFERENT EDITION of the right form."',
-  'echo "Do not pin it. It goes to the drift comparison."'
-);
 if (direct.length === 0 && driftFetches.length === 0) {
   scriptLines.push(
     'echo "No row in this package has an exact official binary URL on a verified"',
     'echo "publisher host, so there is nothing this script can download yet."',
     'echo "Resolve the landing pages first, then regenerate this script."');
 }
+scriptLines.push(
+  "",
+  "echo",
+  'echo "Downloaded and verified : $ok"',
+  'echo "Hash mismatches (drift) : $mismatched"',
+  'echo "Failed                  : $failed"',
+  "echo",
+  'echo "Verified files are in $DEST. Hand them back with their sha256."',
+  'echo "Anything in $DEST/mismatched is a DIFFERENT EDITION of the right form."',
+  'echo "Do not pin it. It goes to the drift comparison."'
+);
 const scriptText = `${scriptLines.join("\n")}\n`;
 
+const runtimeBound = excludedByTheCanonicalDenominator.filter((r) => r.currentDeterminationSaysRetained);
+
 const payload = {
-  schemaVersion: "rcap-external-source-operator-package/v1",
+  schemaVersion: "rcap-external-source-operator-package/v2",
   generatedBy: "scripts/generate-rcap-external-source-operator-package.mjs",
-  purpose: "Every remaining source row that cannot be closed in this clone, partitioned by what actually has to happen to it, with the exact facts an operator needs to act.",
-  bothLocalCorporaAreExhausted: "This package covers only what neither corpus could supply. Rows that match the committed corpus index by exact pinned hash are not here; they need the corpus mounted, not an acquisition.",
-  rulesEnforcedNotAssumed: [
-    "A LegalEase-generated draft, sample, shadow-batch render or review-inbox artifact is never an official source. A candidate URL that names one is refused here.",
-    "Every acquisition URL must be on the official host list recorded for its jurisdiction. A URL on any other host is refused.",
-    "A row whose bytes exist under a different revision is a drift comparison, never a download. Downloading over it would destroy the comparison."
-  ],
+  purpose: "Every live source row that cannot be closed in this clone, partitioned by what actually has to happen to it, regenerated from the canonical inventory head.",
+  canonicalInventoryHead: {
+    branch: "claude/rcap-pdf-inventory-closure-ty4m7x",
+    contains: "abed7631 — the operational corpus consumed",
+    denominator: "source-resolution.json liveRowsStillOutstanding",
+    supersedes: "the 26-row denominator this lane emitted at 15894478, which predates the corpus being consumed"
+  },
+  corporaReconciliation: {
+    masterLibraryMounted: dispositions.corpusMount?.masterLibraryMounted ?? null,
+    nationwideSourceMounted: dispositions.corpusMount?.nationwideSourceMounted ?? null,
+    mountedWhere: "the canonical inventory head, not this clone",
+    thisCloneHasNoCorpus: !fs.existsSync(path.join(rootDir, "private")),
+    consequence: "Both corpora were consumed against real bytes at the inventory head and the result is committed. This clone cannot re-hash them, so the corpus is reconciled through that committed record rather than re-read. Nothing here re-derives a corpus fact; it consumes one.",
+    operationalManifestReconciled: dispositions.corpusMount?.nationwideCompleteness ?? null
+  },
+  egress: dispositions.egress ?? null,
+  doNotRetryTheProxy: "The blocked proxy is not retried anywhere in this package or its script. Every download is written to be run by an operator on their own machine.",
+  preservedByName: {
+    "VA:cc1473": PRESERVED_AS_DRIFT.get("VA:cc1473"),
+    "VA:cc1473inst": PRESERVED_AS_DRIFT.get("VA:cc1473inst"),
+    "NC:cr297": "Its recorded URL stays an explicit refused input until reconstructed from the official landing page.",
+    prohibitedDecoys: "A LegalEase draft, sample or shadow-batch render is never an official source. Enforced in urlUsability(), not left to judgement."
+  },
+  totals: {
+    canonicalLiveRows: rows.length,
+    directAcquisitions: direct.length,
+    landingPageResolutions: landing.length,
+    driftComparisons: drift.length,
+    genuinelyUnknown: unknown.length,
+    downloadableByScriptToday: direct.length + driftFetches.length,
+    refusedInputs: refusedInputs.length,
+    excludedByTheCanonicalDenominator: excludedByTheCanonicalDenominator.length
+  },
+  refusedInputs,
+  denominatorDisagreement: {
+    statement: `${excludedByTheCanonicalDenominator.length} rows are excluded because the canonical inventory head records them retired. This lane's corrected retirement probe says ${runtimeBound.length} of them are still named by an operational surface.`,
+    why: "The inventory head's application_source probe reads only .ts/.tsx/.mjs/.js, so it never opens src/lib/rcap-engine/compiled/profiles/*.json — the compiled engine profiles that packet-planner.ts turns into a packet plan's sourceFormIds. This lane fixed that probe at 9b520a95; the fix is not in the inventory head's own generator.",
+    highestStakes: "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f, AR:3-misdemeanor-petition-8-01-2023 and AR:felony-petition-form-f are each named by exact source hash inside a formCandidates block of src/lib/rcap-engine/compiled/profiles/AR-arkansas.json, under pathwayIds situation-a-non-convictions, situation-b-misdemeanor-convictions and situation-c-felony-convictions, all mode official_form_overlay_or_source_form_set. Retiring an asset a paid pathway plans around is the one direction a retirement must never fail in.",
+    recommendation: "Re-run the retirement determination with the corrected probe on the inventory head, then re-derive the live denominator. Until that happens these rows are excluded from the partitions above and listed here instead of being dropped.",
+    rows: excludedByTheCanonicalDenominator
+  },
   officialHostsByJurisdiction: officialHosts,
   downloadScript: {
     path: "data/rcap-all50/pdf-source-handoffs/acquire-official-sources.command",
     platform: "macOS",
     credentials: "none — curl over HTTPS, no token, no proxy",
-    verifies: "each download against its pinned sha256; a mismatch is moved aside for the drift comparison rather than kept"
+    verifies: "each pinned download against its sha256; a mismatch is moved aside for the drift comparison rather than kept"
   },
-  totals: {
-    rowsNeedingSomethingExternal: rows.length,
-    directAcquisitions: direct.length,
-    landingPageResolutions: landing.length,
-    driftComparisons: drift.length,
-    genuinelyUnknown: unknown.length,
-    refusedCandidates: refusals.length,
-    downloadableByScriptToday: direct.length + drift.filter((r) => r.officialUrlForComparison).length,
-    directAcquisitionsDownloadable: direct.length,
-    driftComparisonFetchesDownloadable: drift.filter((r) => r.officialUrlForComparison).length,
-    expectedRetainedMissingAfterDownload: rows.length - direct.length
-  },
-  // Surfaced rather than left buried in a row, because an operator who trusts
-  // the queue's `url` field will waste a cycle on each of these.
-  recordedUrlDefects: rows
-    .filter((r) => r.recordedUrlIsUnusable || (r.whyNoComparisonFetch && !/no exact official binary URL/.test(r.whyNoComparisonFetch)))
-    .map((r) => ({ assetId: r.assetId, jurisdiction: r.jurisdiction, formNumber: r.formNumber, defect: r.recordedUrlIsUnusable ?? r.whyNoComparisonFetch })),
-  whatTheExpectedRemainderMeans: "Only the direct-acquisition rows can close by download. Every landing-page row needs a person to resolve a link first, every drift row needs a comparison rather than bytes, and the unknown rows need an identification. The remainder is not a failure of the script; it is the work the script cannot do.",
-  partitions: {
-    direct_acquisition: direct,
-    landing_page_resolution: landing,
-    drift_comparison: drift,
-    genuinely_unknown: unknown
-  },
-  refusedCandidates: refusals
+  partitions: { direct_acquisition: direct, landing_page_resolution: landing, drift_comparison: drift, genuinely_unknown: unknown }
 };
 
 const json = `${JSON.stringify(payload, null, 2)}\n`;
@@ -399,4 +401,4 @@ if (checkOnly) {
   fs.chmodSync(SCRIPT_OUT, 0o755);
 }
 
-console.log(`OK operator package — ${rows.length} row(s): ${direct.length} direct, ${landing.length} landing-page, ${drift.length} drift, ${unknown.length} unknown; ${refusals.length} candidate(s) refused; expected retained_missing after download ${rows.length - direct.length}`);
+console.log(`OK operator package — ${rows.length} live row(s): ${direct.length} direct, ${landing.length} landing-page, ${drift.length} drift, ${unknown.length} unknown; ${refusedInputs.length} refused input(s); ${excludedByTheCanonicalDenominator.length} excluded by the canonical denominator (${runtimeBound.length} of them still named by an operational surface)`);

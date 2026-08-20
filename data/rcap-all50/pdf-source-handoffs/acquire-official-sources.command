@@ -7,12 +7,11 @@
 #
 # It downloads ONLY exact official binary URLs on publisher hosts. Rows that
 # need a landing page resolved, an edition compared, or a source identified at
-# all are deliberately not here -- a script cannot do any of those, and
+# all are deliberately absent -- a script cannot do any of those, and
 # pretending it can is how a wrong edition gets pinned.
 #
-# Every download is hash-checked where a hash is pinned. A file whose hash does
-# not match is MOVED ASIDE, not kept: a different edition of the right form is
-# still the wrong bytes, and it needs the drift comparison rather than a pin.
+# No LegalEase draft, sample or shadow-batch render is ever fetched. Those are
+# prohibited decoys: they carry the right filenames and are not the form.
 set -u
 
 DEST="${1:-$HOME/Downloads/rcap-official-sources}"
@@ -35,22 +34,23 @@ fetch() {
     if [ "$actual" != "$expected" ]; then
       echo "    HASH MISMATCH — expected $expected"
       echo "                    got      $actual"
-      echo "    This is a different edition. Moved to mismatched/ for the drift comparison."
+      echo "    A different edition. Moved to mismatched/ for the drift comparison."
       mv "$DEST/$out" "$DEST/mismatched/$out"; mismatched=$((mismatched+1)); return
     fi
     echo "    ok — hash matches the pin"
   else
-    echo "    downloaded (no pinned hash to verify against; record its hash before pinning)"
+    echo "    downloaded (no pinned hash; record its sha256 before anything is pinned)"
   fi
   ok=$((ok+1))
 }
 
 echo "--- Drift comparisons: the CURRENT official edition, for comparison only ---"
-echo "    These are NOT pinned. They are expected to differ from the pinned"
-echo "    edition -- that is what the comparison is for. Nothing here should"
-echo "    replace a pinned source until someone has compared the two."
+echo "    NOT pinned. These are expected to differ from the pinned edition --"
+echo "    that is what the comparison is for. Nothing here replaces a pinned"
+echo "    source until someone has compared the two."
 echo
 mkdir -p "$DEST/drift-comparison"
+fetch "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf" "drift-comparison/ne-cc-6-12.pdf" "" "NE CC-6-12.pdf — current edition for drift comparison (pinned: revision unrecorded)"
 fetch "https://www.vacourts.gov/forms/circuit/cc1473.pdf" "drift-comparison/va-cc1473.pdf" "" "VA cc1473.pdf — current edition for drift comparison (pinned: revision unrecorded)"
 
 
