@@ -81,8 +81,15 @@ function failures(hosted, caller, resolver) {
   fail(/reused_exact_ready_preview/.test(resolver), "the resolver has no reuse outcome");
   fail(/created_one_new_preview/.test(resolver), "the resolver has no create outcome");
   fail(/readyState === "READY"/.test(resolver), "the resolver does not require READY");
-  fail(/target !== "production"/.test(resolver), "the resolver does not refuse a production deployment");
-  fail(/rcapApplicationSha/.test(resolver), "the resolver does not check the deployed application SHA");
+  // Bind the COMPARISON to the assertion it feeds. Testing for the ok()/bad()
+  // pair alone passes even when the condition has been replaced by `true`,
+  // because both branches remain in the source either way.
+  fail(/target !== "production"\s*\?\s*ok\("target_is_preview_not_production"/.test(resolver),
+    "the resolver does not refuse a production deployment on the supplied-candidate path");
+  fail(/deployedSha === APPLICATION_SHA/.test(resolver),
+    "the resolver does not compare the supplied candidate's deployed application SHA against the authorized one");
+  fail(/bad\("deployment_carries_the_authorized_application_sha"/.test(resolver),
+    "a wrong application SHA no longer fails the supplied candidate");
   fail(/no_production_alias_attached/.test(resolver), "the resolver does not check production aliases");
   fail(/unauthenticated_render_refuses/.test(resolver), "the resolver does not prove the delivery route still refuses");
   fail(/deploymentIdWasResolvedFromHostname/.test(resolver), "the resolver does not record that it resolved the id from the hostname");
@@ -112,8 +119,8 @@ if (MUTATIONS) {
   const M = [
     ["hosted_full ignores a supplied Preview hostname", (h, c, r) => [h.replace("      preview_hostname:\n", "      unused_hostname:\n"), c, r]],
     ["reuse accepts a non-READY deployment", (h, c, r) => [h, c, r.replace('readyState === "READY"', "true")]],
-    ["reuse accepts a Production deployment", (h, c, r) => [h, c, r.replace('target !== "production"', "true")]],
-    ["reuse accepts the wrong application SHA", (h, c, r) => [h, c, r.replace("rcapApplicationSha", "someOtherField")]],
+    ["reuse accepts a Production deployment", (h, c, r) => [h, c, r.replaceAll('target !== "production"', "true")]],
+    ["reuse accepts the wrong application SHA", (h, c, r) => [h, c, r.replaceAll("deployedSha === APPLICATION_SHA", "true")]],
     ["reuse stops checking production aliases", (h, c, r) => [h, c, r.replace(/no_production_alias_attached/g, "alias_check_removed")]],
     ["reuse stops proving the route refuses", (h, c, r) => [h, c, r.replace(/unauthenticated_render_refuses/g, "route_check_removed")]],
     ["a mismatching candidate falls back to deploying", (h, c, r) =>

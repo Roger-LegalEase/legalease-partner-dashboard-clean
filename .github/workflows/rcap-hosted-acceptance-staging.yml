@@ -211,8 +211,12 @@ jobs:
       # Guarded by the preflight above: this step is not reached unless the
       # acceptance project has been proven empty of production data in this
       # same job, moments earlier and against the same project ref.
+      # `payment` reads the sequence back before transacting. The script is
+      # ledger-aware and hash-gated, so an already-applied project reports
+      # readback_only and applies nothing; it refuses outright on hash drift.
       - name: Apply the authorized sequence to the acceptance project
-        if: inputs.phase == 'migrate' || inputs.phase == 'full'
+        id: migrate_readback
+        if: inputs.phase == 'migrate' || inputs.phase == 'full' || inputs.phase == 'payment'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -262,6 +266,15 @@ jobs:
             echo "deploy=$DEPLOY"
             echo "matrix=$MATRIX"
             echo "gate=$GATE"
+            # Any phase that transacts — Checkout, payment, worker, artifact,
+            # delivery — needs an OPEN, identity-narrowed delivery route. Derived
+            # from the same decision rather than written out again, so it cannot
+            # drift away from which steps actually run.
+            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ]; then
+              echo "require_staging_scoped=true"
+            else
+              echo "require_staging_scoped=false"
+            fi
           } >> "$GITHUB_OUTPUT"
           echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE"
 
@@ -302,6 +315,8 @@ jobs:
           HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          HOSTED_REQUIRE_STAGING_SCOPED: ${{ steps.contract.outputs.require_staging_scoped }}
         run: node scripts/rcap-hosted-resolve-preview.mjs
 
       - name: Deploy the frozen application SHA to Vercel Preview

@@ -143,6 +143,12 @@ jobs:
       - name: Prove the hosted acceptance verdict guard is load-bearing
         run: node scripts/test-rcap-hosted-acceptance-verdict-mutations.mjs
 
+      - name: Verify a transacting phase cannot run against a route-disabled Preview
+        run: node scripts/verify-rcap-staging-scoped-preview-contract.mjs
+
+      - name: Prove the staging-scoped Preview guard is load-bearing
+        run: node scripts/verify-rcap-staging-scoped-preview-contract.mjs --mutations
+
       # The boundaries the matrix above asserts against, proved on a real
       # database rather than assumed: binding is written in the enqueue INSERT,
       # the consumption row and the credit ledger event are written by

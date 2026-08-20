@@ -31,7 +31,27 @@ const APPLICATION_SHA = (process.env.HOSTED_APPLICATION_SHA ?? "").trim();
 const PROJECT_REF = (process.env.ACCEPTANCE_SUPABASE_PROJECT_REF ?? "").trim();
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 const VERCEL_TEAM = process.env.VERCEL_ORG_ID ?? "";
+const VERCEL_PROJECT = process.env.VERCEL_PROJECT_ID ?? "";
 const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET ?? "";
+
+// Phases that transact — Checkout, payment, worker, artifact, delivery — need
+// the delivery route OPEN and narrowed to the named synthetic identity. Phases
+// that only deploy or photograph galleries do not.
+//
+// This distinction has to live here because "the route refuses an
+// unauthenticated caller" cannot tell the two apart: staging_scoped answers
+// 401 and disabled answers 503, and both look like a safe refusal. Run
+// 32365300555 reused a disabled Preview past this boundary on exactly that
+// reasoning, and the Checkout gate rejected it four steps later — after a
+// build, a registry login and a dependency install had already run.
+const REQUIRED_ROUTE_STATE = "staging_scoped";
+const REQUIRE_STAGING_SCOPED = (process.env.HOSTED_REQUIRE_STAGING_SCOPED ?? "").trim() === "true";
+const routeStateOf = (deployment) => deployment?.meta?.rcapRouteState ?? null;
+
+/** The route state is acceptable for this phase, or it is not. Never inferred. */
+function routeStateAcceptable(state) {
+  return REQUIRE_STAGING_SCOPED ? state === REQUIRED_ROUTE_STATE : true;
+}
 
 const problems = [];
 const checks = [];
@@ -50,6 +70,11 @@ function emit(outcome, extra = {}) {
     target: extra.target ?? null,
     applicationSha: extra.applicationSha ?? null,
     acceptanceProjectRef: PROJECT_REF || null,
+    // Emitted explicitly, always — an unstated route state is how a disabled
+    // Preview passed for a staging-scoped one.
+    routeState: extra.routeState ?? null,
+    requiredRouteState: REQUIRE_STAGING_SCOPED ? REQUIRED_ROUTE_STATE : "any",
+    routeStateRequired: REQUIRE_STAGING_SCOPED,
     checks,
     ...extra.rest
   };
@@ -78,9 +103,68 @@ const api = async (route) => {
   return response.json();
 };
 
-// --- no candidate supplied: the caller wants a fresh Preview ----------------
+/**
+ * Ask Vercel whether an exact match already exists before authorising a new
+ * deployment. Creating a Preview that already exists is not harmless: each one
+ * is another hostname the Stripe destination could be pointed at, and another
+ * environment someone could later mistake for the accepted one.
+ */
+async function findExistingExactPreview() {
+  const listed = await api(`/v6/deployments?projectId=${encodeURIComponent(VERCEL_PROJECT)}&target=preview&state=READY&limit=40`);
+  const candidates = listed.deployments ?? [];
+  const examined = [];
+  for (const summary of candidates) {
+    const id = summary.uid ?? summary.id;
+    if (!id) continue;
+    let full;
+    try { full = await api(`/v13/deployments/${encodeURIComponent(id)}`); } catch { continue; }
+    const meta = full.meta ?? {};
+    const state = routeStateOf(full);
+    const matches = (full.readyState ?? full.status) === "READY"
+      && full.target !== "production"
+      && meta.rcapApplicationSha === APPLICATION_SHA
+      && (meta.rcapAcceptanceProjectRef ?? PROJECT_REF) === PROJECT_REF
+      && meta.rcapStripeConfigured === "true"
+      && routeStateAcceptable(state);
+    examined.push({ id, host: full.url ?? null, applicationSha: meta.rcapApplicationSha ?? null, routeState: state, matches });
+    if (matches) return { found: full, examined };
+  }
+  return { found: null, examined };
+}
+
+// --- no candidate supplied --------------------------------------------------
 if (!HOSTNAME_INPUT && !DEPLOYMENT_ID_INPUT) {
-  emit("created_one_new_preview", { rest: { note: "no reuse candidate supplied; the deploy path creates exactly one Preview" } });
+  const { found, examined } = await findExistingExactPreview();
+  if (found) {
+    const id = found.id ?? found.uid ?? null;
+    const host = String(found.url ?? "").replace(/^https?:\/\//, "");
+    ok("existing_exact_preview_found", `${host} (${id}); routeState=${routeStateOf(found)}`);
+    emit("reused_exact_ready_preview", {
+      hostname: host,
+      deploymentId: id,
+      readyState: found.readyState ?? found.status ?? null,
+      target: found.target ?? null,
+      applicationSha: found.meta?.rcapApplicationSha ?? null,
+      routeState: routeStateOf(found),
+      rest: {
+        candidateSuppliedBy: "vercel_search",
+        deploymentIdWasResolvedFromHostname: false,
+        vercelDeployCommandsExecuted: 0,
+        deploymentsExamined: examined.length
+      }
+    });
+    console.log(`  reusing https://${host} (${id}); no Vercel deployment command was executed.`);
+    process.exit(0);
+  }
+  emit("created_one_new_preview", {
+    routeState: null,
+    rest: {
+      note: `no exact ${REQUIRE_STAGING_SCOPED ? REQUIRED_ROUTE_STATE : "matching"} Preview exists; the deploy path creates exactly one`,
+      deploymentsExamined: examined.length,
+      // Named, so "nothing matched" can be audited rather than trusted.
+      nearMisses: examined.filter((e) => !e.matches).slice(0, 10)
+    }
+  });
   process.exit(0);
 }
 
@@ -121,6 +205,16 @@ const deployedSha = meta.rcapApplicationSha ?? null;
 deployedSha === APPLICATION_SHA
   ? ok("deployment_carries_the_authorized_application_sha", deployedSha)
   : bad("deployment_carries_the_authorized_application_sha", `deployment records ${deployedSha ?? "(none)"}, authorized ${APPLICATION_SHA}`);
+
+// The route state, stated outright. `disabled` is a legitimate gallery Preview
+// and an illegitimate payment one; only the phase decides which.
+const observedRouteState = routeStateOf(deployment);
+routeStateAcceptable(observedRouteState)
+  ? ok("route_state_matches_this_phase", `rcapRouteState=${observedRouteState ?? "(absent)"}; this phase requires ${REQUIRE_STAGING_SCOPED ? REQUIRED_ROUTE_STATE : "any route state"}`)
+  : bad("route_state_matches_this_phase",
+      `rcapRouteState=${observedRouteState ?? "(absent)"}, but this phase runs Checkout, payment, worker, artifact or delivery acceptance and requires ${REQUIRED_ROUTE_STATE}. `
+      + "A disabled Preview refuses unauthenticated delivery with 503 and a staging-scoped one with 401; both look safe, and only one can transact. "
+      + "Deployment metadata is fixed at deploy time, so this Preview cannot be promoted — it needs a staging-scoped deployment.");
 
 const deployedProject = meta.rcapAcceptanceProjectRef ?? meta.acceptanceProjectRef ?? null;
 if (deployedProject) {
@@ -167,12 +261,12 @@ const rest = {
 };
 
 if (problems.length > 0) {
-  emit("refused_no_exact_preview", { hostname: resolvedHost, deploymentId, readyState, target, applicationSha: deployedSha, rest });
+  emit("refused_no_exact_preview", { hostname: resolvedHost, deploymentId, readyState, target, applicationSha: deployedSha, routeState: observedRouteState, rest });
   console.error(`\nrefused — ${problems.length} condition(s) failed on the supplied reuse candidate:`);
   for (const p of problems) console.error(`  - ${p}`);
   console.error("\nA supplied candidate that does not match is NOT replaced by a fresh deployment. Report the mismatch.");
   process.exit(1);
 }
 
-emit("reused_exact_ready_preview", { hostname: resolvedHost, deploymentId, readyState, target, applicationSha: deployedSha, rest });
+emit("reused_exact_ready_preview", { hostname: resolvedHost, deploymentId, readyState, target, applicationSha: deployedSha, routeState: observedRouteState, rest });
 console.log(`  reusing ${origin} (${deploymentId}); no Vercel deployment command was executed.`);
