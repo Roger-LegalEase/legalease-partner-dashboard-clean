@@ -8,31 +8,31 @@ Terminalizing a track around a broken PDF is a legitimate product decision. It i
 
 | Measure | Count |
 | --- | ---: |
-| Problematic Pdfs Total | 69 |
+| Problematic Pdfs Total | 85 |
 | Platform Ready | 1 |
-| Retired From Operational Inventory | 58 |
-| Retired Family Directories | 65 |
+| Retired From Operational Inventory | 42 |
+| Retired Family Directories | 47 |
 | Active Track Problematic Pdfs | 45 |
-| Orphaned Or Optional Pdfs | 2 |
-| Missing Pdf Binaries | 23 |
-| Assets With At Least One Technical Finding | 43 |
-| Assets With At Least One Visual Finding | 47 |
-| Assets With At Least One Source Finding | 63 |
+| Orphaned Or Optional Pdfs | 4 |
+| Missing Pdf Binaries | 37 |
+| Assets With At Least One Technical Finding | 59 |
+| Assets With At Least One Visual Finding | 49 |
+| Assets With At Least One Source Finding | 79 |
 | Unique Systemic Technical Root Causes | 0 |
-| Unique Family Specific Technical Defects | 53 |
+| Unique Family Specific Technical Defects | 71 |
 | Unique Systemic Visual Root Causes | 3 |
 | Unique Family Specific Visual Defects | 27 |
 | Unique Systemic Source Root Causes | 2 |
 | Unique Family Specific Source Defects | 5 |
 | Unique Root Causes In Play | 16 |
-| Technical Defects | 43 |
-| Visual Defects | 47 |
+| Technical Defects | 59 |
+| Visual Defects | 49 |
 | Unfinalized Rendered Artifacts | 2 |
 | Rendered Artifacts Not Byte Inspectable | 0 |
 | Contact Sheets Showing No Fill | 4 |
 | Protected Fields Populated By The Factory | 0 |
-| Source Or Currentness Defects | 63 |
-| Legal Design Or Adoption Holds | 70 |
+| Source Or Currentness Defects | 79 |
+| Legal Design Or Adoption Holds | 86 |
 | Tracks Safely Terminalized Around A Problem Pdf | 34 |
 | Problem Pdf Routes Still Sellable | 0 |
 | Problem Pdf Routes Still Public | 0 |
@@ -3923,6 +3923,33 @@ Defects:
 
 _No active launch track is proven to require this asset._
 
+### VT 200-00131 — Response to Petition to Expunge or Seal
+
+- **Family ids**: VT:200-00131-en, VT:200-00131-form-en
+- **Source SHA**: 5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a (revision REV-2018-07)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Confirm that revision REV-2018-07 of VT 200-00131 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2018-07 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `multi_widget_ambiguity` — The asset exposes 21 fields and binds none of them. _(implementation-index.json:bound)_
+
+_No active launch track is proven to require this asset._
+
 ### VT 200-00331 — Request for Criminal Record Search
 
 - **Family ids**: VT:200-00331-en, VT:200-00331-support-en
@@ -3948,6 +3975,34 @@ Defects:
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `missing_required_packet_component` — Every field on this AcroForm is manual or unwritable, so it produces no filled component. _(implementation-index.json:status)_
 - `multi_widget_ambiguity` — The asset exposes 30 fields and binds none of them. _(implementation-index.json:bound)_
+
+_No active launch track is proven to require this asset._
+
+### VT 200-00631 — Request for Sealing Order in Special Index
+
+- **Family ids**: VT:200-00631-en, VT:200-00631-form-en
+- **Source SHA**: a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3 (revision REV-2019-09)
+- **Binary present**: true
+- **Structural class**: acroform; participant fillable: false
+- **Defect categories**: currentness_unverified, held_on_source_or_design, missing_required_packet_component, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Confirm that revision REV-2019-09 of VT 200-00631 is the currently published form, against the issuing body's own publication.
+
+Defects:
+
+- `currentness_unverified` — Revision REV-2019-09 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
+- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+- `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
+- `missing_required_packet_component` — Every field on this AcroForm is manual or unwritable, so it produces no filled component. _(implementation-index.json:status)_
+- `multi_widget_ambiguity` — The asset exposes 10 fields and binds none of them. _(implementation-index.json:bound)_
 
 _No active launch track is proven to require this asset._
 
@@ -4138,6 +4193,58 @@ Defects:
 
 _No active launch track is proven to require this asset._
 
+### AR 3-Misdemeanor-Petition-8_01_2023.pdf — 3-Misdemeanor-Petition-8_01_2023.pdf
+
+- **Family ids**: AR:3-misdemeanor-petition-8-01-2023
+- **Source SHA**: 63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for AR 3-Misdemeanor-Petition-8_01_2023.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — 3-Misdemeanor-Petition-8_01_2023.pdf is expected at LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — pinned_hash_absent_from_canonical_library _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### AR 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf — 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf
+
+- **Family ids**: AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f
+- **Source SHA**: 09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for AR 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf is expected at LegalEase Arkanasa/7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — source_gated_never_runtime_selectable _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
 ### AR Arkansas-Petition-Order-Forms.html — Arkansas-Petition-Order-Forms.html
 
 - **Family ids**: AR:arkansas-petition-order-forms
@@ -4155,6 +4262,108 @@ Defects:
 
 - `missing_binary` — Arkansas-Petition-Order-Forms.html is expected at LegalEase Arkanasa/Arkansas-Petition-Order-Forms.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
 - `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — pinned_hash_absent_from_canonical_library _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### AR Felony-Petition-Form-f.pdf — Felony-Petition-Form-f.pdf
+
+- **Family ids**: AR:felony-petition-form-f
+- **Source SHA**: 6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for AR Felony-Petition-Form-f.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — Felony-Petition-Form-f.pdf is expected at LegalEase Arkanasa/Felony-Petition-Form-f.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — source_gated_never_runtime_selectable _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### KY 496.2.pdf — 496.2.pdf
+
+- **Family ids**: KY:496-2
+- **Source SHA**: 5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for KY 496.2.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — 496.2.pdf is expected at LegalEase Kentucky/496.2.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### KY 496.3.pdf — 496.3.pdf
+
+- **Family ids**: KY:496-3
+- **Source SHA**: 3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for KY 496.3.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — 496.3.pdf is expected at LegalEase Kentucky/496.3.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### KY 497.2.pdf — 497.2.pdf
+
+- **Family ids**: KY:497-2
+- **Source SHA**: 080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for KY 497.2.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — 497.2.pdf is expected at LegalEase Kentucky/497.2.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4259,6 +4468,32 @@ Defects:
 
 - `missing_binary` — Kentucky-Expungement-Forms.html is expected at LegalEase Kentucky/files-4/Kentucky-Expungement-Forms.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
 - `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — pinned_hash_absent_from_canonical_library _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### NC cr297.pdf — cr297.pdf
+
+- **Family ids**: NC:cr297
+- **Source SHA**: sha256_unrecorded_in_repo
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for NC cr297.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — cr297.pdf is expected at LegalEase North Carolina/cr297.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
@@ -4518,6 +4753,183 @@ Defects:
 
 - `missing_binary` — va-expungement-sealing-forms.html is expected at LegalEase Virginia /va-expungement-sealing-forms.html and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
 - `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — pinned_hash_absent_from_canonical_library _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### VT 200-00129 – Petition to Expunge Criminal History.pdf — 200-00129 – Petition to Expunge Criminal History.pdf
+
+- **Family ids**: VT:200-00129-petition-to-expunge-criminal-history
+- **Source SHA**: 6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for VT 200-00129 – Petition to Expunge Criminal History.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — 200-00129 – Petition to Expunge Criminal History.pdf is expected at LegalEase Vermont/200-00129 – Petition to Expunge Criminal History.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### VT 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf — 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf
+
+- **Family ids**: VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record
+- **Source SHA**: 8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: flat_overlay_geometry_or_readback, held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for VT 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf is expected at LegalEase Vermont/200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `flat_overlay_geometry_or_readback` — No field census could be extracted, so overlay geometry cannot be measured or read back. _(source-record.json:fieldExtractionStatus)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### VT 200-00131.pdf — 200-00131.pdf
+
+- **Family ids**: VT:200-00131
+- **Source SHA**: 5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for VT 200-00131.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — 200-00131.pdf is expected at LegalEase Vermont/200-00131.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### VT 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf — 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf
+
+- **Family ids**: VT:200-00132-stipulation-to-seal-criminal-history-record-order
+- **Source SHA**: 088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for VT 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf is expected at LegalEase Vermont/200-00132 – Stipulation to Seal Criminal History Record + Order.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### VT 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf — 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf
+
+- **Family ids**: VT:200-00132a-stipulation-to-expunge-criminal-history-record-order
+- **Source SHA**: 9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for VT 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf is expected at LegalEase Vermont/200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### VT 200-00631.pdf — 200-00631.pdf
+
+- **Family ids**: VT:200-00631
+- **Source SHA**: a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for VT 200-00631.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — 200-00631.pdf is expected at LegalEase Vermont/200-00631.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### VT 400-00171.pdf — 400-00171.pdf
+
+- **Family ids**: VT:400-00171
+- **Source SHA**: b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for VT 400-00171.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — 400-00171.pdf is expected at LegalEase Vermont/400-00171.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_

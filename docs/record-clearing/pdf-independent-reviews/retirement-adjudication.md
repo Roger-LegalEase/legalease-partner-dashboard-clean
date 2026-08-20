@@ -17,7 +17,7 @@ buildOverlayFactory() run against this tree, twice, byte-identical apart from it
 
 The asset has left the operational inventory: out of the problematic denominator, out of the acquisition queue, out of every scan that expects it to become deliverable. Nothing was deleted.
 
-It does not mean no official form exists. 10 of the 18 retired assets have a current official binary this lane proved in the Master Library, with a receipt naming its SHA-256. If one is ever wanted back, the acquisition is already done and each marker carries its own reversal instructions.
+It does not mean no official form exists. 0 of the 2 retired assets have a current official binary this lane proved in the Master Library, with a receipt naming its SHA-256. If one is ever wanted back, the acquisition is already done and each marker carries its own reversal instructions.
 
 ## Verdicts
 
@@ -28,30 +28,30 @@ It does not mean no official form exists. 10 of the 18 retired assets have a cur
 | AL | al-expungement-petition.html | yes | fails | no |
 | AL | criminal-forms.html | yes | fails | no |
 | AL | criminal-record-expungement.html | yes | fails | no |
-| AR | 3-Misdemeanor-Petition-8_01_2023.pdf | no | passes | yes |
-| AR | 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf | no | passes | yes |
+| AR | 3-Misdemeanor-Petition-8_01_2023.pdf | no | passes | no |
+| AR | 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf | no | passes | no |
 | AR | Arkansas-Petition-Order-Forms.html | yes | fails | no |
-| AR | Felony-Petition-Form-f.pdf | no | passes | yes |
-| KY | 496.2.pdf | no | passes | yes |
-| KY | 496.3.pdf | no | passes | yes |
-| KY | 497.2.pdf | no | passes | yes |
+| AR | Felony-Petition-Form-f.pdf | no | passes | no |
+| KY | 496.2.pdf | no | passes | no |
+| KY | 496.3.pdf | no | passes | no |
+| KY | 497.2.pdf | no | passes | no |
 | KY | Kentucky-Expungement-Forms.html | yes | fails | no |
 | NC | cr287_1.pdf | no | passes | yes |
-| NC | cr297.pdf | no | passes | yes |
+| NC | cr297.pdf | no | passes | no |
 | NC | cr298_1.pdf | no | passes | yes |
 | NC | expungements.html | yes | fails | no |
 | NC | forms.html | yes | fails | no |
 | NC | nc-expunction-petition.html | yes | fails | no |
 | VA | va-expungement-sealing-forms.html | yes | fails | no |
-| VT | 200-00129 – Petition to Expunge Criminal History.pdf | no | passes | yes |
-| VT | 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf | no | passes | yes |
-| VT | 200-00131 | no | passes | yes |
-| VT | 200-00131.pdf | no | passes | yes |
-| VT | 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf | no | passes | yes |
-| VT | 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf | no | passes | yes |
-| VT | 200-00631 | no | passes | yes |
-| VT | 200-00631.pdf | no | passes | yes |
-| VT | 400-00171.pdf | no | passes | yes |
+| VT | 200-00129 – Petition to Expunge Criminal History.pdf | no | passes | no |
+| VT | 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf | no | passes | no |
+| VT | 200-00131 | no | passes | no |
+| VT | 200-00131.pdf | no | passes | no |
+| VT | 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf | no | passes | no |
+| VT | 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf | no | passes | no |
+| VT | 200-00631 | no | passes | no |
+| VT | 200-00631.pdf | no | passes | no |
+| VT | 400-00171.pdf | no | passes | no |
 | VT | application-waive-filing-fees-and-service-costs.html | yes | fails | no |
 
 ## Notes

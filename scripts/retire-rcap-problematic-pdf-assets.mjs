@@ -24,6 +24,12 @@ const DETERMINATION = path.join(rootDir, "data/rcap-all50/pdf-retirement-determi
 const OVERLAY_DIR = path.join(rootDir, "data/rcap-all50/overlays/production");
 const MARKER = "retirement.json";
 const checkOnly = process.argv.includes("--check");
+// Clears markers the determination no longer supports. Off by default: a
+// retirement ledger that prunes itself on every run is one bad probe away from
+// silently un-retiring the corpus, and the refusal is what makes a
+// contradiction visible in the first place.
+const prune = process.argv.includes("--prune");
+const DISPUTED_OUT = path.join(rootDir, "data/rcap-all50/pdf-retirement-evidence/disputed-retirement-markers.json");
 
 function fail(message) {
   console.error(`FAIL asset retirement — ${message}`);
@@ -54,6 +60,7 @@ function familyDirectoriesFor(familyIds) {
 
 const written = [];
 const refused = [];
+const pruned = [];
 const stale = [];
 
 for (const asset of determination.assets) {
@@ -62,10 +69,30 @@ for (const asset of determination.assets) {
   if (asset.determination !== "retirement_candidate") {
     // A retained asset carrying a marker is the dangerous direction: it would
     // vanish from the denominator while the platform still reaches it.
+    //
+    // Refusing is the right default — a tool that silently deleted markers
+    // could quietly undo a deliberate retirement. But a probe correction makes
+    // exactly this contradiction expected and numerous, and until now there was
+    // no canonical way to clear it: this tool only ever added markers, so the
+    // only route back was deleting files by hand, which is how a retirement
+    // ledger stops being derived and starts being edited. `--prune` is that
+    // route, and it removes a marker only where the determination itself now
+    // records a surviving reference.
     for (const dir of dirs) {
-      if (fs.existsSync(path.join(dir, MARKER))) {
-        refused.push(`${asset.jurisdiction} ${asset.formNumber}: retained (${asset.useSites.map((s) => s.surface).join(", ")}) yet carries a retirement marker at ${path.relative(rootDir, dir)}`);
+      const file = path.join(dir, MARKER);
+      if (!fs.existsSync(file)) continue;
+      if (prune) {
+        if (!checkOnly) fs.rmSync(file);
+        pruned.push({
+          assetId: asset.assetId,
+          jurisdiction: asset.jurisdiction,
+          formNumber: asset.formNumber,
+          marker: path.relative(rootDir, file),
+          survivingReferences: asset.useSites.map((s) => ({ surface: s.surface, runtime: s.runtime, matched: s.matchedIdentifiers }))
+        });
+        continue;
       }
+      refused.push(`${asset.jurisdiction} ${asset.formNumber}: retained (${asset.useSites.map((s) => s.surface).join(", ")}) yet carries a retirement marker at ${path.relative(rootDir, dir)}`);
     }
     continue;
   }
@@ -134,4 +161,29 @@ if (checkOnly && stale.length > 0) {
   process.exit(1);
 }
 
-console.log(`OK asset retirement — ${written.length} marker(s) across ${determination.totals.retirementCandidates} retired asset(s); ${determination.totals.retainAndRemediate} retained for remediation`);
+// Every marker the correction cleared, with the reference that saved the
+// asset. A pruned marker is a retirement that was wrong, and a retirement
+// ledger that cannot say which ones were wrong is not a ledger.
+if (prune && !checkOnly) {
+  fs.mkdirSync(path.dirname(DISPUTED_OUT), { recursive: true });
+  fs.writeFileSync(DISPUTED_OUT, `${JSON.stringify({
+    schemaVersion: "rcap-disputed-retirement-markers/v1",
+    writtenBy: "scripts/retire-rcap-problematic-pdf-assets.mjs --prune",
+    purpose: "Retirement markers removed because the determination now records a surviving operational reference for the asset.",
+    whyThereWereTwoCounts:
+      "Markers and assets are not the same denominator. One asset can cover several family packages — VT 200-00131 carries both -en and -form-en — so a disagreement counted in markers is always at least as large as the same disagreement counted in assets.",
+    totals: {
+      markersRemoved: pruned.length,
+      distinctAssetsRestoredToRetained: new Set(pruned.map((p) => p.assetId)).size,
+      retirementCandidatesAfterCorrection: determination.totals.retirementCandidates,
+      retainedAfterCorrection: determination.totals.retainAndRemediate
+    },
+    markers: pruned
+  }, null, 2)}\n`);
+}
+
+console.log(
+  `OK asset retirement — ${written.length} marker(s) across ${determination.totals.retirementCandidates} retired asset(s); ` +
+    `${determination.totals.retainAndRemediate} retained for remediation` +
+    (pruned.length ? `; ${pruned.length} stale marker(s) pruned across ${new Set(pruned.map((p) => p.assetId)).size} asset(s)` : "")
+);

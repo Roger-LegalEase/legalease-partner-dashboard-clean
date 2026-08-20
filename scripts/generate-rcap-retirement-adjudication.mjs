@@ -5,24 +5,24 @@
 //   node scripts/generate-rcap-retirement-adjudication.mjs --check
 //
 // The condition is that the regenerated overlay factory manifest no longer
-// names the asset. With the operational Nationwide tree installed that is
-// finally testable, and 18 of the 30 candidates satisfy it.
+// names the asset. With the operational Nationwide tree installed it is
+// testable, and 18 of the 30 candidates satisfy it.
 //
-// This record exists because that number needs its context attached. The
-// previous manifest was built from a tree yielding 409 forms; the operational
-// tree yields 170, and 18 candidates leave the manifest because their source
-// files are not in the operational corpus. That is the correct basis for a
-// retirement — the operational tree is what defines the operational inventory
-// — but it is not the same claim as "no official form exists". Ten of the 18
-// have a current official binary this lane proved in the Master Library, with
-// a receipt naming its SHA-256.
+// Eighteen is not the number of retirements, and the gap is the point of this
+// record. Condition 7 is one of seven. The application-source probe used to
+// read .ts, .tsx, .mjs and .js and not .json, so a form named only from a
+// compiled state-flow profile — the ones packet-planner.ts turns into a
+// packet's sourceFormIds — was invisible to it. Sixteen of these assets leave
+// the operational manifest and are still selected at runtime, and they are
+// retained on that evidence. Two retirements survive.
 //
-// So the retirement stands and the caveat travels with it, in the same file,
-// rather than being something a later reader has to reconstruct from two
-// corpora and a hash table.
+// So `retired` here is read from the marker the canonical retire tool wrote,
+// never inferred from condition 7. Inferring it would have reported sixteen
+// retirements that do not exist, which is exactly the failure the corrected
+// probe was found by.
 //
-// Derived, not forced: 18 of 30, not 30. The 12 whose files are in the
-// operational tree fail condition 7 and stay.
+// Derived, not forced, twice over: 18 of 30 pass the manifest condition, and
+// 2 of those 18 survive every other surface.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -83,6 +83,21 @@ for (const row of resolution.rows ?? []) {
   }
 }
 
+const OVERLAY_DIR = path.join(rootDir, "data/rcap-all50/overlays/production");
+
+/** The retirement marker for a candidate's family packages, if one survives. */
+function markerFor(familyIds) {
+  for (const familyId of familyIds ?? []) {
+    const slug = String(familyId).split(":").pop();
+    if (!slug || !fs.existsSync(OVERLAY_DIR)) continue;
+    for (const state of fs.readdirSync(OVERLAY_DIR)) {
+      const file = path.join(OVERLAY_DIR, state, slug, "retirement.json");
+      if (fs.existsSync(file)) return path.relative(rootDir, file);
+    }
+  }
+  return null;
+}
+
 const candidates = handoff.retirementCandidates.map((candidate) => {
   const basename = candidate.formNumber.toLowerCase();
   const presentInDelivery = deliveredBasenames.has(basename);
@@ -98,7 +113,14 @@ const candidates = handoff.retirementCandidates.map((candidate) => {
     sourceFilePresentInDelivery: presentInDelivery,
     regeneratedManifestWouldNameIt: presentInDelivery,
     conditionSevenVerdict: presentInDelivery ? "fails" : "passes",
-    retired: !presentInDelivery,
+    // Read from the marker the canonical retire tool wrote, not inferred from
+    // condition 7 alone. Condition 7 is one of seven, and the corrected
+    // application-source probe now retains assets that pass it — a form named
+    // only from a compiled state-flow profile leaves the operational manifest
+    // and is still selected at runtime. Inferring retirement from this
+    // condition would have reported sixteen retirements that no longer exist.
+    retired: markerFor(candidate.formFamilyIds) !== null,
+    retirementMarker: markerFor(candidate.formFamilyIds),
     why: presentInDelivery
       ? "The source file is in the operational tree, so any regeneration names the asset again. The seventh condition fails and the asset stays in the inventory."
       : "The asset is named by no surface the determination probes, including the manifest regenerated from the operational tree. All seven conditions hold.",
@@ -115,7 +137,7 @@ const candidates = handoff.retirementCandidates.map((candidate) => {
 });
 
 const fails = candidates.filter((c) => c.conditionSevenVerdict === "fails");
-const passes = candidates.filter((c) => c.conditionSevenVerdict === "passes");
+const passes = candidates.filter((c) => c.retired);
 const passesWithASource = passes.filter((c) => c.aProvenOfficialSourceExistsElsewhere);
 
 const record = {
@@ -150,7 +172,8 @@ const record = {
   totals: {
     candidates: candidates.length,
     conditionSevenFails: fails.length,
-    conditionSevenPasses: passes.length,
+    conditionSevenPasses: candidates.filter((c) => c.conditionSevenVerdict === "passes").length,
+    stillRetiredAfterTheProbeCorrection: passes.length,
     retirementsProven: passes.length,
     ofThoseWithAProvenOfficialSourceElsewhere: passesWithASource.length,
     refusedForALegalDesignBinding: handoff.excluded.length

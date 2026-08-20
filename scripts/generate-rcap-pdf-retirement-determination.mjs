@@ -129,16 +129,40 @@ addSurface("field_map_drafts", "Field-map drafts read at runtime by official-pdf
   return ids;
 });
 
-addSurface("application_source", "Identifiers named literally in src/.", true, () => {
+// Identifiers named literally in src/ — INCLUDING its .json.
+//
+// This probe read .ts, .tsx, .mjs and .js and stopped there, and the omission
+// was not cosmetic. src/lib/rcap-engine/compiled/profiles/*.json are compiled
+// state-flow profiles whose `formCandidates` are read by
+// src/lib/rcap-engine/packet-planner.ts, which turns them into the packet's
+// `sourceFormIds`. A form named only from a compiled profile is therefore
+// selected at runtime while being invisible to a probe that only opens source
+// code — and an asset invisible to every probe is eligible for retirement.
+//
+// Retirement is the one disposition that removes an asset from every scan that
+// would later notice the mistake, so this probe failing open is the most
+// expensive kind of miss the determination can make. The filter now includes
+// .json, and path-shaped candidate values are extracted as well as bare
+// identifiers: `"relativePath": "LegalEase Vermont/200-00131.pdf"` carries the
+// reference in a shape the identifier pattern does not reliably catch.
+addSurface("application_source", "Identifiers named literally in src/, including compiled .json profiles.", true, () => {
   const ids = new Set();
   const walk = (dir) => {
     if (!fs.existsSync(dir)) return;
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) walk(full);
-      else if (/\.(ts|tsx|mjs|js)$/.test(entry.name)) {
-        const text = fs.readFileSync(full, "utf8");
-        for (const match of text.match(/[A-Za-z]{2,8}-\d[\dA-Za-z.-]*/g) ?? []) ids.add(normalize(match));
+      if (entry.isDirectory()) { walk(full); continue; }
+      if (!/\.(ts|tsx|mjs|js|json)$/.test(entry.name)) continue;
+      const text = fs.readFileSync(full, "utf8");
+      for (const match of text.match(/[A-Za-z]{2,8}-\d[\dA-Za-z.-]*/g) ?? []) ids.add(normalize(match));
+      if (!entry.name.endsWith(".json")) continue;
+      for (const match of text.match(/"(?:relativePath|sourcePath|fileName|formId|documentId)"\s*:\s*"([^"]+)"/g) ?? []) {
+        const value = /:\s*"([^"]+)"/.exec(match)?.[1];
+        if (!value) continue;
+        const leaf = value.split("/").pop() ?? value;
+        ids.add(normalize(value));
+        ids.add(normalize(leaf));
+        ids.add(normalize(leaf.replace(/\.[a-z0-9]+$/i, "")));
       }
     }
   };

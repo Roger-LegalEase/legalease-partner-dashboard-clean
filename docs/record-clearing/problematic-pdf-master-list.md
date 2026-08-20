@@ -6,30 +6,30 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 
 | Measure | Count |
 | --- | ---: |
-| Assets in the register | 70 |
+| Assets in the register | 86 |
 | Serving an active launch track | 45 |
-| Orphaned or optional | 2 |
-| Expected by legal design and absent | 23 |
+| Orphaned or optional | 4 |
+| Expected by legal design and absent | 37 |
 | Lane A — correctable now | 18 |
-| Lane B — official source acquisition required | 23 |
+| Lane B — official source acquisition required | 37 |
 | Lane C — source-currentness hold | 27 |
 | Lane D — legal-design hold | 0 |
-| Lane E — orphaned or optional | 2 |
+| Lane E — orphaned or optional | 4 |
 | Lane F — missing binary, complete participant deferral | 0 |
-| Verified source binaries present in this clone | 52 |
+| Verified source binaries present in this clone | 64 |
 | Assets with a finalized rendered artifact | 31 |
 | Assets whose active-content verdict is unprovable | 0 |
 | Contact sheets that show a fill | 27 |
 | Contact sheets that show no fill | 4 |
 | Active-track assets blocking packet promotion | 0 |
 | Active-track assets safely served by guidance or exact deferral | 18 |
-| Orphaned or optional assets | 2 |
+| Orphaned or optional assets | 4 |
 | Archive candidates | 0 |
 | Retirement candidates | 0 |
 | Reference-only documents | 2 |
-| Orphaned | 0 |
+| Orphaned | 2 |
 | Optional | 0 |
-| Official source required | 36 |
+| Official source required | 50 |
 | Certification unproven | 2 |
 | Independent review required | 29 |
 | Legal-design hold | 0 |
@@ -37,12 +37,12 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Acquisition priority 1 — packet-capable route waiting | 0 |
 | Acquisition priority 2 — review cannot begin | 0 |
 | Acquisition priority 3 — currentness or supersession | 0 |
-| Acquisition priority 4 — do not acquire without a named current use | 23 |
+| Acquisition priority 4 — do not acquire without a named current use | 37 |
 | Assets awaiting a write-box placement decision | 3 |
 | Recorded official titles that look mis-extracted | 3 |
-| Assets with no track binding | 25 |
+| Assets with no track binding | 41 |
 | Assets with a candidate, unconfirmed track binding | 7 |
-| Never independently reviewed | 67 |
+| Never independently reviewed | 83 |
 | On a sellable route | 0 |
 | On a public packet route | 0 |
 | High severity | 4 |
@@ -50,10 +50,10 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 ## Lanes
 
 - **A** — `actionable_technical_or_visual_correction` (18)
-- **B** — `official_source_acquisition_required` (23)
+- **B** — `official_source_acquisition_required` (37)
 - **C** — `source_currentness_hold` (27)
 - **D** — `legal_design_hold` (0)
-- **E** — `orphaned_or_optional_asset` (2)
+- **E** — `orphaned_or_optional_asset` (4)
 - **F** — `missing_binary_with_complete_participant_deferral` (0)
 
 ## Lane A — actionable technical or visual correction
@@ -90,11 +90,18 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | AL | cr-65a-order-on-petition-for-expungement-10-2024.pdf | — | low | Roger (official source acquisition) | The verified binary for AL cr-65a-order-on-petition-for-expungement-10-2024.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official AL cr-65a-order-on-petition-for-expungement-10-2024.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | AL | criminal-forms.html | — | low | Roger (official source acquisition) | The verified binary for AL criminal-forms.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official AL criminal-forms.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | AL | criminal-record-expungement.html | — | low | Roger (official source acquisition) | The verified binary for AL criminal-record-expungement.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official AL criminal-record-expungement.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| AR | 3-Misdemeanor-Petition-8_01_2023.pdf | — | low | Roger (official source acquisition) | The verified binary for AR 3-Misdemeanor-Petition-8_01_2023.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official AR 3-Misdemeanor-Petition-8_01_2023.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| AR | 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf | — | low | Roger (official source acquisition) | The verified binary for AR 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official AR 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | AR | Arkansas-Petition-Order-Forms.html | — | low | Roger (official source acquisition) | The verified binary for AR Arkansas-Petition-Order-Forms.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official AR Arkansas-Petition-Order-Forms.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| AR | Felony-Petition-Form-f.pdf | — | low | Roger (official source acquisition) | The verified binary for AR Felony-Petition-Form-f.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official AR Felony-Petition-Form-f.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| KY | 496.2.pdf | — | low | Roger (official source acquisition) | The verified binary for KY 496.2.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official KY 496.2.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| KY | 496.3.pdf | — | low | Roger (official source acquisition) | The verified binary for KY 496.3.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official KY 496.3.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| KY | 497.2.pdf | — | low | Roger (official source acquisition) | The verified binary for KY 497.2.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official KY 497.2.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | KY | JV-29.1.pdf | — | low | Roger (official source acquisition) | The verified binary for KY JV-29.1.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official KY JV-29.1.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | KY | JV-29.pdf | — | low | Roger (official source acquisition) | The verified binary for KY JV-29.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official KY JV-29.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | KY | JV-30.pdf | — | low | Roger (official source acquisition) | The verified binary for KY JV-30.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official KY JV-30.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | KY | Kentucky-Expungement-Forms.html | — | low | Roger (official source acquisition) | The verified binary for KY Kentucky-Expungement-Forms.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official KY Kentucky-Expungement-Forms.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| NC | cr297.pdf | — | low | Roger (official source acquisition) | The verified binary for NC cr297.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official NC cr297.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | NC | expungements.html | — | low | Roger (official source acquisition) | The verified binary for NC expungements.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official NC expungements.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | NC | forms-2.html | — | low | Roger (official source acquisition) | The verified binary for NC forms-2.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official NC forms-2.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | NC | forms.html | — | low | Roger (official source acquisition) | The verified binary for NC forms.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official NC forms.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
@@ -105,6 +112,13 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | VA | cc1473.pdf | — | low | Roger (official source acquisition) | The verified binary for VA cc1473.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. A candidate, unconfirmed, form-number match is VA CC-1473 (tracks va_exp_nonconviction). | Retrieve the current official VA cc1473.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, confirm or reject the candidate form-number binding to VA CC-1473 so this row can name the route it affects. |
 | VA | cc1473inst.pdf | — | low | Roger (official source acquisition) | The verified binary for VA cc1473inst.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. A candidate, unconfirmed, form-number match is VA CC-1473 (tracks va_exp_nonconviction). | Retrieve the current official VA cc1473inst.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, confirm or reject the candidate form-number binding to VA CC-1473 so this row can name the route it affects. |
 | VA | va-expungement-sealing-forms.html | — | low | Roger (official source acquisition) | The verified binary for VA va-expungement-sealing-forms.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official VA va-expungement-sealing-forms.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| VT | 200-00129 – Petition to Expunge Criminal History.pdf | — | low | Roger (official source acquisition) | The verified binary for VT 200-00129 – Petition to Expunge Criminal History.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official VT 200-00129 – Petition to Expunge Criminal History.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| VT | 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf | — | low | Roger (official source acquisition) | The verified binary for VT 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official VT 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| VT | 200-00131.pdf | — | low | Roger (official source acquisition) | The verified binary for VT 200-00131.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official VT 200-00131.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| VT | 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf | — | low | Roger (official source acquisition) | The verified binary for VT 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official VT 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| VT | 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf | — | low | Roger (official source acquisition) | The verified binary for VT 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official VT 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| VT | 200-00631.pdf | — | low | Roger (official source acquisition) | The verified binary for VT 200-00631.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official VT 200-00631.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| VT | 400-00171.pdf | — | low | Roger (official source acquisition) | The verified binary for VT 400-00171.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official VT 400-00171.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | VT | application-waive-filing-fees-and-service-costs.html | — | low | Roger (official source acquisition) | The verified binary for VT application-waive-filing-fees-and-service-costs.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official VT application-waive-filing-fees-and-service-costs.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 
 ## Lane C — source currentness hold
@@ -148,7 +162,9 @@ _None._
 | Jurisdiction | Form | Tracks | Severity | Owner | Exact blocker | Exact next action |
 | --- | --- | --- | --- | --- | --- | --- |
 | NE | CC-6-11A | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for NE CC-6-11A and record the decision. It blocks nothing in the meantime. |
+| VT | 200-00131 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for VT 200-00131 and record the decision. It blocks nothing in the meantime. |
 | VT | 200-00331 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for VT 200-00331 and record the decision. It blocks nothing in the meantime. |
+| VT | 200-00631 | — | low | RCAP inventory owner | Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work. | Decide retain, archive or retire for VT 200-00631 and record the decision. It blocks nothing in the meantime. |
 
 ## Lane F — missing binary with complete participant deferral
 
@@ -161,12 +177,12 @@ Every asset carries exactly one. `releaseStatus` is a separate axis and is HELD 
 | Disposition | Meaning | Assets |
 | --- | --- | ---: |
 | `active_track_delivery_hold` | An active track's packet delivery is blocked on this asset. | 0 |
-| `official_source_required` | The verified source binary is unavailable, so nothing downstream can be attempted. | 36 |
+| `official_source_required` | The verified source binary is unavailable, so nothing downstream can be attempted. | 50 |
 | `certification_unproven` | Artifacts exist but cannot be certified: their active-content cleanliness or finalization cannot be established from the committed bytes. | 2 |
 | `independent_review_required` | Certifiable artifacts exist and no independent review has approved them. | 29 |
 | `legal_design_hold` | A substantive legal-design question is unresolved. | 0 |
 | `reference_only` | An instruction, guidance or supporting-process document, not a filed component. | 2 |
-| `orphaned` | No active track requires it and no candidate binding to one exists. | 0 |
+| `orphaned` | No active track requires it and no candidate binding to one exists. | 2 |
 | `optional` | A packet form no active track currently requires, with a plausible binding. | 0 |
 | `archive_candidate` | Source-gated: retained for provenance, never runtime-selectable. | 0 |
 | `retire_candidate` | Recorded as superseded, withdrawn or repealed; nothing should use it. | 0 |
@@ -180,19 +196,19 @@ How many assets carry a finding and how many distinct problems produce those fin
 
 | Root cause | Dimension | Scope | Impacted assets | Cleared by |
 | --- | --- | --- | ---: | --- |
-| `RC-G-GENERATION-NOT-ALLOWED` | governance | systemic | 70 | A recorded decision to permit generation, after the source and design questions are answered. |
-| `RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL` | governance | systemic | 67 | Independent technical review once reviewable artifacts exist. |
-| `RC-G-PRODUCTION-HOLD` | governance | systemic | 70 | Lifting the holds deliberately, which is a release decision and not a build one. |
-| `RC-S-BUNDLE-ABSENT` | source | systemic | 23 | Supplying the canonical source bundle, or opening access to the issuing bodies. |
-| `RC-S-CURRENTNESS-UNVERIFIED` | source | systemic | 35 | A currentness review pass against the issuing bodies' own publications. |
+| `RC-G-GENERATION-NOT-ALLOWED` | governance | systemic | 86 | A recorded decision to permit generation, after the source and design questions are answered. |
+| `RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL` | governance | systemic | 83 | Independent technical review once reviewable artifacts exist. |
+| `RC-G-PRODUCTION-HOLD` | governance | systemic | 86 | Lifting the holds deliberately, which is a release decision and not a build one. |
+| `RC-S-BUNDLE-ABSENT` | source | systemic | 37 | Supplying the canonical source bundle, or opening access to the issuing bodies. |
+| `RC-S-CURRENTNESS-UNVERIFIED` | source | systemic | 37 | A currentness review pass against the issuing bodies' own publications. |
 | `RC-S-STALE-OR-SUPERSEDED` | source | family_specific | 5 | Acquiring the current edition of this form and recording the supersession. |
-| `RC-T-ALL-FIELDS-UNWRITABLE` | technical | family_specific | 1 | A reviewed mapping decision for this form, or a decision that it is court-completed. |
-| `RC-T-DIRTY-ACROFORM-SOURCE` | technical | family_specific | 9 | Sanitation of this form through the current pipeline, proved on the output. |
+| `RC-T-ALL-FIELDS-UNWRITABLE` | technical | family_specific | 2 | A reviewed mapping decision for this form, or a decision that it is court-completed. |
+| `RC-T-DIRTY-ACROFORM-SOURCE` | technical | family_specific | 23 | Sanitation of this form through the current pipeline, proved on the output. |
 | `RC-T-FLAT-GEOMETRY` | technical | family_specific | 21 | Measured anchors approved for this form. |
-| `RC-T-NO-DERIVABLE-WRITE-BOX` | technical | family_specific | 6 | A reviewed and recorded placement decision for this form. |
-| `RC-T-NO-FIELD-CENSUS` | technical | family_specific | 14 | A census taken from this form's verified binary. |
+| `RC-T-NO-DERIVABLE-WRITE-BOX` | technical | family_specific | 8 | A reviewed and recorded placement decision for this form. |
+| `RC-T-NO-FIELD-CENSUS` | technical | family_specific | 15 | A census taken from this form's verified binary. |
 | `RC-T-VALUES-ABSENT` | technical | family_specific | 2 | Bindings or anchors for this form, then a re-render. |
-| `RC-V-NO-SHEET-PRODUCED` | visual | systemic | 16 | Rendering the affected families, which produces the sheet as part of the run. |
+| `RC-V-NO-SHEET-PRODUCED` | visual | systemic | 18 | Rendering the affected families, which produces the sheet as part of the run. |
 | `RC-V-SHEET-FROM-UNFINALIZED-SOURCE` | visual | systemic | 2 | Re-rendering the affected families and rebuilding their sheets from the finalized artifact. |
 | `RC-V-SHEET-PANELS-IDENTICAL` | visual | systemic | 4 | Rebuilding the affected sheets from finalized artifacts; the current builder refuses to emit a sheet whose panels match. |
 | `RC-V-UNSAFE-PLACEMENT` | visual | family_specific | 27 | Re-measuring this form's geometry and re-rendering the boundary fixture. |
@@ -221,7 +237,7 @@ _None._
 
 ### Priority 4 — Orphaned, optional, historical or reference-only. do_not_acquire_without_a_named_current_use.
 
-23 asset(s).
+37 asset(s).
 
 | Jurisdiction | Form | Disposition | Rule |
 | --- | --- | --- | --- |
@@ -232,11 +248,18 @@ _None._
 | AL | cr-65a-order-on-petition-for-expungement-10-2024.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | AL | criminal-forms.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | AL | criminal-record-expungement.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| AR | 3-Misdemeanor-Petition-8_01_2023.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| AR | 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | AR | Arkansas-Petition-Order-Forms.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| AR | Felony-Petition-Form-f.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| KY | 496.2.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| KY | 496.3.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| KY | 497.2.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | KY | JV-29.1.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | KY | JV-29.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | KY | JV-30.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | KY | Kentucky-Expungement-Forms.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| NC | cr297.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | NC | expungements.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | NC | forms-2.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | NC | forms.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
@@ -247,6 +270,13 @@ _None._
 | VA | cc1473.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | VA | cc1473inst.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | VA | va-expungement-sealing-forms.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| VT | 200-00129 – Petition to Expunge Criminal History.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| VT | 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| VT | 200-00131.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| VT | 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| VT | 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| VT | 200-00631.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| VT | 400-00171.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | VT | application-waive-filing-fees-and-service-costs.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 
 ## Exact legal-design questions
@@ -277,7 +307,13 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | AL | cr-65a-order-on-petition-for-expungement-10-2024.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AL | criminal-forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AL | criminal-record-expungement.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| AR | 3-Misdemeanor-Petition-8_01_2023.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| AR | 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AR | Arkansas-Petition-Order-Forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| AR | Felony-Petition-Form-f.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| KY | 496.2.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| KY | 496.3.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| KY | 497.2.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | KY | AOC-334 | C | true | clean and provable | true | technically_approved_for_at_least_one_served_track |
 | KY | AOC-496 | C | true | clean and provable | true | never_independently_reviewed |
 | KY | AOC-496.2 | C | true | clean and provable | true | never_independently_reviewed |
@@ -308,6 +344,7 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | NC | AOC-CV-226 | A | true | clean and provable | false | never_independently_reviewed |
 | NC | AOC-CV-226 | C | true | clean and provable | true | never_independently_reviewed |
 | NC | AOC-CV-226 | A | true | clean and provable | false | never_independently_reviewed |
+| NC | cr297.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | expungements.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | forms-2.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
@@ -327,10 +364,19 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | VA | cc1473.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VA | cc1473inst.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VA | va-expungement-sealing-forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| VT | 200-00129 – Petition to Expunge Criminal History.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00130 | C | true | clean and provable | true | never_independently_reviewed |
+| VT | 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| VT | 200-00131 | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| VT | 200-00131.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00132 | C | true | clean and provable | true | never_independently_reviewed |
+| VT | 200-00132 – Stipulation to Seal Criminal History Record + Order.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00132A | C | true | clean and provable | true | never_independently_reviewed |
+| VT | 200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00331 | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| VT | 200-00631 | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| VT | 200-00631.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| VT | 400-00171.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 600-00228 | C | true | clean and provable | true | never_independently_reviewed |
 | VT | application-waive-filing-fees-and-service-costs.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | WI | CR-266 | C | true | clean and provable | true | never_independently_reviewed |
