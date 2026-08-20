@@ -60,29 +60,39 @@ function fail(message) {
  */
 function corpusMountState(corpusIndex) {
   const declaredRoot = corpusIndex.corpusRoot;
-  const candidates = [
-    declaredRoot,
-    "private/Nationwide Record Clearing",
-    process.env.OFFICIAL_FORMS_SOURCE_DIR || null
-  ].filter(Boolean);
-  const mounted = candidates.filter((c) => fs.existsSync(path.isAbsolute(c) ? c : abs(c)));
+  const exists = (candidate) => Boolean(candidate) && fs.existsSync(path.isAbsolute(candidate) ? candidate : abs(candidate));
+
+  // TWO corpora, and conflating them is the mistake this function exists to
+  // avoid. The Master Library (STATES/XX/…, 329 PDFs) is what a source
+  // resolution and a re-render need. The overlay factory manifest is built
+  // from a different tree — Nationwide Record Clearing, LegalEase <State>/…,
+  // 409 forms — and that is the tree the seventh retirement condition needs.
+  // Mounting one does not mount the other, and reporting "the corpus is
+  // mounted" off either would say a retirement is evaluable when it is not.
+  const masterLibraryRoot = exists(declaredRoot) ? declaredRoot : null;
+  const nationwideRoot = ["private/Nationwide Record Clearing", process.env.OFFICIAL_FORMS_SOURCE_DIR || null]
+    .find((candidate) => exists(candidate) && !String(candidate).includes("Master_Library")) ?? null;
+
   return {
     declaredCorpusRoot: declaredRoot,
     nationwideSourceDir: "private/Nationwide Record Clearing",
-    pathsProbed: candidates,
-    mountedPaths: mounted,
-    corpusIsMounted: mounted.length > 0,
+    masterLibraryMounted: Boolean(masterLibraryRoot),
+    masterLibraryRoot,
+    nationwideSourceMounted: Boolean(nationwideRoot),
+    nationwideSourceRoot: nationwideRoot,
+    corpusIsMounted: Boolean(masterLibraryRoot),
     pdfsTheIndexRecords: corpusIndex.totals?.pdfsIndexed ?? null,
-    whatIsStillDerivableWithoutIt: [
-      "the identity of a missing binary, against the committed corpus index",
-      "the six repository-side retirement conditions",
-      "every artifact-safety and placement check, because the artifacts are committed"
+    whatTheMasterLibraryUnblocks: [
+      "resolving a missing binary against real bytes, and writing a receipt that names a computed SHA-256",
+      "reading a blank form, so an independent reviewer can confirm a source identity",
+      "re-rendering a family, once its shared-module defect is corrected"
     ],
-    whatIsNotDerivableWithoutIt: [
-      "regenerating data/rcap-all50/overlays/overlay-factory-manifest.json, which is the seventh retirement condition",
-      "computing a SHA-256 over source bytes, so no source can be accepted or materialised",
-      "reading a blank form to confirm a visible revision or take an independent field census"
-    ]
+    whatStillNeedsTheNationwideTree: [
+      "regenerating data/rcap-all50/overlays/overlay-factory-manifest.json",
+      "the seventh retirement condition, for all 30 candidates — the manifest is what has to stop naming the asset"
+    ],
+    whyTheyAreNotInterchangeable:
+      "Zero of the 30 retirement candidates' filenames exist in the Master Library. They are Nationwide assets — ak-record-relief-forms.html, RequestToSealCrimInfo.pdf — under LegalEase <State>/ paths the Master Library does not carry."
   };
 }
 
@@ -419,15 +429,15 @@ function retirementConditions(handoff, mount) {
       repositoryConditions,
       repositoryConditionsProven: true,
       regeneratedManifestCondition: {
-        required: "the manifest, regenerated from the private corpus, no longer names the asset",
-        state: mount.corpusIsMounted ? "regenerate_and_confirm" : "cannot_be_evaluated_here",
-        why: mount.corpusIsMounted
-          ? "the corpus is mounted; run the overlay factory generator and confirm"
-          : "data/rcap-all50/overlays/overlay-factory-manifest.json is generated from private/Nationwide Record Clearing, which is not mounted in this clone"
+        required: "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        state: mount.nationwideSourceMounted ? "regenerate_and_confirm" : "cannot_be_evaluated_here",
+        why: mount.nationwideSourceMounted
+          ? "the Nationwide tree is mounted; run the overlay factory generator and confirm"
+          : "data/rcap-all50/overlays/overlay-factory-manifest.json is generated from private/Nationwide Record Clearing. The Master Library is mounted and is a different tree — it carries none of these assets — so this condition is still unevaluable."
       },
       retired: false,
       whyNotRetired:
-        "Six of the seven conditions reproduce. The seventh cannot be evaluated without the corpus, and a retirement recorded on six of seven conditions would be a claim, not a proof."
+        "Six of the seven conditions reproduce. The seventh needs the Nationwide tree, which is not the corpus that arrived, and a retirement recorded on six of seven conditions would be a claim, not a proof."
     };
   });
 
@@ -534,11 +544,21 @@ function disposeMissingBinaries(reconciliation, corpusIndex, queue, mount) {
       })),
       identityProven: disposition === "exact_pinned_hash_found" || disposition === "exact_form_and_revision_found",
       accepted: false,
-      whyNotAccepted: mount.corpusIsMounted
-        ? null
+      whyNotAccepted: mount.masterLibraryMounted
+        ? "Identity is proven against real bytes and a receipt is written — see data/rcap-all50/pdf-source-handoffs/source-resolution.json. Materialising the binary into the family source path changes what that family renders from, which is the implementation lane's change against an open correction packet, not this lane's."
         : "Acceptance requires computing a SHA-256 over the bytes, confirming the visible revision on the page, writing a source receipt and materialising the file into the family source path. None of that is possible while the corpus is unmounted, so identity is recorded and acceptance is not claimed.",
       materialised: false,
-      searchOrderExhausted: [
+      searchOrderExhausted: mount.masterLibraryMounted ? [
+        "exact SHA-256 across the mounted Master Library — RAN",
+        "exact SHA-256 duplicates under alternate filenames — RAN, through the Master Manifest duplicate table",
+        "exact form number and revision — RAN",
+        "form-number punctuation and filename aliases — RAN",
+        "Master Library manifest — RAN, 348 asset identities read from the workbook",
+        "record_clearing_forms_links.xlsx — REACHABLE, delivered with the bootstrap",
+        "source bundles and multi-form court kits — RAN, through the library's asset classes",
+        "official publisher URL recorded in repository evidence — recorded; retrieval still refused by the environment",
+        "official public source retrieval — NOT REACHABLE, all publisher hosts return 403 at the proxy"
+      ] : [
         "exact SHA-256 across the committed corpus index",
         "exact SHA-256 duplicates under alternate filenames",
         "exact form number and revision",
@@ -683,13 +703,24 @@ function ledger({ register, master, audit, batchManifest, freeze, packets, retir
     blockers: [
       {
         id: "BLK-CORPUS-UNMOUNTED",
-        statement: `${mount.declaredCorpusRoot} and ${mount.nationwideSourceDir} are absent from this container.`,
-        blocks: [
+        statement: mount.masterLibraryMounted
+          ? `${mount.declaredCorpusRoot} is mounted and verifies to the byte. ${mount.nationwideSourceDir} is still absent, and it is a different tree.`
+          : `${mount.declaredCorpusRoot} and ${mount.nationwideSourceDir} are absent from this container.`,
+        state: mount.masterLibraryMounted ? "partially_cleared" : "open",
+        cleared: mount.masterLibraryMounted
+          ? [
+            "workstream 2 — 13 identities proven against real bytes, with receipts",
+            "workstream 3 — all 27 reviewed families' sources are readable, so no source identity is unconfirmable any more",
+            "the master list moved 18 assets out of source-acquisition into actionable-now"
+          ]
+          : [],
+        blocks: mount.nationwideSourceMounted ? [] : [
           "workstream 1 — the seventh retirement condition, for all 30 candidates",
-          "workstream 2 — acceptance and materialisation, for all 39 rows",
-          "workstream 3 — independent source-identity confirmation, for 26 of 27 families"
+          "workstream 2 — materialisation, which belongs to the implementation lane in any case"
         ],
-        whatWouldClearIt: "Mount the corpus, or set OFFICIAL_FORMS_SOURCE_DIR to a path that holds it.",
+        whatWouldClearIt: mount.masterLibraryMounted
+          ? "Deliver private/Nationwide Record Clearing — the 409-form LegalEase <State>/ tree the overlay factory reads. The Master Library does not substitute: none of the 30 candidates' files is in it."
+          : "Mount the corpus, or set OFFICIAL_FORMS_SOURCE_DIR to a path that holds it.",
         ownedBy: "environment"
       },
       {

@@ -32,7 +32,14 @@ const BATCH_MANIFEST = "data/rcap-all50/pdf-independent-reviews/batch-1-manifest
 const OUT = "data/rcap-all50/pdf-source-handoffs/local-source-exhaustion.json";
 const OUT_MD = "docs/record-clearing/pdf-independent-reviews/local-source-exhaustion.md";
 
-const SKIP_DIRS = new Set(["node_modules", ".git", ".next", "out", "coverage"]);
+// `private/` is the mounted corpus, and it is not what this sweep is for.
+// This record answers "what else is lying around in the repository that could
+// be an official form" — the corpus itself is searched by
+// scripts/generate-rcap-source-resolution.mjs, against the manifests that
+// describe it. Walking it here would bury the answer under 499 files it was
+// never asking about, and would make the record change every time the corpus
+// is mounted or unmounted.
+const SKIP_DIRS = new Set(["node_modules", ".git", ".next", "out", "coverage", "private"]);
 const CANDIDATE = /\.(pdf|html?|docx?)$/i;
 
 // Directories whose contents are LegalEase output, not court output. A file

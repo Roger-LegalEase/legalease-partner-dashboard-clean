@@ -63,13 +63,12 @@ Order of work:
 
 ### BLK-CORPUS-UNMOUNTED
 
-private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 and private/Nationwide Record Clearing are absent from this container.
+private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1 is mounted and verifies to the byte. private/Nationwide Record Clearing is still absent, and it is a different tree.
 
 - blocks workstream 1 — the seventh retirement condition, for all 30 candidates
-- blocks workstream 2 — acceptance and materialisation, for all 39 rows
-- blocks workstream 3 — independent source-identity confirmation, for 26 of 27 families
+- blocks workstream 2 — materialisation, which belongs to the implementation lane in any case
 
-Cleared by: Mount the corpus, or set OFFICIAL_FORMS_SOURCE_DIR to a path that holds it. (owned by environment)
+Cleared by: Deliver private/Nationwide Record Clearing — the 409-form LegalEase <State>/ tree the overlay factory reads. The Master Library does not substitute: none of the 30 candidates' files is in it. (owned by environment)
 
 ### BLK-EGRESS-REFUSED
 
