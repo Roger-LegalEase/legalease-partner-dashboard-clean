@@ -382,6 +382,10 @@ export async function finalizeOfficialForm({
   unwritableFields = [],
   captionOnly = false,
   documentAcceptsFill = true,
+  // Whether the caller has established that the participant's alternative
+  // mailing address differs from their street address. Conditional blocks on
+  // the paper are conditional here.
+  alternateAddressDiffers = false,
   nonFilingNotice = null,
   maxFontSize,
   minFontSize = MIN_READABLE_FONT_SIZE,
@@ -433,8 +437,10 @@ export async function finalizeOfficialForm({
     }
 
     const decision = decideBinding(
-      { name: field.name, pdfType: field.type, effectiveLabel: field.effectiveLabel, regionHeading: field.regionHeading },
-      { explicitMappings, captionOnly, availableChargeRows, documentAcceptsFill }
+      { name: field.name, pdfType: field.type, effectiveLabel: field.effectiveLabel,
+        trailingLabel: field.trailingLabel, regionHeading: field.regionHeading,
+        regionIsDocumentTitle: field.regionIsDocumentTitle === true },
+      { explicitMappings, captionOnly, availableChargeRows, documentAcceptsFill, alternateAddressDiffers }
     );
 
     if (!decision.writable) {

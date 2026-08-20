@@ -88,14 +88,56 @@ const OWNERSHIP = {
   INSTRUCTIONAL: "instructional_no_participant_fill",
   OUTSIDE_PARTY: "outside_party_completed",
   COURT_ORDER: "court_issued_caption_only",
+  PROSECUTOR: "prosecutor_completed",
   PARTICIPANT: "participant_completed"
 };
-function determineOwnership(record) {
+
+// What a form says on its own face about who fills it in.
+//
+// NC AOC-CR-296 is captioned "DISTRICT ATTORNEY PETITION", its identity block
+// is "Name And Address Of Defendant", it signs off on a "District Attorney
+// Name" line, it says in a note that it is filed by the district attorney and
+// needs no filing fee, and page 2 closes with a "NOTE TO DISTRICT ATTORNEY".
+// Its filename says only "petition-and-order-of-expunction", so the filename
+// signal called it participant-completed and the platform produced a
+// prosecutor's instrument as a participant filing.
+//
+// The document is the authority on this, so the document is read. Every phrase
+// below is a claim the form makes about its own filer, not a word that merely
+// appears on it: "district attorney" in a service block or an address label
+// says nothing about who signs.
+const PROSECUTOR_OWNED_TITLE = /district\s*attorney\s*petition|petition\s*(by|of)\s*(the\s*)?(district|commonwealth\s*s?|state\s*s?|county)\s*attorney|motion\s*(by|of)\s*the\s*state|prosecutor\s*s?\s*(petition|motion|application)/i;
+const PROSECUTOR_OWNED_STATEMENT = /this\s+petition,?\s+which\s+is\s+filed\s+by\s+the\s+district\s+attorney|filed\s+by\s+the\s+(district|commonwealth\s*s?|state\s*s?|county)\s+attorney|note\s+to\s+district\s+attorney/i;
+
+/**
+ * The prosecutor-ownership evidence a document carries, or null.
+ *
+ * Returned rather than asserted: a record that says a form is a prosecutor's
+ * without quoting the words it says so in is not reviewable.
+ */
+export function prosecutorOwnershipEvidence(printedLines) {
+  const lines = (printedLines ?? []).map((l) => (typeof l === "string" ? l : l.text)).filter(Boolean);
+  const title = lines.find((t) => PROSECUTOR_OWNED_TITLE.test(t)) ?? null;
+  const statement = lines.find((t) => PROSECUTOR_OWNED_STATEMENT.test(t)) ?? null;
+  if (!title && !statement) return null;
+  return {
+    owner: "prosecutor_or_district_attorney",
+    titleLine: title,
+    statementLine: statement,
+    basis: "the document's own printed text, read from its page content"
+  };
+}
+
+function determineOwnership(record, printedLines = null) {
   const fileSlug = (record.canonicalBundlePath ?? "").split("/").pop() ?? "";
   const signal = haystack([record.documentRole ?? "", fileSlug.replace(/\.pdf$/i, ""), record.officialTitle ?? ""].join(" "));
   if (record.libraryFolder === "03_INSTRUCTIONS") return OWNERSHIP.INSTRUCTIONAL;
   if (/\binstructions?\b|completing\s*the|how\s*to\s*(file|complete)/.test(signal)) return OWNERSHIP.INSTRUCTIONAL;
   if (/\bresponse\s*to\s*petition\b|objection\s*to\s*petition/.test(signal)) return OWNERSHIP.OUTSIDE_PARTY;
+  // The document's own words about its filer outrank its filename. This is
+  // tested before the petition/motion signal, because the filename of a
+  // prosecutor's petition says "petition" too.
+  if (prosecutorOwnershipEvidence(printedLines)) return OWNERSHIP.PROSECUTOR;
   // A combined "Petition and Order" packet is driven by its petition half.
   if (/\bpetition\b|\bmotion\b|\bapplication\b|\baffidavit\b|\brequest\b|\bstipulation\b|in\s*forma\s*pauperis|fee\s*waiver/.test(signal)) {
     return OWNERSHIP.PARTICIPANT;
@@ -129,7 +171,12 @@ const RULES = [
   [/\bage\s*at\b|age\s*of\s*(the\s*)?(petitioner|defendant)|\bage\b/, "manual"],
   [/\bdivision\b/, "manual"],
   [/date\s*signed|signature\s*date|date\s*of\s*(this\s*)?(filing|signature)|today\s*s?\s*date|^\s*dated?\s*$|cert\s*date/, "deterministic"],
-  [/printed\s*name|petitioner|applicant|defendant|movant|\bdef\b|your\s*name|full\s*legal\s*name|first\s*name|last\s*name|middle\s*(name|initial)|party\s*names?|case\s*name|^\s*name\b/, "participant"],
+  // `adult name` is how Nebraska CC 6:12 labels the movant in its own caption:
+  // "vs. ____, (your full name) Defendant." The rule anchored "name" at the
+  // start of the field name, so CC 6:12's caption slot classified `manual` and
+  // the filed Motion carried no movant name at all, while CC 6:11 and CC 6:11.2
+  // -- the same slot on the same court's forms -- bound and wrote it.
+  [/printed\s*name|petitioner|applicant|defendant|movant|\bdef\b|your\s*name|full\s*legal\s*name|\badult\s*name\b|first\s*name|last\s*name|middle\s*(name|initial)|party\s*names?|case\s*name|^\s*name\b/, "participant"],
   [/city\s*state\s*zip/, "participant"],
   [/street\s*addr|mailing\s*addr|^\s*addr|\baddress\b|\bcity\b|\bstate\b|\bzip\b|postal|phone|telephone|\bemail\b/, "participant"],
   [/\bdob\b|date\s*of\s*birth|birth\s*date/, "participant"],
@@ -343,6 +390,28 @@ export const CANONICAL = {
       arrest_date: "2019-03-08", offense_date: "2019-03-08", conviction_date: "2019-11-02", disposition_date: "2020-01-15" }
   ]
 };
+/**
+ * Whether a fact set states an alternative mailing address that is genuinely
+ * different from the participant's street address.
+ *
+ * NC AOC-CV-226 prints a second block headed "Full Permanent Mailing Address
+ * (if different than above)". The renderer copied the participant's city,
+ * state and zip into it, so the filed affidavit swore to a second address the
+ * applicant never gave -- with "Springfield", "XX" and "01234" each appearing
+ * twice and no street address anywhere.
+ */
+export function alternateAddressDiffers(facts) {
+  const alt = ["participant.mailing_street_address", "participant.mailing_city",
+    "participant.mailing_state", "participant.mailing_zip"];
+  const primary = { "participant.mailing_street_address": "participant.street_address",
+    "participant.mailing_city": "participant.city",
+    "participant.mailing_state": "participant.state",
+    "participant.mailing_zip": "participant.zip" };
+  const stated = alt.filter((key) => String(facts?.[key] ?? "").trim() !== "");
+  if (stated.length === 0) return false;
+  return stated.some((key) => String(facts[key]).trim() !== String(facts[primary[key]] ?? "").trim());
+}
+
 const BOUNDARY = {
   ...CANONICAL,
   "participant.full_legal_name": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
@@ -444,9 +513,17 @@ for (const fam of index.families) {
   // Past the byte read and the hash match: this family is genuinely source-backed.
   processedFamilies += 1;
 
-  const ownership = determineOwnership(record);
   const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
   const pages = doc.getPages();
+  // The document's own printed text, read before ownership is decided: a form
+  // that says on its face who files it is the authority on that, and its
+  // filename is not.
+  const printedLines = [];
+  for (const page of pages) {
+    try { printedLines.push(...groupIntoLines(extractTextItems(page))); } catch { /* unreadable page */ }
+  }
+  const prosecutorEvidence = prosecutorOwnershipEvidence(printedLines);
+  const ownership = determineOwnership(record, printedLines);
   const pageIndexOf = new Map(pages.map((p, i) => [p.ref.toString(), i + 1]));
   let fields = [];
   try { fields = doc.getForm().getFields(); } catch { fields = []; }
@@ -487,7 +564,7 @@ for (const fam of index.families) {
     const page = pages[pageNumber - 1];
     if (!page) continue;
     let contexts = [];
-    try { contexts = captureWidgetContext(page, widgets); } catch { contexts = []; }
+    try { contexts = captureWidgetContext(page, widgets, { isFirstPage: pageNumber === 1 }); } catch { contexts = []; }
     for (const context of contexts) {
       // A field with widgets on more than one page keeps the first context
       // measured for it: the same field drawn twice is one field, and its
@@ -499,16 +576,28 @@ for (const fam of index.families) {
     const context = contextByField.get(entry.name) ?? null;
     entry.effectiveLabel = context?.effectiveLabel ?? null;
     entry.labelBasis = context?.labelBasis ?? "no_widget_geometry_available";
+    // The words the form prints AFTER the blank, on its own line. NC's AOC
+    // forms print "County" after the county blank rather than before it, and
+    // VA CC-1201 prints "addendums are attached to this petition" after a box
+    // it filled with a case number.
+    entry.trailingLabel = context?.trailingLabel ?? null;
     entry.regionHeading = context?.regionHeading ?? null;
+    entry.regionIsDocumentTitle = context?.regionIsDocumentTitle === true;
     entry.regionBasis = context?.regionBasis ?? "no_widget_geometry_available";
+    entry.captionConvention = context?.captionConvention ?? null;
   }
 
   const classification = census.map((c) => ({
     name: c.name, type: c.type, class: classify(c.name, c.type, ownership),
-    effectiveLabel: c.effectiveLabel, regionHeading: c.regionHeading
+    effectiveLabel: c.effectiveLabel, labelBasis: c.labelBasis, trailingLabel: c.trailingLabel,
+    regionHeading: c.regionHeading, regionIsDocumentTitle: c.regionIsDocumentTitle === true
   }));
 
-  const noFill = ownership === OWNERSHIP.INSTRUCTIONAL || ownership === OWNERSHIP.OUTSIDE_PARTY;
+  // A prosecutor's instrument is not a participant filing, so the platform
+  // does not fill one. What the pathway keeps is the guidance and the
+  // participant-filed documents that stand on their own.
+  const noFill = ownership === OWNERSHIP.INSTRUCTIONAL || ownership === OWNERSHIP.OUTSIDE_PARTY
+    || ownership === OWNERSHIP.PROSECUTOR;
   // Binding is decided by the typed, fail-closed binder rather than by a
   // name-pattern sweep: every field starts protected, and only an allowlisted
   // fact descriptor of a matching type on a writable field type gets through.
@@ -520,9 +609,11 @@ for (const fam of index.families) {
   const bindingRefusals = [];
   for (const c of classification) {
     const decision = decideTypedBinding(
-      { name: c.name, pdfType: c.type, effectiveLabel: c.effectiveLabel, regionHeading: c.regionHeading },
+      { name: c.name, pdfType: c.type, effectiveLabel: c.effectiveLabel, trailingLabel: c.trailingLabel,
+        regionHeading: c.regionHeading, regionIsDocumentTitle: c.regionIsDocumentTitle === true },
       { explicitMappings, captionOnly: ownership === OWNERSHIP.COURT_ORDER,
-        availableChargeRows, documentAcceptsFill: !noFill }
+        availableChargeRows, documentAcceptsFill: !noFill,
+        alternateAddressDiffers: alternateAddressDiffers(CANONICAL) }
     );
     // The binder decides from the field's NAME; this file has already decided
     // from its ROLE. Where they disagree the role wins. Arkansas's Act 346
@@ -680,10 +771,7 @@ for (const fam of index.families) {
   // ever rendering, which is exactly the failure this line caused.
   // Read for every family, not only the flat ones: an AcroForm can be stamped
   // "sample only" just as a flat scan can.
-  const documentTextLines = [];
-  for (const page of pages) {
-    try { documentTextLines.push(...groupIntoLines(extractTextItems(page))); } catch { /* unreadable page */ }
-  }
+  const documentTextLines = printedLines;
 
   const NOT_FOR_FILING = /\bnot\s+for\s+filing\b|\bsample\s+only\b|\bspecimen\s+copy\b|\bfor\s+illustration\s+only\b|\bdo\s+not\s+file\s+this\s+form\b/i;
   const notForFilingLine = (documentTextLines ?? []).map((l) => l.text).find((t) => NOT_FOR_FILING.test(t)) ?? null;
@@ -704,6 +792,7 @@ for (const fam of index.families) {
               // map cannot disagree about what may be written.
               unwritableFields: classification.filter((c) => isUnwritableClass(c.class)).map((c) => ({ field: c.name, class: c.class })),
               captionOnly: ownership === OWNERSHIP.COURT_ORDER,
+              alternateAddressDiffers: alternateAddressDiffers(facts),
               nonFilingNotice: notForFilingNotice,
               title: `${fam.jurisdiction} ${record.documentId}`
             })
@@ -883,8 +972,23 @@ for (const fam of index.families) {
 
   record.documentOwnership = ownership;
   record.participantFillable = !noFill;
+  // Stated separately from `participantFillable` because they answer different
+  // questions: whether the platform may write into this document, and whether
+  // the participant is the person who completes it at all. A prosecutor's
+  // petition is neither, and a record that says only "not fillable" leaves the
+  // second question to be re-derived by whoever reads it next.
+  record.participantCompleted = ownership === OWNERSHIP.PARTICIPANT;
+  if (prosecutorEvidence) {
+    record.documentOwner = prosecutorEvidence.owner;
+    record.documentOwnerEvidence = prosecutorEvidence;
+  } else {
+    delete record.documentOwner;
+    delete record.documentOwnerEvidence;
+  }
   record.implementationStatus = noFill
-    ? (ownership === OWNERSHIP.INSTRUCTIONAL ? "no_fill_instructional_document" : "no_fill_outside_party_document")
+    ? (ownership === OWNERSHIP.INSTRUCTIONAL ? "no_fill_instructional_document"
+      : ownership === OWNERSHIP.PROSECUTOR ? "no_fill_prosecutor_owned_document"
+      : "no_fill_outside_party_document")
     : mapKind === "flat_overlay"
       ? (anchors.length > 0 ? "overlay_implemented_pending_independent_review"
         : candidateLabels.length > 0 ? "overlay_labels_measured_write_box_pending_review"
@@ -898,6 +1002,7 @@ for (const fam of index.families) {
     [OWNERSHIP.INSTRUCTIONAL]: "Instructional document. It is read, not filed, so no participant fill is produced.",
     [OWNERSHIP.OUTSIDE_PARTY]: "Completed by the opposing party, not the participant. No fill is produced.",
     [OWNERSHIP.COURT_ORDER]: "Court-issued order. Only caption facts are bound; no decretal or dispositional field is ever written.",
+    [OWNERSHIP.PROSECUTOR]: "Prosecutor's instrument. The district attorney completes and files it, so the participant does not complete it and the platform produces no participant fill. It stays in the pathway as guidance.",
     [OWNERSHIP.PARTICIPANT]: "Participant-completed filing. Participant and deterministic fields are bound; every other class is unwritable."
   }[ownership];
   record.coBrandingRule = "No LegalEase or partner branding may be added to the official form.";

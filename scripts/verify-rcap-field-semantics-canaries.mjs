@@ -23,6 +23,9 @@ import {
 } from "./rcap-official-forms/rcap-field-semantics.mjs";
 
 const text = (name, options) => decideBinding({ name, pdfType: "text" }, options ?? {});
+/** A field decided with the words its form actually prints around it. */
+const printed = (name, { label = null, trailing = null } = {}, options) =>
+  decideBinding({ name, pdfType: "text", effectiveLabel: label, trailingLabel: trailing }, options ?? {});
 
 /**
  * Each canary: the field as the form actually names it, what must happen, and
@@ -143,15 +146,133 @@ const CANARIES = [
     expect: (r) => r.writable === true && r.factId === "matter.case_number",
     consequence: "the docket number would stop printing in the caption",
     guards: "no regression"
+  },
+  // --- wave C -------------------------------------------------------------
+  {
+    id: "STREET-NC-CV226",
+    family: "NC:aoc-cv-226-support-en",
+    field: "ApplicantStreetNumberAndStreetNameLine1",
+    expect: (r) => r.writable === true && r.factId === "participant.street_address",
+    consequence: "a sworn affidavit of indigency filed with no street address anywhere on it",
+    guards: "street_address recognising a street written out"
+  },
+  {
+    id: "STREET-LINE-2-NC-CV226",
+    family: "NC:aoc-cv-226-support-en",
+    field: "ApplicantStreetNumberAndStreetNameLine2",
+    expect: (r) => r.writable === false && r.reason === "continuation_line_of_a_block_written_on_its_first_line",
+    consequence: "the participant's street address printed twice, once on each line of the block",
+    guards: "the continuation-line guard"
+  },
+  {
+    id: "ALT-MAILING-NC-CV226",
+    family: "NC:aoc-cv-226-support-en",
+    field: "ApplicantFullPermanentMailingAddressCity",
+    expect: (r) => r.writable === false && r.reason === "alternate_address_block_not_established_as_different",
+    consequence: "a block the form conditions on being different than above, filled with the same city as above",
+    guards: "the conditional second address block"
+  },
+  {
+    id: "ALT-MAILING-BINDS-WHEN-STATED",
+    family: "NC:aoc-cv-226-support-en",
+    field: "ApplicantFullPermanentMailingAddressCity",
+    options: { alternateAddressDiffers: true },
+    expect: (r) => r.writable === true && r.factId === "participant.mailing_city",
+    consequence: "an alternative mailing address the participant did state, left off the form",
+    guards: "the conditional block still binding when its condition holds"
+  },
+  {
+    id: "DLSTATE-NC-CR296",
+    family: "NC:aoc-cr-296-form-en",
+    field: "DLState",
+    expect: (r) => r.writable === false && r.category === "government_identifier",
+    consequence: "the participant's state of residence printed as the state that issued their licence",
+    guards: "government_identifier covering the licence block"
+  },
+  {
+    id: "FORM-NUMBER-NOT-A-ROW-VA-1201",
+    family: "VA:cc-1201-form-en",
+    field: "User.CaseNumber1201",
+    expect: (r) => r.writable === true && r.factId === "matter.case_number",
+    consequence: "a form number read as a charge-row index, binding row one of a charge table that was never asked for",
+    guards: "rowIndexOf refusing to split a longer number"
+  },
+  {
+    id: "ADULT-NAME-NE-6-12",
+    family: "NE:cc-6-12-form-en",
+    field: "Adult name",
+    expect: (r) => r.writable === true && r.factId === "participant.full_legal_name",
+    consequence: "a filed Motion whose caption carries no movant name, on a form whose two companions write it",
+    guards: "full_legal_name recognising Nebraska's word for the movant"
+  }
+];
+
+// Canaries that need the words the form prints, not just the field's name.
+const PRINTED_CANARIES = [
+  {
+    id: "COURT-VS-COUNTY-VA-1201",
+    family: "VA:cc-1201-form-en",
+    field: "User.CourtName",
+    printed: { label: "CITY OR COUNTY", trailing: "Circuit Court" },
+    expect: (r) => r.writable === false && r.reason === "field_name_and_printed_caption_disagree",
+    consequence: "a petition caption filed reading \"District Court ... Circuit Court\", the court's own name written into the slot for its locality"
+  },
+  {
+    id: "ADDENDUM-COUNT-VA-1201",
+    family: "VA:cc-1201-form-en",
+    field: "User.CaseNumber1201",
+    printed: { trailing: "addendums are attached to this petition and are incorporated" },
+    expect: (r) => r.writable === false && r.reason === "printed_words_after_the_blank_describe_a_different_value",
+    consequence: "a case number filed as the number of addendums attached to the petition"
+  },
+  {
+    id: "COUNTY-TRAILING-NC-CV226",
+    family: "NC:aoc-cv-226-support-en",
+    field: "CountyName",
+    printed: { label: "STATE OF NORTH CAROLINA", trailing: "County" },
+    expect: (r) => r.writable === true && r.factId === "matter.county",
+    consequence: "the county silenced on every NC AOC caption, because the heading above the blank is a state and the word County is printed after it"
+  },
+  {
+    id: "ELECTION-CAPTION-VA-1473",
+    family: "VA:cc-1473-form-en",
+    field: "User.AddressOf",
+    printed: { label: "ADDRESS OF [ ] PETITIONER [ ] ATTORNEY FOR PETITIONER" },
+    expect: (r) => r.writable === true && r.factId === "participant.street_address",
+    consequence: "the petitioner's own address refused off their own petition because the caption offers their attorney as the other option"
+  },
+  {
+    id: "ELECTION-CAPTION-DOES-NOT-UNPROTECT-SIGNATURES",
+    family: "VA:cc-1473-form-en",
+    field: "User.SignatureLine",
+    printed: { label: "SIGNATURE OF [ ] PETITIONER [ ] ATTORNEY FOR PETITIONER" },
+    expect: (r) => r.writable === false && r.category === "signature",
+    consequence: "an election caption used to unprotect a signature block, which is a kind of box rather than a party"
+  },
+  {
+    id: "UNDECODABLE-CAPTION-DECIDES-NOTHING",
+    family: "NC:aoc-cv-226-support-en",
+    field: "ApplicantStreetNumberAndStreetNameLine1",
+    printed: { label: "\u0000)\u0000X\u0000O\u0000O\u0000\u0003\u00003\u0000H\u0000U\u0000P\u0000D\u0000Q\u0000H\u0000Q\u0000W" },
+    expect: (r) => r.writable === true && r.factId === "participant.street_address",
+    consequence: "glyph ids read as words: a caption containing a dollar sign only because 'A' is glyph 0x24, and an address refused as money"
   }
 ];
 
 const failures = [];
 console.log("  canaries");
 for (const canary of CANARIES) {
-  const result = text(canary.field);
+  const result = text(canary.field, canary.options);
   const passed = canary.expect(result);
   console.log(`    ${passed ? "ok  " : "FAIL"} ${canary.id.padEnd(20)} ${canary.field.padEnd(26)} → ${result.writable ? `writes ${result.factId}` : `refused ${result.reason}${result.category ? `/${result.category}` : ""}`}`);
+  if (!passed) failures.push(`${canary.id} (${canary.family}): ${canary.consequence}`);
+}
+
+console.log("  canaries, with the words the form prints");
+for (const canary of PRINTED_CANARIES) {
+  const result = printed(canary.field, canary.printed);
+  const passed = canary.expect(result);
+  console.log(`    ${passed ? "ok  " : "FAIL"} ${canary.id.padEnd(44)} ${canary.field.padEnd(24)} → ${result.writable ? `writes ${result.factId}` : `refused ${result.reason}${result.category ? `/${result.category}` : ""}`}`);
   if (!passed) failures.push(`${canary.id} (${canary.family}): ${canary.consequence}`);
 }
 
@@ -223,6 +344,7 @@ if (failures.length) {
 }
 
 console.log(
-  `OK field-semantics canaries — ${CANARIES.length} canaries hold, ` +
+  `OK field-semantics canaries — ${CANARIES.length + PRINTED_CANARIES.length} canaries hold ` +
+    `(${PRINTED_CANARIES.length} of them against the words their form prints), ` +
     `${MUTATIONS.length} mutations each turn their canary red, and the four controls still bind`
 );
