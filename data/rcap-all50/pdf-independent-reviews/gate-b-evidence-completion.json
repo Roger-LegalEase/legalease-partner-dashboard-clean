@@ -4,6 +4,21 @@
   "purpose": "Complete evidence for the rerendered families: a conformant provenance sidecar, real raster proof bound to the artifact it depicts, and two measurements taken against the finished bytes.",
   "notAnApproval": "This issues no verdict and promotes nothing. Every family below still carries its correction_required record from batch-1, and only an independent reviewer can replace it.",
   "consumedRerenderCommit": "24d1c5e8",
+  "sourceAxis": {
+    "recomputedFromOfficialBytes": false,
+    "basis": "the Master Library extract is not present in this environment, so no source digest was recomputed. Each family's pinned digest is carried forward from its own record and is a receipt, which the review contract does not accept as source proof.",
+    "whatWouldCloseIt": "mount the extract, set RCAP_BUNDLE_EXTRACT, and run this generator without --without-source-bytes"
+  },
+  "withdrawn": {
+    "families": [
+      {
+        "familyId": "NC:aoc-cr-296-form-en",
+        "documentOwner": "prosecutor_or_district_attorney",
+        "why": "Prosecutor's instrument. The district attorney completes and files it, so the participant does not complete it and the platform produces no participant fill. It stays in the pathway as guidance."
+      }
+    ],
+    "why": "the participant does not complete these documents, so there is no participant filing for this record to describe. Their withdrawal and the digests of what was produced are in their own packages."
+  },
   "heldBack": {
     "families": [
       "NE:dc-1-15-form-en"
@@ -12,15 +27,16 @@
   },
   "totals": {
     "familiesInRerender": 17,
-    "familiesProcessed": 16,
+    "familiesProcessed": 15,
     "familiesHeld": 1,
-    "sidecarsComplete": 16,
+    "sidecarsComplete": 15,
     "sidecarFieldCount": 24,
-    "sourceHashesRecomputed": 16,
-    "rasterPackages": 16,
-    "allExpectedValuesVisible": 16,
-    "protectedAreasClean": 16,
-    "readyForIndependentReview": 16
+    "sourceHashesRecomputed": 0,
+    "rasterPackages": 15,
+    "allExpectedValuesVisible": 15,
+    "protectedAreasClean": 15,
+    "reviewableEvidencePresent": 15,
+    "readyForIndependentReview": 0
   },
   "families": [
     {
@@ -29,12 +45,17 @@
       "documentId": "TF-800",
       "officialTitle": "Request to Make Case Records Confidential or Sealed Under Administrative Rule 37.6",
       "revision": "REV-2025-05",
-      "sourceSha256Recomputed": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
       "fieldMapSha256": "01dc07e5c489a7986f7b8d1c60e0643d4eb77f9c7413f4a3f99eaafe0ff3d6c5",
       "classificationSha256": "9601aca231e14099b45946f4f40c5481b7bcaac4ee8afd4af60fd6b859b161fe",
       "provenanceSha256": "78f7ad22e61d22b3d88a2157734ec6e434c31a44bdd8a5de6701014de97604f5",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -105,9 +126,13 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-GEOMETRY-NOT-AN-INPUT",
+        "ESC-SERVICE-BLOCK-BY-NAME",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "AK:tf-805-form-en",
@@ -115,12 +140,17 @@
       "documentId": "TF-805",
       "officialTitle": "Request to Remove Name from Online Public Index (CourtView) Under Administrative Rule 40(b) or (c)",
       "revision": "REV-2025-05",
-      "sourceSha256Recomputed": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
       "fieldMapSha256": "45eb1789cf1b5d5ebeb1ca8d74244efcb0541e24cd752c2aa8795ddee5eebbb0",
       "classificationSha256": "2d82a1fc0d0f8a3d347b15210caf4fc77795d316a51aa37ce240750602305337",
       "provenanceSha256": "451381b015662e038344ef75f82a92e19f16b2e3d42abbf675fa98fd66d019b9",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -183,9 +213,13 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-GEOMETRY-NOT-AN-INPUT",
+        "ESC-SERVICE-BLOCK-BY-NAME",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "KY:aoc-334-form-en",
@@ -193,12 +227,17 @@
       "documentId": "AOC-334",
       "officialTitle": "is hereby void; and all records pertaining thereto that are in custody of the court and any records in the custody of",
       "revision": "REV-UNKNOWN",
-      "sourceSha256Recomputed": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
       "fieldMapSha256": "3f040c54a96623079ca8da2ec8e62139c68203535564a1520873e2ba4c22c088",
       "classificationSha256": "615555bc8239ed0333f35c095f0d7493e7d3d1f1b5a39d38384a7244471f5d12",
       "provenanceSha256": "67f251d7a79db9543db75f48c539ed573de796f1b3dee29aead1b009cb85109e",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -251,9 +290,14 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-GEOMETRY-NOT-AN-INPUT",
+        "ESC-MANUAL-NOT-NEVER-WRITE",
+        "ESC-NO-SSN-RULE",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "KY:aoc-496-3-form-en",
@@ -261,12 +305,17 @@
       "documentId": "AOC-496.3",
       "officialTitle": "In support of this Application, the Defendant states as follows:",
       "revision": "REV-UNKNOWN",
-      "sourceSha256Recomputed": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
       "fieldMapSha256": "4b9b78afd4fc9e6b021783e92ad5e22f47b9380e52f2f59142c2cc36ef0b894c",
       "classificationSha256": "cbf854ac3989ce91325931b3a88b14211c76fdd208a68e8f4eb54c4c74026ac0",
       "provenanceSha256": "fbd356b53209557af63f33d19d92fcc2db1925adb220770eadd5c0ebab271ad5",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -337,9 +386,12 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-GEOMETRY-NOT-AN-INPUT",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "NC:aoc-cr-287-form-en",
@@ -347,12 +399,17 @@
       "documentId": "AOC-CR-287",
       "officialTitle": "AOC-CR-287 Petition and Order of Expunction",
       "revision": "REV-2025-12",
-      "sourceSha256Recomputed": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
       "fieldMapSha256": "b564c6f8380d2bd00ee198f94886200491936105f809b474781c2756f72af944",
       "classificationSha256": "3a3b0d389308c9d31e4e394ec01970e608a08ff6f2ac254e9a2e4abfe339cc60",
       "provenanceSha256": "1f0549c79ea9d50dce103c622e0ad23cd601b42c6fd30b1534628ff182646da1",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -415,9 +472,13 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-GEOMETRY-NOT-AN-INPUT",
+        "ESC-NO-REFUSE-WHEN",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "NC:aoc-cr-288-form-en",
@@ -425,12 +486,17 @@
       "documentId": "AOC-CR-288",
       "officialTitle": "AOC-CR-288 Petition and Order of Expunction",
       "revision": "REV-2025-03",
-      "sourceSha256Recomputed": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
       "fieldMapSha256": "3c14cfb850b45633c27b056fefa930480cbff863f8c0134282a2914194cfa2b7",
       "classificationSha256": "c6751f17bf6e47ce49badc5cbe4ce73c1ecb27f3cc499bfda70ebc423abcfdfa",
       "provenanceSha256": "bc44d51d68cd655cbb7d100d7526f9327d1f3197b9a30e7b42f95776d0db72ce",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -493,91 +559,14 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-GEOMETRY-NOT-AN-INPUT",
+        "ESC-MANUAL-NOT-NEVER-WRITE",
+        "ESC-NO-REFUSE-WHEN",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
-    },
-    {
-      "familyId": "NC:aoc-cr-296-form-en",
-      "familyPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
-      "documentId": "AOC-CR-296",
-      "officialTitle": "AOC-CR-296 Petition and Order of Expunction",
-      "revision": "REV-2025-03",
-      "sourceSha256Recomputed": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
-      "sourceSha256MatchesRecord": true,
-      "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
-      "fieldMapSha256": "4b9fc312fd90888ffe7f921c7fb502564e072a243bd2d68128f22e78312a2986",
-      "classificationSha256": "60553c3b44c5823e4cbfc063a09d12dce705a4b38b8337a70355c8a3279707ae",
-      "provenanceSha256": "c4b3ad3d4f693f1ce2e60570fcaf9948544349af93451b28d12bb29543131bf6",
-      "sidecarFields": 24,
-      "sidecarNullFields": 0,
-      "artifactSha256": {
-        "fixtures/canonical-filled.pdf": "13f3068260ae17d8846bc8345ceaa57fa705273ad785bcc418becfa777c00720",
-        "fixtures/boundary-filled.pdf": "aff9db5184b05036230e5f37f447b79558b00dd5a73c0b8fce6583b11f856036",
-        "contact-sheet/blank-vs-filled.pdf": "a12f03576f0914d7c953679222525db96922ffd1a642702a4f1180d8f03c7c7e"
-      },
-      "rasterEvidence": {
-        "pages": [
-          {
-            "page": 1,
-            "path": "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-296-form-en-contact-sheet-page-01.png",
-            "sha256": "32f52a5dd15dacabdc8cba5d2d44e9ba68c8d8516b39f3758c05ac2bb8dcb2e1",
-            "widthPx": 1342,
-            "heightPx": 930
-          },
-          {
-            "page": 2,
-            "path": "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-296-form-en-contact-sheet-page-02.png",
-            "sha256": "27a904a5367368c2d1c8a63c2d039b7e578cb969f87c7fd7e592bbb6d4403a9b",
-            "widthPx": 1342,
-            "heightPx": 930
-          }
-        ],
-        "boundToArtifact": "contact-sheet/blank-vs-filled.pdf",
-        "artifactSha256": "a12f03576f0914d7c953679222525db96922ffd1a642702a4f1180d8f03c7c7e",
-        "pagesCarryingFields": [
-          1,
-          2
-        ],
-        "coverageComplete": true,
-        "coverageRefusals": []
-      },
-      "placement": {
-        "contractVersion": "rcap-evidence-contract/v2-all-pages-and-geometry",
-        "valuesChecked": 4,
-        "refusedAtRender": [],
-        "notLocatableBecauseTooShort": [
-          {
-            "field": "DLState",
-            "factId": "participant.state",
-            "value": "XX"
-          }
-        ],
-        "drawnIntoAProtectedSlot": [],
-        "placedOutsideIntendedGeometry": [],
-        "declaredButNeverDrawn": [],
-        "refusals": [],
-        "clean": true
-      },
-      "visibleValues": {
-        "expected": [
-          "Jordan Avery Reyes"
-        ],
-        "expectedBecauseTheFamilyBindsThem": [
-          "participant.full_legal_name"
-        ],
-        "missing": [],
-        "allVisible": true
-      },
-      "protectedAreas": {
-        "unwritableFieldsRecorded": 81,
-        "writtenIntoAProtectedField": 0,
-        "clean": true
-      },
-      "openObjections": [
-        "ESC-SIDECAR-NONCONFORMANT"
-      ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "NC:aoc-cr-298-form-en",
@@ -585,12 +574,17 @@
       "documentId": "AOC-CR-298",
       "officialTitle": "AOC-CR-298 Petition and Order of Expunction",
       "revision": "REV-2025-07",
-      "sourceSha256Recomputed": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
-      "sourceSha256MatchesRecord": true,
-      "sourceUrlBasis": "recorded in the family source record",
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
+      "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
       "fieldMapSha256": "76fb94351d9407d78f74b3dedc0a24bc512d3f553d9780fbcdf7f3bda9dce682",
       "classificationSha256": "fd3b65593da396a196a10d0b0602347cfc359bf2df5b80a61f44c560ff1af69a",
       "provenanceSha256": "eb8da6bfbb9659785f11b36865bd15e1b58ad50160050ccc1bd5306cc4a1e4dd",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -653,9 +647,13 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-GEOMETRY-NOT-AN-INPUT",
+        "ESC-SERVICE-BLOCK-BY-NAME",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "NC:aoc-cv-226-support-en",
@@ -663,12 +661,17 @@
       "documentId": "AOC-CV-226",
       "officialTitle": "AOC-CV-226 Affidavit of Indigency",
       "revision": "REV-2023-04",
-      "sourceSha256Recomputed": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
       "fieldMapSha256": "9a0c3db3f30605a50e8b13509dc318ecc95d4cfd7a97f42294723529b9c39a8f",
       "classificationSha256": "48f7f1fe65e18d12a9ca765300fa7fba123f1d49dde9960d36329f04ea046152",
       "provenanceSha256": "ac840da90d5b08c7fae1382b721ba7391ff1422f111acaa6232fd27a7ee9af2d",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -740,9 +743,13 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-GEOMETRY-NOT-AN-INPUT",
+        "ESC-NO-REFUSE-WHEN",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "NE:cc-6-11-2-form-en",
@@ -750,12 +757,17 @@
       "documentId": "CC-6-11.2",
       "officialTitle": null,
       "revision": null,
-      "sourceSha256Recomputed": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
       "fieldMapSha256": "5aaf9bd5792bd8e52f14464cb047adbe1fa8cbfef53c273125ac95eddda2cc46",
       "classificationSha256": "5c14f1969fd2689e6640a04d5a0a2d3d5a49db5cbc81f25bf3aa76a7e5ed559a",
       "provenanceSha256": "f57d68f717ad03d8809fc4d3d72200234a1a5ec02346083f1f7847e57f53a93f",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -808,9 +820,12 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-CAPTION-VARIANTS",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "NE:cc-6-11-form-en",
@@ -818,12 +833,17 @@
       "documentId": "CC-6-11",
       "officialTitle": null,
       "revision": null,
-      "sourceSha256Recomputed": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
       "fieldMapSha256": "47369372a099621f8e7eecc3e947b8ef0042441f30a613fa3c5bce82d426795f",
       "classificationSha256": "fa0322013e7120728cdff833ec6ca1620d0fea8a5b9f7134bfb4165e4d6c759a",
       "provenanceSha256": "b77f4c4d45eb10cea7391700f47084a7cd70f1c99dad9fa20c6edb480efbd182",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -878,9 +898,12 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-CAPTION-VARIANTS",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "NE:cc-6-12-form-en",
@@ -888,12 +911,17 @@
       "documentId": "CC-6-12",
       "officialTitle": null,
       "revision": null,
-      "sourceSha256Recomputed": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
       "fieldMapSha256": "0edfe6609cb78c6596df570f13b892cd4254ae7bf6470ce226f17e6445b9e28c",
       "classificationSha256": "5ccd63ccd6031d77c19f9ec404218c86650cf8e663f1ffe2475d4076254cf10b",
       "provenanceSha256": "a21e3a708f26a848913b7526e18e5e36c1dfe62b7a4f61537cf6f590e460266e",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -956,9 +984,12 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-CAPTION-VARIANTS",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "NE:cc-6-15-1-form-en",
@@ -966,12 +997,17 @@
       "documentId": "CC-6-15.1",
       "officialTitle": null,
       "revision": null,
-      "sourceSha256Recomputed": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "no publisher URL is recorded for this form in the source record or the links workbook; the provenance locator is the pinned Master Library path and the digest of the bytes, which is verifiable rather than plausible",
       "fieldMapSha256": "472a431e086fe8897fe5c98c689ee1caac64cbea5a5b271c8f35ef12f529e001",
       "classificationSha256": "4d96ca534e4cf44dbf110b3886850aa866f40bad9d626c7e38042aa596941940",
       "provenanceSha256": "7ee872202e8f3408b074c195c872ea94da5bde124a52b4ef6f1956121b3c1380",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -1026,9 +1062,12 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-CAPTION-VARIANTS",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "VA:cc-1201-form-en",
@@ -1036,12 +1075,17 @@
       "documentId": "CC-1201",
       "officialTitle": "PETITION FOR SEALING PURSUANT",
       "revision": "REV-2026-07",
-      "sourceSha256Recomputed": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "recorded in the family source record",
       "fieldMapSha256": "b4b831c8a6f23ad46e703ddf7d02de6ef83207d0195d111853fe8679ad42fc77",
       "classificationSha256": "916a63d37011854fd6d44332a9f07584283424475ab6a1349542775d116cfa49",
       "provenanceSha256": "09ab0a741a5b49f69e8abb3304a2cdd78e9443e8f4da2f967fbd5a7d416019c2",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -1120,9 +1164,13 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-GEOMETRY-NOT-AN-INPUT",
+        "ESC-NO-REFUSE-WHEN",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "VA:cc-1473-form-en",
@@ -1130,12 +1178,17 @@
       "documentId": "CC-1473",
       "officialTitle": "PETITION FOR EXPUNGEMENT",
       "revision": "REV-2026-07",
-      "sourceSha256Recomputed": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "recorded in the family source record",
       "fieldMapSha256": "dcbb79528f461ef9da578f7f4e44e8657d0f9ff3d40d753ea8737f3798e68748",
       "classificationSha256": "a7d5bd94c9cf54070b2b35d73a71171728fa80d2f5a3c9486fed6a19e1df40ef",
       "provenanceSha256": "c7180dce387e50c74969c0bb82573c3b5d988edb4412ee43426ce37b2041a18d",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -1198,9 +1251,13 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-GEOMETRY-NOT-AN-INPUT",
+        "ESC-NO-REFUSE-WHEN",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     },
     {
       "familyId": "VT:600-00228-support-en",
@@ -1208,12 +1265,17 @@
       "documentId": "600-00228",
       "officialTitle": "Application to Waive Filing Fees and Service Costs",
       "revision": "REV-2026-04",
-      "sourceSha256Recomputed": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
-      "sourceSha256MatchesRecord": true,
+      "sourceSha256Recomputed": null,
+      "sourceSha256Pinned": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "sourceSha256MatchesRecord": null,
+      "sourceAxisVerified": false,
       "sourceUrlBasis": "recorded in the family source record",
       "fieldMapSha256": "a8cedf897ca41fe905e33c120805b5e90f40007abc06490b3b744718c809f0a4",
       "classificationSha256": "5ec93c3958c355910b69c746dcf584394dc8b95cf1c403aadfdcb08cc406ac57",
       "provenanceSha256": "e5e8d163aa0e1951077a9212ed9064623b63bebb16601abe60b4b6c8d0572e2d",
+      "sidecarBasis": "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+      "sidecarRegeneratedHere": false,
+      "sidecarDriftsFromTheModule": null,
       "sidecarFields": 24,
       "sidecarNullFields": 0,
       "artifactSha256": {
@@ -1274,9 +1336,12 @@
         "clean": true
       },
       "openObjections": [
+        "ESC-VALUE-NOT-VISIBLE",
         "ESC-SIDECAR-NONCONFORMANT"
       ],
-      "readyForIndependentReview": true
+      "reviewableEvidencePresent": true,
+      "readyForIndependentReview": false,
+      "notReadyBecause": "the source axis is unverified in this environment"
     }
   ]
 }

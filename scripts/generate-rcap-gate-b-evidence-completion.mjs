@@ -47,6 +47,20 @@ const { PDFDocument } = require("pdf-lib");
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const checkOnly = process.argv.includes("--check");
+// Running without the official bytes is a stated mode, not a fallback.
+//
+// The refusal below is the right default: a receipt is not source proof, and a
+// record that recomputes nothing must not read as one that did. But every
+// wave C reviewer found the extract absent from their machine too, and with
+// the refusal absolute the evidence for sixteen families could not be
+// regenerated at all -- so the stale evidence stayed, which is worse than
+// evidence that says plainly which axis it could not check.
+//
+// In this mode nothing is recomputed from official bytes and nothing pretends
+// to be: the source digest is null with its reason attached, and the sidecar
+// is VALIDATED as committed rather than regenerated from inputs half of which
+// are missing.
+const withoutSourceBytes = process.argv.includes("--without-source-bytes");
 const extractPath = process.env.RCAP_BUNDLE_EXTRACT ?? null;
 
 const EVIDENCE = "data/rcap-all50/pdf-independent-reviews/gate-b-family-rerender-evidence.json";
@@ -78,7 +92,21 @@ function fail(message) {
   process.exit(1);
 }
 
-if (!extractPath || !fs.existsSync(extractPath)) fail("RCAP_BUNDLE_EXTRACT is unset or does not exist; source hashes cannot be recomputed from official bytes");
+const sourceBytesMounted = Boolean(extractPath && fs.existsSync(extractPath));
+if (!sourceBytesMounted && !withoutSourceBytes) {
+  fail("RCAP_BUNDLE_EXTRACT is unset or does not exist; source hashes cannot be recomputed from official bytes. "
+    + "Pass --without-source-bytes to regenerate everything that does not depend on them, with the source axis "
+    + "recorded as unverified.");
+}
+const SOURCE_AXIS = sourceBytesMounted
+  ? { recomputedFromOfficialBytes: true, basis: "every family's source digest below was recomputed from the mounted Master Library bytes" }
+  : {
+    recomputedFromOfficialBytes: false,
+    basis: "the Master Library extract is not present in this environment, so no source digest was recomputed. "
+      + "Each family's pinned digest is carried forward from its own record and is a receipt, which the review "
+      + "contract does not accept as source proof.",
+    whatWouldCloseIt: "mount the extract, set RCAP_BUNDLE_EXTRACT, and run this generator without --without-source-bytes"
+  };
 
 const evidence = readJson(EVIDENCE);
 
@@ -157,6 +185,7 @@ const families = [];
 let sidecarsWritten = 0;
 let rastersWritten = 0;
 
+const withdrawnFamilies = [];
 for (const family of evidence.families) {
   if (HELD.has(family.familyId)) continue;
   const dir = familyDir(family.familyId);
@@ -164,16 +193,29 @@ for (const family of evidence.families) {
   const rel = (name) => path.join(dir, name);
 
   const record = JSON.parse(fs.readFileSync(rel("source-record.json"), "utf8"));
+
+  // A family whose participant filing has been withdrawn has no participant
+  // artifact to describe, and evidence about one would be evidence about bytes
+  // that are deliberately gone.
+  if (record.participantFillable === false) {
+    withdrawnFamilies.push({
+      familyId: family.familyId,
+      documentOwner: record.documentOwner ?? record.documentOwnership ?? null,
+      why: record.ownershipDetermination ?? null
+    });
+    continue;
+  }
   const classificationPath = rel("field-classification.json");
   const mapPath = fs.existsSync(rel("overlay-profile.json")) ? rel("overlay-profile.json") : rel("production-field-map.json");
 
   // 2 — the official source hash, recomputed from the mounted bytes.
   const bundleRelative = (record.canonicalBundlePath ?? "").split("Edition_1/")[1] ?? null;
-  const mountedSource = bundleRelative ? path.join(extractPath, bundleRelative) : null;
+  const mountedSource = sourceBytesMounted && bundleRelative ? path.join(extractPath, bundleRelative) : null;
   const recomputedSourceSha256 = mountedSource && fs.existsSync(mountedSource) ? sha256File(mountedSource) : null;
-  if (recomputedSourceSha256 !== (record.sha256 ?? record.expectedSha256)) {
+  if (sourceBytesMounted && recomputedSourceSha256 !== (record.sha256 ?? record.expectedSha256)) {
     fail(`${family.familyId}: the mounted source does not hash to what the family records`);
   }
+  const pinnedSourceSha256 = record.sha256 ?? record.expectedSha256 ?? null;
 
   // 1 — the artifact hashes as they stand at this commit.
   const artifactRels = ["fixtures/canonical-filled.pdf", "fixtures/boundary-filled.pdf", "contact-sheet/blank-vs-filled.pdf"]
@@ -189,7 +231,11 @@ for (const family of evidence.families) {
   };
 
   // 3 — the sidecar, built by the canonical module with every field supplied.
-  const sidecar = await artifactProvenance({
+  //
+  // Only where every field IS supplied. Without the official bytes the source
+  // digest would be null, and a sidecar rebuilt around a null is not a better
+  // sidecar than the committed one — it is a worse one that would overwrite it.
+  const sidecar = !sourceBytesMounted ? null : await artifactProvenance({
     jurisdiction: record.jurisdiction ?? family.familyId.split(":")[0],
     assetId: record.documentId ?? null,
     documentId: record.documentId ?? null,
@@ -218,16 +264,43 @@ for (const family of evidence.families) {
     protectedFieldResult: reports.protectedFields
       ? `${(reports.protectedFields.unwritableFields ?? []).length} unwritable field(s) recorded, none written`
       : "no protected-field report present",
-    fixtureIdentity: `canonical and boundary fixtures rendered from ${recomputedSourceSha256.slice(0, 16)}… by the corrected binder`,
+    fixtureIdentity: `canonical and boundary fixtures rendered from ${(recomputedSourceSha256 ?? pinnedSourceSha256 ?? "").slice(0, 16)}… by the corrected binder`,
     artifacts
   });
 
+  // The sidecar: validated as committed, and regenerated only where every one
+  // of its inputs is actually present.
+  //
+  // `--check` used to hash the sidecar it had just rebuilt in memory instead of
+  // the file on disk, so it validated its own substitute and would have passed
+  // over a committed sidecar that had drifted, been hand-edited, or gone
+  // missing. What a reviewer opens is the committed file, so that is what is
+  // hashed and that is what is checked.
   const sidecarPath = rel("artifact-provenance.json");
-  const sidecarJson = `${JSON.stringify(sidecar, null, 2)}\n`;
-  const nulls = Object.entries(sidecar).filter(([, v]) => v === null).map(([k]) => k);
-  if (nulls.length) fail(`${family.familyId}: the sidecar still carries null field(s): ${nulls.join(", ")}`);
-  if (!checkOnly && fs.readFileSync(sidecarPath, "utf8") !== sidecarJson) {
-    fs.writeFileSync(sidecarPath, sidecarJson);
+  const committedSidecarText = fs.existsSync(sidecarPath) ? fs.readFileSync(sidecarPath, "utf8") : null;
+  if (committedSidecarText === null) fail(`${family.familyId}: no committed provenance sidecar to validate`);
+  let committedSidecar;
+  try { committedSidecar = JSON.parse(committedSidecarText); } catch { committedSidecar = null; }
+  if (!committedSidecar) fail(`${family.familyId}: the committed provenance sidecar does not parse`);
+
+  const sidecarJson = sidecar ? `${JSON.stringify(sidecar, null, 2)}\n` : null;
+  if (sidecar) {
+    const rebuiltNulls = Object.entries(sidecar).filter(([, v]) => v === null).map(([k]) => k);
+    if (rebuiltNulls.length) fail(`${family.familyId}: the sidecar still carries null field(s): ${rebuiltNulls.join(", ")}`);
+    if (!checkOnly && committedSidecarText !== sidecarJson) fs.writeFileSync(sidecarPath, sidecarJson);
+  }
+
+  // Validation, against the bytes on disk.
+  const committedText = fs.readFileSync(sidecarPath, "utf8");
+  const nulls = Object.entries(JSON.parse(committedText)).filter(([, v]) => v === null).map(([k]) => k);
+  if (nulls.length) fail(`${family.familyId}: the committed sidecar carries null field(s): ${nulls.join(", ")}`);
+  const committed = JSON.parse(committedText);
+  if (pinnedSourceSha256 && committed.sourceSha256 && committed.sourceSha256 !== pinnedSourceSha256) {
+    fail(`${family.familyId}: the committed sidecar pins a source digest the source record does not`);
+  }
+  const sidecarDriftsFromTheModule = sidecarJson !== null && committedText !== sidecarJson;
+  if (checkOnly && sidecarDriftsFromTheModule) {
+    fail(`${family.familyId}: the committed sidecar differs from what the canonical module builds; re-run this generator`);
   }
   sidecarsWritten += 1;
 
@@ -310,12 +383,20 @@ for (const family of evidence.families) {
     officialTitle: record.officialTitle ?? null,
     revision: record.revision ?? null,
     sourceSha256Recomputed: recomputedSourceSha256,
-    sourceSha256MatchesRecord: true,
+    sourceSha256Pinned: pinnedSourceSha256,
+    sourceSha256MatchesRecord: sourceBytesMounted ? true : null,
+    sourceAxisVerified: sourceBytesMounted,
     sourceUrlBasis: officialUrlFor(record, JURISDICTION_NAMES[record.jurisdiction ?? family.familyId.split(":")[0]] ?? "").basis,
     fieldMapSha256: sha256File(mapPath),
     classificationSha256: sha256File(classificationPath),
-    provenanceSha256: checkOnly ? sha256(Buffer.from(sidecarJson, "utf8")) : sha256File(sidecarPath),
-    sidecarFields: Object.keys(sidecar).length,
+    // The committed file, in both modes.
+    provenanceSha256: sha256File(sidecarPath),
+    sidecarBasis: sidecar
+      ? "rebuilt by the canonical module from this family's inputs and compared against the committed file"
+      : "validated as committed: field count, no nulls, and the source digest it pins against the source record's",
+    sidecarRegeneratedHere: Boolean(sidecar),
+    sidecarDriftsFromTheModule: sidecar ? sidecarDriftsFromTheModule : null,
+    sidecarFields: Object.keys(committed).length,
     sidecarNullFields: nulls.length,
     artifactSha256: Object.fromEntries(artifacts.map((a) => [a.rel, sha256(a.bytes)])),
     rasterEvidence: rasterPages.length
@@ -348,8 +429,18 @@ for (const family of evidence.families) {
     // carries a field and every value is measurably inside the box declared
     // for it. Text visibility and a page-1 picture were what the previous
     // contract asked for, and eight families passed it carrying defects.
-    readyForIndependentReview: missing.length === 0 && protectedWritten === 0 && nulls.length === 0
-      && rasterPages.length > 0 && coverage.complete && Boolean(placement?.clean)
+    // A package is reviewable only when the reviewer can see every page that
+    // carries a field, every value is measurably inside the box declared for
+    // it, AND the source axis has actually been checked. Every wave C reviewer
+    // refused to approve any family on source grounds because the official
+    // bytes were not on their machine, and a record that called those families
+    // review-ready was describing an axis it had not tested either.
+    reviewableEvidencePresent: missing.length === 0 && protectedWritten === 0 && nulls.length === 0
+      && rasterPages.length > 0 && coverage.complete && Boolean(placement?.clean),
+    readyForIndependentReview: sourceBytesMounted
+      && missing.length === 0 && protectedWritten === 0 && nulls.length === 0
+      && rasterPages.length > 0 && coverage.complete && Boolean(placement?.clean),
+    notReadyBecause: sourceBytesMounted ? null : "the source axis is unverified in this environment"
   });
 }
 
@@ -363,6 +454,12 @@ const record = {
   notAnApproval:
     "This issues no verdict and promotes nothing. Every family below still carries its correction_required record from batch-1, and only an independent reviewer can replace it.",
   consumedRerenderCommit: "24d1c5e8",
+  sourceAxis: SOURCE_AXIS,
+  withdrawn: {
+    families: withdrawnFamilies,
+    why: "the participant does not complete these documents, so there is no participant filing for this record to "
+      + "describe. Their withdrawal and the digests of what was produced are in their own packages."
+  },
   heldBack: {
     families: [...HELD],
     why: "NE DC-1-15 still binds `printedname` under a certificate-of-service heading and is due another artifact. A sidecar and a raster generated now would describe bytes about to be replaced, and stale evidence that reads as current is worse than none."
@@ -377,6 +474,7 @@ const record = {
     rasterPackages: families.filter((f) => f.rasterEvidence).length,
     allExpectedValuesVisible: families.filter((f) => f.visibleValues.allVisible).length,
     protectedAreasClean: families.filter((f) => f.protectedAreas.clean).length,
+    reviewableEvidencePresent: families.filter((f) => f.reviewableEvidencePresent).length,
     readyForIndependentReview: families.filter((f) => f.readyForIndependentReview).length
   },
   families

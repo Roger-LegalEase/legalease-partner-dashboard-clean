@@ -6,22 +6,21 @@ NE DC-1-15 still binds `printedname` under a certificate-of-service heading and 
 
 | family | sidecar | source SHA | pages carrying fields | pages rasterised | values inside their own box | protected geometry clean | open objections |
 | --- | :-: | :-: | :-: | :-: | :-: | :-: | --- |
-| AK:tf-800-form-en | 24/24 | recomputed | 1, 2, 3 | 1, 2, 3 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| AK:tf-805-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| KY:aoc-334-form-en | 24/24 | recomputed | 1 | 1 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| KY:aoc-496-3-form-en | 24/24 | recomputed | 1, 2, 3 | 1, 2, 3 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| NC:aoc-cr-287-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| NC:aoc-cr-288-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| NC:aoc-cr-296-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| NC:aoc-cr-298-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| NC:aoc-cv-226-support-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| NE:cc-6-11-2-form-en | 24/24 | recomputed | 1 | 1 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| NE:cc-6-11-form-en | 24/24 | recomputed | 1 | 1 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| NE:cc-6-12-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| NE:cc-6-15-1-form-en | 24/24 | recomputed | 1 | 1 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| VA:cc-1201-form-en | 24/24 | recomputed | 1, 2, 3, 4 | 1, 2, 3, 4 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| VA:cc-1473-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
-| VT:600-00228-support-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-SIDECAR-NONCONFORMANT |
+| AK:tf-800-form-en | 24/24 | recomputed | 1, 2, 3 | 1, 2, 3 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-SERVICE-BLOCK-BY-NAME, ESC-SIDECAR-NONCONFORMANT |
+| AK:tf-805-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-SERVICE-BLOCK-BY-NAME, ESC-SIDECAR-NONCONFORMANT |
+| KY:aoc-334-form-en | 24/24 | recomputed | 1 | 1 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-MANUAL-NOT-NEVER-WRITE, ESC-NO-SSN-RULE, ESC-SIDECAR-NONCONFORMANT |
+| KY:aoc-496-3-form-en | 24/24 | recomputed | 1, 2, 3 | 1, 2, 3 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-SIDECAR-NONCONFORMANT |
+| NC:aoc-cr-287-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-NO-REFUSE-WHEN, ESC-SIDECAR-NONCONFORMANT |
+| NC:aoc-cr-288-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-MANUAL-NOT-NEVER-WRITE, ESC-NO-REFUSE-WHEN, ESC-SIDECAR-NONCONFORMANT |
+| NC:aoc-cr-298-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-SERVICE-BLOCK-BY-NAME, ESC-SIDECAR-NONCONFORMANT |
+| NC:aoc-cv-226-support-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-NO-REFUSE-WHEN, ESC-SIDECAR-NONCONFORMANT |
+| NE:cc-6-11-2-form-en | 24/24 | recomputed | 1 | 1 | yes | yes | ESC-CAPTION-VARIANTS, ESC-SIDECAR-NONCONFORMANT |
+| NE:cc-6-11-form-en | 24/24 | recomputed | 1 | 1 | yes | yes | ESC-CAPTION-VARIANTS, ESC-SIDECAR-NONCONFORMANT |
+| NE:cc-6-12-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-CAPTION-VARIANTS, ESC-SIDECAR-NONCONFORMANT |
+| NE:cc-6-15-1-form-en | 24/24 | recomputed | 1 | 1 | yes | yes | ESC-CAPTION-VARIANTS, ESC-SIDECAR-NONCONFORMANT |
+| VA:cc-1201-form-en | 24/24 | recomputed | 1, 2, 3, 4 | 1, 2, 3, 4 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-NO-REFUSE-WHEN, ESC-SIDECAR-NONCONFORMANT |
+| VA:cc-1473-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-NO-REFUSE-WHEN, ESC-SIDECAR-NONCONFORMANT |
+| VT:600-00228-support-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-VALUE-NOT-VISIBLE, ESC-SIDECAR-NONCONFORMANT |
 
 ## What a reviewer is being asked to check, and what changed
 
