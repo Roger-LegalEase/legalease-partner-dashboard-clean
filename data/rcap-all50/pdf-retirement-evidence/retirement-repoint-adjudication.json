@@ -1,0 +1,388 @@
+{
+  "schemaVersion": "rcap-retirement-repoint-adjudication/v1",
+  "generatedBy": "scripts/generate-rcap-retirement-repoint-adjudication.mjs",
+  "purpose": "Adjudicate each asset assigned to the retirement and repoint lane to exactly one of retired, repointed, or retained, with every claim resolved to a location.",
+  "assignment": "data/rcap-all50/gate-b-assignments/retirement-repoint.json",
+  "assignmentBaseSha": "cfe91ba32a226bb244f5eef78ccb913d7b16d777",
+  "legalDesignRegistryPin": {
+    "path": "data/record-clearing/legal-design-track-registry.json",
+    "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+    "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9",
+    "readFrom": "git:3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+  },
+  "supersessionDecidedAgainst": {
+    "index": "data/rcap-all50/local-source-corpus-index.json",
+    "archive": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "entries": 329
+  },
+  "whatARetainedOutcomeMeans": "That the lane checked and the asset is held, not that the lane did not finish. An asset a live packet requires cannot be retired by looking harder, and marking it retired would remove a required filing from a packet that still asks for it. The product for a held asset is the site holding it and the owner who can release it.",
+  "whatThisDoesNotEstablish": "Whether a held asset renders correctly. This lane decides whether the asset stays in the operational inventory; the rendering lanes decide whether what stays is right.",
+  "totals": {
+    "assetsAssigned": 5,
+    "retirementsWritten": 0,
+    "repointsRecorded": 0,
+    "retainedWithABlockingDependency": 5,
+    "retirementCandidatesConfirmed": 0,
+    "assetsWithAnUnlocatedSurfaceHit": 0,
+    "findingsForSurfaceOwners": 2
+  },
+  "assets": [
+    {
+      "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-334",
+      "documentSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "familyIds": [
+        "KY:aoc-334-form-en"
+      ],
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en"
+      ],
+      "outcome": "retained_with_blocking_dependency",
+      "outcomeBasis": "Named by 2 located operational site(s), and the bound bytes are already the canonical edition, so there is neither a retirement nor a repoint available.",
+      "retirementMarkerWritten": false,
+      "repointRecorded": false,
+      "determinationSaid": "retain_and_remediate",
+      "determinationBasis": "Named by 1 operational surface(s): legal_design_registry.",
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "locatedSites": [
+        {
+          "surface": "legal_design_registry",
+          "trackId": "ky_void_seal_controlled_substance",
+          "jurisdiction": "KY",
+          "componentId": "ky_void_seal_controlled_substance-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "namedVia": "officialFormId",
+          "namedValue": "AOC-334"
+        },
+        {
+          "surface": "legal_design_registry",
+          "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+          "jurisdiction": "KY",
+          "componentId": "ky_void_seal_marijuana_synthetic_salvia-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "namedVia": "officialFormId",
+          "namedValue": "AOC-334"
+        }
+      ],
+      "surfaceHitsInTheDetermination": [
+        "legal_design_registry"
+      ],
+      "unlocatedSurfaceHits": [],
+      "supersession": {
+        "superseded": false,
+        "basis": "The Master Library holds this document at exactly the bound hash, so the bound bytes are the canonical edition.",
+        "canonicalPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf",
+        "canonicalSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+        "otherEditionsInTheArchive": []
+      },
+      "releasedBy": [
+        {
+          "surface": "legal_design_registry",
+          "owner": "legal design",
+          "releases": "Remove or replace the packet component in the byte-pinned registry and re-pin it in data/rcap-ledger/track-terminalization.json. Until then the packet asks for this form, so the form has to exist.",
+          "thisLaneCannot": "The registry is pinned by commit and hash; editing the working file would not change what the pin resolves to, and re-pinning is a legal-design decision about what a packet contains."
+        }
+      ]
+    },
+    {
+      "assetId": "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.3",
+      "documentSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "familyIds": [
+        "KY:aoc-496-3-form-en"
+      ],
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en"
+      ],
+      "outcome": "retained_with_blocking_dependency",
+      "outcomeBasis": "Named by 4 located operational site(s), and the bound bytes are already the canonical edition, so there is neither a retirement nor a repoint available.",
+      "retirementMarkerWritten": false,
+      "repointRecorded": false,
+      "determinationSaid": "retain_and_remediate",
+      "determinationBasis": "Named by 2 operational surface(s): legal_design_registry, application_source.",
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "locatedSites": [
+        {
+          "surface": "legal_design_registry",
+          "trackId": "ky_felony_vacatur_expungement",
+          "jurisdiction": "KY",
+          "componentId": "ky_felony_vacatur_expungement-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "namedVia": "officialFormId",
+          "namedValue": "AOC-496.3"
+        },
+        {
+          "surface": "legal_design_registry",
+          "trackId": "ky_felony_expungement_after_pardon",
+          "jurisdiction": "KY",
+          "componentId": "ky_felony_expungement_after_pardon-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "namedVia": "officialFormId",
+          "namedValue": "AOC-496.3"
+        },
+        {
+          "surface": "application_source",
+          "file": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "line": 23,
+          "pins": "sha256"
+        },
+        {
+          "surface": "application_source",
+          "file": "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts",
+          "line": 80,
+          "pins": "sha256"
+        }
+      ],
+      "surfaceHitsInTheDetermination": [
+        "legal_design_registry",
+        "application_source"
+      ],
+      "unlocatedSurfaceHits": [],
+      "supersession": {
+        "superseded": false,
+        "basis": "The Master Library holds this document at exactly the bound hash, so the bound bytes are the canonical edition.",
+        "canonicalPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+        "canonicalSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+        "otherEditionsInTheArchive": []
+      },
+      "releasedBy": [
+        {
+          "surface": "legal_design_registry",
+          "owner": "legal design",
+          "releases": "Remove or replace the packet component in the byte-pinned registry and re-pin it in data/rcap-ledger/track-terminalization.json. Until then the packet asks for this form, so the form has to exist.",
+          "thisLaneCannot": "The registry is pinned by commit and hash; editing the working file would not change what the pin resolves to, and re-pinning is a legal-design decision about what a packet contains."
+        },
+        {
+          "surface": "application_source",
+          "owner": "application",
+          "releases": "Remove the literal identifier from src/, including the compiled engine profiles the profile registry loads at run time.",
+          "thisLaneCannot": "src/** is prohibited to this lane."
+        }
+      ]
+    },
+    {
+      "assetId": "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-497",
+      "documentSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "familyIds": [
+        "KY:aoc-497-form-en"
+      ],
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en"
+      ],
+      "outcome": "retained_with_blocking_dependency",
+      "outcomeBasis": "Named by 1 located operational site(s), and the bound bytes are already the canonical edition, so there is neither a retirement nor a repoint available.",
+      "retirementMarkerWritten": false,
+      "repointRecorded": false,
+      "determinationSaid": "retain_and_remediate",
+      "determinationBasis": "Named by 1 operational surface(s): legal_design_registry.",
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "locatedSites": [
+        {
+          "surface": "legal_design_registry",
+          "trackId": "ky_nonconviction_expungement",
+          "jurisdiction": "KY",
+          "componentId": "ky_nonconviction_expungement-proposed-order-2",
+          "role": "proposed_order",
+          "requirement": "conditional",
+          "outputStrategy": "official_pdf_fill",
+          "namedVia": "officialFormId",
+          "namedValue": "AOC-497"
+        }
+      ],
+      "surfaceHitsInTheDetermination": [
+        "legal_design_registry"
+      ],
+      "unlocatedSurfaceHits": [],
+      "supersession": {
+        "superseded": false,
+        "basis": "The Master Library holds this document at exactly the bound hash, so the bound bytes are the canonical edition.",
+        "canonicalPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-497__the-court-having-reviewed-defendants-petition-to-expunge-and-being-sufficiently-advised-fi__REV-UNKNOWN__EN.pdf",
+        "canonicalSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+        "otherEditionsInTheArchive": []
+      },
+      "releasedBy": [
+        {
+          "surface": "legal_design_registry",
+          "owner": "legal design",
+          "releases": "Remove or replace the packet component in the byte-pinned registry and re-pin it in data/rcap-ledger/track-terminalization.json. Until then the packet asks for this form, so the form has to exist.",
+          "thisLaneCannot": "The registry is pinned by commit and hash; editing the working file would not change what the pin resolves to, and re-pinning is a legal-design decision about what a packet contains."
+        }
+      ]
+    },
+    {
+      "assetId": "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "jurisdiction": "WI",
+      "formNumber": "DJ-LE-247",
+      "documentSha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "familyIds": [
+        "WI:dj-le-247-en",
+        "WI:dj-le-247-support-en"
+      ],
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/wisconsin/dj-le-247-en",
+        "data/rcap-all50/overlays/production/wisconsin/dj-le-247-support-en"
+      ],
+      "outcome": "retained_with_blocking_dependency",
+      "outcomeBasis": "Named by 3 located operational site(s), and the bound bytes are already the canonical edition, so there is neither a retirement nor a repoint available.",
+      "retirementMarkerWritten": false,
+      "repointRecorded": false,
+      "determinationSaid": "retain_and_remediate",
+      "determinationBasis": "Named by 2 operational surface(s): legal_design_registry, d_track_queue.",
+      "activeTrackStatus": "active_track",
+      "affectedTrackIds": [
+        "wi_nc_doj_challenge"
+      ],
+      "locatedSites": [
+        {
+          "surface": "legal_design_registry",
+          "trackId": "wi_nc_doj_challenge",
+          "jurisdiction": "WI",
+          "componentId": "wi_nc_doj_challenge-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "namedVia": "officialFormId",
+          "namedValue": "DJ-LE-247"
+        },
+        {
+          "surface": "d_track_queue",
+          "file": "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "line": 7605,
+          "key": "documentId",
+          "value": "DJ-LE-247"
+        },
+        {
+          "surface": "d_track_queue",
+          "file": "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "line": 7606,
+          "key": "sourceSha256",
+          "value": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7"
+        }
+      ],
+      "surfaceHitsInTheDetermination": [
+        "legal_design_registry",
+        "d_track_queue"
+      ],
+      "unlocatedSurfaceHits": [],
+      "supersession": {
+        "superseded": false,
+        "basis": "The Master Library holds this document at exactly the bound hash, so the bound bytes are the canonical edition.",
+        "canonicalPath": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf",
+        "canonicalSha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+        "otherEditionsInTheArchive": []
+      },
+      "releasedBy": [
+        {
+          "surface": "legal_design_registry",
+          "owner": "legal design",
+          "releases": "Remove or replace the packet component in the byte-pinned registry and re-pin it in data/rcap-ledger/track-terminalization.json. Until then the packet asks for this form, so the form has to exist.",
+          "thisLaneCannot": "The registry is pinned by commit and hash; editing the working file would not change what the pin resolves to, and re-pinning is a legal-design decision about what a packet contains."
+        },
+        {
+          "surface": "d_track_queue",
+          "owner": "D queue",
+          "releases": "Remove the committed family relationship from data/rcap-all50/review-artifacts/d-track-queue.json.",
+          "thisLaneCannot": "The D queue records committed relationships adjudicated elsewhere; this lane does not own it."
+        }
+      ]
+    },
+    {
+      "assetId": "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "jurisdiction": "WI",
+      "formNumber": "DJ-LE-250B",
+      "documentSha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "familyIds": [
+        "WI:dj-le-250b-en",
+        "WI:dj-le-250b-support-en"
+      ],
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-en",
+        "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-support-en"
+      ],
+      "outcome": "retained_with_blocking_dependency",
+      "outcomeBasis": "Named by 1 located operational site(s), and the bound bytes are already the canonical edition, so there is neither a retirement nor a repoint available.",
+      "retirementMarkerWritten": false,
+      "repointRecorded": false,
+      "determinationSaid": "retain_and_remediate",
+      "determinationBasis": "Named by 1 operational surface(s): legal_design_registry.",
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "locatedSites": [
+        {
+          "surface": "legal_design_registry",
+          "trackId": "wi_nc_doj_fingerprint_removal",
+          "jurisdiction": "WI",
+          "componentId": "wi_nc_doj_fingerprint_removal-primary-filing-1",
+          "role": "primary_filing",
+          "requirement": "required",
+          "outputStrategy": "official_pdf_fill",
+          "namedVia": "officialFormId",
+          "namedValue": "DJ-LE-250B"
+        }
+      ],
+      "surfaceHitsInTheDetermination": [
+        "legal_design_registry"
+      ],
+      "unlocatedSurfaceHits": [],
+      "supersession": {
+        "superseded": false,
+        "basis": "The Master Library holds this document at exactly the bound hash, so the bound bytes are the canonical edition.",
+        "canonicalPath": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf",
+        "canonicalSha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+        "otherEditionsInTheArchive": []
+      },
+      "releasedBy": [
+        {
+          "surface": "legal_design_registry",
+          "owner": "legal design",
+          "releases": "Remove or replace the packet component in the byte-pinned registry and re-pin it in data/rcap-ledger/track-terminalization.json. Until then the packet asks for this form, so the form has to exist.",
+          "thisLaneCannot": "The registry is pinned by commit and hash; editing the working file would not change what the pin resolves to, and re-pinning is a legal-design decision about what a packet contains."
+        }
+      ]
+    }
+  ],
+  "findingsForSurfaceOwners": [
+    {
+      "finding": "an absent source tree reads as an empty source tree, and every retirement candidate then passes the seventh condition",
+      "where": {
+        "file": "scripts/generate-rcap-retirement-adjudication.mjs",
+        "computesMountedAtLine": 53,
+        "decidesTheVerdictAtLine": 100
+      },
+      "mechanism": "The generator records whether the operational tree is mounted and then never consults that answer. With the tree absent the delivered file list is empty, no candidate is found in it, and presentInDelivery is false for all of them -- which the verdict reads as the seventh condition passing.",
+      "observedConsequence": "Run in a container without the tree, the adjudication moves from 18 proven retirements to 30, converting 12 held assets into retired ones on the strength of a missing directory.",
+      "whyItMatters": "The seventh condition asks whether a regenerated manifest still names the asset. An unmounted tree cannot answer that question, and answering it anyway retires assets whose source files are present.",
+      "exactFix": "Refuse when the tree is absent, the way the determination refuses on an unreadable surface: fail if mounted is false, rather than continuing with an empty delivery.",
+      "ownedBy": "the owner of scripts/generate-rcap-retirement-adjudication.mjs",
+      "thisLaneCannot": "The generator is outside this assignment's allowed paths, so the finding is recorded rather than applied."
+    },
+    {
+      "finding": "the verifier this assignment names as its focused check does not exist on this base",
+      "where": {
+        "assignment": "data/rcap-all50/gate-b-assignments/retirement-repoint.json",
+        "field": "focusedVerifier",
+        "names": "scripts/verify-rcap-binary-identity-rules.mjs"
+      },
+      "mechanism": "The assignment was cut against a line that carries this file; the base this lane runs on does not have it.",
+      "observedConsequence": "Half of the assignment's focused verifier cannot be run here, so the binary-identity leg of these five adjudications rests on the determination and the corpus index instead.",
+      "exactFix": "Reconcile the assignment's base line with this one, or name a verifier that exists on both.",
+      "ownedBy": "the captain who cut the assignment",
+      "thisLaneCannot": "Reconciling the two lines is a shared-module adjudication, not a lane change."
+    }
+  ]
+}

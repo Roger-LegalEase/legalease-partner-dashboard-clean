@@ -1,0 +1,599 @@
+{
+  "schemaVersion": "rcap-source-direct-publisher-of-record/v1",
+  "generatedBy": "data/rcap-all50/pdf-source-handoffs/source-direct/generate.mjs",
+  "assignment": "data/rcap-all50/gate-b-assignments/source-direct.json",
+  "assignmentSha": "fdc08321",
+  "purpose": "For each source-direct asset: what the register holds as its publisher of record, what was actually searched, and what remains to probe. No asset here is acquired.",
+  "requiredInputsAbsent": [
+    {
+      "input": "publisher-of-record access for the assigned jurisdictions",
+      "why": "court hosts answer 403 CONNECT through this session's egress proxy, and .github/workflows/** is prohibited to this assignment, so the Actions acquisition route cannot be driven from it either"
+    },
+    {
+      "input": "the Edition 1 Master Library extract mounted under private/source-imports/",
+      "why": "the lane's own focused verifier, scripts/generate-rcap-source-resolution.mjs, exits before doing anything unless that corpus is mounted; it is not present in this clone"
+    }
+  ],
+  "whatThisEstablishes": [
+    "that not one of the eighteen source-records names a publisher-of-record URL",
+    "which assets have had their recorded URL searched, by which run, and what it answered",
+    "the form number and expected revision each asset should be confirmed against once a binary is in hand"
+  ],
+  "whatThisDoesNotEstablish": [
+    "that any assigned asset has no official source — nothing here searched sixteen of them",
+    "that a probe candidate is this asset's official URL",
+    "the SHA-256 of any official binary; none was fetched"
+  ],
+  "totals": {
+    "assetsAssigned": 18,
+    "acquired": 0,
+    "publisherOfRecordRecordedInRegister": 0,
+    "searchedAndAnswered": 2,
+    "neverSearched": 16,
+    "carryingAnExpectedRevision": 4,
+    "unverifiedProbeCandidates": 6,
+    "probeCandidatesWithheldAsWrongPublisher": 1
+  },
+  "provenPublisherUrlsByJurisdiction": {
+    "AK": [
+      {
+        "formNumber": "TF-800",
+        "url": "https://public.courts.alaska.gov/web/forms/docs/tf-800.pdf",
+        "sha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906834"
+      },
+      {
+        "formNumber": "TF-805",
+        "url": "https://public.courts.alaska.gov/web/forms/docs/tf-805.pdf",
+        "sha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906939"
+      },
+      {
+        "formNumber": "TF-810",
+        "url": "https://public.courts.alaska.gov/web/forms/docs/tf-810.pdf",
+        "sha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+        "pinVerdict": null,
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630069345"
+      }
+    ],
+    "KY": [
+      {
+        "formNumber": "AOC-334",
+        "url": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/334.pdf",
+        "sha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906811"
+      }
+    ],
+    "NE": [
+      {
+        "formNumber": "CC-6-12",
+        "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf",
+        "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906813"
+      },
+      {
+        "formNumber": "CC-6-15.1",
+        "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-15-1.pdf",
+        "sha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906993"
+      },
+      {
+        "formNumber": "CC-6-11",
+        "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-11.pdf",
+        "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+        "pinVerdict": null,
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630070434"
+      },
+      {
+        "formNumber": "CC-6-11.2",
+        "url": "https://nebraskajudicial.gov/sites/default/files/CC-6-11-2.pdf",
+        "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+        "pinVerdict": null,
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630070386"
+      }
+    ],
+    "VA": [
+      {
+        "formNumber": "CC-1201",
+        "url": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1201.pdf",
+        "sha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906932"
+      },
+      {
+        "formNumber": "CC-1473",
+        "url": "https://www.vacourts.gov/static/forms/circuit/cc1473.pdf",
+        "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906835"
+      }
+    ],
+    "WI": [
+      {
+        "formNumber": "CR-266",
+        "url": "https://www.wicourts.gov/formdisplay/CR-266.pdf?formNumber=CR-266&formType=Form&formatId=2&language=en",
+        "sha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906815"
+      },
+      {
+        "formNumber": "CR-267",
+        "url": "https://www.wicourts.gov/formdisplay/CR-267.pdf?formNumber=CR-267&formType=Form&formatId=2&language=en",
+        "sha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063907012"
+      },
+      {
+        "formNumber": "DJ-LE-247",
+        "url": "https://www.wisdoj.gov/Law%20Enforcement%20Services/Updated_DJ_LE_247_14-feb-17_0.pdf",
+        "sha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906802"
+      },
+      {
+        "formNumber": "DJ-LE-250B",
+        "url": "https://www.wisdoj.gov/Law%20Enforcement%20Services/DJ_LE-250B_Draft_02232017_Fingerprint_Removal_Request.pdf",
+        "sha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906901"
+      }
+    ],
+    "VT": [
+      {
+        "formNumber": "200-00130",
+        "url": "https://www.vtcourts.gov/sites/default/files/documents/200-00130%20%E2%80%93%20Petition%20to%20Seal%20Criminal%20History.pdf",
+        "sha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630070819"
+      },
+      {
+        "formNumber": "200-00132",
+        "url": "https://www.vtcourts.gov/sites/default/files/documents/200-00132%20%E2%80%93%20Stipulation%20to%20Seal%20Criminal%20History%20Record%20%2B%20Order.pdf",
+        "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630070853"
+      },
+      {
+        "formNumber": "200-00132A",
+        "url": "https://www.vtcourts.gov/sites/default/files/documents/200-00132%20%E2%80%93%20Stipulation%20to%20Seal%20Criminal%20History%20Record%20%2B%20Order.pdf",
+        "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+        "pinVerdict": "DOES NOT MATCH",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630070823"
+      },
+      {
+        "formNumber": "600-00228",
+        "url": "https://www.vtcourts.gov/sites/default/files/documents/600-00228%20%E2%80%93%20Application%20to%20Waive%20Filing%20Fees%20%26%20Service%20Costs_0.pdf",
+        "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+        "pinVerdict": "MATCHES",
+        "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630071149"
+      }
+    ]
+  },
+  "assets": [
+    {
+      "assetId": "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "jurisdiction": "KY",
+      "fileName": "496.2.pdf",
+      "expectedSha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "expectedSizeBytes": 237812,
+      "kind": "pdf",
+      "isPdf": true,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/kentucky/496-2/source-record.json",
+      "documentId": "AOC-496.2",
+      "expectedRevision": "REV-2016-07",
+      "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [
+        {
+          "url": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+          "attempts": 7,
+          "statusCounts": {
+            "403": 1,
+            "404": 6
+          },
+          "runIds": [
+            "32251630850",
+            "32433526678"
+          ],
+          "viaFormNumbers": [
+            "AOC-496",
+            "AOC-496.2",
+            "AOC-496.3",
+            "AOC-496.4",
+            "AOC-497"
+          ],
+          "stableAnswer": false,
+          "evidence": [
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906841",
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906935",
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630069325",
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630069288",
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630069337",
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630069493",
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630069366"
+          ]
+        }
+      ],
+      "disposition": "publisher_of_record_searched_no_binary_returned",
+      "unverifiedProbeCandidate": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.2.pdf",
+      "probeCandidateBasis": "the same directory served AOC-334 with a matching pinned hash; this asset's corpus filename occupies the same slot",
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "jurisdiction": "KY",
+      "fileName": "496.3.pdf",
+      "expectedSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "expectedSizeBytes": 385938,
+      "kind": "pdf",
+      "isPdf": true,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/kentucky/496-3/source-record.json",
+      "documentId": "AOC-496.3",
+      "expectedRevision": "REV-UNKNOWN",
+      "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [
+        {
+          "url": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+          "attempts": 7,
+          "statusCounts": {
+            "403": 1,
+            "404": 6
+          },
+          "runIds": [
+            "32251630850",
+            "32433526678"
+          ],
+          "viaFormNumbers": [
+            "AOC-496",
+            "AOC-496.2",
+            "AOC-496.3",
+            "AOC-496.4",
+            "AOC-497"
+          ],
+          "stableAnswer": false,
+          "evidence": [
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906841",
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906935",
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630069325",
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630069288",
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630069337",
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630069493",
+            "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630069366"
+          ]
+        }
+      ],
+      "disposition": "publisher_of_record_searched_no_binary_returned",
+      "unverifiedProbeCandidate": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/496.3.pdf",
+      "probeCandidateBasis": "the same directory served AOC-334 with a matching pinned hash; this asset's corpus filename occupies the same slot",
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "KY|497.2.pdf|080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+      "jurisdiction": "KY",
+      "fileName": "497.2.pdf",
+      "expectedSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+      "expectedSizeBytes": 159169,
+      "kind": "pdf",
+      "isPdf": true,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/kentucky/497-2/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/497.2.pdf",
+      "probeCandidateBasis": "the same directory served AOC-334 with a matching pinned hash; this asset's corpus filename occupies the same slot",
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "KY|JV-29.1.pdf|5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
+      "jurisdiction": "KY",
+      "fileName": "JV-29.1.pdf",
+      "expectedSha256": "5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
+      "expectedSizeBytes": 586409,
+      "kind": "pdf",
+      "isPdf": true,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/kentucky/jv-29-1/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/JV-29.1.pdf",
+      "probeCandidateBasis": "the same directory served AOC-334 with a matching pinned hash; this asset's corpus filename occupies the same slot",
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "KY|JV-29.pdf|557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
+      "jurisdiction": "KY",
+      "fileName": "JV-29.pdf",
+      "expectedSha256": "557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
+      "expectedSizeBytes": 373339,
+      "kind": "pdf",
+      "isPdf": true,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/kentucky/jv-29/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/JV-29.pdf",
+      "probeCandidateBasis": "the same directory served AOC-334 with a matching pinned hash; this asset's corpus filename occupies the same slot",
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "KY|JV-30.pdf|c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
+      "jurisdiction": "KY",
+      "fileName": "JV-30.pdf",
+      "expectedSha256": "c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
+      "expectedSizeBytes": 234588,
+      "kind": "pdf",
+      "isPdf": true,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/kentucky/jv-30/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/JV-30.pdf",
+      "probeCandidateBasis": "the same directory served AOC-334 with a matching pinned hash; this asset's corpus filename occupies the same slot",
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "KY|Kentucky-Expungement-Forms.html|c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+      "jurisdiction": "KY",
+      "fileName": "Kentucky-Expungement-Forms.html",
+      "expectedSha256": "c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+      "expectedSizeBytes": 32118,
+      "kind": "official_form_or_packet",
+      "isPdf": false,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/kentucky/kentucky-expungement-forms/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": null,
+      "probeCandidateBasis": null,
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "jurisdiction": "AL",
+      "fileName": "al-expungement-petition.html",
+      "expectedSha256": "fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "expectedSizeBytes": 24887,
+      "kind": "official_form_or_packet",
+      "isPdf": false,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/alabama/al-expungement-petition/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": null,
+      "probeCandidateBasis": null,
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "AL|cr-65-expunge-petition-10-2024.pdf|c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+      "jurisdiction": "AL",
+      "fileName": "cr-65-expunge-petition-10-2024.pdf",
+      "expectedSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+      "expectedSizeBytes": 468056,
+      "kind": "official_form_or_packet",
+      "isPdf": true,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/alabama/cr-65-expunge-petition-10-2024/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": null,
+      "probeCandidateBasis": null,
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "AL|cr-65a-order-on-petition-for-expungement-10-2024.pdf|7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
+      "jurisdiction": "AL",
+      "fileName": "cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+      "expectedSha256": "7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
+      "expectedSizeBytes": 238456,
+      "kind": "official_form_or_packet",
+      "isPdf": true,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/alabama/cr-65a-order-on-petition-for-expungement-10-2024/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": null,
+      "probeCandidateBasis": null,
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "AL|criminal-forms.html|55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "jurisdiction": "AL",
+      "fileName": "criminal-forms.html",
+      "expectedSha256": "55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "expectedSizeBytes": 29007,
+      "kind": "official_form_or_packet",
+      "isPdf": false,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/alabama/criminal-forms/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": null,
+      "probeCandidateBasis": null,
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "AL|criminal-record-expungement.html|021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "jurisdiction": "AL",
+      "fileName": "criminal-record-expungement.html",
+      "expectedSha256": "021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "expectedSizeBytes": 66971,
+      "kind": "official_form_or_packet",
+      "isPdf": false,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/alabama/criminal-record-expungement/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": null,
+      "probeCandidateBasis": null,
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "AR|3-Misdemeanor-Petition-8_01_2023.pdf|63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+      "jurisdiction": "AR",
+      "fileName": "3-Misdemeanor-Petition-8_01_2023.pdf",
+      "expectedSha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+      "expectedSizeBytes": 775618,
+      "kind": "official_form_or_packet",
+      "isPdf": true,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": null,
+      "probeCandidateBasis": null,
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "AR|7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "jurisdiction": "AR",
+      "fileName": "7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+      "expectedSha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "expectedSizeBytes": 529888,
+      "kind": "official_form_or_packet",
+      "isPdf": true,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/arkansas/7-nolle-prosequi-dismissed-acquittal-petition-2020-f/source-record.json",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO",
+      "expectedRevision": "REV-2020-04-22",
+      "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": null,
+      "probeCandidateBasis": null,
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "AR|Arkansas-Petition-Order-Forms.html|f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+      "jurisdiction": "AR",
+      "fileName": "Arkansas-Petition-Order-Forms.html",
+      "expectedSha256": "f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+      "expectedSizeBytes": 74560,
+      "kind": "official_form_or_packet",
+      "isPdf": false,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/arkansas/arkansas-petition-order-forms/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": null,
+      "probeCandidateBasis": null,
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "AR|Felony-Petition-Form-f.pdf|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "jurisdiction": "AR",
+      "fileName": "Felony-Petition-Form-f.pdf",
+      "expectedSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "expectedSizeBytes": 178947,
+      "kind": "official_form_or_packet",
+      "isPdf": true,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/arkansas/felony-petition-form-f/source-record.json",
+      "documentId": "AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460",
+      "expectedRevision": "REV-2021-07-21",
+      "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": null,
+      "probeCandidateBasis": null,
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "jurisdiction": "AK",
+      "fileName": "ak-record-relief-forms.html",
+      "expectedSha256": "e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "expectedSizeBytes": 23366,
+      "kind": "official_form_or_packet",
+      "isPdf": false,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/alaska/ak-record-relief-forms/source-record.json",
+      "documentId": null,
+      "expectedRevision": null,
+      "bundlePath": null,
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": null,
+      "probeCandidateBasis": null,
+      "probeCandidateWithheld": null
+    },
+    {
+      "assetId": "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "jurisdiction": "AK",
+      "fileName": "RequestToSealCrimInfo.pdf",
+      "expectedSha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "expectedSizeBytes": 37708,
+      "kind": "official_form_or_packet",
+      "isPdf": true,
+      "sourceRecordPath": "data/rcap-all50/overlays/production/alaska/requesttosealcriminfo/source-record.json",
+      "documentId": "DPS-SEAL-REQ-2-04",
+      "expectedRevision": "REV-2004-02",
+      "bundlePath": "Expungement_AI_RCAP_Master_Library_Edition_1/STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-SEAL-REQ-2-04__request-to-seal-criminal-justice-information__REV-2004-02__EN.pdf",
+      "sourcePresenceInClone": false,
+      "publisherOfRecordInRegister": null,
+      "whatWasSearched": [],
+      "disposition": "no_publisher_of_record_recorded_and_none_searched",
+      "unverifiedProbeCandidate": null,
+      "probeCandidateBasis": null,
+      "probeCandidateWithheld": "DPS-SEAL-REQ-2-04 is published by a state Department of Public Safety, not the court system, so the court forms directory that serves TF-800, TF-805, TF-810 is the wrong publisher for it"
+    }
+  ]
+}
