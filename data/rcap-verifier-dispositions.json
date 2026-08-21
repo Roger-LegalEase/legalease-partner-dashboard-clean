@@ -1923,6 +1923,13 @@
       "reason": "Proof that an interrupted mutation harness cannot strand tracked bytes. Every case kills a real child process mid-mutation and hashes what is left on disk: SIGTERM against application source and against two migrations, SIGHUP, an uncaught exception, and SIGKILL — which is expected to strand the mutation, because no process can catch it, and which then proves the journal recovery puts the file back. Also proves a second mutator is refused by name, a tree-reading guard refuses to read a tree mid-mutation, and the Phase 52 and 54 suites still report every mutation red under the guard. Runs first in the chain so a stranded journal is recovered before anything else reads the tree.",
       "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-provenance-sidecars.mjs": {
+      "disposition": "wire",
+      "reason": "The focused sidecar verifier for the current-byte hash contract. It reads all 63 committed artifact-provenance.json records from disk -- never an in-memory regeneration, which would only prove the generator agrees with itself -- and re-derives every hash in them: 189 output hashes, 189 normalized-content hashes, 189 page counts and byte lengths against the artifacts, 63 field-map hashes against the committed production-field-map.json or overlay-profile.json, and 63 source hashes against each family's own source record. It closes the gap that normalizedContentSha256 and fieldMapSha256 were written by both renderers and read by nothing, which left the input side of every sidecar unfalsifiable: editing a committed field map without re-rendering kept the whole repository green. Green at 63/63, with --mutations proving all 20 checks go red one at a time. Not wired from package.json on purpose: package.json is a worker image input, so the captain should place it in .github/workflows/rcap-all50-handoff.yml alongside verify-rcap-problematic-pdf-remediation.mjs, both the contract and its --mutations pass.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "recorded_decision",
+      "laneOwned": true
     }
   }
 }
