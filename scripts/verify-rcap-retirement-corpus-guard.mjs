@@ -344,15 +344,29 @@ await guarded("check-without-corpus", ADJUDICATION_OUTPUTS, async () => {
   };
   const record = readJson(REPOINT);
   const problems = [];
-  if (record.totals.retirementsWritten !== 0) problems.push(`retirementsWritten is ${record.totals.retirementsWritten}, not 0`);
-  if (record.totals.repointsRecorded !== 0) problems.push(`repointsRecorded is ${record.totals.repointsRecorded}, not 0`);
+  // Scoped to the five, per row. A global total cannot say this: the assignment
+  // grew to eleven when the captured index pages arrived, and six of those are
+  // repointed on purpose. What must not move is these five outcomes.
   for (const [assetId, expected] of Object.entries(EXPECTED)) {
     const row = record.assets.find((asset) => asset.assetId === assetId);
     if (!row) { problems.push(`${assetId} is missing from the adjudication`); continue; }
     if (row.outcome !== expected) problems.push(`${assetId} moved from ${expected} to ${row.outcome}`);
+    if (row.retirementMarkerWritten) problems.push(`${assetId} carries a retirement marker`);
+    if (row.repointRecorded) problems.push(`${assetId} carries a repoint`);
+    if (row.assetClass === "captured_index_page") problems.push(`${assetId} is a form, not a captured index page`);
+  }
+  // No asset in this assignment is retired while anything still names it, and
+  // no captured index page is ever treated as a court form.
+  if (record.totals.retirementsWritten !== 0) problems.push(`retirementsWritten is ${record.totals.retirementsWritten}, not 0`);
+  for (const row of record.assets.filter((asset) => asset.assetClass === "captured_index_page")) {
+    if (row.isACourtForm !== false) problems.push(`${row.assetId} is recorded as a court form`);
+    if (row.retirementMarkerWritten) problems.push(`${row.assetId} carries a retirement marker while a compiled profile still names it`);
+    if (row.participantRoute?.requiresThisPage && row.outcome !== "retained_route_plans_around_a_non_form") {
+      problems.push(`${row.assetId} is planned around by a participant route yet not reported as such`);
+    }
   }
   control(
-    "9. the five assigned adjudication outcomes are unchanged",
+    "9. the five assigned adjudication outcomes are unchanged, and no captured index page is a form",
     { refused: problems.length === 0, output: "" },
     ({ refused }) => (refused ? null : problems.join("; "))
   );

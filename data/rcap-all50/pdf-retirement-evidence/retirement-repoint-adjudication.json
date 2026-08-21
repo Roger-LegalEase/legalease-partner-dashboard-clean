@@ -3,7 +3,7 @@
   "generatedBy": "scripts/generate-rcap-retirement-repoint-adjudication.mjs",
   "purpose": "Adjudicate each asset assigned to the retirement and repoint lane to exactly one of retired, repointed, or retained, with every claim resolved to a location.",
   "assignment": "data/rcap-all50/gate-b-assignments/retirement-repoint.json",
-  "assignmentBaseSha": "7f27e3e613e1011871783525efc8e4129dbf0846",
+  "assignmentBaseSha": "efab503e37e4994cbd27d2b1e8ae785d82d512a2",
   "legalDesignRegistryPin": {
     "path": "data/record-clearing/legal-design-track-registry.json",
     "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
@@ -18,13 +18,16 @@
   "whatARetainedOutcomeMeans": "That the lane checked and the asset is held, not that the lane did not finish. An asset a live packet requires cannot be retired by looking harder, and marking it retired would remove a required filing from a packet that still asks for it. The product for a held asset is the site holding it and the owner who can release it.",
   "whatThisDoesNotEstablish": "Whether a held asset renders correctly. This lane decides whether the asset stays in the operational inventory; the rendering lanes decide whether what stays is right.",
   "totals": {
-    "assetsAssigned": 5,
+    "assetsAssigned": 11,
     "retirementsWritten": 0,
-    "repointsRecorded": 0,
+    "repointsRecorded": 6,
     "retainedWithABlockingDependency": 5,
     "retirementCandidatesConfirmed": 0,
+    "capturedIndexPages": 6,
+    "capturedIndexPagesRepointedToGuidance": 6,
+    "capturedIndexPagesTheRouteStillPlansAround": 0,
     "assetsWithAnUnlocatedSurfaceHit": 0,
-    "findingsForSurfaceOwners": 2
+    "findingsForSurfaceOwners": 8
   },
   "assets": [
     {
@@ -346,6 +349,654 @@
           "thisLaneCannot": "The registry is pinned by commit and hash; editing the working file would not change what the pin resolves to, and re-pinning is a legal-design decision about what a packet contains."
         }
       ]
+    },
+    {
+      "assetId": "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "jurisdiction": "AK",
+      "formNumber": "ak-record-relief-forms.html",
+      "documentSha256": "e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "familyIds": [
+        "AK:ak-record-relief-forms"
+      ],
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/alaska/ak-record-relief-forms"
+      ],
+      "assetClass": "captured_index_page",
+      "isACourtForm": false,
+      "whyItIsNotACourtForm": {
+        "sourceLaneDisposition": "captured_index_page_not_an_official_form",
+        "readFrom": "data/rcap-all50/pdf-source-handoffs/source-direct/batch-3-ar-ak.json",
+        "why": "the asset is an HTML capture of a publisher's forms list, not a form; no official binary exists for it to be acquired",
+        "isPdf": false,
+        "publisherOfRecord": {
+          "url": "https://public.courts.alaska.gov/web/forms/docs/",
+          "body": "Alaska Court System"
+        }
+      },
+      "outcome": "repoint_to_guidance_recorded",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. 2 compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "retirementMarkerWritten": false,
+      "repointRecorded": true,
+      "determinationSaid": "retain_and_remediate",
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "participantRoute": {
+        "requiresThisPage": false,
+        "decidedBy": "src/lib/rcap-engine/packet-planner.ts builds sourceFormIds from plan.formCandidates and from nothing else",
+        "namedInFormCandidates": [],
+        "namedOnlyInInventoryContainers": [
+          {
+            "file": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+            "containers": [
+              ".packetGenerator.allSourceFiles",
+              ".packetGenerator.formInventory",
+              ".source.allFolderFiles"
+            ]
+          }
+        ],
+        "andThoseContainersAreInternal": "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+      },
+      "locatedSites": [
+        {
+          "surface": "compiled_engine_profile",
+          "file": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+          "lines": [
+            41,
+            3355,
+            3381
+          ],
+          "containers": [
+            ".packetGenerator.allSourceFiles",
+            ".packetGenerator.formInventory",
+            ".source.allFolderFiles"
+          ],
+          "declaredKind": [
+            "official_form_or_packet"
+          ],
+          "namedInFormCandidates": false
+        },
+        {
+          "surface": "application_source",
+          "file": "src/lib/rcap/state-packs/alaska/all50-build-metadata.ts",
+          "line": 86,
+          "matchedAs": "whole_quoted_value"
+        }
+      ],
+      "surfaceHitsInTheDetermination": [
+        "overlay_factory_manifest",
+        "application_source"
+      ],
+      "unlocatedSurfaceHits": [],
+      "namedByTheCorpusCensus": true,
+      "whyTheCensusIsNotAUse": "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
+      "repointTarget": {
+        "surface": "guidance_packet",
+        "path": "data/rcap-all50/guidance-packets/ak.json",
+        "exists": true,
+        "publisherOfRecord": {
+          "url": "https://public.courts.alaska.gov/web/forms/docs/",
+          "body": "Alaska Court System"
+        },
+        "whatTheGuidanceMustSay": "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
+        "whatMustNotHappen": "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
+        "appliedBy": "the guidance lane: data/rcap-all50/guidance-packets is outside this assignment's allowed paths",
+        "thenRetirableBy": "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
+      },
+      "misdeclaredInTheCompiledProfile": [
+        {
+          "file": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+          "lines": [
+            41,
+            3355,
+            3381
+          ],
+          "declaredKind": [
+            "official_form_or_packet"
+          ],
+          "shouldBe": "a source-discovery reference, not a form or packet"
+        }
+      ]
+    },
+    {
+      "assetId": "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "jurisdiction": "AL",
+      "formNumber": "al-expungement-petition.html",
+      "documentSha256": "fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "familyIds": [
+        "AL:al-expungement-petition"
+      ],
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/alabama/al-expungement-petition"
+      ],
+      "assetClass": "captured_index_page",
+      "isACourtForm": false,
+      "whyItIsNotACourtForm": {
+        "sourceLaneDisposition": "captured_index_page_not_an_official_form",
+        "readFrom": "data/rcap-all50/pdf-source-handoffs/source-direct/batch-2-al.json",
+        "why": "the asset is an HTML capture of a publisher's forms list, not a form; no official binary exists for it to be acquired",
+        "isPdf": false,
+        "publisherOfRecord": {
+          "url": "https://judicial.alabama.gov/library/criminal_forms",
+          "body": "Alabama Unified Judicial System"
+        }
+      },
+      "outcome": "repoint_to_guidance_recorded",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. 2 compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "retirementMarkerWritten": false,
+      "repointRecorded": true,
+      "determinationSaid": "retain_and_remediate",
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "participantRoute": {
+        "requiresThisPage": false,
+        "decidedBy": "src/lib/rcap-engine/packet-planner.ts builds sourceFormIds from plan.formCandidates and from nothing else",
+        "namedInFormCandidates": [],
+        "namedOnlyInInventoryContainers": [
+          {
+            "file": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+            "containers": [
+              ".packetGenerator.allSourceFiles",
+              ".packetGenerator.formInventory",
+              ".source.allFolderFiles"
+            ]
+          }
+        ],
+        "andThoseContainersAreInternal": "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+      },
+      "locatedSites": [
+        {
+          "surface": "compiled_engine_profile",
+          "file": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+          "lines": [
+            33,
+            3984,
+            4034
+          ],
+          "containers": [
+            ".packetGenerator.allSourceFiles",
+            ".packetGenerator.formInventory",
+            ".source.allFolderFiles"
+          ],
+          "declaredKind": [
+            "official_form_or_packet"
+          ],
+          "namedInFormCandidates": false
+        },
+        {
+          "surface": "application_source",
+          "file": "src/lib/rcap/state-packs/alabama/all50-build-metadata.ts",
+          "line": 92,
+          "matchedAs": "whole_quoted_value"
+        }
+      ],
+      "surfaceHitsInTheDetermination": [
+        "overlay_factory_manifest",
+        "application_source"
+      ],
+      "unlocatedSurfaceHits": [],
+      "namedByTheCorpusCensus": true,
+      "whyTheCensusIsNotAUse": "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
+      "repointTarget": {
+        "surface": "guidance_packet",
+        "path": "data/rcap-all50/guidance-packets/al.json",
+        "exists": false,
+        "publisherOfRecord": {
+          "url": "https://judicial.alabama.gov/library/criminal_forms",
+          "body": "Alabama Unified Judicial System"
+        },
+        "whatTheGuidanceMustSay": "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
+        "whatMustNotHappen": "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
+        "appliedBy": "the guidance lane, which must first create a packet for this jurisdiction: none exists",
+        "thenRetirableBy": "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
+      },
+      "misdeclaredInTheCompiledProfile": [
+        {
+          "file": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+          "lines": [
+            33,
+            3984,
+            4034
+          ],
+          "declaredKind": [
+            "official_form_or_packet"
+          ],
+          "shouldBe": "a source-discovery reference, not a form or packet"
+        }
+      ]
+    },
+    {
+      "assetId": "AL|criminal-forms.html|55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "jurisdiction": "AL",
+      "formNumber": "criminal-forms.html",
+      "documentSha256": "55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "familyIds": [
+        "AL:criminal-forms"
+      ],
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/alabama/criminal-forms"
+      ],
+      "assetClass": "captured_index_page",
+      "isACourtForm": false,
+      "whyItIsNotACourtForm": {
+        "sourceLaneDisposition": "captured_index_page_not_an_official_form",
+        "readFrom": "data/rcap-all50/pdf-source-handoffs/source-direct/batch-2-al.json",
+        "why": "the asset is an HTML capture of a publisher's forms list, not a form; no official binary exists for it to be acquired",
+        "isPdf": false,
+        "publisherOfRecord": {
+          "url": "https://judicial.alabama.gov/library/criminal_forms",
+          "body": "Alabama Unified Judicial System"
+        }
+      },
+      "outcome": "repoint_to_guidance_recorded",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. 2 compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "retirementMarkerWritten": false,
+      "repointRecorded": true,
+      "determinationSaid": "retain_and_remediate",
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "participantRoute": {
+        "requiresThisPage": false,
+        "decidedBy": "src/lib/rcap-engine/packet-planner.ts builds sourceFormIds from plan.formCandidates and from nothing else",
+        "namedInFormCandidates": [],
+        "namedOnlyInInventoryContainers": [
+          {
+            "file": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+            "containers": [
+              ".packetGenerator.allSourceFiles",
+              ".packetGenerator.formInventory",
+              ".source.allFolderFiles"
+            ]
+          }
+        ],
+        "andThoseContainersAreInternal": "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+      },
+      "locatedSites": [
+        {
+          "surface": "compiled_engine_profile",
+          "file": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+          "lines": [
+            57,
+            4008,
+            4058
+          ],
+          "containers": [
+            ".packetGenerator.allSourceFiles",
+            ".packetGenerator.formInventory",
+            ".source.allFolderFiles"
+          ],
+          "declaredKind": [
+            "official_form_or_packet"
+          ],
+          "namedInFormCandidates": false
+        },
+        {
+          "surface": "application_source",
+          "file": "src/lib/rcap/state-packs/alabama/all50-build-metadata.ts",
+          "line": 99,
+          "matchedAs": "whole_quoted_value"
+        }
+      ],
+      "surfaceHitsInTheDetermination": [
+        "overlay_factory_manifest",
+        "application_source"
+      ],
+      "unlocatedSurfaceHits": [],
+      "namedByTheCorpusCensus": true,
+      "whyTheCensusIsNotAUse": "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
+      "repointTarget": {
+        "surface": "guidance_packet",
+        "path": "data/rcap-all50/guidance-packets/al.json",
+        "exists": false,
+        "publisherOfRecord": {
+          "url": "https://judicial.alabama.gov/library/criminal_forms",
+          "body": "Alabama Unified Judicial System"
+        },
+        "whatTheGuidanceMustSay": "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
+        "whatMustNotHappen": "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
+        "appliedBy": "the guidance lane, which must first create a packet for this jurisdiction: none exists",
+        "thenRetirableBy": "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
+      },
+      "misdeclaredInTheCompiledProfile": [
+        {
+          "file": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+          "lines": [
+            57,
+            4008,
+            4058
+          ],
+          "declaredKind": [
+            "official_form_or_packet"
+          ],
+          "shouldBe": "a source-discovery reference, not a form or packet"
+        }
+      ]
+    },
+    {
+      "assetId": "AL|criminal-record-expungement.html|021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "jurisdiction": "AL",
+      "formNumber": "criminal-record-expungement.html",
+      "documentSha256": "021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "familyIds": [
+        "AL:criminal-record-expungement"
+      ],
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/alabama/criminal-record-expungement"
+      ],
+      "assetClass": "captured_index_page",
+      "isACourtForm": false,
+      "whyItIsNotACourtForm": {
+        "sourceLaneDisposition": "captured_index_page_not_an_official_form",
+        "readFrom": "data/rcap-all50/pdf-source-handoffs/source-direct/batch-2-al.json",
+        "why": "the asset is an HTML capture of a publisher's forms list, not a form; no official binary exists for it to be acquired",
+        "isPdf": false,
+        "publisherOfRecord": {
+          "url": "https://judicial.alabama.gov/library/criminal_forms",
+          "body": "Alabama Unified Judicial System"
+        }
+      },
+      "outcome": "repoint_to_guidance_recorded",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. 2 compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "retirementMarkerWritten": false,
+      "repointRecorded": true,
+      "determinationSaid": "retain_and_remediate",
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "participantRoute": {
+        "requiresThisPage": false,
+        "decidedBy": "src/lib/rcap-engine/packet-planner.ts builds sourceFormIds from plan.formCandidates and from nothing else",
+        "namedInFormCandidates": [],
+        "namedOnlyInInventoryContainers": [
+          {
+            "file": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+            "containers": [
+              ".packetGenerator.allSourceFiles",
+              ".packetGenerator.formInventory",
+              ".source.allFolderFiles"
+            ]
+          }
+        ],
+        "andThoseContainersAreInternal": "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+      },
+      "locatedSites": [
+        {
+          "surface": "compiled_engine_profile",
+          "file": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+          "lines": [
+            65,
+            4016,
+            4066
+          ],
+          "containers": [
+            ".packetGenerator.allSourceFiles",
+            ".packetGenerator.formInventory",
+            ".source.allFolderFiles"
+          ],
+          "declaredKind": [
+            "official_form_or_packet"
+          ],
+          "namedInFormCandidates": false
+        },
+        {
+          "surface": "application_source",
+          "file": "src/lib/rcap/state-packs/alabama/all50-build-metadata.ts",
+          "line": 106,
+          "matchedAs": "whole_quoted_value"
+        }
+      ],
+      "surfaceHitsInTheDetermination": [
+        "overlay_factory_manifest",
+        "application_source"
+      ],
+      "unlocatedSurfaceHits": [],
+      "namedByTheCorpusCensus": true,
+      "whyTheCensusIsNotAUse": "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
+      "repointTarget": {
+        "surface": "guidance_packet",
+        "path": "data/rcap-all50/guidance-packets/al.json",
+        "exists": false,
+        "publisherOfRecord": {
+          "url": "https://judicial.alabama.gov/library/criminal_forms",
+          "body": "Alabama Unified Judicial System"
+        },
+        "whatTheGuidanceMustSay": "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
+        "whatMustNotHappen": "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
+        "appliedBy": "the guidance lane, which must first create a packet for this jurisdiction: none exists",
+        "thenRetirableBy": "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
+      },
+      "misdeclaredInTheCompiledProfile": [
+        {
+          "file": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+          "lines": [
+            65,
+            4016,
+            4066
+          ],
+          "declaredKind": [
+            "official_form_or_packet"
+          ],
+          "shouldBe": "a source-discovery reference, not a form or packet"
+        }
+      ]
+    },
+    {
+      "assetId": "AR|Arkansas-Petition-Order-Forms.html|f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+      "jurisdiction": "AR",
+      "formNumber": "Arkansas-Petition-Order-Forms.html",
+      "documentSha256": "f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+      "familyIds": [
+        "AR:arkansas-petition-order-forms"
+      ],
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/arkansas/arkansas-petition-order-forms"
+      ],
+      "assetClass": "captured_index_page",
+      "isACourtForm": false,
+      "whyItIsNotACourtForm": {
+        "sourceLaneDisposition": "captured_index_page_not_an_official_form",
+        "readFrom": "data/rcap-all50/pdf-source-handoffs/source-direct/batch-3-ar-ak.json",
+        "why": "the asset is an HTML capture of a publisher's forms list, not a form; no official binary exists for it to be acquired",
+        "isPdf": false,
+        "publisherOfRecord": {
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "body": "Arkansas Crime Information Center"
+        }
+      },
+      "outcome": "repoint_to_guidance_recorded",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. 2 compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "retirementMarkerWritten": false,
+      "repointRecorded": true,
+      "determinationSaid": "retain_and_remediate",
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "participantRoute": {
+        "requiresThisPage": false,
+        "decidedBy": "src/lib/rcap-engine/packet-planner.ts builds sourceFormIds from plan.formCandidates and from nothing else",
+        "namedInFormCandidates": [],
+        "namedOnlyInInventoryContainers": [
+          {
+            "file": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+            "containers": [
+              ".packetGenerator.allSourceFiles",
+              ".packetGenerator.formInventory",
+              ".source.allFolderFiles"
+            ]
+          }
+        ],
+        "andThoseContainersAreInternal": "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+      },
+      "locatedSites": [
+        {
+          "surface": "compiled_engine_profile",
+          "file": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+          "lines": [
+            41,
+            2554,
+            2588
+          ],
+          "containers": [
+            ".packetGenerator.allSourceFiles",
+            ".packetGenerator.formInventory",
+            ".source.allFolderFiles"
+          ],
+          "declaredKind": [
+            "official_form_or_packet"
+          ],
+          "namedInFormCandidates": false
+        },
+        {
+          "surface": "application_source",
+          "file": "src/lib/rcap/state-packs/arkansas/all50-build-metadata.ts",
+          "line": 98,
+          "matchedAs": "whole_quoted_value"
+        }
+      ],
+      "surfaceHitsInTheDetermination": [
+        "overlay_factory_manifest",
+        "application_source"
+      ],
+      "unlocatedSurfaceHits": [],
+      "namedByTheCorpusCensus": true,
+      "whyTheCensusIsNotAUse": "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
+      "repointTarget": {
+        "surface": "guidance_packet",
+        "path": "data/rcap-all50/guidance-packets/ar.json",
+        "exists": true,
+        "publisherOfRecord": {
+          "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
+          "body": "Arkansas Crime Information Center"
+        },
+        "whatTheGuidanceMustSay": "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
+        "whatMustNotHappen": "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
+        "appliedBy": "the guidance lane: data/rcap-all50/guidance-packets is outside this assignment's allowed paths",
+        "thenRetirableBy": "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
+      },
+      "misdeclaredInTheCompiledProfile": [
+        {
+          "file": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+          "lines": [
+            41,
+            2554,
+            2588
+          ],
+          "declaredKind": [
+            "official_form_or_packet"
+          ],
+          "shouldBe": "a source-discovery reference, not a form or packet"
+        }
+      ]
+    },
+    {
+      "assetId": "KY|Kentucky-Expungement-Forms.html|c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+      "jurisdiction": "KY",
+      "formNumber": "Kentucky-Expungement-Forms.html",
+      "documentSha256": "c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+      "familyIds": [
+        "KY:kentucky-expungement-forms"
+      ],
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/kentucky/kentucky-expungement-forms"
+      ],
+      "assetClass": "captured_index_page",
+      "isACourtForm": false,
+      "whyItIsNotACourtForm": {
+        "sourceLaneDisposition": "captured_index_page_not_an_official_form",
+        "readFrom": "data/rcap-all50/pdf-source-handoffs/source-direct/batch-1-ky.json",
+        "why": "the asset is an HTML capture of a publisher's forms list, not a form; no official binary exists for it to be acquired",
+        "isPdf": false,
+        "publisherOfRecord": {
+          "url": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+          "body": "Kentucky Court of Justice"
+        }
+      },
+      "outcome": "repoint_to_guidance_recorded",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. 2 compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "retirementMarkerWritten": false,
+      "repointRecorded": true,
+      "determinationSaid": "retain_and_remediate",
+      "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
+      "activeTrackStatus": "no_track_binding",
+      "affectedTrackIds": [],
+      "participantRoute": {
+        "requiresThisPage": false,
+        "decidedBy": "src/lib/rcap-engine/packet-planner.ts builds sourceFormIds from plan.formCandidates and from nothing else",
+        "namedInFormCandidates": [],
+        "namedOnlyInInventoryContainers": [
+          {
+            "file": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+            "containers": [
+              ".packetGenerator.allSourceFiles",
+              ".packetGenerator.formInventory",
+              ".source.allFolderFiles"
+            ]
+          }
+        ],
+        "andThoseContainersAreInternal": "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+      },
+      "locatedSites": [
+        {
+          "surface": "compiled_engine_profile",
+          "file": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "lines": [
+            113,
+            1698,
+            1756
+          ],
+          "containers": [
+            ".packetGenerator.allSourceFiles",
+            ".packetGenerator.formInventory",
+            ".source.allFolderFiles"
+          ],
+          "declaredKind": [
+            "official_form_or_packet"
+          ],
+          "namedInFormCandidates": false
+        },
+        {
+          "surface": "application_source",
+          "file": "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts",
+          "line": 116,
+          "matchedAs": "whole_quoted_value"
+        }
+      ],
+      "surfaceHitsInTheDetermination": [
+        "overlay_factory_manifest",
+        "application_source"
+      ],
+      "unlocatedSurfaceHits": [],
+      "namedByTheCorpusCensus": true,
+      "whyTheCensusIsNotAUse": "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
+      "repointTarget": {
+        "surface": "guidance_packet",
+        "path": "data/rcap-all50/guidance-packets/ky.json",
+        "exists": true,
+        "publisherOfRecord": {
+          "url": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+          "body": "Kentucky Court of Justice"
+        },
+        "whatTheGuidanceMustSay": "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
+        "whatMustNotHappen": "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
+        "appliedBy": "the guidance lane: data/rcap-all50/guidance-packets is outside this assignment's allowed paths",
+        "thenRetirableBy": "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
+      },
+      "misdeclaredInTheCompiledProfile": [
+        {
+          "file": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "lines": [
+            113,
+            1698,
+            1756
+          ],
+          "declaredKind": [
+            "official_form_or_packet"
+          ],
+          "shouldBe": "a source-discovery reference, not a form or packet"
+        }
+      ]
     }
   ],
   "findingsForSurfaceOwners": [
@@ -379,6 +1030,102 @@
       },
       "mechanism": "The determination builds a probed set per asset. This asset's set carries its form number and family ids but not its content hash, so a surface naming the exact bytes is not matched.",
       "observedConsequence": "1 site(s) pin these bytes and are not reachable by the probe: d_track_queue data/rcap-all50/review-artifacts/d-track-queue.json:7606",
+      "whyItMatters": "A normalized form number can collide with a different form; a content hash cannot. Dropping the hash removes the one identifier that cannot be wrong, which is the identifier a retirement most needs.",
+      "exactFix": "Add the asset's sha256 to its probed identifiers, as the determination already does on other lines.",
+      "ownedBy": "the owner of scripts/generate-rcap-pdf-retirement-determination.mjs",
+      "thisLaneCannot": "The determination generator is outside this assignment's allowed paths, so the finding is recorded rather than applied."
+    },
+    {
+      "finding": "the determination does not probe this asset's byte identity, so a surface that pins it by sha256 is invisible to the probe",
+      "where": {
+        "asset": "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+        "probedIdentifiers": [
+          "AKRECORDRELIEFFORMS"
+        ],
+        "missing": "e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0"
+      },
+      "mechanism": "The determination builds a probed set per asset. This asset's set carries its form number and family ids but not its content hash, so a surface naming the exact bytes is not matched.",
+      "observedConsequence": "2 site(s) pin these bytes and are not reachable by the probe: application_source src/lib/rcap-engine/compiled/profiles/AK-alaska.json:45, application_source src/lib/rcap/state-packs/alaska/all50-build-metadata.ts:89",
+      "whyItMatters": "A normalized form number can collide with a different form; a content hash cannot. Dropping the hash removes the one identifier that cannot be wrong, which is the identifier a retirement most needs.",
+      "exactFix": "Add the asset's sha256 to its probed identifiers, as the determination already does on other lines.",
+      "ownedBy": "the owner of scripts/generate-rcap-pdf-retirement-determination.mjs",
+      "thisLaneCannot": "The determination generator is outside this assignment's allowed paths, so the finding is recorded rather than applied."
+    },
+    {
+      "finding": "the determination does not probe this asset's byte identity, so a surface that pins it by sha256 is invisible to the probe",
+      "where": {
+        "asset": "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+        "probedIdentifiers": [
+          "ALEXPUNGEMENTPETITION"
+        ],
+        "missing": "fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4"
+      },
+      "mechanism": "The determination builds a probed set per asset. This asset's set carries its form number and family ids but not its content hash, so a surface naming the exact bytes is not matched.",
+      "observedConsequence": "2 site(s) pin these bytes and are not reachable by the probe: application_source src/lib/rcap-engine/compiled/profiles/AL-alabama.json:37, application_source src/lib/rcap/state-packs/alabama/all50-build-metadata.ts:95",
+      "whyItMatters": "A normalized form number can collide with a different form; a content hash cannot. Dropping the hash removes the one identifier that cannot be wrong, which is the identifier a retirement most needs.",
+      "exactFix": "Add the asset's sha256 to its probed identifiers, as the determination already does on other lines.",
+      "ownedBy": "the owner of scripts/generate-rcap-pdf-retirement-determination.mjs",
+      "thisLaneCannot": "The determination generator is outside this assignment's allowed paths, so the finding is recorded rather than applied."
+    },
+    {
+      "finding": "the determination does not probe this asset's byte identity, so a surface that pins it by sha256 is invisible to the probe",
+      "where": {
+        "asset": "AL|criminal-forms.html|55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+        "probedIdentifiers": [
+          "CRIMINALFORMS"
+        ],
+        "missing": "55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666"
+      },
+      "mechanism": "The determination builds a probed set per asset. This asset's set carries its form number and family ids but not its content hash, so a surface naming the exact bytes is not matched.",
+      "observedConsequence": "2 site(s) pin these bytes and are not reachable by the probe: application_source src/lib/rcap-engine/compiled/profiles/AL-alabama.json:61, application_source src/lib/rcap/state-packs/alabama/all50-build-metadata.ts:102",
+      "whyItMatters": "A normalized form number can collide with a different form; a content hash cannot. Dropping the hash removes the one identifier that cannot be wrong, which is the identifier a retirement most needs.",
+      "exactFix": "Add the asset's sha256 to its probed identifiers, as the determination already does on other lines.",
+      "ownedBy": "the owner of scripts/generate-rcap-pdf-retirement-determination.mjs",
+      "thisLaneCannot": "The determination generator is outside this assignment's allowed paths, so the finding is recorded rather than applied."
+    },
+    {
+      "finding": "the determination does not probe this asset's byte identity, so a surface that pins it by sha256 is invisible to the probe",
+      "where": {
+        "asset": "AL|criminal-record-expungement.html|021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+        "probedIdentifiers": [
+          "CRIMINALRECORDEXPUNGEMENT"
+        ],
+        "missing": "021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf"
+      },
+      "mechanism": "The determination builds a probed set per asset. This asset's set carries its form number and family ids but not its content hash, so a surface naming the exact bytes is not matched.",
+      "observedConsequence": "2 site(s) pin these bytes and are not reachable by the probe: application_source src/lib/rcap-engine/compiled/profiles/AL-alabama.json:69, application_source src/lib/rcap/state-packs/alabama/all50-build-metadata.ts:109",
+      "whyItMatters": "A normalized form number can collide with a different form; a content hash cannot. Dropping the hash removes the one identifier that cannot be wrong, which is the identifier a retirement most needs.",
+      "exactFix": "Add the asset's sha256 to its probed identifiers, as the determination already does on other lines.",
+      "ownedBy": "the owner of scripts/generate-rcap-pdf-retirement-determination.mjs",
+      "thisLaneCannot": "The determination generator is outside this assignment's allowed paths, so the finding is recorded rather than applied."
+    },
+    {
+      "finding": "the determination does not probe this asset's byte identity, so a surface that pins it by sha256 is invisible to the probe",
+      "where": {
+        "asset": "AR|Arkansas-Petition-Order-Forms.html|f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+        "probedIdentifiers": [
+          "ARKANSASPETITIONORDERFORMS"
+        ],
+        "missing": "f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42"
+      },
+      "mechanism": "The determination builds a probed set per asset. This asset's set carries its form number and family ids but not its content hash, so a surface naming the exact bytes is not matched.",
+      "observedConsequence": "2 site(s) pin these bytes and are not reachable by the probe: application_source src/lib/rcap-engine/compiled/profiles/AR-arkansas.json:45, application_source src/lib/rcap/state-packs/arkansas/all50-build-metadata.ts:101",
+      "whyItMatters": "A normalized form number can collide with a different form; a content hash cannot. Dropping the hash removes the one identifier that cannot be wrong, which is the identifier a retirement most needs.",
+      "exactFix": "Add the asset's sha256 to its probed identifiers, as the determination already does on other lines.",
+      "ownedBy": "the owner of scripts/generate-rcap-pdf-retirement-determination.mjs",
+      "thisLaneCannot": "The determination generator is outside this assignment's allowed paths, so the finding is recorded rather than applied."
+    },
+    {
+      "finding": "the determination does not probe this asset's byte identity, so a surface that pins it by sha256 is invisible to the probe",
+      "where": {
+        "asset": "KY|Kentucky-Expungement-Forms.html|c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+        "probedIdentifiers": [
+          "KENTUCKYEXPUNGEMENTFORMS"
+        ],
+        "missing": "c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8"
+      },
+      "mechanism": "The determination builds a probed set per asset. This asset's set carries its form number and family ids but not its content hash, so a surface naming the exact bytes is not matched.",
+      "observedConsequence": "2 site(s) pin these bytes and are not reachable by the probe: application_source src/lib/rcap-engine/compiled/profiles/KY-kentucky.json:117, application_source src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts:119",
       "whyItMatters": "A normalized form number can collide with a different form; a content hash cannot. Dropping the hash removes the one identifier that cannot be wrong, which is the identifier a retirement most needs.",
       "exactFix": "Add the asset's sha256 to its probed identifiers, as the determination already does on other lines.",
       "ownedBy": "the owner of scripts/generate-rcap-pdf-retirement-determination.mjs",

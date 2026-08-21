@@ -7,7 +7,13 @@
     "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
     "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
     "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
-    "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6"
+    "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+    "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+    "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+    "AL|criminal-forms.html|55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+    "AL|criminal-record-expungement.html|021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+    "AR|Arkansas-Petition-Order-Forms.html|f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+    "KY|Kentucky-Expungement-Forms.html|c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8"
   ],
   "familyIds": [
     "KY:aoc-334-form-en",
@@ -16,7 +22,13 @@
     "WI:dj-le-247-en",
     "WI:dj-le-247-support-en",
     "WI:dj-le-250b-en",
-    "WI:dj-le-250b-support-en"
+    "WI:dj-le-250b-support-en",
+    "AK:ak-record-relief-forms",
+    "AL:al-expungement-petition",
+    "AL:criminal-forms",
+    "AL:criminal-record-expungement",
+    "AR:arkansas-petition-order-forms",
+    "KY:kentucky-expungement-forms"
   ],
   "allowedPaths": [
     "data/rcap-all50/overlays/production/*/*/retirement.json",
@@ -43,7 +55,82 @@
   "expectedOutput": "for each assigned asset: a retirement marker written by the canonical retirement script with every operational reference proven absent, or a recorded repoint to the canonical asset",
   "focusedVerifier": "node scripts/verify-rcap-binary-identity-rules.mjs && node scripts/generate-rcap-retirement-adjudication.mjs --check",
   "stopCondition": "every assigned asset is either retired with its seventh condition satisfied or carries a recorded repoint; no asset with a surviving operational dependency is retired",
-  "baseSha": "7f27e3e613e1011871783525efc8e4129dbf0846",
+  "primaryOwner": "retirement and repoint lane",
+  "terminalOutcomeMix": {
+    "repoint": 5,
+    "guidance_terminal": 6
+  },
+  "terminalWork": [
+    {
+      "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "terminalOutcome": "repoint",
+      "mustPacket": false,
+      "doneCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+    },
+    {
+      "assetId": "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "terminalOutcome": "repoint",
+      "mustPacket": false,
+      "doneCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+    },
+    {
+      "assetId": "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "terminalOutcome": "repoint",
+      "mustPacket": false,
+      "doneCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+    },
+    {
+      "assetId": "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "terminalOutcome": "repoint",
+      "mustPacket": false,
+      "doneCondition": "every one of the 2 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+    },
+    {
+      "assetId": "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "terminalOutcome": "repoint",
+      "mustPacket": false,
+      "doneCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+    },
+    {
+      "assetId": "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "terminalOutcome": "guidance_terminal",
+      "mustPacket": false,
+      "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
+    },
+    {
+      "assetId": "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "terminalOutcome": "guidance_terminal",
+      "mustPacket": false,
+      "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
+    },
+    {
+      "assetId": "AL|criminal-forms.html|55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "terminalOutcome": "guidance_terminal",
+      "mustPacket": false,
+      "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
+    },
+    {
+      "assetId": "AL|criminal-record-expungement.html|021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "terminalOutcome": "guidance_terminal",
+      "mustPacket": false,
+      "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
+    },
+    {
+      "assetId": "AR|Arkansas-Petition-Order-Forms.html|f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+      "terminalOutcome": "guidance_terminal",
+      "mustPacket": false,
+      "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
+    },
+    {
+      "assetId": "KY|Kentucky-Expungement-Forms.html|c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+      "terminalOutcome": "guidance_terminal",
+      "mustPacket": false,
+      "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
+    }
+  ],
+  "mustPacketAssets": [],
+  "blockedAssetsDoNotHoldOthers": true,
+  "baseSha": "efab503e37e4994cbd27d2b1e8ae785d82d512a2",
   "globalProhibitedPaths": [
     "src/**",
     "package.json",
