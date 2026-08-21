@@ -31,6 +31,7 @@ const OUT_MD = "docs/record-clearing/gate-b-session-dispatch.md";
 
 const abs = (rel) => path.join(rootDir, rel);
 const readJson = (rel) => JSON.parse(fs.readFileSync(abs(rel), "utf8"));
+const readJsonOrNull = (file) => { try { return JSON.parse(fs.readFileSync(file, "utf8")); } catch { return null; } };
 const fail = (m) => { console.error(`FAIL session dispatch — ${m}`); process.exit(1); };
 const git = (...a) => { try { return execFileSync("git", a, { cwd: rootDir, stdio: ["pipe", "pipe", "ignore"] }).toString().trim(); } catch { return null; } };
 
@@ -163,12 +164,33 @@ const WAVES = [
       note: "Measured path by path between the two bases rather than inferred from the commit subject. Exactly two paths moved: field-classification.json on the two AOC-CR-287 families, which gained the completeness counters. Source records, source receipts, overlay profiles and their derived forms, field censuses, canonical and boundary artifacts, contact sheets and provenance sidecars are byte-identical across all four. The provenance sidecars name no classification digest, so none went stale behind the change.",
       measurementCorrection: "A first pass compared production-field-map.json for all four and reported it unchanged everywhere. Three of these families are flat-overlay packages that carry overlay-profile.json instead, so that comparison was between a path absent from both commits — an absence reading as agreement. The paths were re-measured against the shape each package actually has, and the verdict is unchanged only because the profiles genuinely did not move."
     },
-    combinedReviewBase: "358c6f75b2d9bd56c1b90d510fa78ac3542b05be",
-    combinedReviewBranch: "claude/rcap-wave-a-combined-review-1b8a8cdd",
+    combinedReviewBase: "f892f0e43157665a20625252cb0fa1c703a7b891",
+    combinedReviewBranch: "claude/rcap-wave-a-combined-review-v2-1b8a8cdd",
     combinedFrom: {
       implementation: "1b8a8cdd6c3a17a5452cfa3e4c238c5e6b329800",
       sidecars: "39212470646c3ec871af2212163bef0595eb70bf",
-      visual: "ecbbc6c1"
+      visual: "473a5b086ca560c8c9efb878cd6aa4e3d3b96fee"
+    },
+    previousCombinedBases: [
+      { sha: "358c6f75b2d9bd56c1b90d510fa78ac3542b05be",
+        status: "superseded_by_current_visual_evidence",
+        carriedVisual: "ecbbc6c1d189b2e7391d2b485e04b76e47f377aa" }
+    ],
+    visualArbitration: {
+      selected: "473a5b086ca560c8c9efb878cd6aa4e3d3b96fee",
+      selectedRange: "1b8a8cdd..473a5b08 — a single commit; the tips are siblings, so no earlier visual commit is omitted",
+      superseded: "ecbbc6c1d189b2e7391d2b485e04b76e47f377aa",
+      relationship:
+        "siblings. Neither is an ancestor of the other; both are one commit from 1b8a8cdd, which is their merge base. Neither was cherry-picked on top of the other, and they were not combined — two sibling implementations of one evidence leg would give a reviewer two answers to the same question.",
+      measuredDifference:
+        "Same four families, same 12 logical pages, same 24 rasters, same four manifests plus an index and a checker, and neither touches a sidecar, map, profile, census, classification, review, implementation-index, assignment, register or denominator byte. The difference is what the manifest measures. 473a5b08 carries every key ecbbc6c1 carries and adds three: documentOwnershipContradiction, profileDisagreement and participantTextOverPrintedSourceTextProof, with captionLinePlacement and writableRun added per page. Its manifests are 23,437 bytes against 13,637 for the same family.",
+      whyItWasSelected:
+        "It is a strict superset that finds a live defect the other contract cannot see. On NC:aoc-cr-287-form-es it decodes the official source's own glyphs and reads DO NOT COMPLETE THIS FORM FOR FILING and USE THE ENGLISH VERSION, records that the overlay profile nonetheless claims participant_completed, and reports two participant values drawn on it. That is the NC translation owner decision, measured from the bytes rather than asserted. It also measures county and state placement against the official source: it reports the county value colliding with the form's own printed County caption on the same baseline, 48.26pt of horizontal overlap, and sitting on a printed caption line.",
+      checkers: {
+        sidecar: "OK — 4 families, 12 artifacts pinned to current bytes, 4/4 source digests hashed from installed binaries",
+        visual: "OK — 4 families, 12/12 logical pages, 24 raster files"
+      },
+      implementationBytesMoved: 0
     },
     preReview: { commit: "c61e2331", status: "notes_only_not_integrated",
       why: "canonical review starts from the combined current bytes, not from another session's notes" },
@@ -301,6 +323,71 @@ const HTML_ADJUDICATION = {
     "none. A repoint to a guidance surface does not retire the asset — retirement additionally requires removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change. platform_ready, retired, retained_problematic and retained_missing all stand."
 };
 
+/**
+ * The Lane 2 evidence wave, bounded to exactly nine families.
+ *
+ * The gate is that all nine are in Session 8's assignment and covered by an
+ * allowedPath, and that the evidence scope contains these nine and no others.
+ * It is NOT that the parent assignment holds exactly nine — it holds 28, and
+ * reading the gate that way would either block a legitimate wave or drag
+ * nineteen unrelated families into it.
+ */
+const LANE_2_EVIDENCE_WAVE = (() => {
+  const STATE = { KY: "kentucky", NE: "nebraska", VT: "vermont" };
+  const COMMIT = {
+    "KY:aoc-496-form-en": "e6ffff87", "KY:aoc-496-2-form-en": "e6ffff87", "KY:aoc-496-4-form-en": "e6ffff87",
+    "NE:cc-6-11-form-en": "e6ffff87", "NE:cc-6-11-2-form-en": "e6ffff87", "NE:cc-6-12-form-en": "e6ffff87",
+    "NE:cc-6-15-1-form-en": "ad3bca35", "NE:dc-1-15-form-en": "ad3bca35", "VT:600-00228-support-en": "ad3bca35"
+  };
+  const familyIds = Object.keys(COMMIT);
+  const assignmentPath = `${ASSIGNMENTS}/family-rerender-2.json`;
+  const assignment = readJson(assignmentPath);
+  const assigned = new Set(assignment.familyIds ?? []);
+  const allowed = assignment.allowedPaths ?? [];
+
+  const families = familyIds.map((familyId) => {
+    const slug = familyId.split(":").pop();
+    const dir = `data/rcap-all50/overlays/production/${STATE[familyId.split(":")[0]]}/${slug}`;
+    const inAssignment = assigned.has(familyId);
+    const allowedPath = allowed.find((p) => p.replace(/\/\*\*$/, "") === dir) ?? null;
+    if (!inAssignment) fail(`lane 2 wave: ${familyId} is not in Session 8's assignment`);
+    if (!allowedPath) fail(`lane 2 wave: ${familyId} has no allowedPath authorizing ${dir}`);
+    const sourceRecord = readJsonOrNull(path.join(rootDir, dir, "source-record.json"));
+    return {
+      familyId,
+      packageDirectory: dir,
+      ownedBy: { session: 8, assignment: "family-rerender-2.json" },
+      allowedPath,
+      implementationCommit: COMMIT[familyId],
+      canonicalBundlePath: sourceRecord?.canonicalBundlePath ?? sourceRecord?.relativePath ?? null,
+      expectedSourcePackMember: sourceRecord?.canonicalBundlePath
+        ? String(sourceRecord.canonicalBundlePath).split("Edition_1/").pop() : null,
+      frozen: true
+    };
+  });
+
+  return {
+    wave: "lane-2-evidence",
+    implementationBase: "ad3bca357e8030f5d07207aeec2d07927f3b1912",
+    sourcePackSha256: "11e1311c3f79861617f27a2c6eb802268ed7fff1af0e527644a132a4d961c891",
+    familyCount: families.length,
+    families,
+    gate: {
+      allNineInTheAssignment: true,
+      allNineCoveredByAnAllowedPath: true,
+      evidenceScopeIsExactlyTheseNine: true,
+      parentAssignmentSize: (assignment.familyIds ?? []).length,
+      note: "the parent assignment holds more than nine, and that is not a failure — the gate is about these nine, not the parent's size"
+    },
+    sidecarEvidence: { session: 9, worktree: "evidence-only", from: "exactly ad3bca357e8030f5d07207aeec2d07927f3b1912" },
+    visualEvidence: { session: 10, worktree: "evidence-only", from: "exactly ad3bca357e8030f5d07207aeec2d07927f3b1912" },
+    reviewer: { session: 2, isAnEvidenceProducer: false },
+    freeze: "no implementation session may modify these nine packages until evidence and review complete",
+    changesNothingElse:
+      "no implementation package, assignment ownership, count, register, denominator or review record is altered by publishing this scope"
+  };
+})();
+
 const record = {
   schemaVersion: "rcap-gate-b-session-dispatch/v1",
   generatedBy: "scripts/generate-rcap-gate-b-session-dispatch.mjs",
@@ -322,6 +409,7 @@ const record = {
   ownerDecisions: OWNER_DECISIONS,
   integrationHolds: INTEGRATION_HOLDS,
   htmlAdjudication: HTML_ADJUDICATION,
+  lane2EvidenceWave: LANE_2_EVIDENCE_WAVE,
   laneBases: [
     {
       lane: "lane 2 evidence",
