@@ -3,8 +3,8 @@
   "reviewer": "Reviewer A (Session 2)",
   "wave": "A",
   "notAVerdict": "This record carries no verdict. It is the source-identity and page-inspection work the assignment directs to begin immediately, pinned so it can be consumed the moment the three wait-conditions are met.",
-  "reviewBase": "da902cbab36b9200aa4025e9d3ae571d26ea824a",
-  "reviewBaseSubject": "Rerender lane-1 batch 01 from installed source",
+  "reviewBase": "1b8a8cdd \u2014 current Wave A implementation base",
+  "reviewBaseSubject": "Emit the two classification counters, and apply them to the first four AOC-CR-287 families",
   "sourcePack": {
     "name": "lane-1-batch-01.zip",
     "requiredSha256": "2255618ce70a53dae58644581faa5bd0b61c108b5100d4c2e0e43ad64dd50ebd",
@@ -13,7 +13,13 @@
     "installedVia": "the pack's own install.sh, which verifies each file against manifest.json before placing it",
     "filesInstalled": 7,
     "assignedToThisReviewer": 4,
-    "corpusRemainsUncommitted": true
+    "corpusRemainsUncommitted": true,
+    "secondUpload": {
+      "sha256Recomputed": "2255618ce70a53dae58644581faa5bd0b61c108b5100d4c2e0e43ad64dd50ebd",
+      "matchesRequired": true,
+      "byteIdenticalToFirstUpload": true,
+      "reinstallNeeded": false
+    }
   },
   "sourceResult": {
     "assignedSourcesHashed": 4,
@@ -65,7 +71,8 @@
         "matchesSidecarPin": true,
         "visibleAgreesWithPinned": true
       }
-    ]
+    ],
+    "reHashedAtNewBase": "all four re-hashed from the installed corpus at 1b8a8cdd; each still matches the pack manifest and the sidecar pin"
   },
   "artifactHashesAtBase": {
     "allSidecarPinnedArtifactsMatchDisk": true,
@@ -108,31 +115,29 @@
       },
       "defectB": {
         "what": "the county value is not in a writable anchor and collides with printed source text",
-        "evidence": "'Example County' is drawn over the printed 'County' label \u2014 extraction returns the single run 'CountyExample' because the glyphs overlap \u2014 while both intended writable anchors, the English rule line and the Spanish 'Condado de ____' line, remain empty."
+        "evidence": "'Example County' is drawn over the printed 'County' label \u2014 extraction returns the single run 'CountyExample' because the glyphs overlap \u2014 while both intended writable anchors, the English rule line and the Spanish 'Condado de ____' line, remain empty.",
+        "stateWrite": "The second write, 'XX' for participant.state, lands inside the correct State cell but on the printed caption line rather than the writable area beneath it. It does not collide with the label, so it is recorded as a placement observation rather than a second collision."
       },
       "defectC": {
-        "what": "no record accounts for either write",
-        "evidence": "overlay-profile.json carries bindings [] , bindingRefusals 0, unwritableFields []; overlay-profile.derived.json carries anchors []; reports/populated-fields.json is []. The artifact contains two participant-derived draws that no map, profile or report explains."
+        "what": "the records do not account for the writes, and now disagree with each other",
+        "atNewBase": "On the two AOC-CR-287 families the classification was updated at 1b8a8cdd and now records County to matter.county and State to participant.state as participant class. Their overlay-profile.json still records anchors 0 and bindings 0, and populated-fields.json is still empty, so classification and profile contradict one another on the same bytes. On NC:aoc-cr-288-form-es nothing was updated: classification, profile and report are all empty while the artifact carries the same two writes."
       }
     },
     "protectedRegions": "On all four families every court, judge, clerk, prosecutor, attorney, agency, service, signature, notarization, findings and order region is blank; on the three NC families no text at all is added beyond page 1."
   },
   "waitConditions": {
     "required": [
-      "Session 9's current sidecar commit for these families",
-      "Session 10's current visual-evidence commit for these families",
-      "Session 1's exact reviewer assignment pinning both"
+      "a combined review base containing implementation base 1b8a8cdd",
+      "Session 9's current sidecars",
+      "Session 10's current all-page evidence"
     ],
-    "status": "all three unmet at the time of this record",
-    "observed": {
-      "session9Tip": "818c0ddc",
-      "session9Scope": "lane-2 batch-01, not this wave's lane-1 families",
-      "session10Tip": "ac91c7d0",
-      "session10Scope": "lane-2 batch-01, not this wave's lane-1 families",
-      "reviewerAssignment": "reviewer-a.json still carries familyIds [] and the stop condition 'no input: every assigned family is waiting on a rerender'; it pins neither evidence commit nor these four families"
-    },
-    "sidecarStateAtBase": "the sidecars at da902cba are the older shape \u2014 officialFormNumber null and the map and classification hashes recorded under a referent that is not the file bytes \u2014 which is consistent with Session 9's current sidecar commit not yet existing for this lane",
-    "whatHappensNext": "On arrival of all three, recompute every current hash against the pinned evidence and issue one verdict per family. The findings above are properties of the artifact bytes at this base, which evidence generation describes rather than changes, so they are expected to carry into the verdicts."
+    "status": "unmet \u2014 Session 1 has not published a combined base",
+    "onReceipt": [
+      "recompute every current hash",
+      "confirm no implementation byte moved after 1b8a8cdd",
+      "issue one canonical verdict per family",
+      "push within 45 minutes"
+    ]
   },
   "prohibitionsHonoured": [
     "overlays/production not edited",
@@ -140,5 +145,87 @@
     "no prior independent approval disturbed",
     "no npm test run",
     "no verdict issued"
-  ]
+  ],
+  "supersedes": "the same record taken against da902cba",
+  "baseMovement": {
+    "from": "da902cbab36b9200aa4025e9d3ae571d26ea824a",
+    "to": "1b8a8cdd",
+    "ancestry": "da902cba is an ancestor of 1b8a8cdd",
+    "filesChangedAcrossTheFourFamilies": 2,
+    "whatMoved": [
+      "north-carolina/aoc-cr-287-form-es/field-classification.json",
+      "north-carolina/aoc-cr-287-form-vi/field-classification.json"
+    ],
+    "artifactBytes": "UNCHANGED \u2014 canonical, boundary and contact sheet are byte-identical for all four families across the move",
+    "consequence": "every page finding taken at da902cba stands unchanged at 1b8a8cdd, because no artifact byte moved"
+  },
+  "recordStateAtNewBase": {
+    "AK:tf-810-form-en": {
+      "familyKind": "acroform",
+      "classificationCounters": "ABSENT \u2014 discoveredFieldsOrAnchors and classifiedFieldsOrAnchors are not emitted",
+      "classCounts": {
+        "participant": 6,
+        "manual": 15,
+        "deterministic": 1,
+        "signature": 1
+      },
+      "profile": {
+        "bindings": 6,
+        "bindingRefusals": 17
+      },
+      "populatedFields": 6,
+      "note": "1b8a8cdd applied the counters to the first four AOC-CR-287 families and did not reach this family. Without the two counters the platform-ready classification-completeness clause refuses regardless of page quality. This is a record gap, not a filing-safety defect."
+    },
+    "NC:aoc-cr-287-form-es": {
+      "familyKind": "flat_overlay",
+      "classificationCounters": "present, 3 of 3",
+      "entries": [
+        {
+          "name": "County",
+          "source": "measured_anchor",
+          "factId": "matter.county",
+          "class": "participant"
+        },
+        {
+          "name": "State",
+          "source": "measured_anchor",
+          "factId": "participant.state",
+          "class": "participant"
+        },
+        {
+          "name": "County",
+          "source": "discovered_caption_deliberately_unbound",
+          "factId": null,
+          "class": "not_applicable"
+        }
+      ],
+      "profile": {
+        "anchors": 0,
+        "bindings": 0,
+        "bindingRefusals": 0
+      },
+      "populatedFields": 0,
+      "contradiction": "the classification now records two participant writes while overlay-profile.json still records zero anchors and zero bindings and populated-fields.json is still empty"
+    },
+    "NC:aoc-cr-287-form-vi": {
+      "familyKind": "flat_overlay",
+      "classificationCounters": "present, 3 of 3",
+      "sameAs": "NC:aoc-cr-287-form-es",
+      "contradiction": "identical: classification records two participant writes, profile records none, populated-fields empty"
+    },
+    "NC:aoc-cr-288-form-es": {
+      "familyKind": "flat_overlay",
+      "classificationCounters": "ABSENT",
+      "classCounts": {},
+      "entries": 0,
+      "profile": {
+        "anchors": 0,
+        "bindings": 0,
+        "bindingRefusals": 0
+      },
+      "populatedFields": 0,
+      "note": "1b8a8cdd did not reach this family either, so both writes on its page remain wholly unaccounted by classification, profile and report alike"
+    }
+  },
+  "sidecarState": "classificationSha256 is stale against the file on disk for all four families at 1b8a8cdd, which is consistent with Session 9's current sidecars being the pending input"
 }
