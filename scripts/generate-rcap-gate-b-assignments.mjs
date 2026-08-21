@@ -75,7 +75,7 @@ const retire = byBucket("RETIRE_OR_REPOINT");
 
 // The four gate-refused approvals are the rerender shards' first work: they are
 // the only assets whose terminal target is reachable in one round.
-const gateRefused = rerender.filter((a) => /approved_platform_ready/.test(a.reviewStatus));
+const gateRefused = rerender.filter((a) => a.subtype === "classification_metadata_only");
 const otherRerender = rerender.filter((a) => !/approved_platform_ready/.test(a.reviewStatus));
 const [rerenderA, rerenderB] = chunk(otherRerender, 2);
 // The four gate-refused approvals go to shard 1: they are the only assets whose
@@ -110,6 +110,10 @@ const assignments = [
       "docs/record-clearing/pdf-independent-reviews/<own-batch>/**"],
     prohibitedPaths: [...GLOBAL_PROHIBITED, "data/rcap-all50/overlays/production/**",
       "another reviewer's batch files", "any implementation or evidence this shard produced"],
+    rootBlocker: assets.length === 0
+      ? "no asset is review-ready: every retained asset carries an open source, render or classification condition, so assigning one now would mean reviewing bytes that are about to change"
+      : "the asset holds no independent approval the gate accepts",
+    requiredSourceInput: "the Edition 1 Master Library extract mounted, with RCAP_BUNDLE_EXTRACT exported, so the official source SHA-256 can be recomputed rather than read back from a record",
     expectedOutput: "one canonical batch — manifest, group review file and verdict rollup — carrying a verdict for each assigned family, with every referenced hash recomputed from disk and the official source SHA-256 recomputed from the mounted Edition 1 bytes",
     focusedVerifier: "node scripts/verify-rcap-pdf-independent-review-records.mjs",
     stopCondition: assets.length === 0
@@ -119,13 +123,21 @@ const assignments = [
   {
     id: "family-rerender-1",
     lane: "LANE-RERENDER",
-    role: "family rerender",
+    role: "family rerender, plus the classification-metadata-only correction",
     assetIds: rerenderA.map((a) => a.assetId),
     familyIds: rerenderA.flatMap((a) => a.familyIds),
+    classificationMetadataOnly: {
+      assetIds: gateRefused.map((a) => a.assetId),
+      familyIds: gateRefused.flatMap((a) => a.familyIds),
+      instruction: "These four hold a current approved_platform_ready record and their PDFs are approved. Regenerate field-classification.json only, so it carries classifiedFieldsOrAnchors equal to discoveredFieldsOrAnchors; leave every fixture, map, sidecar, contact sheet and raster byte-identical. Re-rendering them would discard four approvals to fix a metadata omission. The original reviewer then repins fieldClassificationSha256 in their own canonical record — this shard does not touch review files.",
+      rootBlocker: "field-classification.json omits the canonical completeness counters, and condition 5 pins that same file to the reviewer-approved hash"
+    },
     allowedPaths: ["scripts/implement-rcap-official-forms-d1.mjs",
       "scripts/rcap-official-forms/**",
       ...rerenderA.map((a) => a.familyPackagePath).filter(Boolean).map((p) => `${p}/**`)],
     prohibitedPaths: [...GLOBAL_PROHIBITED, "family-rerender-2's family packages", `${OUT_DIR}/**`],
+    rootBlocker: "43 assets carry a defect in what was produced from a source that is present; four of them need only the classification counters",
+    requiredSourceInput: "the Edition 1 Master Library extract mounted at RCAP_BUNDLE_EXTRACT",
     expectedOutput: "the D1 driver emitting classifiedFieldsOrAnchors and discoveredFieldsOrAnchors, every assigned family re-derived and re-rendered from the mounted source, and each family's reports regenerated",
     focusedVerifier: "node scripts/verify-rcap-official-forms-d1.mjs && node scripts/verify-rcap-evidence-contract-controls.mjs",
     stopCondition: "every assigned family's classification carries the two counters, the D1 verifier passes, and the driver reproduces byte-for-byte on a second run"
@@ -139,6 +151,8 @@ const assignments = [
     allowedPaths: [...rerenderB.map((a) => a.familyPackagePath).filter(Boolean).map((p) => `${p}/**`)],
     prohibitedPaths: [...GLOBAL_PROHIBITED, "scripts/rcap-official-forms/**", "family-rerender-1's family packages",
       "the shared binder — coordinate with family-rerender-1 rather than editing it here"],
+    rootBlocker: "the assigned families carry render-class defects and depend on the shared binder correction family-rerender-1 owns",
+    requiredSourceInput: "the Edition 1 Master Library extract mounted at RCAP_BUNDLE_EXTRACT, and family-rerender-1's binder change",
     expectedOutput: "every assigned family re-derived and re-rendered against the corrected binder rerender-shard-a lands, with reports regenerated",
     focusedVerifier: "node scripts/verify-rcap-official-forms-d1.mjs",
     stopCondition: "every assigned family re-renders clean against the corrected binder and the D1 verifier passes; blocked until family-rerender-1 lands the binder change"
@@ -153,6 +167,8 @@ const assignments = [
       "scripts/generate-rcap-gate-b-evidence-completion.mjs"],
     prohibitedPaths: [...GLOBAL_PROHIBITED, "any fixture, map, classification or census",
       "docs/record-clearing/pdf-visual-evidence/**"],
+    rootBlocker: "a sidecar describes bytes that are about to be replaced until its family re-renders",
+    requiredSourceInput: "each family's re-rendered artifacts from the rerender shards",
     expectedOutput: "a conformant provenance sidecar for every re-rendered family, every field non-null, bound by hash to the artifacts it describes",
     focusedVerifier: "node scripts/generate-rcap-gate-b-evidence-completion.mjs --check",
     stopCondition: "every re-rendered family carries a complete sidecar that hashes to its current artifacts; blocked on each family until its rerender lands"
@@ -167,6 +183,8 @@ const assignments = [
       "scripts/rcap-official-forms/rcap-pdf-rasterize.mjs"],
     prohibitedPaths: [...GLOBAL_PROHIBITED, "data/rcap-all50/overlays/production/**",
       "artifact-provenance.json anywhere"],
+    rootBlocker: "raster evidence is bound by hash to an artifact that is about to be replaced until its family re-renders",
+    requiredSourceInput: "each family's re-rendered contact sheet from the rerender shards",
     expectedOutput: "one rasterised page per page carrying a field, for every re-rendered family, each bound to the current contact-sheet hash",
     focusedVerifier: "node scripts/verify-rcap-evidence-contract-controls.mjs",
     stopCondition: "every re-rendered family's raster coverage is complete and no manifest names a superseded artifact hash"
@@ -177,11 +195,15 @@ const assignments = [
     role: "source acquisition",
     assetIds: assets.map((a) => a.assetId),
     familyIds: assets.flatMap((a) => a.familyIds),
-    allowedPaths: ["data/rcap-all50/pdf-source-handoffs/**",
-      "data/rcap-all50/source-acquisition-queue.json",
+    allowedPaths: [`data/rcap-all50/pdf-source-handoffs/${["source-direct", "source-resolution"][i]}/**`,
+      ...(i === 1 ? ["data/rcap-all50/source-acquisition-queue.json"] : []),
       ...assets.map((a) => a.familyPackagePath).filter(Boolean).map((p) => `${p}/source-record.json`)],
     prohibitedPaths: [...GLOBAL_PROHIBITED, "any fixture, map, classification or contact sheet",
-      `${["source-resolution", "source-direct"][i]}'s assets`],
+      `${["source-resolution", "source-direct"][i]}'s assets`,
+      `data/rcap-all50/pdf-source-handoffs/${["source-resolution", "source-direct"][i]}/**`,
+      ...(i === 0 ? ["data/rcap-all50/source-acquisition-queue.json — source-resolution owns it; hand rows to that shard rather than writing here"] : [])],
+    rootBlocker: "the official binary is absent from the clone, so no SHA-256 can be recomputed and neither a render nor a review is possible",
+    requiredSourceInput: "publisher-of-record access for the assigned jurisdictions; no corpus file may be committed",
     expectedOutput: "for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record, or a recorded finding that no official source exists",
     focusedVerifier: "node scripts/generate-rcap-source-resolution.mjs --check",
     stopCondition: "every assigned asset carries either an acquired source with a receipt, or a recorded no-official-source finding naming what was searched"
@@ -197,6 +219,8 @@ const assignments = [
       "scripts/retire-rcap-problematic-pdf-assets.mjs"],
     prohibitedPaths: [...GLOBAL_PROHIBITED, "any fixture, map, classification, sidecar or raster",
       "any asset outside this assignment"],
+    rootBlocker: "no operational surface names the asset, or it is superseded while operational surfaces still name it",
+    requiredSourceInput: "the current retirement determination and the binary-identity ledger",
     expectedOutput: "for each assigned asset: a retirement marker written by the canonical retirement script with every operational reference proven absent, or a recorded repoint to the canonical asset",
     focusedVerifier: "node scripts/verify-rcap-binary-identity-rules.mjs && node scripts/generate-rcap-retirement-adjudication.mjs --check",
     stopCondition: "every assigned asset is either retired with its seventh condition satisfied or carries a recorded repoint; no asset with a surviving operational dependency is retired"
@@ -212,15 +236,28 @@ for (const a of assignments) {
     seenAsset.set(id, a.id);
   }
 }
-const evidenceShards = assignments.filter((a) => a.lane === "LANE-EVIDENCE");
-const sidecarPaths = new Set(evidenceShards[0].allowedPaths);
-for (const p of evidenceShards[1].allowedPaths) {
-  if (sidecarPaths.has(p)) fail(`the two evidence shards both claim ${p}`);
+// No two assignments may claim the same writable path. Two shards appending to
+// one file is a merge conflict on every push, and it is the kind of collision
+// that only shows up once both lanes are already running.
+const claimed = new Map();
+let pathOverlaps = 0;
+for (const a of assignments) {
+  for (const p of a.allowedPaths) {
+    if (p.includes("<own-batch>")) continue; // each reviewer substitutes its own batch id
+    if (claimed.has(p)) {
+      pathOverlaps += 1;
+      fail(`${a.id} and ${claimed.get(p)} both claim the writable path ${p}`);
+    }
+    claimed.set(p, a.id);
+  }
 }
 
 const covered = new Set([...seenAsset.keys()]);
-const missing = queue.assets.filter((a) => !covered.has(a.assetId) && a.primaryBucket !== "REVIEW_ONLY");
-if (missing.length) fail(`${missing.length} queued asset(s) appear in no assignment`);
+const missing = queue.assets.filter((a) => !covered.has(a.assetId));
+if (missing.length) fail(`${missing.length} queued asset(s) appear in no primary assignment`);
+if (covered.size !== queue.assets.length) {
+  fail(`primary assignments cover ${covered.size} assets; the queue holds ${queue.assets.length}`);
+}
 
 const record = {
   schemaVersion: "rcap-gate-b-assignments/v1",
@@ -238,7 +275,9 @@ const record = {
     assignments: assignments.length,
     assetsCovered: covered.size,
     queuedAssets: queue.assets.length,
-    reviewerShardsWithNoInputYet: assignments.filter((a) => a.lane === "LANE-REVIEW" && a.assetIds.length === 0).length
+    reviewerShardsWithNoInputYet: assignments.filter((a) => a.lane === "LANE-REVIEW" && a.assetIds.length === 0).length,
+    classificationMetadataOnly: gateRefused.length,
+    pathOverlaps
   },
   assignments
 };
@@ -276,24 +315,11 @@ function markdown() {
 }
 outputs.push([OUT_MD, markdown()]);
 
-// The assignment set is frozen against a settled denominator. Cutting eleven
-// assignments over a number that is about to change hands every shard a base
-// that is wrong before it starts, so the files are written only once the
-// canonical generator reports the terminal retained count.
-const FREEZE_AT = 81;
-const settled = queue.denominatorAtGeneration.retained_problematic === FREEZE_AT;
-if (!settled) {
-  console.log(
-    `HOLDING assignments — the canonical generator reports retained_problematic = ` +
-      `${queue.denominatorAtGeneration.retained_problematic}, and the assignment set freezes at ${FREEZE_AT}. ` +
-      `${assignments.length} assignments are cut and validated in memory over ${covered.size} assets; ` +
-      `nothing is written.`
-  );
-  console.log(
-    `  would be: ` + assignments.map((a) => `${a.id}=${a.assetIds.length}`).join(", ")
-  );
-  process.exit(0);
-}
+// Published at the denominator the generator measures, not at a target. The four
+// approvals that cannot be banked are assigned rather than waited on: their
+// correction is a metadata regeneration that leaves every other byte alone, and
+// holding eighty-one other assets behind it would stop the whole programme to
+// wait on one file.
 
 let stale = 0;
 for (const [rel, content] of outputs) {
