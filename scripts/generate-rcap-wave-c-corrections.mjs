@@ -228,7 +228,11 @@ const CR296 = "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-for
   if (fs.existsSync(abs(RASTER_DIR))) {
     for (const file of fs.readdirSync(abs(RASTER_DIR)).sort()) {
       if (!file.startsWith("NC-aoc-cr-296-form-en-contact-sheet-page-")) continue;
-      if (file.endsWith("page-01.png")) continue;
+      // Page 1 went with the rest once 4ad59d66 withdrew the contact sheet
+      // itself: the visual proof that referenced it no longer describes this
+      // family, and an evidence image nothing references is evidence for a
+      // question that has moved on.
+      if (file.endsWith("page-01.png") && fs.existsSync(path.join(dir, "contact-sheet/blank-vs-filled.pdf"))) continue;
       const relRaster = `${RASTER_DIR}/${file}`;
       rastersWithdrawn[relRaster] = sha256(abs(relRaster))
         ?? map.withdrawal?.allPageRastersWithdrawn?.[relRaster] ?? null;

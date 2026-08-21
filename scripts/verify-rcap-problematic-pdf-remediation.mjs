@@ -36,6 +36,7 @@ const F3 = "data/rcap-all50/review-artifacts/f3-visual-review.json";
 const RETIREMENT = "data/rcap-all50/pdf-retirement-determination.json";
 const PLACEMENT = "data/rcap-all50/overlay-placement-evidence.json";
 const EVIDENCE_COMPLETION = "data/rcap-all50/pdf-independent-reviews/gate-b-evidence-completion.json";
+const ALL_PAGE_MANIFEST = "data/rcap-all50/visual-evidence/all-page-evidence-manifest.json";
 const CLASSIFICATION = "data/rcap-all50/field-classification-coverage.json";
 const FINALIZER = "scripts/rcap-official-forms/rcap-official-form-finalize.mjs";
 const SEMANTICS = "scripts/rcap-official-forms/rcap-field-semantics.mjs";
@@ -333,10 +334,17 @@ function runChecks() {
       ...(placement.families ?? []).flatMap((f) => f.renderedEvidence ?? []),
       ...(sheetProof.families ?? []).map((f) => f.renderedEvidence).filter(Boolean),
       ...(completion.families ?? []).flatMap((f) => (f.rasterEvidence?.pages ?? []).map((p) => p.path)).filter(Boolean),
+      ...(readJson(ALL_PAGE_MANIFEST, { families: [] }).families ?? [])
+        .flatMap((f) => (f.pages ?? []).map((p) => p.path ?? p.rasterPath)).filter(Boolean),
       ...master.rows.flatMap((r) => [r.contactSheetEvidenceImage, ...(r.placementEvidenceImages ?? [])]).filter(Boolean)
     ]);
+    // Files, not entries. 4ad59d66 added an `all-page/` subdirectory of
+    // per-family evidence; read as a filename it was reported as one orphaned
+    // image, and the directory it actually is holds evidence the all-page
+    // manifest references.
     for (const file of fs.readdirSync(abs(evidenceDir))) {
       const rel = `${evidenceDir}/${file}`;
+      if (fs.statSync(abs(rel)).isDirectory()) continue;
       if (!referenced.has(rel)) {
         fail("no_orphaned_evidence_images", `${rel} is referenced by no generated artifact; it is evidence for a question that has moved on`);
       }
@@ -485,7 +493,11 @@ function runChecks() {
   const streetLine = semantics
     .split("\n")
     .find((line) => line.includes("participant.street_address") && line.includes("factId"));
-  const streetRefusal = streetLine ? /refuseWhen:\s*\/(.*)\/\s*\}/.exec(streetLine)?.[1] ?? null : null;
+  const streetRefusal = streetLine
+    ? (/refuseWhen:\s*\/(.*)\/\s*\}/.exec(streetLine)?.[1]
+      ?? /refuseWhen:\s*new RegExp\(`(.*)`\)/.exec(streetLine)?.[1]
+      ?? null)
+    : null;
   if (!streetLine) {
     fail("email_never_binds_a_street_address", "the street-address descriptor is no longer present to be checked");
   } else if (streetRefusal === null) {

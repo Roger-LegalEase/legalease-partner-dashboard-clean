@@ -167,14 +167,13 @@ export const ATTESTING_FACTS = new Set([
  * genuinely differs.
  */
 export const ALTERNATE_BLOCK = /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/;
-const ALT = ALTERNATE_BLOCK.source;
 
 // --- allowlisted fact descriptors ------------------------------------------
 // The ONLY things that may ever be written. Each declares the value type it
 // carries and, where the fact is legally sensitive, that it may not bind
 // without the caller naming the field explicitly.
 export const FACT_DESCRIPTORS = [
-  { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/, refuseWhen: new RegExp(ALT) },
+  { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "participant.date_of_birth", valueType: "date", match: /\bdob\b|date\s*of\s*birth|birth\s*date/ },
   { factId: "participant.first_name", valueType: "string", match: /first\s*name/ },
   { factId: "participant.last_name", valueType: "string", match: /last\s*name|surname/ },
@@ -227,9 +226,9 @@ export const FACT_DESCRIPTORS = [
   // matched nothing at all, so NC AOC-CV-226's sworn affidavit of indigency
   // was filed with no street address anywhere on it while the participant's
   // city, state and zip were each printed twice.
-  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b|street\s*(number|name|no\b)/, refuseWhen: new RegExp(`\\be[-\\s]?mail\\b|\\bcity\\b|\\bstate\\b|\\bzip\\b|postal|\\bcounty\\b|\\bbank\\b|\\bemployer\\b|\\bcourt\\b|${ALT}`) },
-  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: new RegExp(`\\be[-\\s]?mail\\b|\\bcourt\\b|\\bcounty\\s*(of|or)\\s*city\\b|\\bcity\\s*(of|or)\\s*county\\b|${ALT}`) },
-  { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/, refuseWhen: new RegExp(ALT) },
+  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b|street\s*(number|name|no\b)/, refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal|\bcounty\b|\bbank\b|\bemployer\b|\bcourt\b|\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
+  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b|\bcourt\b|\bcounty\s*(of|or)\s*city\b|\bcity\s*(of|or)\s*county\b|\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
+  { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   // The participant's own number, not their employer's. VT 600-00228 prints
   // "Home / Cell Phone" and "Work Phone" on one line, and the platform holds
   // one phone fact: writing it into both states as fact that the applicant's
@@ -240,7 +239,7 @@ export const FACT_DESCRIPTORS = [
   // an email address, state the reason". Read as a jurisdiction that caption
   // put "XX" on a line asking why the participant has no email.
   { factId: "participant.state", valueType: "string", match: /\bstate\b/,
-    refuseWhen: new RegExp(`\\bstate\\s+(the|your|his|her|their|why|whether|all|each|any|briefly|fully|reason)\\b|\\bplease\\s*state\\b|\\bstates?\\s+that\\b|${ALT}`) },
+    refuseWhen: /\bstate\s+(the|your|his|her|their|why|whether|all|each|any|briefly|fully|reason)\b|\bplease\s*state\b|\bstates?\s+that\b|\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "matter.county", valueType: "string", match: /\bcounty\b/ },
   { factId: "matter.court", valueType: "string", match: /court\s*name|type\s*of\s*court|judicial\s*(district|circuit)/ },
   { factId: "matter.case_number", valueType: "string", match: /case\s*(no|num|#)|docket|cause\s*(no|num)|file\s*(no|num)|case\s*id/,
