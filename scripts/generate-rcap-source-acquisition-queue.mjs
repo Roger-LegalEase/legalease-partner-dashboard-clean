@@ -130,7 +130,18 @@ function harvestLinkInventory() {
       // and reading it back promoted three unverified pattern candidates into
       // "recorded official URLs" a second time -- the same laundering the queue
       // exclusion was added to stop, through a different file.
-      if (/rcap-source-acquisition-queue\/|rcap-acquisition-recovery\/|rcap-source-acquisition-run-log\//.test(text)) continue;
+      //
+      // The acquisition evidence record is the same shape of problem again: it
+      // reports what each leg fetched, and to make each row checkable against
+      // the queue that asked for it, it carries that queue's URLs verbatim.
+      // Harvested, those come back as independently "recorded official URLs"
+      // and the queue cites itself through a third file.
+      //
+      // The direct URLs that record proves ARE worth promoting into the queue —
+      // they are the resolved ones, not guesses. That is a deliberate change to
+      // the queue, made once and reviewed, not a side effect of a file landing
+      // in this directory.
+      if (/rcap-source-acquisition-queue\/|rcap-acquisition-recovery\/|rcap-source-acquisition-run-log\/|rcap-official-source-evidence\//.test(text)) continue;
       for (const m of text.matchAll(/https?:\/\/[A-Za-z0-9._~:/?#@!$&*+,;=%-]+/g)) record(m[0], rel);
     }
   };
