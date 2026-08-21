@@ -31,6 +31,7 @@ import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenan
 import { buildContactSheet, ContactSheetProofError, visibleTextOfDocument, missingExpectedValues }
   from "./rcap-official-forms/rcap-contact-sheet.mjs";
 import { reconcileWrittenAgainstDeclared } from "./rcap-official-forms/rcap-evidence-contract.mjs";
+import { completenessCounters } from "./rcap-official-forms/rcap-classification-completeness.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown, PDFOptionList, StandardFonts, rgb } = require("pdf-lib");
@@ -594,12 +595,6 @@ for (const fam of index.families) {
     schemaVersion: "rcap-field-census/v3-first-hand", censusBasis: "first_hand_inspection_of_verified_binary",
     sha256: sha, structuralClass: record.structuralClassObserved, fieldCount: census.length,
     pageGeometry: record.pageGeometry, fields: census }, null, 2) + "\n");
-  fs.writeFileSync(path.join(familyDir, "field-classification.json"), JSON.stringify({
-    schemaVersion: "rcap-field-classification/v4-nine-class", documentOwnership: ownership,
-    ownershipBasis: "document role, canonical filename and official title, re-checked field by field",
-    classCounts: classification.reduce((a, c) => (a[c.class] = (a[c.class] ?? 0) + 1, a), {}),
-    entries: classification }, null, 2) + "\n");
-
   const mapKind = record.structuralClassObserved === "acroform" ? "acroform" : "flat_overlay";
 
   // A flat PDF carries no widgets, so its anchors are measured out of the page
@@ -662,6 +657,29 @@ for (const fam of index.families) {
     const seen = new Set();
     anchors = anchors.filter((a) => { const k = `${a.page}:${a.factId}`; if (seen.has(k)) return false; seen.add(k); return true; });
   }
+
+  // The classification, written here rather than beside the census, because a
+  // flat overlay's denominator is its MEASURED ANCHORS and they do not exist
+  // until the capture above has run. Emitting it earlier meant a flat family's
+  // completeness was computed against an AcroForm census it does not have —
+  // zero of zero, which reads as complete and is the shape of the defect the
+  // counters were added to catch.
+  fs.writeFileSync(path.join(familyDir, "field-classification.json"), JSON.stringify({
+    schemaVersion: "rcap-field-classification/v4-nine-class", documentOwnership: ownership,
+    ownershipBasis: "document role, canonical filename and official title, re-checked field by field",
+    ...completenessCounters({
+      familyKind: mapKind,
+      census: { fieldCount: census.length, fields: census },
+      // `candidateLabels` IS this driver's deliberately-unbound set: a caption
+      // the document draws, matched to a fact, whose value position the form
+      // expresses as a printed cell rather than a measurable rectangle. It is
+      // discovered and deliberately not bound, which is the v2-complete
+      // denominator's second half under a different name.
+      overlayProfile: { anchors, deliberatelyUnbound: candidateLabels },
+      entries: classification
+    }),
+    classCounts: classification.reduce((a, c) => (a[c.class] = (a[c.class] ?? 0) + 1, a), {}),
+    entries: classification }, null, 2) + "\n");
 
   fs.writeFileSync(path.join(familyDir, mapKind === "acroform" ? "production-field-map.json" : "overlay-profile.json"),
     JSON.stringify({ schemaVersion: `rcap-${mapKind}-map/v5`, family: fam.familySlug, documentOwnership: ownership,

@@ -18,6 +18,7 @@
 import crypto from "node:crypto";
 
 import { decideBinding, protectCategoryOf } from "./rcap-field-semantics.mjs";
+import { completenessCounters, completenessFailures } from "./rcap-classification-completeness.mjs";
 
 export const CLASSIFICATION_SCHEMA = "rcap-field-classification/v1";
 
@@ -162,7 +163,7 @@ export function classifyItem(item, options = {}) {
  * its AcroForm fields alone leaves every flat-overlay write box unaccounted for,
  * which is how a blank classification passed review.
  */
-export function classifyForm({ jurisdiction, documentId, discovered, options = {} }) {
+export function classifyForm({ jurisdiction, documentId, discovered, familyKind = null, census = null, overlayProfile = null, options = {} }) {
   const entries = discovered.map((item) => classifyItem(item, options));
   const counts = {
     discovered: discovered.length,
@@ -171,10 +172,26 @@ export function classifyForm({ jurisdiction, documentId, discovered, options = {
     protected: entries.filter((e) => e.classification === "protected").length,
     not_applicable: entries.filter((e) => e.classification === "not_applicable").length
   };
+  // The two counters both platform-ready channels read, emitted under the names
+  // they read them by. `counts.discovered` counts the set this caller happened
+  // to hand in; `discoveredFieldsOrAnchors` is the CANONICAL denominator — the
+  // census field count, or the measured anchors plus the deliberate refusals —
+  // so a caller that passes a short discovered set produces a record that says
+  // so instead of one that balances against its own omission.
+  const canonical = completenessCounters({
+    familyKind: familyKind ?? (overlayProfile ? "flat_overlay" : census ? "acroform" : null),
+    census: census ?? { fieldCount: discovered.length, fields: discovered },
+    overlayProfile,
+    entries
+  });
   const record = {
     schemaVersion: CLASSIFICATION_SCHEMA,
     jurisdiction,
     documentId,
+    denominatorBasis: canonical.denominatorBasis,
+    discoveredFieldsOrAnchors: canonical.discoveredFieldsOrAnchors,
+    classifiedFieldsOrAnchors: canonical.classifiedFieldsOrAnchors,
+    complete: canonical.complete,
     counts,
     entries
   };
@@ -236,5 +253,11 @@ export function classificationFailures(record, discovered) {
   if (counts.discovered !== counts.classified) {
     out.push(`classified (${counts.classified}) does not equal discovered (${counts.discovered})`);
   }
+
+  // And the same arithmetic asked of the two counters the approval channels
+  // actually read. `counts` is this module's own bookkeeping; these are the
+  // fields the gate compares, and a record that satisfies one and not the other
+  // is the record that reads complete to a reader and incomplete to the gate.
+  out.push(...completenessFailures(record, { label: "the classification record" }));
   return out;
 }
