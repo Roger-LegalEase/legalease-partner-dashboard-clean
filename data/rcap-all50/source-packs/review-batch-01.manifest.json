@@ -1,27 +1,31 @@
 {
   "schemaVersion": "rcap-source-pack/v2",
-  "packId": "family-rerender-lane-1-batch-01",
-  "lane": "family-rerender-lane-1",
-  "lanePurpose": "the families family-rerender lane 1 re-renders against the shared corrections",
+  "packId": "review-batch-01",
+  "lane": "review",
+  "lanePurpose": "the blank official forms an independent reviewer reads a rendered artifact against. A reviewer who only has our output cannot tell printed form text from text we drew",
   "generatedBy": "scripts/generate-rcap-source-packs.mjs",
-  "assignmentSource": "data/rcap-all50/gate-b-family-rerender-handoff.json",
+  "assignmentSource": "data/rcap-all50/pdf-independent-reviews/re-review-handoff.json, data/rcap-all50/pdf-independent-reviews/batch-1-manifest.json, data/rcap-all50/pdf-independent-reviews/batch-a-manifest.json",
   "contains": "exact official source PDFs only, at their canonical STATES/... paths",
   "containsNo": "no fixture, contact sheet, raster, sample packet, field map, sidecar or any other LegalEase output",
   "isIgnoredOutput": "the built ZIP is written to a git-ignored path and is never committed. This manifest is the committed half: it is what a built pack is verified against.",
-  "familyCount": 5,
+  "familyCount": 7,
   "assignmentFamilyMapping": {
     "AK:tf-800-form-en": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
     "AK:tf-805-form-en": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf",
+    "AK:tf-810-form-en": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf",
     "KY:aoc-334-form-en": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf",
+    "KY:aoc-496-2-form-en": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
     "KY:aoc-496-3-form-en": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
-    "NC:aoc-cr-287-form-en": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf"
+    "KY:aoc-496-4-form-en": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.4__496-4__REV-2023-06__EN.pdf"
   },
   "comparesAgainstInRepo": {
     "AK:tf-800-form-en": "data/rcap-all50/overlays/production/alaska/tf-800-form-en",
     "AK:tf-805-form-en": "data/rcap-all50/overlays/production/alaska/tf-805-form-en",
+    "AK:tf-810-form-en": "data/rcap-all50/overlays/production/alaska/tf-810-form-en",
     "KY:aoc-334-form-en": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
+    "KY:aoc-496-2-form-en": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en",
     "KY:aoc-496-3-form-en": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en",
-    "NC:aoc-cr-287-form-en": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en"
+    "KY:aoc-496-4-form-en": "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en"
   },
   "files": [
     {
@@ -55,6 +59,21 @@
       "officialTitle": "Request to Remove Name from Online Public Index (CourtView) Under Administrative Rule 40(b) or (c)"
     },
     {
+      "pathInArchive": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf",
+      "familyIds": [
+        "AK:tf-810-form-en"
+      ],
+      "documentId": "TF-810",
+      "revision": "REV-2025-05",
+      "language": "EN",
+      "assetClass": "FORM",
+      "sha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+      "byteLength": 85386,
+      "pinBasis": "source-record.canonicalBundlePath",
+      "visibleFormExpectation": "TF-810 REV-2025-05",
+      "officialTitle": "Request to Exclude Case from Online Public Index (CourtView) Under Administrative Rule 40(a) or AS 22.35.030"
+    },
+    {
       "pathInArchive": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf",
       "familyIds": [
         "KY:aoc-334-form-en"
@@ -68,6 +87,21 @@
       "pinBasis": "source-record.canonicalBundlePath",
       "visibleFormExpectation": "AOC-334 REV-UNKNOWN",
       "officialTitle": "is hereby void; and all records pertaining thereto that are in custody of the court and any records in the custody of"
+    },
+    {
+      "pathInArchive": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
+      "familyIds": [
+        "KY:aoc-496-2-form-en"
+      ],
+      "documentId": "AOC-496.2",
+      "revision": "REV-2016-07",
+      "language": "EN",
+      "assetClass": "FORM",
+      "sha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "byteLength": 237812,
+      "pinBasis": "source-record.canonicalBundlePath",
+      "visibleFormExpectation": "AOC-496.2 REV-2016-07",
+      "officialTitle": "PETITION FOR EXPUNGEMENT"
     },
     {
       "pathInArchive": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
@@ -85,19 +119,19 @@
       "officialTitle": "In support of this Application, the Defendant states as follows:"
     },
     {
-      "pathInArchive": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+      "pathInArchive": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.4__496-4__REV-2023-06__EN.pdf",
       "familyIds": [
-        "NC:aoc-cr-287-form-en"
+        "KY:aoc-496-4-form-en"
       ],
-      "documentId": "AOC-CR-287",
-      "revision": "REV-2025-12",
+      "documentId": "AOC-496.4",
+      "revision": "REV-2023-06",
       "language": "EN",
       "assetClass": "FORM",
-      "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
-      "byteLength": 257828,
+      "sha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+      "byteLength": 251246,
       "pinBasis": "source-record.canonicalBundlePath",
-      "visibleFormExpectation": "AOC-CR-287 REV-2025-12",
-      "officialTitle": "AOC-CR-287 Petition and Order of Expunction"
+      "visibleFormExpectation": "AOC-496.4 REV-2023-06",
+      "officialTitle": "496.4"
     }
   ],
   "unresolved": [],

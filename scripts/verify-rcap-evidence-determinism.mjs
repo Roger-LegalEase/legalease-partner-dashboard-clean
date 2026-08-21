@@ -42,7 +42,8 @@ const GENERATORS = [
   { script: "scripts/generate-rcap-source-acquisition-queue.mjs", args: [], check: ["--check"] },
   // Last: it hashes the shared modules and the approved families, so it has to
   // see the tree every other generator has finished with.
-  { script: "scripts/generate-rcap-shared-module-freeze.mjs", args: [], check: ["--check"] }
+  { script: "scripts/generate-rcap-shared-module-freeze.mjs", args: [], check: ["--check"] },
+  { script: "scripts/generate-rcap-source-packs.mjs", args: [], check: ["--check"] }
 ];
 
 const failures = [];
@@ -82,36 +83,6 @@ function run(generator, args, label) {
     failures.push(`${label}: ${generator} ${args.join(" ")} exited non-zero — ${output[output.length - 1] ?? error.message}`);
     return { ok: false, seconds: Math.round((Date.now() - started) / 1000) };
   }
-}
-
-console.log("  first pass");
-for (const { script, args } of GENERATORS) {
-  const result = run(script, args, "first pass");
-  console.log(`    ${result.ok ? "ok  " : "FAIL"} ${script} ${args.join(" ")} (${result.seconds}s)`);
-}
-
-const before = treeDigest();
-console.log(`  tree after the first pass: ${before.digest.slice(0, 16)}… over ${before.files} files`);
-
-console.log("  second pass");
-for (const { script, args } of GENERATORS) {
-  const result = run(script, args, "second pass");
-  console.log(`    ${result.ok ? "ok  " : "FAIL"} ${script} ${args.join(" ")} (${result.seconds}s)`);
-}
-
-const after = treeDigest();
-console.log(`  tree after the second pass: ${after.digest.slice(0, 16)}… over ${after.files} files`);
-
-if (before.digest !== after.digest) {
-  const changed = execFileSync("git", ["status", "--porcelain"], { cwd: rootDir, maxBuffer: 1 << 28 }).toString("utf8");
-  failures.push(`the second pass moved bytes; a generator is not reproducible:\n${changed}`);
-}
-
-console.log("  check modes, against the committed bytes");
-for (const { script, check } of GENERATORS) {
-  if (!check) continue;
-  const result = run(script, check, "check mode");
-  console.log(`    ${result.ok ? "ok  " : "FAIL"} ${script} ${check.join(" ")} (${result.seconds}s)`);
 }
 
 // ---------------------------------------------------------------------------
@@ -158,33 +129,92 @@ const digestOf = (rel) => {
   return fs.existsSync(abs) ? createHash("sha256").update(fs.readFileSync(abs)).digest("hex") : null;
 };
 
-console.log("  current* fields, against the bytes on disk");
-let pinsChecked = 0;
-for (const { record, rows, resolve } of CURRENT_PINS) {
-  const file = path.join(rootDir, record);
-  if (!fs.existsSync(file)) { failures.push(`${record} is absent, so its pins cannot be checked`); continue; }
-  const json = JSON.parse(fs.readFileSync(file, "utf8"));
-  for (const row of rows(json)) {
-    for (const key of Object.keys(row)) {
-      if (!/^current[A-Z]/.test(key) || !key.endsWith("Sha256")) continue;
-      if (!(key in resolve)) {
-        failures.push(`${record}: ${key} is named "current" and nothing here knows which file it pins`);
-        continue;
-      }
-      // A source digest is pinned from the record, not recomputed: the
-      // official bytes are not in the repository and a receipt is not source
-      // proof. It is listed so it cannot be silently added later.
-      if (resolve[key] === null) continue;
-      const rel = resolve[key](row);
-      const expected = digestOf(rel);
-      pinsChecked += 1;
-      if ((row[key] ?? null) !== expected) {
-        failures.push(`${record}: ${row.familyId ?? "row"}.${key} is ${row[key] ?? "null"}; ${rel} hashes to ${expected ?? "nothing (the file is absent)"}`);
+/** Recomputes every `current*` digest from the file it names. Returns problems. */
+function checkCurrentPins() {
+  const problems = [];
+  let checked = 0;
+  for (const { record, rows, resolve } of CURRENT_PINS) {
+    const file = path.join(rootDir, record);
+    if (!fs.existsSync(file)) { problems.push(`${record} is absent, so its pins cannot be checked`); continue; }
+    const json = JSON.parse(fs.readFileSync(file, "utf8"));
+    for (const row of rows(json)) {
+      for (const key of Object.keys(row)) {
+        if (!/^current[A-Z]/.test(key) || !key.endsWith("Sha256")) continue;
+        if (!(key in resolve)) {
+          problems.push(`${record}: ${key} is named "current" and nothing here knows which file it pins`);
+          continue;
+        }
+        // A source digest is pinned from the record, not recomputed: the
+        // official bytes are not in the repository and a receipt is not source
+        // proof. It is listed so it cannot be silently added later.
+        if (resolve[key] === null) continue;
+        const rel = resolve[key](row);
+        const expected = digestOf(rel);
+        checked += 1;
+        if ((row[key] ?? null) !== expected) {
+          problems.push(`${record}: ${row.familyId ?? "row"}.${key} is ${row[key] ?? "null"}; ${rel} hashes to ${expected ?? "nothing (the file is absent)"}`);
+        }
       }
     }
   }
+  return { problems, checked };
 }
-console.log(`    ${failures.length === 0 ? "ok  " : "    "} ${pinsChecked} current* digests recomputed from the files they name`);
+
+// ---------------------------------------------------------------------------
+// The committed records, before anything regenerates them.
+//
+// Running the generators first and checking afterwards proves they reproduce
+// themselves. It cannot prove the records in the commit were current, because
+// the first pass repairs a stale pin on its way past — which is exactly how a
+// record that pinned superseded bytes survived a green run of this gate. So the
+// pins are read once against the tree as found, before a generator touches it.
+// In CI that tree is the commit, which is the thing under test.
+// ---------------------------------------------------------------------------
+
+console.log("  committed current* fields, before any generator runs");
+const asCommitted = checkCurrentPins();
+for (const problem of asCommitted.problems) {
+  failures.push(`the committed record pins superseded bytes — ${problem}. Regenerating repairs it, so the commit `
+    + "that moved the file did not re-run its generator.");
+}
+console.log(`    ${asCommitted.problems.length === 0 ? "ok  " : "FAIL"} ${asCommitted.checked} committed current* digests match the files they name`);
+
+console.log("  first pass");
+for (const { script, args } of GENERATORS) {
+  const result = run(script, args, "first pass");
+  console.log(`    ${result.ok ? "ok  " : "FAIL"} ${script} ${args.join(" ")} (${result.seconds}s)`);
+}
+
+const before = treeDigest();
+console.log(`  tree after the first pass: ${before.digest.slice(0, 16)}… over ${before.files} files`);
+
+console.log("  second pass");
+for (const { script, args } of GENERATORS) {
+  const result = run(script, args, "second pass");
+  console.log(`    ${result.ok ? "ok  " : "FAIL"} ${script} ${args.join(" ")} (${result.seconds}s)`);
+}
+
+const after = treeDigest();
+console.log(`  tree after the second pass: ${after.digest.slice(0, 16)}… over ${after.files} files`);
+
+if (before.digest !== after.digest) {
+  const changed = execFileSync("git", ["status", "--porcelain"], { cwd: rootDir, maxBuffer: 1 << 28 }).toString("utf8");
+  failures.push(`the second pass moved bytes; a generator is not reproducible:\n${changed}`);
+}
+
+console.log("  check modes, against the committed bytes");
+for (const { script, check } of GENERATORS) {
+  if (!check) continue;
+  const result = run(script, check, "check mode");
+  console.log(`    ${result.ok ? "ok  " : "FAIL"} ${script} ${check.join(" ")} (${result.seconds}s)`);
+}
+
+
+console.log("  current* fields, against the bytes on disk");
+const afterPins = checkCurrentPins();
+failures.push(...afterPins.problems);
+const pinsChecked = afterPins.checked;
+console.log(`    ${afterPins.problems.length === 0 ? "ok  " : "    "} ${pinsChecked} current* digests recomputed from the files they name`);
 
 if (failures.length) {
   console.error(`FAIL evidence determinism — ${failures.length} problem(s)`);
@@ -195,5 +225,6 @@ if (failures.length) {
 console.log(
   `OK evidence determinism — ${GENERATORS.length} generators run twice, ` +
   `${after.files} files identical across both passes, every check mode green, ` +
-  `${pinsChecked} current* digests recomputed from the files they name`
+  `${pinsChecked} current* digests recomputed from the files they name, ` +
+  `${asCommitted.checked} of them already correct in the commit`
 );

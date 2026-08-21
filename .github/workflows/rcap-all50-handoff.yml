@@ -263,6 +263,14 @@ jobs:
       - name: Verify the typed fail-closed binder
         run: node scripts/verify-rcap-field-semantics-canaries.mjs
 
+      # A source pack that quietly substitutes a fixture, a contact sheet or any
+      # other LegalEase output for an absent court form makes every artifact
+      # rendered from it derived from our own previous output. The factory
+      # refuses; this builds a synthetic corpus, watches each refusal fire, then
+      # removes each one and watches the canary go red.
+      - name: Verify the source-pack factory refuses to substitute
+        run: node scripts/verify-rcap-source-packs.mjs
+
       # An evidence record that changes when nothing changed is not evidence.
       # Every generator runs twice and the digest of the whole tree has to be
       # identical afterwards, every check mode runs against the committed bytes,

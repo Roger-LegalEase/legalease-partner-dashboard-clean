@@ -58,6 +58,13 @@ data/record-clearing/pdf-inspection/migration-triage.json
 data/record-clearing/pdf-inspection/migration-triage.md
 tmp/record-clearing-shadow/
 
+# Built source packs hold official court PDFs at their canonical Master Library
+# paths. They are not this repository's to redistribute and a pack that lands in
+# the index once is in the history forever, so the factory writes them here and
+# refuses to build into a path git would track. The committed half of a pack is
+# its manifest under data/rcap-all50/source-packs/.
+tmp/source-packs/
+
 # Local working artifacts (screenshots, scratch unzips) - never commit
 .screenshots/
 scratch-files17/
