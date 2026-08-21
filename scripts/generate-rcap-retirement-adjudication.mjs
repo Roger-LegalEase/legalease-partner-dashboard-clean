@@ -27,7 +27,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveOperationalCorpus, refusalReport } from "./lib/operational-corpus-precondition.mjs";
+import { resolveOperationalCorpus, refusalReport } from "./rcap-official-forms/operational-corpus-precondition.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const checkOnly = process.argv.includes("--check");
@@ -45,6 +45,70 @@ function fail(message) {
   process.exit(1);
 }
 
+/**
+ * Verify the committed record without the corpus it was produced from.
+ *
+ * Byte-equality against a regeneration is not available here, so this checks
+ * the properties that do not need the tree: that the record was produced from a
+ * mounted, non-empty operational corpus, that its totals agree with its own
+ * rows, and that no candidate is recorded as both named by the operational
+ * manifest and retired. Exits; never returns.
+ */
+function verifyWithoutTheCorpus(corpus) {
+  const problems = [];
+  for (const rel of [OUT, OUT_MD]) {
+    if (!fs.existsSync(abs(rel))) problems.push(`${rel} does not exist, so there is no record to verify`);
+  }
+  if (problems.length === 0) {
+    const record = readJson(OUT);
+    const tree = record.sourceTree ?? {};
+    // A record produced with the corpus says so. One produced without it reports
+    // mounted: false and zero files delivered -- the exact state that used to be
+    // written down as thirty passing candidates.
+    const provenByThePrecondition = record.conditionSevenPrecondition?.evaluable === true;
+    const provenByTheSourceTree = tree.mounted === true && Number(tree.filesDelivered) > 0;
+    if (!provenByThePrecondition && !provenByTheSourceTree) {
+      problems.push(
+        `the committed record does not show it was produced from a mounted operational corpus ` +
+          `(mounted=${tree.mounted}, filesDelivered=${tree.filesDelivered}); a record produced without the corpus cannot be blessed by a check that also lacks it`
+      );
+    }
+
+    const rows = record.candidates ?? [];
+    const totals = record.totals ?? {};
+    const countedFails = rows.filter((row) => row.conditionSevenVerdict === "fails").length;
+    const countedPasses = rows.filter((row) => row.conditionSevenVerdict === "passes").length;
+    if (rows.length !== totals.candidates) problems.push(`totals.candidates is ${totals.candidates} but the record carries ${rows.length} rows`);
+    if (countedFails !== totals.conditionSevenFails) problems.push(`totals.conditionSevenFails is ${totals.conditionSevenFails} but ${countedFails} rows say fails`);
+    if (countedPasses !== totals.conditionSevenPasses) problems.push(`totals.conditionSevenPasses is ${totals.conditionSevenPasses} but ${countedPasses} rows say passes`);
+    if (countedFails + countedPasses !== rows.length) problems.push("every candidate must carry a condition-7 verdict");
+
+    const contradictory = rows.filter((row) => row.sourceFilePresentInDelivery && row.retired);
+    if (contradictory.length > 0) {
+      problems.push(
+        `${contradictory.length} asset(s) are recorded as named by the operational manifest and retired at once: ` +
+          contradictory.map((row) => `${row.jurisdiction} ${row.formNumber}`).join(", ")
+      );
+    }
+  }
+
+  if (problems.length > 0) {
+    console.error(`FAIL retirement adjudication — the committed record does not hold (${problems.length} problem(s))`);
+    for (const problem of problems) console.error(`  ${problem}`);
+    process.exit(1);
+  }
+
+  const record = readJson(OUT);
+  console.log(
+    `OK retirement adjudication (--check, no operational corpus) — the committed record was produced from a mounted corpus ` +
+      `(${record.sourceTree.filesDelivered} files) and is self-consistent: ${record.totals.candidates} candidates, ` +
+      `${record.totals.conditionSevenFails} condition-7 failures, ${record.totals.conditionSevenPasses} passes, ` +
+      `${record.totals.retirementsProven} retirements proven. Byte-equality against a regeneration was not attempted: ` +
+      `${corpus.expectedPath} is not available, and recomputing a claim about a corpus without the corpus is the defect this guard closes.`
+  );
+  process.exit(0);
+}
+
 // ---- can this condition be answered at all? --------------------------------
 // This used to compute `mounted` and then never look at it, which is the whole
 // defect: with the tree absent the walk produced an empty file list, every
@@ -57,7 +121,20 @@ function fail(message) {
 // including under --check, because verifying a claim about a corpus without the
 // corpus verifies nothing.
 const corpus = await resolveOperationalCorpus(rootDir);
-if (!corpus.evaluable) fail(refusalReport(corpus));
+if (!corpus.evaluable) {
+  // Producing the record and verifying one that already exists are different
+  // acts and only the first needs the corpus. Recomputing a claim about a tree
+  // without the tree is what produced the defect; re-reading a record that was
+  // produced with it is not, and refusing that would leave the committed
+  // evidence unverifiable everywhere the operational corpus is not mounted --
+  // which is everywhere except the machine that built it.
+  //
+  // So --check falls back to the checks that do not need a corpus, and the
+  // first of them is that the record was produced from one. A record made by a
+  // corpus-less run says so in its own sourceTree, and is refused here.
+  if (!checkOnly) fail(refusalReport(corpus));
+  verifyWithoutTheCorpus(corpus);
+}
 
 const NATIONWIDE = corpus.resolvedPath;
 const mounted = true;
@@ -204,7 +281,7 @@ const record = {
     masterLibraryPresent: corpus.masterLibraryPresent,
     masterLibraryIsNotASubstitute: corpus.masterLibraryIsNotASubstitute,
     refusalsIfItWereUnevaluable:
-      "An absent, empty, unreadable, or Master-Library-shaped corpus refuses instead of producing this record. See scripts/lib/operational-corpus-precondition.mjs."
+      "An absent, empty, unreadable, or Master-Library-shaped corpus refuses instead of producing this record. See scripts/rcap-official-forms/operational-corpus-precondition.mjs."
   },
   againstThePreviousManifest: {
     formsThePreviousManifestNamed: committedFormPaths.length,

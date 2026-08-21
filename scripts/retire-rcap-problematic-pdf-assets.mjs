@@ -18,7 +18,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveOperationalCorpus, refusalReport } from "./lib/operational-corpus-precondition.mjs";
+import { resolveOperationalCorpus, refusalReport } from "./rcap-official-forms/operational-corpus-precondition.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DETERMINATION = path.join(rootDir, "data/rcap-all50/pdf-retirement-determination.json");

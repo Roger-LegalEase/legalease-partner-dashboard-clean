@@ -290,6 +290,47 @@ await guarded("silent-conversion", ADJUDICATION_OUTPUTS, async () => {
   );
 });
 
+// 10. --check without the corpus must not become a way in. Verifying a record
+//     that already exists needs no corpus, and refusing that would leave the
+//     evidence unverifiable everywhere but the machine that built it -- but the
+//     leniency has to stop at records the corpus never touched, or the defect
+//     comes back through the check instead of the generator.
+await guarded("check-without-corpus", ADJUDICATION_OUTPUTS, async () => {
+  const record = readJson(ADJUDICATION);
+
+  // A record a corpus-less run produced says so in its own sourceTree.
+  record.sourceTree = { ...record.sourceTree, mounted: false, filesDelivered: 0, pdfsDelivered: 0 };
+  delete record.conditionSevenPrecondition;
+  fs.writeFileSync(abs(ADJUDICATION), `${JSON.stringify(record, null, 2)}\n`);
+  control(
+    "10a. --check blesses a record produced without the corpus",
+    run(GENERATOR, ["--check"], { OFFICIAL_FORMS_SOURCE_DIR: path.join(scratch, "does-not-exist") }),
+    ({ refused, output }) => {
+      if (!refused) return "--check accepted a record whose own sourceTree says no corpus was mounted when it was produced";
+      if (!output.includes("mounted operational corpus")) return `refused for the wrong reason:\n${output.trim().slice(0, 400)}`;
+      return null;
+    }
+  );
+
+  // A contradiction inside the record has to be caught by --check too, not only
+  // at the moment of writing.
+  const contradictory = readJson(ADJUDICATION);
+  contradictory.sourceTree = { ...contradictory.sourceTree, mounted: true, filesDelivered: 187 };
+  const victim = contradictory.candidates.find((row) => row.retired) ?? contradictory.candidates[0];
+  victim.sourceFilePresentInDelivery = true;
+  victim.retired = true;
+  fs.writeFileSync(abs(ADJUDICATION), `${JSON.stringify(contradictory, null, 2)}\n`);
+  control(
+    "10b. --check blesses an asset both manifest-named and retired",
+    run(GENERATOR, ["--check"], { OFFICIAL_FORMS_SOURCE_DIR: path.join(scratch, "does-not-exist") }),
+    ({ refused, output }) => {
+      if (!refused) return "--check accepted a record asserting an asset is both named by the operational manifest and retired";
+      if (!output.includes("named by the operational manifest and retired")) return `refused for the wrong reason:\n${output.trim().slice(0, 400)}`;
+      return null;
+    }
+  );
+});
+
 // 9. The five adjudicated assets keep their outcomes. This work fixes how the
 //    seventh condition is evaluated; it is not licence to move an adjudication
 //    that was accepted on its own evidence.
@@ -329,6 +370,6 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `OK retirement corpus guard — 9 control(s) hold; the committed record still reports ` +
+  `OK retirement corpus guard — the nine controls hold, plus the two guarding --check; the committed record still reports ` +
     `${committedTotals.conditionSevenFails} condition-7 failures and ${committedTotals.conditionSevenPasses} passes`
 );
