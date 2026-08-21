@@ -16,6 +16,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
+import { completenessCounters } from "./rcap-official-forms/rcap-classification-completeness.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown, PDFOptionList } = require("pdf-lib");
@@ -156,8 +157,16 @@ const added = [];
         schemaVersion: "rcap-field-census/v1", family: familySlug, jurisdiction: st,
         censusBasis: "extracted_from_committed_shadow_sample", samplePath: record.samplePath,
         fieldCount: census.length, fields: census }, null, 2) + "\n");
+      // The census this pass just extracted IS the denominator: these families
+      // are AcroForms, so a field is a field however many widgets draw it.
       fs.writeFileSync(path.join(familyDir, "field-classification.json"), JSON.stringify({
-        schemaVersion: "rcap-field-classification/v1", family: familySlug, entries: classification }, null, 2) + "\n");
+        schemaVersion: "rcap-field-classification/v1", family: familySlug,
+        ...completenessCounters({
+          familyKind: "acroform",
+          census: { fieldCount: census.length, fields: census },
+          entries: classification
+        }),
+        entries: classification }, null, 2) + "\n");
       fs.writeFileSync(path.join(familyDir, "production-field-map.json"), JSON.stringify(map, null, 2) + "\n");
       fs.writeFileSync(path.join(familyDir, "reports/populated-fields.json"), JSON.stringify(
         map.bindings.map((b) => ({ field: b.field, factId: b.factId })), null, 2) + "\n");
