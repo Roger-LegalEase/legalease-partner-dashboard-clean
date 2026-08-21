@@ -449,10 +449,32 @@ const LANE_2_EVIDENCE_WAVE = (() => {
   };
 })();
 
+/**
+ * The checkpoint contributors are pointed at is derived from the dispatch's own
+ * inputs, never from HEAD.
+ *
+ * Publishing this file moves HEAD, so a HEAD-derived pointer is stale the
+ * moment it is committed and every determinism check afterwards reports a
+ * difference that is not a content difference. Deriving it from the inputs
+ * gives a pointer that names the state the dispatch actually describes and that
+ * survives publishing the dispatch itself.
+ */
+const CHECKPOINT_INPUTS = [
+  "data/rcap-all50/gate-b-assignments/index.json",
+  "data/rcap-all50/gate-b-81-terminalization-queue.json",
+  "data/rcap-all50/problematic-pdf-register.json"
+];
+const captainCheckpoint = git("log", "-1", "--format=%H", "--", ...CHECKPOINT_INPUTS);
+if (!/^[0-9a-f]{40}$/.test(captainCheckpoint ?? "")) {
+  fail("could not resolve a commit for any dispatch input; the assignments and queue must be committed before the dispatch is published");
+}
+
 const record = {
   schemaVersion: "rcap-gate-b-session-dispatch/v1",
   generatedBy: "scripts/generate-rcap-gate-b-session-dispatch.mjs",
-  captainHead: git("rev-parse", "HEAD"),
+  captainCheckpoint,
+  captainCheckpointIs:
+    "the last commit that changed a dispatch input (the assignment files, the terminalization queue or the problematic-PDF register). It is deliberately not HEAD: a HEAD read cannot equal the commit that records it, so --check would call this file stale one commit after every commit, on a field carrying no dispatch content.",
   thisIsAMapNotAnArchitecture:
     "The eleven assignment files are unchanged. This names the session that owns each and pins the remote tip it continues from; no asset id, family id, allowed path, prohibited path or denominator membership is altered here.",
   denominator: {
