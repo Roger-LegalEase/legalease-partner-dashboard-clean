@@ -308,6 +308,34 @@ for (const stateDir of fs.readdirSync(OVERLAY_DIR).sort()) {
       }
       kept.push(claimants[0]);
     }
+    // One fact, one place. WI DJ-LE-250B prints a caption that decodes to
+    // "F8LLMIDDLENAME" on two different rules, and both bound
+    // participant.middle_name -- so the participant's middle name would have
+    // been written twice, in two places, on one filed record request. A fact
+    // has one value; which of two blanks it belongs in is a decision the form
+    // does not express, so neither is taken.
+    const byFact = new Map();
+    for (const anchor of kept) {
+      if (!byFact.has(anchor.factId)) byFact.set(anchor.factId, []);
+      byFact.get(anchor.factId).push(anchor);
+    }
+    const single = [];
+    for (const [factId, claimants] of byFact) {
+      if (claimants.length > 1) {
+        for (const anchor of claimants) {
+          refusedCaptions.push({
+            page: anchor.page, caption: anchor.label, factId,
+            refusal: "this_fact_claims_more_than_one_rule",
+            detail: `${claimants.length} rules on this form would each receive ${factId}; the form does not say which blank it belongs in`,
+            ruleLine: anchor.ruleLine, deliberatelyUnbound: false
+          });
+        }
+        continue;
+      }
+      single.push(claimants[0]);
+    }
+    kept.length = 0;
+    kept.push(...single);
     kept.sort((a, b) => a.page - b.page || b.writeBox.y - a.writeBox.y || a.writeBox.x - b.writeBox.x);
 
     const profile = {

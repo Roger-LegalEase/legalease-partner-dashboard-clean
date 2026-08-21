@@ -30,15 +30,88 @@
     "multiline": "wrap_within_widget_rect"
   },
   "requiresIndependentReviewBeforeUse": true,
-  "anchors": [],
+  "anchors": [
+    {
+      "label": "County",
+      "factId": "matter.county",
+      "page": 1,
+      "writeBox": {
+        "x": 46.53,
+        "y": 670.76,
+        "width": 198.73,
+        "height": 12
+      },
+      "fontSize": 9,
+      "ruleLine": {
+        "x": 45.03,
+        "y": 668.76,
+        "endX": 247.26
+      },
+      "dividerX": null,
+      "maxRightEdge": 247.26
+    },
+    {
+      "label": "Date Of Birth",
+      "factId": "participant.date_of_birth",
+      "page": 1,
+      "writeBox": {
+        "x": 37.64,
+        "y": 495.35,
+        "width": 118.88,
+        "height": 12
+      },
+      "fontSize": 9,
+      "ruleLine": {
+        "x": 36.14,
+        "y": 493.35,
+        "endX": 313.2
+      },
+      "dividerX": 158.52,
+      "maxRightEdge": 158.52
+    },
+    {
+      "label": "Petitioner",
+      "factId": "participant.full_legal_name",
+      "page": 2,
+      "writeBox": {
+        "x": 37.94,
+        "y": 580.79,
+        "width": 80.3,
+        "height": 12
+      },
+      "fontSize": 9,
+      "ruleLine": {
+        "x": 36.44,
+        "y": 578.79,
+        "endX": 594
+      },
+      "dividerX": 120.24,
+      "maxRightEdge": 120.24
+    }
+  ],
   "refusedCaptions": [
     {
       "page": 1,
-      "caption": "File No",
-      "factId": "matter.case_number",
-      "refusal": "no_rule_line_belongs_to_this_caption",
-      "detail": "The form does not draw a rectangle for this blank, so its position is set by a printed cell this document does not express. No coordinate is asserted.",
-      "ruleLine": null,
+      "caption": "File No. \u0000S\u0000c\u0000a\u0000n\u0000 \u0000N\u0000o\u0000.\u0000(\u0000s\u0000)\u0000 \u0000(\u0000O(û\u0000c\u0000i\u0000a\u0000l\u0000 \u0000U\u0000s\u0000e\u0000 \u0000O\u0000n\u0000l\u0000y\u0000)",
+      "refusal": "caption_not_decodable",
+      "detail": "the run is CID-encoded with no ToUnicode map, so the printed label cannot be read from these bytes",
+      "ruleLine": {
+        "x": 36.22,
+        "y": 721.88,
+        "endX": 594
+      },
+      "deliberatelyUnbound": false
+    },
+    {
+      "page": 1,
+      "caption": "\u0000S\u0000c\u0000a\u0000n\u0000 \u0000N\u0000o\u0000.\u0000(\u0000s\u0000)\u0000 \u0000(\u0000O(û\u0000c\u0000i\u0000a\u0000l\u0000 \u0000U\u0000s\u0000e\u0000 \u0000O\u0000n\u0000l\u0000y\u0000)",
+      "refusal": "caption_not_decodable",
+      "detail": "the run is CID-encoded with no ToUnicode map, so the printed label cannot be read from these bytes",
+      "ruleLine": {
+        "x": 36.22,
+        "y": 721.88,
+        "endX": 594
+      },
       "deliberatelyUnbound": false
     },
     {
@@ -52,48 +125,171 @@
     },
     {
       "page": 1,
-      "caption": "STATE VERSUS",
-      "factId": "participant.state",
-      "refusal": "no_rule_line_belongs_to_this_caption",
-      "detail": "The form does not draw a rectangle for this blank, so its position is set by a printed cell this document does not express. No coordinate is asserted.",
-      "ruleLine": null,
+      "caption": "Drivers License No",
+      "refusal": "protected_by_category",
+      "detail": "government_identifier",
+      "ruleLine": {
+        "x": 36.14,
+        "y": 523.19,
+        "endX": 313.2
+      },
+      "deliberatelyUnbound": true
+    },
+    {
+      "page": 1,
+      "caption": "Race",
+      "refusal": "protected_by_category",
+      "detail": "race",
+      "ruleLine": {
+        "x": 36.14,
+        "y": 523.19,
+        "endX": 313.2
+      },
+      "deliberatelyUnbound": true
+    },
+    {
+      "page": 1,
+      "caption": "Date Of Birth Full Social Security No.Age At T\u0000i\u0000m\u0000e\u0000 \u0000O\u0000f\u0000 \u0000O(ú\u0000e\u0000n\u0000s\u0000e",
+      "refusal": "caption_not_decodable",
+      "detail": "the run is CID-encoded with no ToUnicode map, so the printed label cannot be read from these bytes",
+      "ruleLine": {
+        "x": 36.14,
+        "y": 493.35,
+        "endX": 313.2
+      },
       "deliberatelyUnbound": false
     },
     {
       "page": 1,
-      "caption": "State",
-      "factId": "participant.state",
-      "refusal": "no_rule_line_belongs_to_this_caption",
-      "detail": "The form does not draw a rectangle for this blank, so its position is set by a printed cell this document does not express. No coordinate is asserted.",
-      "ruleLine": null,
+      "caption": "Full Social Security No.Age At T\u0000i\u0000m\u0000e\u0000 \u0000O\u0000f\u0000 \u0000O(ú\u0000e\u0000n\u0000s\u0000e",
+      "refusal": "caption_not_decodable",
+      "detail": "the run is CID-encoded with no ToUnicode map, so the printed label cannot be read from these bytes",
+      "ruleLine": {
+        "x": 36.14,
+        "y": 493.35,
+        "endX": 313.2
+      },
       "deliberatelyUnbound": false
     },
     {
       "page": 1,
-      "caption": "Date Of Birth",
-      "factId": "participant.date_of_birth",
-      "refusal": "no_rule_line_belongs_to_this_caption",
-      "detail": "The form does not draw a rectangle for this blank, so its position is set by a printed cell this document does not express. No coordinate is asserted.",
-      "ruleLine": null,
+      "caption": "Check here to indicate that additional agencies and/or addition \u0000a\u0000l\u0000 \u0000fi\u0000l\u0000e\u0000 \u0000n\u0000o\u0000s\u0000.\u0000 \u0000a\u0000n\u0000d\u0000 \u0000o-\u0000e\u0000n\u0000s\u0000e\u0000s\u0000 \u0000a\u0000r\u0000e\u0000 \u0000l\u0000i\u0000s\u0000t\u0000e\u0000d\u0000 \u0000o\u0000n\u0000 \u0000a\u0000n\u0000 AOC-CR-285 form that is attached to this",
+      "refusal": "caption_not_decodable",
+      "detail": "the run is CID-encoded with no ToUnicode map, so the printed label cannot be read from these bytes",
+      "ruleLine": {
+        "x": 36.14,
+        "y": 298.79,
+        "endX": 594
+      },
       "deliberatelyUnbound": false
     },
     {
-      "page": 2,
-      "caption": "Petitioner",
-      "factId": "participant.full_legal_name",
-      "refusal": "no_rule_line_belongs_to_this_caption",
-      "detail": "The form does not draw a rectangle for this blank, so its position is set by a printed cell this document does not express. No coordinate is asserted.",
-      "ruleLine": null,
+      "page": 1,
+      "caption": "Check here to indicate that additional agencies and/or addition\u0000a\u0000l\u0000 \u0000fi\u0000l\u0000e\u0000 \u0000n\u0000o\u0000s\u0000.\u0000 \u0000a\u0000n\u0000d\u0000 \u0000o-\u0000e\u0000n\u0000s\u0000e\u0000s\u0000 \u0000a\u0000r\u0000e\u0000 \u0000l\u0000i\u0000s\u0000t\u0000e\u0000d\u0000 \u0000o\u0000n\u0000 \u0000a\u0000n\u0000 AOC-CR-285 form that is attached to this",
+      "refusal": "caption_not_decodable",
+      "detail": "the run is CID-encoded with no ToUnicode map, so the printed label cannot be read from these bytes",
+      "ruleLine": {
+        "x": 36.14,
+        "y": 298.79,
+        "endX": 594
+      },
       "deliberatelyUnbound": false
     },
     {
-      "page": 2,
-      "caption": "Petitioner",
-      "factId": "participant.full_legal_name",
-      "refusal": "no_rule_line_belongs_to_this_caption",
-      "detail": "The form does not draw a rectangle for this blank, so its position is set by a printed cell this document does not express. No coordinate is asserted.",
-      "ruleLine": null,
+      "page": 1,
+      "caption": "\u0000O\u0010\u0000e\u0000n\u0000s\u0000eDescription",
+      "refusal": "caption_not_decodable",
+      "detail": "the run is CID-encoded with no ToUnicode map, so the printed label cannot be read from these bytes",
+      "ruleLine": {
+        "x": 36.22,
+        "y": 255.79,
+        "endX": 594
+      },
       "deliberatelyUnbound": false
+    },
+    {
+      "page": 1,
+      "caption": "Disposition DateOf",
+      "refusal": "protected_by_category",
+      "detail": "disposition_or_hearing",
+      "ruleLine": {
+        "x": 36.22,
+        "y": 255.79,
+        "endX": 594
+      },
+      "deliberatelyUnbound": true
+    },
+    {
+      "page": 1,
+      "caption": "Arrest \u0000O\u0010\u0000e\u0000n\u0000s\u0000e\u0000 Disposition",
+      "refusal": "caption_not_decodable",
+      "detail": "the run is CID-encoded with no ToUnicode map, so the printed label cannot be read from these bytes",
+      "ruleLine": {
+        "x": 36.22,
+        "y": 255.79,
+        "endX": 594
+      },
+      "deliberatelyUnbound": false
+    },
+    {
+      "page": 1,
+      "caption": "\u0000O\u0010\u0000e\u0000n\u0000s\u0000e\u0000",
+      "refusal": "caption_not_decodable",
+      "detail": "the run is CID-encoded with no ToUnicode map, so the printed label cannot be read from these bytes",
+      "ruleLine": {
+        "x": 36.22,
+        "y": 255.79,
+        "endX": 594
+      },
+      "deliberatelyUnbound": false
+    },
+    {
+      "page": 1,
+      "caption": "Disposition",
+      "refusal": "protected_by_category",
+      "detail": "disposition_or_hearing",
+      "ruleLine": {
+        "x": 36.22,
+        "y": 255.79,
+        "endX": 594
+      },
+      "deliberatelyUnbound": true
+    },
+    {
+      "page": 2,
+      "caption": "Signature",
+      "refusal": "protected_by_category",
+      "detail": "signature",
+      "ruleLine": {
+        "x": 36.44,
+        "y": 578.79,
+        "endX": 594
+      },
+      "deliberatelyUnbound": true
+    },
+    {
+      "page": 2,
+      "caption": "Petitioner’s Attorney",
+      "refusal": "protected_by_category",
+      "detail": "attorney",
+      "ruleLine": {
+        "x": 36.16,
+        "y": 543.27,
+        "endX": 593.91
+      },
+      "deliberatelyUnbound": true
+    },
+    {
+      "page": 2,
+      "caption": "Petitioner’s Attorney",
+      "refusal": "protected_by_category",
+      "detail": "attorney",
+      "ruleLine": {
+        "x": 36.16,
+        "y": 543.27,
+        "endX": 593.91
+      },
+      "deliberatelyUnbound": true
     },
     {
       "page": 2,
@@ -111,6 +307,106 @@
       "refusal": "no_rule_line_belongs_to_this_caption",
       "detail": "The form does not draw a rectangle for this blank, so its position is set by a printed cell this document does not express. No coordinate is asserted.",
       "ruleLine": null,
+      "deliberatelyUnbound": false
+    },
+    {
+      "page": 3,
+      "caption": "CERTIFICATION BY CLERK",
+      "refusal": "protected_by_category",
+      "detail": "clerk",
+      "ruleLine": {
+        "x": 36.22,
+        "y": 452.35,
+        "endX": 593.97
+      },
+      "deliberatelyUnbound": true
+    },
+    {
+      "page": 3,
+      "caption": "Signature Of Clerk",
+      "refusal": "protected_by_category",
+      "detail": "signature",
+      "ruleLine": {
+        "x": 36.14,
+        "y": 356.47,
+        "endX": 593.86
+      },
+      "deliberatelyUnbound": true
+    },
+    {
+      "page": 3,
+      "caption": "Clerk Of Superior CourtSELLO",
+      "refusal": "protected_by_category",
+      "detail": "clerk",
+      "ruleLine": {
+        "x": 36,
+        "y": 314.35,
+        "endX": 593.86
+      },
+      "deliberatelyUnbound": true
+    },
+    {
+      "page": 3,
+      "caption": "Clerk Of Superior CourtSELLO",
+      "refusal": "protected_by_category",
+      "detail": "clerk",
+      "ruleLine": {
+        "x": 36,
+        "y": 314.35,
+        "endX": 593.86
+      },
+      "deliberatelyUnbound": true
+    },
+    {
+      "page": 1,
+      "caption": "File No",
+      "factId": "matter.case_number",
+      "refusal": "this_fact_claims_more_than_one_rule",
+      "detail": "2 rules on this form would each receive matter.case_number; the form does not say which blank it belongs in",
+      "ruleLine": {
+        "x": 36.22,
+        "y": 721.88,
+        "endX": 594
+      },
+      "deliberatelyUnbound": false
+    },
+    {
+      "page": 1,
+      "caption": "FileNo.(s)",
+      "factId": "matter.case_number",
+      "refusal": "this_fact_claims_more_than_one_rule",
+      "detail": "2 rules on this form would each receive matter.case_number; the form does not say which blank it belongs in",
+      "ruleLine": {
+        "x": 36.22,
+        "y": 255.79,
+        "endX": 594
+      },
+      "deliberatelyUnbound": false
+    },
+    {
+      "page": 1,
+      "caption": "STATE VERSUS",
+      "factId": "participant.state",
+      "refusal": "this_fact_claims_more_than_one_rule",
+      "detail": "2 rules on this form would each receive participant.state; the form does not say which blank it belongs in",
+      "ruleLine": {
+        "x": 36.22,
+        "y": 647.15,
+        "endX": 594
+      },
+      "deliberatelyUnbound": false
+    },
+    {
+      "page": 1,
+      "caption": "State",
+      "factId": "participant.state",
+      "refusal": "this_fact_claims_more_than_one_rule",
+      "detail": "2 rules on this form would each receive participant.state; the form does not say which blank it belongs in",
+      "ruleLine": {
+        "x": 36.14,
+        "y": 523.19,
+        "endX": 313.2
+      },
       "deliberatelyUnbound": false
     }
   ]
