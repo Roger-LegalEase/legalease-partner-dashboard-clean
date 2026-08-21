@@ -28,6 +28,7 @@ import { fileURLToPath } from "node:url";
 import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
 import { ROOT_CAUSES, rootCause } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
 import { platformReadyVerdict, RELEASE_STATE_HOLDS, REVIEW_REQUIRED_HOLDS } from "./rcap-official-forms/rcap-platform-ready.mjs";
+import { PARTICIPANT_FILL_HOLD, participantFillEvidence } from "./rcap-official-forms/rcap-participant-fill-hold.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -180,90 +181,8 @@ function familyDirectories() {
   return out;
 }
 
-// The one member of the hold vocabulary that is DERIVED rather than decided.
-//
-// The builder that first writes a source record emits it as
-// `...(participantFillable ? [] : ["not_participant_fillable_no_fixture_fill"])`
-// (build-rcap-official-forms-d1-verified-binaries.mjs), so a record carrying
-// BOTH `participantFillable: true` AND this hold states a combination its own
-// generator cannot produce. Later stages rewrite source-record.json -- they add
-// implementationStatus, documentOwnership and censusBasis, none of which the
-// original builder writes -- and carry productionHolds forward verbatim, so the
-// string outlives the fact it was derived from. This register then ingested the
-// stale string as a substantive finding, and because it belongs to neither
-// RELEASE_STATE_HOLDS nor REVIEW_REQUIRED_HOLDS it survived an independent
-// approval and retained the asset permanently.
-//
-// Recomputed here rather than trusted -- exactly as structuralClassAgrees below
-// is recomputed rather than read from the record's own stale boolean.
-//
-// Discharging it on `participantFillable` alone would be a one-line flip that
-// promotes any blank form whose flag happens to be set. So the hold stands
-// unless the family actually produced a fill AND that fill is visible on the
-// finalized page: participant bindings present, fields reported populated, the
-// protected-field scan clean with values actually written and none written-but-
-// invisible, and a contact-sheet proof that found the expected values in page
-// content. Any missing leg leaves the hold exactly where it is.
-const PARTICIPANT_FILL_HOLD = "not_participant_fillable_no_fixture_fill";
-
 /** Every stale hold this run discharged, reported rather than silently dropped. */
 const participantFillHoldsDischarged = [];
-
-function participantFillEvidence(familyPath, record, protectedScan, sheet) {
-  const map = readJson(path.join(familyPath, "production-field-map.json"))
-    ?? readJson(path.join(familyPath, "overlay-profile.json"));
-  const bound = Array.isArray(map?.bindings) ? map.bindings
-    : Array.isArray(map?.anchors) ? map.anchors : [];
-  const participantBindings = bound.filter((b) => {
-    const cls = String(b?.class ?? "");
-    return cls === "participant" || cls === "deterministic" || cls === "manual";
-  }).length;
-
-  const populated = readJson(path.join(familyPath, "reports/populated-fields.json"));
-  const populatedFields = Array.isArray(populated) ? populated.length
-    : Array.isArray(populated?.written) ? populated.written.length : 0;
-
-  // Two INDEPENDENT visual legs, and they answer different questions.
-  //
-  // The family's own contact-sheet proof reads the finalized page's content and
-  // says whether the expected values are in it. `sheet` is the register's
-  // pixel comparison of the blank and filled panels, which shares no code with
-  // it and can see a value that is present in content but draws nothing. A
-  // family passes only if both agree; either alone has a blind spot the other
-  // covers.
-  const familyProof = readJson(path.join(familyPath, "contact-sheet/contact-sheet-proof.json"));
-  const expectedValues = Array.isArray(familyProof?.expectedValues) ? familyProof.expectedValues : [];
-
-  // The proof must describe the bytes that are here now. A sheet left behind by
-  // a re-render names a superseded artifact, and its verdict is about a file
-  // nobody will file.
-  const canonical = path.join(familyPath, "fixtures/canonical-filled.pdf");
-  const canonicalSha = fs.existsSync(canonical)
-    ? crypto.createHash("sha256").update(fs.readFileSync(canonical)).digest("hex")
-    : null;
-
-  const legs = {
-    participantFillableFlag: record?.participantFillable === true,
-    participantOwned: record?.documentOwnership === "participant_completed"
-      || /participant-(?:completed|filled)/i.test(String(record?.ownershipDetermination ?? "")),
-    participantBindings,
-    populatedFields,
-    protectedScanPassed: protectedScan?.pass === true,
-    fieldsActuallyWritten: Number(protectedScan?.writtenFields ?? 0) > 0,
-    noValueWrittenButNotVisible: (protectedScan?.valuesWrittenButNotVisible ?? []).length === 0,
-    expectedValuesDeclared: expectedValues.length,
-    expectedValuesVisibleOnPage: familyProof?.allExpectedValuesVisible === true,
-    proofNamesCurrentArtifact: canonicalSha !== null && familyProof?.finalizedSha256 === canonicalSha,
-    panelsVisuallyDiffer: sheet?.panelsAreVisuallyIdentical === false
-  };
-  legs.proven = legs.participantFillableFlag && legs.participantOwned
-    && legs.participantBindings > 0 && legs.populatedFields > 0
-    && legs.protectedScanPassed && legs.fieldsActuallyWritten
-    && legs.noValueWrittenButNotVisible && legs.expectedValuesDeclared > 0
-    && legs.expectedValuesVisibleOnPage && legs.proofNamesCurrentArtifact
-    && legs.panelsVisuallyDiffer;
-  return legs;
-}
 
 /**
  * Every defect this asset actually carries, each one tied to the committed
@@ -297,7 +216,7 @@ function defectsFor(ctx) {
     for (const hold of record.productionHolds ?? []) {
       const text = typeof hold === "string" ? hold : JSON.stringify(hold);
       if (text === PARTICIPANT_FILL_HOLD && familyPath) {
-        const evidence = participantFillEvidence(familyPath, record, protectedScan, sheet);
+        const evidence = participantFillEvidence({ familyPath, record, protectedScan, sheet });
         if (evidence.proven) {
           participantFillHoldsDischarged.push({
             familyId: familyId ?? null, hold: text, evidence,
