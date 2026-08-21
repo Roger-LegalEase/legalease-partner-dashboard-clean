@@ -1,0 +1,3558 @@
+{
+  "schemaVersion": "rcap-source-drift-comparison/v1",
+  "generatedBy": "scripts/rcap-source-drift-compare.mjs",
+  "purpose": "Compare every pinned source hash against every independent witness this repository holds, and name the disagreements.",
+  "witnesses": {
+    "live": {
+      "file": "data/rcap-all50/source-observation-log.json",
+      "records": 16,
+      "isNotComplete": "Each leg's log is one API call returning its full job log. Sixteen were read: every distinct outcome shape in the run, all three pattern probes, and the Priority 1 asset. The other 28 are almost all further NC legs, which share the one refusal recorded here, but they are UNREAD and nothing below should be read as covering them."
+    },
+    "nationwide": {
+      "file": "data/rcap-all50/nationwide-source-inventory.json",
+      "capturedAt": "2026-06-17T12:10:37.013Z",
+      "files": 425
+    },
+    "corpus": {
+      "file": "data/rcap-all50/local-source-corpus-index.json",
+      "entries": 329
+    }
+  },
+  "whatADisagreementDoesNotEstablish": [
+    "which of the two byte strings is the current official form",
+    "that the publisher revised anything — the pin may never have been of this document",
+    "that an asset with no witness is wrong; it is unwitnessed, which is a different problem",
+    "that an archive index hit means the bytes can be obtained today — the archives are not in this clone"
+  ],
+  "verdictVocabulary": {
+    "pin_is_not_a_hash": "the asset's pinned value is a placeholder, not a SHA-256, so nothing can be compared",
+    "pin_confirmed_live": "the issuing body served exactly these bytes",
+    "pin_contradicted_live": "the issuing body served different bytes under the same form number",
+    "pin_confirmed_archive_only": "no live observation; the pinned bytes are recorded in an archive index",
+    "pin_unwitnessed": "no live observation and no archive index records these bytes"
+  },
+  "totals": {
+    "queueRows": 88,
+    "pin_confirmed_live": 14,
+    "pin_confirmed_archive_only": 69,
+    "pin_contradicted_live": 1,
+    "pin_is_not_a_hash": 4,
+    "rowsWhereAnArchiveHoldsTheSameFormUnderDifferentBytes": 24,
+    "formsHeldByBothArchives": 37,
+    "formsWhereTheArchivesAgree": 26,
+    "formsWhereTheArchivesDisagree": 11
+  },
+  "assets": [
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-334",
+      "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "acquisitionPriority": 1,
+      "pinnedHistoricalSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618241782,
+          "finalUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/334.pdf",
+          "byteLength": 252268,
+          "sha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+          "observedUnderFormNumber": "AOC-334",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf",
+            "byteLength": 252268,
+            "revision": "REV-UNKNOWN"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "AK",
+      "formNumber": "TF-800",
+      "assetId": "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618241854,
+          "finalUrl": "https://public.courts.alaska.gov/web/forms/docs/tf-800.pdf",
+          "byteLength": 130602,
+          "sha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+          "observedUnderFormNumber": "TF-800",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-800__request-to-make-case-records-confidential-or-sealed-under-administrative-rule-37-6__REV-2025-05__EN.pdf",
+            "byteLength": 130602,
+            "revision": "REV-2025-05"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "AK",
+      "formNumber": "TF-805",
+      "assetId": "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618241773,
+          "finalUrl": "https://public.courts.alaska.gov/web/forms/docs/tf-805.pdf",
+          "byteLength": 93899,
+          "sha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+          "observedUnderFormNumber": "TF-805",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-805__request-to-remove-name-from-online-public-index-courtview-under-administrative-rule-40-b-o__REV-2025-05__EN.pdf",
+            "byteLength": 93899,
+            "revision": "REV-2025-05"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "AK",
+      "formNumber": "TF-810",
+      "assetId": "AK|TF-810|c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618244519,
+          "finalUrl": "https://public.courts.alaska.gov/web/forms/docs/tf-810.pdf",
+          "byteLength": 85386,
+          "sha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+          "observedUnderFormNumber": "TF-810",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/AK/02_PACKET_FORMS/AK__FORM__TF-810__request-to-exclude-case-from-online-public-index-courtview-under-administrative-rule-40-a__REV-2025-05__EN.pdf",
+            "byteLength": 85386,
+            "revision": "REV-2025-05"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496",
+      "assetId": "KY|AOC-496|4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496__expungement-order__REV-2016-07__EN.pdf",
+            "byteLength": 218186,
+            "revision": "REV-2016-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.2",
+      "assetId": "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Kentucky/496.2.pdf",
+            "byteLength": 237812
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
+            "byteLength": 237812,
+            "revision": "REV-2016-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.4",
+      "assetId": "KY|AOC-496.4|70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.4__496-4__REV-2023-06__EN.pdf",
+            "byteLength": 251246,
+            "revision": "REV-2023-06"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-497",
+      "assetId": "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-497__the-court-having-reviewed-defendants-petition-to-expunge-and-being-sufficiently-advised-fi__REV-UNKNOWN__EN.pdf",
+            "byteLength": 176877,
+            "revision": "REV-UNKNOWN"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "assetId": "NC|AOC-CR-287|2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+            "byteLength": 332291,
+            "revision": "REV-2020-12"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+          "byteLength": 310230,
+          "sha256": "9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+          "byteLength": 257828,
+          "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "revision": "REV-2025-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__ES.pdf",
+          "byteLength": 285137,
+          "sha256": "5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__VI.pdf",
+          "byteLength": 293932,
+          "sha256": "877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "byteLength": 217744,
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "revision": "REV-2025-12"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "assetId": "NC|AOC-CR-287|5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__ES.pdf",
+            "byteLength": 285137,
+            "revision": "REV-2020-12"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+          "byteLength": 310230,
+          "sha256": "9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+          "byteLength": 332291,
+          "sha256": "2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+          "byteLength": 257828,
+          "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "revision": "REV-2025-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__VI.pdf",
+          "byteLength": 293932,
+          "sha256": "877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "byteLength": 217744,
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "revision": "REV-2025-12"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "assetId": "NC|AOC-CR-287|877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__VI.pdf",
+            "byteLength": 293932,
+            "revision": "REV-2020-12"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+          "byteLength": 310230,
+          "sha256": "9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+          "byteLength": 332291,
+          "sha256": "2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+          "byteLength": 257828,
+          "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "revision": "REV-2025-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__ES.pdf",
+          "byteLength": 285137,
+          "sha256": "5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "byteLength": 217744,
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "revision": "REV-2025-12"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "assetId": "NC|AOC-CR-287|9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+            "byteLength": 310230,
+            "revision": "REV-2020-12"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+          "byteLength": 332291,
+          "sha256": "2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+          "byteLength": 257828,
+          "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "revision": "REV-2025-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__ES.pdf",
+          "byteLength": 285137,
+          "sha256": "5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__VI.pdf",
+          "byteLength": 293932,
+          "sha256": "877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "byteLength": 217744,
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "revision": "REV-2025-12"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "assetId": "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+            "byteLength": 257828,
+            "revision": "REV-2025-12"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+          "byteLength": 310230,
+          "sha256": "9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+          "byteLength": 332291,
+          "sha256": "2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__ES.pdf",
+          "byteLength": 285137,
+          "sha256": "5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__VI.pdf",
+          "byteLength": 293932,
+          "sha256": "877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+          "byteLength": 217744,
+          "sha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+          "revision": "REV-2025-12"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-287",
+      "assetId": "NC|AOC-CR-287|fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase North Carolina/cr287-instr_3.pdf",
+            "byteLength": 217744
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2025-12__EN.pdf",
+            "byteLength": 217744,
+            "revision": "REV-2025-12"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+          "byteLength": 310230,
+          "sha256": "9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+          "byteLength": 332291,
+          "sha256": "2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-287__aoc-cr-287-petition-and-order-of-expunction__REV-2025-12__EN.pdf",
+          "byteLength": 257828,
+          "sha256": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+          "revision": "REV-2025-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__ES.pdf",
+          "byteLength": 285137,
+          "sha256": "5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-287__aoc-cr-287-instructions__REV-2020-12__VI.pdf",
+          "byteLength": 293932,
+          "sha256": "877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
+          "revision": "REV-2020-12"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "assetId": "NC|AOC-CR-288|19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+            "byteLength": 217013,
+            "revision": "REV-2025-03"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+          "byteLength": 297609,
+          "sha256": "46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+          "byteLength": 317811,
+          "sha256": "37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+          "byteLength": 243887,
+          "sha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+          "revision": "REV-2025-03"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__ES.pdf",
+          "byteLength": 281180,
+          "sha256": "2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__VI.pdf",
+          "byteLength": 290869,
+          "sha256": "d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806",
+          "revision": "REV-2020-12"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "assetId": "NC|AOC-CR-288|2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__ES.pdf",
+            "byteLength": 281180,
+            "revision": "REV-2020-12"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+          "byteLength": 297609,
+          "sha256": "46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+          "byteLength": 317811,
+          "sha256": "37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+          "byteLength": 243887,
+          "sha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+          "revision": "REV-2025-03"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__VI.pdf",
+          "byteLength": 290869,
+          "sha256": "d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+          "byteLength": 217013,
+          "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+          "revision": "REV-2025-03"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "assetId": "NC|AOC-CR-288|37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+            "byteLength": 317811,
+            "revision": "REV-2020-12"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+          "byteLength": 297609,
+          "sha256": "46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+          "byteLength": 243887,
+          "sha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+          "revision": "REV-2025-03"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__ES.pdf",
+          "byteLength": 281180,
+          "sha256": "2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__VI.pdf",
+          "byteLength": 290869,
+          "sha256": "d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+          "byteLength": 217013,
+          "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+          "revision": "REV-2025-03"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "assetId": "NC|AOC-CR-288|46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+            "byteLength": 297609,
+            "revision": "REV-2020-12"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+          "byteLength": 317811,
+          "sha256": "37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+          "byteLength": 243887,
+          "sha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+          "revision": "REV-2025-03"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__ES.pdf",
+          "byteLength": 281180,
+          "sha256": "2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__VI.pdf",
+          "byteLength": 290869,
+          "sha256": "d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+          "byteLength": 217013,
+          "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+          "revision": "REV-2025-03"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "assetId": "NC|AOC-CR-288|776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+            "byteLength": 243887,
+            "revision": "REV-2025-03"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+          "byteLength": 297609,
+          "sha256": "46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+          "byteLength": 317811,
+          "sha256": "37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__ES.pdf",
+          "byteLength": 281180,
+          "sha256": "2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__VI.pdf",
+          "byteLength": 290869,
+          "sha256": "d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+          "byteLength": 217013,
+          "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+          "revision": "REV-2025-03"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-288",
+      "assetId": "NC|AOC-CR-288|d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__VI.pdf",
+            "byteLength": 290869,
+            "revision": "REV-2020-12"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__ES.pdf",
+          "byteLength": 297609,
+          "sha256": "46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2020-12__VI.pdf",
+          "byteLength": 317811,
+          "sha256": "37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-288__aoc-cr-288-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+          "byteLength": 243887,
+          "sha256": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+          "revision": "REV-2025-03"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2020-12__ES.pdf",
+          "byteLength": 281180,
+          "sha256": "2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
+          "revision": "REV-2020-12"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-288__aoc-cr-288-instructions__REV-2025-03__EN.pdf",
+          "byteLength": 217013,
+          "sha256": "19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
+          "revision": "REV-2025-03"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-296",
+      "assetId": "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-296__aoc-cr-296-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+            "byteLength": 241203,
+            "revision": "REV-2025-03"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-297",
+      "assetId": "NC|AOC-CR-297|689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf",
+            "byteLength": 202738,
+            "revision": "REV-2025-06"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-297__aoc-cr-297-petition-and-order-of-expunction__REV-2025-06__EN.pdf",
+          "byteLength": 304457,
+          "sha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+          "revision": "REV-2025-06"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-297",
+      "assetId": "NC|AOC-CR-297|99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-297__aoc-cr-297-petition-and-order-of-expunction__REV-2025-06__EN.pdf",
+            "byteLength": 304457,
+            "revision": "REV-2025-06"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf",
+          "byteLength": 202738,
+          "sha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+          "revision": "REV-2025-06"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-298",
+      "assetId": "NC|AOC-CR-298|5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase North Carolina/cr298-instr_7.pdf",
+            "byteLength": 202831
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
+            "byteLength": 202831,
+            "revision": "REV-2025-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf",
+          "byteLength": 300577,
+          "sha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+          "revision": "REV-2025-07"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CR-298",
+      "assetId": "NC|AOC-CR-298|8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf",
+            "byteLength": 300577,
+            "revision": "REV-2025-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-298__aoc-cr-298-instructions__REV-2025-07__EN.pdf",
+          "byteLength": 202831,
+          "sha256": "5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c",
+          "revision": "REV-2025-07"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CV-226",
+      "assetId": "NC|AOC-CV-226|08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__ES.pdf",
+            "byteLength": 273097,
+            "revision": "REV-2021-06"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__VI.pdf",
+          "byteLength": 328157,
+          "sha256": "76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a",
+          "revision": "REV-2021-06"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+          "byteLength": 269426,
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "revision": "REV-2023-04"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CV-226",
+      "assetId": "NC|AOC-CV-226|74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+            "byteLength": 269426,
+            "revision": "REV-2023-04"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__ES.pdf",
+          "byteLength": 273097,
+          "sha256": "08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7",
+          "revision": "REV-2021-06"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__VI.pdf",
+          "byteLength": 328157,
+          "sha256": "76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a",
+          "revision": "REV-2021-06"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "AOC-CV-226",
+      "assetId": "NC|AOC-CV-226|76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__VI.pdf",
+            "byteLength": 328157,
+            "revision": "REV-2021-06"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__ES.pdf",
+          "byteLength": 273097,
+          "sha256": "08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7",
+          "revision": "REV-2021-06"
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2023-04__EN.pdf",
+          "byteLength": 269426,
+          "sha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+          "revision": "REV-2023-04"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-11",
+      "assetId": "NE|CC-6-11|c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618244885,
+          "finalUrl": "https://nebraskajudicial.gov/sites/default/files/CC-6-11.pdf",
+          "byteLength": 3003355,
+          "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+          "observedUnderFormNumber": "CC-6-11",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [
+          {
+            "path": "LegalEase Nebraska/CC-6-11.pdf",
+            "byteLength": 3003355
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11__cc-6-11-petition-to-set-aside-a-criminal-conviction__REV-2024-04__EN.pdf",
+            "byteLength": 3003355,
+            "revision": "REV-2024-04"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-11.2",
+      "assetId": "NE|CC-6-11.2|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618244558,
+          "finalUrl": "https://nebraskajudicial.gov/sites/default/files/CC-6-11-2.pdf",
+          "byteLength": 2766067,
+          "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "observedUnderFormNumber": "CC-6-11.2",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [
+          {
+            "path": "LegalEase Nebraska/CC-6-11-2.pdf",
+            "byteLength": 2766067
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
+            "byteLength": 2766067,
+            "revision": "REV-2020-12"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-12",
+      "assetId": "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Nebraska/CC-6-12.pdf",
+            "byteLength": 1682731
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
+            "byteLength": 1682731,
+            "revision": "REV-2024-04"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+          "byteLength": 137633,
+          "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+          "revision": "REV-2024-06"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-12",
+      "assetId": "NE|CC-6-12|b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+            "byteLength": 137633,
+            "revision": "REV-2024-06"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "nationwide",
+          "path": "LegalEase Nebraska/CC-6-12.pdf",
+          "byteLength": 1682731,
+          "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "revision": null
+        },
+        {
+          "archive": "corpus",
+          "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
+          "byteLength": 1682731,
+          "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "revision": "REV-2024-04"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-15.1",
+      "assetId": "NE|CC-6-15.1|d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618241762,
+          "finalUrl": "https://nebraskajudicial.gov/sites/default/files/CC-6-15-1.pdf",
+          "byteLength": 2909936,
+          "sha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+          "observedUnderFormNumber": "CC-6-15.1",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-15.1__motion-to-seal-record__REV-2021-05__EN.pdf",
+            "byteLength": 2909936,
+            "revision": "REV-2021-05"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "NE",
+      "formNumber": "DC-1-15",
+      "assetId": "NE|DC-1-15|43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__DC-1-15__notice-of-hearing__REV-UNKNOWN__EN.pdf",
+            "byteLength": 8485306,
+            "revision": "REV-UNKNOWN"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "VA",
+      "formNumber": "CC-1201",
+      "assetId": "VA|CC-1201|7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618241754,
+          "finalUrl": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1201.pdf",
+          "byteLength": 282919,
+          "sha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+          "observedUnderFormNumber": "CC-1201",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1201__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+            "byteLength": 282919,
+            "revision": "REV-2026-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "VA",
+      "formNumber": "CC-1473",
+      "assetId": "VA|CC-1473|6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618241757,
+          "finalUrl": "https://www.vacourts.gov/static/forms/circuit/cc1473.pdf",
+          "byteLength": 120875,
+          "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "observedUnderFormNumber": "CC-1473",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+            "byteLength": 120875,
+            "revision": "REV-2026-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "nationwide",
+          "path": "LegalEase Virginia /cc1473.pdf",
+          "byteLength": 31540,
+          "sha256": "6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+          "revision": null
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "200-00130",
+      "assetId": "VT|200-00130|ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618244316,
+          "finalUrl": "https://www.vtcourts.gov/sites/default/files/documents/200-00130%20%E2%80%93%20Petition%20to%20Seal%20Criminal%20History.pdf",
+          "byteLength": 1535506,
+          "sha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+          "observedUnderFormNumber": "200-00130",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00130__petition-to-seal-criminal-history__REV-2025-07__EN.pdf",
+            "byteLength": 1535506,
+            "revision": "REV-2025-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "200-00132",
+      "assetId": "VT|200-00132|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618244361,
+          "finalUrl": null,
+          "byteLength": 1999317,
+          "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "observedUnderFormNumber": "200-00132",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [
+          {
+            "path": "LegalEase Vermont/200-00132 – Stipulation to Seal Criminal History Record + Order.pdf",
+            "byteLength": 1999317
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+            "byteLength": 1999317,
+            "revision": "REV-2025-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "200-00132A",
+      "assetId": "VT|200-00132A|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Vermont/200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf",
+            "byteLength": 1959576
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+            "byteLength": 1959576,
+            "revision": "REV-2025-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "600-00228",
+      "assetId": "VT|600-00228|263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
+            "byteLength": 2871072,
+            "revision": "REV-2026-04"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "WI",
+      "formNumber": "CR-267",
+      "assetId": "WI|CR-267|2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618241861,
+          "finalUrl": null,
+          "byteLength": 74520,
+          "sha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+          "observedUnderFormNumber": "CR-267",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [
+          {
+            "path": "LegalEase Wisconsin/CR-267.pdf",
+            "byteLength": 74520
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-267__cr-267-02-15-order-on-petition-to-expunge-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+            "byteLength": 74520,
+            "revision": "REV-2024-05"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "WI",
+      "formNumber": "DJ-LE-250B",
+      "assetId": "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "acquisitionPriority": 2,
+      "pinnedHistoricalSha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf",
+            "byteLength": 475556,
+            "revision": "REV-UNKNOWN"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.3",
+      "assetId": "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "acquisitionPriority": 3,
+      "pinnedHistoricalSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Kentucky/496.3.pdf",
+            "byteLength": 385938
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+            "byteLength": 385938,
+            "revision": "REV-UNKNOWN"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "WI",
+      "formNumber": "DJ-LE-247",
+      "assetId": "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "acquisitionPriority": 3,
+      "pinnedHistoricalSha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf",
+            "byteLength": 130938,
+            "revision": "REV-UNKNOWN"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "AK",
+      "formNumber": "ak-record-relief-forms.html",
+      "assetId": "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Alaska/ak-record-relief-forms.html",
+            "byteLength": 23366
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "AK",
+      "formNumber": "RequestToSealCrimInfo.pdf",
+      "assetId": "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Alaska/RequestToSealCrimInfo.pdf",
+            "byteLength": 37708
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/AK/05_SOURCE_GATED/AK__SOURCE-GATED__DPS-SEAL-REQ-2-04__request-to-seal-criminal-justice-information__REV-2004-02__EN.pdf",
+            "byteLength": 37708,
+            "revision": "REV-2004-02"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "AL",
+      "formNumber": "al-expungement-petition.html",
+      "assetId": "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Alabama/al-expungement-petition.html",
+            "byteLength": 24887
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "AL",
+      "formNumber": "cr-65-expunge-petition-10-2024.pdf",
+      "assetId": "AL|cr-65-expunge-petition-10-2024.pdf|c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Alabama/cr-65-expunge-petition-10-2024.pdf",
+            "byteLength": 468056
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "AL",
+      "formNumber": "cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+      "assetId": "AL|cr-65a-order-on-petition-for-expungement-10-2024.pdf|7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Alabama/cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+            "byteLength": 238456
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "AL",
+      "formNumber": "criminal-forms.html",
+      "assetId": "AL|criminal-forms.html|55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Alabama/criminal-forms.html",
+            "byteLength": 29007
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "AL",
+      "formNumber": "criminal-record-expungement.html",
+      "assetId": "AL|criminal-record-expungement.html|021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Alabama/criminal-record-expungement.html",
+            "byteLength": 66971
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "AR",
+      "formNumber": "3-Misdemeanor-Petition-8_01_2023.pdf",
+      "assetId": "AR|3-Misdemeanor-Petition-8_01_2023.pdf|63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Arkanasa/3-Misdemeanor-Petition-8_01_2023.pdf",
+            "byteLength": 775618
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "AR",
+      "formNumber": "7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+      "assetId": "AR|7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Arkanasa/7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+            "byteLength": 529888
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-NOLLE-PROSEQUI-DISMISSAL-ACQUITTAL-OR-NO__petition-to-seal-records-of-nolle-prosequi-dismissals-j__REV-2020-04-22__EN.pdf",
+            "byteLength": 529888,
+            "revision": "REV-2020-04-22"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "AR",
+      "formNumber": "Arkansas-Petition-Order-Forms.html",
+      "assetId": "AR|Arkansas-Petition-Order-Forms.html|f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Arkanasa/Arkansas-Petition-Order-Forms.html",
+            "byteLength": 74560
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "AR",
+      "formNumber": "Felony-Petition-Form-f.pdf",
+      "assetId": "AR|Felony-Petition-Form-f.pdf|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Arkanasa/Felony-Petition-Form-f.pdf",
+            "byteLength": 178947
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/AR/05_SOURCE_GATED/AR__SOURCE-GATED__AR-ACIC-PETITION-TO-SEAL-FELONY-UNDER-ACT-1460__petition-to-seal-felony-under-act-1460-of-2013__REV-2021-07-21__EN.pdf",
+            "byteLength": 178947,
+            "revision": "REV-2021-07-21"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "KY",
+      "formNumber": "496.2.pdf",
+      "assetId": "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Kentucky/496.2.pdf",
+            "byteLength": 237812
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
+            "byteLength": 237812,
+            "revision": "REV-2016-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "KY",
+      "formNumber": "496.3.pdf",
+      "assetId": "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Kentucky/496.3.pdf",
+            "byteLength": 385938
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+            "byteLength": 385938,
+            "revision": "REV-UNKNOWN"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "KY",
+      "formNumber": "497.2.pdf",
+      "assetId": "KY|497.2.pdf|080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Kentucky/497.2.pdf",
+            "byteLength": 159169
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "KY",
+      "formNumber": "JV-29.1.pdf",
+      "assetId": "KY|JV-29.1.pdf|5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Kentucky/JV-29.1.pdf",
+            "byteLength": 586409
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "KY",
+      "formNumber": "JV-29.pdf",
+      "assetId": "KY|JV-29.pdf|557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Kentucky/JV-29.pdf",
+            "byteLength": 373339
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "KY",
+      "formNumber": "JV-30.pdf",
+      "assetId": "KY|JV-30.pdf|c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Kentucky/JV-30.pdf",
+            "byteLength": 234588
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "KY",
+      "formNumber": "Kentucky-Expungement-Forms.html",
+      "assetId": "KY|Kentucky-Expungement-Forms.html|c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Kentucky/files-4/Kentucky-Expungement-Forms.html",
+            "byteLength": 32118
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "cr287_1.pdf",
+      "assetId": "NC|cr287_1.pdf|sha256_unrecorded_in_repo",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "sha256_unrecorded_in_repo",
+      "verdict": "pin_is_not_a_hash",
+      "verdictMeans": "the asset's pinned value is a placeholder, not a SHA-256, so nothing can be compared",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "cr297.pdf",
+      "assetId": "NC|cr297.pdf|sha256_unrecorded_in_repo",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "sha256_unrecorded_in_repo",
+      "verdict": "pin_is_not_a_hash",
+      "verdictMeans": "the asset's pinned value is a placeholder, not a SHA-256, so nothing can be compared",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "cr298_1.pdf",
+      "assetId": "NC|cr298_1.pdf|sha256_unrecorded_in_repo",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "sha256_unrecorded_in_repo",
+      "verdict": "pin_is_not_a_hash",
+      "verdictMeans": "the asset's pinned value is a placeholder, not a SHA-256, so nothing can be compared",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "expungements.html",
+      "assetId": "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase North Carolina/expungements.html",
+            "byteLength": 21280
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "forms-2.html",
+      "assetId": "NC|forms-2.html|30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase North Carolina/forms-2.html",
+            "byteLength": 73040
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "forms.html",
+      "assetId": "NC|forms.html|1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase North Carolina/forms.html",
+            "byteLength": 73962
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "NC",
+      "formNumber": "nc-expunction-petition.html",
+      "assetId": "NC|nc-expunction-petition.html|912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase North Carolina/nc-expunction-petition.html",
+            "byteLength": 56452
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-11-2.pdf",
+      "assetId": "NE|CC-6-11-2.pdf|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618244558,
+          "finalUrl": "https://nebraskajudicial.gov/sites/default/files/CC-6-11-2.pdf",
+          "byteLength": 2766067,
+          "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "observedUnderFormNumber": "CC-6-11.2",
+          "matchedOn": "the same form number and the same bytes"
+        },
+        "nationwide": [
+          {
+            "path": "LegalEase Nebraska/CC-6-11-2.pdf",
+            "byteLength": 2766067
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
+            "byteLength": 2766067,
+            "revision": "REV-2020-12"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-11.pdf",
+      "assetId": "NE|CC-6-11.pdf|sha256_unrecorded_in_repo",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "sha256_unrecorded_in_repo",
+      "verdict": "pin_is_not_a_hash",
+      "verdictMeans": "the asset's pinned value is a placeholder, not a SHA-256, so nothing can be compared",
+      "witnesses": {
+        "live": {
+          "agrees": false,
+          "observed": [
+            {
+              "jobId": 96618244885,
+              "finalUrl": "https://nebraskajudicial.gov/sites/default/files/CC-6-11.pdf",
+              "byteLength": 3003355,
+              "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492"
+            }
+          ]
+        },
+        "nationwide": [],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "C",
+      "queueSet": "no_official_source_identified",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-11A",
+      "assetId": "NE|CC-6-11A|615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-11A__completing-the-petition-to-set-aside-a-criminal-conviction__REV-UNKNOWN__EN.pdf",
+            "byteLength": 821244,
+            "revision": "REV-UNKNOWN"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-12.pdf",
+      "assetId": "NE|CC-6-12.pdf|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Nebraska/CC-6-12.pdf",
+            "byteLength": 1682731
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
+            "byteLength": 1682731,
+            "revision": "REV-2024-04"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+          "byteLength": 137633,
+          "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+          "revision": "REV-2024-06"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "VA",
+      "formNumber": "cc1473.pdf",
+      "assetId": "VA|cc1473.pdf|6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+      "verdict": "pin_contradicted_live",
+      "verdictMeans": "the issuing body served different bytes under the same form number",
+      "witnesses": {
+        "live": {
+          "agrees": false,
+          "observed": [
+            {
+              "jobId": 96618241757,
+              "finalUrl": "https://www.vacourts.gov/static/forms/circuit/cc1473.pdf",
+              "byteLength": 120875,
+              "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219"
+            }
+          ]
+        },
+        "nationwide": [
+          {
+            "path": "LegalEase Virginia /cc1473.pdf",
+            "byteLength": 31540
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": [
+        {
+          "archive": "corpus",
+          "path": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+          "byteLength": 120875,
+          "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "revision": "REV-2026-07"
+        }
+      ]
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VA",
+      "formNumber": "cc1473inst.pdf",
+      "assetId": "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Virginia /cc1473inst.pdf",
+            "byteLength": 20802
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VA",
+      "formNumber": "va-expungement-sealing-forms.html",
+      "assetId": "VA|va-expungement-sealing-forms.html|b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Virginia /va-expungement-sealing-forms.html",
+            "byteLength": 19347
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "200-00129 – Petition to Expunge Criminal History.pdf",
+      "assetId": "VT|200-00129 – Petition to Expunge Criminal History.pdf|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Vermont/200-00129 – Petition to Expunge Criminal History.pdf",
+            "byteLength": 2000422
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00129__petition-to-expunge-criminal-history__REV-2025-07__EN.pdf",
+            "byteLength": 2000422,
+            "revision": "REV-2025-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf",
+      "assetId": "VT|200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Vermont/200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf",
+            "byteLength": 675949
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
+            "byteLength": 675949,
+            "revision": "REV-UNKNOWN"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "200-00131",
+      "assetId": "VT|200-00131|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Vermont/200-00131.pdf",
+            "byteLength": 1326589
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf",
+            "byteLength": 1326589,
+            "revision": "REV-2018-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "200-00131.pdf",
+      "assetId": "VT|200-00131.pdf|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Vermont/200-00131.pdf",
+            "byteLength": 1326589
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf",
+            "byteLength": 1326589,
+            "revision": "REV-2018-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "200-00132 – Stipulation to Seal Criminal History Record + Order.pdf",
+      "assetId": "VT|200-00132 – Stipulation to Seal Criminal History Record + Order.pdf|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "verdict": "pin_confirmed_live",
+      "verdictMeans": "the issuing body served exactly these bytes",
+      "witnesses": {
+        "live": {
+          "agrees": true,
+          "jobId": 96618244361,
+          "finalUrl": null,
+          "byteLength": 1999317,
+          "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+          "observedUnderFormNumber": "200-00132",
+          "matchedOn": "the same bytes, recorded under a different spelling of the form number"
+        },
+        "nationwide": [
+          {
+            "path": "LegalEase Vermont/200-00132 – Stipulation to Seal Criminal History Record + Order.pdf",
+            "byteLength": 1999317
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+            "byteLength": 1999317,
+            "revision": "REV-2025-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf",
+      "assetId": "VT|200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Vermont/200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf",
+            "byteLength": 1959576
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+            "byteLength": 1959576,
+            "revision": "REV-2025-07"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "200-00331",
+      "assetId": "VT|200-00331|6001c4bd36be3e6b4f84b6352ebc94178f3535e39a9109665a2ac35aa2095212",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "6001c4bd36be3e6b4f84b6352ebc94178f3535e39a9109665a2ac35aa2095212",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [],
+        "corpus": [
+          {
+            "path": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__200-00331__request-for-criminal-record-search__REV-2026-05__EN.pdf",
+            "byteLength": 1055720,
+            "revision": "REV-2026-05"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "200-00631",
+      "assetId": "VT|200-00631|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Vermont/200-00631.pdf",
+            "byteLength": 832881
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf",
+            "byteLength": 832881,
+            "revision": "REV-2019-09"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "200-00631.pdf",
+      "assetId": "VT|200-00631.pdf|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Vermont/200-00631.pdf",
+            "byteLength": 832881
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf",
+            "byteLength": 832881,
+            "revision": "REV-2019-09"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "400-00171.pdf",
+      "assetId": "VT|400-00171.pdf|b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Vermont/400-00171.pdf",
+            "byteLength": 1964636
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "B",
+      "queueSet": "official_landing_page_known",
+      "jurisdiction": "VT",
+      "formNumber": "application-waive-filing-fees-and-service-costs.html",
+      "assetId": "VT|application-waive-filing-fees-and-service-costs.html|1b9348d18347d3adb278a209046c3593e595c385b1c2081c6a33142767196b59",
+      "acquisitionPriority": 4,
+      "pinnedHistoricalSha256": "1b9348d18347d3adb278a209046c3593e595c385b1c2081c6a33142767196b59",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Vermont/application-waive-filing-fees-and-service-costs.html",
+            "byteLength": 48897
+          }
+        ],
+        "corpus": []
+      },
+      "sameFormDifferentBytes": []
+    },
+    {
+      "acquisitionGroup": "A",
+      "queueSet": "exact_official_url_known",
+      "jurisdiction": "WI",
+      "formNumber": "CR-266",
+      "assetId": "WI|CR-266|9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "acquisitionPriority": null,
+      "pinnedHistoricalSha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "verdict": "pin_confirmed_archive_only",
+      "verdictMeans": "no live observation; the pinned bytes are recorded in an archive index",
+      "witnesses": {
+        "live": null,
+        "nationwide": [
+          {
+            "path": "LegalEase Wisconsin/CR-266.pdf",
+            "byteLength": 130733
+          },
+          {
+            "path": "LegalEase Wisconsin/forms-download/CR-266_en.pdf",
+            "byteLength": 130733
+          }
+        ],
+        "corpus": [
+          {
+            "path": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-266__cr-266-05-24-petition-to-expunge-criminal-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+            "byteLength": 130733,
+            "revision": "REV-2024-05"
+          }
+        ]
+      },
+      "sameFormDifferentBytes": []
+    }
+  ],
+  "archiveAgainstArchive": [
+    {
+      "formKey": "AZ|aoccrem-1-i-071221",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/AZ/03_INSTRUCTIONS/AZ__INSTRUCTIONS__AOCCREM1I-071221__instructions-for-completing-a-petition-to-expunge-marijuana-related__REV-UNKNOWN__EN.pdf",
+          "byteLength": 30120,
+          "sha256": "8e9955b29ba8a5d12b100ca9022359ede202259d00b5e2b4f6611c697ab23e0b",
+          "revision": "REV-UNKNOWN"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Arizona/AOCCREM1I-071221.pdf",
+          "byteLength": 30120,
+          "sha256": "8e9955b29ba8a5d12b100ca9022359ede202259d00b5e2b4f6611c697ab23e0b"
+        }
+      ]
+    },
+    {
+      "formKey": "AZ|aoccrem-2-f-071221",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCREM2F-071221__petition-to-expunge-records-municipal-justice-court__REV-UNKNOWN__EN.pdf",
+          "byteLength": 72602,
+          "sha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482",
+          "revision": "REV-UNKNOWN"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Arizona/AOCCREM2F-071221.pdf",
+          "byteLength": 72602,
+          "sha256": "4875e08bc1518ca9b449b3f52fca1264bdbd3bd207887420f6f88c76d0409482"
+        }
+      ]
+    },
+    {
+      "formKey": "AZ|aoccrem-3-f-071221",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/AZ/05_SOURCE_GATED/AZ__SOURCE-GATED__AOCCREM3F-071221__petition-to-expunge-records-superior-court__REV-UNKNOWN__EN.pdf",
+          "byteLength": 22738,
+          "sha256": "3f0a4f97f7a28a63f4f74e4f6c37cc4400a47e35c5669895ebf296c882b79652",
+          "revision": "REV-UNKNOWN"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Arizona/AOCCREM3F-071221.pdf",
+          "byteLength": 22738,
+          "sha256": "3f0a4f97f7a28a63f4f74e4f6c37cc4400a47e35c5669895ebf296c882b79652"
+        }
+      ]
+    },
+    {
+      "formKey": "CA|cr-180",
+      "agrees": false,
+      "corpus": [
+        {
+          "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-180__petition-for-dismissal__REV-2024-01-01__EN.pdf",
+          "byteLength": 110684,
+          "sha256": "06c1b64315ebd5c7f8260d7169abc2392d6373a202dc39f4788cb8a8c98bbdbe",
+          "revision": "REV-2024-01-01"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase California /CR-180.html",
+          "byteLength": 132802,
+          "sha256": "d7f6e46baece092e126b45d75c2ad7cd6570615ad65e65eb9c39193581049c6e"
+        }
+      ]
+    },
+    {
+      "formKey": "CA|cr-181",
+      "agrees": false,
+      "corpus": [
+        {
+          "path": "STATES/CA/02_PACKET_FORMS/CA__FORM__CR-181__order-for-dismissal__REV-2024-01-01__EN.pdf",
+          "byteLength": 110123,
+          "sha256": "f737503a89465d40206b11b1123e815e44a249d324bad16d313c337a695ce504",
+          "revision": "REV-2024-01-01"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase California /CR-181.html",
+          "byteLength": 132437,
+          "sha256": "35a25e173bed43e6c70cd245390e3dbb1d30edc8b837d914e9ddfadc4212761f"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-2370",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-2370__guide-to-sealing-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+          "byteLength": 614271,
+          "sha256": "cc0b5737ef0598f9e667e50b00aecbd95f53fdb9aa2bc546f8aaa910da480149",
+          "revision": "REV-2025-07-01"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF2370.pdf",
+          "byteLength": 614271,
+          "sha256": "cc0b5737ef0598f9e667e50b00aecbd95f53fdb9aa2bc546f8aaa910da480149"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-2371",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2371__motion-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+          "byteLength": 669287,
+          "sha256": "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6",
+          "revision": "REV-2025-07-01"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF2371.pdf",
+          "byteLength": 669287,
+          "sha256": "642558b85e3f3df8c15808369685bbe56398523c7794b6a949d20fd7b4f8b6d6"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-2374",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-2374__order-to-seal-conviction-records-conduct-no-longer-prohibited__REV-2025-07-01__EN.pdf",
+          "byteLength": 1051131,
+          "sha256": "36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72",
+          "revision": "REV-2025-07-01"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF2374.pdf",
+          "byteLength": 1051131,
+          "sha256": "36a7ad4767ac8333183cd26775265697d1c6574029f7f722462f09d382990a72"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-416",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-416__guide-to-sealing-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+          "byteLength": 655751,
+          "sha256": "26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af",
+          "revision": "REV-2025-07-01"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF416.pdf",
+          "byteLength": 655751,
+          "sha256": "26b07edc2300b2fd9dc8a5114fa3738fb4b377a7aa1ea089cecf6861b96235af"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-417",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-417__petition-to-seal-arrest-records-no-charges-filed__REV-2025-07-01__EN.pdf",
+          "byteLength": 1651354,
+          "sha256": "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4",
+          "revision": "REV-2025-07-01"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF417.pdf",
+          "byteLength": 1651354,
+          "sha256": "e0e1aefac85269087ca0f69252c501b14020a301d2cf6e5fbcc26aa5338f6dd4"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-418",
+      "agrees": false,
+      "corpus": [
+        {
+          "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-418__order-to-seal-arrest-and-criminal-records__REV-2024-03-20__EN.pdf",
+          "byteLength": 542987,
+          "sha256": "b027be364d93a1f5b879916c144260e7aeeaadc46309bf69c9478d6ad70c7993",
+          "revision": "REV-2024-03-20"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF418.pdf",
+          "byteLength": 596551,
+          "sha256": "1fae098394b532e45c85ac04019ce3ecff54be2a8382badba4749f25527a5e9d"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-477",
+      "agrees": false,
+      "corpus": [
+        {
+          "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-477__motion-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+          "byteLength": 605652,
+          "sha256": "b9cbad7f3a66a1a952e10ad15e59d77afb9b68714465fe0e88333cf2c3159643",
+          "revision": "REV-2024-08-07"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF477.pdf",
+          "byteLength": 666230,
+          "sha256": "9bb822f0163adefb1da1748b50b7323f027b90e32a759e737c0a321c8b47404d"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-478",
+      "agrees": false,
+      "corpus": [
+        {
+          "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-478__order-to-seal-non-conviction-records__REV-2024-08-07__EN.pdf",
+          "byteLength": 576543,
+          "sha256": "8208caab3019164f8f0671aea1f0dbcf460805d61455346887cfd1d133c0e159",
+          "revision": "REV-2024-08-07"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF478.pdf",
+          "byteLength": 652768,
+          "sha256": "cbe8ed7ce129cc35a1af1ba778507c771265e326ea0e3c9d94940e3cabeed096"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-611",
+      "agrees": false,
+      "corpus": [
+        {
+          "path": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-611__guide-to-sealing-conviction-records-single-case__REV-2024-08-07__EN.pdf",
+          "byteLength": 606173,
+          "sha256": "b628ee77cfdbb1e02208a74b04f6a03083e2843505f4bb4a7c3e0f2b3503843e",
+          "revision": "REV-2024-08-07"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF611.pdf",
+          "byteLength": 631473,
+          "sha256": "8f7983af4346e8ccfdc218d01622263af4e783e24a3d7654772d502a74d44fc5"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-612",
+      "agrees": false,
+      "corpus": [
+        {
+          "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-612__motion-to-seal-conviction-records-district-or-county-court-conviction__REV-2024-08-07__EN.pdf",
+          "byteLength": 682994,
+          "sha256": "8600b4b9a4b27fe821e843cf6bfc21f45325f0791bb9d1e62a0326d7261f927e",
+          "revision": "REV-2024-08-07"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF612.pdf",
+          "byteLength": 737628,
+          "sha256": "4a45070b9332e73ddbb3ec9cb8d326b707589856d3104b8ab7d9ab991d9d496b"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-615",
+      "agrees": false,
+      "corpus": [
+        {
+          "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-615__order-to-seal-conviction-records__REV-2024-08-07__EN.pdf",
+          "byteLength": 565158,
+          "sha256": "106cbd5edad2272f3f6f1378450b007507da879e6a917437d2cc3bb062d87647",
+          "revision": "REV-2024-08-07"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF615.pdf",
+          "byteLength": 1054204,
+          "sha256": "184a33faf5d800a189f4c0fbd180912a02888d60e1100ca586064a8c753a0a26"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-641",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-641__motion-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+          "byteLength": 721895,
+          "sha256": "6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02",
+          "revision": "REV-2025-07-01"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF641.pdf",
+          "byteLength": 721895,
+          "sha256": "6ad1d7c43b454b3b50c9c77313528b9660ada8a730d9ed5c384479809173ab02"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-642",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-642__order-to-seal-multiple-conviction-records__REV-2025-07-01__EN.pdf",
+          "byteLength": 612824,
+          "sha256": "584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c",
+          "revision": "REV-2025-07-01"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF642.pdf",
+          "byteLength": 612824,
+          "sha256": "584708616e982657f341b17bd58166a73ca05529a73bae715ce5f38168f0c52c"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-682",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/CO/03_INSTRUCTIONS/CO__INSTRUCTIONS__JDF-682__how-to-seal-municipal-conviction-records__REV-2024-08-07__EN.pdf",
+          "byteLength": 137369,
+          "sha256": "5a05097b1c2b0a22beb3c44fca7b15fc0bf40911c6590bcd6c46546e1006f0fb",
+          "revision": "REV-2024-08-07"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF682.pdf",
+          "byteLength": 137369,
+          "sha256": "5a05097b1c2b0a22beb3c44fca7b15fc0bf40911c6590bcd6c46546e1006f0fb"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-683",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-683__petition-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+          "byteLength": 82760,
+          "sha256": "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e",
+          "revision": "REV-2023-02-08"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF683.pdf",
+          "byteLength": 82760,
+          "sha256": "6b451ae32c01ef1e637a460df627d246e1b4a61d4ac4f166005a7349fa87202e"
+        }
+      ]
+    },
+    {
+      "formKey": "CO|jdf-686",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/CO/02_PACKET_FORMS/CO__FORM__JDF-686__order-to-seal-municipal-conviction-records__REV-2023-02-08__EN.pdf",
+          "byteLength": 63657,
+          "sha256": "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200",
+          "revision": "REV-2023-02-08"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Colorado/JDF686.pdf",
+          "byteLength": 63657,
+          "sha256": "abf997d8e701df0c74b1eb7833b35f30c006b50bf71b019abf7754d898433200"
+        }
+      ]
+    },
+    {
+      "formKey": "ND|sealing-criminal-records-research-guide",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/ND/04_SUPPORTING_PROCESS/ND__SUPPORT__SEALING-CRIMINAL-RECORDS-RESEARCH-GUIDE__sealing-criminal-records-or-closing-nonconviction__REV-UNKNOWN__EN.pdf",
+          "byteLength": 303777,
+          "sha256": "b39a0c1532bff3381382544a3888478835edb2109af597a2468a34e2a5f19a3c",
+          "revision": "REV-UNKNOWN"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase North Dakota/Sealing Criminal Records Research Guide.pdf",
+          "byteLength": 303777,
+          "sha256": "b39a0c1532bff3381382544a3888478835edb2109af597a2468a34e2a5f19a3c"
+        }
+      ]
+    },
+    {
+      "formKey": "NE|cc-6-11",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11__cc-6-11-petition-to-set-aside-a-criminal-conviction__REV-2024-04__EN.pdf",
+          "byteLength": 3003355,
+          "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+          "revision": "REV-2024-04"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Nebraska/CC-6-11.pdf",
+          "byteLength": 3003355,
+          "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492"
+        }
+      ]
+    },
+    {
+      "formKey": "NE|cc-6-11-2",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
+          "byteLength": 2766067,
+          "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+          "revision": "REV-2020-12"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Nebraska/CC-6-11-2.pdf",
+          "byteLength": 2766067,
+          "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6"
+        }
+      ]
+    },
+    {
+      "formKey": "NE|cc-6-12",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
+          "byteLength": 1682731,
+          "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "revision": "REV-2024-04"
+        },
+        {
+          "path": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+          "byteLength": 137633,
+          "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+          "revision": "REV-2024-06"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Nebraska/CC-6-12.pdf",
+          "byteLength": 1682731,
+          "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28"
+        }
+      ]
+    },
+    {
+      "formKey": "SC|scca-223-a-1",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
+          "byteLength": 1045144,
+          "sha256": "3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+          "revision": "REV-2026-04"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase South Carolina /SCCA223A1.pdf",
+          "byteLength": 1045144,
+          "sha256": "3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7"
+        }
+      ]
+    },
+    {
+      "formKey": "SC|scca-223-d-1",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/SC/05_SOURCE_GATED/SC__SOURCE-GATED__SCCA-223D1__expungement-objection-transmittal__REV-2016-05__EN.pdf",
+          "byteLength": 11932,
+          "sha256": "988ad4b5f6054d1b47a459358fb409ac4c76b09f281b6a12650ff173f0158776",
+          "revision": "REV-2016-05"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase South Carolina /SCCA223D1.pdf",
+          "byteLength": 11932,
+          "sha256": "988ad4b5f6054d1b47a459358fb409ac4c76b09f281b6a12650ff173f0158776"
+        }
+      ]
+    },
+    {
+      "formKey": "SC|scca-223-e",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/SC/05_SOURCE_GATED/SC__SOURCE-GATED__SCCA-223E__application-for-expungement__REV-UNKNOWN__EN.pdf",
+          "byteLength": 106144,
+          "sha256": "668b70b0b3c2cd4c0354d0ed63711110d23633f73d507a9f67c051828b7bbad8",
+          "revision": "REV-UNKNOWN"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase South Carolina /SCCA223E.pdf",
+          "byteLength": 106144,
+          "sha256": "668b70b0b3c2cd4c0354d0ed63711110d23633f73d507a9f67c051828b7bbad8"
+        }
+      ]
+    },
+    {
+      "formKey": "VA|cc-1473",
+      "agrees": false,
+      "corpus": [
+        {
+          "path": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+          "byteLength": 120875,
+          "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "revision": "REV-2026-07"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Virginia /cc1473.pdf",
+          "byteLength": 31540,
+          "sha256": "6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3"
+        }
+      ]
+    },
+    {
+      "formKey": "VT|200-00131",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf",
+          "byteLength": 1326589,
+          "sha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+          "revision": "REV-2018-07"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Vermont/200-00131.pdf",
+          "byteLength": 1326589,
+          "sha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a"
+        }
+      ]
+    },
+    {
+      "formKey": "VT|200-00631",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf",
+          "byteLength": 832881,
+          "sha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+          "revision": "REV-2019-09"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Vermont/200-00631.pdf",
+          "byteLength": 832881,
+          "sha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3"
+        }
+      ]
+    },
+    {
+      "formKey": "WI|cr-266",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-266__cr-266-05-24-petition-to-expunge-criminal-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+          "byteLength": 130733,
+          "sha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+          "revision": "REV-2024-05"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Wisconsin/CR-266.pdf",
+          "byteLength": 130733,
+          "sha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412"
+        }
+      ]
+    },
+    {
+      "formKey": "WI|cr-267",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-267__cr-267-02-15-order-on-petition-to-expunge-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+          "byteLength": 74520,
+          "sha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+          "revision": "REV-2024-05"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase Wisconsin/CR-267.pdf",
+          "byteLength": 74520,
+          "sha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb"
+        }
+      ]
+    },
+    {
+      "formKey": "WV|sca-c-900",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/WV/03_INSTRUCTIONS/WV__INSTRUCTIONS__SCA-C900__sca-c900-expungement-instructions__SOURCE-2026-05__EN.pdf",
+          "byteLength": 204715,
+          "sha256": "89ff7d2d911406465bd39da947737a3ee262edbcbc98db9a3cedda952598864e",
+          "revision": null
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase West Virginia/SCA-C900.pdf",
+          "byteLength": 204715,
+          "sha256": "89ff7d2d911406465bd39da947737a3ee262edbcbc98db9a3cedda952598864e"
+        }
+      ]
+    },
+    {
+      "formKey": "WV|sca-c-903",
+      "agrees": false,
+      "corpus": [
+        {
+          "path": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C903__sca-c903-motion-for-expungement-after-acquittal-or-dismissal__REV-2010-04__EN.pdf",
+          "byteLength": 23275,
+          "sha256": "bbfcd767b02230300e2164a40cc2d81967c87fb9b7ddf4f0677622e1319fe878",
+          "revision": "REV-2010-04"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase West Virginia/SCA-C-903.pdf",
+          "byteLength": 112484,
+          "sha256": "242048f1ff5b2e795ca43900bec6d9c353c59950bffd3c7776374ff1cc6c7035"
+        }
+      ]
+    },
+    {
+      "formKey": "WV|sca-c-906",
+      "agrees": false,
+      "corpus": [
+        {
+          "path": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C906__sca-c906-petition-for-expungement-of-misdemeanor-violations-and-traffic-citations__REV-2019-06-04__EN.pdf",
+          "byteLength": 176072,
+          "sha256": "43b5606c9faf6fcf4d6f73c1d97cf1bd87798158dee1b6f3381c8a0472b4b64c",
+          "revision": "REV-2019-06-04"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase West Virginia/SCA-C906.pdf",
+          "byteLength": 153424,
+          "sha256": "8c6ced88c37870359bc38537c4409b2dc99a5ed6fc6b69c9c41d386fa7fe6e8c"
+        }
+      ]
+    },
+    {
+      "formKey": "WV|sca-c-912",
+      "agrees": true,
+      "corpus": [
+        {
+          "path": "STATES/WV/02_PACKET_FORMS/WV__FORM__SCA-C912__sca-c912-victim-s-notice-of-opposition__REV-2020-01-09__EN.pdf",
+          "byteLength": 262858,
+          "sha256": "3f41ed988e72e2aef1ff2142442d5b0321e39e46143a6747925ce9e901a7f59d",
+          "revision": "REV-2020-01-09"
+        }
+      ],
+      "nationwide": [
+        {
+          "path": "LegalEase West Virginia/SCA-C912.pdf",
+          "byteLength": 262858,
+          "sha256": "3f41ed988e72e2aef1ff2142442d5b0321e39e46143a6747925ce9e901a7f59d"
+        }
+      ]
+    }
+  ]
+}

@@ -123,7 +123,21 @@ function harvestLinkInventory() {
       // and reading it back promoted three unverified pattern candidates into
       // "recorded official URLs" a second time -- the same laundering the queue
       // exclusion was added to stop, through a different file.
-      if (/rcap-source-acquisition-queue\/|rcap-acquisition-recovery\/|rcap-source-acquisition-run-log\//.test(text)) continue;
+      //
+      // The observation log, the drift comparison and the reconciliation are
+      // excluded for the same reason and one worse: they record what happened
+      // to a URL, INCLUDING the failures. The Kentucky Expungement page answers
+      // 404 and every nccourts.gov URL answers 403, and those URLs are written
+      // down in the evidence precisely because they did not work. Harvesting
+      // them back would file a dead page as this jurisdiction's known official
+      // source. Evidence about a URL is not a record of one.
+      //
+      // Prose is harvested from docs/record-clearing too, and a document that
+      // discusses a failed URL quotes it. Any such file opts out by carrying
+      // the marker `rcap-url-evidence`, which is checked here rather than a
+      // path being hardcoded, so the next evidence document is covered without
+      // anyone remembering to edit this generator.
+      if (/rcap-source-acquisition-queue\/|rcap-acquisition-recovery\/|rcap-source-acquisition-run-log\/|rcap-source-observation-log\/|rcap-source-drift-comparison\/|rcap-archive-reconciliation\/|rcap-url-evidence/.test(text)) continue;
       for (const m of text.matchAll(/https?:\/\/[A-Za-z0-9._~:/?#@!$&*+,;=%-]+/g)) record(m[0], rel);
     }
   };
@@ -379,7 +393,14 @@ const payload = {
     "the D-track queue and ledger evidence",
     "documentation under docs/record-clearing"
   ],
-  notReconciledAgainst: "the official forms-links workbook. `private/Nationwide Record Clearing/` is not in this clone, so if that workbook holds URLs these sources do not, group C is an overcount. Mount it and re-run this generator.",
+  // Superseded by evidence, and kept as a field because downstream readers key
+  // on it. The original text asked someone to mount the Nationwide folder and
+  // re-run, on the theory that a forms-links workbook inside it might hold URLs
+  // these sources do not. The committed index of that folder shows no
+  // spreadsheet of any kind among its 425 files, so there is no workbook to
+  // reconcile against — and the folder turns out to hold something better,
+  // which data/rcap-all50/archive-reconciliation.json now reports per asset.
+  notReconciledAgainst: "nothing outstanding by URL. `private/Nationwide Record Clearing/` is still not in this clone, but its committed file-level index is, and data/rcap-all50/archive-reconciliation.json joins every row here against it: no forms-links workbook exists in that folder, and group C is an overcount for a different reason — 12 of its 13 rows have their pinned bytes indexed at a named path in an archive.",
   sets: {
     exact_official_url_known: set1,
     official_landing_page_known: set2,
