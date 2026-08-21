@@ -31,6 +31,7 @@ import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenan
 import { buildContactSheet, ContactSheetProofError, visibleTextOfDocument, missingExpectedValues }
   from "./rcap-official-forms/rcap-contact-sheet.mjs";
 import { reconcileWrittenAgainstDeclared } from "./rcap-official-forms/rcap-evidence-contract.mjs";
+import { PARTICIPANT_FILL_HOLD } from "./rcap-official-forms/rcap-participant-fill-hold.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown, PDFOptionList, StandardFonts, rgb } = require("pdf-lib");
@@ -38,6 +39,33 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const SRC = process.env.RCAP_BUNDLE_EXTRACT
   ?? "/tmp/claude-0/-home-user-legalease-partner-dashboard-clean/54ff2bf1-37ee-5073-8d13-dc21b63a0975/scratchpad/bundle/extracted";
 const OUT = path.join(rootDir, "data/rcap-all50/overlays/production");
+/**
+ * The artifacts that exist only because a document was read as participant-filled:
+ * the filled fixtures and the contact sheet built from them. A no-fill document
+ * has none of these, so finding one means an earlier ownership reading left it
+ * behind.
+ */
+/**
+ * The pinned Master Library locator for a source binary: its canonical path
+ * under the digest that was actually read. Not a web URL — a page can move or
+ * be re-issued, and a provenance record that points at one cannot be checked
+ * against anything.
+ */
+function sourceLocator(record, sha) {
+  return record.canonicalBundlePath ? `master-library:${record.canonicalBundlePath}#sha256=${sha}` : null;
+}
+
+const PARTICIPANT_ARTIFACTS = [
+  "fixtures/canonical-filled.pdf",
+  "fixtures/boundary-filled.pdf",
+  "fixtures/negative.json",
+  "contact-sheet/blank-vs-filled.pdf",
+  "contact-sheet/contact-sheet-proof.json"
+];
+const PARTICIPANT_ARTIFACT_DIRS = ["fixtures", "contact-sheet"];
+
+const JURISDICTION_SLUGS = { WI: "wisconsin", AL: "alabama", AR: "arkansas", VA: "virginia", AK: "alaska",
+  KY: "kentucky", NC: "north-carolina", NE: "nebraska", VT: "vermont" };
 const RENDERER_VERSION = "implement-rcap-official-forms-d1/v2-provenance-sidecar";
 // Pinned rather than read from the clock, so re-running unchanged inputs
 // produces an identical record and a drift check keeps its meaning.
@@ -84,16 +112,99 @@ function haystack(name) {
 const CID_ENCODED = /\u0000/;
 
 // --- document ownership -----------------------------------------------------
-const OWNERSHIP = {
+export const OWNERSHIP = {
   INSTRUCTIONAL: "instructional_no_participant_fill",
   OUTSIDE_PARTY: "outside_party_completed",
   COURT_ORDER: "court_issued_caption_only",
   PARTICIPANT: "participant_completed"
 };
-function determineOwnership(record) {
+/**
+ * The legal-design registry's view of one official form.
+ *
+ * The registry is the byte-pinned record of what each component of a track IS:
+ * which actor files it, and whether the platform fills the court's PDF or hands
+ * the participant guidance instead. That is design intent, and it outranks any
+ * reading of the document's own title.
+ */
+const DESIGN_PDF_FILL = "official_pdf_fill";
+
+/**
+ * A role whose named actor — the party who completes and files the document — is
+ * someone other than the participant. Anchored at the start of the role so that
+ * `district_attorney_alternative_filing` matches while
+ * `participant_request_to_district_attorney` does not: the second is the
+ * participant's own request, and only the leading actor owns the filing.
+ */
+const OUTSIDE_PARTY_ROLE =
+  /^(district_attorney|prosecutor|commonwealth|state_?s?_attorney|solicitor|county_attorney|law_enforcement|agency|victim)(_|$)/;
+
+/**
+ * Who the leading actor of a role actually is. The role names the party; this
+ * says which owner vocabulary the record should carry, so a district attorney's
+ * filing and a state's attorney's filing both record `prosecutor` rather than
+ * each inventing their own word for it.
+ */
+const ROLE_ACTORS = [
+  [/^(district_attorney|prosecutor|commonwealth|state_?s?_attorney|solicitor|county_attorney)(_|$)/, "prosecutor"],
+  [/^(law_enforcement|agency)(_|$)/, "agency"],
+  [/^victim(_|$)/, "victim"]
+];
+function roleActor(role) {
+  for (const [pattern, actor] of ROLE_ACTORS) if (pattern.test(role)) return actor;
+  return "outside_party";
+}
+
+const designComponentsByFormId = (() => {
+  const byFormId = new Map();
+  const registry = readJson(path.join(rootDir, "data/record-clearing/legal-design-track-registry.json"), null);
+  if (!registry) return byFormId;
+  const visit = (node) => {
+    if (Array.isArray(node)) { for (const item of node) visit(item); return; }
+    if (!node || typeof node !== "object") return;
+    if (typeof node.role === "string" && typeof node.officialFormId === "string" && node.officialFormId) {
+      const list = byFormId.get(node.officialFormId) ?? [];
+      list.push({ role: node.role, outputStrategy: node.outputStrategy ?? null });
+      byFormId.set(node.officialFormId, list);
+    }
+    for (const value of Object.values(node)) visit(value);
+  };
+  visit(registry);
+  return byFormId;
+})();
+
+/**
+ * The design component that CONTROLS ownership for this document, or null.
+ *
+ * A component controls only when it takes the filing away from the participant:
+ * it names another actor and it does not have us fill the court's PDF. Those two
+ * together are what no title can outrank — a form captioned "Petition and Order
+ * of Expunction" is still the district attorney's petition when the design says
+ * the district attorney is the one who files it, and the platform's job there is
+ * process guidance, not a filled artifact.
+ *
+ * A component that says `official_pdf_fill` is NOT controlling in this sense: it
+ * agrees the participant path applies, and which participant treatment the
+ * document gets — instructional, caption-only order, or a filing — is still read
+ * off the document itself. So this returns null there and the caller continues.
+ */
+export function controllingDesignRole(record) {
+  const formId = record.documentId ?? record.formId ?? null;
+  if (!formId) return null;
+  for (const component of designComponentsByFormId.get(formId) ?? []) {
+    if (component.outputStrategy === DESIGN_PDF_FILL) continue;
+    if (!OUTSIDE_PARTY_ROLE.test(component.role)) continue;
+    return component;
+  }
+  return null;
+}
+
+export function determineOwnership(record) {
   const fileSlug = (record.canonicalBundlePath ?? "").split("/").pop() ?? "";
   const signal = haystack([record.documentRole ?? "", fileSlug.replace(/\.pdf$/i, ""), record.officialTitle ?? ""].join(" "));
   if (record.libraryFolder === "03_INSTRUCTIONS") return OWNERSHIP.INSTRUCTIONAL;
+  // Design intent before any reading of the title: where a controlling component
+  // assigns the filing to another party, the title heuristic below never runs.
+  if (controllingDesignRole(record)) return OWNERSHIP.OUTSIDE_PARTY;
   if (/\binstructions?\b|completing\s*the|how\s*to\s*(file|complete)/.test(signal)) return OWNERSHIP.INSTRUCTIONAL;
   if (/\bresponse\s*to\s*petition\b|objection\s*to\s*petition/.test(signal)) return OWNERSHIP.OUTSIDE_PARTY;
   // A combined "Petition and Order" packet is driven by its petition half.
@@ -386,6 +497,60 @@ if (!invokedDirectly) {
 await main();
 }
 
+// --- implementation index merge ---------------------------------------------
+/** jurisdiction|family, the identity an index entry is merged on. */
+export function entryKey(entry) {
+  return `${String(entry.jurisdiction ?? "").toUpperCase()}|${String(entry.family ?? "")}`;
+}
+
+/**
+ * The explicit withdrawal an entry may leave the index on.
+ *
+ * Scoped to what this run actually processed. A retirement marker that was
+ * already on disk before this run is not a withdrawal BY this run -- forty of
+ * them sit under families the index legitimately still describes, and treating
+ * the marker alone as the trigger silently cut the index from 89 to 49. So the
+ * family must both be processed here and carry the marker.
+ */
+export function withdrawalKeysAmong(processed) {
+  const withdrawn = new Set();
+  for (const entry of processed) {
+    const jurisdictionSlug = JURISDICTION_SLUGS[entry.jurisdiction];
+    if (!jurisdictionSlug || !entry.family) continue;
+    const dir = path.join(OUT, jurisdictionSlug, entry.family);
+    if (!fs.existsSync(path.join(dir, "retirement.json"))) continue;
+    withdrawn.add(entryKey(entry));
+  }
+  return withdrawn;
+}
+
+/**
+ * Existing order first, so an unprocessed entry keeps its place and the file
+ * does not churn; newly implemented families append in the order this run
+ * rendered them. Same inputs, same bytes.
+ */
+export function mergeImplementationIndex(existingFamilies, processed, withdrawn) {
+  const fresh = new Map();
+  for (const entry of processed) fresh.set(entryKey(entry), entry);
+  const merged = [];
+  const taken = new Set();
+  for (const entry of existingFamilies ?? []) {
+    const key = entryKey(entry);
+    if (taken.has(key)) continue;
+    taken.add(key);
+    if (withdrawn.has(key)) continue;
+    merged.push(fresh.get(key) ?? entry);
+  }
+  for (const entry of processed) {
+    const key = entryKey(entry);
+    if (taken.has(key)) continue;
+    taken.add(key);
+    if (withdrawn.has(key)) continue;
+    merged.push(entry);
+  }
+  return merged;
+}
+
 async function main() {
 // The source root has to be there before anything is processed.
 //
@@ -413,9 +578,18 @@ const results = [];
 // and a run made entirely of skips is exactly the run this guard exists to stop.
 let processedFamilies = 0;
 
+// A scoped run: RCAP_D1_ONLY names the families to rerender, as
+// `JURISDICTION:family-slug`, comma separated. A family outside the scope is
+// not processed, not reported, and not merged -- the index keeps whatever it
+// already said about it. Without the variable every family is in scope.
+const scopedFamilies = (process.env.RCAP_D1_ONLY ?? "")
+  .split(",").map((id) => id.trim().toUpperCase()).filter(Boolean);
+const inScope = (fam) => scopedFamilies.length === 0
+  || scopedFamilies.includes(`${String(fam.jurisdiction ?? "")}:${fam.familySlug}`.toUpperCase());
+
 for (const fam of index.families) {
-  const jurisdictionSlug = { WI: "wisconsin", AL: "alabama", AR: "arkansas", VA: "virginia", AK: "alaska",
-    KY: "kentucky", NC: "north-carolina", NE: "nebraska", VT: "vermont" }[fam.jurisdiction];
+  if (!inScope(fam)) continue;
+  const jurisdictionSlug = JURISDICTION_SLUGS[fam.jurisdiction];
   const familyDir = path.join(OUT, jurisdictionSlug, fam.familySlug);
   const srPath = path.join(familyDir, "source-record.json");
   if (!fs.existsSync(srPath)) continue;
@@ -661,8 +835,7 @@ for (const fam of index.families) {
   // and the v4 schema never carried either counter. `Number(undefined) !==
   // Number(undefined)` is NaN !== NaN, which is TRUE, so every family this
   // driver has ever written fails that clause on absence alone, however
-  // complete its classification actually is. The counters are the whole of the
-  // "classification-metadata-only" correction this lane owns.
+  // complete its classification actually is.
   //
   // The denominator differs by shape, and neither is a count of what we chose
   // to bind -- that would make the arithmetic vacuous:
@@ -672,8 +845,8 @@ for (const fam of index.families) {
   //                 caption the lane saw and deliberately did not bind
   //
   // A document that produces no fill discovers nothing to classify and reports
-  // 0/0. That is honest, and the gate is right to refuse it: an instructional
-  // companion is not a participant artifact.
+  // 0/0. That is honest, and the gate is right to refuse it: an outside-party
+  // or instructional document is not a participant artifact.
   const anchorEntries = mapKind === "flat_overlay"
     ? [
         ...anchors.map((a) => ({ name: a.label, source: "measured_anchor", factId: a.factId, class: "participant" })),
@@ -787,6 +960,19 @@ for (const fam of index.families) {
       const provenance = await artifactProvenance({
         jurisdiction: fam.jurisdiction, documentId: record.documentId, sourceSha256: sha,
         sourceRevision: record.revision ?? null,
+        // The locator and the court's own naming, carried from the source
+        // record. These default to null in the provenance builder, and the
+        // driver was not passing them -- so every family it re-rendered came
+        // back with no sourceUrl, no title and no publisher, while a family it
+        // skipped kept the ones an earlier generator had written. Two NC
+        // families had already lost them that way. The locator is the pinned
+        // Master Library path under the digest actually read, which is what
+        // makes the provenance checkable without the corpus.
+        sourceUrl: sourceLocator(record, sha),
+        officialTitle: record.officialTitle ?? null,
+        officialFormNumber: record.documentId ?? null,
+        formFamily: `${fam.jurisdiction}:${fam.familySlug}`,
+        sourcePublisher: `${fam.jurisdiction} — issuing court or agency of record, per the Edition 1 Master Library`,
         fieldMap: mapKind === "acroform" ? bindings : anchors,
         rendererVersion: RENDERER_VERSION,
         generatedAt: GENERATED_AT,
@@ -902,6 +1088,109 @@ for (const fam of index.families) {
     }
   }
 
+  // A document nobody fills must not still be shipping a filled copy of itself.
+  //
+  // Ownership can move -- a form the title read as the participant's turns out
+  // to be the district attorney's filing -- and the artifacts from the earlier
+  // reading stay on disk, because a no-fill run renders nothing and so
+  // overwrites nothing. Those are participant-filled PDFs of somebody else's
+  // pleading, reachable at checkout. They are deleted here, and each one is
+  // recorded by hash first: a withdrawal that leaves no trace cannot be
+  // audited, and the record has to say what used to be there.
+  // Carried, not recomputed: the run that deletes an artifact is the only run
+  // that can still hash it, so a re-run finds nothing to withdraw and would
+  // report an empty list. The withdrawal is a standing fact about the family,
+  // so prior entries are kept and this run only adds what it removed.
+  const withdrawnByArtifact = new Map(
+    (Array.isArray(record.artifactsWithdrawn) ? record.artifactsWithdrawn : [])
+      .filter((entry) => entry && typeof entry.artifact === "string")
+      .map((entry) => [entry.artifact, entry]));
+  if (noFill) {
+    for (const relative of PARTICIPANT_ARTIFACTS) {
+      const file = path.join(familyDir, relative);
+      if (!fs.existsSync(file)) continue;
+      const bytes = fs.readFileSync(file);
+      withdrawnByArtifact.set(relative, {
+        artifact: relative,
+        sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+        byteLength: bytes.length,
+        basis: ownership === OWNERSHIP.INSTRUCTIONAL
+          ? "no_fill_instructional_document" : "no_fill_outside_party_document"
+      });
+      fs.rmSync(file);
+    }
+    // The provenance record describes the artifacts just withdrawn. Left behind
+    // it is external provenance for bytes that no longer exist, still naming
+    // them by hash. It is recorded separately from the five artifacts so the
+    // withdrawal count stays the count of participant artifacts.
+    const provenancePath = path.join(familyDir, "artifact-provenance.json");
+    // Carried like the artifact withdrawals themselves: only the run that
+    // deletes the record can hash it, so a re-run must not reset this to null.
+    record.artifactsWithdrawnProvenance = record.ownerDisposition?.provenanceWithdrawn
+      ?? record.artifactsWithdrawnProvenance ?? null;
+    if (fs.existsSync(provenancePath) && withdrawnByArtifact.size > 0) {
+      const bytes = fs.readFileSync(provenancePath);
+      record.artifactsWithdrawnProvenance = {
+        artifact: "artifact-provenance.json",
+        sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+        byteLength: bytes.length
+      };
+      fs.rmSync(provenancePath);
+    }
+    // The protected-field scan is written only on the render path, so a
+    // withdrawal never rewrites it and it survives asserting what the render it
+    // described did: NC AOC-CR-296 kept `writtenFields: 6` and `pass: true`
+    // after every one of its artifacts was withdrawn. That is a scan reporting
+    // six fields written into a document that no longer has an artifact to
+    // write them into, and it is the evidence QA and counsel would read instead
+    // of looking. Same defect as the provenance record above, same treatment:
+    // withdrawn with the bytes it describes, with a hash receipt.
+    const scanPath = path.join(familyDir, "reports/protected-fields-scan.json");
+    record.protectedScanWithdrawnCarried = record.ownerDisposition?.protectedScanWithdrawn
+      ?? record.protectedScanWithdrawnCarried ?? null;
+    if (fs.existsSync(scanPath) && withdrawnByArtifact.size > 0) {
+      const bytes = fs.readFileSync(scanPath);
+      record.protectedScanWithdrawnCarried = {
+        artifact: "reports/protected-fields-scan.json",
+        sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+        byteLength: bytes.length
+      };
+      fs.rmSync(scanPath);
+    }
+    for (const dir of PARTICIPANT_ARTIFACT_DIRS) {
+      const full = path.join(familyDir, dir);
+      if (fs.existsSync(full) && fs.readdirSync(full).length === 0) fs.rmdirSync(full);
+    }
+  }
+  // The owner disposition, in the vocabulary the correction controls read: who
+  // owns the document, whether the participant completes it, whether we are
+  // allowed to generate from it at all, and what was withdrawn when the answer
+  // changed.
+  const controlling = controllingDesignRole(record);
+  record.documentOwner = noFill
+    ? (controlling ? roleActor(controlling.role)
+      : ownership === OWNERSHIP.INSTRUCTIONAL ? "instructional" : "outside_party")
+    : "participant";
+  record.participantCompleted = !noFill;
+  // One-way. A no-fill document is never generated from, so this is forced
+  // false; but a family can already carry `generationAllowed: false` for an
+  // unrelated reason -- NC AOC-CR-298 holds it off on `state_manifest_generation_allowed_no`
+  // -- and a fill-path rerender must not quietly grant what a state manifest
+  // withheld.
+  record.generationAllowed = noFill ? false : (record.generationAllowed ?? true);
+  record.ownerDisposition = {
+    documentOwner: record.documentOwner,
+    basis: controlling
+      ? `legal-design component role ${controlling.role} (${controlling.outputStrategy})`
+      : "derived from the document itself; no controlling legal-design role",
+    artifactsWithdrawn: [...withdrawnByArtifact.values()]
+      .sort((a, b) => a.artifact.localeCompare(b.artifact)),
+    provenanceWithdrawn: record.artifactsWithdrawnProvenance ?? null,
+    protectedScanWithdrawn: record.protectedScanWithdrawnCarried ?? null
+  };
+  delete record.protectedScanWithdrawnCarried;
+  delete record.artifactsWithdrawnProvenance;
+  record.artifactsWithdrawn = record.ownerDisposition.artifactsWithdrawn;
   // Hash receipt for every rendered artifact, so a later drift is detectable
   // without re-deriving the render.
   const renderedArtifacts = {};
@@ -920,6 +1209,11 @@ for (const fam of index.families) {
 
   record.documentOwnership = ownership;
   record.participantFillable = !noFill;
+  // The hold that says, on the record, why no fixture was filled.
+  record.productionHolds = Array.isArray(record.productionHolds) ? record.productionHolds : [];
+  if (noFill && !record.productionHolds.includes(PARTICIPANT_FILL_HOLD)) {
+    record.productionHolds = [...record.productionHolds, PARTICIPANT_FILL_HOLD];
+  }
   record.implementationStatus = noFill
     ? (ownership === OWNERSHIP.INSTRUCTIONAL ? "no_fill_instructional_document" : "no_fill_outside_party_document")
     : mapKind === "flat_overlay"
@@ -960,8 +1254,42 @@ if (processedFamilies === 0) {
   process.exit(1);
 }
 
-fs.writeFileSync(path.join(OUT, "implementation-index.json"), JSON.stringify({
-  schemaVersion: "rcap-d1-implementation-index/v2", generatedAt: "2026-08-12", families: results }, null, 2) + "\n");
+// The index describes the corpus. A run describes only what it processed.
+//
+// Every family is skipped when its pinned bytes are not under SRC, so a run
+// mounted on one lane's source pack legitimately processes a handful of
+// families -- and this write used to replace the whole index with just those,
+// turning 89 entries into 8, or into 3. The families it dropped were not
+// retired and had not changed; the run simply had nothing to say about them,
+// and silence is not a deletion.
+//
+// So a run now merges: it replaces what it processed, adds what is newly
+// implemented, and leaves every other entry exactly as it found it. An entry
+// leaves the index only when that same family carries an explicit withdrawal
+// -- a retirement.json in its own directory -- never as a side effect of a
+// partial corpus.
+const indexPath = path.join(OUT, "implementation-index.json");
+
+const existingIndex = readJson(indexPath, null);
+const mergedFamilies = mergeImplementationIndex(existingIndex?.families ?? [], results, withdrawalKeysAmong(results));
+
+if (existingIndex && mergedFamilies.length < (existingIndex.families ?? []).length) {
+  const before = new Set((existingIndex.families ?? []).map(entryKey));
+  const after = new Set(mergedFamilies.map(entryKey));
+  const dropped = [...before].filter((key) => !after.has(key));
+  const withdrawn = withdrawalKeysAmong(results);
+  const unexplained = dropped.filter((key) => !withdrawn.has(key));
+  if (unexplained.length > 0) {
+    console.error("FAIL official-forms D1 — the merged index would drop "
+      + `${unexplained.length} entr${unexplained.length === 1 ? "y" : "ies"} that carry no withdrawal: `
+      + unexplained.join(", "));
+    console.error("implementation-index.json was NOT written and is unchanged.");
+    process.exit(1);
+  }
+}
+
+fs.writeFileSync(indexPath, JSON.stringify({
+  schemaVersion: "rcap-d1-implementation-index/v2", generatedAt: "2026-08-12", families: mergedFamilies }, null, 2) + "\n");
 
 const sum = (p) => results.filter(p).length;
 console.log(JSON.stringify({
