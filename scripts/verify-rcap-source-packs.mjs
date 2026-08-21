@@ -101,14 +101,16 @@ function buildMiniRepo() {
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.writeFileSync(file, `${JSON.stringify(value, null, 2)}\n`);
   };
-  write("data/rcap-all50/gate-b-family-rerender-handoff.json",
-    { familiesUnblockedForRerender: ["CAN:fam-a", "CAN:fam-b", "CAN:fam-c", "CAN:fam-d"] });
-  write("data/rcap-all50/pdf-independent-reviews/re-review-handoff.json",
-    { families: [{ familyId: "CAN:fam-a" }] });
-  write("data/rcap-all50/pdf-independent-reviews/batch-1-manifest.json",
-    { families: [{ familyId: "CAN:fam-e" }] });
-  write("data/rcap-all50/pdf-independent-reviews/batch-a-manifest.json",
-    { frozenFamilyIds: ["CAN:fam-f"] });
+  // The generator is driven by the two rerender assignment files, so the canary
+  // repo carries those and nothing else. fam-z has no library path and is left
+  // unassigned: a family with no pinned source is not packable and no lane may
+  // be handed one.
+  write("data/rcap-all50/gate-b-assignments/family-rerender-1.json",
+    { id: "family-rerender-1",
+      familyIds: ["CAN:fam-a", "CAN:fam-b", "CAN:fam-c", "CAN:fam-d", "CAN:fam-y"] });
+  write("data/rcap-all50/gate-b-assignments/family-rerender-2.json",
+    { id: "family-rerender-2",
+      familyIds: ["CAN:fam-e", "CAN:fam-f", "CAN:fam-g", "CAN:fam-h", "CAN:fam-i"] });
   write("data/rcap-all50/problematic-pdf-register.json", { totals: { missingPdfBinaries: 2 } });
   return { repo, corpus };
 }

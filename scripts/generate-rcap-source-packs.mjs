@@ -38,7 +38,7 @@ const readJson = (rel) => JSON.parse(fs.readFileSync(abs(rel), "utf8"));
 
 const OUT_DIR = "data/rcap-all50/source-packs";
 const ZIP_DIR = process.env.RCAP_SOURCE_PACK_OUT ?? path.join(rootDir, "tmp/source-packs");
-const HANDOFF = "data/rcap-all50/gate-b-family-rerender-handoff.json";
+const ASSIGNMENTS = "data/rcap-all50/gate-b-assignments";
 const REVIEWS = "data/rcap-all50/pdf-independent-reviews";
 const OVERLAY = "data/rcap-all50/overlays/production";
 const REGISTER = "data/rcap-all50/problematic-pdf-register.json";
@@ -234,58 +234,45 @@ function batchEvenly(list, min = 4, max = 8) {
 // ---------------------------------------------------------------------------
 // Lane membership, derived from committed assignment records only.
 
-const handoff = readJson(HANDOFF);
-const rerenderFamilies = handoff.familiesUnblockedForRerender ?? [];
-if (rerenderFamilies.length === 0) fail("the rerender handoff names no families");
-
-const reviewFamilies = (() => {
-  const seen = new Set();
-  const reviewRecord = readJson(`${REVIEWS}/re-review-handoff.json`);
-  for (const family of reviewRecord.families ?? []) seen.add(family.familyId);
-  const batch1 = readJson(`${REVIEWS}/batch-1-manifest.json`);
-  for (const family of batch1.families ?? []) seen.add(family.familyId);
-  const batchA = readJson(`${REVIEWS}/batch-a-manifest.json`);
-  for (const familyId of batchA.frozenFamilyIds ?? []) seen.add(familyId);
-  return [...seen].sort();
-})();
-if (reviewFamilies.length === 0) fail("no review record names a family");
-
+/**
+ * The two rerender lanes, exactly as the current assignments name them.
+ *
+ * The lane split is not ours to compute. An earlier factory read one handoff and
+ * cut it in half, which silently re-derived membership every time the handoff
+ * moved. The assignment files are the record of who owns what, so each lane is
+ * read from its own file and packed as written — no half-split, no re-balancing,
+ * and nothing packed for a lane that was not assigned it.
+ */
 /** Every non-retired family whose source is pinned to the Master Library. */
 const pinnedFamilies = [...packages.entries()]
   .filter(([, pkg]) => !pkg.retired && sourcePinOf(pkg.record))
   .map(([familyId]) => familyId)
   .sort();
 
-const assignedElsewhere = new Set([...rerenderFamilies, ...reviewFamilies]);
-const sourceDirectFamilies = pinnedFamilies.filter((id) => !assignedElsewhere.has(id));
+const laneAssignment = (id) => {
+  const a = readJson(`${ASSIGNMENTS}/${id}.json`);
+  if (!Array.isArray(a.familyIds) || a.familyIds.length === 0) fail(`${id} names no families`);
+  return a;
+};
 
-const half = Math.ceil(rerenderFamilies.length / 2);
+const rerender1 = laneAssignment("family-rerender-1");
+const rerender2 = laneAssignment("family-rerender-2");
+
+const overlap = rerender1.familyIds.filter((f) => rerender2.familyIds.includes(f));
+if (overlap.length) fail(`the two rerender lanes share ${overlap.length} family: ${overlap.join(", ")}`);
+
 const LANES = [
   {
     lane: "family-rerender-lane-1",
-    families: rerenderFamilies.slice(0, half),
-    assignmentSource: HANDOFF,
+    families: [...rerender1.familyIds].sort(),
+    assignmentSource: `${ASSIGNMENTS}/family-rerender-1.json`,
     purpose: "the families family-rerender lane 1 re-renders against the shared corrections"
   },
   {
     lane: "family-rerender-lane-2",
-    families: rerenderFamilies.slice(half),
-    assignmentSource: HANDOFF,
+    families: [...rerender2.familyIds].sort(),
+    assignmentSource: `${ASSIGNMENTS}/family-rerender-2.json`,
     purpose: "the families family-rerender lane 2 re-renders against the shared corrections"
-  },
-  {
-    lane: "review",
-    families: reviewFamilies,
-    assignmentSource: `${REVIEWS}/re-review-handoff.json, ${REVIEWS}/batch-1-manifest.json, ${REVIEWS}/batch-a-manifest.json`,
-    purpose: "the blank official forms an independent reviewer reads a rendered artifact against. "
-      + "A reviewer who only has our output cannot tell printed form text from text we drew"
-  },
-  {
-    lane: "source-direct",
-    families: sourceDirectFamilies,
-    assignmentSource: `${OVERLAY}/*/*/source-record.json`,
-    purpose: "every remaining non-retired family whose source is already in the Master Library and which no "
-      + "rerender or review batch has claimed — packed so a lane can be handed its sources without a corpus mount"
   }
 ];
 
@@ -348,6 +335,20 @@ const reconciledFromTheRegisterPopulation = [...packages.entries()]
 // ---------------------------------------------------------------------------
 
 /** Builds one ZIP, or refuses. */
+/**
+ * One fixed timestamp across a staged tree, so a ZIP built from the same sources
+ * hashes the same. Chosen well after the DOS 1980 epoch that ZIP entry times use.
+ */
+const FIXED_MTIME = new Date(Date.UTC(2026, 0, 1, 0, 0, 0));
+function stampFixedMtime(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+    const target = path.join(dir, entry.name);
+    if (entry.isDirectory()) stampFixedMtime(target);
+    fs.utimesSync(target, FIXED_MTIME, FIXED_MTIME);
+  }
+  fs.utimesSync(dir, FIXED_MTIME, FIXED_MTIME);
+}
+
 function buildPack(pack, entries, stagingRoot) {
   const staging = fs.mkdtempSync(path.join(stagingRoot, "pack-"));
   const built = [];
@@ -489,6 +490,13 @@ for (const pack of packs) {
     fs.chmodSync(installer, 0o755);
     const zip = path.join(ZIP_DIR, `${pack.packId}.zip`);
     fs.rmSync(zip, { force: true });
+    // A pack's digest is the thing a lane checks it against, so the same sources
+    // must produce the same archive twice. `zip -X` drops the extra attributes
+    // but still records each entry's mtime, and staging is freshly copied every
+    // run — so the archive hashed differently on every build and the digest this
+    // manifest pins could never be reproduced. Stamping one fixed time across the
+    // staged tree makes the pack a function of its contents alone.
+    stampFixedMtime(staging);
     execFileSync("zip", ["-qrX", zip, "."], { cwd: staging });
     fs.rmSync(staging, { recursive: true, force: true });
     manifest.built = true;
@@ -534,7 +542,8 @@ const index = {
     familiesWithNoPinnedSource: sourceRequiredFamilies.length,
     familiesPinnedThroughABundleReconciliation: pinnedFamilies.filter((id) =>
       sourcePinOf(packages.get(id).record).pinBasis !== "source-record.canonicalBundlePath").length,
-    note: "every non-retired family whose source is in the Master Library is in exactly one pack. A family whose "
+    note: "this run packs the two assigned rerender lanes only, so coverage is measured against those assignments "
+      + "rather than against the whole corpus. A family whose "
       + "record predates the v2 schema is pinned through its bundle reconciliation, which names the same canonical "
       + "path under the same digest. Families with no pinned source at all are unpackable by construction and are "
       + "listed below."
@@ -580,9 +589,16 @@ function writeJson(rel, value) {
 }
 
 // A pack that is no longer assigned must not be left behind as a stale manifest.
+//
+// Pruning is limited to the lanes this run actually builds. This generator packs
+// the assigned rerender lanes; manifests belonging to other lanes are another
+// assignment's record and are not this run's to retire, so a narrower run must
+// not delete them on its way past.
+const lanePrefixes = LANES.map((lane) => `${lane.lane}-batch-`);
 const expected = new Set([...manifests.map((m) => `${m.packId}.manifest.json`), "index.json"]);
 for (const file of fs.existsSync(abs(OUT_DIR)) ? fs.readdirSync(abs(OUT_DIR)) : []) {
   if (expected.has(file)) continue;
+  if (!lanePrefixes.some((prefix) => file.startsWith(prefix))) continue;
   if (checkOnly) { console.error(`FAIL source packs — ${OUT_DIR}/${file} is no longer assigned; re-run this generator`); process.exit(1); }
   fs.rmSync(abs(path.join(OUT_DIR, file)));
 }
@@ -677,7 +693,7 @@ function renderMarkdown() {
 
 for (const manifest of manifests) writeJson(`${OUT_DIR}/${manifest.packId}.manifest.json`, manifest);
 writeJson(`${OUT_DIR}/index.json`, index);
-writeText("docs/record-clearing/pdf-independent-reviews/source-packs.md", renderMarkdown());
+writeText("docs/record-clearing/pdf-independent-reviews/source-packs.md", `${renderMarkdown().trimEnd()}\n`);
 
 const files = manifests.reduce((n, m) => n + m.files.length, 0);
 const unresolved = manifests.reduce((n, m) => n + m.unresolved.length, 0);

@@ -8,8 +8,8 @@
   "modules": [
     {
       "path": "scripts/generate-rcap-source-packs.mjs",
-      "sha256": "8c1438fe374b56ad4c4ebf024fafac2f7247a365c2553b107c3b8f61c8f21c14",
-      "bytes": 34085
+      "sha256": "f21e07557167f8f549e443f8395574475b3c6a62cd443cce4f3fc7dd939ba962",
+      "bytes": 34535
     },
     {
       "path": "scripts/implement-rcap-official-forms-d1.mjs",
@@ -43,8 +43,8 @@
     },
     {
       "path": "scripts/verify-rcap-source-packs.mjs",
-      "sha256": "57f5e9b39f2c1f369218c279ade90f1000055622fe91595346ad61ec03fd679f",
-      "bytes": 21406
+      "sha256": "52897a8ceac51d9c7eec12d3c804caed513a8508327466aaca624068d188da78",
+      "bytes": 21528
     },
     {
       "path": "scripts/verify-rcap-wave-c-corrections.mjs",
@@ -56,7 +56,7 @@
   "focusedVerifiers": {
     "verify-rcap-evidence-contract-controls": "10/10 held",
     "verify-rcap-wave-c-corrections": "13/13 code canaries held; 3 owner-disposition checks and the evidence-integrity section assert over lane-1-owned regenerated data and are deferred to the lane",
-    "verify-rcap-source-packs": "12 canaries and 4 mutations held against a synthetic corpus",
+    "verify-rcap-source-packs": "12 canaries and 4 mutations held against a synthetic corpus, with the canary repo driven by the two assignment files",
     "verify-rcap-official-forms-d1": "RED on 1 family — NC/aoc-cr-296-form-en"
   },
   "d1ZeroFamilyGuard": {
@@ -78,5 +78,20 @@
       "WI:cr-266-form-en"
     ],
     "result": "byte-for-byte unchanged"
+  },
+  "correctionModulesUnchangedSinceCommonBase": true,
+  "modulesRevisedAfterCommonBase": {
+    "paths": [
+      "scripts/generate-rcap-source-packs.mjs",
+      "scripts/verify-rcap-source-packs.mjs"
+    ],
+    "why": "The source-pack factory is driven by the two rerender assignment files instead of the superseded single handoff, and its archives are stamped with one fixed mtime so a pack is a function of its contents and its digest reproduces. Neither file is a shared correction module; all seven correction modules are byte-identical to the common base."
+  },
+  "corpusAtThisHead": {
+    "mounted": true,
+    "files": 499,
+    "pdfs": 329,
+    "shards": 11,
+    "verification": "every shard SHA-256 checked by the bootstrap installer; all 329 indexed PDFs match the committed index on digest and byte length"
   }
 }

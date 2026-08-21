@@ -9,53 +9,30 @@
     "ignoredByGit": true,
     "basis": "git check-ignore refuses to track a .zip written here"
   },
-  "corpusMounted": false,
-  "corpusRoot": null,
-  "zipsBuilt": 0,
-  "whyNotBuilt": "no Master Library is mounted in this environment, so no ZIP was written. The manifests below are the specification each pack must satisfy; run this generator with --build in a corpus-mounted container.",
+  "corpusMounted": true,
+  "corpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "zipsBuilt": 7,
+  "whyNotBuilt": null,
   "refusalRule": "a source that is absent, or that does not hash to what its family's record pins, fails its pack. Nothing is substituted: a fixture, contact sheet, sample or other LegalEase output inside a source pack makes every artifact rendered from it derived from our own previous output.",
   "lanes": [
     {
       "lane": "family-rerender-lane-1",
       "purpose": "the families family-rerender lane 1 re-renders against the shared corrections",
-      "families": 9,
-      "packs": 2,
+      "families": 21,
+      "packs": 3,
       "batchSizes": [
-        5,
-        4
+        7,
+        7,
+        7
       ]
     },
     {
       "lane": "family-rerender-lane-2",
       "purpose": "the families family-rerender lane 2 re-renders against the shared corrections",
-      "families": 8,
-      "packs": 1,
-      "batchSizes": [
-        8
-      ]
-    },
-    {
-      "lane": "review",
-      "purpose": "the blank official forms an independent reviewer reads a rendered artifact against. A reviewer who only has our output cannot tell printed form text from text we drew",
-      "families": 27,
+      "families": 28,
       "packs": 4,
       "batchSizes": [
         7,
-        7,
-        7,
-        6
-      ]
-    },
-    {
-      "lane": "source-direct",
-      "purpose": "every remaining non-retired family whose source is already in the Master Library and which no rerender or review batch has claimed — packed so a lane can be handed its sources without a corpus mount",
-      "families": 53,
-      "packs": 7,
-      "batchSizes": [
-        8,
-        8,
-        8,
-        8,
         7,
         7,
         7
@@ -63,21 +40,21 @@
     }
   ],
   "coverage": {
-    "nonRetiredFamiliesWithAPinnedSource": 80,
-    "familiesCoveredByAPack": 80,
-    "distinctOfficialFilesAcrossAllPacks": 54,
-    "familiesWithNoPinnedSource": 26,
+    "nonRetiredFamiliesWithAPinnedSource": 75,
+    "familiesCoveredByAPack": 49,
+    "distinctOfficialFilesAcrossAllPacks": 39,
+    "familiesWithNoPinnedSource": 24,
     "familiesPinnedThroughABundleReconciliation": 13,
-    "note": "every non-retired family whose source is in the Master Library is in exactly one pack. A family whose record predates the v2 schema is pinned through its bundle reconciliation, which names the same canonical path under the same digest. Families with no pinned source at all are unpackable by construction and are listed below."
+    "note": "this run packs the two assigned rerender lanes only, so coverage is measured against those assignments rather than against the whole corpus. A family whose record predates the v2 schema is pinned through its bundle reconciliation, which names the same canonical path under the same digest. Families with no pinned source at all are unpackable by construction and are listed below."
   },
   "sourceRequired": {
-    "population": 26,
+    "population": 24,
     "derivedFrom": "non-retired family packages under data/rcap-all50/overlays/production whose source-record.json names no canonical Master Library path — neither a v2 canonicalBundlePath with a digest, nor a bundle reconciliation matched by sha256",
-    "registerTotal": 39,
+    "registerTotal": 37,
     "registerTotalMeans": "assets whose pinned local binary is absent from this clone. It does not ask whether the Master Library holds the same document.",
     "ofThoseReconciledToALibraryAsset": 13,
     "controllingFactFromTheAssignment": 37,
-    "reconciliation": "the register reports missingPdfBinaries = 39, and origin/main reports the same figure, so nothing on this branch moved it. Those two counts answer a different question from this one: this factory asks whether the official bytes can be packed. 13 of that population reconcile to a Master Library asset by sha256 — their bytes are in the library at a named canonical path, under the digest their own record pins — so they are packed here rather than acquired. That leaves 26 families with no library path at all, and those are the real acquisition targets. The assignment's controlling fact is 37. This factory adjudicates no denominator and hand-edits no total: it records each number, what each counts, and how each was derived.",
+    "reconciliation": "the register reports missingPdfBinaries = 37, and origin/main reports the same figure, so nothing on this branch moved it. Those two counts answer a different question from this one: this factory asks whether the official bytes can be packed. 13 of that population reconcile to a Master Library asset by sha256 — their bytes are in the library at a named canonical path, under the digest their own record pins — so they are packed here rather than acquired. That leaves 24 families with no library path at all, and those are the real acquisition targets. The assignment's controlling fact is 37. This factory adjudicates no denominator and hand-edits no total: it records each number, what each counts, and how each was derived.",
     "whyTheyAreNotAWaitCondition": "none of these families can appear in a pack, so pack generation for the rerender, review and source-direct lanes does not depend on resolving them.",
     "families": [
       {
@@ -198,27 +175,9 @@
         "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
       },
       {
-        "familyId": "NC:cr287-1",
-        "jurisdiction": "NC",
-        "fileName": "cr287_1.pdf",
-        "isPdf": true,
-        "lifecycleClassification": "true_hash_missing",
-        "supersedingCandidates": 6,
-        "whyNotPackable": "the pinned hash appears in no Edition 1 asset; a superseding candidate exists but re-pinning is a legal-design decision, and packing the candidate would substitute a different document for this one"
-      },
-      {
         "familyId": "NC:cr297",
         "jurisdiction": "NC",
         "fileName": "cr297.pdf",
-        "isPdf": true,
-        "lifecycleClassification": "true_hash_missing",
-        "supersedingCandidates": 2,
-        "whyNotPackable": "the pinned hash appears in no Edition 1 asset; a superseding candidate exists but re-pinning is a legal-design decision, and packing the candidate would substitute a different document for this one"
-      },
-      {
-        "familyId": "NC:cr298-1",
-        "jurisdiction": "NC",
-        "fileName": "cr298_1.pdf",
         "isPdf": true,
         "lifecycleClassification": "true_hash_missing",
         "supersedingCandidates": 2,
@@ -320,128 +279,93 @@
     {
       "packId": "family-rerender-lane-1-batch-01",
       "lane": "family-rerender-lane-1",
-      "familyCount": 5,
-      "files": 5,
+      "familyCount": 7,
+      "files": 7,
       "unresolved": 0,
-      "built": false,
-      "zip": null
+      "built": true,
+      "zip": {
+        "path": "tmp/source-packs/family-rerender-lane-1-batch-01.zip",
+        "sha256": "2255618ce70a53dae58644581faa5bd0b61c108b5100d4c2e0e43ad64dd50ebd",
+        "byteLength": 1654924
+      }
     },
     {
       "packId": "family-rerender-lane-1-batch-02",
       "lane": "family-rerender-lane-1",
-      "familyCount": 4,
-      "files": 4,
+      "familyCount": 7,
+      "files": 7,
       "unresolved": 0,
-      "built": false,
-      "zip": null
+      "built": true,
+      "zip": {
+        "path": "tmp/source-packs/family-rerender-lane-1-batch-02.zip",
+        "sha256": "0565bcf64beba571ab4dade9cd63e9ca5ef0527513d517c80c472b4a5aa47c45",
+        "byteLength": 1690420
+      }
+    },
+    {
+      "packId": "family-rerender-lane-1-batch-03",
+      "lane": "family-rerender-lane-1",
+      "familyCount": 7,
+      "files": 6,
+      "unresolved": 0,
+      "built": true,
+      "zip": {
+        "path": "tmp/source-packs/family-rerender-lane-1-batch-03.zip",
+        "sha256": "028c06479b26d9e6d56106f59a8b74bb977dc046ff7b03b65acc56f35f30c772",
+        "byteLength": 1282819
+      }
     },
     {
       "packId": "family-rerender-lane-2-batch-01",
       "lane": "family-rerender-lane-2",
-      "familyCount": 8,
-      "files": 8,
-      "unresolved": 0,
-      "built": false,
-      "zip": null
-    },
-    {
-      "packId": "review-batch-01",
-      "lane": "review",
       "familyCount": 7,
       "files": 7,
       "unresolved": 0,
-      "built": false,
-      "zip": null
+      "built": true,
+      "zip": {
+        "path": "tmp/source-packs/family-rerender-lane-2-batch-01.zip",
+        "sha256": "11e1311c3f79861617f27a2c6eb802268ed7fff1af0e527644a132a4d961c891",
+        "byteLength": 8778808
+      }
     },
     {
-      "packId": "review-batch-02",
-      "lane": "review",
+      "packId": "family-rerender-lane-2-batch-02",
+      "lane": "family-rerender-lane-2",
       "familyCount": 7,
-      "files": 7,
-      "unresolved": 0,
-      "built": false,
-      "zip": null
-    },
-    {
-      "packId": "review-batch-03",
-      "lane": "review",
-      "familyCount": 7,
-      "files": 7,
-      "unresolved": 0,
-      "built": false,
-      "zip": null
-    },
-    {
-      "packId": "review-batch-04",
-      "lane": "review",
-      "familyCount": 6,
-      "files": 6,
-      "unresolved": 0,
-      "built": false,
-      "zip": null
-    },
-    {
-      "packId": "source-direct-batch-01",
-      "lane": "source-direct",
-      "familyCount": 8,
       "files": 5,
       "unresolved": 0,
-      "built": false,
-      "zip": null
+      "built": true,
+      "zip": {
+        "path": "tmp/source-packs/family-rerender-lane-2-batch-02.zip",
+        "sha256": "e0d801c0b17f64e9e2e0e7cb5d702e1fb322b5ad802aec7c9cff28b62790bb0f",
+        "byteLength": 11780594
+      }
     },
     {
-      "packId": "source-direct-batch-02",
-      "lane": "source-direct",
-      "familyCount": 8,
-      "files": 8,
-      "unresolved": 0,
-      "built": false,
-      "zip": null
-    },
-    {
-      "packId": "source-direct-batch-03",
-      "lane": "source-direct",
-      "familyCount": 8,
-      "files": 8,
-      "unresolved": 0,
-      "built": false,
-      "zip": null
-    },
-    {
-      "packId": "source-direct-batch-04",
-      "lane": "source-direct",
-      "familyCount": 8,
-      "files": 7,
-      "unresolved": 0,
-      "built": false,
-      "zip": null
-    },
-    {
-      "packId": "source-direct-batch-05",
-      "lane": "source-direct",
+      "packId": "family-rerender-lane-2-batch-03",
+      "lane": "family-rerender-lane-2",
       "familyCount": 7,
       "files": 4,
       "unresolved": 0,
-      "built": false,
-      "zip": null
+      "built": true,
+      "zip": {
+        "path": "tmp/source-packs/family-rerender-lane-2-batch-03.zip",
+        "sha256": "1748b8d364609e142279d948a42d4d7327581043875c6d0e22ae680eb2bba1ab",
+        "byteLength": 6396538
+      }
     },
     {
-      "packId": "source-direct-batch-06",
-      "lane": "source-direct",
+      "packId": "family-rerender-lane-2-batch-04",
+      "lane": "family-rerender-lane-2",
       "familyCount": 7,
       "files": 4,
       "unresolved": 0,
-      "built": false,
-      "zip": null
-    },
-    {
-      "packId": "source-direct-batch-07",
-      "lane": "source-direct",
-      "familyCount": 7,
-      "files": 4,
-      "unresolved": 0,
-      "built": false,
-      "zip": null
+      "built": true,
+      "zip": {
+        "path": "tmp/source-packs/family-rerender-lane-2-batch-04.zip",
+        "sha256": "f5aa683eeac728d022ecfb6d1a0b59c29f990ef21b0b6bd9340af044653bafc8",
+        "byteLength": 6327842
+      }
     }
   ]
 }
