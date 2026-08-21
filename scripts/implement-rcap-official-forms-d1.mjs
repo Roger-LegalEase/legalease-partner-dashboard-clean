@@ -572,12 +572,6 @@ for (const fam of index.families) {
     schemaVersion: "rcap-field-census/v3-first-hand", censusBasis: "first_hand_inspection_of_verified_binary",
     sha256: sha, structuralClass: record.structuralClassObserved, fieldCount: census.length,
     pageGeometry: record.pageGeometry, fields: census }, null, 2) + "\n");
-  fs.writeFileSync(path.join(familyDir, "field-classification.json"), JSON.stringify({
-    schemaVersion: "rcap-field-classification/v4-nine-class", documentOwnership: ownership,
-    ownershipBasis: "document role, canonical filename and official title, re-checked field by field",
-    classCounts: classification.reduce((a, c) => (a[c.class] = (a[c.class] ?? 0) + 1, a), {}),
-    entries: classification }, null, 2) + "\n");
-
   const mapKind = record.structuralClassObserved === "acroform" ? "acroform" : "flat_overlay";
 
   // A flat PDF carries no widgets, so its anchors are measured out of the page
@@ -658,6 +652,49 @@ for (const fam of index.families) {
             note: "Label position and the right boundary are measured. The write box's left edge is derived from the label's rendered width, so it is the one estimated number here and is what independent visual review confirms." }
         : null,
       overflowPolicy: { longText: "shrink_to_fit_then_addendum", multiline: "wrap_within_widget_rect" } }, null, 2) + "\n");
+
+  // Classification is written HERE, after the map, because its denominator is
+  // not known until the anchors are measured.
+  //
+  // The platform-ready gate asks one arithmetic question of this file --
+  // classifiedFieldsOrAnchors === discoveredFieldsOrAnchors, and neither zero --
+  // and the v4 schema never carried either counter. `Number(undefined) !==
+  // Number(undefined)` is NaN !== NaN, which is TRUE, so every family this
+  // driver has ever written fails that clause on absence alone, however
+  // complete its classification actually is. The counters are the whole of the
+  // "classification-metadata-only" correction this lane owns.
+  //
+  // The denominator differs by shape, and neither is a count of what we chose
+  // to bind -- that would make the arithmetic vacuous:
+  //
+  //   acroform      every field the binary declares, from the first-hand census
+  //   flat overlay  every anchor measured out of the page content, plus every
+  //                 caption the lane saw and deliberately did not bind
+  //
+  // A document that produces no fill discovers nothing to classify and reports
+  // 0/0. That is honest, and the gate is right to refuse it: an instructional
+  // companion is not a participant artifact.
+  const anchorEntries = mapKind === "flat_overlay"
+    ? [
+        ...anchors.map((a) => ({ name: a.label, source: "measured_anchor", factId: a.factId, class: "participant" })),
+        ...candidateLabels.map((c) => ({
+          name: typeof c === "string" ? c : (c.label ?? String(c)),
+          source: "discovered_caption_deliberately_unbound", factId: null, class: "not_applicable"
+        }))
+      ]
+    : [];
+  const classificationEntries = mapKind === "flat_overlay" ? anchorEntries : classification;
+  const discovered = mapKind === "flat_overlay" ? anchors.length + candidateLabels.length : census.length;
+  fs.writeFileSync(path.join(familyDir, "field-classification.json"), JSON.stringify({
+    schemaVersion: "rcap-field-classification/v4-nine-class", documentOwnership: ownership,
+    ownershipBasis: "document role, canonical filename and official title, re-checked field by field",
+    denominator: mapKind === "flat_overlay"
+      ? "measured anchors plus deliberately unbound captions"
+      : "every field the verified binary declares",
+    discoveredFieldsOrAnchors: discovered,
+    classifiedFieldsOrAnchors: classificationEntries.length,
+    classCounts: classificationEntries.reduce((a, c) => (a[c.class] = (a[c.class] ?? 0) + 1, a), {}),
+    entries: classificationEntries }, null, 2) + "\n");
 
   let filled = 0, contactSheet = false;
   const findings = [];
