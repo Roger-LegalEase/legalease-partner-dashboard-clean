@@ -336,6 +336,105 @@ function applicationSourceSitesForFileName(fileName) {
   return sites;
 }
 
+/**
+ * Every dependency class, probed here rather than inferred from a silence.
+ *
+ * The determination lists the surfaces it matched. A surface it did not match
+ * is absent from that list, and absence from a list is not the same evidence as
+ * a probe that ran and found nothing -- especially for this asset class, whose
+ * probed identifier set is a single normalized file name. So each class is
+ * asked directly, with the question it answers and the answer it gave, and a
+ * class that cannot be read is reported unreadable rather than counted as
+ * clear. Retirement is refused unless every class comes back checked and empty.
+ *
+ * Identity is the file name as a whole quoted value plus the sha256. Both are
+ * whole-value comparisons: a captured page's name is ordinary English words,
+ * and substring matching on those finds other people's assets.
+ */
+function everyDependencyClassFor(fileName, sha) {
+  const needles = [`"${fileName}"`, sha];
+  const classes = [];
+
+  const probe = (name, question, target, read) => {
+    try {
+      const hits = read();
+      classes.push({ dependencyClass: name, question, target, readable: true, hits, named: hits.length > 0 });
+    } catch (error) {
+      classes.push({
+        dependencyClass: name, question, target, readable: false, hits: [], named: null,
+        unreadableBecause: String(error.message).slice(0, 200),
+        soThisAssetCannotRetire: "a class that could not be read is not a class that came back empty"
+      });
+    }
+  };
+
+  /** Whole-value hits in a JSON or source file, located to a line. */
+  const hitsIn = (rel) => {
+    if (!fs.existsSync(abs(rel))) throw new Error(`${rel} does not exist`);
+    const text = fs.readFileSync(abs(rel), "utf8");
+    const found = [];
+    for (const needle of needles) {
+      let index = text.indexOf(needle);
+      while (index !== -1) {
+        found.push({ file: rel, line: text.slice(0, index).split("\n").length, matched: needle === sha ? "sha256" : "fileName" });
+        index = text.indexOf(needle, index + needle.length);
+      }
+    }
+    return found;
+  };
+
+  const hitsUnder = (dir) => {
+    if (!fs.existsSync(abs(dir))) throw new Error(`${dir} does not exist`);
+    const found = [];
+    const walk = (current) => {
+      for (const entry of fs.readdirSync(current, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+        const full = path.join(current, entry.name);
+        if (entry.isDirectory()) { walk(full); continue; }
+        if (!entry.name.endsWith(".json")) continue;
+        found.push(...hitsIn(path.relative(rootDir, full)));
+      }
+    };
+    walk(abs(dir));
+    return found;
+  };
+
+  // Legal design: does a packet component name it? Read from the ledger's
+  // pinned bytes, which is what a packet is actually built from.
+  probe("legal_design_registry", "does a byte-pinned packet component name this page?", `${REGISTRY_PATH} @ ${registryCommit}`, () => {
+    const found = [];
+    for (const track of registry.tracks ?? []) {
+      for (const component of track.packetSet?.components ?? []) {
+        const values = [component.officialFormId, component.officialSourceUrl, component.componentId].filter(Boolean).map(String);
+        if (values.some((value) => value === fileName || value.endsWith(`/${fileName}`) || value === sha)) {
+          found.push({ trackId: track.trackId, componentId: component.componentId, role: component.role, requirement: component.requirement });
+        }
+      }
+    }
+    return found;
+  });
+
+  probe("packet_family_ledger", "does a track's required family set name it?", LEDGER, () => hitsIn(LEDGER));
+  probe("d_track_queue", "does a committed family relationship name it?", D_TRACK_QUEUE, () => hitsIn(D_TRACK_QUEUE));
+  probe("composed_routes", "does a composed route or its components name it?", "data/rcap-all50/composed-routes", () => hitsUnder("data/rcap-all50/composed-routes"));
+  probe("guidance_packets", "does a guidance packet already name it?", GUIDANCE_DIR, () => hitsUnder(GUIDANCE_DIR));
+  probe("terminalization_treatments", "does a terminal treatment name it?", "data/rcap-all50/terminalization-treatments", () => hitsUnder("data/rcap-all50/terminalization-treatments"));
+  probe("all_state_build_manifest", "does the build manifest the internal preview reads name it?", "data/rcap-all50/all-state-build-manifest.json", () => hitsIn("data/rcap-all50/all-state-build-manifest.json"));
+  probe("field_map_drafts", "is there a runtime field-map draft for it?", "docs/record-clearing/field-map-drafts", () => {
+    const dir = "docs/record-clearing/field-map-drafts";
+    if (!fs.existsSync(abs(dir))) throw new Error(`${dir} does not exist`);
+    const stem = fileName.replace(/\.[a-z]+$/i, "").toLowerCase();
+    return fs.readdirSync(abs(dir))
+      .filter((entry) => entry.toLowerCase().includes(stem))
+      .map((entry) => ({ file: path.join(dir, entry) }));
+  });
+  probe("compiled_engine_profile", "does a runtime-loaded engine profile name it?", COMPILED_PROFILE_DIR, () => compiledProfileSitesFor(fileName));
+  probe("application_source", "does anything else under src/ name it?", "src", () => applicationSourceSitesForFileName(fileName));
+  probe("operational_manifest_census", "does the corpus census have a row for it?", "data/rcap-all50/overlays/overlay-factory-manifest.json", () =>
+    overlayManifestNames(fileName) ? [{ file: "data/rcap-all50/overlays/overlay-factory-manifest.json", note: "one row per file present; existence, not use" }] : []);
+
+  return classes;
+}
+
 /** The corpus census: one row per file present, which is not a use. */
 function overlayManifestNames(fileName) {
   const manifest = "data/rcap-all50/overlays/overlay-factory-manifest.json";
@@ -379,11 +478,27 @@ function adjudicateCapturedIndexPage(asset, sourceRow) {
   const guidancePacket = path.join(GUIDANCE_DIR, `${asset.jurisdiction.toLowerCase()}.json`);
   const guidancePacketExists = fs.existsSync(abs(guidancePacket));
 
+  // Every class asked directly. Retirement needs all of them checked and empty;
+  // one class that could not be read is enough to refuse, because an unread
+  // class and an empty one produce the same silence and only one is evidence.
+  const dependencyClasses = everyDependencyClassFor(fileName, sha);
+  const unreadableClasses = dependencyClasses.filter((entry) => !entry.readable);
+  const namingClasses = dependencyClasses.filter((entry) => entry.named === true);
+  // The census records that the bytes exist; it would say so whether or not
+  // anything used them, so it is not counted as a dependency.
+  const holdingClasses = namingClasses.filter((entry) => entry.dependencyClass !== "operational_manifest_census");
+
   let outcome;
   let outcomeBasis;
-  if (locatedSites.length === 0 && asset.useSites.length === 0) {
+  if (unreadableClasses.length > 0) {
+    outcome = "retained_a_dependency_class_could_not_be_read";
+    outcomeBasis =
+      `${unreadableClasses.length} dependency class(es) could not be read (${unreadableClasses.map((entry) => entry.dependencyClass).join(", ")}). ` +
+      "An unread class produces the same silence as an empty one, so retirement is refused rather than rested on it.";
+  } else if (holdingClasses.length === 0 && locatedSites.length === 0) {
     outcome = "retirement_candidate_confirmed";
-    outcomeBasis = "No operational surface names this captured page at any located site.";
+    outcomeBasis =
+      "Every dependency class was read and none names this captured page; the corpus census is the only surface left, and a census records existence rather than use.";
   } else if (participantRouteRequiresIt) {
     outcome = "retained_route_plans_around_a_non_form";
     outcomeBasis =
@@ -393,7 +508,7 @@ function adjudicateCapturedIndexPage(asset, sourceRow) {
     outcome = "repoint_to_guidance_recorded";
     outcomeBasis =
       `The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. ` +
-      `${locatedSites.length} compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.`;
+      `All ${dependencyClasses.length} dependency classes were read; ${holdingClasses.length} still name it (${holdingClasses.map((entry) => entry.dependencyClass).join(", ")}), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.`;
   }
 
   return {
@@ -429,6 +544,16 @@ function adjudicateCapturedIndexPage(asset, sourceRow) {
         .map((site) => ({ file: site.file, containers: site.containers })),
       andThoseContainersAreInternal:
         "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+    },
+    dependencyClassesProbed: dependencyClasses,
+    dependencyClassSummary: {
+      probed: dependencyClasses.length,
+      unreadable: unreadableClasses.map((entry) => entry.dependencyClass),
+      naming: namingClasses.map((entry) => entry.dependencyClass),
+      holding: holdingClasses.map((entry) => entry.dependencyClass),
+      clear: dependencyClasses.filter((entry) => entry.named === false).map((entry) => entry.dependencyClass),
+      whyTheCensusIsNotHolding:
+        "operational_manifest_census emits one row per file found in the source corpus, so it names this capture for as long as the bytes exist. That is existence, not use."
     },
     locatedSites,
     surfaceHitsInTheDetermination: asset.useSites.map((site) => site.surface),

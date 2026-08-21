@@ -33,6 +33,8 @@ const GENERATOR = "scripts/generate-rcap-retirement-adjudication.mjs";
 const RETIRE = "scripts/retire-rcap-problematic-pdf-assets.mjs";
 const FACTORY = "scripts/rcap-all50-overlay-factory-lib.mjs";
 const REPOINT = "data/rcap-all50/pdf-retirement-evidence/retirement-repoint-adjudication.json";
+const REPOINT_GENERATOR = "scripts/generate-rcap-retirement-repoint-adjudication.mjs";
+const ALL_STATE_MANIFEST = "data/rcap-all50/all-state-build-manifest.json";
 
 const abs = (rel) => path.join(rootDir, rel);
 const readJson = (rel) => JSON.parse(fs.readFileSync(abs(rel), "utf8"));
@@ -331,6 +333,32 @@ await guarded("check-without-corpus", ADJUDICATION_OUTPUTS, async () => {
   );
 });
 
+// 11. The dependency-class sweep must fail closed. Each captured index page is
+//     cleared by eleven classes coming back readable and empty, and the danger
+//     is a class that could not be read looking the same as one that was. Make
+//     one unreadable and the outcome has to stop being a repoint.
+await guarded("dependency-class-unreadable", [REPOINT, ALL_STATE_MANIFEST], async () => {
+  fs.rmSync(abs(ALL_STATE_MANIFEST));
+  const result = run(REPOINT_GENERATOR, []);
+  control(
+    "11. an unreadable dependency class still clears a captured index page",
+    result,
+    ({ refused, output }) => {
+      if (refused) return `the adjudicator refused instead of adjudicating:\n${output.trim().slice(0, 400)}`;
+      const record = readJson(REPOINT);
+      const pages = record.assets.filter((asset) => asset.assetClass === "captured_index_page");
+      if (pages.length === 0) return "no captured index page was adjudicated";
+      const cleared = pages.filter((page) => page.outcome !== "retained_a_dependency_class_could_not_be_read");
+      if (cleared.length > 0) {
+        return `${cleared.length} captured page(s) kept outcome ${cleared[0].outcome} while a dependency class could not be read`;
+      }
+      const stillNamed = pages.filter((page) => !page.dependencyClassSummary.unreadable.includes("all_state_build_manifest"));
+      if (stillNamed.length > 0) return "the unreadable class was not recorded as unreadable";
+      return null;
+    }
+  );
+});
+
 // 9. The five adjudicated assets keep their outcomes. This work fixes how the
 //    seventh condition is evaluated; it is not licence to move an adjudication
 //    that was accepted on its own evidence.
@@ -384,6 +412,6 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `OK retirement corpus guard — the nine controls hold, plus the two guarding --check; the committed record still reports ` +
+  `OK retirement corpus guard — the nine controls hold, plus the two guarding --check and the dependency-class sweep; the committed record still reports ` +
     `${committedTotals.conditionSevenFails} condition-7 failures and ${committedTotals.conditionSevenPasses} passes`
 );

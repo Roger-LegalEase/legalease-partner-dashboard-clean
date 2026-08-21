@@ -374,7 +374,7 @@
         }
       },
       "outcome": "repoint_to_guidance_recorded",
-      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. 2 compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
       "retirementMarkerWritten": false,
       "repointRecorded": true,
       "determinationSaid": "retain_and_remediate",
@@ -396,6 +396,151 @@
           }
         ],
         "andThoseContainersAreInternal": "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+      },
+      "dependencyClassesProbed": [
+        {
+          "dependencyClass": "legal_design_registry",
+          "question": "does a byte-pinned packet component name this page?",
+          "target": "data/record-clearing/legal-design-track-registry.json @ 3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "packet_family_ledger",
+          "question": "does a track's required family set name it?",
+          "target": "data/rcap-ledger/track-terminalization.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "d_track_queue",
+          "question": "does a committed family relationship name it?",
+          "target": "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "composed_routes",
+          "question": "does a composed route or its components name it?",
+          "target": "data/rcap-all50/composed-routes",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "guidance_packets",
+          "question": "does a guidance packet already name it?",
+          "target": "data/rcap-all50/guidance-packets",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "terminalization_treatments",
+          "question": "does a terminal treatment name it?",
+          "target": "data/rcap-all50/terminalization-treatments",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "all_state_build_manifest",
+          "question": "does the build manifest the internal preview reads name it?",
+          "target": "data/rcap-all50/all-state-build-manifest.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "field_map_drafts",
+          "question": "is there a runtime field-map draft for it?",
+          "target": "docs/record-clearing/field-map-drafts",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "compiled_engine_profile",
+          "question": "does a runtime-loaded engine profile name it?",
+          "target": "src/lib/rcap-engine/compiled/profiles",
+          "readable": true,
+          "hits": [
+            {
+              "surface": "compiled_engine_profile",
+              "file": "src/lib/rcap-engine/compiled/profiles/AK-alaska.json",
+              "lines": [
+                41,
+                3355,
+                3381
+              ],
+              "containers": [
+                ".packetGenerator.allSourceFiles",
+                ".packetGenerator.formInventory",
+                ".source.allFolderFiles"
+              ],
+              "declaredKind": [
+                "official_form_or_packet"
+              ],
+              "namedInFormCandidates": false
+            }
+          ],
+          "named": true
+        },
+        {
+          "dependencyClass": "application_source",
+          "question": "does anything else under src/ name it?",
+          "target": "src",
+          "readable": true,
+          "hits": [
+            {
+              "surface": "application_source",
+              "file": "src/lib/rcap/state-packs/alaska/all50-build-metadata.ts",
+              "line": 86,
+              "matchedAs": "whole_quoted_value"
+            }
+          ],
+          "named": true
+        },
+        {
+          "dependencyClass": "operational_manifest_census",
+          "question": "does the corpus census have a row for it?",
+          "target": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+          "readable": true,
+          "hits": [
+            {
+              "file": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+              "note": "one row per file present; existence, not use"
+            }
+          ],
+          "named": true
+        }
+      ],
+      "dependencyClassSummary": {
+        "probed": 11,
+        "unreadable": [],
+        "naming": [
+          "compiled_engine_profile",
+          "application_source",
+          "operational_manifest_census"
+        ],
+        "holding": [
+          "compiled_engine_profile",
+          "application_source"
+        ],
+        "clear": [
+          "legal_design_registry",
+          "packet_family_ledger",
+          "d_track_queue",
+          "composed_routes",
+          "guidance_packets",
+          "terminalization_treatments",
+          "all_state_build_manifest",
+          "field_map_drafts"
+        ],
+        "whyTheCensusIsNotHolding": "operational_manifest_census emits one row per file found in the source corpus, so it names this capture for as long as the bytes exist. That is existence, not use."
       },
       "locatedSites": [
         {
@@ -482,7 +627,7 @@
         }
       },
       "outcome": "repoint_to_guidance_recorded",
-      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. 2 compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
       "retirementMarkerWritten": false,
       "repointRecorded": true,
       "determinationSaid": "retain_and_remediate",
@@ -504,6 +649,151 @@
           }
         ],
         "andThoseContainersAreInternal": "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+      },
+      "dependencyClassesProbed": [
+        {
+          "dependencyClass": "legal_design_registry",
+          "question": "does a byte-pinned packet component name this page?",
+          "target": "data/record-clearing/legal-design-track-registry.json @ 3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "packet_family_ledger",
+          "question": "does a track's required family set name it?",
+          "target": "data/rcap-ledger/track-terminalization.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "d_track_queue",
+          "question": "does a committed family relationship name it?",
+          "target": "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "composed_routes",
+          "question": "does a composed route or its components name it?",
+          "target": "data/rcap-all50/composed-routes",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "guidance_packets",
+          "question": "does a guidance packet already name it?",
+          "target": "data/rcap-all50/guidance-packets",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "terminalization_treatments",
+          "question": "does a terminal treatment name it?",
+          "target": "data/rcap-all50/terminalization-treatments",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "all_state_build_manifest",
+          "question": "does the build manifest the internal preview reads name it?",
+          "target": "data/rcap-all50/all-state-build-manifest.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "field_map_drafts",
+          "question": "is there a runtime field-map draft for it?",
+          "target": "docs/record-clearing/field-map-drafts",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "compiled_engine_profile",
+          "question": "does a runtime-loaded engine profile name it?",
+          "target": "src/lib/rcap-engine/compiled/profiles",
+          "readable": true,
+          "hits": [
+            {
+              "surface": "compiled_engine_profile",
+              "file": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+              "lines": [
+                33,
+                3984,
+                4034
+              ],
+              "containers": [
+                ".packetGenerator.allSourceFiles",
+                ".packetGenerator.formInventory",
+                ".source.allFolderFiles"
+              ],
+              "declaredKind": [
+                "official_form_or_packet"
+              ],
+              "namedInFormCandidates": false
+            }
+          ],
+          "named": true
+        },
+        {
+          "dependencyClass": "application_source",
+          "question": "does anything else under src/ name it?",
+          "target": "src",
+          "readable": true,
+          "hits": [
+            {
+              "surface": "application_source",
+              "file": "src/lib/rcap/state-packs/alabama/all50-build-metadata.ts",
+              "line": 92,
+              "matchedAs": "whole_quoted_value"
+            }
+          ],
+          "named": true
+        },
+        {
+          "dependencyClass": "operational_manifest_census",
+          "question": "does the corpus census have a row for it?",
+          "target": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+          "readable": true,
+          "hits": [
+            {
+              "file": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+              "note": "one row per file present; existence, not use"
+            }
+          ],
+          "named": true
+        }
+      ],
+      "dependencyClassSummary": {
+        "probed": 11,
+        "unreadable": [],
+        "naming": [
+          "compiled_engine_profile",
+          "application_source",
+          "operational_manifest_census"
+        ],
+        "holding": [
+          "compiled_engine_profile",
+          "application_source"
+        ],
+        "clear": [
+          "legal_design_registry",
+          "packet_family_ledger",
+          "d_track_queue",
+          "composed_routes",
+          "guidance_packets",
+          "terminalization_treatments",
+          "all_state_build_manifest",
+          "field_map_drafts"
+        ],
+        "whyTheCensusIsNotHolding": "operational_manifest_census emits one row per file found in the source corpus, so it names this capture for as long as the bytes exist. That is existence, not use."
       },
       "locatedSites": [
         {
@@ -590,7 +880,7 @@
         }
       },
       "outcome": "repoint_to_guidance_recorded",
-      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. 2 compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
       "retirementMarkerWritten": false,
       "repointRecorded": true,
       "determinationSaid": "retain_and_remediate",
@@ -612,6 +902,151 @@
           }
         ],
         "andThoseContainersAreInternal": "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+      },
+      "dependencyClassesProbed": [
+        {
+          "dependencyClass": "legal_design_registry",
+          "question": "does a byte-pinned packet component name this page?",
+          "target": "data/record-clearing/legal-design-track-registry.json @ 3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "packet_family_ledger",
+          "question": "does a track's required family set name it?",
+          "target": "data/rcap-ledger/track-terminalization.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "d_track_queue",
+          "question": "does a committed family relationship name it?",
+          "target": "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "composed_routes",
+          "question": "does a composed route or its components name it?",
+          "target": "data/rcap-all50/composed-routes",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "guidance_packets",
+          "question": "does a guidance packet already name it?",
+          "target": "data/rcap-all50/guidance-packets",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "terminalization_treatments",
+          "question": "does a terminal treatment name it?",
+          "target": "data/rcap-all50/terminalization-treatments",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "all_state_build_manifest",
+          "question": "does the build manifest the internal preview reads name it?",
+          "target": "data/rcap-all50/all-state-build-manifest.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "field_map_drafts",
+          "question": "is there a runtime field-map draft for it?",
+          "target": "docs/record-clearing/field-map-drafts",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "compiled_engine_profile",
+          "question": "does a runtime-loaded engine profile name it?",
+          "target": "src/lib/rcap-engine/compiled/profiles",
+          "readable": true,
+          "hits": [
+            {
+              "surface": "compiled_engine_profile",
+              "file": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+              "lines": [
+                57,
+                4008,
+                4058
+              ],
+              "containers": [
+                ".packetGenerator.allSourceFiles",
+                ".packetGenerator.formInventory",
+                ".source.allFolderFiles"
+              ],
+              "declaredKind": [
+                "official_form_or_packet"
+              ],
+              "namedInFormCandidates": false
+            }
+          ],
+          "named": true
+        },
+        {
+          "dependencyClass": "application_source",
+          "question": "does anything else under src/ name it?",
+          "target": "src",
+          "readable": true,
+          "hits": [
+            {
+              "surface": "application_source",
+              "file": "src/lib/rcap/state-packs/alabama/all50-build-metadata.ts",
+              "line": 99,
+              "matchedAs": "whole_quoted_value"
+            }
+          ],
+          "named": true
+        },
+        {
+          "dependencyClass": "operational_manifest_census",
+          "question": "does the corpus census have a row for it?",
+          "target": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+          "readable": true,
+          "hits": [
+            {
+              "file": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+              "note": "one row per file present; existence, not use"
+            }
+          ],
+          "named": true
+        }
+      ],
+      "dependencyClassSummary": {
+        "probed": 11,
+        "unreadable": [],
+        "naming": [
+          "compiled_engine_profile",
+          "application_source",
+          "operational_manifest_census"
+        ],
+        "holding": [
+          "compiled_engine_profile",
+          "application_source"
+        ],
+        "clear": [
+          "legal_design_registry",
+          "packet_family_ledger",
+          "d_track_queue",
+          "composed_routes",
+          "guidance_packets",
+          "terminalization_treatments",
+          "all_state_build_manifest",
+          "field_map_drafts"
+        ],
+        "whyTheCensusIsNotHolding": "operational_manifest_census emits one row per file found in the source corpus, so it names this capture for as long as the bytes exist. That is existence, not use."
       },
       "locatedSites": [
         {
@@ -698,7 +1133,7 @@
         }
       },
       "outcome": "repoint_to_guidance_recorded",
-      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. 2 compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
       "retirementMarkerWritten": false,
       "repointRecorded": true,
       "determinationSaid": "retain_and_remediate",
@@ -720,6 +1155,151 @@
           }
         ],
         "andThoseContainersAreInternal": "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+      },
+      "dependencyClassesProbed": [
+        {
+          "dependencyClass": "legal_design_registry",
+          "question": "does a byte-pinned packet component name this page?",
+          "target": "data/record-clearing/legal-design-track-registry.json @ 3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "packet_family_ledger",
+          "question": "does a track's required family set name it?",
+          "target": "data/rcap-ledger/track-terminalization.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "d_track_queue",
+          "question": "does a committed family relationship name it?",
+          "target": "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "composed_routes",
+          "question": "does a composed route or its components name it?",
+          "target": "data/rcap-all50/composed-routes",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "guidance_packets",
+          "question": "does a guidance packet already name it?",
+          "target": "data/rcap-all50/guidance-packets",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "terminalization_treatments",
+          "question": "does a terminal treatment name it?",
+          "target": "data/rcap-all50/terminalization-treatments",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "all_state_build_manifest",
+          "question": "does the build manifest the internal preview reads name it?",
+          "target": "data/rcap-all50/all-state-build-manifest.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "field_map_drafts",
+          "question": "is there a runtime field-map draft for it?",
+          "target": "docs/record-clearing/field-map-drafts",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "compiled_engine_profile",
+          "question": "does a runtime-loaded engine profile name it?",
+          "target": "src/lib/rcap-engine/compiled/profiles",
+          "readable": true,
+          "hits": [
+            {
+              "surface": "compiled_engine_profile",
+              "file": "src/lib/rcap-engine/compiled/profiles/AL-alabama.json",
+              "lines": [
+                65,
+                4016,
+                4066
+              ],
+              "containers": [
+                ".packetGenerator.allSourceFiles",
+                ".packetGenerator.formInventory",
+                ".source.allFolderFiles"
+              ],
+              "declaredKind": [
+                "official_form_or_packet"
+              ],
+              "namedInFormCandidates": false
+            }
+          ],
+          "named": true
+        },
+        {
+          "dependencyClass": "application_source",
+          "question": "does anything else under src/ name it?",
+          "target": "src",
+          "readable": true,
+          "hits": [
+            {
+              "surface": "application_source",
+              "file": "src/lib/rcap/state-packs/alabama/all50-build-metadata.ts",
+              "line": 106,
+              "matchedAs": "whole_quoted_value"
+            }
+          ],
+          "named": true
+        },
+        {
+          "dependencyClass": "operational_manifest_census",
+          "question": "does the corpus census have a row for it?",
+          "target": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+          "readable": true,
+          "hits": [
+            {
+              "file": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+              "note": "one row per file present; existence, not use"
+            }
+          ],
+          "named": true
+        }
+      ],
+      "dependencyClassSummary": {
+        "probed": 11,
+        "unreadable": [],
+        "naming": [
+          "compiled_engine_profile",
+          "application_source",
+          "operational_manifest_census"
+        ],
+        "holding": [
+          "compiled_engine_profile",
+          "application_source"
+        ],
+        "clear": [
+          "legal_design_registry",
+          "packet_family_ledger",
+          "d_track_queue",
+          "composed_routes",
+          "guidance_packets",
+          "terminalization_treatments",
+          "all_state_build_manifest",
+          "field_map_drafts"
+        ],
+        "whyTheCensusIsNotHolding": "operational_manifest_census emits one row per file found in the source corpus, so it names this capture for as long as the bytes exist. That is existence, not use."
       },
       "locatedSites": [
         {
@@ -806,7 +1386,7 @@
         }
       },
       "outcome": "repoint_to_guidance_recorded",
-      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. 2 compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
       "retirementMarkerWritten": false,
       "repointRecorded": true,
       "determinationSaid": "retain_and_remediate",
@@ -828,6 +1408,151 @@
           }
         ],
         "andThoseContainersAreInternal": "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+      },
+      "dependencyClassesProbed": [
+        {
+          "dependencyClass": "legal_design_registry",
+          "question": "does a byte-pinned packet component name this page?",
+          "target": "data/record-clearing/legal-design-track-registry.json @ 3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "packet_family_ledger",
+          "question": "does a track's required family set name it?",
+          "target": "data/rcap-ledger/track-terminalization.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "d_track_queue",
+          "question": "does a committed family relationship name it?",
+          "target": "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "composed_routes",
+          "question": "does a composed route or its components name it?",
+          "target": "data/rcap-all50/composed-routes",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "guidance_packets",
+          "question": "does a guidance packet already name it?",
+          "target": "data/rcap-all50/guidance-packets",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "terminalization_treatments",
+          "question": "does a terminal treatment name it?",
+          "target": "data/rcap-all50/terminalization-treatments",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "all_state_build_manifest",
+          "question": "does the build manifest the internal preview reads name it?",
+          "target": "data/rcap-all50/all-state-build-manifest.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "field_map_drafts",
+          "question": "is there a runtime field-map draft for it?",
+          "target": "docs/record-clearing/field-map-drafts",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "compiled_engine_profile",
+          "question": "does a runtime-loaded engine profile name it?",
+          "target": "src/lib/rcap-engine/compiled/profiles",
+          "readable": true,
+          "hits": [
+            {
+              "surface": "compiled_engine_profile",
+              "file": "src/lib/rcap-engine/compiled/profiles/AR-arkansas.json",
+              "lines": [
+                41,
+                2554,
+                2588
+              ],
+              "containers": [
+                ".packetGenerator.allSourceFiles",
+                ".packetGenerator.formInventory",
+                ".source.allFolderFiles"
+              ],
+              "declaredKind": [
+                "official_form_or_packet"
+              ],
+              "namedInFormCandidates": false
+            }
+          ],
+          "named": true
+        },
+        {
+          "dependencyClass": "application_source",
+          "question": "does anything else under src/ name it?",
+          "target": "src",
+          "readable": true,
+          "hits": [
+            {
+              "surface": "application_source",
+              "file": "src/lib/rcap/state-packs/arkansas/all50-build-metadata.ts",
+              "line": 98,
+              "matchedAs": "whole_quoted_value"
+            }
+          ],
+          "named": true
+        },
+        {
+          "dependencyClass": "operational_manifest_census",
+          "question": "does the corpus census have a row for it?",
+          "target": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+          "readable": true,
+          "hits": [
+            {
+              "file": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+              "note": "one row per file present; existence, not use"
+            }
+          ],
+          "named": true
+        }
+      ],
+      "dependencyClassSummary": {
+        "probed": 11,
+        "unreadable": [],
+        "naming": [
+          "compiled_engine_profile",
+          "application_source",
+          "operational_manifest_census"
+        ],
+        "holding": [
+          "compiled_engine_profile",
+          "application_source"
+        ],
+        "clear": [
+          "legal_design_registry",
+          "packet_family_ledger",
+          "d_track_queue",
+          "composed_routes",
+          "guidance_packets",
+          "terminalization_treatments",
+          "all_state_build_manifest",
+          "field_map_drafts"
+        ],
+        "whyTheCensusIsNotHolding": "operational_manifest_census emits one row per file found in the source corpus, so it names this capture for as long as the bytes exist. That is existence, not use."
       },
       "locatedSites": [
         {
@@ -914,7 +1639,7 @@
         }
       },
       "outcome": "repoint_to_guidance_recorded",
-      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. 2 compiled-profile and application-source site(s) still name it, and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
       "retirementMarkerWritten": false,
       "repointRecorded": true,
       "determinationSaid": "retain_and_remediate",
@@ -936,6 +1661,151 @@
           }
         ],
         "andThoseContainersAreInternal": "src/lib/content/state-resources.ts lists packetGenerator, formInventory and formCandidates in INTERNAL_LEAK_MARKERS, so no public payload may carry them."
+      },
+      "dependencyClassesProbed": [
+        {
+          "dependencyClass": "legal_design_registry",
+          "question": "does a byte-pinned packet component name this page?",
+          "target": "data/record-clearing/legal-design-track-registry.json @ 3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "packet_family_ledger",
+          "question": "does a track's required family set name it?",
+          "target": "data/rcap-ledger/track-terminalization.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "d_track_queue",
+          "question": "does a committed family relationship name it?",
+          "target": "data/rcap-all50/review-artifacts/d-track-queue.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "composed_routes",
+          "question": "does a composed route or its components name it?",
+          "target": "data/rcap-all50/composed-routes",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "guidance_packets",
+          "question": "does a guidance packet already name it?",
+          "target": "data/rcap-all50/guidance-packets",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "terminalization_treatments",
+          "question": "does a terminal treatment name it?",
+          "target": "data/rcap-all50/terminalization-treatments",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "all_state_build_manifest",
+          "question": "does the build manifest the internal preview reads name it?",
+          "target": "data/rcap-all50/all-state-build-manifest.json",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "field_map_drafts",
+          "question": "is there a runtime field-map draft for it?",
+          "target": "docs/record-clearing/field-map-drafts",
+          "readable": true,
+          "hits": [],
+          "named": false
+        },
+        {
+          "dependencyClass": "compiled_engine_profile",
+          "question": "does a runtime-loaded engine profile name it?",
+          "target": "src/lib/rcap-engine/compiled/profiles",
+          "readable": true,
+          "hits": [
+            {
+              "surface": "compiled_engine_profile",
+              "file": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+              "lines": [
+                113,
+                1698,
+                1756
+              ],
+              "containers": [
+                ".packetGenerator.allSourceFiles",
+                ".packetGenerator.formInventory",
+                ".source.allFolderFiles"
+              ],
+              "declaredKind": [
+                "official_form_or_packet"
+              ],
+              "namedInFormCandidates": false
+            }
+          ],
+          "named": true
+        },
+        {
+          "dependencyClass": "application_source",
+          "question": "does anything else under src/ name it?",
+          "target": "src",
+          "readable": true,
+          "hits": [
+            {
+              "surface": "application_source",
+              "file": "src/lib/rcap/state-packs/kentucky/all50-build-metadata.ts",
+              "line": 116,
+              "matchedAs": "whole_quoted_value"
+            }
+          ],
+          "named": true
+        },
+        {
+          "dependencyClass": "operational_manifest_census",
+          "question": "does the corpus census have a row for it?",
+          "target": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+          "readable": true,
+          "hits": [
+            {
+              "file": "data/rcap-all50/overlays/overlay-factory-manifest.json",
+              "note": "one row per file present; existence, not use"
+            }
+          ],
+          "named": true
+        }
+      ],
+      "dependencyClassSummary": {
+        "probed": 11,
+        "unreadable": [],
+        "naming": [
+          "compiled_engine_profile",
+          "application_source",
+          "operational_manifest_census"
+        ],
+        "holding": [
+          "compiled_engine_profile",
+          "application_source"
+        ],
+        "clear": [
+          "legal_design_registry",
+          "packet_family_ledger",
+          "d_track_queue",
+          "composed_routes",
+          "guidance_packets",
+          "terminalization_treatments",
+          "all_state_build_manifest",
+          "field_map_drafts"
+        ],
+        "whyTheCensusIsNotHolding": "operational_manifest_census emits one row per file found in the source corpus, so it names this capture for as long as the bytes exist. That is existence, not use."
       },
       "locatedSites": [
         {
