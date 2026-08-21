@@ -239,8 +239,44 @@ OpenAction, no additional actions, and no `/Launch`, `/EmbeddedFile` or
 `/RichMedia` token in the raw bytes. Page counts — 1, 4, 2, 2 — match both the
 sidecar and the raster coverage.
 
+## Canonical re-emission
+
+`loadReviewRecords()` in `scripts/rcap-official-forms/rcap-platform-ready.mjs`
+discovers review records by scanning the **top level** of
+`data/rcap-all50/pdf-independent-reviews` for `<batch>-manifest.json`. The
+shard-d records live in a subdirectory, so the loader never saw them and the
+shared gate could not read them — the same gap Reviewers A and B closed for
+their shards.
+
+The same four verdicts are therefore re-emitted in the canonical top-level
+layout as batch `wave-c-final-d`:
+
+- `wave-c-final-d-manifest.json` — the frozen four families with every pinned hash
+- `wave-c-final-d-group-1.review.json` — the four verdicts
+- `wave-c-final-d-verdicts.json` — the rollup
+
+This is a re-emission, not a re-review: no verdict changed and no pinned hash
+changed. The emitter recomputes every digest from disk and exits non-zero if any
+differs from what the shard record already pinned, so the record cannot describe
+bytes that moved. It is deterministic — a second pass leaves the three files
+byte-identical.
+
+After emission `scripts/verify-rcap-pdf-independent-review-records.mjs` reports
+**2 batches, 27 family records, validation clean, 0 problems**, and all four
+shard-d families resolve to batch `wave-c-final-d` as their newest record. The
+gate refuses all 27 at condition 1 — the verdict is not
+`approved_platform_ready` — which for these four is the correct outcome.
+
+**Denominator effect: platform_ready delta 0.** Shard d carries no approval. The
+record exists so the four families are countable as reviewed rather than
+missing.
+
 ## Records
 
+- `data/rcap-all50/pdf-independent-reviews/wave-c-final-d-manifest.json`
+- `data/rcap-all50/pdf-independent-reviews/wave-c-final-d-group-1.review.json`
+- `data/rcap-all50/pdf-independent-reviews/wave-c-final-d-verdicts.json`
+- `data/rcap-all50/pdf-independent-reviews/wave-c-shard-d/emit-canonical-wave-c-final-d.mjs`
 - `data/rcap-all50/pdf-independent-reviews/wave-c-shard-d/assignment.json`
 - `data/rcap-all50/pdf-independent-reviews/wave-c-shard-d/source-verification.json`
 - `data/rcap-all50/pdf-independent-reviews/wave-c-shard-d/hash-verification.json`

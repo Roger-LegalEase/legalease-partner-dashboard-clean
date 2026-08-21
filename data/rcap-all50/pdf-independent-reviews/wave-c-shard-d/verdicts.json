@@ -118,7 +118,8 @@
           "agrees": true
         },
         "sourceMismatch": false
-      }
+      },
+      "reviewerHeadline": "correction_required. Source verified from its own bytes (d1fb1340\u2026), zero mismatch, and the visible 'CC 6:15.1 NEW 05/2021' agrees with the pinned REV-2021-05. The artifact destroys preprinted wording the official form carries: a registered per-pixel comparison of blank source against finalized artifact shows 402 source-ink pixels destroyed and 1037 added, in exactly the columns holding 'IN THE' (x429-479) and 'COURT OF' (x557-634), with 'COUNTY, NEBRASKA' untouched as the alignment control. The caption band renders 'District CourtExample County COUNTY, NEBRASKA' with the two values abutting. The flatten also materialises the italic captions the official form keeps hidden behind its chooser widgets while the unselected chooser prompts survive it, and the contact sheet's own blank panel already carries those materialised captions, so it is not a faithful rendering of the official form. Separately, all 21 classification entries store effectiveLabel and regionHeading as raw Identity-H glyph ids at a fixed +29 offset from ASCII, never mapped through ToUnicode, so the heading-vocabulary region channel has nothing legible to match on this family. Flattened, no XFA, JavaScript, OpenAction or additional actions."
     },
     {
       "familyId": "VA:cc-1201-form-en",
@@ -224,7 +225,8 @@
           "agrees": true
         },
         "sourceMismatch": false
-      }
+      },
+      "reviewerHeadline": "correction_required. Source verified from its own bytes (7b56d8e1\u2026), zero mismatch, visible 'FORM CC-1201, (MASTER) \u2026 07/26' agrees with the pinned REV-2026-07, and page 1 loses no source ink \u2014 the defects are wrong values inside correct rectangles. User.CourtName (page 1, rect x=37 y=651 w=366 h=12) is written with matter.court = 'District Court' onto the court caption rule whose printed caption is CITY OR COUNTY and whose preprinted continuation is 'Circuit Court', so the line renders 'District Court \u2026 Circuit Court'; the same slot type is already refused on page 2 as User.Court. User.CaseNumber1201 (page 4, rect x=134 y=579 w=53 h=12) is written with the case number into the addendum-count slot captioned NUMBER, shrunk well below body size to fit a 53pt box, and the family's own boundary fixture already refuses that field with value_exceeds_widget_width_at_minimum_font. Underlying both, the census resolves captions with labelBasis 'printed_directly_above_in_the_same_column' while this form prints each caption below its rule, so UserPetitionerName is recorded with effectiveLabel 'CITY OR COUNTY'. Flattened, no active content."
     },
     {
       "familyId": "VA:cc-1473-form-en",
@@ -313,7 +315,8 @@
           "agrees": true
         },
         "sourceMismatch": false
-      }
+      },
+      "reviewerHeadline": "substantive_owner_decision_required. Source verified from its own bytes (6176c2f5\u2026), zero mismatch, visible 'FORM CC-1473 (MASTER \u2026) 07/26' agrees with the pinned REV-2026-07, and page 1 loses no source ink. Geometry is clean: values land on their captioned rules, DATE, SIGNATURE, PRINT NAME, TELEPHONE, EMAIL, VSB and CLERK are all blank, page 2 is untouched, the artifact is flattened with no active content, and every pinned digest matches disk. Two questions are the owner's rather than a reviewer's. User.City writes participant.city into the court caption's CITY OR COUNTY slot \u2014 the value type is right and nothing preprinted is damaged, but the fact is the petitioner's residence city while the slot names the circuit court's locality, and the fixture also carries matter.county; the two coincide only by fixture. User.CaseNumbers and User.UnderlyingCaseNumbers fill conditional slots \u2014 'if matter was heard on appeal from General District Court' and an 'Underlying Case No.(s)' line gated by an unchecked attachment box \u2014 so as rendered the document asserts an appeal history and an attachment the fact set does not establish."
     },
     {
       "familyId": "VT:600-00228-support-en",
@@ -404,7 +407,8 @@
           "agrees": true
         },
         "sourceMismatch": false
-      }
+      },
+      "reviewerHeadline": "correction_required. Source verified from its own bytes (263d4e19\u2026), zero mismatch, visible '600-00228 \u2026 (04/2026)' agrees with the pinned REV-2026-04. Page 1 loses 17 pixels of source ink, all of it the unfilled widgets' background shading that flattening removes by design; no printed text is lost, and page 2's Section 5 signature block is correctly blank. The defect is what is missing: field '3' carries the correctly captured caption 'Name: (First & Last) \u2026' and is classified manual, as are '2' (Street Address), '4' (City/State/Zip), '5a' (Email Address) and '6'/'7' (phone). classCounts is {manual: 78, participant: 2} \u2014 only Docket Number and Case Name are written, so the applicant's name, address, phone and email are blank on an application whose purpose is to state the applicant's identity and means, while every one of those facts exists in the fact set and is written on other families in this shard. ESC-VALUE-NOT-VISIBLE states its own mutation test as offering full_legal_name to a field named '2' under a printed Name caption and requiring it to bind rather than refuse; that is precisely this case and it still refuses."
     }
   ],
   "sourceVerification": {

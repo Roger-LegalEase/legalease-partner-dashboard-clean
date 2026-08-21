@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-verdicts/v1",
+  "batch": "wave-c-final-d",
+  "reviewerBranch": "claude/gate-b-wave-c-review-kibrgo",
+  "reviewedLaneBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewedLaneHead": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "totals": {
+    "families": 4,
+    "approved_platform_ready": 0,
+    "correction_required": 3,
+    "substantive_owner_decision_required": 1,
+    "sourceDigestsRecomputedByReviewer": 4,
+    "sourceMismatches": 0
+  },
+  "verdicts": [
+    {
+      "family": "NE:cc-6-15-1-form-en",
+      "verdict": "correction_required",
+      "openCorrections": 3,
+      "sourceVerified": true
+    },
+    {
+      "family": "VA:cc-1201-form-en",
+      "verdict": "correction_required",
+      "openCorrections": 3,
+      "sourceVerified": true
+    },
+    {
+      "family": "VA:cc-1473-form-en",
+      "verdict": "substantive_owner_decision_required",
+      "openCorrections": 0,
+      "sourceVerified": true
+    },
+    {
+      "family": "VT:600-00228-support-en",
+      "verdict": "correction_required",
+      "openCorrections": 2,
+      "sourceVerified": true
+    }
+  ],
+  "denominatorEffect": {
+    "platformReadyDelta": 0,
+    "why": "shard d carries no approved_platform_ready verdict, so it moves platform_ready by zero; the record exists so the four families are visible to the loader and countable as reviewed rather than missing"
+  }
+}
