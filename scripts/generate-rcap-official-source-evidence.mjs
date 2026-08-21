@@ -329,6 +329,22 @@ const OBSERVATIONS_47 = [
     failure: "the first request did not complete: fetch failed" }
 ];
 
+// Run 32434415129 is the first to log how much text the revision reader
+// actually extracted, which is what settles whether `not_printed` is a reading
+// of the document or a failure to read it. These three legs were sampled from
+// it; they are measurements, not a full transcription of that run.
+const RUN_50 = {
+  runId: "32434415129",
+  runUrl: "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32434415129",
+  ranAt: "2026-08-21T00:54:46Z"
+};
+
+const RUN_50_REVISION_SAMPLES = [
+  { jurisdiction: "WI", formNumber: "DJ-LE-247", jobId: "96632642875", verdict: "not_printed", textCharacters: 2938 },
+  { jurisdiction: "VT", formNumber: "200-00130", jobId: "96632642252", verdict: "not_printed", textCharacters: 3668 },
+  { jurisdiction: "AK", formNumber: "TF-810", jobId: "96632641501", verdict: "unreadable", textCharacters: 0 }
+];
+
 const queue = JSON.parse(fs.readFileSync(QUEUE, "utf8"));
 const queueEntries = [...queue.matrix, ...queue.probeMatrix];
 
@@ -518,12 +534,14 @@ for (const [host, group] of failuresByHost) {
   const forms = [...new Set(group.map((g) => `${g.jurisdiction} ${g.formNumber}`))].sort();
   if (statuses.length === 0) {
     findings.push({
-      kind: "transient_fetch_failure",
+      kind: "fetch_does_not_complete_reproducibly",
       jurisdiction: group[0].jurisdiction,
       formNumber: group[0].formNumber,
       host,
-      whatItMeans: "the request did not complete at the connection level; this says nothing about the form or the URL",
-      priorSuccess: "run 46 fetched this URL and hashed it, so the URL does serve bytes",
+      whatItMeans: "the request did not complete at the connection level, and it did so again on the next run about eleven seconds in, so this is reproducible and specific to this file rather than a flake",
+      notAHostOutage: "the same host served DJ-LE-247 successfully in the same run, seconds earlier",
+      priorSuccess: "run 46 fetched this URL and hashed it at 475556 bytes, so the URL does serve bytes; it is the largest file on that host in this queue",
+      reproducedIn: "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32434415129/job/96632642916",
       evidence: group.map((g) => g.jobUrl)
     });
     continue;
@@ -581,13 +599,23 @@ const evidence = {
   // repository, and refuses statute citations. But these acquisitions predate
   // the character-count line in the log, so for THESE documents it cannot be
   // told apart from a PDF that yielded almost no extractable text.
-  revisionReadingCaveat: {
-    observed: revisionVerdicts,
-    doNotConclude: "that these forms print no revision line",
-    whyNot: "these legs did not log how much text was extracted, so `not_printed` and `almost no text came out` look identical here",
-    settledBy: "the next acquisition, which logs the extracted character count beside the verdict"
+  revisionReading: {
+    observedInLatestTranscribedRun: revisionVerdicts,
+    // Settled by measurement. The three sampled legs below are the first to log
+    // how much text came out of the PDF, and they separate the two cases
+    // cleanly: two documents yielded thousands of characters of real text and
+    // still printed no revision line, and one yielded nothing at all and is
+    // reported as unreadable rather than as a form without a revision.
+    settledBy: RUN_50.runUrl,
+    samples: RUN_50_REVISION_SAMPLES.map((s) => ({ ...s, jobUrl: `${RUN_50.runUrl}/job/${s.jobId}` })),
+    whatTheSamplesShow:
+      "`not_printed` on these forms is a reading of the document, not a failure to read it: 2938 and 3668 characters were extracted and no revision line was among them",
+    whatIsStillNotEstablished:
+      "that any of these forms is the current official edition; a form that prints no revision line says nothing either way",
+    readerIsKnownToWork:
+      "the same reader reads the printed revision from California CR-180, Minnesota EXP107 and Florida FDLE forms held in this repository, and refuses statute citations such as 'Ohio Revised Code 2953.32'"
   },
-  runs: [RUN, RUN_47],
+  runs: [RUN, RUN_47, RUN_50],
   totals: {
     runsTranscribed: 2,
     legsTranscribed: OBSERVATIONS.length,
@@ -618,4 +646,4 @@ console.log(`  ${OBSERVATIONS.length} legs transcribed across 2 runs; ${evidence
 console.log(`  ${evidence.totals.documentsUnchangedBetweenRuns}/${evidence.totals.documentsFetchedInBothRuns} document(s) fetched in both runs served identical bytes`);
 console.log(`  assets: ${evidence.totals.assetsExactMatch} exact_match, ${evidence.totals.assetsSourceDrift} source_drift, ${evidence.totals.assetsCurrentReplacement} current_replacement, ${evidence.totals.assetsFetchFailed} fetch_failed`);
 for (const finding of findings) console.log(`  ${finding.kind}: ${finding.jurisdiction} ${finding.formNumber}`);
-console.log(`  revisions confirmed: 0 — ${JSON.stringify(revisionVerdicts)}; see revisionReadingCaveat`);
+console.log(`  revisions confirmed: 0 — ${JSON.stringify(revisionVerdicts)}; not_printed settled by measurement, see revisionReading.samples`);

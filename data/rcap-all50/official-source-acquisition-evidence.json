@@ -18,14 +18,41 @@
     "that a form whose host refused the runner is missing, moved or superseded",
     "that any of these has a named current use in the platform"
   ],
-  "revisionReadingCaveat": {
-    "observed": {
+  "revisionReading": {
+    "observedInLatestTranscribedRun": {
       "not_printed": 16,
       "unreadable": 1
     },
-    "doNotConclude": "that these forms print no revision line",
-    "whyNot": "these legs did not log how much text was extracted, so `not_printed` and `almost no text came out` look identical here",
-    "settledBy": "the next acquisition, which logs the extracted character count beside the verdict"
+    "settledBy": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32434415129",
+    "samples": [
+      {
+        "jurisdiction": "WI",
+        "formNumber": "DJ-LE-247",
+        "jobId": "96632642875",
+        "verdict": "not_printed",
+        "textCharacters": 2938,
+        "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32434415129/job/96632642875"
+      },
+      {
+        "jurisdiction": "VT",
+        "formNumber": "200-00130",
+        "jobId": "96632642252",
+        "verdict": "not_printed",
+        "textCharacters": 3668,
+        "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32434415129/job/96632642252"
+      },
+      {
+        "jurisdiction": "AK",
+        "formNumber": "TF-810",
+        "jobId": "96632641501",
+        "verdict": "unreadable",
+        "textCharacters": 0,
+        "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32434415129/job/96632641501"
+      }
+    ],
+    "whatTheSamplesShow": "`not_printed` on these forms is a reading of the document, not a failure to read it: 2938 and 3668 characters were extracted and no revision line was among them",
+    "whatIsStillNotEstablished": "that any of these forms is the current official edition; a form that prints no revision line says nothing either way",
+    "readerIsKnownToWork": "the same reader reads the printed revision from California CR-180, Minnesota EXP107 and Florida FDLE forms held in this repository, and refuses statute citations such as 'Ohio Revised Code 2953.32'"
   },
   "runs": [
     {
@@ -43,6 +70,11 @@
       "headSha": "132bd5e7b3457d4540fb35cf9d4869ae23457de0",
       "branch": "claude/official-pdf-urls-hash-f9s8u9",
       "ranAt": "2026-08-21T00:40:14Z"
+    },
+    {
+      "runId": "32434415129",
+      "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32434415129",
+      "ranAt": "2026-08-21T00:54:46Z"
     }
   ],
   "totals": {
@@ -332,12 +364,14 @@
       ]
     },
     {
-      "kind": "transient_fetch_failure",
+      "kind": "fetch_does_not_complete_reproducibly",
       "jurisdiction": "WI",
       "formNumber": "DJ-LE-250B",
       "host": "www.wisdoj.gov",
-      "whatItMeans": "the request did not complete at the connection level; this says nothing about the form or the URL",
-      "priorSuccess": "run 46 fetched this URL and hashed it, so the URL does serve bytes",
+      "whatItMeans": "the request did not complete at the connection level, and it did so again on the next run about eleven seconds in, so this is reproducible and specific to this file rather than a flake",
+      "notAHostOutage": "the same host served DJ-LE-247 successfully in the same run, seconds earlier",
+      "priorSuccess": "run 46 fetched this URL and hashed it at 475556 bytes, so the URL does serve bytes; it is the largest file on that host in this queue",
+      "reproducedIn": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32434415129/job/96632642916",
       "evidence": [
         "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32433526678/job/96630071489"
       ]

@@ -200,9 +200,21 @@ function dataFailures(data, queueData) {
   );
 
   // `not_printed` on nearly every document is a claim about the reader as much
-  // as about the forms. The record has to say so rather than let it read as a
-  // finding about court forms.
-  fail(Boolean(data.revisionReadingCaveat?.doNotConclude), "the evidence no longer carries the caveat on what `not_printed` does not mean");
+  // as about the forms. It may only stand where a measurement separates them:
+  // a sample that yielded real text and still found no revision line.
+  const samples = data.revisionReading?.samples ?? [];
+  fail(samples.length > 0, "the evidence no longer shows how much text the revision reader extracted, so `not_printed` cannot be told from `nothing was read`");
+  fail(
+    samples.some((s) => s.verdict === "not_printed" && Number(s.textCharacters) > 500),
+    "no sampled `not_printed` document is backed by a measurement showing real text was extracted"
+  );
+  for (const sample of samples) {
+    fail(
+      sample.verdict !== "unreadable" || Number(sample.textCharacters) === 0,
+      `${sample.jurisdiction} ${sample.formNumber}: reported unreadable while text was extracted`
+    );
+    fail(Boolean(sample.jobUrl), `${sample.jurisdiction} ${sample.formNumber}: a revision measurement with no job to check it against`);
+  }
 
   // A refused host is never recorded as a missing form.
   for (const finding of data.findings.filter((f) => String(f.kind).startsWith("official_host_"))) {
@@ -331,9 +343,20 @@ if (MUTATIONS) {
       mutated.totals.assetsFetchFailed -= 1;
       return { data: mutated };
     }],
-    ["the caveat on what `not_printed` does not mean is dropped", () => {
+    ["the measurement separating `not_printed` from `nothing was read` is dropped", () => {
       const mutated = clone(evidence);
-      delete mutated.revisionReadingCaveat.doNotConclude;
+      mutated.revisionReading.samples = [];
+      return { data: mutated };
+    }],
+    ["a document reported unreadable is shown to have yielded text", () => {
+      const mutated = clone(evidence);
+      const sample = mutated.revisionReading.samples.find((s) => s.verdict === "unreadable");
+      sample.textCharacters = 4000;
+      return { data: mutated };
+    }],
+    ["every `not_printed` sample loses the text that backs it", () => {
+      const mutated = clone(evidence);
+      for (const s of mutated.revisionReading.samples) s.textCharacters = 0;
       return { data: mutated };
     }],
     ["a refused host is recorded as though the forms were gone", () => {
