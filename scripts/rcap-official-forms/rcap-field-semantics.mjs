@@ -40,7 +40,13 @@ export const PROTECT_RULES = [
   // full_legal_name's /\bdef\b/ pattern did. Jail and booking identifiers sit
   // in the same rule: they identify a person through a custodial system the
   // platform has no knowledge of, and AOC-496 put a name in one of those too.
-  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#)\b/],
+  // The driver's-licence cluster is a cluster, not one field. NC AOC-CR-296
+  // names its columns DLNo, DLState and DLExpires; only DLNo matched, so
+  // `DLState` took participant.state and the canonical fixture printed the
+  // applicant's residence state in the Drivers License State column. The state
+  // that issued a licence and the state someone lives in are different facts,
+  // and the field prints no caption, so nothing but its name could refuse it.
+  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#)\b|\bdl\s*(state|exp|expires|expiration|class|type|issued)\b|licen[cs]e\s*(state|class|expires|expiration)/],
   ["signature", /signature|\bsigned\b|\bsign\s*here\b|^\s*sign\b|\bsig\b|\binitials?\b/],
   ["notarization", /notar|jurat|acknowledg(ed|ment)\s*before\s*me|sworn\s*to\s*before|my\s*commission\s*expires|seal\s*of\s*office/],
   // `cert date` was the hole. The rule matched the printed heading and the
@@ -52,7 +58,18 @@ export const PROTECT_RULES = [
   // deterministic.
   ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|service\s*of\s*process|process\s*server|\bserved\s*(on|by|upon)\b|date\s*served|manner\s*of\s*service|\bcert\s*(date|time)\b|certif(y|ied|icate)\s*(on|date)/],
   ["licensing_board", /licens(e|ing)\s*(board|authority|agency)|board\s*of\s*(nursing|medicine|pharmacy|education|examiners)|professional\s*board|certification\s*board/],
-  ["agency", /\bagency\b|\bsheriff\b|\bpolice\b|law\s*enforcement|\bbureau\b|state\s*patrol|\bprobation\b|\bparole\b|department\s*of\s*(public\s*safety|justice|corrections)|\bdps\b|\bsbi\b|\bacic\b|\bapsin\b|\bfbi\b/],
+  // The records-custody clause is the second half of this rule and it earns its
+  // place on KY AOC-334. The form prints "The Kentucky State Police and other
+  // following agencies listed below are hereby ordered to seal any records in
+  // their custody regarding the above-named Defendant and above-listed
+  // charge(s): ____". The slot lists the AGENCIES the court is ordering. The
+  // caption harvester reached it as the tail fragment "their custody regarding
+  // the above-named Defendant and above-", which contains the word "Defendant"
+  // and no word this rule knew — so full_legal_name claimed it and the
+  // petitioner's name was filed as the list of agencies ordered to seal.
+  // Matching the directive rather than the agency names closes it wherever the
+  // caption is truncated.
+  ["agency", /\bagency\b|\bagencies\b|\bsheriff\b|\bpolice\b|law\s*enforcement|\bbureau\b|state\s*patrol|\bprobation\b|\bparole\b|department\s*of\s*(public\s*safety|justice|corrections)|\bdps\b|\bsbi\b|\bacic\b|\bapsin\b|\bfbi\b|records?\s*in\s*(their|our|its)\s*custody|\bcustody\s*regarding\b|ordered\s*to\s*seal|records?\s*custodian/],
   ["court", /\bjudge\b|magistrate|commissioner|hearing\s*officer|referee|so\s*ordered|it\s*is\s*(hereby\s*)?ordered|ordered\s*(and\s*)?adjudged|adjudged|\bdecree\b|is\s*(hereby\s*)?(granted|denied)|court\s*use\s*only|for\s*(court|office|clerk|official)\s*use|do\s*not\s*write|\bruling\b/],
   ["clerk", /\bclerk\b|deputy\s*clerk|file\s*stamp|filed\s*stamp|filing\s*stamp|court\s*seal|scan\s*num|\bbarcode\b|entered\s*on|\bdistribution\b/],
   ["prosecutor", /prosecut|district\s*attorney|commonwealth\s*s?\s*attorney|state\s*s?\s*attorney|county\s*attorney|solicitor/],
@@ -78,12 +95,63 @@ export const REGIONAL_PROTECT_CATEGORIES = new Set([
   "attorney", "outside_party", "responsible_official", "licensing_board", "agency"
 ]);
 
+// What a printed SECTION HEADING means, which is not the same question as what
+// a field name means.
+//
+// NC AOC-CR-288 is the case. Page 2 prints "FINDINGS OF FACT" and under it
+// "ORDER"; the fields in that band are named PetitionerIsEligibleBecauseText1
+// and PetitionerIsEligibleCbx. Every one of those names is innocent, the
+// petitioner's own name is in them, and the binder wrote the petitioner's name
+// into the judge's findings — a filed document on which the petitioner appears
+// to have made the court's findings for it.
+//
+// These patterns are deliberately NOT in PROTECT_RULES. "Order" as a substring
+// of a field name is far too common to deny on — order of protection, birth
+// order, ordered list — but a form that prints ORDER as a section heading is
+// telling the reader that everything below it is the court speaking. The
+// distinction is the position, so the vocabulary is separate.
+export const REGION_HEADING_RULES = [
+  ["court", /findings?\s*of\s*fact|conclusions?\s*of\s*law|^\s*order\b|\border\s*of\s*(the\s*)?court\b|\bjudgment\b|\bdecree\b|\bdetermination\b|to\s*be\s*completed\s*by\s*the\s*court|court\s*findings/i],
+  ["clerk", /certification\s*by\s*(the\s*)?clerk|clerk\s*s?\s*certificate|entry\s*of\s*(judgment|record)/i],
+  ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|return\s*of\s*service/i],
+  ["notarization", /acknowledg(e?ment|ed)|jurat|verification|sworn\s*statement/i]
+];
+
+/**
+ * The protected category a printed section heading opens, if any.
+ *
+ * The heading vocabulary is tried first because it is the more specific claim,
+ * and the field-name vocabulary second so a heading that names a judge or a
+ * prosecutor still counts. A heading that matches neither opens no protected
+ * region, which is the safe answer only because the field-name rules still run
+ * independently on every binding.
+ */
+export function regionProtectCategoryOf(heading) {
+  const text = String(heading ?? "").trim();
+  if (!text) return null;
+  for (const [category, pattern] of REGION_HEADING_RULES) {
+    if (pattern.test(text)) return category;
+  }
+  const byName = protectCategoryOf(text);
+  return byName && REGIONAL_PROTECT_CATEGORIES.has(byName) ? byName : null;
+}
+
 // --- allowlisted fact descriptors ------------------------------------------
 // The ONLY things that may ever be written. Each declares the value type it
 // carries and, where the fact is legally sensitive, that it may not bind
 // without the caller naming the field explicitly.
+// A second address block is not a second address.
+//
+// NC AOC-CV-226 prints "Full Permanent Mailing Address Of Applicant (if
+// different than above)". It is conditional by its own printed words: it is
+// completed only when the applicant's mailing address differs from the one
+// already given. Writing the same street, city, state and ZIP into both blocks
+// files an affidavit asserting the two are different and then showing them
+// identical. The platform holds one address, so it fills one block.
+export const ALTERNATE_BLOCK = /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/;
+
 export const FACT_DESCRIPTORS = [
-  { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/ },
+  { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "participant.date_of_birth", valueType: "date", match: /\bdob\b|date\s*of\s*birth|birth\s*date/ },
   { factId: "participant.first_name", valueType: "string", match: /first\s*name/ },
   { factId: "participant.last_name", valueType: "string", match: /last\s*name|surname/ },
@@ -105,11 +173,11 @@ export const FACT_DESCRIPTORS = [
   // affidavit of indigency, where the applicant's street address was printed
   // as the name of their bank. A haystack that names a more specific slot than
   // "address" is that slot, not the street line.
-  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b/, refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal|\bcounty\b|\bbank\b|\bemployer\b|\bcourt\b/ },
-  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b|\bcourt\b|\bcounty\s*(of|or)\s*city\b/ },
-  { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/ },
+  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b/, refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal|\bcounty\b|\bbank\b|\bemployer\b|\bcourt\b|\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
+  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b|\bcourt\b|\bcounty\s*(of|or)\s*city\b|\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
+  { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "participant.phone", valueType: "string", match: /\bphone\b|telephone/, refuseWhen: /\be[-\s]?mail\b/ },
-  { factId: "participant.state", valueType: "string", match: /\bstate\b/ },
+  { factId: "participant.state", valueType: "string", match: /\bstate\b/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "matter.county", valueType: "string", match: /\bcounty\b/ },
   { factId: "matter.court", valueType: "string", match: /court\s*name|type\s*of\s*court|judicial\s*(district|circuit)/ },
   { factId: "matter.case_number", valueType: "string", match: /case\s*(no|num|#)|docket|cause\s*(no|num)|file\s*(no|num)|case\s*id/ },
@@ -227,7 +295,13 @@ export function decideBinding(field, options = {}) {
   // as sections silenced every field on a form headed "APPLICATION TO WAIVE
   // FILING FEES". And a document's own title never protects, because a title
   // names the form rather than an area of it.
-  const regionCategory = regionHeading && !regionIsDocumentTitle ? protectCategoryOf(regionHeading) : null;
+  // The heading vocabulary, not the field-name one. NC AOC-CR-288 prints
+  // "FINDINGS OF FACT" over the judge's block on page 2 and the field-name
+  // rules match none of it, so the region channel above -- which exists
+  // precisely for this -- returned null and the petitioner's name was written
+  // into the court's own findings. A heading is a different kind of claim from
+  // a field name and needs its own words.
+  const regionCategory = regionHeading && !regionIsDocumentTitle ? regionProtectCategoryOf(regionHeading) : null;
   if (regionCategory && REGIONAL_PROTECT_CATEGORIES.has(regionCategory)) {
     return { writable: false, reason: "protected_page_region", category: regionCategory, regionHeading };
   }
