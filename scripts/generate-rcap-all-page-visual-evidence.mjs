@@ -88,6 +88,11 @@ const CELL = 2;
 // drop below the baseline box and antialiasing spreads a fraction of a point.
 // Beyond this it is not rounding, it is the wrong box.
 const CONTAINMENT_TOLERANCE_PT = 4;
+// Below this, lost source ink cannot be a lost character. A short written value
+// on these pages measures 200 to 650 ink pixels, so a glyph is never 16 -- and
+// 16 is what overprinting one value on a printed rule costs at the antialiased
+// edges. The exact count is reported either way; only the finding is floored.
+const SOURCE_LOSS_FLOOR_PX = 64;
 // The viewer paints a hairline border at the edge of the page. It is present in
 // every variant so it cancels in the layer accounting, but it clusters as one
 // page-sized mark that then "touches" every protected region on the page. The
@@ -611,9 +616,17 @@ async function main() {
         for (let index = 0; index < pageCount; index += 1) {
           const file = path.join(workDir, `${name}-page-${String(index + 1).padStart(2, "0")}.pdf`);
           fs.writeFileSync(file, await singlePagePdf(variantBytes, index, RENDER_DATE));
+          // The overlay layer of a page we wrote nothing to is blank because it
+          // is empty, not because the render failed, and the blank-retry is for
+          // the second case. Reading it off the stream rather than the pixels
+          // keeps the retry where it belongs.
+          const split = layerSplit[index];
+          const nothingToDraw = name === "generated"
+            && (!split.splittable || !/[A-Za-z]/.test(split.generatedStreamText ?? ""));
           const [row] = await rasterizePdf({
             file, outDir: path.join(workDir, name), scale: SCALE, browser,
-            prefix: `page-${String(index + 1).padStart(2, "0")}-of`
+            prefix: `page-${String(index + 1).padStart(2, "0")}-of`,
+            attempts: nothingToDraw ? 1 : undefined
           });
           if (row) rows.push({ ...row, page: index + 1 });
         }
@@ -848,7 +861,24 @@ async function main() {
           // a page we wrote nothing to.
           if (row?.looksBlank && name !== "generated") findings.push({ code: "page_rasterized_with_no_ink", detail: `${name} layer, after ${row.attempts} attempt(s)` });
         }
-        for (const cluster of outsideEveryWriteBox) findings.push({ code: "generated_ink_outside_every_declared_rectangle", cluster });
+        // A value that missed its box and a page with no boxes at all are
+        // different statements, and collapsing them would report the second as
+        // the first. AK:dps-cri-103 is retired, its populated-fields report is
+        // empty and its map declares no bindings and no anchors -- and its
+        // committed artifact still carries five participant values. Nothing in
+        // the repository describes those marks, which is worth saying plainly
+        // rather than as five misplacements.
+        if (!writeOnPage.length && outsideEveryWriteBox.length) {
+          findings.push({
+            code: "artifact_carries_generated_ink_but_no_writable_rectangle_is_declared",
+            generatedInkPixels: strayInkPixels,
+            clusters: outsideEveryWriteBox,
+            valuesReadBackFromOurOwnStream: valuesOnPage.map((v) => v.text),
+            note: "This family's own map declares no writable rectangle on this page, so there is nothing these marks can be checked against. Whether the artifact predates a map change, a retirement or a refusal is not a visual question."
+          });
+        } else {
+          for (const cluster of outsideEveryWriteBox) findings.push({ code: "generated_ink_outside_every_declared_rectangle", cluster });
+        }
         for (const hit of touchingProtected) {
           findings.push({
             code: hit.participantDerived
@@ -876,7 +906,7 @@ async function main() {
             note: "Ink outside every declared rectangle, landing on ink the official form already prints there. Attributed to us because flattening baked a widget appearance into the page; visually it reproduces the form's own box rather than adding a mark."
           });
         }
-        if (preservation && preservation.sourceInkPixelsMissingFromFinalized > 0) {
+        if (preservation && preservation.sourceInkPixelsMissingFromFinalized > SOURCE_LOSS_FLOOR_PX) {
           findings.push({ code: "source_text_missing_from_finalized_page", ...preservation });
         }
         // A composed page antialiases a glyph edge slightly differently from the
@@ -985,9 +1015,11 @@ async function main() {
           duplicateValues: pages.some((p) => p.findings.some((f) => f.code === "same_value_written_to_more_than_one_declared_rectangle" || f.code === "written_value_appears_more_than_once_on_page"))
             ? "a value is written more than once; see the per-page findings"
             : "no value is written more than once on any page",
-          placement: pages.every((p) => !p.findings.some((f) => f.code === "generated_ink_outside_every_declared_rectangle" || f.code === "generated_ink_crosses_its_rectangle_boundary"))
-            ? "every generated mark sits inside a declared writable rectangle"
-            : "generated ink is outside or across a declared writable rectangle",
+          placement: pages.some((p) => p.findings.some((f) => f.code === "artifact_carries_generated_ink_but_no_writable_rectangle_is_declared"))
+            ? "not checkable: the artifact carries generated ink on a page whose map declares no writable rectangle"
+            : pages.every((p) => !p.findings.some((f) => f.code === "generated_ink_outside_every_declared_rectangle" || f.code === "generated_ink_crosses_its_rectangle_boundary"))
+              ? "every generated mark sits inside a declared writable rectangle"
+              : "generated ink is outside or across a declared writable rectangle",
           protectedRegions: pages.some((p) => p.findings.some((f) => f.code === "participant_derived_ink_in_protected_region"))
             ? "participant-derived ink is inside a protected region"
             : pages.some((p) => p.findings.some((f) => f.code === "flattening_redrew_form_furniture_in_a_protected_region"))
@@ -1058,6 +1090,7 @@ async function main() {
       familiesWithSourceTextLoss: onDisk.filter((m) => m.verdict.sourcePreservation.startsWith("source text is missing")).length,
       familiesNotFlat: onDisk.filter((m) => !m.defaultAppearances.flat).length,
       familiesWhereFlatteningRedrewFormFurniture: onDisk.filter((m) => m.pages.some((p) => p.findings.some((f) => f.code === "flattening_redrew_the_form_s_own_furniture"))).length,
+      familiesCarryingGeneratedInkWithNoDeclaredRectangle: onDisk.filter((m) => m.verdict.placement.startsWith("not checkable")).length,
       familiesWhosePinnedSourceIsInThisClone: onDisk.filter((m) => m.sourceBinaryInThisClone).length,
       controlFamiliesWhoseOfficialLayerMatchesThePinnedBinary: onDisk.filter((m) => m.verdict.pinnedSourceControl.startsWith("control held")).length
     },

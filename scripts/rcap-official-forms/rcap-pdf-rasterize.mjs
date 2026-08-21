@@ -64,7 +64,7 @@ export async function withRasterBrowser(body) {
   }
 }
 
-export async function rasterizePdf({ file, outDir, pages = null, scale = 1.6, prefix = "page", browser = null }) {
+export async function rasterizePdf({ file, outDir, pages = null, scale = 1.6, prefix = "page", browser = null, attempts: maxAttempts = MAX_RASTER_ATTEMPTS }) {
   const { chromium } = require("playwright");
   const bytes = fs.readFileSync(file);
   const geometry = await pageGeometry(bytes);
@@ -99,7 +99,11 @@ export async function rasterizePdf({ file, outDir, pages = null, scale = 1.6, pr
       // that reads as "not comparable" and quietly loses evidence which was
       // there the run before, so a uniform capture is retried with a longer
       // settle and the outcome is reported rather than assumed.
-      while (attempts < MAX_RASTER_ATTEMPTS && blank) {
+      // A caller that KNOWS a page has nothing to draw -- an isolated overlay
+      // layer on a page nothing was written to -- passes attempts: 1. Retrying
+      // that page twice more with longer settles buys nothing and costs 24
+      // seconds; the retry exists for a page that should have painted.
+      while (attempts < maxAttempts && blank) {
         attempts += 1;
         const tab = await ownBrowser.newPage({ viewport });
         const url = `file://${path.resolve(file)}#page=${pageNumber}&toolbar=0&navpanes=0&scrollbar=0&zoom=page-fit`;
