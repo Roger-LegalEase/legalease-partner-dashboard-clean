@@ -26,25 +26,9 @@
     {
       "fixture": "canonical",
       "check": "binding_refused",
-      "field": "StreetAddr",
-      "reason": "protected_page_region",
-      "category": "prosecutor",
-      "regionHeading": "DISTRICT ATTORNEY PETITION"
-    },
-    {
-      "fixture": "canonical",
-      "check": "binding_refused",
       "field": "MailAddr",
       "reason": "classified_unwritable_by_role",
       "category": "role"
-    },
-    {
-      "fixture": "canonical",
-      "check": "binding_refused",
-      "field": "State",
-      "reason": "protected_category",
-      "category": "race",
-      "regionHeading": null
     },
     {
       "fixture": "canonical",
@@ -60,6 +44,14 @@
       "field": "DLNo",
       "reason": "classified_unwritable_by_role",
       "category": "role"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "DLState",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "fixture": "canonical",
@@ -80,7 +72,7 @@
       "check": "binding_refused",
       "field": "DOB",
       "reason": "protected_category",
-      "category": "money",
+      "category": "government_identifier",
       "regionHeading": null
     },
     {
@@ -242,8 +234,8 @@
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "ArrestDate:1",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
       "regionHeading": null
     },
     {
@@ -947,25 +939,9 @@
     {
       "fixture": "boundary",
       "check": "binding_refused",
-      "field": "StreetAddr",
-      "reason": "protected_page_region",
-      "category": "prosecutor",
-      "regionHeading": "DISTRICT ATTORNEY PETITION"
-    },
-    {
-      "fixture": "boundary",
-      "check": "binding_refused",
       "field": "MailAddr",
       "reason": "classified_unwritable_by_role",
       "category": "role"
-    },
-    {
-      "fixture": "boundary",
-      "check": "binding_refused",
-      "field": "State",
-      "reason": "protected_category",
-      "category": "race",
-      "regionHeading": null
     },
     {
       "fixture": "boundary",
@@ -981,6 +957,14 @@
       "field": "DLNo",
       "reason": "classified_unwritable_by_role",
       "category": "role"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "DLState",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "fixture": "boundary",
@@ -1001,7 +985,7 @@
       "check": "binding_refused",
       "field": "DOB",
       "reason": "protected_category",
-      "category": "money",
+      "category": "government_identifier",
       "regionHeading": null
     },
     {
@@ -1163,8 +1147,8 @@
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "ArrestDate:1",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
       "regionHeading": null
     },
     {

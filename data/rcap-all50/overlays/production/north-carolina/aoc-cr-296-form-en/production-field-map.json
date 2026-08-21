@@ -43,6 +43,13 @@
       "effectiveLabel": "Name And Address Of Defendant (type or print full name)"
     },
     {
+      "field": "StreetAddr",
+      "class": "participant",
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": "Name And Address Of Defendant (type or print full name)"
+    },
+    {
       "field": "City",
       "class": "participant",
       "factId": "participant.city",
@@ -50,11 +57,11 @@
       "effectiveLabel": null
     },
     {
-      "field": "DLState",
+      "field": "State",
       "class": "participant",
       "factId": "participant.state",
       "factBasis": "field_name",
-      "effectiveLabel": null
+      "effectiveLabel": "State"
     }
   ],
   "bindingRefusals": [
@@ -66,8 +73,8 @@
     },
     {
       "field": "District",
-      "reason": "protected_category",
-      "category": "prosecutor",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
@@ -77,21 +84,9 @@
       "regionHeading": null
     },
     {
-      "field": "StreetAddr",
-      "reason": "protected_page_region",
-      "category": "prosecutor",
-      "regionHeading": "DISTRICT ATTORNEY PETITION"
-    },
-    {
       "field": "MailAddr",
-      "reason": "protected_page_region",
-      "category": "prosecutor",
-      "regionHeading": "DISTRICT ATTORNEY PETITION"
-    },
-    {
-      "field": "State",
-      "reason": "protected_category",
-      "category": "race",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -107,6 +102,12 @@
       "regionHeading": null
     },
     {
+      "field": "DLState",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
       "field": "Race",
       "reason": "protected_category",
       "category": "race",
@@ -114,26 +115,25 @@
     },
     {
       "field": "Sex",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
       "field": "DOB",
       "reason": "protected_category",
-      "category": "money",
+      "category": "government_identifier",
       "regionHeading": null
     },
     {
       "field": "SNN",
-      "reason": "protected_category",
-      "category": "money",
-      "regionHeading": null
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     },
     {
       "field": "Age",
       "reason": "protected_category",
-      "category": "money",
+      "category": "government_identifier",
       "regionHeading": null
     },
     {
@@ -258,8 +258,8 @@
     },
     {
       "field": "ArrestDate:1",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
       "regionHeading": null
     },
     {
@@ -270,8 +270,8 @@
     },
     {
       "field": "DOOF:1",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -684,8 +684,8 @@
     },
     {
       "field": "SeekingExpunge15A-146Cbx",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
@@ -696,9 +696,9 @@
     },
     {
       "field": "PetitionNotFiledSignName",
-      "reason": "protected_category",
-      "category": "signature",
-      "regionHeading": null
+      "reason": "protected_page_region",
+      "category": "clerk",
+      "regionHeading": "the office of the clerk of superior court."
     },
     {
       "field": "Expunge",
@@ -708,15 +708,15 @@
     },
     {
       "field": "Should",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "ShouldNot",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "Reason",
@@ -732,15 +732,15 @@
     },
     {
       "field": "PetitionGrantedCbx",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "ORDER"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "PetitionDeniedCbx",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "ORDER"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "PresidingJudgeOrderSignDate",
@@ -751,7 +751,7 @@
     {
       "field": "PresidingJudgeOrderSignName",
       "reason": "protected_category",
-      "category": "signature",
+      "category": "court",
       "regionHeading": null
     },
     {
@@ -774,8 +774,8 @@
     },
     {
       "field": "AssistantCSCCbx",
-      "reason": "protected_category",
-      "category": "signature",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
