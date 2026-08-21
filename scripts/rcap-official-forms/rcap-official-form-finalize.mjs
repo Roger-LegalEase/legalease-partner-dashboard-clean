@@ -522,7 +522,12 @@ export async function finalizeOfficialForm({
     report.promptsSuppressed.push({ field: name, suppressed: selected });
   }
 
-  const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc, { defaultFont: helvetica });
+  // The fields this run actually bound. A chooser in this set was answered by
+  // the participant; one outside it is still showing the court's own prompt.
+  const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc, {
+    defaultFont: helvetica,
+    writtenFields: new Set(report.written.map((w) => w.field))
+  });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 
   report.sourceMetadataFingerprint = sourceMetadataFingerprint(pdfDoc);
