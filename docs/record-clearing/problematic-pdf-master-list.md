@@ -31,7 +31,7 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Optional | 0 |
 | Official source required | 50 |
 | Certification unproven | 2 |
-| Independent review required | 29 |
+| Independent review required | 27 |
 | Legal-design hold | 0 |
 | Source-acquisition candidates (priorities 1-3) | 0 |
 | Acquisition priority 1 — packet-capable route waiting | 0 |
@@ -125,8 +125,8 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 
 | Jurisdiction | Form | Tracks | Severity | Owner | Exact blocker | Exact next action |
 | --- | --- | --- | --- | --- | --- | --- |
-| AK | TF-800 | ak-tf800 | medium | Source-currentness reviewer | Revision REV-2025-05 cannot be shown to be the currently published edition: freshness is recorded as candidate_current_source and no independent currentness review exists. | Confirm against the issuing body's own publication whether revision REV-2025-05 of AK TF-800 is the currently published edition, and record the comparison and the superseded identity if it is not. |
-| AK | TF-805 | ak-tf805 | medium | Source-currentness reviewer | Revision REV-2025-05 cannot be shown to be the currently published edition: freshness is recorded as candidate_current_source and no independent currentness review exists. | Confirm against the issuing body's own publication whether revision REV-2025-05 of AK TF-805 is the currently published edition, and record the comparison and the superseded identity if it is not. |
+| AK | TF-800 | ak-tf800 | medium | Source-currentness reviewer | The asset carries a recorded source or design hold that no committed evidence resolves: state_manifest_generation_allowed_no; edition_1_runtime_disabled; not_participant_fillable_no_fixture_fill; f_independent_visual_review_required. | Confirm against the issuing body's own publication whether revision REV-2025-05 of AK TF-800 is the currently published edition, and record the comparison and the superseded identity if it is not. |
+| AK | TF-805 | ak-tf805 | medium | Source-currentness reviewer | The asset carries a recorded source or design hold that no committed evidence resolves: state_manifest_generation_allowed_no; edition_1_runtime_disabled; not_participant_fillable_no_fixture_fill; f_independent_visual_review_required. | Confirm against the issuing body's own publication whether revision REV-2025-05 of AK TF-805 is the currently published edition, and record the comparison and the superseded identity if it is not. |
 | AK | TF-810 | ak-courtview | medium | Source-currentness reviewer | Revision REV-2025-05 cannot be shown to be the currently published edition: freshness is recorded as candidate_current_source and no independent currentness review exists. | Confirm against the issuing body's own publication whether revision REV-2025-05 of AK TF-810 is the currently published edition, and record the comparison and the superseded identity if it is not. |
 | KY | AOC-334 | ky_void_seal_controlled_substance, ky_void_seal_marijuana_synthetic_salvia | medium | Source-currentness reviewer | Revision REV-UNKNOWN cannot be shown to be the currently published edition: freshness is recorded as revision_confirmation_required and no independent currentness review exists. | Confirm against the issuing body's own publication whether revision REV-UNKNOWN of KY AOC-334 is the currently published edition, and record the comparison and the superseded identity if it is not. |
 | KY | AOC-496 | ky_misdemeanor_expungement | medium | Source-currentness reviewer | Revision REV-2016-07 cannot be shown to be the currently published edition: freshness is recorded as candidate_current_source and no independent currentness review exists. | Confirm against the issuing body's own publication whether revision REV-2016-07 of KY AOC-496 is the currently published edition, and record the comparison and the superseded identity if it is not. |
@@ -179,14 +179,14 @@ Every asset carries exactly one. `releaseStatus` is a separate axis and is HELD 
 | `active_track_delivery_hold` | An active track's packet delivery is blocked on this asset. | 0 |
 | `official_source_required` | The verified source binary is unavailable, so nothing downstream can be attempted. | 50 |
 | `certification_unproven` | Artifacts exist but cannot be certified: their active-content cleanliness or finalization cannot be established from the committed bytes. | 2 |
-| `independent_review_required` | Certifiable artifacts exist and no independent review has approved them. | 29 |
+| `independent_review_required` | Certifiable artifacts exist and no independent review has approved them. | 27 |
 | `legal_design_hold` | A substantive legal-design question is unresolved. | 0 |
 | `reference_only` | An instruction, guidance or supporting-process document, not a filed component. | 2 |
 | `orphaned` | No active track requires it and no candidate binding to one exists. | 2 |
 | `optional` | A packet form no active track currently requires, with a plausible binding. | 0 |
 | `archive_candidate` | Source-gated: retained for provenance, never runtime-selectable. | 0 |
 | `retire_candidate` | Recorded as superseded, withdrawn or repealed; nothing should use it. | 0 |
-| `platform_ready` | The official source is pinned, every field or anchor is classified, the artifacts are finalized, inspectable and visibly filled, and an independent reviewer approved these exact bytes. | 1 |
+| `platform_ready` | The official source is pinned, every field or anchor is classified, the artifacts are finalized, inspectable and visibly filled, and an independent reviewer approved these exact bytes. | 3 |
 
 `Active-track assets safely served by guidance or exact deferral` and `Active-track assets blocking packet promotion` overlap by one asset, and that is not a contradiction: every active-track participant is served today, and one of those assets also carries a production_packet treatment in the pinned legal design, making its route the only packet promotion waiting on this lane.
 
@@ -196,11 +196,11 @@ How many assets carry a finding and how many distinct problems produce those fin
 
 | Root cause | Dimension | Scope | Impacted assets | Cleared by |
 | --- | --- | --- | ---: | --- |
-| `RC-G-GENERATION-NOT-ALLOWED` | governance | systemic | 86 | A recorded decision to permit generation, after the source and design questions are answered. |
-| `RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL` | governance | systemic | 83 | Independent technical review once reviewable artifacts exist. |
+| `RC-G-GENERATION-NOT-ALLOWED` | governance | systemic | 84 | A recorded decision to permit generation, after the source and design questions are answered. |
+| `RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL` | governance | systemic | 81 | Independent technical review once reviewable artifacts exist. |
 | `RC-G-PRODUCTION-HOLD` | governance | systemic | 86 | Lifting the holds deliberately, which is a release decision and not a build one. |
 | `RC-S-BUNDLE-ABSENT` | source | systemic | 37 | Supplying the canonical source bundle, or opening access to the issuing bodies. |
-| `RC-S-CURRENTNESS-UNVERIFIED` | source | systemic | 37 | A currentness review pass against the issuing bodies' own publications. |
+| `RC-S-CURRENTNESS-UNVERIFIED` | source | systemic | 35 | A currentness review pass against the issuing bodies' own publications. |
 | `RC-S-STALE-OR-SUPERSEDED` | source | family_specific | 5 | Acquiring the current edition of this form and recording the supersession. |
 | `RC-T-ALL-FIELDS-UNWRITABLE` | technical | family_specific | 2 | A reviewed mapping decision for this form, or a decision that it is court-completed. |
 | `RC-T-DIRTY-ACROFORM-SOURCE` | technical | family_specific | 23 | Sanitation of this form through the current pipeline, proved on the output. |
@@ -211,7 +211,7 @@ How many assets carry a finding and how many distinct problems produce those fin
 | `RC-V-NO-SHEET-PRODUCED` | visual | systemic | 18 | Rendering the affected families, which produces the sheet as part of the run. |
 | `RC-V-SHEET-FROM-UNFINALIZED-SOURCE` | visual | systemic | 2 | Re-rendering the affected families and rebuilding their sheets from the finalized artifact. |
 | `RC-V-SHEET-PANELS-IDENTICAL` | visual | systemic | 4 | Rebuilding the affected sheets from finalized artifacts; the current builder refuses to emit a sheet whose panels match. |
-| `RC-V-UNSAFE-PLACEMENT` | visual | family_specific | 27 | Re-measuring this form's geometry and re-rendering the boundary fixture. |
+| `RC-V-UNSAFE-PLACEMENT` | visual | family_specific | 25 | Re-measuring this form's geometry and re-rendering the boundary fixture. |
 
 ## Source-acquisition queue
 

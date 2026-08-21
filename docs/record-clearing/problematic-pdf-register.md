@@ -16,22 +16,22 @@ Terminalizing a track around a broken PDF is a legitimate product decision. It i
 | Orphaned Or Optional Pdfs | 4 |
 | Missing Pdf Binaries | 37 |
 | Assets With At Least One Technical Finding | 59 |
-| Assets With At Least One Visual Finding | 49 |
-| Assets With At Least One Source Finding | 79 |
+| Assets With At Least One Visual Finding | 47 |
+| Assets With At Least One Source Finding | 77 |
 | Unique Systemic Technical Root Causes | 0 |
 | Unique Family Specific Technical Defects | 71 |
 | Unique Systemic Visual Root Causes | 3 |
-| Unique Family Specific Visual Defects | 27 |
+| Unique Family Specific Visual Defects | 25 |
 | Unique Systemic Source Root Causes | 2 |
 | Unique Family Specific Source Defects | 5 |
 | Unique Root Causes In Play | 16 |
 | Technical Defects | 59 |
-| Visual Defects | 49 |
+| Visual Defects | 47 |
 | Unfinalized Rendered Artifacts | 2 |
 | Rendered Artifacts Not Byte Inspectable | 0 |
 | Contact Sheets Showing No Fill | 4 |
 | Protected Fields Populated By The Factory | 0 |
-| Source Or Currentness Defects | 79 |
+| Source Or Currentness Defects | 77 |
 | Legal Design Or Adoption Holds | 86 |
 | Tracks Safely Terminalized Around A Problem Pdf | 34 |
 | Problem Pdf Routes Still Sellable | 0 |
@@ -50,7 +50,7 @@ Problem PDFs tied to one or more of the 497 launch tracks. Each one names the te
 - **Source SHA**: 94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: held_on_source_or_design
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -59,51 +59,7 @@ Problem PDFs tied to one or more of the 497 launch tracks. Each one names the te
 
 Defects:
 
-- `currentness_unverified` — Revision REV-2025-05 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
-- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
-- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `visually_unsafe` — Field "Group1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "documents" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "dateHearing" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "audioRecording" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "transcript" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "confidentialBecause" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "certDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "time2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "mail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "hd" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "tf" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailCB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "needText1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "signature0" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Group1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "documents" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "dateHearing" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "audioRecording" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "transcript" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "confidentialBecause" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "certDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "time2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "mail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "hd" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "tf" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailCB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "needText1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "signature0" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -115,7 +71,7 @@ Defects:
 - **Source SHA**: 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54 (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: held_on_source_or_design
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -124,33 +80,7 @@ Defects:
 
 Defects:
 
-- `currentness_unverified` — Revision REV-2025-05 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
-- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
-- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `visually_unsafe` — Field "why" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "reason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "certDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "time2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "mail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "hd" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "tf" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailCB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "needText1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "signature0" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "why" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "reason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "certDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "time2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "mail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "hd" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "tf" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailCB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "needText1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "signature0" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5078,7 +5008,7 @@ Assets needing technical, visual, source, currentness, legal-design or adoption 
 - **Source SHA**: 94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: held_on_source_or_design
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5087,51 +5017,7 @@ Assets needing technical, visual, source, currentness, legal-design or adoption 
 
 Defects:
 
-- `currentness_unverified` — Revision REV-2025-05 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
-- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
-- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `visually_unsafe` — Field "Group1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "documents" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box3" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "dateHearing" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box4" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "audioRecording" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box5" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "transcript" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "confidentialBecause" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "certDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "time2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "mail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "hd" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "tf" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailCB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "needText1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "signature0" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Group1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "documents" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box3" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "dateHearing" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box4" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "audioRecording" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "Check Box5" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "transcript" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "confidentialBecause" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "certDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "time2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "mail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "hd" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "tf" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailCB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "needText1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "signature0" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
@@ -5143,7 +5029,7 @@ Defects:
 - **Source SHA**: 96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54 (revision REV-2025-05)
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: true
-- **Defect categories**: currentness_unverified, held_on_source_or_design, never_independently_approved, visually_unsafe
+- **Defect categories**: held_on_source_or_design
 - **Technical disposition**: implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
@@ -5152,33 +5038,7 @@ Defects:
 
 Defects:
 
-- `currentness_unverified` — Revision REV-2025-05 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
-- `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
-- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
-- `visually_unsafe` — Field "why" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "reason" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "certDate" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "time2" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "mail" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "hd" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "tf" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailCB" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "needText1" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "signature0" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "why" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "reason" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "certDate" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "time2" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "mail" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "hd" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "tf" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "emailCB" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "needText1" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `visually_unsafe` — Field "signature0" fails the binding_refused check under the boundary fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
-- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
 
 | Affected track | Terminal | Treatment | Route | Sellable | Credit |
 | --- | --- | --- | --- | --- | --- |
