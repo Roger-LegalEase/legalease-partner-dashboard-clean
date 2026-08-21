@@ -50,7 +50,12 @@ function failures(harness) {
 
   // The shipped bytes, by digest, with no host source.
   const probeRun = harness.match(/const probeRun = spawnSync\("docker", \[[\s\S]{0,400}?\]/)?.[0] ?? "";
-  fail(probeRun.includes('"--entrypoint", "node", WORKER_DIGEST_REF'),
+  // `--entrypoint node` and the pinned digest, with `-e` environment arguments
+  // permitted between them: the probe now carries the Supabase credentials and
+  // the partner-data flag so it can exercise the image's real packet read. The
+  // invariant is the entrypoint and the digest, not their adjacency, and an
+  // anchor that demanded adjacency failed for a probe that had become stricter.
+  fail(/"--entrypoint", "node",[\s\S]*?WORKER_DIGEST_REF/.test(probeRun),
     "the preflight probe does not run the pinned image by digest through node");
   fail(!/-v|--volume|--mount/.test(probeRun),
     "the preflight probe mounts host source over the image, so it would measure the checkout rather than the shipped bytes");
@@ -100,10 +105,18 @@ if (MUTATIONS) {
       h.replace("const imageAdmits = Boolean(probe) && probe.claim?.attempted === true && probe.claim.accepted === true && probe.admitsProfileVersion === true;",
         "const imageAdmits = !probe || probe.claim?.accepted !== false;")],
     ["a failed preflight no longer stops the run before the charge", (h) =>
-      h.replace("  if (!passed) finish();\n}\n\n{\n  const res = await callApp(\"/api/expungement-ai/packet/render\"", "}\n\n{\n  const res = await callApp(\"/api/expungement-ai/packet/render\"")],
+      // Anchored on the preflight's own stop, not on what follows it. The
+      // original anchor spanned forward into the next block, so inserting the
+      // packet-contract gate between them silently stopped the mutation from
+      // applying — and a mutation that cannot apply proves nothing.
+      h.replace("  if (!passed) finish();", "  ")],
     ["the probe mounts host source over the image", (h) =>
-      h.replace('"run", "--rm", "--entrypoint", "node", WORKER_DIGEST_REF, "--input-type=module", "-e", probeSource',
-        '"run", "--rm", "-v", `${rootDir}:/app`, "--entrypoint", "node", WORKER_DIGEST_REF, "--input-type=module", "-e", probeSource')]
+      // Anchored on the run flags alone. The probe's argument list grew when it
+      // gained the credentials it needs to exercise the image's packet read, so
+      // an anchor spanning the whole invocation stopped matching — and a
+      // mutation that cannot apply is a test that silently stopped testing.
+      h.replace('"run", "--rm", "--entrypoint", "node",',
+        '"run", "--rm", "-v", `${rootDir}:/app`, "--entrypoint", "node",')]
   ];
 
   let undetected = 0;

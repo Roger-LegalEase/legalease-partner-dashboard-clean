@@ -3,7 +3,7 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 153,
+    "keep_available": 154,
     "wired": 126,
     "fix_then_wire": 27,
     "retire": 1,
@@ -1740,6 +1740,12 @@
       "observedStatus": "added_since_audit",
       "decidedBy": "captain",
       "laneOwned": true
+    },
+    "verify-rcap-packet-contract.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
     },
     "verify-rcap-partner-provisioning.mjs": {
       "disposition": "wired",

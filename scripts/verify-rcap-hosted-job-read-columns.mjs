@@ -83,9 +83,18 @@ function declaredColumns() {
  * it is broken, and nobody would trust its real finding.
  */
 function selectedColumns(harness) {
-  const table = harness.indexOf("from public.packet_render_jobs");
+  // Scoped to readJob's body, not to the first mention of the table in the
+  // file. The harness reads packet_render_jobs from several places — the claim
+  // order, the claim-state snapshot, the packet/job identity proof — and the
+  // FIRST of those is no longer the full-row read this verifier polices. When a
+  // one-column subquery drifted above it, the extractor happily reported that
+  // the job read "omits page_count": a true statement about the wrong query.
+  const fn = harness.indexOf("async function readJob(");
+  if (fn === -1) return null;
+  const fnBody = harness.slice(fn);
+  const table = fnBody.indexOf("from public.packet_render_jobs");
   if (table === -1) return null;
-  const before = harness.slice(0, table);
+  const before = fnBody.slice(0, table);
   const selectAt = before.lastIndexOf("select ");
   if (selectAt === -1) return null;
 
