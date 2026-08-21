@@ -3,6 +3,7 @@
 //
 //   node scripts/verify-rcap-lane2-visual-evidence.mjs
 //   node scripts/verify-rcap-lane2-visual-evidence.mjs --check
+//   node scripts/verify-rcap-lane2-visual-evidence.mjs --mutations
 //
 // The six KY/NE families re-rendered at this branch's base, each given the
 // package a reviewer needs and nothing more: every field-carrying page of the
@@ -50,6 +51,7 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const PRODUCTION = path.join(rootDir, "data/rcap-all50/overlays/production");
 const OUT_DIR = path.join(rootDir, "docs/record-clearing/pdf-visual-evidence/lane2-batch01");
 const checkOnly = process.argv.includes("--check");
+const mutationsOnly = process.argv.includes("--mutations");
 const SCALE = 2;
 const RENDER_DATE = new Date("2026-01-01T00:00:00Z");
 // Court forms print black on white and the renderer draws black; the threshold
@@ -173,6 +175,10 @@ function splitLayers(doc, page) {
   if (!decoded.length || decoded[0].trim() !== "q") return { splittable: false, reason: "page content does not open with the graphics-state push the factory writes" };
   const close = decoded.findIndex((t, i) => i > 0 && t.trim() === "Q");
   if (close < 0) return { splittable: false, reason: "page content has no matching graphics-state pop" };
+  // An empty wrapper is not a preserved source. The mutation that removes the
+  // source's own streams and leaves `q Q` behind would otherwise still read as
+  // an intact official layer, which is the one thing this proof exists to deny.
+  if (close - 1 < 1) return { splittable: false, reason: "the graphics-state wrapper carries no official source stream" };
   return { splittable: true, sourceRefs: refs.slice(0, close + 1), officialStreams: close - 1,
     overlayText: decoded.slice(close + 1).join("\n") };
 }
@@ -537,4 +543,153 @@ async function main() {
   console.log(`OK lane2 visual evidence — ${index.totals.familiesCovered} families, ${index.totals.pagesRasterized}/${index.totals.pagesRequired} field pages, ${index.totals.rasters} rasters`);
 }
 
-await main();
+/**
+ * Mutations for the two proofs this file owns.
+ *
+ * Placement, protected regions, raster coverage and stale binding are mutated
+ * by scripts/verify-rcap-evidence-contract-controls.mjs, which owns that code.
+ * Source-text preservation and the flattened default appearance are decided
+ * here, so they are mutated here -- and they need it more, not less: the first
+ * run of this generator reported every family clear on both, and both answers
+ * were vacuous. A proof that has never been seen to refuse anything is not a
+ * proof, so each of these breaks a real artifact in memory and requires the
+ * answer to change. Nothing is written to disk.
+ */
+// The fixture values a mutation injects and then requires the classifier to
+// leave alone. Taken from the same canonical facts the renderer draws from, so
+// the test is the real discrimination and not a lookalike string.
+const MUTATION_VALUES = {
+  name: CANONICAL["participant.full_legal_name"],
+  caseNumber: CANONICAL["matter.case_number"]
+};
+
+async function runMutations() {
+  const results = [];
+  const record = (id, title, held, detail) => {
+    results.push({ id, title, held, detail });
+    console.log(`  ${held ? "ok  " : "FAIL"} ${id} — ${title}`);
+    console.log(`         ${detail}`);
+  };
+
+  const load = async (dir) => {
+    const file = path.join(PRODUCTION, dir, "fixtures/canonical-filled.pdf");
+    const bytes = fs.readFileSync(file);
+    const doc = await PDFDocument.load(bytes, { ignoreEncryption: true, updateMetadata: false });
+    return { bytes, doc };
+  };
+  const reload = async (doc) => {
+    const saved = await doc.save({ useObjectStreams: false });
+    return PDFDocument.load(saved, { ignoreEncryption: true, updateMetadata: false });
+  };
+  // The same appended-content shape the factory writes, so a mutation is
+  // detected because of what it paints and not because it looks foreign.
+  const appendAppearance = (doc, page, name, body, bbox) => {
+    const xobj = doc.context.register(doc.context.stream(body, {
+      Type: "XObject", Subtype: "Form", FormType: 1,
+      BBox: doc.context.obj(bbox), Resources: doc.context.obj({})
+    }));
+    const resources = doc.context.lookup(page.node.get(PDFName.of("Resources")));
+    let table = resources instanceof PDFDict ? doc.context.lookup(resources.get(PDFName.of("XObject"))) : null;
+    if (!(table instanceof PDFDict)) {
+      table = doc.context.obj({});
+      resources.set(PDFName.of("XObject"), table);
+    }
+    table.set(PDFName.of(name), xobj);
+    const added = doc.context.register(doc.context.stream(`q 1 0 0 1 90 500 cm /${name} Do Q`));
+    const contents = page.node.get(PDFName.of("Contents"));
+    contents.push(added);
+  };
+  const residueOf = (placements) => placements
+    .filter((pl) => pl.textDrawn.length)
+    .filter((pl) => !pl.textDrawn.some((t) => Object.values(MUTATION_VALUES).some((v) => v && t.includes(v))));
+
+  // M1 — the official layer removed. KY:aoc-496-4 carries eight source streams
+  // inside the wrapper on page 1; strip them and the page must stop reading as
+  // a preserved source rather than reading as an intact empty one.
+  {
+    const { doc } = await load("kentucky/aoc-496-4-form-en");
+    const before = splitLayers(doc, doc.getPages()[0]);
+    const page = doc.getPages()[0];
+    const contents = page.node.get(PDFName.of("Contents"));
+    const kept = [];
+    for (let i = 0; i < contents.size(); i += 1) kept.push(contents.get(i));
+    const close = before.sourceRefs.length - 1;
+    const stripped = [kept[0], kept[close], ...kept.slice(close + 1)];
+    page.node.set(PDFName.of("Contents"), doc.context.obj(stripped));
+    const after = splitLayers(await reload(doc), (await reload(doc)).getPages()[0]);
+    record("M1", "source text: strip the source's own streams and the official layer stops reading as preserved",
+      before.splittable && before.officialStreams === 8 && after.splittable === false,
+      `intact: splittable=${before.splittable}, officialStreams=${before.officialStreams}; stripped: splittable=${after.splittable}, reason=${after.reason ?? "none"}`);
+  }
+
+  // M2 — an opaque box painted over the page. KY:aoc-496-4 paints none, which is
+  // why it is the mutation subject: a check that only ever answers "not clear"
+  // has not been shown to be reading anything.
+  {
+    const clean = await load("kentucky/aoc-496-4-form-en");
+    const cleanSplit = splitLayers(clean.doc, clean.doc.getPages()[0]);
+    const cleanBoxes = overlayPlacements(clean.doc, clean.doc.getPages()[0], cleanSplit, new Set()).filter((pl) => pl.opaqueBox);
+    const { doc } = await load("kentucky/aoc-496-4-form-en");
+    appendAppearance(doc, doc.getPages()[0], "MutantWhiteBox", "1 g 0 0 180 24 re f", [0, 0, 180, 24]);
+    const mutated = await reload(doc);
+    const split = splitLayers(mutated, mutated.getPages()[0]);
+    const boxes = overlayPlacements(mutated, mutated.getPages()[0], split, new Set()).filter((pl) => pl.opaqueBox);
+    record("M2", "source text: an opaque white box appended over the page is seen, on a family that paints none",
+      cleanBoxes.length === 0 && boxes.length === 1 && boxes[0].fillGrey === 1,
+      `unmutated: ${cleanBoxes.length} opaque box(es); mutated: ${boxes.length} at ${JSON.stringify(boxes[0]?.box ?? null)}, fillGrey=${boxes[0]?.fillGrey ?? "none"}`);
+  }
+
+  // M3 — the flattened chooser prompts removed. NE:cc-6-11 draws "Choose " twice;
+  // drop the appended invocations and the residue must fall to nothing, or the
+  // answer was never a function of the bytes.
+  {
+    const { doc } = await load("nebraska/cc-6-11-form-en");
+    const page = doc.getPages()[0];
+    const before = residueOf(overlayPlacements(doc, page, splitLayers(doc, page), new Set()));
+    const contents = page.node.get(PDFName.of("Contents"));
+    const refs = [];
+    for (let i = 0; i < contents.size(); i += 1) refs.push(contents.get(i));
+    const split = splitLayers(doc, page);
+    page.node.set(PDFName.of("Contents"), doc.context.obj(refs.slice(0, split.sourceRefs.length)));
+    const mutated = await reload(doc);
+    const mutatedPage = mutated.getPages()[0];
+    const mutatedSplit = splitLayers(mutated, mutatedPage);
+    const after = mutatedSplit.splittable ? residueOf(overlayPlacements(mutated, mutatedPage, mutatedSplit, new Set())) : [];
+    record("M3", "default appearance: with the appended invocations gone the residue count falls to zero",
+      before.length === 4 && after.length === 0,
+      `unmutated: ${before.length} residue occurrence(s) (${[...new Set(before.map((r) => r.textDrawn[0]?.trim()))].join(", ")}); stripped: ${after.length}`);
+  }
+
+  // M4 — a chooser prompt injected, and a participant value injected beside it.
+  // The classifier must call the first a surviving default and must not call the
+  // second one anything at all: participant-derived text on the page is the
+  // renderer doing its job, and flagging it would be the same vacuous answer in
+  // the other direction.
+  {
+    const { doc } = await load("kentucky/aoc-496-4-form-en");
+    const page = doc.getPages()[0];
+    appendAppearance(doc, page, "MutantChooser", "BT /Helv 9 Tf (Choose the county) Tj ET", [0, 0, 120, 14]);
+    appendAppearance(doc, page, "MutantWritten", `BT /Helv 9 Tf (${MUTATION_VALUES.name}) Tj ET`, [0, 0, 120, 14]);
+    const mutated = await reload(doc);
+    const mutatedPage = mutated.getPages()[0];
+    const placements = overlayPlacements(mutated, mutatedPage, splitLayers(mutated, mutatedPage), new Set());
+    const residue = residueOf(placements);
+    const chooser = residue.filter((r) => /^choose\b/i.test(r.textDrawn.join(" ").trim()));
+    const leaked = residue.filter((r) => r.textDrawn.some((t) => t.includes(MUTATION_VALUES.name)));
+    const sawWritten = placements.some((pl) => pl.textDrawn.some((t) => t.includes(MUTATION_VALUES.name)));
+    record("M4", "default appearance: an injected chooser prompt is caught and an injected participant value is not",
+      chooser.length === 1 && sawWritten && leaked.length === 0,
+      `injected chooser classified as residue: ${chooser.length === 1}; injected participant value drawn: ${sawWritten}, wrongly called residue: ${leaked.length}`);
+  }
+
+  const held = results.filter((r) => r.held).length;
+  if (held !== results.length) {
+    console.error(`FAIL lane2 visual-evidence mutations — ${held}/${results.length} held`);
+    process.exitCode = 1;
+    return;
+  }
+  console.log(`OK lane2 visual-evidence mutations — ${held}/${results.length} held; source-text preservation and flattened default appearance each shown to refuse and to accept`);
+}
+
+if (mutationsOnly) await runMutations();
+else await main();
