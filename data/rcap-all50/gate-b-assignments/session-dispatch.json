@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-gate-b-session-dispatch/v1",
   "generatedBy": "scripts/generate-rcap-gate-b-session-dispatch.mjs",
-  "captainHead": "fae25fc9a3d1b14ea07ca48be8fc970d066bfc45",
+  "captainHead": "051ee2e4ed1593c6fd196706489a5fcdfe759685",
   "thisIsAMapNotAnArchitecture": "The eleven assignment files are unchanged. This names the session that owns each and pins the remote tip it continues from; no asset id, family id, allowed path, prohibited path or denominator membership is altered here.",
   "denominator": {
     "platform_ready": 5,
@@ -130,10 +130,56 @@
       ]
     }
   ],
+  "ownerDecisions": [
+    {
+      "id": "OD-NC-TRANSLATIONS-REFERENCE-ONLY",
+      "decision": "The three NC translations are reference-only and must never carry participant values. The English filing version is the only fillable filing artifact.",
+      "families": [
+        "NC:aoc-cr-287-form-es",
+        "NC:aoc-cr-287-form-vi",
+        "NC:aoc-cr-288-form-es"
+      ],
+      "fillableFilingArtifact": "the English form of each",
+      "status": "controlling_review_fact",
+      "convertsFrom": "a prior open owner question",
+      "doesNotAuthorise": "Session 1 to repair any artifact. No implementation byte is changed by recording this.",
+      "consequenceForReview": "A reviewer finding a participant value drawn on any of these three returns a correction against the producing session rather than weighing whether the value belongs there."
+    }
+  ],
+  "integrationHolds": [
+    {
+      "commit": "bddc55ac",
+      "session": 13,
+      "status": "held",
+      "reason": "its three Alabama rows point to a guidance packet that does not exist, so those three outcomes are not completed repoints",
+      "consequence": "no retirement or repoint from this tip is counted; retired stays where it is"
+    }
+  ],
+  "laneBases": [
+    {
+      "lane": "lane 2 evidence",
+      "session": 8,
+      "base": "ad3bca35",
+      "authorizedFrom": "e6ffff87",
+      "intermediate": [
+        "407525c0"
+      ],
+      "auditedAndPassing": [
+        "linear descendant of e6ffff87",
+        "every family touched is assigned to Session 8",
+        "every family touched has an explicit allowedPath",
+        "no frozen Wave A family package changed",
+        "no application, worker or platform-ready byte changed"
+      ],
+      "correctionMadeToPassIt": "The allowedPath check first failed on VT:600-00228-support-en, and the fault was this lane's rather than Session 8's. An asset row can carry more than one familyId — a filing form and its support sheet resolving to one binary — while the queue records a single familyPackagePath, so the sibling package was assigned to the session and forbidden to it at the same time. Twelve sibling packages were in that position. The assignment generator now grants a path for every family in an asset that has a real package, and ad3bca35 passes all five checks against the corrected assignment."
+    }
+  ],
   "totals": {
     "waves": 1,
     "frozenFamilyPaths": 4,
     "sessions": 13,
+    "ownerDecisions": 1,
+    "integrationHolds": 1,
     "assignmentsMapped": 11,
     "uniqueAssetsAssigned": 81,
     "pathOverlaps": 0,
@@ -352,28 +398,29 @@
         "WI:cr-267-form-en"
       ],
       "allowedPaths": [
-        "scripts/implement-rcap-official-forms-d1.mjs",
-        "scripts/rcap-official-forms/**",
+        "data/rcap-all50/overlays/production/alaska/tf-810-form-en/**",
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-es/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-vi/**",
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-en/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-es/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-vi/**",
-        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-es/**",
-        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-en/**",
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-es/**",
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-vi/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-instructions-en/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-instructions-es/**",
-        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-vi/**",
-        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-es/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-instructions-vi/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en/**",
-        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-instructions-en/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en/**",
-        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-instructions-en/**",
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-instructions-en/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en/**",
-        "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-es/**",
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-instructions-en/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en/**",
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-es/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-vi/**",
-        "data/rcap-all50/overlays/production/alaska/tf-810-form-en/**",
-        "data/rcap-all50/overlays/production/wisconsin/cr-267-en/**"
+        "data/rcap-all50/overlays/production/wisconsin/cr-267-en/**",
+        "data/rcap-all50/overlays/production/wisconsin/cr-267-form-en/**",
+        "scripts/implement-rcap-official-forms-d1.mjs",
+        "scripts/rcap-official-forms/**"
       ],
       "prohibitedPaths": [
         "src/**",
@@ -451,6 +498,9 @@
         "VA:cc-1473-form-en"
       ],
       "allowedPaths": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en/**",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en/**",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en/**",
         "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en/**",
         "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/**",
         "data/rcap-all50/overlays/production/nebraska/cc-6-11a-instructions-en/**",
@@ -459,17 +509,23 @@
         "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en/**",
         "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en/**",
         "data/rcap-all50/overlays/production/vermont/200-00130-en/**",
+        "data/rcap-all50/overlays/production/vermont/200-00130-form-en/**",
         "data/rcap-all50/overlays/production/vermont/200-00131-en/**",
+        "data/rcap-all50/overlays/production/vermont/200-00131-form-en/**",
         "data/rcap-all50/overlays/production/vermont/200-00132-en/**",
+        "data/rcap-all50/overlays/production/vermont/200-00132-form-en/**",
         "data/rcap-all50/overlays/production/vermont/200-00132a-en/**",
+        "data/rcap-all50/overlays/production/vermont/200-00132a-form-en/**",
         "data/rcap-all50/overlays/production/vermont/200-00331-en/**",
+        "data/rcap-all50/overlays/production/vermont/200-00331-support-en/**",
         "data/rcap-all50/overlays/production/vermont/200-00631-en/**",
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en/**",
         "data/rcap-all50/overlays/production/vermont/600-00228-en/**",
-        "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en/**",
-        "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en/**",
-        "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en/**",
+        "data/rcap-all50/overlays/production/vermont/600-00228-support-en/**",
         "data/rcap-all50/overlays/production/virginia/cc-1201-en/**",
-        "data/rcap-all50/overlays/production/virginia/cc-1473-en/**"
+        "data/rcap-all50/overlays/production/virginia/cc-1201-form-en/**",
+        "data/rcap-all50/overlays/production/virginia/cc-1473-en/**",
+        "data/rcap-all50/overlays/production/virginia/cc-1473-form-en/**"
       ],
       "prohibitedPaths": [
         "src/**",
@@ -892,8 +948,8 @@
       "role": "retirement and repoint",
       "assignment": "retirement-repoint.json",
       "currentRemoteBranch": "claude/rcap-retirement-corpus-guard",
-      "currentRemoteTip": "abeb8b7e6c1a965345507f3d08f73de28cd9a9d4",
-      "currentRemoteTipSubject": "Repoint the six captured index pages to guidance; retire none",
+      "currentRemoteTip": "f005a0eb1b408491f46fa663c8b3a3bb4455db8b",
+      "currentRemoteTipSubject": "A repoint into a target that does not exist is not a repoint",
       "assetCount": 11,
       "assetIds": [
         "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",

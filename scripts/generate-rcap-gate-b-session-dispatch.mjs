@@ -230,6 +230,43 @@ for (const wave of WAVES) {
   });
 }
 
+/**
+ * Owner decisions that are now controlling facts for review.
+ *
+ * Recorded, not acted on. A controlling fact tells a reviewer what the right
+ * answer is; it does not authorise this lane to go and make the artifacts
+ * match. Where an artifact contradicts one of these, that is a finding for the
+ * owning implementation session.
+ */
+const OWNER_DECISIONS = [
+  {
+    id: "OD-NC-TRANSLATIONS-REFERENCE-ONLY",
+    decision: "The three NC translations are reference-only and must never carry participant values. The English filing version is the only fillable filing artifact.",
+    families: ["NC:aoc-cr-287-form-es", "NC:aoc-cr-287-form-vi", "NC:aoc-cr-288-form-es"],
+    fillableFilingArtifact: "the English form of each",
+    status: "controlling_review_fact",
+    convertsFrom: "a prior open owner question",
+    doesNotAuthorise:
+      "Session 1 to repair any artifact. No implementation byte is changed by recording this.",
+    consequenceForReview:
+      "A reviewer finding a participant value drawn on any of these three returns a correction against the producing session rather than weighing whether the value belongs there."
+  }
+];
+
+/**
+ * Contributor tips the captain is deliberately not integrating, and why.
+ */
+const INTEGRATION_HOLDS = [
+  {
+    commit: "bddc55ac",
+    session: 13,
+    status: "held",
+    reason:
+      "its three Alabama rows point to a guidance packet that does not exist, so those three outcomes are not completed repoints",
+    consequence: "no retirement or repoint from this tip is counted; retired stays where it is"
+  }
+];
+
 const record = {
   schemaVersion: "rcap-gate-b-session-dispatch/v1",
   generatedBy: "scripts/generate-rcap-gate-b-session-dispatch.mjs",
@@ -248,10 +285,32 @@ const record = {
     keptFromThatWork: "the shared finalizer hotfix, ownership/index corrections and source-pack factory imported into this base, which are independent of the lane recut"
   },
   waves: WAVES,
+  ownerDecisions: OWNER_DECISIONS,
+  integrationHolds: INTEGRATION_HOLDS,
+  laneBases: [
+    {
+      lane: "lane 2 evidence",
+      session: 8,
+      base: "ad3bca35",
+      authorizedFrom: "e6ffff87",
+      intermediate: ["407525c0"],
+      auditedAndPassing: [
+        "linear descendant of e6ffff87",
+        "every family touched is assigned to Session 8",
+        "every family touched has an explicit allowedPath",
+        "no frozen Wave A family package changed",
+        "no application, worker or platform-ready byte changed"
+      ],
+      correctionMadeToPassIt:
+        "The allowedPath check first failed on VT:600-00228-support-en, and the fault was this lane's rather than Session 8's. An asset row can carry more than one familyId — a filing form and its support sheet resolving to one binary — while the queue records a single familyPackagePath, so the sibling package was assigned to the session and forbidden to it at the same time. Twelve sibling packages were in that position. The assignment generator now grants a path for every family in an asset that has a real package, and ad3bca35 passes all five checks against the corrected assignment."
+    }
+  ],
   totals: {
     waves: WAVES.length,
     frozenFamilyPaths: WAVES.flatMap((w) => w.frozenFamilyPaths).length,
     sessions: sessions.length,
+    ownerDecisions: OWNER_DECISIONS.length,
+    integrationHolds: INTEGRATION_HOLDS.length,
     assignmentsMapped: claimed.size,
     uniqueAssetsAssigned: unique.size,
     pathOverlaps,

@@ -127,6 +127,31 @@ const [sourceA, sourceB] = chunk(source, 2);
 const evidenceAssets = rerender.map((a) => a.assetId);
 
 const outcomeOf = new Map(queue.assets.map((a) => [a.assetId, a]));
+
+/**
+ * Every family package an asset actually owns.
+ *
+ * An asset row can carry more than one familyId — a filing form and its
+ * support sheet resolve to one binary — but the queue records a single
+ * familyPackagePath. Granting only that path leaves the sibling package
+ * unowned: the lane is assigned the family and forbidden the directory, which
+ * is how a legitimately assigned rerender ends up looking like an out-of-scope
+ * write. Twelve sibling packages were in that position.
+ */
+const familyPackagePaths = (asset) => {
+  const root = path.join(rootDir, "data/rcap-all50/overlays/production");
+  const paths = new Set();
+  if (asset.familyPackagePath) paths.add(asset.familyPackagePath);
+  for (const familyId of asset.familyIds ?? []) {
+    const slug = String(familyId).split(":").pop();
+    if (!fs.existsSync(root)) break;
+    for (const state of fs.readdirSync(root)) {
+      const candidate = path.join("data/rcap-all50/overlays/production", state, slug);
+      if (fs.existsSync(path.join(rootDir, candidate, "source-record.json"))) { paths.add(candidate); break; }
+    }
+  }
+  return [...paths];
+};
 /** What an assignment is actually being asked to terminate, per asset. */
 const terminalWork = (assetIds) => assetIds.map((id) => {
   const a = outcomeOf.get(id);
@@ -176,7 +201,7 @@ const assignments = [
     },
     allowedPaths: ["scripts/implement-rcap-official-forms-d1.mjs",
       "scripts/rcap-official-forms/**",
-      ...rerenderA.map((a) => a.familyPackagePath).filter(Boolean).map((p) => `${p}/**`)],
+      ...new Set(rerenderA.flatMap((a) => familyPackagePaths(a).map((p) => `${p}/**`)))].sort(),
     prohibitedPaths: [...GLOBAL_PROHIBITED, "family-rerender-2's family packages", `${OUT_DIR}/**`],
     rootBlocker: "43 assets carry a defect in what was produced from a source that is present; four of them need only the classification counters",
     requiredSourceInput: "the Edition 1 Master Library extract mounted at RCAP_BUNDLE_EXTRACT",
@@ -190,7 +215,7 @@ const assignments = [
     role: "family rerender",
     assetIds: rerenderB.map((a) => a.assetId),
     familyIds: rerenderB.flatMap((a) => a.familyIds),
-    allowedPaths: [...rerenderB.map((a) => a.familyPackagePath).filter(Boolean).map((p) => `${p}/**`)],
+    allowedPaths: [...new Set(rerenderB.flatMap((a) => familyPackagePaths(a).map((p) => `${p}/**`)))].sort(),
     prohibitedPaths: [...GLOBAL_PROHIBITED, "scripts/rcap-official-forms/**", "family-rerender-1's family packages",
       "the shared binder — coordinate with family-rerender-1 rather than editing it here"],
     rootBlocker: "the assigned families carry render-class defects and depend on the shared binder correction family-rerender-1 owns",
