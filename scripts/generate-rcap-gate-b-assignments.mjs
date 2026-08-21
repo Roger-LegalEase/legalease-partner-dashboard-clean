@@ -69,9 +69,38 @@ const GLOBAL_PROHIBITED = [
   "data/rcap-all50/pdf-independent-reviews/*-group-*.review.json"
 ];
 
+/**
+ * Assets whose "source" turned out to be an index page rather than a form.
+ *
+ * Session 11 searched the publisher of record and found a listing, not a
+ * document. There is no binary to acquire, so leaving them in a source lane
+ * asks for something that does not exist; whether they retire is a dependency
+ * question, which is Session 13's to adjudicate. They are MOVED rather than
+ * copied — an asset in two assignments is two sessions doing the same work and
+ * one of them wasting it.
+ */
+const capturedIndexPages = (() => {
+  const dir = path.join(rootDir, "data/rcap-all50/pdf-source-handoffs/source-direct");
+  const ids = new Set();
+  if (!fs.existsSync(dir)) return ids;
+  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".json"))) {
+    const body = JSON.parse(fs.readFileSync(path.join(dir, file), "utf8"));
+    for (const asset of body.assets ?? []) {
+      const disposition = String(asset.disposition ?? asset.status ?? "");
+      if (disposition.includes("captured_index_page_not_an_official_form")) {
+        ids.add(asset.assetId ?? asset.identity);
+      }
+    }
+  }
+  return ids;
+})();
+
 const rerender = byBucket("RERENDER_REQUIRED");
-const source = byBucket("SOURCE_REQUIRED");
-const retire = byBucket("RETIRE_OR_REPOINT");
+const source = byBucket("SOURCE_REQUIRED").filter((a) => !capturedIndexPages.has(a.assetId));
+const retire = [
+  ...byBucket("RETIRE_OR_REPOINT"),
+  ...queue.assets.filter((a) => capturedIndexPages.has(a.assetId))
+];
 
 // The four gate-refused approvals are the rerender shards' first work: they are
 // the only assets whose terminal target is reachable in one round.
@@ -273,6 +302,14 @@ for (const a of assignments) {
   for (const a of assignments) {
     const bad = a.assetIds.filter((id) => promoted.has(id));
     if (bad.length) fail(`${a.id} assigns ${bad.length} platform_ready asset(s)`);
+  }
+}
+
+{
+  const retirement = assignments.find((a) => a.id === "retirement-repoint");
+  for (const id of capturedIndexPages) {
+    if (!retirement.assetIds.includes(id)) fail(`captured index page ${id} did not reach retirement-repoint`);
+    if (seenAsset.get(id) !== "retirement-repoint") fail(`captured index page ${id} is also assigned to ${seenAsset.get(id)}`);
   }
 }
 
