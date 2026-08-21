@@ -97,6 +97,19 @@ const [sourceA, sourceB] = chunk(source, 2);
 // evidence surfaces across whichever families the rerender shards produce.
 const evidenceAssets = rerender.map((a) => a.assetId);
 
+const outcomeOf = new Map(queue.assets.map((a) => [a.assetId, a]));
+/** What an assignment is actually being asked to terminate, per asset. */
+const terminalWork = (assetIds) => assetIds.map((id) => {
+  const a = outcomeOf.get(id);
+  return { assetId: id, terminalOutcome: a?.terminalOutcome ?? null,
+    mustPacket: a?.mustPacket ?? false, doneCondition: a?.doneCondition ?? null };
+});
+const outcomeMix = (assetIds) => {
+  const mix = {};
+  for (const w of terminalWork(assetIds)) mix[w.terminalOutcome] = (mix[w.terminalOutcome] ?? 0) + 1;
+  return mix;
+};
+
 const assignments = [
   ...reviewerShards.map((assets, i) => ({
     id: `reviewer-${"abcd"[i]}`,
@@ -252,11 +265,43 @@ for (const a of assignments) {
   }
 }
 
+// The queue holds only retained assets, but the guard is explicit because
+// assigning a promoted asset would put a shard to work on something already done.
+{
+  const register = JSON.parse(fs.readFileSync(path.join(rootDir, "data/rcap-all50/problematic-pdf-register.json"), "utf8"));
+  const promoted = new Set((register.platformReady ?? []).map((p) => p.identity));
+  for (const a of assignments) {
+    const bad = a.assetIds.filter((id) => promoted.has(id));
+    if (bad.length) fail(`${a.id} assigns ${bad.length} platform_ready asset(s)`);
+  }
+}
+
 const covered = new Set([...seenAsset.keys()]);
 const missing = queue.assets.filter((a) => !covered.has(a.assetId));
 if (missing.length) fail(`${missing.length} queued asset(s) appear in no primary assignment`);
 if (covered.size !== queue.assets.length) {
   fail(`primary assignments cover ${covered.size} assets; the queue holds ${queue.assets.length}`);
+}
+
+const OWNERS = {
+  "LANE-REVIEW": "independent review shard",
+  "LANE-RERENDER": "implementation lane (RCAP overlay factory)",
+  "LANE-EVIDENCE": "evidence lane",
+  "LANE-SOURCE": "source acquisition and resolution lane",
+  "LANE-RETIRE": "retirement and repoint lane"
+};
+
+for (const a of assignments) {
+  // One named owner per assignment, and therefore one per asset, since the
+  // asset-scoped assignments are disjoint.
+  a.primaryOwner = OWNERS[a.lane] ?? fail(`${a.id} sits on unknown lane ${a.lane}`);
+  a.terminalOutcomeMix = outcomeMix(a.assetIds);
+  a.terminalWork = terminalWork(a.assetIds);
+  a.mustPacketAssets = a.terminalWork.filter((w) => w.mustPacket).map((w) => w.assetId);
+  // A blocked asset must not stop the rest of its assignment: each row carries
+  // its own done condition, so a shard finishes what it can and reports the
+  // remainder rather than holding the batch.
+  a.blockedAssetsDoNotHoldOthers = true;
 }
 
 const record = {
@@ -277,6 +322,8 @@ const record = {
     queuedAssets: queue.assets.length,
     reviewerShardsWithNoInputYet: assignments.filter((a) => a.lane === "LANE-REVIEW" && a.assetIds.length === 0).length,
     classificationMetadataOnly: gateRefused.length,
+    byTerminalOutcome: queue.totals.byTerminalOutcome,
+    mustPacketWithMissingSource: queue.totals.mustPacketWithMissingSource,
     pathOverlaps
   },
   assignments

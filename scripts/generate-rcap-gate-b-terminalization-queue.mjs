@@ -36,6 +36,7 @@ const LEDGER = "data/rcap-all50/pdf-independent-reviews/inventory-closure-ledger
 const OVERLAY = "data/rcap-all50/overlays/production";
 const REVIEWS = "data/rcap-all50/pdf-independent-reviews";
 const RASTERS = "docs/record-clearing/pdf-visual-evidence";
+const SOURCE_POPULATION = "data/rcap-all50/source-population-reconciliation.json";
 const OUT = "data/rcap-all50/gate-b-81-terminalization-queue.json";
 const OUT_MD = "docs/record-clearing/gate-b-81-terminalization-queue.md";
 
@@ -49,6 +50,8 @@ function fail(message) {
 }
 
 const register = readJson(REGISTER);
+const sourcePopulation = fs.existsSync(abs(SOURCE_POPULATION)) ? readJson(SOURCE_POPULATION) : null;
+const sourceStateByAsset = new Map((sourcePopulation?.assets ?? []).map((a) => [a.assetId, a.state]));
 const determination = readJson(DETERMINATION);
 const ledger = readJson(LEDGER);
 
@@ -226,14 +229,75 @@ function assetRecord(record) {
     nextAction: "assign to an independent reviewer in a worktree with the Edition 1 extract mounted, and have the verdict emitted as a canonical batch manifest and group review file" };
 }
 
+/**
+ * The terminal outcome an asset is being driven to, and what "done" means.
+ *
+ * A bucket says what work is open; an outcome says how the asset stops being
+ * open at all. Most of these never become a filled customer PDF and are not
+ * failures for that: a form the participant completes by hand terminates as
+ * guidance, and a web resource that was never a PDF terminates the same way.
+ * Marking everything packet_ready would turn a burn-down into a backlog.
+ *
+ * must_packet is reserved for the narrow case the brief names: a route whose
+ * completed participant treatment genuinely needs a customer PDF, where the
+ * source is not in hand and not resolvable from the Master Library.
+ */
+function terminalOutcomeFor(asset, registerRow) {
+  const operationalRefs = asset.operationalReferences?.length ?? 0;
+  const sourceState = sourceStateByAsset.get(asset.assetId) ?? null;
+  const routeDependent = (asset.legalDesignReferences?.length ?? 0) > 0
+    || (asset.packetFamilyReferences?.length ?? 0) > 0
+    || (registerRow?.affectedTrackIds?.length ?? 0) > 0;
+
+  if (asset.primaryBucket === "RETIRE_OR_REPOINT") {
+    return operationalRefs === 0
+      ? { terminalOutcome: "retire", mustPacket: false,
+          doneCondition: "the retirement script writes this asset's marker with every operational reference proven absent, and the determination re-derives without it" }
+      : { terminalOutcome: "repoint", mustPacket: false,
+          doneCondition: `every one of the ${operationalRefs} surviving operational reference is repointed to the canonical asset, and only then is this id retired` };
+  }
+
+  if (asset.primaryBucket === "SOURCE_REQUIRED") {
+    // A web resource is not a PDF that failed to arrive. Directing the
+    // participant to the official page IS the completed treatment.
+    if (registerRow?.structuralClass === "html_form" || sourceState === "html_capture_not_a_form") {
+      return { terminalOutcome: "guidance_terminal", mustPacket: false,
+        doneCondition: "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce" };
+    }
+    if (sourceState === "packable_from_master_library") {
+      return { terminalOutcome: "packet_ready", mustPacket: false,
+        doneCondition: "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result" };
+    }
+    if (routeDependent) {
+      return { terminalOutcome: "exact_deferral", mustPacket: true,
+        doneCondition: "the route completes with this component named as an exact deferral, stating what the participant must obtain and from whom, until the official binary is acquired" };
+    }
+    return { terminalOutcome: "deliberate_scope_exclusion", mustPacket: false,
+      doneCondition: "the asset is recorded out of scope for this gate: no route, packet family or legal-design surface depends on it, and no participant treatment is diminished by its absence" };
+  }
+
+  // RERENDER_REQUIRED: the source is in hand, so the question is only whether
+  // the platform fills it on the participant's behalf.
+  if (registerRow?.participantFillable === false) {
+    return { terminalOutcome: "guidance_terminal", mustPacket: false,
+      doneCondition: "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete" };
+  }
+  return { terminalOutcome: "packet_ready", mustPacket: false,
+    doneCondition: "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts" };
+}
+
 const assets = [];
 for (const record of register.records ?? []) {
   if (platformReadyIdentities.has(record.identity)) continue;
   const built = assetRecord(record);
   const lane = LANES[built.primaryBucket];
+  const terminal = terminalOutcomeFor(built, record);
   assets.push({
     ...built,
     subtype: built.subtype ?? null,
+    terminalOutcome: terminal.terminalOutcome,
+    mustPacket: terminal.mustPacket,
+    doneCondition: terminal.doneCondition,
     terminalTarget: TERMINAL[built.primaryBucket],
     ownerLane: lane.lane,
     owner: lane.owner,
@@ -256,6 +320,16 @@ for (const a of assets) {
   }
   if (/^(pending|blocked|review required)$/i.test(String(a.primaryBlocker).trim())) {
     fail(`${a.assetId} carries a generic root cause`);
+  }
+}
+
+// A burn-down in which every asset is driven to one outcome is a backlog with a
+// new label, so the generator refuses to emit one.
+{
+  const outcomes = new Set(assets.map((a) => a.terminalOutcome));
+  if (outcomes.size < 2) fail(`every asset was assigned ${[...outcomes][0]}; that is not a terminal assignment`);
+  for (const a of assets) {
+    if (!a.terminalOutcome || !a.doneCondition) fail(`${a.assetId} has no terminal outcome or done condition`);
   }
 }
 
@@ -282,7 +356,12 @@ const record = {
     SOURCE_REQUIRED: byBucket.SOURCE_REQUIRED.length,
     RETIRE_OR_REPOINT: byBucket.RETIRE_OR_REPOINT.length,
     approvedButRefusedByTheGate: assets.filter((a) => a.familyIds.some((f) => APPROVED_BUT_REFUSED.has(f))).length,
-    classificationMetadataOnly: assets.filter((a) => a.subtype === "classification_metadata_only").length
+    classificationMetadataOnly: assets.filter((a) => a.subtype === "classification_metadata_only").length,
+    byTerminalOutcome: Object.fromEntries(
+      ["packet_ready", "guidance_terminal", "exact_deferral", "deliberate_scope_exclusion", "retire", "repoint"]
+        .map((o) => [o, assets.filter((a) => a.terminalOutcome === o).length])
+    ),
+    mustPacketWithMissingSource: assets.filter((a) => a.mustPacket).length
   },
   assets
 };
