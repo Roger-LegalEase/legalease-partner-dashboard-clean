@@ -580,9 +580,20 @@ function writeJson(rel, value) {
 }
 
 // A pack that is no longer assigned must not be left behind as a stale manifest.
+//
+// The sweep is scoped to files this generator produced. Another generator writes
+// its own manifests into the same directory, and a sweep that claimed everything
+// there would delete them on its next run — silently, and only when the two ran
+// in the wrong order. A file this generator cannot read, or that names a
+// different producer, is left exactly where it is.
 const expected = new Set([...manifests.map((m) => `${m.packId}.manifest.json`), "index.json"]);
+const MINE = "scripts/generate-rcap-source-packs.mjs";
 for (const file of fs.existsSync(abs(OUT_DIR)) ? fs.readdirSync(abs(OUT_DIR)) : []) {
   if (expected.has(file)) continue;
+  let producedByThisGenerator = false;
+  try { producedByThisGenerator = JSON.parse(fs.readFileSync(abs(path.join(OUT_DIR, file)), "utf8")).generatedBy === MINE; }
+  catch { producedByThisGenerator = false; }
+  if (!producedByThisGenerator) continue;
   if (checkOnly) { console.error(`FAIL source packs — ${OUT_DIR}/${file} is no longer assigned; re-run this generator`); process.exit(1); }
   fs.rmSync(abs(path.join(OUT_DIR, file)));
 }
