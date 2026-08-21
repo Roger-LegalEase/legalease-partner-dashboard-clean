@@ -209,12 +209,16 @@ refusing.
    and absent. Every `restore_from_archive` and `resolve_from_an_archived_page`
    row needs the folder mounted. That is the single highest-leverage action for
    this lane and it is not a research task.
-2. **Acquired bytes are stranded.** The run's artifacts live on
+2. **Acquired bytes are stranded.** Run 32433785452, which carried the two-hop
+   script, confirms the receipt transport works — the full receipt was read back
+   from its job log between the `RCAP_RECEIPT_BEGIN`/`END` markers, without
+   touching the artifact host. It also reproduced Kentucky AOC-334 and Vermont
+   200-00132 byte-for-byte a day later, and recorded that
+   `vtcourts.gov/media/10142` redirects to the PDF, which settles the Vermont
+   legs as permalinks rather than pages. The PDFs themselves are still on
    `productionresultssa*.blob.core.windows.net`, which answers 403 CONNECT
-   through a restricted egress proxy — as does the job-summary transport. The
-   acquisition script now also prints its full receipt to stdout, because the
-   job log is the one transport that reaches a restricted session; that is how
-   the observation log was assembled. It does not move the PDFs.
+   through a restricted egress proxy — as does the job-summary transport — so
+   the identity of every acquisition now travels where the bytes cannot.
 3. **28 of the 44 legs in that run were never read**, most of them further North
    Carolina legs. The observation log says so per leg and nothing here treats an
    unread leg as covered.

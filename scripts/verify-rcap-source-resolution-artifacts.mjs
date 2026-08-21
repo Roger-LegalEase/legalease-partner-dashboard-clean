@@ -111,12 +111,18 @@ for (const observation of observed.observations) {
 }
 
 // 9. The observation log must not claim completeness it does not have.
-const legs = (queue.matrix?.length ?? 0) + (queue.probeMatrix?.length ?? 0);
-if (observed.coverage?.legsInTheRun !== legs) {
-  fail(`the observation log says the run had ${observed.coverage?.legsInTheRun} legs; the queue plans ${legs}`);
+//
+//    Checked for internal consistency only, and deliberately NOT against the
+//    current queue's leg count. The log describes one past run at a named head
+//    sha; the queue moves. Tying the two together would turn an ordinary queue
+//    edit into a failure here, and a check that cries wolf is a check people
+//    learn to skip.
+const coverage = observed.coverage ?? {};
+if (coverage.legsReadHere !== observed.observations.length) {
+  fail(`the observation log says ${coverage.legsReadHere} legs were read and lists ${observed.observations.length}`);
 }
-if (observed.coverage?.legsReadHere !== observed.observations.length) {
-  fail(`the observation log says ${observed.coverage?.legsReadHere} legs were read and lists ${observed.observations.length}`);
+if (coverage.legsReadHere + coverage.legsNotRead !== coverage.legsInTheRun) {
+  fail(`the observation log's coverage does not add up: ${coverage.legsReadHere} read + ${coverage.legsNotRead} unread is not ${coverage.legsInTheRun}`);
 }
 
 // 10. A URL the evidence records as REFUSED must never appear in the queue as a
