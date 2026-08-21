@@ -27,6 +27,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { OFFICIAL_HOSTS_BY_JURISDICTION } from "./rcap-source-acquisition/official-hosts.mjs";
+
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OVERLAYS = path.join(rootDir, "data/rcap-all50/overlays/production");
 const MASTER = path.join(rootDir, "data/rcap-all50/problematic-pdf-master-list.json");
@@ -34,18 +36,9 @@ const OUT = path.join(rootDir, "data/rcap-all50/source-acquisition-queue.json");
 
 // Issuing bodies, per jurisdiction. A URL on any other host is not this
 // jurisdiction's official source however plausible it looks, so the join
-// refuses it rather than guessing.
-const OFFICIAL_HOSTS = {
-  AK: ["public.courts.alaska.gov", "courts.alaska.gov", "www.courts.alaska.gov"],
-  AL: ["judicial.alabama.gov", "www.alacourt.gov", "alacourt.gov", "paroles.alabama.gov"],
-  AR: ["www.arcourts.gov", "arcourts.gov", "courts.arkansas.gov", "www.courts.arkansas.gov"],
-  KY: ["www.kycourts.gov", "kycourts.gov"],
-  NC: ["www.nccourts.gov", "nccourts.gov"],
-  NE: ["nebraskajudicial.gov", "www.nebraskajudicial.gov", "supremecourt.nebraska.gov"],
-  VA: ["www.vacourts.gov", "vacourts.gov"],
-  VT: ["www.vtcourts.gov", "vtcourts.gov"],
-  WI: ["www.wicourts.gov", "wicourts.gov", "www.wisdoj.gov", "wisdoj.gov"]
-};
+// refuses it rather than guessing. Shared with the acquisition script, which
+// applies the same list when it resolves a form from a landing page.
+const OFFICIAL_HOSTS = OFFICIAL_HOSTS_BY_JURISDICTION;
 
 const isDirectBinaryLink = (link) => isDirectBinary(link.url);
 const norm = (s) => String(s ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "");

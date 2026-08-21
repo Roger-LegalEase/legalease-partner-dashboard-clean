@@ -11,9 +11,22 @@
 // shown to be current later, and cannot be told apart from the next revision of
 // itself. Every field the register needs to pin a source is captured here, at
 // the moment the bytes arrive, from the response rather than from a promise.
+//
+// A landing-page leg gets a second hop. Fetching the issuing body's page and
+// listing the documents it links was never the point; the point is the form,
+// and until now a landing-page leg ended with an HTML file and no source. The
+// resolver beside this script decides which linked document is this form, and
+// refuses when it cannot tell. Both hops are recorded, so a reviewer can see
+// the page the form was resolved FROM as well as the bytes that arrived.
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+
+import {
+  resolveFormBinaryFromLandingPage,
+  RESOLUTION_DOES_NOT_ESTABLISH
+} from "./rcap-source-acquisition/landing-page-resolution.mjs";
+import { OFFICIAL_HOSTS_BY_JURISDICTION } from "./rcap-source-acquisition/official-hosts.mjs";
 
 const OUT_DIR = path.resolve("acquired-source");
 
@@ -118,65 +131,138 @@ if (!ALLOWED_HOST_SUFFIXES.some((suffix) => host === suffix.replace(/^\./, "") |
   fail(`${host} is not an allowlisted official government host; extend ALLOWED_HOST_SUFFIXES in a reviewed commit if it is one`);
 }
 
+const isAllowlistedHost = (candidateHost) =>
+  ALLOWED_HOST_SUFFIXES.some((suffix) => candidateHost === suffix.replace(/^\./, "") || candidateHost.endsWith(suffix));
+
+/**
+ * One gated GET, described from the response rather than from the request.
+ *
+ * Returns a refusal instead of throwing, so the caller decides whether a
+ * refusal ends the run. It ends the run on the first hop, where there is
+ * nothing yet to record; on the second hop the first hop's evidence still has
+ * to be written, and exiting would throw it away.
+ */
+async function fetchOfficial(target) {
+  let parsed;
+  try { parsed = new URL(target); } catch { return { refusal: `${target} is not a URL` }; }
+  if (parsed.protocol !== "https:") return { refusal: `${parsed.protocol} is not https` };
+  const requestedHost = parsed.hostname.toLowerCase();
+  if (REFUSED_HOSTS.has(requestedHost)) return { refusal: `${requestedHost} is a commercial form site, not the issuing body` };
+  if (!isAllowlistedHost(requestedHost)) {
+    return { refusal: `${requestedHost} is not an allowlisted official government host; extend ALLOWED_HOST_SUFFIXES in a reviewed commit if it is one` };
+  }
+
+  let response;
+  try {
+    response = await fetch(parsed, {
+      redirect: "follow",
+      headers: { "user-agent": "LegalEase RCAP official-source acquisition" }
+    });
+  } catch (error) {
+    return { refusal: `the request to ${parsed.href} did not complete: ${error?.message ?? error}` };
+  }
+
+  const resolvedUrl = response.url;
+  const resolvedHost = new URL(resolvedUrl).hostname.toLowerCase();
+  // A redirect off the allowlist is the interesting case: it means the publisher
+  // moved the form somewhere this acquisition is not entitled to trust.
+  if (!isAllowlistedHost(resolvedHost)) {
+    return { refusal: `the request redirected to ${resolvedHost}, which is not an allowlisted official host` };
+  }
+  if (!response.ok) return { refusal: `${resolvedUrl} answered HTTP ${response.status}` };
+
+  const body = Buffer.from(await response.arrayBuffer());
+  if (body.length === 0) return { refusal: "the response body is empty" };
+
+  // Read from the bytes, not the headers: a server that mislabels a PDF as
+  // text/html is common, and an HTML error page served with a 200 is the failure
+  // this catches.
+  const asLatin1 = body.toString("latin1");
+  const isPdf = body.subarray(0, 5).toString("latin1") === "%PDF-";
+  const declared = response.headers.get("content-length");
+  return {
+    requestedUrl: parsed.href,
+    finalUrl: resolvedUrl,
+    finalHost: resolvedHost,
+    httpStatus: response.status,
+    contentType: response.headers.get("content-type") ?? null,
+    declaredLength: declared ? Number(declared) : null,
+    bytes: body,
+    text: asLatin1,
+    sha256: crypto.createHash("sha256").update(body).digest("hex"),
+    looksLikePdf: isPdf,
+    pageCount: isPdf ? (asLatin1.match(/\/Type\s*\/Page[^s]/g) ?? []).length || null : null,
+    structuralClass: !isPdf ? "not_a_pdf"
+      : /\/XFA[\s/[]/.test(asLatin1) ? "xfa"
+        : /\/AcroForm\b/.test(asLatin1) ? "acroform"
+          : "flat_pdf"
+  };
+}
+
 const retrievedAt = new Date().toISOString();
-let response;
-try {
-  response = await fetch(url, {
-    redirect: "follow",
-    headers: { "user-agent": "LegalEase RCAP official-source acquisition" }
+const firstHop = await fetchOfficial(url.href);
+if (firstHop.refusal) fail(firstHop.refusal);
+
+// A landing page is fetched so the binary behind it can be resolved. Every
+// document it links is recorded whatever happens next, because a refusal that a
+// person has to settle is only useful if it shows what was refused.
+const linkedDocuments = firstHop.looksLikePdf ? [] : [...new Set(
+  [...firstHop.text.matchAll(/href\s*=\s*["']([^"']+\.(?:pdf|docx?|rtf)(?:\?[^"']*)?)["']/gi)]
+    .map((m) => { try { return new URL(m[1], firstHop.finalUrl).href; } catch { return null; } })
+    .filter(Boolean)
+)].sort();
+
+// ---- the second hop ---------------------------------------------------------
+// Only for a leg that asked for a landing page and got back something that is
+// not a PDF. A landing-page URL that turns out to serve the form itself —
+// Vermont publishes forms as /media/<id>, which redirects straight to the PDF —
+// is already finished, and re-resolving it would replace a confirmed source
+// with a choice nobody needed to make.
+let resolution = null;
+let secondHop = null;
+if (URL_KIND === "official_landing_page" && !firstHop.looksLikePdf) {
+  resolution = resolveFormBinaryFromLandingPage({
+    html: firstHop.text,
+    landingPageUrl: firstHop.finalUrl,
+    formNumber,
+    officialHosts: OFFICIAL_HOSTS_BY_JURISDICTION[jurisdiction] ?? []
   });
-} catch (error) {
-  fail(`the request to ${url.href} did not complete: ${error?.message ?? error}`);
+  if (resolution.verdict === "resolved") {
+    secondHop = await fetchOfficial(resolution.resolvedUrl);
+    if (!secondHop.refusal && !secondHop.looksLikePdf) {
+      secondHop = { refusal: `${resolution.resolvedUrl} did not answer with a PDF; a page that links a page resolves nothing` };
+    }
+  }
 }
 
-const finalUrl = response.url;
-const finalHost = new URL(finalUrl).hostname.toLowerCase();
-// A redirect off the allowlist is the interesting case: it means the publisher
-// moved the form somewhere this acquisition is not entitled to trust.
-if (!ALLOWED_HOST_SUFFIXES.some((suffix) => finalHost === suffix.replace(/^\./, "") || finalHost.endsWith(suffix))) {
-  fail(`the request redirected to ${finalHost}, which is not an allowlisted official host`);
-}
-if (!response.ok) fail(`${finalUrl} answered HTTP ${response.status}`);
-
-const bytes = Buffer.from(await response.arrayBuffer());
-if (bytes.length === 0) fail("the response body is empty");
-
-const contentType = response.headers.get("content-type") ?? null;
-const declaredLength = response.headers.get("content-length");
-const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
-
-// Read from the bytes, not the headers: a server that mislabels a PDF as
-// text/html is common, and an HTML error page served with a 200 is the failure
-// this catches.
-const looksLikePdf = bytes.subarray(0, 5).toString("latin1") === "%PDF-";
-const pageCount = looksLikePdf
-  ? (bytes.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length || null
-  : null;
-const text = bytes.toString("latin1");
-const structuralClass = !looksLikePdf ? "not_a_pdf"
-  : /\/XFA[\s/[]/.test(text) ? "xfa"
-    : /\/AcroForm\b/.test(text) ? "acroform"
-      : "flat_pdf";
+// The source is whichever hop produced the form: hop 1 when the URL was already
+// the binary, hop 2 when the page had to be resolved. When resolution was
+// attempted and refused, hop 1's HTML is still written — it is the evidence of
+// what the page offered — but it is not a source, and the receipt says so.
+const source = secondHop && !secondHop.refusal ? secondHop : firstHop;
+const resolvedFromLandingPage = Boolean(secondHop) && !secondHop.refusal;
+const { finalUrl, finalHost, contentType, declaredLength, bytes, sha256, looksLikePdf, pageCount, structuralClass } = source;
+const httpStatus = source.httpStatus;
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 const slug = receiptSlug();
 const binaryName = `${slug}${looksLikePdf ? ".pdf" : ".bin"}`;
 fs.writeFileSync(path.join(OUT_DIR, binaryName), bytes);
 
-// A landing page is fetched so the binary behind it can be resolved. The links
-// harvested here are candidates for a following acquisition, not a decision
-// about which of them is this form.
-const linkedDocuments = looksLikePdf ? [] : [...new Set(
-  [...text.matchAll(/href\s*=\s*["']([^"']+\.(?:pdf|docx?|rtf)(?:\?[^"']*)?)["']/gi)]
-    .map((m) => { try { return new URL(m[1], finalUrl).href; } catch { return null; } })
-    .filter(Boolean)
-)].sort();
+// A landing-page leg that could not be resolved did not acquire a source. It
+// acquired a page. Calling that "acquired" is how a register ends up believing
+// it holds a form it has never seen, so the outcome distinguishes them.
+const outcome = looksLikePdf
+  ? "acquired"
+  : URL_KIND === "official_landing_page"
+    ? "landing_page_unresolved"
+    : "acquired_but_not_a_pdf";
 
 const receipt = {
-  schemaVersion: "rcap-official-source-receipt/v1",
+  schemaVersion: "rcap-official-source-receipt/v2",
   ...coverage(),
   acquiredBy: ".github/workflows/rcap-official-source-acquisition.yml",
-  outcome: "acquired",
+  outcome,
   jurisdiction,
   formNumber,
   assetId: ASSET_ID,
@@ -185,18 +271,39 @@ const receipt = {
   finalResolvedUrl: finalUrl,
   redirected: finalUrl !== rawUrl,
   publisherHost: finalHost,
-  httpStatus: response.status,
+  httpStatus,
   contentType,
-  declaredContentLength: declaredLength ? Number(declaredLength) : null,
+  declaredContentLength: declaredLength ?? null,
   observedByteLength: bytes.length,
-  byteLengthMatchesHeader: declaredLength ? Number(declaredLength) === bytes.length : null,
+  byteLengthMatchesHeader: declaredLength != null ? declaredLength === bytes.length : null,
   sha256,
   retrievedAt,
   looksLikePdf,
   observedPageCount: pageCount,
   observedStructuralClass: structuralClass,
   linkedDocumentCandidates: linkedDocuments,
-  binaryResolvedFromLandingPage: URL_KIND === "official_landing_page" && looksLikePdf,
+  binaryResolvedFromLandingPage: resolvedFromLandingPage,
+  // Both hops, always. The page a form was resolved from is part of the form's
+  // provenance: without it, a reviewer asked to confirm the resolution has
+  // nothing to confirm it against.
+  landingPage: resolution
+    ? {
+        url: firstHop.finalUrl,
+        httpStatus: firstHop.httpStatus,
+        contentType: firstHop.contentType,
+        sha256: firstHop.sha256,
+        byteLength: firstHop.bytes.length,
+        resolution: {
+          verdict: resolution.verdict,
+          reason: resolution.reason,
+          resolvedUrl: resolution.resolvedUrl,
+          matchTier: resolution.resolvedTier ?? null,
+          candidates: resolution.candidates
+        },
+        secondHopRefusal: secondHop?.refusal ?? null,
+        whatResolutionDoesNotEstablish: RESOLUTION_DOES_NOT_ESTABLISH
+      }
+    : null,
   expectedSha256: expectedSha256 || null,
   matchesExpectedSha256: expectedSha256 ? expectedSha256 === sha256 : null,
   binaryFile: binaryName,
@@ -251,9 +358,31 @@ if (summaryPath) {
   fs.appendFileSync(summaryPath, parts.join("\n"));
 }
 
-console.log(`OK acquired ${jurisdiction} ${formNumber}`);
+// The receipt is also printed here, in full, between markers.
+//
+// Three transports carry an acquisition out of a workflow run, and they do not
+// have the same reach. The artifact is the primary copy and is served from
+// productionresultssa*.blob.core.windows.net, which a restricted session's
+// egress proxy refuses with 403 CONNECT. The job summary is written above and
+// has the same problem. The job LOG is the one that survives, because it comes
+// back through the GitHub API itself. So the receipt goes to stdout too: it
+// costs a few hundred bytes and it is the difference between an acquisition
+// anyone can verify and one that is stranded behind a proxy rule.
+console.log(`--- RCAP_RECEIPT_BEGIN ${slug} ---`);
+console.log(JSON.stringify(receipt));
+console.log(`--- RCAP_RECEIPT_END ${slug} ---`);
+
+console.log(`${outcome === "acquired" ? "OK acquired" : `INCOMPLETE ${outcome} —`} ${jurisdiction} ${formNumber}`);
+if (resolution) {
+  console.log(`  landing page  ${firstHop.finalUrl}`);
+  console.log(`  resolution    ${resolution.verdict} — ${resolution.reason}`);
+  for (const candidate of resolution.candidates) {
+    console.log(`    ${candidate.tier === null ? "refused" : `tier ${candidate.tier}`}  ${candidate.url}${candidate.refusedBecause ? `  (${candidate.refusedBecause})` : ""}`);
+  }
+  if (secondHop?.refusal) console.log(`  second hop    refused: ${secondHop.refusal}`);
+}
 console.log(`  final URL     ${finalUrl}`);
-console.log(`  status        ${response.status}  ${contentType ?? "(no content-type)"}`);
+console.log(`  status        ${httpStatus}  ${contentType ?? "(no content-type)"}`);
 console.log(`  bytes         ${bytes.length}`);
 console.log(`  sha256        ${sha256}`);
 console.log(`  structure     ${structuralClass}${pageCount ? `, ~${pageCount} page objects` : ""}`);
