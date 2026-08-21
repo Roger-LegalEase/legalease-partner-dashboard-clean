@@ -16,7 +16,7 @@
     "that a landing page resolves to any particular PDF: no landing page could be fetched"
   ],
   "classificationVocabulary": {
-    "wrong_identity_offered": "the pinned source is not the document this family claims: an instructions resource pinned to a filing form, an HTML index pinned as a form source, or a structurally corrupt URL record",
+    "wrong_identity_offered": "the pinned source is not the document this family claims: a page for the other offense class, an HTML index pinned as a form source, or a structurally corrupt URL record",
     "source_drift_requires_adjudication": "the pinned URL is claimed by more than one asset, so at most one of them can be correct and an owner must say which",
     "official_landing_page_resolved": "an official issuing-body landing page is identified for this asset; resolving it to a direct PDF requires egress this session does not have",
     "genuinely_no_official_source_identified": "no official URL is recorded and the pinned hash appears in no canonical library asset",
@@ -37,9 +37,9 @@
       "pinnedSha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
       "pinnedSourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies",
       "establishedFromCommittedEvidence": [
-        "the pinned URL's own slug names an instructions resource, not the filing form, so it cannot be the source of an acroform petition",
-        "the same URL is pinned to NC:aoc-cr-297-instructions-en, so two assets claim one resource",
-        "the sibling pair is crossed: NC:aoc-cr-297-form-en and NC:aoc-cr-298-instructions-en share the other nccourts slug in the same way",
+        "AOC-CR-298 is the nonviolent MISDEMEANOR petition — established by the compiled NC profile and the master list track binding nc_145_5_misdemeanor — but its pinned URL is the nonviolent FELONY page, and NC:aoc-cr-297-form-en carries the mirror-image error",
+        "the same URL is pinned to NC:aoc-cr-297-instructions-en, whose document IS the felony one, so the instructions record is correct and the form record is not",
+        "the two FORM records are the swapped pair; the two INSTRUCTIONS records are pinned to the right offense class",
         "the pinned sha256 reconciles exactly against the committed archive index at STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf, 300577 bytes, 107 acro fields"
       ],
       "notEstablishedHere": [
@@ -70,9 +70,9 @@
       "archive_reconciled_currentness_unproven": 58,
       "direct_url_asset_owned_by_session_11": 10,
       "genuinely_no_official_source_identified": 27,
-      "official_landing_page_resolved": 14,
+      "official_landing_page_resolved": 18,
       "source_drift_requires_adjudication": 16,
-      "wrong_identity_offered": 21
+      "wrong_identity_offered": 17
     },
     "bySourceUrlClass": {
       "corrupt_url_record": 2,
@@ -386,7 +386,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": false,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -399,7 +400,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -425,7 +426,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -458,7 +460,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -491,7 +494,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -504,7 +508,7 @@
         "note": null
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -529,7 +533,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -567,7 +572,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -605,7 +611,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -643,7 +650,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": false,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -656,7 +664,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -682,7 +690,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -715,7 +724,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -753,7 +763,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -791,7 +802,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": false,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -804,7 +816,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -830,7 +842,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": false,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -843,7 +856,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -869,7 +882,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -902,7 +916,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -940,7 +955,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -978,7 +994,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1011,7 +1028,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1044,7 +1062,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1077,7 +1096,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1110,7 +1130,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1143,7 +1164,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1176,7 +1198,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1209,7 +1232,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1242,7 +1266,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1275,7 +1300,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1308,7 +1334,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1341,7 +1368,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1374,7 +1402,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1407,7 +1436,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1440,7 +1470,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1473,7 +1504,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1506,7 +1538,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1539,7 +1572,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1572,7 +1606,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1605,7 +1640,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1638,7 +1674,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1671,7 +1708,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1704,7 +1742,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": false,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -1717,7 +1756,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -1743,7 +1782,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -1781,7 +1821,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -1819,7 +1860,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -1857,7 +1899,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -1895,7 +1938,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1928,7 +1972,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1961,7 +2006,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -1998,7 +2044,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2036,7 +2083,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2073,7 +2121,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2110,7 +2159,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2143,7 +2193,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2181,7 +2232,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2214,7 +2266,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2252,7 +2305,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -2290,7 +2344,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -2328,7 +2383,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -2366,7 +2422,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": false,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -2379,7 +2436,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -2405,7 +2462,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2443,7 +2501,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2460,7 +2519,7 @@
       "registerDefects": [
         "contact_sheet_shows_no_fill",
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence",
@@ -2468,11 +2527,10 @@
       ],
       "operatorAction": null,
       "findings": [
-        "duplicate_url:unrelated_document_pinned_to_another_documents_landing_page",
-        "form_pinned_to_instructions_resource"
+        "duplicate_url:unrelated_document_pinned_to_another_documents_landing_page"
       ],
       "duplicateKind": "unrelated_document_pinned_to_another_documents_landing_page",
-      "classification": "wrong_identity_offered",
+      "classification": "official_landing_page_resolved",
       "currentnessProvenHere": false
     },
     {
@@ -2487,7 +2545,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2503,7 +2562,7 @@
       },
       "registerDefects": [
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",
@@ -2511,11 +2570,10 @@
       ],
       "operatorAction": null,
       "findings": [
-        "duplicate_url:unrelated_document_pinned_to_another_documents_landing_page",
-        "form_pinned_to_instructions_resource"
+        "duplicate_url:unrelated_document_pinned_to_another_documents_landing_page"
       ],
       "duplicateKind": "unrelated_document_pinned_to_another_documents_landing_page",
-      "classification": "wrong_identity_offered",
+      "classification": "official_landing_page_resolved",
       "currentnessProvenHere": false
     },
     {
@@ -2530,7 +2588,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2546,7 +2605,7 @@
       },
       "registerDefects": [
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -2569,7 +2628,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2585,7 +2645,7 @@
       },
       "registerDefects": [
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -2610,7 +2670,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2626,7 +2687,7 @@
       },
       "registerDefects": [
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -2651,7 +2712,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2689,7 +2751,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2706,7 +2769,7 @@
       "registerDefects": [
         "contact_sheet_shows_no_fill",
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence",
@@ -2714,11 +2777,10 @@
       ],
       "operatorAction": null,
       "findings": [
-        "duplicate_url:one_document_all_variants_on_its_landing_page",
-        "form_pinned_to_instructions_resource"
+        "duplicate_url:one_document_all_variants_on_its_landing_page"
       ],
       "duplicateKind": "one_document_all_variants_on_its_landing_page",
-      "classification": "wrong_identity_offered",
+      "classification": "official_landing_page_resolved",
       "currentnessProvenHere": false
     },
     {
@@ -2733,7 +2795,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2749,7 +2812,7 @@
       },
       "registerDefects": [
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",
@@ -2757,11 +2820,10 @@
       ],
       "operatorAction": null,
       "findings": [
-        "duplicate_url:one_document_all_variants_on_its_landing_page",
-        "form_pinned_to_instructions_resource"
+        "duplicate_url:one_document_all_variants_on_its_landing_page"
       ],
       "duplicateKind": "one_document_all_variants_on_its_landing_page",
-      "classification": "wrong_identity_offered",
+      "classification": "official_landing_page_resolved",
       "currentnessProvenHere": false
     },
     {
@@ -2776,7 +2838,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2792,7 +2855,7 @@
       },
       "registerDefects": [
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -2815,7 +2878,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2831,7 +2895,7 @@
       },
       "registerDefects": [
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -2856,7 +2920,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2872,7 +2937,7 @@
       },
       "registerDefects": [
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -2897,7 +2962,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2935,7 +3001,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": "nonviolent_misdemeanor",
+      "documentOffenseClass": "nonviolent_felony",
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2958,7 +3025,7 @@
       "operatorAction": null,
       "findings": [
         "duplicate_url:unrelated_document_pinned_to_another_documents_landing_page",
-        "form_pinned_to_instructions_resource"
+        "pinned_to_the_wrong_offense_class"
       ],
       "duplicateKind": "unrelated_document_pinned_to_another_documents_landing_page",
       "classification": "wrong_identity_offered",
@@ -2976,7 +3043,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": "nonviolent_felony",
+      "documentOffenseClass": "nonviolent_felony",
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -2992,7 +3060,7 @@
       },
       "registerDefects": [
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -3017,7 +3085,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": "nonviolent_felony",
+      "documentOffenseClass": "nonviolent_misdemeanor",
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3040,7 +3109,7 @@
       "operatorAction": null,
       "findings": [
         "duplicate_url:unrelated_document_pinned_to_another_documents_landing_page",
-        "form_pinned_to_instructions_resource"
+        "pinned_to_the_wrong_offense_class"
       ],
       "duplicateKind": "unrelated_document_pinned_to_another_documents_landing_page",
       "classification": "wrong_identity_offered",
@@ -3058,7 +3127,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": "nonviolent_misdemeanor",
+      "documentOffenseClass": "nonviolent_misdemeanor",
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3074,7 +3144,7 @@
       },
       "registerDefects": [
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -3099,7 +3169,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3137,7 +3208,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3154,7 +3226,7 @@
       "registerDefects": [
         "contact_sheet_shows_no_fill",
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved"
       ],
@@ -3176,7 +3248,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3193,7 +3266,7 @@
       "registerDefects": [
         "contact_sheet_shows_no_fill",
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved"
       ],
@@ -3215,7 +3288,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -3227,12 +3301,7 @@
         "lifecycleClassification": "true_hash_missing",
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
-      "registerDefects": [
-        "held_on_source_or_design",
-        "missing_binary",
-        "never_independently_approved",
-        "xfa_javascript_or_active_content_residue"
-      ],
+      "registerDefects": [],
       "operatorAction": "Supply 'private/Nationwide Record Clearing/LegalEase North Carolina/cr287_1.pdf' (record the hash on supply), then verify against this census before any fill or flatten.",
       "findings": [
         "pinned_hash_absent_from_canonical_library"
@@ -3253,7 +3322,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -3291,7 +3361,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -3303,12 +3374,7 @@
         "lifecycleClassification": "true_hash_missing",
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
-      "registerDefects": [
-        "held_on_source_or_design",
-        "missing_binary",
-        "never_independently_approved",
-        "xfa_javascript_or_active_content_residue"
-      ],
+      "registerDefects": [],
       "operatorAction": "Supply 'private/Nationwide Record Clearing/LegalEase North Carolina/cr298_1.pdf' (record the hash on supply), then verify against this census before any fill or flatten.",
       "findings": [
         "pinned_hash_absent_from_canonical_library"
@@ -3329,7 +3395,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": false,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -3342,7 +3409,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -3368,7 +3435,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": false,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -3381,7 +3449,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -3407,7 +3475,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": false,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -3420,7 +3489,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -3446,7 +3515,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": false,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -3459,7 +3529,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -3485,7 +3555,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "instructions",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3521,7 +3592,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -3559,7 +3631,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -3597,7 +3670,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3634,7 +3708,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3667,7 +3742,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3704,7 +3780,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3719,7 +3796,7 @@
         "note": null
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -3742,7 +3819,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -3780,7 +3858,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3817,7 +3896,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3832,7 +3912,7 @@
         "note": null
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence"
@@ -3855,7 +3935,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3892,7 +3973,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3929,7 +4011,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3962,7 +4045,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -3995,7 +4079,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4028,7 +4113,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4063,7 +4149,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4098,7 +4185,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4138,7 +4226,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4178,7 +4267,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4213,7 +4303,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4248,7 +4339,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4283,7 +4375,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4318,7 +4411,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4353,7 +4447,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4388,7 +4483,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4428,7 +4524,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4468,7 +4565,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -4506,7 +4604,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -4519,7 +4618,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -4544,7 +4643,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": false,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -4557,7 +4657,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -4583,7 +4683,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -4621,7 +4722,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4661,7 +4763,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4701,7 +4804,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4736,7 +4840,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -4749,7 +4854,7 @@
         "note": null
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved",
@@ -4775,7 +4880,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "instructions",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4810,7 +4916,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -4848,7 +4955,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4889,7 +4997,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4930,7 +5039,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -4970,7 +5080,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5010,7 +5121,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -5048,7 +5160,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5088,7 +5201,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5128,7 +5242,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -5166,7 +5281,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5208,7 +5324,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5250,7 +5367,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -5288,7 +5406,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5330,7 +5449,8 @@
       "sourceUrlClass": "official_landing_page",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5372,7 +5492,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -5413,7 +5534,8 @@
         "whitespace_in_url"
       ],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5456,7 +5578,8 @@
         "whitespace_in_url"
       ],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5496,7 +5619,8 @@
       "sourceUrlClass": "no_url_recorded",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": false,
       "archive": {
         "status": "pinned_hash_absent_from_canonical_library",
@@ -5509,7 +5633,7 @@
         "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope."
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
@@ -5535,7 +5659,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5575,7 +5700,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5615,7 +5741,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5631,7 +5758,7 @@
       },
       "registerDefects": [
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",
@@ -5657,7 +5784,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "form",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5673,7 +5801,7 @@
       },
       "registerDefects": [
         "currentness_unverified",
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",
@@ -5699,7 +5827,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5714,7 +5843,7 @@
         "note": null
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",
@@ -5741,7 +5870,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5756,7 +5886,7 @@
         "note": null
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",
@@ -5783,7 +5913,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5798,7 +5929,7 @@
         "note": null
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",
@@ -5825,7 +5956,8 @@
       "sourceUrlClass": "direct_pdf_url",
       "sourceUrlDefects": [],
       "declaredRole": "unclassified",
-      "pinnedUrlRole": "unspecified",
+      "pinnedUrlOffenseClass": null,
+      "documentOffenseClass": null,
       "isPdfSource": true,
       "archive": {
         "status": "reconciled_against_archive_index",
@@ -5840,7 +5972,7 @@
         "note": null
       },
       "registerDefects": [
-        "geometry_unmeasured",
+        "flat_overlay_geometry_or_readback",
         "held_on_source_or_design",
         "multi_widget_ambiguity",
         "never_independently_approved",

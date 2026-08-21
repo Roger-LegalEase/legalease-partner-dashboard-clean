@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "rcap-publisher-resolution-evidence/v1",
+  "purpose": "Landing pages and form identities resolved against the publishers of record while direct byte access was unavailable.",
+  "howThisWasObtained": "The egress gateway refuses CONNECT to every official host, and WebFetch returns EGRESS_BLOCKED for them, so no page was fetched and no PDF was downloaded. These entries come from the publishers' own search-index entries — their page titles, asset URLs and the revision strings printed in those titles.",
+  "evidenceGrade": "publisher_search_index_title",
+  "whatThisDoesNotEstablish": [
+    "the SHA-256 or byte length of anything: no byte was read",
+    "that a URL listed here currently returns 200",
+    "that a resolved PDF is free of contamination such as a flattened records-officer name"
+  ],
+  "everyEntryRequires": "one confirmatory download from a session permitted to reach the host, recording sha256 and byte length, before any repin.",
+  "resolutions": [
+    {
+      "jurisdiction": "NC",
+      "documentId": "AOC-CR-297",
+      "officialTitle": "Petition And Order Of Expunction Under G.S. 15A-145.5 (Nonviolent Felony(ies))",
+      "offenseClass": "nonviolent_felony",
+      "landingPageUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies",
+      "directFormPdfUrl": "https://www.nccourts.gov/assets/documents/forms/cr297_2.pdf",
+      "directInstructionsPdfUrl": "https://www.nccourts.gov/assets/documents/forms/cr297-instr_3.pdf",
+      "liveRevision": null
+    },
+    {
+      "jurisdiction": "NC",
+      "documentId": "AOC-CR-298",
+      "officialTitle": "Petition And Order Of Expunction Under G.S. 15A-145.5 (Nonviolent Misdemeanor(s))",
+      "offenseClass": "nonviolent_misdemeanor",
+      "landingPageUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors",
+      "directFormPdfUrl": "https://www.nccourts.gov/assets/documents/forms/cr298_1.pdf",
+      "directInstructionsPdfUrl": "https://www.nccourts.gov/assets/documents/forms/cr298-instr_1.pdf",
+      "liveRevision": null
+    },
+    {
+      "jurisdiction": "NE",
+      "documentId": "CC-6-11",
+      "officialTitle": "Nebraska State Court Form CC 6:11 — Petition to Set Aside Criminal Conviction, Neb. Rev. Stat. 29-2264",
+      "landingPageUrl": "https://nebraskajudicial.gov/petition-set-aside-criminal-conviction",
+      "directFormPdfUrl": "https://nebraskajudicial.gov/sites/default/files/CC-6-11.pdf",
+      "liveRevision": "REV-2024-04"
+    },
+    {
+      "jurisdiction": "NE",
+      "documentId": "CC-6-11.2",
+      "officialTitle": "Nebraska State Court Form CC 6:11.2 — Order Setting Aside a Criminal Conviction",
+      "landingPageUrl": "https://nebraskajudicial.gov/order-setting-aside-criminal-conviction",
+      "directFormPdfUrl": "https://nebraskajudicial.gov/sites/default/files/CC-6-11-2.pdf",
+      "liveRevision": "REV-2020-12"
+    },
+    {
+      "jurisdiction": "NE",
+      "documentId": "CC-6-12",
+      "officialTitle": "CC 6:12 — Motion to Seal Adult Criminal Record",
+      "landingPageUrl": "https://nebraskajudicial.gov/self-help/criminal-record-rehabilitation/set-aside-criminal-conviction",
+      "directFormPdfUrl": "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf",
+      "liveRevision": "REV-2024-04"
+    },
+    {
+      "jurisdiction": "VT",
+      "documentId": "200-00129",
+      "officialTitle": "200-00129 — Petition to Expunge Criminal History",
+      "landingPageUrl": "https://www.vtcourts.gov/criminal/expungement",
+      "directFormPdfUrl": "https://www.vtcourts.gov/sites/default/files/documents/200-00129%20%E2%80%93%20Petition%20to%20Expunge%20Criminal%20History.pdf",
+      "liveRevision": "REV-2025-07"
+    },
+    {
+      "jurisdiction": "VT",
+      "documentId": "200-00130A",
+      "officialTitle": "200-00130A — Filing a Petition to Expunge or Seal a Criminal Record",
+      "landingPageUrl": "https://www.vtcourts.gov/media/7713",
+      "directFormPdfUrl": "https://www.vtcourts.gov/sites/default/files/documents/200-00130A.pdf",
+      "liveRevision": "REV-2020-02",
+      "supersededEditionAlsoPublished": {
+        "url": "https://www.vtcourts.gov/sites/default/files/documents/200-00130A_0.pdf",
+        "revision": "REV-2017-07"
+      }
+    }
+  ],
+  "sources": [
+    "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies",
+    "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors",
+    "https://nebraskajudicial.gov/sites/default/files/CC-6-11.pdf",
+    "https://nebraskajudicial.gov/sites/default/files/CC-6-11-2.pdf",
+    "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf",
+    "https://www.vtcourts.gov/sites/default/files/documents/200-00129%20%E2%80%93%20Petition%20to%20Expunge%20Criminal%20History.pdf",
+    "https://www.vtcourts.gov/sites/default/files/documents/200-00130A.pdf"
+  ],
+  "corroboratingInternalEvidence": {
+    "claim": "AOC-CR-297 is the nonviolent felony petition and AOC-CR-298 is the nonviolent misdemeanor petition",
+    "internalSources": [
+      "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json states 'AOC-CR-297 Expunge nonviolent FELONY conviction(s)' and 'AOC-CR-298 Expunge ONE or MORE nonviolent MISDEMEANOR convictions'",
+      "docs/record-clearing/problematic-pdf-master-list.csv binds AOC-CR-297 to track nc_145_5_felony and AOC-CR-298 to track nc_145_5_misdemeanor"
+    ],
+    "consequence": "The repository's two NC form source records are pinned to each other's offense class. The instructions records are pinned correctly."
+  }
+}

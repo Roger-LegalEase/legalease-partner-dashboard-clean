@@ -36,7 +36,9 @@ function parseCsv(text) {
   return rows;
 }
 
+const PUBLISHER = 'data/rcap-all50/pdf-source-handoffs/source-resolution/publisher-resolutions.json';
 const assignment = readJson(ASSIGNMENT);
+const publisher = readJson(PUBLISHER);
 const queue = readJson(QUEUE);
 const corpus = readJson(CORPUS_INDEX);
 const reconciliation = readJson(RECONCILIATION);
@@ -62,6 +64,30 @@ const csvRecords = csvRows.slice(1).filter((r) => r.length > 1).map((r) => ({
 }));
 
 const corpusBySha = new Map(corpus.entries.map((e) => [e.sha256, e]));
+const corpusByDoc = new Map(
+  corpus.entries.map((e) => [`${e.state}|${String(e.formNumber).toUpperCase()}`, e]),
+);
+
+/** Match an assigned asset to a publisher resolution by its document id token. */
+const normDoc = (v) => String(v ?? '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+function findResolution(jurisdiction, fileName, formNumber) {
+  const stem = fileName.replace(/\.(pdf|html)$/i, '');
+  // Filenames carry a leading form number followed by a title
+  // ("200-00129 – Petition to Expunge…"), so take that token too.
+  const leading = /^([A-Za-z]{0,4}[-_ ]?[\d]{1,3}[-.\d]*[A-Za-z]?)/.exec(stem)?.[1] ?? null;
+  const wanted = new Set(
+    [formNumber, stem, leading]
+      .filter(Boolean)
+      .flatMap((v) => [normDoc(v), normDoc(v).replace(/^AOC/, '')]),
+  );
+  return (
+    publisher.resolutions.find((r) => {
+      if (r.jurisdiction !== jurisdiction) return false;
+      const id = normDoc(r.documentId);
+      return wanted.has(id) || wanted.has(id.replace(/^AOC/, ''));
+    }) ?? null
+  );
+}
 const reconciliationText = JSON.stringify(reconciliation);
 
 const OFFICIAL_HOSTS = new Set(
@@ -163,15 +189,28 @@ const rows = assignment.assetIds.map((assetId, i) => {
     },
   ];
 
-  // An asset that is not itself an instructions document must not be pinned to
-  // a resource whose own slug names instructions.
-  const assetIsInstructions = /inst/i.test(fileName);
-  const urlNamesInstructions = officialUrl != null && /instruction/i.test(officialUrl);
-  const formPinnedToInstructionsResource = urlNamesInstructions && !assetIsInstructions;
+  // The NC landing-page slugs name the petition AND its instructions, because
+  // one page carries both. The word "instructions" appearing in a slug is
+  // therefore not evidence that the resource is instructions-only, and an
+  // earlier version of this generator wrongly treated it as such. Identity is
+  // checked against the publisher's own document identity instead.
+  const resolution = findResolution(jurisdiction, fileName, csv?.formNumber ?? queueRow?.formNumber);
+
+  // Drift: the revision the archive records for the pinned bytes, against the
+  // revision the publisher's current listing prints.
+  const archiveEntry = corpusBySha.get(pinnedSha) ?? null;
+  const pinnedRevision = archiveEntry?.revision ?? null;
+  const liveRevision = resolution?.liveRevision ?? null;
+  const driftVerdict =
+    liveRevision == null || pinnedRevision == null || pinnedRevision === 'REV-UNKNOWN'
+      ? 'not_comparable_here'
+      : pinnedRevision === liveRevision
+        ? 'pinned_revision_matches_published_revision'
+        : 'pinned_revision_differs_from_published_revision';
 
   const disposition =
-    formPinnedToInstructionsResource
-      ? 'wrong_identity_offered'
+    resolution?.directFormPdfUrl
+      ? 'official_direct_url_resolved_acquisition_blocked'
       : officialUrl == null
       ? 'genuinely_no_official_source_identified'
       : !hostIsOfficial
@@ -192,8 +231,19 @@ const rows = assignment.assetIds.map((assetId, i) => {
     revision: csv?.sourceRevision || null,
     resolvedOfficialUrl: officialUrl,
     resolvedFrom,
-    formPinnedToInstructionsResource,
     sharedWithOtherAssignedAssets: [],
+    publisherResolution: resolution
+      ? {
+          officialTitle: resolution.officialTitle,
+          landingPageUrl: resolution.landingPageUrl,
+          directFormPdfUrl: resolution.directFormPdfUrl ?? null,
+          directInstructionsPdfUrl: resolution.directInstructionsPdfUrl ?? null,
+          evidenceGrade: publisher.evidenceGrade,
+        }
+      : null,
+    pinnedRevision,
+    publishedRevision: liveRevision,
+    driftVerdict,
     resolvedUrlKind: officialUrl == null ? null : isDirectPdf ? 'direct_pdf' : 'landing_page',
     resolvedUrlHost: host,
     resolvedUrlHostIsOfficialForJurisdiction: hostIsOfficial,
@@ -274,6 +324,73 @@ const artifact = {
       'Splitting the contaminated string on commas puts the pinned sha256 at index 4 for every affected assigned asset, which is where the CSV column order predicts it. That alignment is what makes the leading field a safe recovery of officialSourceUrl.',
     authoritativeSourceUsedInstead: MASTER_CSV,
   },
+  pristineReplacementForNcAocCr298: {
+    subject: 'NC AOC-CR-298 Rev. 7/25 — pristine official source',
+    ownedForRerenderBy: 'data/rcap-all50/gate-b-assignments/family-rerender-1.json',
+    resolvedHereBecause: 'acquiring a clean official source is LANE-SOURCE work; this record is written only into this lane\'s handoff directory and touches no path the rerender or evidence shards own.',
+    identityCorrection: {
+      established: 'AOC-CR-298 is the nonviolent MISDEMEANOR petition; AOC-CR-297 is the nonviolent FELONY petition.',
+      evidence: [
+        'the publishers\' own page titles, retrieved twice independently',
+        'src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json: "AOC-CR-298 Expunge ONE or MORE nonviolent MISDEMEANOR convictions"',
+        'docs/record-clearing/problematic-pdf-master-list.csv binds AOC-CR-298 to track nc_145_5_misdemeanor',
+      ],
+      consequence:
+        'data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en/source-record.json pins the nonviolent FELONY landing page. The 298 filing form is pinned to the wrong offense class, and aoc-cr-297-form-en carries the mirror-image error. A petitioner served from these pins would receive the form for the other offense class.',
+      correctionToAnEarlierFindingFromThisLane:
+        'This lane previously reported the 298 form as "pinned to an instructions resource". That was wrong. Each NC landing page carries the petition AND its instructions, so the word instructions in the slug proves nothing. The real defect is the offense-class swap, and it is the two FORM records that are swapped, not the instructions records.',
+    },
+    pristineSource: {
+      landingPage:
+        'https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors',
+      directFormPdfUrl: 'https://www.nccourts.gov/assets/documents/forms/cr298_1.pdf',
+      directInstructionsPdfUrl: 'https://www.nccourts.gov/assets/documents/forms/cr298-instr_1.pdf',
+      evidenceGrade: 'publisher_search_index_title — no byte was read from any of these URLs',
+    },
+    currentPin: {
+      sha256: '8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b',
+      byteLength: 300577,
+      archivePath:
+        'STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf',
+      reportedContamination: 'a flattened records-officer name in the pinned bytes',
+      contaminationStatusHere:
+        'unverified. The binary is absent from this clone and the family\'s committed field census records no such field. It is neither confirmed nor dismissed.',
+    },
+    exactOperatorAction: [
+      'From a session permitted to reach www.nccourts.gov, download https://www.nccourts.gov/assets/documents/forms/cr298_1.pdf.',
+      'Record its sha256 and byte length, and confirm the document header reads AOC-CR-298 and names nonviolent MISDEMEANOR(S).',
+      'Open the bytes and confirm no records-officer name, signature or any other party-specific text is present in the blank form.',
+      'Compare the new sha256 against the pinned 8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b and preserve BOTH hashes on the source record as a drift pair.',
+      'Repin sourceUrl to the direct PDF URL and the misdemeanor landing page, not the felony one.',
+      'Only then hand NC:aoc-cr-298-form-en to the rerender lane.',
+    ],
+    prohibitedRemediation:
+      'Do not strip the reported records-officer name from the existing bytes. A source-inherent name is removed by acquiring a clean official source, never by editing an official form. Do not repin on the strength of this artifact alone: every URL here is search-index evidence, not a downloaded byte.',
+  },
+  crossLaneFindings: [
+    {
+      finding: 'NC AOC-CR-297 and AOC-CR-298 filing-form source records are pinned to each other\'s offense class',
+      affectedFamilies: ['NC:aoc-cr-297-form-en', 'NC:aoc-cr-298-form-en'],
+      notThisLanesAssets: true,
+      ownedBy: 'data/rcap-all50/gate-b-assignments/family-rerender-1.json',
+      raisedNotPushed:
+        'These families are not in this lane\'s assignment, so no file of theirs was modified. The correction is recorded here for their owner.',
+      correctPins: {
+        'NC:aoc-cr-297-form-en':
+          'https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies (direct: assets/documents/forms/cr297_2.pdf)',
+        'NC:aoc-cr-298-form-en':
+          'https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors (direct: assets/documents/forms/cr298_1.pdf)',
+      },
+    },
+    {
+      finding: 'the archive index already holds a CC-6-11 at the revision the publisher currently lists',
+      assignedAsset: 'NE|CC-6-11.pdf|sha256_unrecorded_in_repo',
+      detail:
+        'The assigned asset pins no sha256, but data/rcap-all50/local-source-corpus-index.json records NE CC-6-11 at REV-2024-04, and the publisher lists CC 6:11 at Rev. 04/2024. The asset and that archive entry are candidates for the same document at the same revision.',
+      exactOperatorAction:
+        'With the corpus mounted, hash the archive CC-6-11 entry and the freshly downloaded https://nebraskajudicial.gov/sites/default/files/CC-6-11.pdf, and pin the asset only if the two agree.',
+    },
+  ],
   totals: {
     assignedAssets: rows.length,
     byDisposition: tally('disposition'),

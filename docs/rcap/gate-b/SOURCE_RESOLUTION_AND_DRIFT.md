@@ -58,15 +58,31 @@ Document identity is compared on the **exact** id. Collapsing `CC-1201-A` into
 
 ## Findings
 
-- **NC AOC-CR-298 Rev. 7/25** (priority). Pinned to a URL whose own slug names a
-  *felony instructions* resource, so it cannot be the source of an acroform
-  petition. The same URL is also pinned to `NC:aoc-cr-297-instructions-en`, and
-  the sibling pair is crossed the same way on the other nccourts slug. The
-  pinned sha256 reconciles exactly against the archive (300577 bytes, 107 acro
-  fields). The reported flattened records-officer name **could not be verified
-  here** — the binary is absent and the family's committed field census records
-  no such field. The name must be resolved by acquiring a clean official source,
-  never by editing the official form.
+- **NC AOC-CR-297 and AOC-CR-298 are pinned to each other's offense class.**
+  `AOC-CR-297` is the nonviolent **felony** petition and `AOC-CR-298` the
+  nonviolent **misdemeanor** petition — established by the publishers' own page
+  titles, by `src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json`, and
+  by the master list's track bindings (`nc_145_5_felony`,
+  `nc_145_5_misdemeanor`). Both **form** records pin the other class's page. The
+  two **instructions** records are pinned correctly. A petitioner served from
+  these pins would receive the form for the wrong offense class.
+
+  > **Correction.** An earlier revision of this document reported the 298 form
+  > as "pinned to a felony *instructions* resource", inferred from the word
+  > `instructions` in the slug. That inference was wrong: each NC landing page
+  > carries the petition **and** its instructions, so the slug proves nothing
+  > about the resource type. The defect is the offense-class swap, and it is the
+  > **form** records that are swapped, not the instructions records. The
+  > generator's heuristic has been replaced with an offense-class comparison,
+  > which also cleared four false positives on the 287/288 Spanish and
+  > Vietnamese forms.
+
+  The reported flattened records-officer name on the 298 bytes remains
+  **unverified** — the binary is absent and the family's committed field census
+  records no such field. It must be resolved by acquiring a clean official
+  source, never by editing the official form. The pristine source is resolved to
+  `assets/documents/forms/cr298_1.pdf` behind the **misdemeanor** landing page;
+  see `data/rcap-all50/pdf-source-handoffs/source-resolution/`.
 - **`NC:nc-sbi-right-to-review-support-en`** is pinned to the AOC-CR-287
   expunction landing page — an unrelated document's source.
 - **VT 600-00228** (2 families) pins three URLs concatenated into one string
@@ -83,9 +99,9 @@ Document identity is compared on the **exact** id. Collapsing `CC-1201-A` into
 | --- | ---: |
 | `archive_reconciled_currentness_unproven` | 58 |
 | `genuinely_no_official_source_identified` | 27 |
-| `wrong_identity_offered` | 21 |
+| `wrong_identity_offered` | 17 |
 | `source_drift_requires_adjudication` | 16 |
-| `official_landing_page_resolved` | 14 |
+| `official_landing_page_resolved` | 18 |
 | `direct_url_asset_owned_by_session_11` | 10 |
 
 The last row is not this session's work; it is marked so the two lanes do not

@@ -99,8 +99,22 @@ const familyRole = (family) =>
   : /-form(-|$)/.test(family) ? 'form'
   : 'unclassified';
 
-const slugRole = (url) =>
-  url && /instructions/i.test(url) ? 'instructions' : 'unspecified';
+// The NC landing-page slugs name the petition AND its instructions, because one
+// page carries both. An earlier version of this generator read "instructions" in
+// a slug as proof the resource was instructions-only and reported six NC forms
+// as wrong identities on that basis. It is not proof, and those were false
+// positives. Identity is checked on offense class, which the slug does state.
+const offenseClassOfSlug = (url) =>
+  url == null ? null
+  : /nonviolent-felonyies|nonviolent-felonies/i.test(url) ? 'nonviolent_felony'
+  : /nonviolent-misdemeanors/i.test(url) ? 'nonviolent_misdemeanor'
+  : null;
+
+/** Established from the compiled NC profile and the master list's track bindings. */
+const OFFENSE_CLASS_BY_DOCUMENT = {
+  'AOC-CR-297': 'nonviolent_felony',
+  'AOC-CR-298': 'nonviolent_misdemeanor',
+};
 
 function reconcileAgainstArchive(sourceRecord, sourceReceipt) {
   // v2 records pin an Edition 1 sha256. v1 records pin a Nationwide path whose
@@ -184,7 +198,8 @@ const rows = families.map((f) => {
     sourceUrlClass: url.class,
     sourceUrlDefects: url.defects,
     declaredRole: familyRole(f.family),
-    pinnedUrlRole: slugRole(rawUrl),
+    pinnedUrlOffenseClass: offenseClassOfSlug(rawUrl),
+    documentOffenseClass: OFFENSE_CLASS_BY_DOCUMENT[String(sr.documentId ?? '').toUpperCase()] ?? null,
     isPdfSource: sr.isPdf ?? true,
     archive: reconcileAgainstArchive(sr, f.sourceReceipt),
     registerDefects: (registerByFamily.get(familyId) ?? []).flatMap(
@@ -275,10 +290,14 @@ for (const row of rows) {
 
   if (row.sourceUrlClass === 'corrupt_url_record') findings.push('corrupt_url_record');
 
-  // A filing form pinned to a slug that names an instructions resource is a
-  // wrong identity regardless of whether the bytes behind it are current.
-  if (row.declaredRole === 'form' && row.pinnedUrlRole === 'instructions') {
-    findings.push('form_pinned_to_instructions_resource');
+  // A document pinned to a page for the other offense class is a wrong identity
+  // regardless of whether the bytes behind it are current.
+  if (
+    row.documentOffenseClass != null &&
+    row.pinnedUrlOffenseClass != null &&
+    row.documentOffenseClass !== row.pinnedUrlOffenseClass
+  ) {
+    findings.push('pinned_to_the_wrong_offense_class');
   }
 
   // An HTML document cannot be the renderable source for a PDF overlay family.
@@ -300,7 +319,7 @@ for (const row of rows) {
   row.duplicateKind = group ? group.duplicateKind : null;
 
   const wrongIdentity =
-    findings.includes('form_pinned_to_instructions_resource') ||
+    findings.includes('pinned_to_the_wrong_offense_class') ||
     findings.includes('html_document_pinned_as_form_source') ||
     findings.includes('corrupt_url_record') ||
     findings.includes('pinned_to_another_documents_source');
@@ -354,7 +373,7 @@ const artifact = {
   ],
   classificationVocabulary: {
     wrong_identity_offered:
-      'the pinned source is not the document this family claims: an instructions resource pinned to a filing form, an HTML index pinned as a form source, or a structurally corrupt URL record',
+      'the pinned source is not the document this family claims: a page for the other offense class, an HTML index pinned as a form source, or a structurally corrupt URL record',
     source_drift_requires_adjudication:
       'the pinned URL is claimed by more than one asset, so at most one of them can be correct and an owner must say which',
     official_landing_page_resolved:
@@ -387,9 +406,9 @@ const artifact = {
       pinnedSourceUrl:
         'https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies',
       establishedFromCommittedEvidence: [
-        'the pinned URL\'s own slug names an instructions resource, not the filing form, so it cannot be the source of an acroform petition',
-        'the same URL is pinned to NC:aoc-cr-297-instructions-en, so two assets claim one resource',
-        'the sibling pair is crossed: NC:aoc-cr-297-form-en and NC:aoc-cr-298-instructions-en share the other nccourts slug in the same way',
+        'AOC-CR-298 is the nonviolent MISDEMEANOR petition — established by the compiled NC profile and the master list track binding nc_145_5_misdemeanor — but its pinned URL is the nonviolent FELONY page, and NC:aoc-cr-297-form-en carries the mirror-image error',
+        'the same URL is pinned to NC:aoc-cr-297-instructions-en, whose document IS the felony one, so the instructions record is correct and the form record is not',
+        'the two FORM records are the swapped pair; the two INSTRUCTIONS records are pinned to the right offense class',
         'the pinned sha256 reconciles exactly against the committed archive index at STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-298__aoc-cr-298-petition-and-order-of-expunction__REV-2025-07__EN.pdf, 300577 bytes, 107 acro fields',
       ],
       notEstablishedHere: [

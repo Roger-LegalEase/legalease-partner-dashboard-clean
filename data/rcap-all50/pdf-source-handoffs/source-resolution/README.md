@@ -71,3 +71,59 @@ its recovery is recorded as unverified rather than confirmed.
   A `.../sites/default/files/CC-6-11.pdf` URL matching the sibling CC-6-12
   pattern is an **unverified pattern candidate to probe**, not a resolution, and
   is deliberately not recorded as one.
+
+---
+
+## Update — resolution against the publishers of record
+
+The egress gateway still refuses `CONNECT` to every official host, and WebFetch
+returns `EGRESS_BLOCKED` for them, so **still nothing was downloaded**. But the
+publishers' search-index entries are reachable, and they carry page titles,
+asset URLs and revision strings. That resolved a substantial part of the lane
+without ever reading a byte. Evidence grade is recorded on every entry as
+`publisher_search_index_title`; see `publisher-resolutions.json`.
+
+| Disposition | Assets |
+| --- | ---: |
+| `official_direct_url_resolved_acquisition_blocked` | 7 |
+| `official_landing_page_resolved` | 12 |
+| `genuinely_no_official_source_identified` | **0** |
+
+Both NE assets moved off "genuinely unknown". `CC-6-11.pdf` is published at
+exactly the `sites/default/files/CC-6-11.pdf` pattern this lane refused to guess
+last round — the refusal was right, and the confirmation came from the
+publisher, not from the pattern.
+
+### Drift comparisons completed
+
+| Asset | Pinned | Published | Verdict |
+| --- | --- | --- | --- |
+| VT 200-00129 | `REV-2025-07` | `07/2025` | matches |
+| NE CC-6-11.2 | `REV-2020-12` | `12/2020` | matches |
+| NE CC-6-12 | `REV-2024-04` | `04/2024` | matches |
+
+VT 200-00130A pins `REV-UNKNOWN`; the publisher lists `02/2020` current with a
+`07/2017` edition still posted, so the pinned edition is now identifiable.
+
+### Identity correction
+
+`AOC-CR-297` is the nonviolent **felony** petition; `AOC-CR-298` is the
+nonviolent **misdemeanor** petition. This lane's previous report that the 298
+form was "pinned to an instructions resource" was wrong — each NC landing page
+carries the petition and its instructions together. The real defect is that the
+two **form** records are pinned to each other's offense class. That correction
+also cleared four false positives on the 287/288 ES/VI forms.
+
+Consequently `NC cr297.pdf`, this lane's own NC asset, is **not** a wrong
+identity: it resolves to the felony page, and AOC-CR-297 is the felony form.
+
+### NC AOC-CR-298 pristine replacement
+
+Resolved to `https://www.nccourts.gov/assets/documents/forms/cr298_1.pdf` behind
+the **misdemeanor** landing page. The full spec — including the instruction to
+preserve both hashes as a drift pair, and the prohibition on stripping the
+reported records-officer name from the existing bytes — is in
+`source-resolution-findings.json` under `pristineReplacementForNcAocCr298`.
+
+The AOC-CR-298 families belong to `family-rerender-1`, so **no file of theirs
+was modified**. The correction is recorded here for their owner.
