@@ -105,6 +105,57 @@ control("3b-the-render-receipt-names-nothing-that-is-gone", () => {
   return "the receipt describes what is actually on disk";
 });
 
+control("3c-a-rerendered-family-keeps-its-pinned-source-locator", () => {
+  // The provenance builder defaults these to null and the driver was not
+  // passing them, so a re-rendered family came back with no locator while a
+  // skipped one kept the value an earlier generator had written.
+  const dir = path.join(OUT, "north-carolina");
+  const rendered = fs.readdirSync(dir)
+    .map((familyDir) => ({ familyDir, p: path.join(dir, familyDir, "artifact-provenance.json") }))
+    .filter(({ p }) => fs.existsSync(p));
+  assert(rendered.length > 0, "no provenance record to check");
+  const bad = rendered.filter(({ p }) => {
+    const provenance = readJson(p);
+    return !String(provenance.sourceUrl ?? "").startsWith("master-library:")
+      || !provenance.officialTitle || !provenance.officialFormNumber || !provenance.sourcePublisher;
+  });
+  assert(bad.length === 0, `missing locator or court naming: ${bad.map((b) => b.familyDir).join(", ")}`);
+  return `${rendered.length} NC provenance records carry a pinned master-library locator`;
+});
+
+control("3d-a-withdrawn-family-keeps-no-provenance-for-bytes-that-are-gone", () => {
+  const provenancePath = path.join(daFamily.dir, "artifact-provenance.json");
+  assert(!fs.existsSync(provenancePath),
+    "external provenance survived the withdrawal, still naming the withdrawn artifacts by hash");
+  const recorded = daFamily.record.ownerDisposition?.provenanceWithdrawn;
+  assert(recorded && /^[0-9a-f]{64}$/.test(String(recorded.sha256)),
+    "the provenance removal was not recorded by hash");
+  return "provenance withdrawn and recorded, so the removal is auditable";
+});
+
+control("3e-a-fill-path-rerender-never-grants-a-withheld-generation-hold", () => {
+  // `generationAllowed` is one-way. A family can hold it off for a reason that
+  // has nothing to do with ownership -- a state manifest -- and a rerender on
+  // the fill path must not turn that into true.
+  const withheld = [];
+  for (const stateDir of fs.readdirSync(OUT)) {
+    const statePath = path.join(OUT, stateDir);
+    if (!fs.statSync(statePath).isDirectory()) continue;
+    for (const familyDir of fs.readdirSync(statePath)) {
+      const srPath = path.join(statePath, familyDir, "source-record.json");
+      if (!fs.existsSync(srPath)) continue;
+      const record = readJson(srPath);
+      if ((record.productionHolds ?? []).includes("state_manifest_generation_allowed_no")) {
+        withheld.push({ familyDir, allowed: record.generationAllowed });
+      }
+    }
+  }
+  assert(withheld.length > 0, "this control needs a family holding generation off");
+  const granted = withheld.filter((w) => w.allowed !== false);
+  assert(granted.length === 0, `generation granted despite the manifest hold: ${granted.map((g) => g.familyDir).join(", ")}`);
+  return `${withheld.length} families hold generation off and all still do`;
+});
+
 console.log("PARTIAL INDEX MERGE");
 
 const existing = readJson(INDEX).families;
@@ -192,14 +243,37 @@ control("8M-a-retirement-marker-alone-evicts-nothing", () => {
 
 console.log("PRESERVATION");
 
-control("9-no-unassigned-family-artifact-changed", () => {
-  const diff = spawnSync("git", ["diff", "--name-only", "HEAD", "--", "data/rcap-all50/overlays/production"],
+control("9-nothing-outside-lane-1-changed-and-no-rendered-byte-moved", () => {
+  const slugs = { WI: "wisconsin", AL: "alabama", AR: "arkansas", VA: "virginia", AK: "alaska",
+    KY: "kentucky", NC: "north-carolina", NE: "nebraska", VT: "vermont" };
+  const lane = (id) => {
+    const assignment = readJson(path.join(rootDir, `data/rcap-all50/gate-b-assignments/family-rerender-${id}.json`));
+    return new Set(assignment.familyIds.map((familyId) => {
+      const [state, slug] = familyId.split(":");
+      return `${slugs[state]}/${slug}`;
+    }));
+  };
+  const lane1 = lane(1);
+  const lane2 = lane(2);
+  const changed = spawnSync("git", ["diff", "--name-only", "HEAD", "--", "data/rcap-all50/overlays/production"],
     { cwd: rootDir, encoding: "utf8" }).stdout.trim().split("\n").filter(Boolean);
-  const allowed = (p) => p.endsWith("implementation-index.json")
-    || p.includes(`/${daFamily.stateDir}/${daFamily.familyDir}/`);
-  const strays = diff.filter((p) => !allowed(p));
-  assert(strays.length === 0, `changed outside the one rerendered family: ${strays.slice(0, 5).join(", ")}`);
-  return `${diff.length} changed paths, all inside ${daFamily.familyDir} or the index`;
+
+  const familyOf = (p) => {
+    const m = p.match(/overlays\/production\/([^/]+)\/([^/]+)\//);
+    return m ? `${m[1]}/${m[2]}` : null;
+  };
+  const touched = [...new Set(changed.map(familyOf).filter(Boolean))];
+
+  const sessionEight = touched.filter((f) => lane2.has(f));
+  assert(sessionEight.length === 0, `Session 8 families changed: ${sessionEight.join(", ")}`);
+
+  const unassigned = touched.filter((f) => !lane1.has(f));
+  assert(unassigned.length === 0, `families outside lane 1 changed: ${unassigned.join(", ")}`);
+
+  // The repair is metadata only: no rendered artifact may move.
+  const movedBinaries = changed.filter((p) => /\.pdf$/i.test(p));
+  assert(movedBinaries.length === 0, `rendered artifacts changed: ${movedBinaries.join(", ")}`);
+  return `${touched.length} lane-1 families touched, 0 in lane 2, 0 rendered bytes moved`;
 });
 
 control("10-no-platform-ready-family-changed", () => {
@@ -221,5 +295,5 @@ if (failures > 0) {
   console.error(`FAIL shared-hotfix controls — ${failures} did not hold`);
   process.exit(1);
 }
-console.log("OK shared-hotfix controls — 10 controls and 4 mutations held: ownership follows the design role, "
+console.log("OK shared-hotfix controls — 13 controls and 4 mutations held: ownership follows the design role, "
   + "a no-fill family keeps no participant artifact, and a partial run merges the index instead of replacing it");

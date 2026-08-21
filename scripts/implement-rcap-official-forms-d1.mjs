@@ -45,6 +45,16 @@ const OUT = path.join(rootDir, "data/rcap-all50/overlays/production");
  * has none of these, so finding one means an earlier ownership reading left it
  * behind.
  */
+/**
+ * The pinned Master Library locator for a source binary: its canonical path
+ * under the digest that was actually read. Not a web URL — a page can move or
+ * be re-issued, and a provenance record that points at one cannot be checked
+ * against anything.
+ */
+function sourceLocator(record, sha) {
+  return record.canonicalBundlePath ? `master-library:${record.canonicalBundlePath}#sha256=${sha}` : null;
+}
+
 const PARTICIPANT_ARTIFACTS = [
   "fixtures/canonical-filled.pdf",
   "fixtures/boundary-filled.pdf",
@@ -914,6 +924,19 @@ for (const fam of index.families) {
       const provenance = await artifactProvenance({
         jurisdiction: fam.jurisdiction, documentId: record.documentId, sourceSha256: sha,
         sourceRevision: record.revision ?? null,
+        // The locator and the court's own naming, carried from the source
+        // record. These default to null in the provenance builder, and the
+        // driver was not passing them -- so every family it re-rendered came
+        // back with no sourceUrl, no title and no publisher, while a family it
+        // skipped kept the ones an earlier generator had written. Two NC
+        // families had already lost them that way. The locator is the pinned
+        // Master Library path under the digest actually read, which is what
+        // makes the provenance checkable without the corpus.
+        sourceUrl: sourceLocator(record, sha),
+        officialTitle: record.officialTitle ?? null,
+        officialFormNumber: record.documentId ?? null,
+        formFamily: `${fam.jurisdiction}:${fam.familySlug}`,
+        sourcePublisher: `${fam.jurisdiction} — issuing court or agency of record, per the Edition 1 Master Library`,
         fieldMap: mapKind === "acroform" ? bindings : anchors,
         rendererVersion: RENDERER_VERSION,
         generatedAt: GENERATED_AT,
@@ -1060,6 +1083,24 @@ for (const fam of index.families) {
       });
       fs.rmSync(file);
     }
+    // The provenance record describes the artifacts just withdrawn. Left behind
+    // it is external provenance for bytes that no longer exist, still naming
+    // them by hash. It is recorded separately from the five artifacts so the
+    // withdrawal count stays the count of participant artifacts.
+    const provenancePath = path.join(familyDir, "artifact-provenance.json");
+    // Carried like the artifact withdrawals themselves: only the run that
+    // deletes the record can hash it, so a re-run must not reset this to null.
+    record.artifactsWithdrawnProvenance = record.ownerDisposition?.provenanceWithdrawn
+      ?? record.artifactsWithdrawnProvenance ?? null;
+    if (fs.existsSync(provenancePath) && withdrawnByArtifact.size > 0) {
+      const bytes = fs.readFileSync(provenancePath);
+      record.artifactsWithdrawnProvenance = {
+        artifact: "artifact-provenance.json",
+        sha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+        byteLength: bytes.length
+      };
+      fs.rmSync(provenancePath);
+    }
     for (const dir of PARTICIPANT_ARTIFACT_DIRS) {
       const full = path.join(familyDir, dir);
       if (fs.existsSync(full) && fs.readdirSync(full).length === 0) fs.rmdirSync(full);
@@ -1075,15 +1116,22 @@ for (const fam of index.families) {
       : ownership === OWNERSHIP.INSTRUCTIONAL ? "instructional" : "outside_party")
     : "participant";
   record.participantCompleted = !noFill;
-  record.generationAllowed = !noFill;
+  // One-way. A no-fill document is never generated from, so this is forced
+  // false; but a family can already carry `generationAllowed: false` for an
+  // unrelated reason -- NC AOC-CR-298 holds it off on `state_manifest_generation_allowed_no`
+  // -- and a fill-path rerender must not quietly grant what a state manifest
+  // withheld.
+  record.generationAllowed = noFill ? false : (record.generationAllowed ?? true);
   record.ownerDisposition = {
     documentOwner: record.documentOwner,
     basis: controlling
       ? `legal-design component role ${controlling.role} (${controlling.outputStrategy})`
       : "derived from the document itself; no controlling legal-design role",
     artifactsWithdrawn: [...withdrawnByArtifact.values()]
-      .sort((a, b) => a.artifact.localeCompare(b.artifact))
+      .sort((a, b) => a.artifact.localeCompare(b.artifact)),
+    provenanceWithdrawn: record.artifactsWithdrawnProvenance ?? null
   };
+  delete record.artifactsWithdrawnProvenance;
   record.artifactsWithdrawn = record.ownerDisposition.artifactsWithdrawn;
   // Hash receipt for every rendered artifact, so a later drift is detectable
   // without re-deriving the render.
