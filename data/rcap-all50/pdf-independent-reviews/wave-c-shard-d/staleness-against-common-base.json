@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-gate-b-wave-c-shard-staleness-notice/v1",
+  "shard": "d",
+  "reviewedBase": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "commonRerenderBase": {
+    "tip": "cb16c5526a31720ff7387351d8ca9bbead946d2f",
+    "rerenderCommit": "1fbe817d",
+    "branch": "claude/rcap-problematic-pdf-full-remediation",
+    "producedInAContainerWithTheMasterLibraryMounted": true
+  },
+  "headline": "The canonical batch wave-c-final-d pins bytes that this common rerender base has superseded. It must not be read as a current review of the base.",
+  "recordAffected": [
+    "data/rcap-all50/pdf-independent-reviews/wave-c-final-d-manifest.json",
+    "data/rcap-all50/pdf-independent-reviews/wave-c-final-d-group-1.review.json",
+    "data/rcap-all50/pdf-independent-reviews/wave-c-final-d-verdicts.json"
+  ],
+  "verdictsUnchangedByThisNotice": true,
+  "denominatorEffect": {
+    "platformReadyDelta": 0,
+    "why": "shard d carries no approved_platform_ready verdict, so a stale record here cannot have inflated platform_ready; the notice exists so the captain does not read wave-c-final-d as current against the base"
+  },
+  "families": [
+    {
+      "familyId": "NE:cc-6-15-1-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+      "pinnedHashesStillCurrent": false,
+      "byteDrift": {
+        "fixtures/canonical-filled.pdf": "unchanged",
+        "fixtures/boundary-filled.pdf": "unchanged",
+        "contact-sheet/blank-vs-filled.pdf": "unchanged",
+        "production-field-map.json": "superseded",
+        "field-classification.json": "superseded",
+        "artifact-provenance.json": "superseded"
+      },
+      "correctionStatusAgainstTheBase": [
+        {
+          "correction": "caption band destroys preprinted 'IN THE' and 'COURT OF'",
+          "status": "still_open",
+          "basis": "the canonical artifact bytes are unchanged between e94fb456 and this base, so the defect cannot have moved"
+        },
+        {
+          "correction": "all 21 classification labels stored as raw Identity-H glyph ids",
+          "status": "closed_by_the_base",
+          "basis": "4ad59d66 decodes captions before classifying; the classification at this base carries 0 mojibake entries, with classCounts unchanged at {unused:2, manual:10, participant:8, deterministic:1}"
+        },
+        {
+          "correction": "contact sheet's blank panel is not a faithful render of the official form",
+          "status": "not_reassessed",
+          "basis": "requires re-rendering the contact sheet against the mounted corpus, which this container cannot do"
+        }
+      ]
+    },
+    {
+      "familyId": "VA:cc-1201-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
+      "pinnedHashesStillCurrent": false,
+      "byteDrift": {
+        "fixtures/canonical-filled.pdf": "superseded",
+        "fixtures/boundary-filled.pdf": "superseded",
+        "contact-sheet/blank-vs-filled.pdf": "superseded",
+        "production-field-map.json": "superseded",
+        "field-classification.json": "superseded",
+        "artifact-provenance.json": "superseded"
+      },
+      "correctionStatusAgainstTheBase": [
+        {
+          "correction": "User.CourtName written with matter.court onto the rule captioned CITY OR COUNTY",
+          "status": "still_open",
+          "basis": "the binding is unchanged at this base: User.CourtName -> matter.court, effectiveLabel still 'and any related ancillary matters)'"
+        },
+        {
+          "correction": "User.CaseNumber1201 written with a case number into the addendum-count slot",
+          "status": "still_open",
+          "basis": "the binding is unchanged at this base: User.CaseNumber1201 -> matter.charges[0].case_number; the effectiveLabel is now the cleaner 'CC-1201(A)' but the slot is the same"
+        },
+        {
+          "correction": "caption attribution off by one row",
+          "status": "still_open",
+          "basis": "UserPetitionerName still carries effectiveLabel 'CITY OR COUNTY' at this base"
+        }
+      ]
+    },
+    {
+      "familyId": "VA:cc-1473-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
+      "pinnedHashesStillCurrent": false,
+      "byteDrift": {
+        "fixtures/canonical-filled.pdf": "unchanged",
+        "fixtures/boundary-filled.pdf": "unchanged",
+        "contact-sheet/blank-vs-filled.pdf": "unchanged",
+        "production-field-map.json": "superseded",
+        "field-classification.json": "superseded",
+        "artifact-provenance.json": "superseded"
+      },
+      "correctionStatusAgainstTheBase": [
+        {
+          "correction": "owner questions on the locality fact and on conditional slots",
+          "status": "still_open",
+          "basis": "User.City and the two conditional case-number bindings are unchanged; these were always owner questions, not corrections"
+        }
+      ]
+    },
+    {
+      "familyId": "VT:600-00228-support-en",
+      "familyPath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en",
+      "pinnedHashesStillCurrent": false,
+      "byteDrift": {
+        "fixtures/canonical-filled.pdf": "unchanged",
+        "fixtures/boundary-filled.pdf": "unchanged",
+        "contact-sheet/blank-vs-filled.pdf": "unchanged",
+        "production-field-map.json": "superseded",
+        "field-classification.json": "superseded",
+        "artifact-provenance.json": "superseded"
+      },
+      "correctionStatusAgainstTheBase": [
+        {
+          "correction": "applicant identity block unbound",
+          "status": "still_open",
+          "basis": "classCounts at this base is still {manual: 78, participant: 2}; field '3' 'Name: (First & Last)', '2' 'Street Address', '4' 'City/State/Zip' and '5a' 'Email Address' are all still classified manual"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "families": 4,
+    "familiesWhosePinnedHashesAreStale": 4,
+    "correctionsClosedByTheBase": 1,
+    "correctionsStillOpen": 6,
+    "notReassessedInThisContainer": 1
+  },
+  "whatIsRequiredNext": "Shard d must be re-reviewed against the common base by an independent reviewer in a container with the Master Library mounted, and wave-c-final-d re-emitted against the base head. This container holds a four-file review pack (4 PDFs, 3 states) and cannot rerender or re-verify the base."
+}
