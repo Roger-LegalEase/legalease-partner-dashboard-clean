@@ -89,7 +89,7 @@ const OWNERSHIP = {
   INSTRUCTIONAL: "instructional_no_participant_fill",
   OUTSIDE_PARTY: "outside_party_completed",
   COURT_ORDER: "court_issued_caption_only",
-  PROSECUTOR: "prosecutor_completed",
+  PROSECUTOR: "prosecutor_controlled",
   PARTICIPANT: "participant_completed"
 };
 
@@ -122,7 +122,7 @@ export function prosecutorOwnershipEvidence(printedLines) {
   const statement = lines.find((t) => PROSECUTOR_OWNED_STATEMENT.test(t)) ?? null;
   if (!title && !statement) return null;
   return {
-    owner: "prosecutor_or_district_attorney",
+    owner: "prosecutor",
     titleLine: title,
     statementLine: statement,
     basis: "the document's own printed text, read from its page content"
@@ -1065,7 +1065,7 @@ for (const fam of index.families) {
   }
   record.implementationStatus = noFill
     ? (ownership === OWNERSHIP.INSTRUCTIONAL ? "no_fill_instructional_document"
-      : ownership === OWNERSHIP.PROSECUTOR ? "no_fill_prosecutor_owned_document"
+      : ownership === OWNERSHIP.PROSECUTOR ? "no_fill_outside_party_document"
       : "no_fill_outside_party_document")
     : mapKind === "flat_overlay"
       ? (anchors.length > 0 ? "overlay_implemented_pending_independent_review"

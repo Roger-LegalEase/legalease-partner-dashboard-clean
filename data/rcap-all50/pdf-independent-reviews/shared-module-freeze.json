@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "rcap-shared-module-freeze/v1",
+  "generatedBy": "scripts/generate-rcap-shared-module-freeze.mjs",
+  "purpose": "The exact hashes of the shared PDF implementation modules every family lane renders through, and of the four approved families whose bytes no lane may move.",
+  "notAnApproval": "This freezes ownership of paths. It approves no artifact and promotes no family.",
+  "ownership": {
+    "sharedPathsOwnedBy": "the shared-correction integration lane",
+    "familyLanesMayNotModify": [
+      "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+      "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+      "scripts/rcap-official-forms/rcap-active-content.mjs",
+      "scripts/rcap-official-forms/rcap-blank-panel.mjs",
+      "scripts/rcap-official-forms/rcap-contact-sheet.mjs",
+      "scripts/rcap-official-forms/rcap-artifact-provenance.mjs",
+      "scripts/rcap-official-forms/rcap-evidence-contract.mjs",
+      "scripts/rcap-official-forms/rcap-field-classification.mjs",
+      "scripts/rcap-official-forms/rcap-pdf-rasterize.mjs",
+      "scripts/rcap-official-forms/rcap-text-fitting.mjs",
+      "scripts/implement-rcap-official-forms-d1.mjs",
+      "scripts/verify-rcap-field-semantics-canaries.mjs",
+      "scripts/verify-rcap-widget-geometry-canaries.mjs",
+      "scripts/verify-rcap-widget-appearance-canaries.mjs",
+      "scripts/verify-rcap-shared-pdf-contract.mjs"
+    ],
+    "why": "a shared module changes every artifact in the corpus. Thirteen lanes editing it produce thirteen bases and no reproducible artifact. A family lane that needs one of these changed asks the integration lane, so the change is made once and every family renders through it.",
+    "howToChangeOne": "raise it against the integration lane, land it here with its canary, then re-render the families it touches from the new base"
+  },
+  "consumedSharedCorrections": {
+    "implementationBase": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+    "sharedCorrectionHead": "4ad59d66d331fc2f67d868e97d54098db8ccfef4",
+    "integratedAt": "0af2a7ee3738795165e2912ced9e2b7c6b5550fe",
+    "portedFromTheCorrectionHead": [
+      "records-custody and court-agency protection: the agency rule matches the court's directive, not the agency names, so KY AOC-334's truncated caption cannot fall through to a person's name",
+      "the driver's-licence cluster: DLState, DLExpires and their siblings are one government identifier, not a residence",
+      "ALTERNATE_BLOCK: a caption that conditions its own block on being different never takes a primary address fact",
+      "inherited XObject font resources: a Form XObject with partial /Resources inherits the page's fonts instead of shadowing them away"
+    ]
+  },
+  "sharedModules": {
+    "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs": "352d5b0cddd1fe189f06884b217175c6a37e55330f5f446e3356ff1bf9c00c28",
+    "scripts/rcap-official-forms/rcap-field-semantics.mjs": "4a5170b5079220466f85c56728fbce2495149a483aba13f04e23fd85ead00821",
+    "scripts/rcap-official-forms/rcap-official-form-finalize.mjs": "b794a22cc3d460795d38a1eea2b52afee4dc5e742f3600df27b4738304527fa7",
+    "scripts/rcap-official-forms/rcap-active-content.mjs": "a804cc0c3faed290d115ea60123472211463779eaec23c243623c41353d0de89",
+    "scripts/rcap-official-forms/rcap-blank-panel.mjs": "31e603e7988b07d1fc3ec033b5249c8627ae9afbdca8a1759f3b0074d2e92e2b",
+    "scripts/rcap-official-forms/rcap-contact-sheet.mjs": "b65355dcb877f89588bdc9b4ccf1cbae7d3b70320893ca1bc84bbdb9affbfc04",
+    "scripts/rcap-official-forms/rcap-artifact-provenance.mjs": "48d13e310e200a3569328c7c0ed206db3a6e63b0e0e786ce582f3ba8e7d3fab3",
+    "scripts/rcap-official-forms/rcap-evidence-contract.mjs": "9699f0c242833c7a3b6c6a2821b84d32157a6ea6e1316ecea5359908ec1c5bfb",
+    "scripts/rcap-official-forms/rcap-field-classification.mjs": "99dfc65f725d1adb6e23f0b20e9773b04d7415882748226715df14ee6abf895a",
+    "scripts/rcap-official-forms/rcap-pdf-rasterize.mjs": "f8aaf3bbd6a337a5798794d0e046e959ac60ffee2cec058f8afd4c50b37713db",
+    "scripts/rcap-official-forms/rcap-text-fitting.mjs": "42dc7684823310a26c4d61e8bdcb9a0628bd9f3d09529b7cb7b62346cee90f16",
+    "scripts/implement-rcap-official-forms-d1.mjs": "2b80b6857f5e7b9579a8ba00cafc921a9eeb248a11aed922d36fb77b3cc2b90c"
+  },
+  "sharedCanaries": {
+    "scripts/verify-rcap-field-semantics-canaries.mjs": "9fdb30dfa790eb12490b970de76c87bc137228485170cb6885e1a3615e1040ef",
+    "scripts/verify-rcap-widget-geometry-canaries.mjs": "e3c51b177310a3064e0d808b663071494a6f835b553438b8a4df154d6838c270",
+    "scripts/verify-rcap-widget-appearance-canaries.mjs": "84bec8eacb4344347b4535e7b4e0214784a0b07eb1bf42cc457f1085f8c21701",
+    "scripts/verify-rcap-shared-pdf-contract.mjs": "3c15f7aae4ed9544e1198ac058ca3208f9d9475a33586527e8f06f0ceb59c86c"
+  },
+  "approvedFamilies": {
+    "AK:tf-800-form-en": {
+      "familyPackagePath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en",
+      "artifacts": {
+        "fixtures/canonical-filled.pdf": "de4d5014a0d9934c9b256959b7947ee0acbffb67eab2e8099f0d614276b1b807",
+        "fixtures/boundary-filled.pdf": "931ef62a7cf75a0a6e1597e3bab78987fbc86aaf9a1a1bf30a6e19dbff3f6287",
+        "contact-sheet/blank-vs-filled.pdf": "dd7b228ac0400cb6abfd618b595fbe095edaeb92b52778f5ebe3fa63a9768a23",
+        "contact-sheet/contact-sheet-proof.json": "9e30f87d3403395929e69e72c7832f6745ba11db22f312d612dc3a797da097e9",
+        "production-field-map.json": "01dc07e5c489a7986f7b8d1c60e0643d4eb77f9c7413f4a3f99eaafe0ff3d6c5",
+        "field-classification.json": "9601aca231e14099b45946f4f40c5481b7bcaac4ee8afd4af60fd6b859b161fe",
+        "field-census.json": "400386f86e94a764b906a09bfa4ef475fbcdc7e4eabcb92025ba7ab8b3cab68c",
+        "artifact-provenance.json": "78f7ad22e61d22b3d88a2157734ec6e434c31a44bdd8a5de6701014de97604f5",
+        "source-record.json": "25913bdaf520f7c0fd13cda9a6119cd4b8814495cf1401a9435a1eaaef7cb54a"
+      },
+      "visualEvidence": {
+        "data/rcap-all50/visual-evidence/AK-tf-800-form-en.evidence.json": "ffcc4382ead1e207b7d1b29a392173db451ca095eea74feecc4ed347f09cd0b1",
+        "docs/record-clearing/pdf-visual-evidence/AK-tf-800-form-en-contact-sheet-page-01.png": "ab0eb071fd708123457b98146e3545244c61d2a8df0ba195ddfaa1de0b488968",
+        "docs/record-clearing/pdf-visual-evidence/all-page/AK-tf-800-form-en/contact-sheet-page-01.png": "691ed45d5421d18c3add1a20db5350e70977920746bd2d095cf151024bcc155b",
+        "docs/record-clearing/pdf-visual-evidence/all-page/AK-tf-800-form-en/contact-sheet-page-02.png": "7d881af07cf67b5d7698aeea09a4a9b3c488f7b11ac07763f4f694a660f2d9d4",
+        "docs/record-clearing/pdf-visual-evidence/all-page/AK-tf-800-form-en/contact-sheet-page-03.png": "4bdbe172032657ffc8522fc7bdf15994f7b2d061215d39ca5102711ba33f6d51"
+      }
+    },
+    "AK:tf-805-form-en": {
+      "familyPackagePath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en",
+      "artifacts": {
+        "fixtures/canonical-filled.pdf": "d8bdd48265050a708de1c59411f58da7c02bb34ef2110cd1e13657d805d37a5a",
+        "fixtures/boundary-filled.pdf": "0c29b6b481d971497d8a7446aa0cdc818a724a941a60484ed25b53d48c83f949",
+        "contact-sheet/blank-vs-filled.pdf": "9e30b4beea7a121f9c7d51f3f748f1c7b50aa95d4e0accb9891f0bd67b2f837d",
+        "contact-sheet/contact-sheet-proof.json": "c7d6f975830b89b6e8e0d69d9fb0674bbd0b85a611317ec99b2f37140a2b226c",
+        "production-field-map.json": "45eb1789cf1b5d5ebeb1ca8d74244efcb0541e24cd752c2aa8795ddee5eebbb0",
+        "field-classification.json": "2d82a1fc0d0f8a3d347b15210caf4fc77795d316a51aa37ce240750602305337",
+        "field-census.json": "44ed18cc5da4323eefe4c10aedc8f412a1785c41938f5114dbe145447501580a",
+        "artifact-provenance.json": "451381b015662e038344ef75f82a92e19f16b2e3d42abbf675fa98fd66d019b9",
+        "source-record.json": "86b4699f1b6d20d5771e679704afe3cd552297f5692cd53c9ac25b1edb166232"
+      },
+      "visualEvidence": {
+        "data/rcap-all50/visual-evidence/AK-tf-805-form-en.evidence.json": "af0fd82829a16c863a7dae56f53184cfe91ad396504123a22129f89ea709b4d8",
+        "docs/record-clearing/pdf-visual-evidence/AK-tf-805-form-en-contact-sheet-page-01.png": "95f1b2304d75abcb965ed118ad0ba710d78b1d16a583a198926806c58e3c3987",
+        "docs/record-clearing/pdf-visual-evidence/all-page/AK-tf-805-form-en/contact-sheet-page-01.png": "84335ca5bfde3f0f39a3d9b355c9fa96f38e4d18c501bbb3df5043a2bbfa5982",
+        "docs/record-clearing/pdf-visual-evidence/all-page/AK-tf-805-form-en/contact-sheet-page-02.png": "3c8167822cc6fd5fc16ae6d66909e6ea8a45ea9ba1852bc9f7cfc6eb2dc2f0b2"
+      }
+    },
+    "NC:aoc-cr-287-form-en": {
+      "familyPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en",
+      "artifacts": {
+        "fixtures/canonical-filled.pdf": "cc44d0a733fcd4a2bc2b501f3e1c3ac2e0a70dc44d82890e79a321a8cd3a0c0d",
+        "fixtures/boundary-filled.pdf": "917280a556e74a14c258e1e333be51597c3ab8c70e6000ec6d79a55bfcd912f2",
+        "contact-sheet/blank-vs-filled.pdf": "8faf419772b2e856724c44237576a0bd06d1d879043e7bd5bb598ad6d59ff1e0",
+        "contact-sheet/contact-sheet-proof.json": "140df8d02895686e1585e15f1504c753cececb9549ef09bffbdd8ae64bcd78b2",
+        "production-field-map.json": "b564c6f8380d2bd00ee198f94886200491936105f809b474781c2756f72af944",
+        "field-classification.json": "3a3b0d389308c9d31e4e394ec01970e608a08ff6f2ac254e9a2e4abfe339cc60",
+        "field-census.json": "2c1e040e30d9e8570191ef32e04db965ac69e7a99a41c610f0187a5a7ceea688",
+        "artifact-provenance.json": "1f0549c79ea9d50dce103c622e0ad23cd601b42c6fd30b1534628ff182646da1",
+        "source-record.json": "d0c3b2a6d631b68adb45929ec2cad9950fd06efc8a4352a16a87e09b444f12dd"
+      },
+      "visualEvidence": {
+        "data/rcap-all50/visual-evidence/NC-aoc-cr-287-form-en.evidence.json": "b49e3a24f06ea9bf68c866be138865d504e9fe0c083da5dadfceb6f2447253c5",
+        "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-287-form-en-contact-sheet-page-01.png": "823aaeed10c0631ce471f72692ccf44bc5f9862434046ce7d01385c3b3ce78fa",
+        "docs/record-clearing/pdf-visual-evidence/all-page/NC-aoc-cr-287-form-en/contact-sheet-page-01.png": "b91bbe355c3d18933c27b8ba8dcac7387354657f7bf8e896ba3ee6c6e7b6d89b",
+        "docs/record-clearing/pdf-visual-evidence/all-page/NC-aoc-cr-287-form-en/contact-sheet-page-02.png": "f52b8ab57b39f25c18a57d9e687d913eea5682595aedf972ff7c943d62e0c7b1"
+      }
+    },
+    "NC:aoc-cr-288-form-en": {
+      "familyPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en",
+      "artifacts": {
+        "fixtures/canonical-filled.pdf": "a505c3064c1d61c99ffcf74c5ba3a6d3bd59083410a0a5de9468c8f45bb8ae4e",
+        "fixtures/boundary-filled.pdf": "b7f035ab8d10d032457205ee092d3e2ff7758294409f6d24ae29b25bd5cb7a81",
+        "contact-sheet/blank-vs-filled.pdf": "5071453ddc4d16336b7ca74537e9281b4e1f5fd8e33a139194cd2982108b0aa8",
+        "contact-sheet/contact-sheet-proof.json": "ac1e9cefa195bc5efe988b30500e1301d574e11119c61e2ada143c7da0e6fbf2",
+        "production-field-map.json": "3c14cfb850b45633c27b056fefa930480cbff863f8c0134282a2914194cfa2b7",
+        "field-classification.json": "c6751f17bf6e47ce49badc5cbe4ce73c1ecb27f3cc499bfda70ebc423abcfdfa",
+        "field-census.json": "5ac848d90cbe0e9fb66e28c7cf403e4e1ec89a5f50e22f8ef6f6e6ed82417dbf",
+        "artifact-provenance.json": "bc44d51d68cd655cbb7d100d7526f9327d1f3197b9a30e7b42f95776d0db72ce",
+        "source-record.json": "376dbec7f70f0eb634c91259bc19740c832edbc8a2245b12e94508e177e65738"
+      },
+      "visualEvidence": {
+        "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-288-form-en-contact-sheet-page-01.png": "b4df151286aaba318d16494b446c6dd908969b935a08b3c9f5c46f4a37154c49"
+      }
+    }
+  },
+  "rerenderState": {
+    "corpusMountedWhenFrozen": false,
+    "driverRan": false,
+    "why": "the D1 driver resolves each family's bytes under RCAP_BUNDLE_EXTRACT and the Master Library extract is not present in this environment. The shared corrections below are frozen and canary-proven; no family artifact was regenerated from them.",
+    "whatThisMeansForFamilyLanes": "this base is the code to render FROM, not a set of rendered artifacts. A lane with the corpus mounted renders its families from these module hashes and records them."
+  }
+}

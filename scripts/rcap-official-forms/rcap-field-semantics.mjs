@@ -45,7 +45,7 @@ export const PROTECT_RULES = [
   // state of residence: the licence-issuing state is part of a government
   // identifier the platform has no knowledge of, and the canonical fixture
   // hid the difference only because both read "XX".
-  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#|state|st|class|exp|issuer)\b|licen[cs]e\s*(state|class|expir)/],
+  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#|state|st|class|exp|expires|expiration|type|issued|issuer)\b|licen[cs]e\s*(state|class|expires|expiration|expir)/],
   ["signature", /signature|\bsigned\b|\bsign\s*here\b|^\s*sign\b|\bsig\b|\binitials?\b/],
   ["notarization", /notar|jurat|acknowledg(ed|ment)\s*before\s*me|sworn\s*to\s*before|my\s*commission\s*expires|seal\s*of\s*office/],
   // `cert date` was the hole. The rule matched the printed heading and the
@@ -57,7 +57,18 @@ export const PROTECT_RULES = [
   // deterministic.
   ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|service\s*of\s*process|process\s*server|\bserved\s*(on|by|upon)\b|date\s*served|manner\s*of\s*service|\bcert\s*(date|time)\b|certif(y|ied|icate)\s*(on|date)/],
   ["licensing_board", /licens(e|ing)\s*(board|authority|agency)|board\s*of\s*(nursing|medicine|pharmacy|education|examiners)|professional\s*board|certification\s*board/],
-  ["agency", /\bagency\b|\bsheriff\b|\bpolice\b|law\s*enforcement|\bbureau\b|state\s*patrol|\bprobation\b|\bparole\b|department\s*of\s*(public\s*safety|justice|corrections)|\bdps\b|\bsbi\b|\bacic\b|\bapsin\b|\bfbi\b/],
+  // The records-custody clause is the second half of this rule and it earns its
+  // place on KY AOC-334. The form prints "The Kentucky State Police and other
+  // following agencies listed below are hereby ordered to seal any records in
+  // their custody regarding the above-named Defendant and above-listed
+  // charge(s): ____". The slot lists the AGENCIES the court is ordering. The
+  // caption harvester reached it as the tail fragment "their custody regarding
+  // the above-named Defendant and above-", which contains the word "Defendant"
+  // and no word this rule knew — so full_legal_name claimed it and the
+  // petitioner's name was filed as the list of agencies ordered to seal.
+  // Matching the directive rather than the agency names closes it wherever the
+  // caption is truncated. Consumed from 4ad59d66.
+  ["agency", /\bagency\b|\bagencies\b|\bsheriff\b|\bpolice\b|law\s*enforcement|\bbureau\b|state\s*patrol|\bprobation\b|\bparole\b|department\s*of\s*(public\s*safety|justice|corrections)|\bdps\b|\bsbi\b|\bacic\b|\bapsin\b|\bfbi\b|records?\s*in\s*(their|our|its)\s*custody|\bcustody\s*regarding\b|ordered\s*to\s*seal|records?\s*custodian/],
   ["court", /\bjudge\b|magistrate|commissioner|hearing\s*officer|referee|so\s*ordered|it\s*is\s*(hereby\s*)?ordered|ordered\s*(and\s*)?adjudged|adjudged|\bdecree\b|is\s*(hereby\s*)?(granted|denied)|court\s*use\s*only|for\s*(court|office|clerk|official)\s*use|do\s*not\s*write|\bruling\b/],
   ["clerk", /\bclerk\b|deputy\s*clerk|file\s*stamp|filed\s*stamp|filing\s*stamp|court\s*seal|scan\s*num|\bbarcode\b|entered\s*on|\bdistribution\b/],
   ["prosecutor", /prosecut|district\s*attorney|commonwealth\s*s?\s*attorney|state\s*s?\s*attorney|county\s*attorney|solicitor/],
@@ -141,12 +152,29 @@ export const ATTESTING_FACTS = new Set([
   "participant.middle_name", "deterministic.filing_date"
 ]);
 
+/**
+ * A caption that conditions its own block on being different.
+ *
+ * Consumed from 4ad59d66. NC AOC-CV-226 prints "Full Permanent Mailing Address
+ * Of Applicant (if different than above)"; VT 600-00228 prints "Mailing
+ * Address: (if different from street address)". Writing the primary address
+ * into a block the form conditions on differing from it files an affidavit
+ * that asserts the two differ and then shows them identical.
+ *
+ * This refuses the PRIMARY facts outright wherever the caption says so. The
+ * `participant.mailing_*` descriptors below are the other half: they let such a
+ * block be filled, from its own facts, when the caller has established that it
+ * genuinely differs.
+ */
+export const ALTERNATE_BLOCK = /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/;
+const ALT = ALTERNATE_BLOCK.source;
+
 // --- allowlisted fact descriptors ------------------------------------------
 // The ONLY things that may ever be written. Each declares the value type it
 // carries and, where the fact is legally sensitive, that it may not bind
 // without the caller naming the field explicitly.
 export const FACT_DESCRIPTORS = [
-  { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/ },
+  { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/, refuseWhen: new RegExp(ALT) },
   { factId: "participant.date_of_birth", valueType: "date", match: /\bdob\b|date\s*of\s*birth|birth\s*date/ },
   { factId: "participant.first_name", valueType: "string", match: /first\s*name/ },
   { factId: "participant.last_name", valueType: "string", match: /last\s*name|surname/ },
@@ -199,9 +227,9 @@ export const FACT_DESCRIPTORS = [
   // matched nothing at all, so NC AOC-CV-226's sworn affidavit of indigency
   // was filed with no street address anywhere on it while the participant's
   // city, state and zip were each printed twice.
-  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b|street\s*(number|name|no\b)/, refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal|\bcounty\b|\bbank\b|\bemployer\b|\bcourt\b/ },
-  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b|\bcourt\b|\bcounty\s*(of|or)\s*city\b|\bcity\s*(of|or)\s*county\b/ },
-  { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/ },
+  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b|street\s*(number|name|no\b)/, refuseWhen: new RegExp(`\\be[-\\s]?mail\\b|\\bcity\\b|\\bstate\\b|\\bzip\\b|postal|\\bcounty\\b|\\bbank\\b|\\bemployer\\b|\\bcourt\\b|${ALT}`) },
+  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: new RegExp(`\\be[-\\s]?mail\\b|\\bcourt\\b|\\bcounty\\s*(of|or)\\s*city\\b|\\bcity\\s*(of|or)\\s*county\\b|${ALT}`) },
+  { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/, refuseWhen: new RegExp(ALT) },
   // The participant's own number, not their employer's. VT 600-00228 prints
   // "Home / Cell Phone" and "Work Phone" on one line, and the platform holds
   // one phone fact: writing it into both states as fact that the applicant's
@@ -212,7 +240,7 @@ export const FACT_DESCRIPTORS = [
   // an email address, state the reason". Read as a jurisdiction that caption
   // put "XX" on a line asking why the participant has no email.
   { factId: "participant.state", valueType: "string", match: /\bstate\b/,
-    refuseWhen: /\bstate\s+(the|your|his|her|their|why|whether|all|each|any|briefly|fully|reason)\b|\bplease\s*state\b|\bstates?\s+that\b/ },
+    refuseWhen: new RegExp(`\\bstate\\s+(the|your|his|her|their|why|whether|all|each|any|briefly|fully|reason)\\b|\\bplease\\s*state\\b|\\bstates?\\s+that\\b|${ALT}`) },
   { factId: "matter.county", valueType: "string", match: /\bcounty\b/ },
   { factId: "matter.court", valueType: "string", match: /court\s*name|type\s*of\s*court|judicial\s*(district|circuit)/ },
   { factId: "matter.case_number", valueType: "string", match: /case\s*(no|num|#)|docket|cause\s*(no|num)|file\s*(no|num)|case\s*id/,

@@ -15,11 +15,11 @@ every correction below is proved at the module level by its own canaries and re-
 | --- | --- | --- | --- | --- |
 | `AK:tf-800-form-en` | 0 | 0 | 23 | 0 |
 | `AK:tf-805-form-en` | 0 | 1 | 13 | 0 |
-| `KY:aoc-334-form-en` | 0 | 2 | 18 | 3 |
+| `KY:aoc-334-form-en` | 0 | 2 | 18 | 2 |
 | `KY:aoc-496-3-form-en` | 0 | 60 | 62 | 1 |
 | `NC:aoc-cr-287-form-en` | 0 | 15 | 96 | 4 |
 | `NC:aoc-cr-288-form-en` | 0 | 17 | 110 | 4 |
-| `NC:aoc-cr-296-form-en` | 0 | 13 | 109 | 0 |
+| `NC:aoc-cr-296-form-en` | 0 | 13 | 0 | 0 |
 | `NC:aoc-cr-298-form-en` | 0 | 13 | 101 | 4 |
 | `NC:aoc-cv-226-support-en` | 0 | 3 | 75 | 4 |
 | `NE:cc-6-11-2-form-en` | 2 | 9 | 9 | 0 |

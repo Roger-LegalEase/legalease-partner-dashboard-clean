@@ -45,23 +45,59 @@
   "participantFillable": false,
   "generationAllowed": false,
   "productionHolds": [
-    "state_manifest_generation_allowed_no",
     "edition_1_runtime_disabled",
     "f_independent_visual_review_required",
     "not_participant_fillable_no_fixture_fill",
-    "prosecutor_owned_no_participant_fill"
+    "prosecutor_controlled_not_participant_filing",
+    "state_manifest_generation_allowed_no"
   ],
   "ownershipDetermination": "Prosecutor's instrument. The district attorney completes and files it, so the participant does not complete it and the platform produces no participant fill. It stays in the pathway as guidance.",
   "coBrandingRule": "No LegalEase or partner branding may be added to the official form.",
-  "implementationStatus": "no_fill_prosecutor_owned_document",
+  "implementationStatus": "no_fill_outside_party_document",
   "censusBasis": "first_hand_inspection_of_verified_binary",
-  "documentOwnership": "prosecutor_completed",
-  "documentOwner": "prosecutor_or_district_attorney",
-  "documentOwnerEvidence": {
-    "owner": "prosecutor_or_district_attorney",
-    "titleLine": "DISTRICT ATTORNEY PETITION",
-    "statementLine": "NOTE: This petition, which is filed by the district attorney, does not require the payment of",
-    "basis": "the document's own printed text, read from its page content"
+  "documentOwnership": "prosecutor_controlled",
+  "documentOwner": "prosecutor",
+  "participantCompleted": false,
+  "ownerDisposition": {
+    "decidedBy": "owner, recorded in gate-b-correction-wave-2.json",
+    "documentOwner": "prosecutor",
+    "participantCompleted": false,
+    "participantFillable": false,
+    "effect": "not generated and not delivered as a participant filing",
+    "preserved": "Guidance for the underlying pathway is unchanged, and any independently supported participant-filed document for that pathway keeps its own route. Retiring this form from the participant lane retires the form, not the pathway.",
+    "artifactsPendingWithdrawal": "Withdrawn. The shared contract is that a family which is not participant-fillable carries no fixture fill, so the fixtures and contact sheet rendered while this family was typed participant_completed are removed rather than kept as unreachable bytes. Their hashes are recorded above so the withdrawal is auditable.",
+    "artifactsWithdrawn": [
+      {
+        "artifact": "fixtures/canonical-filled.pdf",
+        "sha256": "13f3068260ae17d8846bc8345ceaa57fa705273ad785bcc418becfa777c00720",
+        "bytes": 275111
+      },
+      {
+        "artifact": "fixtures/boundary-filled.pdf",
+        "sha256": "aff9db5184b05036230e5f37f447b79558b00dd5a73c0b8fce6583b11f856036",
+        "bytes": 275272
+      },
+      {
+        "artifact": "fixtures/negative.json",
+        "sha256": "b1ba72a96d22104a26143ec78cb6fbed1a4009bb8bc0b9148af0251d409586fa",
+        "bytes": 16198
+      },
+      {
+        "artifact": "contact-sheet/blank-vs-filled.pdf",
+        "sha256": "a12f03576f0914d7c953679222525db96922ffd1a642702a4f1180d8f03c7c7e",
+        "bytes": 884555
+      },
+      {
+        "artifact": "contact-sheet/contact-sheet-proof.json",
+        "sha256": "1c4c4ac1dd5001d1c6212ecba6220bd97be05f62ee7894cb8b3da448f8eb65ff",
+        "bytes": 478
+      }
+    ]
   },
-  "participantCompleted": false
+  "documentOwnerEvidence": {
+    "owner": "prosecutor",
+    "titleLine": "DISTRICT ATTORNEY PETITION",
+    "statementLine": "District-attorney filing. The printed face says so twice: the note under the caption reads \"This petition, which is filed by the district attorney, does not require the payment of a filing fee\", and the party block is headed \"Name And Address Of Defendant\", not \"Of Petitioner\". A participant has no standing to file it, so the platform neither generates nor delivers it as a participant filing.",
+    "basis": "carried forward from the record written when the blank was still readable"
+  }
 }

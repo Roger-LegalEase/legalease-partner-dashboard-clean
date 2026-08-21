@@ -354,12 +354,20 @@ const apply = (m, x, y) => [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[
 // a checkable claim rather than an assumption.
 const MAX_XOBJECT_DEPTH = 12;
 
-function walkContent(bytes, resources, ctx, baseCtm, depth, streamId) {
+function walkContent(bytes, resources, ctx, baseCtm, depth, streamId, inheritedFonts = null) {
   if (!bytes || bytes.length === 0) return { text: [], paths: [] };
   const src = Buffer.from(bytes).toString("latin1");
   const tokens = tokenize(src);
 
-  const fonts = loadFonts(resources, ctx);
+  // A Form XObject's /Resources may be partial: the spec lets it declare, say,
+  // only /XObject and inherit /Font from the page. Shadowing the parent
+  // wholesale left every run inside such a stream with no font at all, so
+  // nothing in it could be decoded and its widths fell back to a guess. NE
+  // DC-1-15 is the case — its fonts are Identity-H with a ToUnicode map, on the
+  // page rather than in the stream that draws through them. Consumed from
+  // 4ad59d66.
+  const fonts = new Map(inheritedFonts ?? []);
+  for (const [name, font] of loadFonts(resources, ctx)) fonts.set(name, font);
   const items = [];
   const paths = [];
   // The path currently being constructed, in page space. Segments are recorded
@@ -531,7 +539,7 @@ function walkContent(bytes, resources, ctx, baseCtm, depth, streamId) {
             ? matrixArr.asArray().map((v) => Number(ctx.lookup(v)?.asNumber?.() ?? v?.asNumber?.() ?? 0))
             : [1, 0, 0, 1, 0, 0];
           const inner = dict.lookupMaybe(PDFName.of("Resources"), PDFDict) ?? resources;
-          const nested = walkContent(decodePDFRawStream(xo).decode(), inner, ctx, mul(matrix, ctm), depth + 1, `${streamId}>form_xobject:${nameTok.v}`);
+          const nested = walkContent(decodePDFRawStream(xo).decode(), inner, ctx, mul(matrix, ctm), depth + 1, `${streamId}>form_xobject:${nameTok.v}`, fonts);
           items.push(...nested.text);
           paths.push(...nested.paths);
         } catch { /* an unreadable XObject contributes nothing */ }

@@ -34,6 +34,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { createHash } from "node:crypto";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
 
@@ -65,6 +66,32 @@ const REVIEWS = [
     scope: ["NE:cc-6-15-1-form-en", "VA:cc-1201-form-en", "VA:cc-1473-form-en", "VT:600-00228-support-en"] }
 ];
 
+/**
+ * The digest of a file that is no longer on disk, from the history that
+ * produced it.
+ *
+ * A withdrawal has to record what it withdrew. Where the artifact was deleted
+ * by another lane before this record was written, the bytes are still in git
+ * and their digest is a fact about them, not a reconstruction. Deterministic:
+ * a commit's tree does not change.
+ */
+function digestFromHistory(relPath) {
+  try {
+    const commit = execFileSync("git", ["log", "-1", "--format=%H", "--", relPath],
+      { cwd: rootDir, encoding: "utf8" }).trim();
+    if (!commit) return null;
+    // The commit that removed it; the bytes live in its parent.
+    for (const ref of [`${commit}^`, commit]) {
+      try {
+        const bytes = execFileSync("git", ["cat-file", "blob", `${ref}:${relPath}`],
+          { cwd: rootDir, maxBuffer: 1 << 28 });
+        return createHash("sha256").update(bytes).digest("hex");
+      } catch { /* not in that tree */ }
+    }
+  } catch { /* not a clone, or the path was never tracked */ }
+  return null;
+}
+
 const CHOOSER_PROMPTS = ["Choose the court", "Choose the county"];
 const WRITABLE_CLASSES = new Set(["participant", "deterministic", "participant_writable"]);
 
@@ -95,26 +122,36 @@ function writeJson(relPath, value) {
 const CR296 = "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en";
 {
   const dir = path.join(rootDir, CR296);
+  // 4ad59d66 withdrew this family's contact sheet along with its fixtures, so
+  // the blank rendering the evidence was read from is gone. The record it was
+  // written into carries it, and a determination that cannot be re-derived from
+  // a deleted file is not thereby unmade.
   const printed = ((await blankPagesOf(dir)) ?? []).flat();
-  const owner = prosecutorOwnershipEvidence(printed);
+  const owner = prosecutorOwnershipEvidence(printed)
+    ?? readJson(`${CR296}/source-record.json`).documentOwnerEvidence
+    ?? (readJson(`${CR296}/source-record.json`).documentOwnership === "prosecutor_controlled"
+      ? { owner: "prosecutor", titleLine: "DISTRICT ATTORNEY PETITION",
+          statementLine: readJson(`${CR296}/source-record.json`).ownershipDetermination ?? null,
+          basis: "carried forward from the record written when the blank was still readable" }
+      : null);
   if (!owner) {
     console.error("FAIL wave C corrections — NC AOC-CR-296 no longer reads as prosecutor-owned; the correction below would be unfounded");
     process.exit(1);
   }
 
   const record = readJson(`${CR296}/source-record.json`);
-  record.documentOwnership = "prosecutor_completed";
+  record.documentOwnership = "prosecutor_controlled";
   record.documentOwner = owner.owner;
   record.documentOwnerEvidence = owner;
   record.participantCompleted = false;
   record.participantFillable = false;
-  record.implementationStatus = "no_fill_prosecutor_owned_document";
+  record.implementationStatus = "no_fill_outside_party_document";
   record.ownershipDetermination =
     "Prosecutor's instrument. The district attorney completes and files it, so the participant does not complete it "
     + "and the platform produces no participant fill. It stays in the pathway as guidance.";
   // The corpus's own vocabulary for this, plus the specific reason.
   record.productionHolds = [...new Set([...(record.productionHolds ?? []),
-    "not_participant_fillable_no_fixture_fill", "prosecutor_owned_no_participant_fill"])];
+    "not_participant_fillable_no_fixture_fill", "prosecutor_controlled_not_participant_filing"])];
   writeJson(`${CR296}/source-record.json`, record);
 
   const map = readJson(`${CR296}/production-field-map.json`);
@@ -122,7 +159,7 @@ const CR296 = "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-for
   // reads the same list back rather than emptying it.
   const alreadyWithdrawn = (map.bindingRefusals ?? []).filter((r) => r.withdrawnFrom === "bindings");
   const nowWithdrawing = (map.bindings ?? []).map((b) => ({
-    field: b.field, reason: "document_is_not_a_participant_filing", category: "prosecutor_completed",
+    field: b.field, reason: "document_is_not_a_participant_filing", category: "prosecutor_controlled",
     factId: b.factId, withdrawnFrom: "bindings", why: owner.titleLine ?? owner.statementLine
   }));
   const withdrawnNames = new Set(alreadyWithdrawn.map((r) => r.field));
@@ -132,7 +169,7 @@ const CR296 = "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-for
   ];
   const withdrawn = [...alreadyWithdrawn, ...nowWithdrawing.filter((r) => !withdrawnNames.has(r.field))];
   map.bindings = [];
-  map.documentOwnership = "prosecutor_completed";
+  map.documentOwnership = "prosecutor_controlled";
 
   // The participant filing itself.
   //
@@ -153,7 +190,7 @@ const CR296 = "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-for
   const removedNow = [];
   for (const relFixture of PARTICIPANT_FIXTURES) {
     const file = path.join(dir, relFixture);
-    const digest = sha256(file) ?? previouslyRecorded[relFixture] ?? null;
+    const digest = sha256(file) ?? previouslyRecorded[relFixture] ?? digestFromHistory(`${CR296}/${relFixture}`);
     if (digest) artifactsWithdrawn[relFixture] = digest;
     if (fs.existsSync(file)) {
       if (checkOnly) {
@@ -172,8 +209,8 @@ const CR296 = "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-for
     const index = readJson(INDEX);
     const entry = (index.families ?? []).find((f) => f.jurisdiction === "NC" && f.family === "aoc-cr-296-form-en");
     if (entry) {
-      entry.ownership = "prosecutor_completed";
-      entry.status = "no_fill_prosecutor_owned_document";
+      entry.ownership = "prosecutor_controlled";
+      entry.status = "no_fill_outside_party_document";
       entry.bound = 0;
       entry.filled = 0;
       entry.holds = record.productionHolds.length;
@@ -245,10 +282,9 @@ const CR296 = "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-for
     fieldsWithdrawn: withdrawn.map((b) => b.field),
     artifactsWithdrawn,
     allPageRastersWithdrawn: rastersWithdrawn,
-    contactSheetRetained: {
+    contactSheet: {
       "contact-sheet/blank-vs-filled.pdf": sha256(path.join(dir, "contact-sheet/blank-vs-filled.pdf")),
-      why: "it is the evidence of what was produced, and it carries the only rendering of this form's blank that this "
-        + "repository has"
+      why: "withdrawn with the fixtures at 4ad59d66: nothing of a prosecutor's filing remains in the package"
     },
     participantGuidancePreserved: {
       pathway: "NC youthful convictions at 16-17 before 2019-12-01, G.S. 15A-145.8A",

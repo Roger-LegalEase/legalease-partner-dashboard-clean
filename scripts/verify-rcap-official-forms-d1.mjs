@@ -353,6 +353,8 @@ if (fs.existsSync(indexPath)) {
       }
       assert(Boolean(withdrawal.participantGuidancePreserved),
         `${id}: the pathway keeps the guidance this document supports`);
+      // The contact sheet went with the fixtures at 4ad59d66. What has to
+      // survive is the record of what was produced, not the artifact itself.
     }
 
     if (!withdrawal
