@@ -20,12 +20,14 @@
   "totals": {
     "assetsAssigned": 11,
     "retirementsWritten": 0,
-    "repointsRecorded": 6,
+    "repointsRecorded": 3,
     "retainedWithABlockingDependency": 5,
     "retirementCandidatesConfirmed": 0,
     "capturedIndexPages": 6,
-    "capturedIndexPagesRepointedToGuidance": 6,
+    "capturedIndexPagesRepointedToGuidance": 3,
+    "capturedIndexPagesRetainedUntilRepointed": 3,
     "capturedIndexPagesTheRouteStillPlansAround": 0,
+    "retainedAllReasons": 8,
     "assetsWithAnUnlocatedSurfaceHit": 0,
     "findingsForSurfaceOwners": 8
   },
@@ -374,7 +376,7 @@
         }
       },
       "outcome": "repoint_to_guidance_recorded",
-      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. The guidance target data/rcap-all50/guidance-packets/ak.json exists and resolves with 2 packet(s). All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
       "retirementMarkerWritten": false,
       "repointRecorded": true,
       "determinationSaid": "retain_and_remediate",
@@ -577,15 +579,23 @@
       "whyTheCensusIsNotAUse": "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
       "repointTarget": {
         "surface": "guidance_packet",
-        "path": "data/rcap-all50/guidance-packets/ak.json",
-        "exists": true,
+        "intendedTarget": "data/rcap-all50/guidance-packets/ak.json",
+        "targetExists": true,
+        "targetRouteResolves": true,
+        "packetsFound": 2,
+        "trackIdsAtTheTarget": [
+          "ak-nonconviction-confidential",
+          "ak-sej"
+        ],
+        "repointCompleted": true,
+        "exactBlocker": null,
         "publisherOfRecord": {
           "url": "https://public.courts.alaska.gov/web/forms/docs/",
           "body": "Alaska Court System"
         },
         "whatTheGuidanceMustSay": "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
         "whatMustNotHappen": "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
-        "appliedBy": "the guidance lane: data/rcap-all50/guidance-packets is outside this assignment's allowed paths",
+        "ownedBy": "the guidance lane: data/rcap-all50/guidance-packets is outside this assignment's allowed paths",
         "thenRetirableBy": "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
       },
       "misdeclaredInTheCompiledProfile": [
@@ -626,10 +636,10 @@
           "body": "Alabama Unified Judicial System"
         }
       },
-      "outcome": "repoint_to_guidance_recorded",
-      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "outcome": "retained_until_repointed",
+      "outcomeBasis": "The participant route does not require this page, so a repoint to guidance is the right move -- but data/rcap-all50/guidance-packets/al.json does not exist, so there is no guidance surface for AL to carry the publisher address this capture was standing in for. A target that does not exist and does not resolve is a plan, not a surface, and recording it as a completed repoint would say this asset has been dealt with while nothing about it has moved.",
       "retirementMarkerWritten": false,
-      "repointRecorded": true,
+      "repointRecorded": false,
       "determinationSaid": "retain_and_remediate",
       "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
       "activeTrackStatus": "no_track_binding",
@@ -830,15 +840,19 @@
       "whyTheCensusIsNotAUse": "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
       "repointTarget": {
         "surface": "guidance_packet",
-        "path": "data/rcap-all50/guidance-packets/al.json",
-        "exists": false,
+        "intendedTarget": "data/rcap-all50/guidance-packets/al.json",
+        "targetExists": false,
+        "targetRouteResolves": false,
+        "packetsFound": 0,
+        "repointCompleted": false,
+        "exactBlocker": "data/rcap-all50/guidance-packets/al.json does not exist, so there is no guidance surface for AL to carry the publisher address this capture was standing in for",
         "publisherOfRecord": {
           "url": "https://judicial.alabama.gov/library/criminal_forms",
           "body": "Alabama Unified Judicial System"
         },
         "whatTheGuidanceMustSay": "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
         "whatMustNotHappen": "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
-        "appliedBy": "the guidance lane, which must first create a packet for this jurisdiction: none exists",
+        "ownedBy": "the guidance lane, which must create data/rcap-all50/guidance-packets/al.json before any repoint can land; this adjudication lane does not create guidance packets",
         "thenRetirableBy": "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
       },
       "misdeclaredInTheCompiledProfile": [
@@ -879,10 +893,10 @@
           "body": "Alabama Unified Judicial System"
         }
       },
-      "outcome": "repoint_to_guidance_recorded",
-      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "outcome": "retained_until_repointed",
+      "outcomeBasis": "The participant route does not require this page, so a repoint to guidance is the right move -- but data/rcap-all50/guidance-packets/al.json does not exist, so there is no guidance surface for AL to carry the publisher address this capture was standing in for. A target that does not exist and does not resolve is a plan, not a surface, and recording it as a completed repoint would say this asset has been dealt with while nothing about it has moved.",
       "retirementMarkerWritten": false,
-      "repointRecorded": true,
+      "repointRecorded": false,
       "determinationSaid": "retain_and_remediate",
       "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
       "activeTrackStatus": "no_track_binding",
@@ -1083,15 +1097,19 @@
       "whyTheCensusIsNotAUse": "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
       "repointTarget": {
         "surface": "guidance_packet",
-        "path": "data/rcap-all50/guidance-packets/al.json",
-        "exists": false,
+        "intendedTarget": "data/rcap-all50/guidance-packets/al.json",
+        "targetExists": false,
+        "targetRouteResolves": false,
+        "packetsFound": 0,
+        "repointCompleted": false,
+        "exactBlocker": "data/rcap-all50/guidance-packets/al.json does not exist, so there is no guidance surface for AL to carry the publisher address this capture was standing in for",
         "publisherOfRecord": {
           "url": "https://judicial.alabama.gov/library/criminal_forms",
           "body": "Alabama Unified Judicial System"
         },
         "whatTheGuidanceMustSay": "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
         "whatMustNotHappen": "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
-        "appliedBy": "the guidance lane, which must first create a packet for this jurisdiction: none exists",
+        "ownedBy": "the guidance lane, which must create data/rcap-all50/guidance-packets/al.json before any repoint can land; this adjudication lane does not create guidance packets",
         "thenRetirableBy": "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
       },
       "misdeclaredInTheCompiledProfile": [
@@ -1132,10 +1150,10 @@
           "body": "Alabama Unified Judicial System"
         }
       },
-      "outcome": "repoint_to_guidance_recorded",
-      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "outcome": "retained_until_repointed",
+      "outcomeBasis": "The participant route does not require this page, so a repoint to guidance is the right move -- but data/rcap-all50/guidance-packets/al.json does not exist, so there is no guidance surface for AL to carry the publisher address this capture was standing in for. A target that does not exist and does not resolve is a plan, not a surface, and recording it as a completed repoint would say this asset has been dealt with while nothing about it has moved.",
       "retirementMarkerWritten": false,
-      "repointRecorded": true,
+      "repointRecorded": false,
       "determinationSaid": "retain_and_remediate",
       "determinationBasis": "Named by 2 surface(s): overlay_factory_manifest, application_source.",
       "activeTrackStatus": "no_track_binding",
@@ -1336,15 +1354,19 @@
       "whyTheCensusIsNotAUse": "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
       "repointTarget": {
         "surface": "guidance_packet",
-        "path": "data/rcap-all50/guidance-packets/al.json",
-        "exists": false,
+        "intendedTarget": "data/rcap-all50/guidance-packets/al.json",
+        "targetExists": false,
+        "targetRouteResolves": false,
+        "packetsFound": 0,
+        "repointCompleted": false,
+        "exactBlocker": "data/rcap-all50/guidance-packets/al.json does not exist, so there is no guidance surface for AL to carry the publisher address this capture was standing in for",
         "publisherOfRecord": {
           "url": "https://judicial.alabama.gov/library/criminal_forms",
           "body": "Alabama Unified Judicial System"
         },
         "whatTheGuidanceMustSay": "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
         "whatMustNotHappen": "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
-        "appliedBy": "the guidance lane, which must first create a packet for this jurisdiction: none exists",
+        "ownedBy": "the guidance lane, which must create data/rcap-all50/guidance-packets/al.json before any repoint can land; this adjudication lane does not create guidance packets",
         "thenRetirableBy": "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
       },
       "misdeclaredInTheCompiledProfile": [
@@ -1386,7 +1408,7 @@
         }
       },
       "outcome": "repoint_to_guidance_recorded",
-      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. The guidance target data/rcap-all50/guidance-packets/ar.json exists and resolves with 2 packet(s). All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
       "retirementMarkerWritten": false,
       "repointRecorded": true,
       "determinationSaid": "retain_and_remediate",
@@ -1589,15 +1611,23 @@
       "whyTheCensusIsNotAUse": "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
       "repointTarget": {
         "surface": "guidance_packet",
-        "path": "data/rcap-all50/guidance-packets/ar.json",
-        "exists": true,
+        "intendedTarget": "data/rcap-all50/guidance-packets/ar.json",
+        "targetExists": true,
+        "targetRouteResolves": true,
+        "packetsFound": 2,
+        "trackIdsAtTheTarget": [
+          "ar-preadjudication-probation",
+          "ar-misdemeanor-dwi-seal"
+        ],
+        "repointCompleted": true,
+        "exactBlocker": null,
         "publisherOfRecord": {
           "url": "https://dps.arkansas.gov/crime-info-support/arkansas-crime-information-center/forms/criminal-history/",
           "body": "Arkansas Crime Information Center"
         },
         "whatTheGuidanceMustSay": "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
         "whatMustNotHappen": "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
-        "appliedBy": "the guidance lane: data/rcap-all50/guidance-packets is outside this assignment's allowed paths",
+        "ownedBy": "the guidance lane: data/rcap-all50/guidance-packets is outside this assignment's allowed paths",
         "thenRetirableBy": "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
       },
       "misdeclaredInTheCompiledProfile": [
@@ -1639,7 +1669,7 @@
         }
       },
       "outcome": "repoint_to_guidance_recorded",
-      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
+      "outcomeBasis": "The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. The guidance target data/rcap-all50/guidance-packets/ky.json exists and resolves with 4 packet(s). All 11 dependency classes were read; 2 still name it (compiled_engine_profile, application_source), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.",
       "retirementMarkerWritten": false,
       "repointRecorded": true,
       "determinationSaid": "retain_and_remediate",
@@ -1842,15 +1872,25 @@
       "whyTheCensusIsNotAUse": "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
       "repointTarget": {
         "surface": "guidance_packet",
-        "path": "data/rcap-all50/guidance-packets/ky.json",
-        "exists": true,
+        "intendedTarget": "data/rcap-all50/guidance-packets/ky.json",
+        "targetExists": true,
+        "targetRouteResolves": true,
+        "packetsFound": 4,
+        "trackIdsAtTheTarget": [
+          "ky_automatic_nonconviction_expungement_verification",
+          "ky_diversion_disposition_routing",
+          "ky_felony_expungement_after_pardon",
+          "ky_felony_vacatur_expungement"
+        ],
+        "repointCompleted": true,
+        "exactBlocker": null,
         "publisherOfRecord": {
           "url": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
           "body": "Kentucky Court of Justice"
         },
         "whatTheGuidanceMustSay": "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
         "whatMustNotHappen": "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
-        "appliedBy": "the guidance lane: data/rcap-all50/guidance-packets is outside this assignment's allowed paths",
+        "ownedBy": "the guidance lane: data/rcap-all50/guidance-packets is outside this assignment's allowed paths",
         "thenRetirableBy": "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
       },
       "misdeclaredInTheCompiledProfile": [

@@ -443,6 +443,62 @@ function overlayManifestNames(fileName) {
 }
 
 /**
+ * Does the guidance surface a repoint would land on exist, and does it resolve?
+ *
+ * Two separate questions with two separate failures. A file that is not there
+ * cannot receive anything. A file that is there but carries no packet is a stub
+ * a route reaches and finds nothing in, which is the same dead end arrived at
+ * more slowly. Both are reported, because the fix differs: one lane has to
+ * create the packet, and the other has to fill it.
+ */
+function resolveGuidanceTarget(packetPath, jurisdiction) {
+  if (!fs.existsSync(abs(packetPath))) {
+    return {
+      targetExists: false,
+      targetRouteResolves: false,
+      packetsFound: 0,
+      blocker: `${packetPath} does not exist, so there is no guidance surface for ${jurisdiction} to carry the publisher address this capture was standing in for`
+    };
+  }
+  let packet;
+  try {
+    packet = readJson(packetPath);
+  } catch (error) {
+    return {
+      targetExists: true,
+      targetRouteResolves: false,
+      packetsFound: 0,
+      blocker: `${packetPath} exists but does not parse (${String(error.message).slice(0, 120)}), so no route resolves through it`
+    };
+  }
+  const packets = Array.isArray(packet.packets) ? packet.packets : [];
+  const jurisdictionMatches = String(packet.jurisdiction ?? "").toUpperCase() === jurisdiction.toUpperCase();
+  if (!jurisdictionMatches) {
+    return {
+      targetExists: true,
+      targetRouteResolves: false,
+      packetsFound: packets.length,
+      blocker: `${packetPath} records jurisdiction ${JSON.stringify(packet.jurisdiction)}, not ${jurisdiction}`
+    };
+  }
+  if (packets.length === 0) {
+    return {
+      targetExists: true,
+      targetRouteResolves: false,
+      packetsFound: 0,
+      blocker: `${packetPath} exists but carries no packet, so a route reaching it finds nothing`
+    };
+  }
+  return {
+    targetExists: true,
+    targetRouteResolves: true,
+    packetsFound: packets.length,
+    trackIds: packets.map((entry) => entry.trackId).filter(Boolean),
+    blocker: null
+  };
+}
+
+/**
  * Retire, repoint or retain a captured index page.
  *
  * Three findings decide it, in order:
@@ -475,8 +531,14 @@ function adjudicateCapturedIndexPage(asset, sourceRow) {
   const participantRouteRequiresIt = routeSites.length > 0;
   const misdeclared = profileSites.filter((site) => site.declaredKind.some((kind) => /form|packet/i.test(kind)));
 
+  // A repoint is only a repoint if it lands somewhere. A target that does not
+  // exist yet is a plan, and recording a plan as a completed repoint says this
+  // asset has been dealt with when nothing about it has moved -- so existence
+  // and resolution are both established here, and a repoint that fails either
+  // becomes retained rather than claimed.
   const guidancePacket = path.join(GUIDANCE_DIR, `${asset.jurisdiction.toLowerCase()}.json`);
-  const guidancePacketExists = fs.existsSync(abs(guidancePacket));
+  const guidanceTarget = resolveGuidanceTarget(guidancePacket, asset.jurisdiction);
+  const guidancePacketExists = guidanceTarget.targetExists;
 
   // Every class asked directly. Retirement needs all of them checked and empty;
   // one class that could not be read is enough to refuse, because an unread
@@ -504,10 +566,19 @@ function adjudicateCapturedIndexPage(asset, sourceRow) {
     outcomeBasis =
       `${routeSites.length} compiled profile(s) name this page in formCandidates, so packet-planner.ts can emit it as a packet sourceFormId. ` +
       "That is a defect rather than a dependency to respect -- a listing page cannot be filed -- and it has to be removed from the plan before this asset can move.";
+  } else if (!guidanceTarget.targetExists || !guidanceTarget.targetRouteResolves) {
+    // The canonical status for an asset whose repoint is intended but not
+    // proven, already used by the binary-identity rules for exactly this shape:
+    // the move is the right one and nothing has made it yet.
+    outcome = "retained_until_repointed";
+    outcomeBasis =
+      `The participant route does not require this page, so a repoint to guidance is the right move -- but ${guidanceTarget.blocker}. ` +
+      "A target that does not exist and does not resolve is a plan, not a surface, and recording it as a completed repoint would say this asset has been dealt with while nothing about it has moved.";
   } else {
     outcome = "repoint_to_guidance_recorded";
     outcomeBasis =
       `The participant route does not require this page: it appears in no formCandidates array, and packet-planner.ts reads no other container when it builds a plan's sourceFormIds. ` +
+      `The guidance target ${guidancePacket} exists and resolves with ${guidanceTarget.packetsFound} packet(s). ` +
       `All ${dependencyClasses.length} dependency classes were read; ${holdingClasses.length} still name it (${holdingClasses.map((entry) => entry.dependencyClass).join(", ")}), and src/** is prohibited to this lane, so the repoint is recorded here rather than applied.`;
   }
 
@@ -571,21 +642,27 @@ function adjudicateCapturedIndexPage(asset, sourceRow) {
     namedByTheCorpusCensus: namedByTheCensus,
     whyTheCensusIsNotAUse:
       "The overlay factory manifest emits one row per file found in the source corpus. It would name this capture whether or not anything used it, so it records existence rather than use.",
-    repointTarget: outcome === "repoint_to_guidance_recorded"
-      ? {
-          surface: "guidance_packet",
-          path: guidancePacket,
-          exists: guidancePacketExists,
-          publisherOfRecord: sourceRow.searchStartsAt ?? null,
-          whatTheGuidanceMustSay:
-            "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
-          whatMustNotHappen: "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
-          appliedBy: guidancePacketExists
-            ? "the guidance lane: data/rcap-all50/guidance-packets is outside this assignment's allowed paths"
-            : "the guidance lane, which must first create a packet for this jurisdiction: none exists",
-          thenRetirableBy: "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
-        }
-      : null,
+    // Recorded whether or not the repoint completed. An intended target that
+    // does not exist is the most useful thing this row can say, and dropping it
+    // to null on failure would hide the one instruction the next lane needs.
+    repointTarget: {
+      surface: "guidance_packet",
+      intendedTarget: guidancePacket,
+      targetExists: guidanceTarget.targetExists,
+      targetRouteResolves: guidanceTarget.targetRouteResolves,
+      packetsFound: guidanceTarget.packetsFound,
+      ...(guidanceTarget.trackIds ? { trackIdsAtTheTarget: guidanceTarget.trackIds } : {}),
+      repointCompleted: outcome === "repoint_to_guidance_recorded",
+      exactBlocker: guidanceTarget.blocker,
+      publisherOfRecord: sourceRow.searchStartsAt ?? null,
+      whatTheGuidanceMustSay:
+        "the publisher of record, the address where that publisher keeps the forms, and what the participant does there -- the address this capture was standing in for",
+      whatMustNotHappen: "no customer PDF is produced from this asset, because it is a listing and there is nothing on it to fill",
+      ownedBy: guidanceTarget.targetExists
+        ? "the guidance lane: data/rcap-all50/guidance-packets is outside this assignment's allowed paths"
+        : `the guidance lane, which must create ${guidancePacket} before any repoint can land; this adjudication lane does not create guidance packets`,
+      thenRetirableBy: "removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change"
+    },
     // Recorded for the profile's owner. A listing declared as a form is the
     // classification that lets one reach a packet in the first place.
     misdeclaredInTheCompiledProfile: misdeclared.map((site) => ({
@@ -776,7 +853,11 @@ const totals = {
   retirementCandidatesConfirmed: rows.filter((row) => row.outcome === "retirement_candidate_confirmed").length,
   capturedIndexPages: rows.filter((row) => row.assetClass === "captured_index_page").length,
   capturedIndexPagesRepointedToGuidance: rows.filter((row) => row.outcome === "repoint_to_guidance_recorded").length,
+  capturedIndexPagesRetainedUntilRepointed: rows.filter((row) => row.outcome === "retained_until_repointed").length,
   capturedIndexPagesTheRouteStillPlansAround: rows.filter((row) => row.outcome === "retained_route_plans_around_a_non_form").length,
+  // Every row that is not retired and not a completed repoint is retained, by
+  // whichever route it got there. Stated once so the three numbers add up.
+  retainedAllReasons: rows.filter((row) => !row.retirementMarkerWritten && !row.repointRecorded).length,
   assetsWithAnUnlocatedSurfaceHit: rows.filter((row) => row.unlocatedSurfaceHits.length > 0).length,
   findingsForSurfaceOwners: findings.length
 };
@@ -809,7 +890,7 @@ if (checkOnly) {
 
 console.log(
   `OK retirement/repoint adjudication — ${totals.assetsAssigned} asset(s): ${totals.retirementCandidatesConfirmed} retirable, ` +
-    `${totals.repointsRecorded} repointed, ${totals.retainedWithABlockingDependency} retained with a located blocking dependency; ` +
-    `of ${totals.capturedIndexPages} captured index page(s), ${totals.capturedIndexPagesRepointedToGuidance} repointed to guidance and ` +
-    `${totals.capturedIndexPagesTheRouteStillPlansAround} still planned around by a route`
+    `${totals.repointsRecorded} repointed, ${totals.retainedAllReasons} retained; ` +
+    `of ${totals.capturedIndexPages} captured index page(s), ${totals.capturedIndexPagesRepointedToGuidance} repointed to a guidance target that exists and resolves and ` +
+    `${totals.capturedIndexPagesRetainedUntilRepointed} retained until repointed because their target does not`
 );

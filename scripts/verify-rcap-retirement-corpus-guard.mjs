@@ -35,6 +35,7 @@ const FACTORY = "scripts/rcap-all50-overlay-factory-lib.mjs";
 const REPOINT = "data/rcap-all50/pdf-retirement-evidence/retirement-repoint-adjudication.json";
 const REPOINT_GENERATOR = "scripts/generate-rcap-retirement-repoint-adjudication.mjs";
 const ALL_STATE_MANIFEST = "data/rcap-all50/all-state-build-manifest.json";
+const KY_GUIDANCE = "data/rcap-all50/guidance-packets/ky.json";
 
 const abs = (rel) => path.join(rootDir, rel);
 const readJson = (rel) => JSON.parse(fs.readFileSync(abs(rel), "utf8"));
@@ -359,6 +360,31 @@ await guarded("dependency-class-unreadable", [REPOINT, ALL_STATE_MANIFEST], asyn
   );
 });
 
+// 12. A repoint may not be claimed into a target that stops resolving. The
+//     three Alabama captures were reported as repointed while their target did
+//     not exist, which said they had been dealt with when nothing had moved.
+//     Empty a resolving target and its page has to fall back to retained.
+await guarded("repoint-target-stops-resolving", [REPOINT, KY_GUIDANCE], async () => {
+  const packet = readJson(KY_GUIDANCE);
+  packet.packets = [];
+  fs.writeFileSync(abs(KY_GUIDANCE), `${JSON.stringify(packet, null, 2)}\n`);
+  control(
+    "12. a repoint is claimed into a target that no longer resolves",
+    run(REPOINT_GENERATOR, []),
+    ({ refused, output }) => {
+      if (refused) return `the adjudicator refused instead of adjudicating:\n${output.trim().slice(0, 400)}`;
+      const record = readJson(REPOINT);
+      const ky = record.assets.find((asset) => asset.assetClass === "captured_index_page" && asset.jurisdiction === "KY");
+      if (!ky) return "the Kentucky capture is missing from the adjudication";
+      if (ky.repointRecorded) return "a repoint is still claimed into a guidance packet that carries no packet";
+      if (ky.outcome !== "retained_until_repointed") return `outcome is ${ky.outcome}, expected retained_until_repointed`;
+      if (ky.repointTarget?.targetRouteResolves !== false) return "the target is still reported as resolving";
+      if (!ky.repointTarget?.intendedTarget) return "the intended target was dropped when the repoint failed";
+      return null;
+    }
+  );
+});
+
 // 9. The five adjudicated assets keep their outcomes. This work fixes how the
 //    seventh condition is evaluated; it is not licence to move an adjudication
 //    that was accepted on its own evidence.
@@ -392,6 +418,17 @@ await guarded("dependency-class-unreadable", [REPOINT, ALL_STATE_MANIFEST], asyn
     if (row.participantRoute?.requiresThisPage && row.outcome !== "retained_route_plans_around_a_non_form") {
       problems.push(`${row.assetId} is planned around by a participant route yet not reported as such`);
     }
+    // A repoint is a claim that something moved. It may only be claimed when the
+    // target both exists and resolves, and the intended target has to be
+    // recorded either way so a failed repoint still says where it was going.
+    const target = row.repointTarget;
+    if (!target?.intendedTarget) problems.push(`${row.assetId} records no intended repoint target`);
+    if (row.repointRecorded && !(target?.targetExists && target?.targetRouteResolves)) {
+      problems.push(`${row.assetId} claims a completed repoint to ${target?.intendedTarget} which exists=${target?.targetExists} resolves=${target?.targetRouteResolves}`);
+    }
+    if (!row.repointRecorded && target && !target.exactBlocker) {
+      problems.push(`${row.assetId} did not repoint and names no blocker`);
+    }
   }
   control(
     "9. the five assigned adjudication outcomes are unchanged, and no captured index page is a form",
@@ -412,6 +449,6 @@ if (failures.length > 0) {
 }
 
 console.log(
-  `OK retirement corpus guard — the nine controls hold, plus the two guarding --check and the dependency-class sweep; the committed record still reports ` +
+  `OK retirement corpus guard — the nine controls hold, plus the two guarding --check, the dependency-class sweep and the repoint target; the committed record still reports ` +
     `${committedTotals.conditionSevenFails} condition-7 failures and ${committedTotals.conditionSevenPasses} passes`
 );
