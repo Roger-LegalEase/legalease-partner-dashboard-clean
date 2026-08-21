@@ -35,7 +35,24 @@ function fail(message) {
 }
 
 const queue = readJson(QUEUE);
-const baseSha = execFileSync("git", ["rev-parse", "HEAD"], { cwd: rootDir }).toString().trim();
+/**
+ * The base is the last commit that changed the queue these assignments are cut
+ * from — not HEAD.
+ *
+ * HEAD moves the instant the regenerated assignments are committed, so a
+ * HEAD-derived base can never agree with the file that records it: `--check`
+ * would report every output stale one commit after every commit, forever, on a
+ * field that carries no assignment content. Pinning to the queue's own last
+ * commit gives contributor sessions a base that actually names the input they
+ * were dispatched against, and it holds still while the outputs and this
+ * generator are committed.
+ */
+const baseSha = execFileSync("git", ["log", "-1", "--format=%H", "--", QUEUE], { cwd: rootDir })
+  .toString()
+  .trim();
+if (!/^[0-9a-f]{40}$/.test(baseSha)) {
+  fail(`could not resolve a commit for ${QUEUE}; the queue must be committed before assignments are cut`);
+}
 
 const byBucket = (b) => queue.assets.filter((a) => a.primaryBucket === b);
 /**
