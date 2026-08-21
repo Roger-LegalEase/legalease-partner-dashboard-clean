@@ -176,6 +176,16 @@ jobs:
           push: true
           # Exactly one tag. No `latest`, no branch tag, no second alias.
           tags: ${{ env.IMAGE_REPOSITORY }}:${{ inputs.integration_sha }}
+          # The image must be able to say which source it was built from, so
+          # that the binding between a digest and its commit does not rest
+          # solely on a file this repository wrote about itself. Images
+          # published before this was added carry no revision and require an
+          # exact-digest compensating control; see
+          # data/rcap-render/worker-source-binding-exception.json.
+          labels: |
+            org.opencontainers.image.revision=${{ inputs.integration_sha }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.version=${{ inputs.integration_sha }}
           provenance: false
           sbom: false
 

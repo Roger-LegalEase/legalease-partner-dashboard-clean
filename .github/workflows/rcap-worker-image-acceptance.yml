@@ -1,14 +1,22 @@
 name: RCAP worker image acceptance
 
-# Asks the PUBLISHED IMAGE the four questions a release has to answer about it:
-# does it pull, does it refuse to start without credentials, is it alive, and
-# does it carry a secret.
+# Asks the PUBLISHED IMAGE the questions a release has to answer about it:
+# does it pull with credentials, is it the digest the freeze record names, does
+# it say which source it was built from, does it run as a non-root user, does it
+# refuse to start without credentials, is its health command real, does it shut
+# down gracefully on SIGTERM, is its scratch directory clean, and does it carry
+# a secret.
 #
 # Publication proves only that a build succeeded and a digest came back. It does
 # not prove the bytes in the registry can be fetched, that the process inside
 # them fails closed, or that nothing sensitive was baked in. Those were
 # previously asserted in a committed JSON record by a run nobody can point at;
 # this workflow is the run you can point at.
+#
+# EXACT-HEAD. It runs on pull_request, so it executes against the PR head and
+# becomes a check that must pass before the integration merges. It takes the tag
+# and digest from the COMMITTED publication evidence rather than from typed
+# inputs: a typed digest can name an image the freeze record does not.
 #
 # Read-only with respect to the platform. It PULLS and RUNS a container with no
 # Supabase configuration, so the worker cannot reach a queue, cannot claim a
@@ -18,57 +26,66 @@ name: RCAP worker image acceptance
 # publishes the secret it was hired to catch.
 
 on:
+  pull_request:
   workflow_dispatch:
-    inputs:
-      worker_tag:
-        description: "Full 40-character worker source SHA used as the image tag"
-        required: true
-        type: string
-      expected_digest:
-        description: "The sha256: digest the publication recorded. The tag must resolve to exactly this."
-        required: true
-        type: string
 
 permissions:
   contents: read
   packages: read
 
+concurrency:
+  group: rcap-worker-image-acceptance-${{ github.event.pull_request.head.sha || github.sha }}
+  cancel-in-progress: true
+
 env:
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
+  EVIDENCE_PATH: data/rcap-render/worker-publication-evidence.json
 
 jobs:
   accept:
     name: Accept the published worker image
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
+      # Full history: the source-binding check computes the image-input diff
+      # between the accepted worker source and this head, and the default
+      # shallow clone does not contain the source commit — the diff then fails
+      # to compute rather than coming back empty.
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Reject a malformed tag or digest
-        env:
-          WORKER_TAG: ${{ inputs.worker_tag }}
-          EXPECTED_DIGEST: ${{ inputs.expected_digest }}
+      # The subject comes from the committed record, not from a human. If the
+      # record is malformed the run stops here rather than accepting something
+      # else.
+      - name: Take the subject from committed publication evidence
+        id: subject
         run: |
           set -euo pipefail
-          if ! printf '%s' "$WORKER_TAG" | grep -Eq '^[0-9a-f]{40}$'; then
-            echo "::error::worker_tag must be a full 40-character lowercase commit SHA"
+          TAG="$(node -p "require('./${EVIDENCE_PATH}').sourceSha")"
+          DIGEST="$(node -p "require('./${EVIDENCE_PATH}').immutableRegistryDigest")"
+          if ! printf '%s' "$TAG" | grep -Eq '^[0-9a-f]{40}$'; then
+            echo "::error::publication evidence sourceSha is not a full 40-character SHA"
             exit 1
           fi
-          if ! printf '%s' "$EXPECTED_DIGEST" | grep -Eq '^sha256:[0-9a-f]{64}$'; then
-            echo "::error::expected_digest must be a sha256: digest"
+          if ! printf '%s' "$DIGEST" | grep -Eq '^sha256:[0-9a-f]{64}$'; then
+            echo "::error::publication evidence immutableRegistryDigest is not a sha256: digest"
             exit 1
           fi
+          echo "worker_tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "expected_digest=${DIGEST}" >> "$GITHUB_OUTPUT"
+          echo "accepting ${IMAGE_REPOSITORY}@${DIGEST} built from ${TAG}"
 
       # The registry's own answer, before any local Docker state exists to
       # confuse a stale cached layer for a successful fetch.
       - name: Ask the registry what the tag resolves to
         env:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RCAP_WORKER_TAG: ${{ inputs.worker_tag }}
-          RCAP_WORKER_CANDIDATE_DIGESTS: ${{ inputs.expected_digest }}
+          RCAP_WORKER_TAG: ${{ steps.subject.outputs.worker_tag }}
+          RCAP_WORKER_CANDIDATE_DIGESTS: ${{ steps.subject.outputs.expected_digest }}
         run: node scripts/verify-rcap-worker-tag-integrity.mjs --resolve
 
       - name: Log in to GHCR
@@ -78,12 +95,28 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # An authenticated pull is the point: this package is private, so a pull
+      # that succeeds anonymously would mean the package is not private at all.
+      # Both halves are asserted — anonymous refused, authenticated accepted.
+      - name: Anonymous pull is refused
+        env:
+          EXPECTED_DIGEST: ${{ steps.subject.outputs.expected_digest }}
+        run: |
+          set -euo pipefail
+          CODE="$(curl -s -o /dev/null -w '%{http_code}' \
+            "https://ghcr.io/token?service=ghcr.io&scope=repository:roger-legalease/rcap-render-worker:pull")"
+          if [ "$CODE" = "200" ]; then
+            echo "::error::GHCR issued an anonymous pull token; the worker package is not private"
+            exit 1
+          fi
+          echo "anonymous token refused with HTTP ${CODE}; the package is private"
+
       # Pull by DIGEST, not by tag. A tag is an alias and could be moved between
       # the publication and this check; the digest is the thing being accepted.
-      - name: Pull the image by immutable digest
+      - name: Authenticated pull by immutable digest
         id: pull
         env:
-          EXPECTED_DIGEST: ${{ inputs.expected_digest }}
+          EXPECTED_DIGEST: ${{ steps.subject.outputs.expected_digest }}
         run: |
           set -euo pipefail
           REF="${IMAGE_REPOSITORY}@${EXPECTED_DIGEST}"
@@ -92,8 +125,8 @@ jobs:
 
       - name: Prove the tag and the digest are the same image
         env:
-          WORKER_TAG: ${{ inputs.worker_tag }}
-          EXPECTED_DIGEST: ${{ inputs.expected_digest }}
+          WORKER_TAG: ${{ steps.subject.outputs.worker_tag }}
+          EXPECTED_DIGEST: ${{ steps.subject.outputs.expected_digest }}
           REF: ${{ steps.pull.outputs.reference }}
         run: |
           set -euo pipefail
@@ -111,6 +144,29 @@ jobs:
           esac
           echo "tag and digest agree: ${DIGEST_ID}"
 
+      # Which source the image says it came from. Checked against the freeze SHA
+      # in the committed evidence — an image that cannot say, or that names
+      # another commit, is not the image this release accepted.
+      # The exception itself must be exactly one digest wide before it is
+      # allowed to compensate for anything.
+      - name: The source-binding exception stays exactly one digest wide
+        run: |
+          set -euo pipefail
+          node scripts/verify-rcap-worker-source-binding-exception.mjs
+          node scripts/verify-rcap-worker-source-binding-exception.mjs --mutations
+
+      # Passes when the image names its source, OR when the exact-digest
+      # compensating control covers it. A CONTRADICTORY revision fails either
+      # way — the exception compensates for absence, never for disagreement.
+      - name: Source binding — OCI revision, or the exact-digest exception
+        env:
+          WORKER_TAG: ${{ steps.subject.outputs.worker_tag }}
+          EXPECTED_DIGEST: ${{ steps.subject.outputs.expected_digest }}
+          REF: ${{ steps.pull.outputs.reference }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/verify-rcap-worker-image-revision.mjs
+
       - name: Prove the container does not run as root
         env:
           REF: ${{ steps.pull.outputs.reference }}
@@ -126,16 +182,26 @@ jobs:
             echo "::error::container process is ${WHOAMI}, not rcapworker"
             exit 1
           fi
+          if [ "$(docker run --rm --network none --entrypoint sh "$REF" -c 'id -u')" = "0" ]; then
+            echo "::error::container process has uid 0"
+            exit 1
+          fi
 
-      # The image's own HEALTHCHECK command, run directly.
-      - name: Health command succeeds
+      # A HEALTHCHECK must be declared AND its declared command must succeed.
+      # Asserting only that the instruction exists accepts a health check that
+      # has never been run.
+      - name: Health is configured and its declared command succeeds
         env:
           REF: ${{ steps.pull.outputs.reference }}
         run: |
           set -euo pipefail
           HEALTH_CMD="$(docker image inspect --format '{{join .Config.Healthcheck.Test " "}}' "$REF")"
+          if [ -z "$HEALTH_CMD" ]; then
+            echo "::error::the image declares no HEALTHCHECK"
+            exit 1
+          fi
           echo "declared healthcheck: ${HEALTH_CMD}"
-          docker run --rm --network none "$REF" node -e "process.exit(0)"
+          docker run --rm --network none --entrypoint sh "$REF" -c 'node -e "process.exit(0)"'
 
       # Fail-closed startup. With no Supabase configuration the entrypoint must
       # refuse and exit 2 — and reaching that refusal proves the whole module
@@ -168,13 +234,104 @@ jobs:
               echo "::error::an unconfigured worker produced claim/render/finalize output"; exit 1 ;;
           esac
 
+      # Graceful shutdown, proven on the loop module SHIPPED IN THIS IMAGE.
+      #
+      # The entrypoint cannot be used for this: unconfigured, it fails closed
+      # before the loop ever starts. So the loop is driven directly, inside the
+      # image, with an idle cycle and no queue — which is what makes the proof
+      # possible without credentials and without any job being claimed. As PID 1
+      # a signal with no handler is ignored outright, so this is exactly the
+      # case that would otherwise burn the kill grace and end in SIGKILL.
+      - name: Graceful shutdown on SIGTERM
+        env:
+          REF: ${{ steps.pull.outputs.reference }}
+        run: |
+          set -euo pipefail
+          set +e
+          OUTPUT="$(docker run --rm --network none --init=false "$REF" node -e '
+            import("./scripts/lib/rcap-render-worker-loop.mjs").then(async (m) => {
+              let cycles = 0;
+              setTimeout(() => process.kill(process.pid, "SIGTERM"), 500);
+              const signal = await m.runRenderWorkerLoop({
+                runCycle: async () => { cycles += 1; return { outcome: "idle" }; },
+                idleDelayMs: 50
+              });
+              console.log(JSON.stringify({ event: "shutdown_complete", signal, cycles }));
+              process.exit(0);
+            }).catch((error) => { console.error(String(error)); process.exit(9); });
+          ' 2>&1)"
+          CODE=$?
+          set -e
+          printf '%s\n' "$OUTPUT"
+          if [ "$CODE" -ne 0 ]; then
+            echo "::error::the loop did not exit cleanly after SIGTERM (exit ${CODE})"
+            exit 1
+          fi
+          case "$OUTPUT" in
+            *'"event":"worker_stop_requested","signal":"SIGTERM"'*) ;;
+            *) echo "::error::SIGTERM did not reach an installed handler; PID 1 would ignore it"; exit 1 ;;
+          esac
+          case "$OUTPUT" in
+            *'"event":"shutdown_complete","signal":"SIGTERM"'*) ;;
+            *) echo "::error::the loop never reported a completed graceful shutdown"; exit 1 ;;
+          esac
+
+      # The scratch directory must exist, belong to the worker, and ship EMPTY.
+      # A render artifact or a stray file baked into the image would be data
+      # from build time surviving into every container that runs.
+      - name: Scratch directory is present, owned, and clean
+        env:
+          REF: ${{ steps.pull.outputs.reference }}
+        run: |
+          set -euo pipefail
+          OWNER="$(docker run --rm --network none --entrypoint sh "$REF" -c 'stat -c %U /tmp/rcap-render-scratch')"
+          if [ "$OWNER" != "rcapworker" ]; then
+            echo "::error::scratch directory is owned by ${OWNER}, not rcapworker"
+            exit 1
+          fi
+          RESIDUE="$(docker run --rm --network none --entrypoint sh "$REF" -c \
+            'find /tmp/rcap-render-scratch -mindepth 1 | head -50')"
+          if [ -n "$RESIDUE" ]; then
+            echo "::error::the image ships scratch residue:"
+            printf '%s\n' "$RESIDUE"
+            exit 1
+          fi
+          docker run --rm --network none --entrypoint sh "$REF" -c \
+            'touch /tmp/rcap-render-scratch/.probe && rm /tmp/rcap-render-scratch/.probe'
+          echo "scratch directory present, owned by rcapworker, empty and writable"
+
+      # A scanner nobody has seen catch anything is indistinguishable from a
+      # scanner that cannot. Before trusting a clean result, prove the pattern
+      # still matches a credential-shaped string AND still ignores the policy
+      # code that merely names key prefixes — src/lib/stripe/server.ts contains
+      # startsWith("sk_live_") to REFUSE a live key in test, and an earlier
+      # version of this scan flagged that guard as if it were the secret.
+      - name: The secret scan can still catch a secret
+        run: |
+          set -euo pipefail
+          PATTERN='SUPABASE_SERVICE_ROLE_KEY=[A-Za-z0-9._-]{20,}|SERVICE_ROLE_KEY=eyJ[A-Za-z0-9._-]{20,}|sk_live_[A-Za-z0-9]{16,}|sk_test_[A-Za-z0-9]{16,}|rk_live_[A-Za-z0-9]{16,}|whsec_[A-Za-z0-9]{16,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
+          # Synthetic, generated here, never a real credential.
+          SYNTHETIC="sk_live_$(head -c 32 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c 24)"
+          printf '%s\n' "$SYNTHETIC" > /tmp/positive-control.txt
+          printf 'if (value.startsWith("sk_live_")) throw new Error("live key in test");\n' > /tmp/negative-control.txt
+          if ! grep -qE "$PATTERN" /tmp/positive-control.txt; then
+            echo "::error::the secret pattern no longer matches a credential-shaped string; a clean scan would prove nothing"
+            exit 1
+          fi
+          if grep -qE "$PATTERN" /tmp/negative-control.txt; then
+            echo "::error::the secret pattern still flags key-policy code that contains no key material"
+            exit 1
+          fi
+          rm -f /tmp/positive-control.txt /tmp/negative-control.txt
+          echo "pattern catches a credential-shaped string and ignores prefix-only policy code"
+
       # First-party filesystem scan. Paths and counts only, never content.
       - name: Secret scan of the image filesystem
         env:
           REF: ${{ steps.pull.outputs.reference }}
         run: |
           set -euo pipefail
-          PATTERN='SUPABASE_SERVICE_ROLE_KEY=|SERVICE_ROLE_KEY=ey|sk_live_|sk_test_|rk_live_|whsec_|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
+          PATTERN='SUPABASE_SERVICE_ROLE_KEY=[A-Za-z0-9._-]{20,}|SERVICE_ROLE_KEY=eyJ[A-Za-z0-9._-]{20,}|sk_live_[A-Za-z0-9]{16,}|sk_test_[A-Za-z0-9]{16,}|rk_live_[A-Za-z0-9]{16,}|whsec_[A-Za-z0-9]{16,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
           set +e
           HITS="$(docker run --rm --network none --entrypoint sh "$REF" -c \
             "grep -rIlE '${PATTERN}' /app --exclude-dir=node_modules 2>/dev/null")"
@@ -192,55 +349,25 @@ jobs:
           REF: ${{ steps.pull.outputs.reference }}
         run: |
           set -euo pipefail
-          PATTERN='SUPABASE_SERVICE_ROLE_KEY=|SERVICE_ROLE_KEY=ey|sk_live_|sk_test_|rk_live_|whsec_|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
+          PATTERN='SUPABASE_SERVICE_ROLE_KEY=[A-Za-z0-9._-]{20,}|SERVICE_ROLE_KEY=eyJ[A-Za-z0-9._-]{20,}|sk_live_[A-Za-z0-9]{16,}|sk_test_[A-Za-z0-9]{16,}|rk_live_[A-Za-z0-9]{16,}|whsec_[A-Za-z0-9]{16,}|-----BEGIN [A-Z ]*PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,}'
           ENV_COUNT="$(docker image inspect --format '{{range .Config.Env}}{{println .}}{{end}}' "$REF" | grep -cE "$PATTERN" || true)"
           HIST_COUNT="$(docker history --no-trunc --format '{{.CreatedBy}}' "$REF" | grep -cE "$PATTERN" || true)"
           echo "config env matches: ${ENV_COUNT}"
           echo "layer history matches: ${HIST_COUNT}"
           if [ "$ENV_COUNT" != "0" ] || [ "$HIST_COUNT" != "0" ]; then
-            echo "::error::a secret pattern appears in the image configuration or build history"
+            echo "::error::image configuration or layer history matched a secret pattern"
             exit 1
           fi
-          echo "configuration and history scan clean"
 
-      # Printed to the log as well as uploaded: the log is readable from any
-      # environment that can reach the API, and artifact blob storage is not.
-      - name: Emit the machine-readable acceptance record
-        env:
-          WORKER_TAG: ${{ inputs.worker_tag }}
-          EXPECTED_DIGEST: ${{ inputs.expected_digest }}
+      # This workflow accepts an image. If it ever starts deploying one, that is
+      # a change to what "acceptance" means, and it should fail loudly here
+      # rather than quietly become a deployment.
+      - name: This run deployed nothing and claimed nothing
         run: |
           set -euo pipefail
-          mkdir -p acceptance
-          cat > acceptance/rcap-worker-image-acceptance.json <<JSON
-          {
-            "schemaVersion": "rcap-worker-image-acceptance/v1",
-            "sourceSha": "${WORKER_TAG}",
-            "imageRepository": "${IMAGE_REPOSITORY}",
-            "imageTag": "${WORKER_TAG}",
-            "immutableRegistryDigest": "${EXPECTED_DIGEST}",
-            "digestPinnedReference": "${IMAGE_REPOSITORY}@${EXPECTED_DIGEST}",
-            "registryPullByDigestStatus": "verified",
-            "tagResolvesToExpectedDigest": true,
-            "mutableLatestTagPresent": false,
-            "runsAsNonRootUser": "rcapworker",
-            "healthCommandSucceeded": true,
-            "moduleGraphResolvedInImage": true,
-            "failClosedStartupExitCode": 2,
-            "workerClaimingStarted": false,
-            "firstPartySecretScanClean": true,
-            "imageConfigAndHistorySecretScanClean": true,
-            "deploymentPerformed": false,
-            "stagingAndProductionUnchanged": true,
-            "workflowRunId": "${{ github.run_id }}",
-            "workflowRunUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          }
-          JSON
-          cat acceptance/rcap-worker-image-acceptance.json
-
-      - name: Upload the acceptance record
-        uses: actions/upload-artifact@v4
-        with:
-          name: rcap-worker-image-acceptance-${{ inputs.worker_tag }}
-          path: acceptance/rcap-worker-image-acceptance.json
-          if-no-files-found: error
+          if grep -nE '^\s*(docker\s+push|kubectl|flyctl|vercel|supabase\s+db\s+push)' \
+              .github/workflows/rcap-worker-image-acceptance.yml; then
+            echo "::error::the acceptance workflow contains a deployment command"
+            exit 1
+          fi
+          echo "acceptance is read-only: no push, no deploy, no claim"

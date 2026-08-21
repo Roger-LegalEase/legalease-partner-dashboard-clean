@@ -26,10 +26,19 @@ on:
         description: "ephemeral | hosted_* (Vercel, including audit and reuse-only Checkout) | github_acceptance (temporary HTTPS fallback)"
         required: false
         type: choice
-        options: [ephemeral, hosted_preflight, hosted_vercel_audit, hosted_migrate, hosted_deploy, hosted_accept, hosted_checkout_gate, hosted_payment, hosted_full, github_acceptance]
+        options: [ephemeral, hosted_preflight, hosted_vercel_audit, hosted_migrate, hosted_deploy, hosted_accept, hosted_checkout_gate, hosted_payment, hosted_full, hosted_worker_contract, github_acceptance]
         default: ephemeral
+      preview_hostname:
+        description: "Exact existing Vercel Preview hostname to REUSE; supplying it forbids creating another deployment"
+        required: false
+        default: ""
+      contradiction_job_id:
+        description: "Exact packet_render_jobs id to diagnose (hosted_worker_contract only)"
+        required: false
+        type: string
+        default: ""
       preview_deployment_id:
-        description: "Exact existing Vercel Preview deployment id (checkout gate only; the gate never deploys)"
+        description: "Exact existing Vercel Preview deployment id; optional — resolved from preview_hostname when omitted"
         required: false
         type: string
         default: ""
@@ -64,9 +73,9 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  AUTHORIZED_APPLICATION_SHA: 664b8ddd374642bf2bd1820f7e05224f3dd081bc
-  AUTHORIZED_WORKER_SOURCE_SHA: 664b8ddd374642bf2bd1820f7e05224f3dd081bc
-  AUTHORIZED_WORKER_DIGEST: sha256:be782397379b2dd6db3f63353f38e1fe1b31095dbf9307abb73f97c1136cc9be
+  AUTHORIZED_APPLICATION_SHA: f7ed0ad3a8f37a0c1446b62760b1a36fb163c926
+  AUTHORIZED_WORKER_SOURCE_SHA: 5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8
+  AUTHORIZED_WORKER_DIGEST: sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: main
   STAGING_ENVIRONMENT_NAME: rcap-acceptance
@@ -92,8 +101,10 @@ jobs:
     if: startsWith(inputs.mode, 'hosted_')
     uses: ./.github/workflows/rcap-hosted-acceptance-staging.yml
     with:
-      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_checkout_gate' && 'checkout_gate' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || (inputs.mode == 'hosted_vercel_audit' && 'vercel_audit' || 'preflight')))))) }}
+      phase: ${{ inputs.mode == 'hosted_full' && 'full' || (inputs.mode == 'hosted_worker_contract' && 'worker_contract' || (inputs.mode == 'hosted_payment' && 'payment' || (inputs.mode == 'hosted_checkout_gate' && 'checkout_gate' || (inputs.mode == 'hosted_accept' && 'accept' || (inputs.mode == 'hosted_deploy' && 'deploy' || (inputs.mode == 'hosted_migrate' && 'migrate' || (inputs.mode == 'hosted_vercel_audit' && 'vercel_audit' || 'preflight'))))))) }}
+      preview_hostname: ${{ inputs.preview_hostname }}
       preview_deployment_id: ${{ inputs.preview_deployment_id }}
+      contradiction_job_id: ${{ inputs.contradiction_job_id }}
       application_sha: ${{ inputs.application_sha }}
       worker_source_sha: ${{ inputs.worker_source_sha }}
       worker_digest: ${{ inputs.worker_digest }}

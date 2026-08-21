@@ -209,7 +209,7 @@ How many assets carry a finding and how many distinct problems produce those fin
 | `RC-S-STALE-OR-SUPERSEDED` | source | family_specific | 9 | Acquiring the current edition of this form and recording the supersession. |
 | `RC-T-ALL-FIELDS-UNWRITABLE` | technical | family_specific | 2 | A reviewed mapping decision for this form, or a decision that it is court-completed. |
 | `RC-T-DIRTY-ACROFORM-SOURCE` | technical | family_specific | 25 | Sanitation of this form through the current pipeline, proved on the output. |
-| `RC-T-FLAT-GEOMETRY` | technical | family_specific | 23 | Measured anchors approved for this form. |
+| `RC-T-FLAT-GEOMETRY-UNMEASURED` | technical | family_specific | 21 | A live render proving the write boxes were measured against the rule lines they belong to. |
 | `RC-T-NO-DERIVABLE-WRITE-BOX` | technical | family_specific | 9 | A reviewed and recorded placement decision for this form. |
 | `RC-T-NO-FIELD-CENSUS` | technical | family_specific | 15 | A census taken from this form's verified binary. |
 | `RC-T-VALUES-ABSENT` | technical | family_specific | 2 | Bindings or anchors for this form, then a re-render. |
@@ -354,7 +354,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-287 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
 
 #### NC AOC-CR-287
 
@@ -368,7 +368,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-287 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-NO-SHEET-PRODUCED
 
 #### NC AOC-CR-287
 
@@ -382,7 +382,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-287 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-NO-SHEET-PRODUCED
 
 #### NC AOC-CR-287
 
@@ -396,7 +396,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-287 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-T-VALUES-ABSENT, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-PANELS-IDENTICAL
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-T-VALUES-ABSENT, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-PANELS-IDENTICAL
 
 #### NC AOC-CR-287
 
@@ -424,7 +424,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-287 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-NO-SHEET-PRODUCED
 
 #### NC AOC-CR-288
 
@@ -438,7 +438,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-288 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-NO-SHEET-PRODUCED
 
 #### NC AOC-CR-288
 
@@ -452,7 +452,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-288 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-NO-SHEET-PRODUCED
 
 #### NC AOC-CR-288
 
@@ -466,7 +466,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-288 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
 
 #### NC AOC-CR-288
 
@@ -480,7 +480,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-288 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-T-VALUES-ABSENT, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-PANELS-IDENTICAL
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-T-VALUES-ABSENT, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-PANELS-IDENTICAL
 
 #### NC AOC-CR-288
 
@@ -508,7 +508,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 d2a02cbe61e00c4093b3279d1d208ecf59b8cdc8f1fb7eb25189f8c0f7fc8806) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-288 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-NO-SHEET-PRODUCED
 
 #### NC AOC-CR-296
 
@@ -536,7 +536,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-297 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-NO-SHEET-PRODUCED
 
 #### NC AOC-CR-297
 
@@ -564,7 +564,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-298 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-NO-SHEET-PRODUCED
 
 #### NC AOC-CR-298
 
@@ -592,7 +592,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CV-226 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-SHEET-PANELS-IDENTICAL
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-SHEET-PANELS-IDENTICAL
 
 #### NC AOC-CV-226
 
@@ -620,7 +620,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CV-226 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-V-SHEET-PANELS-IDENTICAL
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-SHEET-PANELS-IDENTICAL
 
 #### NE CC-6-11
 
@@ -676,7 +676,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NE CC-6-12 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-T-FLAT-GEOMETRY, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-NO-SHEET-PRODUCED
 
 #### NE CC-6-15.1
 
@@ -802,7 +802,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official WI CR-267 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
 
 #### WI DJ-LE-250B
 
@@ -816,7 +816,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official WI DJ-LE-250B binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-STALE-OR-SUPERSEDED, RC-T-FLAT-GEOMETRY, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-STALE-OR-SUPERSEDED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
 
 ### Priority 3 — Source needed to resolve currentness or supersession for a current participant treatment.
 
@@ -848,7 +848,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official WI DJ-LE-247 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-STALE-OR-SUPERSEDED, RC-T-FLAT-GEOMETRY, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-STALE-OR-SUPERSEDED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-T-NO-DERIVABLE-WRITE-BOX, RC-V-NO-SHEET-PRODUCED
 
 ### Priority 4 — Orphaned, optional, historical or reference-only. do_not_acquire_without_a_named_current_use.
 

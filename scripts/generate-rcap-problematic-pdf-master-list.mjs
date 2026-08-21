@@ -304,7 +304,7 @@ for (const entry of register.records) {
   const needsRenderWork = entry.defectCategories.some((c) => [
     "unfinalized_rendered_artifact", "rendered_artifact_not_byte_inspectable",
     "contact_sheet_shows_no_fill", "clipped_overlapping_or_misplaced", "protected_field_populated",
-    "multi_widget_ambiguity", "flat_overlay_geometry_or_readback",
+    "multi_widget_ambiguity", "geometry_unmeasured",
     "stale_contact_sheet_manifest_or_review_evidence"
   ].includes(c));
 

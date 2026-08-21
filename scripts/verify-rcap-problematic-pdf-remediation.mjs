@@ -810,6 +810,35 @@ function runChecks() {
     }
   }
 
+  // ---- an implementation mode is never a defect ---------------------------
+  //
+  // A flat overlay and a scan describe the renderer a form needs. They are facts
+  // about how the form is filled, not findings against it, and reporting them as
+  // defects made every flat PDF permanently problematic — a state no correction
+  // could clear, because using an overlay is not something that can be fixed.
+  //
+  // The real failures keep their own names and stay reportable:
+  // geometry_unmeasured, anchor_ambiguous, rendered_false, readback_missing,
+  // expected_value_not_visible, protected_field_written.
+  const MODE_NOT_DEFECT = new Set([
+    "flat_overlay_geometry_or_readback",
+    "flat_pdf",
+    "scanned_pdf",
+    "uses_flat_overlay",
+    "overlay_renderer"
+  ]);
+  for (const row of register.records ?? []) {
+    for (const category of row.defectCategories ?? []) {
+      if (MODE_NOT_DEFECT.has(category)) {
+        fail("structural_mode_is_not_a_defect",
+          `${row.identity} carries ${category}, which names how the form is filled rather than anything wrong with it`);
+      }
+    }
+    if (!row.implementationMode) {
+      fail("structural_mode_is_not_a_defect", `${row.identity} records no implementationMode, so the structural fact has nowhere to live but the defect list`);
+    }
+  }
+
   // ---- the register and the master list must agree about the end state -----
   //
   // These were two answers to one question. The master list derived
@@ -893,6 +922,40 @@ const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RE
   "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/fixtures/canonical-filled.pdf"];
 
 const CASES = [
+  {
+    name: "an approved flat-overlay family loses its live render proof",
+    expect: "platform_ready_leaves_the_problematic_denominator",
+    apply: () => {
+      // Using an overlay renderer is not a defect. Having nobody measure where
+      // the values go IS. Strip the live render evidence from the approved
+      // family and it must fall back into the denominator — that is what
+      // separates "this form is filled by geometry" from "this form's geometry
+      // is unmeasured", and only the second is a finding.
+      const register = readJson(REGISTER);
+      register.platformReady = [];
+      register.totals.platformReady = 0;
+      register.totals.problematicPdfsTotal = Number(register.totals.problematicPdfsTotal) + 1;
+      fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
+    }
+  },
+  {
+    name: "the flat-overlay implementation mode is reported as a defect again",
+    expect: "structural_mode_is_not_a_defect",
+    apply: () => {
+      const register = readJson(REGISTER);
+      const row = register.records.find((r) => r.implementationMode === "flat_overlay");
+      row.defectCategories = [...new Set([...row.defectCategories, "flat_overlay_geometry_or_readback"])];
+      row.defects = [...row.defects, {
+        category: "flat_overlay_geometry_or_readback",
+        rootCauseId: "RC-T-FLAT-GEOMETRY",
+        description: "The asset is a flat PDF.",
+        evidence: "verified-binary-index.json:structuralClass",
+        rootCauseScope: "family_specific",
+        rootCauseDimension: "technical"
+      }];
+      fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
+    }
+  },
   {
     name: "the exact independent approval is removed and CR-266 stays out of the denominator",
     expect: "platform_ready_leaves_the_problematic_denominator",
@@ -1347,38 +1410,29 @@ const CASES = [
     expect: "systemic_causes_are_counted_once",
     apply: () => {
       const register = readJson(REGISTER);
-      // Whichever systemic dimension this corpus actually has causes in.
+      // SYNTHESISED, not borrowed from the corpus.
       //
-      // The mutation named `technical` outright, and the corpus has none:
-      // every technical cause here is family-specific. So it threw instead of
-      // mutating, and the whole mutation suite died at that line — invisibly,
-      // for as long as the suite refused to run at all because the baseline
-      // was red. The defect it exists to catch is arithmetic and dimension-
-      // independent: one systemic cause reported once per impacted asset.
-      const scopeAndDimension = (c) => ROOT_CAUSES[c.rootCauseId] ?? {};
-      const KEYS = { technical: "uniqueSystemicTechnicalRootCauses", visual: "uniqueSystemicVisualRootCauses", source: "uniqueSystemicSourceRootCauses" };
-      let target = null;
-      for (const dimension of ["technical", "visual", "source"]) {
-        const causes = register.rootCauseIndex.filter((c) => {
-          const meta = scopeAndDimension(c);
-          return meta.scope === "systemic" && meta.dimension === dimension;
-        });
-        if (causes.length > 0) { target = { dimension, causes, key: KEYS[dimension] }; break; }
-      }
-      if (!target) throw new Error("no systemic root cause of any dimension to inflate; this mutation cannot apply");
-      // One systemic cause is given the several assets it actually spans, so the
-      // inflation has something to inflate.
-      //
-      // Without this the mutation was inert: every systemic cause currently
-      // impacts exactly one asset, so summing impacted assets reproduced the
-      // honest count exactly and the check stayed green while "proving" that
-      // double-counting is detected. A mutation whose defect the data cannot
-      // express is not a test, and it goes quiet precisely when the corpus is
-      // small — which is when the count is easiest to get wrong.
-      target.causes[0].impactedAssets = 4;
-      // The classic inflation: report impacted assets as if each were its own
-      // distinct problem.
-      register.totals[target.key] = target.causes.reduce((n, c) => n + (c.impactedAssets ?? 1), 0);
+      // This mutation used to seed impactedAssets onto whichever systemic
+      // technical cause happened to exist. The corpus now contains none — the
+      // remediation closed them all — so it aborted, and a test that only runs
+      // while a real defect persists is a test that retires itself exactly when
+      // the code gets good. It now brings its own cause and its own two impacted
+      // assets, so the counting rule is exercised on a green corpus.
+      const synthetic = {
+        rootCauseId: "RC-T-SYNTHETIC-COUNTING-PROBE",
+        dimension: "technical",
+        scope: "systemic",
+        title: "synthetic systemic cause, present only to exercise the counting rule",
+        detail: "One cause spanning two assets. Honest unique count is 1; counting it per asset gives 2.",
+        clearedBy: "n/a",
+        owner: "n/a",
+        impactedAssets: 2,
+        impactedAssetIds: ["SYNTHETIC|probe-a|" + "0".repeat(64), "SYNTHETIC|probe-b|" + "1".repeat(64)]
+      };
+      register.rootCauseIndex = [...register.rootCauseIndex, synthetic];
+      // The honest answer is ONE distinct problem. The defect is reporting the
+      // blast radius as though each impacted asset were its own problem.
+      register.totals.uniqueSystemicTechnicalRootCauses = synthetic.impactedAssets;
       fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
     }
   },

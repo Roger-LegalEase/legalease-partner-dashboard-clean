@@ -260,7 +260,8 @@ if (MUTATIONS) {
 const problems = failures(registry);
 const admitted = (registry.routes ?? []).filter((route) => route.factoryV2Resolves === true);
 console.log(
-  `factory_v2: ${admitted.length} of ${(registry.routes ?? []).length} intended-paid routes build through the one shared packet factory; ` +
+  `factory_v2: ${admitted.length} of ${(registry.routes ?? []).length} intended-paid routes are ADMITTED to the one shared packet factory ` +
+  `(admission, not selection — the resolver applies every suppression ahead of the factory branch, and the launch graph reports what it actually selected); ` +
   `${admitted.filter((route) => route.separateGates?.ownerApprovedLegalDesign).length} of those are owner-approved, ` +
   `${admitted.filter((route) => route.separateGates?.paymentAllowedAtTheEvaluator).length} of those allow payment at the evaluator.`
 );

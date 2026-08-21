@@ -237,9 +237,13 @@ function defectsFor(ctx) {
     }
   } else {
     if (record.sourcePresenceInClone === false) add("missing_binary", "RC-S-BUNDLE-ABSENT", `${record.fileName} is expected at ${record.relativePath} and is not present in the clone.`, "source-record.json:sourcePresenceInClone");
-    if (record.fieldExtractionStatus === "field_census_unavailable_in_repo") add("flat_overlay_geometry_or_readback", "RC-T-NO-FIELD-CENSUS", "No field census could be extracted, so overlay geometry cannot be measured or read back.", "source-record.json:fieldExtractionStatus");
+    if (record.fieldExtractionStatus === "field_census_unavailable_in_repo") add("geometry_unmeasured", "RC-T-NO-FIELD-CENSUS", "No field census could be extracted, so overlay geometry cannot be measured or read back.", "source-record.json:fieldExtractionStatus");
     if (record.classification === "dirty_acroform") add("xfa_javascript_or_active_content_residue", "RC-T-DIRTY-ACROFORM-SOURCE", "The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill.", "source-record.json:classification");
-    if (record.classification === "scanned_pdf") add("flat_overlay_geometry_or_readback", "RC-T-FLAT-GEOMETRY", "The binary is a scan, so there are no widgets to bind and any fill is flat-overlay geometry.", "source-record.json:classification");
+    // A scan has no widgets to bind, so every value is placed by geometry. That
+    // is HOW THE FORM WORKS, not a finding about it — it is recorded as the
+    // asset's structural mode below and is deliberately not a defect. Being a
+    // scan is only a problem once the geometry is unmeasured, and that is
+    // reported on its own terms.
     if (record.failClosed === true) add("held_on_source_or_design", "RC-G-GENERATION-NOT-ALLOWED", "The source record fails closed: no generation is permitted from it in its current state.", "source-record.json:failClosed");
     for (const hold of record.productionHolds ?? []) {
       add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", typeof hold === "string" ? hold : JSON.stringify(hold), "source-record.json:productionHolds");
@@ -250,8 +254,14 @@ function defectsFor(ctx) {
   // while the geometry is unmeasured; once the write boxes are recorded against
   // the rule lines they came from and the family renders, it is simply how this
   // form works.
+  // Being a flat overlay is an implementation mode and never a defect on its
+  // own. What IS a defect is a flat form whose write boxes have not been
+  // measured against the rule lines they belong to — the family does not render,
+  // so nothing has established where a value would go. Naming the mode instead
+  // of the failure put every flat PDF permanently in the defect denominator,
+  // where no amount of correction could remove it.
   if (binary?.structuralClass === "flat_pdf" && !rendered) {
-    add("flat_overlay_geometry_or_readback", "RC-T-FLAT-GEOMETRY", "The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget.", "verified-binary-index.json:structuralClass");
+    add("geometry_unmeasured", "RC-T-FLAT-GEOMETRY-UNMEASURED", "The asset is a flat PDF and no live render proves its overlay geometry was measured, so no write box is established.", "verified-binary-index.json:structuralClass + flat-overlay-render-report.json");
   }
 
   for (const finding of overflow?.findings ?? []) {
@@ -453,6 +463,19 @@ for (const family of familyDirectories()) {
     binaryPresent: record.binaryPresent ?? (record.sourcePresenceInClone ?? null),
     pages: record.declaredPages ?? record.pageCount ?? binary?.pages ?? null,
     structuralClass: record.structuralClassObserved ?? record.classification ?? binary?.structuralClass ?? null,
+    // HOW this form is filled, recorded as a fact about the form rather than as
+    // a finding against it. A flat overlay and a scan are implementation modes;
+    // they describe the renderer a form needs, not something wrong with it.
+    // Reporting them as defects made every flat PDF permanently problematic,
+    // which no correction could ever clear.
+    implementationMode: (() => {
+      const cls = record.structuralClassObserved ?? record.classification ?? binary?.structuralClass ?? null;
+      if (cls === "scanned_pdf") return "scanned_flat_overlay";
+      if (cls === "flat_pdf") return "flat_overlay";
+      if (cls === "dirty_acroform") return "acroform_requiring_sanitation";
+      if (cls === "acroform") return "acroform";
+      return cls;
+    })(),
     participantFillable: record.participantFillable ?? binary?.participantFillable ?? null,
     defectCategories: categories,
     defects,
@@ -663,7 +686,7 @@ const totals = {
   uniqueFamilySpecificSourceDefects: uniqueFamilySpecific("source"),
   uniqueRootCausesInPlay: rootCauseIndex.length,
   technicalDefects: records.filter((r) => r.defectCategories.some((c) => [
-    "flat_overlay_geometry_or_readback", "multi_widget_ambiguity", "xfa_javascript_or_active_content_residue",
+    "geometry_unmeasured", "multi_widget_ambiguity", "xfa_javascript_or_active_content_residue",
     "missing_required_packet_component", "technically_correction_required",
     "unfinalized_rendered_artifact", "rendered_artifact_not_byte_inspectable"
   ].includes(c))).length,

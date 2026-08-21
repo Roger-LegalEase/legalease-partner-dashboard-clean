@@ -30,15 +30,29 @@ jobs:
         if: ${{ steps.scope.outputs.rcapAffected != 'true' }}
         run: echo "RCAP not affected; skipping RCAP handoff verification."
 
+      # UNCONDITIONAL, and it must stay that way.
+      #
+      # The release guards further down — worker publication, source-SHA tag
+      # integrity, image-input fingerprint, digest binding, deployment closure —
+      # deliberately run for every change, including workflow-only ones, because
+      # a workflow edit is exactly how those guarantees get weakened. They import
+      # repository dependencies.
+      #
+      # When these two steps were scope-gated, a tools-only diff produced: scope
+      # says RCAP unaffected -> Node skipped -> npm ci skipped -> the
+      # unconditional tag guard runs anyway -> MODULE_NOT_FOUND on js-yaml. The
+      # guard had not failed its contract; the job had failed to give it the
+      # environment it was promised.
+      #
+      # There is exactly one installation per job. Do not add a second, and do
+      # not put either step behind the scope condition again.
       - name: Set up Node
-        if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
       - name: Install dependencies
-        if: ${{ steps.scope.outputs.rcapAffected == 'true' }}
         run: npm ci
 
       - name: Lint
@@ -128,6 +142,18 @@ jobs:
 
       - name: Prove the hosted acceptance verdict guard is load-bearing
         run: node scripts/test-rcap-hosted-acceptance-verdict-mutations.mjs
+
+      - name: Verify the hosted job read only selects real columns
+        run: node scripts/verify-rcap-hosted-job-read-columns.mjs
+
+      - name: Prove the job-read column guard is load-bearing
+        run: node scripts/verify-rcap-hosted-job-read-columns.mjs --mutations
+
+      - name: Verify a transacting phase cannot run against a route-disabled Preview
+        run: node scripts/verify-rcap-staging-scoped-preview-contract.mjs
+
+      - name: Prove the staging-scoped Preview guard is load-bearing
+        run: node scripts/verify-rcap-staging-scoped-preview-contract.mjs --mutations
 
       # The boundaries the matrix above asserts against, proved on a real
       # database rather than assumed: binding is written in the enqueue INSERT,
@@ -315,3 +341,16 @@ jobs:
 
       - name: Prove the manifest-only retention guards are load-bearing
         run: node scripts/verify-rcap-manifest-only-retention.mjs --mutations
+
+      # A form whose own printed notice says DO NOT COMPLETE THIS FORM FOR
+      # FILING must never be filled, and must never stand in for the English
+      # form the participant actually files. Two Spanish artifacts were being
+      # reported as failures for correctly refusing.
+      - name: Verify the artifact dispositions are current
+        run: node scripts/generate-rcap-artifact-dispositions.mjs --check
+
+      - name: Verify court-declared non-filing components are never filled or filed
+        run: node scripts/verify-rcap-non-filing-components.mjs
+
+      - name: Prove the non-filing component guards are load-bearing
+        run: node scripts/verify-rcap-non-filing-components.mjs --mutations

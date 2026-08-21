@@ -3,8 +3,8 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 140,
-    "wired": 124,
+    "keep_available": 154,
+    "wired": 126,
     "fix_then_wire": 27,
     "retire": 1,
     "quarantine": 2,
@@ -1379,6 +1379,18 @@
       "observedStatus": "added_since_audit",
       "decidedBy": "captain"
     },
+    "test-rcap-partner-provisioning-journey.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "test-rcap-partner-provisioning-lifecycle.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "test-rcap-phase52-mutations.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
@@ -1474,6 +1486,12 @@
       "laneOwned": true
     },
     "verify-rcap-acceptance-migration-sequence.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-all50-workflow-bootstrap.mjs": {
       "disposition": "keep_available",
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
       "observedStatus": "added_since_audit",
@@ -1596,11 +1614,29 @@
       "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
+    "verify-rcap-hosted-full-matrix-contract.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-hosted-job-read-columns.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-rcap-image-input-fingerprint.mjs": {
       "disposition": "keep_available",
       "reason": "Blocking via verify-rcap-worker-publication-workflow.mjs, which spawns it and fails if it fails. Not listed in the npm test chain string because package.json is itself an image input and the commit introducing this gate was forbidden from touching image-input paths. Independently recomputes all seven image-input hashes (sha256 for files, git tree hashes for scripts/lib/ and src/), enforces base-to-HEAD image-input equivalence, rejects checkpoint-substitution, algorithm drift, omitted inputs, dirty trees and hand-edited records.",
       "observedStatus": "added_since_audit",
       "decidedBy": "captain"
+    },
+    "verify-rcap-immutable-image-preflight.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
     },
     "verify-rcap-lane-b-exact-deferrals.mjs": {
       "disposition": "wired",
@@ -1651,6 +1687,12 @@
       "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
     },
+    "verify-rcap-non-filing-components.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
     "verify-rcap-official-forms-d1.mjs": {
       "disposition": "wired",
       "reason": "D1's acceptance verifier: 146 family packages structurally complete and sha-pinned, 62 completed implementation packages rendered with no unwritable field written. Lane D1 recorded it green but could not edit package.json; the captain wired it in the first terminalization integration window (2026-08-12-w2).",
@@ -1699,6 +1741,18 @@
       "decidedBy": "captain",
       "laneOwned": true
     },
+    "verify-rcap-packet-contract.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-partner-provisioning.mjs": {
+      "disposition": "wired",
+      "reason": "Already reached by npm test.",
+      "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
     "verify-rcap-person-identity-post-phase54.mjs": {
       "disposition": "wired",
       "reason": "Terminal B's independent post-Phase-54 audit of public.rcap_persons, imported byte-identical from 338629ae. This is the audit that supersedes 83c04469, which audited 7e1b2c4d with no Phase 54 in its tree and correctly reported the pre-hardening exposure. Green from the integrated tree.",
@@ -1721,6 +1775,12 @@
       "decidedBy": "generated"
     },
     "verify-rcap-phase55-matter-payment-binding.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-preview-reuse-contract.mjs": {
       "disposition": "keep_available",
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
       "observedStatus": "added_since_audit",
@@ -1774,6 +1834,30 @@
       "observedStatus": "in_chain",
       "decidedBy": "generated"
     },
+    "verify-rcap-source-acquisition-plan.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-staging-scoped-preview-contract.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-target-replay-scope.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-target-worker-journey.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-rcap-terminalization-treatments.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
@@ -1804,10 +1888,22 @@
       "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
+    "verify-rcap-worker-image-revision.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-rcap-worker-publication-workflow.mjs": {
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-worker-source-binding-exception.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
     "verify-rcap-worker-tag-guard.mjs": {

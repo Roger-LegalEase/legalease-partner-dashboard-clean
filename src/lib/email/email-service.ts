@@ -67,6 +67,32 @@ export function getPartnerEmailDeliveryConfig(): PartnerEmailDeliveryConfig {
   };
 }
 
+const RESEND_API_BASE_URL = "https://api.resend.com";
+
+/**
+ * Where invitation email is actually posted.
+ *
+ * Production always uses Resend. The override exists so local acceptance can
+ * prove a real branded email leaves the application and arrives in Mailpit,
+ * which an HTTPS-only client cannot demonstrate. It is honoured ONLY for a
+ * loopback address: a non-loopback value is ignored rather than obeyed, so no
+ * environment variable anywhere can redirect partner mail to a third party.
+ */
+export function partnerEmailApiBaseUrl(): string {
+  const configured = process.env.PARTNER_EMAIL_API_BASE_URL?.trim();
+  if (!configured) return RESEND_API_BASE_URL;
+  let parsed: URL;
+  try {
+    parsed = new URL(configured);
+  } catch {
+    return RESEND_API_BASE_URL;
+  }
+  if (!["127.0.0.1", "localhost", "::1", "[::1]"].includes(parsed.hostname)) {
+    return RESEND_API_BASE_URL;
+  }
+  return configured.replace(/\/+$/, "");
+}
+
 export async function sendPartnerEmailMessage(input: {
   recipientEmail: string;
   subject: string;
@@ -99,7 +125,7 @@ export async function sendPartnerEmailMessage(input: {
   }
 
   try {
-    const response = await fetch("https://api.resend.com/emails", {
+    const response = await fetch(`${partnerEmailApiBaseUrl()}/emails`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${resendApiKey}`,

@@ -31,7 +31,17 @@ on:
         required: true
         type: string
       preview_deployment_id:
-        description: "Exact existing Vercel Preview deployment id; required only by checkout_gate"
+        description: "Exact existing Vercel Preview deployment id; optional — resolved from preview_hostname when omitted"
+        required: false
+        type: string
+        default: ""
+      contradiction_job_id:
+        description: "Exact packet_render_jobs id to diagnose (worker_contract phase)"
+        required: false
+        type: string
+        default: ""
+      preview_hostname:
+        description: "Exact existing Vercel Preview hostname to REUSE. Supplying it forbids creating a new deployment: a candidate that does not match every condition refuses rather than silently deploying another Preview."
         required: false
         type: string
         default: ""
@@ -84,9 +94,9 @@ permissions:
   packages: read
 
 env:
-  AUTHORIZED_APPLICATION_SHA: 664b8ddd374642bf2bd1820f7e05224f3dd081bc
-  AUTHORIZED_WORKER_SOURCE_SHA: 664b8ddd374642bf2bd1820f7e05224f3dd081bc
-  AUTHORIZED_WORKER_DIGEST: sha256:be782397379b2dd6db3f63353f38e1fe1b31095dbf9307abb73f97c1136cc9be
+  AUTHORIZED_APPLICATION_SHA: f7ed0ad3a8f37a0c1446b62760b1a36fb163c926
+  AUTHORIZED_WORKER_SOURCE_SHA: 5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8
+  AUTHORIZED_WORKER_DIGEST: sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530
   AUTHORIZED_ACCEPTANCE_PROJECT_REF: hyflxnlhpmiqxvvcoiia
   IMAGE_REPOSITORY: ghcr.io/roger-legalease/rcap-render-worker
   CANONICAL_INTEGRATION_BRANCH: main
@@ -119,6 +129,7 @@ jobs:
         env:
           PHASE_INPUT: ${{ inputs.phase }}
           PREVIEW_DEPLOYMENT_ID_INPUT: ${{ inputs.preview_deployment_id }}
+          PREVIEW_HOSTNAME_INPUT: ${{ inputs.preview_hostname }}
           APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
           WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
           WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
@@ -135,8 +146,15 @@ jobs:
             printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
               || { echo "::error::checkout_gate requires one exact Vercel deployment id"; exit 1; }
           elif [ -n "$PREVIEW_DEPLOYMENT_ID_INPUT" ]; then
-            echo "::error::preview_deployment_id is accepted only by checkout_gate"
-            exit 1
+            # A reuse candidate is legitimate for any phase that resolves a
+            # Preview. It is still shape-checked, so a typo refuses here rather
+            # than reaching the resolver as an unresolvable id.
+            printf '%s' "$PREVIEW_DEPLOYMENT_ID_INPUT" | grep -Eq '^dpl_[A-Za-z0-9]+$' \
+              || { echo "::error::preview_deployment_id must be one exact Vercel deployment id"; exit 1; }
+          fi
+          if [ -n "$PREVIEW_HOSTNAME_INPUT" ]; then
+            printf '%s' "$PREVIEW_HOSTNAME_INPUT" | grep -Eq '^[A-Za-z0-9.-]+\.vercel\.app$' \
+              || { echo "::error::preview_hostname must be one exact *.vercel.app hostname"; exit 1; }
           fi
 
       - name: Check out repository history
@@ -162,10 +180,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Verify the reuse-only human Checkout gate
-        if: inputs.phase == 'checkout_gate'
-        run: node scripts/verify-rcap-hosted-checkout-gate.mjs
 
       - name: Verify the read-only post-failure Vercel audit
         if: inputs.phase == 'vercel_audit'
@@ -202,8 +216,12 @@ jobs:
       # Guarded by the preflight above: this step is not reached unless the
       # acceptance project has been proven empty of production data in this
       # same job, moments earlier and against the same project ref.
+      # `payment` reads the sequence back before transacting. The script is
+      # ledger-aware and hash-gated, so an already-applied project reports
+      # readback_only and applies nothing; it refuses outright on hash drift.
       - name: Apply the authorized sequence to the acceptance project
-        if: inputs.phase == 'migrate' || inputs.phase == 'full'
+        id: migrate_readback
+        if: inputs.phase == 'migrate' || inputs.phase == 'full' || inputs.phase == 'payment'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -215,8 +233,105 @@ jobs:
       # src, package.json, package-lock.json, tsconfig.json, next.config.ts and
       # public — so deploying this tree deploys the freeze, and the tools commit
       # carrying this step is not a new application freeze.
+      # ONE normalized contract, so a phase cannot be silently absent from a
+      # condition. `full` was listed on the deploy step and on none of the
+      # matrix steps, so hosted_full deployed a Preview, skipped every proof
+      # after it, and still concluded success. A green run that never attempted
+      # the matrix is worse than a red one: it reads as acceptance.
+      #
+      #   phase          deploy/reuse   matrix   checkout gate
+      #   full           yes            yes      yes
+      #   deploy         yes            no       no
+      #   accept         no             yes      no
+      #   payment        yes            yes      no
+      #   checkout_gate  no             no       yes
+      #   migrate        no             no       no
+      #   preflight      no             no       no
+      #   vercel_audit   no             no       no
+      #   anything else  FAIL CLOSED
+      - name: Normalize the execution contract for this phase
+        id: contract
+        run: |
+          set -euo pipefail
+          PHASE='${{ inputs.phase }}'
+          case "$PHASE" in
+            full)          DEPLOY=true;  MATRIX=true;  GATE=true  ;;
+            deploy)        DEPLOY=true;  MATRIX=false; GATE=false ;;
+            accept)        DEPLOY=false; MATRIX=true;  GATE=false ;;
+            payment)       DEPLOY=true;  MATRIX=true;  GATE=false ;;
+            checkout_gate) DEPLOY=false; MATRIX=false; GATE=true  ;;
+            migrate|preflight|vercel_audit|worker_contract) DEPLOY=false; MATRIX=false; GATE=false ;;
+            *)
+              echo "::error::unknown phase '$PHASE'; refusing rather than defaulting to a weaker phase"
+              exit 1
+              ;;
+          esac
+          {
+            echo "phase=$PHASE"
+            echo "deploy=$DEPLOY"
+            echo "matrix=$MATRIX"
+            echo "gate=$GATE"
+            # A read-only diagnosis phase: no Preview, no Checkout, no payment,
+            # but it does need the registry to probe inside the published image.
+            if [ "$PHASE" = "worker_contract" ]; then echo "diagnose=true"; else echo "diagnose=false"; fi
+            # Any phase that transacts — Checkout, payment, worker, artifact,
+            # delivery — needs an OPEN, identity-narrowed delivery route. Derived
+            # from the same decision rather than written out again, so it cannot
+            # drift away from which steps actually run.
+            if [ "$MATRIX" = "true" ] || [ "$GATE" = "true" ]; then
+              echo "require_staging_scoped=true"
+            else
+              echo "require_staging_scoped=false"
+            fi
+          } >> "$GITHUB_OUTPUT"
+          echo "phase=$PHASE deploy=$DEPLOY matrix=$MATRIX checkoutGate=$GATE"
+
+      # Runs in every phase that runs the gate, not just the gate-only phase.
+      # It used to be `inputs.phase == 'checkout_gate'`, so a `full` run executed
+      # the Checkout gate while nothing verified it — and the gate reached a
+      # hosted acceptance run still pinning a superseded application SHA and
+      # worker digest. A guard that skips the phase it most needs to cover is
+      # not a guard.
+      #
+      # It must sit AFTER the contract step: a condition reading
+      # steps.contract.outputs.* from a position above that step resolves to the
+      # empty string and silently skips — the same class of defect this step
+      # exists to catch, which is exactly how it behaved when placed earlier.
+      - name: Verify the reuse-only human Checkout gate
+        id: verify_checkout_gate
+        if: steps.contract.outputs.gate == 'true' || steps.contract.outputs.matrix == 'true'
+        run: node scripts/verify-rcap-hosted-checkout-gate.mjs
+
+      # ONE boundary for which Preview the matrix runs against. Always executes
+      # for any phase needing a Preview, and returns exactly one of:
+      # reused_exact_ready_preview, created_one_new_preview,
+      # refused_no_exact_preview.
+      #
+      # A supplied-but-mismatching candidate REFUSES. Deploying a fresh Preview
+      # in that case looks like resilience and is actually the loss of the
+      # operator's instruction to test one specific deployment.
+      - name: Resolve the Preview this run will use
+        id: resolve_preview
+        if: steps.contract.outputs.deploy == 'true' || steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          # The resolver reads the CANDIDATE from the inputs. Everything
+          # downstream reads the RESOLVED identity from this step's outputs.
+          HOSTED_PREVIEW_HOSTNAME: ${{ inputs.preview_hostname }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          HOSTED_REQUIRE_STAGING_SCOPED: ${{ steps.contract.outputs.require_staging_scoped }}
+        run: node scripts/rcap-hosted-resolve-preview.mjs
+
       - name: Deploy the frozen application SHA to Vercel Preview
-        if: inputs.phase == 'deploy' || inputs.phase == 'full' || inputs.phase == 'payment'
+        id: deploy_preview
+        # Suppressed entirely when the resolver reused an exact READY Preview:
+        # reuse means no Vercel deployment command runs at all.
+        if: steps.contract.outputs.deploy == 'true' && steps.resolve_preview.outputs.reused != 'true'
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -238,7 +353,8 @@ jobs:
       # deployment and creates the named synthetic participants. Writes only
       # site_url and uri_allow_list, and only on the acceptance project.
       - name: Configure acceptance Auth and create the synthetic identities
-        if: inputs.phase == 'accept' || inputs.phase == 'payment'
+        id: auth_identities
+        if: steps.contract.outputs.matrix == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -251,7 +367,8 @@ jobs:
       # The golden-journey matrix needs a built application to serve the
       # runtime-classification cases, and the pinned worker image by digest.
       - name: Build the frozen application for the matrix runtimes
-        if: inputs.phase == 'accept' || inputs.phase == 'payment'
+        id: matrix_build
+        if: steps.contract.outputs.matrix == 'true'
         env:
           NEXT_TELEMETRY_DISABLED: "1"
         run: |
@@ -260,7 +377,8 @@ jobs:
           npm run build
 
       - name: Log in to the container registry for the pinned worker image
-        if: inputs.phase == 'accept' || inputs.phase == 'payment' || inputs.phase == 'checkout_gate'
+        id: registry_login
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true'
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
@@ -273,17 +391,42 @@ jobs:
       # while the item and Session are still unpaid. It never deploys, migrates,
       # synthesizes a completion event, runs the worker, or cleans up the item.
       - name: Install frozen application dependencies for the Checkout gate
-        if: inputs.phase == 'checkout_gate'
+        id: gate_deps
+        if: steps.contract.outputs.matrix == 'true' || steps.contract.outputs.gate == 'true' || steps.contract.outputs.diagnose == 'true'
         run: npm ci
 
+      # Placed AFTER the registry login and the dependency install, because it
+      # needs both: it pulls the private image by digest, and it imports the
+      # repository's TypeScript modules through scripts/lib/ts-esm-loader.mjs,
+      # which resolves `typescript` from node_modules. Run 32401384171 put this
+      # step before both and died on ERR_MODULE_NOT_FOUND for 'typescript'
+      # before it could read anything — the same shape as the All50 bootstrap
+      # defect: a guard placed ahead of the step that gives it a runtime.
+      - name: Diagnose the worker contract contradiction
+        id: worker_contract
+        if: steps.contract.outputs.diagnose == 'true'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
+          CONTRADICTION_JOB_ID: ${{ inputs.contradiction_job_id }}
+        run: node scripts/rcap-worker-contract-contradiction.mjs
+
+      # Bound to the contract's own GATE flag alone. This is the REUSE-ONLY human
+      # Checkout gate: it prepares one real Sandbox Session for Roger and stops
+      # unpaid. `payment` sets GATE=false because the automated payment journey
+      # covers the unpaid-402 and cs_test_ Checkout cases itself, so running this
+      # under `payment` contradicted the contract that scheduled the phase.
       - name: Prepare one real Pennsylvania Sandbox Checkout and stop unpaid
-        if: inputs.phase == 'checkout_gate'
+        id: checkout_gate
+        if: steps.contract.outputs.gate == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           HOSTED_WORKER_DIGEST_REF: ghcr.io/roger-legalease/rcap-render-worker@${{ inputs.worker_digest }}
-          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}
+          HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ steps.resolve_preview.outputs.deployment_id || steps.deploy_preview.outputs.deployment_id }}
+          HOSTED_PREVIEW_HOSTNAME: ${{ steps.resolve_preview.outputs.hostname || steps.deploy_preview.outputs.hostname }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -292,7 +435,8 @@ jobs:
         run: node scripts/rcap-hosted-checkout-gate.mjs
 
       - name: Run the hosted golden-journey matrix
-        if: inputs.phase == 'accept'
+        id: golden_journey
+        if: steps.contract.outputs.matrix == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -301,8 +445,33 @@ jobs:
 
       # Runs even when the matrix fails: the gallery URLs are what Roger opens
       # on a phone, and they are worth having in the evidence either way.
+      # Before the journey spends a real Sandbox Checkout: the harness must
+      # still follow THIS run's job, still read columns that exist, still scope
+      # its replay to its own identities, and still refuse to charge before the
+      # published image has admitted the tuple. Run 32393413747 spent all of
+      # that and then reported another run's backlog job as its own result.
+      #
+      # Deliberately ABOVE the payment step and below `npm ci`: a guard placed
+      # after the thing it guards is not a guard, and one placed before its
+      # runtime does not run at all.
+      - name: The payment harness still follows this run's own job
+        id: verify_harness
+        if: steps.contract.outputs.matrix == 'true'
+        run: |
+          node scripts/verify-rcap-target-worker-journey.mjs
+          node scripts/verify-rcap-target-worker-journey.mjs --mutations
+          node scripts/verify-rcap-target-replay-scope.mjs
+          node scripts/verify-rcap-target-replay-scope.mjs --mutations
+          node scripts/verify-rcap-immutable-image-preflight.mjs
+          node scripts/verify-rcap-immutable-image-preflight.mjs --mutations
+          node scripts/verify-rcap-hosted-job-read-columns.mjs
+          node scripts/verify-rcap-hosted-job-read-columns.mjs --mutations
+          node scripts/verify-rcap-packet-contract.mjs
+          node scripts/verify-rcap-packet-contract.mjs --mutations
+
       - name: Run the hosted Stripe payment and packet-delivery journey
-        if: inputs.phase == 'payment'
+        id: payment_journey
+        if: steps.contract.outputs.matrix == 'true'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
@@ -317,7 +486,8 @@ jobs:
         run: node scripts/rcap-hosted-acceptance-payment.mjs
 
       - name: Prove the Pennsylvania, Mississippi and Illinois galleries render
-        if: (inputs.phase == 'accept' || inputs.phase == 'payment') && always()
+        id: galleries
+        if: always() && steps.contract.outputs.matrix == 'true'
         env:
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -325,6 +495,110 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: node scripts/rcap-hosted-acceptance-gallery.mjs
+
+      # A hosted_full run that did not attempt the matrix must conclude
+      # FAILURE. Run 32330767286 concluded success having skipped steps 12-19,
+      # which is the exact shape of an unearned verdict: a READY Preview and a
+      # green tick, with no payment, no artifact and no download behind them.
+      #
+      # `always()` so the gate itself cannot be skipped by an earlier failure,
+      # and it asserts outcomes explicitly — `skipped`, `cancelled`, `failure`
+      # and an absent id all fail. Only `success` passes.
+      - name: Every required matrix step actually ran
+        id: antiskip
+        if: always()
+        env:
+          PHASE: ${{ inputs.phase }}
+          O_CONTRACT: ${{ steps.contract.outcome }}
+          RUNS_MATRIX: ${{ steps.contract.outputs.matrix }}
+          RUNS_GATE: ${{ steps.contract.outputs.gate }}
+          RUNS_DIAGNOSE: ${{ steps.contract.outputs.diagnose }}
+          O_DIAGNOSE: ${{ steps.worker_contract.outcome }}
+          O_RESOLVE: ${{ steps.resolve_preview.outcome }}
+          O_REUSED: ${{ steps.resolve_preview.outputs.reused }}
+          O_DEPLOY: ${{ steps.deploy_preview.outcome }}
+          O_AUTH: ${{ steps.auth_identities.outcome }}
+          O_BUILD: ${{ steps.matrix_build.outcome }}
+          O_REGISTRY: ${{ steps.registry_login.outcome }}
+          O_DEPS: ${{ steps.gate_deps.outcome }}
+          O_VERIFY_GATE: ${{ steps.verify_checkout_gate.outcome }}
+          O_GATE: ${{ steps.checkout_gate.outcome }}
+          O_GOLDEN: ${{ steps.golden_journey.outcome }}
+          O_VERIFY_HARNESS: ${{ steps.verify_harness.outcome }}
+          O_PAYMENT: ${{ steps.payment_journey.outcome }}
+          O_GALLERY: ${{ steps.galleries.outcome }}
+        run: |
+          set -uo pipefail
+          fail=0
+          require() {
+            # $1 label, $2 outcome
+            case "${2:-}" in
+              success) echo "  ok       $1" ;;
+              "")      echo "  MISSING  $1 — the step id does not exist; the gate is asserting nothing"; fail=1 ;;
+              *)       echo "  $2  $1"; fail=1 ;;
+            esac
+          }
+          echo "phase=$PHASE contract=$O_CONTRACT matrix=$RUNS_MATRIX checkoutGate=$RUNS_GATE"
+          # Without this, a contract step that failed or never ran leaves
+          # RUNS_MATRIX empty, the assertions below are all skipped, and this
+          # gate reports success having checked nothing — the exact vacuous pass
+          # it exists to prevent. Every phase must reach a real decision.
+          if [ "$O_CONTRACT" != "success" ]; then
+            echo "  $O_CONTRACT  execution contract did not produce a decision; nothing downstream can be trusted"
+            echo "::error::the phase contract did not run to success, so this gate cannot assert the matrix ran; this run is not acceptance evidence"
+            exit 1
+          fi
+          case "$RUNS_MATRIX/$RUNS_GATE" in
+            true/*|false/true|false/false) ;;
+            *) echo "::error::the contract emitted matrix='$RUNS_MATRIX' gate='$RUNS_GATE', which is not a decision this gate can read"; exit 1 ;;
+          esac
+          if [ "$RUNS_MATRIX" = "true" ]; then
+            require "Preview resolution boundary"        "$O_RESOLVE"
+            # Reuse legitimately skips the raw deploy step; a non-reuse run must have deployed.
+            if [ "$O_REUSED" != "true" ]; then
+              require "deploy one new Preview"            "$O_DEPLOY"
+            else
+              echo "  ok       Preview reused; no deployment command executed"
+            fi
+            require "acceptance Auth and identities"     "$O_AUTH"
+            require "frozen application build"           "$O_BUILD"
+            require "registry login for accepted worker" "$O_REGISTRY"
+            require "frozen dependencies"                "$O_DEPS"
+            require "Checkout gate pins the accepted release" "$O_VERIFY_GATE"
+            # Only a phase whose contract set GATE=true runs the reuse-only human
+            # Checkout gate. Requiring it unconditionally would demand a step the
+            # contract deliberately did not schedule.
+            if [ "$RUNS_GATE" = "true" ]; then
+              require "Sandbox Checkout and unpaid 402"  "$O_GATE"
+            else
+              echo "  ok       reuse-only Checkout gate not scheduled by this phase"
+            fi
+            require "hosted golden-journey matrix"       "$O_GOLDEN"
+            require "payment harness follows this run's job" "$O_VERIFY_HARNESS"
+            require "Stripe payment and packet delivery" "$O_PAYMENT"
+            require "PA / MS / IL galleries"             "$O_GALLERY"
+          elif [ "$RUNS_GATE" = "true" ]; then
+            require "registry login for accepted worker" "$O_REGISTRY"
+            require "frozen dependencies"                "$O_DEPS"
+            require "Checkout gate pins the accepted release" "$O_VERIFY_GATE"
+            require "Sandbox Checkout and unpaid 402"    "$O_GATE"
+          elif [ "$RUNS_DIAGNOSE" = "true" ]; then
+            require "registry login for accepted worker" "$O_REGISTRY"
+            require "frozen dependencies"                "$O_DEPS"
+            require "worker contract diagnosis"          "$O_DIAGNOSE"
+          else
+            echo "  phase does not claim the matrix; nothing to assert here."
+          fi
+          if [ "$fail" -ne 0 ]; then
+            echo "::error::a phase that claims the payment-to-PDF matrix did not run every required step; this run is not acceptance evidence"
+            exit 1
+          fi
+
+      # The verdict must come from the emitted evidence, not from the fact that
+      # the job reached its end.
+      - name: The emitted evidence earns the verdict it reports
+        if: always() && steps.contract.outputs.matrix == 'true'
+        run: node scripts/verify-rcap-hosted-acceptance-verdicts.mjs
 
       - name: Upload the hosted acceptance evidence
         if: always()

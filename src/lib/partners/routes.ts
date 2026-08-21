@@ -44,6 +44,10 @@ export function internalProvisioningDetail(slug: string) {
   return `/internal/partners/provisioning/${slug}`;
 }
 
+export function internalProvisioningNew() {
+  return "/internal/partners/provisioning/new";
+}
+
 export function internalAdmin() {
   return "/internal/partners/admin";
 }
