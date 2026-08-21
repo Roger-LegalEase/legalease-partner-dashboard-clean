@@ -1,0 +1,36 @@
+{
+  "id": "reviewer-9",
+  "role": "independent review",
+  "baseSha": "9f8f781ffde490e49c1af7859b0d6d4bcf65d5a3",
+  "activeQueue": [],
+  "assetCount": 0,
+  "assignmentRule": "the captain assigns each pushed four-PDF batch to the reviewer with the smallest active queue at that moment",
+  "independence": "a reviewer may never review evidence it created; a batch produced by a lane this reviewer also staffed must be routed to another queue",
+  "requiredOfEveryVerdict": [
+    "the official source SHA-256 recomputed from the mounted Edition 1 bytes, not read back from a record",
+    "every artifact, map, classification, sidecar and raster hash recomputed from disk",
+    "a raster for every page carrying a field",
+    "each value inside the geometry its own map declared for it"
+  ],
+  "emits": [
+    "data/rcap-all50/pdf-independent-reviews/<batch>-manifest.json",
+    "data/rcap-all50/pdf-independent-reviews/<batch>-group-N.review.json",
+    "data/rcap-all50/pdf-independent-reviews/<batch>-verdicts.json"
+  ],
+  "prohibitedPaths": [
+    "src/**",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json",
+    "next.config.ts",
+    "supabase/migrations/**",
+    "deploy/rcap-render-worker/**",
+    ".github/workflows/**",
+    "scripts/lib/**",
+    "scripts/rcap-official-forms/rcap-platform-ready.mjs",
+    "data/rcap-all50/pdf-independent-reviews/*-manifest.json",
+    "data/rcap-all50/pdf-independent-reviews/*-group-*.review.json",
+    "any family package, raster or evidence record belonging to another pdf-lane",
+    "any family package, artifact or evidence record"
+  ]
+}

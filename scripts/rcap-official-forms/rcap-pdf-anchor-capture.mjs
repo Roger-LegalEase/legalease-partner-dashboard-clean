@@ -102,6 +102,85 @@ function tokenize(src) {
 // computed from the document's own metrics rather than estimated. A font that
 // does not (a Type0/Identity-H subset) is reported as inexact and its runs are
 // excluded from anchor placement.
+// --- ToUnicode ---------------------------------------------------------
+//
+// A caption harvested without the font's ToUnicode map is not text, it is glyph
+// indices. Identity-H and any subset font with a custom encoding come back as
+// mojibake, and every rule that reads captions then matches nothing — silently,
+// and in the direction that fails open. NC AOC-CV-226 classified two
+// participant fields as `money` off an unreadable label, NC AOC-CR-287 carries
+// the same mojibake, and NE DC-1-15's headings decode to nothing at all, which
+// is why its Certificate of Service still took a printed name.
+//
+// The map is a CMap stream of `beginbfchar`/`beginbfrange` sections. Codes are
+// hex; destinations are hex UTF-16BE, either one per code or a bracketed list
+// across a range.
+function parseToUnicode(bytes) {
+  const src = Buffer.from(bytes).toString("latin1");
+  const map = new Map();
+  const utf16 = (hex) => {
+    let out = "";
+    for (let i = 0; i + 3 < hex.length + 1; i += 4) {
+      const unit = parseInt(hex.slice(i, i + 4), 16);
+      if (Number.isFinite(unit)) out += String.fromCharCode(unit);
+    }
+    return out;
+  };
+  for (const section of src.matchAll(/beginbfchar([\s\S]*?)endbfchar/g)) {
+    for (const pair of section[1].matchAll(/<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]*)>/g)) {
+      map.set(parseInt(pair[1], 16), utf16(pair[2]));
+    }
+  }
+  for (const section of src.matchAll(/beginbfrange([\s\S]*?)endbfrange/g)) {
+    const body = section[1];
+    for (const row of body.matchAll(/<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]*)>/g)) {
+      const lo = parseInt(row[1], 16), hi = parseInt(row[2], 16);
+      const base = parseInt(row[3], 16);
+      const width = row[3].length;
+      for (let c = lo; c <= hi && c - lo < 65536; c += 1) {
+        map.set(c, utf16((base + (c - lo)).toString(16).padStart(width, "0")));
+      }
+    }
+    for (const row of body.matchAll(/<([0-9a-fA-F]+)>\s*<([0-9a-fA-F]+)>\s*\[([\s\S]*?)\]/g)) {
+      const lo = parseInt(row[1], 16);
+      const dests = [...row[3].matchAll(/<([0-9a-fA-F]*)>/g)].map((m) => utf16(m[1]));
+      dests.forEach((d, i) => map.set(lo + i, d));
+    }
+  }
+  return map;
+}
+
+/** A Type0 font's per-code widths, from /W, plus /DW as the default. */
+function type0Widths(fd, ctx) {
+  const widths = new Map();
+  let defaultWidth = 1000;
+  try {
+    const descendants = fd.lookupMaybe(PDFName.of("DescendantFonts"), PDFArray);
+    const df = descendants ? ctx.lookup(descendants.get(0), PDFDict) : null;
+    if (!df) return { widths, defaultWidth };
+    defaultWidth = Number(df.get(PDFName.of("DW"))?.asNumber?.() ?? 1000);
+    const w = df.lookupMaybe(PDFName.of("W"), PDFArray);
+    if (!w) return { widths, defaultWidth };
+    const raw = w.asArray().map((e) => ctx.lookup(e) ?? e);
+    for (let i = 0; i < raw.length;) {
+      const first = Number(raw[i]?.asNumber?.() ?? NaN);
+      const second = raw[i + 1];
+      if (second instanceof PDFArray) {
+        second.asArray().forEach((v, k) => widths.set(first + k, Number(ctx.lookup(v)?.asNumber?.() ?? v?.asNumber?.() ?? 0)));
+        i += 2;
+      } else {
+        const last = Number(second?.asNumber?.() ?? NaN);
+        const value = Number(raw[i + 2]?.asNumber?.() ?? 0);
+        if (Number.isFinite(first) && Number.isFinite(last)) {
+          for (let c = first; c <= last && c - first < 65536; c += 1) widths.set(c, value);
+        }
+        i += 3;
+      }
+    }
+  } catch { /* a font without usable /W keeps the default */ }
+  return { widths, defaultWidth };
+}
+
 function loadFonts(res, ctx) {
   const out = new Map();
   if (!res) return out;
@@ -124,8 +203,17 @@ function loadFonts(res, ctx) {
       const desc = fd.lookupMaybe(PDFName.of("FontDescriptor"), PDFDict);
       missingWidth = Number(desc?.get(PDFName.of("MissingWidth"))?.asNumber?.() ?? 0);
     } catch { /* default */ }
+    let toUnicode = null;
+    try {
+      const tu = fd.get(PDFName.of("ToUnicode"));
+      const stream = tu ? ctx.lookup(tu) : null;
+      if (stream instanceof PDFRawStream) toUnicode = parseToUnicode(decodePDFRawStream(stream).decode());
+    } catch { /* a font without a usable ToUnicode decodes as raw codes */ }
+    const twoByte = subtype === "Type0";
+    const t0 = twoByte ? type0Widths(fd, ctx) : null;
     out.set(key.asString().replace(/^\//, ""), {
-      subtype, firstChar, widths, missingWidth,
+      subtype, firstChar, widths, missingWidth, toUnicode, twoByte,
+      cidWidths: t0?.widths ?? null, defaultWidth: t0?.defaultWidth ?? null,
       exact: Boolean(widths) && subtype !== "Type0"
     });
   }
@@ -139,6 +227,69 @@ function charAdvance(font, ch, size, charSpace, wordSpace, hScale) {
     w = font.widths[code - font.firstChar];
   } else if (font?.missingWidth) w = font.missingWidth;
   else w = 500;
+  return ((w / 1000) * size + charSpace + (code === 32 ? wordSpace : 0)) * hScale;
+}
+
+/**
+ * Splits a shown string into glyphs and gives each its Unicode text.
+ *
+ * A Type0 string is a sequence of two-byte codes, so the raw string has two JS
+ * characters per glyph; splitting it per character both mis-measures the
+ * advance and makes the text unreadable. Advance is always computed from the
+ * code, never from the decoded text, so decoding cannot move a caption.
+ */
+function glyphsOf(font, raw) {
+  const out = [];
+  const step = font?.twoByte ? 2 : 1;
+  for (let i = 0; i < raw.length; i += step) {
+    const code = step === 2
+      ? ((raw.charCodeAt(i) << 8) | (raw.charCodeAt(i + 1) ?? 0))
+      : raw.charCodeAt(i);
+    const mapped = font?.toUnicode?.get(code);
+    const text = mapped !== undefined && mapped !== ""
+      ? mapped
+      : (step === 2 ? String.fromCharCode(code) : raw[i]);
+    out.push({ code, text });
+  }
+  return out;
+}
+
+/**
+ * Collapses a run that came back as UTF-16BE big-endian bytes.
+ *
+ * Some forms draw two-byte codes through a font this walker resolves as a
+ * single-byte one -- NE DC-1-15 is 113 runs of it on page 1 alone -- so the run
+ * arrives as "\0N\0e\0b...". The ToUnicode lookup succeeds per byte and
+ * faithfully returns the high byte too, which is why decoding alone does not
+ * fix it. Glyph boxes are merged in pairs rather than recomputed, so the run's
+ * total advance and its start position are exactly what they were: this makes
+ * the caption readable without moving it.
+ */
+const NUL = String.fromCharCode(0);
+function collapseUtf16BE(chars) {
+  if (chars.length < 2 || chars.length % 2 !== 0) return null;
+  for (let i = 0; i < chars.length; i += 1) {
+    if ((i % 2 === 0) !== (chars[i].c === NUL)) return null;
+  }
+  const out = [];
+  for (let i = 0; i < chars.length; i += 2) {
+    out.push({ c: chars[i + 1].c, x: chars[i].x, w: Number((chars[i].w + chars[i + 1].w).toFixed(2)) });
+  }
+  return out;
+}
+
+/** The advance of one glyph code, in unscaled text-space units. */
+function codeAdvance(font, code, size, charSpace, wordSpace, hScale) {
+  let w;
+  if (font?.twoByte) {
+    w = font.cidWidths?.get(code) ?? font.defaultWidth ?? 1000;
+  } else if (font?.widths && code >= font.firstChar && code - font.firstChar < font.widths.length) {
+    w = font.widths[code - font.firstChar];
+  } else if (font?.missingWidth) {
+    w = font.missingWidth;
+  } else {
+    w = 500;
+  }
   return ((w / 1000) * size + charSpace + (code === 32 ? wordSpace : 0)) * hScale;
 }
 
@@ -192,12 +343,19 @@ const apply = (m, x, y) => [m[0] * x + m[2] * y + m[4], m[1] * x + m[3] * y + m[
 // a checkable claim rather than an assumption.
 const MAX_XOBJECT_DEPTH = 12;
 
-function walkContent(bytes, resources, ctx, baseCtm, depth, streamId) {
+function walkContent(bytes, resources, ctx, baseCtm, depth, streamId, inheritedFonts = null) {
   if (!bytes || bytes.length === 0) return { text: [], paths: [] };
   const src = Buffer.from(bytes).toString("latin1");
   const tokens = tokenize(src);
 
-  const fonts = loadFonts(resources, ctx);
+  // A Form XObject's /Resources may be partial: the spec lets it declare, say,
+  // only /XObject and inherit /Font from the page. Shadowing the parent
+  // wholesale left every run inside such a stream with no font, so no
+  // ToUnicode, so Identity-H captions came back as raw UTF-16BE bytes. NE
+  // DC-1-15 is the case -- its fonts are Identity-H with a ToUnicode map, on
+  // the page, and the headings still decoded to nothing.
+  const fonts = new Map(inheritedFonts ?? []);
+  for (const [name, font] of loadFonts(resources, ctx)) fonts.set(name, font);
   const items = [];
   const paths = [];
   // The path currently being constructed, in page space. Segments are recorded
@@ -236,13 +394,23 @@ function walkContent(bytes, resources, ctx, baseCtm, depth, streamId) {
     // by locating contiguous underscores, which needs each glyph's own x.
     const chars = [];
     let cursor = 0;
-    for (const ch of text) {
-      const a = charAdvance(font, ch, fontSize, charSpace, wordSpace, hScale);
-      chars.push({ c: ch, x: Number((m[4] + cursor * scale).toFixed(2)), w: Number((a * scale).toFixed(2)) });
+    let decoded = "";
+    for (const glyph of glyphsOf(font, text)) {
+      const a = codeAdvance(font, glyph.code, fontSize, charSpace, wordSpace, hScale);
+      chars.push({ c: glyph.text, x: Number((m[4] + cursor * scale).toFixed(2)), w: Number((a * scale).toFixed(2)) });
+      decoded += glyph.text;
       cursor += a;
     }
-    items.push({ text, x: m[4], y: m[5], size: Number(size.toFixed(2)),
-      width: Number((cursor * scale).toFixed(2)), metricsExact: font?.exact === true, chars });
+    const collapsed = decoded.includes(NUL) ? collapseUtf16BE(chars) : null;
+    items.push({
+      text: collapsed ? collapsed.map((c) => c.c).join("") : decoded,
+      x: m[4], y: m[5], size: Number(size.toFixed(2)),
+      width: Number((cursor * scale).toFixed(2)),
+      metricsExact: font?.exact === true || Boolean(font?.twoByte && font.cidWidths?.size),
+      decodedThroughToUnicode: Boolean(font?.toUnicode?.size),
+      collapsedFromUtf16BE: Boolean(collapsed),
+      chars: collapsed ?? chars
+    });
     tm = mul([1, 0, 0, 1, cursor, 0], tm);
   };
 
@@ -334,7 +502,7 @@ function walkContent(bytes, resources, ctx, baseCtm, depth, streamId) {
             ? matrixArr.asArray().map((v) => Number(ctx.lookup(v)?.asNumber?.() ?? v?.asNumber?.() ?? 0))
             : [1, 0, 0, 1, 0, 0];
           const inner = dict.lookupMaybe(PDFName.of("Resources"), PDFDict) ?? resources;
-          const nested = walkContent(decodePDFRawStream(xo).decode(), inner, ctx, mul(matrix, ctm), depth + 1, `${streamId}>form_xobject:${nameTok.v}`);
+          const nested = walkContent(decodePDFRawStream(xo).decode(), inner, ctx, mul(matrix, ctm), depth + 1, `${streamId}>form_xobject:${nameTok.v}`, fonts);
           items.push(...nested.text);
           paths.push(...nested.paths);
         } catch { /* an unreadable XObject contributes nothing */ }
@@ -401,6 +569,61 @@ const CAPTION_GAP_LEFT = 72;
 const CAPTION_GAP_ABOVE = 16;
 // A caption is a label, not a paragraph.
 const CAPTION_MAX_CHARS = 60;
+// A heading covering at least this fraction of the page width is a full-width
+// section heading and governs every column beneath it.
+const FULL_WIDTH_HEADING_FRACTION = 0.6;
+// Runs further apart than this on one line belong to different cells of a
+// printed table, not to one caption.
+const CELL_GAP = 18;
+
+/**
+ * Strips a UTF-16BE big-endian residue from harvested text.
+ *
+ * The per-run collapse handles the common case, but a run can arrive already
+ * mapped to a two-character sequence, or be split so that a pair straddles two
+ * runs; either way the joined line still reads "\0F\0u\0l\0l". This is a
+ * pure string normalisation applied to captions and headings only -- it never
+ * touches a coordinate -- so a caption that a rule must read is readable
+ * however the run boundaries fell.
+ */
+export function normalizeHarvestedText(text) {
+  const raw = String(text ?? "");
+  if (!raw.includes(NUL)) return raw;
+  if (raw.length % 2 === 0) {
+    let alternating = true;
+    for (let i = 0; i < raw.length; i += 1) {
+      if ((i % 2 === 0) !== (raw[i] === NUL)) { alternating = false; break; }
+    }
+    if (alternating) {
+      let out = "";
+      for (let i = 1; i < raw.length; i += 2) out += raw[i];
+      return out;
+    }
+  }
+  // Mixed content: drop the NULs rather than leaving a caption no rule can read.
+  return raw.split(NUL).join("");
+}
+
+/**
+ * The caption cell immediately left of a widget, rather than the whole row.
+ *
+ * A printed row on these forms is several columns: "Employment - Applicant $
+ * Number Of Dependents" is three cells, and handing all of it to every widget
+ * on the row is how NC AOC-CV-226's permanent-address lines acquired a "$" and
+ * were classified as money. Runs are walked leftward from the one nearest the
+ * widget and stop at the first gap wide enough to be a column break.
+ */
+function cellTextLeftOf(line, nearestRun) {
+  const runs = [...line.runs].sort((a, b) => a.x - b.x);
+  const end = runs.indexOf(nearestRun);
+  if (end < 0) return line.text.slice(0, CAPTION_MAX_CHARS * 2);
+  const parts = [runs[end]];
+  for (let i = end - 1; i >= 0; i -= 1) {
+    if (parts[0].x - runs[i].x2 > CELL_GAP) break;
+    parts.unshift(runs[i]);
+  }
+  return parts.map((r) => r.text).join("").slice(0, CAPTION_MAX_CHARS * 2);
+}
 
 const overlaps1d = (a1, a2, b1, b2) => Math.min(a2, b2) - Math.max(a1, b1) > 0;
 
@@ -428,7 +651,7 @@ function bodySizeOf(lines) {
  * into, not which divisions matter. Deciding that a region is court-owned
  * belongs to the semantics module, which holds the protect rules.
  */
-export function pageRegions(page, precomputedLines = null) {
+export function pageRegions(page, precomputedLines = null, { isFirstPage = true } = {}) {
   const lines = precomputedLines ?? groupIntoLines(extractTextItems(page));
   const body = bodySizeOf(lines);
   const headings = lines
@@ -447,11 +670,25 @@ export function pageRegions(page, precomputedLines = null) {
   // fee-waiver application, not a fee box, and "PETITION TO SEAL POLICE
   // RECORDS" is a petition, not a police-use-only band. Without this a single
   // word in a title silences the whole form.
-  const topmostPrinted = lines.reduce((max, l) => Math.max(max, l.y), -Infinity);
+  // Only the first page has a document title. The topmost heading of page 2 is
+  // a section heading like FINDINGS OF FACT, and suppressing it as a title
+  // disarms the one region on the page that most needs protecting -- which is
+  // exactly how a petitioner's name reached the judge's findings on NC
+  // AOC-CR-288 without anything objecting. Callers that know the page number
+  // say so; the default keeps the original behaviour for callers that do not.
+  const topmostPrinted = isFirstPage ? lines.reduce((max, l) => Math.max(max, l.y), -Infinity) : Infinity;
 
   return headings.map((heading, i) => ({
-    heading: heading.text.trim(),
+    heading: normalizeHarvestedText(heading.text).trim(),
     size: heading.size ?? null,
+    // A heading governs the column it is printed over, not the whole width of
+    // the page. NC AOC-CR-296 prints "DISTRICT ATTORNEY PETITION" in the
+    // right-hand title block; the defendant's own address lines sit at x=38 in
+    // the left column and were refused as prosecutor-owned because the band
+    // was matched on y alone. That is over-protection, and it withheld an
+    // address the petition needs.
+    xLeft: heading.x,
+    xRight: Math.max(...heading.runs.map((r) => r.x2)),
     // The region starts at the heading's own baseline and ends where the next
     // heading begins, or at the foot of the page.
     yTop: heading.y,
@@ -473,9 +710,10 @@ export function pageRegions(page, precomputedLines = null) {
  * labels a column. A caption found above must overlap the widget horizontally,
  * or it belongs to a different column.
  */
-export function captureWidgetContext(page, widgets, { precomputedLines = null } = {}) {
+export function captureWidgetContext(page, widgets, { precomputedLines = null, isFirstPage = true } = {}) {
   const lines = precomputedLines ?? groupIntoLines(extractTextItems(page));
-  const regions = pageRegions(page, lines);
+  const regions = pageRegions(page, lines, { isFirstPage });
+  const pageWidth = page.getSize?.().width ?? 612;
 
   return widgets.map((widget) => {
     const rect = widget.rect ?? null;
@@ -495,7 +733,9 @@ export function captureWidgetContext(page, widgets, { precomputedLines = null } 
         if (run.x2 > rect.x + 1) continue;
         const gap = rect.x - run.x2;
         if (gap < 0 || gap > CAPTION_GAP_LEFT) continue;
-        if (!best || gap < best.gap) best = { text: line.text.slice(0, CAPTION_MAX_CHARS * 2), gap, basis: "printed_to_the_left_on_the_same_line" };
+        if (!best || gap < best.gap) {
+          best = { text: cellTextLeftOf(line, run), gap, basis: "printed_to_the_left_in_the_same_cell" };
+        }
       }
     }
 
@@ -510,16 +750,27 @@ export function captureWidgetContext(page, widgets, { precomputedLines = null } 
       }
     }
 
-    const region = regions.find((r) => midline <= r.yTop && midline > r.yBottom) ?? null;
+    // Vertical band first, then the column. A heading whose printed extent does
+    // not overlap the widget horizontally is describing a different column of
+    // the same band, so it does not govern this widget. A heading that spans
+    // most of the page width is a genuine full-width section heading and
+    // governs everything beneath it.
+    const inBand = regions.filter((r) => midline <= r.yTop && midline > r.yBottom);
+    const region = inBand.find((r) => {
+      const spansPage = (r.xRight - r.xLeft) >= pageWidth * FULL_WIDTH_HEADING_FRACTION;
+      return spansPage || overlaps1d(r.xLeft, r.xRight, rect.x, rect.x + rect.width);
+    }) ?? null;
+    const bandOnly = inBand.length > 0 && region === null ? inBand[0] : null;
 
     return {
       name: widget.name,
       // A caption is punctuation-trimmed but never reworded: "Name:" is the
       // label "Name", and "(Enter the county name)" stays exactly that.
-      effectiveLabel: best ? best.text.replace(/[\s:*.]+$/, "").trim().slice(0, CAPTION_MAX_CHARS) || null : null,
+      effectiveLabel: best ? normalizeHarvestedText(best.text).replace(/[\s:*.]+$/, "").trim().slice(0, CAPTION_MAX_CHARS) || null : null,
       labelBasis: best ? best.basis : "no_printed_caption_within_reach",
       labelGap: best ? Number(best.gap.toFixed(1)) : null,
-      regionHeading: region ? region.heading : null,
+      regionHeading: region ? normalizeHarvestedText(region.heading) : null,
+      regionHeadingInBandButAnotherColumn: bandOnly ? normalizeHarvestedText(bandOnly.heading) : null,
       regionIsDocumentTitle: region ? region.isDocumentTitle === true : false,
       regionBasis: region
         ? (region.isDocumentTitle ? `${region.basis}; this is the document's title, which names the form rather than an area of it` : region.basis)
