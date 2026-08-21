@@ -376,6 +376,13 @@ console.log(`  status        ${response.status}  ${contentType ?? "(no content-t
 console.log(`  bytes         ${bytes.length}`);
 console.log(`  sha256        ${sha256}`);
 console.log(`  structure     ${structuralClass}${pageCount ? `, ~${pageCount} page objects` : ""}`);
-console.log(`  revision      ${revision.verdict}${revision.printedRevision ? ` (${revision.printedRevision})` : ""}`);
+// The character count is what separates "this form prints no revision" from
+// "almost no text came out of this PDF, so of course no revision did". Without
+// it, a reader that silently extracts nothing reports `not_printed` for every
+// document and looks like a finding about the forms.
+console.log(
+  `  revision      ${revision.verdict}${revision.printedRevision ? ` (${revision.printedRevision})` : ""}` +
+    `${revision.textCharacters === undefined ? "" : ` [${revision.textCharacters} chars of text read]`}`
+);
 if (expectedRevision) console.log(`  expected rev  ${expectedRevision}`);
 if (expectedSha256) console.log(`  expected hash ${expectedSha256 === sha256 ? "MATCHES" : "DOES NOT MATCH"}`);

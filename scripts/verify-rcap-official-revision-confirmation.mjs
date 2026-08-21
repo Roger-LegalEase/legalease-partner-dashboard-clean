@@ -174,23 +174,43 @@ function dataFailures(data, queueData) {
   }
 
   // Totals must be counted, not asserted.
-  fail(data.totals.acquired === acquired.length, `totals.acquired says ${data.totals.acquired}, the sources say ${acquired.length}`);
   fail(
-    data.totals.exactHashesRecovered === acquired.filter((s) => /^[0-9a-f]{64}$/.test(s.sha256 ?? "")).length,
-    "totals.exactHashesRecovered does not match the number of sources carrying a hash"
+    data.totals.legsTranscribed === data.sources.length,
+    `totals.legsTranscribed says ${data.totals.legsTranscribed}, the file records ${data.sources.length} legs`
   );
   fail(
-    data.totals.legsGivenARunner === data.sources.length,
-    `totals.legsGivenARunner says ${data.totals.legsGivenARunner}, the file records ${data.sources.length} legs`
+    data.totals.distinctDocumentsWithAnExactHash === new Set(acquired.map((s) => s.sha256)).size,
+    "totals.distinctDocumentsWithAnExactHash does not match the distinct hashes the sources carry"
   );
 
-  // A revision nobody read is never counted as confirmed. This run predates the
-  // reader, so the honest count is zero and every source says so.
-  const claimingARevision = acquired.filter((s) => !String(s.editionOrRevision ?? "").startsWith("unread"));
+  // Every queue entry must land in exactly one classification. A queue entry
+  // that falls through is an asset nobody can say anything about, and the
+  // totals would still look complete.
+  const classified = data.totals.assetsExactMatch + data.totals.assetsSourceDrift +
+    data.totals.assetsCurrentReplacement + data.totals.assetsFetchFailed;
+  const queueAssets = new Set([...queueData.matrix, ...queueData.probeMatrix].map((e) => e.assetId).filter(Boolean)).size;
+  fail(classified === queueAssets, `${classified} asset(s) classified for ${queueAssets} queue asset(s)`);
+
+  // A revision nobody read is never counted as confirmed. No acquisition has
+  // yet produced a `confirmed` verdict, so the honest count is zero.
+  const confirmedRevisions = acquired.filter((s) => s.editionOrRevision === "confirmed").length;
   fail(
-    data.totals.revisionsConfirmed === claimingARevision.length,
-    `totals.revisionsConfirmed says ${data.totals.revisionsConfirmed}, but ${claimingARevision.length} source(s) actually record one`
+    data.totals.revisionsConfirmed === confirmedRevisions,
+    `totals.revisionsConfirmed says ${data.totals.revisionsConfirmed}, but ${confirmedRevisions} source(s) actually record a confirmed revision`
   );
+
+  // `not_printed` on nearly every document is a claim about the reader as much
+  // as about the forms. The record has to say so rather than let it read as a
+  // finding about court forms.
+  fail(Boolean(data.revisionReadingCaveat?.doNotConclude), "the evidence no longer carries the caveat on what `not_printed` does not mean");
+
+  // A refused host is never recorded as a missing form.
+  for (const finding of data.findings.filter((f) => String(f.kind).startsWith("official_host_"))) {
+    fail(
+      /nothing was learned about the documents themselves|not.*withdrawn/i.test(String(finding.whatItDoesNotMean ?? "")),
+      `${finding.host}: a refused host is recorded without stating that nothing was learned about the forms`
+    );
+  }
 
   // One fact, one finding. Two assets pinning different bytes for one form
   // produce two legs at one URL; counting the stale pin twice reads as two
@@ -306,6 +326,22 @@ if (MUTATIONS) {
       mutated.totals.revisionsConfirmed = 12;
       return { data: mutated };
     }],
+    ["a queue asset falls out of every classification", () => {
+      const mutated = clone(evidence);
+      mutated.totals.assetsFetchFailed -= 1;
+      return { data: mutated };
+    }],
+    ["the caveat on what `not_printed` does not mean is dropped", () => {
+      const mutated = clone(evidence);
+      delete mutated.revisionReadingCaveat.doNotConclude;
+      return { data: mutated };
+    }],
+    ["a refused host is recorded as though the forms were gone", () => {
+      const mutated = clone(evidence);
+      const finding = mutated.findings.find((f) => String(f.kind).startsWith("official_host_"));
+      finding.whatItDoesNotMean = "nothing further";
+      return { data: mutated };
+    }],
     ["a source loses the hash it exists to record", () => {
       const mutated = clone(evidence);
       mutated.sources.find((s) => s.outcome === "acquired").sha256 = null;
@@ -343,7 +379,7 @@ if (MUTATIONS) {
     }],
     ["the totals stop being counted from the sources", () => {
       const mutated = clone(evidence);
-      mutated.totals.acquired += 3;
+      mutated.totals.legsTranscribed += 3;
       return { data: mutated };
     }]
   ];
@@ -375,10 +411,10 @@ if (base.length > 0) {
   process.exit(1);
 }
 
-const acquiredCount = evidence.sources.filter((s) => s.outcome === "acquired").length;
+const acquiredCount = new Set(evidence.sources.filter((s) => s.outcome === "acquired").map((s) => s.sha256)).size;
 console.log("verify-rcap-official-revision-confirmation passed.");
 console.log(`  ${FOOTERS.length} real printed revision line(s) read correctly; ${TRAPS.length} citation trap(s) refused.`);
 console.log(`  the resolver chooses a landing page's form only when the filename identifies it, and refuses ties, bare numbers and off-host reprints.`);
-console.log(`  ${acquiredCount} acquired source(s) each carry a direct official URL, an exact SHA-256, and the job whose log proves them.`);
-console.log(`  revisions confirmed: ${evidence.totals.revisionsConfirmed} — that run predates the reader, and the evidence says so rather than implying more.`);
+console.log(`  ${acquiredCount} distinct document(s) carry a direct official URL, an exact SHA-256, and the job whose log proves them.`);
+console.log(`  revisions confirmed: ${evidence.totals.revisionsConfirmed}; the record states what \`not_printed\` does not prove rather than implying more.`);
 void normalizeExpectation;
