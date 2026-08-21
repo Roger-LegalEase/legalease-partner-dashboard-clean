@@ -881,9 +881,15 @@ async function main() {
         // ink. That is real coverage of official characters and is reported --
         // but it is not the same event as printed text vanishing under nothing,
         // and the two must not share a finding. This mask says which it is.
+        // EVERY cluster, not just the ones that reproduce the form's own
+        // furniture. Whether a mark we drew looks like the form's box is a
+        // question about placement; for erasure the only question is whether
+        // something we drew is sitting on the printed character. Restricting
+        // this to furniture reported 73 covered pixels on the Arkansas
+        // post-adjudication petition as vanishing under nothing, when an 18-by-
+        // 19pt mark of ours was sitting directly on them.
         const ourDrawingMask = generatedOwn && rect
-          ? rectMask(clusters.filter((c) => c.overSourceInk?.coincidesWithSourceFurniture), 0, generatedOwn, rect, geo.heightPt)
-          : null;
+          ? rectMask(clusters, 0, generatedOwn, rect, geo.heightPt) : null;
         const preservation = masks.source && masks.finalized
           ? sourcePreservation(masks.source, masks.finalized, ourDrawingMask) : null;
         const unexplained = masks.source && masks.generated && masks.finalized
