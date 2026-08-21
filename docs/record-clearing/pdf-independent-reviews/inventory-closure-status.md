@@ -7,9 +7,9 @@ Head: `a7c9f0aa0dc19bb569783691e0bc0e65c0b57605`
 | | count |
 | --- | ---: |
 | original operational PDF assets | 128 |
-| platform_ready | 1 |
+| platform_ready | 2 |
 | retired | 42 |
-| retained_problematic | 85 |
+| retained_problematic | 84 |
 | changed by this lane | 0 |
 
 Every route to moving a row terminates at the same place: the source corpus is not mounted in this environment and outbound retrieval is refused, so no retirement can satisfy its seventh condition, no source can be accepted, and no family can be re-rendered.
@@ -95,10 +95,10 @@ Cleared by: The correction packets, worked through in their stated order, then a
 
 | | required | observed |
 | --- | ---: | ---: |
-| platform_ready + retired | 128 | 43 |
-| retained_problematic | 0 | 85 |
+| platform_ready + retired | 128 | 44 |
+| retained_problematic | 0 | 84 |
 | retained_missing | 0 | 37 |
 | retained_source_unknown | 0 | 11 |
-| retained_unreviewed | 0 | 58 |
+| retained_unreviewed | 0 | 57 |
 
 Not met.
