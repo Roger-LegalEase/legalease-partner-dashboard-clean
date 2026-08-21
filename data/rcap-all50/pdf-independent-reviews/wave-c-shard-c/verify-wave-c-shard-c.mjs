@@ -16,6 +16,11 @@ const VOCAB = new Set([
 const ALLOWED_PATH_PREFIXES = [
   'data/rcap-all50/pdf-independent-reviews/wave-c-shard-c/',
   'docs/record-clearing/pdf-independent-reviews/wave-c-shard-c/',
+  // the canonical top-level batch this reviewer emits; the batch id is unique to
+  // shard c, so these three files collide with no other session's paths.
+  'data/rcap-all50/pdf-independent-reviews/wave-c-shard-c-manifest.json',
+  'data/rcap-all50/pdf-independent-reviews/wave-c-shard-c-group-1.review.json',
+  'data/rcap-all50/pdf-independent-reviews/wave-c-shard-c-verdicts.json',
 ];
 
 const failures = [];
@@ -137,6 +142,37 @@ execFileSync('git', ['diff', '--check']);
 const tracked = execFileSync('git', ['ls-files', 'private/']).toString().trim();
 check(tracked === '', 'private/ source corpus is tracked by git and must not be');
 
+// 8. the canonical batch must agree with the shard record, family for family
+const CANON = 'data/rcap-all50/pdf-independent-reviews/wave-c-shard-c-';
+const canonManifest = JSON.parse(readFileSync(`${CANON}manifest.json`, 'utf8'));
+const canonGroup = JSON.parse(readFileSync(`${CANON}group-1.review.json`, 'utf8'));
+const canonRollup = JSON.parse(readFileSync(`${CANON}verdicts.json`, 'utf8'));
+check(canonManifest.schemaVersion.startsWith('rcap-pdf-independent-review-batch/'),
+  'canonical manifest carries the wrong schemaVersion prefix');
+check(canonManifest.reviewerBranch !== canonManifest.reviewedLaneBranch,
+  'canonical manifest is not independent: reviewer and reviewed branch are the same');
+check(/^[0-9a-f]{40}$/.test(canonManifest.reviewedLaneHead), 'canonical manifest does not pin a 40-hex lane head');
+const canonFamilies = canonManifest.families.map((f) => f.familyId).sort();
+check(JSON.stringify(canonFamilies) === JSON.stringify([...assigned].sort()),
+  'canonical manifest families do not match the frozen shard assignment');
+const canonVerdicts = new Map(canonGroup.verdicts.map((v) => [v.family, v.verdict]));
+for (const v of record.verdicts) {
+  check(canonVerdicts.get(v.familyId) === v.verdict,
+    `${v.familyId}: canonical verdict ${canonVerdicts.get(v.familyId)} disagrees with the shard record ${v.verdict}`);
+}
+for (const f of canonManifest.families) {
+  const shard = record.verdicts.find((v) => v.familyId === f.familyId).pinnedHashes;
+  check(f.sourceSha256 === shard.sourceSha256RecomputedByThisReviewer, `${f.familyId}: canonical sourceSha256 drifted`);
+  check(f.fieldClassificationSha256 === shard.classificationSha256, `${f.familyId}: canonical classification sha drifted`);
+  check(f.provenanceSha256 === shard.provenanceSidecarSha256, `${f.familyId}: canonical provenance sha drifted`);
+  check(f.contactSheetSha256 === shard.contactSheetSha256, `${f.familyId}: canonical contact-sheet sha drifted`);
+  for (const a of f.artifacts) check(/^[0-9a-f]{64}$/.test(a.sha256), `${f.familyId}: ${a.rel} has no SHA-256`);
+}
+check(canonRollup.totals.correction_required === record.totals.correction_required
+  && canonRollup.totals.substantive_owner_decision_required === record.totals.substantive_owner_decision_required
+  && canonRollup.totals.approved_platform_ready === record.totals.approved_platform_ready,
+  'canonical rollup totals disagree with the shard record');
+
 if (failures.length) {
   console.error('FOCUSED INDEPENDENT-REVIEW VERIFIER: FAIL');
   for (const f of failures) console.error('  - ' + f);
@@ -148,3 +184,4 @@ console.log(`  ${record.verdicts.length} families, each accounted for exactly on
 console.log(`  approved ${record.totals.approved_platform_ready}, correction ${record.totals.correction_required}, owner decision ${record.totals.substantive_owner_decision_required}`);
 console.log('  all referenced map, classification, sidecar, artifact, contact-sheet and raster hashes match disk');
 console.log('  source bytes recomputed and agreeing with every pinned identity; private/ uncommitted');
+  console.log('  canonical batch wave-c-shard-c agrees with the shard record, family for family');
