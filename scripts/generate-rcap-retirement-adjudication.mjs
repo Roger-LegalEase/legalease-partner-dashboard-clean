@@ -27,11 +27,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveOperationalCorpus, refusalReport } from "./lib/operational-corpus-precondition.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const checkOnly = process.argv.includes("--check");
-
-const NATIONWIDE = process.env.OFFICIAL_FORMS_SOURCE_DIR ?? path.join(rootDir, "private/Nationwide Record Clearing");
 const HANDOFF = "data/rcap-all50/manifest-only-retirement-handoff.json";
 const COMMITTED_MANIFEST = "data/rcap-all50/overlays/overlay-factory-manifest.json";
 const RESOLUTION = "data/rcap-all50/pdf-source-handoffs/source-resolution.json";
@@ -46,21 +45,41 @@ function fail(message) {
   process.exit(1);
 }
 
+// ---- can this condition be answered at all? --------------------------------
+// This used to compute `mounted` and then never look at it, which is the whole
+// defect: with the tree absent the walk produced an empty file list, every
+// candidate was "not in the delivery", and the verdict read that as the
+// condition passing. Twelve held assets flipped to passing because a directory
+// was missing, and the record reported mounted: false on the line above.
+//
+// So the answer now gates the run instead of decorating it. An unevaluable
+// condition produces a refusal naming the path it expected, not a record --
+// including under --check, because verifying a claim about a corpus without the
+// corpus verifies nothing.
+const corpus = await resolveOperationalCorpus(rootDir);
+if (!corpus.evaluable) fail(refusalReport(corpus));
+
+const NATIONWIDE = corpus.resolvedPath;
+const mounted = true;
+const delivered = [];
+(function walk(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) walk(full);
+    else delivered.push(path.relative(NATIONWIDE, full).split(path.sep).join("/"));
+  }
+})(NATIONWIDE);
+
+// Belt and braces: the precondition already refused an empty tree, so reaching
+// here with nothing delivered would mean the corpus emptied between the two
+// reads. Continuing would recreate the exact bug this guard exists to close.
+if (delivered.length === 0) {
+  fail(`the operational corpus at ${corpus.expectedPath} yielded no files on the second read; an empty delivery is not a zero-reference proof`);
+}
+
 const handoff = readJson(HANDOFF);
 const committed = readJson(COMMITTED_MANIFEST);
 const resolution = fs.existsSync(abs(RESOLUTION)) ? readJson(RESOLUTION) : { rows: [] };
-
-const mounted = fs.existsSync(NATIONWIDE);
-const delivered = [];
-if (mounted) {
-  (function walk(dir) {
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
-      const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) walk(full);
-      else delivered.push(path.relative(NATIONWIDE, full).split(path.sep).join("/"));
-    }
-  })(NATIONWIDE);
-}
 const deliveredBasenames = new Set(delivered.map((f) => path.basename(f).toLowerCase()));
 const deliveredPaths = new Set(delivered.map((f) => f.toLowerCase()));
 
@@ -136,6 +155,21 @@ const candidates = handoff.retirementCandidates.map((candidate) => {
   };
 });
 
+// A candidate whose source file is in the operational tree is named again by
+// every regeneration of the manifest, so calling it retired asserts two
+// incompatible things at once. That contradiction is the observable form of the
+// bug this guard closes -- a run against an absent tree marks assets retired
+// whose files are sitting in the corpus -- so it is refused here rather than
+// written down and left for a reader to notice.
+const contradictions = candidates.filter((c) => c.sourceFilePresentInDelivery && c.retired);
+if (contradictions.length > 0) {
+  fail(
+    `${contradictions.length} asset(s) are named by the operational manifest and marked retired at the same time; ` +
+      `an asset the regenerated manifest still names has not satisfied condition 7 and cannot be retired: ` +
+      contradictions.map((c) => `${c.jurisdiction} ${c.formNumber} (${c.retirementMarker})`).join(", ")
+  );
+}
+
 const fails = candidates.filter((c) => c.conditionSevenVerdict === "fails");
 const passes = candidates.filter((c) => c.retired);
 const passesWithASource = passes.filter((c) => c.aProvenOfficialSourceExistsElsewhere);
@@ -148,10 +182,29 @@ const record = {
   sourceTree: {
     path: path.relative(rootDir, NATIONWIDE),
     mounted,
+    shape: corpus.shape,
     filesDelivered: delivered.length,
     pdfsDelivered: delivered.filter((f) => /\.pdf$/i.test(f)).length,
     authority:
       "Confirmed by the owner as the operational Nationwide Record Clearing tree, distinct from Master Library Edition 1. The operational tree is what defines the operational inventory."
+  },
+  // Recorded rather than assumed, because every verdict below is a claim about
+  // this corpus and a reader needs to see that the corpus was there, was the
+  // right one, and was the same one the manifest generator reads.
+  conditionSevenPrecondition: {
+    evaluable: corpus.evaluable,
+    expectedPath: corpus.expectedPath,
+    resolvedPath: corpus.resolvedPath,
+    environmentVariable: corpus.environmentVariable,
+    environmentVariableSet: corpus.environmentVariableSet,
+    shape: corpus.shape,
+    filesFound: corpus.filesFound,
+    pdfsFound: corpus.pdfsFound,
+    manifestGenerator: corpus.manifestGenerator,
+    masterLibraryPresent: corpus.masterLibraryPresent,
+    masterLibraryIsNotASubstitute: corpus.masterLibraryIsNotASubstitute,
+    refusalsIfItWereUnevaluable:
+      "An absent, empty, unreadable, or Master-Library-shaped corpus refuses instead of producing this record. See scripts/lib/operational-corpus-precondition.mjs."
   },
   againstThePreviousManifest: {
     formsThePreviousManifestNamed: committedFormPaths.length,
