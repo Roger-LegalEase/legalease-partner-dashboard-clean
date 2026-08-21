@@ -93,6 +93,15 @@ const CONTAINMENT_TOLERANCE_PT = 4;
 // 16 is what overprinting one value on a printed rule costs at the antialiased
 // edges. The exact count is reported either way; only the finding is floored.
 const SOURCE_LOSS_FLOOR_PX = 64;
+// Source ink counts as destroyed only where the finalized page is clearly bare
+// paper, not merely a shade lighter. A composed page antialiases a glyph edge
+// slightly differently from the same glyph rendered alone, so edge pixels drift
+// a few levels and some cross the ink threshold; on the Arkansas orders that
+// read as 432 "lost" pixels scattered over the whole page, every one of them
+// landing between grey 192 and 224 -- within a whisker of the threshold they
+// had just crossed. Ink knocked out by an opaque fill goes to paper white, so
+// this stays sensitive to the thing actually worth catching.
+const CLEARLY_BLANK_GREY = 230;
 // The viewer paints a hairline border at the edge of the page. It is present in
 // every variant so it cancels in the layer accounting, but it clusters as one
 // page-sized mark that then "touches" every protected region on the page. The
@@ -144,7 +153,11 @@ function enumerateFamilies() {
 /** Every PDF in the clone by SHA-256, so a pinned source binary can be found. */
 function pdfsInClone() {
   const found = new Map();
-  const skip = new Set(["node_modules", ".git", ".next"]);
+  // This lane's own raster store is skipped. It fills with one derived PDF per
+  // page per layer per family -- hundreds of files that are by construction not
+  // anybody's pinned source, and hashing them made the startup scan slower with
+  // every run.
+  const skip = new Set(["node_modules", ".git", ".next", "rcap-visual-evidence"]);
   const walk = (dir) => {
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       if (skip.has(entry.name)) continue;
@@ -305,7 +318,7 @@ async function inkMask(pngPath, rect) {
   for (let i = 0; i < mask.length; i += 1) {
     if (data[i] <= INK_MAX_GREY) { mask[i] = 1; count += 1; }
   }
-  return { mask, width: info.width, height: info.height, inkPixels: count };
+  return { mask, grey: data, width: info.width, height: info.height, inkPixels: count };
 }
 
 /**
@@ -476,19 +489,33 @@ const overlaps = (cluster, rect) => {
 };
 
 /** How much of the source layer's ink survives into the finalized render. */
-function sourcePreservation(source, finalized) {
+function sourcePreservation(source, finalized, underOurDrawing = null) {
   if (source.width !== finalized.width || source.height !== finalized.height) return null;
   let sourceInk = 0;
-  let lost = 0;
+  let lighter = 0;
+  let blanked = 0;
+  let blankedUnderOurDrawing = 0;
   for (let i = 0; i < source.mask.length; i += 1) {
     if (!source.mask[i]) continue;
     sourceInk += 1;
-    if (!finalized.mask[i]) lost += 1;
+    if (finalized.mask[i]) continue;
+    lighter += 1;
+    if (finalized.grey[i] < CLEARLY_BLANK_GREY) continue;
+    blanked += 1;
+    if (underOurDrawing?.[i]) blankedUnderOurDrawing += 1;
   }
   return {
+    blankedUnderSomethingWeDrew: blankedUnderOurDrawing,
+    blankedUnderNothingWeDrew: blanked - blankedUnderOurDrawing,
     sourceInkPixels: sourceInk,
-    sourceInkPixelsMissingFromFinalized: lost,
-    lostFraction: sourceInk ? Number((lost / sourceInk).toFixed(6)) : 0
+    // Both numbers are reported. The first is every source pixel that stopped
+    // reading as ink, which is dominated by antialiasing at glyph edges; the
+    // second is the subset the finalized page renders as bare paper, which is
+    // what an opaque fill over printed text would produce. The verdict uses the
+    // second.
+    sourceInkPixelsNoLongerReadingAsInk: lighter,
+    sourceInkPixelsBlankedToPaper: blanked,
+    blankedFraction: sourceInk ? Number((blanked / sourceInk).toFixed(6)) : 0
   };
 }
 
@@ -848,7 +875,17 @@ async function main() {
           }
         }
 
-        const preservation = masks.source && masks.finalized ? sourcePreservation(masks.source, masks.finalized) : null;
+        // Printed characters can be covered by an opaque fill inside something
+        // we drew: flattening an unticked checkbox paints a solid square over
+        // the "[_]" the Arkansas orders print, and the underscore stops being
+        // ink. That is real coverage of official characters and is reported --
+        // but it is not the same event as printed text vanishing under nothing,
+        // and the two must not share a finding. This mask says which it is.
+        const ourDrawingMask = generatedOwn && rect
+          ? rectMask(clusters.filter((c) => c.overSourceInk?.coincidesWithSourceFurniture), 0, generatedOwn, rect, geo.heightPt)
+          : null;
+        const preservation = masks.source && masks.finalized
+          ? sourcePreservation(masks.source, masks.finalized, ourDrawingMask) : null;
         const unexplained = masks.source && masks.generated && masks.finalized
           ? unexplainedInk(masks.source, masks.generated, masks.finalized) : null;
 
@@ -906,8 +943,14 @@ async function main() {
             note: "Ink outside every declared rectangle, landing on ink the official form already prints there. Attributed to us because flattening baked a widget appearance into the page; visually it reproduces the form's own box rather than adding a mark."
           });
         }
-        if (preservation && preservation.sourceInkPixelsMissingFromFinalized > SOURCE_LOSS_FLOOR_PX) {
+        if (preservation && preservation.blankedUnderNothingWeDrew > SOURCE_LOSS_FLOOR_PX) {
           findings.push({ code: "source_text_missing_from_finalized_page", ...preservation });
+        } else if (preservation && preservation.blankedUnderSomethingWeDrew > SOURCE_LOSS_FLOOR_PX) {
+          findings.push({
+            code: "flattened_widget_appearance_covers_printed_characters",
+            ...preservation,
+            note: "Printed characters of the official form stopped reading as ink because an opaque fill inside a shape flattening re-drew sits on top of them. On the Arkansas orders this is the solid checkbox square painted over the printed [_]: the box reads cleaner, and the form's own characters are no longer on the page."
+          });
         }
         // A composed page antialiases a glyph edge slightly differently from the
         // same glyph rendered alone, so a few edge pixels land in neither mask.
@@ -1027,7 +1070,9 @@ async function main() {
               : "no generated ink touches a protected region",
           sourcePreservation: pages.some((p) => p.findings.some((f) => f.code === "source_text_missing_from_finalized_page"))
             ? "source text is missing from a finalized page"
-            : "every pixel of official source ink survives into the finalized page",
+            : pages.some((p) => p.findings.some((f) => f.code === "flattened_widget_appearance_covers_printed_characters"))
+              ? "no source text is missing under nothing; a re-drawn widget appearance covers printed characters"
+              : "every pixel of official source ink survives into the finalized page",
           defaultAppearances: residue.flat ? "clear" : "residual interactive machinery",
           pinnedSourceControl: isControl
             ? (pages.every((p) => p.pinnedSourceControl?.comparable && p.pinnedSourceControl.differingFraction < 0.001)
@@ -1091,6 +1136,7 @@ async function main() {
       familiesNotFlat: onDisk.filter((m) => !m.defaultAppearances.flat).length,
       familiesWhereFlatteningRedrewFormFurniture: onDisk.filter((m) => m.pages.some((p) => p.findings.some((f) => f.code === "flattening_redrew_the_form_s_own_furniture"))).length,
       familiesCarryingGeneratedInkWithNoDeclaredRectangle: onDisk.filter((m) => m.verdict.placement.startsWith("not checkable")).length,
+      familiesWhereAReDrawnWidgetCoversPrintedCharacters: onDisk.filter((m) => m.verdict.sourcePreservation.startsWith("no source text is missing under nothing")).length,
       familiesWhosePinnedSourceIsInThisClone: onDisk.filter((m) => m.sourceBinaryInThisClone).length,
       controlFamiliesWhoseOfficialLayerMatchesThePinnedBinary: onDisk.filter((m) => m.verdict.pinnedSourceControl.startsWith("control held")).length
     },

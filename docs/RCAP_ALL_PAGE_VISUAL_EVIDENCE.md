@@ -46,8 +46,13 @@ Two measurements police the split on every page, so it cannot quietly be wrong:
 
 - `inkAccountedToALayer.inkInNeitherLayer` — finalized ink belonging to neither
   layer. Must be zero, or the split is missing something.
-- `sourceTextPreservation.sourceInkPixelsMissingFromFinalized` — official ink
-  the fill destroyed. Must be zero.
+- `sourceTextPreservation.sourceInkPixelsBlankedToPaper` — official ink the
+  fill destroyed. Must be zero. The companion number,
+  `sourceInkPixelsNoLongerReadingAsInk`, is also reported and is normally
+  non-zero: a composed page antialiases a glyph edge slightly differently from
+  the same glyph rendered alone, so edge pixels drift across the ink
+  threshold. Only ink the finalized page renders as bare paper — what an
+  opaque fill over printed text produces — drives the verdict.
 
 ### The control
 
@@ -72,7 +77,7 @@ later lands in a clone is measured against it automatically.
 | --- | --- |
 | `placement` | Generated-layer ink is clustered, converted to page points, and required to sit inside a rectangle the family's own map declares writable, within 4pt. |
 | `protectedRegions` | No **generated** ink may touch a signature, clerk, court, attorney or agency rectangle. Official text printed inside those blocks is in the source layer and is never counted as a leak. |
-| `sourcePreservation` | Official ink absent from the finalized render, in pixels. Zero required. |
+| `sourcePreservation` | Official ink the finalized render leaves as bare paper, in pixels. Zero required. Edge pixels that merely lightened are counted separately and do not raise a finding. |
 | `defaultAppearances` | The artifact must be flat. A surviving widget draws its own chooser prompt, comb or highlight — a mark on a court filing that no field map describes. |
 | `pinnedSourceControl` | Above. Available only where the binary is in the clone. |
 
