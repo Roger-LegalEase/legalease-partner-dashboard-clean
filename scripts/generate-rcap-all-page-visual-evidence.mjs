@@ -717,6 +717,47 @@ async function main() {
       const guarded = protectedRects(family.familyPath);
       const populated = readJson(path.join(family.familyPath, "reports/populated-fields.json")) ?? [];
 
+      // Every value we placed into a rectangle this family's map declares
+      // writable, collected across the whole artifact before any page is
+      // judged. It is the difference between participant data and the form's
+      // own furniture: a widget's flattened label ("Reset Form", "Print", a
+      // notice about fillable PDFs) is text we drew, but it is not a value we
+      // put anywhere, so it can never be a leak of the participant's data --
+      // and reporting it as one buried the single real leak in this corpus
+      // among four that were nothing of the kind.
+      const placedValues = new Set();
+      for (const geo of geometry) {
+        const onPage = declaredWriteRects(family.familyPath).rects.filter((r) => r.page === geo.page);
+        for (const run of runsByPage.get(geo.page) ?? []) {
+          const text = run.text.trim();
+          if (text.length < 3) continue;
+          const inside = onPage.some(
+            (r) => run.x >= r.x - CONTAINMENT_TOLERANCE_PT && run.x <= r.x + r.width + CONTAINMENT_TOLERANCE_PT
+              && run.y >= r.y - CONTAINMENT_TOLERANCE_PT && run.y <= r.y + r.height + CONTAINMENT_TOLERANCE_PT
+          );
+          if (inside) placedValues.add(text);
+        }
+      }
+      // Matching a protected region's text against placed values EXACTLY is too
+      // brittle: the Arkansas probation order places "Reyes" in its name
+      // rectangle on page 1 and writes "Jordan Avery Reyes" into the judge's
+      // block on page 2, and an exact test calls the second one somebody else's
+      // label. Words carry the identity. A four-character word is long enough
+      // that the form's own furniture -- "Reset Form", "Print", a notice about
+      // fillable PDFs -- shares none of them with a participant's data.
+      const placedWords = new Set();
+      for (const value of placedValues) {
+        for (const word of value.toLowerCase().split(/[^a-z0-9]+/i)) {
+          if (word.length >= 4) placedWords.add(word);
+        }
+      }
+      const participantWordIn = (text) => {
+        for (const word of text.toLowerCase().split(/[^a-z0-9]+/i)) {
+          if (word.length >= 4 && placedWords.has(word)) return word;
+        }
+        return null;
+      };
+
       const pages = [];
       const rasterHashes = [];
       for (const geo of geometry) {
@@ -819,12 +860,20 @@ async function main() {
                 && run.y >= region.y - CONTAINMENT_TOLERANCE_PT
                 && run.y <= region.y + region.height + CONTAINMENT_TOLERANCE_PT)
               .map((run) => run.text);
+            const leaked = valuesInRegion
+              .map((t) => ({ text: t, matchedOnWord: participantWordIn(t) }))
+              .filter((row) => row.matchedOnWord);
             touchingProtected.push({
               region: region.caption, category: region.category, basis: region.basis,
               generatedInkPixelsInRegion: inside,
               pixelsCoincidingWithSourceInk: coincident,
               valuesWrittenInsideThisRegion: valuesInRegion,
-              participantDerived: valuesInRegion.length > 0
+              // A leak is a value we placed SOMEWHERE ELSE on this artifact
+              // turning up in a region reserved for another actor. Text that
+              // appears only here, and in no rectangle the map declares
+              // writable, is the widget's own label baked in by flattening.
+              participantValuesInsideThisRegion: leaked,
+              participantDerived: leaked.length > 0
             });
           }
         }
@@ -969,14 +1018,34 @@ async function main() {
           findings.push({
             code: hit.participantDerived
               ? "participant_derived_ink_in_protected_region"
-              : "flattening_redrew_form_furniture_in_a_protected_region",
+              : hit.valuesWrittenInsideThisRegion.length
+                ? "flattened_widget_text_in_a_protected_region"
+                : "flattening_redrew_form_furniture_in_a_protected_region",
             ...hit,
             note: hit.participantDerived
-              ? "Ink we added inside a region reserved for a court, clerk, prosecutor, attorney or agency, not coinciding with anything the form prints there."
-              : "Ink we added inside a protected region, landing on the outline the form already prints there. Flattening re-drew the widget's empty appearance; it carries no participant value."
+              ? "A value this artifact places in a declared writable rectangle elsewhere also appears inside a region reserved for a court, clerk, prosecutor, attorney or agency."
+              : hit.valuesWrittenInsideThisRegion.length
+                ? "Text we drew inside a protected region that this artifact places nowhere else. It is the widget's own label flattened onto the page, not the participant's data."
+                : "Ink we added inside a protected region, landing on the outline the form already prints there. Flattening re-drew the widget's empty appearance; it carries no participant value."
           });
         }
         for (const crossing of crossingBoundary) findings.push({ code: "generated_ink_crosses_its_rectangle_boundary", ...crossing });
+        // Text we drew that this artifact places in no declared rectangle
+        // anywhere. On the Kentucky forms this is "Reset Form", "Print Form"
+        // and a notice explaining that not all browsers handle fillable PDFs
+        // the same way -- the interactive form's own furniture, flattened into
+        // a document meant to be filed with a court.
+        const unaskedText = [...new Set(
+          valuesOnPage.map((v) => v.text.trim())
+            .filter((t) => t.length >= 3 && !placedValues.has(t) && !participantWordIn(t))
+        )];
+        if (unaskedText.length) {
+          findings.push({
+            code: "text_we_drew_that_no_declared_rectangle_asked_for",
+            texts: unaskedText,
+            note: "Text present in our own overlay stream that this artifact places in no rectangle its map declares writable. Flattening an interactive form bakes in the widget's own labels, and they are then on the filing."
+          });
+        }
         for (const dup of repeated) findings.push({ code: "written_value_appears_more_than_once_on_page", ...dup });
         for (const dup of acrossRectangles) {
           findings.push({
@@ -1181,6 +1250,7 @@ async function main() {
       familiesNotFlat: onDisk.filter((m) => !m.defaultAppearances.flat).length,
       familiesWhereFlatteningRedrewFormFurniture: onDisk.filter((m) => m.pages.some((p) => p.findings.some((f) => f.code === "flattening_redrew_the_form_s_own_furniture"))).length,
       familiesCarryingGeneratedInkWithNoDeclaredRectangle: onDisk.filter((m) => m.verdict.placement.startsWith("not checkable")).length,
+      familiesCarryingTextNoDeclaredRectangleAskedFor: onDisk.filter((m) => m.pages.some((p) => p.findings.some((f) => f.code === "text_we_drew_that_no_declared_rectangle_asked_for"))).length,
       familiesWhosePinnedSourceIsInThisClone: onDisk.filter((m) => m.sourceBinaryInThisClone).length,
       controlFamiliesWhoseOfficialLayerMatchesThePinnedBinary: onDisk.filter((m) => m.verdict.pinnedSourceControl.startsWith("control held")).length
     },
