@@ -163,6 +163,18 @@ const WAVES = [
       note: "Measured path by path between the two bases rather than inferred from the commit subject. Exactly two paths moved: field-classification.json on the two AOC-CR-287 families, which gained the completeness counters. Source records, source receipts, overlay profiles and their derived forms, field censuses, canonical and boundary artifacts, contact sheets and provenance sidecars are byte-identical across all four. The provenance sidecars name no classification digest, so none went stale behind the change.",
       measurementCorrection: "A first pass compared production-field-map.json for all four and reported it unchanged everywhere. Three of these families are flat-overlay packages that carry overlay-profile.json instead, so that comparison was between a path absent from both commits — an absence reading as agreement. The paths were re-measured against the shape each package actually has, and the verdict is unchanged only because the profiles genuinely did not move."
     },
+    combinedReviewBase: "358c6f75b2d9bd56c1b90d510fa78ac3542b05be",
+    combinedReviewBranch: "claude/rcap-wave-a-combined-review-1b8a8cdd",
+    combinedFrom: {
+      implementation: "1b8a8cdd6c3a17a5452cfa3e4c238c5e6b329800",
+      sidecars: "39212470646c3ec871af2212163bef0595eb70bf",
+      visual: "ecbbc6c1"
+    },
+    preReview: { commit: "c61e2331", status: "notes_only_not_integrated",
+      why: "canonical review starts from the combined current bytes, not from another session's notes" },
+    reviewerDispatched: true,
+    implementationFreezeUntil:
+      "Session 2 publishes canonical verdicts; no Wave A implementation byte may move before then",
     sidecarSession: 9,
     visualSession: 10,
     reviewerSession: 2,
@@ -256,16 +268,38 @@ const OWNER_DECISIONS = [
 /**
  * Contributor tips the captain is deliberately not integrating, and why.
  */
-const INTEGRATION_HOLDS = [
-  {
-    commit: "bddc55ac",
-    session: 13,
-    status: "held",
-    reason:
-      "its three Alabama rows point to a guidance packet that does not exist, so those three outcomes are not completed repoints",
-    consequence: "no retirement or repoint from this tip is counted; retired stays where it is"
-  }
-];
+const INTEGRATION_HOLDS = [];
+
+/**
+ * The HTML capture adjudication, as one unit.
+ *
+ * bddc55ac is superseded rather than dropped: it is an ancestor of f005a0eb and
+ * the two are one adjudication, so integrating the earlier tip alone would
+ * record three Alabama repoints that its own successor shows are not complete.
+ * The unit is the corrected tip, and the outcomes below are read from the
+ * adjudication record at that tip rather than restated.
+ */
+const HTML_ADJUDICATION = {
+  unit: "session-13-html-capture-adjudication",
+  currentTip: "f005a0eb",
+  supersedes: { commit: "bddc55ac", status: "superseded_by_corrected_tip",
+    rule: "never integrate bddc55ac without f005a0eb; if cherry-picking, preserve the branch sequence and verify at f005a0eb-equivalent bytes" },
+  outcomes: { htmlRetired: 0, htmlRepointed: 3, htmlRetained: 8 },
+  repointsCompleted: [
+    { jurisdiction: "AK", target: "data/rcap-all50/guidance-packets/ak.json" },
+    { jurisdiction: "AR", target: "data/rcap-all50/guidance-packets/ar.json" },
+    { jurisdiction: "KY", target: "data/rcap-all50/guidance-packets/ky.json" }
+  ],
+  retainedUntilRepointed: [
+    "al-expungement-petition.html",
+    "criminal-forms.html",
+    "criminal-record-expungement.html"
+  ],
+  exactBlocker: "data/rcap-all50/guidance-packets/al.json does not exist",
+  blockerOwnedBy: "the guidance lane; the adjudication lane does not create guidance packets",
+  denominatorEffect:
+    "none. A repoint to a guidance surface does not retire the asset — retirement additionally requires removing the fileName from the compiled engine profile and the state-pack metadata, which is an application change. platform_ready, retired, retained_problematic and retained_missing all stand."
+};
 
 const record = {
   schemaVersion: "rcap-gate-b-session-dispatch/v1",
@@ -287,11 +321,31 @@ const record = {
   waves: WAVES,
   ownerDecisions: OWNER_DECISIONS,
   integrationHolds: INTEGRATION_HOLDS,
+  htmlAdjudication: HTML_ADJUDICATION,
   laneBases: [
     {
       lane: "lane 2 evidence",
       session: 8,
-      base: "ad3bca35",
+      base: "ad3bca357e8030f5d07207aeec2d07927f3b1912",
+      published: true,
+      frozen: true,
+      freezeScope: "no implementation session may modify these nine family packages until evidence and review complete",
+      frozenFamilyPackages: [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en",
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en",
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
+        "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en",
+        "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
+        "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+        "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
+        "data/rcap-all50/overlays/production/vermont/600-00228-support-en"
+      ],
+      evidenceDispatch: {
+        sidecarSession: 9, visualSession: 10,
+        from: "exactly ad3bca357e8030f5d07207aeec2d07927f3b1912",
+        rule: "independent branches; neither leg depends on the other's commit"
+      },
       authorizedFrom: "e6ffff87",
       intermediate: ["407525c0"],
       auditedAndPassing: [
