@@ -1,0 +1,1027 @@
+{
+  "schemaVersion": "rcap-gate-b-source-resolution-handoff/v1",
+  "generatedBy": "scripts/generate-rcap-gate-b-source-resolution-handoff.mjs",
+  "assignment": "data/rcap-all50/gate-b-assignments/source-resolution.json",
+  "lane": "LANE-SOURCE — source-resolution",
+  "baseSha": "cfe91ba32a226bb244f5eef78ccb913d7b16d777",
+  "denominator": {
+    "basis": "the assigned asset population, one row per assigned asset id",
+    "assignedAssets": 19,
+    "rowsEmitted": 19,
+    "note": "This artifact is denominated on the assignment. It does not group assets by alias and does not use an alias-group denominator."
+  },
+  "rootBlocker": "the official binary is absent from the clone, so no SHA-256 can be recomputed and neither a render nor a review is possible",
+  "blockers": [
+    {
+      "blocker": "publishers_of_record_not_reachable_from_this_session",
+      "detail": "The egress gateway answered 403 to CONNECT for www.vtcourts.gov, www.nccourts.gov, supremecourt.nebraska.gov and www.vacourts.gov. No assigned asset could be acquired here.",
+      "ownedBy": "Roger, or a session whose egress policy permits the publishers of record"
+    },
+    {
+      "blocker": "corpus_not_mounted",
+      "detail": "node scripts/generate-rcap-source-resolution.mjs --check exits with: FAIL source resolution — the corpus is not mounted at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1. No SHA-256 could be recomputed from bytes, so no acquisition receipt could be issued.",
+      "ownedBy": "Roger, or a session with the Edition 1 extract mounted"
+    }
+  ],
+  "whatThisArtifactDoesNotClaim": [
+    "that any pinned binary is the current official edition",
+    "that any resolved landing page serves the pinned bytes",
+    "a SHA-256 computed from bytes: every hash here is read back from a committed record, never recomputed"
+  ],
+  "defectFoundInTheAcquisitionQueue": {
+    "defect": "csv_row_carried_into_the_url_field",
+    "detail": "scripts/generate-rcap-source-acquisition-queue.mjs sliced docs/record-clearing/problematic-pdf-master-list.csv on bare commas, so for some rows the url field holds the officialSourceUrl column followed by every column after it — publisher, retrieval date, revision, sha256, and the git-ignored corpus path. Those values are not URLs and must not be fetched or repinned as they stand.",
+    "affectedAssignedAssets": 3,
+    "recoveryProof": "Splitting the contaminated string on commas puts the pinned sha256 at index 4 for every affected assigned asset, which is where the CSV column order predicts it. That alignment is what makes the leading field a safe recovery of officialSourceUrl.",
+    "authoritativeSourceUsedInstead": "docs/record-clearing/problematic-pdf-master-list.csv"
+  },
+  "totals": {
+    "assignedAssets": 19,
+    "byDisposition": {
+      "genuinely_no_official_source_identified": 2,
+      "official_direct_url_resolved_acquisition_blocked": 2,
+      "official_landing_page_resolved": 14,
+      "wrong_identity_offered": 1
+    },
+    "byResolvedUrlKind": {
+      "direct_pdf": 2,
+      "landing_page": 15,
+      "null": 2
+    },
+    "contaminatedQueueUrls": 3,
+    "resolvedToAnOfficialHost": 17,
+    "acquiredHere": 0,
+    "sha256RecomputedHere": 0
+  },
+  "rows": [
+    {
+      "assetId": "VT|200-00129 – Petition to Expunge Criminal History.pdf|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+      "familyId": "VT:200-00129-petition-to-expunge-criminal-history",
+      "jurisdiction": "VT",
+      "fileName": "200-00129 – Petition to Expunge Criminal History.pdf",
+      "pinnedSha256": "6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+      "publisherOfRecord": "Vermont Judiciary (vtcourts.gov)",
+      "formNumber": "200-00129 – Petition to Expunge Criminal History.pdf",
+      "formName": "200-00129 – Petition to Expunge Criminal History.pdf",
+      "revision": null,
+      "resolvedOfficialUrl": "https://www.vtcourts.gov/criminal/expungement",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [
+        "VT|200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+        "VT|400-00171.pdf|b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a"
+      ],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.vtcourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_present_in_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 present at STATES/VT/02_PACKET_FORMS/VT__FORM__200-00129__petition-to-expunge-criminal-history__REV-2025-07__EN.pdf"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.vtcourts.gov, open https://www.vtcourts.gov/criminal/expungement, locate the 200-00129 – Petition to Expunge Criminal History.pdf entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "VT|200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "familyId": "VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record",
+      "jurisdiction": "VT",
+      "fileName": "200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf",
+      "pinnedSha256": "8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "publisherOfRecord": "Vermont Judiciary (vtcourts.gov)",
+      "formNumber": "200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf",
+      "formName": "200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf",
+      "revision": null,
+      "resolvedOfficialUrl": "https://www.vtcourts.gov/criminal/expungement",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [
+        "VT|200-00129 – Petition to Expunge Criminal History.pdf|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+        "VT|400-00171.pdf|b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a"
+      ],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.vtcourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_present_in_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 present at STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.vtcourts.gov, open https://www.vtcourts.gov/criminal/expungement, locate the 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "VT|200-00131.pdf|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "familyId": "VT:200-00131",
+      "jurisdiction": "VT",
+      "fileName": "200-00131.pdf",
+      "pinnedSha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "publisherOfRecord": "Vermont Judiciary (vtcourts.gov)",
+      "formNumber": "200-00131",
+      "formName": "Response to Petition to Expunge or Seal",
+      "revision": "REV-2018-07",
+      "resolvedOfficialUrl": "https://www.vtcourts.gov/media/116",
+      "resolvedFrom": "docs/record-clearing/problematic-pdf-master-list.csv#officialSourceUrl",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.vtcourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": true,
+      "contaminatedQueueUrl": "https://www.vtcourts.gov/media/116,www.vtcourts.gov,2026-08-02,REV-2018-07,5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a,true,private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf,candidate_current_source,false,acroform,21,false,no",
+      "contaminationRecovery": {
+        "recoveredUrl": "https://www.vtcourts.gov/media/116",
+        "recoveredPublisher": "www.vtcourts.gov",
+        "recoveredRevision": "REV-2018-07",
+        "recoveredSha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+        "recoveredShaMatchesPin": true,
+        "recoveryVerification": "column_alignment_confirmed_by_pinned_sha256",
+        "trailingColumnsCarriedIn": 12
+      },
+      "archiveStatus": "pinned_sha256_present_in_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 present at STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.vtcourts.gov, open https://www.vtcourts.gov/media/116, locate the 200-00131 entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "VT|200-00132 – Stipulation to Seal Criminal History Record + Order.pdf|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "familyId": "VT:200-00132-stipulation-to-seal-criminal-history-record-order",
+      "jurisdiction": "VT",
+      "fileName": "200-00132 – Stipulation to Seal Criminal History Record + Order.pdf",
+      "pinnedSha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "publisherOfRecord": "Vermont Judiciary (vtcourts.gov)",
+      "formNumber": "200-00132",
+      "formName": "Stipulation to Seal Criminal History Record and Order",
+      "revision": "REV-2025-07",
+      "resolvedOfficialUrl": "https://www.vtcourts.gov/media/10142",
+      "resolvedFrom": "docs/record-clearing/problematic-pdf-master-list.csv#officialSourceUrl",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [
+        "VT|200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec"
+      ],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.vtcourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_present_in_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 present at STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.vtcourts.gov, open https://www.vtcourts.gov/media/10142, locate the 200-00132 entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "VT|200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "familyId": "VT:200-00132a-stipulation-to-expunge-criminal-history-record-order",
+      "jurisdiction": "VT",
+      "fileName": "200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf",
+      "pinnedSha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "publisherOfRecord": "Vermont Judiciary (vtcourts.gov)",
+      "formNumber": "200-00132A",
+      "formName": "Stipulation to Expunge Criminal History Record and Order",
+      "revision": "REV-2025-07",
+      "resolvedOfficialUrl": "https://www.vtcourts.gov/media/10142",
+      "resolvedFrom": "docs/record-clearing/problematic-pdf-master-list.csv#officialSourceUrl",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [
+        "VT|200-00132 – Stipulation to Seal Criminal History Record + Order.pdf|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2"
+      ],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.vtcourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_present_in_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 present at STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.vtcourts.gov, open https://www.vtcourts.gov/media/10142, locate the 200-00132A entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "VT|200-00631.pdf|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "familyId": "VT:200-00631",
+      "jurisdiction": "VT",
+      "fileName": "200-00631.pdf",
+      "pinnedSha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "publisherOfRecord": "Vermont Judiciary (vtcourts.gov)",
+      "formNumber": "200-00631",
+      "formName": "Request for Sealing Order in Special Index",
+      "revision": "REV-2019-09",
+      "resolvedOfficialUrl": "https://www.vtcourts.gov/media/11473",
+      "resolvedFrom": "docs/record-clearing/problematic-pdf-master-list.csv#officialSourceUrl",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.vtcourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": true,
+      "contaminatedQueueUrl": "https://www.vtcourts.gov/media/11473,www.vtcourts.gov,2026-08-02,REV-2019-09,a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3,true,private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/VT/02_PACKET_FORMS/VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf,candidate_current_source,false,acroform,10,false,no",
+      "contaminationRecovery": {
+        "recoveredUrl": "https://www.vtcourts.gov/media/11473",
+        "recoveredPublisher": "www.vtcourts.gov",
+        "recoveredRevision": "REV-2019-09",
+        "recoveredSha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+        "recoveredShaMatchesPin": true,
+        "recoveryVerification": "column_alignment_confirmed_by_pinned_sha256",
+        "trailingColumnsCarriedIn": 12
+      },
+      "archiveStatus": "pinned_sha256_present_in_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 present at STATES/VT/02_PACKET_FORMS/VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.vtcourts.gov, open https://www.vtcourts.gov/media/11473, locate the 200-00631 entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "VT|400-00171.pdf|b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
+      "familyId": "VT:400-00171",
+      "jurisdiction": "VT",
+      "fileName": "400-00171.pdf",
+      "pinnedSha256": "b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
+      "publisherOfRecord": "Vermont Judiciary (vtcourts.gov)",
+      "formNumber": "400-00171.pdf",
+      "formName": "400-00171.pdf",
+      "revision": null,
+      "resolvedOfficialUrl": "https://www.vtcourts.gov/criminal/expungement",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [
+        "VT|200-00129 – Petition to Expunge Criminal History.pdf|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+        "VT|200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078"
+      ],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.vtcourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_absent_from_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 absent from the committed archive index"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 not named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.vtcourts.gov, open https://www.vtcourts.gov/criminal/expungement, locate the 400-00171.pdf entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "VT|application-waive-filing-fees-and-service-costs.html|1b9348d18347d3adb278a209046c3593e595c385b1c2081c6a33142767196b59",
+      "familyId": "VT:application-waive-filing-fees-and-service-costs",
+      "jurisdiction": "VT",
+      "fileName": "application-waive-filing-fees-and-service-costs.html",
+      "pinnedSha256": "1b9348d18347d3adb278a209046c3593e595c385b1c2081c6a33142767196b59",
+      "publisherOfRecord": "Vermont Judiciary (vtcourts.gov)",
+      "formNumber": "application-waive-filing-fees-and-service-costs.html",
+      "formName": "application-waive-filing-fees-and-service-costs.html",
+      "revision": null,
+      "resolvedOfficialUrl": "https://www.vtcourts.gov/self-help/application-waive-filing-fees-and-service-costs",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.vtcourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_absent_from_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 absent from the committed archive index"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 not named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.vtcourts.gov, open https://www.vtcourts.gov/self-help/application-waive-filing-fees-and-service-costs, locate the application-waive-filing-fees-and-service-costs.html entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "NC|cr297.pdf|sha256_unrecorded_in_repo",
+      "familyId": "NC:cr297",
+      "jurisdiction": "NC",
+      "fileName": "cr297.pdf",
+      "pinnedSha256": null,
+      "publisherOfRecord": "North Carolina Administrative Office of the Courts (nccourts.gov)",
+      "formNumber": "cr297.pdf",
+      "formName": "cr297.pdf",
+      "revision": null,
+      "resolvedOfficialUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url (recovered from a carried-in CSV row)",
+      "formPinnedToInstructionsResource": true,
+      "sharedWithOtherAssignedAssets": [],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.nccourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": true,
+      "contaminatedQueueUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies,www.nccourts.gov,2026-08-02,REV-2025-06,689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484,true,private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/03_INSTRUCTIONS/NC__INSTRUCTIONS__AOC-CR-297__aoc-cr-297-instructions__REV-2025-06__EN.pdf,candidate_current_source,false,flat_pdf,0,false,no",
+      "contaminationRecovery": {
+        "recoveredUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies",
+        "recoveredPublisher": "www.nccourts.gov",
+        "recoveredRevision": "REV-2025-06",
+        "recoveredSha256": "689301e080796f9c0c9e8f15c5cd055a47b40034ab58f1fc7b91ab1143f8a484",
+        "recoveredShaMatchesPin": null,
+        "recoveryVerification": "not_applicable_no_sha_pinned_for_this_asset",
+        "trailingColumnsCarriedIn": 12
+      },
+      "archiveStatus": "pinned_sha256_absent_from_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "wrong_identity_offered",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 absent from the committed archive index"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 not named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.nccourts.gov, open https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies, locate the cr297.pdf entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+      "familyId": "NC:expungements",
+      "jurisdiction": "NC",
+      "fileName": "expungements.html",
+      "pinnedSha256": "e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+      "publisherOfRecord": "North Carolina Administrative Office of the Courts (nccourts.gov)",
+      "formNumber": "expungements.html",
+      "formName": "expungements.html",
+      "revision": null,
+      "resolvedOfficialUrl": "https://www.nccourts.gov/documents/forms",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [
+        "NC|forms-2.html|30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+        "NC|forms.html|1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+        "NC|nc-expunction-petition.html|912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c"
+      ],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.nccourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_absent_from_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 absent from the committed archive index"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 not named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.nccourts.gov, open https://www.nccourts.gov/documents/forms, locate the expungements.html entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "NC|forms-2.html|30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+      "familyId": "NC:forms-2",
+      "jurisdiction": "NC",
+      "fileName": "forms-2.html",
+      "pinnedSha256": "30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+      "publisherOfRecord": "North Carolina Administrative Office of the Courts (nccourts.gov)",
+      "formNumber": "forms-2.html",
+      "formName": "forms-2.html",
+      "revision": null,
+      "resolvedOfficialUrl": "https://www.nccourts.gov/documents/forms",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [
+        "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+        "NC|forms.html|1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+        "NC|nc-expunction-petition.html|912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c"
+      ],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.nccourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_absent_from_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 absent from the committed archive index"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 not named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.nccourts.gov, open https://www.nccourts.gov/documents/forms, locate the forms-2.html entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "NC|forms.html|1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+      "familyId": "NC:forms",
+      "jurisdiction": "NC",
+      "fileName": "forms.html",
+      "pinnedSha256": "1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+      "publisherOfRecord": "North Carolina Administrative Office of the Courts (nccourts.gov)",
+      "formNumber": "forms.html",
+      "formName": "forms.html",
+      "revision": null,
+      "resolvedOfficialUrl": "https://www.nccourts.gov/documents/forms",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [
+        "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+        "NC|forms-2.html|30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+        "NC|nc-expunction-petition.html|912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c"
+      ],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.nccourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_absent_from_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 absent from the committed archive index"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 not named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.nccourts.gov, open https://www.nccourts.gov/documents/forms, locate the forms.html entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "NC|nc-expunction-petition.html|912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c",
+      "familyId": "NC:nc-expunction-petition",
+      "jurisdiction": "NC",
+      "fileName": "nc-expunction-petition.html",
+      "pinnedSha256": "912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c",
+      "publisherOfRecord": "North Carolina Administrative Office of the Courts (nccourts.gov)",
+      "formNumber": "nc-expunction-petition.html",
+      "formName": "nc-expunction-petition.html",
+      "revision": null,
+      "resolvedOfficialUrl": "https://www.nccourts.gov/documents/forms",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [
+        "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+        "NC|forms-2.html|30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+        "NC|forms.html|1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11"
+      ],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.nccourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_absent_from_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 absent from the committed archive index"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 not named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.nccourts.gov, open https://www.nccourts.gov/documents/forms, locate the nc-expunction-petition.html entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "NE|CC-6-11-2.pdf|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "familyId": "NE:cc-6-11-2",
+      "jurisdiction": "NE",
+      "fileName": "CC-6-11-2.pdf",
+      "pinnedSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "publisherOfRecord": "Nebraska Judicial Branch (nebraskajudicial.gov / supremecourt.nebraska.gov)",
+      "formNumber": "CC-6-11-2.pdf",
+      "formName": "CC-6-11-2.pdf",
+      "revision": null,
+      "resolvedOfficialUrl": null,
+      "resolvedFrom": null,
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [],
+      "resolvedUrlKind": null,
+      "resolvedUrlHost": null,
+      "resolvedUrlHostIsOfficialForJurisdiction": false,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_present_in_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "genuinely_no_official_source_identified",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group C"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 present at STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "No official URL is recorded for NE CC-6-11-2.pdf in any committed index. From a session permitted to reach the publisher of record, search that publisher's forms index for this document, and if it is not published there, record a no-official-source finding naming the index searched."
+    },
+    {
+      "assetId": "NE|CC-6-11.pdf|sha256_unrecorded_in_repo",
+      "familyId": "NE:cc-6-11",
+      "jurisdiction": "NE",
+      "fileName": "CC-6-11.pdf",
+      "pinnedSha256": null,
+      "publisherOfRecord": "Nebraska Judicial Branch (nebraskajudicial.gov / supremecourt.nebraska.gov)",
+      "formNumber": "CC-6-11.pdf",
+      "formName": "CC-6-11.pdf",
+      "revision": null,
+      "resolvedOfficialUrl": null,
+      "resolvedFrom": null,
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [],
+      "resolvedUrlKind": null,
+      "resolvedUrlHost": null,
+      "resolvedUrlHostIsOfficialForJurisdiction": false,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_absent_from_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "genuinely_no_official_source_identified",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group C"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 absent from the committed archive index"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 not named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "No official URL is recorded for NE CC-6-11.pdf in any committed index. From a session permitted to reach the publisher of record, search that publisher's forms index for this document, and if it is not published there, record a no-official-source finding naming the index searched."
+    },
+    {
+      "assetId": "NE|CC-6-12.pdf|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "familyId": "NE:cc-6-12",
+      "jurisdiction": "NE",
+      "fileName": "CC-6-12.pdf",
+      "pinnedSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "publisherOfRecord": "Nebraska Judicial Branch (nebraskajudicial.gov / supremecourt.nebraska.gov)",
+      "formNumber": "CC-6-12",
+      "formName": "not recorded in the committed source record",
+      "revision": null,
+      "resolvedOfficialUrl": "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [],
+      "resolvedUrlKind": "direct_pdf",
+      "resolvedUrlHost": "nebraskajudicial.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_present_in_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_direct_url_resolved_acquisition_blocked",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group A"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 present at STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach nebraskajudicial.gov, download https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf, record its sha256 and byte length, and compare against the pinned 68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28. Repin only if the bytes are confirmed to be this document."
+    },
+    {
+      "assetId": "VA|cc1473.pdf|6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+      "familyId": "VA:cc1473",
+      "jurisdiction": "VA",
+      "fileName": "cc1473.pdf",
+      "pinnedSha256": "6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+      "publisherOfRecord": "Virginia Judicial System (vacourts.gov)",
+      "formNumber": "cc1473.pdf",
+      "formName": "cc1473.pdf",
+      "revision": null,
+      "resolvedOfficialUrl": "https://www.vacourts.gov/forms/circuit/cc1473.pdf",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [],
+      "resolvedUrlKind": "direct_pdf",
+      "resolvedUrlHost": "www.vacourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_absent_from_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_direct_url_resolved_acquisition_blocked",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group A"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 absent from the committed archive index"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 not named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.vacourts.gov, download https://www.vacourts.gov/forms/circuit/cc1473.pdf, record its sha256 and byte length, and compare against the pinned 6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3. Repin only if the bytes are confirmed to be this document."
+    },
+    {
+      "assetId": "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+      "familyId": "VA:cc1473inst",
+      "jurisdiction": "VA",
+      "fileName": "cc1473inst.pdf",
+      "pinnedSha256": "ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+      "publisherOfRecord": "Virginia Judicial System (vacourts.gov)",
+      "formNumber": "cc1473inst.pdf",
+      "formName": "cc1473inst.pdf",
+      "revision": null,
+      "resolvedOfficialUrl": "https://www.vacourts.gov/courts/circuit/resources/forms/",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [
+        "VA|va-expungement-sealing-forms.html|b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f"
+      ],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.vacourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_absent_from_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 absent from the committed archive index"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 not named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.vacourts.gov, open https://www.vacourts.gov/courts/circuit/resources/forms/, locate the cc1473inst.pdf entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    },
+    {
+      "assetId": "VA|va-expungement-sealing-forms.html|b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+      "familyId": "VA:va-expungement-sealing-forms",
+      "jurisdiction": "VA",
+      "fileName": "va-expungement-sealing-forms.html",
+      "pinnedSha256": "b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+      "publisherOfRecord": "Virginia Judicial System (vacourts.gov)",
+      "formNumber": "va-expungement-sealing-forms.html",
+      "formName": "va-expungement-sealing-forms.html",
+      "revision": null,
+      "resolvedOfficialUrl": "https://www.vacourts.gov/courts/circuit/resources/forms/",
+      "resolvedFrom": "data/rcap-all50/source-acquisition-queue.json#url",
+      "formPinnedToInstructionsResource": false,
+      "sharedWithOtherAssignedAssets": [
+        "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6"
+      ],
+      "resolvedUrlKind": "landing_page",
+      "resolvedUrlHost": "www.vacourts.gov",
+      "resolvedUrlHostIsOfficialForJurisdiction": true,
+      "queueUrlWasContaminated": false,
+      "contaminatedQueueUrl": null,
+      "contaminationRecovery": null,
+      "archiveStatus": "pinned_sha256_absent_from_archive_index",
+      "binaryReadableHere": false,
+      "sha256RecomputedHere": null,
+      "disposition": "official_landing_page_resolved",
+      "whatWasSearched": [
+        {
+          "source": "docs/record-clearing/problematic-pdf-master-list.csv",
+          "result": "row found; officialSourceUrl column read"
+        },
+        {
+          "source": "data/rcap-all50/source-acquisition-queue.json",
+          "result": "row found in acquisition group B"
+        },
+        {
+          "source": "data/rcap-all50/local-source-corpus-index.json",
+          "result": "pinned sha256 absent from the committed archive index"
+        },
+        {
+          "source": "data/rcap-all50/unmatched-source-reconciliation.json",
+          "result": "pinned sha256 not named in the unmatched-source reconciliation"
+        },
+        {
+          "source": "live publisher of record",
+          "result": "not reachable: the egress gateway answered 403 to CONNECT for every official host in this jurisdiction set"
+        }
+      ],
+      "exactOperatorAction": "From a session permitted to reach www.vacourts.gov, open https://www.vacourts.gov/courts/circuit/resources/forms/, locate the va-expungement-sealing-forms.html entry, resolve it to its direct PDF URL, download it, record sha256 and byte length, then repin the direct URL in place of the landing page."
+    }
+  ]
+}
