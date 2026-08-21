@@ -180,6 +180,91 @@ function familyDirectories() {
   return out;
 }
 
+// The one member of the hold vocabulary that is DERIVED rather than decided.
+//
+// The builder that first writes a source record emits it as
+// `...(participantFillable ? [] : ["not_participant_fillable_no_fixture_fill"])`
+// (build-rcap-official-forms-d1-verified-binaries.mjs), so a record carrying
+// BOTH `participantFillable: true` AND this hold states a combination its own
+// generator cannot produce. Later stages rewrite source-record.json -- they add
+// implementationStatus, documentOwnership and censusBasis, none of which the
+// original builder writes -- and carry productionHolds forward verbatim, so the
+// string outlives the fact it was derived from. This register then ingested the
+// stale string as a substantive finding, and because it belongs to neither
+// RELEASE_STATE_HOLDS nor REVIEW_REQUIRED_HOLDS it survived an independent
+// approval and retained the asset permanently.
+//
+// Recomputed here rather than trusted -- exactly as structuralClassAgrees below
+// is recomputed rather than read from the record's own stale boolean.
+//
+// Discharging it on `participantFillable` alone would be a one-line flip that
+// promotes any blank form whose flag happens to be set. So the hold stands
+// unless the family actually produced a fill AND that fill is visible on the
+// finalized page: participant bindings present, fields reported populated, the
+// protected-field scan clean with values actually written and none written-but-
+// invisible, and a contact-sheet proof that found the expected values in page
+// content. Any missing leg leaves the hold exactly where it is.
+const PARTICIPANT_FILL_HOLD = "not_participant_fillable_no_fixture_fill";
+
+/** Every stale hold this run discharged, reported rather than silently dropped. */
+const participantFillHoldsDischarged = [];
+
+function participantFillEvidence(familyPath, record, protectedScan, sheet) {
+  const map = readJson(path.join(familyPath, "production-field-map.json"))
+    ?? readJson(path.join(familyPath, "overlay-profile.json"));
+  const bound = Array.isArray(map?.bindings) ? map.bindings
+    : Array.isArray(map?.anchors) ? map.anchors : [];
+  const participantBindings = bound.filter((b) => {
+    const cls = String(b?.class ?? "");
+    return cls === "participant" || cls === "deterministic" || cls === "manual";
+  }).length;
+
+  const populated = readJson(path.join(familyPath, "reports/populated-fields.json"));
+  const populatedFields = Array.isArray(populated) ? populated.length
+    : Array.isArray(populated?.written) ? populated.written.length : 0;
+
+  // Two INDEPENDENT visual legs, and they answer different questions.
+  //
+  // The family's own contact-sheet proof reads the finalized page's content and
+  // says whether the expected values are in it. `sheet` is the register's
+  // pixel comparison of the blank and filled panels, which shares no code with
+  // it and can see a value that is present in content but draws nothing. A
+  // family passes only if both agree; either alone has a blind spot the other
+  // covers.
+  const familyProof = readJson(path.join(familyPath, "contact-sheet/contact-sheet-proof.json"));
+  const expectedValues = Array.isArray(familyProof?.expectedValues) ? familyProof.expectedValues : [];
+
+  // The proof must describe the bytes that are here now. A sheet left behind by
+  // a re-render names a superseded artifact, and its verdict is about a file
+  // nobody will file.
+  const canonical = path.join(familyPath, "fixtures/canonical-filled.pdf");
+  const canonicalSha = fs.existsSync(canonical)
+    ? crypto.createHash("sha256").update(fs.readFileSync(canonical)).digest("hex")
+    : null;
+
+  const legs = {
+    participantFillableFlag: record?.participantFillable === true,
+    participantOwned: record?.documentOwnership === "participant_completed"
+      || /participant-(?:completed|filled)/i.test(String(record?.ownershipDetermination ?? "")),
+    participantBindings,
+    populatedFields,
+    protectedScanPassed: protectedScan?.pass === true,
+    fieldsActuallyWritten: Number(protectedScan?.writtenFields ?? 0) > 0,
+    noValueWrittenButNotVisible: (protectedScan?.valuesWrittenButNotVisible ?? []).length === 0,
+    expectedValuesDeclared: expectedValues.length,
+    expectedValuesVisibleOnPage: familyProof?.allExpectedValuesVisible === true,
+    proofNamesCurrentArtifact: canonicalSha !== null && familyProof?.finalizedSha256 === canonicalSha,
+    panelsVisuallyDiffer: sheet?.panelsAreVisuallyIdentical === false
+  };
+  legs.proven = legs.participantFillableFlag && legs.participantOwned
+    && legs.participantBindings > 0 && legs.populatedFields > 0
+    && legs.protectedScanPassed && legs.fieldsActuallyWritten
+    && legs.noValueWrittenButNotVisible && legs.expectedValuesDeclared > 0
+    && legs.expectedValuesVisibleOnPage && legs.proofNamesCurrentArtifact
+    && legs.panelsVisuallyDiffer;
+  return legs;
+}
+
 /**
  * Every defect this asset actually carries, each one tied to the committed
  * evidence that establishes it. Categories are kept distinct on purpose: a
@@ -188,7 +273,7 @@ function familyDirectories() {
  * them into "needs work" is how a register stops being useful.
  */
 function defectsFor(ctx) {
-  const { record, impl, overflow, protectedScan, binary, visualStatus, trackKeys, audit, sheet, rendered } = ctx;
+  const { record, impl, overflow, protectedScan, binary, visualStatus, trackKeys, audit, sheet, rendered, familyPath, familyId } = ctx;
   const defects = [];
   // Every finding names a root cause, and the catalogue decides whether that
   // cause is systemic -- one upstream problem clearing on many assets at once
@@ -200,6 +285,29 @@ function defectsFor(ctx) {
       category, rootCauseId, description, evidence,
       rootCauseScope: cause.scope, rootCauseDimension: cause.dimension
     });
+  };
+
+  /**
+   * The recorded holds, with the one derived member recomputed.
+   *
+   * Every other hold is a decision somebody made and is passed through
+   * untouched, so this cannot become a general way to argue a hold away.
+   */
+  const addProductionHolds = () => {
+    for (const hold of record.productionHolds ?? []) {
+      const text = typeof hold === "string" ? hold : JSON.stringify(hold);
+      if (text === PARTICIPANT_FILL_HOLD && familyPath) {
+        const evidence = participantFillEvidence(familyPath, record, protectedScan, sheet);
+        if (evidence.proven) {
+          participantFillHoldsDischarged.push({
+            familyId: familyId ?? null, hold: text, evidence,
+            why: "the record's own participantFillable is true and its committed evidence shows a participant fill visible on the finalized page, so the hold contradicts the fact it is derived from"
+          });
+          continue;
+        }
+      }
+      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", text, "source-record.json:productionHolds");
+    }
   };
 
   const v2 = record.schemaVersion?.includes("v2");
@@ -223,9 +331,7 @@ function defectsFor(ctx) {
       add("currentness_unverified", "RC-S-CURRENTNESS-UNVERIFIED", `Revision ${record.revision ?? "unknown"} is a candidate current source that no independent currentness review has confirmed.`, "source-record.json:freshnessStatus");
     }
     if (record.generationAllowed === false) add("held_on_source_or_design", "RC-G-GENERATION-NOT-ALLOWED", "Generation from this asset is not allowed by its committed source record.", "source-record.json:generationAllowed");
-    for (const hold of record.productionHolds ?? []) {
-      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", typeof hold === "string" ? hold : JSON.stringify(hold), "source-record.json:productionHolds");
-    }
+    addProductionHolds();
   } else {
     if (record.sourcePresenceInClone === false) add("missing_binary", "RC-S-BUNDLE-ABSENT", `${record.fileName} is expected at ${record.relativePath} and is not present in the clone.`, "source-record.json:sourcePresenceInClone");
     if (record.fieldExtractionStatus === "field_census_unavailable_in_repo") add("geometry_unmeasured", "RC-T-NO-FIELD-CENSUS", "No field census could be extracted, so overlay geometry cannot be measured or read back.", "source-record.json:fieldExtractionStatus");
@@ -236,9 +342,7 @@ function defectsFor(ctx) {
     // scan is only a problem once the geometry is unmeasured, and that is
     // reported on its own terms.
     if (record.failClosed === true) add("held_on_source_or_design", "RC-G-GENERATION-NOT-ALLOWED", "The source record fails closed: no generation is permitted from it in its current state.", "source-record.json:failClosed");
-    for (const hold of record.productionHolds ?? []) {
-      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", typeof hold === "string" ? hold : JSON.stringify(hold), "source-record.json:productionHolds");
-    }
+    addProductionHolds();
   }
 
   // A flat PDF places every value by measured geometry. That is a defect only
@@ -412,7 +516,7 @@ for (const family of familyDirectories()) {
   const affectedTrackIds = [...new Set([...fromQueue, ...fromRegistry])].sort();
   const trackKeys = affectedTrackIds.map((trackId) => `${ledgerByTrack.get(trackId)?.jurisdiction ?? jurisdiction}:${trackId}`);
 
-  const defects = defectsFor({ record, impl, overflow, protectedScan, binary, visualStatus: visualJobStatusByFamily.get(familyId), trackKeys, audit: auditByFamily.get(familyId) ?? null, sheet: sheetProofByFamily.get(familyId) ?? null, rendered: renderedByFamily.get(familyId) ?? null });
+  const defects = defectsFor({ record, impl, overflow, protectedScan, binary, visualStatus: visualJobStatusByFamily.get(familyId), trackKeys, audit: auditByFamily.get(familyId) ?? null, sheet: sheetProofByFamily.get(familyId) ?? null, rendered: renderedByFamily.get(familyId) ?? null, familyPath: family.familyPath, familyId });
   if (defects.length === 0) continue;
 
   const existing = seen.get(identity);
@@ -715,6 +819,11 @@ const payload = {
   // findings it outranked named. An asset that simply vanishes from a register
   // is indistinguishable from one nobody looked at.
   platformReady,
+  // Every family whose `not_participant_fillable_no_fixture_fill` was recomputed
+  // to false against its own committed evidence, with the legs that decided it.
+  // A hold that simply stops appearing is indistinguishable from one nobody
+  // checked, so the discharge is published with its reasoning attached.
+  participantFillHoldsDischarged,
   totals,
   sections: {
     activeTrackProblemPdfs: sections.active_track_problem_pdfs.map((r) => r.identity),
