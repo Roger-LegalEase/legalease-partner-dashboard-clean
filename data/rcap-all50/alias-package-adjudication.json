@@ -1,0 +1,729 @@
+{
+  "schemaVersion": "rcap-alias-package-adjudication/v1",
+  "generatedBy": "scripts/generate-rcap-alias-package-adjudication.mjs",
+  "purpose": "Adjudicate the family packages that pin the same source bytes as a sibling, and record why none of them is a retirable unit.",
+  "whatASharedDigestDoesNotProve": "Two packages pinning one hash are two names for one document. That is not the same as one being disposable: the retirable unit is the asset, and an asset can list several packages.",
+  "probe": {
+    "surfacesInspected": [
+      "src/**/*.ts, .tsx, .js, .mjs, .json",
+      "compiled profiles under src/lib/rcap and data/rcap-all50",
+      "composed routes",
+      "guidance packets",
+      "packet-family, legal-design registry and ledger records",
+      "the operational overlay manifest, implementation index and verified-binary index",
+      "the all-state build manifest"
+    ],
+    "matching": "JSON-aware: each file's string values are walked and compared whole, so a family id is a reference only when it is an entire recorded value, never a substring of an unrelated identifier."
+  },
+  "totals": {
+    "groups": 14,
+    "aliasPackages": 14,
+    "retired": 0,
+    "repointed": 0,
+    "retained": 14,
+    "groupsWhereTheAssetSpansBothPackages": 11
+  },
+  "groups": [
+    {
+      "sha256": "ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed",
+      "documentId": "200-00130",
+      "canonicalPackage": "VT:200-00130-form-en",
+      "aliasPackages": [
+        "VT:200-00130-en"
+      ],
+      "members": [
+        {
+          "familyId": "VT:200-00130-en",
+          "slug": "200-00130-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00130-en",
+          "documentId": "200-00130",
+          "documentRole": "PETITION",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "VT:200-00130-form-en",
+          "slug": "200-00130-form-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00130-form-en",
+          "documentId": "200-00130",
+          "documentRole": "PETITION",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": true
+        }
+      ],
+      "assetIds": [
+        "VT|200-00130|ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed"
+      ],
+      "assetDisposition": [
+        "independent_review_required"
+      ],
+      "assetSpansBothPackages": true,
+      "survivingDependencies": [
+        "d_track_queue",
+        "legal_design_registry"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The asset VT|200-00130|ff914f49c2a78a8b96d48f1242b70ab12ff7cb25beeeb8b850505357fdf982ed lists both packages among its formFamilyIds. Retiring the alias package would not retire an asset, would not move the denominator, and would delete a family id the asset's own record depends on.",
+      "surviving": "The asset itself is retained on d_track_queue, legal_design_registry.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "documentId": "200-00130A",
+      "canonicalPackage": "VT:200-00130a-instructions-en",
+      "aliasPackages": [
+        "VT:200-00130a-en"
+      ],
+      "members": [
+        {
+          "familyId": "VT:200-00130a-en",
+          "slug": "200-00130a-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00130a-en",
+          "documentId": "200-00130A",
+          "documentRole": "INSTRUCTIONS",
+          "libraryFolder": "03_INSTRUCTIONS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "VT:200-00130a-instructions-en",
+          "slug": "200-00130a-instructions-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00130a-instructions-en",
+          "documentId": "200-00130A",
+          "documentRole": "INSTRUCTIONS",
+          "libraryFolder": "03_INSTRUCTIONS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": false
+        }
+      ],
+      "assetIds": [],
+      "assetDisposition": [],
+      "assetSpansBothPackages": false,
+      "survivingDependencies": [
+        "application_source"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The alias package pins the same bytes as the canonical one but no asset row spans them, so retiring it would silently change which package an asset is understood to live in.",
+      "surviving": "The asset itself is retained on application_source.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "documentId": "200-00131",
+      "canonicalPackage": "VT:200-00131-form-en",
+      "aliasPackages": [
+        "VT:200-00131-en"
+      ],
+      "members": [
+        {
+          "familyId": "VT:200-00131-en",
+          "slug": "200-00131-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00131-en",
+          "documentId": "200-00131",
+          "documentRole": "RESPONSE",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "VT:200-00131-form-en",
+          "slug": "200-00131-form-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00131-form-en",
+          "documentId": "200-00131",
+          "documentRole": "RESPONSE",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": false
+        }
+      ],
+      "assetIds": [],
+      "assetDisposition": [],
+      "assetSpansBothPackages": false,
+      "survivingDependencies": [
+        "application_source"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The alias package pins the same bytes as the canonical one but no asset row spans them, so retiring it would silently change which package an asset is understood to live in.",
+      "surviving": "The asset itself is retained on application_source.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "documentId": "200-00132",
+      "canonicalPackage": "VT:200-00132-form-en",
+      "aliasPackages": [
+        "VT:200-00132-en"
+      ],
+      "members": [
+        {
+          "familyId": "VT:200-00132-en",
+          "slug": "200-00132-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00132-en",
+          "documentId": "200-00132",
+          "documentRole": "PACKET",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "VT:200-00132-form-en",
+          "slug": "200-00132-form-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00132-form-en",
+          "documentId": "200-00132",
+          "documentRole": "PACKET",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": true
+        }
+      ],
+      "assetIds": [
+        "VT|200-00132|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2"
+      ],
+      "assetDisposition": [
+        "independent_review_required"
+      ],
+      "assetSpansBothPackages": true,
+      "survivingDependencies": [
+        "application_source",
+        "d_track_queue",
+        "legal_design_registry"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The asset VT|200-00132|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2 lists both packages among its formFamilyIds. Retiring the alias package would not retire an asset, would not move the denominator, and would delete a family id the asset's own record depends on.",
+      "surviving": "The asset itself is retained on application_source, d_track_queue, legal_design_registry.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "documentId": "200-00132A",
+      "canonicalPackage": "VT:200-00132a-form-en",
+      "aliasPackages": [
+        "VT:200-00132a-en"
+      ],
+      "members": [
+        {
+          "familyId": "VT:200-00132a-en",
+          "slug": "200-00132a-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00132a-en",
+          "documentId": "200-00132A",
+          "documentRole": "PACKET",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "VT:200-00132a-form-en",
+          "slug": "200-00132a-form-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00132a-form-en",
+          "documentId": "200-00132A",
+          "documentRole": "PACKET",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": true
+        }
+      ],
+      "assetIds": [
+        "VT|200-00132A|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec"
+      ],
+      "assetDisposition": [
+        "independent_review_required"
+      ],
+      "assetSpansBothPackages": true,
+      "survivingDependencies": [
+        "application_source",
+        "legal_design_registry"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The asset VT|200-00132A|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec lists both packages among its formFamilyIds. Retiring the alias package would not retire an asset, would not move the denominator, and would delete a family id the asset's own record depends on.",
+      "surviving": "The asset itself is retained on application_source, legal_design_registry.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "6001c4bd36be3e6b4f84b6352ebc94178f3535e39a9109665a2ac35aa2095212",
+      "documentId": "200-00331",
+      "canonicalPackage": "VT:200-00331-support-en",
+      "aliasPackages": [
+        "VT:200-00331-en"
+      ],
+      "members": [
+        {
+          "familyId": "VT:200-00331-en",
+          "slug": "200-00331-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00331-en",
+          "documentId": "200-00331",
+          "documentRole": "RECORD_REQUEST",
+          "libraryFolder": "04_SUPPORTING_PROCESS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "VT:200-00331-support-en",
+          "slug": "200-00331-support-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00331-support-en",
+          "documentId": "200-00331",
+          "documentRole": "RECORD_REQUEST",
+          "libraryFolder": "04_SUPPORTING_PROCESS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": false
+        }
+      ],
+      "assetIds": [
+        "VT|200-00331|6001c4bd36be3e6b4f84b6352ebc94178f3535e39a9109665a2ac35aa2095212"
+      ],
+      "assetDisposition": [
+        "reference_only"
+      ],
+      "assetSpansBothPackages": true,
+      "survivingDependencies": [
+        "composed_routes"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The asset VT|200-00331|6001c4bd36be3e6b4f84b6352ebc94178f3535e39a9109665a2ac35aa2095212 lists both packages among its formFamilyIds. Retiring the alias package would not retire an asset, would not move the denominator, and would delete a family id the asset's own record depends on.",
+      "surviving": "The asset itself is retained on composed_routes.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "documentId": "200-00631",
+      "canonicalPackage": "VT:200-00631-form-en",
+      "aliasPackages": [
+        "VT:200-00631-en"
+      ],
+      "members": [
+        {
+          "familyId": "VT:200-00631-en",
+          "slug": "200-00631-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00631-en",
+          "documentId": "200-00631",
+          "documentRole": "ORDER",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "VT:200-00631-form-en",
+          "slug": "200-00631-form-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/200-00631-form-en",
+          "documentId": "200-00631",
+          "documentRole": "ORDER",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": false
+        }
+      ],
+      "assetIds": [],
+      "assetDisposition": [],
+      "assetSpansBothPackages": false,
+      "survivingDependencies": [
+        "application_source"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The alias package pins the same bytes as the canonical one but no asset row spans them, so retiring it would silently change which package an asset is understood to live in.",
+      "surviving": "The asset itself is retained on application_source.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+      "documentId": "600-00228",
+      "canonicalPackage": "VT:600-00228-support-en",
+      "aliasPackages": [
+        "VT:600-00228-en"
+      ],
+      "members": [
+        {
+          "familyId": "VT:600-00228-en",
+          "slug": "600-00228-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/600-00228-en",
+          "documentId": "600-00228",
+          "documentRole": "FEE_WAIVER",
+          "libraryFolder": "04_SUPPORTING_PROCESS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "VT:600-00228-support-en",
+          "slug": "600-00228-support-en",
+          "relativePath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en",
+          "documentId": "600-00228",
+          "documentRole": "FEE_WAIVER",
+          "libraryFolder": "04_SUPPORTING_PROCESS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": true
+        }
+      ],
+      "assetIds": [
+        "VT|600-00228|263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654"
+      ],
+      "assetDisposition": [
+        "independent_review_required"
+      ],
+      "assetSpansBothPackages": true,
+      "survivingDependencies": [
+        "d_track_queue",
+        "legal_design_registry"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The asset VT|600-00228|263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654 lists both packages among its formFamilyIds. Retiring the alias package would not retire an asset, would not move the denominator, and would delete a family id the asset's own record depends on.",
+      "surviving": "The asset itself is retained on d_track_queue, legal_design_registry.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "documentId": "CC-1201",
+      "canonicalPackage": "VA:cc-1201-form-en",
+      "aliasPackages": [
+        "VA:cc-1201-en"
+      ],
+      "members": [
+        {
+          "familyId": "VA:cc-1201-en",
+          "slug": "cc-1201-en",
+          "relativePath": "data/rcap-all50/overlays/production/virginia/cc-1201-en",
+          "documentId": "CC-1201",
+          "documentRole": "PETITION",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "VA:cc-1201-form-en",
+          "slug": "cc-1201-form-en",
+          "relativePath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
+          "documentId": "CC-1201",
+          "documentRole": "PETITION",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": true
+        }
+      ],
+      "assetIds": [
+        "VA|CC-1201|7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78"
+      ],
+      "assetDisposition": [
+        "independent_review_required"
+      ],
+      "assetSpansBothPackages": true,
+      "survivingDependencies": [
+        "d_track_queue",
+        "legal_design_registry"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The asset VA|CC-1201|7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78 lists both packages among its formFamilyIds. Retiring the alias package would not retire an asset, would not move the denominator, and would delete a family id the asset's own record depends on.",
+      "surviving": "The asset itself is retained on d_track_queue, legal_design_registry.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "documentId": "CC-1473",
+      "canonicalPackage": "VA:cc-1473-form-en",
+      "aliasPackages": [
+        "VA:cc-1473-en"
+      ],
+      "members": [
+        {
+          "familyId": "VA:cc-1473-en",
+          "slug": "cc-1473-en",
+          "relativePath": "data/rcap-all50/overlays/production/virginia/cc-1473-en",
+          "documentId": "CC-1473",
+          "documentRole": "PETITION",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "VA:cc-1473-form-en",
+          "slug": "cc-1473-form-en",
+          "relativePath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
+          "documentId": "CC-1473",
+          "documentRole": "PETITION",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": true
+        }
+      ],
+      "assetIds": [
+        "VA|CC-1473|6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219"
+      ],
+      "assetDisposition": [
+        "independent_review_required"
+      ],
+      "assetSpansBothPackages": true,
+      "survivingDependencies": [
+        "application_source",
+        "d_track_queue",
+        "legal_design_registry"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The asset VA|CC-1473|6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219 lists both packages among its formFamilyIds. Retiring the alias package would not retire an asset, would not move the denominator, and would delete a family id the asset's own record depends on.",
+      "surviving": "The asset itself is retained on application_source, d_track_queue, legal_design_registry.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "documentId": "CR-266",
+      "canonicalPackage": "WI:cr-266-form-en",
+      "aliasPackages": [
+        "WI:cr-266-en"
+      ],
+      "members": [
+        {
+          "familyId": "WI:cr-266-en",
+          "slug": "cr-266-en",
+          "relativePath": "data/rcap-all50/overlays/production/wisconsin/cr-266-en",
+          "documentId": "CR-266",
+          "documentRole": "PETITION",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "WI:cr-266-form-en",
+          "slug": "cr-266-form-en",
+          "relativePath": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en",
+          "documentId": "CR-266",
+          "documentRole": "PETITION",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": true
+        }
+      ],
+      "assetIds": [
+        "WI|CR-266|9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412"
+      ],
+      "assetDisposition": [
+        "platform_ready"
+      ],
+      "assetSpansBothPackages": true,
+      "survivingDependencies": [
+        "application_source",
+        "d_track_queue",
+        "legal_design_registry"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The asset WI|CR-266|9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412 lists both packages among its formFamilyIds. Retiring the alias package would not retire an asset, would not move the denominator, and would delete a family id the asset's own record depends on.",
+      "surviving": "The asset itself is retained on application_source, d_track_queue, legal_design_registry.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "documentId": "CR-267",
+      "canonicalPackage": "WI:cr-267-form-en",
+      "aliasPackages": [
+        "WI:cr-267-en"
+      ],
+      "members": [
+        {
+          "familyId": "WI:cr-267-en",
+          "slug": "cr-267-en",
+          "relativePath": "data/rcap-all50/overlays/production/wisconsin/cr-267-en",
+          "documentId": "CR-267",
+          "documentRole": "ORDER",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "WI:cr-267-form-en",
+          "slug": "cr-267-form-en",
+          "relativePath": "data/rcap-all50/overlays/production/wisconsin/cr-267-form-en",
+          "documentId": "CR-267",
+          "documentRole": "ORDER",
+          "libraryFolder": "02_PACKET_FORMS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": false
+        }
+      ],
+      "assetIds": [
+        "WI|CR-267|2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb"
+      ],
+      "assetDisposition": [
+        "independent_review_required"
+      ],
+      "assetSpansBothPackages": true,
+      "survivingDependencies": [
+        "application_source",
+        "d_track_queue",
+        "legal_design_registry"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The asset WI|CR-267|2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb lists both packages among its formFamilyIds. Retiring the alias package would not retire an asset, would not move the denominator, and would delete a family id the asset's own record depends on.",
+      "surviving": "The asset itself is retained on application_source, d_track_queue, legal_design_registry.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "documentId": "DJ-LE-247",
+      "canonicalPackage": "WI:dj-le-247-support-en",
+      "aliasPackages": [
+        "WI:dj-le-247-en"
+      ],
+      "members": [
+        {
+          "familyId": "WI:dj-le-247-en",
+          "slug": "dj-le-247-en",
+          "relativePath": "data/rcap-all50/overlays/production/wisconsin/dj-le-247-en",
+          "documentId": "DJ-LE-247",
+          "documentRole": "RECORD_REQUEST",
+          "libraryFolder": "04_SUPPORTING_PROCESS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "WI:dj-le-247-support-en",
+          "slug": "dj-le-247-support-en",
+          "relativePath": "data/rcap-all50/overlays/production/wisconsin/dj-le-247-support-en",
+          "documentId": "DJ-LE-247",
+          "documentRole": "RECORD_REQUEST",
+          "libraryFolder": "04_SUPPORTING_PROCESS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": false
+        }
+      ],
+      "assetIds": [
+        "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7"
+      ],
+      "assetDisposition": [
+        "official_source_required"
+      ],
+      "assetSpansBothPackages": true,
+      "survivingDependencies": [
+        "d_track_queue",
+        "legal_design_registry"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The asset WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7 lists both packages among its formFamilyIds. Retiring the alias package would not retire an asset, would not move the denominator, and would delete a family id the asset's own record depends on.",
+      "surviving": "The asset itself is retained on d_track_queue, legal_design_registry.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    },
+    {
+      "sha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "documentId": "DJ-LE-250B",
+      "canonicalPackage": "WI:dj-le-250b-support-en",
+      "aliasPackages": [
+        "WI:dj-le-250b-en"
+      ],
+      "members": [
+        {
+          "familyId": "WI:dj-le-250b-en",
+          "slug": "dj-le-250b-en",
+          "relativePath": "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-en",
+          "documentId": "DJ-LE-250B",
+          "documentRole": "RECORD_REQUEST",
+          "libraryFolder": "04_SUPPORTING_PROCESS",
+          "namedByAnOperationalManifest": false,
+          "hasRenderedArtifacts": false
+        },
+        {
+          "familyId": "WI:dj-le-250b-support-en",
+          "slug": "dj-le-250b-support-en",
+          "relativePath": "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-support-en",
+          "documentId": "DJ-LE-250B",
+          "documentRole": "RECORD_REQUEST",
+          "libraryFolder": "04_SUPPORTING_PROCESS",
+          "namedByAnOperationalManifest": true,
+          "hasRenderedArtifacts": false
+        }
+      ],
+      "assetIds": [
+        "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6"
+      ],
+      "assetDisposition": [
+        "official_source_required"
+      ],
+      "assetSpansBothPackages": true,
+      "survivingDependencies": [
+        "legal_design_registry"
+      ],
+      "outcome": "retained_alias_package_is_not_a_retirable_unit",
+      "why": "The asset WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6 lists both packages among its formFamilyIds. Retiring the alias package would not retire an asset, would not move the denominator, and would delete a family id the asset's own record depends on.",
+      "surviving": "The asset itself is retained on legal_design_registry.",
+      "reversalCondition": "If the asset itself is retired, or if the register is re-keyed so that a package rather than an asset is the retirable unit, this adjudication is void and each alias package must be re-examined on its own.",
+      "whatWouldMakeTheAliasRetirable": [
+        "an explicit canonical replacement recorded against the alias, not inferred from a shared digest",
+        "the asset's formFamilyIds repointed to the canonical package alone",
+        "no legal-design record independently requiring the alias",
+        "the canonical package still present and rendering"
+      ]
+    }
+  ]
+}
