@@ -1,0 +1,144 @@
+{
+  "schemaVersion": "rcap-reviewer-prescan/v1",
+  "reviewer": "Reviewer A (Session 2)",
+  "wave": "A",
+  "notAVerdict": "This record carries no verdict. It is the source-identity and page-inspection work the assignment directs to begin immediately, pinned so it can be consumed the moment the three wait-conditions are met.",
+  "reviewBase": "da902cbab36b9200aa4025e9d3ae571d26ea824a",
+  "reviewBaseSubject": "Rerender lane-1 batch 01 from installed source",
+  "sourcePack": {
+    "name": "lane-1-batch-01.zip",
+    "requiredSha256": "2255618ce70a53dae58644581faa5bd0b61c108b5100d4c2e0e43ad64dd50ebd",
+    "packSha256Recomputed": "2255618ce70a53dae58644581faa5bd0b61c108b5100d4c2e0e43ad64dd50ebd",
+    "packSha256Matches": true,
+    "installedVia": "the pack's own install.sh, which verifies each file against manifest.json before placing it",
+    "filesInstalled": 7,
+    "assignedToThisReviewer": 4,
+    "corpusRemainsUncommitted": true
+  },
+  "sourceResult": {
+    "assignedSourcesHashed": 4,
+    "allMatchManifestAndSidecarPin": true,
+    "detail": [
+      {
+        "familyId": "AK:tf-810-form-en",
+        "documentId": "TF-810",
+        "revision": "REV-2025-05",
+        "language": "EN",
+        "sha256": "c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
+        "byteLength": 85386,
+        "matchesManifest": true,
+        "matchesSidecarPin": true,
+        "visibleOnPage": "TF-810 (5/25), Ad. R. 40(a); AS 22.35.030",
+        "visibleAgreesWithPinned": true
+      },
+      {
+        "familyId": "NC:aoc-cr-287-form-es",
+        "documentId": "AOC-CR-287",
+        "revision": "REV-2020-12",
+        "language": "ES",
+        "sha256": "9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
+        "byteLength": 310230,
+        "matchesManifest": true,
+        "matchesSidecarPin": true,
+        "visibleOnPage": "AOC-CR-287 Spanish, page 1 of 4, Rev. 12/20",
+        "visibleAgreesWithPinned": true
+      },
+      {
+        "familyId": "NC:aoc-cr-287-form-vi",
+        "documentId": "AOC-CR-287",
+        "revision": "REV-2020-12",
+        "language": "VI",
+        "sha256": "2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
+        "byteLength": 332291,
+        "matchesManifest": true,
+        "matchesSidecarPin": true,
+        "visibleAgreesWithPinned": true
+      },
+      {
+        "familyId": "NC:aoc-cr-288-form-es",
+        "documentId": "AOC-CR-288",
+        "revision": "REV-2020-12",
+        "language": "ES",
+        "sha256": "46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64",
+        "byteLength": 297609,
+        "matchesManifest": true,
+        "matchesSidecarPin": true,
+        "visibleAgreesWithPinned": true
+      }
+    ]
+  },
+  "artifactHashesAtBase": {
+    "allSidecarPinnedArtifactsMatchDisk": true,
+    "note": "canonical, boundary and contact sheet reconcile for all four families at the review base"
+  },
+  "structuralResult": {
+    "artifactsChecked": 8,
+    "flattened": true,
+    "annotationsSurviving": 0,
+    "residue": "none \u2014 no /AcroForm, /XFA, /JS, /JavaScript, /AA, /OpenAction or /EmbeddedFiles in any of the eight"
+  },
+  "pageInspection": {
+    "relevantPagesInspected": 12,
+    "method": "blank source and finalized artifact rendered page by page (pypdfium2 scale 2.0) and read, plus a word-level blank-versus-filled diff to isolate generated text from source-inherent text",
+    "AK:tf-810-form-en": {
+      "pagesAdded": {
+        "1": 13
+      },
+      "observed": "Name, Email, Address, Phone, Case Name and Case Number are filled in the participant caption block and read correctly. All ten numbered reason checkboxes and their sub-checkboxes are blank, the item-10 statute line is blank, Date and Signature are blank, and the clerk Response decision block \u2014 removed / not removed, date sent, by, initials \u2014 is entirely blank.",
+      "provisionalFinding": "no defect observed"
+    },
+    "NC-three-flat-overlays": {
+      "families": [
+        "NC:aoc-cr-287-form-es",
+        "NC:aoc-cr-287-form-vi",
+        "NC:aoc-cr-288-form-es"
+      ],
+      "pagesAdded": {
+        "1": 3
+      },
+      "addedRuns": [
+        "CountyExample",
+        "County",
+        "XX"
+      ],
+      "provisionalFinding": "two independent defects observed on each of the three, recorded as findings and not as verdicts",
+      "defectA": {
+        "what": "participant values are written onto a form the issuing court marks as non-filing",
+        "evidence": "Page 1 carries the court's own header in both languages: 'NOTE: THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY. DO NOT COMPLETE THIS FORM FOR FILING. USE THE ENGLISH VERSION OF THE AOC-CR-287 INSTEAD.' and 'SIRVASE NOTAR: ... NO LO DEBE PRESENTAR EN EL TRIBUNAL, SINO QUE DEBE LLENAR Y PRESENTAR LA VERSION EN INGLES ...', plus a diagonal watermark repeating it. The artifact nonetheless carries a county value and a state value."
+      },
+      "defectB": {
+        "what": "the county value is not in a writable anchor and collides with printed source text",
+        "evidence": "'Example County' is drawn over the printed 'County' label \u2014 extraction returns the single run 'CountyExample' because the glyphs overlap \u2014 while both intended writable anchors, the English rule line and the Spanish 'Condado de ____' line, remain empty."
+      },
+      "defectC": {
+        "what": "no record accounts for either write",
+        "evidence": "overlay-profile.json carries bindings [] , bindingRefusals 0, unwritableFields []; overlay-profile.derived.json carries anchors []; reports/populated-fields.json is []. The artifact contains two participant-derived draws that no map, profile or report explains."
+      }
+    },
+    "protectedRegions": "On all four families every court, judge, clerk, prosecutor, attorney, agency, service, signature, notarization, findings and order region is blank; on the three NC families no text at all is added beyond page 1."
+  },
+  "waitConditions": {
+    "required": [
+      "Session 9's current sidecar commit for these families",
+      "Session 10's current visual-evidence commit for these families",
+      "Session 1's exact reviewer assignment pinning both"
+    ],
+    "status": "all three unmet at the time of this record",
+    "observed": {
+      "session9Tip": "818c0ddc",
+      "session9Scope": "lane-2 batch-01, not this wave's lane-1 families",
+      "session10Tip": "ac91c7d0",
+      "session10Scope": "lane-2 batch-01, not this wave's lane-1 families",
+      "reviewerAssignment": "reviewer-a.json still carries familyIds [] and the stop condition 'no input: every assigned family is waiting on a rerender'; it pins neither evidence commit nor these four families"
+    },
+    "sidecarStateAtBase": "the sidecars at da902cba are the older shape \u2014 officialFormNumber null and the map and classification hashes recorded under a referent that is not the file bytes \u2014 which is consistent with Session 9's current sidecar commit not yet existing for this lane",
+    "whatHappensNext": "On arrival of all three, recompute every current hash against the pinned evidence and issue one verdict per family. The findings above are properties of the artifact bytes at this base, which evidence generation describes rather than changes, so they are expected to carry into the verdicts."
+  },
+  "prohibitionsHonoured": [
+    "overlays/production not edited",
+    "nothing implemented or repaired",
+    "no prior independent approval disturbed",
+    "no npm test run",
+    "no verdict issued"
+  ]
+}
