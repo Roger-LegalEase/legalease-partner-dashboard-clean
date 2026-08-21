@@ -1,12 +1,12 @@
 {
   "schemaVersion": "rcap-gate-b-assignments/v1",
   "generatedBy": "scripts/generate-rcap-gate-b-assignments.mjs",
-  "baseSha": "a0109dc9bb9105db0d12570376f5a66d5bcb07e6",
+  "baseSha": "7f27e3e613e1011871783525efc8e4129dbf0846",
   "cutFrom": "data/rcap-all50/gate-b-81-terminalization-queue.json",
   "denominatorAtGeneration": {
-    "platform_ready": 2,
+    "platform_ready": 5,
     "retired": 42,
-    "retained_problematic": 84,
+    "retained_problematic": 81,
     "retained_missing": 37
   },
   "globalProhibitedPaths": [
@@ -29,10 +29,10 @@
   },
   "totals": {
     "assignments": 11,
-    "assetsCovered": 84,
-    "queuedAssets": 84,
+    "assetsCovered": 81,
+    "queuedAssets": 81,
     "reviewerShardsWithNoInputYet": 4,
-    "classificationMetadataOnly": 3,
+    "classificationMetadataOnly": 0,
     "pathOverlaps": 0
   },
   "assignments": [
@@ -177,9 +177,6 @@
       "lane": "LANE-RERENDER",
       "role": "family rerender, plus the classification-metadata-only correction",
       "assetIds": [
-        "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
-        "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
-        "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
         "NC|AOC-CR-287|2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
         "NC|AOC-CR-287|5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
         "NC|AOC-CR-287|877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
@@ -202,9 +199,6 @@
         "WI|CR-267|2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb"
       ],
       "familyIds": [
-        "AK:tf-800-form-en",
-        "AK:tf-805-form-en",
-        "NC:aoc-cr-287-form-en",
         "NC:aoc-cr-287-form-vi",
         "NC:aoc-cr-287-instructions-es",
         "NC:aoc-cr-287-instructions-vi",
@@ -228,25 +222,14 @@
         "WI:cr-267-form-en"
       ],
       "classificationMetadataOnly": {
-        "assetIds": [
-          "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
-          "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
-          "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed"
-        ],
-        "familyIds": [
-          "AK:tf-800-form-en",
-          "AK:tf-805-form-en",
-          "NC:aoc-cr-287-form-en"
-        ],
+        "assetIds": [],
+        "familyIds": [],
         "instruction": "These four hold a current approved_platform_ready record and their PDFs are approved. Regenerate field-classification.json only, so it carries classifiedFieldsOrAnchors equal to discoveredFieldsOrAnchors; leave every fixture, map, sidecar, contact sheet and raster byte-identical. Re-rendering them would discard four approvals to fix a metadata omission. The original reviewer then repins fieldClassificationSha256 in their own canonical record — this shard does not touch review files.",
         "rootBlocker": "field-classification.json omits the canonical completeness counters, and condition 5 pins that same file to the reviewer-approved hash"
       },
       "allowedPaths": [
         "scripts/implement-rcap-official-forms-d1.mjs",
         "scripts/rcap-official-forms/**",
-        "data/rcap-all50/overlays/production/alaska/tf-800-form-en/**",
-        "data/rcap-all50/overlays/production/alaska/tf-805-form-en/**",
-        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-vi/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-es/**",
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-vi/**",
@@ -392,8 +375,6 @@
       "lane": "LANE-EVIDENCE",
       "role": "provenance sidecars",
       "assetIds": [
-        "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
-        "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
         "AK|TF-810|c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
         "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
         "KY|AOC-496.4|70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
@@ -402,7 +383,6 @@
         "NC|AOC-CR-287|5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
         "NC|AOC-CR-287|877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
         "NC|AOC-CR-287|9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
-        "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
         "NC|AOC-CR-287|fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
         "NC|AOC-CR-288|19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
         "NC|AOC-CR-288|2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
@@ -436,8 +416,6 @@
         "WI|CR-267|2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb"
       ],
       "familyIds": [
-        "AK:tf-800-form-en",
-        "AK:tf-805-form-en",
         "AK:tf-810-form-en",
         "KY:aoc-496-2-form-en",
         "KY:aoc-496-4-form-en",
@@ -446,7 +424,6 @@
         "NC:aoc-cr-287-instructions-es",
         "NC:aoc-cr-287-instructions-vi",
         "NC:aoc-cr-287-form-es",
-        "NC:aoc-cr-287-form-en",
         "NC:aoc-cr-287-instructions-en",
         "NC:aoc-cr-288-instructions-en",
         "NC:aoc-cr-288-instructions-es",
@@ -519,8 +496,6 @@
       "lane": "LANE-EVIDENCE",
       "role": "all-page raster evidence",
       "assetIds": [
-        "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
-        "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
         "AK|TF-810|c5e55ce0c0bb2a008ad9cde5e62c4900f413c8fb64a913e94c81554c64b69582",
         "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
         "KY|AOC-496.4|70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
@@ -529,7 +504,6 @@
         "NC|AOC-CR-287|5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
         "NC|AOC-CR-287|877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
         "NC|AOC-CR-287|9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a",
-        "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
         "NC|AOC-CR-287|fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
         "NC|AOC-CR-288|19f5aa4b45457a811c5b38ededee861af36d1088a3ef7380f00f5d1b277a0ade",
         "NC|AOC-CR-288|2b9aa2c8b10778748bf13b2771341bc2bb1791a110f7dbc9d069bbe90912252a",
@@ -563,8 +537,6 @@
         "WI|CR-267|2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb"
       ],
       "familyIds": [
-        "AK:tf-800-form-en",
-        "AK:tf-805-form-en",
         "AK:tf-810-form-en",
         "KY:aoc-496-2-form-en",
         "KY:aoc-496-4-form-en",
@@ -573,7 +545,6 @@
         "NC:aoc-cr-287-instructions-es",
         "NC:aoc-cr-287-instructions-vi",
         "NC:aoc-cr-287-form-es",
-        "NC:aoc-cr-287-form-en",
         "NC:aoc-cr-287-instructions-en",
         "NC:aoc-cr-288-instructions-en",
         "NC:aoc-cr-288-instructions-es",

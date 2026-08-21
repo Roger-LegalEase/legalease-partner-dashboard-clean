@@ -3,9 +3,6 @@
   "lane": "LANE-RERENDER",
   "role": "family rerender, plus the classification-metadata-only correction",
   "assetIds": [
-    "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
-    "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
-    "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
     "NC|AOC-CR-287|2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
     "NC|AOC-CR-287|5b0e6d3180fb1131edfc413c7d3dfdbde7fbc820b039a01727101bb6b63c46ba",
     "NC|AOC-CR-287|877ad532fcca40c279a6a803704098789b10d77441b583aeb449c2ca41b4d6eb",
@@ -28,9 +25,6 @@
     "WI|CR-267|2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb"
   ],
   "familyIds": [
-    "AK:tf-800-form-en",
-    "AK:tf-805-form-en",
-    "NC:aoc-cr-287-form-en",
     "NC:aoc-cr-287-form-vi",
     "NC:aoc-cr-287-instructions-es",
     "NC:aoc-cr-287-instructions-vi",
@@ -54,25 +48,14 @@
     "WI:cr-267-form-en"
   ],
   "classificationMetadataOnly": {
-    "assetIds": [
-      "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
-      "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
-      "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed"
-    ],
-    "familyIds": [
-      "AK:tf-800-form-en",
-      "AK:tf-805-form-en",
-      "NC:aoc-cr-287-form-en"
-    ],
+    "assetIds": [],
+    "familyIds": [],
     "instruction": "These four hold a current approved_platform_ready record and their PDFs are approved. Regenerate field-classification.json only, so it carries classifiedFieldsOrAnchors equal to discoveredFieldsOrAnchors; leave every fixture, map, sidecar, contact sheet and raster byte-identical. Re-rendering them would discard four approvals to fix a metadata omission. The original reviewer then repins fieldClassificationSha256 in their own canonical record — this shard does not touch review files.",
     "rootBlocker": "field-classification.json omits the canonical completeness counters, and condition 5 pins that same file to the reviewer-approved hash"
   },
   "allowedPaths": [
     "scripts/implement-rcap-official-forms-d1.mjs",
     "scripts/rcap-official-forms/**",
-    "data/rcap-all50/overlays/production/alaska/tf-800-form-en/**",
-    "data/rcap-all50/overlays/production/alaska/tf-805-form-en/**",
-    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en/**",
     "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-vi/**",
     "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-es/**",
     "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-vi/**",
@@ -114,7 +97,7 @@
   "expectedOutput": "the D1 driver emitting classifiedFieldsOrAnchors and discoveredFieldsOrAnchors, every assigned family re-derived and re-rendered from the mounted source, and each family's reports regenerated",
   "focusedVerifier": "node scripts/verify-rcap-official-forms-d1.mjs && node scripts/verify-rcap-evidence-contract-controls.mjs",
   "stopCondition": "every assigned family's classification carries the two counters, the D1 verifier passes, and the driver reproduces byte-for-byte on a second run",
-  "baseSha": "a0109dc9bb9105db0d12570376f5a66d5bcb07e6",
+  "baseSha": "7f27e3e613e1011871783525efc8e4129dbf0846",
   "globalProhibitedPaths": [
     "src/**",
     "package.json",

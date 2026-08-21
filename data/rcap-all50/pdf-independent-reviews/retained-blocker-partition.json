@@ -8,9 +8,9 @@
   "head": "a7c9f0aa0dc19bb569783691e0bc0e65c0b57605",
   "purpose": "Every retained asset in exactly one bucket, with one blocker, one owner and one next executable action, so three lanes can run against it at once without waiting for each other.",
   "denominatorAtGeneration": {
-    "platform_ready": 1,
+    "platform_ready": 5,
     "retired": 42,
-    "retained_problematic": 85,
+    "retained_problematic": 81,
     "retained_missing": 37
   },
   "whyThisIsNot81": "The partition covers the retained assets the canonical generator reports today. Four families carry a current approved_platform_ready verdict from an independent reviewer, and the gate refuses all four on one clause: field-classification.json must carry classifiedFieldsOrAnchors equal to discoveredFieldsOrAnchors, and the D1 driver writes neither. One family in 114 carries those counters. Until the driver emits them the four cannot be accepted, so retained_problematic is what it is rather than four lower. Those four are bucketed RERENDER_REQUIRED, because what they need is a regenerated classification and not another review.",
@@ -21,11 +21,11 @@
     "3. REVIEW_ONLY — nothing else is open; only an independent approval the gate accepts is missing"
   ],
   "totals": {
-    "partitioned": 85,
+    "partitioned": 81,
     "REVIEW_ONLY": 0,
-    "RERENDER_REQUIRED": 48,
+    "RERENDER_REQUIRED": 44,
     "SOURCE_OR_RETIREMENT": 37,
-    "approvedButGateBlocked": 4,
+    "approvedButGateBlocked": 0,
     "everyAssetHasOneBlockerOwnerAndAction": true
   },
   "lanes": [
@@ -42,7 +42,7 @@
       "bucket": "RERENDER_REQUIRED",
       "owner": "implementation lane (RCAP overlay factory)",
       "why": "the official source is in hand and something about what was produced from it has to be produced again",
-      "assetCount": 48,
+      "assetCount": 44,
       "runsIndependentlyOfTheOtherTwo": true
     },
     {
@@ -95,48 +95,6 @@
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved"
-      ]
-    },
-    {
-      "identity": "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
-      "jurisdiction": "AK",
-      "formId": "TF-800",
-      "familyIds": [
-        "AK:tf-800-form-en"
-      ],
-      "binaryPresent": true,
-      "bucket": "RERENDER_REQUIRED",
-      "blocker": "an independent approval exists and the gate refuses it: field-classification.json carries no classifiedFieldsOrAnchors / discoveredFieldsOrAnchors counters, which the platform-ready contract requires",
-      "owner": "implementation lane (RCAP overlay factory)",
-      "lane": "LANE-RERENDER",
-      "nextExecutableAction": "have the D1 driver emit the two classification counters its own contract defines, regenerate this family's classification, and re-run the gate — no re-review is needed",
-      "acceptanceCondition": "Exact source verification against the issuing body, current implementation proof, fresh independent technical AND visual approval, legal-adoption continuity where applicable, runtime integration, staging acceptance, and a controlled route-state promotion. Until all of those hold, the participant keeps the terminal treatment and this asset stays in the register.",
-      "defectCategories": [
-        "currentness_unverified",
-        "held_on_source_or_design",
-        "never_independently_approved",
-        "visually_unsafe"
-      ]
-    },
-    {
-      "identity": "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
-      "jurisdiction": "AK",
-      "formId": "TF-805",
-      "familyIds": [
-        "AK:tf-805-form-en"
-      ],
-      "binaryPresent": true,
-      "bucket": "RERENDER_REQUIRED",
-      "blocker": "an independent approval exists and the gate refuses it: field-classification.json carries no classifiedFieldsOrAnchors / discoveredFieldsOrAnchors counters, which the platform-ready contract requires",
-      "owner": "implementation lane (RCAP overlay factory)",
-      "lane": "LANE-RERENDER",
-      "nextExecutableAction": "have the D1 driver emit the two classification counters its own contract defines, regenerate this family's classification, and re-run the gate — no re-review is needed",
-      "acceptanceCondition": "Exact source verification against the issuing body, current implementation proof, fresh independent technical AND visual approval, legal-adoption continuity where applicable, runtime integration, staging acceptance, and a controlled route-state promotion. Until all of those hold, the participant keeps the terminal treatment and this asset stays in the register.",
-      "defectCategories": [
-        "currentness_unverified",
-        "held_on_source_or_design",
-        "never_independently_approved",
-        "visually_unsafe"
       ]
     },
     {
@@ -711,27 +669,6 @@
       ]
     },
     {
-      "identity": "NC|AOC-CR-287|a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
-      "jurisdiction": "NC",
-      "formId": "AOC-CR-287",
-      "familyIds": [
-        "NC:aoc-cr-287-form-en"
-      ],
-      "binaryPresent": true,
-      "bucket": "RERENDER_REQUIRED",
-      "blocker": "an independent approval exists and the gate refuses it: field-classification.json carries no classifiedFieldsOrAnchors / discoveredFieldsOrAnchors counters, which the platform-ready contract requires",
-      "owner": "implementation lane (RCAP overlay factory)",
-      "lane": "LANE-RERENDER",
-      "nextExecutableAction": "have the D1 driver emit the two classification counters its own contract defines, regenerate this family's classification, and re-run the gate — no re-review is needed",
-      "acceptanceCondition": "Exact source verification against the issuing body, current implementation proof, fresh independent technical AND visual approval, legal-adoption continuity where applicable, runtime integration, staging acceptance, and a controlled route-state promotion. Until all of those hold, the participant keeps the terminal treatment and this asset stays in the register.",
-      "defectCategories": [
-        "currentness_unverified",
-        "held_on_source_or_design",
-        "never_independently_approved",
-        "visually_unsafe"
-      ]
-    },
-    {
       "identity": "NC|AOC-CR-287|fe22270401aa22ee5c801871aeb1c00f3b98cfb6867f7155681bab4af9c990d7",
       "jurisdiction": "NC",
       "formId": "AOC-CR-287",
@@ -842,27 +779,6 @@
         "never_independently_approved",
         "stale_contact_sheet_manifest_or_review_evidence",
         "unfinalized_rendered_artifact"
-      ]
-    },
-    {
-      "identity": "NC|AOC-CR-288|776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
-      "jurisdiction": "NC",
-      "formId": "AOC-CR-288",
-      "familyIds": [
-        "NC:aoc-cr-288-form-en"
-      ],
-      "binaryPresent": true,
-      "bucket": "RERENDER_REQUIRED",
-      "blocker": "an independent approval exists and the gate refuses it: field-classification.json carries no classifiedFieldsOrAnchors / discoveredFieldsOrAnchors counters, which the platform-ready contract requires",
-      "owner": "implementation lane (RCAP overlay factory)",
-      "lane": "LANE-RERENDER",
-      "nextExecutableAction": "have the D1 driver emit the two classification counters its own contract defines, regenerate this family's classification, and re-run the gate — no re-review is needed",
-      "acceptanceCondition": "Exact source verification against the issuing body, current implementation proof, fresh independent technical AND visual approval, legal-adoption continuity where applicable, runtime integration, staging acceptance, and a controlled route-state promotion. Until all of those hold, the participant keeps the terminal treatment and this asset stays in the register.",
-      "defectCategories": [
-        "currentness_unverified",
-        "held_on_source_or_design",
-        "never_independently_approved",
-        "visually_unsafe"
       ]
     },
     {

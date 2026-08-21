@@ -28,6 +28,7 @@ import { fileURLToPath } from "node:url";
 import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
 import { ROOT_CAUSES, rootCause } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
 import { platformReadyVerdict, RELEASE_STATE_HOLDS, REVIEW_REQUIRED_HOLDS } from "./rcap-official-forms/rcap-platform-ready.mjs";
+import { PARTICIPANT_FILL_HOLD, participantFillEvidence } from "./rcap-official-forms/rcap-participant-fill-hold.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -196,8 +197,17 @@ function familyDirectories() {
  * with different owners and different acceptance conditions, and collapsing
  * them into "needs work" is how a register stops being useful.
  */
+/**
+ * Families whose participant-fill hold was discharged by measured evidence.
+ *
+ * Recorded so a discharge is auditable per family rather than silently absent
+ * from the register: a hold that vanishes without a record is indistinguishable
+ * from one that was never written.
+ */
+const participantFillHoldsDischarged = [];
+
 function defectsFor(ctx) {
-  const { record, impl, overflow, protectedScan, binary, visualStatus, trackKeys, audit, sheet, rendered } = ctx;
+  const { record, impl, overflow, protectedScan, binary, visualStatus, trackKeys, audit, sheet, rendered, familyPath, familyId } = ctx;
   const defects = [];
   // Every finding names a root cause, and the catalogue decides whether that
   // cause is systemic -- one upstream problem clearing on many assets at once
@@ -233,7 +243,23 @@ function defectsFor(ctx) {
     }
     if (record.generationAllowed === false) add("held_on_source_or_design", "RC-G-GENERATION-NOT-ALLOWED", "Generation from this asset is not allowed by its committed source record.", "source-record.json:generationAllowed");
     for (const hold of record.productionHolds ?? []) {
-      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", typeof hold === "string" ? hold : JSON.stringify(hold), "source-record.json:productionHolds");
+      const text = typeof hold === "string" ? hold : JSON.stringify(hold);
+      // The one hold in this vocabulary that is derived rather than decided.
+      // Its string is carried forward verbatim by later stages that rewrite the
+      // source record, so it outlives the fact it was derived from; every other
+      // hold is somebody's decision and is passed through untouched, which is
+      // what stops this becoming a general way to argue a hold away.
+      if (text === PARTICIPANT_FILL_HOLD && familyPath) {
+        const evidence = participantFillEvidence({ familyPath, record, protectedScan, sheet });
+        if (evidence.proven) {
+          participantFillHoldsDischarged.push({
+            familyId: familyId ?? null, hold: text, evidence,
+            why: "the record's own participantFillable is true and its committed evidence shows a participant fill visible on the finalized page, so the hold contradicts the fact it is derived from"
+          });
+          continue;
+        }
+      }
+      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", text, "source-record.json:productionHolds");
     }
   } else {
     if (record.sourcePresenceInClone === false) add("missing_binary", "RC-S-BUNDLE-ABSENT", `${record.fileName} is expected at ${record.relativePath} and is not present in the clone.`, "source-record.json:sourcePresenceInClone");
@@ -242,7 +268,23 @@ function defectsFor(ctx) {
     if (record.classification === "scanned_pdf") add("flat_overlay_geometry_or_readback", "RC-T-FLAT-GEOMETRY", "The binary is a scan, so there are no widgets to bind and any fill is flat-overlay geometry.", "source-record.json:classification");
     if (record.failClosed === true) add("held_on_source_or_design", "RC-G-GENERATION-NOT-ALLOWED", "The source record fails closed: no generation is permitted from it in its current state.", "source-record.json:failClosed");
     for (const hold of record.productionHolds ?? []) {
-      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", typeof hold === "string" ? hold : JSON.stringify(hold), "source-record.json:productionHolds");
+      const text = typeof hold === "string" ? hold : JSON.stringify(hold);
+      // The one hold in this vocabulary that is derived rather than decided.
+      // Its string is carried forward verbatim by later stages that rewrite the
+      // source record, so it outlives the fact it was derived from; every other
+      // hold is somebody's decision and is passed through untouched, which is
+      // what stops this becoming a general way to argue a hold away.
+      if (text === PARTICIPANT_FILL_HOLD && familyPath) {
+        const evidence = participantFillEvidence({ familyPath, record, protectedScan, sheet });
+        if (evidence.proven) {
+          participantFillHoldsDischarged.push({
+            familyId: familyId ?? null, hold: text, evidence,
+            why: "the record's own participantFillable is true and its committed evidence shows a participant fill visible on the finalized page, so the hold contradicts the fact it is derived from"
+          });
+          continue;
+        }
+      }
+      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", text, "source-record.json:productionHolds");
     }
   }
 
@@ -411,7 +453,7 @@ for (const family of familyDirectories()) {
   const affectedTrackIds = [...new Set([...fromQueue, ...fromRegistry])].sort();
   const trackKeys = affectedTrackIds.map((trackId) => `${ledgerByTrack.get(trackId)?.jurisdiction ?? jurisdiction}:${trackId}`);
 
-  const defects = defectsFor({ record, impl, overflow, protectedScan, binary, visualStatus: visualJobStatusByFamily.get(familyId), trackKeys, audit: auditByFamily.get(familyId) ?? null, sheet: sheetProofByFamily.get(familyId) ?? null, rendered: renderedByFamily.get(familyId) ?? null });
+  const defects = defectsFor({ record, impl, overflow, protectedScan, binary, visualStatus: visualJobStatusByFamily.get(familyId), trackKeys, audit: auditByFamily.get(familyId) ?? null, sheet: sheetProofByFamily.get(familyId) ?? null, rendered: renderedByFamily.get(familyId) ?? null, familyPath: family.familyPath, familyId });
   if (defects.length === 0) continue;
 
   const existing = seen.get(identity);
@@ -704,6 +746,7 @@ const payload = {
   // findings it outranked named. An asset that simply vanishes from a register
   // is indistinguishable from one nobody looked at.
   platformReady,
+  participantFillHoldsDischarged,
   totals,
   sections: {
     activeTrackProblemPdfs: sections.active_track_problem_pdfs.map((r) => r.identity),

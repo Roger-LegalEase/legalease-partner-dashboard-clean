@@ -2,14 +2,14 @@
 
 Every retained asset in exactly one bucket, with one blocker, one owner and one next executable action, so three lanes can run against it at once without waiting for each other.
 
-Denominator at generation: **1 platform_ready / 42 retired / 85 retained_problematic / 37 retained_missing**.
+Denominator at generation: **5 platform_ready / 42 retired / 81 retained_problematic / 37 retained_missing**.
 
 The partition covers the retained assets the canonical generator reports today. Four families carry a current approved_platform_ready verdict from an independent reviewer, and the gate refuses all four on one clause: field-classification.json must carry classifiedFieldsOrAnchors equal to discoveredFieldsOrAnchors, and the D1 driver writes neither. One family in 114 carries those counters. Until the driver emits them the four cannot be accepted, so retained_problematic is what it is rather than four lower. Those four are bucketed RERENDER_REQUIRED, because what they need is a regenerated classification and not another review.
 
 | lane | bucket | assets | owner |
 | --- | --- | ---: | --- |
 | LANE-REVIEW | REVIEW_ONLY | 0 | independent review lane |
-| LANE-RERENDER | RERENDER_REQUIRED | 48 | implementation lane (RCAP overlay factory) |
+| LANE-RERENDER | RERENDER_REQUIRED | 44 | implementation lane (RCAP overlay factory) |
 | LANE-SOURCE | SOURCE_OR_RETIREMENT | 37 | source acquisition and retirement lane |
 
 ## REVIEW_ONLY — 0 asset(s), LANE-REVIEW
@@ -19,14 +19,12 @@ current source, current artifact and current evidence; the only thing not yet ob
 | jurisdiction | form | blocker | next executable action |
 | --- | --- | --- | --- |
 
-## RERENDER_REQUIRED — 48 asset(s), LANE-RERENDER
+## RERENDER_REQUIRED — 44 asset(s), LANE-RERENDER
 
 the official source is in hand and something about what was produced from it has to be produced again
 
 | jurisdiction | form | blocker | next executable action |
 | --- | --- | --- | --- |
-| AK | TF-800 | an independent approval exists and the gate refuses it: field-classification.json carries no classifiedFieldsOrAnchors / discoveredFieldsOrAnchors counters, whi | have the D1 driver emit the two classification counters its own contract defines, regenerate this family's classification, and re-run the gate — no re-review is |
-| AK | TF-805 | an independent approval exists and the gate refuses it: field-classification.json carries no classifiedFieldsOrAnchors / discoveredFieldsOrAnchors counters, whi | have the D1 driver emit the two classification counters its own contract defines, regenerate this family's classification, and re-run the gate — no re-review is |
 | AK | TF-810 | the produced artifact carries visually_unsafe | Confirm that revision REV-2025-05 of AK TF-810 is the currently published form, against the issuing body's own publication. |
 | KY | AOC-334 | the produced artifact carries visually_unsafe | Resolve the recorded source or design hold on KY AOC-334 and obtain a fresh independent technical and visual approval. |
 | KY | AOC-496.2 | the produced artifact carries visually_unsafe | Confirm that revision REV-2016-07 of KY AOC-496.2 is the currently published form, against the issuing body's own publication. |
@@ -38,13 +36,11 @@ the official source is in hand and something about what was produced from it has
 | NC | AOC-CR-287 | the produced artifact carries flat_overlay_geometry_or_readback, stale_contact_sheet_manifest_or_review_evidence | Confirm that revision REV-2020-12 of NC AOC-CR-287 is the currently published form, against the issuing body's own publication. |
 | NC | AOC-CR-287 | the produced artifact carries flat_overlay_geometry_or_readback, stale_contact_sheet_manifest_or_review_evidence | Confirm that revision REV-2020-12 of NC AOC-CR-287 is the currently published form, against the issuing body's own publication. |
 | NC | AOC-CR-287 | the produced artifact carries contact_sheet_shows_no_fill, flat_overlay_geometry_or_readback, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rende | Re-render NC AOC-CR-287 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its conta |
-| NC | AOC-CR-287 | an independent approval exists and the gate refuses it: field-classification.json carries no classifiedFieldsOrAnchors / discoveredFieldsOrAnchors counters, whi | have the D1 driver emit the two classification counters its own contract defines, regenerate this family's classification, and re-run the gate — no re-review is |
 | NC | AOC-CR-287 | the produced artifact carries flat_overlay_geometry_or_readback, stale_contact_sheet_manifest_or_review_evidence | Confirm that revision REV-2025-12 of NC AOC-CR-287 is the currently published form, against the issuing body's own publication. |
 | NC | AOC-CR-288 | the produced artifact carries flat_overlay_geometry_or_readback, stale_contact_sheet_manifest_or_review_evidence | Confirm that revision REV-2025-03 of NC AOC-CR-288 is the currently published form, against the issuing body's own publication. |
 | NC | AOC-CR-288 | the produced artifact carries flat_overlay_geometry_or_readback, stale_contact_sheet_manifest_or_review_evidence | Confirm that revision REV-2020-12 of NC AOC-CR-288 is the currently published form, against the issuing body's own publication. |
 | NC | AOC-CR-288 | the produced artifact carries flat_overlay_geometry_or_readback, multi_widget_ambiguity, stale_contact_sheet_manifest_or_review_evidence | Confirm that revision REV-2020-12 of NC AOC-CR-288 is the currently published form, against the issuing body's own publication. |
 | NC | AOC-CR-288 | the produced artifact carries contact_sheet_shows_no_fill, flat_overlay_geometry_or_readback, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rende | Re-render NC AOC-CR-288 through the current official-form factory so the fixture is flattened, sanitized, byte-inspectable and factory-stamped, and so its conta |
-| NC | AOC-CR-288 | an independent approval exists and the gate refuses it: field-classification.json carries no classifiedFieldsOrAnchors / discoveredFieldsOrAnchors counters, whi | have the D1 driver emit the two classification counters its own contract defines, regenerate this family's classification, and re-run the gate — no re-review is |
 | NC | AOC-CR-288 | the produced artifact carries flat_overlay_geometry_or_readback, stale_contact_sheet_manifest_or_review_evidence | Confirm that revision REV-2020-12 of NC AOC-CR-288 is the currently published form, against the issuing body's own publication. |
 | NC | AOC-CR-296 | the produced artifact carries visually_unsafe | Confirm that revision REV-2025-03 of NC AOC-CR-296 is the currently published form, against the issuing body's own publication. |
 | NC | AOC-CR-297 | the produced artifact carries flat_overlay_geometry_or_readback, stale_contact_sheet_manifest_or_review_evidence | Confirm that revision REV-2025-06 of NC AOC-CR-297 is the currently published form, against the issuing body's own publication. |
