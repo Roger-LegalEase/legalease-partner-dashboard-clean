@@ -14,7 +14,26 @@
   "byteLength": 304457,
   "bundleDeclaredBytes": 304457,
   "byteLengthMatches": true,
-  "sourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors",
+  "sourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies",
+  "sourceUrlSupersededByThisCorrection": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors",
+  "offenseClass": "nonviolent_felony",
+  "sourceProvenanceCorrection": {
+    "schemaVersion": "rcap-source-provenance-correction/v1",
+    "correctedField": "sourceUrl",
+    "defect": "the two NC filing-form records carried each other's offense-class landing page",
+    "whatWasNotWrong": "the binaries. Each record's sha256 pin governs the correct document: the identity printed inside each PDF agrees with its own documentId. The records were not swapped; their provenance URLs were.",
+    "whyItMattered": "a later re-acquisition following the recorded URL would have fetched the other offense class's form.",
+    "bytesUnchanged": true,
+    "sha256Unchanged": true,
+    "receiptUnchanged": "source-receipt.json records sha256, byte length and archive path only. None of those changed, so the receipt is byte-identical and was not rewritten.",
+    "establishedBy": [
+      "the binary's own printed identity: AOC-CR-297 prints 'UNDER G.S. 15A-145.5' / '(NONVIOLENT FELONY(IES))' and directs the reader to AOC-CR-298 for misdemeanors, recorded by independent review in data/rcap-all50/pdf-independent-reviews/batch-1-group-1.review.json",
+      "first-hand source verification of AOC-CR-298 in data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/source-verification.json: visibleFormNumber AOC-CR-298, visibleRevision REV-2025-07, visibleIdentityAgreesWithPin true",
+      "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json: 'AOC-CR-297 Expunge nonviolent FELONY conviction(s)' and 'AOC-CR-298 Expunge ONE or MORE nonviolent MISDEMEANOR convictions'",
+      "docs/record-clearing/problematic-pdf-master-list.csv binds AOC-CR-297 to track nc_145_5_felony and AOC-CR-298 to track nc_145_5_misdemeanor"
+    ],
+    "correctedBy": "Gate B session 12, LANE-SOURCE, on Roger's explicit reassignment of these two families"
+  },
   "sourceStatus": "acquired_2026-08-02",
   "freshnessStatus": "candidate_current_source",
   "libraryFolder": "02_PACKET_FORMS",

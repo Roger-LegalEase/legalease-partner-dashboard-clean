@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "rcap-rerender-handoff/v1",
+  "from": "Gate B session 12 — LANE-SOURCE, source resolution and drift",
+  "to": "Session 7 — family rerender",
+  "subject": "NC AOC-CR-297 and AOC-CR-298 filing forms, after the source identity correction",
+  "authority": "Roger reassigned these two families to session 12 for the identity correction. Only the two source-record.json files were touched; no fixture, field map, classification, contact sheet or review file was modified.",
+  "whatChanged": {
+    "field": "sourceUrl on both form source records",
+    "aoc_cr_297_form_en": "now the nonviolent FELONY landing page (was the misdemeanor page)",
+    "aoc_cr_298_form_en": "now the nonviolent MISDEMEANOR landing page (was the felony page)",
+    "bytesChanged": false,
+    "sha256Changed": false,
+    "receiptsChanged": false,
+    "consequenceForRendering": "None. No pinned binary changed, so nothing rendered from these sources is invalidated by this correction alone."
+  },
+  "families": [
+    {
+      "familyId": "NC:aoc-cr-297-form-en",
+      "documentIdentity": "AOC-CR-297 — Petition and Order of Expunction, nonviolent FELONY(IES), Rev. 6/25",
+      "sha256": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+      "sourceVerdict": "source_identity_corrected_bytes_unchanged",
+      "rerenderRequiredBySource": false,
+      "reason": "the provenance URL was wrong; the pinned binary was always the correct document. A rerender is not needed to fix a URL.",
+      "notThisLanesFinding": "data/rcap-all50/pdf-independent-reviews/batch-1-group-1.review.json separately records a correction_required on this family's address field bindings (PetitionerStreetAddress and PetitionerMailAddress both bound to participant.street_address). That is a field-map defect, not a source defect, and it belongs to the rerender lane. It is repeated here only so it is not lost behind the source correction.",
+      "contaminationStatus": "not_established_either_way. No first-hand flattened-run inspection of this binary exists in the committed review evidence; wave-c shard b covered 287, 288, 296 and 298 only."
+    },
+    {
+      "familyId": "NC:aoc-cr-298-form-en",
+      "documentIdentity": "AOC-CR-298 — Petition and Order of Expunction, nonviolent MISDEMEANOR(S), Rev. 7/25",
+      "sha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+      "sourceVerdict": "source_contaminated_no_pristine_binary_available",
+      "rerenderRequiredBySource": true,
+      "rerenderBlocked": true,
+      "blockingCondition": "the pinned source carries a flattened 'Courtney Bailey' text run on page 2 inside the 'Name Of Records Officer (type or print)' cell, at Arial-BoldMT 10pt, x=112.3-187.0 y=178.6-192.9. The recomputed sha256 matched the pin, so the contamination is in the official bytes themselves.",
+      "whyItCannotBeClearedHere": "no pristine same-revision binary exists in the Master Library. All 329 indexed PDFs were searched by form number and by structural signature; exactly one AOC-CR-298 and exactly one 2-page/107-field binary exist, and it is the contaminated one. The index records no duplicate binaries at all.",
+      "doNotDo": [
+        "do not strip the name from the pinned bytes",
+        "do not fabricate or synthesise a blank source",
+        "do not rerender this family from the contaminated source",
+        "do not drop the contaminated hash: it is retained as evidence"
+      ],
+      "unblockCondition": "a pristine AOC-CR-298 Rev. 7/25 English binary — 2 pages, 107 AcroForm fields, no flattened run in the Name Of Records Officer cell — acquired from https://www.nccourts.gov/assets/documents/forms/cr298_1.pdf behind the nonviolent-misdemeanors landing page, hashed, and pinned alongside the contaminated hash as a drift pair.",
+      "productionHoldAdded": "source_contaminated_no_pristine_binary_available"
+    }
+  ],
+  "handoffStatus": "one family released with no rerender required, one family held. Mixed outcome, delivered rather than batched.",
+  "noReviewVerdictIssued": "This lane implemented the correction and therefore issues no review verdict on it."
+}

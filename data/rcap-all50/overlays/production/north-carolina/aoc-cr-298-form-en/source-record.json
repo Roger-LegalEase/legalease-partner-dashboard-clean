@@ -14,7 +14,42 @@
   "byteLength": 300577,
   "bundleDeclaredBytes": 300577,
   "byteLengthMatches": true,
-  "sourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies",
+  "sourceUrl": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-misdemeanors",
+  "sourceUrlSupersededByThisCorrection": "https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies-instructions-for-petition-and-order-of-expunction-under-gs-15a-1455-nonviolent-felonyies",
+  "offenseClass": "nonviolent_misdemeanor",
+  "sourceProvenanceCorrection": {
+    "schemaVersion": "rcap-source-provenance-correction/v1",
+    "correctedField": "sourceUrl",
+    "defect": "the two NC filing-form records carried each other's offense-class landing page",
+    "whatWasNotWrong": "the binaries. Each record's sha256 pin governs the correct document: the identity printed inside each PDF agrees with its own documentId. The records were not swapped; their provenance URLs were.",
+    "whyItMattered": "a later re-acquisition following the recorded URL would have fetched the other offense class's form.",
+    "bytesUnchanged": true,
+    "sha256Unchanged": true,
+    "receiptUnchanged": "source-receipt.json records sha256, byte length and archive path only. None of those changed, so the receipt is byte-identical and was not rewritten.",
+    "establishedBy": [
+      "the binary's own printed identity: AOC-CR-297 prints 'UNDER G.S. 15A-145.5' / '(NONVIOLENT FELONY(IES))' and directs the reader to AOC-CR-298 for misdemeanors, recorded by independent review in data/rcap-all50/pdf-independent-reviews/batch-1-group-1.review.json",
+      "first-hand source verification of AOC-CR-298 in data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/source-verification.json: visibleFormNumber AOC-CR-298, visibleRevision REV-2025-07, visibleIdentityAgreesWithPin true",
+      "src/lib/rcap-engine/compiled/profiles/NC-north-carolina.json: 'AOC-CR-297 Expunge nonviolent FELONY conviction(s)' and 'AOC-CR-298 Expunge ONE or MORE nonviolent MISDEMEANOR convictions'",
+      "docs/record-clearing/problematic-pdf-master-list.csv binds AOC-CR-297 to track nc_145_5_felony and AOC-CR-298 to track nc_145_5_misdemeanor"
+    ],
+    "correctedBy": "Gate B session 12, LANE-SOURCE, on Roger's explicit reassignment of these two families"
+  },
+  "sourceContamination": {
+    "status": "confirmed_in_the_pinned_bytes",
+    "flattenedDataRun": "Courtney Bailey, page 2, Arial-BoldMT 10pt at x=112.3-187.0 y=178.6-192.9, inside the data row of the 'Name Of Records Officer (type or print)' cell",
+    "verifiedBy": "independent reviewer B, data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/source-verification.json",
+    "recomputedSha256MatchedThePin": true,
+    "meaning": "the contamination is in the official bytes this family pins, not in a rendered artifact. It is source-inherent.",
+    "prohibitedRemediation": "Do not strip the name from these bytes and do not fabricate a blank source. A source-inherent name is removed only by acquiring a pristine official binary.",
+    "evidenceRetention": "the contaminated binary remains the pinned source and is preserved as evidence. It is held, not replaced, until a pristine binary exists."
+  },
+  "pristineSourceAvailability": {
+    "pristineSameRevisionBinaryExistsInMasterLibrary": false,
+    "searched": "all 329 PDFs recorded in data/rcap-all50/local-source-corpus-index.json, by form number and by structural signature",
+    "whatTheSearchFound": "exactly one AOC-CR-298 binary, and exactly one 2-page/107-AcroField binary, in the entire library: the contaminated sha 8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b. The index records no duplicate binaries at all.",
+    "exactMissingBinary": "a pristine AOC-CR-298 Rev. 7/25 English filing form: 2 pages, 107 AcroForm fields, with no flattened text run in the Name Of Records Officer cell. Expected at https://www.nccourts.gov/assets/documents/forms/cr298_1.pdf, behind the nonviolent-misdemeanors landing page.",
+    "exactOperatorAction": "From a session permitted to reach www.nccourts.gov, download that PDF, record its sha256 and byte length, and confirm page 2 carries no name in the Name Of Records Officer cell. Pin it alongside the contaminated hash as a drift pair; do not discard the contaminated hash."
+  },
   "sourceStatus": "acquired_2026-08-02",
   "freshnessStatus": "candidate_current_source",
   "libraryFolder": "02_PACKET_FORMS",
@@ -48,7 +83,8 @@
     "state_manifest_generation_allowed_no",
     "edition_1_runtime_disabled",
     "not_participant_fillable_no_fixture_fill",
-    "f_independent_visual_review_required"
+    "f_independent_visual_review_required",
+    "source_contaminated_no_pristine_binary_available"
   ],
   "ownershipDetermination": "Participant-completed filing. Participant and deterministic fields are bound; every other class is unwritable.",
   "coBrandingRule": "No LegalEase or partner branding may be added to the official form.",
