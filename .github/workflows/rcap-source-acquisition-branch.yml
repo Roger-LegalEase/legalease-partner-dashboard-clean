@@ -107,6 +107,10 @@ jobs:
           RCAP_JURISDICTION: ${{ matrix.entry.jurisdiction }}
           RCAP_FORM_NUMBER: ${{ matrix.entry.formNumber }}
           RCAP_EXPECTED_SHA256: ${{ matrix.entry.expectedSha256 }}
+          # What the register expected this form's printed revision to be, so
+          # the acquisition can confirm or contradict it against the revision
+          # line the document itself prints.
+          RCAP_EXPECTED_REVISION: ${{ matrix.entry.expectedRevision }}
           RCAP_URL_KIND: ${{ matrix.entry.urlKind }}
           RCAP_ASSET_ID: ${{ matrix.entry.coveredAssetIds[0] }}
           RCAP_SOURCE_KEY: ${{ matrix.entry.sourceKey }}

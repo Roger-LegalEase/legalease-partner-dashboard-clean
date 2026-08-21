@@ -3,7 +3,7 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 154,
+    "keep_available": 155,
     "wired": 126,
     "fix_then_wire": 27,
     "retire": 1,
@@ -1929,6 +1929,12 @@
       "reason": "Proof that an interrupted mutation harness cannot strand tracked bytes. Every case kills a real child process mid-mutation and hashes what is left on disk: SIGTERM against application source and against two migrations, SIGHUP, an uncaught exception, and SIGKILL — which is expected to strand the mutation, because no process can catch it, and which then proves the journal recovery puts the file back. Also proves a second mutator is refused by name, a tree-reading guard refuses to read a tree mid-mutation, and the Phase 52 and 54 suites still report every mutation red under the guard. Runs first in the chain so a stranded journal is recovered before anything else reads the tree.",
       "observedStatus": "in_chain",
       "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-official-revision-confirmation.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
     }
   }
 }

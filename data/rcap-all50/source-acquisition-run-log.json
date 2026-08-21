@@ -9,7 +9,7 @@
     "which legs produced bytes and which never started"
   ],
   "whatThisRecordDoesNotProve": [
-    "the SHA-256, content type, edition or currentness of any acquired file: those are in the receipts inside the artifacts, which this session cannot read"
+    "the edition, revision or currentness of any acquired file: no leg in this run read a document's printed revision line, because the acquirer gained a revision reader only afterwards"
   ],
   "blockers": [
     {
@@ -22,7 +22,8 @@
       "blocker": "artifact_storage_host_not_permitted_from_this_session",
       "detail": "productionresultssa9.blob.core.windows.net answered 403 CONNECT through this session's egress proxy, so the acquired bytes and their receipts cannot be pulled into this clone from here.",
       "ownedBy": "Roger, or a session whose egress policy permits that host",
-      "effect": "The bytes exist as workflow artifacts on the run page. They are not in this clone, so no family can be rendered from them yet."
+      "effect": "The bytes exist as workflow artifacts on the run page and are still not in this clone, so no family can be rendered from them yet. The facts ABOUT them are no longer blocked: they were recovered from the job logs through the GitHub API.",
+      "workedAroundBy": "reading each leg's job log via the GitHub API instead of downloading its artifact"
     }
   ],
   "totals": {
@@ -326,5 +327,12 @@
       "bytes": 124659,
       "outcome": "bytes_arrived"
     }
-  ]
+  ],
+  "whatWasRecoveredLater": {
+    "supersedes": "an earlier version of this record, which stated that the SHA-256, content type, edition and currentness of every acquired file 'are in the receipts inside the artifacts, which this session cannot read'",
+    "whyThatWasWrong": "only the ARTIFACTS were unreachable. The acquirer also prints the final URL, HTTP status, content type, byte length and SHA-256 to stdout, and job logs are served by the GitHub API on a host this session already reaches.",
+    "whatThatRecovered": "the direct official URL and exact SHA-256 of all 12 legs that produced bytes, plus the failure reason for the 2 that did not",
+    "where": "data/rcap-all50/official-source-acquisition-evidence.json",
+    "stillUnrecovered": "the acquired bytes themselves, which remain only as workflow artifacts on the run page"
+  }
 }

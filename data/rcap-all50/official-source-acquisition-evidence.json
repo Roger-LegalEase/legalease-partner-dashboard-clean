@@ -1,0 +1,643 @@
+{
+  "schemaVersion": "rcap-official-source-evidence/v1",
+  "generatedBy": "scripts/generate-rcap-official-source-evidence.mjs",
+  "purpose": "The direct official URL, exact SHA-256 and observed structure of every source the acquisition actually fetched, recovered from job logs, and reconciled against the queue.",
+  "howTheseFactsWereRecovered": {
+    "route": "GitHub Actions job logs, read through the GitHub API",
+    "whyNotTheArtifacts": "workflow artifacts are served from productionresultssa9.blob.core.windows.net, which this session's egress policy refuses with a 403 CONNECT; the API host is reachable and carries the same facts",
+    "whatMakesEachRowCheckable": "every row names the job whose log it was transcribed from"
+  },
+  "whatThisEstablishes": [
+    "which URL served the bytes, after redirects",
+    "the exact SHA-256, byte length and content type of what arrived",
+    "whether the hash an asset was pinned to is still what the publisher serves"
+  ],
+  "whatThisDoesNotEstablish": [
+    "that the acquired bytes are the current official edition",
+    "the edition or revision printed on any of these documents — this run predates the revision reader",
+    "that a form whose leg never ran is missing, moved or superseded",
+    "that any of these has a named current use in the platform"
+  ],
+  "run": {
+    "runId": "32251630850",
+    "runUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850",
+    "workflow": ".github/workflows/rcap-source-acquisition-branch.yml",
+    "headSha": "c2c30fa4a0dc2daece1cc5f15a210b94d0d05fe5",
+    "branch": "claude/rcap-problematic-pdf-full-remediation",
+    "ranAt": "2026-08-19T12:14:31Z"
+  },
+  "totals": {
+    "legsPlanned": 44,
+    "legsGivenARunner": 14,
+    "legsNeverGivenARunner": 30,
+    "acquired": 12,
+    "notAcquired": 2,
+    "exactHashesRecovered": 12,
+    "directOfficialUrlsConfirmed": 12,
+    "assetsExactMatch": 11,
+    "assetsSourceDrift": 1,
+    "assetsCurrentReplacement": 0,
+    "assetsFetchFailed": 2,
+    "queueUrlsFoundStale": 1,
+    "pinsNoLongerServed": 1,
+    "deadOfficialUrls": 2,
+    "revisionsConfirmed": 0
+  },
+  "findings": [
+    {
+      "kind": "pinned_hash_no_longer_served",
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-12",
+      "servedSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "pinsNoLongerServed": [
+        "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a"
+      ],
+      "whatItMeans": "an asset is pinned to bytes this URL no longer serves; the publisher reissued the form, or the pin was never these bytes",
+      "whatItDoesNotMean": "that the served bytes are the current official edition — that needs the publisher's own forms index",
+      "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906813"
+    },
+    {
+      "kind": "queue_url_is_stale",
+      "jurisdiction": "VA",
+      "formNumber": "CC-1473",
+      "queueUrl": "https://www.vacourts.gov/forms/circuit/cc1473.pdf",
+      "directOfficialUrl": "https://www.vacourts.gov/static/forms/circuit/cc1473.pdf",
+      "whatItMeans": "the queue's URL still reaches the form only because the publisher redirects it; the direct official URL is the resolved one",
+      "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906835"
+    },
+    {
+      "kind": "official_source_url_is_dead",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.2",
+      "url": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+      "httpStatus": 404,
+      "whatItMeans": "the URL the queue records for this form is gone; a replacement has to be found on the publisher's site",
+      "whatItDoesNotMean": "that the form has been withdrawn — a moved page says nothing about the form",
+      "sameUrlNotSeparatelyObserved": [
+        "KY AOC-496",
+        "KY AOC-497",
+        "KY AOC-496.3"
+      ],
+      "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906841"
+    },
+    {
+      "kind": "official_source_url_is_dead",
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.4",
+      "url": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+      "httpStatus": 404,
+      "whatItMeans": "the URL the queue records for this form is gone; a replacement has to be found on the publisher's site",
+      "whatItDoesNotMean": "that the form has been withdrawn — a moved page says nothing about the form",
+      "sameUrlNotSeparatelyObserved": [
+        "KY AOC-496",
+        "KY AOC-497",
+        "KY AOC-496.3"
+      ],
+      "evidence": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906935"
+    }
+  ],
+  "sources": [
+    {
+      "assetClassifications": [
+        {
+          "assetId": "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+          "classification": "exact_match",
+          "why": "the publisher still serves exactly the bytes this asset is pinned to"
+        }
+      ],
+      "jurisdiction": "AK",
+      "formNumber": "TF-800",
+      "jobId": "96063906834",
+      "outcome": "acquired",
+      "finalResolvedUrl": "https://public.courts.alaska.gov/web/forms/docs/tf-800.pdf",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "observedByteLength": 130602,
+      "sha256": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+      "observedStructuralClass": "acroform",
+      "observedPageCount": null,
+      "pinVerdictInLog": "MATCHES",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906834",
+      "queueUrls": [
+        "https://public.courts.alaska.gov/web/forms/docs/tf-800.pdf"
+      ],
+      "coveredAssetIds": [
+        "AK|TF-800|94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd"
+      ],
+      "queueEntriesForThisForm": 1,
+      "pinnedHashesInQueue": [
+        "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd"
+      ],
+      "pinsStillServed": [
+        "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd"
+      ],
+      "pinsNoLongerServed": [],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+          "classification": "exact_match",
+          "why": "the publisher still serves exactly the bytes this asset is pinned to"
+        }
+      ],
+      "jurisdiction": "AK",
+      "formNumber": "TF-805",
+      "jobId": "96063906939",
+      "outcome": "acquired",
+      "finalResolvedUrl": "https://public.courts.alaska.gov/web/forms/docs/tf-805.pdf",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "observedByteLength": 93899,
+      "sha256": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+      "observedStructuralClass": "acroform",
+      "observedPageCount": null,
+      "pinVerdictInLog": "MATCHES",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906939",
+      "queueUrls": [
+        "https://public.courts.alaska.gov/web/forms/docs/tf-805.pdf"
+      ],
+      "coveredAssetIds": [
+        "AK|TF-805|96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54"
+      ],
+      "queueEntriesForThisForm": 1,
+      "pinnedHashesInQueue": [
+        "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54"
+      ],
+      "pinsStillServed": [
+        "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54"
+      ],
+      "pinsNoLongerServed": [],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+          "classification": "exact_match",
+          "why": "the publisher still serves exactly the bytes this asset is pinned to"
+        }
+      ],
+      "jurisdiction": "KY",
+      "formNumber": "AOC-334",
+      "jobId": "96063906811",
+      "outcome": "acquired",
+      "finalResolvedUrl": "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/334.pdf",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "observedByteLength": 252268,
+      "sha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "observedStructuralClass": "acroform",
+      "observedPageCount": 2,
+      "pinVerdictInLog": "MATCHES",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906811",
+      "queueUrls": [
+        "https://www.kycourts.gov/Legal-Forms/Legal%20Forms/334.pdf"
+      ],
+      "coveredAssetIds": [
+        "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d"
+      ],
+      "queueEntriesForThisForm": 1,
+      "pinnedHashesInQueue": [
+        "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d"
+      ],
+      "pinsStillServed": [
+        "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d"
+      ],
+      "pinsNoLongerServed": [],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+          "classification": "fetch_failed",
+          "why": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx answered HTTP 404"
+        }
+      ],
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.2",
+      "jobId": "96063906841",
+      "outcome": "not_acquired",
+      "requestedUrlInLog": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+      "httpStatus": 404,
+      "failure": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx answered HTTP 404",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906841",
+      "queueUrls": [
+        "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx"
+      ],
+      "coveredAssetIds": [
+        "KY|AOC-496.2|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde"
+      ],
+      "queueEntriesForThisForm": 1,
+      "pinnedHashesInQueue": [
+        "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde"
+      ],
+      "pinsStillServed": [],
+      "pinsNoLongerServed": [],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "KY|AOC-496.4|70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
+          "classification": "fetch_failed",
+          "why": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx answered HTTP 404"
+        }
+      ],
+      "jurisdiction": "KY",
+      "formNumber": "AOC-496.4",
+      "jobId": "96063906935",
+      "outcome": "not_acquired",
+      "requestedUrlInLog": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx",
+      "httpStatus": 404,
+      "failure": "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx answered HTTP 404",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906935",
+      "queueUrls": [
+        "https://www.kycourts.gov/Legal-Forms/Pages/Expungement.aspx"
+      ],
+      "coveredAssetIds": [
+        "KY|AOC-496.4|70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182"
+      ],
+      "queueEntriesForThisForm": 1,
+      "pinnedHashesInQueue": [
+        "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182"
+      ],
+      "pinsStillServed": [],
+      "pinsNoLongerServed": [],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "classification": "exact_match",
+          "why": "the publisher still serves exactly the bytes this asset is pinned to"
+        },
+        {
+          "assetId": "NE|CC-6-12|b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+          "classification": "source_drift",
+          "why": "the publisher serves different bytes from the ones this asset is pinned to",
+          "pinnedSha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+          "servedSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "promotingThisToCurrentReplacementRequires": "the publisher's own forms index, which this run did not consult"
+        }
+      ],
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-12",
+      "jobId": "96063906813",
+      "outcome": "acquired",
+      "finalResolvedUrl": "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "observedByteLength": 1682731,
+      "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "observedStructuralClass": "acroform",
+      "observedPageCount": null,
+      "pinVerdictInLog": "MATCHES",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906813",
+      "queueUrls": [
+        "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf"
+      ],
+      "coveredAssetIds": [
+        "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "NE|CC-6-12|b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a"
+      ],
+      "queueEntriesForThisForm": 2,
+      "pinnedHashesInQueue": [
+        "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a"
+      ],
+      "pinsStillServed": [
+        "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28"
+      ],
+      "pinsNoLongerServed": [
+        "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a"
+      ],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "classification": "exact_match",
+          "why": "the publisher still serves exactly the bytes this asset is pinned to"
+        },
+        {
+          "assetId": "NE|CC-6-12|b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+          "classification": "source_drift",
+          "why": "the publisher serves different bytes from the ones this asset is pinned to",
+          "pinnedSha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+          "servedSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+          "promotingThisToCurrentReplacementRequires": "the publisher's own forms index, which this run did not consult"
+        }
+      ],
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-12",
+      "jobId": "96063906846",
+      "outcome": "acquired",
+      "finalResolvedUrl": "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "observedByteLength": 1682731,
+      "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "observedStructuralClass": "acroform",
+      "observedPageCount": null,
+      "pinVerdictInLog": "DOES NOT MATCH",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906846",
+      "queueUrls": [
+        "https://nebraskajudicial.gov/sites/default/files/CC-6-12.pdf"
+      ],
+      "coveredAssetIds": [
+        "NE|CC-6-12|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "NE|CC-6-12|b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a"
+      ],
+      "queueEntriesForThisForm": 2,
+      "pinnedHashesInQueue": [
+        "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a"
+      ],
+      "pinsStillServed": [
+        "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28"
+      ],
+      "pinsNoLongerServed": [
+        "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a"
+      ],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "NE|CC-6-15.1|d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+          "classification": "exact_match",
+          "why": "the publisher still serves exactly the bytes this asset is pinned to"
+        }
+      ],
+      "jurisdiction": "NE",
+      "formNumber": "CC-6-15.1",
+      "jobId": "96063906993",
+      "outcome": "acquired",
+      "finalResolvedUrl": "https://nebraskajudicial.gov/sites/default/files/CC-6-15-1.pdf",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "observedByteLength": 2909936,
+      "sha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+      "observedStructuralClass": "acroform",
+      "observedPageCount": 1,
+      "pinVerdictInLog": "MATCHES",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906993",
+      "queueUrls": [
+        "https://nebraskajudicial.gov/sites/default/files/CC-6-15-1.pdf"
+      ],
+      "coveredAssetIds": [
+        "NE|CC-6-15.1|d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79"
+      ],
+      "queueEntriesForThisForm": 1,
+      "pinnedHashesInQueue": [
+        "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79"
+      ],
+      "pinsStillServed": [
+        "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79"
+      ],
+      "pinsNoLongerServed": [],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "VA|CC-1201|7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+          "classification": "exact_match",
+          "why": "the publisher still serves exactly the bytes this asset is pinned to"
+        }
+      ],
+      "jurisdiction": "VA",
+      "formNumber": "CC-1201",
+      "jobId": "96063906932",
+      "outcome": "acquired",
+      "finalResolvedUrl": "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1201.pdf",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "observedByteLength": 282919,
+      "sha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+      "observedStructuralClass": "acroform",
+      "observedPageCount": 8,
+      "pinVerdictInLog": "MATCHES",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906932",
+      "queueUrls": [
+        "https://www.vacourts.gov/static/forms/circuit/crim_sealing/cc1201.pdf"
+      ],
+      "coveredAssetIds": [
+        "VA|CC-1201|7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78"
+      ],
+      "queueEntriesForThisForm": 1,
+      "pinnedHashesInQueue": [
+        "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78"
+      ],
+      "pinsStillServed": [
+        "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78"
+      ],
+      "pinsNoLongerServed": [],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "VA|CC-1473|6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+          "classification": "exact_match",
+          "why": "the publisher still serves exactly the bytes this asset is pinned to"
+        }
+      ],
+      "jurisdiction": "VA",
+      "formNumber": "CC-1473",
+      "jobId": "96063906835",
+      "outcome": "acquired",
+      "finalResolvedUrl": "https://www.vacourts.gov/static/forms/circuit/cc1473.pdf",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "observedByteLength": 120875,
+      "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+      "observedStructuralClass": "acroform",
+      "observedPageCount": 2,
+      "pinVerdictInLog": "MATCHES",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906835",
+      "queueUrls": [
+        "https://www.vacourts.gov/forms/circuit/cc1473.pdf"
+      ],
+      "coveredAssetIds": [
+        "VA|CC-1473|6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219"
+      ],
+      "queueEntriesForThisForm": 1,
+      "pinnedHashesInQueue": [
+        "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219"
+      ],
+      "pinsStillServed": [
+        "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219"
+      ],
+      "pinsNoLongerServed": [],
+      "publisherMovedTheFormFrom": "https://www.vacourts.gov/forms/circuit/cc1473.pdf",
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "WI|CR-266|9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+          "classification": "exact_match",
+          "why": "the publisher still serves exactly the bytes this asset is pinned to"
+        }
+      ],
+      "jurisdiction": "WI",
+      "formNumber": "CR-266",
+      "jobId": "96063906815",
+      "outcome": "acquired",
+      "finalResolvedUrl": "https://www.wicourts.gov/formdisplay/CR-266.pdf?formNumber=CR-266&formType=Form&formatId=2&language=en",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "observedByteLength": 130733,
+      "sha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "observedStructuralClass": "flat_pdf",
+      "observedPageCount": 1,
+      "pinVerdictInLog": "MATCHES",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906815",
+      "queueUrls": [
+        "https://www.wicourts.gov/formdisplay/CR-266.pdf?formNumber=CR-266&formType=Form&formatId=2&language=en"
+      ],
+      "coveredAssetIds": [
+        "WI|CR-266|9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412"
+      ],
+      "queueEntriesForThisForm": 1,
+      "pinnedHashesInQueue": [
+        "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412"
+      ],
+      "pinsStillServed": [
+        "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412"
+      ],
+      "pinsNoLongerServed": [],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "WI|CR-267|2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+          "classification": "exact_match",
+          "why": "the publisher still serves exactly the bytes this asset is pinned to"
+        }
+      ],
+      "jurisdiction": "WI",
+      "formNumber": "CR-267",
+      "jobId": "96063907012",
+      "outcome": "acquired",
+      "finalResolvedUrl": "https://www.wicourts.gov/formdisplay/CR-267.pdf?formNumber=CR-267&formType=Form&formatId=2&language=en",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "observedByteLength": 74520,
+      "sha256": "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb",
+      "observedStructuralClass": "flat_pdf",
+      "observedPageCount": 1,
+      "pinVerdictInLog": "MATCHES",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063907012",
+      "queueUrls": [
+        "https://www.wicourts.gov/formdisplay/CR-267.pdf?formNumber=CR-267&formType=Form&formatId=2&language=en"
+      ],
+      "coveredAssetIds": [
+        "WI|CR-267|2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb"
+      ],
+      "queueEntriesForThisForm": 1,
+      "pinnedHashesInQueue": [
+        "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb"
+      ],
+      "pinsStillServed": [
+        "2c0ac53b03658dc9ae93ba90f527ba162d487f181fd4525d5856b483f17930bb"
+      ],
+      "pinsNoLongerServed": [],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+          "classification": "exact_match",
+          "why": "the publisher still serves exactly the bytes this asset is pinned to"
+        }
+      ],
+      "jurisdiction": "WI",
+      "formNumber": "DJ-LE-247",
+      "jobId": "96063906802",
+      "outcome": "acquired",
+      "finalResolvedUrl": "https://www.wisdoj.gov/Law%20Enforcement%20Services/Updated_DJ_LE_247_14-feb-17_0.pdf",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "observedByteLength": 130938,
+      "sha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "observedStructuralClass": "flat_pdf",
+      "observedPageCount": 2,
+      "pinVerdictInLog": "MATCHES",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906802",
+      "queueUrls": [
+        "https://www.wisdoj.gov/Law%20Enforcement%20Services/Updated_DJ_LE_247_14-feb-17_0.pdf"
+      ],
+      "coveredAssetIds": [
+        "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7"
+      ],
+      "queueEntriesForThisForm": 1,
+      "pinnedHashesInQueue": [
+        "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7"
+      ],
+      "pinsStillServed": [
+        "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7"
+      ],
+      "pinsNoLongerServed": [],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    },
+    {
+      "assetClassifications": [
+        {
+          "assetId": "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+          "classification": "exact_match",
+          "why": "the publisher still serves exactly the bytes this asset is pinned to"
+        }
+      ],
+      "jurisdiction": "WI",
+      "formNumber": "DJ-LE-250B",
+      "jobId": "96063906901",
+      "outcome": "acquired",
+      "finalResolvedUrl": "https://www.wisdoj.gov/Law%20Enforcement%20Services/DJ_LE-250B_Draft_02232017_Fingerprint_Removal_Request.pdf",
+      "httpStatus": 200,
+      "contentType": "application/pdf",
+      "observedByteLength": 475556,
+      "sha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "observedStructuralClass": "acroform",
+      "observedPageCount": null,
+      "pinVerdictInLog": "MATCHES",
+      "jobUrl": "https://github.com/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs/32251630850/job/96063906901",
+      "queueUrls": [
+        "https://www.wisdoj.gov/Law%20Enforcement%20Services/DJ_LE-250B_Draft_02232017_Fingerprint_Removal_Request.pdf"
+      ],
+      "coveredAssetIds": [
+        "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6"
+      ],
+      "queueEntriesForThisForm": 1,
+      "pinnedHashesInQueue": [
+        "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6"
+      ],
+      "pinsStillServed": [
+        "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6"
+      ],
+      "pinsNoLongerServed": [],
+      "publisherMovedTheFormFrom": null,
+      "editionOrRevision": "unread — this run predates the revision reader; re-acquire to read it"
+    }
+  ]
+}

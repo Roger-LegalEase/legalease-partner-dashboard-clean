@@ -15,6 +15,9 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 
+import { chooseOfficialBinary } from "./rcap-source-acquisition/resolve-binary.mjs";
+import { readRevisionFromPdf } from "./rcap-source-acquisition/revision.mjs";
+
 const OUT_DIR = path.resolve("acquired-source");
 
 /**
@@ -74,6 +77,15 @@ const REFUSED_HOSTS = new Set([
   "www.scribd.com", "www.docketbird.com"
 ]);
 
+// Evidence gathered before something went wrong. A landing page that was
+// fetched and resolved, and only then failed on the binary, has already
+// established something worth keeping: which document the page named as this
+// form. Discarding that on the way out would make the next run start over.
+let partialEvidence = {};
+function record(fields) {
+  partialEvidence = { ...partialEvidence, ...fields };
+}
+
 function fail(message) {
   console.error(`FAIL official-source acquisition — ${message}`);
   if (TOLERATE_FAILURE) {
@@ -83,6 +95,7 @@ function fail(message) {
       schemaVersion: "rcap-official-source-receipt/v1",
       ...coverage(),
       outcome: "not_acquired",
+      ...partialEvidence,
       jurisdiction: process.env.RCAP_JURISDICTION ?? null,
       formNumber: process.env.RCAP_FORM_NUMBER ?? null,
       assetId: ASSET_ID,
@@ -103,6 +116,7 @@ const rawUrl = process.env.RCAP_SOURCE_URL ?? "";
 const jurisdiction = (process.env.RCAP_JURISDICTION ?? "").trim().toUpperCase();
 const formNumber = (process.env.RCAP_FORM_NUMBER ?? "").trim();
 const expectedSha256 = (process.env.RCAP_EXPECTED_SHA256 ?? "").trim().toLowerCase();
+const expectedRevision = (process.env.RCAP_EXPECTED_REVISION ?? "").trim();
 
 if (!rawUrl) fail("no URL supplied");
 if (!/^[A-Z]{2}$/.test(jurisdiction)) fail(`jurisdiction ${JSON.stringify(jurisdiction)} is not a two-letter code`);
@@ -119,58 +133,141 @@ if (!ALLOWED_HOST_SUFFIXES.some((suffix) => host === suffix.replace(/^\./, "") |
 }
 
 const retrievedAt = new Date().toISOString();
-let response;
-try {
-  response = await fetch(url, {
-    redirect: "follow",
-    headers: { "user-agent": "LegalEase RCAP official-source acquisition" }
+
+const hostIsAllowed = (host) =>
+  ALLOWED_HOST_SUFFIXES.some((suffix) => host === suffix.replace(/^\./, "") || host.endsWith(suffix));
+
+/**
+ * Fetch one official URL and describe what came back.
+ *
+ * Every refusal this performs on the first URL it performs identically on the
+ * second: a landing page that redirects a form off the allowlist is refused
+ * whether it was named by the queue or chosen from the page's own links.
+ * `whichLeg` only changes the wording of the failure, never the rule.
+ */
+async function acquire(target, whichLeg) {
+  let response;
+  try {
+    response = await fetch(target, {
+      redirect: "follow",
+      headers: { "user-agent": "LegalEase RCAP official-source acquisition" }
+    });
+  } catch (error) {
+    fail(`the ${whichLeg} request to ${target.href} did not complete: ${error?.message ?? error}`);
+  }
+
+  const resolvedUrl = response.url;
+  const resolvedHost = new URL(resolvedUrl).hostname.toLowerCase();
+  // A redirect off the allowlist is the interesting case: it means the publisher
+  // moved the form somewhere this acquisition is not entitled to trust.
+  if (!hostIsAllowed(resolvedHost)) {
+    fail(`the ${whichLeg} request redirected to ${resolvedHost}, which is not an allowlisted official host`);
+  }
+  if (!response.ok) fail(`${resolvedUrl} answered HTTP ${response.status}`);
+
+  const body = Buffer.from(await response.arrayBuffer());
+  if (body.length === 0) fail(`the ${whichLeg} response body is empty`);
+
+  // Read from the bytes, not the headers: a server that mislabels a PDF as
+  // text/html is common, and an HTML error page served with a 200 is the failure
+  // this catches.
+  const isPdf = body.subarray(0, 5).toString("latin1") === "%PDF-";
+  const latin = body.toString("latin1");
+  return {
+    response,
+    bytes: body,
+    finalUrl: resolvedUrl,
+    finalHost: resolvedHost,
+    looksLikePdf: isPdf,
+    latin,
+    pageCount: isPdf ? (latin.match(/\/Type\s*\/Page[^s]/g) ?? []).length || null : null,
+    structuralClass: !isPdf ? "not_a_pdf"
+      : /\/XFA[\s/[]/.test(latin) ? "xfa"
+        : /\/AcroForm\b/.test(latin) ? "acroform"
+          : "flat_pdf"
+  };
+}
+
+/** Every document a page links, as absolute URLs. Candidates, not a decision. */
+function linkedDocumentsOn(latin, pageUrl) {
+  return [...new Set(
+    [...latin.matchAll(/href\s*=\s*["']([^"']+\.(?:pdf|docx?|rtf)(?:\?[^"']*)?)["']/gi)]
+      .map((m) => { try { return new URL(m[1], pageUrl).href; } catch { return null; } })
+      .filter(Boolean)
+  )].sort();
+}
+
+let leg = await acquire(url, "first");
+const requestedFinalUrl = leg.finalUrl;
+record({ requestedUrl: rawUrl, landingPageFinalUrl: requestedFinalUrl, landingPageHttpStatus: leg.response.status });
+
+// A landing page is fetched so the binary behind it can be resolved. Until now
+// the links were harvested and left there, which is why 29 sources still have
+// the issuing body's page and no direct URL for the form.
+let linkedDocuments = leg.looksLikePdf ? [] : linkedDocumentsOn(leg.latin, leg.finalUrl);
+let resolution = null;
+let fetchedChosenBinary = false;
+record({ linkedDocumentCandidates: linkedDocuments });
+
+if (!leg.looksLikePdf && URL_KIND === "official_landing_page") {
+  resolution = chooseOfficialBinary({
+    formNumber,
+    candidates: linkedDocuments,
+    landingUrl: leg.finalUrl
   });
-} catch (error) {
-  fail(`the request to ${url.href} did not complete: ${error?.message ?? error}`);
+  record({ landingPageResolution: resolution });
+  console.log(`  landing page  ${resolution.outcome}: ${resolution.why}`);
+
+  if (resolution.outcome === "resolved") {
+    let chosen;
+    try { chosen = new URL(resolution.chosen); } catch { chosen = null; }
+    if (!chosen) fail(`the document chosen from the landing page is not a URL: ${resolution.chosen}`);
+    if (chosen.protocol !== "https:") fail(`the document chosen from the landing page is served over ${chosen.protocol}, not https`);
+    if (REFUSED_HOSTS.has(chosen.hostname.toLowerCase())) {
+      fail(`the document chosen from the landing page is served by ${chosen.hostname}, a commercial form site`);
+    }
+    if (!hostIsAllowed(chosen.hostname.toLowerCase())) {
+      fail(`the document chosen from the landing page is served by ${chosen.hostname}, which is not an allowlisted official host`);
+    }
+    leg = await acquire(chosen, "landing-page binary");
+    fetchedChosenBinary = true;
+  }
 }
 
-const finalUrl = response.url;
-const finalHost = new URL(finalUrl).hostname.toLowerCase();
-// A redirect off the allowlist is the interesting case: it means the publisher
-// moved the form somewhere this acquisition is not entitled to trust.
-if (!ALLOWED_HOST_SUFFIXES.some((suffix) => finalHost === suffix.replace(/^\./, "") || finalHost.endsWith(suffix))) {
-  fail(`the request redirected to ${finalHost}, which is not an allowlisted official host`);
+// A page is not a form.
+//
+// Before this, an unresolvable landing page still finished as `outcome:
+// "acquired"` carrying a SHA-256 of the HTML — a hash-pinned, confident record
+// of a web page filed as though it were the court's form. Downstream that is
+// indistinguishable from a real acquisition, which is the precise failure the
+// resolver exists to prevent.
+//
+// A deliberately chosen .docx or .rtf is still the form; only bytes we are
+// still holding by default are not.
+if (!leg.looksLikePdf && !fetchedChosenBinary) {
+  const why = resolution
+    ? `the landing page was fetched but its binary was ${resolution.outcome}: ${resolution.why}`
+    : `${leg.finalUrl} served ${leg.response.headers.get("content-type") ?? "an unknown content type"} rather than a document; a page is not a form`;
+  fail(why);
 }
-if (!response.ok) fail(`${finalUrl} answered HTTP ${response.status}`);
 
-const bytes = Buffer.from(await response.arrayBuffer());
-if (bytes.length === 0) fail("the response body is empty");
+const { response, bytes, finalUrl, finalHost, looksLikePdf, pageCount, structuralClass } = leg;
 
 const contentType = response.headers.get("content-type") ?? null;
 const declaredLength = response.headers.get("content-length");
 const sha256 = crypto.createHash("sha256").update(bytes).digest("hex");
 
-// Read from the bytes, not the headers: a server that mislabels a PDF as
-// text/html is common, and an HTML error page served with a 200 is the failure
-// this catches.
-const looksLikePdf = bytes.subarray(0, 5).toString("latin1") === "%PDF-";
-const pageCount = looksLikePdf
-  ? (bytes.toString("latin1").match(/\/Type\s*\/Page[^s]/g) ?? []).length || null
-  : null;
-const text = bytes.toString("latin1");
-const structuralClass = !looksLikePdf ? "not_a_pdf"
-  : /\/XFA[\s/[]/.test(text) ? "xfa"
-    : /\/AcroForm\b/.test(text) ? "acroform"
-      : "flat_pdf";
+// What the document says its own revision is. Not whether that revision is the
+// one the publisher serves today — that comparison needs the publisher's forms
+// index and stays a review decision.
+const revision = looksLikePdf
+  ? readRevisionFromPdf(bytes, { formNumber, expectedRevision: expectedRevision || null })
+  : { verdict: "not_a_pdf", why: "the acquired bytes are not a PDF, so there is no printed revision line to read" };
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 const slug = receiptSlug();
 const binaryName = `${slug}${looksLikePdf ? ".pdf" : ".bin"}`;
 fs.writeFileSync(path.join(OUT_DIR, binaryName), bytes);
-
-// A landing page is fetched so the binary behind it can be resolved. The links
-// harvested here are candidates for a following acquisition, not a decision
-// about which of them is this form.
-const linkedDocuments = looksLikePdf ? [] : [...new Set(
-  [...text.matchAll(/href\s*=\s*["']([^"']+\.(?:pdf|docx?|rtf)(?:\?[^"']*)?)["']/gi)]
-    .map((m) => { try { return new URL(m[1], finalUrl).href; } catch { return null; } })
-    .filter(Boolean)
-)].sort();
 
 const receipt = {
   schemaVersion: "rcap-official-source-receipt/v1",
@@ -184,6 +281,11 @@ const receipt = {
   requestedUrl: rawUrl,
   finalResolvedUrl: finalUrl,
   redirected: finalUrl !== rawUrl,
+  // The URL the queue named, after redirects but before any landing-page
+  // resolution. When these differ the publisher has MOVED the form, and the
+  // queue's URL is stale even though the acquisition succeeded.
+  requestedUrlResolvedTo: requestedFinalUrl,
+  requestedUrlWasRedirected: requestedFinalUrl !== rawUrl,
   publisherHost: finalHost,
   httpStatus: response.status,
   contentType,
@@ -197,14 +299,21 @@ const receipt = {
   observedStructuralClass: structuralClass,
   linkedDocumentCandidates: linkedDocuments,
   binaryResolvedFromLandingPage: URL_KIND === "official_landing_page" && looksLikePdf,
+  // Which of the landing page's links was taken as this form, why, and what it
+  // beat. Null when the queue named the binary directly.
+  landingPageResolution: resolution,
   expectedSha256: expectedSha256 || null,
   matchesExpectedSha256: expectedSha256 ? expectedSha256 === sha256 : null,
   binaryFile: binaryName,
-  // Deliberately unanswered here. A workflow can say what it fetched; it cannot
-  // say whether that is the currently published edition, whether it supersedes
-  // the held one, or whether the platform should use it. Those are review
-  // decisions and they belong to a person.
-  editionOrRevision: "unread — take it from the document's own printed revision line",
+  // Read from the document itself: the revision line courts stamp in the
+  // footer. `verdict` says whether it confirms, contradicts, or has nothing to
+  // confirm against — never whether the form is current.
+  editionOrRevision: revision,
+  expectedRevision: expectedRevision || null,
+  // Still deliberately unanswered. Reading a form's printed revision does not
+  // establish that the publisher serves that revision today, that it
+  // supersedes the held one, or that the platform should use it. Those are
+  // review decisions and they belong to a person.
   currentnessDetermination: "unmade — requires comparison against the publisher's own forms index",
   supersessionDetermination: "unmade — requires the prior pinned hash and the publisher's revision history",
   intendedUse: "unmade — requires the packet family and legal design that would consume it"
@@ -251,10 +360,22 @@ if (summaryPath) {
   fs.appendFileSync(summaryPath, parts.join("\n"));
 }
 
+// These lines are the receipt's readable copy of record.
+//
+// Artifacts are served from a storage host that some sessions' egress policy
+// refuses, and for two runs that made the acquired hashes unreadable from the
+// clone that needed them. Job logs come back through the GitHub API itself, on
+// a host those sessions already reach, so every fact the register needs to pin
+// a source is printed here in a fixed, parseable shape — and stays recoverable
+// long after the artifact is unreachable.
 console.log(`OK acquired ${jurisdiction} ${formNumber}`);
 console.log(`  final URL     ${finalUrl}`);
+if (requestedFinalUrl !== finalUrl) console.log(`  from landing  ${requestedFinalUrl}`);
+if (requestedFinalUrl !== rawUrl) console.log(`  queue URL     moved: ${rawUrl} -> ${requestedFinalUrl}`);
 console.log(`  status        ${response.status}  ${contentType ?? "(no content-type)"}`);
 console.log(`  bytes         ${bytes.length}`);
 console.log(`  sha256        ${sha256}`);
 console.log(`  structure     ${structuralClass}${pageCount ? `, ~${pageCount} page objects` : ""}`);
+console.log(`  revision      ${revision.verdict}${revision.printedRevision ? ` (${revision.printedRevision})` : ""}`);
+if (expectedRevision) console.log(`  expected rev  ${expectedRevision}`);
 if (expectedSha256) console.log(`  expected hash ${expectedSha256 === sha256 ? "MATCHES" : "DOES NOT MATCH"}`);
