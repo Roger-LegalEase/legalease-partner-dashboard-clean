@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "rcap-gate-b-terminal-batch/v1",
+  "batch": "session-2-terminal-batch-01",
+  "session": "Session 2",
+  "assignmentBase": "3267a4e9e1d7f327fe24aeaeb9c00c74cd30d85d",
+  "cutFrom": "data/rcap-all50/gate-b-81-terminalization-queue.json",
+  "population": "the first eight SOURCE_REQUIRED assets in queue order",
+  "populationCaveat": "The batch instruction says to take the first eight retained assets assigned to terminal treatment rather than must_packet. The string must_packet does not appear anywhere in this repository, and the assignment base classifies the 81 queued assets only as SOURCE_REQUIRED (37), RERENDER_REQUIRED (39) and RETIRE_OR_REPOINT (5). No terminal-versus-must_packet split has been published, so the source-blocked bucket named in this batch's own title was used and the substitution is recorded here rather than assumed.",
+  "headlineFinding": "The participant-facing terminalization layer is already complete. terminalization-evidence-briefs.json carries 114 briefs and data/rcap-all50/terminalization-treatments/ carries 114 treatments: briefed tracks with no treatment = 0, treated tracks with no brief = 0. None of the eight assets in this batch is a participant route, none carries a legal-design or packet-family reference, and none has an untreated track to attach to. There is no terminal treatment left to write for them, and writing one would duplicate complete coverage while inventing facts the briefs do not carry.",
+  "countsVerified": {
+    "briefs": 114,
+    "treatments": 114,
+    "briefedTracksWithoutTreatment": 0,
+    "treatedTracksWithoutBrief": 0,
+    "queueSourceRequired": 37,
+    "queueRerenderRequired": 39,
+    "queueRetireOrRepoint": 5
+  },
+  "guidanceCompleted": 0,
+  "exactDeferralsCompleted": 0,
+  "exclusionsCompleted": 0,
+  "outsidePartyTreatmentsCompleted": 0,
+  "ownerDecisions": 8,
+  "prohibitionsHonoured": [
+    "no source acquired",
+    "no PDF edited",
+    "no legal conclusion invented",
+    "no checkout or packet generation enabled",
+    "no Briefcase state altered",
+    "no generic coming-soon language introduced anywhere"
+  ],
+  "session13Handoff": {
+    "population": "all eight assets in this batch",
+    "retirableNow": 0,
+    "why": "Each asset retains at least one operational-manifest dependency, and the standing boundary forbids retiring an asset with a surviving runtime, packet-family, legal-design, route, compiled-profile or operational-manifest dependency. All eight retain application_source; five also retain overlay_factory_manifest.",
+    "repointWorkRequired": "For each asset, either drop the application_source reference and, where present, the overlay_factory_manifest entry, or repoint both to the canonical asset. Once no operational reference survives, the asset is retirable without touching any participant route, because none depends on it.",
+    "whatMakesThisSafe": "Zero legalDesignReferences and zero packetFamilyReferences across all eight, so retirement or repoint cannot strand a participant route. Confirmed against the queue rows at the assignment base."
+  },
+  "assets": [
+    {
+      "assetId": "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "familyId": "AK:ak-record-relief-forms",
+      "jurisdiction": "AK",
+      "formId": "ak-record-relief-forms.html",
+      "queueBucket": "SOURCE_REQUIRED",
+      "sourceStatus": "official binary absent from the clone",
+      "outcome": "owner_decision_required",
+      "treatmentWritten": false,
+      "whyNoTreatment": "This row is a source-blocked ASSET, not a participant ROUTE. A terminal treatment in rcap-terminalization-treatments/v1 is keyed to a trackId, and this asset carries no legalDesignReferences and no packetFamilyReferences, so no participant route resolves through it. There is also no untreated track in its jurisdiction to attach a treatment to.",
+      "evidenceRuleBlock": "terminalization-evidence-briefs.json carries no brief for this asset, and the schema's evidenceRule permits a treatment to state a fact only when the brief carries it for that exact track. Authoring one here would require inventing eligibility, venue, destination and next-step facts, which this batch forbids.",
+      "participantImpactNow": "None. Every briefed participant route already carries a complete treatment (114 briefs, 114 treatments, zero gap), so no participant is blocked by this asset and no route shows coming-soon language because of it.",
+      "survivingDependencies": [
+        "overlay_factory_manifest",
+        "application_source"
+      ],
+      "retirable": false,
+      "retirementBlockedBy": "surviving operational-manifest dependency: overlay_factory_manifest, application_source",
+      "ownerDecisionRequired": "Retire AK:ak-record-relief-forms from operational inventory, or repoint its overlay_factory_manifest, application_source reference(s) to the canonical asset. The source lane's standing action \u2014 acquire the official binary \u2014 is the third option and is the only one that could still make it packet-producing.",
+      "sourceLaneAction": "Supply the exact verified binary for AK ak-record-relief-forms.html at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family."
+    },
+    {
+      "assetId": "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "familyId": "AK:requesttosealcriminfo",
+      "jurisdiction": "AK",
+      "formId": "RequestToSealCrimInfo.pdf",
+      "queueBucket": "SOURCE_REQUIRED",
+      "sourceStatus": "official binary absent from the clone",
+      "outcome": "owner_decision_required",
+      "treatmentWritten": false,
+      "whyNoTreatment": "This row is a source-blocked ASSET, not a participant ROUTE. A terminal treatment in rcap-terminalization-treatments/v1 is keyed to a trackId, and this asset carries no legalDesignReferences and no packetFamilyReferences, so no participant route resolves through it. There is also no untreated track in its jurisdiction to attach a treatment to.",
+      "evidenceRuleBlock": "terminalization-evidence-briefs.json carries no brief for this asset, and the schema's evidenceRule permits a treatment to state a fact only when the brief carries it for that exact track. Authoring one here would require inventing eligibility, venue, destination and next-step facts, which this batch forbids.",
+      "participantImpactNow": "None. Every briefed participant route already carries a complete treatment (114 briefs, 114 treatments, zero gap), so no participant is blocked by this asset and no route shows coming-soon language because of it.",
+      "survivingDependencies": [
+        "overlay_factory_manifest",
+        "application_source"
+      ],
+      "retirable": false,
+      "retirementBlockedBy": "surviving operational-manifest dependency: overlay_factory_manifest, application_source",
+      "ownerDecisionRequired": "Retire AK:requesttosealcriminfo from operational inventory, or repoint its overlay_factory_manifest, application_source reference(s) to the canonical asset. The source lane's standing action \u2014 acquire the official binary \u2014 is the third option and is the only one that could still make it packet-producing.",
+      "sourceLaneAction": "Supply the exact verified binary for AK RequestToSealCrimInfo.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family."
+    },
+    {
+      "assetId": "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "familyId": "AL:al-expungement-petition",
+      "jurisdiction": "AL",
+      "formId": "al-expungement-petition.html",
+      "queueBucket": "SOURCE_REQUIRED",
+      "sourceStatus": "official binary absent from the clone",
+      "outcome": "owner_decision_required",
+      "treatmentWritten": false,
+      "whyNoTreatment": "This row is a source-blocked ASSET, not a participant ROUTE. A terminal treatment in rcap-terminalization-treatments/v1 is keyed to a trackId, and this asset carries no legalDesignReferences and no packetFamilyReferences, so no participant route resolves through it. There is also no untreated track in its jurisdiction to attach a treatment to.",
+      "evidenceRuleBlock": "terminalization-evidence-briefs.json carries no brief for this asset, and the schema's evidenceRule permits a treatment to state a fact only when the brief carries it for that exact track. Authoring one here would require inventing eligibility, venue, destination and next-step facts, which this batch forbids.",
+      "participantImpactNow": "None. Every briefed participant route already carries a complete treatment (114 briefs, 114 treatments, zero gap), so no participant is blocked by this asset and no route shows coming-soon language because of it.",
+      "survivingDependencies": [
+        "overlay_factory_manifest",
+        "application_source"
+      ],
+      "retirable": false,
+      "retirementBlockedBy": "surviving operational-manifest dependency: overlay_factory_manifest, application_source",
+      "ownerDecisionRequired": "Retire AL:al-expungement-petition from operational inventory, or repoint its overlay_factory_manifest, application_source reference(s) to the canonical asset. The source lane's standing action \u2014 acquire the official binary \u2014 is the third option and is the only one that could still make it packet-producing.",
+      "sourceLaneAction": "Supply the exact verified binary for AL al-expungement-petition.html at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family."
+    },
+    {
+      "assetId": "AL|cr-65-expunge-petition-10-2024.pdf|c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+      "familyId": "AL:cr-65-expunge-petition-10-2024",
+      "jurisdiction": "AL",
+      "formId": "cr-65-expunge-petition-10-2024.pdf",
+      "queueBucket": "SOURCE_REQUIRED",
+      "sourceStatus": "official binary absent from the clone",
+      "outcome": "owner_decision_required",
+      "treatmentWritten": false,
+      "whyNoTreatment": "This row is a source-blocked ASSET, not a participant ROUTE. A terminal treatment in rcap-terminalization-treatments/v1 is keyed to a trackId, and this asset carries no legalDesignReferences and no packetFamilyReferences, so no participant route resolves through it. There is also no untreated track in its jurisdiction to attach a treatment to.",
+      "evidenceRuleBlock": "terminalization-evidence-briefs.json carries no brief for this asset, and the schema's evidenceRule permits a treatment to state a fact only when the brief carries it for that exact track. Authoring one here would require inventing eligibility, venue, destination and next-step facts, which this batch forbids.",
+      "participantImpactNow": "None. Every briefed participant route already carries a complete treatment (114 briefs, 114 treatments, zero gap), so no participant is blocked by this asset and no route shows coming-soon language because of it.",
+      "survivingDependencies": [
+        "application_source"
+      ],
+      "retirable": false,
+      "retirementBlockedBy": "surviving operational-manifest dependency: application_source",
+      "ownerDecisionRequired": "Retire AL:cr-65-expunge-petition-10-2024 from operational inventory, or repoint its application_source reference(s) to the canonical asset. The source lane's standing action \u2014 acquire the official binary \u2014 is the third option and is the only one that could still make it packet-producing.",
+      "sourceLaneAction": "Supply the exact verified binary for AL cr-65-expunge-petition-10-2024.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family."
+    },
+    {
+      "assetId": "AL|cr-65a-order-on-petition-for-expungement-10-2024.pdf|7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
+      "familyId": "AL:cr-65a-order-on-petition-for-expungement-10-2024",
+      "jurisdiction": "AL",
+      "formId": "cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+      "queueBucket": "SOURCE_REQUIRED",
+      "sourceStatus": "official binary absent from the clone",
+      "outcome": "owner_decision_required",
+      "treatmentWritten": false,
+      "whyNoTreatment": "This row is a source-blocked ASSET, not a participant ROUTE. A terminal treatment in rcap-terminalization-treatments/v1 is keyed to a trackId, and this asset carries no legalDesignReferences and no packetFamilyReferences, so no participant route resolves through it. There is also no untreated track in its jurisdiction to attach a treatment to.",
+      "evidenceRuleBlock": "terminalization-evidence-briefs.json carries no brief for this asset, and the schema's evidenceRule permits a treatment to state a fact only when the brief carries it for that exact track. Authoring one here would require inventing eligibility, venue, destination and next-step facts, which this batch forbids.",
+      "participantImpactNow": "None. Every briefed participant route already carries a complete treatment (114 briefs, 114 treatments, zero gap), so no participant is blocked by this asset and no route shows coming-soon language because of it.",
+      "survivingDependencies": [
+        "application_source"
+      ],
+      "retirable": false,
+      "retirementBlockedBy": "surviving operational-manifest dependency: application_source",
+      "ownerDecisionRequired": "Retire AL:cr-65a-order-on-petition-for-expungement-10-2024 from operational inventory, or repoint its application_source reference(s) to the canonical asset. The source lane's standing action \u2014 acquire the official binary \u2014 is the third option and is the only one that could still make it packet-producing.",
+      "sourceLaneAction": "Supply the exact verified binary for AL cr-65a-order-on-petition-for-expungement-10-2024.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family."
+    },
+    {
+      "assetId": "AL|criminal-forms.html|55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "familyId": "AL:criminal-forms",
+      "jurisdiction": "AL",
+      "formId": "criminal-forms.html",
+      "queueBucket": "SOURCE_REQUIRED",
+      "sourceStatus": "official binary absent from the clone",
+      "outcome": "owner_decision_required",
+      "treatmentWritten": false,
+      "whyNoTreatment": "This row is a source-blocked ASSET, not a participant ROUTE. A terminal treatment in rcap-terminalization-treatments/v1 is keyed to a trackId, and this asset carries no legalDesignReferences and no packetFamilyReferences, so no participant route resolves through it. There is also no untreated track in its jurisdiction to attach a treatment to.",
+      "evidenceRuleBlock": "terminalization-evidence-briefs.json carries no brief for this asset, and the schema's evidenceRule permits a treatment to state a fact only when the brief carries it for that exact track. Authoring one here would require inventing eligibility, venue, destination and next-step facts, which this batch forbids.",
+      "participantImpactNow": "None. Every briefed participant route already carries a complete treatment (114 briefs, 114 treatments, zero gap), so no participant is blocked by this asset and no route shows coming-soon language because of it.",
+      "survivingDependencies": [
+        "overlay_factory_manifest",
+        "application_source"
+      ],
+      "retirable": false,
+      "retirementBlockedBy": "surviving operational-manifest dependency: overlay_factory_manifest, application_source",
+      "ownerDecisionRequired": "Retire AL:criminal-forms from operational inventory, or repoint its overlay_factory_manifest, application_source reference(s) to the canonical asset. The source lane's standing action \u2014 acquire the official binary \u2014 is the third option and is the only one that could still make it packet-producing.",
+      "sourceLaneAction": "Supply the exact verified binary for AL criminal-forms.html at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family."
+    },
+    {
+      "assetId": "AL|criminal-record-expungement.html|021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "familyId": "AL:criminal-record-expungement",
+      "jurisdiction": "AL",
+      "formId": "criminal-record-expungement.html",
+      "queueBucket": "SOURCE_REQUIRED",
+      "sourceStatus": "official binary absent from the clone",
+      "outcome": "owner_decision_required",
+      "treatmentWritten": false,
+      "whyNoTreatment": "This row is a source-blocked ASSET, not a participant ROUTE. A terminal treatment in rcap-terminalization-treatments/v1 is keyed to a trackId, and this asset carries no legalDesignReferences and no packetFamilyReferences, so no participant route resolves through it. There is also no untreated track in its jurisdiction to attach a treatment to.",
+      "evidenceRuleBlock": "terminalization-evidence-briefs.json carries no brief for this asset, and the schema's evidenceRule permits a treatment to state a fact only when the brief carries it for that exact track. Authoring one here would require inventing eligibility, venue, destination and next-step facts, which this batch forbids.",
+      "participantImpactNow": "None. Every briefed participant route already carries a complete treatment (114 briefs, 114 treatments, zero gap), so no participant is blocked by this asset and no route shows coming-soon language because of it.",
+      "survivingDependencies": [
+        "overlay_factory_manifest",
+        "application_source"
+      ],
+      "retirable": false,
+      "retirementBlockedBy": "surviving operational-manifest dependency: overlay_factory_manifest, application_source",
+      "ownerDecisionRequired": "Retire AL:criminal-record-expungement from operational inventory, or repoint its overlay_factory_manifest, application_source reference(s) to the canonical asset. The source lane's standing action \u2014 acquire the official binary \u2014 is the third option and is the only one that could still make it packet-producing.",
+      "sourceLaneAction": "Supply the exact verified binary for AL criminal-record-expungement.html at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family."
+    },
+    {
+      "assetId": "AR|3-Misdemeanor-Petition-8_01_2023.pdf|63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+      "familyId": "AR:3-misdemeanor-petition-8-01-2023",
+      "jurisdiction": "AR",
+      "formId": "3-Misdemeanor-Petition-8_01_2023.pdf",
+      "queueBucket": "SOURCE_REQUIRED",
+      "sourceStatus": "official binary absent from the clone",
+      "outcome": "owner_decision_required",
+      "treatmentWritten": false,
+      "whyNoTreatment": "This row is a source-blocked ASSET, not a participant ROUTE. A terminal treatment in rcap-terminalization-treatments/v1 is keyed to a trackId, and this asset carries no legalDesignReferences and no packetFamilyReferences, so no participant route resolves through it. There is also no untreated track in its jurisdiction to attach a treatment to.",
+      "evidenceRuleBlock": "terminalization-evidence-briefs.json carries no brief for this asset, and the schema's evidenceRule permits a treatment to state a fact only when the brief carries it for that exact track. Authoring one here would require inventing eligibility, venue, destination and next-step facts, which this batch forbids.",
+      "participantImpactNow": "None. Every briefed participant route already carries a complete treatment (114 briefs, 114 treatments, zero gap), so no participant is blocked by this asset and no route shows coming-soon language because of it.",
+      "survivingDependencies": [
+        "application_source"
+      ],
+      "retirable": false,
+      "retirementBlockedBy": "surviving operational-manifest dependency: application_source",
+      "ownerDecisionRequired": "Retire AR:3-misdemeanor-petition-8-01-2023 from operational inventory, or repoint its application_source reference(s) to the canonical asset. The source lane's standing action \u2014 acquire the official binary \u2014 is the third option and is the only one that could still make it packet-producing.",
+      "sourceLaneAction": "Supply the exact verified binary for AR 3-Misdemeanor-Petition-8_01_2023.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family."
+    }
+  ]
+}
