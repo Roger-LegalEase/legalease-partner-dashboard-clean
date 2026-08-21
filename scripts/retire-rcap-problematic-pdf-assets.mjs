@@ -18,6 +18,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveOperationalCorpus, refusalReport } from "./rcap-official-forms/operational-corpus-precondition.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DETERMINATION = path.join(rootDir, "data/rcap-all50/pdf-retirement-determination.json");
@@ -34,6 +35,25 @@ const DISPUTED_OUT = path.join(rootDir, "data/rcap-all50/pdf-retirement-evidence
 function fail(message) {
   console.error(`FAIL asset retirement — ${message}`);
   process.exit(1);
+}
+
+// ---- writing a marker requires an answerable seventh condition ---------------
+// The seventh condition is that the regenerated operational manifest no longer
+// names the asset, and it is only answerable with the operational tree mounted.
+// Without it the adjudication upstream used to read an empty file list as
+// "nothing references this", which is the shape of a proof and the substance of
+// a missing directory.
+//
+// So a marker is never written on an unevaluable condition. Checking is a
+// different act and stays allowed: --check compares markers that already exist
+// against the determination, which creates no retirement and needs no corpus.
+// Writing is what makes an asset disappear from the inventory, and that is the
+// direction that has to fail closed.
+if (!checkOnly) {
+  const corpus = await resolveOperationalCorpus(rootDir);
+  if (!corpus.evaluable) {
+    fail(`${refusalReport(corpus)}\n  no retirement marker is written while the seventh condition is unevaluable; --check still verifies markers that already exist`);
+  }
 }
 
 const determination = fs.existsSync(DETERMINATION)
