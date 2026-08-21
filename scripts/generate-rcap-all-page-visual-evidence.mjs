@@ -489,12 +489,29 @@ const overlaps = (cluster, rect) => {
 };
 
 /** How much of the source layer's ink survives into the finalized render. */
-function sourcePreservation(source, finalized, underOurDrawing = null) {
+/**
+ * How much of the official form's printed ink our layer covers, and where.
+ *
+ * The two renders differ by exactly one thing -- our appended content stream --
+ * so printed ink that reads as bare paper in the finalized page was necessarily
+ * covered by something we drew. There is no third possibility, which is why an
+ * earlier version of this asking whether the covering shape was one of our INK
+ * clusters was ill-posed: an opaque fill that paints no ink of its own covers
+ * printed text and leaves no cluster to find. On KY:aoc-333 that reported 3,582
+ * pixels as vanishing under nothing, when the opaque background of an unfilled
+ * widget was sitting on three of the form's printed rules.
+ *
+ * The split that does mean something is whether the covering happened inside a
+ * rectangle this family's own map declares writable. Writing a value onto a
+ * rule blanks that rule, which is the fill doing its job. Printed text covered
+ * anywhere else is the form losing something nobody asked it to lose.
+ */
+function sourcePreservation(source, finalized, declaredMask = null) {
   if (source.width !== finalized.width || source.height !== finalized.height) return null;
   let sourceInk = 0;
   let lighter = 0;
   let blanked = 0;
-  let blankedUnderOurDrawing = 0;
+  let blankedInsideADeclaredRectangle = 0;
   for (let i = 0; i < source.mask.length; i += 1) {
     if (!source.mask[i]) continue;
     sourceInk += 1;
@@ -502,11 +519,11 @@ function sourcePreservation(source, finalized, underOurDrawing = null) {
     lighter += 1;
     if (finalized.grey[i] < CLEARLY_BLANK_GREY) continue;
     blanked += 1;
-    if (underOurDrawing?.[i]) blankedUnderOurDrawing += 1;
+    if (declaredMask?.[i]) blankedInsideADeclaredRectangle += 1;
   }
   return {
-    blankedUnderSomethingWeDrew: blankedUnderOurDrawing,
-    blankedUnderNothingWeDrew: blanked - blankedUnderOurDrawing,
+    printedInkCoveredInsideADeclaredRectangle: blankedInsideADeclaredRectangle,
+    printedInkCoveredOutsideEveryDeclaredRectangle: blanked - blankedInsideADeclaredRectangle,
     sourceInkPixels: sourceInk,
     // Both numbers are reported. The first is every source pixel that stopped
     // reading as ink, which is dominated by antialiasing at glyph edges; the
@@ -642,7 +659,28 @@ async function main() {
         const rows = [];
         for (let index = 0; index < pageCount; index += 1) {
           const file = path.join(workDir, `${name}-page-${String(index + 1).padStart(2, "0")}.pdf`);
-          fs.writeFileSync(file, await singlePagePdf(variantBytes, index, RENDER_DATE));
+          const pageBytes = await singlePagePdf(variantBytes, index, RENDER_DATE);
+          fs.writeFileSync(file, pageBytes);
+          // Rendering is a pure function of these bytes at this scale, so a page
+          // whose one-page document is unchanged does not need the browser
+          // again. Correcting how a measurement is CLASSIFIED should not cost a
+          // fresh Chromium render of every page it was measured from; without
+          // this, re-deriving eighteen families meant re-rasterising two
+          // hundred pages that were already on disk and byte-identical.
+          const cacheKey = `${sha256(pageBytes)}:${SCALE}`;
+          const cachedPng = path.join(workDir, name, `page-${String(index + 1).padStart(2, "0")}-of-01.png`);
+          const cacheStamp = `${cachedPng}.key`;
+          if (fs.existsSync(cachedPng) && fs.existsSync(cacheStamp)
+            && fs.readFileSync(cacheStamp, "utf8") === cacheKey) {
+            const geo = geometry[index];
+            rows.push({
+              page: index + 1, file: cachedPng, attempts: 0, looksBlank: false,
+              widthPx: Math.max(320, Math.round(geo.widthPt * SCALE)),
+              heightPx: Math.max(320, Math.round(geo.heightPt * SCALE)),
+              pdfWidthPt: geo.widthPt, pdfHeightPt: geo.heightPt, fromCache: true
+            });
+            continue;
+          }
           // The overlay layer of a page we wrote nothing to is blank because it
           // is empty, not because the render failed, and the blank-retry is for
           // the second case. Reading it off the stream rather than the pixels
@@ -655,7 +693,10 @@ async function main() {
             prefix: `page-${String(index + 1).padStart(2, "0")}-of`,
             attempts: nothingToDraw ? 1 : undefined
           });
-          if (row) rows.push({ ...row, page: index + 1 });
+          if (row) {
+            fs.writeFileSync(`${row.file}.key`, cacheKey);
+            rows.push({ ...row, page: index + 1, fromCache: false });
+          }
         }
         variants[name] = rows;
       }
@@ -697,7 +738,8 @@ async function main() {
             page: geo.page, variant: name,
             raster: path.relative(rootDir, row.file),
             sha256: sha256(fs.readFileSync(row.file)),
-            widthPx: row.widthPx, heightPx: row.heightPx, attempts: row.attempts
+            widthPx: row.widthPx, heightPx: row.heightPx,
+            attempts: row.attempts, fromCache: Boolean(row.fromCache)
           });
         }
 
@@ -888,10 +930,11 @@ async function main() {
         // this to furniture reported 73 covered pixels on the Arkansas
         // post-adjudication petition as vanishing under nothing, when an 18-by-
         // 19pt mark of ours was sitting directly on them.
-        const ourDrawingMask = generatedOwn && rect
-          ? rectMask(clusters, 0, generatedOwn, rect, geo.heightPt) : null;
         const preservation = masks.source && masks.finalized
-          ? sourcePreservation(masks.source, masks.finalized, ourDrawingMask) : null;
+          ? sourcePreservation(
+            masks.source, masks.finalized,
+            generatedOwn && rect ? rectMask(writeOnPage, CONTAINMENT_TOLERANCE_PT, generatedOwn, rect, geo.heightPt) : null
+          ) : null;
         const unexplained = masks.source && masks.generated && masks.finalized
           ? unexplainedInk(masks.source, masks.generated, masks.finalized) : null;
 
@@ -949,13 +992,11 @@ async function main() {
             note: "Ink outside every declared rectangle, landing on ink the official form already prints there. Attributed to us because flattening baked a widget appearance into the page; visually it reproduces the form's own box rather than adding a mark."
           });
         }
-        if (preservation && preservation.blankedUnderNothingWeDrew > SOURCE_LOSS_FLOOR_PX) {
-          findings.push({ code: "source_text_missing_from_finalized_page", ...preservation });
-        } else if (preservation && preservation.blankedUnderSomethingWeDrew > SOURCE_LOSS_FLOOR_PX) {
+        if (preservation && preservation.printedInkCoveredOutsideEveryDeclaredRectangle > SOURCE_LOSS_FLOOR_PX) {
           findings.push({
-            code: "flattened_widget_appearance_covers_printed_characters",
+            code: "printed_source_ink_covered_outside_every_declared_rectangle",
             ...preservation,
-            note: "Printed characters of the official form stopped reading as ink because an opaque fill inside a shape flattening re-drew sits on top of them. On the Arkansas orders this is the solid checkbox square painted over the printed [_]: the box reads cleaner, and the form's own characters are no longer on the page."
+            note: "Printed ink of the official form no longer reads as ink, at a place this family's map does not declare writable. Flattening an unfilled widget paints its appearance onto the page: on the Arkansas orders that is the solid checkbox square over a printed [_]; on the Kentucky forms it is an opaque background over the form's own printed rules, which leaves the participant a line that is no longer there."
           });
         }
         // A composed page antialiases a glyph edge slightly differently from the
@@ -1074,11 +1115,9 @@ async function main() {
             : pages.some((p) => p.findings.some((f) => f.code === "flattening_redrew_form_furniture_in_a_protected_region"))
               ? "no participant-derived ink in any protected region; flattening re-drew the form's own outline inside one"
               : "no generated ink touches a protected region",
-          sourcePreservation: pages.some((p) => p.findings.some((f) => f.code === "source_text_missing_from_finalized_page"))
-            ? "source text is missing from a finalized page"
-            : pages.some((p) => p.findings.some((f) => f.code === "flattened_widget_appearance_covers_printed_characters"))
-              ? "no source text is missing under nothing; a re-drawn widget appearance covers printed characters"
-              : "every pixel of official source ink survives into the finalized page",
+          sourcePreservation: pages.some((p) => p.findings.some((f) => f.code === "printed_source_ink_covered_outside_every_declared_rectangle"))
+            ? "our layer covers printed ink outside every declared writable rectangle"
+            : "no printed ink is covered outside a declared writable rectangle",
           defaultAppearances: residue.flat ? "clear" : "residual interactive machinery",
           pinnedSourceControl: isControl
             ? (pages.every((p) => p.pinnedSourceControl?.comparable && p.pinnedSourceControl.differingFraction < 0.001)
@@ -1138,11 +1177,10 @@ async function main() {
       familiesWithNoFindings: onDisk.filter((m) => m.verdict.findings === 0).length,
       familiesWithFindings: onDisk.filter((m) => m.verdict.findings > 0).length,
       familiesWithParticipantDerivedInkInAProtectedRegion: onDisk.filter((m) => m.verdict.protectedRegions.startsWith("participant-derived")).length,
-      familiesWithSourceTextLoss: onDisk.filter((m) => m.verdict.sourcePreservation.startsWith("source text is missing")).length,
+      familiesWhereOurLayerCoversPrintedInkOutsideADeclaredRectangle: onDisk.filter((m) => m.verdict.sourcePreservation.startsWith("our layer covers")).length,
       familiesNotFlat: onDisk.filter((m) => !m.defaultAppearances.flat).length,
       familiesWhereFlatteningRedrewFormFurniture: onDisk.filter((m) => m.pages.some((p) => p.findings.some((f) => f.code === "flattening_redrew_the_form_s_own_furniture"))).length,
       familiesCarryingGeneratedInkWithNoDeclaredRectangle: onDisk.filter((m) => m.verdict.placement.startsWith("not checkable")).length,
-      familiesWhereAReDrawnWidgetCoversPrintedCharacters: onDisk.filter((m) => m.verdict.sourcePreservation.startsWith("no source text is missing under nothing")).length,
       familiesWhosePinnedSourceIsInThisClone: onDisk.filter((m) => m.sourceBinaryInThisClone).length,
       controlFamiliesWhoseOfficialLayerMatchesThePinnedBinary: onDisk.filter((m) => m.verdict.pinnedSourceControl.startsWith("control held")).length
     },
