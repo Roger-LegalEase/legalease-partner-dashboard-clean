@@ -20,7 +20,7 @@
       "class": "participant",
       "factId": "participant.full_legal_name",
       "factBasis": "field_name",
-      "effectiveLabel": "\u0000Y\u0000V\u0000\u0003\u0000\u0011\u0000\u0003"
+      "effectiveLabel": "vs"
     },
     {
       "field": "printedname",
@@ -28,6 +28,13 @@
       "factId": "participant.full_legal_name",
       "factBasis": "field_name",
       "effectiveLabel": "Printed Name"
+    },
+    {
+      "field": "datesigned",
+      "class": "deterministic",
+      "factId": "deterministic.filing_date",
+      "factBasis": "field_name",
+      "effectiveLabel": "Date"
     },
     {
       "field": "streetaddress",
@@ -41,7 +48,7 @@
       "class": "participant",
       "factId": "participant.city_state_zip",
       "factBasis": "field_name",
-      "effectiveLabel": "Street Address/P.O. Box"
+      "effectiveLabel": "Street Address/P.O. B"
     },
     {
       "field": "telephone number",
@@ -98,13 +105,8 @@
     },
     {
       "field": "noemailreason2",
-      "reason": "classified_unwritable_by_role",
-      "category": "manual"
-    },
-    {
-      "field": "datesigned",
-      "reason": "protected_category",
-      "category": "signature",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {

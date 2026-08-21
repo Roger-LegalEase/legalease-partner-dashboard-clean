@@ -247,7 +247,14 @@ const payload = {
     ],
     whatThisProvesAndWhatItDoesNot: "It proves the shared modules behave correctly on their own canaries and fixtures. It does not prove any individual family's artifact is now correct, because no family artifact was regenerated."
   },
-  rerenderAttempt: {
+  // Kept because it is the record of why the first attempt produced nothing,
+  // and renamed because it stopped being a description of the present the
+  // moment the corpus was mounted and the driver actually ran. A block that
+  // still says "processed 0 families" while 17 carry new bytes is the kind of
+  // stale narrative a reader trusts instead of looking.
+  rerenderAttemptHistorical: {
+    supersededBy: "currentRerenderState below",
+    heldAsHistoryBecause: "it explains the empty first run, and an empty run over a full index was a real incident worth keeping",
     command: "node scripts/implement-rcap-official-forms-d1.mjs",
     environmentVariable: "RCAP_BUNDLE_EXTRACT",
     environmentVariableSet: Boolean(extractPath),
@@ -258,6 +265,22 @@ const payload = {
     artifactsChanged: 0,
     verifiedHow: "the canonical fixture hash of all 17 families was captured before the run and recompared after; all 17 are unchanged",
     incidentalFindingForThePdfLane: "the run rewrites data/rcap-all50/overlays/production/implementation-index.json from whatever it processed, so running the driver WITHOUT the extract empties the index — it removed 1320 lines here and was reverted. The driver should refuse to rewrite the index when it processed nothing, rather than recording an empty run over a full one."
+  },
+  // What the driver did on the run this record describes, read from the
+  // families below rather than asserted.
+  currentRerenderState: {
+    command: "node scripts/implement-rcap-official-forms-d1.mjs",
+    environmentVariable: "RCAP_BUNDLE_EXTRACT",
+    environmentVariableSet: Boolean(extractPath),
+    extractMounted,
+    privateCorpusMountedInThisClone: corpusMounted,
+    processedFamilies: families.length,
+    familiesWithNewArtifactBytes: families.filter((f) => f.newArtifactSha256).length,
+    familiesWhoseSourceHashMatchesTheMountedBytes: families.filter((f) => f.sourceMatchesRecord).length,
+    familiesHeldByteIdenticalOnPurpose: families
+      .filter((f) => f.approvedAndNotRerendered || f.ownerWithdrewArtifacts)
+      .map((f) => f.familyId),
+    whatThisProvesAndWhatItDoesNot: "It proves the driver ran against the mounted corpus and what each family's bytes are now. It does not approve any of them: a new artifact hash is the input to a review, not the outcome of one."
   },
   totals: {
     familiesInHandoff: (handoff.familiesUnblockedForRerender ?? []).length,

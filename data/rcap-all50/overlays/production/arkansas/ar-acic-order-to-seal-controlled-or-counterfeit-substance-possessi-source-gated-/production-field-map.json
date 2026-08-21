@@ -32,7 +32,7 @@
       "class": "participant",
       "factId": "matter.case_number",
       "factBasis": "field_name",
-      "effectiveLabel": "vs. Case No. ______________"
+      "effectiveLabel": "Case No"
     },
     {
       "field": "First Middle and Last name",
@@ -46,14 +46,7 @@
       "class": "participant",
       "factId": "participant.full_legal_name",
       "factBasis": "field_name",
-      "effectiveLabel": "1. The Defendant was arrested on the _______ day of ________"
-    },
-    {
-      "field": "and charged with the offenses of",
-      "class": "participant",
-      "factId": "participant.full_legal_name",
-      "factBasis": "printed_label",
-      "effectiveLabel": "1. The Defendant was arrested on the _______ day of ________"
+      "effectiveLabel": "1. The Defendant was arrested on the"
     },
     {
       "field": "Defendant  IS or  IS NOT required to register as a sex",
@@ -67,7 +60,14 @@
       "class": "participant",
       "factId": "participant.full_legal_name",
       "factBasis": "field_name",
-      "effectiveLabel": "Defendant, ______________________________, to Seal the above"
+      "effectiveLabel": "Defendant,"
+    },
+    {
+      "field": "DOB",
+      "class": "participant",
+      "factId": "participant.date_of_birth",
+      "factBasis": "field_name",
+      "effectiveLabel": "Sex"
     }
   ],
   "bindingRefusals": [
@@ -95,6 +95,12 @@
       "category": "court_or_agency"
     },
     {
+      "field": "and charged with the offenses of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "regionHeading": null
+    },
+    {
       "field": "or federal court and the status of thatthose charges isare as follows",
       "reason": "no_allowlisted_fact_matches",
       "category": null,
@@ -120,26 +126,20 @@
     },
     {
       "field": "Arrest Tracking Number",
-      "reason": "protected_category",
-      "category": "race",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
       "field": "Sex",
-      "reason": "protected_category",
-      "category": "government_identifier",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
       "field": "undefined",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
-    },
-    {
-      "field": "DOB",
-      "reason": "protected_category",
-      "category": "government_identifier",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -156,8 +156,8 @@
     },
     {
       "field": "Check Box2",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {

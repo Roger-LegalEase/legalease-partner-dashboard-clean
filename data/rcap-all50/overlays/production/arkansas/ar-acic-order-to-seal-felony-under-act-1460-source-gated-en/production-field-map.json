@@ -32,7 +32,7 @@
       "class": "participant",
       "factId": "matter.case_number",
       "factBasis": "field_name",
-      "effectiveLabel": "vs. Case No"
+      "effectiveLabel": "Case No"
     },
     {
       "field": "FirstMiddleandLastname",
@@ -40,13 +40,6 @@
       "factId": "participant.last_name",
       "factBasis": "field_name",
       "effectiveLabel": null
-    },
-    {
-      "field": "and charged with the offenses of",
-      "class": "participant",
-      "factId": "participant.full_legal_name",
-      "factBasis": "printed_label",
-      "effectiveLabel": "1.The Defendant was arrested on theday of ,"
     },
     {
       "field": "2 The Defendant either pled guilty or nolo contendere or was found guilty in violation",
@@ -60,7 +53,14 @@
       "class": "participant",
       "factId": "participant.full_legal_name",
       "factBasis": "field_name",
-      "effectiveLabel": "IT IS, THEREFORE, by the Court, ORDERED that the Petition of"
+      "effectiveLabel": "IT IS, T"
+    },
+    {
+      "field": "DOB",
+      "class": "participant",
+      "factId": "participant.date_of_birth",
+      "factBasis": "field_name",
+      "effectiveLabel": "Sex"
     }
   ],
   "bindingRefusals": [
@@ -101,6 +101,12 @@
       "regionHeading": "ORDER TO SEAL FELONY UNDER ACT 1460 OF 2013;"
     },
     {
+      "field": "and charged with the offenses of",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "regionHeading": null
+    },
+    {
       "field": "1",
       "reason": "requires_explicit_mapping",
       "category": "sensitive_fact",
@@ -114,8 +120,8 @@
     },
     {
       "field": "A Class",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -132,8 +138,9 @@
     },
     {
       "field": "of ACA 1",
-      "reason": "classified_unwritable_by_role",
-      "category": "court_or_agency"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "of ACA 2",
@@ -191,8 +198,8 @@
     },
     {
       "field": "It has been at least one 1 year since the Court denied a petition to Seal for this",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
       "regionHeading": null
     },
     {
@@ -263,26 +270,20 @@
     },
     {
       "field": "Sex",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
-    },
-    {
-      "field": "DOB",
-      "reason": "protected_category",
-      "category": "government_identifier",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
       "field": "Arrest Tracking Number",
-      "reason": "protected_category",
-      "category": "race",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
       "field": "undefined_3",
-      "reason": "protected_category",
-      "category": "government_identifier",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {

@@ -235,7 +235,12 @@ if (fs.existsSync(indexPath)) {
     assert(census.sha256 === record.sha256, `${id}: census pinned to the source record's sha256 (drift red)`);
     assert(census.fieldCount === census.fields.length, `${id}: census field count matches its own entries`);
 
-    const map0 = readJson(path.join(dir, fam.mapKind === "acroform" ? "production-field-map.json" : "overlay-profile.json"));
+    // Read only if present. A family whose owner withdrew its participant
+    // artifacts keeps its package but not its map, and this read -- added to
+    // scope the classification assertion -- crashed the whole verifier on it
+    // rather than reporting anything.
+    const map0Path = path.join(dir, fam.mapKind === "acroform" ? "production-field-map.json" : "overlay-profile.json");
+    const map0 = fs.existsSync(map0Path) ? readJson(map0Path) : null;
     const cls = readJson(path.join(dir, "field-classification.json"));
     // Classification entries name AcroForm fields by `name` and measured
     // overlay captions by `label`. Keying on `name` alone made every lookup

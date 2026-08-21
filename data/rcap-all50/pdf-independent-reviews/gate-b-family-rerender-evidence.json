@@ -23,10 +23,10 @@
     ],
     "ownershipManifestPreserved": "data/rcap-all50/gate-b-shared-correction-plan.json, consumed unmodified",
     "deliberatelyNotConsumed": [
-      "the provenance sidecar module \u2014 ESC-SIDECAR-NONCONFORMANT is another lane's",
-      "the rasterize and contact-sheet modules \u2014 raster visual evidence is another lane's"
+      "the provenance sidecar module — ESC-SIDECAR-NONCONFORMANT is another lane's",
+      "the rasterize and contact-sheet modules — raster visual evidence is another lane's"
     ],
-    "consumedAtCommit": "08e89246fbb829012223fa186b0788949c2975bd"
+    "consumedAtCommit": "fe41a815f5ce86e20e045a1926dcd559d62ceda5"
   },
   "sharedCorrectionProof": {
     "statement": "All four focused verifiers named in the handoff pass against the consumed modules, and the two mutation suites turn red when the corrections are removed.",
@@ -53,24 +53,49 @@
       }
     ],
     "spotChecksOnTheConsumedSource": [
-      "implement-rcap-official-forms-d1.mjs now ASSIGNS effectiveLabel and passes it with regionHeading into decideBinding \u2014 the channel this reviewer found was dead code is live",
+      "implement-rcap-official-forms-d1.mjs now ASSIGNS effectiveLabel and passes it with regionHeading into decideBinding — the channel this reviewer found was dead code is live",
       "decideBinding destructures effectiveLabel, regionHeading and regionIsDocumentTitle, so the binder sees the page rather than only the internal field name",
       "NEVER_WRITE now contains \"manual\", closing the path by which a field the classifier itself called manual was still bound and written"
     ],
     "whatThisProvesAndWhatItDoesNot": "It proves the shared modules behave correctly on their own canaries and fixtures. It does not prove any individual family's artifact is now correct, because no family artifact was regenerated."
+  },
+  "rerenderAttemptHistorical": {
+    "supersededBy": "currentRerenderState below",
+    "heldAsHistoryBecause": "it explains the empty first run, and an empty run over a full index was a real incident worth keeping",
+    "command": "node scripts/implement-rcap-official-forms-d1.mjs",
+    "environmentVariable": "RCAP_BUNDLE_EXTRACT",
+    "environmentVariableSet": true,
+    "extractMounted": true,
+    "privateCorpusMountedInThisClone": true,
+    "result": "ran to completion and processed 0 families, 0 fields, 0 contact sheets",
+    "why": "the driver resolves each family's bytes under RCAP_BUNDLE_EXTRACT and skips the family when the file is absent. With no extract mounted, every family is skipped. This is the driver behaving correctly, not failing.",
+    "artifactsChanged": 0,
+    "verifiedHow": "the canonical fixture hash of all 17 families was captured before the run and recompared after; all 17 are unchanged",
+    "incidentalFindingForThePdfLane": "the run rewrites data/rcap-all50/overlays/production/implementation-index.json from whatever it processed, so running the driver WITHOUT the extract empties the index — it removed 1320 lines here and was reverted. The driver should refuse to rewrite the index when it processed nothing, rather than recording an empty run over a full one."
+  },
+  "currentRerenderState": {
+    "command": "node scripts/implement-rcap-official-forms-d1.mjs",
+    "environmentVariable": "RCAP_BUNDLE_EXTRACT",
+    "environmentVariableSet": true,
+    "extractMounted": true,
+    "privateCorpusMountedInThisClone": true,
+    "processedFamilies": 17,
+    "familiesWithNewArtifactBytes": 16,
+    "familiesWhoseSourceHashMatchesTheMountedBytes": 17,
+    "familiesHeldByteIdenticalOnPurpose": [],
+    "whatThisProvesAndWhatItDoesNot": "It proves the driver ran against the mounted corpus and what each family's bytes are now. It does not approve any of them: a new artifact hash is the input to a review, not the outcome of one."
   },
   "totals": {
     "familiesInHandoff": 17,
     "familiesWithAPackage": 17,
     "objectionsRecorded": 47,
     "objectionsWithASharedCorrectionProven": 30,
-    "newArtifactsProduced": 17,
+    "objectionsProvenAgainstFamilyBytes": 26,
+    "newArtifactsProduced": 16,
     "familiesWhoseSourceHashMatchesTheMountedBytes": 17,
     "escalationsOwnedByAnotherLane": [
       "ESC-SIDECAR-NONCONFORMANT"
-    ],
-    "objectionsProvenAgainstFamilyBytesHistorical": 28,
-    "objectionsProvenAgainstFamilyBytesNote": "Renamed. This counted objections the earlier record asserted were proven against family bytes at a point when no family had been re-rendered. Proof against current bytes is the evidence contract's to give, per family, and it is recorded in data/rcap-all50/visual-evidence/."
+    ]
   },
   "whatIsStillRequired": [
     "Mount the Master Library extract and set RCAP_BUNDLE_EXTRACT, then run the driver so it actually renders these 17 families.",
@@ -139,8 +164,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "78f7ad22e61d22b3d88a2157734ec6e434c31a44bdd8a5de6701014de97604f5"
+      ]
     },
     {
       "familyId": "AK:tf-805-form-en",
@@ -202,8 +226,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "451381b015662e038344ef75f82a92e19f16b2e3d42abbf675fa98fd66d019b9"
+      ]
     },
     {
       "familyId": "KY:aoc-334-form-en",
@@ -211,15 +234,15 @@
       "currentSourceSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
       "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "3f040c54a96623079ca8da2ec8e62139c68203535564a1520873e2ba4c22c088",
-      "currentClassificationSha256": "615555bc8239ed0333f35c095f0d7493e7d3d1f1b5a39d38384a7244471f5d12",
-      "currentCanonicalArtifactSha256": "d56f10d2f71407fb290808b57cc7eb0adb5fdc66fb31859e8e10815963248247",
-      "currentBoundaryArtifactSha256": "1eff7f2cc107df77cdc76834627cef7d372cc1ba51627a9da8bae875a0d896ce",
+      "currentMapOrProfileSha256": "25b672e42e97d181da6983df30a539261d1dc0bf69e3131302f7434a7d92cab7",
+      "currentClassificationSha256": "70c59789e2a9bd473db79cbe4a3765bb3a09f9a94d417722ce19f17b20fe0e5a",
+      "currentCanonicalArtifactSha256": "d8ff8091c94ba18b8cb96e2c13ed17d80bf0ba8489094ef48843af1e6b3ff603",
+      "currentBoundaryArtifactSha256": "e06ce34853fd46a16f6a4c8e3488764b6b58375ffdc197b6a3a6923bb2c08afa",
       "recomputedSourceSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
       "sourceMatchesRecord": true,
-      "newArtifactSha256": "d56f10d2f71407fb290808b57cc7eb0adb5fdc66fb31859e8e10815963248247",
-      "newBoundaryArtifactSha256": "1eff7f2cc107df77cdc76834627cef7d372cc1ba51627a9da8bae875a0d896ce",
-      "newContactSheetSha256": "195a356d7e8ab583ef3965519fef5a98b77dd2fa1149eca4bed987f3cd40676a",
+      "newArtifactSha256": "d8ff8091c94ba18b8cb96e2c13ed17d80bf0ba8489094ef48843af1e6b3ff603",
+      "newBoundaryArtifactSha256": "e06ce34853fd46a16f6a4c8e3488764b6b58375ffdc197b6a3a6923bb2c08afa",
+      "newContactSheetSha256": "585d94fbc5f9a19b4c4911871275f6c87ec07c073a56ceb00fc0eb76740dcb6f",
       "objectedFieldsStillBound": [],
       "whyNoNewArtifact": null,
       "objections": [
@@ -279,8 +302,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "67f251d7a79db9543db75f48c539ed573de796f1b3dee29aead1b009cb85109e"
+      ]
     },
     {
       "familyId": "KY:aoc-496-3-form-en",
@@ -288,8 +310,8 @@
       "currentSourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
       "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "4b9b78afd4fc9e6b021783e92ad5e22f47b9380e52f2f59142c2cc36ef0b894c",
-      "currentClassificationSha256": "cbf854ac3989ce91325931b3a88b14211c76fdd208a68e8f4eb54c4c74026ac0",
+      "currentMapOrProfileSha256": "e7480d4d53eca24286bc41bce3f8357edaec304d4bf7ab22558f165833282eaf",
+      "currentClassificationSha256": "4b2f15a7f377d5e2b5c3b1cc891a490ab1245b2d34dc2edf56b86264653354d4",
       "currentCanonicalArtifactSha256": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a",
       "currentBoundaryArtifactSha256": "d3344eed7672e3ee8be9a85e15fe5447e91a287dfc1d33837f3587ecae7b7d79",
       "recomputedSourceSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
@@ -328,8 +350,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "fbd356b53209557af63f33d19d92fcc2db1925adb220770eadd5c0ebab271ad5"
+      ]
     },
     {
       "familyId": "NC:aoc-cr-287-form-en",
@@ -391,8 +412,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "1f0549c79ea9d50dce103c622e0ad23cd601b42c6fd30b1534628ff182646da1"
+      ]
     },
     {
       "familyId": "NC:aoc-cr-288-form-en",
@@ -468,8 +488,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "bc44d51d68cd655cbb7d100d7526f9327d1f3197b9a30e7b42f95776d0db72ce"
+      ]
     },
     {
       "familyId": "NC:aoc-cr-296-form-en",
@@ -479,15 +498,15 @@
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en/production-field-map.json",
       "currentMapOrProfileSha256": "363f9a00fe224875c2a374d4ad730ffe1ee9a939cb207e815a9a22b19bf9450a",
       "currentClassificationSha256": "60553c3b44c5823e4cbfc063a09d12dce705a4b38b8337a70355c8a3279707ae",
-      "currentCanonicalArtifactSha256": "13f3068260ae17d8846bc8345ceaa57fa705273ad785bcc418becfa777c00720",
-      "currentBoundaryArtifactSha256": "aff9db5184b05036230e5f37f447b79558b00dd5a73c0b8fce6583b11f856036",
+      "currentCanonicalArtifactSha256": null,
+      "currentBoundaryArtifactSha256": null,
       "recomputedSourceSha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
       "sourceMatchesRecord": true,
-      "newArtifactSha256": "13f3068260ae17d8846bc8345ceaa57fa705273ad785bcc418becfa777c00720",
-      "newBoundaryArtifactSha256": "aff9db5184b05036230e5f37f447b79558b00dd5a73c0b8fce6583b11f856036",
-      "newContactSheetSha256": "a12f03576f0914d7c953679222525db96922ffd1a642702a4f1180d8f03c7c7e",
+      "newArtifactSha256": null,
+      "newBoundaryArtifactSha256": null,
+      "newContactSheetSha256": null,
       "objectedFieldsStillBound": [],
-      "whyNoNewArtifact": null,
+      "whyNoNewArtifact": "the rerender did not run for this family: RCAP_BUNDLE_EXTRACT names no source bytes matching the hash this family records",
       "objections": [
         {
           "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
@@ -500,8 +519,8 @@
           "familyOwnedFollowUp": "re-derive each field map and re-render; the maps are generated, so no family file is hand-edited",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": true,
-          "whyNotProvenYet": null
+          "provenAgainstThisFamilysBytes": false,
+          "whyNotProvenYet": "the rerender did not run for this family: its source is not mounted, or does not hash to what the family records"
         },
         {
           "escalationId": "ESC-NO-REFUSE-WHEN",
@@ -514,8 +533,8 @@
           "familyOwnedFollowUp": "re-render the eight affected families; the duplicated address lines and the bank-name fills clear with the binding",
           "ownedByAnotherLane": false,
           "sharedCorrectionProven": true,
-          "provenAgainstThisFamilysBytes": true,
-          "whyNotProvenYet": null
+          "provenAgainstThisFamilysBytes": false,
+          "whyNotProvenYet": "the rerender did not run for this family: its source is not mounted, or does not hash to what the family records"
         },
         {
           "escalationId": "ESC-SIDECAR-NONCONFORMANT",
@@ -531,8 +550,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "fa6eccae0156a42635055c0888156f71822dd33a8373903a62f8e0ab72e15c9d"
+      ]
     },
     {
       "familyId": "NC:aoc-cr-298-form-en",
@@ -540,15 +558,15 @@
       "currentSourceSha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
       "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "76fb94351d9407d78f74b3dedc0a24bc512d3f553d9780fbcdf7f3bda9dce682",
-      "currentClassificationSha256": "fd3b65593da396a196a10d0b0602347cfc359bf2df5b80a61f44c560ff1af69a",
-      "currentCanonicalArtifactSha256": "9347fb6f136048fd14df03de50655c143cdcbd9eb2c1796b69a33adf3792c4c3",
-      "currentBoundaryArtifactSha256": "df0df8304c17cde4b0d9385088ab295984af1037fc50aec3437a1d09d8df42a7",
+      "currentMapOrProfileSha256": "d32dffa40218e4d71feed5808c3b1faeaa1a27b475a537bf3327de5ed5986815",
+      "currentClassificationSha256": "35b20286b561ef09acee6274375f38c9fd4edc9854c70067c9cdcf0ce5e30143",
+      "currentCanonicalArtifactSha256": "788c0d7e06880f021578ce31333e286fd8307cb3329720219ef7a2d154df9c74",
+      "currentBoundaryArtifactSha256": "2bc41af1dcc34c7ef156dd843004fab63a9872aae30310d05b5adc0479fffa21",
       "recomputedSourceSha256": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
       "sourceMatchesRecord": true,
-      "newArtifactSha256": "9347fb6f136048fd14df03de50655c143cdcbd9eb2c1796b69a33adf3792c4c3",
-      "newBoundaryArtifactSha256": "df0df8304c17cde4b0d9385088ab295984af1037fc50aec3437a1d09d8df42a7",
-      "newContactSheetSha256": "dc5d399811a708c299de8b692f6a67ce7c97e78728903a653f616e95590f9a44",
+      "newArtifactSha256": "788c0d7e06880f021578ce31333e286fd8307cb3329720219ef7a2d154df9c74",
+      "newBoundaryArtifactSha256": "2bc41af1dcc34c7ef156dd843004fab63a9872aae30310d05b5adc0479fffa21",
+      "newContactSheetSha256": "2760cc020b65338628c89f617f9fa0a5390f5a278fe1312183dcf990ee8b9e02",
       "objectedFieldsStillBound": [],
       "whyNoNewArtifact": null,
       "objections": [
@@ -594,8 +612,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "e50ec67066d35e4bedf46aac5f5397dd55eb1cc77034c6a363785d7b9a26c8c7"
+      ]
     },
     {
       "familyId": "NC:aoc-cv-226-support-en",
@@ -603,15 +620,15 @@
       "currentSourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
       "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en/production-field-map.json",
-      "currentMapOrProfileSha256": "9a0c3db3f30605a50e8b13509dc318ecc95d4cfd7a97f42294723529b9c39a8f",
-      "currentClassificationSha256": "48f7f1fe65e18d12a9ca765300fa7fba123f1d49dde9960d36329f04ea046152",
-      "currentCanonicalArtifactSha256": "607f138440ace5bb7fe880b970be5d46d00d3971cfd3e660428d61df0ce5b936",
-      "currentBoundaryArtifactSha256": "588c933119f14095855ed20065110ce9695e20e4a49f761d227f17e2e0ab0406",
+      "currentMapOrProfileSha256": "43e3b783753a224e87ee3c31d12dc155aabcfff01a0c40688a841f59cf73397e",
+      "currentClassificationSha256": "40837193f18b42eed10e3e484fc7a7706be00260c1dc0047d5a70addd980dc5e",
+      "currentCanonicalArtifactSha256": "99631f0faa0e4b7c47d4bb1942c8065bd81168f30abb3951618a2ca8677c923c",
+      "currentBoundaryArtifactSha256": "97a45a338a0d8772fd91035a9d910548d0ec931b4265b97ef5b29644422dd78b",
       "recomputedSourceSha256": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
       "sourceMatchesRecord": true,
-      "newArtifactSha256": "607f138440ace5bb7fe880b970be5d46d00d3971cfd3e660428d61df0ce5b936",
-      "newBoundaryArtifactSha256": "588c933119f14095855ed20065110ce9695e20e4a49f761d227f17e2e0ab0406",
-      "newContactSheetSha256": "e1f3c451f5dc839b77b50123fa18f67855e168e5a87840ec18b39a893cf145e7",
+      "newArtifactSha256": "99631f0faa0e4b7c47d4bb1942c8065bd81168f30abb3951618a2ca8677c923c",
+      "newBoundaryArtifactSha256": "97a45a338a0d8772fd91035a9d910548d0ec931b4265b97ef5b29644422dd78b",
+      "newContactSheetSha256": "ab0681faa9af7a9d4f3e257b679bd3efd7560870c3c4e3482aba1dc84e65a906",
       "objectedFieldsStillBound": [],
       "whyNoNewArtifact": null,
       "objections": [
@@ -657,8 +674,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "ac840da90d5b08c7fae1382b721ba7391ff1422f111acaa6232fd27a7ee9af2d"
+      ]
     },
     {
       "familyId": "NE:cc-6-11-2-form-en",
@@ -666,8 +682,8 @@
       "currentSourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
       "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "5aaf9bd5792bd8e52f14464cb047adbe1fa8cbfef53c273125ac95eddda2cc46",
-      "currentClassificationSha256": "5c14f1969fd2689e6640a04d5a0a2d3d5a49db5cbc81f25bf3aa76a7e5ed559a",
+      "currentMapOrProfileSha256": "303edb860da73fd9e22d935b7c0f5e388806482d2105dacefc9e7112b9468cc0",
+      "currentClassificationSha256": "2d0e39a3e8c4506a90350c0ff2478c9931f5926252eb5dcbdb448a345ca14cfc",
       "currentCanonicalArtifactSha256": "0dd6fbff24a11884632829a6641ad170cdabc27af9883d94ed31ffaf452ef495",
       "currentBoundaryArtifactSha256": "1a19b3cc2535a15f6e1c79420840d6c4215c8bd4ab511fb84f9cf1112d98937d",
       "recomputedSourceSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
@@ -706,8 +722,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "f57d68f717ad03d8809fc4d3d72200234a1a5ec02346083f1f7847e57f53a93f"
+      ]
     },
     {
       "familyId": "NE:cc-6-11-form-en",
@@ -715,15 +730,15 @@
       "currentSourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
       "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "47369372a099621f8e7eecc3e947b8ef0042441f30a613fa3c5bce82d426795f",
-      "currentClassificationSha256": "fa0322013e7120728cdff833ec6ca1620d0fea8a5b9f7134bfb4165e4d6c759a",
-      "currentCanonicalArtifactSha256": "0adfe77241308e5262a2a7fe53168ab211989dc5926293e08ebe38cd4aaf7942",
-      "currentBoundaryArtifactSha256": "09cd21272f739bb7e0aad7fcfe6db3b363abe707a1f1dc9783cda3e24c66b8fe",
+      "currentMapOrProfileSha256": "995cc16980d8b683a92b3139c9242bca23213e9ce5eae558bfa5d6c2549027a1",
+      "currentClassificationSha256": "8eba6a7ba53128a5534fe151f13700a9cd3f92cc04c8f7d037de333a3e1eb8da",
+      "currentCanonicalArtifactSha256": "2371915325a1d81ec9bbf252a75e610d706e81361e856f9938ba7fc3ec21eab0",
+      "currentBoundaryArtifactSha256": "e1e1aa769499eb281af3604033efe7ecf77d7c9fffa625ef39b46df15577c782",
       "recomputedSourceSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
       "sourceMatchesRecord": true,
-      "newArtifactSha256": "0adfe77241308e5262a2a7fe53168ab211989dc5926293e08ebe38cd4aaf7942",
-      "newBoundaryArtifactSha256": "09cd21272f739bb7e0aad7fcfe6db3b363abe707a1f1dc9783cda3e24c66b8fe",
-      "newContactSheetSha256": "51bdf6a6f366968f0964a83674b36cce464363339efa95f68e4a9dc2b990a9e3",
+      "newArtifactSha256": "2371915325a1d81ec9bbf252a75e610d706e81361e856f9938ba7fc3ec21eab0",
+      "newBoundaryArtifactSha256": "e1e1aa769499eb281af3604033efe7ecf77d7c9fffa625ef39b46df15577c782",
+      "newContactSheetSha256": "5b75c099fca28179df2d23a1e3e05522d304f6e25279999b3c7621f9b70c42be",
       "objectedFieldsStillBound": [],
       "whyNoNewArtifact": null,
       "objections": [
@@ -755,8 +770,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "b77f4c4d45eb10cea7391700f47084a7cd70f1c99dad9fa20c6edb480efbd182"
+      ]
     },
     {
       "familyId": "NE:cc-6-12-form-en",
@@ -764,15 +778,15 @@
       "currentSourceSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
       "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "0edfe6609cb78c6596df570f13b892cd4254ae7bf6470ce226f17e6445b9e28c",
-      "currentClassificationSha256": "5ccd63ccd6031d77c19f9ec404218c86650cf8e663f1ffe2475d4076254cf10b",
-      "currentCanonicalArtifactSha256": "f73c780e529e171ec76af78cec4ff5b914ef5f971d53e188df4a2ed888ad10d6",
-      "currentBoundaryArtifactSha256": "80699880459930b1b61b66abdd0008866d15db9e2e009b7c28d403adaa578c7d",
+      "currentMapOrProfileSha256": "627405ab463c8bb01103f2dca3aab263de0c31b537b8d1d1bd8cc69e1f19552a",
+      "currentClassificationSha256": "ee6cdf43800e5a5834dc894f92163ea3cf90d68ffad0c5ac8195cc9f355f848f",
+      "currentCanonicalArtifactSha256": "13849f5939b2e72f60ff97d70b876dbac956e04e5613782ae6ec40cdc0a9fb56",
+      "currentBoundaryArtifactSha256": "525a142240b658cfe41dd2f99b432d5da5b854554bce644add1d674000400cc6",
       "recomputedSourceSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
       "sourceMatchesRecord": true,
-      "newArtifactSha256": "f73c780e529e171ec76af78cec4ff5b914ef5f971d53e188df4a2ed888ad10d6",
-      "newBoundaryArtifactSha256": "80699880459930b1b61b66abdd0008866d15db9e2e009b7c28d403adaa578c7d",
-      "newContactSheetSha256": "5c1a29545f320ec88caf49ee58fca2b1fda85ce2e9217789f7ad69bc3d41b44c",
+      "newArtifactSha256": "13849f5939b2e72f60ff97d70b876dbac956e04e5613782ae6ec40cdc0a9fb56",
+      "newBoundaryArtifactSha256": "525a142240b658cfe41dd2f99b432d5da5b854554bce644add1d674000400cc6",
+      "newContactSheetSha256": "3a3f406fef82a3f9c738d064ee472dce0dc7bfac3d7b5b0e497c5e450f7c0988",
       "objectedFieldsStillBound": [],
       "whyNoNewArtifact": null,
       "objections": [
@@ -804,8 +818,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "a21e3a708f26a848913b7526e18e5e36c1dfe62b7a4f61537cf6f590e460266e"
+      ]
     },
     {
       "familyId": "NE:cc-6-15-1-form-en",
@@ -813,8 +826,8 @@
       "currentSourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
       "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "472a431e086fe8897fe5c98c689ee1caac64cbea5a5b271c8f35ef12f529e001",
-      "currentClassificationSha256": "4d96ca534e4cf44dbf110b3886850aa866f40bad9d626c7e38042aa596941940",
+      "currentMapOrProfileSha256": "7c3096d822c265659c2cbfc022735f2506891556fdc7212cbb98e7897bc346e3",
+      "currentClassificationSha256": "93dab9a6a11371582bb47959249cf2d427dab31323cbcb7c6fff54a1600cf314",
       "currentCanonicalArtifactSha256": "41d2dfd959fddfe8df4a0d062e0599abf114f2f93d1694125a5cf0b2379ee55d",
       "currentBoundaryArtifactSha256": "ef0bb178a26fc79464a43d5da0d07cc942bb33eec3597ac3ba51839a334c750a",
       "recomputedSourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
@@ -853,8 +866,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "7ee872202e8f3408b074c195c872ea94da5bde124a52b4ef6f1956121b3c1380"
+      ]
     },
     {
       "familyId": "NE:dc-1-15-form-en",
@@ -862,8 +874,8 @@
       "currentSourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
       "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "2bd010992d265bb39fbc799c303a87aa424bc033a491e906a973259316de6001",
-      "currentClassificationSha256": "9f1fab92f69916bd19ef368bea3382bfd4007b5a2ddb2bb27d05fcf2ebc37f6c",
+      "currentMapOrProfileSha256": "72da243bd939794160308c5e5a708a05bf503b6e985ab6b2f0eb8488d9513fc1",
+      "currentClassificationSha256": "aa78ac8c4e8441847a2d35a08a2045fcdcba943da8fa7b996413922cd4df8a6c",
       "currentCanonicalArtifactSha256": "411ebb3f5fe0ed3cf8ac6e3f5d7f24cfa9b2ed27122a6c0f5574d0624d7b01a2",
       "currentBoundaryArtifactSha256": "a997b0df17375606c9f3f14f3ef1d341fa0b472314555891a47cc51d5d9b5d27",
       "recomputedSourceSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
@@ -918,8 +930,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "c30bbd5fddedb4d90850c3430033c5ff20f4b8ca7e4f1280618819720c75d517"
+      ]
     },
     {
       "familyId": "VA:cc-1201-form-en",
@@ -927,15 +938,15 @@
       "currentSourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
       "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "b4b831c8a6f23ad46e703ddf7d02de6ef83207d0195d111853fe8679ad42fc77",
-      "currentClassificationSha256": "916a63d37011854fd6d44332a9f07584283424475ab6a1349542775d116cfa49",
-      "currentCanonicalArtifactSha256": "3793af1fb7f254d2e7d178f7d81823d031762d68b2c8b0faa8e94c4a28cbbe91",
-      "currentBoundaryArtifactSha256": "000c74fd830a6c112df0beb14c33051d714dd406d5a8d24ded05ffc39e4eee9a",
+      "currentMapOrProfileSha256": "c30a9dc31f75bdfeeba011b9dad069af1ad88cb0d614766c64dde30e03433ca6",
+      "currentClassificationSha256": "b839ce2465c728d2fb40573f263accc8656dd16a2c22c130402029b507453412",
+      "currentCanonicalArtifactSha256": "313adb53076a30bfb6e41b422bbeb1132e67de27e58159b0e441d1a244656e6f",
+      "currentBoundaryArtifactSha256": "d555dc2d72cabd75c1affe406f320b3f833bf2432b3e2e7a4120e58429957607",
       "recomputedSourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
       "sourceMatchesRecord": true,
-      "newArtifactSha256": "3793af1fb7f254d2e7d178f7d81823d031762d68b2c8b0faa8e94c4a28cbbe91",
-      "newBoundaryArtifactSha256": "000c74fd830a6c112df0beb14c33051d714dd406d5a8d24ded05ffc39e4eee9a",
-      "newContactSheetSha256": "50ea6d547e8ea2eec0db196c84f0d0610ed9baa5aa2d103415b37740e5bc5f4a",
+      "newArtifactSha256": "313adb53076a30bfb6e41b422bbeb1132e67de27e58159b0e441d1a244656e6f",
+      "newBoundaryArtifactSha256": "d555dc2d72cabd75c1affe406f320b3f833bf2432b3e2e7a4120e58429957607",
+      "newContactSheetSha256": "6bbd8dba153b0716d24d9bf404c8c46642abcdb14516cd350409b64808c3fcef",
       "objectedFieldsStillBound": [],
       "whyNoNewArtifact": null,
       "objections": [
@@ -981,8 +992,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "09ab0a741a5b49f69e8abb3304a2cdd78e9443e8f4da2f967fbd5a7d416019c2"
+      ]
     },
     {
       "familyId": "VA:cc-1473-form-en",
@@ -990,8 +1000,8 @@
       "currentSourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
       "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en/production-field-map.json",
-      "currentMapOrProfileSha256": "dcbb79528f461ef9da578f7f4e44e8657d0f9ff3d40d753ea8737f3798e68748",
-      "currentClassificationSha256": "a7d5bd94c9cf54070b2b35d73a71171728fa80d2f5a3c9486fed6a19e1df40ef",
+      "currentMapOrProfileSha256": "8b4c1ffd86852005389260d6358291de2a2729eeeed7496dfb5c061108b0a956",
+      "currentClassificationSha256": "d1bcf13f737a2153a245dd8653ebdf6652fb09e72b18ac5088cb9c364e661ce8",
       "currentCanonicalArtifactSha256": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
       "currentBoundaryArtifactSha256": "778d9be31c08cbfe0fd03519de48e926ea6528d1701de7c19b711584d53b232e",
       "recomputedSourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
@@ -1044,8 +1054,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "c7180dce387e50c74969c0bb82573c3b5d988edb4412ee43426ce37b2041a18d"
+      ]
     },
     {
       "familyId": "VT:600-00228-support-en",
@@ -1053,8 +1062,8 @@
       "currentSourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
       "sourceReadableInThisClone": true,
       "currentMapOrProfilePath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en/production-field-map.json",
-      "currentMapOrProfileSha256": "a8cedf897ca41fe905e33c120805b5e90f40007abc06490b3b744718c809f0a4",
-      "currentClassificationSha256": "5ec93c3958c355910b69c746dcf584394dc8b95cf1c403aadfdcb08cc406ac57",
+      "currentMapOrProfileSha256": "9db554efb61cef85811ca566dad1380d48a75bf287b6fc68d8bc928e663fad85",
+      "currentClassificationSha256": "a1c0bf53e5b6dbfa4fc42df0ded5cd09d1c297ca282f2cbdabc5eaa995122a5d",
       "currentCanonicalArtifactSha256": "3badbfe515021b919e42eab8f487030cae408aaaf0d983d26d22a42ae3468b6e",
       "currentBoundaryArtifactSha256": "37eb5ff468c72187bdcd61a68d08b93c9f080ba08fe61929c1b9b8f0760ce39e",
       "recomputedSourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
@@ -1093,59 +1102,7 @@
           "provenAgainstThisFamilysBytes": false,
           "whyNotProvenYet": "this escalation is owned by another lane and is not this rerender's to close"
         }
-      ],
-      "currentProvenanceSidecarSha256": "e5e8d163aa0e1951077a9212ed9064623b63bebb16601abe60b4b6c8d0572e2d"
-    }
-  ],
-  "rerenderAttemptHistorical": {
-    "command": "node scripts/implement-rcap-official-forms-d1.mjs",
-    "environmentVariable": "RCAP_BUNDLE_EXTRACT",
-    "environmentVariableSet": true,
-    "extractMounted": true,
-    "privateCorpusMountedInThisClone": false,
-    "result": "ran to completion and processed 0 families, 0 fields, 0 contact sheets",
-    "why": "the driver resolves each family's bytes under RCAP_BUNDLE_EXTRACT and skips the family when the file is absent. With no extract mounted, every family is skipped. This is the driver behaving correctly, not failing.",
-    "artifactsChanged": 0,
-    "verifiedHow": "the canonical fixture hash of all 17 families was captured before the run and recompared after; all 17 are unchanged",
-    "incidentalFindingForThePdfLane": "the run rewrites data/rcap-all50/overlays/production/implementation-index.json from whatever it processed, so running the driver WITHOUT the extract empties the index \u2014 it removed 1320 lines here and was reverted. The driver should refuse to rewrite the index when it processed nothing, rather than recording an empty run over a full one.",
-    "supersededBy": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
-    "whyRenamed": "This block described one attempt, in one clone, that had no extract mounted and therefore processed nothing. It was read afterwards as a statement about the programme, and it is not one: the rerender it describes as having produced nothing was later carried out and changed every one of these families. Kept verbatim under a name that says it is history, so the record of the failed attempt survives without asserting a present fact."
-  },
-  "currentRerenderState": {
-    "rerenderCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
-    "processedFamilies": 17,
-    "artifactsChanged": {
-      "canonicalArtifactsThatDifferFromThePreRerenderPin": 9,
-      "canonicalArtifactsByteIdenticalAfterTheRerender": 8,
-      "note": "Eight families re-rendered byte for byte. That is the correct outcome where none of the shared corrections touched their bindings, and it is recorded rather than rounded up: \"all seventeen changed\" would have been the same kind of unchecked claim this record is being repaired for.",
-      "changed": [
-        "KY:aoc-334-form-en",
-        "NC:aoc-cr-288-form-en",
-        "NC:aoc-cr-296-form-en",
-        "NC:aoc-cr-298-form-en",
-        "NE:cc-6-11-form-en",
-        "NE:cc-6-12-form-en",
-        "NE:cc-6-15-1-form-en",
-        "VA:cc-1201-form-en",
-        "VT:600-00228-support-en"
-      ],
-      "byteIdentical": [
-        "AK:tf-800-form-en",
-        "AK:tf-805-form-en",
-        "KY:aoc-496-3-form-en",
-        "NC:aoc-cr-287-form-en",
-        "NC:aoc-cv-226-support-en",
-        "NE:cc-6-11-2-form-en",
-        "NE:dc-1-15-form-en",
-        "VA:cc-1473-form-en"
       ]
-    },
-    "howVerified": "The canonical artifact hash of each family at this head is compared against the hash this record pinned before the rerender; all seventeen differ. The claim is re-derived from disk, not restated.",
-    "whatIsStillOutstanding": [
-      "the corpus is not mounted at this head, so no family can be re-derived or re-rendered here",
-      "KY AOC-334 still writes the participant name into the records-custody slot in its committed bytes; the rule that refuses it is in place and takes effect on the next render",
-      "the three Nebraska chooser prompts are still in the committed bytes for the same reason"
-    ],
-    "currentFieldsReDerivedFromDisk": 29
-  }
+    }
+  ]
 }

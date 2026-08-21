@@ -38,7 +38,7 @@
       "class": "participant",
       "factId": "matter.case_number",
       "factBasis": "field_name",
-      "effectiveLabel": "vs. Case No. _______________"
+      "effectiveLabel": "Case No"
     },
     {
       "field": "First Middle and Last name",
@@ -52,14 +52,21 @@
       "class": "participant",
       "factId": "participant.full_legal_name",
       "factBasis": "field_name",
-      "effectiveLabel": "WHEREFORE, the Defendant, _____________________, prays this"
+      "effectiveLabel": "WHEREFORE, the Defendant,"
     },
     {
       "field": "FURTHER if applicable the Defendant",
       "class": "participant",
       "factId": "participant.full_legal_name",
       "factBasis": "field_name",
-      "effectiveLabel": "FURTHER, if applicable, the Defendant, _____________________"
+      "effectiveLabel": "FURTHER, if applicable, the Defendant,"
+    },
+    {
+      "field": "DOB",
+      "class": "participant",
+      "factId": "participant.date_of_birth",
+      "factBasis": "field_name",
+      "effectiveLabel": "Sex"
     },
     {
       "field": "Defendant Address  Street 1",
@@ -69,53 +76,60 @@
       "effectiveLabel": null
     },
     {
+      "field": "Defendant Address  Street 2",
+      "class": "participant",
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": "Defendant Address, Street:__________________________________"
+    },
+    {
       "field": "City",
       "class": "participant",
       "factId": "participant.city",
       "factBasis": "field_name",
-      "effectiveLabel": "\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B"
+      "effectiveLabel": "_________________________________________________________"
     },
     {
       "field": "State",
       "class": "participant",
       "factId": "participant.state",
       "factBasis": "field_name",
-      "effectiveLabel": "\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B"
+      "effectiveLabel": "_________________________________________________________"
     },
     {
       "field": "Zip code",
       "class": "participant",
       "factId": "participant.zip",
       "factBasis": "field_name",
-      "effectiveLabel": "\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B\u0000B"
+      "effectiveLabel": "_________________________________________________________"
     },
     {
       "field": "COUNTY",
       "class": "participant",
       "factId": "matter.county",
       "factBasis": "field_name",
-      "effectiveLabel": "IN THE ______________ COURT OF ________________, ARKANSAS"
+      "effectiveLabel": "IN THE ______________ COURT OF"
     },
     {
       "field": "COUNTY 02",
       "class": "participant",
       "factId": "matter.county",
       "factBasis": "field_name",
-      "effectiveLabel": "number(s) _____________ in _____________ County ____________"
+      "effectiveLabel": "number(s) _____________ in"
     },
     {
       "field": "CASE NUMBER(S)",
       "class": "participant",
       "factId": "matter.case_number",
       "factBasis": "field_name",
-      "effectiveLabel": "prays this Court enter an Order Sealing case number(s) _____"
+      "effectiveLabel": "prays this Court enter an Order Sealing case number(s)"
     },
     {
       "field": "COUNTY 03",
       "class": "participant",
       "factId": "matter.county",
       "factBasis": "field_name",
-      "effectiveLabel": "from _________ County ___________ Court pursuant to A.C.A.§1"
+      "effectiveLabel": "from"
     }
   ],
   "bindingRefusals": [
@@ -139,8 +153,9 @@
     },
     {
       "field": "numbers",
-      "reason": "classified_unwritable_by_role",
-      "category": "manual"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "was found guilty of",
@@ -174,20 +189,14 @@
     },
     {
       "field": "Arrest Tracking Number",
-      "reason": "protected_category",
-      "category": "race",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
       "field": "Sex",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
-    },
-    {
-      "field": "DOB",
-      "reason": "protected_category",
-      "category": "government_identifier",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -215,12 +224,6 @@
       "regionHeading": null
     },
     {
-      "field": "Defendant Address  Street 2",
-      "reason": "protected_category",
-      "category": "money",
-      "regionHeading": null
-    },
-    {
       "field": "COURT",
       "reason": "no_allowlisted_fact_matches",
       "category": null,
@@ -233,8 +236,9 @@
     },
     {
       "field": "YEAR",
-      "reason": "classified_unwritable_by_role",
-      "category": "manual"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "OFFENSE 01",
@@ -250,8 +254,8 @@
     },
     {
       "field": "CLASS",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -262,20 +266,21 @@
     },
     {
       "field": "Check Box1",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
       "field": "Check Box2",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
       "field": "DATE 01",
-      "reason": "classified_unwritable_by_role",
-      "category": "manual"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Check Box3",

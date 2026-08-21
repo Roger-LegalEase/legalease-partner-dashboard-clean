@@ -41,18 +41,60 @@
       "effectiveLabel": "Applicant Current Address"
     },
     {
-      "field": "Work Email Address",
+      "field": "City",
       "class": "participant",
-      "factId": "participant.email",
+      "factId": "participant.city",
       "factBasis": "field_name",
-      "effectiveLabel": "Work Email Address"
+      "effectiveLabel": "City"
+    },
+    {
+      "field": "City State and Zip",
+      "class": "participant",
+      "factId": "participant.city",
+      "factBasis": "field_name",
+      "effectiveLabel": "Address of Witne"
     },
     {
       "field": "City State and Zip_2",
       "class": "participant",
       "factId": "participant.city",
       "factBasis": "field_name",
-      "effectiveLabel": "City, State and Zip City, State and Zip"
+      "effectiveLabel": "City, State and Zip"
+    },
+    {
+      "field": "State",
+      "class": "participant",
+      "factId": "participant.state",
+      "factBasis": "field_name",
+      "effectiveLabel": "State"
+    },
+    {
+      "field": "Issuing State",
+      "class": "participant",
+      "factId": "participant.state",
+      "factBasis": "field_name",
+      "effectiveLabel": "Issuing State"
+    },
+    {
+      "field": "Zip Code",
+      "class": "participant",
+      "factId": "participant.zip",
+      "factBasis": "field_name",
+      "effectiveLabel": "Zip Code"
+    },
+    {
+      "field": "Date of Birth",
+      "class": "participant",
+      "factId": "participant.date_of_birth",
+      "factBasis": "field_name",
+      "effectiveLabel": "Date of Birth"
+    },
+    {
+      "field": "Work Email Address",
+      "class": "participant",
+      "factId": "participant.email",
+      "factBasis": "field_name",
+      "effectiveLabel": "Work Email Address"
     }
   ],
   "bindingRefusals": [
@@ -80,43 +122,13 @@
       "regionHeading": null
     },
     {
-      "field": "City",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
-    },
-    {
-      "field": "State",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
-    },
-    {
-      "field": "Zip Code",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
-    },
-    {
       "field": "SSN",
       "reason": "protected_category",
       "category": "government_identifier",
       "regionHeading": null
     },
     {
-      "field": "Date of Birth",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
-    },
-    {
       "field": "MMDDYYYY Drivers License Number",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
-    },
-    {
-      "field": "Issuing State",
       "reason": "protected_category",
       "category": "government_identifier",
       "regionHeading": null
@@ -177,8 +189,9 @@
     },
     {
       "field": "Job RoleClassification",
-      "reason": "classified_unwritable_by_role",
-      "category": "manual"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Supervisor Name",
@@ -229,8 +242,8 @@
     },
     {
       "field": "Date",
-      "reason": "protected_category",
-      "category": "signature",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -258,12 +271,6 @@
       "regionHeading": null
     },
     {
-      "field": "City State and Zip",
-      "reason": "protected_category",
-      "category": "outside_party",
-      "regionHeading": null
-    },
-    {
       "field": "Sworn to and subscribed before me this",
       "reason": "no_allowlisted_fact_matches",
       "category": null,
@@ -278,19 +285,19 @@
     {
       "field": "Notary Signature",
       "reason": "protected_category",
-      "category": "signature",
+      "category": "notarization",
       "regionHeading": null
     },
     {
       "field": "My Commission Expires",
       "reason": "protected_category",
-      "category": "signature",
+      "category": "notarization",
       "regionHeading": null
     },
     {
       "field": "FOR ALEA OFFICIAL USE ONLY TCN",
-      "reason": "protected_category",
-      "category": "government_identifier",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -301,8 +308,8 @@
     },
     {
       "field": "Billed",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -313,8 +320,8 @@
     },
     {
       "field": "No Charge",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
       "regionHeading": null
     },
     {
@@ -331,8 +338,8 @@
     },
     {
       "field": "Check",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -343,8 +350,8 @@
     },
     {
       "field": "Status",
-      "reason": "protected_category",
-      "category": "signature",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -355,8 +362,8 @@
     },
     {
       "field": "Certified Letter Qty Total",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -439,9 +446,9 @@
     },
     {
       "field": "Date_2",
-      "reason": "protected_category",
-      "category": "signature",
-      "regionHeading": null
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "DATE AGENCY ARREST CHARGE/DISPOSITION CHALLENGED"
     },
     {
       "field": "Text1",

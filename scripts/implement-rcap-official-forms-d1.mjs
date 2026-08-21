@@ -419,6 +419,7 @@ for (const fam of index.families) {
   const familyDir = path.join(OUT, jurisdictionSlug, fam.familySlug);
   const srPath = path.join(familyDir, "source-record.json");
   if (!fs.existsSync(srPath)) continue;
+  const record0 = readJson(srPath, null);
 
   // A family whose map an independent reviewer has approved is not this
   // driver's to rewrite. Running it over WI CR-266 replaced seven write boxes
@@ -426,6 +427,27 @@ for (const fam of index.families) {
   // with a fresh label capture, and left the approved fixtures pointing at a
   // map that no longer described them. Rebuilding a reviewed family is a
   // deliberate act: delete the approval first.
+  // An owner has decided this form is not participant-completed and must
+  // render nothing. Regenerating it recreated five artifacts the owner had
+  // withdrawn by hash -- NC AOC-CR-296 is prosecutor-controlled, and a
+  // participant fixture for it is a document that should not exist. A driver
+  // that quietly undoes a recorded decision is worse than one that refuses.
+  if (record0?.ownerDisposition?.participantFillable === false
+    || (record0?.ownerDisposition?.artifactsWithdrawn ?? []).length > 0) {
+    results.push({ jurisdiction: fam.jurisdiction, family: fam.familySlug,
+      // The owner withdrew the ARTIFACTS, not the package. Its map and census
+      // are still on disk and still describe the form, so the index has to keep
+      // saying which kind of map that is or every reader downstream sees a
+      // family with no map at all.
+      mapKind: record0.structuralClassObserved === "acroform" ? "acroform" : "flat_overlay",
+      ownership: "owner_withdrew_participant_artifacts",
+      fields: 0, bound: 0, anchors: 0, candidateLabels: 0, filled: 0,
+      contactSheet: false, findings: 0, holds: (record0.productionHolds ?? []).length,
+      status: "skipped_owner_withdrew_participant_artifacts",
+      reason: `the owner recorded this form as ${record0.ownerDisposition.documentOwner ?? "not participant-completed"}: ${record0.ownerDisposition.effect ?? "no participant artifact is generated"}` });
+    continue;
+  }
+
   const approvedMap = readJson(path.join(familyDir, "overlay-profile.json"), null);
   if (approvedMap?.independentReview?.verdict === "approved_for_platform_ready") {
     results.push({ jurisdiction: fam.jurisdiction, family: fam.familySlug,
@@ -750,6 +772,15 @@ for (const fam of index.families) {
       const provenance = await artifactProvenance({
         jurisdiction: fam.jurisdiction, documentId: record.documentId, sourceSha256: sha,
         sourceRevision: record.revision ?? null,
+        // The pinned archive locator, not a page URL. A sidecar that names a
+        // website says where someone once looked; this names the exact file in
+        // the exact edition, with the hash that identifies it, so the source
+        // can be found again without trusting a URL to still resolve. Omitting
+        // it silently dropped the locator from every family this driver
+        // rerendered, while the families restored from git kept theirs.
+        sourceUrl: record.canonicalBundlePath
+          ? `master-library:${record.canonicalBundlePath}#sha256=${sha}`
+          : null,
         fieldMap: mapKind === "acroform" ? bindings : anchors,
         rendererVersion: RENDERER_VERSION,
         generatedAt: GENERATED_AT,

@@ -26,7 +26,7 @@
       "class": "participant",
       "factId": "matter.county",
       "factBasis": "field_name",
-      "effectiveLabel": "County ____________________"
+      "effectiveLabel": "County"
     },
     {
       "field": "Case.CaseNum",
@@ -76,6 +76,13 @@
       "factId": "participant.phone",
       "factBasis": "field_name",
       "effectiveLabel": "________________________________________________"
+    },
+    {
+      "field": "Def.VitalStats.DOB",
+      "class": "participant",
+      "factId": "participant.date_of_birth",
+      "factBasis": "field_name",
+      "effectiveLabel": "Defendant’"
     }
   ],
   "bindingRefusals": [
@@ -93,12 +100,6 @@
     },
     {
       "field": "Def.Info.JailId",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
-    },
-    {
-      "field": "Def.VitalStats.DOB",
       "reason": "protected_category",
       "category": "government_identifier",
       "regionHeading": null
@@ -177,8 +178,8 @@
     },
     {
       "field": "Agencies",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
+      "reason": "protected_category",
+      "category": "agency",
       "regionHeading": null
     },
     {
@@ -201,8 +202,8 @@
     },
     {
       "field": "Print",
-      "reason": "protected_category",
-      "category": "signature",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {

@@ -52,7 +52,7 @@
       "class": "participant",
       "factId": "participant.date_of_birth",
       "factBasis": "field_name",
-      "effectiveLabel": "My date of birth is:................................... My s"
+      "effectiveLabel": "My date of birth is"
     },
     {
       "field": "User.AncillaryCaseNumber",
@@ -66,7 +66,7 @@
       "class": "participant",
       "factId": "matter.charges[0].case_number",
       "factBasis": "field_name",
-      "effectiveLabel": "CC-1201(A). ....................... addendums are attached t"
+      "effectiveLabel": "CC-1201(A)"
     },
     {
       "field": "User.PrintedNameOfPetAtt",
@@ -79,6 +79,13 @@
       "field": "User.AddressOfPetAtt",
       "class": "participant",
       "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": null
+    },
+    {
+      "field": "User.HomePhoneOfPetAtt",
+      "class": "participant",
+      "factId": "participant.phone",
       "factBasis": "field_name",
       "effectiveLabel": null
     },
@@ -283,20 +290,20 @@
     },
     {
       "field": "User.CB10",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
       "field": "User.CB11",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
       "field": "User.CB12",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
@@ -343,8 +350,8 @@
     },
     {
       "field": "User.Alcohol",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
@@ -355,14 +362,14 @@
     },
     {
       "field": "User.CB14",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
       "field": "User.CB15",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
@@ -492,8 +499,8 @@
     },
     {
       "field": "User.NamePetitioner",
-      "reason": "protected_category",
-      "category": "attorney",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
@@ -516,9 +523,9 @@
     },
     {
       "field": "User.TelephonePetitioner",
-      "reason": "protected_page_region",
-      "category": "attorney",
-      "regionHeading": "[ ] ATTORNEY FOR PETITIONER"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.TelephoneAttorney",
@@ -528,9 +535,9 @@
     },
     {
       "field": "User.CityPetitioner",
-      "reason": "protected_category",
+      "reason": "protected_page_region",
       "category": "attorney",
-      "regionHeading": null
+      "regionHeading": "[ ] ATTORNEY FOR PETITIONER"
     },
     {
       "field": "User.CityAttorney",
@@ -540,9 +547,9 @@
     },
     {
       "field": "User.EmailPetitioner",
-      "reason": "protected_category",
+      "reason": "protected_page_region",
       "category": "attorney",
-      "regionHeading": null
+      "regionHeading": "[ ] ATTORNEY FOR PETITIONER [ ] ATTORNEY FOR PETITIONER"
     },
     {
       "field": "User.EmailAttorney",
@@ -560,12 +567,6 @@
       "field": "User.AncillaryFullNameOfArrest",
       "reason": "classified_unwritable_by_role",
       "category": "manual"
-    },
-    {
-      "field": "User.HomePhoneOfPetAtt",
-      "reason": "protected_page_region",
-      "category": "attorney",
-      "regionHeading": "[ ] ATTORNEY FOR PETITIONER"
     },
     {
       "field": "User.CityOfPetAtt",

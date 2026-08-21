@@ -32,7 +32,7 @@
       "class": "participant",
       "factId": "matter.case_number",
       "factBasis": "field_name",
-      "effectiveLabel": "vs. Case No. ______________"
+      "effectiveLabel": "Case N"
     },
     {
       "field": "First Middle and Last name",
@@ -46,7 +46,14 @@
       "class": "participant",
       "factId": "participant.full_legal_name",
       "factBasis": "field_name",
-      "effectiveLabel": "IT IS, THEREFORE, by the Court, ORDERED that the Petition of"
+      "effectiveLabel": "IT IS, T"
+    },
+    {
+      "field": "DOB",
+      "class": "participant",
+      "factId": "participant.date_of_birth",
+      "factBasis": "field_name",
+      "effectiveLabel": "Sex"
     }
   ],
   "bindingRefusals": [
@@ -125,25 +132,19 @@
     {
       "field": "Race",
       "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
-    },
-    {
-      "field": "Arrest Tracking Number",
-      "reason": "protected_category",
       "category": "race",
       "regionHeading": null
     },
     {
-      "field": "Sex",
-      "reason": "protected_category",
-      "category": "government_identifier",
+      "field": "Arrest Tracking Number",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
-      "field": "DOB",
-      "reason": "protected_category",
-      "category": "government_identifier",
+      "field": "Sex",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -251,7 +252,7 @@
     {
       "field": "SID number",
       "reason": "protected_category",
-      "category": "race",
+      "category": "government_identifier",
       "regionHeading": null
     }
   ],

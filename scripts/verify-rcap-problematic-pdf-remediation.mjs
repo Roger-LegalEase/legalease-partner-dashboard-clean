@@ -22,6 +22,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
 import { ROOT_CAUSES } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
 import { withTrackedMutation, assertTreeNotMidMutation } from "./lib/tracked-mutation-guard.mjs";
+import { FACT_DESCRIPTORS, decideBinding, haystack } from "./rcap-official-forms/rcap-field-semantics.mjs";
+
+// The label spellings that actually appear on these forms.
+const EMAIL_LABELS = ["Email Address", "E-mail Address", "E mail address", "EMAIL ADDRESS"];
 import { execFileSync } from "node:child_process";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -328,11 +332,32 @@ function runChecks() {
         .filter((f) => f.endsWith(".evidence.json"))
         .flatMap((f) => (readJson(`${allPageDir}/${f}`, { rasters: [] }).rasters ?? []).map((r) => r.file))
       : [];
+    // The independent-review lane's own records reference evidence images too --
+    // the per-page rasters behind an escalation, for one. Reading only this
+    // lane's generators reported those as orphans, which is the check
+    // misreading another lane's evidence rather than finding a stale file. Any
+    // path mentioned anywhere under that tree counts as a reference.
+    const reviewTree = "data/rcap-all50/pdf-independent-reviews";
+    const mentionedByReviewRecords = new Set();
+    const scanForPaths = (dir) => {
+      if (!fs.existsSync(abs(dir))) return;
+      for (const entry of fs.readdirSync(abs(dir), { withFileTypes: true })) {
+        if (entry.isDirectory()) { scanForPaths(`${dir}/${entry.name}`); continue; }
+        if (!entry.name.endsWith(".json")) continue;
+        const text = fs.readFileSync(abs(`${dir}/${entry.name}`), "utf8");
+        for (const m of text.matchAll(/docs\/record-clearing\/pdf-visual-evidence\/[A-Za-z0-9._/-]+/g)) {
+          mentionedByReviewRecords.add(m[0]);
+        }
+      }
+    };
+    scanForPaths(reviewTree);
+
     const referenced = new Set([
       ...(placement.families ?? []).flatMap((f) => f.renderedEvidence ?? []),
       ...(sheetProof.families ?? []).map((f) => f.renderedEvidence).filter(Boolean),
       ...master.rows.flatMap((r) => [r.contactSheetEvidenceImage, ...(r.placementEvidenceImages ?? [])]).filter(Boolean),
-      ...allPageRasters
+      ...allPageRasters,
+      ...mentionedByReviewRecords
     ]);
     // Walk the tree rather than the top level. A flat read treated a directory
     // of evidence as one unreferenced entry and never looked at the images
@@ -478,13 +503,26 @@ function runChecks() {
   // after the street-address guard was removed — the guard this defect is
   // actually about. A check that any sibling can satisfy is not a check.
   const semantics = fs.existsSync(abs(SEMANTICS)) ? fs.readFileSync(abs(SEMANTICS), "utf8") : "";
-  const streetDescriptor = semantics
-    .split("\n")
-    .find((line) => line.includes("participant.street_address") && line.includes("factId"));
+  // Asked of the descriptor's BEHAVIOUR, not of the shape of its source line.
+  // The earlier form required the guard to be exactly `/\be[-\s]?mail\b/`, so
+  // broadening it to also refuse city, state, zip and county -- which is a
+  // strictly better guard -- read as the guard having been removed. A check
+  // that fails when the thing it protects gets stronger teaches everyone to
+  // ignore it. This still cannot be satisfied by a sibling descriptor: it is
+  // the street-address descriptor's own refusal that is exercised.
+  const streetDescriptor = FACT_DESCRIPTORS.find((d) => d.factId === "participant.street_address");
   if (!streetDescriptor) {
     fail("email_never_binds_a_street_address", "the street-address descriptor is no longer present to be checked");
-  } else if (!/refuseWhen:\s*\/\\be\[-\\s\]\?mail\\b\//.test(streetDescriptor)) {
+  } else if (!streetDescriptor.refuseWhen || !EMAIL_LABELS.every((label) => streetDescriptor.refuseWhen.test(haystack(label)))) {
     fail("email_never_binds_a_street_address", "the street-address descriptor no longer refuses an email label; \"Email Address\" contains \"address\" and will bind the wrong fact");
+  }
+  // And the whole binder, end to end, on the labels that actually occur.
+  for (const label of EMAIL_LABELS) {
+    const decision = decideBinding({ name: label, pdfType: "text", effectiveLabel: label }, {});
+    if (decision.writable && decision.factId === "participant.street_address") {
+      fail("email_never_binds_a_street_address",
+        `${JSON.stringify(label)} binds participant.street_address; a participant's home address would be written on the email line`);
+    }
   }
   // Ordering is the other half and is not a substitute for the guard. The
   // email descriptor must be reachable before street address, so the two

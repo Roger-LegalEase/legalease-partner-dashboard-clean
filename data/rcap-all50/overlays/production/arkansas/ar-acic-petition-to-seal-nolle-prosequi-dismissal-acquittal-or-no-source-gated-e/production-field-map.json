@@ -38,7 +38,7 @@
       "class": "participant",
       "factId": "matter.case_number",
       "factBasis": "field_name",
-      "effectiveLabel": "vs. Case No. ______________"
+      "effectiveLabel": "Case No"
     },
     {
       "field": "First Middle and Last name",
@@ -52,21 +52,21 @@
       "class": "participant",
       "factId": "participant.city",
       "factBasis": "field_name",
-      "effectiveLabel": "City: ______________________ Date"
+      "effectiveLabel": "City"
     },
     {
       "field": "State",
       "class": "participant",
       "factId": "participant.state",
       "factBasis": "field_name",
-      "effectiveLabel": "State: _____ Zip code:________"
+      "effectiveLabel": "State"
     },
     {
       "field": "Zip code",
       "class": "participant",
       "factId": "participant.zip",
       "factBasis": "field_name",
-      "effectiveLabel": "State: _____ Zip code:________"
+      "effectiveLabel": "State: _____ Zip code"
     },
     {
       "field": "COUNTY OF",
@@ -76,18 +76,25 @@
       "effectiveLabel": "COUNTY OF"
     },
     {
+      "field": "DOB",
+      "class": "participant",
+      "factId": "participant.date_of_birth",
+      "factBasis": "field_name",
+      "effectiveLabel": "Sex"
+    },
+    {
       "field": "COUNTY/CITY",
       "class": "participant",
       "factId": "participant.city",
       "factBasis": "field_name",
-      "effectiveLabel": "IN THE ______________ COURT OF ________________, ARKANSAS"
+      "effectiveLabel": "IN THE ______________ COURT OF"
     },
     {
       "field": "Defendant",
       "class": "participant",
       "factId": "participant.full_legal_name",
       "factBasis": "field_name",
-      "effectiveLabel": "WHEREFORE, the Defendant, ______________________________, pr"
+      "effectiveLabel": "WHEREFORE, the Defenda"
     },
     {
       "field": "ADDRESS 1",
@@ -95,13 +102,6 @@
       "factId": "participant.street_address",
       "factBasis": "field_name",
       "effectiveLabel": null
-    },
-    {
-      "field": "ADDRESS 2",
-      "class": "participant",
-      "factId": "participant.street_address",
-      "factBasis": "field_name",
-      "effectiveLabel": "_____________________________\u0000'\u0000H\u0000I\u0000H\u0000Q\u0000G\u0000D\u0000Q\u0000W\u0000¶\u0000V \u0000\u0003\u00006\u0000L\u0000J"
     },
     {
       "field": "Petitioner",
@@ -115,7 +115,7 @@
       "class": "participant",
       "factId": "participant.full_legal_name",
       "factBasis": "field_name",
-      "effectiveLabel": "I, __________________________, do hereby certify that a true"
+      "effectiveLabel": "I,"
     }
   ],
   "bindingRefusals": [
@@ -175,14 +175,8 @@
     },
     {
       "field": "Sex",
-      "reason": "protected_category",
-      "category": "government_identifier",
-      "regionHeading": null
-    },
-    {
-      "field": "DOB",
-      "reason": "protected_category",
-      "category": "government_identifier",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -200,7 +194,7 @@
     {
       "field": "Date_2",
       "reason": "protected_category",
-      "category": "money",
+      "category": "attorney",
       "regionHeading": null
     },
     {
@@ -221,8 +215,9 @@
     },
     {
       "field": "YEAR 1",
-      "reason": "classified_unwritable_by_role",
-      "category": "manual"
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "CHARGES 1",
@@ -234,6 +229,12 @@
       "field": "CHARGES 2",
       "reason": "no_allowlisted_fact_matches",
       "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "ADDRESS 2",
+      "reason": "protected_category",
+      "category": "signature",
       "regionHeading": null
     },
     {
