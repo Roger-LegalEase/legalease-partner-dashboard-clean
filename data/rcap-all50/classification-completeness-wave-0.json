@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "rcap-classification-completeness-wave/v1",
+  "generatedBy": "scripts/regenerate-rcap-classification-completeness.mjs",
+  "wave": "wave-0",
+  "reviewedBase": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "purpose": "The independent-review repin handoff for the four families whose approvals are held only by the absent field-classification completeness counters. Every hash here is measured from this tree; none is hand-entered.",
+  "notAnApproval": "This is not a review verdict and changes no review record. It states which pinned classification hashes moved, and by how little, so the reviewers who issued those verdicts can re-pin them.",
+  "counterContract": {
+    "controllingModel": "rcap-field-classification/v2-complete",
+    "sharedImplementation": "scripts/rcap-official-forms/rcap-classification-completeness.mjs",
+    "acroform": "discoveredFieldsOrAnchors is the canonical field-census fields[] count; widgets are never counted separately",
+    "flatOverlay": "discoveredFieldsOrAnchors is overlay-profile anchors[] plus deliberatelyUnbound[]",
+    "classified": "entries carrying exactly one terminal class or refusal",
+    "invariant": "0 <= classifiedFieldsOrAnchors <= discoveredFieldsOrAnchors; approval completeness only at equality"
+  },
+  "gateUnchanged": "scripts/rcap-official-forms/rcap-platform-ready.mjs is not modified by this wave. The classification files were what was incomplete.",
+  "totals": {
+    "families": 4,
+    "metadataOnly": 4,
+    "entriesChanged": 0,
+    "classCountsChanged": 0,
+    "artifactsChanged": 0,
+    "mapsChanged": 0,
+    "visualEvidenceChanged": 0
+  },
+  "reviewRepinHandoff": {
+    "field": "families[].fieldClassificationSha256, and the sidecar pin the record compares against",
+    "why": "the platform-ready record channel compares the pinned classification hash against the file on disk, so a reviewer who does not re-pin will see condition 5 refuse a family whose entries did not move",
+    "reviewerA": {
+      "families": [
+        "AK:tf-800-form-en",
+        "AK:tf-805-form-en"
+      ]
+    },
+    "reviewerB": {
+      "families": [
+        "NC:aoc-cr-287-form-en",
+        "NC:aoc-cr-288-form-en"
+      ]
+    }
+  },
+  "families": [
+    {
+      "familyId": "AK:tf-800-form-en",
+      "familyPackagePath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en",
+      "familyKind": "acroform",
+      "schemaVersion": "rcap-field-classification/v4-nine-class",
+      "denominatorBasis": "field-census.json fields[] (canonical first-hand census)",
+      "canonicalCensusCount": 26,
+      "discoveredFieldsOrAnchors": 26,
+      "classifiedFieldsOrAnchors": 26,
+      "oldClassificationSha256": "9601aca231e14099b45946f4f40c5481b7bcaac4ee8afd4af60fd6b859b161fe",
+      "newClassificationSha256": "9ef9ec0c0f76245b0c35cc12604447f5c7b2b108293207d7e03e5d815d93ca2f",
+      "oldSidecarSha256": "78f7ad22e61d22b3d88a2157734ec6e434c31a44bdd8a5de6701014de97604f5",
+      "newSidecarSha256": "5fa9a2363f3276aec43ca9115809126e8d601502a12d1c23ebec8901120a14c3",
+      "sidecarRepinned": true,
+      "entriesUnchanged": true,
+      "classCountsUnchanged": true,
+      "artifactUnchanged": true,
+      "mapUnchanged": true,
+      "visualEvidenceUnchanged": true,
+      "comparedAgainst": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+      "artifactSha256": {
+        "fixtures/canonical-filled.pdf": "de4d5014a0d9934c9b256959b7947ee0acbffb67eab2e8099f0d614276b1b807",
+        "fixtures/boundary-filled.pdf": "931ef62a7cf75a0a6e1597e3bab78987fbc86aaf9a1a1bf30a6e19dbff3f6287",
+        "contact-sheet/blank-vs-filled.pdf": "dd7b228ac0400cb6abfd618b595fbe095edaeb92b52778f5ebe3fa63a9768a23"
+      },
+      "mapSha256": "01dc07e5c489a7986f7b8d1c60e0643d4eb77f9c7413f4a3f99eaafe0ff3d6c5",
+      "visualEvidenceSha256": {
+        "docs/record-clearing/pdf-visual-evidence/AK-tf-800-form-en-contact-sheet-page-01.png": "ab0eb071fd708123457b98146e3545244c61d2a8df0ba195ddfaa1de0b488968",
+        "docs/record-clearing/pdf-visual-evidence/AK-tf-800-form-en-contact-sheet-page-02.png": "2474020474d21430feeccb316795cd57b371b52e3807a941beac458bd5a14062",
+        "docs/record-clearing/pdf-visual-evidence/AK-tf-800-form-en-contact-sheet-page-03.png": "d5ed1ce81fb15c26ba411a559e378be2f7f7356100cdacea66c368e269cb9617"
+      },
+      "addedKeys": [
+        "denominatorBasis",
+        "discoveredFieldsOrAnchors",
+        "classifiedFieldsOrAnchors",
+        "complete"
+      ],
+      "alreadyCarriedCounters": false,
+      "result": "metadata_only"
+    },
+    {
+      "familyId": "AK:tf-805-form-en",
+      "familyPackagePath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en",
+      "familyKind": "acroform",
+      "schemaVersion": "rcap-field-classification/v4-nine-class",
+      "denominatorBasis": "field-census.json fields[] (canonical first-hand census)",
+      "canonicalCensusCount": 17,
+      "discoveredFieldsOrAnchors": 17,
+      "classifiedFieldsOrAnchors": 17,
+      "oldClassificationSha256": "2d82a1fc0d0f8a3d347b15210caf4fc77795d316a51aa37ce240750602305337",
+      "newClassificationSha256": "b96efc7cbc6cb97296afba0bbd8e86bebb25e809f63837e83188b2c60eeccca3",
+      "oldSidecarSha256": "451381b015662e038344ef75f82a92e19f16b2e3d42abbf675fa98fd66d019b9",
+      "newSidecarSha256": "f0490e609f9b5445daf13099c488cb3666f583f54006779c1da98d0e00ed7cee",
+      "sidecarRepinned": true,
+      "entriesUnchanged": true,
+      "classCountsUnchanged": true,
+      "artifactUnchanged": true,
+      "mapUnchanged": true,
+      "visualEvidenceUnchanged": true,
+      "comparedAgainst": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+      "artifactSha256": {
+        "fixtures/canonical-filled.pdf": "d8bdd48265050a708de1c59411f58da7c02bb34ef2110cd1e13657d805d37a5a",
+        "fixtures/boundary-filled.pdf": "0c29b6b481d971497d8a7446aa0cdc818a724a941a60484ed25b53d48c83f949",
+        "contact-sheet/blank-vs-filled.pdf": "9e30b4beea7a121f9c7d51f3f748f1c7b50aa95d4e0accb9891f0bd67b2f837d"
+      },
+      "mapSha256": "45eb1789cf1b5d5ebeb1ca8d74244efcb0541e24cd752c2aa8795ddee5eebbb0",
+      "visualEvidenceSha256": {
+        "docs/record-clearing/pdf-visual-evidence/AK-tf-805-form-en-contact-sheet-page-01.png": "95f1b2304d75abcb965ed118ad0ba710d78b1d16a583a198926806c58e3c3987",
+        "docs/record-clearing/pdf-visual-evidence/AK-tf-805-form-en-contact-sheet-page-02.png": "e2828eb6c9b2c9fe567482014f9fa1940e79ffb98c017dc3e8b4c0f1db6a4ab4"
+      },
+      "addedKeys": [
+        "denominatorBasis",
+        "discoveredFieldsOrAnchors",
+        "classifiedFieldsOrAnchors",
+        "complete"
+      ],
+      "alreadyCarriedCounters": false,
+      "result": "metadata_only"
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-en",
+      "familyPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en",
+      "familyKind": "acroform",
+      "schemaVersion": "rcap-field-classification/v4-nine-class",
+      "denominatorBasis": "field-census.json fields[] (canonical first-hand census)",
+      "canonicalCensusCount": 119,
+      "discoveredFieldsOrAnchors": 119,
+      "classifiedFieldsOrAnchors": 119,
+      "oldClassificationSha256": "3a3b0d389308c9d31e4e394ec01970e608a08ff6f2ac254e9a2e4abfe339cc60",
+      "newClassificationSha256": "2a5fc644ecaa0028273cd7141ad2677422dafd699e902f94747e8a532216b326",
+      "oldSidecarSha256": "1f0549c79ea9d50dce103c622e0ad23cd601b42c6fd30b1534628ff182646da1",
+      "newSidecarSha256": "2d5b7130496a9131474f8f609fce627b4d8dab71cd14c8f81caf6b7451cb9069",
+      "sidecarRepinned": true,
+      "entriesUnchanged": true,
+      "classCountsUnchanged": true,
+      "artifactUnchanged": true,
+      "mapUnchanged": true,
+      "visualEvidenceUnchanged": true,
+      "comparedAgainst": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+      "artifactSha256": {
+        "fixtures/canonical-filled.pdf": "cc44d0a733fcd4a2bc2b501f3e1c3ac2e0a70dc44d82890e79a321a8cd3a0c0d",
+        "fixtures/boundary-filled.pdf": "917280a556e74a14c258e1e333be51597c3ab8c70e6000ec6d79a55bfcd912f2",
+        "contact-sheet/blank-vs-filled.pdf": "8faf419772b2e856724c44237576a0bd06d1d879043e7bd5bb598ad6d59ff1e0"
+      },
+      "mapSha256": "b564c6f8380d2bd00ee198f94886200491936105f809b474781c2756f72af944",
+      "visualEvidenceSha256": {
+        "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-287-form-en-contact-sheet-page-01.png": "823aaeed10c0631ce471f72692ccf44bc5f9862434046ce7d01385c3b3ce78fa",
+        "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-287-form-en-contact-sheet-page-02.png": "fd21dfd5334ca3cb3f0989206b7096350ef92331d42d5623a925e96f8df66b43"
+      },
+      "addedKeys": [
+        "denominatorBasis",
+        "discoveredFieldsOrAnchors",
+        "classifiedFieldsOrAnchors",
+        "complete"
+      ],
+      "alreadyCarriedCounters": false,
+      "result": "metadata_only"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "familyPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en",
+      "familyKind": "acroform",
+      "schemaVersion": "rcap-field-classification/v4-nine-class",
+      "denominatorBasis": "field-census.json fields[] (canonical first-hand census)",
+      "canonicalCensusCount": 128,
+      "discoveredFieldsOrAnchors": 128,
+      "classifiedFieldsOrAnchors": 128,
+      "oldClassificationSha256": "c6751f17bf6e47ce49badc5cbe4ce73c1ecb27f3cc499bfda70ebc423abcfdfa",
+      "newClassificationSha256": "dc1cc60558c44d1c8960cf7a7f1dc2ab9d478a7d0302e1f96a1d3268247cb7b5",
+      "oldSidecarSha256": "bc44d51d68cd655cbb7d100d7526f9327d1f3197b9a30e7b42f95776d0db72ce",
+      "newSidecarSha256": "9db5c45a08616790af15a40c2d91290d98fafd191dbe324c72d38d656d6fd1f9",
+      "sidecarRepinned": true,
+      "entriesUnchanged": true,
+      "classCountsUnchanged": true,
+      "artifactUnchanged": true,
+      "mapUnchanged": true,
+      "visualEvidenceUnchanged": true,
+      "comparedAgainst": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+      "artifactSha256": {
+        "fixtures/canonical-filled.pdf": "a505c3064c1d61c99ffcf74c5ba3a6d3bd59083410a0a5de9468c8f45bb8ae4e",
+        "fixtures/boundary-filled.pdf": "b7f035ab8d10d032457205ee092d3e2ff7758294409f6d24ae29b25bd5cb7a81",
+        "contact-sheet/blank-vs-filled.pdf": "5071453ddc4d16336b7ca74537e9281b4e1f5fd8e33a139194cd2982108b0aa8"
+      },
+      "mapSha256": "3c14cfb850b45633c27b056fefa930480cbff863f8c0134282a2914194cfa2b7",
+      "visualEvidenceSha256": {
+        "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-288-form-en-contact-sheet-page-01.png": "b4df151286aaba318d16494b446c6dd908969b935a08b3c9f5c46f4a37154c49",
+        "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-288-form-en-contact-sheet-page-02.png": "12bddb2141a38a9a8346f56929f30099d4c811f4b05c1460b30c97bf1a67baec"
+      },
+      "addedKeys": [
+        "denominatorBasis",
+        "discoveredFieldsOrAnchors",
+        "classifiedFieldsOrAnchors",
+        "complete"
+      ],
+      "alreadyCarriedCounters": false,
+      "result": "metadata_only"
+    }
+  ]
+}
