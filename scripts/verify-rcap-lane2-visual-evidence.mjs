@@ -72,6 +72,38 @@ const BATCH = [
 const NOT_APPLICABLE = { familyId: "NE:cc-6-11a-instructions-en", dir: "nebraska/cc-6-11a-instructions-en" };
 
 const sha256 = (buf) => crypto.createHash("sha256").update(buf).digest("hex");
+
+/**
+ * Everything a verdict in this package is computed from.
+ *
+ * Hashing the artifact alone is not enough, and the gap is not hypothetical.
+ * The placement audit and the protected-region proof are computed from the
+ * field map, the census and the classification, not from the PDF -- so a
+ * rerender that leaves an artifact byte-identical and moves only its derived
+ * records still changes what those two proofs mean. NE:cc-6-15.1 and NE:DC-1-15
+ * are exactly that case between two commits of this lane. A guard that watched
+ * the artifact would have called both runs current and been wrong about half
+ * the package, which is the same shape of error as binding a raster to
+ * superseded bytes.
+ */
+const EVIDENCE_INPUTS = [
+  ["artifact", "fixtures/canonical-filled.pdf"],
+  ["contactSheet", "contact-sheet/blank-vs-filled.pdf"],
+  ["fieldMap", "production-field-map.json"],
+  ["census", "field-census.json"],
+  ["classification", "field-classification.json"],
+  ["populatedFields", "reports/populated-fields.json"]
+];
+
+/** The hash of every evidence input present in a family directory. */
+function evidenceInputHashes(baseDir) {
+  const out = {};
+  for (const [key, rel] of EVIDENCE_INPUTS) {
+    const file = path.join(baseDir, rel);
+    out[key] = fs.existsSync(file) ? sha256(fs.readFileSync(file)) : null;
+  }
+  return out;
+}
 const readJson = (file, fallback = null) => {
   if (!fs.existsSync(file)) return fallback;
   try { return JSON.parse(fs.readFileSync(file, "utf8")); } catch { return fallback; }
@@ -287,7 +319,7 @@ async function main() {
     const sheetPath = path.join(base, "contact-sheet/blank-vs-filled.pdf");
     const artifactBytes = fs.readFileSync(artifactPath);
     const currentArtifactSha256 = sha256(artifactBytes);
-    hashesBefore[entry.familyId] = currentArtifactSha256;
+    hashesBefore[entry.familyId] = evidenceInputHashes(base);
 
     const census = readJson(path.join(base, "field-census.json"));
     const map = readJson(path.join(base, "production-field-map.json"));
@@ -424,6 +456,10 @@ async function main() {
         pagesRequiringRaster: requiredPages,
         pagesRasterized: [...new Set(rasters.map((r) => r.page))].sort((a, b) => a - b)
       },
+      // Named here so a reader can tell, without leaving the manifest, which
+      // derived records the placement and protected-region verdicts below were
+      // computed from. Those two are not functions of the PDF.
+      computedFrom: hashesBefore[entry.familyId],
       rasterCoverage: coverage,
       placementAudit: {
         placements: audit.placements,
@@ -470,7 +506,7 @@ async function main() {
       fs.writeFileSync(target, json);
     }
 
-    hashesAfter[entry.familyId] = sha256(fs.readFileSync(artifactPath));
+    hashesAfter[entry.familyId] = evidenceInputHashes(base);
     families.push(manifest);
     console.log(`  ${entry.familyId} — ${manifest.artifact.pagesRasterized.length}/${requiredPages.length} field pages, ${rasters.length} rasters, manifest ${manifest.visualManifestHash.slice(0, 12)}`);
   }
@@ -488,7 +524,12 @@ async function main() {
     verdict: "not applicable: no participant fill and no finalized artifact exist for this instruction family, so no filled visual package was manufactured"
   };
 
-  const moved = Object.keys(hashesBefore).filter((k) => hashesBefore[k] !== hashesAfter[k]);
+  const moved = [];
+  for (const familyId of Object.keys(hashesBefore)) {
+    for (const [key] of EVIDENCE_INPUTS) {
+      if (hashesBefore[familyId][key] !== hashesAfter[familyId][key]) moved.push(`${familyId}:${key}`);
+    }
+  }
   const index = {
     schemaVersion: "rcap-lane2-visual-evidence-index/v1",
     evidenceContract: EVIDENCE_CONTRACT_VERSION,
@@ -496,7 +537,9 @@ async function main() {
     lane: "LANE-EVIDENCE", batch: "lane2-batch01",
     purpose: "Every field-carrying page of the official source and the finalized artifact for the six re-rendered KY/NE families, bound by hash to the bytes the pictures are of.",
     currentByteGuard: {
-      hashesBefore, hashesAfter, anyArtifactChangedDuringTheRun: moved.length > 0, changed: moved
+      basis: "every input a verdict in this package is computed from, not the artifact alone: the placement audit and the protected-region proof read the field map, census and classification, so those move the verdict even when the PDF does not.",
+      inputsWatched: EVIDENCE_INPUTS.map(([key, rel]) => ({ key, path: rel })),
+      hashesBefore, hashesAfter, anyEvidenceInputChangedDuringTheRun: moved.length > 0, changed: moved
     },
     totals: {
       familiesCovered: families.length,
@@ -537,7 +580,7 @@ async function main() {
   }
 
   if (moved.length) {
-    console.error(`FAIL current-byte guard — artifact bytes moved during the run: ${moved.join(", ")}`);
+    console.error(`FAIL current-byte guard — evidence inputs moved during the run: ${moved.join(", ")}`);
     process.exitCode = 1;
   }
   console.log(`OK lane2 visual evidence — ${index.totals.familiesCovered} families, ${index.totals.pagesRasterized}/${index.totals.pagesRequired} field pages, ${index.totals.rasters} rasters`);
@@ -682,13 +725,42 @@ async function runMutations() {
       `injected chooser classified as residue: ${chooser.length === 1}; injected participant value drawn: ${sawWritten}, wrongly called residue: ${leaked.length}`);
   }
 
+  // M5 — a derived record moved while the artifact stood still. This is the
+  // real case that motivated widening the guard: between two commits of this
+  // lane, NE:cc-6-15.1 and NE:DC-1-15 keep byte-identical artifacts while their
+  // field map, census and classification are all re-derived. A guard watching
+  // only the PDF calls that run current and is wrong about every placement and
+  // protected-region verdict in it.
+  {
+    const base = path.join(PRODUCTION, "nebraska/cc-6-11-form-en");
+    const before = evidenceInputHashes(base);
+    const copy = fs.mkdtempSync(path.join(os.tmpdir(), "rcap-guard-"));
+    for (const [, rel] of EVIDENCE_INPUTS) {
+      const from = path.join(base, rel);
+      if (!fs.existsSync(from)) continue;
+      const to = path.join(copy, rel);
+      fs.mkdirSync(path.dirname(to), { recursive: true });
+      fs.copyFileSync(from, to);
+    }
+    const mapFile = path.join(copy, "production-field-map.json");
+    const map = JSON.parse(fs.readFileSync(mapFile, "utf8"));
+    map.__mutation = "one derived record re-derived, artifact untouched";
+    fs.writeFileSync(mapFile, JSON.stringify(map, null, 2));
+    const after = evidenceInputHashes(copy);
+    const changed = EVIDENCE_INPUTS.map(([key]) => key).filter((key) => before[key] !== after[key]);
+    fs.rmSync(copy, { recursive: true, force: true });
+    record("M5", "current-byte guard: a moved field map is caught even though the artifact is byte-identical",
+      before.artifact === after.artifact && changed.length === 1 && changed[0] === "fieldMap",
+      `artifact unchanged: ${before.artifact === after.artifact}; inputs reported moved: ${changed.length ? changed.join(", ") : "none"}`);
+  }
+
   const held = results.filter((r) => r.held).length;
   if (held !== results.length) {
     console.error(`FAIL lane2 visual-evidence mutations — ${held}/${results.length} held`);
     process.exitCode = 1;
     return;
   }
-  console.log(`OK lane2 visual-evidence mutations — ${held}/${results.length} held; source-text preservation and flattened default appearance each shown to refuse and to accept`);
+  console.log(`OK lane2 visual-evidence mutations — ${held}/${results.length} held; source-text preservation, flattened default appearance and the evidence-input guard each shown to refuse and to accept`);
 }
 
 if (mutationsOnly) await runMutations();
