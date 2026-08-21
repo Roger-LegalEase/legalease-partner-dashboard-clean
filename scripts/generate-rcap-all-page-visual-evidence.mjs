@@ -745,10 +745,43 @@ async function main() {
       // label. Words carry the identity. A four-character word is long enough
       // that the form's own furniture -- "Reset Form", "Print", a notice about
       // fillable PDFs -- shares none of them with a participant's data.
+      // Words the OFFICIAL form prints are struck out of the participant set
+      // before anything is judged. Flattening lands a widget's own label inside
+      // the very rectangle the map declares writable, so "ADOPTION", "MATTER",
+      // "EMANCIPATION" and "Minor" were being collected as though we had placed
+      // them -- and every protected region on NE:dc-1-15 that carries those
+      // captions then read as a leak, thirteen of them. The form's own
+      // vocabulary cannot be the participant's data, and the source layer is
+      // where the form's vocabulary is.
+      const sourceWords = new Set();
+      for (const [index, page] of doc.getPages().entries()) {
+        const split = layerSplit[index];
+        if (!split.splittable) continue;
+        const resources = doc.context.lookup(page.node.get(PDFName.of("Resources")));
+        for (const run of textRuns(doc.context, split.sourceStreamText, resources instanceof PDFDict ? resources : null)) {
+          for (const word of run.text.toLowerCase().split(/[^a-z0-9]+/i)) {
+            if (word.length >= 4) sourceWords.add(word);
+          }
+        }
+      }
+      // Where the official layer prints almost nothing, this separation is weak
+      // and the manifest says so instead of pretending. NE:dc-1-15's captions
+      // are not printed at all -- they are widgets, and flattening baked EVERY
+      // alternative onto the page at once, so the filing simultaneously says it
+      // is an adoption, an emancipation, a name change and a probate. There is
+      // no vocabulary to subtract in that case, and a reader has to look at the
+      // listed text to tell the participant's name from the form's caption.
+      const participantSeparation = sourceWords.size >= 40
+        ? { basis: `${sourceWords.size} distinct words of printed vocabulary were read from the official layer and excluded`, reliable: true }
+        : {
+          basis: `only ${sourceWords.size} distinct words could be read from the official layer, so the form's own caption vocabulary cannot be fully subtracted`,
+          reliable: false,
+          whatThatMeans: "Text listed as participant-derived in a protected region may be the form's own caption, baked in by flattening rather than printed. Each row names the text and the word it matched on; read them before treating one as a leak."
+        };
       const placedWords = new Set();
       for (const value of placedValues) {
         for (const word of value.toLowerCase().split(/[^a-z0-9]+/i)) {
-          if (word.length >= 4) placedWords.add(word);
+          if (word.length >= 4 && !sourceWords.has(word)) placedWords.add(word);
         }
       }
       const participantWordIn = (text) => {
@@ -1151,6 +1184,7 @@ async function main() {
           everyPageCovered: pages.length === pageCount,
           pageOneOnlyPackageRefused: pageCount > 1 && pages.length === 1 ? true : false
         },
+        participantSeparation,
         pinnedSourceSha256: family.sourceSha256,
         sourceBinaryInThisClone: isControl ? path.relative(rootDir, binaries.get(family.sourceSha256)) : null,
         layerBasis: unsplittable.length
@@ -1180,7 +1214,9 @@ async function main() {
               ? "every generated mark sits inside a declared writable rectangle"
               : "generated ink is outside or across a declared writable rectangle",
           protectedRegions: pages.some((p) => p.findings.some((f) => f.code === "participant_derived_ink_in_protected_region"))
-            ? "participant-derived ink is inside a protected region"
+            ? (participantSeparation.reliable
+              ? "participant-derived ink is inside a protected region"
+              : "text that may be participant-derived is inside a protected region; this form prints too little vocabulary to separate it from its own captions")
             : pages.some((p) => p.findings.some((f) => f.code === "flattening_redrew_form_furniture_in_a_protected_region"))
               ? "no participant-derived ink in any protected region; flattening re-drew the form's own outline inside one"
               : "no generated ink touches a protected region",
@@ -1246,6 +1282,7 @@ async function main() {
       familiesWithNoFindings: onDisk.filter((m) => m.verdict.findings === 0).length,
       familiesWithFindings: onDisk.filter((m) => m.verdict.findings > 0).length,
       familiesWithParticipantDerivedInkInAProtectedRegion: onDisk.filter((m) => m.verdict.protectedRegions.startsWith("participant-derived")).length,
+      familiesWhereProtectedRegionTextCannotBeSeparatedFromTheFormsCaptions: onDisk.filter((m) => m.verdict.protectedRegions.startsWith("text that may be")).length,
       familiesWhereOurLayerCoversPrintedInkOutsideADeclaredRectangle: onDisk.filter((m) => m.verdict.sourcePreservation.startsWith("our layer covers")).length,
       familiesNotFlat: onDisk.filter((m) => !m.defaultAppearances.flat).length,
       familiesWhereFlatteningRedrewFormFurniture: onDisk.filter((m) => m.pages.some((p) => p.findings.some((f) => f.code === "flattening_redrew_the_form_s_own_furniture"))).length,
