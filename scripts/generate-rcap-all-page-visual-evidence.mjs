@@ -1105,7 +1105,13 @@ async function main() {
         // same glyph rendered alone, so a few edge pixels land in neither mask.
         // The finding is for ink that is actually unaccounted for, which is
         // orders of magnitude larger than an edge.
-        if (unexplained && unexplained.unexplainedFraction >= 0.001) {
+        // Floored in absolute pixels as well as by fraction, for the same
+        // reason the source-loss test is: on a sparse page 44 pixels of
+        // antialiasing crosses a tenth of a percent while remaining a fraction
+        // of one glyph, and a split that had genuinely missed something would
+        // miss it by whole marks.
+        if (unexplained && unexplained.unexplainedFraction >= 0.001
+          && unexplained.inkInNeitherLayer > SOURCE_LOSS_FLOOR_PX) {
           findings.push({ code: "finalized_ink_in_neither_layer", ...unexplained });
         }
         if (pinnedSourceControl?.comparable && pinnedSourceControl.differingFraction >= 0.001) {
