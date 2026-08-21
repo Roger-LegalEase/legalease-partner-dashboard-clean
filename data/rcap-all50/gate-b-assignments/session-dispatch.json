@@ -1,0 +1,233 @@
+{
+  "schemaVersion": "rcap-gate-b-session-dispatch/v1",
+  "owner": "Session 1 \u2014 Gate B captain",
+  "purpose": "The controlling numbered-session map for the 36-hour burn-down. Mapping only: it changes no family ID, asset ID, allowed path, prohibited path or denominator membership in any existing assignment.",
+  "capturedAt": "2026-08-21",
+  "captainLaneBranch": "claude/rcap-pdf-inventory-closure-ty4m7x",
+  "captainLaneTip": "ef5c9d500f75f2a18be7c29df14db94e6ed457f0",
+  "gateBExecutionBase": "ef5c9d500f75f2a18be7c29df14db94e6ed457f0",
+  "publishedFrom": {
+    "branch": "claude/optimistic-davinci-be3t2m",
+    "why": "This session's standing constraint pins its pushes to this branch and an earlier re-baseline onto the captain lane was denied by the environment. The record is captain-owned and was validated entirely against the captain lane tip; integrate it by path.",
+    "integrationPath": "data/rcap-all50/gate-b-assignments/session-dispatch.json"
+  },
+  "cancelledReset": {
+    "what": "the pdf-lane-N reset",
+    "status": "cancelled \u2014 not adopted",
+    "observed": "pdf-lane-2.json through pdf-lane-7.json, pdf-lanes-index.json and reviewer-8/9/10/11.json already exist at the captain lane tip, published by commit ef5c9d50 'one Gate B execution base, six PDF lanes, four reviewer queues'.",
+    "captainRuling": "None of those files is created, adopted or dispatched against. Execution runs on the existing eleven assignments only. They are left in place rather than deleted: removing another lane's published records is a destructive change this dispatch does not authorize, and no session is dispatched to them, so they are inert.",
+    "noReviewerReassignedToImplementation": true
+  },
+  "entryVerification": {
+    "commit40900689InAncestry": true,
+    "denominator": {
+      "platform_ready": 5,
+      "retired": 42,
+      "retained_problematic": 81,
+      "retained_missing": 37
+    },
+    "denominatorMatchesRequired": true,
+    "elevenAssignmentFilesPresent": true,
+    "assetOverlapAmongNonEvidenceAssignments": 0,
+    "assetOverlapBetweenTheTwoEvidenceSurfaces": 39,
+    "assetOverlapNote": "evidence-sidecars and evidence-visual cover the same 39 assets by design \u2014 the index's disjointness clause makes them two surfaces over one batch, disjoint at path level, not at asset level. Verified that the duplicated set is exactly their intersection and that no other pair of assignments shares an asset.",
+    "realAllowedPathOverlaps": 0,
+    "pathOverlapNote": "Six raw path collisions exist among reviewer-a/b/c/d and every one is the literal '<own-batch>' placeholder token, which each reviewer substitutes with its own batch name. Zero concrete paths collide.",
+    "platformReadyAssetsAssigned": 0,
+    "platformReadyFamilies": [
+      "AK:tf-800-form-en",
+      "AK:tf-805-form-en",
+      "NC:aoc-cr-287-form-en",
+      "NC:aoc-cr-288-form-en",
+      "WI:cr-266-form-en"
+    ],
+    "platformReadyExclusionVerified": "none of the five appears in any of the eleven assignments' familyIds"
+  },
+  "sessions": [
+    {
+      "session": 1,
+      "role": "captain / integration",
+      "assignment": null,
+      "branch": "claude/rcap-pdf-inventory-closure-ty4m7x",
+      "tip": "ef5c9d500f75f2a18be7c29df14db94e6ed457f0"
+    },
+    {
+      "session": 2,
+      "role": "independent review",
+      "assignment": "reviewer-a.json",
+      "branch": "claude/optimistic-davinci-be3t2m",
+      "tip": "5fb94d34d1fc15d4b54393072a76656487f5aa30",
+      "assets": 0,
+      "families": 0,
+      "note": "holds the accepted approvals in wave-c-final-a-r2 for AK:tf-800-form-en and AK:tf-805-form-en; must never be dispatched to implementation"
+    },
+    {
+      "session": 3,
+      "role": "independent review",
+      "assignment": "reviewer-b.json",
+      "branch": "claude/gate-b-wave-c-review-zr5151",
+      "tip": "edcc60e5c6ab",
+      "assets": 0,
+      "families": 0
+    },
+    {
+      "session": 4,
+      "role": "independent review",
+      "assignment": "reviewer-c.json",
+      "branch": "claude/epic-newton-022oud",
+      "tip": "fe06bc1920f9",
+      "assets": 0,
+      "families": 0
+    },
+    {
+      "session": 5,
+      "role": "independent review",
+      "assignment": "reviewer-d.json",
+      "branch": "claude/gate-b-wave-c-review-kibrgo",
+      "tip": "892a901403de",
+      "assets": 0,
+      "families": 0
+    },
+    {
+      "session": 6,
+      "role": "shared code and source-pack factory",
+      "assignment": null,
+      "branch": "claude/rcap-gate-b-shared-hotfix-after-lane1",
+      "tip": "190643bcfce9549b1434d1a6350ee9d623cf8d58",
+      "note": "tip is the shared finalizer hotfix Session 8 must consume"
+    },
+    {
+      "session": 7,
+      "role": "family rerender",
+      "assignment": "family-rerender-1.json",
+      "branch": "claude/rcap-gate-b-family-rerender-1-cac37584",
+      "tip": "4e6b919b9923f3fb5e678f8f9acc3a058454b38a",
+      "assets": 20,
+      "families": 21
+    },
+    {
+      "session": 8,
+      "role": "family rerender",
+      "assignment": "family-rerender-2.json",
+      "branch": "claude/rcap-gate-b-family-rerender-2-cac37584",
+      "tip": "af9c0107a29c8a2ba2557473c4cb31211843aca9",
+      "assets": 19,
+      "families": 28,
+      "correctionBranch": "claude/rcap-gate-b-lane2-batch01-finalizer-correction",
+      "correctionTip": "ad3bca357e8030f5d07207aeec2d07927f3b1912"
+    },
+    {
+      "session": 9,
+      "role": "evidence \u2014 sidecars",
+      "assignment": "evidence-sidecars.json",
+      "branch": "claude/rcap-gate-b-sidecars-lane2-batch01-corrected",
+      "tip": "818c0ddc63cc8483ca0ab55430e15d7b9d0d3ac7",
+      "assets": 39,
+      "families": 49
+    },
+    {
+      "session": 10,
+      "role": "evidence \u2014 visual",
+      "assignment": "evidence-visual.json",
+      "branch": "claude/rcap-gate-b-visual-lane2-batch01-clean",
+      "tip": "ac91c7d0a1b5bbd58a02c453cfd02b978b4a70e6",
+      "assets": 39,
+      "families": 49
+    },
+    {
+      "session": 11,
+      "role": "source acquisition \u2014 direct",
+      "assignment": "source-direct.json",
+      "branch": null,
+      "tip": null,
+      "assets": 18,
+      "families": 18,
+      "note": "no separate contributor branch observed; its handoff records are last integrated at the captain lane tip"
+    },
+    {
+      "session": 12,
+      "role": "source acquisition \u2014 resolution",
+      "assignment": "source-resolution.json",
+      "branch": null,
+      "tip": null,
+      "assets": 19,
+      "families": 19,
+      "note": "no separate contributor branch observed; its handoff records are last integrated at the captain lane tip"
+    },
+    {
+      "session": 13,
+      "role": "retirement / repoint",
+      "assignment": "retirement-repoint.json",
+      "branch": "claude/rcap-retirement-corpus-guard",
+      "tip": "08f8e45be9e9a07ada31858883b1179a35001850",
+      "assets": 5,
+      "families": 7
+    }
+  ],
+  "totals": {
+    "sessions": 13,
+    "assignmentsDispatched": 11,
+    "assetsAssigned": 159,
+    "assetsAssignedDistinct": 120,
+    "distinctNote": "159 counts the 39 evidence assets twice, once per evidence surface"
+  },
+  "immediateExecutionOrder": {
+    "session7": {
+      "action": "continue family-rerender-1 from 4e6b919b; push the first four source-ready, technically unblocked assigned families as one atomic rerender commit",
+      "skip": "AOC-CR-296 until the shared ownership/no-fill correction is consumed",
+      "constraint": "must not touch families on which it holds an independent verdict"
+    },
+    "session8": {
+      "action": "continue family-rerender-2; consume shared finalizer hotfix 190643bc; one atomic commit per pack",
+      "batch01": [
+        "KY:aoc-496-form-en",
+        "KY:aoc-496-2-form-en",
+        "KY:aoc-496-4-form-en",
+        "NE:cc-6-11-form-en",
+        "NE:cc-6-11-2-form-en",
+        "NE:cc-6-12-form-en"
+      ],
+      "batch02": [
+        "NE:cc-6-15-1-form-en",
+        "NE:dc-1-15-form-en"
+      ],
+      "batch04": [
+        "VT:600-00228-support-en"
+      ]
+    },
+    "session6": {
+      "action": "materialize exact source packs for the thirteen source-required assets already classified packable_from_master_library, from the verified 499-file / 329-PDF Master Library using the committed source-pack factory",
+      "prohibited": "must not modify source-direct or source-resolution handoff records",
+      "handoff": "give each pack to its owning Session 11 or Session 12"
+    },
+    "sessions11and12": {
+      "action": "continue existing assignments; use a Master Library pack when available, otherwise acquire or resolve the official publisher source; push each exact source identity or exact blocker immediately",
+      "prohibited": "never substitute a LegalEase output, HTML index or fixture",
+      "rule": "one failed source may not hold successful sources"
+    },
+    "session13": {
+      "action": "continue retirement-repoint.json only; process all five exact assets",
+      "gate": "integrate the relocated corpus guard only after confirming application and worker input diffs remain empty"
+    }
+  },
+  "evidenceAndReviewConveyor": {
+    "onRerenderPush": "Session 9 generates sidecars and Session 10 generates all-page visual evidence, both from that exact commit, both pushing without waiting for one another",
+    "onBothEvidenceCommits": "assign the batch to the reviewer with the smallest queue among Sessions 2, 3, 4 and 5",
+    "reviewerSla": "one current canonical verdict per family within 60 minutes",
+    "captainSla": "consume every approval within 10 minutes, then regenerate and push the denominator immediately",
+    "doNotWaitFor": "a whole state, lane or wave",
+    "reviewerIndependence": "a reviewer may never be assigned a family whose implementation or evidence that same session produced; Session 2 in particular holds live approvals and stays review-only"
+  },
+  "contributorRules": [
+    "no full npm test",
+    "no new assignment architecture",
+    "no new verifier unless the exact current defect cannot be measured by an existing one",
+    "no branch-wide archaeology after the controlling base is found",
+    "no repeated green mutation suite",
+    "no polling updates",
+    "four families maximum per rerender commit",
+    "push mixed outcomes",
+    "one blocked family cannot hold the rest",
+    "only the captain runs aggregate verification after integration"
+  ]
+}
