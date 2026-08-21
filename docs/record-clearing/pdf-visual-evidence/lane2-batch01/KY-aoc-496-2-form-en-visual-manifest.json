@@ -1,0 +1,507 @@
+{
+  "schemaVersion": "rcap-lane2-visual-evidence/v1",
+  "evidenceContract": "rcap-evidence-contract/v2-all-pages-and-geometry",
+  "generatedBy": "scripts/verify-rcap-lane2-visual-evidence.mjs",
+  "familyId": "KY:aoc-496-2-form-en",
+  "artifact": {
+    "path": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en/fixtures/canonical-filled.pdf",
+    "currentArtifactSha256": "b735b7f9109d76f5056bbd870537847b583b37d1a6d8adc615d843afeaed3f9d",
+    "contactSheetSha256": "cebe4246be89b42d8899726d44114b926789ede357dc159e4b477577506d5f37",
+    "finalizedPageCount": 2,
+    "contactSheetPageCount": 2,
+    "pagesRequiringRaster": [
+      1,
+      2
+    ],
+    "pagesRasterized": [
+      1,
+      2
+    ]
+  },
+  "rasterCoverage": {
+    "requiredPages": [
+      1,
+      2
+    ],
+    "renderedPages": [
+      1,
+      2
+    ],
+    "missingPages": [],
+    "stale": false,
+    "refusals": [],
+    "complete": true
+  },
+  "placementAudit": {
+    "placements": [
+      {
+        "value": "24-CR-001234",
+        "forField": "Case.CaseNum",
+        "page": 1,
+        "drawnAt": {
+          "x": 463.6,
+          "y": 699.76,
+          "width": 66
+        },
+        "landedInField": "Case.CaseNum",
+        "landedInRegion": "EALTHOFK"
+      },
+      {
+        "value": "Jordan Avery Reyes",
+        "forField": "Def.Name.Company",
+        "page": 1,
+        "drawnAt": {
+          "x": 42.3,
+          "y": 571.93,
+          "width": 99
+        },
+        "landedInField": "Def.Name.Company",
+        "landedInRegion": "VS."
+      },
+      {
+        "value": "118 Maple Street",
+        "forField": "Def.Address.Line1",
+        "page": 1,
+        "drawnAt": {
+          "x": 42.43,
+          "y": 545.44,
+          "width": 88
+        },
+        "landedInField": "Def.Address.Line1",
+        "landedInRegion": "________________________________________________ NAME DEFENDANT"
+      },
+      {
+        "value": "Springfield",
+        "forField": "Def.Address.City",
+        "page": 1,
+        "drawnAt": {
+          "x": 41.65,
+          "y": 521.22,
+          "width": 60.5
+        },
+        "landedInField": "Def.Address.City",
+        "landedInRegion": "________________________________________________ ADDRESS"
+      },
+      {
+        "value": "01234",
+        "forField": "Def.Address.Zip",
+        "page": 1,
+        "drawnAt": {
+          "x": 269.42,
+          "y": 521.22,
+          "width": 27.5
+        },
+        "landedInField": "Def.Address.Zip",
+        "landedInRegion": "________________________________________________ ADDRESS"
+      },
+      {
+        "value": "555-0142",
+        "forField": "Def.PhoneNo",
+        "page": 1,
+        "drawnAt": {
+          "x": 42.29,
+          "y": 496.53,
+          "width": 44
+        },
+        "landedInField": "Def.PhoneNo",
+        "landedInRegion": "Springfield 01234"
+      },
+      {
+        "value": "1991-04-17",
+        "forField": "Def.VitalStats.DOB",
+        "page": 1,
+        "drawnAt": {
+          "x": 152.83,
+          "y": 473.11,
+          "width": 55
+        },
+        "landedInField": "Def.VitalStats.DOB",
+        "landedInRegion": "Springfield 01234"
+      },
+      {
+        "value": "24-CR-001234",
+        "forField": "Case.CaseNum",
+        "page": 2,
+        "drawnAt": {
+          "x": 437.84,
+          "y": 736.03,
+          "width": 66
+        },
+        "landedInField": "Case.CaseNum",
+        "landedInRegion": "AOC-496.2"
+      }
+    ],
+    "placedOutsideIntendedGeometry": [],
+    "valuesNotLocatable": {
+      "tooShortToLocate": [],
+      "noFactValue": [],
+      "refusedAtRender": [
+        {
+          "field": "Case.County",
+          "factId": "matter.county",
+          "because": "value_not_among_field_options"
+        },
+        {
+          "field": "Def.Address.State",
+          "factId": "participant.state",
+          "because": "value_not_among_field_options"
+        }
+      ]
+    }
+  },
+  "protectedRegionProof": {
+    "drawnIntoAProtectedSlot": [],
+    "basis": "auditPlacements attributes an occurrence only when it matches a fixture value the map declared, so text the official form prints is never counted as participant-derived",
+    "clear": true
+  },
+  "sourceTextPreservation": {
+    "basis": "the official layer is the source's own content streams, carried forward inside a q/Q wrapper with our content strictly appended after it, so nothing in it is rewritten. What can still hide printed text is an opaque box our layer paints on top, so every such box is listed with its rectangle.",
+    "pagesWhereTheOfficialLayerIsIntact": 2,
+    "pagesNotSeparable": [],
+    "pagesCarryingAnOpaqueBoxOverThePage": [
+      1
+    ],
+    "opaqueBoxCount": 12,
+    "clear": false
+  },
+  "writtenAgainstDeclared": {
+    "writtenCount": 7,
+    "declaredCount": 9,
+    "writtenButNotDeclared": [],
+    "declaredButNotWritten": [],
+    "declaredAndRefusedWithAReason": [
+      "Case.County",
+      "Def.Address.State"
+    ],
+    "refusals": [],
+    "balanced": true
+  },
+  "defaultAppearances": {
+    "acroFormPresent": false,
+    "acroFieldCount": 0,
+    "widgetAnnotations": 0,
+    "needAppearances": null,
+    "flat": true,
+    "verdict": "flat: no widget survives to draw a chooser prompt, comb or default appearance",
+    "flattenedPromptsOnThePage": [
+      {
+        "page": 2,
+        "residue": [
+          {
+            "appearance": "FlatWidget-578830786",
+            "box": {
+              "x": 394.25,
+              "y": 745.43,
+              "width": 35.57,
+              "height": 22
+            },
+            "kind": "flattened caption or label",
+            "text": [
+              "County"
+            ]
+          },
+          {
+            "appearance": "FlatWidget-1186010726",
+            "box": {
+              "x": 126.97,
+              "y": 527.37,
+              "width": 114.19,
+              "height": 24.36
+            },
+            "kind": "command button",
+            "text": [
+              "Print ",
+              "Form"
+            ]
+          },
+          {
+            "appearance": "FlatWidget-8268612002",
+            "box": {
+              "x": 243.6,
+              "y": 527.37,
+              "width": 114.19,
+              "height": 24.36
+            },
+            "kind": "command button",
+            "text": [
+              "Reset ",
+              "Form"
+            ]
+          },
+          {
+            "appearance": "FlatWidget-1733050384",
+            "box": {
+              "x": 152.34,
+              "y": 669.19,
+              "width": 204.11,
+              "height": 14.65
+            },
+            "kind": "flattened caption or label",
+            "text": [
+              "LIST ",
+              "AGENCIES ",
+              "AND ",
+              "ADDRESSES ",
+              "HERE:"
+            ]
+          }
+        ]
+      }
+    ],
+    "chooserPromptsSurviving": 0,
+    "commandButtonsSurviving": 2,
+    "clear": false,
+    "note": "A count of surviving widget annotations cannot see a default appearance that flattening moved into the page. Both are asked here."
+  },
+  "pages": [
+    {
+      "page": 1,
+      "carriesFields": true,
+      "images": [
+        "KY-aoc-496-2-form-en-contact-sheet-page-01.png",
+        "KY-aoc-496-2-form-en-finalized-page-01.png"
+      ],
+      "sourceTextPreservation": {
+        "officialLayerIntact": true,
+        "officialStreamsCarriedForward": 8,
+        "ourContentIsStrictlyAppended": true,
+        "opaqueBoxesPaintedOverThePage": [
+          {
+            "appearance": "FlatWidget-250812044",
+            "box": {
+              "x": 91.37,
+              "y": 409.62,
+              "width": 200.96,
+              "height": 15.98
+            },
+            "fillGrey": 1
+          },
+          {
+            "appearance": "FlatWidget-1275322832",
+            "box": {
+              "x": 374.44,
+              "y": 409.62,
+              "width": 200.96,
+              "height": 15.98
+            },
+            "fillGrey": 1
+          },
+          {
+            "appearance": "FlatWidget-7720966295",
+            "box": {
+              "x": 91.37,
+              "y": 391.26,
+              "width": 200.96,
+              "height": 15.98
+            },
+            "fillGrey": 1
+          },
+          {
+            "appearance": "FlatWidget-4525072762",
+            "box": {
+              "x": 374.44,
+              "y": 391.26,
+              "width": 200.96,
+              "height": 15.98
+            },
+            "fillGrey": 1
+          },
+          {
+            "appearance": "FlatWidget-5563853605",
+            "box": {
+              "x": 91.37,
+              "y": 372.95,
+              "width": 200.96,
+              "height": 15.98
+            },
+            "fillGrey": 1
+          },
+          {
+            "appearance": "FlatWidget-4869070959",
+            "box": {
+              "x": 374.44,
+              "y": 372.95,
+              "width": 200.96,
+              "height": 15.98
+            },
+            "fillGrey": 1
+          },
+          {
+            "appearance": "FlatWidget-2163799337",
+            "box": {
+              "x": 70.69,
+              "y": 83.23,
+              "width": 44.67,
+              "height": 18.75
+            },
+            "fillGrey": 1
+          },
+          {
+            "appearance": "FlatWidget-4824990222",
+            "box": {
+              "x": 70.69,
+              "y": 33.92,
+              "width": 44.67,
+              "height": 26.16
+            },
+            "fillGrey": 1
+          },
+          {
+            "appearance": "FlatWidget-5845047960",
+            "box": {
+              "x": 241.88,
+              "y": 68.74,
+              "width": 330.05,
+              "height": 7.84
+            },
+            "fillGrey": 1
+          },
+          {
+            "appearance": "FlatWidget-6837590713",
+            "box": {
+              "x": 110.84,
+              "y": 212.25,
+              "width": 13.42,
+              "height": 13.75
+            },
+            "fillGrey": 1
+          },
+          {
+            "appearance": "FlatWidget-6235467693",
+            "box": {
+              "x": 387.45,
+              "y": 196.02,
+              "width": 13.42,
+              "height": 13.75
+            },
+            "fillGrey": 1
+          },
+          {
+            "appearance": "FlatWidget-2668124169",
+            "box": {
+              "x": 384.74,
+              "y": 178.87,
+              "width": 13.42,
+              "height": 13.75
+            },
+            "fillGrey": 1
+          }
+        ]
+      },
+      "defaultAppearanceResidue": []
+    },
+    {
+      "page": 2,
+      "carriesFields": true,
+      "images": [
+        "KY-aoc-496-2-form-en-contact-sheet-page-02.png",
+        "KY-aoc-496-2-form-en-finalized-page-02.png"
+      ],
+      "sourceTextPreservation": {
+        "officialLayerIntact": true,
+        "officialStreamsCarriedForward": 1,
+        "ourContentIsStrictlyAppended": true,
+        "opaqueBoxesPaintedOverThePage": []
+      },
+      "defaultAppearanceResidue": [
+        {
+          "appearance": "FlatWidget-578830786",
+          "box": {
+            "x": 394.25,
+            "y": 745.43,
+            "width": 35.57,
+            "height": 22
+          },
+          "kind": "flattened caption or label",
+          "text": [
+            "County"
+          ]
+        },
+        {
+          "appearance": "FlatWidget-1186010726",
+          "box": {
+            "x": 126.97,
+            "y": 527.37,
+            "width": 114.19,
+            "height": 24.36
+          },
+          "kind": "command button",
+          "text": [
+            "Print ",
+            "Form"
+          ]
+        },
+        {
+          "appearance": "FlatWidget-8268612002",
+          "box": {
+            "x": 243.6,
+            "y": 527.37,
+            "width": 114.19,
+            "height": 24.36
+          },
+          "kind": "command button",
+          "text": [
+            "Reset ",
+            "Form"
+          ]
+        },
+        {
+          "appearance": "FlatWidget-1733050384",
+          "box": {
+            "x": 152.34,
+            "y": 669.19,
+            "width": 204.11,
+            "height": 14.65
+          },
+          "kind": "flattened caption or label",
+          "text": [
+            "LIST ",
+            "AGENCIES ",
+            "AND ",
+            "ADDRESSES ",
+            "HERE:"
+          ]
+        }
+      ]
+    }
+  ],
+  "rasters": [
+    {
+      "page": 1,
+      "of": "contact-sheet",
+      "image": "docs/record-clearing/pdf-visual-evidence/lane2-batch01/KY-aoc-496-2-form-en-contact-sheet-page-01.png",
+      "sha256": "0264b2b65568fc633e7f8ce07c5876a275bf0fbddd2b31726bfe9759959f7f6a",
+      "widthPx": 1678,
+      "heightPx": 1162,
+      "boundToArtifactSha256": "b735b7f9109d76f5056bbd870537847b583b37d1a6d8adc615d843afeaed3f9d"
+    },
+    {
+      "page": 1,
+      "of": "finalized",
+      "image": "docs/record-clearing/pdf-visual-evidence/lane2-batch01/KY-aoc-496-2-form-en-finalized-page-01.png",
+      "sha256": "73ee4b259bfe4ca4837dcc52440c141d788c598ab4351e3781b0ad62b8b23b87",
+      "widthPx": 1224,
+      "heightPx": 1584,
+      "boundToArtifactSha256": "b735b7f9109d76f5056bbd870537847b583b37d1a6d8adc615d843afeaed3f9d"
+    },
+    {
+      "page": 2,
+      "of": "contact-sheet",
+      "image": "docs/record-clearing/pdf-visual-evidence/lane2-batch01/KY-aoc-496-2-form-en-contact-sheet-page-02.png",
+      "sha256": "9d3c33891de8c88c3d6d71541158ee68668685dac4f0ae4df5883b3dfc1334d7",
+      "widthPx": 1678,
+      "heightPx": 1162,
+      "boundToArtifactSha256": "b735b7f9109d76f5056bbd870537847b583b37d1a6d8adc615d843afeaed3f9d"
+    },
+    {
+      "page": 2,
+      "of": "finalized",
+      "image": "docs/record-clearing/pdf-visual-evidence/lane2-batch01/KY-aoc-496-2-form-en-finalized-page-02.png",
+      "sha256": "40ce52044c6f9127af336e374f430d818eb1727ff6859617cc7481a271a4a0ac",
+      "widthPx": 1224,
+      "heightPx": 1584,
+      "boundToArtifactSha256": "b735b7f9109d76f5056bbd870537847b583b37d1a6d8adc615d843afeaed3f9d"
+    }
+  ],
+  "visualManifestHash": "b586af592ae4976dcf30c203bb611e8b1a8801ec823776517aac1fa7fb532cc0"
+}
