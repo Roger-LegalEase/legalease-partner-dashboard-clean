@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "rcap-all-page-visual-evidence-index/v1",
+  "generatedBy": "scripts/generate-rcap-all-page-visual-evidence.mjs",
+  "purpose": "Every page of every finalized RCAP artifact, rendered and measured: where the marks LegalEase added landed, and what of the official form they left alone.",
+  "method": {
+    "renderer": "Chromium's bundled PDF engine, via scripts/rcap-official-forms/rcap-pdf-rasterize.mjs",
+    "scale": 2,
+    "layerSeparation": "Structural, not differential. Each artifact page carries [q, official source stream, Q, appended generated stream]; the official layer is the source's own stream object rather than a reconstruction, so no blank binary is needed to tell the two apart.",
+    "placement": "Ink in the generated-layer render is clustered, converted to page points and required to sit inside a rectangle the family's own map declares writable, within 4pt.",
+    "protectedRegions": "A protected region is breached only by ink in the GENERATED layer. Official text printed inside a signature or clerk block lives in the source layer and is never counted as a leak.",
+    "sourcePreservation": "Source-layer ink absent from the finalized render is source text the fill destroyed, counted in pixels.",
+    "values": "Written values are read back out of the overlay's own content stream with their coordinates, so the text side of the verdict is independent of the pixel side."
+  },
+  "totals": {
+    "familiesCovered": 5,
+    "familiesInProductionTree": 63,
+    "pagesExpected": 10,
+    "pagesRasterized": 10,
+    "rastersRecorded": 31,
+    "familiesWithEveryPageCovered": 5,
+    "familiesWithNoFindings": 0,
+    "familiesWithFindings": 5,
+    "familiesWithParticipantDerivedInkInAProtectedRegion": 0,
+    "familiesWithSourceTextLoss": 0,
+    "familiesNotFlat": 0,
+    "familiesWhereFlatteningRedrewFormFurniture": 4,
+    "familiesWhosePinnedSourceIsInThisClone": 1,
+    "controlFamiliesWhoseOfficialLayerMatchesThePinnedBinary": 1
+  },
+  "families": [
+    {
+      "familyId": "AK:tf-800-form-en",
+      "artifactSha256": "9583d1f2228dc3ba9a36b3cf61f3cfc36e8ac90246c1d9b965138bc4054cd227",
+      "pagesExpected": 3,
+      "pagesRasterized": 3,
+      "visualEvidenceHash": "9a35972cf99b66b1325322a0cabf4aacef76f33d204e34cddf53cf1a1254eac1",
+      "findings": 5,
+      "placement": "generated ink is outside or across a declared writable rectangle",
+      "protectedRegions": "no generated ink touches a protected region",
+      "sourcePreservation": "every pixel of official source ink survives into the finalized page",
+      "defaultAppearances": "clear",
+      "pinnedSourceControl": "not available: the pinned source binary is not in this clone",
+      "manifest": "data/rcap-all50/visual-evidence/families/AK__tf-800-form-en.json"
+    },
+    {
+      "familyId": "AK:tf-805-form-en",
+      "artifactSha256": "4ff71dd8d636a2bb5340737dafb4d258bba2b0d950065654528af52d2d88a979",
+      "pagesExpected": 2,
+      "pagesRasterized": 2,
+      "visualEvidenceHash": "3a8aaeb6b9bc20b7be019623a08dc390ef9dea545b13577654883da6c8c83f47",
+      "findings": 2,
+      "placement": "every generated mark sits inside a declared writable rectangle",
+      "protectedRegions": "no generated ink touches a protected region",
+      "sourcePreservation": "every pixel of official source ink survives into the finalized page",
+      "defaultAppearances": "clear",
+      "pinnedSourceControl": "not available: the pinned source binary is not in this clone",
+      "manifest": "data/rcap-all50/visual-evidence/families/AK__tf-805-form-en.json"
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-en",
+      "artifactSha256": "c6807758e58b8ee0cb9c91f6da8bb50a4c3ab838329e3e47fce9cf0fe6123f4f",
+      "pagesExpected": 2,
+      "pagesRasterized": 2,
+      "visualEvidenceHash": "f18751e4d3eba22af9a7bb59054b129ef2e7b3a51740970af1a686dd318ebc37",
+      "findings": 14,
+      "placement": "every generated mark sits inside a declared writable rectangle",
+      "protectedRegions": "no participant-derived ink in any protected region; flattening re-drew the form's own outline inside one",
+      "sourcePreservation": "every pixel of official source ink survives into the finalized page",
+      "defaultAppearances": "clear",
+      "pinnedSourceControl": "not available: the pinned source binary is not in this clone",
+      "manifest": "data/rcap-all50/visual-evidence/families/NC__aoc-cr-287-form-en.json"
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "artifactSha256": "96ff5609fb6a0e9168e6e86c36112a538a231334155ac166a1027302c154a1d6",
+      "pagesExpected": 2,
+      "pagesRasterized": 2,
+      "visualEvidenceHash": "86debf8e08b742f4c97d984dc5a85f9630326633d8c5ec5235934ef9a791b9de",
+      "findings": 10,
+      "placement": "every generated mark sits inside a declared writable rectangle",
+      "protectedRegions": "no participant-derived ink in any protected region; flattening re-drew the form's own outline inside one",
+      "sourcePreservation": "every pixel of official source ink survives into the finalized page",
+      "defaultAppearances": "clear",
+      "pinnedSourceControl": "not available: the pinned source binary is not in this clone",
+      "manifest": "data/rcap-all50/visual-evidence/families/NC__aoc-cr-288-form-en.json"
+    },
+    {
+      "familyId": "WI:cr-266-form-en",
+      "artifactSha256": "5e78523d2a44d27fb280d87622f9f7d16afbf2b247ade9b31ad9f8fa51bb50e7",
+      "pagesExpected": 1,
+      "pagesRasterized": 1,
+      "visualEvidenceHash": "0f645285f05698d0e70493b9e1dee2a91cf8027cf28ebf43259cb5ebbc569aa8",
+      "findings": 1,
+      "placement": "every generated mark sits inside a declared writable rectangle",
+      "protectedRegions": "no generated ink touches a protected region",
+      "sourcePreservation": "every pixel of official source ink survives into the finalized page",
+      "defaultAppearances": "clear",
+      "pinnedSourceControl": "control held: the isolated official layer renders as the pinned source binary does",
+      "manifest": "data/rcap-all50/visual-evidence/families/WI__cr-266-form-en.json"
+    }
+  ]
+}

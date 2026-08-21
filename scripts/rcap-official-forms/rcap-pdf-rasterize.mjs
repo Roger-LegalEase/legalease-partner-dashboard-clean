@@ -54,14 +54,29 @@ export async function pageGeometry(bytes) {
  * `scale` multiplies the PDF's own point dimensions to give the pixel size, so
  * scale 1 is 72dpi and scale 2 is 144dpi. Returns one row per rendered page.
  */
-export async function rasterizePdf({ file, outDir, pages = null, scale = 1.6, prefix = "page" }) {
+export async function withRasterBrowser(body) {
+  const { chromium } = require("playwright");
+  const browser = await chromium.launch({ executablePath: CHROMIUM, args: ["--no-sandbox"] });
+  try {
+    return await body(browser);
+  } finally {
+    await browser.close();
+  }
+}
+
+export async function rasterizePdf({ file, outDir, pages = null, scale = 1.6, prefix = "page", browser = null }) {
   const { chromium } = require("playwright");
   const bytes = fs.readFileSync(file);
   const geometry = await pageGeometry(bytes);
   const wanted = pages ?? geometry.map((g) => g.page);
 
   fs.mkdirSync(outDir, { recursive: true });
-  const browser = await chromium.launch({ executablePath: CHROMIUM, args: ["--no-sandbox"] });
+  // A caller rendering hundreds of pages passes its own browser: a launch costs
+  // a second or two, and paying it once per FILE turns a whole-corpus render
+  // into minutes of process startup. A caller that passes nothing keeps the
+  // original behaviour exactly, including closing what it opened.
+  const ownBrowser = browser
+    ?? await chromium.launch({ executablePath: CHROMIUM, args: ["--no-sandbox"] });
   const rendered = [];
   try {
     for (const pageNumber of wanted) {
@@ -86,7 +101,7 @@ export async function rasterizePdf({ file, outDir, pages = null, scale = 1.6, pr
       // settle and the outcome is reported rather than assumed.
       while (attempts < MAX_RASTER_ATTEMPTS && blank) {
         attempts += 1;
-        const tab = await browser.newPage({ viewport });
+        const tab = await ownBrowser.newPage({ viewport });
         const url = `file://${path.resolve(file)}#page=${pageNumber}&toolbar=0&navpanes=0&scrollbar=0&zoom=page-fit`;
         await tab.goto(url);
         await tab.waitForTimeout(baseSettle * attempts);
@@ -98,7 +113,7 @@ export async function rasterizePdf({ file, outDir, pages = null, scale = 1.6, pr
         pdfWidthPt: geo.width, pdfHeightPt: geo.height, attempts, looksBlank: blank });
     }
   } finally {
-    await browser.close();
+    if (!browser) await ownBrowser.close();
   }
   return rendered;
 }
