@@ -339,39 +339,93 @@ const LANE_2_EVIDENCE_WAVE = (() => {
     "NE:cc-6-11-form-en": "e6ffff87", "NE:cc-6-11-2-form-en": "e6ffff87", "NE:cc-6-12-form-en": "e6ffff87",
     "NE:cc-6-15-1-form-en": "ad3bca35", "NE:dc-1-15-form-en": "ad3bca35", "VT:600-00228-support-en": "ad3bca35"
   };
-  const familyIds = Object.keys(COMMIT);
-  const assignmentPath = `${ASSIGNMENTS}/family-rerender-2.json`;
-  const assignment = readJson(assignmentPath);
+  const AFFECTED = new Set([
+    "KY:aoc-496-form-en", "KY:aoc-496-2-form-en", "NE:cc-6-11-form-en", "NE:cc-6-11-2-form-en",
+    "NE:cc-6-12-form-en", "NE:cc-6-15-1-form-en", "NE:dc-1-15-form-en"
+  ]);
+  const assignment = readJson(`${ASSIGNMENTS}/family-rerender-2.json`);
   const assigned = new Set(assignment.familyIds ?? []);
   const allowed = assignment.allowedPaths ?? [];
 
-  const families = familyIds.map((familyId) => {
+  // The pack a family's source member belongs to, read from the committed pack
+  // manifests rather than assumed from the batch number.
+  const packDir = "data/rcap-all50/source-packs";
+  const packs = fs.readdirSync(abs(packDir))
+    .filter((f) => f.startsWith("family-rerender-lane-2") && f.endsWith(".manifest.json"))
+    .map((f) => ({ file: `${packDir}/${f}`, body: readJson(`${packDir}/${f}`) }));
+  const memberFor = (familyId) => {
+    for (const pack of packs) {
+      for (const entry of pack.body.files ?? []) {
+        if ((entry.familyIds ?? []).includes(familyId)) {
+          return { packId: pack.body.packId, manifest: pack.file, pathInArchive: entry.pathInArchive,
+            memberSha256: entry.sha256 ?? null, memberByteLength: entry.byteLength ?? null,
+            built: pack.body.built === true, archiveFileName: pack.body.zip ?? null };
+        }
+      }
+    }
+    return null;
+  };
+
+  const families = Object.keys(COMMIT).map((familyId) => {
     const slug = familyId.split(":").pop();
     const dir = `data/rcap-all50/overlays/production/${STATE[familyId.split(":")[0]]}/${slug}`;
-    const inAssignment = assigned.has(familyId);
-    const allowedPath = allowed.find((p) => p.replace(/\/\*\*$/, "") === dir) ?? null;
-    if (!inAssignment) fail(`lane 2 wave: ${familyId} is not in Session 8's assignment`);
+    if (!assigned.has(familyId)) fail(`lane 2 wave: ${familyId} is not in Session 8's assignment`);
+    const allowedPath = allowed.find((x) => x.replace(/\/\*\*$/, "") === dir) ?? null;
     if (!allowedPath) fail(`lane 2 wave: ${familyId} has no allowedPath authorizing ${dir}`);
-    const sourceRecord = readJsonOrNull(path.join(rootDir, dir, "source-record.json"));
+    const member = memberFor(familyId);
+    if (!member) fail(`lane 2 wave: ${familyId} appears in no lane-2 source-pack manifest`);
     return {
-      familyId,
-      packageDirectory: dir,
+      familyId, packageDirectory: dir,
       ownedBy: { session: 8, assignment: "family-rerender-2.json" },
-      allowedPath,
-      implementationCommit: COMMIT[familyId],
-      canonicalBundlePath: sourceRecord?.canonicalBundlePath ?? sourceRecord?.relativePath ?? null,
-      expectedSourcePackMember: sourceRecord?.canonicalBundlePath
-        ? String(sourceRecord.canonicalBundlePath).split("Edition_1/").pop() : null,
+      allowedPath, implementationCommit: COMMIT[familyId],
+      sourcePackBatch: member.packId, sourcePackManifest: member.manifest,
+      sourcePackMemberPath: member.pathInArchive,
+      sourceMemberSha256: member.memberSha256, sourceMemberByteLength: member.memberByteLength,
+      status: AFFECTED.has(familyId) ? "affected_correction_required" : "frozen_diagnostic_pass",
       frozen: true
     };
   });
 
+  const packMatrix = [...new Map(packs.map((p) => [p.body.packId, p])).values()].map(({ file, body }) => ({
+    packId: body.packId,
+    manifest: file,
+    archiveFileName: body.zip,
+    archiveSha256: null,
+    archiveByteLength: null,
+    built: body.built === true,
+    memberCount: (body.files ?? []).length,
+    membersInThisWave: (body.files ?? [])
+      .filter((e) => (e.familyIds ?? []).some((f) => Object.keys(COMMIT).includes(f)))
+      .map((e) => ({ familyIds: (e.familyIds ?? []).filter((f) => Object.keys(COMMIT).includes(f)),
+        pathInArchive: e.pathInArchive, sha256: e.sha256, byteLength: e.byteLength }))
+  })).filter((p) => p.membersInThisWave.length);
+
   return {
     wave: "lane-2-evidence",
     implementationBase: "ad3bca357e8030f5d07207aeec2d07927f3b1912",
-    sourcePackSha256: "11e1311c3f79861617f27a2c6eb802268ed7fff1af0e527644a132a4d961c891",
+    implementationStatus: "visual_gate_failed",
+    canonicalSidecars: "none",
+    canonicalVisual: "none",
+    reviewer: "not dispatched",
+    diagnosticVisual: {
+      commit: "9c92412f60d3acc3d88400227915a26803531fea",
+      disposition: "diagnostic_only_source_bytes_unavailable",
+      rastersManifestsIndexIntegrated: false,
+      why: "its own manifests record binaryAvailableToThisRun false and censusPinConfirmedAgainstBytes false: the lane 2 pack is not in the clone, so nothing it says about source preservation rests on official bytes",
+      butItsArtifactBoundObservationsReopenedTheGate: true
+    },
     familyCount: families.length,
+    affectedFamilies: [...AFFECTED],
+    frozenCleanFamilies: ["KY:aoc-496-4-form-en", "VT:600-00228-support-en"],
     families,
+    sourcePackMatrix: packMatrix,
+    sourcePackArchivesDoNotExistYet: {
+      zipsBuilt: 0,
+      consequence:
+        "no archive filename, archive SHA-256 or archive byte length exists to publish for any lane-2 pack. Every manifest records built:false and zip:null, and the generator that would build them writes into tmp/source-packs, which git refuses to track. Member paths, member digests and member byte lengths ARE published below, because those are pinned in the manifests; the archive-level values are not invented.",
+      withdrawnClaim:
+        "an earlier checkpoint recorded sourcePackSha256 11e1311c… for this wave. That value is a pack-pinned member digest carried in the diagnostic's manifests, not the SHA-256 of a built archive, and it was recorded here without being derived. It is withdrawn as an archive digest."
+    },
     gate: {
       allNineInTheAssignment: true,
       allNineCoveredByAnAllowedPath: true,
@@ -379,10 +433,17 @@ const LANE_2_EVIDENCE_WAVE = (() => {
       parentAssignmentSize: (assignment.familyIds ?? []).length,
       note: "the parent assignment holds more than nine, and that is not a failure — the gate is about these nine, not the parent's size"
     },
-    sidecarEvidence: { session: 9, worktree: "evidence-only", from: "exactly ad3bca357e8030f5d07207aeec2d07927f3b1912" },
-    visualEvidence: { session: 10, worktree: "evidence-only", from: "exactly ad3bca357e8030f5d07207aeec2d07927f3b1912" },
-    reviewer: { session: 2, isAnEvidenceProducer: false },
-    freeze: "no implementation session may modify these nine packages until evidence and review complete",
+    dispatch: {
+      correctionSession: 8,
+      sidecarSession: { session: 9, status: "not_dispatched" },
+      visualSession: { session: 10, status: "not_dispatched" },
+      reviewer: { session: 2, status: "not_dispatched", isAnEvidenceProducer: false },
+      evidenceMayNotStartUntil: [
+        "Session 8 pushes the corrected implementation",
+        "every required source-pack archive hash is published",
+        "every required source archive is available to the evidence sessions"
+      ]
+    },
     changesNothingElse:
       "no implementation package, assignment ownership, count, register, denominator or review record is altered by publishing this scope"
   };
