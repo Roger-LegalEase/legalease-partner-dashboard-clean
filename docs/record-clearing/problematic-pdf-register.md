@@ -1677,7 +1677,7 @@ Defects:
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
 - **Defect categories**: currentness_unverified, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, visually_unsafe
-- **Technical disposition**: no_fill_prosecutor_owned_document
+- **Technical disposition**: no_fill_outside_party_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: medium
@@ -1687,11 +1687,11 @@ Defects:
 
 - `currentness_unverified` — Revision REV-2025-03 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
-- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — prosecutor_owned_no_participant_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — prosecutor_controlled_not_participant_filing _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "District" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Superior" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
@@ -7018,7 +7018,7 @@ Defects:
 - **Binary present**: true
 - **Structural class**: acroform; participant fillable: false
 - **Defect categories**: currentness_unverified, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, visually_unsafe
-- **Technical disposition**: no_fill_prosecutor_owned_document
+- **Technical disposition**: no_fill_outside_party_document
 - **Legal disposition**: no_independent_approval
 - **Owner**: Terminal A route owner
 - **Post-launch priority**: medium
@@ -7028,11 +7028,11 @@ Defects:
 
 - `currentness_unverified` — Revision REV-2025-03 is a candidate current source that no independent currentness review has confirmed. _(source-record.json:freshnessStatus)_
 - `held_on_source_or_design` — Generation from this asset is not allowed by its committed source record. _(source-record.json:generationAllowed)_
-- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
-- `held_on_source_or_design` — prosecutor_owned_no_participant_fill _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — prosecutor_controlled_not_participant_filing _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `visually_unsafe` — Field "ScanNumbers" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "District" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_
 - `visually_unsafe` — Field "Superior" fails the binding_refused check under the canonical fixture: text width undefined exceeds widget width undefined at font size undefined. _(reports/overflow-and-clipping.json)_

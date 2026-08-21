@@ -12,7 +12,7 @@ NE DC-1-15 still binds `printedname` under a certificate-of-service heading and 
 | KY:aoc-496-3-form-en | 24/24 | recomputed | 1, 2, 3 | 1, 2, 3 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-SIDECAR-NONCONFORMANT |
 | NC:aoc-cr-287-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-NO-REFUSE-WHEN, ESC-SIDECAR-NONCONFORMANT |
 | NC:aoc-cr-288-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-MANUAL-NOT-NEVER-WRITE, ESC-NO-REFUSE-WHEN, ESC-SIDECAR-NONCONFORMANT |
-| NC:aoc-cr-298-form-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-SERVICE-BLOCK-BY-NAME, ESC-SIDECAR-NONCONFORMANT |
+| NC:aoc-cr-298-form-en | 25/25 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-SERVICE-BLOCK-BY-NAME, ESC-SIDECAR-NONCONFORMANT |
 | NC:aoc-cv-226-support-en | 24/24 | recomputed | 1, 2 | 1, 2 | yes | yes | ESC-GEOMETRY-NOT-AN-INPUT, ESC-NO-REFUSE-WHEN, ESC-SIDECAR-NONCONFORMANT |
 | NE:cc-6-11-2-form-en | 24/24 | recomputed | 1 | 1 | yes | yes | ESC-CAPTION-VARIANTS, ESC-SIDECAR-NONCONFORMANT |
 | NE:cc-6-11-form-en | 24/24 | recomputed | 1 | 1 | yes | yes | ESC-CAPTION-VARIANTS, ESC-SIDECAR-NONCONFORMANT |

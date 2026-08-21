@@ -17,9 +17,9 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Lane E — orphaned or optional | 8 |
 | Lane F — missing binary, complete participant deferral | 0 |
 | Verified source binaries present in this clone | 1 |
-| Assets with a finalized rendered artifact | 33 |
+| Assets with a finalized rendered artifact | 32 |
 | Assets whose active-content verdict is unprovable | 0 |
-| Contact sheets that show a fill | 29 |
+| Contact sheets that show a fill | 28 |
 | Contact sheets that show no fill | 4 |
 | Active-track assets blocking packet promotion | 1 |
 | Active-track assets safely served by guidance or exact deferral | 18 |
@@ -29,9 +29,9 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Reference-only documents | 3 |
 | Orphaned | 2 |
 | Optional | 0 |
-| Official source required | 53 |
+| Official source required | 54 |
 | Certification unproven | 2 |
-| Independent review required | 27 |
+| Independent review required | 26 |
 | Legal-design hold | 0 |
 | Source-acquisition candidates (priorities 1-3) | 44 |
 | Acquisition priority 1 — packet-capable route waiting | 1 |
@@ -182,9 +182,9 @@ Every asset carries exactly one. `releaseStatus` is a separate axis and is HELD 
 | Disposition | Meaning | Assets |
 | --- | --- | ---: |
 | `active_track_delivery_hold` | An active track's packet delivery is blocked on this asset. | 1 |
-| `official_source_required` | The verified source binary is unavailable, so nothing downstream can be attempted. | 53 |
+| `official_source_required` | The verified source binary is unavailable, so nothing downstream can be attempted. | 54 |
 | `certification_unproven` | Artifacts exist but cannot be certified: their active-content cleanliness or finalization cannot be established from the committed bytes. | 2 |
-| `independent_review_required` | Certifiable artifacts exist and no independent review has approved them. | 27 |
+| `independent_review_required` | Certifiable artifacts exist and no independent review has approved them. | 26 |
 | `legal_design_hold` | A substantive legal-design question is unresolved. | 0 |
 | `reference_only` | An instruction, guidance or supporting-process document, not a filed component. | 3 |
 | `orphaned` | No active track requires it and no candidate binding to one exists. | 2 |
@@ -514,7 +514,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 
 - **Recorded official title**: AOC-CR-296 Petition and Order of Expunction
 - **Affected route**: nc_146_acquittal_petition (route kind: factory_v2)
-- **Active-track status**: active_track; disposition `independent_review_required`
+- **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: no terminal treatment recorded against a track
 - **Controlling first-party publisher**: not recorded (no source URL is recorded against this asset)
 - **Official URL**: none recorded
@@ -964,7 +964,7 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | NC | AOC-CR-288 | B | true | clean and provable | false | never_independently_reviewed |
 | NC | AOC-CR-288 | C | true | clean and provable | true | never_independently_reviewed |
 | NC | AOC-CR-288 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NC | AOC-CR-296 | B | true | clean and provable | true | never_independently_reviewed |
+| NC | AOC-CR-296 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-297 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-297 | C | true | clean and provable | true | never_independently_reviewed |
 | NC | AOC-CR-298 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |

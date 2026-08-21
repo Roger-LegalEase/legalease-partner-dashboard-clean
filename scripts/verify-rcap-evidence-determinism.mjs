@@ -39,7 +39,10 @@ const GENERATORS = [
   // different corpora.
   { script: "scripts/generate-rcap-problematic-pdf-register.mjs", args: [], check: ["--check"] },
   { script: "scripts/generate-rcap-problematic-pdf-master-list.mjs", args: [], check: ["--check"] },
-  { script: "scripts/generate-rcap-source-acquisition-queue.mjs", args: [], check: ["--check"] }
+  { script: "scripts/generate-rcap-source-acquisition-queue.mjs", args: [], check: ["--check"] },
+  // Last: it hashes the shared modules and the approved families, so it has to
+  // see the tree every other generator has finished with.
+  { script: "scripts/generate-rcap-shared-module-freeze.mjs", args: [], check: ["--check"] }
 ];
 
 const failures = [];
@@ -72,7 +75,7 @@ function treeDigest() {
 function run(generator, args, label) {
   const started = Date.now();
   try {
-    execFileSync("node", [generator, ...args], { cwd: rootDir, stdio: ["ignore", "pipe", "pipe"], maxBuffer: 1 << 28 });
+    execFileSync("node", ["--max-old-space-size=1536", generator, ...args], { cwd: rootDir, stdio: ["ignore", "pipe", "pipe"], maxBuffer: 1 << 28 });
     return { ok: true, seconds: Math.round((Date.now() - started) / 1000) };
   } catch (error) {
     const output = `${error.stdout ?? ""}${error.stderr ?? ""}`.trim().split("\n").filter(Boolean);
