@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-blocker/v1",
+  "raisedBy": "independent reviewer A (claude/optimistic-davinci-be3t2m)",
+  "raisedAgainst": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "scope": "reviewer-owned record only. No implementation, evidence, generator, verifier or historical record was modified. This lane does not own the fix.",
+  "headline": "Canonical-layout re-emission cannot move platform_ready. Both approval channels require two classification fields that 113 of 114 committed field-classification.json files do not carry.",
+  "materiallyDifferentFrom": "The war-room controlling assumption that platform_ready reaches 5 once the four approval records are discovered in canonical layout. Re-emission is necessary but not sufficient; on current bytes it moves the count by zero.",
+  "theClause": {
+    "module": "scripts/rcap-official-forms/rcap-platform-ready.mjs",
+    "appliesTo": "both overlayProfileApproval and reviewRecordApproval — it is the clause the two channels share, so neither channel can bypass it",
+    "test": "!classification || Number(classification.classifiedFieldsOrAnchors) !== Number(classification.discoveredFieldsOrAnchors) || Number(classification.discoveredFieldsOrAnchors) === 0",
+    "refusal": "the field or anchor classification is not complete",
+    "whyItAlwaysFires": "When the two keys are absent both sides are Number(undefined) === NaN, and NaN !== NaN is true, so the comparison refuses before the zero check is reached."
+  },
+  "measuredSchemaSplit": {
+    "countedAt": "e94fb456",
+    "totalClassificationFiles": 114,
+    "carryingBothCountKeys": 1,
+    "bySchemaVersion": {
+      "rcap-field-classification/v4-nine-class": {"files": 88, "carriesCounts": false},
+      "rcap-field-classification/v1": {"files": 24, "carriesCounts": false},
+      "rcap-field-classification/v2": {"files": 1, "carriesCounts": false},
+      "rcap-field-classification/v2-complete": {"files": 1, "carriesCounts": true}
+    },
+    "theOneThatCarriesThem": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/field-classification.json (discoveredFieldsOrAnchors 11, classifiedFieldsOrAnchors 11)"
+  },
+  "provenByRunningTheRealGate": [
+    {"familyId": "WI:cr-266-form-en", "platformReadyVerdict": "approved", "channel": "overlay_profile", "reason": "independent review approved these exact bytes after 4 round(s)", "note": "this is the current platform_ready = 1, and it is the only family whose classification carries the counts"},
+    {"familyId": "AK:tf-800-form-en", "platformReadyVerdict": "refused", "channel": null, "reason": "the field or anchor classification is not complete", "note": "clears all twelve conditions of reviewRecordApproval first — verdict, record verifier, independence, source binary, field map, classification hash, every artifact, provenance sidecar, visual evidence, no open correction, currency, asset identity"}
+  ],
+  "isolation": "Populating only discoveredFieldsOrAnchors and classifiedFieldsOrAnchors in a scratch copy outside the repository, with the record re-pinned to the edited file, makes AK:tf-800-form-en and AK:tf-805-form-en return \"canonical independent-review record wave-c-final-a approved these exact bytes, and all twelve conditions hold\" through channel independent_review_record. Nothing else was changed, so the clause is the sole remaining blocker for these records.",
+  "consequenceForTheDenominator": "No reviewer's canonical re-emission — wave-c-final-a for AK, or the NC reviewer's equivalent — can raise platform_ready above 1 while the classification writers omit these fields. The expected target platform_ready = 5 is unreachable on current bytes.",
+  "exactFix": {
+    "owner": "the lane that owns the field-classification generator (not this review lane)",
+    "change": "emit discoveredFieldsOrAnchors and classifiedFieldsOrAnchors in rcap-field-classification/v4-nine-class and v1, as rcap-field-classification/v2-complete already does. For the four families in this shard the value is the length of entries[] and the two are equal.",
+    "doNotDoInstead": "Do not relax the clause in rcap-platform-ready.mjs. It is a real completeness gate and weakening it to create movement is out of bounds; the classification files are what is incomplete, not the gate.",
+    "afterTheFix": "Re-pin fieldClassificationSha256 in any batch manifest that names an affected family, since changing the classification file changes its hash and condition 5 compares it. wave-c-final-a will need exactly that re-pin, which this lane will do on request."
+  },
+  "reEmissionStatus": {
+    "batch": "wave-c-final-a",
+    "commit": "47befff4a848af6ca9f70b38772da681c84fc312",
+    "loadReviewRecordsDiscovers": true,
+    "validateReviewRecordsProblemsForThisBatch": 0,
+    "canonicalVerifierExit": "OK (0)",
+    "approvalsRecorded": ["AK:tf-800-form-en", "AK:tf-805-form-en"],
+    "correctionsRecorded": ["KY:aoc-334-form-en", "KY:aoc-496-3-form-en"],
+    "correctionsRefusedAtConditionOne": true
+  }
+}
