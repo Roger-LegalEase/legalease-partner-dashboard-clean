@@ -3,12 +3,13 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 140,
+    "keep_available": 148,
     "wired": 124,
     "fix_then_wire": 27,
     "retire": 1,
     "quarantine": 2,
-    "blocked_on_family": 5
+    "blocked_on_family": 5,
+    "wire": 1
   },
   "entries": {
     "audit-all50-state-pack-substance.mjs": {
@@ -1485,6 +1486,12 @@
       "decidedBy": "recorded_decision",
       "observedStatus": "added_since_audit"
     },
+    "verify-rcap-binary-identity-rules.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-rcap-commercial-browser.mjs": {
       "disposition": "keep_available",
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
@@ -1544,6 +1551,12 @@
       "disposition": "wired",
       "reason": "Already reached by npm test.",
       "observedStatus": "in_chain",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-field-semantics-canaries.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
     "verify-rcap-final-official-sources.mjs": {
@@ -1699,6 +1712,24 @@
       "decidedBy": "captain",
       "laneOwned": true
     },
+    "verify-rcap-participant-fill-hold-derivation.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-pdf-batch-cross-family-findings.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-pdf-independent-review-records.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-rcap-person-identity-post-phase54.mjs": {
       "disposition": "wired",
       "reason": "Terminal B's independent post-Phase-54 audit of public.rcap_persons, imported byte-identical from 338629ae. This is the audit that supersedes 83c04469, which audited 7e1b2c4d with no Phase 54 in its tree and correctly reported the pre-hardening exposure. Green from the integrated tree.",
@@ -1721,6 +1752,12 @@
       "decidedBy": "generated"
     },
     "verify-rcap-phase55-matter-payment-binding.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-platform-ready-approval-channel.mjs": {
       "disposition": "keep_available",
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
       "observedStatus": "added_since_audit",
@@ -1755,6 +1792,24 @@
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
       "observedStatus": "added_since_audit",
       "decidedBy": "generated"
+    },
+    "verify-rcap-retirement-corpus-guard.mjs": {
+      "disposition": "wire",
+      "reason": "The fail-closed contract for the seventh retirement condition. It arranges each way the condition becomes unanswerable — the operational Nationwide tree absent, empty or unreadable, the Master Library substituted for it, the manifest generator unloadable or reading a different tree — and requires a refusal naming the expected corpus path, plus two controls that stop --check becoming a way back in and one that pins the five adjudicated assets at zero retirements and zero repoints. Checked out against the code before the guard, eight of the nine controls go red, so they measure behaviour rather than assert it. Green here. Not wired in this session because that is a workflow edit and workflows were out of scope; package.json is a worker image input, so this belongs in .github/workflows/rcap-all50-handoff.yml alongside the retirement check it protects, never as an npm script.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "recorded_decision"
+    },
+    "verify-rcap-retirement-probe-canaries.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-retirement-repoint-mutations.mjs": {
+      "disposition": "keep_available",
+      "reason": "Three mutations proving the five-asset retirement/repoint adjudicator can return something other than retained: strip a form from the byte-pinned legal-design registry and it reports a retirement candidate, move the archive's hash and it records a repoint candidate, unpin the registry and it refuses rather than proving a dependency against bytes nobody pinned. Runs under the tracked mutation guard and restores the committed record, verified by re-running the adjudicator's own --check at the end. Green. No gate depends on it: it certifies one lane's adjudication rather than guarding a release, so it stays available for the next change to that adjudicator.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "recorded_decision"
     },
     "verify-rcap-sellable-pathway-closure.mjs": {
       "disposition": "wired",

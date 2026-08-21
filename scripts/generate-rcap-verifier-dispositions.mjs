@@ -42,6 +42,16 @@ const OVERRIDES = {
     reason:
       "Lane B's acceptance contract for guidance/exclusion/deferral treatments. Red by design until lane B delivers every assigned state (window 2 imported the six completed B1 treatments; B2/B3 and the rest of B1 are still in flight), so it runs per-partition inside lane B and becomes a wired blocking step when the lane completes. Wiring it now would fail the chain on work that is assigned, not late."
   },
+  "verify-rcap-retirement-corpus-guard.mjs": {
+    disposition: "wire",
+    reason:
+      "The fail-closed contract for the seventh retirement condition. It arranges each way the condition becomes unanswerable — the operational Nationwide tree absent, empty or unreadable, the Master Library substituted for it, the manifest generator unloadable or reading a different tree — and requires a refusal naming the expected corpus path, plus two controls that stop --check becoming a way back in and one that pins the five adjudicated assets at zero retirements and zero repoints. Checked out against the code before the guard, eight of the nine controls go red, so they measure behaviour rather than assert it. Green here. Not wired in this session because that is a workflow edit and workflows were out of scope; package.json is a worker image input, so this belongs in .github/workflows/rcap-all50-handoff.yml alongside the retirement check it protects, never as an npm script."
+  },
+  "verify-rcap-retirement-repoint-mutations.mjs": {
+    disposition: "keep_available",
+    reason:
+      "Three mutations proving the five-asset retirement/repoint adjudicator can return something other than retained: strip a form from the byte-pinned legal-design registry and it reports a retirement candidate, move the archive's hash and it records a repoint candidate, unpin the registry and it refuses rather than proving a dependency against bytes nobody pinned. Runs under the tracked mutation guard and restores the committed record, verified by re-running the adjudicator's own --check at the end. Green. No gate depends on it: it certifies one lane's adjudication rather than guarding a release, so it stays available for the next change to that adjudicator."
+  },
   "verify-rcap-problematic-pdf-ci-wiring.mjs": {
     disposition: "wired",
     reason:
