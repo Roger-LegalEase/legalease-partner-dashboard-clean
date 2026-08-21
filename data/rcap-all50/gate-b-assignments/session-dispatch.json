@@ -1,7 +1,7 @@
 {
   "schemaVersion": "rcap-gate-b-session-dispatch/v1",
   "generatedBy": "scripts/generate-rcap-gate-b-session-dispatch.mjs",
-  "captainHead": "efab503e37e4994cbd27d2b1e8ae785d82d512a2",
+  "captainHead": "fae25fc9a3d1b14ea07ca48be8fc970d066bfc45",
   "thisIsAMapNotAnArchitecture": "The eleven assignment files are unchanged. This names the session that owns each and pins the remote tip it continues from; no asset id, family id, allowed path, prohibited path or denominator membership is altered here.",
   "denominator": {
     "platform_ready": 5,
@@ -14,7 +14,125 @@
     "why": "superseded by this dispatch over the existing eleven assignments; the files and their generator are removed so no session can pick up a cancelled assignment",
     "keptFromThatWork": "the shared finalizer hotfix, ownership/index corrections and source-pack factory imported into this base, which are independent of the lane recut"
   },
+  "waves": [
+    {
+      "wave": "A",
+      "reviewBase": "1b8a8cdd",
+      "reviewBaseSubject": "Emit the two classification counters, and apply them to the first four AOC-CR-287 families",
+      "previousBases": [
+        {
+          "sha": "da902cbab36b9200aa4025e9d3ae571d26ea824a",
+          "status": "superseded_by_current_wave_base",
+          "why": "Session 7 pushed 1b8a8cdd on top of it before either evidence leg was built, so evidence from da902cba would describe bytes the reviewer would not be looking at"
+        }
+      ],
+      "families": [
+        "AK:tf-810-form-en",
+        "NC:aoc-cr-287-form-es",
+        "NC:aoc-cr-287-form-vi",
+        "NC:aoc-cr-288-form-es"
+      ],
+      "measuredMovementFromPreviousBase": {
+        "changed": [
+          "NC:aoc-cr-287-form-es: field-classification.json",
+          "NC:aoc-cr-287-form-vi: field-classification.json"
+        ],
+        "unchanged": [
+          "AK:tf-810-form-en — every measured path",
+          "NC:aoc-cr-288-form-es — every measured path",
+          "source records, production maps, field censuses, artifacts, contact sheets and provenance sidecars across all four"
+        ],
+        "note": "Measured path by path between the two bases rather than inferred from the commit subject. Exactly two paths moved: field-classification.json on the two AOC-CR-287 families, which gained the completeness counters. Source records, source receipts, overlay profiles and their derived forms, field censuses, canonical and boundary artifacts, contact sheets and provenance sidecars are byte-identical across all four. The provenance sidecars name no classification digest, so none went stale behind the change.",
+        "measurementCorrection": "A first pass compared production-field-map.json for all four and reported it unchanged everywhere. Three of these families are flat-overlay packages that carry overlay-profile.json instead, so that comparison was between a path absent from both commits — an absence reading as agreement. The paths were re-measured against the shape each package actually has, and the verdict is unchanged only because the profiles genuinely did not move."
+      },
+      "sidecarSession": 9,
+      "visualSession": 10,
+      "reviewerSession": 2,
+      "evidenceRule": "Sessions 9 and 10 both generate from exactly this base and do not depend on each other's commits",
+      "reviewerAssignmentRule": "Reviewer is not assigned until both current evidence commits exist from this base",
+      "frozenFamilyPaths": [
+        "data/rcap-all50/overlays/production/alaska/tf-810-form-en/**",
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-es/**",
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-vi/**",
+        "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-es/**"
+      ],
+      "freezeScope": "closed to every implementation session from this dispatch commit until review completes; Session 7 continues its other assigned families",
+      "reviewBaseResolved": "1b8a8cdd6c3a17a5452cfa3e4c238c5e6b329800",
+      "requiredHashes": [
+        {
+          "familyId": "AK:tf-810-form-en",
+          "familyPath": "data/rcap-all50/overlays/production/alaska/tf-810-form-en",
+          "bindingKind": "production_field_map",
+          "productionFieldMap": "c332d1a46686b1b0948c5d4361974a8be8e6b0dc",
+          "overlayProfile": null,
+          "overlayProfileDerived": null,
+          "fieldClassification": "a0d788a1f1c720bd0a6b29dcbd6697331f4526f4",
+          "fieldCensus": "fee53091fd8d2125df37c5e23acd2d5553a2e8c9",
+          "sourceRecord": "6f8eea15a86e4243f889332a936ef302a16bda1c",
+          "sourceReceipt": "1b0dcb306b05b60c382875f8a679a6b9ded08cfd",
+          "canonicalArtifact": "0f6c3cd42958ffdbd939aefe8e2c247ecfc8b292",
+          "boundaryArtifact": "bc0bd640f6cff438a0dfc538843491a0a510bbf0",
+          "contactSheet": "b4983b13be48d59428ffa9442c0272ec6a3a009b",
+          "provenanceSidecar": "8099f794406832ee724440dd69912eecd806499d",
+          "note": "git object ids at the review base; the reviewer recomputes SHA-256 from the files themselves"
+        },
+        {
+          "familyId": "NC:aoc-cr-287-form-es",
+          "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-es",
+          "bindingKind": "overlay_profile",
+          "productionFieldMap": null,
+          "overlayProfile": "a2138a4666af714ba3e186a4dd25ec8642eab625",
+          "overlayProfileDerived": "cd6e1858138ef07e29d5efd3d4abfb4e59e207f7",
+          "fieldClassification": "7dcfc0d999aaadb09f6e646a5e669af5cb2c9244",
+          "fieldCensus": "6764108e85af3b21660152337d75c208dbf83a49",
+          "sourceRecord": "89f4817f2dec72ec0d5ddfef9f648c45105462c3",
+          "sourceReceipt": "2520594c59f61d79ebc46d22dca9d08bd21aa28a",
+          "canonicalArtifact": "e10943c1bb3b45fbd051f476ac28ccf745e07043",
+          "boundaryArtifact": "2ed08da9b7a2536deb9398b616d54f80bdcb0556",
+          "contactSheet": "5bba8b3e3b83065e99880e1356bf5bc61b2fb1f3",
+          "provenanceSidecar": "eb5d8647395a2dfed063064fbb4e86c9888c005d",
+          "note": "git object ids at the review base; the reviewer recomputes SHA-256 from the files themselves"
+        },
+        {
+          "familyId": "NC:aoc-cr-287-form-vi",
+          "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-vi",
+          "bindingKind": "overlay_profile",
+          "productionFieldMap": null,
+          "overlayProfile": "ed5afb9a477cc2c28b84efa3c3adb35e783cadc7",
+          "overlayProfileDerived": "9dcfea3a2f7c8ecdb8b186135d9815934bf8850d",
+          "fieldClassification": "7dcfc0d999aaadb09f6e646a5e669af5cb2c9244",
+          "fieldCensus": "3b5ac85055d348fc0408d61e3951d30a9d2b3429",
+          "sourceRecord": "e7d5fe93ecfdf9dedc5b9c9f8febcf9ec80c089d",
+          "sourceReceipt": "2e9a0100ec04ef61ff6bd628d93129847bdf81bf",
+          "canonicalArtifact": "096c2808a3eded8a124b8e7e27ba20d444b5f9b1",
+          "boundaryArtifact": "44d383c912a02570cbb8c824ccebc654e370dcd0",
+          "contactSheet": "eeee0346d3335314765a9981411fa1e1ae7366b5",
+          "provenanceSidecar": "4d9c62ab9eeda85c2b512f9d0c135f5dcb7e2270",
+          "note": "git object ids at the review base; the reviewer recomputes SHA-256 from the files themselves"
+        },
+        {
+          "familyId": "NC:aoc-cr-288-form-es",
+          "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-es",
+          "bindingKind": "overlay_profile",
+          "productionFieldMap": null,
+          "overlayProfile": "ac4c569c8ab1b9afc608dc652b1e9368b1be7375",
+          "overlayProfileDerived": "9be8da076fbef7995f1161caf9867cc1e97e594e",
+          "fieldClassification": "4ba297ca4224a21633f446a4ea2480228d7acb43",
+          "fieldCensus": "41ee7c67c1849ad32e0c6c462a600660494f0d0f",
+          "sourceRecord": "ff4c95f541693ed2fce7aca9ac10fe6bd626f10c",
+          "sourceReceipt": "863f3139d277242f44c4109902f3a11ec6f76aa0",
+          "canonicalArtifact": "b3fe9f45d6b71cb526f92c0da3524be21f4cbf39",
+          "boundaryArtifact": "5318a882027447b66429c1c4402be6031b644443",
+          "contactSheet": "895ce458cb9637da2930a1cd7b2e7d8b019d75b2",
+          "provenanceSidecar": "cce32a535622e8e65a19148873f7d08dd280d643",
+          "note": "git object ids at the review base; the reviewer recomputes SHA-256 from the files themselves"
+        }
+      ]
+    }
+  ],
   "totals": {
+    "waves": 1,
+    "frozenFamilyPaths": 4,
     "sessions": 13,
     "assignmentsMapped": 11,
     "uniqueAssetsAssigned": 81,
@@ -185,8 +303,8 @@
       "role": "family rerender",
       "assignment": "family-rerender-1.json",
       "currentRemoteBranch": "claude/rcap-gate-b-family-rerender-1-cac37584",
-      "currentRemoteTip": "1b8a8cdd6c3a17a5452cfa3e4c238c5e6b329800",
-      "currentRemoteTipSubject": "Emit the two classification counters, and apply them to the first four AOC-CR-287 families",
+      "currentRemoteTip": "32f6e39a3bf4f386a28fd0b7864df83bf205e69b",
+      "currentRemoteTipSubject": "Close AOC-CR-296: the district attorney's alternative filing is not a participant artifact",
       "assetCount": 20,
       "assetIds": [
         "NC|AOC-CR-287|2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f",
@@ -615,8 +733,8 @@
       "role": "source acquisition",
       "assignment": "source-direct.json",
       "currentRemoteBranch": "claude/official-pdf-urls-hash-f9s8u9",
-      "currentRemoteTip": "723066783c038b3f0be7130fe7d7f0c0bf239ca0",
-      "currentRemoteTipSubject": "source-direct batch 3: four Arkansas and two Alaska assets dispositioned",
+      "currentRemoteTip": "6f9e873740636d9c8b9458be14dfba3818cb8e60",
+      "currentRemoteTipSubject": "source-direct: six captured index pages, which are not forms",
       "assetCount": 15,
       "assetIds": [
         "VT|200-00129 – Petition to Expunge Criminal History.pdf|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
@@ -693,8 +811,8 @@
       "role": "source resolution",
       "assignment": "source-resolution.json",
       "currentRemoteBranch": "claude/landing-page-resolution-g4zrto",
-      "currentRemoteTip": "1914c8e6622c159ff7e27e11c159834da8007cd5",
-      "currentRemoteTipSubject": "Resolve the assigned sources against the publishers, and correct the NC 297/298 identity",
+      "currentRemoteTip": "c8528c41182782feb1324f54a0ba9ebef6ccb605",
+      "currentRemoteTipSubject": "Correct the NC 297/298 provenance URLs, and hold 298 on its contaminated source",
       "assetCount": 16,
       "assetIds": [
         "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
@@ -774,8 +892,8 @@
       "role": "retirement and repoint",
       "assignment": "retirement-repoint.json",
       "currentRemoteBranch": "claude/rcap-retirement-corpus-guard",
-      "currentRemoteTip": "08f8e45be9e9a07ada31858883b1179a35001850",
-      "currentRemoteTipSubject": "Record dispositions for the two verifiers the corpus guard added",
+      "currentRemoteTip": "abeb8b7e6c1a965345507f3d08f73de28cd9a9d4",
+      "currentRemoteTipSubject": "Repoint the six captured index pages to guidance; retire none",
       "assetCount": 11,
       "assetIds": [
         "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",

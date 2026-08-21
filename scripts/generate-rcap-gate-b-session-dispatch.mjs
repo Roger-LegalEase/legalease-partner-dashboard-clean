@@ -32,7 +32,7 @@ const OUT_MD = "docs/record-clearing/gate-b-session-dispatch.md";
 const abs = (rel) => path.join(rootDir, rel);
 const readJson = (rel) => JSON.parse(fs.readFileSync(abs(rel), "utf8"));
 const fail = (m) => { console.error(`FAIL session dispatch — ${m}`); process.exit(1); };
-const git = (...a) => { try { return execFileSync("git", a, { cwd: rootDir }).toString().trim(); } catch { return null; } };
+const git = (...a) => { try { return execFileSync("git", a, { cwd: rootDir, stdio: ["pipe", "pipe", "ignore"] }).toString().trim(); } catch { return null; } };
 
 const ledger = readJson(LEDGER);
 const queue = readJson(QUEUE);
@@ -123,6 +123,113 @@ for (const s of sessions) {
   }
 }
 
+/**
+ * Review waves, pinned to the exact commit their evidence must come from.
+ *
+ * A wave carries a base rather than a branch name because a branch moves. Wave
+ * A was first pinned to da902cba and Session 7 pushed past it while the
+ * evidence was still unbuilt; had the wave stayed on the branch, Sessions 9 and
+ * 10 would have generated evidence from one commit and the reviewer measured it
+ * against another. The superseded base is kept, not overwritten — a wave's
+ * history is how a later reader knows which bytes a verdict actually described.
+ *
+ * `frozenFamilyPaths` are closed to every implementation session for the life of
+ * the wave. Session 7 may continue its other assigned families; these four are
+ * under review and their bytes may not move beneath it.
+ */
+const WAVES = [
+  {
+    wave: "A",
+    reviewBase: "1b8a8cdd",
+    reviewBaseSubject: git("log", "-1", "--format=%s", "1b8a8cdd"),
+    previousBases: [
+      { sha: "da902cbab36b9200aa4025e9d3ae571d26ea824a",
+        status: "superseded_by_current_wave_base",
+        why: "Session 7 pushed 1b8a8cdd on top of it before either evidence leg was built, so evidence from da902cba would describe bytes the reviewer would not be looking at" }
+    ],
+    families: [
+      "AK:tf-810-form-en",
+      "NC:aoc-cr-287-form-es",
+      "NC:aoc-cr-287-form-vi",
+      "NC:aoc-cr-288-form-es"
+    ],
+    measuredMovementFromPreviousBase: {
+      changed: ["NC:aoc-cr-287-form-es: field-classification.json", "NC:aoc-cr-287-form-vi: field-classification.json"],
+      unchanged: [
+        "AK:tf-810-form-en — every measured path",
+        "NC:aoc-cr-288-form-es — every measured path",
+        "source records, production maps, field censuses, artifacts, contact sheets and provenance sidecars across all four"
+      ],
+      note: "Measured path by path between the two bases rather than inferred from the commit subject. Exactly two paths moved: field-classification.json on the two AOC-CR-287 families, which gained the completeness counters. Source records, source receipts, overlay profiles and their derived forms, field censuses, canonical and boundary artifacts, contact sheets and provenance sidecars are byte-identical across all four. The provenance sidecars name no classification digest, so none went stale behind the change.",
+      measurementCorrection: "A first pass compared production-field-map.json for all four and reported it unchanged everywhere. Three of these families are flat-overlay packages that carry overlay-profile.json instead, so that comparison was between a path absent from both commits — an absence reading as agreement. The paths were re-measured against the shape each package actually has, and the verdict is unchanged only because the profiles genuinely did not move."
+    },
+    sidecarSession: 9,
+    visualSession: 10,
+    reviewerSession: 2,
+    evidenceRule:
+      "Sessions 9 and 10 both generate from exactly this base and do not depend on each other's commits",
+    reviewerAssignmentRule:
+      "Reviewer is not assigned until both current evidence commits exist from this base",
+    frozenFamilyPaths: [
+      "data/rcap-all50/overlays/production/alaska/tf-810-form-en/**",
+      "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-es/**",
+      "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-vi/**",
+      "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-es/**"
+    ],
+    freezeScope:
+      "closed to every implementation session from this dispatch commit until review completes; Session 7 continues its other assigned families"
+  }
+];
+
+for (const wave of WAVES) {
+  const base = git("rev-parse", wave.reviewBase);
+  if (!base) fail(`wave ${wave.wave}: review base ${wave.reviewBase} is not reachable`);
+  wave.reviewBaseResolved = base;
+  for (const previous of wave.previousBases) {
+    if (!git("cat-file", "-e", `${previous.sha}^{commit}`) === null) continue;
+    if (git("merge-base", "--is-ancestor", previous.sha, base) === null) {
+      fail(`wave ${wave.wave}: ${previous.sha.slice(0, 12)} is not an ancestor of the new base, so this is a different lineage rather than a re-pin`);
+    }
+  }
+  // The hashes the reviewer must find on disk. Recorded from the base itself so
+  // a reviewer never takes them from a record another lane wrote.
+  wave.requiredHashes = wave.families.map((familyId) => {
+    const slug = familyId.split(":").pop();
+    const states = (git("ls-tree", "-d", "--name-only", base, "data/rcap-all50/overlays/production/") ?? "")
+      .split("\n").map((d) => d.trim().split("/").pop()).filter(Boolean);
+    const state = states.find((dir) =>
+      git("rev-parse", `${base}:data/rcap-all50/overlays/production/${dir}/${slug}/source-record.json`) !== null);
+    const dir = state ? `data/rcap-all50/overlays/production/${state}/${slug}` : null;
+    if (!dir) fail(`wave ${wave.wave}: no package for ${familyId} at ${wave.reviewBase}`);
+    const blob = (rel) => git("rev-parse", `${base}:${dir}/${rel}`);
+    // Two package shapes exist and only one is present per family: an AcroForm
+    // family carries production-field-map.json, a flat-overlay family carries
+    // overlay-profile.json. Recording whichever is absent as null would read as
+    // "nothing to hash" rather than "hash the other one", so the binding names
+    // the kind it found.
+    const fieldMap = blob("production-field-map.json");
+    const overlayProfile = blob("overlay-profile.json");
+    if (!fieldMap && !overlayProfile) fail(`wave ${wave.wave}: ${familyId} carries neither a field map nor an overlay profile`);
+    return {
+      familyId,
+      familyPath: dir,
+      bindingKind: fieldMap ? "production_field_map" : "overlay_profile",
+      productionFieldMap: fieldMap,
+      overlayProfile,
+      overlayProfileDerived: blob("overlay-profile.derived.json"),
+      fieldClassification: blob("field-classification.json"),
+      fieldCensus: blob("field-census.json"),
+      sourceRecord: blob("source-record.json"),
+      sourceReceipt: blob("source-receipt.json"),
+      canonicalArtifact: blob("fixtures/canonical-filled.pdf"),
+      boundaryArtifact: blob("fixtures/boundary-filled.pdf"),
+      contactSheet: blob("contact-sheet/blank-vs-filled.pdf"),
+      provenanceSidecar: blob("artifact-provenance.json"),
+      note: "git object ids at the review base; the reviewer recomputes SHA-256 from the files themselves"
+    };
+  });
+}
+
 const record = {
   schemaVersion: "rcap-gate-b-session-dispatch/v1",
   generatedBy: "scripts/generate-rcap-gate-b-session-dispatch.mjs",
@@ -140,7 +247,10 @@ const record = {
     why: "superseded by this dispatch over the existing eleven assignments; the files and their generator are removed so no session can pick up a cancelled assignment",
     keptFromThatWork: "the shared finalizer hotfix, ownership/index corrections and source-pack factory imported into this base, which are independent of the lane recut"
   },
+  waves: WAVES,
   totals: {
+    waves: WAVES.length,
+    frozenFamilyPaths: WAVES.flatMap((w) => w.frozenFamilyPaths).length,
     sessions: sessions.length,
     assignmentsMapped: claimed.size,
     uniqueAssetsAssigned: unique.size,
@@ -156,6 +266,16 @@ function markdown() {
   lines.push("");
   lines.push(record.thisIsAMapNotAnArchitecture);
   lines.push("");
+  for (const w of record.waves ?? []) {
+    lines.push(`## Wave ${w.wave} — base \`${w.reviewBase}\``);
+    lines.push("");
+    lines.push(`Superseding \`${w.previousBases[0].sha.slice(0, 12)}\` (${w.previousBases[0].status}). ${w.previousBases[0].why}.`);
+    lines.push("");
+    lines.push(w.measuredMovementFromPreviousBase.note);
+    lines.push("");
+    lines.push(`Frozen for the life of the wave: ${w.families.join(", ")}.`);
+    lines.push("");
+  }
   lines.push("| session | role | assignment | assets | continuing from |");
   lines.push("| ---: | --- | --- | ---: | --- |");
   for (const s of sessions) {
