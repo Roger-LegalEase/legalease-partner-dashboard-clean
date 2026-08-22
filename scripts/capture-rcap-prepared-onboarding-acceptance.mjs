@@ -862,74 +862,48 @@ async function runOperatorReopen(browser, workspaceId, operatorUserId) {
   await shot(page, "operator-protected-partner-value", "1440x1000", route, "internal_admin",
     "LegalEase reopens preparation and the partner-edited value is identified and held");
 
-  // Propose a different LegalEase value for the same field, through the internal endpoints
-  // the panel itself posts to. The product refuses a second active suggestion for one
-  // field, so the operator supersedes the applied one first, exactly as the panel's own
-  // Supersede control does. Superseding changes the suggestion, never the saved value.
-  const proposed = await page.evaluate(async ({ slug, sectionKey, fieldKey, value }) => {
-    const post = async (body) => {
-      const response = await fetch(`/api/internal/partners/onboarding/phase1/${slug}/prefill`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(body)
-      });
-      return { status: response.status, body: await response.text() };
-    };
-    const snapshotResponse = await fetch(
-      `/api/internal/partners/onboarding/phase1/${slug}/prefill`
-    );
-    const snapshot = await snapshotResponse.json();
-    const workspaceId = snapshot?.snapshot?.workspace?.id;
-    const active = (snapshot?.snapshot?.suggestions ?? []).find(
-      (suggestion) =>
-        suggestion.sectionKey === sectionKey &&
-        suggestion.fieldKey === fieldKey &&
-        ["proposed", "approved", "applied", "conflict"].includes(suggestion.reviewStatus)
-    );
-    if (!active) return { step: "read", status: snapshotResponse.status, body: "no active suggestion for the field" };
-
-    const superseded = await post({
-      action: "supersede",
-      requestId: crypto.randomUUID(),
-      workspaceId,
-      payload: { valueId: active.id, expectedBatchVersion: active.batchVersion }
-    });
-    if (superseded.status >= 400) return { step: "supersede", ...superseded };
-
-    const added = await post({
-      action: "add",
-      requestId: crypto.randomUUID(),
-      payload: {
-        sectionKey,
-        fieldKey,
-        proposedValue: value,
-        sourceType: "partner_record",
-        sourceLabel: "Program record on file"
-      }
-    });
-    return { step: "add", ...added };
-  }, {
-    slug: SLUG,
-    sectionKey: PREPARED_SECTION,
-    fieldKey: PREPARED_FIELD,
-    value: LEGALEASE_CONFLICTING_VALUE
-  });
-  console.log(`  operator proposal (${proposed.step}): HTTP ${proposed.status}`);
-  assert.equal(proposed.step, "add", `the operator could not reach the proposal step: ${proposed.body.slice(0, 300)}`);
-  assert.ok(proposed.status < 400, `preparing a conflicting value failed: ${proposed.body.slice(0, 300)}`);
+  // Propose a different LegalEase value for the same field, through the operator's own
+  // controls. The applied preparation stays where it is; the new suggestion is raised
+  // against it, and the partner's answer is what it is measured against.
+  const band = page.locator("[data-partner-updated-band]");
+  await band.waitFor({ state: "visible", timeout: 30000 });
+  assert.match(
+    (await band.innerText()).trim(),
+    /^Partner updated this information/,
+    "the operator is not told that the partner changed this information"
+  );
+  await page.locator("[data-propose-updated-value]").first().click();
+  await page.locator("[data-proposed-value]").fill(LEGALEASE_CONFLICTING_VALUE);
+  await page.locator("[data-source-label]").fill("Program record on file");
+  await page.locator("[data-add-suggestion]").click();
+  await page.waitForTimeout(4000);
 
   await go(page, `${baseUrl}${route}`);
   const panel = await page.locator("body").innerText();
-  assert.ok(panel.includes("Conflict"), "the operator is not shown a conflict for the partner-edited field");
+  assert.ok(
+    panel.includes("Conflict") && panel.includes("Review this difference"),
+    "the operator is not shown a conflict for the partner-edited field"
+  );
   assert.ok(
     panel.includes(PARTNER_EDITED_VALUE),
     "the partner value is no longer shown beside the proposed replacement"
   );
+  assert.ok(
+    panel.includes(LEGALEASE_CONFLICTING_VALUE),
+    "the proposed LegalEase value is not shown beside the partner's answer"
+  );
+  assert.ok(
+    panel.includes("will not be included when you apply the prepared setup"),
+    "the operator is not told that the ordinary apply leaves this out"
+  );
   // Nothing may be applied while it conflicts: the apply control for that row is disabled.
   const applyable = await page.locator('input[type="checkbox"][aria-label^="Apply"]:not([disabled])').count();
   assert.equal(applyable, 0, "a conflicting suggestion is still selectable for apply");
+  // The ordinary apply is offered nothing to apply, so it cannot touch the partner answer.
+  const applyPreview = await page.locator("text=Apply preview").count();
+  assert.equal(applyPreview, 0, "the ordinary apply offered a conflicting suggestion");
   await shot(page, "operator-conflict-state", "1440x1000", route, "internal_admin",
-    "A conflicting LegalEase value is presented as a conflict and cannot be applied over the partner value");
+    "A new LegalEase proposal against the applied field is presented as a conflict beside the partner's answer, and cannot be applied over it");
 
   // The partner's value is still the stored one: nothing was overwritten by this run.
   const stored = await readPreparedField(workspaceId, PREPARED_FIELD);

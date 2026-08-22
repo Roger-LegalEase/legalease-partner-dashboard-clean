@@ -476,6 +476,201 @@ check("a disabled membership reaches no prepared value", () => {
   assert.equal(visible, "NONE", "a disabled partner administrator could still read prepared values");
 });
 
+/* ------------------------------------- reproposal after a prepared value is applied */
+
+check("a field whose prepared value was applied can be prepared again", () => {
+  // Before this, the partial unique index counted an applied row as the field's active
+  // suggestion, so this insert was impossible and LegalEase had no way to propose a
+  // correction for a value the partner had since edited.
+  const applied = value(
+    `select id from partner_onboarding_prefill_values where workspace_id='${alphaWorkspace}';`
+  );
+  const appliedBefore = value(
+    `select applied_value_hash || '|' || applied_at::text || '|' || created_by::text
+     from partner_onboarding_prefill_values where id='${applied}';`
+  );
+
+  const reproposed = prepareAlpha(OPERATOR);
+  assert.ok(
+    reproposed.ok,
+    `an applied preparation still blocks a later proposal for the same field: ${reproposed.err}`
+  );
+
+  // The applied row is history and is untouched by the new proposal.
+  assert.equal(
+    value(
+      `select applied_value_hash || '|' || applied_at::text || '|' || created_by::text
+       from partner_onboarding_prefill_values where id='${applied}';`
+    ),
+    appliedBefore,
+    "preparing a new suggestion rewrote the applied preparation"
+  );
+  assert.equal(
+    value(`select review_status from partner_onboarding_prefill_values where id='${applied}';`),
+    "applied",
+    "the applied preparation stopped reading as applied"
+  );
+
+  // Exactly one suggestion is actionable for the field, and exactly one is current applied.
+  assert.equal(
+    value(`
+      select count(*) from partner_onboarding_prefill_values
+      where workspace_id='${alphaWorkspace}'
+        and review_status in ('proposed','approved','conflict')
+        and superseded_at is null;
+    `),
+    "1",
+    "more than one suggestion is awaiting a decision for the same field"
+  );
+  assert.equal(
+    value(`
+      select count(*) from partner_onboarding_prefill_values
+      where workspace_id='${alphaWorkspace}'
+        and review_status = 'applied' and superseded_at is null;
+    `),
+    "1",
+    "the field has more than one current applied preparation"
+  );
+
+  // The new proposal names the applied preparation it follows.
+  const reproposal = value(`
+    select id from partner_onboarding_prefill_values
+    where workspace_id='${alphaWorkspace}' and review_status='proposed' and superseded_at is null;
+  `);
+  const linked = sql(
+    `update partner_onboarding_prefill_values
+     set supersedes_value_id='${applied}' where id='${reproposal}';`
+  );
+  assert.ok(linked.ok, `the reproposal could not record its lineage: ${linked.err}`);
+  assert.equal(
+    value(
+      `select supersedes_value_id from partner_onboarding_prefill_values where id='${reproposal}';`
+    ),
+    applied,
+    "the reproposal does not name the applied preparation it follows"
+  );
+
+  const selfReference = sql(
+    `update partner_onboarding_prefill_values
+     set supersedes_value_id='${reproposal}' where id='${reproposal}';`
+  );
+  assert.ok(!selfReference.ok, "a suggestion was allowed to supersede itself");
+});
+
+check("a second suggestion awaiting a decision is still refused for the same field", () => {
+  const second = prepareAlpha(OPERATOR);
+  assert.ok(
+    !second.ok,
+    "two suggestions can await a decision for one field, so the operator has no single answer to act on"
+  );
+});
+
+check("applying a newer preparation retires the earlier one instead of duplicating it", () => {
+  const reproposal = value(`
+    select id from partner_onboarding_prefill_values
+    where workspace_id='${alphaWorkspace}' and review_status='proposed' and superseded_at is null;
+  `);
+  const applied = sql(`
+    update partner_onboarding_prefill_values
+    set review_status='applied',
+        applied_at=now(),
+        applied_value_hash=repeat('e', 64),
+        applied_section_revision=1,
+        applied_workspace_version=1,
+        partner_review_status='pending'
+    where id='${reproposal}';
+  `);
+  assert.ok(applied.ok, `a reproposal could not be applied over an earlier one: ${applied.err}`);
+  assert.equal(
+    value(`
+      select count(*) from partner_onboarding_prefill_values
+      where workspace_id='${alphaWorkspace}' and review_status='applied' and superseded_at is null;
+    `),
+    "1",
+    "two applied preparations are current for one field"
+  );
+  // The earlier one is retired, not rewritten: it still reads as applied, with its own
+  // value hash and timestamps.
+  assert.equal(
+    value(`
+      select count(*) from partner_onboarding_prefill_values
+      where workspace_id='${alphaWorkspace}' and review_status='applied'
+        and superseded_at is not null and applied_value_hash is not null;
+    `),
+    "1",
+    "the earlier applied preparation was not preserved as history"
+  );
+  // And the partner-facing projection shows only the current one.
+  assert.equal(
+    value(
+      `select count(*) from partner_onboarding_prefill_values_safe where workspace_id='${alphaWorkspace}';`
+    ),
+    "1",
+    "the partner-facing projection shows a preparation that has been replaced"
+  );
+});
+
+check("an overridden partner answer must carry a reason and the operator who decided", () => {
+  const reproposal = value(`
+    select id from partner_onboarding_prefill_values
+    where workspace_id='${alphaWorkspace}' and superseded_at is null and review_status='applied';
+  `);
+  const withoutReason = sql(
+    `update partner_onboarding_prefill_values
+     set override_by='${OPERATOR}', override_at=now(), override_partner_value_hash=repeat('f', 64)
+     where id='${reproposal}';`
+  );
+  assert.ok(!withoutReason.ok, "an override was recorded with no reason");
+  const tooShort = sql(
+    `update partner_onboarding_prefill_values
+     set override_reason='too short', override_by='${OPERATOR}', override_at=now(),
+         override_partner_value_hash=repeat('f', 64)
+     where id='${reproposal}';`
+  );
+  assert.ok(!tooShort.ok, "an override was recorded with a reason too short to mean anything");
+  const complete = sql(
+    `update partner_onboarding_prefill_values
+     set override_reason='Program name corrected with the partner on a call.',
+         override_by='${OPERATOR}', override_at=now(),
+         override_partner_value_hash=repeat('f', 64)
+     where id='${reproposal}';`
+  );
+  assert.ok(complete.ok, `a complete override record was refused: ${complete.err}`);
+  assert.equal(
+    value(
+      `select override_partner_value_hash from partner_onboarding_prefill_values where id='${reproposal}';`
+    ),
+    "f".repeat(64),
+    "the override did not record which partner answer it replaced"
+  );
+});
+
+check("a partner administrator cannot prepare a reproposal either", () => {
+  const asPartner = sql(
+    `select public.rcap_service_prepare_onboarding_prefill(
+       'synthetic-alpha', '${OPERATOR}'::uuid, '${alphaWorkspace}'::uuid, gen_random_uuid(),
+       repeat('a', 64), 'attempt', 'draft', 'manual', '[]'::jsonb);`,
+    { role: "authenticated", asUser: ALPHA }
+  );
+  assert.ok(!asPartner.ok, "a partner administrator could prepare a reproposal");
+  assert.equal(
+    value(
+      "select coalesce(string_agg(field_key, ','), 'NONE') from partner_onboarding_prefill_values;",
+      { role: "authenticated", asUser: BETA }
+    ),
+    "NONE",
+    "another organization could read the reproposal"
+  );
+  for (const role of ["anon", "authenticated"]) {
+    const seen = sql(
+      "select coalesce(string_agg(proposed_value::text, ','), 'NONE') from partner_onboarding_prefill_values;",
+      { role }
+    );
+    const disclosed = seen.ok ? seen.out.split("\n").filter(Boolean).pop() : "NONE";
+    assert.equal(disclosed, "NONE", `an unauthenticated ${role} request read a reproposal`);
+  }
+});
+
 check("every synthetic row the audit trail permits is removed afterwards", () => {
   // partner_onboarding_activity is append-only by design: a BEFORE DELETE trigger refuses
   // every row, and the workspace cascades into it, so a workspace that has been prepared
