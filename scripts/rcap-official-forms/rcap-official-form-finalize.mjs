@@ -524,9 +524,22 @@ export async function finalizeOfficialForm({
 
   // The fields this run actually bound. A chooser in this set was answered by
   // the participant; one outside it is still showing the court's own prompt.
+  // Slot arbitration already decided which widget owns each participant slot.
+  // The losers are still fill-in boxes, and a court ships them holding the
+  // instruction that tells a person what to type -- Nebraska CC-6-11 keeps
+  // "(Enter the type of court)" in the duplicate beside the box that actually
+  // receives the court name. Flattening printed that instruction onto filings.
+  // A widget that lost its slot has nothing of its own to say, so it
+  // contributes nothing; the winner still draws the participant's value, and a
+  // field refused for any other reason -- protected, unwritable, no matching
+  // fact -- is source-inherent and is left exactly as the court drew it.
+  const supersededFields = new Set(
+    report.refused.filter((r) => r.reason === "duplicate_widget_for_one_slot").map((r) => r.field)
+  );
   const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc, {
     defaultFont: helvetica,
-    writtenFields: new Set(report.written.map((w) => w.field))
+    writtenFields: new Set(report.written.map((w) => w.field)),
+    supersededFields
   });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 

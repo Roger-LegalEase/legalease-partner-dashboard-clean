@@ -361,14 +361,22 @@ function stripWidgetBackground(pdfDoc, acroField) {
  * to. Only the caller knows that, and it is the difference between a chooser
  * the participant answered and one still showing the form's prompt.
  */
-export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Set()) {
-  const report = { commandControlsDropped: [], unselectedChoicesDropped: [], backgroundsNeutralized: 0 };
+export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Set(), supersededFields = new Set()) {
+  const report = { commandControlsDropped: [], unselectedChoicesDropped: [], supersededWidgetsDropped: [], backgroundsNeutralized: 0 };
   for (const field of form.getFields()) {
     const name = field.getName();
     const acroField = field.acroField;
     if (isPushButton(acroField)) {
       dropWidgets(pdfDoc, acroField);
       report.commandControlsDropped.push(name);
+      continue;
+    }
+    if (supersededFields.has(name) && !writtenFields.has(name)) {
+      // Another widget won this slot. Whatever this one would draw is the
+      // form's own placeholder for a box the participant is not filling here.
+      acroField.dict.delete(PDFName.of("V"));
+      dropWidgets(pdfDoc, acroField);
+      report.supersededWidgetsDropped.push(name);
       continue;
     }
     if (isChoiceField(acroField) && !writtenFields.has(name)) {
@@ -384,7 +392,7 @@ export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Se
   return report;
 }
 
-export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, defaultFont = null, writtenFields = new Set() } = {}) {
+export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, defaultFont = null, writtenFields = new Set(), supersededFields = new Set() } = {}) {
   const report = {};
 
   const acroBefore = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
@@ -405,7 +413,7 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
       // background rectangle into the stream it generates, so removing the
       // background afterwards would mean editing generated streams instead of
       // never asking for the rectangle at all.
-      report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields);
+      report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields, supersededFields);
       // Appearances must exist before flattening: flatten draws each field's
       // appearance stream onto the page, so a field whose appearance was never
       // generated flattens to nothing and the value disappears.
