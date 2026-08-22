@@ -414,6 +414,8 @@ async function resetPreparedField(workspaceId) {
   await admin
     .from("partner_onboarding_prefill_values")
     .update({
+      review_status: "applied",
+      superseded_at: null,
       partner_review_status: "pending",
       partner_reviewed_at: null,
       partner_reviewed_section_revision: null,
@@ -421,6 +423,14 @@ async function resetPreparedField(workspaceId) {
     })
     .eq("workspace_id", workspaceId)
     .eq("field_key", PREPARED_FIELD);
+  // Any suggestion a previous run's operator pass added is removed, so the field has
+  // exactly one active prepared value again.
+  await admin
+    .from("partner_onboarding_prefill_values")
+    .delete()
+    .eq("workspace_id", workspaceId)
+    .eq("field_key", PREPARED_FIELD)
+    .eq("proposed_value", JSON.stringify(LEGALEASE_CONFLICTING_VALUE));
   console.log("  reset the prepared field to what LegalEase prepared");
 }
 
@@ -432,8 +442,23 @@ async function seedPreparedSectionData(workspaceId) {
     .eq("section_key", PREPARED_SECTION)
     .maybeSingle();
   if (!section?.id) throw new Error(`${PREPARED_SECTION} section is missing`);
+
+  // Contacts live in their own table, not in the section's stored answers, and the section
+  // cannot be confirmed without them. Seed them whether or not a previous run already
+  // filled the section: they are a separate precondition, not part of the same write.
+  const { error: contactError } = await admin
+    .from("partner_onboarding_contacts")
+    .upsert(
+      PREPARED_CONTACTS.map((contact) => ({ ...contact, workspace_id: workspaceId })),
+      { onConflict: "id" }
+    );
+  if (contactError) throw new Error(`contacts: ${contactError.message}`);
+
   const current = section.response_data ?? {};
-  if (Object.keys(current).length > 0) return;
+  if (Object.keys(current).length > 0) {
+    console.log("  prepared section answers already present; contacts confirmed");
+    return;
+  }
   // The section table enforces that every update advances the revision by exactly one,
   // which is the same rule the service honours.
   const { error } = await admin
@@ -445,14 +470,6 @@ async function seedPreparedSectionData(workspaceId) {
     })
     .eq("id", section.id);
   if (error) throw new Error(`section data: ${error.message}`);
-
-  const { error: contactError } = await admin
-    .from("partner_onboarding_contacts")
-    .upsert(
-      PREPARED_CONTACTS.map((contact) => ({ ...contact, workspace_id: workspaceId })),
-      { onConflict: "id" }
-    );
-  if (contactError) throw new Error(`contacts: ${contactError.message}`);
   console.log("  seeded the prepared section answers and contacts");
 }
 
@@ -751,32 +768,60 @@ async function runOperatorReopen(browser, workspaceId, operatorUserId) {
   await shot(page, "operator-protected-partner-value", "1440x1000", route, "internal_admin",
     "LegalEase reopens preparation and the partner-edited value is identified and held");
 
-  // Propose a different LegalEase value for the same field, through the internal endpoint
-  // the panel itself posts to.
+  // Propose a different LegalEase value for the same field, through the internal endpoints
+  // the panel itself posts to. The product refuses a second active suggestion for one
+  // field, so the operator supersedes the applied one first, exactly as the panel's own
+  // Supersede control does. Superseding changes the suggestion, never the saved value.
   const proposed = await page.evaluate(async ({ slug, sectionKey, fieldKey, value }) => {
-    const response = await fetch(`/api/internal/partners/onboarding/phase1/${slug}/prefill`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        action: "add",
-        requestId: crypto.randomUUID(),
-        payload: {
-          sectionKey,
-          fieldKey,
-          proposedValue: value,
-          sourceType: "partner_record",
-          sourceLabel: "Program record on file"
-        }
-      })
+    const post = async (body) => {
+      const response = await fetch(`/api/internal/partners/onboarding/phase1/${slug}/prefill`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body)
+      });
+      return { status: response.status, body: await response.text() };
+    };
+    const snapshotResponse = await fetch(
+      `/api/internal/partners/onboarding/phase1/${slug}/prefill`
+    );
+    const snapshot = await snapshotResponse.json();
+    const workspaceId = snapshot?.snapshot?.workspace?.id;
+    const active = (snapshot?.snapshot?.suggestions ?? []).find(
+      (suggestion) =>
+        suggestion.sectionKey === sectionKey &&
+        suggestion.fieldKey === fieldKey &&
+        ["proposed", "approved", "applied", "conflict"].includes(suggestion.reviewStatus)
+    );
+    if (!active) return { step: "read", status: snapshotResponse.status, body: "no active suggestion for the field" };
+
+    const superseded = await post({
+      action: "supersede",
+      requestId: crypto.randomUUID(),
+      workspaceId,
+      payload: { valueId: active.id, expectedBatchVersion: active.batchVersion }
     });
-    return { status: response.status, body: await response.text() };
+    if (superseded.status >= 400) return { step: "supersede", ...superseded };
+
+    const added = await post({
+      action: "add",
+      requestId: crypto.randomUUID(),
+      payload: {
+        sectionKey,
+        fieldKey,
+        proposedValue: value,
+        sourceType: "partner_record",
+        sourceLabel: "Program record on file"
+      }
+    });
+    return { step: "add", ...added };
   }, {
     slug: SLUG,
     sectionKey: PREPARED_SECTION,
     fieldKey: PREPARED_FIELD,
     value: LEGALEASE_CONFLICTING_VALUE
   });
-  console.log(`  operator proposal: HTTP ${proposed.status}`);
+  console.log(`  operator proposal (${proposed.step}): HTTP ${proposed.status}`);
+  assert.equal(proposed.step, "add", `the operator could not reach the proposal step: ${proposed.body.slice(0, 300)}`);
   assert.ok(proposed.status < 400, `preparing a conflicting value failed: ${proposed.body.slice(0, 300)}`);
 
   await go(page, `${baseUrl}${route}`);
