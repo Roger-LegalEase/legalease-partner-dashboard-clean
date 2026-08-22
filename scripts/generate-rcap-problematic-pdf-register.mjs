@@ -27,6 +27,7 @@ import { register } from "node:module";
 import { fileURLToPath } from "node:url";
 import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
 import { ROOT_CAUSES, rootCause } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
+import { sourceValidationMode, validateAgainstCommittedProof } from "./rcap-official-forms/rcap-source-validation-mode.mjs";
 import { platformReadyVerdict, RELEASE_STATE_HOLDS, REVIEW_REQUIRED_HOLDS } from "./rcap-official-forms/rcap-platform-ready.mjs";
 import { PARTICIPANT_FILL_HOLD, participantFillEvidence } from "./rcap-official-forms/rcap-participant-fill-hold.mjs";
 
@@ -64,6 +65,35 @@ function fail(message) {
   console.error(`FAIL problematic PDF register — ${message}`);
   process.exit(1);
 }
+
+// Which of the three source-validation states this run is in, and what each one
+// permits. See scripts/rcap-official-forms/rcap-source-validation-mode.mjs.
+const SOURCE_MODE = sourceValidationMode();
+
+// A source-empty `--check` validates the promotion proof instead of rederiving
+// outcomes it cannot see. It writes nothing and exits BEFORE the
+// source-dependent generation below, so the false demotion is never computed.
+if (checkOnly && SOURCE_MODE.mode === "committed_promotion_proof") {
+  const problems = validateAgainstCommittedProof(OUT_JSON);
+  console.log("source_validation_mode=committed_promotion_proof");
+  if (problems.length > 0) {
+    console.error(`FAIL problematic PDF register — source-empty validation against the committed promotion proof found ${problems.length} problem(s):`);
+    for (const problem of problems) console.error(` - ${problem}`);
+    process.exit(1);
+  }
+  console.log("OK problematic PDF register — no configured source root is mounted, so the committed register was validated against the source-mounted promotion proof (52 reviewed outcomes, 0 unresolved, denominator 128, retained_problematic 0). No source-dependent outcome was rederived from an empty corpus, and nothing was written.");
+  process.exit(0);
+}
+
+if (SOURCE_MODE.mode === "partial_or_invalid_source_mount") {
+  console.log("source_validation_mode=partial_or_invalid_source_mount");
+  fail(`a source root is mounted but ${SOURCE_MODE.missing.length} reviewed source(s) are not present under it, so neither real source validation nor the source-empty proof path is honest here. First missing: ${SOURCE_MODE.missing.slice(0, 3).join("; ")}`);
+}
+
+if (!checkOnly && SOURCE_MODE.mode !== "mounted_corpus") {
+  fail("refusing to write the register without the authorized source corpus mounted; run with OFFICIAL_FORMS_SOURCE_DIR set, or use --check");
+}
+console.log("source_validation_mode=mounted_corpus");
 
 function readJson(file, fallback = null) {
   if (!fs.existsSync(file)) return fallback;

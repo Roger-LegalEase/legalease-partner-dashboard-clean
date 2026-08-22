@@ -32,6 +32,7 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { ROOT_CAUSES } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
 import { platformReadyVerdict } from "./rcap-official-forms/rcap-platform-ready.mjs";
+import { sourceValidationMode, validateAgainstCommittedProof } from "./rcap-official-forms/rcap-source-validation-mode.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const REGISTER = path.join(rootDir, "data/rcap-all50/problematic-pdf-register.json");
@@ -56,6 +57,37 @@ function fail(message) {
   console.error(`FAIL problematic PDF master list — ${message}`);
   process.exit(1);
 }
+
+// The same three source-validation states the register uses. The master list is
+// built FROM the register, so a source-empty regeneration inherits both the
+// false platform-ready demotion and — after this integration — a root-cause
+// vocabulary mismatch: the approved register names RC-T-FLAT-GEOMETRY, which the
+// current catalogue has renamed to RC-T-FLAT-GEOMETRY-UNMEASURED. Neither is a
+// finding about a form; both are artifacts of rebuilding approved output in an
+// environment that cannot see what it was built from.
+const SOURCE_MODE = sourceValidationMode();
+
+if (checkOnly && SOURCE_MODE.mode === "committed_promotion_proof") {
+  const problems = validateAgainstCommittedProof(OUT_JSON);
+  console.log("source_validation_mode=committed_promotion_proof");
+  if (problems.length > 0) {
+    console.error(`FAIL problematic PDF master list — source-empty validation against the committed promotion proof found ${problems.length} problem(s):`);
+    for (const problem of problems) console.error(` - ${problem}`);
+    process.exit(1);
+  }
+  console.log("OK problematic PDF master list — no configured source root is mounted, so the committed master list was validated against the source-mounted promotion proof. Nothing was rederived and nothing was written.");
+  process.exit(0);
+}
+
+if (SOURCE_MODE.mode === "partial_or_invalid_source_mount") {
+  console.log("source_validation_mode=partial_or_invalid_source_mount");
+  fail(`a source root is mounted but ${SOURCE_MODE.missing.length} reviewed source(s) are not present under it. First missing: ${SOURCE_MODE.missing.slice(0, 3).join("; ")}`);
+}
+
+if (!checkOnly && SOURCE_MODE.mode !== "mounted_corpus") {
+  fail("refusing to write the master list without the authorized source corpus mounted; run with OFFICIAL_FORMS_SOURCE_DIR set, or use --check");
+}
+console.log("source_validation_mode=mounted_corpus");
 const readJson = (file, fallback = null) => {
   if (!fs.existsSync(file)) return fallback;
   try { return JSON.parse(fs.readFileSync(file, "utf8")); } catch { return fallback; }
