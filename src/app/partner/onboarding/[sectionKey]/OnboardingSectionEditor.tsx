@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { SAVE_COPY } from "@/lib/partners/onboarding/partner-copy";
 import { useRouter } from "next/navigation";
 import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
 import type { CoBrandedPagePreview } from "@/lib/partners/onboarding/artifact-generator";
@@ -291,7 +292,7 @@ export function OnboardingSectionEditor({
   const [indicator, setIndicator] = useState<SaveIndicator>({
     kind: "idle",
     message: commercialBlocked
-      ? "Editing opens after commercial clearance."
+      ? "Editing opens once your program terms are confirmed."
       : canEdit
         ? "Changes save automatically."
         : "Editing is currently locked."
@@ -546,7 +547,7 @@ export function OnboardingSectionEditor({
           message:
             operation.mode === "section_complete"
               ? "Checking and saving this section"
-              : "Saving"
+              : SAVE_COPY.saving
         });
       }
 
@@ -668,7 +669,7 @@ export function OnboardingSectionEditor({
                   confirmedSaved
                     ? {
                         kind: "saved",
-                        message: `Saved at ${formatLocalSaveTime(new Date())}`
+                        message: `${SAVE_COPY.saved} at ${formatLocalSaveTime(new Date())}`
                       }
                     : {
                         kind: "idle",
@@ -980,7 +981,7 @@ export function OnboardingSectionEditor({
       });
       const payload = response.payload;
       if (response.status < 200 || response.status >= 300 || payload?.success !== true) {
-        throw new Error(assetErrorMessage(response.status, payload));
+        throw new Error(assetErrorMessage(response.status));
       }
 
       const returnedAssets = parseAssets(payload.assets);
@@ -1065,7 +1066,7 @@ export function OnboardingSectionEditor({
       );
       const payload = await readJsonObject(response);
       if (!response.ok || payload?.success !== true) {
-        throw new Error(assetErrorMessage(response.status, payload));
+        throw new Error(assetErrorMessage(response.status));
       }
       const returnedAssets = parseAssets(payload.assets);
       setCurrentAssets((current) =>
@@ -1300,7 +1301,7 @@ export function OnboardingSectionEditor({
               aria-labelledby="commercial-block-heading"
             >
               <h2 id="commercial-block-heading" className="font-extrabold text-[#071B33]">
-                Setup is waiting on commercial clearance
+                Setup is waiting on your program terms
               </h2>
               <p className="mt-2 text-sm leading-6 text-[#475A6E]">
                 You can review this task. Editing opens after LegalEase confirms
@@ -2685,7 +2686,7 @@ function BrandFields(props: FieldRendererProps) {
 
       <FieldGroup
         title="Approved public-page copy"
-        description="Provide plain text approved by your organization. LegalEase-controlled legal and product language remains read-only."
+        description="Provide plain text approved by your team. LegalEase-controlled legal and product language remains read-only."
         fieldKeys={[
           "approved_organization_description",
           "program_headline",
@@ -3070,7 +3071,7 @@ function SupportReportingFields(props: FieldRendererProps) {
 
       <FieldGroup
         title="Reporting recipients"
-        description="These rows define intended report delivery only; saving them sends nothing."
+        description="These entries define intended report delivery only; saving them sends nothing."
         fieldKeys={["report_recipients"]}
       >
         <div
@@ -4698,16 +4699,14 @@ function requestErrorMessage(
   if (Array.isArray(payload?.issues) && payload.issues.length > 0) {
     return "Review the marked information. Nothing has been discarded.";
   }
-  if (typeof payload?.error === "string") {
-    return `Could not save. Nothing changed. ${payload.error}`;
-  }
-  return "Could not save. Nothing changed. Your entries remain on this page. Retry when your connection is available.";
+  // The server's own wording is internal diagnostic text. It is logged, never rendered:
+  // a partner reading a save failure needs to know their work is safe and what to do next.
+  return "We could not save your changes. Your changes are still on this page. Try saving again. If the problem continues, contact LegalEase support.";
 }
 
-function assetErrorMessage(
-  status: number,
-  payload: Record<string, unknown> | null
-) {
+// The server's own error text is internal diagnostic wording and is never rendered. Each
+// case below tells the partner what happened to their file and what to do next instead.
+function assetErrorMessage(status: number) {
   if (status === 401) {
     return "Your session expired. The upload was not confirmed and existing private assets remain safe. Sign in again and return to this task.";
   }
@@ -4720,12 +4719,8 @@ function assetErrorMessage(
   if (status === 409) {
     return "A newer private asset version exists. Nothing was replaced. Refresh this task before trying again.";
   }
-  if (
-    status === 400 &&
-    typeof payload?.error === "string" &&
-    payload.error.length <= 220
-  ) {
-    return `File type or contents are not supported. Nothing was uploaded. ${payload.error}`;
+  if (status === 400) {
+    return "That file type isn't supported. Nothing was uploaded and your current file is unchanged. Choose a different file and try again.";
   }
   return "Upload could not be completed. No success was recorded and the current private asset remains safe. Choose the file and try again.";
 }
@@ -5020,7 +5015,7 @@ export function GuidedChangeRequestPanel({
                 <p className="mt-2 text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]">
                   Requested {formatTimestamp(request.requestedAt)}
                   {request.resolvedAt
-                    ? ` | Resolved ${formatTimestamp(request.resolvedAt)}`
+                    ? ` | Closed ${formatTimestamp(request.resolvedAt)}`
                     : ""}
                 </p>
                 {request.partnerResponse ? (

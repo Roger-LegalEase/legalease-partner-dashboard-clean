@@ -19,7 +19,6 @@ export default async function PartnerCheckoutSuccessPage({
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const resolvedSearchParams = await searchParams;
-  const sessionId = typeof resolvedSearchParams.session_id === "string" ? resolvedSearchParams.session_id : "";
   const partnerSlug = typeof resolvedSearchParams.partner_slug === "string" ? resolvedSearchParams.partner_slug : "";
   const partner = partnerSlug ? await getPartnerRecordBySlug(partnerSlug) : undefined;
   const paymentConfirmed = partner?.paymentStatus === "paid";
@@ -48,10 +47,10 @@ export default async function PartnerCheckoutSuccessPage({
             <div className="flex items-start gap-3">
               <Clock3 className="mt-0.5 h-5 w-5 shrink-0 text-orange" aria-hidden="true" />
               <div>
-                <p className="text-sm font-black text-navy">Webhook confirmation required</p>
+                <p className="text-sm font-black text-navy">We&rsquo;re confirming your payment</p>
                 <p className="mt-1 text-sm leading-6 text-grayWilma-700">
-                  LegalEase waits for Stripe webhook confirmation before paid provisioning activation. The checkout
-                  session reference is {sessionId ? "present" : "not present"} on this return URL.
+                  Your payment is being confirmed now. This usually takes a moment. We&rsquo;ll email you as soon as
+                  your program setup is ready to open.
                 </p>
               </div>
             </div>

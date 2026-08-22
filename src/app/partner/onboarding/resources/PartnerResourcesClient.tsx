@@ -206,8 +206,8 @@ export function PartnerResourcesClient({
           Launch readiness
         </h2>
         <p className="mt-1 text-sm text-grayWilma-700">
-          These are the items your organization owns or needs to know about.
-          LegalEase tracks its own internal checks separately.
+          These are the items your team owns or needs to know about. LegalEase
+          tracks its own preparation work separately.
         </p>
         <div className="mt-3">
           <LaunchReadinessView

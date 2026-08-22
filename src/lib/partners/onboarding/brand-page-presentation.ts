@@ -262,7 +262,7 @@ const RECOVERY_PRESENTATIONS: Readonly<
   account_already_connected: {
     heading: "This account is already connected",
     happened: "The signed-in account already belongs to a partner workspace.",
-    safe: "The existing membership was preserved and no second tenant connection was created.",
+    safe: "Your existing access is unchanged, and no second connection was created.",
     next: "Return to the dashboard for the connected workspace or contact LegalEase if that access is incorrect.",
     returnLabel: "Return to your dashboard",
     returnHref: "/partner/dashboard"

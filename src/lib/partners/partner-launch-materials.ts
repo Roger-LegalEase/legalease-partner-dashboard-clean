@@ -20,7 +20,7 @@ const PACKET_CREDITS_EXPLANATION =
   "Packet credits are only used when Expungement.ai successfully generates a personalized record-clearing packet. Screenings, account creation, ineligible results, and failed packet generations do not use packet credits.";
 
 const AFTER_SCREENING_EXPLANATION =
-  "After screening, participants see whether a record-clearing path may be available, get plain-language next steps, and — when a route is available — can continue to a personalized packet. Everything is saved in their private Briefcase.";
+  "After screening, participants see whether a record-clearing path may be available and get plain-language next steps. When a route is available, they can continue to a personalized packet. Everything is saved in their private Briefcase.";
 
 export type PartnerLaunchMaterials = {
   partnerSlug: string;

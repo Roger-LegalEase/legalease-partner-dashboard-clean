@@ -291,6 +291,11 @@ async function Phase1PartnerOnboardingPage() {
         presentation={presentation}
         isPartnerStaff={portal.role === "partner_staff"}
         hasPendingPrefill={portal.prefill.pendingCount > 0}
+        preparedWorkload={{
+          prepared: portal.prefill.preparedCount,
+          needsInput: portal.prefill.needsInputCount,
+          optional: portal.prefill.optionalCount
+        }}
         commercial={commercialSummary(portal)}
         agreements={portal.agreements.map((agreement) => ({
           label: agreementTypeLabel(agreement.type),
@@ -341,21 +346,23 @@ function sectionSummary(
     (requirement) => requirement.sectionKey === section.key
   );
   if (missing.length === 0) return null;
-  if (missing.length === 1) return `Missing: ${missing[0].label}`;
-  return `${missing.length} required items remain`;
+  // Work remaining is phrased as work, not as a defect count. "59 required items remain"
+  // read as a wall of failures on the one screen a program director opens first.
+  if (missing.length === 1) return `Needs your input: ${missing[0].label}`;
+  return `${missing.length} decisions remaining`;
 }
 
 function commercialSummary(portal: PartnerOnboardingPortal) {
   if (portal.workspace.commercialGateStatus === "blocked") {
     return {
-      label: "Commercial step required",
+      label: "Program terms in progress",
       blocked: true,
       detail:
-        "Setup editing will open after the billing or purchasing requirement is resolved. Contact LegalEase if you need help with this status."
+        "Setup editing opens once your program terms are confirmed. Contact LegalEase if you have a question about this step."
     };
   }
   return {
-    label: "Cleared for setup",
+    label: "Program terms confirmed",
     blocked: false,
     detail:
       "LegalEase recorded the applicable paid invoice, approved purchase order, or authorized internal clearance."

@@ -499,7 +499,7 @@ function Journey({ metrics, isEmpty }: { metrics: Metrics; isEmpty: boolean }) {
       </div>
       <div style={{ marginTop: 14, display: "grid", gap: 6 }}>
         <p style={{ margin: 0, fontSize: 12, color: "#8A8278", lineHeight: 1.5 }}>
-          <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Packets created:</strong> Document packet rows created for this partner.
+          <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Packets created:</strong> Document packets created for this partner.
         </p>
         <p style={{ margin: 0, fontSize: 12, color: "#8A8278", lineHeight: 1.5 }}>
           <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Saved cases:</strong> Cases saved through this partner so a user can come back later.
