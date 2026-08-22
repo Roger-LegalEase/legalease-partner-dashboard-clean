@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "rcap-pdf-evidence-dispatch/v1",
+  "recordedBy": "captain",
+  "PDF_IMPLEMENTATION_FREEZE_SHA": "f34fe99d8760805eef219c4014664a87f6e90e50",
+  "bothSessionsStartFromTheSameFrozenSha": "and from nothing else. Evidence produced against a different tree cannot be shown to describe the artifacts under review.",
+  "sourcePack": {
+    "path": "tmp/source-packs/pdf-finish-final-evidence.zip",
+    "familyCount": 38,
+    "note": "git-ignored; delivered out of band, never committed"
+  },
+  "sessions": [
+    {
+      "session": 9,
+      "produces": "current provenance sidecars",
+      "base": "f34fe99d8760805eef219c4014664a87f6e90e50",
+      "must": [
+        "hash the real official source bytes installed from the evidence pack",
+        "bind each sidecar to the frozen digests in pdf-implementation-freeze.json"
+      ],
+      "mustNot": [
+        "change any artifact",
+        "regenerate any family package",
+        "consume Session 10 output as input"
+      ]
+    },
+    {
+      "session": 10,
+      "produces": "all-page visual evidence",
+      "base": "f34fe99d8760805eef219c4014664a87f6e90e50",
+      "must": [
+        "raster official-source pages from the actual source PDFs",
+        "raster artifact pages from the frozen finalized PDFs",
+        "cover every page, not a sample"
+      ],
+      "mustNot": [
+        "lift a layer out of an artifact and use it as a source substitute",
+        "change any artifact",
+        "consume Session 9 output as input"
+      ]
+    }
+  ],
+  "independence": "Sessions 9 and 10 run independently from the same base. Neither may read the other's output, so two failures cannot agree with each other.",
+  "reviewer": {
+    "session": 2,
+    "status": "not_assigned",
+    "condition": "assigned only after both evidence commits exist. A reviewer may never review evidence it created, and there is nothing current to review until both land."
+  }
+}

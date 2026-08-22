@@ -203,7 +203,11 @@ assert(families >= 40, `all 40 D1 family packages present (found ${families})`);
 // group; an overlay anchor is placed against a denied label; a rendered
 // fixture modified an unwritable field; or a family claims a fixture or
 // contact sheet it does not have.
-const NEVER_WRITE_CLASSES = new Set(["prohibited", "protected", "signature", "court_or_agency", "outside_party"]);
+// Kept identical to the binder's NEVER_WRITE, including `manual`. A verifier
+// whose unwritable set is narrower than the binder's cannot catch what the
+// binder allowed, which is exactly how a field the classifier declined to
+// describe stayed writable through both.
+const NEVER_WRITE_CLASSES = new Set(["prohibited", "protected", "signature", "court_or_agency", "outside_party", "manual"]);
 const CAPTION_ONLY_FACTS = new Set([
   "participant.full_legal_name", "participant.first_name", "participant.last_name", "participant.middle_name",
   "participant.date_of_birth", "matter.county", "matter.court", "matter.case_number", "matter.citation_number"

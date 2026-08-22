@@ -1,0 +1,171 @@
+{
+  "schemaVersion": "rcap-gate-b-wave-c-shard-historical-objection-review/v1",
+  "shard": "d",
+  "shardIndex": 3,
+  "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "historicalRecordsPreservedUnchanged": true,
+  "note": "No historical verdict or correction record was edited. Prior provenAgainstThisFamilysBytes flags were re-checked against the bytes at this review base rather than trusted; where the lane's proof was bound to a superseded artifact that is stated per objection.",
+  "families": [
+    {
+      "familyId": "NE:cc-6-15-1-form-en",
+      "artifactAtThisReviewBase": "41d2dfd959fddfe8df4a0d062e0599abf114f2f93d1694125a5cf0b2379ee55d",
+      "rerenderEvidenceArtifactSha256": "8d9c3a32839d7d751f4d3a7b543125f5e16402f42c641008c6f1c9c902b64064",
+      "rerenderEvidenceIsCurrentForThisFamily": false,
+      "historicalObjections": [
+        {
+          "escalationId": "ESC-CAPTION-VARIANTS",
+          "originalObjection": "no clipping, no silent truncation, no duplicated preprinted caption",
+          "requiredBehaviour": "Exactly one field per caption slot is bound and the rest refused; an unfilled dropdown's prompt is suppressed at flatten.",
+          "laneRecordedStatus": "corrected",
+          "laneRecordedProvenAgainstThisFamilysBytes": true,
+          "laneProofWasAgainstArtifactSha256": "8d9c3a32839d7d751f4d3a7b543125f5e16402f42c641008c6f1c9c902b64064",
+          "artifactAtThisReviewBase": "41d2dfd959fddfe8df4a0d062e0599abf114f2f93d1694125a5cf0b2379ee55d",
+          "laneProofBoundToTheCurrentArtifact": false,
+          "reviewerClosureFinding": "not_closed",
+          "reviewerReasoning": "The original objection was 'no clipping, no silent truncation, no duplicated preprinted caption', and the required behaviour included 'an unfilled dropdown's prompt is suppressed at flatten'. Against the current artifact 41d2dfd9\u2026 the duplication is gone but the caption damage is not: on page 1 the preprinted words 'IN THE' carry ink in the blank panel and zero ink in the filled panel at the same coordinates, 'COURT OF' is overwritten by the drawn value 'District Court', and the printed italic caption '(Enter the county name)' is absent from the filled panel while the unselected chooser's prompt 'Choose the county' survives the flatten. The stated required behaviour is inverted: the prompt survived and the printed caption did not. Now re-proven against the official source bytes: a registered per-pixel comparison of the blank source and the finalized artifact shows 402 source-ink pixels destroyed in the caption band, in the exact columns occupied by 'IN THE' and 'COURT OF'."
+        },
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "originalObjection": "artifact provenance complete and hash-matched",
+          "requiredBehaviour": "The provenance module emits all 20 fields, and the contract verifier reads a committed sidecar.",
+          "laneRecordedStatus": "open",
+          "laneRecordedProvenAgainstThisFamilysBytes": false,
+          "laneProofWasAgainstArtifactSha256": "8d9c3a32839d7d751f4d3a7b543125f5e16402f42c641008c6f1c9c902b64064",
+          "artifactAtThisReviewBase": "41d2dfd959fddfe8df4a0d062e0599abf114f2f93d1694125a5cf0b2379ee55d",
+          "laneProofBoundToTheCurrentArtifact": false,
+          "reviewerClosureFinding": "closed_on_the_artifact_but_the_escalation_record_remains_open",
+          "reviewerReasoning": "The escalation is recorded as sharedCorrectionStatus 'open' and ownedByAnotherLane. Measured against the current bytes the sidecar itself conforms: artifact-provenance.json carries 24 fields with no null field, and every digest it pins \u2014 fieldMapSha256, classificationSha256 and each artifacts[].outputSha256 with its byteLength and pageCount \u2014 was recomputed by this reviewer and matches disk. This reviewer therefore records no artifact-level sidecar defect for this family; closing the escalation record is another lane's to do."
+        }
+      ],
+      "sourceBytesVerifiedByThisReviewer": true
+    },
+    {
+      "familyId": "VA:cc-1201-form-en",
+      "artifactAtThisReviewBase": "3793af1fb7f254d2e7d178f7d81823d031762d68b2c8b0faa8e94c4a28cbbe91",
+      "rerenderEvidenceArtifactSha256": "37093e65c92f61a407bde7bdb213964886af5908725591eb3630c12b0867d52b",
+      "rerenderEvidenceIsCurrentForThisFamily": false,
+      "historicalObjections": [
+        {
+          "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
+          "originalObjection": "protection established by geometry where required, not label alone",
+          "requiredBehaviour": "The widget rect and the printed caption above it are inputs to decideBinding, and a binding whose rect falls inside a court-owned page region is refused whatever the field is called.",
+          "laneRecordedStatus": "corrected",
+          "laneRecordedProvenAgainstThisFamilysBytes": true,
+          "laneProofWasAgainstArtifactSha256": "37093e65c92f61a407bde7bdb213964886af5908725591eb3630c12b0867d52b",
+          "artifactAtThisReviewBase": "3793af1fb7f254d2e7d178f7d81823d031762d68b2c8b0faa8e94c4a28cbbe91",
+          "laneProofBoundToTheCurrentArtifact": false,
+          "reviewerClosureFinding": "not_closed",
+          "reviewerReasoning": "The required behaviour was that 'a binding whose rect falls inside a court-owned page region is refused whatever the field is called'. On the current artifact 3793af1f\u2026 the field User.CourtName (page 1, rect x=37 y=651 w=366 h=12) sits on the court caption rule whose printed caption is CITY OR COUNTY and whose preprinted continuation is 'Circuit Court'; it was not refused and was written with matter.court = 'District Court'. The flag provenAgainstThisFamilysBytes=true was recorded against artifact 37093e65\u2026, which is not the artifact at this review base."
+        },
+        {
+          "escalationId": "ESC-NO-REFUSE-WHEN",
+          "originalObjection": "participant-writable entries correct",
+          "requiredBehaviour": "Descriptors carry refuseWhen guards: street_address declines city/state/zip subjects, full_legal_name declines street and bank subjects.",
+          "laneRecordedStatus": "corrected",
+          "laneRecordedProvenAgainstThisFamilysBytes": true,
+          "laneProofWasAgainstArtifactSha256": "37093e65c92f61a407bde7bdb213964886af5908725591eb3630c12b0867d52b",
+          "artifactAtThisReviewBase": "3793af1fb7f254d2e7d178f7d81823d031762d68b2c8b0faa8e94c4a28cbbe91",
+          "laneProofBoundToTheCurrentArtifact": false,
+          "reviewerClosureFinding": "closed",
+          "reviewerReasoning": "The refuseWhen guards hold on the current bytes: street_address is written only to User.AddressOfPetAtt on the page 4 rule captioned ADDRESS OF PETITIONER/ATTORNEY, full_legal_name only to the page 1 NAME OF PETITIONER rule and the page 4 PRINTED NAME rule, and no duplicated address line or bank-name fill appears on any of the four pages."
+        },
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "originalObjection": "artifact provenance complete and hash-matched",
+          "requiredBehaviour": "The provenance module emits all 20 fields, and the contract verifier reads a committed sidecar.",
+          "laneRecordedStatus": "open",
+          "laneRecordedProvenAgainstThisFamilysBytes": false,
+          "laneProofWasAgainstArtifactSha256": "37093e65c92f61a407bde7bdb213964886af5908725591eb3630c12b0867d52b",
+          "artifactAtThisReviewBase": "3793af1fb7f254d2e7d178f7d81823d031762d68b2c8b0faa8e94c4a28cbbe91",
+          "laneProofBoundToTheCurrentArtifact": false,
+          "reviewerClosureFinding": "closed_on_the_artifact_but_the_escalation_record_remains_open",
+          "reviewerReasoning": "The escalation is recorded as sharedCorrectionStatus 'open' and ownedByAnotherLane. Measured against the current bytes the sidecar itself conforms: artifact-provenance.json carries 24 fields with no null field, and every digest it pins \u2014 fieldMapSha256, classificationSha256 and each artifacts[].outputSha256 with its byteLength and pageCount \u2014 was recomputed by this reviewer and matches disk. This reviewer therefore records no artifact-level sidecar defect for this family; closing the escalation record is another lane's to do."
+        }
+      ],
+      "sourceBytesVerifiedByThisReviewer": true
+    },
+    {
+      "familyId": "VA:cc-1473-form-en",
+      "artifactAtThisReviewBase": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+      "rerenderEvidenceArtifactSha256": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+      "rerenderEvidenceIsCurrentForThisFamily": true,
+      "historicalObjections": [
+        {
+          "escalationId": "ESC-GEOMETRY-NOT-AN-INPUT",
+          "originalObjection": "protection established by geometry where required, not label alone",
+          "requiredBehaviour": "The widget rect and the printed caption above it are inputs to decideBinding, and a binding whose rect falls inside a court-owned page region is refused whatever the field is called.",
+          "laneRecordedStatus": "corrected",
+          "laneRecordedProvenAgainstThisFamilysBytes": true,
+          "laneProofWasAgainstArtifactSha256": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+          "artifactAtThisReviewBase": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+          "laneProofBoundToTheCurrentArtifact": true,
+          "reviewerClosureFinding": "closed_with_a_reservation",
+          "reviewerReasoning": "No value is written into a court-owned decision, clerk or signature region: the DATE, SIGNATURE, PRINT NAME, TELEPHONE, EMAIL, VSB and CLERK rules are all blank on the current artifact 5c1f8ab6\u2026, and page 2 is untouched. The reservation is that User.City writes participant.city into the court caption block's CITY OR COUNTY rule; the slot is participant-completed so this is not a protected-region violation, but the locality fact it should carry is an owner question."
+        },
+        {
+          "escalationId": "ESC-NO-REFUSE-WHEN",
+          "originalObjection": "participant-writable entries correct",
+          "requiredBehaviour": "Descriptors carry refuseWhen guards: street_address declines city/state/zip subjects, full_legal_name declines street and bank subjects.",
+          "laneRecordedStatus": "corrected",
+          "laneRecordedProvenAgainstThisFamilysBytes": true,
+          "laneProofWasAgainstArtifactSha256": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+          "artifactAtThisReviewBase": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+          "laneProofBoundToTheCurrentArtifact": true,
+          "reviewerClosureFinding": "closed",
+          "reviewerReasoning": "street_address is written only to the rule captioned ADDRESS OF PETITIONER/ATTORNEY and is not offered to the city slot; full_legal_name is written only to 'Petitioner's full name at the time of arrest'. No duplicated address line appears."
+        },
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "originalObjection": "artifact provenance complete and hash-matched",
+          "requiredBehaviour": "The provenance module emits all 20 fields, and the contract verifier reads a committed sidecar.",
+          "laneRecordedStatus": "open",
+          "laneRecordedProvenAgainstThisFamilysBytes": false,
+          "laneProofWasAgainstArtifactSha256": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+          "artifactAtThisReviewBase": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+          "laneProofBoundToTheCurrentArtifact": true,
+          "reviewerClosureFinding": "closed_on_the_artifact_but_the_escalation_record_remains_open",
+          "reviewerReasoning": "The escalation is recorded as sharedCorrectionStatus 'open' and ownedByAnotherLane. Measured against the current bytes the sidecar itself conforms: artifact-provenance.json carries 24 fields with no null field, and every digest it pins \u2014 fieldMapSha256, classificationSha256 and each artifacts[].outputSha256 with its byteLength and pageCount \u2014 was recomputed by this reviewer and matches disk. This reviewer therefore records no artifact-level sidecar defect for this family; closing the escalation record is another lane's to do."
+        }
+      ],
+      "sourceBytesVerifiedByThisReviewer": true
+    },
+    {
+      "familyId": "VT:600-00228-support-en",
+      "artifactAtThisReviewBase": "3badbfe515021b919e42eab8f487030cae408aaaf0d983d26d22a42ae3468b6e",
+      "rerenderEvidenceArtifactSha256": "74062d40e3e105c352349ca072c03b9d657a4c484c34edf25bc35d7a64ff8c02",
+      "rerenderEvidenceIsCurrentForThisFamily": false,
+      "historicalObjections": [
+        {
+          "escalationId": "ESC-VALUE-NOT-VISIBLE",
+          "originalObjection": "expected participant values visibly present",
+          "requiredBehaviour": "The printed label is captured into effectiveLabel and matched.",
+          "laneRecordedStatus": "corrected",
+          "laneRecordedProvenAgainstThisFamilysBytes": true,
+          "laneProofWasAgainstArtifactSha256": "74062d40e3e105c352349ca072c03b9d657a4c484c34edf25bc35d7a64ff8c02",
+          "artifactAtThisReviewBase": "3badbfe515021b919e42eab8f487030cae408aaaf0d983d26d22a42ae3468b6e",
+          "laneProofBoundToTheCurrentArtifact": false,
+          "reviewerClosureFinding": "not_closed",
+          "reviewerReasoning": "The escalation's own mutation test is 'Offer full_legal_name to a field named `2` sitting under a printed Name caption: it must bind, not refuse', and its family-owned follow-up was 'confirm the applicant fields carry values'. On the current artifact 3badbfe5\u2026 the caption capture works but the binding still refuses: field '3' carries effectiveLabel 'Name: (First & Last) \u2026' and is classified manual, and fields '2' (Street Address), '4' (City/State/Zip), '5a' (Email Address) and '6'/'7' (Home/Cell and Work Phone) are likewise classified manual. classCounts is {manual: 78, participant: 2}. The applicant's name, street address, city/state/zip, phone and email are blank on a form whose purpose is to state the applicant's identity and means. The flag provenAgainstThisFamilysBytes=true was recorded against artifact 74062d40\u2026, not the artifact at this review base."
+        },
+        {
+          "escalationId": "ESC-SIDECAR-NONCONFORMANT",
+          "originalObjection": "artifact provenance complete and hash-matched",
+          "requiredBehaviour": "The provenance module emits all 20 fields, and the contract verifier reads a committed sidecar.",
+          "laneRecordedStatus": "open",
+          "laneRecordedProvenAgainstThisFamilysBytes": false,
+          "laneProofWasAgainstArtifactSha256": "74062d40e3e105c352349ca072c03b9d657a4c484c34edf25bc35d7a64ff8c02",
+          "artifactAtThisReviewBase": "3badbfe515021b919e42eab8f487030cae408aaaf0d983d26d22a42ae3468b6e",
+          "laneProofBoundToTheCurrentArtifact": false,
+          "reviewerClosureFinding": "closed_on_the_artifact_but_the_escalation_record_remains_open",
+          "reviewerReasoning": "The escalation is recorded as sharedCorrectionStatus 'open' and ownedByAnotherLane. Measured against the current bytes the sidecar itself conforms: artifact-provenance.json carries 24 fields with no null field, and every digest it pins \u2014 fieldMapSha256, classificationSha256 and each artifacts[].outputSha256 with its byteLength and pageCount \u2014 was recomputed by this reviewer and matches disk. This reviewer therefore records no artifact-level sidecar defect for this family; closing the escalation record is another lane's to do."
+        }
+      ],
+      "sourceBytesVerifiedByThisReviewer": true
+    }
+  ],
+  "sourceVerification": {
+    "status": "complete_for_this_shard",
+    "sourceMismatches": 0,
+    "record": "source-verification.json"
+  }
+}

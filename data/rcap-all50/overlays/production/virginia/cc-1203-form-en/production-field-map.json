@@ -48,662 +48,1168 @@
     {
       "field": "User.CaseNo",
       "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": "Case Number"
     },
     {
       "field": "User.CourtName",
       "class": "participant",
-      "factId": "matter.court"
-    },
-    {
-      "field": "User.FullName",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
+      "factId": "matter.court",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "User.DateOfBirth",
       "class": "participant",
-      "factId": "participant.date_of_birth"
-    },
-    {
-      "field": "User.ChargeCaseNumber",
-      "class": "participant",
-      "factId": "matter.case_number"
-    },
-    {
-      "field": "User.FullNameOfArrest",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "User.CityOrCounty",
-      "class": "participant",
-      "factId": "participant.city"
+      "factId": "participant.date_of_birth",
+      "factBasis": "field_name",
+      "effectiveLabel": "My date of birth is: ......................................."
     },
     {
       "field": "User.AncillaryCaseNumber",
       "class": "participant",
-      "factId": "matter.case_number"
-    },
-    {
-      "field": "User.AncillaryFullNameOfArrest",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "User.AncillaryCityOrCounty",
-      "class": "participant",
-      "factId": "participant.city"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": "2.Case number for ancillary matter identified above"
     },
     {
       "field": "User.AncillaryCaseNumberA",
       "class": "participant",
-      "factId": "matter.case_number"
-    },
-    {
-      "field": "User.AncillaryFullNameOfArrestA",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "User.AncillaryCityOrCountyA",
-      "class": "participant",
-      "factId": "participant.city"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": "2.Case number for ancillary matter identified above"
     },
     {
       "field": "User.AncillaryCaseNumberB",
       "class": "participant",
-      "factId": "matter.case_number"
-    },
-    {
-      "field": "User.AncillaryFullNameOfArrestB",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "User.AncillaryCityOrCountyB",
-      "class": "participant",
-      "factId": "participant.city"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": "[ ] an appeal from a bail, bond, or recognizance order"
     },
     {
       "field": "User.PrintedNameOfPetAtt",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "User.AddressOfPetAtt",
       "class": "participant",
-      "factId": "participant.street_address"
-    },
-    {
-      "field": "User.HomePhoneOfPetAtt",
-      "class": "participant",
-      "factId": "participant.phone"
-    },
-    {
-      "field": "User.CityOfPetAtt",
-      "class": "participant",
-      "factId": "participant.city"
-    },
-    {
-      "field": "User.EmailOfPetAtt",
-      "class": "participant",
-      "factId": "participant.email"
-    },
-    {
-      "field": "User.VSBCaseNumber",
-      "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "UserPetitionerName",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "CITY OR COUNTY"
     }
   ],
   "bindingRefusals": [
     {
       "field": "ResetButton",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
+    },
+    {
+      "field": "User.FullName",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     },
     {
       "field": "User.Sex",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     },
     {
       "field": "User.Race",
       "reason": "protected_category",
-      "category": "race"
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "User.SSN",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "User.AdditionCharge1",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AdditionCharge2",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB3",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.CB1",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB2",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB5",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB6",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB7",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB8",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB9",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB10",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB11",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB12",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB13",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB4",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.CB17",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB18",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB15",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB16",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
+    },
+    {
+      "field": "User.ChargeCaseNumber",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.DateOfDisp",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.DateOfArrest",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "User.Agency",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "User.DCN",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.CB14",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.Reasonably",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "User.FullNameOfArrest",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
+    {
+      "field": "User.CityOrCounty",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.CCourt",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.GDCourt",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.JDCourt",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.WarrantSummons",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.CB24",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB25",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB26",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB27",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB19",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB20",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB21",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB22",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryDateOfDisp",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryDateOfArrest",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryAgency",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryDCN",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.CB23",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryReasonably",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "User.AncillaryFullNameOfArrest",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
+    {
+      "field": "User.AncillaryCityOrCounty",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryCCourt",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryGDCourt",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryJDCourt",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryWarrantSummons",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.CB34",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryCaseDesc",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.CB28",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB29",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB30",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB31",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryDateOfDispA",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryDateOfArrestA",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryAgencyA",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryDCNA",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.CB32",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryReasonablyA",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "User.AncillaryFullNameOfArrestA",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
+    {
+      "field": "User.AncillaryCityOrCountyA",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryCCourtA",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryGDCourtA",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryJDCourtA",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB33",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryWarrantSummonA",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.CB35",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryCaseDescB",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.CB36",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB37",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB38",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB39",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryDateOfDispB",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryDateOfArrestB",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryAgencyB",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryDCNB",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.CB40",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryReasonablyB",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "User.AncillaryFullNameOfArrestB",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
+    {
+      "field": "User.AncillaryCityOrCountyB",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryCCourtB",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryGDCourtB",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryJDCourtB",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB41",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB42",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AncillaryWarrantSummonB",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "User.CB43",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB44",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB45",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB46",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB47",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB48",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB49",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.CB50",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.DateSigned2",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "User.SignaturePetitioner1",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "User.SignatureAttorney1",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "User.NamePetitioner",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "User.NameAttorney",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "User.AddressPetitioner",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "User.AddressAttorney",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
+    },
+    {
+      "field": "User.HomePhoneOfPetAtt",
+      "reason": "protected_page_region",
+      "category": "attorney",
+      "regionHeading": "[ ] ATTORNEY FOR PETITIONER"
     },
     {
       "field": "User.TelephonePetitioner",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_page_region",
+      "category": "attorney",
+      "regionHeading": "[ ] ATTORNEY FOR PETITIONER"
     },
     {
       "field": "User.TelephoneAttorney",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
+    },
+    {
+      "field": "User.CityOfPetAtt",
+      "reason": "protected_page_region",
+      "category": "attorney",
+      "regionHeading": "[ ] ATTORNEY FOR PETITIONER"
     },
     {
       "field": "User.CityPetitioner",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "User.CityAttorney",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
+    },
+    {
+      "field": "User.EmailOfPetAtt",
+      "reason": "protected_page_region",
+      "category": "attorney",
+      "regionHeading": "[ ] ATTORNEY FOR PETITIONER"
     },
     {
       "field": "User.EmailPetitioner",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "User.EmailAttorney",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
+    },
+    {
+      "field": "User.VSBCaseNumber",
+      "reason": "protected_category",
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "User.VSBCC1203BNUMBER",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     }
   ],
   "unwritableFields": [
+    {
+      "field": "ResetButton",
+      "class": "manual"
+    },
+    {
+      "field": "User.FullName",
+      "class": "manual"
+    },
+    {
+      "field": "User.Sex",
+      "class": "manual"
+    },
+    {
+      "field": "User.Race",
+      "class": "manual"
+    },
+    {
+      "field": "User.SSN",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB3",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB1",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB2",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB5",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB6",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB7",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB8",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB9",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB10",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB11",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB12",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB13",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB4",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB17",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB18",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB15",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB16",
+      "class": "manual"
+    },
+    {
+      "field": "User.DateOfDisp",
+      "class": "manual"
+    },
+    {
+      "field": "User.Agency",
+      "class": "manual"
+    },
+    {
+      "field": "User.DCN",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB14",
+      "class": "manual"
+    },
+    {
+      "field": "User.Reasonably",
+      "class": "manual"
+    },
+    {
+      "field": "User.FullNameOfArrest",
+      "class": "manual"
+    },
+    {
+      "field": "User.CCourt",
+      "class": "manual"
+    },
+    {
+      "field": "User.GDCourt",
+      "class": "manual"
+    },
+    {
+      "field": "User.JDCourt",
+      "class": "manual"
+    },
+    {
+      "field": "User.WarrantSummons",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB24",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB25",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB26",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB27",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB19",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB20",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB21",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB22",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryDateOfDisp",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryAgency",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryDCN",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB23",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryReasonably",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryFullNameOfArrest",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryCCourt",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryGDCourt",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryJDCourt",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryWarrantSummons",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB34",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryCaseDesc",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB28",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB29",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB30",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB31",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryDateOfDispA",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryAgencyA",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryDCNA",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB32",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryReasonablyA",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryFullNameOfArrestA",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryCCourtA",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryGDCourtA",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryJDCourtA",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB33",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryWarrantSummonA",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB35",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryCaseDescB",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB36",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB37",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB38",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB39",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryDateOfDispB",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryAgencyB",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryDCNB",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB40",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryReasonablyB",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryFullNameOfArrestB",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryCCourtB",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryGDCourtB",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryJDCourtB",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB41",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB42",
+      "class": "manual"
+    },
+    {
+      "field": "User.AncillaryWarrantSummonB",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB43",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB44",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB45",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB46",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB47",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB48",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB49",
+      "class": "manual"
+    },
+    {
+      "field": "User.CB50",
+      "class": "manual"
+    },
     {
       "field": "User.SignaturePetitioner1",
       "class": "signature"
@@ -711,6 +1217,30 @@
     {
       "field": "User.SignatureAttorney1",
       "class": "signature"
+    },
+    {
+      "field": "User.NameAttorney",
+      "class": "manual"
+    },
+    {
+      "field": "User.AddressAttorney",
+      "class": "manual"
+    },
+    {
+      "field": "User.TelephoneAttorney",
+      "class": "manual"
+    },
+    {
+      "field": "User.CityAttorney",
+      "class": "manual"
+    },
+    {
+      "field": "User.EmailAttorney",
+      "class": "manual"
+    },
+    {
+      "field": "User.VSBCC1203BNUMBER",
+      "class": "manual"
     }
   ],
   "manualFields": [

@@ -1,0 +1,328 @@
+{
+  "schemaVersion": "rcap-flat_overlay-map/v8-content-stream-measured",
+  "family": "requesttosealcriminfo",
+  "documentOwnership": "participant_completed",
+  "sha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+  "pageGeometry": [
+    {
+      "page": 1,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 2,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 3,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 4,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 5,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    },
+    {
+      "page": 6,
+      "width": 612,
+      "height": 792,
+      "orientation": "portrait"
+    }
+  ],
+  "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
+  "bindings": [],
+  "unwritableFields": [],
+  "manualFields": [],
+  "geometrySource": "content_stream",
+  "anchorBasis": "Write boxes read from the rule segments this form itself draws, extracted from the page content stream by scripts/rcap-official-forms/rcap-pdf-rule-lines.mjs. PART II is a ruled table: each cell prints its caption along the top and is closed by its own rule segment, so the segment beneath a caption is that cell's write line and its full width. Each box is that segment inset 1.5pt from its start, with the baseline BASELINE_ABOVE_RULE (2pt) above the rule and the right edge at the segment's end, which is where the form's own vertical divider stands.",
+  "anchorCapture": {
+    "basis": "text drawn by this exact sha256, read from the page content streams",
+    "pages": [
+      {
+        "page": 3,
+        "capturedTextRuns": 220
+      }
+    ],
+    "anchorCount": 6,
+    "anchors": [],
+    "note": "Superseded by the `anchors` array below, which carries the measured write boxes. This section records the capture the anchors were derived from."
+  },
+  "overflowPolicy": {
+    "longText": "shrink_to_fit_then_addendum",
+    "multiline": "wrap_within_widget_rect"
+  },
+  "anchors": [
+    {
+      "label": "FULL NAME (Last) (First) (Middle) (Suffix)",
+      "page": 3,
+      "writeBox": {
+        "x": 34.08,
+        "y": 655.1,
+        "width": 534.84,
+        "height": 12
+      },
+      "fontSize": 9,
+      "ruleLine": {
+        "x": 32.58,
+        "y": 653.1,
+        "endX": 570.42
+      },
+      "capturedLabel": {
+        "x": 64.32,
+        "baselineY": 675.78
+      },
+      "factId": "participant.full_legal_name",
+      "note": "PART II's first cell. The caption prints the four name parts across the top of one undivided cell, so the whole legal name is written on the cell's own rule rather than split into parts the form does not separate."
+    },
+    {
+      "label": "MAILING ADDRESS",
+      "page": 3,
+      "writeBox": {
+        "x": 34.08,
+        "y": 498.5,
+        "width": 256.56,
+        "height": 12
+      },
+      "fontSize": 9,
+      "ruleLine": {
+        "x": 32.58,
+        "y": 496.5,
+        "endX": 292.14
+      },
+      "capturedLabel": {
+        "x": 62.34,
+        "baselineY": 562.02
+      },
+      "factId": "participant.street_address",
+      "note": "The cell is 80.52pt tall and draws no interior rule, so only the street line has a measured baseline. The city, state and ZIP line has no rule of its own and is a required manual step, recorded under refusalFallbacks."
+    },
+    {
+      "label": "PHONE NUMBER(S)",
+      "page": 3,
+      "writeBox": {
+        "x": 294.36,
+        "y": 545.78,
+        "width": 274.56,
+        "height": 12
+      },
+      "fontSize": 9,
+      "ruleLine": {
+        "x": 292.86,
+        "y": 543.78,
+        "endX": 570.42
+      },
+      "capturedLabel": {
+        "x": 322.32,
+        "baselineY": 562.02
+      },
+      "factId": "participant.phone",
+      "note": "Its own cell, right of the divider at x=292.5. The caption shares a baseline with MAILING ADDRESS but not a cell."
+    },
+    {
+      "label": "DATE OF BIRTH",
+      "page": 3,
+      "writeBox": {
+        "x": 34.08,
+        "y": 451.22,
+        "width": 175.56,
+        "height": 12
+      },
+      "fontSize": 9,
+      "ruleLine": {
+        "x": 32.58,
+        "y": 449.22,
+        "endX": 211.14
+      },
+      "capturedLabel": {
+        "x": 63.36,
+        "baselineY": 481.5
+      },
+      "factId": "participant.date_of_birth",
+      "note": "Left cell of a three-column row; the two cells to its right carry the licence and state-ID identifiers and are declared protected."
+    },
+    {
+      "label": "TRIAL COURT CASE #:",
+      "page": 3,
+      "writeBox": {
+        "x": 34.08,
+        "y": 286.52,
+        "width": 256.56,
+        "height": 12
+      },
+      "fontSize": 9,
+      "ruleLine": {
+        "x": 32.58,
+        "y": 284.52,
+        "endX": 292.14
+      },
+      "capturedLabel": {
+        "x": 61.32,
+        "baselineY": 307.2
+      },
+      "factId": "matter.case_number",
+      "note": "The trial court's case number, not the appellate one. The row's right cell is NAME OF TRIAL COURT and is declared protected, so a write box wide enough to cross the divider at x=292.5 is refused by geometry."
+    },
+    {
+      "label": "SOCIAL SECURITY #",
+      "page": 3,
+      "writeBox": {
+        "x": 294.36,
+        "y": 498.5,
+        "width": 274.56,
+        "height": 12
+      },
+      "fontSize": 9,
+      "ruleLine": {
+        "x": 292.86,
+        "y": 496.5,
+        "endX": 570.42
+      },
+      "capturedLabel": {
+        "x": 323.34,
+        "baselineY": 528.78
+      },
+      "expectedOutcome": "refused_protected_category",
+      "why": "Present on purpose. A government identifier is never a fact the platform supplies, and if supplying an anchor for one were enough to write it the protect rules would be decoration. Refused twice on every run: by the protected rule this box lands on, and by the binder's government_identifier rule."
+    }
+  ],
+  "protectedRules": [
+    {
+      "page": 3,
+      "x": 292.86,
+      "y": 496.5,
+      "endX": 570.42,
+      "caption": "SOCIAL SECURITY #",
+      "category": "government_identifier",
+      "why": "A social security number is never supplied by the platform. Any write box landing on this rule is refused whatever it is labelled."
+    },
+    {
+      "page": 3,
+      "x": 211.86,
+      "y": 449.22,
+      "endX": 385.14,
+      "caption": "ALASKA DRIVERS LICENSE # OR STATE ID #",
+      "category": "government_identifier",
+      "why": "State-issued identifiers. Same rule as the SSN cell, and the reason the DATE OF BIRTH box beside it is clipped to its own cell."
+    },
+    {
+      "page": 3,
+      "x": 385.86,
+      "y": 449.22,
+      "endX": 570.42,
+      "caption": "ALASKA DRIVERS LICENSE # OR STATE ID # (continued)",
+      "category": "government_identifier",
+      "why": "The right-hand half of the identifier row."
+    },
+    {
+      "page": 3,
+      "x": 32.58,
+      "y": 359.88,
+      "endX": 211.14,
+      "caption": "POLICE AGENCY CASE #",
+      "category": "agency",
+      "why": "The arresting agency's own case number. Not the participant's to state."
+    },
+    {
+      "page": 3,
+      "x": 211.86,
+      "y": 359.88,
+      "endX": 385.14,
+      "caption": "NAME OF ARRESTING AGENCY",
+      "category": "agency",
+      "why": "Arresting agency block."
+    },
+    {
+      "page": 3,
+      "x": 385.86,
+      "y": 359.88,
+      "endX": 570.42,
+      "caption": "NAME OF ARRESTING OFFICER",
+      "category": "agency",
+      "why": "The arresting officer is a third party. The shared binder resolves this caption to participant.full_legal_name, so the geometry has to hold it as well as the omission from the anchor list."
+    },
+    {
+      "page": 3,
+      "x": 32.58,
+      "y": 322.2,
+      "endX": 292.14,
+      "caption": "PROSECUTION CASE #",
+      "category": "prosecutor",
+      "why": "Prosecution block."
+    },
+    {
+      "page": 3,
+      "x": 292.86,
+      "y": 322.2,
+      "endX": 385.86,
+      "caption": "NAME OF PROSECUTING AGENCY",
+      "category": "prosecutor",
+      "why": "Prosecution block."
+    },
+    {
+      "page": 3,
+      "x": 385.86,
+      "y": 322.2,
+      "endX": 570.42,
+      "caption": "NAME OF PROSECUTOR",
+      "category": "prosecutor",
+      "why": "Prosecution block."
+    },
+    {
+      "page": 3,
+      "x": 292.86,
+      "y": 284.52,
+      "endX": 570.42,
+      "caption": "NAME OF TRIAL COURT",
+      "category": "court",
+      "why": "The court's own name. The shared binder resolves this caption to participant.full_legal_name, which would file a petition naming the petitioner as the trial court, so this rule is declared and the caption carries no anchor."
+    },
+    {
+      "page": 3,
+      "x": 292.86,
+      "y": 246.84,
+      "endX": 570.42,
+      "caption": "NAME OF APPELLATE COURT",
+      "category": "court",
+      "why": "As above, for the appellate row."
+    },
+    {
+      "page": 3,
+      "x": 292.86,
+      "y": 157.44,
+      "endX": 570.42,
+      "caption": "AGENCY THAT DISMISSED",
+      "category": "agency",
+      "why": "The agency that dismissed the charge states this, not the participant."
+    }
+  ],
+  "refusalFallbacks": {
+    "rule": "A value that cannot be placed correctly is refused, never guessed, never shrunk below the readable floor and never clipped. The packet leaves the blank empty and raises it as a required manual step, because a wrong value on a filed document is worse than a blank one.",
+    "notAFallback": "Writing the nearest fact we happen to hold, shrinking below the readable floor, clipping at the box edge, or overflowing into the caption beside it. None of those is done.",
+    "byCaption": {
+      "SOCIAL SECURITY #": "Never supplied by the platform. The packet instructs the participant to write their own social security number in this cell before mailing the request; the Bureau uses it to find the record in APSIN.",
+      "MAILING ADDRESS — city, state and ZIP": "The cell is 80.52pt tall and draws only one rule, so only the street line has a measured baseline. The packet writes the street line and raises the city, state and ZIP as a required manual step: this request is answered by post, and an address without them is undeliverable. It is never left blank silently.",
+      "FORMER OR OTHER NAMES/ALIASES": "Left blank for the participant, who is instructed to list every name the record may appear under, or to write N/A as PART II's own instruction directs.",
+      "ARREST TRACKING NUMBER, DATE OF ARREST, DATE OF OFFENSE": "Copied by the participant from the charging document or the court record. The platform holds no verified arrest or offence date for this request, and PART III is judged beyond a reasonable doubt, so a guessed date is worse than a blank.",
+      "CHARGE(S), DATE CHARGE DISMISSED, DATE ACQUITTED, DATE SENTENCED, DATE CONVICTION REVERSED OR VACATED, DATE PARDONED": "Copied by the participant from the court order or judgment they must attach under PART IV. The attachment is the evidence; these cells restate it.",
+      "APPELLATE COURT CASE #: and NAME OF APPELLATE COURT": "Left blank unless there was an appeal. The trial court's case number is not the appellate one, and writing it here would assert an appeal that may not exist. PART II's own instruction is to write N/A where an item does not apply."
+    },
+    "observedInBoundaryFixture": [
+      "SOCIAL SECURITY # — refused on every run by geometry (write_box_lands_on_a_rule_the_court_owns) and independently by the binder's government_identifier rule. Carried on purpose: if supplying an anchor were enough to write on a protected cell, the protect rules would be decoration.",
+      "No other anchor refused at the boundary facts; the five participant cells are 175.56pt or wider and the boundary name, address, phone, date of birth and case number all fit above the readable floor."
+    ]
+  }
+}

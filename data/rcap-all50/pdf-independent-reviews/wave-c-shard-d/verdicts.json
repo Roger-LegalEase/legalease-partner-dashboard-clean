@@ -1,0 +1,416 @@
+{
+  "schemaVersion": "rcap-gate-b-wave-c-shard-verdicts/v1",
+  "shard": "d",
+  "shardIndex": 3,
+  "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "reviewerBranch": "claude/gate-b-wave-c-review-kibrgo",
+  "reviewedBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "allowedVerdicts": [
+    "approved_platform_ready",
+    "correction_required",
+    "substantive_owner_decision_required"
+  ],
+  "noHistoricalVerdictEdited": true,
+  "nothingRepaired": true,
+  "totals": {
+    "familiesReviewed": 4,
+    "approved_platform_ready": 0,
+    "correction_required": 3,
+    "substantive_owner_decision_required": 1,
+    "sourceMismatches": 0
+  },
+  "families": [
+    {
+      "familyId": "NE:cc-6-15-1-form-en",
+      "familyPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+      "documentId": "CC-6-15.1",
+      "verdict": "correction_required",
+      "verdictIssuedBy": "Wave C independent reviewer, shard d",
+      "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+      "pinnedHashes": {
+        "sourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+        "sourceSha256RecomputedByThisReviewer": true,
+        "visibleFormNumberAndRevisionAgreeWithThePin": true,
+        "fieldMapSha256": "472a431e086fe8897fe5c98c689ee1caac64cbea5a5b271c8f35ef12f529e001",
+        "classificationSha256": "4d96ca534e4cf44dbf110b3886850aa866f40bad9d626c7e38042aa596941940",
+        "provenanceSidecarSha256": "7ee872202e8f3408b074c195c872ea94da5bde124a52b4ef6f1956121b3c1380",
+        "canonicalArtifactSha256": "41d2dfd959fddfe8df4a0d062e0599abf114f2f93d1694125a5cf0b2379ee55d",
+        "boundaryArtifactSha256": "ef0bb178a26fc79464a43d5da0d07cc942bb33eec3597ac3ba51839a334c750a",
+        "contactSheetSha256": "bdf404f876e66464cba20010e15819522c380d068b7642bcddd5b901d943184f",
+        "allPageRasterSha256": {
+          "page-01": "ed4d5214a0d07056df1e0a1ca64f0c2d5f902f2ca98b210f0d48bf34914caeb2"
+        },
+        "sourceSha256VerifiedAgainst": [
+          "source-receipt.sha256",
+          "source-record.sha256",
+          "artifact-provenance.sourceSha256"
+        ],
+        "sourceByteLength": 2909936
+      },
+      "structuralFindings": {
+        "pageCount": 1,
+        "flattened": true,
+        "acroFormPresent": false,
+        "widgetAnnotations": 0,
+        "xfa": false,
+        "javaScript": false,
+        "openAction": false,
+        "additionalActions": 0,
+        "checkedBy": "reviewer parsed the artifact catalog and page tree directly and scanned the raw bytes for /XFA, /JavaScript, /JS, /AA, /OpenAction, /Launch, /EmbeddedFile and /RichMedia"
+      },
+      "allPageVisualInspection": {
+        "pagesCarryingFields": [
+          1
+        ],
+        "pagesInspected": [
+          1
+        ],
+        "everyRelevantPageInspected": true,
+        "blankAndFilledComparedPerPage": true,
+        "courtJudgeClerkProsecutorAttorneyAgencyServiceSignatureNotarizationAndDecisionRegionsBlank": false,
+        "notes": "Page 1 caption band fails: preprinted 'IN THE' and 'COURT OF' and the italic '(Enter the county name)' are obliterated by the drawn values. Signature rule blank; Printed Name, Street Address, City/State/ZIP and Telephone carry the participant's own values in their own captioned rules; the Date beside the unsigned Signature rule carries deterministic.filing_date."
+      },
+      "classificationOwnership": {
+        "documentOwnership": "participant_completed",
+        "classRecordedForEveryWrittenField": true,
+        "flatOverlayRelaxationApplies": false,
+        "why": "this family is an AcroForm package with a full classification, so the relaxed flat-overlay assertion is not relied on here"
+      },
+      "corrections": [
+        {
+          "family": "NE:cc-6-15-1-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "TYPEOFCOURTRESULTS and 'enter the county' in the page-1 caption band (raster row y=174-181 of the page-01 contact-sheet raster)",
+          "observedResult": "The drawn values obliterate the form's own preprinted caption words. Column-wise ink measurement over the caption row shows the blank panel carrying ink across x=251-283 ('IN THE') and the filled panel carrying zero ink over the same columns; 'COURT OF' is overwritten by the drawn value 'District Court'; the two values abut with no separator so the band reads 'District CourtExample County COUNTY, NEBRASKA'. On the sub-caption row the printed italic '(Enter the county name)' is absent from the filled panel while the unselected chooser prompt 'Choose the county' survives the flatten. Re-proven against the official source bytes (SHA-256 d1fb1340\u2026, recomputed by this reviewer): the blank source and the finalized artifact were rasterized through the same engine at identical scale and compared per pixel. In the caption band the artifact destroys 402 pixels of source ink and adds 1037, and the destroyed columns are exactly x 429-479 ('IN THE') and x 557-634 ('COURT OF'), with 'COUNTY, NEBRASKA' unchanged as an alignment control. The official source renders the line cleanly as 'IN THE ___ COURT OF ___ COUNTY, NEBRASKA' with two tidy chooser widgets beneath it and no italic caption visible.",
+          "requiredResult": "'IN THE', 'COURT OF' and '(Enter the county name)' must remain legible in the finalized artifact, each drawn value must sit inside its own slot without covering preprinted wording, the court-type and county values must be separated, and an unselected chooser's prompt must not survive the flatten.",
+          "smallestCorrection": "Constrain each caption-band draw to the horizontal span of its own widget rect between the preprinted words, and clear the unselected chooser's appearance stream before flatten as ESC-CAPTION-VARIANTS already requires.",
+          "sourceProven": true
+        },
+        {
+          "family": "NE:cc-6-15-1-form-en",
+          "artifact": "field-classification.json",
+          "page": null,
+          "fieldOrRectangle": "all 21 entries: effectiveLabel and regionHeading",
+          "observedResult": "Every label and region heading is stored as raw Identity-H glyph ids rather than text: the bytes decode to a fixed +29 offset from ASCII, so 'Neb. Rev. Stat.' is recorded as '1HE\\x11\\x035HY\\x11\\x036WDW\\x11'. 21 of 21 entries are affected; the other three families in this shard have none.",
+          "requiredResult": "Labels and region headings must be mapped through the font's ToUnicode CMap before they are recorded.",
+          "smallestCorrection": "Apply the ToUnicode CMap when extracting caption text in the content-stream geometry module, so the heading-vocabulary channel added at this review base has legible input on this family.",
+          "whyThisMatters": "The region channel the base commit added consults a heading vocabulary. With every heading unreadable that channel cannot match on this family, which is the mechanism by which the caption-band draw went unrefused."
+        },
+        {
+          "family": "NE:cc-6-15-1-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "the 'blank' panel of the contact sheet, page-1 caption band",
+          "observedResult": "The contact sheet's blank panel is not a faithful rendering of the official form. Rendered directly from the verified source bytes the caption band shows only 'IN THE ___ COURT OF ___ COUNTY, NEBRASKA' with two shaded chooser widgets below it; the contact sheet's blank panel additionally materialises the hidden italic captions '(Enter the type of court)' and '(Enter the county name)' overlapping the chooser prompts.",
+          "requiredResult": "The blank panel must depict the official source as it renders, so that a reviewer comparing panels sees caption damage rather than a blank that already carries it.",
+          "smallestCorrection": "Compose the blank panel from the unmodified source rather than from a flattened pass over it.",
+          "whyThisMatters": "Comparing the artifact against a blank that has already been through the same flatten hides exactly the class of damage found here."
+        }
+      ],
+      "sourceVerification": {
+        "recomputedFromOfficialBytes": true,
+        "matchesPinnedIdentity": true,
+        "visibleFormNumberAndRevision": {
+          "readFromRenderedSourcePage1": "CC 6:15.1   NEW  05/2021",
+          "pinnedDocumentId": "CC-6-15.1",
+          "pinnedRevision": "REV-2021-05",
+          "agrees": true
+        },
+        "sourceMismatch": false
+      }
+    },
+    {
+      "familyId": "VA:cc-1201-form-en",
+      "familyPackagePath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
+      "documentId": "CC-1201",
+      "verdict": "correction_required",
+      "verdictIssuedBy": "Wave C independent reviewer, shard d",
+      "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+      "pinnedHashes": {
+        "sourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+        "sourceSha256RecomputedByThisReviewer": true,
+        "visibleFormNumberAndRevisionAgreeWithThePin": true,
+        "fieldMapSha256": "b4b831c8a6f23ad46e703ddf7d02de6ef83207d0195d111853fe8679ad42fc77",
+        "classificationSha256": "916a63d37011854fd6d44332a9f07584283424475ab6a1349542775d116cfa49",
+        "provenanceSidecarSha256": "09ab0a741a5b49f69e8abb3304a2cdd78e9443e8f4da2f967fbd5a7d416019c2",
+        "canonicalArtifactSha256": "3793af1fb7f254d2e7d178f7d81823d031762d68b2c8b0faa8e94c4a28cbbe91",
+        "boundaryArtifactSha256": "000c74fd830a6c112df0beb14c33051d714dd406d5a8d24ded05ffc39e4eee9a",
+        "contactSheetSha256": "50ea6d547e8ea2eec0db196c84f0d0610ed9baa5aa2d103415b37740e5bc5f4a",
+        "allPageRasterSha256": {
+          "page-01": "e42a10c35b2e909607f5e51e736608790dc54ba0058e6115134f501eae654bd8",
+          "page-02": "bbe3e8beda3e729d177a03affa962702a19486ef9347dbd8439a88dee112c0a5",
+          "page-03": "f8266417b9910618074f8036e0c94a208ce24431de707c3175975b70caf498ca",
+          "page-04": "fba6e9781a0119f0d5e6afdb9aaecae24c50b6a7fdf35a790e0baf02d44a6027"
+        },
+        "sourceSha256VerifiedAgainst": [
+          "source-receipt.sha256",
+          "source-record.sha256",
+          "artifact-provenance.sourceSha256"
+        ],
+        "sourceByteLength": 282919
+      },
+      "structuralFindings": {
+        "pageCount": 4,
+        "flattened": true,
+        "acroFormPresent": false,
+        "widgetAnnotations": 0,
+        "xfa": false,
+        "javaScript": false,
+        "openAction": false,
+        "additionalActions": 0,
+        "checkedBy": "reviewer parsed the artifact catalog and page tree directly and scanned the raw bytes for /XFA, /JavaScript, /JS, /AA, /OpenAction, /Launch, /EmbeddedFile and /RichMedia"
+      },
+      "allPageVisualInspection": {
+        "pagesCarryingFields": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "pagesInspected": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "everyRelevantPageInspected": true,
+        "blankAndFilledComparedPerPage": true,
+        "courtJudgeClerkProsecutorAttorneyAgencyServiceSignatureNotarizationAndDecisionRegionsBlank": true,
+        "notes": "Pages 1-4 inspected. Page 3 identical blank vs filled. Page 4 signature and date rules blank, PRINTED NAME and ADDRESS OF PETITIONER correct. Defects are on pages 1 and 4 as recorded under corrections."
+      },
+      "classificationOwnership": {
+        "documentOwnership": "participant_completed",
+        "classRecordedForEveryWrittenField": true,
+        "flatOverlayRelaxationApplies": false,
+        "why": "this family is an AcroForm package with a full classification, so the relaxed flat-overlay assertion is not relied on here"
+      },
+      "corrections": [
+        {
+          "family": "VA:cc-1201-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "User.CourtName, widget rect x=37 y=651 w=366 h=12",
+          "observedResult": "matter.court = 'District Court' is written onto the court caption rule whose printed caption is CITY OR COUNTY and whose preprinted continuation is 'Circuit Court'. The line renders 'District Court ......... Circuit Court'. The same slot type is refused on page 2 (User.Court, 'Court of final disposition', also captioned CITY OR COUNTY), so the treatment is inconsistent within the family.",
+          "requiredResult": "The rule captioned CITY OR COUNTY must carry a city or county, not a court name.",
+          "smallestCorrection": "Bind User.CourtName to matter.county rather than matter.court, or refuse it as User.Court is already refused."
+        },
+        {
+          "family": "VA:cc-1201-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 4,
+          "fieldOrRectangle": "User.CaseNumber1201, widget rect x=134 y=579 w=53 h=12",
+          "observedResult": "matter.charges[0].case_number = '24-CR-001234' is written into the addendum-count slot captioned NUMBER, so the sentence renders 'CC-1201(A). 24-CR-001234 addendums are attached to this petition and are incorporated herein.' The value is shrunk well below body size to fit a 53pt box; the family's own boundary fixture already refuses this field with reason value_exceeds_widget_width_at_minimum_font.",
+          "requiredResult": "The slot captioned NUMBER must carry the count of addendums attached, or stay blank.",
+          "smallestCorrection": "Refuse User.CaseNumber1201 for case-number facts and bind it to the addendum count, or leave it unwritten."
+        },
+        {
+          "family": "VA:cc-1201-form-en",
+          "artifact": "production-field-map.json",
+          "page": 1,
+          "fieldOrRectangle": "effectiveLabel on User.CourtName and UserPetitionerName",
+          "observedResult": "The census resolves captions with labelBasis 'printed_directly_above_in_the_same_column', but this form prints each caption BELOW its rule. UserPetitionerName is therefore recorded with effectiveLabel 'CITY OR COUNTY' and User.CourtName with 'and any related ancillary matters)'. Every caption on this block is attributed to the rule above the one it belongs to.",
+          "requiredResult": "A caption printed beneath a fill-in rule must be attributed to that rule.",
+          "smallestCorrection": "Let the caption resolver consider text printed below a widget rect for caption-block layouts, and prefer the nearer of above/below."
+        }
+      ],
+      "sourceVerification": {
+        "recomputedFromOfficialBytes": true,
+        "matchesPinnedIdentity": true,
+        "visibleFormNumberAndRevision": {
+          "readFromRenderedSourcePage1": "FORM CC-1201, (MASTER) Page 1 of 4 07/26",
+          "pinnedDocumentId": "CC-1201",
+          "pinnedRevision": "REV-2026-07",
+          "agrees": true
+        },
+        "sourceMismatch": false
+      }
+    },
+    {
+      "familyId": "VA:cc-1473-form-en",
+      "familyPackagePath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
+      "documentId": "CC-1473",
+      "verdict": "substantive_owner_decision_required",
+      "verdictIssuedBy": "Wave C independent reviewer, shard d",
+      "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+      "pinnedHashes": {
+        "sourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "sourceSha256RecomputedByThisReviewer": true,
+        "visibleFormNumberAndRevisionAgreeWithThePin": true,
+        "fieldMapSha256": "dcbb79528f461ef9da578f7f4e44e8657d0f9ff3d40d753ea8737f3798e68748",
+        "classificationSha256": "a7d5bd94c9cf54070b2b35d73a71171728fa80d2f5a3c9486fed6a19e1df40ef",
+        "provenanceSidecarSha256": "c7180dce387e50c74969c0bb82573c3b5d988edb4412ee43426ce37b2041a18d",
+        "canonicalArtifactSha256": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+        "boundaryArtifactSha256": "778d9be31c08cbfe0fd03519de48e926ea6528d1701de7c19b711584d53b232e",
+        "contactSheetSha256": "db394760780d9d8f2e064fdecbf3f849deda423d88f716956ddaec3061a84be3",
+        "allPageRasterSha256": {
+          "page-01": "c48b6be0ac7c8f32056237b375f62fca9425639e16561df3dc3b3b27f1f16ae5",
+          "page-02": "f128e04b657538b322afdc6360aa65e377d90c22d4f9f014e7182f20538799c3"
+        },
+        "sourceSha256VerifiedAgainst": [
+          "source-receipt.sha256",
+          "source-record.sha256",
+          "artifact-provenance.sourceSha256"
+        ],
+        "sourceByteLength": 120875
+      },
+      "structuralFindings": {
+        "pageCount": 2,
+        "flattened": true,
+        "acroFormPresent": false,
+        "widgetAnnotations": 0,
+        "xfa": false,
+        "javaScript": false,
+        "openAction": false,
+        "additionalActions": 0,
+        "checkedBy": "reviewer parsed the artifact catalog and page tree directly and scanned the raw bytes for /XFA, /JavaScript, /JS, /AA, /OpenAction, /Launch, /EmbeddedFile and /RichMedia"
+      },
+      "allPageVisualInspection": {
+        "pagesCarryingFields": [
+          1,
+          2
+        ],
+        "pagesInspected": [
+          1,
+          2
+        ],
+        "everyRelevantPageInspected": true,
+        "blankAndFilledComparedPerPage": true,
+        "courtJudgeClerkProsecutorAttorneyAgencyServiceSignatureNotarizationAndDecisionRegionsBlank": true,
+        "notes": "Pages 1-2 inspected. DATE, SIGNATURE, PRINT NAME, TELEPHONE, EMAIL, VSB and CLERK rules all blank; page 2 checklist identical blank vs filled; street address correctly on the ADDRESS OF PETITIONER rule."
+      },
+      "classificationOwnership": {
+        "documentOwnership": "participant_completed",
+        "classRecordedForEveryWrittenField": true,
+        "flatOverlayRelaxationApplies": false,
+        "why": "this family is an AcroForm package with a full classification, so the relaxed flat-overlay assertion is not relied on here"
+      },
+      "ownerQuestions": [
+        {
+          "family": "VA:cc-1473-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "User.City, on the court caption rule captioned CITY OR COUNTY",
+          "observed": "participant.city = 'Springfield' is written into the CITY OR COUNTY slot of the court caption, rendering 'Springfield Circuit Court'. The value type is right and nothing preprinted is damaged, but the fact is the petitioner's residence city while the slot names the locality of the circuit court. The fixture also carries matter.county = 'Example County'. The two coincide only by fixture.",
+          "decision": "Which fact owns the court's CITY OR COUNTY slot: the petitioner's residence locality or the matter's filing locality."
+        },
+        {
+          "family": "VA:cc-1473-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "User.CaseNumbers and User.UnderlyingCaseNumbers",
+          "observed": "The circuit case number is written into 'If matter was heard on appeal from General District Court, list applicable General District Court case number(s)' and into 'Underlying Case No.(s)' on the line gated by the unchecked box 'A copy of the warrant or indictment is attached to this petition'. Both are conditional slots and neither condition is established by the fact set.",
+          "decision": "Whether the platform pre-fills conditional slots for participant review, or leaves a slot blank until its condition is asserted. As rendered the document states an appeal history and an attachment that the facts do not establish."
+        }
+      ],
+      "sourceVerification": {
+        "recomputedFromOfficialBytes": true,
+        "matchesPinnedIdentity": true,
+        "visibleFormNumberAndRevision": {
+          "readFromRenderedSourcePage1": "FORM CC-1473 (MASTER, Page 1 of 2) 07/26",
+          "pinnedDocumentId": "CC-1473",
+          "pinnedRevision": "REV-2026-07",
+          "agrees": true
+        },
+        "sourceMismatch": false
+      }
+    },
+    {
+      "familyId": "VT:600-00228-support-en",
+      "familyPackagePath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en",
+      "documentId": "600-00228",
+      "verdict": "correction_required",
+      "verdictIssuedBy": "Wave C independent reviewer, shard d",
+      "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+      "pinnedHashes": {
+        "sourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+        "sourceSha256RecomputedByThisReviewer": true,
+        "visibleFormNumberAndRevisionAgreeWithThePin": true,
+        "fieldMapSha256": "a8cedf897ca41fe905e33c120805b5e90f40007abc06490b3b744718c809f0a4",
+        "classificationSha256": "5ec93c3958c355910b69c746dcf584394dc8b95cf1c403aadfdcb08cc406ac57",
+        "provenanceSidecarSha256": "e5e8d163aa0e1951077a9212ed9064623b63bebb16601abe60b4b6c8d0572e2d",
+        "canonicalArtifactSha256": "3badbfe515021b919e42eab8f487030cae408aaaf0d983d26d22a42ae3468b6e",
+        "boundaryArtifactSha256": "37eb5ff468c72187bdcd61a68d08b93c9f080ba08fe61929c1b9b8f0760ce39e",
+        "contactSheetSha256": "991176ec5412fc285362f2f080ee041ed7b843e99f013d0d9b4b471f3c676490",
+        "allPageRasterSha256": {
+          "page-01": "a231d5fc85f20cf55f195be0c1150af3ab7301972787616dcabb5b260266c3e4",
+          "page-02": "58b89cc5dad7031be51631ec46a602666baaf1461fb8c2c69690cda428598145"
+        },
+        "sourceSha256VerifiedAgainst": [
+          "source-receipt.sha256",
+          "source-record.sha256",
+          "artifact-provenance.sourceSha256"
+        ],
+        "sourceByteLength": 2871072
+      },
+      "structuralFindings": {
+        "pageCount": 2,
+        "flattened": true,
+        "acroFormPresent": false,
+        "widgetAnnotations": 0,
+        "xfa": false,
+        "javaScript": false,
+        "openAction": false,
+        "additionalActions": 0,
+        "checkedBy": "reviewer parsed the artifact catalog and page tree directly and scanned the raw bytes for /XFA, /JavaScript, /JS, /AA, /OpenAction, /Launch, /EmbeddedFile and /RichMedia"
+      },
+      "allPageVisualInspection": {
+        "pagesCarryingFields": [
+          1,
+          2
+        ],
+        "pagesInspected": [
+          1,
+          2
+        ],
+        "everyRelevantPageInspected": true,
+        "blankAndFilledComparedPerPage": true,
+        "courtJudgeClerkProsecutorAttorneyAgencyServiceSignatureNotarizationAndDecisionRegionsBlank": true,
+        "notes": "Pages 1-2 inspected. Page 2 identical blank vs filled: Section 5 Date, Applicant Signature and Printed Name all blank. No misplacement found; the defect is that the applicant identity block is left empty."
+      },
+      "classificationOwnership": {
+        "documentOwnership": "participant_completed",
+        "classRecordedForEveryWrittenField": true,
+        "flatOverlayRelaxationApplies": false,
+        "why": "this family is an AcroForm package with a full classification, so the relaxed flat-overlay assertion is not relied on here"
+      },
+      "corrections": [
+        {
+          "family": "VT:600-00228-support-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "fields '3' (Name: First & Last), '2' (Street Address), '4' (City/State/Zip), '5a' (Email Address), '6' and '7' (Home/Cell and Work Phone)",
+          "observedResult": "Each of these fields carries a correctly captured printed caption in effectiveLabel and is classified manual, so all are left blank. classCounts is {manual: 78, participant: 2}; only 'Docket Number' and 'Case Name' are written. The applicant's name, street address, city/state/zip, phone and email are absent from an application whose purpose is to state the applicant's identity and means, while participant.full_legal_name, participant.street_address, participant.city_state_zip and participant.phone are all present in the fact set and are written on other families in this shard.",
+          "requiredResult": "A field whose captured caption reads 'Name: (First & Last)', 'Street Address', 'City/State/Zip', 'Email Address' or a phone caption must classify as participant and bind, which is exactly the mutation ESC-VALUE-NOT-VISIBLE says must turn red.",
+          "smallestCorrection": "Let the captured caption drive the class, not only the fact match, so a numerically named field under a participant caption classifies participant rather than manual."
+        },
+        {
+          "family": "VT:600-00228-support-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "'Case Name' box",
+          "observedResult": "participant.full_legal_name is written into the case-caption box while the applicant's own 'Name: (First & Last)' rule directly beneath it is blank. The name therefore appears only in the caption box.",
+          "requiredResult": "The applicant's name must appear in the applicant Name field; use of the Case Name box is a separate decision.",
+          "smallestCorrection": "Bind participant.full_legal_name to field '3' under the 'Name: (First & Last)' caption; keep or drop the Case Name binding as the owner decides."
+        }
+      ],
+      "sourceVerification": {
+        "recomputedFromOfficialBytes": true,
+        "matchesPinnedIdentity": true,
+        "visibleFormNumberAndRevision": {
+          "readFromRenderedSourcePage1": "600-00228 \u2013 Application to Waive Filing Fees & Service Costs (04/2026)",
+          "pinnedDocumentId": "600-00228",
+          "pinnedRevision": "REV-2026-04",
+          "agrees": true
+        },
+        "sourceMismatch": false
+      }
+    }
+  ],
+  "sourceVerification": {
+    "status": "complete_for_this_shard",
+    "record": "source-verification.json",
+    "sourceMismatches": 0,
+    "effectOnVerdicts": "none: no source mismatch was found, so no verdict worsened on source grounds, and no verdict improved either \u2014 the three corrections and the one owner decision rest on the artifacts, not on the source blocker that stood during the first pass"
+  }
+}

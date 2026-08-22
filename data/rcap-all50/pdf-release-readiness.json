@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "rcap-pdf-release-readiness/v1",
+  "generatedBy": "scripts/generate-rcap-pdf-release-readiness.mjs",
+  "reviewedOutcomes": {
+    "total": 52,
+    "approved": 52,
+    "correctionRequired": 0,
+    "everyApprovalStillBinds": true,
+    "pinsRecheckedAgainstDisk": 212
+  },
+  "queues": {
+    "IMPLEMENTATION_QUEUE": 0,
+    "EVIDENCE_QUEUE": 0,
+    "REVIEW_QUEUE": 0,
+    "CORRECTION_REQUIRED": 0,
+    "UNOWNED_PDF_BLOCKERS": 0,
+    "STALE_EVIDENCE": 0,
+    "STALE_REVIEW": 0,
+    "UNSUPPORTED_ENABLED_ROUTES": 0
+  },
+  "categories": {
+    "platform_ready": 23,
+    "reference_only": 6,
+    "guidance_no_filing_pdf": 16,
+    "outside_party_or_protected_actor": 19,
+    "retired": 42,
+    "canonical_successor_superseded": 8,
+    "launch_safely_terminal": 12,
+    "exact_deferral": 1,
+    "deliberate_scope_exclusion": 1
+  },
+  "launchSafeBreakdown": {
+    "total": 12,
+    "fromUnobtainableSource": 10,
+    "fromDeadNamingTracks": 2,
+    "note": "their per-family instruments (deliberate_scope_exclusion, exact_deferral) live inside this category and are not counted again beside it."
+  },
+  "categoryRule": "a correct terminal outcome is not always a participant PDF. Reference-only translations, captured HTML pages, outside-party filings and launch-safe exclusions are finished without one; forcing them into platform_ready would claim filing PDFs that must not exist.",
+  "sourceResolution": {
+    "corpusMounted": true,
+    "corpusFilesIndexed": 686,
+    "pathResolved": 43,
+    "hashResolved": 3,
+    "notApplicableHtmlCapture": 6,
+    "unresolved": 0,
+    "noWriteBack": "no resolved path is written into any reviewed source record. Those bytes carry current approvals, and a promotion step that edits them invalidates what it is trying to promote."
+  },
+  "watermarkEvidenceNote": {
+    "kind": "reviewed evidence-accuracy note",
+    "observed": "the four targeted visual manifests record watermarkPresent false and oversizedTextRuns empty.",
+    "reviewerFinding": "Session 2 independently measured a diagonal court watermark in all four official sources reading POR FAVOR LLENE LA VERSIÓN EN INGLÉS DE ESTE FORMULARIO.",
+    "controls": "the independent reviewer's finding controls the substantive interpretation. It corroborates the reference-only disposition rather than contradicting it.",
+    "isNotAnImplementationDefect": true,
+    "participantArtifactCount": 0,
+    "isNotAPromotionBlocker": true,
+    "evidenceLeftUnchanged": "the manifests are not edited or regenerated. They are the bytes the final approvals bind, and correcting a manifest now would invalidate the approval that reviewed it."
+  },
+  "equation": {
+    "denominator": 128,
+    "accountedTerminal": 128,
+    "retainedProblematic": 0,
+    "sums": true
+  },
+  "productionDeployed": false
+}

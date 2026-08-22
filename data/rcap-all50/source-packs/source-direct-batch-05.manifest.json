@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "rcap-source-pack/v2",
+  "packId": "source-direct-batch-05",
+  "lane": "source-direct",
+  "lanePurpose": "every remaining non-retired family whose source is already in the Master Library and which no rerender or review batch has claimed — packed so a lane can be handed its sources without a corpus mount",
+  "generatedBy": "scripts/generate-rcap-source-packs.mjs",
+  "assignmentSource": "data/rcap-all50/overlays/production/*/*/source-record.json",
+  "contains": "exact official source PDFs only, at their canonical STATES/... paths",
+  "containsNo": "no fixture, contact sheet, raster, sample packet, field map, sidecar or any other LegalEase output",
+  "isIgnoredOutput": "the built ZIP is written to a git-ignored path and is never committed. This manifest is the committed half: it is what a built pack is verified against.",
+  "familyCount": 7,
+  "assignmentFamilyMapping": {
+    "VT:200-00130a-instructions-en": "STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
+    "VT:200-00131": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf",
+    "VT:200-00131-en": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf",
+    "VT:200-00131-form-en": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf",
+    "VT:200-00132-en": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+    "VT:200-00132-stipulation-to-seal-criminal-history-record-order": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+    "VT:200-00132a-en": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf"
+  },
+  "comparesAgainstInRepo": {
+    "VT:200-00130a-instructions-en": "data/rcap-all50/overlays/production/vermont/200-00130a-instructions-en",
+    "VT:200-00131": "data/rcap-all50/overlays/production/vermont/200-00131",
+    "VT:200-00131-en": "data/rcap-all50/overlays/production/vermont/200-00131-en",
+    "VT:200-00131-form-en": "data/rcap-all50/overlays/production/vermont/200-00131-form-en",
+    "VT:200-00132-en": "data/rcap-all50/overlays/production/vermont/200-00132-en",
+    "VT:200-00132-stipulation-to-seal-criminal-history-record-order": "data/rcap-all50/overlays/production/vermont/200-00132-stipulation-to-seal-criminal-history-record-order",
+    "VT:200-00132a-en": "data/rcap-all50/overlays/production/vermont/200-00132a-en"
+  },
+  "files": [
+    {
+      "pathInArchive": "STATES/VT/03_INSTRUCTIONS/VT__INSTRUCTIONS__200-00130A__filing-a-petition-to-expunge-or-seal-a-criminal-record__REV-UNKNOWN__EN.pdf",
+      "familyIds": [
+        "VT:200-00130a-instructions-en"
+      ],
+      "documentId": "200-00130A",
+      "revision": "REV-UNKNOWN",
+      "language": "EN",
+      "assetClass": "INSTRUCTIONS",
+      "sha256": "8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "byteLength": 675949,
+      "pinBasis": "source-record.canonicalBundlePath",
+      "visibleFormExpectation": "200-00130A REV-UNKNOWN",
+      "officialTitle": "Filing a Petition to Expunge or Seal a Criminal Record"
+    },
+    {
+      "pathInArchive": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00131__response-to-petition-to-expunge-or-seal__REV-2018-07__EN.pdf",
+      "familyIds": [
+        "VT:200-00131",
+        "VT:200-00131-en",
+        "VT:200-00131-form-en"
+      ],
+      "documentId": "200-00131",
+      "revision": "REV-2018-07",
+      "language": "EN",
+      "assetClass": "FORM",
+      "sha256": "5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "byteLength": 1326589,
+      "pinBasis": "source-record.bundleReconciliation, matched by sha256",
+      "visibleFormExpectation": "200-00131 REV-2018-07",
+      "officialTitle": "response to petition to expunge or seal"
+    },
+    {
+      "pathInArchive": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132__stipulation-to-seal-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+      "familyIds": [
+        "VT:200-00132-en",
+        "VT:200-00132-stipulation-to-seal-criminal-history-record-order"
+      ],
+      "documentId": "200-00132",
+      "revision": "REV-2025-07",
+      "language": "EN",
+      "assetClass": "FORM",
+      "sha256": "088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "byteLength": 1999317,
+      "pinBasis": "source-record.canonicalBundlePath",
+      "visibleFormExpectation": "200-00132 REV-2025-07",
+      "officialTitle": "Stipulation to Seal Criminal History Record and Order"
+    },
+    {
+      "pathInArchive": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+      "familyIds": [
+        "VT:200-00132a-en"
+      ],
+      "documentId": "200-00132A",
+      "revision": "REV-2025-07",
+      "language": "EN",
+      "assetClass": "FORM",
+      "sha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "byteLength": 1959576,
+      "pinBasis": "source-record.canonicalBundlePath",
+      "visibleFormExpectation": "200-00132A REV-2025-07",
+      "officialTitle": "Stipulation to Expunge Criminal History Record and Order"
+    }
+  ],
+  "unresolved": [],
+  "built": false,
+  "zip": null
+}

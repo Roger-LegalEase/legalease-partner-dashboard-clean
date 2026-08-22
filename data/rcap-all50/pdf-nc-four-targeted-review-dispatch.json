@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "rcap-pdf-nc-four-targeted-review-dispatch/v1",
+  "recordedBy": "captain",
+  "correctedImplementationFreeze": "0ed171216480b43f6e67848f1a3b3947caf59641",
+  "evidenceLegs": [
+    {
+      "session": 9,
+      "commit": "6a81d3d05acb1df9efdf4bdf596f5dd35df7dec9",
+      "produces": "four current terminal provenance sidecars plus a four-family manifest",
+      "parentIsTheFreeze": true,
+      "families": 4
+    },
+    {
+      "session": 10,
+      "commit": "647ad8521a8f74ff62a70ccf987b099819661fc2",
+      "produces": "source-based terminal visual evidence proving artifact absence",
+      "parentIsTheFreeze": true,
+      "families": 4,
+      "touchedNoImplementationPath": true
+    }
+  ],
+  "independenceVerified": "both legs name the corrected freeze as their sole parent, so neither read the other's output.",
+  "scopeVerified": {
+    "sidecarFamilies": 4,
+    "visualFamilies": 4,
+    "identicalSets": true,
+    "method": "family sets derived from the artifacts on disk and from each visual manifest's own familyId, then compared — not taken from either session's summary."
+  },
+  "bindingVerified": {
+    "freezeNamedByBothLegs": true,
+    "sourceDigestsAgreeWithTheFreeze": true,
+    "implementationBytesMovedSinceFreeze": 0,
+    "englishFilingFamiliesMoved": 0,
+    "approvalsStillBinding": 48
+  },
+  "missingZipAttachmentIsNotABlocker": {
+    "why": "both evidence sessions hashed the actual installed official source bytes against the freeze's own digest and byte-length pins. The archive is a delivery convenience; the pins are the evidence, and they were checked against real files.",
+    "neitherSessionShouldRerun": true
+  },
+  "whatTheEvidenceHadToProve": {
+    "inverted": "for these four the evidence proves ABSENCE, not correctness. A court-designated non-filing translation must carry no participant value at all, so a raster of a participant artifact would show the defect survived rather than that it was fixed.",
+    "required": [
+      "the official source notice present",
+      "the official watermark present where applicable",
+      "zero participant artifact",
+      "zero stale participant-populated artifact",
+      "English filing-family bytes unchanged"
+    ]
+  },
+  "queues": {
+    "implementation": 0,
+    "evidence": 0,
+    "targetedReview": 4,
+    "approvedReopened": 0,
+    "unowned": 0,
+    "overlaps": 0
+  },
+  "reviewer": {
+    "session": 2,
+    "status": "dispatched",
+    "base": "<this commit>",
+    "scope": [
+      "NC:aoc-cr-287-form-es",
+      "NC:aoc-cr-287-form-vi",
+      "NC:aoc-cr-288-form-es",
+      "NC:aoc-cr-288-form-vi"
+    ],
+    "isAnEvidenceProducer": false,
+    "mustNot": [
+      "review or reopen any of the 48 locked approvals",
+      "produce implementation or evidence",
+      "repair a finding it is reviewing"
+    ],
+    "theFortyEightAreClosed": "their approvals bind bytes nobody has touched and were re-verified on this base. They are not part of this review."
+  },
+  "notPromoted": "the four are not promoted here. Promotion waits on Session 2's verdicts, and the final gate must not run in a source-empty environment."
+}

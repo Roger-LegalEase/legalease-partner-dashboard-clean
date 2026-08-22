@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "rcap-family-implementation-proof/v1",
+  "familyId": "WI:dj-le-250b-en",
+  "session": 5,
+  "reviewedLaneBase": "b7064e388b09729964860c5242db6a32fd6c1e33",
+  "outcome": "no_participant_artifact_by_document_ownership",
+  "sourceIdentity": {
+    "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf",
+    "sha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+    "byteLength": 475556,
+    "recomputedFromInstalledBytes": true,
+    "matchesOverlayProfilePin": true,
+    "matchesTerminalStateIdentity": true,
+    "installedBy": "pdf-finish-session-5 source pack, verifying installer"
+  },
+  "structure": {
+    "pages": 2,
+    "acroFormFields": 0,
+    "widgets": 0,
+    "mapKind": "flat_overlay"
+  },
+  "documentOwnership": {
+    "derivedProfileSays": "court_or_agency_completed",
+    "implementationIndexSays": "participant_completed",
+    "contradiction": true,
+    "resolvedAs": "court_or_agency_completed",
+    "why": "the profile is derived from the form's own content stream and the form is a fingerprint-record removal request the agency completes; the driver independently matched no participant label (overlay_no_participant_label_matched), which is what an agency-completed form looks like"
+  },
+  "noCustomerArtifactProduced": {
+    "decision": true,
+    "why": "the document is completed by the court or agency, so writing participant values into it would fabricate an agency actor, which the implementation exit contract forbids. The driver refused every anchor on its own and produced no fill."
+  },
+  "exitContract": {
+    "canonicalArtifact": "not applicable \u2014 agency-completed document",
+    "boundaryArtifact": "not applicable",
+    "contactSheet": "not applicable",
+    "activeContent": 0,
+    "liveFields": 0,
+    "annotations": 0,
+    "widgets": 0,
+    "protectedActorFabricated": false,
+    "participantValuePlaced": false
+  },
+  "terminalOutcome": "retained_operational_dependency_survives",
+  "rootBlockerAssessment": "the work view records this family as not_a_filing_artifact awaiting repoint; its own terminal-state records retained_operational_dependency_survives and states a repoint has no destination because the archive holds the asset at its own identity. The source is present and hash-verified, so the repoint premise does not hold."
+}

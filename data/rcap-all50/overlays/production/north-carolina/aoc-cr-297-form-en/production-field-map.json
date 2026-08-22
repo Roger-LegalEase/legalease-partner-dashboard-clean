@@ -24,554 +24,671 @@
     {
       "field": "FileNumber",
       "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": "File No.Scan No.(s)"
     },
     {
       "field": "County",
       "class": "participant",
-      "factId": "matter.county"
+      "factId": "matter.county",
+      "factBasis": "field_name",
+      "effectiveLabel": "STATE OF NORTH CAROLINA"
     },
     {
       "field": "PetitionerName",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "Name And Address Of Petitioner (type or print full name)PETI"
     },
     {
       "field": "PetitionerStreetAddress",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": "Name And Address Of Petitioner (type or print full name)PETI"
     },
     {
       "field": "PetitionerMailAddress",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "PetitionerCity",
       "class": "participant",
-      "factId": "participant.city"
+      "factId": "participant.city",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "PetitionerState",
       "class": "participant",
-      "factId": "participant.state"
-    },
-    {
-      "field": "PetitionerZip",
-      "class": "participant",
-      "factId": "participant.zip"
-    },
-    {
-      "field": "DLState",
-      "class": "participant",
-      "factId": "participant.state"
-    },
-    {
-      "field": "DOB",
-      "class": "participant",
-      "factId": "participant.date_of_birth"
-    },
-    {
-      "field": "FileNumber:1",
-      "class": "participant",
-      "factId": "matter.charges[0].case_number"
-    },
-    {
-      "field": "EmailAddressOfRecord",
-      "class": "participant",
-      "factId": "participant.email"
+      "factId": "participant.state",
+      "factBasis": "field_name",
+      "effectiveLabel": "State"
     }
   ],
   "bindingRefusals": [
     {
       "field": "ScanNumbers",
       "reason": "protected_category",
-      "category": "clerk"
+      "category": "clerk",
+      "regionHeading": null
     },
     {
       "field": "DistrictCourtDivisionCkBox",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "field": "SuperiorCourtDivisionCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
+    },
+    {
+      "field": "PetitionerZip",
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "DLNo",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
+    },
+    {
+      "field": "DLState",
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "Race",
       "reason": "protected_category",
-      "category": "race"
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "Sex",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "DOB",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "SSN",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "AttorneyName",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "AttorneyStreetAddress",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "AttorneyMailAddress",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "AttorneyCity",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "AttorneyState",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "AttorneyZip",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "attorney",
+      "regionHeading": null
     },
     {
       "field": "NameAgency1",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "AddrAgency1",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "MailAgency1",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "CityAgency1",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "StateAgency1",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "ZipAgency1",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "NameAgency2",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "AddrAgency2",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "MailAgency2",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "CityAgency2",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "Stateagency2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "ZipAgency2",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "NameAgency3",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "AddrAgency3",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "MailAgency3",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "CityAgency3",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "StateAgency3",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "ZipAgency3",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "AttachmentCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
+    },
+    {
+      "field": "FileNumber:1",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "ArrestDate:1",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "OffenseDescription:1",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "DateOfOffense:1",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "Disposition:1",
       "reason": "protected_category",
-      "category": "disposition_or_hearing"
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "DispositionDate:1",
       "reason": "protected_category",
-      "category": "disposition_or_hearing"
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "FileNumber:2",
       "reason": "repeating_row_without_indexed_fact",
-      "category": "charge_row"
+      "category": "charge_row",
+      "regionHeading": null
     },
     {
       "field": "ArrestDate:2",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "OffenseDescription:2",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "DateOfOffense:2",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "Disposition:2",
       "reason": "protected_category",
-      "category": "disposition_or_hearing"
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "DispositionDate:2",
       "reason": "protected_category",
-      "category": "disposition_or_hearing"
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "OneNonviolentFelonyWaitingPeriodCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "TwoOrThreeNonviolentFeloniesWaitingPeriodCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "PetitionerPetitionersAttorneySignedDate",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "PetitionerPetitionersAttorneySignedName",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "PetitionerCkBox",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "PetitionersAttorneyCkBox",
       "reason": "protected_category",
-      "category": "attorney"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "DeliveringCopyCkBox",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "service_block",
+      "regionHeading": null
     },
     {
       "field": "LeavingCopyCkBox",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "prosecutor",
+      "regionHeading": null
     },
     {
       "field": "DepositingCopyCkBox",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "service_block",
+      "regionHeading": null
     },
     {
       "field": "EmailCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "ICMS/OFSCkBox",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "service_block",
+      "regionHeading": null
+    },
+    {
+      "field": "EmailAddressOfRecord",
+      "reason": "protected_category",
+      "category": "prosecutor",
+      "regionHeading": null
     },
     {
       "field": "PersonServingSignedDate",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "service_block",
+      "regionHeading": null
     },
     {
       "field": "PersonServingSignedName",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "service_block",
+      "regionHeading": null
     },
     {
       "field": "ServiceAcceptedCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "PersonAcceptingServiceSignedDate",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "PersonAcceptingServiceSignedName",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "RequestByJudgeSignedDate",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "RequestByJudgeSignedName",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "SBIThereIsNoRecordCkBox",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "SBIThereIsARecordCkBox",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "SBISignedDate",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "SIDNumber",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "SBISignedName",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "ThereIsNoRecordCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "ThereIsARecordCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "RecordsOfficerSignedDate",
       "reason": "protected_category",
-      "category": "responsible_official"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem1CkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem2CkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem3CkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem4CkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem4aCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem4bCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem4bGoodCauseCkBox",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "FindingsItem5CkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem6CkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem7CkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem8CkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem9CkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem9aCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem9bCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem10CkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem11CkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem12CkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "EligibleCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "NotEligibleCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "NotEligibleReason",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "court",
+      "regionHeading": "FINDINGS OF FACT"
     },
     {
       "field": "PetitionIsGrantedCkBox",
       "reason": "protected_category",
-      "category": "court"
+      "category": "court",
+      "regionHeading": null
     },
     {
       "field": "PetitionIsDeniedCkBox",
       "reason": "protected_category",
-      "category": "court"
+      "category": "court",
+      "regionHeading": null
     },
     {
       "field": "JudgeSignedDate",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "JudgeSignedName",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "ClerkSignedDate",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "ClerkSignedName",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "clerk",
+      "regionHeading": null
     },
     {
       "field": "DepCSCCkBox",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "AsstCSCCkBox",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "CSCCkBox",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "signature",
+      "regionHeading": null
     }
   ],
   "unwritableFields": [
@@ -580,12 +697,312 @@
       "class": "prohibited"
     },
     {
+      "field": "DistrictCourtDivisionCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "SuperiorCourtDivisionCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "DLNo",
+      "class": "manual"
+    },
+    {
+      "field": "Race",
+      "class": "manual"
+    },
+    {
+      "field": "Sex",
+      "class": "manual"
+    },
+    {
+      "field": "SSN",
+      "class": "manual"
+    },
+    {
+      "field": "AttorneyName",
+      "class": "manual"
+    },
+    {
+      "field": "AttorneyStreetAddress",
+      "class": "manual"
+    },
+    {
+      "field": "AttorneyMailAddress",
+      "class": "manual"
+    },
+    {
+      "field": "AttorneyCity",
+      "class": "manual"
+    },
+    {
+      "field": "AttorneyState",
+      "class": "manual"
+    },
+    {
+      "field": "AttorneyZip",
+      "class": "manual"
+    },
+    {
+      "field": "NameAgency1",
+      "class": "manual"
+    },
+    {
+      "field": "AddrAgency1",
+      "class": "manual"
+    },
+    {
+      "field": "MailAgency1",
+      "class": "manual"
+    },
+    {
+      "field": "CityAgency1",
+      "class": "manual"
+    },
+    {
+      "field": "StateAgency1",
+      "class": "manual"
+    },
+    {
+      "field": "ZipAgency1",
+      "class": "manual"
+    },
+    {
+      "field": "NameAgency2",
+      "class": "manual"
+    },
+    {
+      "field": "AddrAgency2",
+      "class": "manual"
+    },
+    {
+      "field": "MailAgency2",
+      "class": "manual"
+    },
+    {
+      "field": "CityAgency2",
+      "class": "manual"
+    },
+    {
+      "field": "Stateagency2",
+      "class": "manual"
+    },
+    {
+      "field": "ZipAgency2",
+      "class": "manual"
+    },
+    {
+      "field": "NameAgency3",
+      "class": "manual"
+    },
+    {
+      "field": "AddrAgency3",
+      "class": "manual"
+    },
+    {
+      "field": "MailAgency3",
+      "class": "manual"
+    },
+    {
+      "field": "CityAgency3",
+      "class": "manual"
+    },
+    {
+      "field": "StateAgency3",
+      "class": "manual"
+    },
+    {
+      "field": "ZipAgency3",
+      "class": "manual"
+    },
+    {
+      "field": "AttachmentCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "Disposition:1",
+      "class": "manual"
+    },
+    {
+      "field": "Disposition:2",
+      "class": "manual"
+    },
+    {
+      "field": "OneNonviolentFelonyWaitingPeriodCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "TwoOrThreeNonviolentFeloniesWaitingPeriodCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "PetitionerPetitionersAttorneySignedDate",
+      "class": "manual"
+    },
+    {
+      "field": "PetitionerPetitionersAttorneySignedName",
+      "class": "manual"
+    },
+    {
+      "field": "PetitionersAttorneyCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "DeliveringCopyCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "LeavingCopyCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "DepositingCopyCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "ICMS/OFSCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "PersonServingSignedDate",
+      "class": "manual"
+    },
+    {
+      "field": "PersonServingSignedName",
+      "class": "manual"
+    },
+    {
+      "field": "ServiceAcceptedCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "PersonAcceptingServiceSignedDate",
+      "class": "manual"
+    },
+    {
+      "field": "PersonAcceptingServiceSignedName",
+      "class": "manual"
+    },
+    {
       "field": "RequestByJudgeSignedDate",
       "class": "court_or_agency"
     },
     {
       "field": "RequestByJudgeSignedName",
       "class": "court_or_agency"
+    },
+    {
+      "field": "SBIThereIsNoRecordCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "SBIThereIsARecordCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "SBISignedDate",
+      "class": "manual"
+    },
+    {
+      "field": "SIDNumber",
+      "class": "manual"
+    },
+    {
+      "field": "SBISignedName",
+      "class": "manual"
+    },
+    {
+      "field": "ThereIsNoRecordCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "ThereIsARecordCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "RecordsOfficerSignedDate",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem1CkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem2CkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem3CkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem4CkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem4aCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem4bCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem4bGoodCauseCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem5CkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem6CkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem7CkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem8CkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem9CkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem9aCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem9bCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem10CkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem11CkBox",
+      "class": "manual"
+    },
+    {
+      "field": "FindingsItem12CkBox",
+      "class": "manual"
+    },
+    {
+      "field": "EligibleCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "NotEligibleCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "NotEligibleReason",
+      "class": "manual"
     },
     {
       "field": "PetitionIsGrantedCkBox",
@@ -610,6 +1027,18 @@
     {
       "field": "ClerkSignedName",
       "class": "court_or_agency"
+    },
+    {
+      "field": "DepCSCCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "AsstCSCCkBox",
+      "class": "manual"
+    },
+    {
+      "field": "CSCCkBox",
+      "class": "manual"
     }
   ],
   "manualFields": [

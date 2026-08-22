@@ -34,25 +34,124 @@ export const PROTECT_RULES = [
   ["money", /\$|\bfee\b|\bfees\b|\bcost[s]?\b|\bamount\b|\bbalance\b|\bpaid\b|\bpayment\b|\brestitution\b|\bfine[s]?\b|\bsurcharge\b|\bdollar|\bowed\b|\barrears\b/],
   ["race", /\brace\b|\bethnic|\bskin\b|\bcomplexion\b/],
   ["responsible_official", /responsible\s*(official|party|person)|authorized\s*(official|representative|signer)|custodian\s*of\s*record|records?\s*officer|designee/],
+  // A government identifier is never a fact the platform supplies. KY AOC-334,
+  // AOC-496 and AOC-496.2 each wrote the participant's full legal name into a
+  // "Defendant's SSN" box, because nothing claimed the box and
+  // full_legal_name's /\bdef\b/ pattern did. Jail and booking identifiers sit
+  // in the same rule: they identify a person through a custodial system the
+  // platform has no knowledge of, and AOC-496 put a name in one of those too.
+  // The driver's-licence cluster is a cluster, not one field. NC AOC-CR-296
+  // names its columns DLNo, DLState and DLExpires; only DLNo matched, so
+  // `DLState` took participant.state and the canonical fixture printed the
+  // applicant's residence state in the Drivers License State column. The state
+  // that issued a licence and the state someone lives in are different facts,
+  // and the field prints no caption, so nothing but its name could refuse it.
+  ["government_identifier", /\bssn\b|social\s*security|\bsid\s*(no|num|#)?\b|\bfbi\s*(no|num|#)|jail\s*id|booking\s*(no|num|#|id)|\bdoc\s*(no|num|#)\b|driver\s*s?\s*licen[cs]e|\bdl\s*(no|num|#)\b|\bdl\s*(state|exp|expires|expiration|class|type|issued)\b|licen[cs]e\s*(state|class|expires|expiration)/],
   ["signature", /signature|\bsigned\b|\bsign\s*here\b|^\s*sign\b|\bsig\b|\binitials?\b/],
   ["notarization", /notar|jurat|acknowledg(ed|ment)\s*before\s*me|sworn\s*to\s*before|my\s*commission\s*expires|seal\s*of\s*office/],
-  ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|service\s*of\s*process|process\s*server|\bserved\s*(on|by|upon)\b|date\s*served|manner\s*of\s*service/],
+  // `cert date` was the hole. The rule matched the printed heading and the
+  // filing_date descriptor matched /cert\s*date/, so on AK TF-800 and TF-805 a
+  // field named certDate — sitting 28pt under a printed "Certificate of
+  // Service" — took the platform's filing date and produced a half-completed
+  // sworn certification: "I certify on 2026-08-12 at ______". A service block
+  // is a statement about something a person did, so nothing in it is
+  // deterministic.
+  ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|service\s*of\s*process|process\s*server|\bserved\s*(on|by|upon)\b|date\s*served|manner\s*of\s*service|\bcert\s*(date|time)\b|certif(y|ied|icate)\s*(on|date)/],
   ["licensing_board", /licens(e|ing)\s*(board|authority|agency)|board\s*of\s*(nursing|medicine|pharmacy|education|examiners)|professional\s*board|certification\s*board/],
-  ["agency", /\bagency\b|\bsheriff\b|\bpolice\b|law\s*enforcement|\bbureau\b|state\s*patrol|\bprobation\b|\bparole\b|department\s*of\s*(public\s*safety|justice|corrections)|\bdps\b|\bsbi\b|\bacic\b|\bapsin\b|\bfbi\b/],
+  // The records-custody clause is the second half of this rule and it earns its
+  // place on KY AOC-334. The form prints "The Kentucky State Police and other
+  // following agencies listed below are hereby ordered to seal any records in
+  // their custody regarding the above-named Defendant and above-listed
+  // charge(s): ____". The slot lists the AGENCIES the court is ordering. The
+  // caption harvester reached it as the tail fragment "their custody regarding
+  // the above-named Defendant and above-", which contains the word "Defendant"
+  // and no word this rule knew — so full_legal_name claimed it and the
+  // petitioner's name was filed as the list of agencies ordered to seal.
+  // Matching the directive rather than the agency names closes it wherever the
+  // caption is truncated.
+  ["agency", /\bagency\b|\bagencies\b|\bsheriff\b|\bpolice\b|law\s*enforcement|\bbureau\b|state\s*patrol|\bprobation\b|\bparole\b|department\s*of\s*(public\s*safety|justice|corrections)|\bdps\b|\bsbi\b|\bacic\b|\bapsin\b|\bfbi\b|records?\s*in\s*(their|our|its)\s*custody|\bcustody\s*regarding\b|ordered\s*to\s*seal|records?\s*custodian/],
   ["court", /\bjudge\b|magistrate|commissioner|hearing\s*officer|referee|so\s*ordered|it\s*is\s*(hereby\s*)?ordered|ordered\s*(and\s*)?adjudged|adjudged|\bdecree\b|is\s*(hereby\s*)?(granted|denied)|court\s*use\s*only|for\s*(court|office|clerk|official)\s*use|do\s*not\s*write|\bruling\b/],
   ["clerk", /\bclerk\b|deputy\s*clerk|file\s*stamp|filed\s*stamp|filing\s*stamp|court\s*seal|scan\s*num|\bbarcode\b|entered\s*on|\bdistribution\b/],
   ["prosecutor", /prosecut|district\s*attorney|commonwealth\s*s?\s*attorney|state\s*s?\s*attorney|county\s*attorney|solicitor/],
-  ["attorney", /\battorney\b|\bcounsel\b|\besq\b|law\s*firm|bar\s*(no|num|number)/],
+  // `atty` is how North Carolina's AOC forms abbreviate it, and the rule
+  // spelled only the long form. NC AOC-CR-288 names the attorney block
+  // NameAtty / CityAtty / StateAtty / ZipCodeAtty, none of which contain
+  // "attorney", so the petitioner's own name and address were written into
+  // "Name And Address Of Petitioner's Attorney" — a filed petition asserting
+  // the petitioner is represented by counsel who is the petitioner.
+  ["attorney", /\battorney\b|\battys?\b|\bcounsel\b|\besq\b|law\s*firm|bar\s*(no|num|number)|\bvsb\b/],
   ["outside_party", /\bopposing\b|third\s*party|\bvictim\b|\bcomplainant\b|\bemployer\b|\bwitness\b|\bco-?defendant\b/],
   ["disposition_or_hearing", /\bdisposition\b|hearing\s*(date|time|result)|\bsentenc(e|ing)\b|\bconvict(ed|ion)\b|\bplea\b|\bverdict\b/]
 ];
+
+// The protect categories that describe an AREA of a page rather than a box.
+// A widget inside a section headed by one of these is in territory the
+// participant does not complete, whatever the widget is called.
+//
+// The rest are deliberately absent. A "$" or a race question is a property of
+// one field; a heading that mentions a fee does not make the page a fee block.
+export const REGIONAL_PROTECT_CATEGORIES = new Set([
+  "service_block", "notarization", "court", "clerk", "prosecutor",
+  "attorney", "outside_party", "responsible_official", "licensing_board", "agency"
+]);
+
+// What a printed SECTION HEADING means, which is not the same question as what
+// a field name means.
+//
+// NC AOC-CR-288 is the case. Page 2 prints "FINDINGS OF FACT" and under it
+// "ORDER"; the fields in that band are named PetitionerIsEligibleBecauseText1
+// and PetitionerIsEligibleCbx. Every one of those names is innocent, the
+// petitioner's own name is in them, and the binder wrote the petitioner's name
+// into the judge's findings — a filed document on which the petitioner appears
+// to have made the court's findings for it.
+//
+// These patterns are deliberately NOT in PROTECT_RULES. "Order" as a substring
+// of a field name is far too common to deny on — order of protection, birth
+// order, ordered list — but a form that prints ORDER as a section heading is
+// telling the reader that everything below it is the court speaking. The
+// distinction is the position, so the vocabulary is separate.
+export const REGION_HEADING_RULES = [
+  ["court", /findings?\s*of\s*fact|conclusions?\s*of\s*law|^\s*order\b|\border\s*of\s*(the\s*)?court\b|\bjudgment\b|\bdecree\b|\bdetermination\b|to\s*be\s*completed\s*by\s*the\s*court|court\s*findings/i],
+  ["clerk", /certification\s*by\s*(the\s*)?clerk|clerk\s*s?\s*certificate|entry\s*of\s*(judgment|record)/i],
+  ["service_block", /certificate\s*of\s*service|proof\s*of\s*service|return\s*of\s*service/i],
+  ["notarization", /acknowledg(e?ment|ed)|jurat|verification|sworn\s*statement/i]
+];
+
+/**
+ * The protected category a printed section heading opens, if any.
+ *
+ * The heading vocabulary is tried first because it is the more specific claim,
+ * and the field-name vocabulary second so a heading that names a judge or a
+ * prosecutor still counts. A heading that matches neither opens no protected
+ * region, which is the safe answer only because the field-name rules still run
+ * independently on every binding.
+ */
+export function regionProtectCategoryOf(heading) {
+  const text = String(heading ?? "").trim();
+  if (!text) return null;
+  for (const [category, pattern] of REGION_HEADING_RULES) {
+    if (pattern.test(text)) return category;
+  }
+  const byName = protectCategoryOf(text);
+  return byName && REGIONAL_PROTECT_CATEGORIES.has(byName) ? byName : null;
+}
 
 // --- allowlisted fact descriptors ------------------------------------------
 // The ONLY things that may ever be written. Each declares the value type it
 // carries and, where the fact is legally sensitive, that it may not bind
 // without the caller naming the field explicitly.
+// A second address block is not a second address.
+//
+// NC AOC-CV-226 prints "Full Permanent Mailing Address Of Applicant (if
+// different than above)". It is conditional by its own printed words: it is
+// completed only when the applicant's mailing address differs from the one
+// already given. Writing the same street, city, state and ZIP into both blocks
+// files an affidavit asserting the two are different and then showing them
+// identical. The platform holds one address, so it fills one block.
+export const ALTERNATE_BLOCK = /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/;
+
 export const FACT_DESCRIPTORS = [
-  { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/ },
+  { factId: "participant.city_state_zip", valueType: "string", match: /city\s*state\s*zip/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "participant.date_of_birth", valueType: "date", match: /\bdob\b|date\s*of\s*birth|birth\s*date/ },
   { factId: "participant.first_name", valueType: "string", match: /first\s*name/ },
   { factId: "participant.last_name", valueType: "string", match: /last\s*name|surname/ },
@@ -68,16 +167,30 @@ export const FACT_DESCRIPTORS = [
   // contact value substitutes for it, and no email is ever synthesised from
   // other participant data: a missing email leaves the line blank.
   { factId: "participant.email", valueType: "string", match: /\be[-\s]?mail\b/ },
-  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b/, refuseWhen: /\be[-\s]?mail\b/ },
-  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b/ },
-  { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/ },
+  // The address guards, widened. `\baddress\b` matched a City box on KY
+  // AOC-496.2 (Def.Address.City) and printed the street line there as well as
+  // on the street line, and it matched a bank-name box on NC AOC-CV-226's
+  // affidavit of indigency, where the applicant's street address was printed
+  // as the name of their bank. A haystack that names a more specific slot than
+  // "address" is that slot, not the street line.
+  { factId: "participant.street_address", valueType: "string", match: /street\s*addr|mailing\s*addr|addr(ess)?\s*(line\s*)?\d|^\s*addr|\baddress\b/, refuseWhen: /\be[-\s]?mail\b|\bcity\b|\bstate\b|\bzip\b|postal|\bcounty\b|\bbank\b|\bemployer\b|\bcourt\b|\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
+  { factId: "participant.city", valueType: "string", match: /\bcity\b/, refuseWhen: /\be[-\s]?mail\b|\bcourt\b|\bcounty\s*(of|or)\s*city\b|\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
+  { factId: "participant.zip", valueType: "string", match: /\bzip\b|postal/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "participant.phone", valueType: "string", match: /\bphone\b|telephone/, refuseWhen: /\be[-\s]?mail\b/ },
-  { factId: "participant.state", valueType: "string", match: /\bstate\b/ },
+  { factId: "participant.state", valueType: "string", match: /\bstate\b/, refuseWhen: /\bif\s*different\b|\bif\s*other\s*than\b|\bif\s*not\s*the\s*same\b|\bother\s*than\s*above\b|\bif\s*changed\b/ },
   { factId: "matter.county", valueType: "string", match: /\bcounty\b/ },
   { factId: "matter.court", valueType: "string", match: /court\s*name|type\s*of\s*court|judicial\s*(district|circuit)/ },
   { factId: "matter.case_number", valueType: "string", match: /case\s*(no|num|#)|docket|cause\s*(no|num)|file\s*(no|num)|case\s*id/ },
   { factId: "matter.citation_number", valueType: "string", match: /citation\s*(no|num)/ },
-  { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/ },
+  // full_legal_name's patterns are broad on purpose — a party token is how
+  // most forms label the filer's own name — and that breadth is what put the
+  // petitioner's name on NC AOC-CR-288's "Name And Address Of Petitioner's
+  // Attorney" block, on AOC-CR-296's "District Attorney Name" line, in KY's
+  // SSN and Jail ID boxes, and on AOC-CV-226's bank-name line. The protect
+  // rules stop the attorney, prosecutor and identifier cases now; this refusal
+  // stops the rest, where the haystack names a slot that is plainly not a
+  // person's name.
+  { factId: "participant.full_legal_name", valueType: "string", match: /printed\s*name|full\s*legal\s*name|your\s*name|petitioner|applicant|defendant|movant|\bdef\b|party\s*names?|case\s*name|\bname\b/, refuseWhen: /\bbank\b|\bstreet\b|\baddr(ess)?\b|\bcity\b|\bzip\b|postal|\bphone\b|telephone|\be[-\s]?mail\b|\bemployer\b|\bschool\b|\bcourt\s*name\b|type\s*of\s*court|\bcounty\b/ },
   { factId: "deterministic.filing_date", valueType: "date", match: /date\s*signed|signature\s*date|date\s*of\s*(this\s*)?(filing|signature)|today\s*s?\s*date|^\s*dated?\s*$|cert\s*date/ },
   // Legally sensitive dates. These describe the criminal event itself, and a
   // wrong value misstates the record to a court, so they never bind on a name
@@ -130,6 +243,12 @@ function rowIndexOf(name) {
   return n >= 1 && n <= 40 ? n - 1 : null;
 }
 
+/** The allowlisted facts one subject string matches, refusals already applied. */
+export function descriptorsMatching(subject) {
+  const hay = haystack(subject);
+  return FACT_DESCRIPTORS.filter((d) => d.match.test(hay) && !(d.refuseWhen && d.refuseWhen.test(hay)));
+}
+
 /**
  * Decides, for one field, whether anything may be written into it.
  *
@@ -141,7 +260,7 @@ function rowIndexOf(name) {
  * and it can never override a protect rule or a type guard.
  */
 export function decideBinding(field, options = {}) {
-  const { name, pdfType, effectiveLabel } = field;
+  const { name, pdfType, effectiveLabel, regionHeading, regionIsDocumentTitle = false } = field;
   const {
     explicitMappings = {},
     captionOnly = false,
@@ -159,12 +278,55 @@ export function decideBinding(field, options = {}) {
   const category = protectCategoryOf(subject) ?? protectCategoryOf(name);
   if (category) return { writable: false, reason: "protected_category", category };
 
+  // Geometry. A widget sits inside a printed section of the page, and when
+  // that section's own heading is one the protect rules name, the widget is in
+  // court-owned territory whatever it is called. AK TF-800's certDate and NE
+  // DC 1:15's printedname both sit under a printed "Certificate of Service"
+  // and neither name says so; a platform that fills them signs and dates a
+  // sworn statement about service it has no knowledge of.
+  //
+  // This is the channel that makes protection independent of naming: renaming
+  // a protected field to something innocuous does not move it off the page.
+  //
+  // Two guards keep this narrow, and the canary suite put both there. Only
+  // REGIONAL_PROTECT_CATEGORIES apply: those name an area of a page that
+  // somebody other than the participant completes. `money`, `race` and
+  // `disposition_or_hearing` describe a box, not a section, and reading them
+  // as sections silenced every field on a form headed "APPLICATION TO WAIVE
+  // FILING FEES". And a document's own title never protects, because a title
+  // names the form rather than an area of it.
+  // The heading vocabulary, not the field-name one. NC AOC-CR-288 prints
+  // "FINDINGS OF FACT" over the judge's block on page 2 and the field-name
+  // rules match none of it, so the region channel above -- which exists
+  // precisely for this -- returned null and the petitioner's name was written
+  // into the court's own findings. A heading is a different kind of claim from
+  // a field name and needs its own words.
+  const regionCategory = regionHeading && !regionIsDocumentTitle ? regionProtectCategoryOf(regionHeading) : null;
+  if (regionCategory && REGIONAL_PROTECT_CATEGORIES.has(regionCategory)) {
+    return { writable: false, reason: "protected_page_region", category: regionCategory, regionHeading };
+  }
+
   if (!WRITABLE_PDF_TYPES.has(pdfType)) {
     return { writable: false, reason: "non_text_field_type", category: "type_guard", pdfType };
   }
 
-  const hay = haystack(subject);
-  const matches = FACT_DESCRIPTORS.filter((d) => d.match.test(hay) && !(d.refuseWhen && d.refuseWhen.test(hay)));
+  // Two channels, tried in order, and the order matters. The field NAME is
+  // authored by whoever built the form and is usually the more precise of the
+  // two, so it is asked first and every family whose names already work is
+  // unaffected. The printed LABEL is the fallback, for forms whose names carry
+  // no words at all: VT 600-00228 names its fields 2, 3, 4, 5, 5a, and with
+  // only the name channel a fee-waiver application filled nothing — no name,
+  // no address, no income — and said nothing about why.
+  //
+  // The fallback widens what can bind, never what can be written: both
+  // channels have already been past the protect rules above, and the label is
+  // checked against refuseWhen exactly as the name is.
+  let factBasis = "field_name";
+  let matches = descriptorsMatching(name);
+  if (matches.length === 0 && effectiveLabel && effectiveLabel !== name) {
+    matches = descriptorsMatching(effectiveLabel);
+    factBasis = matches.length > 0 ? "printed_label" : factBasis;
+  }
   if (matches.length === 0) return { writable: false, reason: "no_allowlisted_fact_matches" };
 
   // Most-specific-first ordering makes the first match the intended one; a
@@ -194,11 +356,11 @@ export function decideBinding(field, options = {}) {
         return { writable: false, reason: "repeating_row_without_indexed_fact", category: "charge_row", factId: descriptor.factId, rowIndex: row };
       }
       const leaf = descriptor.factId.slice("matter.".length);
-      return { writable: true, factId: `matter.charges[${row}].${leaf}`, valueType: descriptor.valueType, rowIndex: row };
+      return { writable: true, factId: `matter.charges[${row}].${leaf}`, valueType: descriptor.valueType, rowIndex: row, factBasis };
     }
   }
 
-  return { writable: true, factId: descriptor.factId, valueType: descriptor.valueType };
+  return { writable: true, factId: descriptor.factId, valueType: descriptor.valueType, factBasis };
 }
 
 /** Confirms a resolved value matches the type its descriptor declared. */
@@ -215,4 +377,126 @@ export function resolveFact(facts, factId) {
   const m = /^matter\.charges\[(\d+)\]\.(.+)$/.exec(factId);
   if (!m) return facts[factId];
   return facts["matter.charges"]?.[Number(m[1])]?.[m[2]];
+}
+
+// --- one widget per slot ----------------------------------------------------
+//
+// A binding decision is made one field at a time, which is correct for
+// deciding whether a field MAY be written and wrong for deciding whether it
+// SHOULD be. Nebraska's caption band is the case that shows the difference:
+// CC 6:12 carries TYPEOFCOURTRESULTS, TYPEOFCOURTDROPDOWN and a field named
+// "enter the type of court", all three overlapping between x 138 and x 242,
+// and all three legitimately matching matter.court. Each decision was right on
+// its own and the page rendered "District Court" twice, about 5pt apart, over
+// the court's own printed caption words.
+//
+// So this is a second pass over the decisions, not a change to any of them: a
+// fact that has already been allowed is placed once per slot.
+//
+// A slot is a group of widgets on one page that overlap each other and carry
+// the same fact. Overlap is the whole test — two widgets that do not overlap
+// are two places the form means the value to appear, and a form that prints a
+// name in the caption and again above the signature line is not defective.
+
+const CHOICE_PDF_TYPES = new Set(["dropdown", "optionlist"]);
+
+const rectsOverlap = (a, b) =>
+  Math.min(a.x + a.width, b.x + b.width) - Math.max(a.x, b.x) > 0 &&
+  Math.min(a.y + a.height, b.y + b.height) - Math.max(a.y, b.y) > 0;
+
+/**
+ * Ranks two widgets competing for one slot. Lower sorts first and wins.
+ *
+ * The ordering is stated rather than discovered, because an arbitrary winner
+ * is an unreviewable one:
+ *
+ *   1. a text field beats a choice field. A dropdown renders from an
+ *      appearance stream the source document authored, and the source's is
+ *      what carries "Choose the court";
+ *   2. the larger box beats the smaller. The bigger widget is the one the form
+ *      means to be read;
+ *   3. then topmost, then leftmost, then the name, so the result does not
+ *      depend on the order the fields happen to arrive in.
+ */
+function slotRank(a, b) {
+  const choice = (w) => (CHOICE_PDF_TYPES.has(w.pdfType) ? 1 : 0);
+  if (choice(a) !== choice(b)) return choice(a) - choice(b);
+  const area = (w) => (w.rect ? w.rect.width * w.rect.height : 0);
+  if (area(a) !== area(b)) return area(b) - area(a);
+  if (a.rect && b.rect && a.rect.y !== b.rect.y) return b.rect.y - a.rect.y;
+  if (a.rect && b.rect && a.rect.x !== b.rect.x) return a.rect.x - b.rect.x;
+  return String(a.name).localeCompare(String(b.name));
+}
+
+/**
+ * Reduces already-writable candidates to one widget per slot.
+ *
+ * `candidates` is [{ name, factId, pdfType, page, rect }]. Returns
+ * { kept, refused } where every input appears in exactly one of them, so the
+ * count is conserved and a family map still accounts for every field.
+ *
+ * A candidate with no page or no rectangle is kept untouched: without geometry
+ * there is no way to tell whether it collides with anything, and refusing on
+ * an absence would drop bindings that are fine.
+ */
+export function selectOnePerSlot(candidates) {
+  const kept = [];
+  const refused = [];
+  const grouped = new Map();
+
+  for (const candidate of candidates) {
+    if (!candidate.rect || !candidate.page) { kept.push(candidate); continue; }
+    const key = `${candidate.page}::${candidate.factId}`;
+    if (!grouped.has(key)) grouped.set(key, []);
+    grouped.get(key).push(candidate);
+  }
+
+  for (const group of grouped.values()) {
+    // Slots are built by transitive overlap: A overlapping B and B overlapping
+    // C is one slot, even where A and C do not touch. Three widgets stacked
+    // down a caption band are one place on the paper.
+    const slots = [];
+    for (const candidate of group) {
+      const touching = slots.filter((slot) => slot.some((m) => rectsOverlap(m.rect, candidate.rect)));
+      if (touching.length === 0) { slots.push([candidate]); continue; }
+      const merged = touching.flat().concat(candidate);
+      for (const slot of touching) slots.splice(slots.indexOf(slot), 1);
+      slots.push(merged);
+    }
+    for (const slot of slots) {
+      if (slot.length === 1) { kept.push(slot[0]); continue; }
+      const ordered = [...slot].sort(slotRank);
+      const winner = ordered[0];
+      kept.push(winner);
+      for (const loser of ordered.slice(1)) {
+        refused.push({
+          ...loser,
+          reason: "duplicate_widget_for_one_slot",
+          category: "caption_slot",
+          keptInstead: winner.name,
+          overlapsWith: slot.filter((m) => m.name !== loser.name).map((m) => m.name)
+        });
+      }
+    }
+  }
+
+  return { kept, refused };
+}
+
+/**
+ * Whether a choice field's current value is the source document's own chooser
+ * prompt rather than a selection.
+ *
+ * Nebraska's dropdowns ship selected on "Choose the court" and "Choose the
+ * county". Left alone through a flatten those strings are drawn onto the page
+ * as ordinary ink, and a filed pleading tells the court to choose one.
+ */
+export function isChooserPrompt(value, options = []) {
+  const text = String(value ?? "").trim();
+  if (text === "") return false;
+  if (/^[\s_\-–—.·•]+$/.test(text)) return true;
+  if (/^(--+|choose|select|pick|click|please\s+(choose|select|pick)|enter\s+the)\b/i.test(text)) return true;
+  // A value that is the first option of a list it does not otherwise resemble
+  // is the list's own placeholder: forms put the prompt in slot zero.
+  return options.length > 1 && String(options[0]).trim() === text && /\b(choose|select|pick|none)\b/i.test(text);
 }

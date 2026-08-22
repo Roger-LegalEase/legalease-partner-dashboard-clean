@@ -1,0 +1,161 @@
+{
+  "id": "source-direct",
+  "lane": "LANE-SOURCE",
+  "role": "source acquisition",
+  "assetIds": [
+    "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+    "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+    "NC|forms-2.html|30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+    "NC|forms.html|1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+    "NC|nc-expunction-petition.html|912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c",
+    "VA|cc1473.pdf|6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+    "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+    "VA|va-expungement-sealing-forms.html|b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+    "NE|CC-6-11-2.pdf|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+    "NE|CC-6-12.pdf|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+    "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a"
+  ],
+  "familyIds": [
+    "NC:aoc-cr-296-form-en",
+    "NC:expungements",
+    "NC:forms-2",
+    "NC:forms",
+    "NC:nc-expunction-petition",
+    "VA:cc1473",
+    "VA:cc1473inst",
+    "VA:va-expungement-sealing-forms",
+    "NE:cc-6-11-2",
+    "NE:cc-6-12",
+    "AK:requesttosealcriminfo"
+  ],
+  "allowedPaths": [
+    "data/rcap-all50/pdf-source-handoffs/source-direct/**",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en/source-record.json",
+    "data/rcap-all50/overlays/production/north-carolina/expungements/source-record.json",
+    "data/rcap-all50/overlays/production/north-carolina/forms-2/source-record.json",
+    "data/rcap-all50/overlays/production/north-carolina/forms/source-record.json",
+    "data/rcap-all50/overlays/production/north-carolina/nc-expunction-petition/source-record.json",
+    "data/rcap-all50/overlays/production/virginia/cc1473/source-record.json",
+    "data/rcap-all50/overlays/production/virginia/cc1473inst/source-record.json",
+    "data/rcap-all50/overlays/production/virginia/va-expungement-sealing-forms/source-record.json",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-11-2/source-record.json",
+    "data/rcap-all50/overlays/production/nebraska/cc-6-12/source-record.json",
+    "data/rcap-all50/overlays/production/alaska/requesttosealcriminfo/source-record.json"
+  ],
+  "prohibitedPaths": [
+    "src/**",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json",
+    "next.config.ts",
+    "supabase/migrations/**",
+    "deploy/rcap-render-worker/**",
+    ".github/workflows/**",
+    "scripts/rcap-official-forms/rcap-platform-ready.mjs",
+    "data/rcap-all50/pdf-independent-reviews/*-manifest.json",
+    "data/rcap-all50/pdf-independent-reviews/*-group-*.review.json",
+    "any fixture, map, classification or contact sheet",
+    "source-resolution's assets",
+    "data/rcap-all50/pdf-source-handoffs/source-resolution/**",
+    "data/rcap-all50/source-acquisition-queue.json — source-resolution owns it; hand rows to that shard rather than writing here"
+  ],
+  "rootBlocker": "the official binary is absent from the clone, so no SHA-256 can be recomputed and neither a render nor a review is possible",
+  "requiredSourceInput": "publisher-of-record access for the assigned jurisdictions; no corpus file may be committed",
+  "expectedOutput": "for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record, or a recorded finding that no official source exists",
+  "focusedVerifier": "node scripts/generate-rcap-source-resolution.mjs --check",
+  "stopCondition": "every assigned asset carries either an acquired source with a receipt, or a recorded no-official-source finding naming what was searched",
+  "primaryOwner": "source acquisition and resolution lane",
+  "terminalOutcomeMix": {
+    "exact_deferral": 2,
+    "guidance_terminal": 5,
+    "deliberate_scope_exclusion": 1,
+    "packet_ready": 3
+  },
+  "terminalWork": [
+    {
+      "assetId": "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+      "terminalOutcome": "exact_deferral",
+      "mustPacket": true,
+      "doneCondition": "the route completes with this component named as an exact deferral, stating what the participant must obtain and from whom, until the official binary is acquired"
+    },
+    {
+      "assetId": "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+      "terminalOutcome": "guidance_terminal",
+      "mustPacket": false,
+      "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
+    },
+    {
+      "assetId": "NC|forms-2.html|30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+      "terminalOutcome": "guidance_terminal",
+      "mustPacket": false,
+      "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
+    },
+    {
+      "assetId": "NC|forms.html|1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+      "terminalOutcome": "guidance_terminal",
+      "mustPacket": false,
+      "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
+    },
+    {
+      "assetId": "NC|nc-expunction-petition.html|912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c",
+      "terminalOutcome": "guidance_terminal",
+      "mustPacket": false,
+      "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
+    },
+    {
+      "assetId": "VA|cc1473.pdf|6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+      "terminalOutcome": "exact_deferral",
+      "mustPacket": true,
+      "doneCondition": "the route completes with this component named as an exact deferral, stating what the participant must obtain and from whom, until the official binary is acquired"
+    },
+    {
+      "assetId": "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+      "terminalOutcome": "deliberate_scope_exclusion",
+      "mustPacket": false,
+      "doneCondition": "the asset is recorded out of scope for this gate: no route, packet family or legal-design surface depends on it, and no participant treatment is diminished by its absence"
+    },
+    {
+      "assetId": "VA|va-expungement-sealing-forms.html|b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+      "terminalOutcome": "guidance_terminal",
+      "mustPacket": false,
+      "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
+    },
+    {
+      "assetId": "NE|CC-6-11-2.pdf|8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
+    },
+    {
+      "assetId": "NE|CC-6-12.pdf|68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
+    },
+    {
+      "assetId": "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
+    }
+  ],
+  "mustPacketAssets": [
+    "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+    "VA|cc1473.pdf|6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3"
+  ],
+  "blockedAssetsDoNotHoldOthers": true,
+  "baseSha": "b375b13a3c021bf424ecb4e0441400fff161f46d",
+  "globalProhibitedPaths": [
+    "src/**",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json",
+    "next.config.ts",
+    "supabase/migrations/**",
+    "deploy/rcap-render-worker/**",
+    ".github/workflows/**",
+    "scripts/rcap-official-forms/rcap-platform-ready.mjs",
+    "data/rcap-all50/pdf-independent-reviews/*-manifest.json",
+    "data/rcap-all50/pdf-independent-reviews/*-group-*.review.json"
+  ]
+}

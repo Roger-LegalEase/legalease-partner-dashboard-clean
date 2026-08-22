@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-shard-assignment/v3",
+  "wave": "c",
+  "shardName": "a",
+  "shardIndex": 0,
+  "reviewerRole": "independent-pdf-reviewer",
+  "outcome": "final_review_completed_at_assigned_base",
+  "verdictsIssued": 4,
+  "supersedes": "v2 (reviewed the ef957a9 lineage before e94fb456 was fetched) and v1 (blocked)",
+  "purpose": "Reviewer-owned assignment record for Wave-C shard A. Four families were reviewed end to end against real official source bytes and page-by-page visual inspection. The scope caveats below are recorded because they change what this review does and does not establish; they were not worked around.",
+  "assignmentBasis": {
+    "method": "given_by_reviewer_source_pack",
+    "notDerivedFromDenominator": true,
+    "explanation": "The assignment specifies deriving a 16-family denominator at base e94fb456 and taking slice [0:4]. That derivation remains impossible in this repository (see scopeCaveats). The four families below were instead named explicitly by the reviewer source pack manifest (rcap-wave-c-review-source-pack/v1, shard a, familyCount 4). This review therefore verifies those four families on their own evidence; it does not establish that they are the correct slice of a 16-family denominator.",
+    "packManifest": {
+      "schemaVersion": "rcap-wave-c-review-source-pack/v1",
+      "shard": "a",
+      "baseCommit": "e94fb456",
+      "familyCount": 4,
+      "sourcePdfsVerifiedBySha256": 4
+    },
+    "familiesAssigned": [
+      "AK:tf-800-form-en",
+      "AK:tf-805-form-en",
+      "KY:aoc-334-form-en",
+      "KY:aoc-496-3-form-en"
+    ],
+    "eachFamilyAccountedForExactlyOnce": true,
+    "includesNebraskaDc115": false
+  },
+  "corpus": {
+    "envVar": "RCAP_BUNDLE_EXTRACT",
+    "path": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "installedFromPack": true,
+    "pdfCount": 4,
+    "fileCount": 4,
+    "expectedFullLibraryFiles": 499,
+    "expectedFullLibraryPdfs": 329,
+    "isFullLibrary": false,
+    "remainsUncommitted": true,
+    "gitignoreRule": ".gitignore:53 private/",
+    "note": "Four-PDF shard pack, as the instruction directs. The 499-file corpus was not required. Every source byte these four families need is present and hash-verified; private/ remains gitignored and uncommitted."
+  },
+  "scopeCaveats": [
+    {
+      "caveat": "assignment_by_pack_not_denominator",
+      "detail": "The follow-up instruction names the four families explicitly and directs that the unrelated 499-file corpus not be required. The four were taken from that instruction and the pack manifest, which agree exactly. No 16-family denominator was derived."
+    },
+    {
+      "caveat": "reviewer_generated_rasters",
+      "detail": "All-page rasters were produced by the reviewer with pypdfium2 at scale=2.0 from the e94fb456 bytes and their SHA-256 pinned per family in final-verdicts.json, so the visual inspection is reproducible."
+    },
+    {
+      "caveat": "hash_referents_at_this_base",
+      "detail": "At e94fb456 both fieldMapSha256 and classificationSha256 hash the file bytes directly. The bindings-array referent that applied on the older lineage no longer does. Both recompute exactly here."
+    }
+  ],
+  "historicalObjections": {
+    "recordsFound": 16,
+    "detail": "Historical objections for all four families were read from correction-queue.json, correction-packets.json, batch-1-group-3.review.json and batch-1-cross-family-findings.json at e94fb456, and each was evaluated against the current bytes rather than trusted from its prior flag. Results per objection are recorded in final-verdicts.json.",
+    "historicalRecordPreservedUnchanged": true
+  },
+  "verdictSummary": {
+    "approved_platform_ready": [
+      "AK:tf-800-form-en",
+      "AK:tf-805-form-en"
+    ],
+    "correction_required": [
+      "KY:aoc-334-form-en",
+      "KY:aoc-496-3-form-en"
+    ],
+    "substantive_owner_decision_required": []
+  },
+  "scopeCompliance": {
+    "pathsWritten": [
+      "data/rcap-all50/pdf-independent-reviews/wave-c-shard-a/shard-assignment.json",
+      "data/rcap-all50/pdf-independent-reviews/wave-c-shard-a/final-verdicts.json",
+      "data/rcap-all50/pdf-independent-reviews/wave-c-shard-a/verdicts.json",
+      "data/rcap-all50/pdf-independent-reviews/wave-c-shard-a/verify-wave-c-shard-a.mjs",
+      "docs/record-clearing/pdf-independent-reviews/wave-c-shard-a/FINAL_SHARD_A_REVIEW.md",
+      "docs/record-clearing/pdf-independent-reviews/wave-c-shard-a/WAVE_C_SHARD_A_REVIEW.md",
+      "docs/record-clearing/pdf-independent-reviews/wave-c-shard-a/WAVE_C_SHARD_A_BLOCKED.md"
+    ],
+    "artifactsModified": false,
+    "sourceBinariesModified": false,
+    "mapsModified": false,
+    "classificationsModified": false,
+    "sidecarsModified": false,
+    "rastersModified": false,
+    "evidenceGeneratorsModified": false,
+    "implementationCodeModified": false,
+    "registerCountsModified": false,
+    "retirementRecordsModified": false,
+    "mainModified": false,
+    "nothingRepaired": true
+  },
+  "baseReviewed": "e94fb456",
+  "authoritativeRecord": "final-verdicts.json",
+  "correctedCourse": {
+    "whatWentWrong": "The first two passes concluded e94fb456 did not exist. It did; this clone had only origin/main and the reviewer branch until the remotes were fetched. The ef957a9 lineage carries the pre-correction frozen artifacts, so the v2 verdicts described the wrong bytes.",
+    "howCorrected": "Fetched all remotes, extracted the four family trees at e94fb456 read-only, and redid every step against those bytes: source hashes, map/classification/sidecar/artifact/contact-sheet hashes, all-page rasters, geometric containment, structural sanitation, and every historical objection.",
+    "priorRecordDisposition": "verdicts.json is retained, marked authoritative:false with supersededBy set. No historical verdict belonging to another lane was touched."
+  }
+}

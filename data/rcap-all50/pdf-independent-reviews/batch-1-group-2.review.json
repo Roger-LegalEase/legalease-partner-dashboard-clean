@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-group/v1",
+  "batch": "batch-1",
+  "group": 2,
+  "reviewDate": "2026-08-19",
+  "reviewerBranch": "claude/rcap-pdf-independent-review-batch-1",
+  "reviewedLaneBranch": "claude/rcap-problematic-pdf-full-remediation",
+  "reviewedLaneHead": "a7c9f0aa0dc19bb569783691e0bc0e65c0b57605",
+
+  "headline": "Nine families reviewed. Zero approved. Seven carry participant data written into an area the court owns — an attorney block, a findings-of-fact line, a certificate of service, a prosecutor's address of record, an SSN box. They share one cause, and it is not nine separate mistakes.",
+
+  "rootCause": {
+    "finding": "Protection is decided from the PDF's internal field name and nothing else. The caption the court prints beside the box is never read, and no geometry rule exists.",
+    "mechanism": [
+      "scripts/implement-rcap-official-forms-d1.mjs:428 builds each classification row as { name, type, class }. There is no effectiveLabel on it.",
+      "scripts/implement-rcap-official-forms-d1.mjs:442 then passes { name: c.name, pdfType: c.type, effectiveLabel: c.effectiveLabel } — and c.effectiveLabel is undefined for every field of every family.",
+      "scripts/rcap-official-forms/rcap-field-semantics.mjs resolves `const subject = effectiveLabel ?? name`, so the subject the protect rules are matched against is always the internal field name."
+    ],
+    "verifiedIndependently": "Yes — read directly from all three lines. The comment at the fallback says a measured label 'must not become a way around' the protect rules, which is sound. What is missing is that no label is ever measured, so the rules only ever see the name.",
+    "naturalExperiment": {
+      "claim": "Two families print the identical caption 'Name And Address Of Petitioner's Attorney For Expunction Petition' over the same block, and get opposite protection.",
+      "NC:aoc-cr-298-form-en": "fields named AttorneyName, AttorneyCity, ... — the attorney rule fires. Refused: protected_category/attorney, 9 refusals in the committed field map.",
+      "NC:aoc-cr-288-form-en": "fields named NameAtty, CityAtty, StateAtty, ZipCodeAtty — 'Atty' does not match the attorney pattern. Bound to participant.full_legal_name, participant.city, participant.state, participant.zip and written.",
+      "conclusion": "Same caption, same geometry, opposite outcome, decided entirely by a name the court never sees. This is label-only protection where geometry independently identifies the protected area.",
+      "verifiedIndependently": "Yes — both bindings and both refusals read from the committed production-field-map.json of each family."
+    },
+    "secondMechanism": {
+      "finding": "A field the package itself classifies `manual` can still be bound and written.",
+      "where": "scripts/implement-rcap-official-forms-d1.mjs:151 — NEVER_WRITE = { prohibited, protected, signature, court_or_agency, outside_party }. `manual` is absent.",
+      "alsoInTheVerifier": "scripts/verify-rcap-official-forms-d1.mjs:206 carries the identical set, so the verifier cannot catch what the binder allows.",
+      "confirmedInstance": "NC:aoc-cr-288-form-en binding { field: PetitionNotFiledSignName, class: \"manual\", factId: participant.full_legal_name } — classified manual, listed in the family's own reports/protected-fields.json manualFields, bound and written anyway.",
+      "impact": "Adding `manual` to both sets would have prevented four of the nine findings on its own."
+    },
+    "owner": "PDF rendering lane",
+    "smallestCorrection": "Capture the printed caption into effectiveLabel where the census is built, so the protect rules see what the court prints; and add `manual` to NEVER_WRITE in both the binder and the verifier. Neither is a per-family change."
+  },
+
+  "verdicts": [
+    {
+      "family": "AK:tf-805-form-en", "jurisdiction": "AK", "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf", "page": 2, "fieldOrGeometry": "certDate",
+      "observed": "The filing date is written into the blank of 'I certify on ___ at ___ [date/time] I gave a copy of this document', under the printed heading 'Certificate of Service'.",
+      "required": "Service-block fields remain protected.",
+      "why": "The service_block protect rule tests the name 'certDate', which contains no service token, while the deterministic.filing_date matcher explicitly matches /cert\\s*date/. The block is not protected as a service block at all.",
+      "smallestCorrection": "Refuse certDate — either drop the cert-date pattern from the filing_date matcher, or fire service_block from the block's printed heading.",
+      "evidencePath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en/fixtures/canonical-filled.pdf"
+    },
+    {
+      "family": "KY:aoc-496-2-form-en", "jurisdiction": "KY", "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf", "page": 1, "fieldOrGeometry": "Def.Address.City, Def.VitalStats.SSN, Def.Info.JailId",
+      "observed": "The street address is written into the City box (so it appears twice), and the participant's full legal name is written into the Defendant's SSN box and the Jail ID Number box.",
+      "required": "City binds city; SSN and Jail ID are refused.",
+      "why": "\\baddress\\b in the street_address matcher hits 'def address city', and street_address precedes city in the descriptor list. \\bdef\\b matches full_legal_name. There is no SSN protect rule anywhere. Both SSN and Jail ID are classified `manual` and listed in the family's own manualFields, yet bound and written.",
+      "smallestCorrection": "Add `manual` to NEVER_WRITE, and add an ssn|social security protect rule.",
+      "evidencePath": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en/fixtures/canonical-filled.pdf"
+    },
+    {
+      "family": "KY:aoc-496-form-en", "jurisdiction": "KY", "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf", "page": 1, "fieldOrGeometry": "Def.VitalStats.SSN, Def.Info.JailId",
+      "observed": "The participant's full legal name is written into the SSN box and the Jail ID box of a court-issued EXPUNGEMENT ORDER.",
+      "required": "Both refused. This document is captionOnly and court-issued.",
+      "why": "captionOnly did not stop them because full_legal_name is itself a caption fact. Both fields are classified `manual`.",
+      "smallestCorrection": "As above — `manual` in NEVER_WRITE, plus an SSN rule.",
+      "notedAsCorrect": "The decretal checkboxes including 'The petition is DENIED', the agency list and the address block are all correctly refused, and the judge's signature line carries no field at all.",
+      "evidencePath": "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en/fixtures/canonical-filled.pdf"
+    },
+    {
+      "family": "NC:aoc-cr-288-form-en", "jurisdiction": "NC", "verdict": "correction_required",
+      "severity": "highest in this group",
+      "asset": "fixtures/canonical-filled.pdf", "page": "1 and 2",
+      "fieldOrGeometry": "NameAtty, CityAtty, StateAtty, ZipCodeAtty (p1); PetitionerIsEligibleBecauseText1/Text2 (p2); PetitionNotFiledSignName",
+      "observed": "The petitioner's own name and address are written into the block captioned 'Name And Address Of Petitioner's Attorney For Expunction Petition', so the filed petition asserts the petitioner is represented by counsel who is the petitioner. On page 2, under the heading 'FINDINGS OF FACT' and the line 'Petitioner is / is not eligible ... If not eligible, it is because:', both reason lines carry the petitioner's name. The clerk-certification signature name is also written.",
+      "required": "The attorney block, the findings-of-fact lines and the clerk-certification block all refuse.",
+      "why": "'Atty' does not match the attorney pattern; 'petitioner' is in the full_legal_name matcher; PetitionNotFiledSignName is class `manual`, which is not in NEVER_WRITE.",
+      "smallestCorrection": "Extend the attorney rule to \\batty\\b; add `manual` to NEVER_WRITE; refuse any field whose geometry falls on the order/findings side of a petition-and-order form.",
+      "verifiedIndependently": "Yes — all seven bindings read from the committed production-field-map.json.",
+      "evidencePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en/fixtures/canonical-filled.pdf"
+    },
+    {
+      "family": "NC:aoc-cr-298-form-en", "jurisdiction": "NC", "verdict": "correction_required",
+      "severity": "highest in this group",
+      "asset": "fixtures/canonical-filled.pdf", "page": 1, "fieldOrGeometry": "EmailAddressOfRecord",
+      "observed": "The participant's own email address is written onto the line reading 'email (from ICMS/OFS) to the district attorney at ___, the email address of record with this court for that person', inside the block headed 'I certify that a copy of this motion was served by:'. The finalized certificate of service therefore states that the district attorney's address of record with the court is the petitioner's own address.",
+      "required": "Prosecutor and service fields remain protected.",
+      "why": "Both the prosecutor and service_block rules exist. Neither fires, because the field is named EmailAddressOfRecord and carries no such token, while \\be[-\\s]?mail\\b matches participant.email.",
+      "smallestCorrection": "Refuse EmailAddressOfRecord — fire prosecutor or service_block from the printed line, or deny it explicitly.",
+      "verifiedIndependently": "Yes — binding { field: EmailAddressOfRecord, factId: participant.email } read from the committed field map, alongside 9 correct attorney refusals in the same file.",
+      "evidencePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en/fixtures/canonical-filled.pdf"
+    },
+    {
+      "family": "NE:cc-6-11-form-en", "jurisdiction": "NE", "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf", "page": 1, "fieldOrGeometry": "caption band y 663-678; emailaddress",
+      "observed": "The blank sheet reads 'IN THE ____ COURT OF ____ COUNTY, NEBRASKA'. The filled sheet reads 'District Court District CourtExample County COUNTY, NEBRASKA', with the unfilled dropdown prompts 'Choose the court' and 'Choose the county' still printed beneath, and the court's own printed words 'IN THE' and 'COURT OF' covered by field appearances. Separately, the '*Email address:' line is blank, the box for 'I do not have the ability to receive emails' is unchecked, and the reason line is blank — on a form stating that Supreme Court Rule 2-208 requires the address.",
+      "required": "One court value and one county value on the correct line, no placeholder residue, the court's caption words intact, and the required email supplied or its absence explained.",
+      "why": "Three fields bind matter.court and two bind matter.county. The email field is named 'emailaddress' all lowercase, so \\be[-\\s]?mail\\b cannot match on a word boundary and it is refused no_allowlisted_fact_matches.",
+      "smallestCorrection": "Bind exactly one field per caption slot and refuse the rest; suppress unfilled dropdown prompts on flatten; make the email matcher tolerate squashed names.",
+      "note": "This is the one family in the group with rasterized evidence, and the PNG confirms every byte-level finding.",
+      "evidencePath": "docs/record-clearing/pdf-visual-evidence/NE-cc-6-11-form-en-contact-sheet-page-01.png"
+    },
+    {
+      "family": "NE:dc-1-15-form-en", "jurisdiction": "NE", "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf", "page": "1 and 2", "fieldOrGeometry": "caption band y 540-640; printedname",
+      "observed": "This is a multi-purpose caption form whose variants are normally shown and hidden by JavaScript. With the script stripped and everything flattened, the adoption, emancipation, name-change and estate captions all render at once, overlapping, and the participant's name is stamped three times at three different variants. On page 2, under the heading 'Certificate of Service', the printed name is written again.",
+      "required": "One caption variant, one name, and the service-block printed name refused.",
+      "why": "Three fields each bind participant.full_legal_name. service_block never fires because the field is named 'printedname'.",
+      "smallestCorrection": "Bind one caption field only; refuse printedname under a certificate-of-service heading.",
+      "alsoRecorded": "The receipt records revision REV-UNKNOWN and the source record records null, but the artifact itself prints 'DC 1:15  NEW 08/19'. The revision is determinable from the bytes and was simply not recorded.",
+      "evidencePath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en/fixtures/canonical-filled.pdf"
+    },
+    {
+      "family": "VT:200-00130-form-en", "jurisdiction": "VT", "verdict": "source_identity_unresolved",
+      "observed": "No field-safety or artifact defect found. A full sweep of the artifact finds exactly three participant draws, all caption facts, all correctly placed: docket number on 'Case No.', name on 'In RE:', date of birth on 'DOB'. No court, clerk, prosecutor, signature, service or legal-decision field is written; offence rows, conviction dates and every election are refused.",
+      "whyNotApproved": "The source bytes are unreadable in this clone, so the pinned SHA-256 cannot be verified and no census can be taken from the blank form; and docs/record-clearing/pdf-visual-evidence/VT-200-00130-form-en-contact-sheet-page-01.png does not exist, so the required rasterized blank-versus-filled check could not be performed.",
+      "withdrawnSiblingCheck": "Clean. vermont/200-00130-en/ contains no fixture PDFs, only fixtures/withdrawn.json naming 200-00130-form-en as its superseder, and the batch manifest excludes it as not_finalized. The three artifacts reviewed are this family's own and match the manifest hashes exactly.",
+      "whatWouldResolveIt": "Mount the corpus and rasterize the contact sheet to the named path."
+    },
+    {
+      "family": "VT:600-00228-support-en", "jurisdiction": "VT", "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf", "page": 1, "fieldOrGeometry": "fields named 2, 3, 4, 5, 5a, 6, 7, 8, 17-20, 23, 24, 27, 29",
+      "observed": "A fee-waiver application carrying none of the applicant's information. Exactly two fields fill — docket number and case name. Every substantive field is refused no_allowlisted_fact_matches: name, street address, city/state/zip, email, phone, household size, employer name and address, type of assistance, gross income from wages. All are blank with no explanation.",
+      "required": "The applicant's name, address, contact details and income fields carry the participant's facts.",
+      "why": "The source names these fields as bare digits, and the printed caption is never read because effectiveLabel is undefined. This is the root cause in its other direction: a name-only matcher does not just protect the wrong things, it also fails to fill the right ones.",
+      "smallestCorrection": "Capture the printed label into effectiveLabel, or add explicitFieldMappings for these numbered fields.",
+      "alsoUnresolved": "Source bytes unreadable, and VT-600-00228-support-en-contact-sheet-page-01.png does not exist. The correctable defect is reported first because it is actionable now.",
+      "evidencePath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en/production-field-map.json"
+    }
+  ],
+
+  "artifactSafety": {
+    "result": "clean across all 27 artifacts in this group",
+    "observed": "Every artifact hash matches the manifest. All parse. Page counts match the receipts. Zero /AcroForm, zero /Subtype /Widget, zero /FT field dicts, zero /XFA, zero /JS or /JavaScript, zero /OpenAction or /AA, zero /Launch /SubmitForm /ImportData /GoToR /RichMedia /EmbeddedFile, zero /Encrypt, zero /SigFlags, zero /ObjStm, and an empty /Annots on every page. Participant values are drawn from the page content stream. Overflow shrinks to fit and then refuses; no clipping or silent truncation was found.",
+    "note": "The defects above are not artifact-safety defects. Every one of these documents is technically well-formed. What is wrong is what they say."
+  },
+
+  "visualEvidenceGap": {
+    "finding": "Eight of the nine families have no rasterized visual evidence. docs/record-clearing/pdf-visual-evidence/ holds nine PNGs for twenty-seven families — roughly one per jurisdiction.",
+    "handled": "Not inferred as a pass. As substitute evidence both embedded page XObjects of every contact sheet were decoded, and all nine discriminate: panels differ and every expected participant value appears in the filled panel and in no blank panel. No stale or identical pairs.",
+    "owner": "PDF rendering lane — rasterize one sheet per family, not one per jurisdiction."
+  },
+
+  "correctionsToThisLanesOwnRecord": [
+    "The batch manifest was amended after being called frozen, to add fieldMapPath, fieldMapSha256, familyKind and approvalChannel. Every artifact, classification, provenance and source hash was byte-identical across the rewrite and no family package changed, so no finding is affected — but the freeze was not immutable and saying so is more useful than not.",
+    "The manifest's stated inclusion rule required a known-different visual control to discriminate, and six one-page sheets were admitted with controlDiscriminates: null. The rule now says what the code does: only an explicit false disqualifies, a null is recorded per family in visualBasis as an unproven measurement, and the totals carry withADiscriminatingVisualControl and admittedWithoutAVisualControl."
+  ],
+
+  "exactPdfLaneAction": "Fix the two shared causes before touching any individual family: capture the printed caption into effectiveLabel, and add `manual` to NEVER_WRITE in both scripts/implement-rcap-official-forms-d1.mjs:151 and scripts/verify-rcap-official-forms-d1.mjs:206. Then re-derive the field maps and re-render. Most of these nine findings should disappear together; the ones that remain are worth reviewing individually.",
+  "exactSessionAAction": "None of these nine can be counted platform_ready. Seven write participant data into an area the court owns, one carries no applicant data at all, and one is unreviewable for source identity. Independently of the verdicts, none of them has anywhere to record an approval."
+}

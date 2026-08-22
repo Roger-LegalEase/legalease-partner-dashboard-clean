@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-group/v1",
+  "batch": "wave-c-final-a-r2",
+  "group": 1,
+  "reviewDate": "2026-08-20",
+  "reviewerBranch": "claude/optimistic-davinci-be3t2m",
+  "reviewedLaneBranch": "claude/rcap-classification-completeness-iei2sc",
+  "reviewedLaneHead": "65cf3c9c3af01f6b94bf403f31f1010af81145ab",
+  "headline": "AK TF-800 and TF-805 reapproved after the classification completeness correction. Metadata-only: the classification file gained its two counters and the sidecar re-pins it; every substantive byte is unchanged and both counters equal the canonical census.",
+  "normalizationNote": "Reissue of the wave-c-final-a AK verdicts against the P0 bytes. No verdict changed and no substantive hash moved. The KY verdicts are not restated here and remain governed by wave-c-final-a.",
+  "verdicts": [
+    {
+      "family": "AK:tf-800-form-en",
+      "jurisdiction": "AK",
+      "verdict": "approved_platform_ready",
+      "verifiedIndependently": "Yes — source bytes recomputed from the shard pack, every pinned hash recomputed from the reviewed base, and every relevant page inspected blank-versus-filled.",
+      "visualEvidence": "All 3 relevant page(s) inspected. Generated content isolated by differencing the blank source against the finalized artifact, so source-inherent marks are not read as generated text.",
+      "structuralResult": {
+        "flattened": true,
+        "acroFormFieldsSurviving": 0,
+        "annotationsSurviving": 0,
+        "xfa": false,
+        "javaScript": false,
+        "additionalActions": false,
+        "openAction": false
+      },
+      "protectedRegionResult": {
+        "courtJudgeClerkProsecutorAttorneyBlank": true,
+        "signatureBlank": true,
+        "notarizationBlank": true,
+        "serviceBlockBlank": true,
+        "decisionOrOrderRegionBlank": true,
+        "agencyRegionBlank": true
+      },
+      "historicalObjections": [
+        {
+          "objectionId": "RC-M-SERVICE-BLOCK-BY-NAME",
+          "originalObjection": "certDate on page 2: the filing date was written into the Certificate of Service blank (\"I certify on ___\"), fired from the field name rather than the printed service-block heading.",
+          "closedByCurrentBytes": true,
+          "howVerified": "The certDate binding is absent from production-field-map.json at this base, page 2 adds only the case number, and the rendered Certificate of Service block is blank on the current artifact. Verified visually and geometrically against the current bytes, not from the prior flag."
+        },
+        {
+          "objectionId": "RC-P-SIDECAR-NONCONFORMANT",
+          "originalObjection": "Sidecar missing formFamily, officialFormNumber, officialTitle, sourcePublisher, sourceUrl, sourceMetadataFingerprint, classificationSha256, packetSpecSha256 and the result blocks.",
+          "closedByCurrentBytes": true,
+          "howVerified": "Every one of those keys is populated on the current sidecar; recomputed classificationSha256 from field-classification.json bytes and it matches."
+        },
+        {
+          "objectionId": "RC-C-GEOMETRY-NOT-AN-INPUT",
+          "originalObjection": "Binding decided without the widget rect or printed caption as an input.",
+          "closedByCurrentBytes": true,
+          "howVerified": "Bindings now carry factBasis and effectiveLabel; every drawn value was checked for containment inside its own widget rect on every page and none is outside or clipped."
+        },
+        {
+          "objectionId": "RC-B-NO-APPROVAL-CHANNEL",
+          "originalObjection": "No channel existed in which an approval could be recorded.",
+          "closedByCurrentBytes": true,
+          "howVerified": "This reviewer record is that channel; the verdict below is recorded against pinned current hashes."
+        }
+      ],
+      "observations": [],
+      "rerenderStatus": {
+        "reRenderedSinceCorrectionWave": true,
+        "historicallyFrozenCanonicalSha256": "9583d1f2228dc3ba9a36b3cf61f3cfc36e8ac90246c1d9b965138bc4054cd227",
+        "currentCanonicalSha256": "de4d5014a0d9934c9b256959b7947ee0acbffb67eab2e8099f0d614276b1b807",
+        "note": "artifact differs from the frozen hash: re-rendered by the correction wave"
+      },
+      "openCorrections": 0,
+      "approvalBasis": "Every participant value lies inside the widget rect of the field it is bound to, fully contained and legible; court, judge, clerk, notarization, service and decision regions are blank; the artifact is flattened with no active content; and every historical objection is closed against these exact bytes.",
+      "reapprovalBasis": "Metadata-only reapproval. Verified independently against the P0 bytes: source SHA re-hashed from the mounted corpus and unchanged; field map, canonical fixture, boundary fixture, contact sheet, contact-sheet proof, field census, source record and receipt all byte-identical to the reviewed base; every committed all-page contact-sheet raster byte-identical; classification entries, classCounts and documentOwnership unchanged; the classification file gained only discoveredFieldsOrAnchors, classifiedFieldsOrAnchors, complete and denominatorBasis; both counters equal the canonical census; the committed sidecar pins the new classification hash and changed in no other field; and rcap-platform-ready.mjs is byte-identical between the reviewed base and P0, so the gate was not weakened to create this movement.",
+      "fullVisualReviewRepeated": false,
+      "fullVisualReviewNotRepeatedBecause": "No substantive entry, map, artifact or visual byte moved. The all-page visual inspection recorded at 00f1261a stands against these exact artifact bytes, which are unchanged.",
+      "historicalObjectionsReopened": 0,
+      "historicalObjectionStatus": "None reopened. No artifact, map or evidence byte moved, so nothing a prior objection was raised against has changed."
+    },
+    {
+      "family": "AK:tf-805-form-en",
+      "jurisdiction": "AK",
+      "verdict": "approved_platform_ready",
+      "verifiedIndependently": "Yes — source bytes recomputed from the shard pack, every pinned hash recomputed from the reviewed base, and every relevant page inspected blank-versus-filled.",
+      "visualEvidence": "All 2 relevant page(s) inspected. Generated content isolated by differencing the blank source against the finalized artifact, so source-inherent marks are not read as generated text.",
+      "structuralResult": {
+        "flattened": true,
+        "acroFormFieldsSurviving": 0,
+        "annotationsSurviving": 0,
+        "xfa": false,
+        "javaScript": false,
+        "additionalActions": false,
+        "openAction": false
+      },
+      "protectedRegionResult": {
+        "courtJudgeClerkProsecutorAttorneyBlank": true,
+        "signatureBlank": true,
+        "notarizationBlank": true,
+        "serviceBlockBlank": true,
+        "decisionOrOrderRegionBlank": true,
+        "agencyRegionBlank": true
+      },
+      "historicalObjections": [
+        {
+          "objectionId": "RC-M-SERVICE-BLOCK-BY-NAME",
+          "originalObjection": "certDate: the filing date was written into the \"I certify on ___\" blank of the Certificate of Service.",
+          "closedByCurrentBytes": true,
+          "howVerified": "certDate binding absent at this base; page 2 adds nothing at all; the Certificate of Service renders blank on the current artifact."
+        },
+        {
+          "objectionId": "RC-P-SIDECAR-NONCONFORMANT",
+          "originalObjection": "Sidecar missing the same twelve provenance and result fields.",
+          "closedByCurrentBytes": true,
+          "howVerified": "All populated on the current sidecar; classification hash recomputed and matches."
+        },
+        {
+          "objectionId": "RC-C-GEOMETRY-NOT-AN-INPUT",
+          "originalObjection": "Binding decided without geometry as an input.",
+          "closedByCurrentBytes": true,
+          "howVerified": "All 16 drawn values on page 1 sit fully inside their own widget rects; page 2 draws nothing."
+        },
+        {
+          "objectionId": "RC-B-NO-APPROVAL-CHANNEL",
+          "originalObjection": "No approval channel existed.",
+          "closedByCurrentBytes": true,
+          "howVerified": "Recorded here against pinned current hashes."
+        }
+      ],
+      "observations": [],
+      "rerenderStatus": {
+        "reRenderedSinceCorrectionWave": true,
+        "historicallyFrozenCanonicalSha256": "4ff71dd8d636a2bb5340737dafb4d258bba2b0d950065654528af52d2d88a979",
+        "currentCanonicalSha256": "d8bdd48265050a708de1c59411f58da7c02bb34ef2110cd1e13657d805d37a5a",
+        "note": "artifact differs from the frozen hash: re-rendered by the correction wave"
+      },
+      "openCorrections": 0,
+      "approvalBasis": "Every participant value lies inside the widget rect of the field it is bound to, fully contained and legible; court, judge, clerk, notarization, service and decision regions are blank; the artifact is flattened with no active content; and every historical objection is closed against these exact bytes.",
+      "reapprovalBasis": "Metadata-only reapproval. Verified independently against the P0 bytes: source SHA re-hashed from the mounted corpus and unchanged; field map, canonical fixture, boundary fixture, contact sheet, contact-sheet proof, field census, source record and receipt all byte-identical to the reviewed base; every committed all-page contact-sheet raster byte-identical; classification entries, classCounts and documentOwnership unchanged; the classification file gained only discoveredFieldsOrAnchors, classifiedFieldsOrAnchors, complete and denominatorBasis; both counters equal the canonical census; the committed sidecar pins the new classification hash and changed in no other field; and rcap-platform-ready.mjs is byte-identical between the reviewed base and P0, so the gate was not weakened to create this movement.",
+      "fullVisualReviewRepeated": false,
+      "fullVisualReviewNotRepeatedBecause": "No substantive entry, map, artifact or visual byte moved. The all-page visual inspection recorded at 00f1261a stands against these exact artifact bytes, which are unchanged.",
+      "historicalObjectionsReopened": 0,
+      "historicalObjectionStatus": "None reopened. No artifact, map or evidence byte moved, so nothing a prior objection was raised against has changed."
+    }
+  ]
+}

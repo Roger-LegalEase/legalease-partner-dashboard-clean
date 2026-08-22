@@ -1,0 +1,789 @@
+{
+  "schemaVersion": "rcap-local-source-exhaustion/v1",
+  "generatedBy": "scripts/generate-rcap-local-source-exhaustion.mjs",
+  "purpose": "The record of the local search that has to be exhausted before anything is fetched from a publisher. Every candidate file in the tree, hashed against the committed Master Library index and matched against every outstanding form number by alias.",
+  "corpusMount": {
+    "declaredCorpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "officialFormsSourceDir": null,
+    "probed": [
+      "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+      "private/Nationwide Record Clearing"
+    ],
+    "mounted": false,
+    "pdfsTheIndexRecords": 329,
+    "whatWasSearchedInstead": "everything committed to this repository"
+  },
+  "searchOrder": [
+    {
+      "step": 1,
+      "search": "exact SHA-256 across every committed file",
+      "ran": true
+    },
+    {
+      "step": 2,
+      "search": "exact SHA-256 duplicates under alternate filenames",
+      "ran": true
+    },
+    {
+      "step": 3,
+      "search": "exact form number",
+      "ran": true
+    },
+    {
+      "step": 4,
+      "search": "form-number punctuation and filename aliases",
+      "ran": true
+    },
+    {
+      "step": 5,
+      "search": "Master Library manifest, through the committed index",
+      "ran": true
+    },
+    {
+      "step": 6,
+      "search": "record_clearing_forms_links.xlsx",
+      "ran": false,
+      "why": "the workbook lives in the unmounted corpus"
+    },
+    {
+      "step": 7,
+      "search": "source bundles and multi-form court kits",
+      "ran": false,
+      "why": "the bundles live in the unmounted corpus"
+    },
+    {
+      "step": 8,
+      "search": "official publisher URL recorded in repository evidence",
+      "ran": false,
+      "why": "recorded, but retrieval is refused by the environment"
+    },
+    {
+      "step": 9,
+      "search": "official public source retrieval",
+      "ran": false,
+      "why": "every publisher host returns 403 at the proxy's CONNECT"
+    }
+  ],
+  "theDecoyFinding": {
+    "statement": "29 of the 39 outstanding rows have a filename that matches an outstanding form number, and every one of those matches is LegalEase output rather than a court's.",
+    "whatTheyAre": "tmp/official-pdf-shadow-batch holds overlay review drafts: the official page content with an 'RCAP all-50 overlay review draft' banner, a live 'Clear All Data' button and painted annotation zones. tmp/review-inbox holds filled sample packets.",
+    "whyItMatters": "Each is named for the form it was built from, so an alias search finds it first. Accepting one would record a source that no court ever issued, with a hash that matches nothing.",
+    "whatTheyAreGoodFor": "Reading a visible revision off the page. The VA CC-1473 draft prints 'FORM CC-1473 MASTER 07/24', while the corpus index holds CC-1473 at REV-2026-07 — which is drift evidence for the source lane, not a source."
+  },
+  "totals": {
+    "filesScanned": 940,
+    "pdfsHashed": 861,
+    "masterLibraryFragmentsFoundLocally": 6,
+    "reviewedFamilySourcesFoundLocally": 1,
+    "reviewedFamilySourcesStillUnreadable": 26,
+    "outstandingRows": 39,
+    "rowsWithAnAliasHit": 29,
+    "rowsWhoseHitsAreAllGeneratedOutput": 29,
+    "rowsResolvedToAnOfficialBinary": 0
+  },
+  "conclusion": "The local material is exhausted and resolves no outstanding row. Steps 6 through 9 need either the corpus mounted or an egress allowance; neither exists here, so no source can be accepted and no row moves.",
+  "masterLibraryFragmentsFoundLocally": [
+    {
+      "localPath": "data/rcap-all50/hard-forms/delaware/family-court-form-281/evidence/DE_FORM-1021IP_adult-expungement-instruction-packet_REV-2023-10.pdf",
+      "corpusPath": "STATES/DE/03_INSTRUCTIONS/DE__INSTRUCTIONS__FORM-1021IP__adult-expungement-instruction-packet__REV-2023-10__EN.pdf",
+      "state": "DE",
+      "formNumber": "FORM-1021IP",
+      "revision": "REV-2023-10",
+      "sha256": "f2c8a0b1b8a4b3d82e4041f25b8bbf62a61e8e93b8d243274c06aa1cc11fb602",
+      "isAReviewedFamilySource": false
+    },
+    {
+      "localPath": "data/rcap-all50/hard-forms/maine/cr-289-motion-to-seal-prostitution-conviction/evidence/ME_CR-289_REV-2024-10.pdf",
+      "corpusPath": "STATES/ME/05_SOURCE_GATED/ME__SOURCE-GATED__CR-289__ada-notice-the-maine-judicial-branch-complies-with-the-americans-with-disabilities-act-ada__REV-2024-10__EN.pdf",
+      "state": "ME",
+      "formNumber": "CR-289",
+      "revision": "REV-2024-10",
+      "sha256": "bbf89387690d1ab17984c5b799366a26196e8d71b5172bc2768f593b819a7423",
+      "isAReviewedFamilySource": false
+    },
+    {
+      "localPath": "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223a1.pdf",
+      "corpusPath": "STATES/SC/02_PACKET_FORMS/SC__FORM__SCCA-223A1__order-for-destruction-of-arrest-records__REV-2026-04__EN.pdf",
+      "state": "SC",
+      "formNumber": "SCCA-223A1",
+      "revision": "REV-2026-04",
+      "sha256": "3c3daacf4c246fe5f33f09b971948c489e1343076b5d0ddc47babf9a12cf15b7",
+      "isAReviewedFamilySource": false
+    },
+    {
+      "localPath": "data/rcap-codex/remaining-tracks/source-receipts/sc-scca-223d1.pdf",
+      "corpusPath": "STATES/SC/05_SOURCE_GATED/SC__SOURCE-GATED__SCCA-223D1__expungement-objection-transmittal__REV-2016-05__EN.pdf",
+      "state": "SC",
+      "formNumber": "SCCA-223D1",
+      "revision": "REV-2016-05",
+      "sha256": "988ad4b5f6054d1b47a459358fb409ac4c76b09f281b6a12650ff173f0158776",
+      "isAReviewedFamilySource": false
+    },
+    {
+      "localPath": "data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf",
+      "corpusPath": "STATES/WI/02_PACKET_FORMS/WI__FORM__CR-266__cr-266-05-24-petition-to-expunge-criminal-court-record-of-conviction-non-probation-non-inc__REV-2024-05__EN.pdf",
+      "state": "WI",
+      "formNumber": "CR-266",
+      "revision": "REV-2024-05",
+      "sha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412",
+      "isAReviewedFamilySource": true
+    },
+    {
+      "localPath": "reference/pennsylvania/222612-petitionforexpungement790030912-000077.pdf",
+      "corpusPath": "STATES/PA/02_PACKET_FORMS/PA__FORM__PA-RCRIM-P-790-PETITION__pa-r-crim-p-790-petition__REV-2009-03__EN.pdf",
+      "state": "PA",
+      "formNumber": "PA-RCRIM-P-790-PETITION",
+      "revision": "REV-2009-03",
+      "sha256": "fc06486e75773d4f6d81c263706827ab7f9facfb6dde9907cbee120c063289de",
+      "isAReviewedFamilySource": false
+    }
+  ],
+  "reviewedFamilySourcesFoundLocally": [
+    {
+      "familyId": "WI:cr-266-form-en",
+      "localPath": "data/rcap-codex/remaining-tracks/source-receipts/wi-cr-266.pdf",
+      "sha256": "9f94674c0f931b66654d39ecfd074d897880f71523592bf83f2bd0dd34812412"
+    }
+  ],
+  "aliasSearch": [
+    {
+      "familyId": "AL:al-expungement-petition",
+      "jurisdiction": "AL",
+      "formNumberCandidates": [
+        "al-expungement-petition"
+      ],
+      "aliasHits": 0,
+      "generatedOutputDecoys": 0,
+      "decoyExamples": [],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "AL:cr-65-expunge-petition-10-2024",
+      "jurisdiction": "AL",
+      "formNumberCandidates": [
+        "cr-65-expunge-petition-10-2024",
+        "CR-65"
+      ],
+      "aliasHits": 4,
+      "generatedOutputDecoys": 4,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/alabama-legalease-alabama-cr-65-expunge-petition-10-2024-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/alabama-legalease-alabama-cr-65a-order-on-petition-for-expungement-10-2024-sample.pdf",
+        "tmp/review-inbox/all50/alabama/sample-packets/alabama-legalease-alabama-cr-65-expunge-petition-10-2024-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "AL:cr-65a-order-on-petition-for-expungement-10-2024",
+      "jurisdiction": "AL",
+      "formNumberCandidates": [
+        "cr-65a-order-on-petition-for-expungement-10-2024",
+        "CR-65A"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/alabama-legalease-alabama-cr-65a-order-on-petition-for-expungement-10-2024-sample.pdf",
+        "tmp/review-inbox/all50/alabama/sample-packets/alabama-legalease-alabama-cr-65a-order-on-petition-for-expungement-10-2024-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "AL:criminal-forms",
+      "jurisdiction": "AL",
+      "formNumberCandidates": [
+        "criminal-forms"
+      ],
+      "aliasHits": 0,
+      "generatedOutputDecoys": 0,
+      "decoyExamples": [],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "AL:criminal-record-expungement",
+      "jurisdiction": "AL",
+      "formNumberCandidates": [
+        "criminal-record-expungement"
+      ],
+      "aliasHits": 0,
+      "generatedOutputDecoys": 0,
+      "decoyExamples": [],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "AK:ak-record-relief-forms",
+      "jurisdiction": "AK",
+      "formNumberCandidates": [
+        "ak-record-relief-forms"
+      ],
+      "aliasHits": 0,
+      "generatedOutputDecoys": 0,
+      "decoyExamples": [],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "AK:requesttosealcriminfo",
+      "jurisdiction": "AK",
+      "formNumberCandidates": [
+        "requesttosealcriminfo"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/alaska-legalease-alaska-requesttosealcriminfo-sample.pdf",
+        "tmp/review-inbox/all50/alaska/sample-packets/alaska-legalease-alaska-requesttosealcriminfo-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "AR:3-misdemeanor-petition-8-01-2023",
+      "jurisdiction": "AR",
+      "formNumberCandidates": [
+        "3-misdemeanor-petition-8-01-2023"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/arkansas-legalease-arkanasa-3-misdemeanor-petition-8-01-2023-sample.pdf",
+        "tmp/review-inbox/all50/arkansas/sample-packets/arkansas-legalease-arkanasa-3-misdemeanor-petition-8-01-2023-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f",
+      "jurisdiction": "AR",
+      "formNumberCandidates": [
+        "7-nolle-prosequi-dismissed-acquittal-petition-2020-f"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/arkansas-legalease-arkanasa-7-nolle-prosequi-dismissed-acquittal-petition-2020-f-sample.pdf",
+        "tmp/review-inbox/all50/arkansas/sample-packets/arkansas-legalease-arkanasa-7-nolle-prosequi-dismissed-acquittal-petition-2020-f-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "AR:arkansas-petition-order-forms",
+      "jurisdiction": "AR",
+      "formNumberCandidates": [
+        "arkansas-petition-order-forms"
+      ],
+      "aliasHits": 0,
+      "generatedOutputDecoys": 0,
+      "decoyExamples": [],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "AR:felony-petition-form-f",
+      "jurisdiction": "AR",
+      "formNumberCandidates": [
+        "felony-petition-form-f"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/arkansas-legalease-arkanasa-felony-petition-form-f-sample.pdf",
+        "tmp/review-inbox/all50/arkansas/sample-packets/arkansas-legalease-arkanasa-felony-petition-form-f-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "KY:496-2",
+      "jurisdiction": "KY",
+      "formNumberCandidates": [
+        "496-2",
+        "AOC-496.2"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/kentucky-legalease-kentucky-496-2-sample.pdf",
+        "tmp/review-inbox/all50/kentucky/sample-packets/kentucky-legalease-kentucky-496-2-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "KY:496-3",
+      "jurisdiction": "KY",
+      "formNumberCandidates": [
+        "496-3",
+        "AOC-496.3"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/kentucky-legalease-kentucky-496-3-sample.pdf",
+        "tmp/review-inbox/all50/kentucky/sample-packets/kentucky-legalease-kentucky-496-3-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "KY:497-2",
+      "jurisdiction": "KY",
+      "formNumberCandidates": [
+        "497-2",
+        "AOC-497.2"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/kentucky-legalease-kentucky-497-2-sample.pdf",
+        "tmp/review-inbox/all50/kentucky/sample-packets/kentucky-legalease-kentucky-497-2-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "KY:jv-29",
+      "jurisdiction": "KY",
+      "formNumberCandidates": [
+        "jv-29",
+        "AOC-JV-29",
+        "JV-29"
+      ],
+      "aliasHits": 4,
+      "generatedOutputDecoys": 4,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/kentucky-legalease-kentucky-jv-29-1-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/kentucky-legalease-kentucky-jv-29-sample.pdf",
+        "tmp/review-inbox/all50/kentucky/sample-packets/kentucky-legalease-kentucky-jv-29-1-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "KY:jv-29-1",
+      "jurisdiction": "KY",
+      "formNumberCandidates": [
+        "jv-29-1",
+        "AOC-JV-29.1",
+        "JV-29-1"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/kentucky-legalease-kentucky-jv-29-1-sample.pdf",
+        "tmp/review-inbox/all50/kentucky/sample-packets/kentucky-legalease-kentucky-jv-29-1-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "KY:jv-30",
+      "jurisdiction": "KY",
+      "formNumberCandidates": [
+        "jv-30",
+        "AOC-JV-30",
+        "JV-30"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/kentucky-legalease-kentucky-jv-30-sample.pdf",
+        "tmp/review-inbox/all50/kentucky/sample-packets/kentucky-legalease-kentucky-jv-30-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "KY:kentucky-expungement-forms",
+      "jurisdiction": "KY",
+      "formNumberCandidates": [
+        "kentucky-expungement-forms"
+      ],
+      "aliasHits": 0,
+      "generatedOutputDecoys": 0,
+      "decoyExamples": [],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "NE:cc-6-11",
+      "jurisdiction": "NE",
+      "formNumberCandidates": [
+        "cc-6-11",
+        "CC-6-11"
+      ],
+      "aliasHits": 4,
+      "generatedOutputDecoys": 4,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/nebraska-legalease-nebraska-cc-6-11-2-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/nebraska-legalease-nebraska-cc-6-11-sample.pdf",
+        "tmp/review-inbox/all50/nebraska/sample-packets/nebraska-legalease-nebraska-cc-6-11-2-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "NE:cc-6-11-2",
+      "jurisdiction": "NE",
+      "formNumberCandidates": [
+        "cc-6-11-2",
+        "CC-6-11-2"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/nebraska-legalease-nebraska-cc-6-11-2-sample.pdf",
+        "tmp/review-inbox/all50/nebraska/sample-packets/nebraska-legalease-nebraska-cc-6-11-2-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "NE:cc-6-12",
+      "jurisdiction": "NE",
+      "formNumberCandidates": [
+        "cc-6-12",
+        "CC-6-12"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/nebraska-legalease-nebraska-cc-6-12-sample.pdf",
+        "tmp/review-inbox/all50/nebraska/sample-packets/nebraska-legalease-nebraska-cc-6-12-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "NC:cr287-1",
+      "jurisdiction": "NC",
+      "formNumberCandidates": [
+        "cr287-1",
+        "AOC-CR-287",
+        "CR-287"
+      ],
+      "aliasHits": 4,
+      "generatedOutputDecoys": 4,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/north-carolina-legalease-north-carolina-cr287-1-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/north-carolina-legalease-north-carolina-cr287-instr-3-sample.pdf",
+        "tmp/review-inbox/all50/north-carolina/sample-packets/north-carolina-legalease-north-carolina-cr287-1-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "NC:cr297",
+      "jurisdiction": "NC",
+      "formNumberCandidates": [
+        "cr297",
+        "AOC-CR-297",
+        "CR-297"
+      ],
+      "aliasHits": 4,
+      "generatedOutputDecoys": 4,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/north-carolina-legalease-north-carolina-cr297-instr-2-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/north-carolina-legalease-north-carolina-cr297-sample.pdf",
+        "tmp/review-inbox/all50/north-carolina/sample-packets/north-carolina-legalease-north-carolina-cr297-instr-2-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "NC:cr298-1",
+      "jurisdiction": "NC",
+      "formNumberCandidates": [
+        "cr298-1",
+        "AOC-CR-298",
+        "CR-298"
+      ],
+      "aliasHits": 4,
+      "generatedOutputDecoys": 4,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/north-carolina-legalease-north-carolina-cr298-1-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/north-carolina-legalease-north-carolina-cr298-instr-7-sample.pdf",
+        "tmp/review-inbox/all50/north-carolina/sample-packets/north-carolina-legalease-north-carolina-cr298-1-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "NC:expungements",
+      "jurisdiction": "NC",
+      "formNumberCandidates": [
+        "expungements"
+      ],
+      "aliasHits": 19,
+      "generatedOutputDecoys": 16,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/illinois-legalease-illinois-exp-ad-additional-cases-expungement-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/illinois-legalease-illinois-illinois-expungement-sealing-agent-reference-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/maryland-legalease-maryland-maryland-expungement-shielding-agent-reference-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [
+        "reference/dc/DC-Expungement-Sealing-Agent-Reference.pdf",
+        "reference/illinois/Illinois-Expungement-Sealing-Agent-Reference.pdf",
+        "reference/pennsylvania/Pennsylvania-Expungement-Sealing-Agent-Reference.pdf"
+      ],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "NC:forms",
+      "jurisdiction": "NC",
+      "formNumberCandidates": [
+        "forms"
+      ],
+      "aliasHits": 25,
+      "generatedOutputDecoys": 22,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/georgia-legalease-georgia-request-to-restrict-record-application-and-instructions-form-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/maryland-legalease-maryland-legalease-maryland-forms-ccdccr072a-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/maryland-legalease-maryland-legalease-maryland-forms-ccdccr072b-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [
+        "data/rcap-codex/remaining-tracks/source-receipts/va-district-forms-list.pdf",
+        "reference/illinois/il-expungement-companion-forms.html",
+        "reference/texas-harris/tx-harris-expunction-nondisclosure-forms.html"
+      ],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "NC:forms-2",
+      "jurisdiction": "NC",
+      "formNumberCandidates": [
+        "forms-2"
+      ],
+      "aliasHits": 0,
+      "generatedOutputDecoys": 0,
+      "decoyExamples": [],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "NC:nc-expunction-petition",
+      "jurisdiction": "NC",
+      "formNumberCandidates": [
+        "nc-expunction-petition"
+      ],
+      "aliasHits": 0,
+      "generatedOutputDecoys": 0,
+      "decoyExamples": [],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "VT:200-00129-petition-to-expunge-criminal-history",
+      "jurisdiction": "VT",
+      "formNumberCandidates": [
+        "200-00129-petition-to-expunge-criminal-history",
+        "200-00129"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/vermont-legalease-vermont-200-00129-petition-to-expunge-criminal-history-sample.pdf",
+        "tmp/review-inbox/all50/vermont/sample-packets/vermont-legalease-vermont-200-00129-petition-to-expunge-criminal-history-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record",
+      "jurisdiction": "VT",
+      "formNumberCandidates": [
+        "200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record",
+        "200-00130A"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/vermont-legalease-vermont-200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record-sample.pdf",
+        "tmp/review-inbox/all50/vermont/sample-packets/vermont-legalease-vermont-200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "VT:200-00131",
+      "jurisdiction": "VT",
+      "formNumberCandidates": [
+        "200-00131"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/vermont-legalease-vermont-200-00131-sample.pdf",
+        "tmp/review-inbox/all50/vermont/sample-packets/vermont-legalease-vermont-200-00131-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "VT:200-00132-stipulation-to-seal-criminal-history-record-order",
+      "jurisdiction": "VT",
+      "formNumberCandidates": [
+        "200-00132-stipulation-to-seal-criminal-history-record-order",
+        "200-00132"
+      ],
+      "aliasHits": 4,
+      "generatedOutputDecoys": 4,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/vermont-legalease-vermont-200-00132-stipulation-to-seal-criminal-history-record-order-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/vermont-legalease-vermont-200-00132a-stipulation-to-expunge-criminal-history-record-order-sample.pdf",
+        "tmp/review-inbox/all50/vermont/sample-packets/vermont-legalease-vermont-200-00132-stipulation-to-seal-criminal-history-record-order-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "VT:200-00132a-stipulation-to-expunge-criminal-history-record-order",
+      "jurisdiction": "VT",
+      "formNumberCandidates": [
+        "200-00132a-stipulation-to-expunge-criminal-history-record-order",
+        "200-00132A"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/vermont-legalease-vermont-200-00132a-stipulation-to-expunge-criminal-history-record-order-sample.pdf",
+        "tmp/review-inbox/all50/vermont/sample-packets/vermont-legalease-vermont-200-00132a-stipulation-to-expunge-criminal-history-record-order-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "VT:200-00631",
+      "jurisdiction": "VT",
+      "formNumberCandidates": [
+        "200-00631"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/vermont-legalease-vermont-200-00631-sample.pdf",
+        "tmp/review-inbox/all50/vermont/sample-packets/vermont-legalease-vermont-200-00631-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "VT:400-00171",
+      "jurisdiction": "VT",
+      "formNumberCandidates": [
+        "400-00171"
+      ],
+      "aliasHits": 2,
+      "generatedOutputDecoys": 2,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/vermont-legalease-vermont-400-00171-sample.pdf",
+        "tmp/review-inbox/all50/vermont/sample-packets/vermont-legalease-vermont-400-00171-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "VT:application-waive-filing-fees-and-service-costs",
+      "jurisdiction": "VT",
+      "formNumberCandidates": [
+        "application-waive-filing-fees-and-service-costs"
+      ],
+      "aliasHits": 0,
+      "generatedOutputDecoys": 0,
+      "decoyExamples": [],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "VA:cc1473",
+      "jurisdiction": "VA",
+      "formNumberCandidates": [
+        "cc1473",
+        "CC-1473"
+      ],
+      "aliasHits": 4,
+      "generatedOutputDecoys": 4,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/virginia-legalease-virginia-cc1473-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/virginia-legalease-virginia-cc1473inst-sample.pdf",
+        "tmp/review-inbox/all50/virginia/sample-packets/virginia-legalease-virginia-cc1473-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "VA:cc1473inst",
+      "jurisdiction": "VA",
+      "formNumberCandidates": [
+        "cc1473inst",
+        "CC-1473"
+      ],
+      "aliasHits": 4,
+      "generatedOutputDecoys": 4,
+      "decoyExamples": [
+        "tmp/official-pdf-shadow-batch/all50/virginia-legalease-virginia-cc1473-sample.pdf",
+        "tmp/official-pdf-shadow-batch/all50/virginia-legalease-virginia-cc1473inst-sample.pdf",
+        "tmp/review-inbox/all50/virginia/sample-packets/virginia-legalease-virginia-cc1473-sample.pdf"
+      ],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    },
+    {
+      "familyId": "VA:va-expungement-sealing-forms",
+      "jurisdiction": "VA",
+      "formNumberCandidates": [
+        "va-expungement-sealing-forms"
+      ],
+      "aliasHits": 0,
+      "generatedOutputDecoys": 0,
+      "decoyExamples": [],
+      "crossJurisdictionNoise": [],
+      "officialCandidates": [],
+      "resolvedToAnOfficialBinary": false
+    }
+  ]
+}

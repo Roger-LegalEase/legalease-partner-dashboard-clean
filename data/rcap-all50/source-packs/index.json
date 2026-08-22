@@ -1,0 +1,343 @@
+{
+  "schemaVersion": "rcap-source-pack-index/v2",
+  "generatedBy": "scripts/generate-rcap-source-packs.mjs",
+  "purpose": "One pack per assigned batch: the court's own PDFs at their canonical paths, with the digest, byte length and visible form expectation each must satisfy.",
+  "batchSizeRule": "four to eight families per pack. The batch count is taken from the eight-family ceiling and the families are spread evenly across it, so no lane ends on a remainder batch below the floor.",
+  "ignoredOutput": {
+    "path": "tmp/source-packs",
+    "insideRepository": true,
+    "ignoredByGit": true,
+    "basis": "git check-ignore refuses to track a .zip written here"
+  },
+  "corpusMounted": true,
+  "corpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+  "zipsBuilt": 0,
+  "whyNotBuilt": null,
+  "refusalRule": "a source that is absent, or that does not hash to what its family's record pins, fails its pack. Nothing is substituted: a fixture, contact sheet, sample or other LegalEase output inside a source pack makes every artifact rendered from it derived from our own previous output.",
+  "lanes": [
+    {
+      "lane": "family-rerender-lane-1",
+      "purpose": "the families family-rerender lane 1 re-renders against the shared corrections",
+      "families": 21,
+      "packs": 3,
+      "batchSizes": [
+        7,
+        7,
+        7
+      ]
+    },
+    {
+      "lane": "family-rerender-lane-2",
+      "purpose": "the families family-rerender lane 2 re-renders against the shared corrections",
+      "families": 28,
+      "packs": 4,
+      "batchSizes": [
+        7,
+        7,
+        7,
+        7
+      ]
+    }
+  ],
+  "coverage": {
+    "nonRetiredFamiliesWithAPinnedSource": 75,
+    "familiesCoveredByAPack": 49,
+    "distinctOfficialFilesAcrossAllPacks": 39,
+    "familiesWithNoPinnedSource": 24,
+    "familiesPinnedThroughABundleReconciliation": 13,
+    "note": "this run packs the two assigned rerender lanes only, so coverage is measured against those assignments rather than against the whole corpus. A family whose record predates the v2 schema is pinned through its bundle reconciliation, which names the same canonical path under the same digest. Families with no pinned source at all are unpackable by construction and are listed below."
+  },
+  "sourceRequired": {
+    "population": 24,
+    "derivedFrom": "non-retired family packages under data/rcap-all50/overlays/production whose source-record.json names no canonical Master Library path — neither a v2 canonicalBundlePath with a digest, nor a bundle reconciliation matched by sha256",
+    "registerTotal": 37,
+    "registerTotalMeans": "assets whose pinned local binary is absent from this clone. It does not ask whether the Master Library holds the same document.",
+    "ofThoseReconciledToALibraryAsset": 13,
+    "controllingFactFromTheAssignment": 37,
+    "reconciliation": "the register reports missingPdfBinaries = 37, and origin/main reports the same figure, so nothing on this branch moved it. Those two counts answer a different question from this one: this factory asks whether the official bytes can be packed. 13 of that population reconcile to a Master Library asset by sha256 — their bytes are in the library at a named canonical path, under the digest their own record pins — so they are packed here rather than acquired. That leaves 24 families with no library path at all, and those are the real acquisition targets. The assignment's controlling fact is 37. This factory adjudicates no denominator and hand-edits no total: it records each number, what each counts, and how each was derived.",
+    "whyTheyAreNotAWaitCondition": "none of these families can appear in a pack, so pack generation for the rerender, review and source-direct lanes does not depend on resolving them.",
+    "families": [
+      {
+        "familyId": "AK:ak-record-relief-forms",
+        "jurisdiction": "AK",
+        "fileName": "ak-record-relief-forms.html",
+        "isPdf": false,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "AL:al-expungement-petition",
+        "jurisdiction": "AL",
+        "fileName": "al-expungement-petition.html",
+        "isPdf": false,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "AL:cr-65-expunge-petition-10-2024",
+        "jurisdiction": "AL",
+        "fileName": "cr-65-expunge-petition-10-2024.pdf",
+        "isPdf": true,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "AL:cr-65a-order-on-petition-for-expungement-10-2024",
+        "jurisdiction": "AL",
+        "fileName": "cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+        "isPdf": true,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "AL:criminal-forms",
+        "jurisdiction": "AL",
+        "fileName": "criminal-forms.html",
+        "isPdf": false,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "AL:criminal-record-expungement",
+        "jurisdiction": "AL",
+        "fileName": "criminal-record-expungement.html",
+        "isPdf": false,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "AR:3-misdemeanor-petition-8-01-2023",
+        "jurisdiction": "AR",
+        "fileName": "3-Misdemeanor-Petition-8_01_2023.pdf",
+        "isPdf": true,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "AR:arkansas-petition-order-forms",
+        "jurisdiction": "AR",
+        "fileName": "Arkansas-Petition-Order-Forms.html",
+        "isPdf": false,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "KY:497-2",
+        "jurisdiction": "KY",
+        "fileName": "497.2.pdf",
+        "isPdf": true,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "KY:jv-29",
+        "jurisdiction": "KY",
+        "fileName": "JV-29.pdf",
+        "isPdf": true,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "KY:jv-29-1",
+        "jurisdiction": "KY",
+        "fileName": "JV-29.1.pdf",
+        "isPdf": true,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "KY:jv-30",
+        "jurisdiction": "KY",
+        "fileName": "JV-30.pdf",
+        "isPdf": true,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "KY:kentucky-expungement-forms",
+        "jurisdiction": "KY",
+        "fileName": "Kentucky-Expungement-Forms.html",
+        "isPdf": false,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "NC:cr297",
+        "jurisdiction": "NC",
+        "fileName": "cr297.pdf",
+        "isPdf": true,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 2,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset; a superseding candidate exists but re-pinning is a legal-design decision, and packing the candidate would substitute a different document for this one"
+      },
+      {
+        "familyId": "NC:expungements",
+        "jurisdiction": "NC",
+        "fileName": "expungements.html",
+        "isPdf": false,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "NC:forms",
+        "jurisdiction": "NC",
+        "fileName": "forms.html",
+        "isPdf": false,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "NC:forms-2",
+        "jurisdiction": "NC",
+        "fileName": "forms-2.html",
+        "isPdf": false,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "NC:nc-expunction-petition",
+        "jurisdiction": "NC",
+        "fileName": "nc-expunction-petition.html",
+        "isPdf": false,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "NE:cc-6-11",
+        "jurisdiction": "NE",
+        "fileName": "CC-6-11.pdf",
+        "isPdf": true,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "VA:cc1473",
+        "jurisdiction": "VA",
+        "fileName": "cc1473.pdf",
+        "isPdf": true,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 1,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset; a superseding candidate exists but re-pinning is a legal-design decision, and packing the candidate would substitute a different document for this one"
+      },
+      {
+        "familyId": "VA:cc1473inst",
+        "jurisdiction": "VA",
+        "fileName": "cc1473inst.pdf",
+        "isPdf": true,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 1,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset; a superseding candidate exists but re-pinning is a legal-design decision, and packing the candidate would substitute a different document for this one"
+      },
+      {
+        "familyId": "VA:va-expungement-sealing-forms",
+        "jurisdiction": "VA",
+        "fileName": "va-expungement-sealing-forms.html",
+        "isPdf": false,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "VT:400-00171",
+        "jurisdiction": "VT",
+        "fileName": "400-00171.pdf",
+        "isPdf": true,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      },
+      {
+        "familyId": "VT:application-waive-filing-fees-and-service-costs",
+        "jurisdiction": "VT",
+        "fileName": "application-waive-filing-fees-and-service-costs.html",
+        "isPdf": false,
+        "lifecycleClassification": "true_hash_missing",
+        "supersedingCandidates": 0,
+        "whyNotPackable": "the pinned hash appears in no Edition 1 asset and no superseding candidate was identified"
+      }
+    ]
+  },
+  "packs": [
+    {
+      "packId": "family-rerender-lane-1-batch-01",
+      "lane": "family-rerender-lane-1",
+      "familyCount": 7,
+      "files": 7,
+      "unresolved": 0,
+      "built": false,
+      "zip": null
+    },
+    {
+      "packId": "family-rerender-lane-1-batch-02",
+      "lane": "family-rerender-lane-1",
+      "familyCount": 7,
+      "files": 7,
+      "unresolved": 0,
+      "built": false,
+      "zip": null
+    },
+    {
+      "packId": "family-rerender-lane-1-batch-03",
+      "lane": "family-rerender-lane-1",
+      "familyCount": 7,
+      "files": 6,
+      "unresolved": 0,
+      "built": false,
+      "zip": null
+    },
+    {
+      "packId": "family-rerender-lane-2-batch-01",
+      "lane": "family-rerender-lane-2",
+      "familyCount": 7,
+      "files": 7,
+      "unresolved": 0,
+      "built": false,
+      "zip": null
+    },
+    {
+      "packId": "family-rerender-lane-2-batch-02",
+      "lane": "family-rerender-lane-2",
+      "familyCount": 7,
+      "files": 5,
+      "unresolved": 0,
+      "built": false,
+      "zip": null
+    },
+    {
+      "packId": "family-rerender-lane-2-batch-03",
+      "lane": "family-rerender-lane-2",
+      "familyCount": 7,
+      "files": 4,
+      "unresolved": 0,
+      "built": false,
+      "zip": null
+    },
+    {
+      "packId": "family-rerender-lane-2-batch-04",
+      "lane": "family-rerender-lane-2",
+      "familyCount": 7,
+      "files": 4,
+      "unresolved": 0,
+      "built": false,
+      "zip": null
+    }
+  ]
+}

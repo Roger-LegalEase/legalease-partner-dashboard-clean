@@ -1,0 +1,53 @@
+{
+  "id": "reviewer-b",
+  "lane": "LANE-REVIEW",
+  "role": "independent review",
+  "assetIds": [],
+  "familyIds": [],
+  "allowedPaths": [
+    "data/rcap-all50/gate-b-assignments/reviewer-b.json",
+    "data/rcap-all50/pdf-independent-reviews/<own-batch>-manifest.json",
+    "data/rcap-all50/pdf-independent-reviews/<own-batch>-group-*.review.json",
+    "docs/record-clearing/pdf-independent-reviews/<own-batch>/**"
+  ],
+  "prohibitedPaths": [
+    "src/**",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json",
+    "next.config.ts",
+    "supabase/migrations/**",
+    "deploy/rcap-render-worker/**",
+    ".github/workflows/**",
+    "scripts/rcap-official-forms/rcap-platform-ready.mjs",
+    "data/rcap-all50/pdf-independent-reviews/*-manifest.json",
+    "data/rcap-all50/pdf-independent-reviews/*-group-*.review.json",
+    "data/rcap-all50/overlays/production/**",
+    "another reviewer's batch files",
+    "any implementation or evidence this shard produced"
+  ],
+  "rootBlocker": "no asset is review-ready: every retained asset carries an open source, render or classification condition, so assigning one now would mean reviewing bytes that are about to change",
+  "requiredSourceInput": "the Edition 1 Master Library extract mounted, with RCAP_BUNDLE_EXTRACT exported, so the official source SHA-256 can be recomputed rather than read back from a record",
+  "expectedOutput": "one canonical batch — manifest, group review file and verdict rollup — carrying a verdict for each assigned family, with every referenced hash recomputed from disk and the official source SHA-256 recomputed from the mounted Edition 1 bytes",
+  "focusedVerifier": "node scripts/verify-rcap-pdf-independent-review-records.mjs",
+  "stopCondition": "no input: every assigned family is waiting on a rerender. Do not review anything until a rerender shard lands new bytes and the captain re-cuts this assignment.",
+  "primaryOwner": "independent review shard",
+  "terminalOutcomeMix": {},
+  "terminalWork": [],
+  "mustPacketAssets": [],
+  "blockedAssetsDoNotHoldOthers": true,
+  "baseSha": "b375b13a3c021bf424ecb4e0441400fff161f46d",
+  "globalProhibitedPaths": [
+    "src/**",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json",
+    "next.config.ts",
+    "supabase/migrations/**",
+    "deploy/rcap-render-worker/**",
+    ".github/workflows/**",
+    "scripts/rcap-official-forms/rcap-platform-ready.mjs",
+    "data/rcap-all50/pdf-independent-reviews/*-manifest.json",
+    "data/rcap-all50/pdf-independent-reviews/*-group-*.review.json"
+  ]
+}

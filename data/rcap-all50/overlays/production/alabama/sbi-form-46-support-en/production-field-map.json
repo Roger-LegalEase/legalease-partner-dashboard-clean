@@ -34,396 +34,565 @@
   "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
-      "field": "Full Name First Middle Last Suffix",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
       "field": "Applicant Current Address",
       "class": "participant",
-      "factId": "participant.street_address"
-    },
-    {
-      "field": "City",
-      "class": "participant",
-      "factId": "participant.city"
-    },
-    {
-      "field": "State",
-      "class": "participant",
-      "factId": "participant.state"
-    },
-    {
-      "field": "Zip Code",
-      "class": "participant",
-      "factId": "participant.zip"
-    },
-    {
-      "field": "Date of Birth",
-      "class": "participant",
-      "factId": "participant.date_of_birth"
-    },
-    {
-      "field": "Issuing State",
-      "class": "participant",
-      "factId": "participant.state"
-    },
-    {
-      "field": "Work Phone",
-      "class": "participant",
-      "factId": "participant.phone"
-    },
-    {
-      "field": "Contractor Name",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": "Applicant Current Address"
     },
     {
       "field": "Work Email Address",
       "class": "participant",
-      "factId": "participant.email"
-    },
-    {
-      "field": "Supervisor Name",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "City State and Zip",
-      "class": "participant",
-      "factId": "participant.city"
+      "factId": "participant.email",
+      "factBasis": "field_name",
+      "effectiveLabel": "Work Email Address"
     },
     {
       "field": "City State and Zip_2",
       "class": "participant",
-      "factId": "participant.city"
+      "factId": "participant.city",
+      "factBasis": "field_name",
+      "effectiveLabel": "City, State and Zip City, State and Zip"
     }
   ],
   "bindingRefusals": [
     {
+      "field": "Full Name First Middle Last Suffix",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
+    {
       "field": "Male",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "Female",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "AliasesNickname",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "City",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "State",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "Zip Code",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "SSN",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "Date of Birth",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "MMDDYYYY Drivers License Number",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
+    },
+    {
+      "field": "Issuing State",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "White",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "Black",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "Asian",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "Indian",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "Other please specify",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
+    },
+    {
+      "field": "Work Phone",
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "Employer Name",
       "reason": "protected_category",
-      "category": "outside_party"
+      "category": "outside_party",
+      "regionHeading": null
+    },
+    {
+      "field": "Contractor Name",
+      "reason": "protected_category",
+      "category": "outside_party",
+      "regionHeading": null
     },
     {
       "field": "State Agency",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "Job RoleClassification",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
+    },
+    {
+      "field": "Supervisor Name",
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     },
     {
       "field": "Completed Application signed by applicant and two witnesses OR notarized",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "The required copy of my valid photo identification",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "A classifiable copy of my own fingerprints taken by an authorized law enforcement agency as required",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "If applying for state employmentlicensurecertification reference that agencys fee requirements for a backgroundcheck",
       "reason": "protected_category",
-      "category": "money"
+      "category": "money",
+      "regionHeading": null
     },
     {
       "field": "PERSONAL REQUESTS ONLY The required 2500 administrative fee must be in the form of a money order or Cashiers check",
       "reason": "protected_category",
-      "category": "money"
+      "category": "money",
+      "regionHeading": null
     },
     {
       "field": "Name  Address of Requesting Agency or Authorized Agent",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "Applicant Signature",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "Date",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "Name of Witness",
       "reason": "protected_category",
-      "category": "outside_party"
+      "category": "outside_party",
+      "regionHeading": null
     },
     {
       "field": "Name of Witness_2",
       "reason": "protected_category",
-      "category": "outside_party"
+      "category": "outside_party",
+      "regionHeading": null
     },
     {
       "field": "Address of Witness",
       "reason": "protected_category",
-      "category": "outside_party"
+      "category": "outside_party",
+      "regionHeading": null
     },
     {
       "field": "Address of Witness_2",
       "reason": "protected_category",
-      "category": "outside_party"
+      "category": "outside_party",
+      "regionHeading": null
+    },
+    {
+      "field": "City State and Zip",
+      "reason": "protected_category",
+      "category": "outside_party",
+      "regionHeading": null
     },
     {
       "field": "Sworn to and subscribed before me this",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "day of",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Notary Signature",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "My Commission Expires",
       "reason": "protected_category",
-      "category": "notarization"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "FOR ALEA OFFICIAL USE ONLY TCN",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "SID AL",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "Billed",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "field": "Paid",
       "reason": "protected_category",
-      "category": "money"
+      "category": "money",
+      "regionHeading": null
     },
     {
       "field": "No Charge",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "field": "Received By Initials",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "Processed By initials",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "Check",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "field": "Background Check Qty Total",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "Status",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "Initials",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "Certified Letter Qty Total",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "money",
+      "regionHeading": null
     },
     {
       "field": "I",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Alabama Law Enforcement Agency Criminal Records and Identification Unit on",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "AGENCY1",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "ARREST CHARGEDISPOSITION CHALLENGED1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "AGENCY2",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "ARREST CHARGEDISPOSITION CHALLENGED2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "DATE AGENCY ARREST CHARGE/DISPOSITION CHALLENGED"
     },
     {
       "field": "AGENCY3",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "ARREST CHARGEDISPOSITION CHALLENGED3",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "DATE AGENCY ARREST CHARGE/DISPOSITION CHALLENGED"
     },
     {
       "field": "AGENCY4",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "ARREST CHARGEDISPOSITION CHALLENGED4",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "DATE AGENCY ARREST CHARGE/DISPOSITION CHALLENGED"
     },
     {
       "field": "AGENCY5",
       "reason": "protected_category",
-      "category": "agency"
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "ARREST CHARGEDISPOSITION CHALLENGED5",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "DATE AGENCY ARREST CHARGE/DISPOSITION CHALLENGED"
     },
     {
       "field": "Signature",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "Date_2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "signature",
+      "regionHeading": null
     },
     {
       "field": "Text1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "unused"
     },
     {
       "field": "Text2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "outside_party",
+      "regionHeading": null
     },
     {
       "field": "Text3",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "Text4",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "race",
+      "regionHeading": null
     },
     {
       "field": "Text5",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "unused"
     },
     {
       "field": "Text6",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "unused"
     },
     {
       "field": "DATE",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "DATE AGENCY ARREST CHARGE/DISPOSITION CHALLENGED"
     },
     {
       "field": "Text7",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_page_region",
+      "category": "agency",
+      "regionHeading": "DATE AGENCY ARREST CHARGE/DISPOSITION CHALLENGED"
     }
   ],
   "unwritableFields": [
+    {
+      "field": "Full Name First Middle Last Suffix",
+      "class": "manual"
+    },
+    {
+      "field": "Male",
+      "class": "manual"
+    },
+    {
+      "field": "Female",
+      "class": "manual"
+    },
+    {
+      "field": "AliasesNickname",
+      "class": "manual"
+    },
+    {
+      "field": "SSN",
+      "class": "manual"
+    },
+    {
+      "field": "MMDDYYYY Drivers License Number",
+      "class": "manual"
+    },
+    {
+      "field": "White",
+      "class": "manual"
+    },
+    {
+      "field": "Black",
+      "class": "manual"
+    },
+    {
+      "field": "Asian",
+      "class": "manual"
+    },
+    {
+      "field": "Indian",
+      "class": "manual"
+    },
+    {
+      "field": "Other please specify",
+      "class": "manual"
+    },
+    {
+      "field": "Employer Name",
+      "class": "manual"
+    },
+    {
+      "field": "Contractor Name",
+      "class": "manual"
+    },
+    {
+      "field": "State Agency",
+      "class": "manual"
+    },
+    {
+      "field": "Job RoleClassification",
+      "class": "manual"
+    },
+    {
+      "field": "Supervisor Name",
+      "class": "manual"
+    },
     {
       "field": "Completed Application signed by applicant and two witnesses OR notarized",
       "class": "protected"
     },
     {
+      "field": "The required copy of my valid photo identification",
+      "class": "manual"
+    },
+    {
+      "field": "A classifiable copy of my own fingerprints taken by an authorized law enforcement agency as required",
+      "class": "manual"
+    },
+    {
+      "field": "If applying for state employmentlicensurecertification reference that agencys fee requirements for a backgroundcheck",
+      "class": "manual"
+    },
+    {
+      "field": "PERSONAL REQUESTS ONLY The required 2500 administrative fee must be in the form of a money order or Cashiers check",
+      "class": "manual"
+    },
+    {
+      "field": "Name  Address of Requesting Agency or Authorized Agent",
+      "class": "manual"
+    },
+    {
       "field": "Applicant Signature",
       "class": "signature"
+    },
+    {
+      "field": "Date",
+      "class": "manual"
+    },
+    {
+      "field": "Sworn to and subscribed before me this",
+      "class": "manual"
+    },
+    {
+      "field": "day of",
+      "class": "manual"
     },
     {
       "field": "Notary Signature",
@@ -434,8 +603,116 @@
       "class": "protected"
     },
     {
+      "field": "FOR ALEA OFFICIAL USE ONLY TCN",
+      "class": "manual"
+    },
+    {
+      "field": "SID AL",
+      "class": "manual"
+    },
+    {
+      "field": "Billed",
+      "class": "manual"
+    },
+    {
+      "field": "Paid",
+      "class": "manual"
+    },
+    {
+      "field": "Received By Initials",
+      "class": "manual"
+    },
+    {
+      "field": "Processed By initials",
+      "class": "manual"
+    },
+    {
+      "field": "Check",
+      "class": "manual"
+    },
+    {
+      "field": "Background Check Qty Total",
+      "class": "manual"
+    },
+    {
+      "field": "Status",
+      "class": "manual"
+    },
+    {
+      "field": "Initials",
+      "class": "manual"
+    },
+    {
+      "field": "Certified Letter Qty Total",
+      "class": "manual"
+    },
+    {
+      "field": "I",
+      "class": "manual"
+    },
+    {
+      "field": "Alabama Law Enforcement Agency Criminal Records and Identification Unit on",
+      "class": "manual"
+    },
+    {
+      "field": "AGENCY1",
+      "class": "manual"
+    },
+    {
+      "field": "AGENCY2",
+      "class": "manual"
+    },
+    {
+      "field": "AGENCY3",
+      "class": "manual"
+    },
+    {
+      "field": "AGENCY4",
+      "class": "manual"
+    },
+    {
+      "field": "AGENCY5",
+      "class": "manual"
+    },
+    {
       "field": "Signature",
       "class": "signature"
+    },
+    {
+      "field": "Date_2",
+      "class": "manual"
+    },
+    {
+      "field": "Text1",
+      "class": "unused"
+    },
+    {
+      "field": "Text2",
+      "class": "unused"
+    },
+    {
+      "field": "Text3",
+      "class": "unused"
+    },
+    {
+      "field": "Text4",
+      "class": "unused"
+    },
+    {
+      "field": "Text5",
+      "class": "unused"
+    },
+    {
+      "field": "Text6",
+      "class": "unused"
+    },
+    {
+      "field": "DATE",
+      "class": "manual"
+    },
+    {
+      "field": "Text7",
+      "class": "unused"
     }
   ],
   "manualFields": [

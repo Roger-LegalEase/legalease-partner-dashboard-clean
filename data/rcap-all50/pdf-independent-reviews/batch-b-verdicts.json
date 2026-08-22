@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-rollup/v1",
+  "batch": "batch-b",
+  "reviewDate": "2026-08-20",
+  "reviewerBranch": "claude/pdf-reviewer-batch-b-cd8wrg",
+  "reviewedLaneBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewedLaneHead": "ea1a16b6358086c3c24fbd66e2fd005173d3ad87",
+  "assignmentRecord": "data/rcap-all50/pdf-independent-reviews/batch-b-assignment.json",
+  "independentOf": "This reviewer created none of the implementation or evidence under review, and reviews on a branch separate from the lane that produced it.",
+  "totals": {
+    "familiesReviewed": 4,
+    "approvedPlatformReady": 0,
+    "correctionRequired": 3,
+    "substantiveOwnerDecisionRequired": 1,
+    "sourceIdentityUnresolved": 0
+  },
+  "byVerdict": {
+    "approved_platform_ready": [],
+    "correction_required": [
+      "NC:aoc-cr-287-form-en",
+      "NC:aoc-cr-288-form-en",
+      "NC:aoc-cr-298-form-en"
+    ],
+    "substantive_owner_decision_required": [
+      "NC:aoc-cr-296-form-en"
+    ]
+  },
+  "blockingAllFour": "The reviewed source binary is not in this clone. `private/source-imports/` and `private/Nationwide Record Clearing/` do not exist, `$RCAP_BUNDLE_EXTRACT` is unset and its default path is absent, and the family package carries no materialised copy. The pinned archive path and the recorded digest are both present, but a digest cannot be recomputed from bytes that are not here, so condition 3 of the canonical approval contract (rcap-platform-ready.mjs, `resolveSourceBinary` then a SHA compare) cannot be satisfied by any reviewer in this environment.",
+  "exactLaneAction": [
+    "1. Fix the page-region refusal so a widget inside a court-owned region is refused before any field-name match — then re-derive and re-render NC:aoc-cr-288-form-en.",
+    "2. Withdraw the `provenAgainstThisFamilysBytes: true` claim for ESC-GEOMETRY-NOT-AN-INPUT on NC:aoc-cr-288-form-en and re-run that check across all sixteen rerendered families.",
+    "3. Put AOC-CR-296's lane placement to an owner: it is a district-attorney filing carried as participant-completed.",
+    "4. Mount the Master Library extract so the source binary is resolvable; without it no family in this corpus can be approved by anyone.",
+    "5. Raster page 2 as well as page 1. The AOC-CR-288 defect is on the order side, below the crop of the committed evidence."
+  ],
+  "whatThisRecordDoesNotDo": "It repairs nothing and promotes nothing. Historical records are unchanged; these are new records for these four families only."
+}

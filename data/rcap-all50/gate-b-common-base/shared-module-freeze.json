@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Shared-module freeze for the Gate B common rerender base. Sessions 7 and 8 build their family rerenders on these exact module bytes.",
+  "capturedAtHead": "73f9883c486b26505d8b96e5d0ce1cb2f8fb9ba9",
+  "captainBase": "73f9883c486b26505d8b96e5d0ce1cb2f8fb9ba9",
+  "sharedCorrectionCommit": "4ad59d66d331fc2f67d868e97d54098db8ccfef4",
+  "sourcePackFactoryCommit": "950aace01c277625ad5bcdea787b332425852961",
+  "modules": [
+    {
+      "path": "scripts/generate-rcap-source-packs.mjs",
+      "sha256": "f21e07557167f8f549e443f8395574475b3c6a62cd443cce4f3fc7dd939ba962",
+      "bytes": 34535
+    },
+    {
+      "path": "scripts/implement-rcap-official-forms-d1.mjs",
+      "sha256": "fb62742057c5804cf358d42502cbce256a4a4fbc278ad0124162e042a33d5c32",
+      "bytes": 56746
+    },
+    {
+      "path": "scripts/rcap-official-forms/rcap-evidence-contract.mjs",
+      "sha256": "9699f0c242833c7a3b6c6a2821b84d32157a6ea6e1316ecea5359908ec1c5bfb",
+      "bytes": 18232
+    },
+    {
+      "path": "scripts/rcap-official-forms/rcap-field-semantics.mjs",
+      "sha256": "37b269f08d98fe1e5a8aa8cd114620de47995e6b898a22e7ae16588c7aec754b",
+      "bytes": 30008
+    },
+    {
+      "path": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+      "sha256": "ff6950b2e961dac14ac8ed3ffd9b299959aac2dc408632daeb4695132326bf76",
+      "bytes": 26727
+    },
+    {
+      "path": "scripts/rcap-official-forms/rcap-pdf-anchor-capture.mjs",
+      "sha256": "fe1da5692a7863df98fb2fbab153f799148d48676386a872c60a050221f16d31",
+      "bytes": 35672
+    },
+    {
+      "path": "scripts/verify-rcap-evidence-contract-controls.mjs",
+      "sha256": "30e6a1ca881cb4e09e0d7cb5f25a183adb0ec54f051c4e7b71da1946cd5c5b60",
+      "bytes": 11214
+    },
+    {
+      "path": "scripts/verify-rcap-source-packs.mjs",
+      "sha256": "52897a8ceac51d9c7eec12d3c804caed513a8508327466aaca624068d188da78",
+      "bytes": 21528
+    },
+    {
+      "path": "scripts/verify-rcap-wave-c-corrections.mjs",
+      "sha256": "a19894a53ec45709c0a0314f6df2a79692824d3cea1d07a192b48db57e867c5f",
+      "bytes": 9462
+    }
+  ],
+  "importedDataArtifacts": "none — no map, classification, sidecar, raster, review record, register, denominator, queue or assignment was imported from either commit",
+  "focusedVerifiers": {
+    "verify-rcap-evidence-contract-controls": "10/10 held",
+    "verify-rcap-wave-c-corrections": "13/13 code canaries held; 3 owner-disposition checks and the evidence-integrity section assert over lane-1-owned regenerated data and are deferred to the lane",
+    "verify-rcap-source-packs": "12 canaries and 4 mutations held against a synthetic corpus, with the canary repo driven by the two assignment files",
+    "verify-rcap-official-forms-d1": "RED on 1 family — NC/aoc-cr-296-form-en"
+  },
+  "d1ZeroFamilyGuard": {
+    "satisfied": false,
+    "failingFamilies": [
+      "NC:aoc-cr-296-form-en"
+    ],
+    "reason": "The corrected government_identifier rule refuses DLState. The committed production-field-map.json still binds it to participant.state. That map is re-derived from the official source, which is family-rerender-1 allowed-path work and needs the Master Library mounted.",
+    "ownedBy": "family-rerender-1"
+  },
+  "approvedAssetsPreserved": {
+    "count": 90,
+    "families": [
+      "AK:tf-800-form-en",
+      "AK:tf-805-form-en",
+      "NC:aoc-cr-287-form-en",
+      "NC:aoc-cr-288-form-en",
+      "WI:cr-266-en",
+      "WI:cr-266-form-en"
+    ],
+    "result": "byte-for-byte unchanged"
+  },
+  "correctionModulesUnchangedSinceCommonBase": true,
+  "modulesRevisedAfterCommonBase": {
+    "paths": [
+      "scripts/generate-rcap-source-packs.mjs",
+      "scripts/verify-rcap-source-packs.mjs"
+    ],
+    "why": "The source-pack factory is driven by the two rerender assignment files instead of the superseded single handoff, and its archives are stamped with one fixed mtime so a pack is a function of its contents and its digest reproduces. Neither file is a shared correction module; all seven correction modules are byte-identical to the common base."
+  },
+  "corpusAtThisHead": {
+    "mounted": true,
+    "files": 499,
+    "pdfs": 329,
+    "shards": 11,
+    "verification": "every shard SHA-256 checked by the bootstrap installer; all 329 indexed PDFs match the committed index on digest and byte length"
+  }
+}

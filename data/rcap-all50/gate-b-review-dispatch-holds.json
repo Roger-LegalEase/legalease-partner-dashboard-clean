@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "rcap-gate-b-review-dispatch-holds/v1",
+  "generatedBy": "scripts/generate-rcap-gate-b-review-dispatch-holds.mjs",
+  "head": "40900689597a6ac9baff0ab22cde2a2518a97534",
+  "aHoldIsNotAVerdict": "Nothing here is a review outcome. No reviewer has seen these artifacts and none is assigned. The status records that the captain will not build a review base from these commits, and why.",
+  "denominatorUnmoved": {
+    "platform_ready": 5,
+    "retired": 42,
+    "retained_problematic": 81,
+    "retained_missing": 37,
+    "because": "a held batch changes no asset's disposition; the families in it stay exactly where the queue already puts them."
+  },
+  "totals": {
+    "heldBatches": 1,
+    "heldCommits": 3,
+    "commitsConsumed": 0,
+    "reviewersAssigned": 0
+  },
+  "holds": [
+    {
+      "batchId": "lane-2-batch-01",
+      "status": "correction_required_before_review",
+      "heldBy": "Session 1 (integration captain), on Session 10's measured findings",
+      "reviewersAssigned": [],
+      "commits": [
+        {
+          "role": "rerender",
+          "sha": "38f1e2e82aad3275b374d49cc74308eda9419b03",
+          "subject": "feat(rcap-pdf): lane 2 batch 01 — six KY/NE families rerendered from official bytes",
+          "consumed": false,
+          "preservedOn": [
+            "origin/claude/rcap-gate-b-family-rerender-2-cac37584",
+            "origin/claude/rcap-gate-b-sidecars-lane2-batch01",
+            "origin/claude/rcap-gate-b-visual-lane2-batch01"
+          ]
+        },
+        {
+          "role": "sidecars",
+          "sha": "0d1b6704dd4078a6305018215c67802cf9fcc140",
+          "subject": "Fill every evidence slot in the lane-2 batch-01 sidecars from current bytes",
+          "consumed": false,
+          "preservedOn": [
+            "origin/claude/rcap-gate-b-sidecars-lane2-batch01"
+          ]
+        },
+        {
+          "role": "visual",
+          "sha": "fb38220b8503e6d2fdbe83cb26e3b26829595ba4",
+          "subject": "Mutate the two visual proofs this verifier owns",
+          "consumed": false,
+          "preservedOn": [
+            "origin/claude/rcap-gate-b-visual-lane2-batch01"
+          ]
+        }
+      ],
+      "defects": [
+        {
+          "id": "L2B1-WHITE-RECTANGLES",
+          "finding": "34 opaque white rectangles cover official source content on the finalized artifacts",
+          "whyItBlocksReview": "A reviewer reading the finalized page cannot see what the rectangles hide, so an approval would attest to a page whose official content is obscured rather than absent."
+        },
+        {
+          "id": "L2B1-FLATTEN-RESIDUE",
+          "finding": "flattened chooser prompts, command buttons and option-list residue reach the filed page",
+          "whyItBlocksReview": "Interface text on a filed pleading is a defect a reviewer would return, and it is already known; the return would tell this programme nothing it does not have."
+        }
+      ],
+      "sidecarsAreNotLaunchEvidence": "Session 9's sidecars are pinned to artifacts that must be replaced. They are not imported as current launch evidence, because a sidecar is a claim about specific bytes and those bytes are scheduled for replacement; importing them would put a conformant-looking record against files that will not exist.",
+      "requiredSequenceBeforeReview": [
+        "Session 5 — shared finalizer fix",
+        "Session 6 — impact census",
+        "Session 8 — corrected rerender",
+        "Session 9 — new sidecars",
+        "Session 10 — new visual evidence",
+        "independent review"
+      ],
+      "doNotAssign": [
+        "Reviewer A",
+        "Reviewer B"
+      ]
+    }
+  ]
+}

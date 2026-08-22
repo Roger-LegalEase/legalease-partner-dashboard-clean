@@ -6,5 +6,5 @@
 - Counsel review remains pending before live approval.
 - Source freshness review remains pending before live approval.
 
-Blocked forms: 2
-Partial maps: 1
+Blocked forms: 0
+Partial maps: 0
