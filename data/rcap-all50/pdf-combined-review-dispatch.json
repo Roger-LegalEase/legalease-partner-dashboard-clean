@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "rcap-pdf-combined-review-dispatch/v1",
+  "recordedBy": "captain",
+  "PDF_IMPLEMENTATION_FREEZE_SHA": "f34fe99d8760805eef219c4014664a87f6e90e50",
+  "evidenceLegs": [
+    {
+      "session": 9,
+      "commit": "afc08b4c0c2ca15c29cc977705220bbbad882f7a",
+      "produces": "provenance sidecars",
+      "parentIsTheFreeze": true,
+      "families": 38,
+      "implementationBytesMoved": 0
+    },
+    {
+      "session": 10,
+      "commit": "9dacc840e0358e5566c0b707c67d8060c8132093",
+      "produces": "all-page visual evidence",
+      "parentIsTheFreeze": true,
+      "families": 38,
+      "implementationBytesMoved": 0,
+      "sourceRasters": 82,
+      "artifactRasters": 60
+    }
+  ],
+  "independenceVerified": "both legs name the freeze as their only parent, so neither could have read the other's output. Two failures cannot have agreed with each other.",
+  "noSourceSubstitution": {
+    "checked": 38,
+    "method": "every visual manifest's officialSource digest compared against the sourceSha256 the freeze record binds for that family",
+    "matches": 38,
+    "conclusion": "official-source rasters come from the real source bytes. No layer was lifted out of a finalized artifact and used as a source."
+  },
+  "implementationUnchanged": {
+    "comparedAgainst": "f34fe99d8760805eef219c4014664a87f6e90e50",
+    "differingImplementationFiles": 0,
+    "whatDiffers": "38 artifact-provenance.json sidecars, which are evidence-owned",
+    "kindsProvenUnchanged": [
+      "family PDFs",
+      "field census",
+      "field classification",
+      "production field map",
+      "overlay profile",
+      "source record",
+      "terminal state",
+      "implementation index"
+    ]
+  },
+  "carriedFindingsForTheReviewer": {
+    "note": "found by Session 10, recorded and deliberately not repaired. They are the reviewer's to judge, not the captain's to fix.",
+    "families": [
+      {
+        "familyId": "NC:aoc-cr-287-form-es",
+        "finding": "\"Example County\" overlaps the printed \"County\" caption on page 1 by 48.26pt on the same baseline"
+      },
+      {
+        "familyId": "NC:aoc-cr-287-form-vi",
+        "finding": "\"Example County\" overlaps the printed \"County\" caption on page 1 by 48.26pt on the same baseline"
+      },
+      {
+        "familyId": "NC:aoc-cr-288-form-es",
+        "finding": "\"Example County\" overlaps the printed \"County\" caption on page 1 by 48.26pt on the same baseline"
+      },
+      {
+        "familyId": "NC:aoc-cr-288-form-vi",
+        "finding": "\"Example County\" overlaps the printed \"County\" caption by 48.26pt, and \"XX\" overlaps the printed \"State\" by 9.07pt"
+      }
+    ],
+    "captainNote": "the English AOC-CR-287 and AOC-CR-288 filing families are already platform_ready. These are their Spanish and Vietnamese siblings, so a verdict here does not disturb the English bytes — but a reviewer should know the same form number is live in English while its translations carry a caption collision."
+  },
+  "reviewer": {
+    "session": 2,
+    "status": "dispatched",
+    "base": "<this commit>",
+    "scope": "all 52 implementation-complete families",
+    "isAnEvidenceProducer": false,
+    "mustNot": [
+      "produce implementation",
+      "produce or regenerate evidence",
+      "repair a finding it is reviewing"
+    ],
+    "reopenRule": "a rejected family reopens only that family and its exact owner, never all 52"
+  },
+  "platformReadyUnmoved": "no family is promoted here. Promotion waits on Session 2's verdicts; evidence existing is not evidence being accepted."
+}
