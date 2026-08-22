@@ -24,7 +24,8 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { createHash, randomUUID } from "node:crypto";
-import { execFileSync, spawn } from "node:child_process";
+import { execFileSync, spawn, spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { register } from "node:module";
 import { createClient } from "@supabase/supabase-js";
 import { chromium } from "playwright";
@@ -40,6 +41,7 @@ const baseUrl = "http://127.0.0.1:3100";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
 const outputDir = process.env.RCAP_PREPARED_CAPTURE_DIR ?? "/tmp/rcap-prepared-onboarding-acceptance";
+const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 // Hard refusal: this harness may only ever talk to a loopback Supabase.
 const LOOPBACK = /^http:\/\/(127\.0\.0\.1|localhost|\[::1\]):\d+/;
@@ -126,6 +128,7 @@ async function main() {
   await resetPreparedField(workspaceId);
   const safetyBefore = await readSafetyState();
 
+  assertLoopbackBuild();
   const server = await startServer();
   const browser = await chromium.launch();
   try {
@@ -565,6 +568,30 @@ async function readPrefillReviewStatus(workspaceId, fieldKey) {
     .eq("review_status", "applied")
     .maybeSingle();
   return data ?? null;
+}
+
+/**
+ * The public Supabase values are inlined into the client bundle at build time, so a
+ * credential-free build cannot sign anyone in: the browser client has no URL to reach and
+ * the sign-in page falls back to requiring a bot check that a synthetic user cannot solve.
+ * That produced a sign-in timeout three runs in a row and looked like a product problem.
+ * Read the built bundle first and say exactly what is wrong instead.
+ */
+function assertLoopbackBuild() {
+  const staticDir = path.join(rootDir, ".next", "static");
+  if (!fs.existsSync(staticDir)) {
+    throw new Error("No production build present. Build the loopback bundle before capturing.");
+  }
+  const found = spawnSync("grep", ["-rlF", supabaseUrl, staticDir], { encoding: "utf8" });
+  if (found.status !== 0) {
+    throw new Error(
+      `The production build in .next does not carry ${supabaseUrl}, so no synthetic user can sign in. ` +
+        "It is most likely the credential-free build. Rebuild for loopback acceptance:\n" +
+        `  NEXT_PUBLIC_SUPABASE_URL=${supabaseUrl} \\\n` +
+        "    NEXT_PUBLIC_SUPABASE_ANON_KEY=<local anon key> \\\n" +
+        "    NEXT_PUBLIC_AUTH_CAPTCHA_REQUIRED=false npm run build"
+    );
+  }
 }
 
 async function startServer() {
