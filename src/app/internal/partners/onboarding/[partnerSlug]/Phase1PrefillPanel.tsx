@@ -5,13 +5,11 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
+  isActionablePrefillStatus,
   PREFILL_SOURCE_TYPES,
   type PrefillSourceType
 } from "@/lib/partners/onboarding/prefill-domain";
-import {
-  isActionablePrefillStatus,
-  type InternalPrefillSnapshot
-} from "@/lib/partners/onboarding/prefill-service";
+import type { InternalPrefillSnapshot } from "@/lib/partners/onboarding/prefill-service";
 import type { OnboardingSectionKey } from "@/lib/partners/onboarding/types";
 
 const inputClass =
@@ -460,7 +458,7 @@ export function Phase1PrefillPanel({
                     </div>
                     <button
                       className={quietButtonClass}
-                      data-propose-updated-value
+                      data-propose-updated-value={suggestion.fieldKey}
                       disabled={pending}
                       onClick={() => proposeUpdatedValue(suggestion)}
                       type="button"

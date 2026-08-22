@@ -882,7 +882,19 @@ async function runOperatorReopen(browser, workspaceId, operatorUserId) {
     /^Partner updated this information/,
     "the operator is not told that the partner changed this information"
   );
-  await page.locator("[data-propose-updated-value]").first().click();
+  // The band lists every field the partner has changed, so name the one under test rather
+  // than taking whichever happens to be first.
+  await page.locator(`[data-propose-updated-value="${PREPARED_FIELD}"]`).click();
+  await page.waitForTimeout(500);
+  const chosenField = await page
+    .locator("[data-prefill-add-form] select")
+    .nth(1)
+    .inputValue();
+  assert.equal(
+    chosenField,
+    PREPARED_FIELD,
+    `the preparation form opened on ${chosenField} rather than the field the partner changed`
+  );
   await page.locator("[data-proposed-value]").fill(LEGALEASE_CONFLICTING_VALUE);
   await page.locator("[data-source-label]").fill("Program record on file");
   await page.locator("[data-add-suggestion]").click();
