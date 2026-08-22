@@ -421,7 +421,9 @@ async function resetPreparedField(workspaceId) {
       })
       .eq("id", section.id);
   }
-  await admin
+  // partner_modified is not nullable, and a fixture write whose error is discarded is a
+  // fixture that quietly does nothing.
+  const { error: restoreError } = await admin
     .from("partner_onboarding_prefill_values")
     .update({
       review_status: "applied",
@@ -429,10 +431,13 @@ async function resetPreparedField(workspaceId) {
       partner_review_status: "pending",
       partner_reviewed_at: null,
       partner_reviewed_section_revision: null,
-      partner_modified: null
+      partner_modified: false
     })
     .eq("workspace_id", workspaceId)
     .eq("field_key", PREPARED_FIELD);
+  if (restoreError) {
+    throw new Error(`the prepared field could not be restored: ${restoreError.message}`);
+  }
   // Any suggestion a previous run's operator pass added is removed, so the field has
   // exactly one active prepared value again.
   await admin
