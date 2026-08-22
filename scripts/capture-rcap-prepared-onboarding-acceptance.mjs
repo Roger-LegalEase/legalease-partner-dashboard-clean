@@ -123,9 +123,10 @@ async function main() {
   console.log(`  workspace ${workspaceId ? "ready" : "MISSING"}`);
   if (!workspaceId) throw new Error("no onboarding workspace to capture");
   await seedPreparedSectionData(workspaceId);
-  // A fixture that cannot be prepared twice must not cost a capture run.
-  await verifyContactSeed();
   await resetPreparedField(workspaceId);
+  // A fixture that cannot be prepared twice, or that does not leave the workspace in the
+  // state the journey starts from, must not cost a capture run.
+  await verifyContactSeed();
   const safetyBefore = await readSafetyState();
 
   assertLoopbackBuild();
@@ -407,15 +408,19 @@ async function resetPreparedField(workspaceId) {
     .maybeSingle();
   if (!section?.id) return;
   const data = section.response_data ?? {};
-  if (data[PREPARED_FIELD] === PROGRAM) return;
-  await admin
-    .from("partner_onboarding_sections")
-    .update({
-      response_data: { ...data, [PREPARED_FIELD]: PROGRAM },
-      status: "in_progress",
-      revision: Number(section.revision ?? 1) + 1
-    })
-    .eq("id", section.id);
+  // Two independent facts have to be restored, and an early return that treats them as one
+  // is how a rerun ended up with the prepared value in place but the row still recorded as
+  // partner-modified, so the prepared banner never appeared.
+  if (data[PREPARED_FIELD] !== PROGRAM) {
+    await admin
+      .from("partner_onboarding_sections")
+      .update({
+        response_data: { ...data, [PREPARED_FIELD]: PROGRAM },
+        status: "in_progress",
+        revision: Number(section.revision ?? 1) + 1
+      })
+      .eq("id", section.id);
+  }
   await admin
     .from("partner_onboarding_prefill_values")
     .update({
@@ -436,6 +441,11 @@ async function resetPreparedField(workspaceId) {
     .eq("workspace_id", workspaceId)
     .eq("field_key", PREPARED_FIELD)
     .eq("proposed_value", JSON.stringify(LEGALEASE_CONFLICTING_VALUE));
+  await admin
+    .from("partner_onboarding_sections")
+    .update({ status: "in_progress", revision: Number(section.revision ?? 1) + 2 })
+    .eq("id", section.id)
+    .neq("status", "in_progress");
   console.log("  reset the prepared field to what LegalEase prepared");
 }
 
@@ -1054,6 +1064,39 @@ async function verifyContactSeed() {
   );
   assert.deepEqual(contactIssues, [], `the section validator still rejects the seeded contacts: ${JSON.stringify(contactIssues)}`);
   console.log("  section-completion validation sees Program contacts as satisfied");
+
+  // The prepared experience only exists when a prepared value is still awaiting the
+  // partner. Prove that starting state here rather than discovering it as a missing banner
+  // several screenshots into a run.
+  const { data: prepared } = await admin
+    .from("partner_onboarding_prefill_values")
+    .select("field_key, review_status, partner_review_status, superseded_at")
+    .eq("workspace_id", workspace.id)
+    .eq("field_key", PREPARED_FIELD)
+    .is("superseded_at", null);
+  const current = (prepared ?? []).filter((row) => row.review_status === "applied");
+  assert.equal(current.length, 1, `expected one current applied preparation, found ${current.length}`);
+  assert.equal(
+    current[0].partner_review_status,
+    "pending",
+    `the prepared field is recorded as ${current[0].partner_review_status}, so the partner has nothing left to review`
+  );
+  const { data: startingSection } = await admin
+    .from("partner_onboarding_sections")
+    .select("response_data, status")
+    .eq("workspace_id", workspace.id)
+    .eq("section_key", PREPARED_SECTION)
+    .maybeSingle();
+  assert.equal(
+    (startingSection?.response_data ?? {})[PREPARED_FIELD],
+    PROGRAM,
+    "the section does not hold the value LegalEase prepared"
+  );
+  assert.ok(
+    ["not_started", "in_progress"].includes(String(startingSection?.status)),
+    `the section is ${startingSection?.status}, so the partner cannot edit it`
+  );
+  console.log("  starting state: one prepared value awaiting the partner, section editable");
 }
 
 if (process.argv.includes("--verify-contact-seed")) {
