@@ -364,11 +364,29 @@ const WIDGET_TEXT_SEMANTICS = {
       families: ["NE:cc-6-11-form-en", "NE:cc-6-11-2-form-en", "NE:cc-6-12-form-en", "NE:cc-6-15-1-form-en"]
     }
   ],
+  // Each preserve rule carries the literal that is actually in the finalized
+  // bytes. Without it the rule cannot be checked, and an unfalsifiable rule is
+  // the same thing as no rule.
   officialStaticTextPreserve: [
-    { text: "IN THE ___ COURT OF", disposition: "OFFICIAL STATIC TEXT", action: "preserve" },
-    { text: "COUNTY, NEBRASKA", disposition: "OFFICIAL STATIC TEXT", action: "preserve" },
-    { text: "Type of Case - Check only one:", disposition: "OFFICIAL STATIC TEXT", action: "preserve",
-      families: ["NE:dc-1-15-form-en"] }
+    {
+      text: "IN THE ___ COURT OF",
+      disposition: "OFFICIAL STATIC TEXT",
+      action: "preserve",
+      matchAs: "COUNTY, NEBRASKA",
+      matchNote:
+        "\"IN THE ___ COURT OF\" is the caption line as a person reads it, not a string in the file. The blank IS the chooser widget, and the rest of the line is emitted as the widget appearance \"COUNTY, NEBRASKA\" (\"______________ COUNTY, NEBRASKA\" on DC-1-15). The caption is asserted through that literal.",
+      families: ["NE:cc-6-11-form-en", "NE:cc-6-11-2-form-en", "NE:cc-6-12-form-en", "NE:cc-6-15-1-form-en", "NE:dc-1-15-form-en"]
+    },
+    {
+      text: "COUNTY, NEBRASKA", disposition: "OFFICIAL STATIC TEXT", action: "preserve",
+      matchAs: "COUNTY, NEBRASKA",
+      families: ["NE:cc-6-11-form-en", "NE:cc-6-11-2-form-en", "NE:cc-6-12-form-en", "NE:cc-6-15-1-form-en", "NE:dc-1-15-form-en"]
+    },
+    {
+      text: "Type of Case - Check only one:", disposition: "OFFICIAL STATIC TEXT", action: "preserve",
+      matchAs: "Type of Case - Check only one:",
+      families: ["NE:dc-1-15-form-en"]
+    }
   ],
   measuredStorageOfEachClass: {
     method: "every string literal in every stream joined per stream, octal escapes decoded, then matched — the finalizer emits one Tj per word and escapes parens as \\050/\\051, so per-item extraction and a (...)Tj regex both miss this text",
@@ -376,12 +394,21 @@ const WIDGET_TEXT_SEMANTICS = {
     results: [
       { text: "(Enter the type of court)", family: "NE:cc-6-11-form-en", storedIn: "widget-appearance-XObject" },
       { text: "COUNTY, NEBRASKA", family: "NE:cc-6-11-form-en", storedIn: "widget-appearance-XObject" },
-      { text: "IN THE", family: "NE:cc-6-11-form-en", storedIn: "page-content-stream" },
+      { text: "COUNTY, NEBRASKA", family: "NE:cc-6-11-2-form-en", storedIn: "widget-appearance-XObject" },
+      { text: "COUNTY, NEBRASKA", family: "NE:cc-6-12-form-en", storedIn: "widget-appearance-XObject" },
+      { text: "COUNTY, NEBRASKA", family: "NE:cc-6-15-1-form-en", storedIn: "widget-appearance-XObject" },
       { text: "Type of Case - Check only one:", family: "NE:dc-1-15-form-en", storedIn: "widget-appearance-XObject" },
-      { text: "COUNTY, NEBRASKA", family: "NE:dc-1-15-form-en", storedIn: "widget-appearance-XObject" }
+      { text: "______________ COUNTY, NEBRASKA", family: "NE:dc-1-15-form-en", storedIn: "widget-appearance-XObject" }
     ],
+    correctedReading: {
+      claim: "an earlier checkpoint recorded \"IN THE\" as present in the page content stream of NE:cc-6-11-form-en, offered as the contrast case to the widget-stored caption.",
+      correction:
+        "that was an incidental match. Once whitespace is squashed, \"IN THE\" matches inside \"I am the defendant in the above-listed case\" in the body text. Measured for the caption itself, the literal is absent from cc-6-11.2 and cc-6-15.1 entirely, and on DC-1-15 \"IN THE\" occurs only in unrelated adoption and estate captions.",
+      effectOnTheDecision:
+        "none. It removes the one page-content counter-example, so every string in this classification — official caption and chooser prompt alike — is measured to live in a widget appearance XObject. The heuristics stay prohibited for a stronger reason than before, not a weaker one."
+    },
     conclusion:
-      "official static text and the placeholder share a storage class on these forms. That is the measurement that forecloses every heuristic listed above."
+      "on these forms every string at issue — official caption and chooser prompt alike — is stored in a widget appearance XObject. There is no storage-level or flags-level property that separates them, which forecloses every heuristic listed above."
   }
 };
 
@@ -505,10 +532,17 @@ const LANE_2_EVIDENCE_WAVE = (() => {
       if (!placeholderFamilies.has(f)) fail(`${f} is in the rerender scope but carries no placeholder disposition`);
       if (!CLASSIFICATION_SCOPE.includes(f)) fail(`${f} is rerendered but is outside the classification scope`);
     }
-    const preserveOnly = new Set(
-      WIDGET_TEXT_SEMANTICS.officialStaticTextPreserve.flatMap((r) => r.families ?? []));
-    for (const f of preserveOnly) {
-      if (AFFECTED.has(f)) fail(`${f} carries only preserve dispositions; its artifact may not move`);
+    // Preserve-only means the family appears in a preserve rule and in no
+    // placeholder rule. A family can legitimately carry both — the four NE
+    // petitions preserve their caption AND suppress the prompt inside it.
+    for (const f of new Set(WIDGET_TEXT_SEMANTICS.officialStaticTextPreserve.flatMap((r) => r.families ?? []))) {
+      if (!placeholderFamilies.has(f) && AFFECTED.has(f)) {
+        fail(`${f} carries only preserve dispositions; its artifact may not move`);
+      }
+    }
+    for (const rule of WIDGET_TEXT_SEMANTICS.officialStaticTextPreserve) {
+      if (!rule.matchAs) fail(`preserve rule "${rule.text}" carries no matchAs literal and cannot be checked against bytes`);
+      if (!(rule.families ?? []).length) fail(`preserve rule "${rule.text}" names no family`);
     }
     for (const f of Object.keys(COMMIT)) {
       const state = f.split(":")[0];
@@ -584,6 +618,18 @@ const LANE_2_EVIDENCE_WAVE = (() => {
       note: "the parent assignment holds more than nine, and that is not a failure — the gate is about these nine, not the parent's size"
     },
     widgetTextSemantics: WIDGET_TEXT_SEMANTICS,
+    regressionVerifier: {
+      script: "scripts/verify-rcap-lane2-widget-text-semantics.mjs",
+      mutations: "scripts/verify-rcap-lane2-widget-text-semantics.mjs --mutations",
+      asserts: [
+        "every officialStaticTextPreserve rule's matchAs literal is present in every family it names",
+        "no placeholder string appears in a wave family outside its classification"
+      ],
+      doesNotAssert:
+        "that the placeholder is gone. It passes before Session 8's rerender and must keep passing after it — asserting the defect's presence would make the verifier fail the moment the defect is fixed.",
+      runBeforePushing: [6, 8],
+      notRegisteredInNpmTest: "package.json is a prohibited path for this lane; the verifier follows the verify-rcap-* convention and is named here instead"
+    },
     dispatch: {
       order: [
         "1. Session 6 publishes the semantic classification commit",

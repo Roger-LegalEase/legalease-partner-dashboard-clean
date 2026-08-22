@@ -715,17 +715,35 @@
         {
           "text": "IN THE ___ COURT OF",
           "disposition": "OFFICIAL STATIC TEXT",
-          "action": "preserve"
+          "action": "preserve",
+          "matchAs": "COUNTY, NEBRASKA",
+          "matchNote": "\"IN THE ___ COURT OF\" is the caption line as a person reads it, not a string in the file. The blank IS the chooser widget, and the rest of the line is emitted as the widget appearance \"COUNTY, NEBRASKA\" (\"______________ COUNTY, NEBRASKA\" on DC-1-15). The caption is asserted through that literal.",
+          "families": [
+            "NE:cc-6-11-form-en",
+            "NE:cc-6-11-2-form-en",
+            "NE:cc-6-12-form-en",
+            "NE:cc-6-15-1-form-en",
+            "NE:dc-1-15-form-en"
+          ]
         },
         {
           "text": "COUNTY, NEBRASKA",
           "disposition": "OFFICIAL STATIC TEXT",
-          "action": "preserve"
+          "action": "preserve",
+          "matchAs": "COUNTY, NEBRASKA",
+          "families": [
+            "NE:cc-6-11-form-en",
+            "NE:cc-6-11-2-form-en",
+            "NE:cc-6-12-form-en",
+            "NE:cc-6-15-1-form-en",
+            "NE:dc-1-15-form-en"
+          ]
         },
         {
           "text": "Type of Case - Check only one:",
           "disposition": "OFFICIAL STATIC TEXT",
           "action": "preserve",
+          "matchAs": "Type of Case - Check only one:",
           "families": [
             "NE:dc-1-15-form-en"
           ]
@@ -746,9 +764,19 @@
             "storedIn": "widget-appearance-XObject"
           },
           {
-            "text": "IN THE",
-            "family": "NE:cc-6-11-form-en",
-            "storedIn": "page-content-stream"
+            "text": "COUNTY, NEBRASKA",
+            "family": "NE:cc-6-11-2-form-en",
+            "storedIn": "widget-appearance-XObject"
+          },
+          {
+            "text": "COUNTY, NEBRASKA",
+            "family": "NE:cc-6-12-form-en",
+            "storedIn": "widget-appearance-XObject"
+          },
+          {
+            "text": "COUNTY, NEBRASKA",
+            "family": "NE:cc-6-15-1-form-en",
+            "storedIn": "widget-appearance-XObject"
           },
           {
             "text": "Type of Case - Check only one:",
@@ -756,13 +784,32 @@
             "storedIn": "widget-appearance-XObject"
           },
           {
-            "text": "COUNTY, NEBRASKA",
+            "text": "______________ COUNTY, NEBRASKA",
             "family": "NE:dc-1-15-form-en",
             "storedIn": "widget-appearance-XObject"
           }
         ],
-        "conclusion": "official static text and the placeholder share a storage class on these forms. That is the measurement that forecloses every heuristic listed above."
+        "correctedReading": {
+          "claim": "an earlier checkpoint recorded \"IN THE\" as present in the page content stream of NE:cc-6-11-form-en, offered as the contrast case to the widget-stored caption.",
+          "correction": "that was an incidental match. Once whitespace is squashed, \"IN THE\" matches inside \"I am the defendant in the above-listed case\" in the body text. Measured for the caption itself, the literal is absent from cc-6-11.2 and cc-6-15.1 entirely, and on DC-1-15 \"IN THE\" occurs only in unrelated adoption and estate captions.",
+          "effectOnTheDecision": "none. It removes the one page-content counter-example, so every string in this classification — official caption and chooser prompt alike — is measured to live in a widget appearance XObject. The heuristics stay prohibited for a stronger reason than before, not a weaker one."
+        },
+        "conclusion": "on these forms every string at issue — official caption and chooser prompt alike — is stored in a widget appearance XObject. There is no storage-level or flags-level property that separates them, which forecloses every heuristic listed above."
       }
+    },
+    "regressionVerifier": {
+      "script": "scripts/verify-rcap-lane2-widget-text-semantics.mjs",
+      "mutations": "scripts/verify-rcap-lane2-widget-text-semantics.mjs --mutations",
+      "asserts": [
+        "every officialStaticTextPreserve rule's matchAs literal is present in every family it names",
+        "no placeholder string appears in a wave family outside its classification"
+      ],
+      "doesNotAssert": "that the placeholder is gone. It passes before Session 8's rerender and must keep passing after it — asserting the defect's presence would make the verifier fail the moment the defect is fixed.",
+      "runBeforePushing": [
+        6,
+        8
+      ],
+      "notRegisteredInNpmTest": "package.json is a prohibited path for this lane; the verifier follows the verify-rcap-* convention and is named here instead"
     },
     "dispatch": {
       "order": [
