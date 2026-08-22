@@ -5,7 +5,7 @@
   "denominator": {
     "platform_ready": 5,
     "retired": 42,
-    "retained_problematic": 81,
+    "retained_problematic": 71,
     "retained_missing_per_register": 37
   },
   "corpus": {
@@ -26,13 +26,22 @@
   },
   "rootCauseGroups": [
     {
+      "id": "launch_safe_terminal_closed",
+      "title": "Closed — launch-safe terminal exclusion, source unobtainable and no route reaches it",
+      "owner": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "familyCount": 10
+    },
+    {
       "id": "source_unmaterialized",
       "title": "Official source bytes not reachable in any accessible corpus",
       "owner": {
         "session": 3,
         "lane": "source custody and materialization"
       },
-      "familyCount": 8
+      "familyCount": 0
     },
     {
       "id": "source_identity_never_pinned",
@@ -41,7 +50,7 @@
         "session": 3,
         "lane": "source custody and materialization"
       },
-      "familyCount": 2
+      "familyCount": 0
     },
     {
       "id": "not_a_filing_artifact",
@@ -66,9 +75,8 @@
     "families": 81,
     "byGroup": {
       "render_or_finalizer_defect": 66,
-      "source_unmaterialized": 8,
       "not_a_filing_artifact": 5,
-      "source_identity_never_pinned": 2
+      "launch_safe_terminal_closed": 10
     },
     "bySource": {
       "present_and_hash_verified": 71,
@@ -279,106 +287,6 @@
       ]
     },
     {
-      "familyId": "AL:cr-65-expunge-petition-10-2024",
-      "familyIds": [
-        "AL:cr-65-expunge-petition-10-2024"
-      ],
-      "assetId": "AL|cr-65-expunge-petition-10-2024.pdf|c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
-      "jurisdiction": "AL",
-      "formId": "cr-65-expunge-petition-10-2024.pdf",
-      "packagePath": "data/rcap-all50/overlays/production/alabama/cr-65-expunge-petition-10-2024",
-      "artifactPaths": [
-        "data/rcap-all50/overlays/production/alabama/cr-65-expunge-petition-10-2024/fixtures/canonical-filled.pdf",
-        "data/rcap-all50/overlays/production/alabama/cr-65-expunge-petition-10-2024/fixtures/boundary-filled.pdf",
-        "data/rcap-all50/overlays/production/alabama/cr-65-expunge-petition-10-2024/contact-sheet/blank-vs-filled.pdf"
-      ],
-      "sourceRecordPath": "data/rcap-all50/overlays/production/alabama/cr-65-expunge-petition-10-2024/source-record.json",
-      "rootCauseGroup": "source_unmaterialized",
-      "rootBlocker": "official source bytes are not present in any accessible corpus",
-      "sourceAvailability": {
-        "status": "absent_from_every_accessible_corpus",
-        "corpus": null,
-        "resolvedPath": null,
-        "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
-        "byteLength": null
-      },
-      "registerSaysBinaryPresent": false,
-      "registerAndCorpusDisagree": false,
-      "currentnessStatus": "revision unrecorded carries no open currentness objection",
-      "mapOrProfileStatus": "family package exists and carries no canonical fixture",
-      "censusStatus": "official binary absent from the clone",
-      "classificationStatus": "not_flagged",
-      "artifactStatus": "family package exists and carries no canonical fixture",
-      "evidenceStatus": {
-        "sidecar": "no provenance sidecar",
-        "visual": "no committed raster evidence"
-      },
-      "reviewStatus": "never carried an independent review verdict",
-      "primaryBucket": "SOURCE_REQUIRED",
-      "terminalOutcome": "deliberate_scope_exclusion",
-      "terminalTarget": "platform_ready, or retired once the source question is settled against it",
-      "terminalExitCondition": "the asset is recorded out of scope for this gate: no route, packet family or legal-design surface depends on it, and no participant treatment is diminished by its absence",
-      "mustPacket": false,
-      "ownerLane": {
-        "session": 3,
-        "lane": "source custody and materialization"
-      },
-      "ownedPaths": [
-        "data/rcap-all50/overlays/production/alabama/cr-65-expunge-petition-10-2024",
-        "docs/record-clearing/pdf-visual-evidence/"
-      ]
-    },
-    {
-      "familyId": "AL:cr-65a-order-on-petition-for-expungement-10-2024",
-      "familyIds": [
-        "AL:cr-65a-order-on-petition-for-expungement-10-2024"
-      ],
-      "assetId": "AL|cr-65a-order-on-petition-for-expungement-10-2024.pdf|7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
-      "jurisdiction": "AL",
-      "formId": "cr-65a-order-on-petition-for-expungement-10-2024.pdf",
-      "packagePath": "data/rcap-all50/overlays/production/alabama/cr-65a-order-on-petition-for-expungement-10-2024",
-      "artifactPaths": [
-        "data/rcap-all50/overlays/production/alabama/cr-65a-order-on-petition-for-expungement-10-2024/fixtures/canonical-filled.pdf",
-        "data/rcap-all50/overlays/production/alabama/cr-65a-order-on-petition-for-expungement-10-2024/fixtures/boundary-filled.pdf",
-        "data/rcap-all50/overlays/production/alabama/cr-65a-order-on-petition-for-expungement-10-2024/contact-sheet/blank-vs-filled.pdf"
-      ],
-      "sourceRecordPath": "data/rcap-all50/overlays/production/alabama/cr-65a-order-on-petition-for-expungement-10-2024/source-record.json",
-      "rootCauseGroup": "source_unmaterialized",
-      "rootBlocker": "official source bytes are not present in any accessible corpus",
-      "sourceAvailability": {
-        "status": "absent_from_every_accessible_corpus",
-        "corpus": null,
-        "resolvedPath": null,
-        "sha256": "7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
-        "byteLength": null
-      },
-      "registerSaysBinaryPresent": false,
-      "registerAndCorpusDisagree": false,
-      "currentnessStatus": "revision unrecorded carries no open currentness objection",
-      "mapOrProfileStatus": "family package exists and carries no canonical fixture",
-      "censusStatus": "official binary absent from the clone",
-      "classificationStatus": "not_flagged",
-      "artifactStatus": "family package exists and carries no canonical fixture",
-      "evidenceStatus": {
-        "sidecar": "no provenance sidecar",
-        "visual": "no committed raster evidence"
-      },
-      "reviewStatus": "never carried an independent review verdict",
-      "primaryBucket": "SOURCE_REQUIRED",
-      "terminalOutcome": "deliberate_scope_exclusion",
-      "terminalTarget": "platform_ready, or retired once the source question is settled against it",
-      "terminalExitCondition": "the asset is recorded out of scope for this gate: no route, packet family or legal-design surface depends on it, and no participant treatment is diminished by its absence",
-      "mustPacket": false,
-      "ownerLane": {
-        "session": 3,
-        "lane": "source custody and materialization"
-      },
-      "ownedPaths": [
-        "data/rcap-all50/overlays/production/alabama/cr-65a-order-on-petition-for-expungement-10-2024",
-        "docs/record-clearing/pdf-visual-evidence/"
-      ]
-    },
-    {
       "familyId": "AL:criminal-forms",
       "familyIds": [
         "AL:criminal-forms"
@@ -475,56 +383,6 @@
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/alabama/criminal-record-expungement",
-        "docs/record-clearing/pdf-visual-evidence/"
-      ]
-    },
-    {
-      "familyId": "AR:3-misdemeanor-petition-8-01-2023",
-      "familyIds": [
-        "AR:3-misdemeanor-petition-8-01-2023"
-      ],
-      "assetId": "AR|3-Misdemeanor-Petition-8_01_2023.pdf|63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
-      "jurisdiction": "AR",
-      "formId": "3-Misdemeanor-Petition-8_01_2023.pdf",
-      "packagePath": "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023",
-      "artifactPaths": [
-        "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023/fixtures/canonical-filled.pdf",
-        "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023/fixtures/boundary-filled.pdf",
-        "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023/contact-sheet/blank-vs-filled.pdf"
-      ],
-      "sourceRecordPath": "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023/source-record.json",
-      "rootCauseGroup": "source_unmaterialized",
-      "rootBlocker": "official source bytes are not present in any accessible corpus",
-      "sourceAvailability": {
-        "status": "absent_from_every_accessible_corpus",
-        "corpus": null,
-        "resolvedPath": null,
-        "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
-        "byteLength": null
-      },
-      "registerSaysBinaryPresent": false,
-      "registerAndCorpusDisagree": false,
-      "currentnessStatus": "revision unrecorded carries no open currentness objection",
-      "mapOrProfileStatus": "family package exists and carries no canonical fixture",
-      "censusStatus": "official binary absent from the clone",
-      "classificationStatus": "not_flagged",
-      "artifactStatus": "family package exists and carries no canonical fixture",
-      "evidenceStatus": {
-        "sidecar": "no provenance sidecar",
-        "visual": "no committed raster evidence"
-      },
-      "reviewStatus": "never carried an independent review verdict",
-      "primaryBucket": "SOURCE_REQUIRED",
-      "terminalOutcome": "deliberate_scope_exclusion",
-      "terminalTarget": "platform_ready, or retired once the source question is settled against it",
-      "terminalExitCondition": "the asset is recorded out of scope for this gate: no route, packet family or legal-design surface depends on it, and no participant treatment is diminished by its absence",
-      "mustPacket": false,
-      "ownerLane": {
-        "session": 3,
-        "lane": "source custody and materialization"
-      },
-      "ownedPaths": [
-        "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023",
         "docs/record-clearing/pdf-visual-evidence/"
       ]
     },
@@ -775,56 +633,6 @@
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/kentucky/496-3",
-        "docs/record-clearing/pdf-visual-evidence/"
-      ]
-    },
-    {
-      "familyId": "KY:497-2",
-      "familyIds": [
-        "KY:497-2"
-      ],
-      "assetId": "KY|497.2.pdf|080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
-      "jurisdiction": "KY",
-      "formId": "497.2.pdf",
-      "packagePath": "data/rcap-all50/overlays/production/kentucky/497-2",
-      "artifactPaths": [
-        "data/rcap-all50/overlays/production/kentucky/497-2/fixtures/canonical-filled.pdf",
-        "data/rcap-all50/overlays/production/kentucky/497-2/fixtures/boundary-filled.pdf",
-        "data/rcap-all50/overlays/production/kentucky/497-2/contact-sheet/blank-vs-filled.pdf"
-      ],
-      "sourceRecordPath": "data/rcap-all50/overlays/production/kentucky/497-2/source-record.json",
-      "rootCauseGroup": "source_unmaterialized",
-      "rootBlocker": "official source bytes are not present in any accessible corpus",
-      "sourceAvailability": {
-        "status": "absent_from_every_accessible_corpus",
-        "corpus": null,
-        "resolvedPath": null,
-        "sha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
-        "byteLength": null
-      },
-      "registerSaysBinaryPresent": false,
-      "registerAndCorpusDisagree": false,
-      "currentnessStatus": "revision unrecorded carries no open currentness objection",
-      "mapOrProfileStatus": "family package exists and carries no canonical fixture",
-      "censusStatus": "official binary absent from the clone",
-      "classificationStatus": "not_flagged",
-      "artifactStatus": "family package exists and carries no canonical fixture",
-      "evidenceStatus": {
-        "sidecar": "no provenance sidecar",
-        "visual": "no committed raster evidence"
-      },
-      "reviewStatus": "never carried an independent review verdict",
-      "primaryBucket": "SOURCE_REQUIRED",
-      "terminalOutcome": "deliberate_scope_exclusion",
-      "terminalTarget": "platform_ready, or retired once the source question is settled against it",
-      "terminalExitCondition": "the asset is recorded out of scope for this gate: no route, packet family or legal-design surface depends on it, and no participant treatment is diminished by its absence",
-      "mustPacket": false,
-      "ownerLane": {
-        "session": 3,
-        "lane": "source custody and materialization"
-      },
-      "ownedPaths": [
-        "data/rcap-all50/overlays/production/kentucky/497-2",
         "docs/record-clearing/pdf-visual-evidence/"
       ]
     },
@@ -1125,156 +933,6 @@
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en",
-        "docs/record-clearing/pdf-visual-evidence/"
-      ]
-    },
-    {
-      "familyId": "KY:jv-29-1",
-      "familyIds": [
-        "KY:jv-29-1"
-      ],
-      "assetId": "KY|JV-29.1.pdf|5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
-      "jurisdiction": "KY",
-      "formId": "JV-29.1.pdf",
-      "packagePath": "data/rcap-all50/overlays/production/kentucky/jv-29-1",
-      "artifactPaths": [
-        "data/rcap-all50/overlays/production/kentucky/jv-29-1/fixtures/canonical-filled.pdf",
-        "data/rcap-all50/overlays/production/kentucky/jv-29-1/fixtures/boundary-filled.pdf",
-        "data/rcap-all50/overlays/production/kentucky/jv-29-1/contact-sheet/blank-vs-filled.pdf"
-      ],
-      "sourceRecordPath": "data/rcap-all50/overlays/production/kentucky/jv-29-1/source-record.json",
-      "rootCauseGroup": "source_unmaterialized",
-      "rootBlocker": "official source bytes are not present in any accessible corpus",
-      "sourceAvailability": {
-        "status": "absent_from_every_accessible_corpus",
-        "corpus": null,
-        "resolvedPath": null,
-        "sha256": "5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
-        "byteLength": null
-      },
-      "registerSaysBinaryPresent": false,
-      "registerAndCorpusDisagree": false,
-      "currentnessStatus": "revision unrecorded carries no open currentness objection",
-      "mapOrProfileStatus": "family package exists and carries no canonical fixture",
-      "censusStatus": "official binary absent from the clone",
-      "classificationStatus": "not_flagged",
-      "artifactStatus": "family package exists and carries no canonical fixture",
-      "evidenceStatus": {
-        "sidecar": "no provenance sidecar",
-        "visual": "no committed raster evidence"
-      },
-      "reviewStatus": "never carried an independent review verdict",
-      "primaryBucket": "SOURCE_REQUIRED",
-      "terminalOutcome": "deliberate_scope_exclusion",
-      "terminalTarget": "platform_ready, or retired once the source question is settled against it",
-      "terminalExitCondition": "the asset is recorded out of scope for this gate: no route, packet family or legal-design surface depends on it, and no participant treatment is diminished by its absence",
-      "mustPacket": false,
-      "ownerLane": {
-        "session": 3,
-        "lane": "source custody and materialization"
-      },
-      "ownedPaths": [
-        "data/rcap-all50/overlays/production/kentucky/jv-29-1",
-        "docs/record-clearing/pdf-visual-evidence/"
-      ]
-    },
-    {
-      "familyId": "KY:jv-29",
-      "familyIds": [
-        "KY:jv-29"
-      ],
-      "assetId": "KY|JV-29.pdf|557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
-      "jurisdiction": "KY",
-      "formId": "JV-29.pdf",
-      "packagePath": "data/rcap-all50/overlays/production/kentucky/jv-29",
-      "artifactPaths": [
-        "data/rcap-all50/overlays/production/kentucky/jv-29/fixtures/canonical-filled.pdf",
-        "data/rcap-all50/overlays/production/kentucky/jv-29/fixtures/boundary-filled.pdf",
-        "data/rcap-all50/overlays/production/kentucky/jv-29/contact-sheet/blank-vs-filled.pdf"
-      ],
-      "sourceRecordPath": "data/rcap-all50/overlays/production/kentucky/jv-29/source-record.json",
-      "rootCauseGroup": "source_unmaterialized",
-      "rootBlocker": "official source bytes are not present in any accessible corpus",
-      "sourceAvailability": {
-        "status": "absent_from_every_accessible_corpus",
-        "corpus": null,
-        "resolvedPath": null,
-        "sha256": "557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
-        "byteLength": null
-      },
-      "registerSaysBinaryPresent": false,
-      "registerAndCorpusDisagree": false,
-      "currentnessStatus": "revision unrecorded carries no open currentness objection",
-      "mapOrProfileStatus": "family package exists and carries no canonical fixture",
-      "censusStatus": "official binary absent from the clone",
-      "classificationStatus": "not_flagged",
-      "artifactStatus": "family package exists and carries no canonical fixture",
-      "evidenceStatus": {
-        "sidecar": "no provenance sidecar",
-        "visual": "no committed raster evidence"
-      },
-      "reviewStatus": "never carried an independent review verdict",
-      "primaryBucket": "SOURCE_REQUIRED",
-      "terminalOutcome": "deliberate_scope_exclusion",
-      "terminalTarget": "platform_ready, or retired once the source question is settled against it",
-      "terminalExitCondition": "the asset is recorded out of scope for this gate: no route, packet family or legal-design surface depends on it, and no participant treatment is diminished by its absence",
-      "mustPacket": false,
-      "ownerLane": {
-        "session": 3,
-        "lane": "source custody and materialization"
-      },
-      "ownedPaths": [
-        "data/rcap-all50/overlays/production/kentucky/jv-29",
-        "docs/record-clearing/pdf-visual-evidence/"
-      ]
-    },
-    {
-      "familyId": "KY:jv-30",
-      "familyIds": [
-        "KY:jv-30"
-      ],
-      "assetId": "KY|JV-30.pdf|c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
-      "jurisdiction": "KY",
-      "formId": "JV-30.pdf",
-      "packagePath": "data/rcap-all50/overlays/production/kentucky/jv-30",
-      "artifactPaths": [
-        "data/rcap-all50/overlays/production/kentucky/jv-30/fixtures/canonical-filled.pdf",
-        "data/rcap-all50/overlays/production/kentucky/jv-30/fixtures/boundary-filled.pdf",
-        "data/rcap-all50/overlays/production/kentucky/jv-30/contact-sheet/blank-vs-filled.pdf"
-      ],
-      "sourceRecordPath": "data/rcap-all50/overlays/production/kentucky/jv-30/source-record.json",
-      "rootCauseGroup": "source_unmaterialized",
-      "rootBlocker": "official source bytes are not present in any accessible corpus",
-      "sourceAvailability": {
-        "status": "absent_from_every_accessible_corpus",
-        "corpus": null,
-        "resolvedPath": null,
-        "sha256": "c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
-        "byteLength": null
-      },
-      "registerSaysBinaryPresent": false,
-      "registerAndCorpusDisagree": false,
-      "currentnessStatus": "revision unrecorded carries no open currentness objection",
-      "mapOrProfileStatus": "family package exists and carries no canonical fixture",
-      "censusStatus": "official binary absent from the clone",
-      "classificationStatus": "not_flagged",
-      "artifactStatus": "family package exists and carries no canonical fixture",
-      "evidenceStatus": {
-        "sidecar": "no provenance sidecar",
-        "visual": "no committed raster evidence"
-      },
-      "reviewStatus": "never carried an independent review verdict",
-      "primaryBucket": "SOURCE_REQUIRED",
-      "terminalOutcome": "deliberate_scope_exclusion",
-      "terminalTarget": "platform_ready, or retired once the source question is settled against it",
-      "terminalExitCondition": "the asset is recorded out of scope for this gate: no route, packet family or legal-design surface depends on it, and no participant treatment is diminished by its absence",
-      "mustPacket": false,
-      "ownerLane": {
-        "session": 3,
-        "lane": "source custody and materialization"
-      },
-      "ownedPaths": [
-        "data/rcap-all50/overlays/production/kentucky/jv-30",
         "docs/record-clearing/pdf-visual-evidence/"
       ]
     },
@@ -2229,56 +1887,6 @@
       ]
     },
     {
-      "familyId": "NC:cr297",
-      "familyIds": [
-        "NC:cr297"
-      ],
-      "assetId": "NC|cr297.pdf|sha256_unrecorded_in_repo",
-      "jurisdiction": "NC",
-      "formId": "cr297.pdf",
-      "packagePath": "data/rcap-all50/overlays/production/north-carolina/cr297",
-      "artifactPaths": [
-        "data/rcap-all50/overlays/production/north-carolina/cr297/fixtures/canonical-filled.pdf",
-        "data/rcap-all50/overlays/production/north-carolina/cr297/fixtures/boundary-filled.pdf",
-        "data/rcap-all50/overlays/production/north-carolina/cr297/contact-sheet/blank-vs-filled.pdf"
-      ],
-      "sourceRecordPath": "data/rcap-all50/overlays/production/north-carolina/cr297/source-record.json",
-      "rootCauseGroup": "source_identity_never_pinned",
-      "rootBlocker": "no source SHA-256 was ever recorded for this asset, so no corpus match can establish its identity",
-      "sourceAvailability": {
-        "status": "no_digest_ever_recorded",
-        "corpus": null,
-        "resolvedPath": null,
-        "sha256": null,
-        "byteLength": null
-      },
-      "registerSaysBinaryPresent": false,
-      "registerAndCorpusDisagree": false,
-      "currentnessStatus": "revision unrecorded carries no open currentness objection",
-      "mapOrProfileStatus": "family package exists and carries no canonical fixture",
-      "censusStatus": "official binary absent from the clone",
-      "classificationStatus": "not_flagged",
-      "artifactStatus": "family package exists and carries no canonical fixture",
-      "evidenceStatus": {
-        "sidecar": "no provenance sidecar",
-        "visual": "no committed raster evidence"
-      },
-      "reviewStatus": "never carried an independent review verdict",
-      "primaryBucket": "SOURCE_REQUIRED",
-      "terminalOutcome": "deliberate_scope_exclusion",
-      "terminalTarget": "platform_ready, or retired once the source question is settled against it",
-      "terminalExitCondition": "the asset is recorded out of scope for this gate: no route, packet family or legal-design surface depends on it, and no participant treatment is diminished by its absence",
-      "mustPacket": false,
-      "ownerLane": {
-        "session": 3,
-        "lane": "source custody and materialization"
-      },
-      "ownedPaths": [
-        "data/rcap-all50/overlays/production/north-carolina/cr297",
-        "docs/record-clearing/pdf-visual-evidence/"
-      ]
-    },
-    {
       "familyId": "NC:expungements",
       "familyIds": [
         "NC:expungements"
@@ -2575,56 +2183,6 @@
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en",
-        "docs/record-clearing/pdf-visual-evidence/"
-      ]
-    },
-    {
-      "familyId": "NE:cc-6-11",
-      "familyIds": [
-        "NE:cc-6-11"
-      ],
-      "assetId": "NE|CC-6-11.pdf|sha256_unrecorded_in_repo",
-      "jurisdiction": "NE",
-      "formId": "CC-6-11.pdf",
-      "packagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11",
-      "artifactPaths": [
-        "data/rcap-all50/overlays/production/nebraska/cc-6-11/fixtures/canonical-filled.pdf",
-        "data/rcap-all50/overlays/production/nebraska/cc-6-11/fixtures/boundary-filled.pdf",
-        "data/rcap-all50/overlays/production/nebraska/cc-6-11/contact-sheet/blank-vs-filled.pdf"
-      ],
-      "sourceRecordPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11/source-record.json",
-      "rootCauseGroup": "source_identity_never_pinned",
-      "rootBlocker": "no source SHA-256 was ever recorded for this asset, so no corpus match can establish its identity",
-      "sourceAvailability": {
-        "status": "no_digest_ever_recorded",
-        "corpus": null,
-        "resolvedPath": null,
-        "sha256": null,
-        "byteLength": null
-      },
-      "registerSaysBinaryPresent": false,
-      "registerAndCorpusDisagree": false,
-      "currentnessStatus": "revision unrecorded carries no open currentness objection",
-      "mapOrProfileStatus": "family package exists and carries no canonical fixture",
-      "censusStatus": "official binary absent from the clone",
-      "classificationStatus": "not_flagged",
-      "artifactStatus": "family package exists and carries no canonical fixture",
-      "evidenceStatus": {
-        "sidecar": "no provenance sidecar",
-        "visual": "no committed raster evidence"
-      },
-      "reviewStatus": "never carried an independent review verdict",
-      "primaryBucket": "SOURCE_REQUIRED",
-      "terminalOutcome": "exact_deferral",
-      "terminalTarget": "platform_ready, or retired once the source question is settled against it",
-      "terminalExitCondition": "the route completes with this component named as an exact deferral, stating what the participant must obtain and from whom, until the official binary is acquired",
-      "mustPacket": true,
-      "ownerLane": {
-        "session": 3,
-        "lane": "source custody and materialization"
-      },
-      "ownedPaths": [
-        "data/rcap-all50/overlays/production/nebraska/cc-6-11",
         "docs/record-clearing/pdf-visual-evidence/"
       ]
     },
@@ -3837,56 +3395,6 @@
       ]
     },
     {
-      "familyId": "VT:400-00171",
-      "familyIds": [
-        "VT:400-00171"
-      ],
-      "assetId": "VT|400-00171.pdf|b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
-      "jurisdiction": "VT",
-      "formId": "400-00171.pdf",
-      "packagePath": "data/rcap-all50/overlays/production/vermont/400-00171",
-      "artifactPaths": [
-        "data/rcap-all50/overlays/production/vermont/400-00171/fixtures/canonical-filled.pdf",
-        "data/rcap-all50/overlays/production/vermont/400-00171/fixtures/boundary-filled.pdf",
-        "data/rcap-all50/overlays/production/vermont/400-00171/contact-sheet/blank-vs-filled.pdf"
-      ],
-      "sourceRecordPath": "data/rcap-all50/overlays/production/vermont/400-00171/source-record.json",
-      "rootCauseGroup": "source_unmaterialized",
-      "rootBlocker": "official source bytes are not present in any accessible corpus",
-      "sourceAvailability": {
-        "status": "absent_from_every_accessible_corpus",
-        "corpus": null,
-        "resolvedPath": null,
-        "sha256": "b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
-        "byteLength": null
-      },
-      "registerSaysBinaryPresent": false,
-      "registerAndCorpusDisagree": false,
-      "currentnessStatus": "revision unrecorded carries no open currentness objection",
-      "mapOrProfileStatus": "family package exists and carries no canonical fixture",
-      "censusStatus": "official binary absent from the clone",
-      "classificationStatus": "not_flagged",
-      "artifactStatus": "family package exists and carries no canonical fixture",
-      "evidenceStatus": {
-        "sidecar": "no provenance sidecar",
-        "visual": "no committed raster evidence"
-      },
-      "reviewStatus": "never carried an independent review verdict",
-      "primaryBucket": "SOURCE_REQUIRED",
-      "terminalOutcome": "deliberate_scope_exclusion",
-      "terminalTarget": "platform_ready, or retired once the source question is settled against it",
-      "terminalExitCondition": "the asset is recorded out of scope for this gate: no route, packet family or legal-design surface depends on it, and no participant treatment is diminished by its absence",
-      "mustPacket": false,
-      "ownerLane": {
-        "session": 3,
-        "lane": "source custody and materialization"
-      },
-      "ownedPaths": [
-        "data/rcap-all50/overlays/production/vermont/400-00171",
-        "docs/record-clearing/pdf-visual-evidence/"
-      ]
-    },
-    {
       "familyId": "VT:600-00228-en",
       "familyIds": [
         "VT:600-00228-en",
@@ -4139,6 +3647,436 @@
         "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-en",
         "docs/record-clearing/pdf-visual-evidence/"
       ]
+    },
+    {
+      "familyId": "AL:cr-65-expunge-petition-10-2024",
+      "familyIds": [
+        "AL:cr-65-expunge-petition-10-2024"
+      ],
+      "assetId": "AL|cr-65-expunge-petition-10-2024.pdf|c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+      "jurisdiction": "AL",
+      "formId": "cr-65-expunge-petition-10-2024.pdf",
+      "packagePath": null,
+      "artifactPaths": [],
+      "sourceRecordPath": null,
+      "rootCauseGroup": "launch_safe_terminal_closed",
+      "rootBlocker": "cr-65-expunge-petition-10-2024.pdf is pinned at SHA-256 c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39. That digest matches no file in the Nationwide tree or the Master Library, and no file of that name exists in either corpus.",
+      "sourceAvailability": {
+        "status": "absent_from_every_accessible_corpus",
+        "corpus": null,
+        "resolvedPath": null,
+        "sha256": "c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+        "byteLength": null
+      },
+      "registerSaysBinaryPresent": false,
+      "registerAndCorpusDisagree": false,
+      "currentnessStatus": null,
+      "mapOrProfileStatus": null,
+      "censusStatus": null,
+      "classificationStatus": "not_flagged",
+      "artifactStatus": null,
+      "evidenceStatus": {
+        "sidecar": null,
+        "visual": null
+      },
+      "reviewStatus": null,
+      "primaryBucket": "LAUNCH_SAFE_TERMINAL",
+      "terminalOutcome": "deliberate_scope_exclusion",
+      "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
+      "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+      "mustPacket": false,
+      "ownerLane": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "ownedPaths": []
+    },
+    {
+      "familyId": "AL:cr-65a-order-on-petition-for-expungement-10-2024",
+      "familyIds": [
+        "AL:cr-65a-order-on-petition-for-expungement-10-2024"
+      ],
+      "assetId": "AL|cr-65a-order-on-petition-for-expungement-10-2024.pdf|7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
+      "jurisdiction": "AL",
+      "formId": "cr-65a-order-on-petition-for-expungement-10-2024.pdf",
+      "packagePath": null,
+      "artifactPaths": [],
+      "sourceRecordPath": null,
+      "rootCauseGroup": "launch_safe_terminal_closed",
+      "rootBlocker": "cr-65a-order-on-petition-for-expungement-10-2024.pdf is pinned at SHA-256 7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12. That digest matches no file in the Nationwide tree or the Master Library, and no file of that name exists in either corpus.",
+      "sourceAvailability": {
+        "status": "absent_from_every_accessible_corpus",
+        "corpus": null,
+        "resolvedPath": null,
+        "sha256": "7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
+        "byteLength": null
+      },
+      "registerSaysBinaryPresent": false,
+      "registerAndCorpusDisagree": false,
+      "currentnessStatus": null,
+      "mapOrProfileStatus": null,
+      "censusStatus": null,
+      "classificationStatus": "not_flagged",
+      "artifactStatus": null,
+      "evidenceStatus": {
+        "sidecar": null,
+        "visual": null
+      },
+      "reviewStatus": null,
+      "primaryBucket": "LAUNCH_SAFE_TERMINAL",
+      "terminalOutcome": "deliberate_scope_exclusion",
+      "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
+      "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+      "mustPacket": false,
+      "ownerLane": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "ownedPaths": []
+    },
+    {
+      "familyId": "AR:3-misdemeanor-petition-8-01-2023",
+      "familyIds": [
+        "AR:3-misdemeanor-petition-8-01-2023"
+      ],
+      "assetId": "AR|3-Misdemeanor-Petition-8_01_2023.pdf|63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+      "jurisdiction": "AR",
+      "formId": "3-Misdemeanor-Petition-8_01_2023.pdf",
+      "packagePath": null,
+      "artifactPaths": [],
+      "sourceRecordPath": null,
+      "rootCauseGroup": "launch_safe_terminal_closed",
+      "rootBlocker": "3-Misdemeanor-Petition-8_01_2023.pdf is pinned at SHA-256 63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23. That digest matches no file in the Nationwide tree or the Master Library, and no file of that name exists in either corpus.",
+      "sourceAvailability": {
+        "status": "absent_from_every_accessible_corpus",
+        "corpus": null,
+        "resolvedPath": null,
+        "sha256": "63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+        "byteLength": null
+      },
+      "registerSaysBinaryPresent": false,
+      "registerAndCorpusDisagree": false,
+      "currentnessStatus": null,
+      "mapOrProfileStatus": null,
+      "censusStatus": null,
+      "classificationStatus": "not_flagged",
+      "artifactStatus": null,
+      "evidenceStatus": {
+        "sidecar": null,
+        "visual": null
+      },
+      "reviewStatus": null,
+      "primaryBucket": "LAUNCH_SAFE_TERMINAL",
+      "terminalOutcome": "deliberate_scope_exclusion",
+      "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
+      "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+      "mustPacket": false,
+      "ownerLane": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "ownedPaths": []
+    },
+    {
+      "familyId": "KY:497-2",
+      "familyIds": [
+        "KY:497-2"
+      ],
+      "assetId": "KY|497.2.pdf|080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+      "jurisdiction": "KY",
+      "formId": "497.2.pdf",
+      "packagePath": null,
+      "artifactPaths": [],
+      "sourceRecordPath": null,
+      "rootCauseGroup": "launch_safe_terminal_closed",
+      "rootBlocker": "497.2.pdf is pinned at SHA-256 080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4. That digest matches no file in the Nationwide tree or the Master Library, and no file of that name exists in either corpus.",
+      "sourceAvailability": {
+        "status": "absent_from_every_accessible_corpus",
+        "corpus": null,
+        "resolvedPath": null,
+        "sha256": "080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+        "byteLength": null
+      },
+      "registerSaysBinaryPresent": false,
+      "registerAndCorpusDisagree": false,
+      "currentnessStatus": null,
+      "mapOrProfileStatus": null,
+      "censusStatus": null,
+      "classificationStatus": "not_flagged",
+      "artifactStatus": null,
+      "evidenceStatus": {
+        "sidecar": null,
+        "visual": null
+      },
+      "reviewStatus": null,
+      "primaryBucket": "LAUNCH_SAFE_TERMINAL",
+      "terminalOutcome": "deliberate_scope_exclusion",
+      "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
+      "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+      "mustPacket": false,
+      "ownerLane": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "ownedPaths": []
+    },
+    {
+      "familyId": "KY:jv-29-1",
+      "familyIds": [
+        "KY:jv-29-1"
+      ],
+      "assetId": "KY|JV-29.1.pdf|5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
+      "jurisdiction": "KY",
+      "formId": "JV-29.1.pdf",
+      "packagePath": null,
+      "artifactPaths": [],
+      "sourceRecordPath": null,
+      "rootCauseGroup": "launch_safe_terminal_closed",
+      "rootBlocker": "JV-29.1.pdf is pinned at SHA-256 5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477. That digest matches no file in the Nationwide tree or the Master Library, and no file of that name exists in either corpus.",
+      "sourceAvailability": {
+        "status": "absent_from_every_accessible_corpus",
+        "corpus": null,
+        "resolvedPath": null,
+        "sha256": "5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
+        "byteLength": null
+      },
+      "registerSaysBinaryPresent": false,
+      "registerAndCorpusDisagree": false,
+      "currentnessStatus": null,
+      "mapOrProfileStatus": null,
+      "censusStatus": null,
+      "classificationStatus": "not_flagged",
+      "artifactStatus": null,
+      "evidenceStatus": {
+        "sidecar": null,
+        "visual": null
+      },
+      "reviewStatus": null,
+      "primaryBucket": "LAUNCH_SAFE_TERMINAL",
+      "terminalOutcome": "deliberate_scope_exclusion",
+      "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
+      "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+      "mustPacket": false,
+      "ownerLane": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "ownedPaths": []
+    },
+    {
+      "familyId": "KY:jv-29",
+      "familyIds": [
+        "KY:jv-29"
+      ],
+      "assetId": "KY|JV-29.pdf|557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
+      "jurisdiction": "KY",
+      "formId": "JV-29.pdf",
+      "packagePath": null,
+      "artifactPaths": [],
+      "sourceRecordPath": null,
+      "rootCauseGroup": "launch_safe_terminal_closed",
+      "rootBlocker": "JV-29.pdf is pinned at SHA-256 557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45. That digest matches no file in the Nationwide tree or the Master Library, and no file of that name exists in either corpus.",
+      "sourceAvailability": {
+        "status": "absent_from_every_accessible_corpus",
+        "corpus": null,
+        "resolvedPath": null,
+        "sha256": "557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
+        "byteLength": null
+      },
+      "registerSaysBinaryPresent": false,
+      "registerAndCorpusDisagree": false,
+      "currentnessStatus": null,
+      "mapOrProfileStatus": null,
+      "censusStatus": null,
+      "classificationStatus": "not_flagged",
+      "artifactStatus": null,
+      "evidenceStatus": {
+        "sidecar": null,
+        "visual": null
+      },
+      "reviewStatus": null,
+      "primaryBucket": "LAUNCH_SAFE_TERMINAL",
+      "terminalOutcome": "deliberate_scope_exclusion",
+      "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
+      "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+      "mustPacket": false,
+      "ownerLane": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "ownedPaths": []
+    },
+    {
+      "familyId": "KY:jv-30",
+      "familyIds": [
+        "KY:jv-30"
+      ],
+      "assetId": "KY|JV-30.pdf|c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
+      "jurisdiction": "KY",
+      "formId": "JV-30.pdf",
+      "packagePath": null,
+      "artifactPaths": [],
+      "sourceRecordPath": null,
+      "rootCauseGroup": "launch_safe_terminal_closed",
+      "rootBlocker": "JV-30.pdf is pinned at SHA-256 c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee. That digest matches no file in the Nationwide tree or the Master Library, and no file of that name exists in either corpus.",
+      "sourceAvailability": {
+        "status": "absent_from_every_accessible_corpus",
+        "corpus": null,
+        "resolvedPath": null,
+        "sha256": "c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
+        "byteLength": null
+      },
+      "registerSaysBinaryPresent": false,
+      "registerAndCorpusDisagree": false,
+      "currentnessStatus": null,
+      "mapOrProfileStatus": null,
+      "censusStatus": null,
+      "classificationStatus": "not_flagged",
+      "artifactStatus": null,
+      "evidenceStatus": {
+        "sidecar": null,
+        "visual": null
+      },
+      "reviewStatus": null,
+      "primaryBucket": "LAUNCH_SAFE_TERMINAL",
+      "terminalOutcome": "deliberate_scope_exclusion",
+      "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
+      "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+      "mustPacket": false,
+      "ownerLane": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "ownedPaths": []
+    },
+    {
+      "familyId": "NC:cr297",
+      "familyIds": [
+        "NC:cr297"
+      ],
+      "assetId": "NC|cr297.pdf|sha256_unrecorded_in_repo",
+      "jurisdiction": "NC",
+      "formId": "cr297.pdf",
+      "packagePath": null,
+      "artifactPaths": [],
+      "sourceRecordPath": null,
+      "rootCauseGroup": "launch_safe_terminal_closed",
+      "rootBlocker": "No SHA-256 was ever recorded in the repository for cr297.pdf. Its identity cannot be settled by acquiring bytes, because there is no pinned digest for acquired bytes to match.",
+      "sourceAvailability": {
+        "status": "no_digest_ever_recorded",
+        "corpus": null,
+        "resolvedPath": null,
+        "sha256": null,
+        "byteLength": null
+      },
+      "registerSaysBinaryPresent": false,
+      "registerAndCorpusDisagree": false,
+      "currentnessStatus": null,
+      "mapOrProfileStatus": null,
+      "censusStatus": null,
+      "classificationStatus": "not_flagged",
+      "artifactStatus": null,
+      "evidenceStatus": {
+        "sidecar": null,
+        "visual": null
+      },
+      "reviewStatus": null,
+      "primaryBucket": "LAUNCH_SAFE_TERMINAL",
+      "terminalOutcome": "deliberate_scope_exclusion",
+      "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
+      "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+      "mustPacket": false,
+      "ownerLane": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "ownedPaths": []
+    },
+    {
+      "familyId": "NE:cc-6-11",
+      "familyIds": [
+        "NE:cc-6-11"
+      ],
+      "assetId": "NE|CC-6-11.pdf|sha256_unrecorded_in_repo",
+      "jurisdiction": "NE",
+      "formId": "CC-6-11.pdf",
+      "packagePath": null,
+      "artifactPaths": [],
+      "sourceRecordPath": null,
+      "rootCauseGroup": "launch_safe_terminal_closed",
+      "rootBlocker": "No SHA-256 was ever recorded in the repository for CC-6-11.pdf. Its identity cannot be settled by acquiring bytes, because there is no pinned digest for acquired bytes to match.",
+      "sourceAvailability": {
+        "status": "no_digest_ever_recorded",
+        "corpus": null,
+        "resolvedPath": null,
+        "sha256": null,
+        "byteLength": null
+      },
+      "registerSaysBinaryPresent": false,
+      "registerAndCorpusDisagree": false,
+      "currentnessStatus": null,
+      "mapOrProfileStatus": null,
+      "censusStatus": null,
+      "classificationStatus": "not_flagged",
+      "artifactStatus": null,
+      "evidenceStatus": {
+        "sidecar": null,
+        "visual": null
+      },
+      "reviewStatus": null,
+      "primaryBucket": "LAUNCH_SAFE_TERMINAL",
+      "terminalOutcome": "exact_deferral",
+      "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
+      "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+      "mustPacket": false,
+      "ownerLane": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "ownedPaths": []
+    },
+    {
+      "familyId": "VT:400-00171",
+      "familyIds": [
+        "VT:400-00171"
+      ],
+      "assetId": "VT|400-00171.pdf|b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
+      "jurisdiction": "VT",
+      "formId": "400-00171.pdf",
+      "packagePath": null,
+      "artifactPaths": [],
+      "sourceRecordPath": null,
+      "rootCauseGroup": "launch_safe_terminal_closed",
+      "rootBlocker": "400-00171.pdf is pinned at SHA-256 b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a. That digest matches no file in the Nationwide tree or the Master Library, and no file of that name exists in either corpus.",
+      "sourceAvailability": {
+        "status": "absent_from_every_accessible_corpus",
+        "corpus": null,
+        "resolvedPath": null,
+        "sha256": "b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
+        "byteLength": null
+      },
+      "registerSaysBinaryPresent": false,
+      "registerAndCorpusDisagree": false,
+      "currentnessStatus": null,
+      "mapOrProfileStatus": null,
+      "censusStatus": null,
+      "classificationStatus": "not_flagged",
+      "artifactStatus": null,
+      "evidenceStatus": {
+        "sidecar": null,
+        "visual": null
+      },
+      "reviewStatus": null,
+      "primaryBucket": "LAUNCH_SAFE_TERMINAL",
+      "terminalOutcome": "deliberate_scope_exclusion",
+      "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
+      "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+      "mustPacket": false,
+      "ownerLane": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "ownedPaths": []
     }
   ]
 }

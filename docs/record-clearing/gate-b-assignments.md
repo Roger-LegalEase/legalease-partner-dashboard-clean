@@ -12,8 +12,8 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `9f8f781
 | `family-rerender-2` | LANE-RERENDER | 19 | every assigned family re-derived and re-rendered against the corrected binder rerender-shard-a lands, with rep |
 | `evidence-sidecars` | LANE-EVIDENCE | 39 | a conformant provenance sidecar for every re-rendered family, every field non-null, bound by hash to the artif |
 | `evidence-visual` | LANE-EVIDENCE | 39 | one rasterised page per page carrying a field, for every re-rendered family, each bound to the current contact |
-| `source-direct` | LANE-SOURCE | 15 | for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record |
-| `source-resolution` | LANE-SOURCE | 16 | for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record |
+| `source-direct` | LANE-SOURCE | 10 | for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record |
+| `source-resolution` | LANE-SOURCE | 11 | for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record |
 | `retirement-repoint` | LANE-RETIRE | 11 | for each assigned asset: a retirement marker written by the canonical retirement script with every operational |
 
 ## `reviewer-a`
@@ -83,7 +83,7 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `9f8f781
 ## `source-direct`
 
 - **base** `9f8f781ffde4`
-- **assets** 15
+- **assets** 10
 - **expected output** for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record, or a recorded finding that no official source exists
 - **focused verifier** `node scripts/generate-rcap-source-resolution.mjs --check`
 - **stop condition** every assigned asset carries either an acquired source with a receipt, or a recorded no-official-source finding naming what was searched
@@ -91,7 +91,7 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `9f8f781
 ## `source-resolution`
 
 - **base** `9f8f781ffde4`
-- **assets** 16
+- **assets** 11
 - **expected output** for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record, or a recorded finding that no official source exists
 - **focused verifier** `node scripts/generate-rcap-source-resolution.mjs --check`
 - **stop condition** every assigned asset carries either an acquired source with a receipt, or a recorded no-official-source finding naming what was searched

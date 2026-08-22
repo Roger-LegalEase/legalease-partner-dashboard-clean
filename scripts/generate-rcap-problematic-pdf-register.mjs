@@ -637,6 +637,74 @@ for (const entry of [...records]) {
   entry.findingsOutrankedByApproval = entry.defectCategories;
 }
 
+/**
+ * The second exit from retained_problematic: launch-safe terminal exclusion.
+ *
+ * Until now the only way out was platformReady, so an asset whose official
+ * source cannot be obtained stayed problematic forever — correctly, while it was
+ * still reachable, and pointlessly once it was not. An asset that no track, no
+ * packet family and no sellable pathway references, whose source cannot be
+ * acquired, is finished. Holding it open does not protect anyone; it just makes
+ * the board unable to distinguish work from wreckage.
+ *
+ * This is deliberately NOT platformReady, and the two are counted separately. A
+ * launch-safely-terminal asset is one nobody can reach and nobody can build,
+ * not one that was approved.
+ *
+ * The decision is made in generate-rcap-unavailable-source-terminalization.mjs,
+ * which proves the reachability conditions per family. This generator does not
+ * take that file's word for it: it re-checks, against its own records, that the
+ * asset really is unreachable and really is not sellable or public, and refuses
+ * the whole run if the file names an asset that fails either test. A record that
+ * could be widened by editing its input is not a gate.
+ */
+const launchSafelyTerminal = [];
+{
+  const TERMINALIZATION = "data/rcap-all50/unavailable-source-terminalization.json";
+  const file = path.join(rootDir, TERMINALIZATION);
+  if (fs.existsSync(file)) {
+    const claimed = JSON.parse(fs.readFileSync(file, "utf8"));
+    const byIdentity = new Map(records.map((r) => [r.identity, r]));
+    for (const family of claimed.families ?? []) {
+      const entry = byIdentity.get(family.assetId);
+      if (!entry) {
+        console.error(`FAIL problematic PDF register — ${TERMINALIZATION} names ${family.assetId}, which is not a register record`);
+        process.exit(1);
+      }
+      if (entry.platformReady) {
+        console.error(`FAIL problematic PDF register — ${family.assetId} is platform_ready and cannot also be launch-safely terminal`);
+        process.exit(1);
+      }
+      // Re-checked here, not trusted from the claim.
+      const reachable = (entry.affectedTrackIds ?? []).length > 0;
+      if (reachable) {
+        console.error(`FAIL problematic PDF register — ${family.assetId} is referenced by ${(entry.affectedTrackIds ?? []).length} track(s); a reachable asset may not exit as launch-safely terminal`);
+        process.exit(1);
+      }
+      if (entry.binaryPresent === true) {
+        console.error(`FAIL problematic PDF register — ${family.assetId} has its binary present; an obtainable source is buildable and may not exit as unavailable`);
+        process.exit(1);
+      }
+      entry.launchSafelyTerminal = true;
+      entry.launchSafeTerminalDisposition = family.consumedDisposition;
+      entry.launchSafeTerminalReason = family.reason?.exact ?? null;
+      entry.launchSafeTerminalIsNotApproval =
+        "no reviewer approved this asset. It leaves the problematic count because it cannot be built and cannot be reached, not because it is fit to file.";
+      launchSafelyTerminal.push({
+        identity: entry.identity,
+        jurisdiction: entry.jurisdiction,
+        formId: entry.formId,
+        familyIds: entry.familyIds,
+        disposition: family.consumedDisposition,
+        reasonKind: family.reason?.kind ?? null,
+        reason: family.reason?.exact ?? null,
+        tracksReferencingThisAsset: 0,
+        isPlatformReady: false
+      });
+    }
+  }
+}
+
 records.sort((a, b) => a.identity.localeCompare(b.identity));
 
 const sections = {
@@ -685,7 +753,8 @@ const rootCauseIndex = [...new Set(records.flatMap((r) => r.rootCauseIds))].sort
 }));
 const retiredAssetIds = [...new Set(retired.map((r) => r.marker?.assetId).filter(Boolean))];
 const totals = {
-  problematicPdfsTotal: records.filter((r) => !r.platformReady).length,
+  problematicPdfsTotal: records.filter((r) => !r.platformReady && !r.launchSafelyTerminal).length,
+  launchSafelyTerminal: launchSafelyTerminal.length,
   platformReady: platformReady.length,
   retiredFromOperationalInventory: retiredAssetIds.length,
   retiredFamilyDirectories: retired.length,
@@ -746,6 +815,9 @@ const payload = {
   // findings it outranked named. An asset that simply vanishes from a register
   // is indistinguishable from one nobody looked at.
   platformReady,
+  launchSafelyTerminal,
+  readingLaunchSafelyTerminal:
+    "these assets left the problematic count without being approved. Each has no obtainable official source, and no track, packet family or sellable pathway reaches it. They are not platform_ready and must never be presented as fit to file.",
   participantFillHoldsDischarged,
   totals,
   sections: {

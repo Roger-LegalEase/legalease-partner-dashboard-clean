@@ -308,6 +308,19 @@ for (const record of register.records ?? []) {
   });
 }
 
+// An asset that reached a launch-safe terminal exclusion is finished: it has no
+// obtainable source and nothing routes to it, so queueing work against it would
+// send a session after something it cannot build and nobody can reach.
+{
+  const terminalised = new Set(
+    (register.records ?? []).filter((r) => r.launchSafelyTerminal).map((r) => r.identity));
+  if (terminalised.size) {
+    for (let i = assets.length - 1; i >= 0; i -= 1) {
+      if (terminalised.has(assets[i].assetId)) assets.splice(i, 1);
+    }
+  }
+}
+
 // Total, disjoint, and equal to the canonical denominator — all three checked.
 const expected = ledger.equation.retainedProblematic;
 if (assets.length !== expected) fail(`queued ${assets.length} assets; the canonical denominator says ${expected}`);

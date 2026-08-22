@@ -96,6 +96,8 @@ for (const rec of register.records ?? []) recordFor.set(rec.identity, rec);
  * outranks a render defect because the artifact may not need to exist at all.
  */
 const ROOT_CAUSE_GROUPS = [
+  { id: "launch_safe_terminal_closed", title: "Closed — launch-safe terminal exclusion, source unobtainable and no route reaches it",
+    owner: { session: null, lane: "closed, no owner required" } },
   { id: "source_unmaterialized", title: "Official source bytes not reachable in any accessible corpus",
     owner: { session: 3, lane: "source custody and materialization" } },
   { id: "source_identity_never_pinned", title: "No source SHA-256 was ever recorded — identity cannot be settled by acquiring bytes",
@@ -107,13 +109,45 @@ const ROOT_CAUSE_GROUPS = [
 ];
 
 const groupFor = (asset, sourceHit, digestRecorded) => {
+  if (asset.launchSafelyTerminal) return "launch_safe_terminal_closed";
   if (!digestRecorded) return "source_identity_never_pinned";
   if (!sourceHit) return "source_unmaterialized";
   if (asset.primaryBucket === "RETIRE_OR_REPOINT") return "not_a_filing_artifact";
   return "render_or_finalizer_defect";
 };
 
-const families = queue.assets.map((asset) => {
+/**
+ * The view keeps the full original 81, not just what is still open.
+ *
+ * Once a family reaches a launch-safe terminal exclusion the canonical queue
+ * drops it — correctly, because no session should be sent after it. But the
+ * sprint's question is "where did each of the 81 end up", and a view that
+ * silently shrinks to 71 cannot answer it: the ten would look like they were
+ * never there rather than like they were finished.
+ */
+const terminalisedRecords = (register.records ?? []).filter((r) => r.launchSafelyTerminal);
+const queuedIds = new Set(queue.assets.map((a) => a.assetId));
+const scope = [
+  ...queue.assets,
+  ...terminalisedRecords.filter((r) => !queuedIds.has(r.identity)).map((r) => ({
+    assetId: r.identity,
+    jurisdiction: r.jurisdiction,
+    familyId: (r.familyIds ?? [])[0] ?? null,
+    familyIds: r.familyIds ?? [],
+    formId: r.formId,
+    familyPackagePath: null,
+    primaryBucket: "LAUNCH_SAFE_TERMINAL",
+    primaryBlocker: r.launchSafeTerminalReason ?? "official source unreachable",
+    terminalOutcome: r.launchSafeTerminalDisposition,
+    terminalTarget: "launch-safe terminal exclusion — never platform_ready",
+    doneCondition: "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+    mustPacket: false,
+    ownedPaths: [],
+    launchSafelyTerminal: true
+  }))
+];
+
+const families = scope.map((asset) => {
   // Two assets carry sha256_unrecorded_in_repo rather than a digest. That is a
   // third source state, not a variant of absent: nothing was ever pinned, so a
   // content match is impossible in principle and acquiring bytes would not
@@ -180,7 +214,10 @@ const families = queue.assets.map((asset) => {
     if (seen.has(key)) fail(`${key} appears twice; a family may have exactly one owner`);
     seen.add(key);
   }
-  if (families.length !== 81) fail(`expected 81 families, built ${families.length}`);
+  const denominator = register.totals.problematicPdfsTotal + (register.totals.launchSafelyTerminal ?? 0);
+  if (families.length !== denominator) {
+    fail(`built ${families.length} families; the register's retained (${register.totals.problematicPdfsTotal}) plus launch-safely-terminal (${register.totals.launchSafelyTerminal ?? 0}) is ${denominator}`);
+  }
 }
 
 const counts = families.reduce((acc, f) => {

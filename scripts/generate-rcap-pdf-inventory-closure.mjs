@@ -633,6 +633,11 @@ function ledger({ register, master, audit, batchManifest, freeze, packets, retir
   const platformReady = t.platformReady;
   const retired = t.retiredFromOperationalInventory;
   const problematic = t.problematicPdfsTotal;
+  // Assets that left the problematic count without being approved. They are a
+  // fourth term in the equation, not a disappearance: 128 still has to add up,
+  // and an asset that simply vanished from the ledger is indistinguishable from
+  // one that was quietly written off.
+  const launchSafelyTerminal = t.launchSafelyTerminal ?? 0;
 
   return {
     schemaVersion: "rcap-pdf-inventory-closure-ledger/v1",
@@ -650,13 +655,22 @@ function ledger({ register, master, audit, batchManifest, freeze, packets, retir
       platformReady,
       retired,
       retainedProblematic: problematic,
-      sums: platformReady + retired + problematic === 128,
-      changedByThisLane: 0,
-      whyNothingMoved:
-        "Every route to moving a row terminates at the same place: the source corpus is not mounted in this environment and outbound retrieval is refused, so no retirement can satisfy its seventh condition, no source can be accepted, and no family can be re-rendered."
+      launchSafelyTerminal,
+      launchSafelyTerminalIsNotApproval:
+        "these assets have no obtainable official source and no track, packet family or sellable pathway reaching them. They left the problematic count because they cannot be built and cannot be reached — never because anyone approved them, and they are never fit to file.",
+      sums: platformReady + retired + problematic + launchSafelyTerminal === 128,
+      changedByThisLane: launchSafelyTerminal,
+      whatMoved: launchSafelyTerminal > 0
+        ? `${launchSafelyTerminal} asset(s) reached a launch-safe terminal exclusion after their official source was proven unreachable in every accessible corpus and every route to them was proven absent.`
+        : "nothing moved."
     },
     retainedBreakdown: {
-      retainedMissing: t.missingPdfBinaries,
+      // Only assets still IN the retained count. missingPdfBinaries is a section
+      // total and keeps counting assets that have since exited, which would
+      // report more missing binaries than there are retained assets carrying one.
+      retainedMissing: (register.records ?? []).filter(
+        (r) => !r.platformReady && !r.launchSafelyTerminal && r.section === "missing_pdf_assets").length,
+      retainedMissingBeforeLaunchSafeExits: t.missingPdfBinaries,
       retainedSourceUnknown: resolutionRecord?.totals?.genuinely_no_official_source_identified ?? sources.totals.genuinely_no_official_source_identified ?? 0,
       retainedUnreviewed: problematic - freeze.totals.familiesInFreeze,
       reviewedAndAwaitingCorrection: packets.totals.correctionRequired,
