@@ -121,6 +121,14 @@ from public.partner_onboarding_prefill_values
 where review_status = 'applied'
   and superseded_at is null;
 
+-- The view runs as its caller, so a partner reading it must be able to read every column it
+-- names, including the one it now filters on. Partner reads of this table are column-level
+-- by design and already cover the twelve the projection exposes; this adds the thirteenth,
+-- which says only that a preparation was replaced by a later one. Nothing here widens the
+-- rows a partner can reach: row level security still limits them to their own workspace.
+grant select (superseded_at)
+  on public.partner_onboarding_prefill_values to authenticated;
+
 -- 5. Explicit override. A conflicting suggestion may never ride in on the ordinary apply,
 --    which compares the partner's current answer against the value the suggestion was
 --    raised against and refuses on any difference. Replacing a partner's answer is a
