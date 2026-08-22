@@ -214,6 +214,44 @@ for (const session of [...bySession.keys()].sort((a, b) => a - b)) {
 built.push(buildPack("pdf-finish-evidence-69", implementation,
   "the complete official source set for all 69 implementation families, for the sidecar and visual evidence sessions"));
 
+/**
+ * The combined pack is also emitted in halves.
+ *
+ * Not for convenience: the whole archive is larger than the transfer limit on
+ * the channel that actually carries these to a session, so a single file cannot
+ * be delivered at all. Each half is a complete, self-verifying pack over a
+ * disjoint member set — same manifest shape, same installer, same refusals — so
+ * installing both into one root reconstructs the full set, and installing only
+ * one leaves a root that is correct as far as it goes rather than subtly wrong.
+ *
+ * Split by cumulative member size rather than by family count, because member
+ * sizes here differ by two orders of magnitude and an even family split would
+ * not produce an even byte split.
+ */
+{
+  const ordered = [...implementation].sort((a, b) => a.familyId.localeCompare(b.familyId));
+  const seen = new Set();
+  const sized = [];
+  for (const f of ordered) {
+    const digest = f.sourceAvailability.sha256;
+    if (seen.has(digest)) { sized.push({ family: f, bytes: 0 }); continue; }
+    seen.add(digest);
+    sized.push({ family: f, bytes: f.sourceAvailability.byteLength ?? 0 });
+  }
+  const half = sized.reduce((n, x) => n + x.bytes, 0) / 2;
+  const parts = [[], []];
+  let running = 0;
+  for (const { family, bytes } of sized) {
+    parts[running < half ? 0 : 1].push(family);
+    running += bytes;
+  }
+  parts.forEach((families, i) => {
+    if (!families.length) fail(`evidence part ${i + 1} is empty; the split produced nothing to ship`);
+    built.push(buildPack(`pdf-finish-evidence-69-part-${i + 1}`, families,
+      `part ${i + 1} of 2 of the combined evidence source set; install both parts into the same root`));
+  });
+}
+
 const covered = new Set(built.filter((b) => b.packId !== "pdf-finish-evidence-69")
   .flatMap((b) => []));
 {
