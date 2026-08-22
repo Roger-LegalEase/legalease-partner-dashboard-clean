@@ -121,6 +121,8 @@ async function main() {
   console.log(`  workspace ${workspaceId ? "ready" : "MISSING"}`);
   if (!workspaceId) throw new Error("no onboarding workspace to capture");
   await seedPreparedSectionData(workspaceId);
+  // A fixture that cannot be prepared twice must not cost a capture run.
+  await verifyContactSeed();
   await resetPreparedField(workspaceId);
   const safetyBefore = await readSafetyState();
 
@@ -434,6 +436,74 @@ async function resetPreparedField(workspaceId) {
   console.log("  reset the prepared field to what LegalEase prepared");
 }
 
+/**
+ * Contact rows carry an optimistic-concurrency guard: every update must advance revision by
+ * exactly one, and the fixture is not exempt from it. A blind upsert is correct the first
+ * time and raises "Onboarding row revision conflict" on every rerun, because the update it
+ * becomes leaves revision where it was.
+ *
+ * So each contact is seeded by its stable synthetic id: created when absent, left entirely
+ * alone when the row already carries the intended values, and otherwise corrected in one
+ * update that advances revision by one and is conditioned on the revision that was read.
+ * A row that moved in between is reported rather than retried, because a fixture that
+ * retries past a concurrency guard is a fixture that no longer proves anything.
+ */
+async function seedPreparedContacts(workspaceId) {
+  const outcome = { inserted: 0, updated: 0, unchanged: 0 };
+  for (const contact of PREPARED_CONTACTS) {
+    const { data: existing, error: readError } = await admin
+      .from("partner_onboarding_contacts")
+      .select("id, workspace_id, role, name, title, work_email, revision")
+      .eq("id", contact.id)
+      .maybeSingle();
+    if (readError) throw new Error(`contacts: ${contact.id} could not be read: ${readError.message}`);
+
+    if (!existing) {
+      // revision is left to the column default, which is the schema's initial revision.
+      const { error } = await admin
+        .from("partner_onboarding_contacts")
+        .insert({ ...contact, workspace_id: workspaceId });
+      if (error) throw new Error(`contacts: ${contact.id} could not be created: ${error.message}`);
+      outcome.inserted += 1;
+      continue;
+    }
+
+    if (existing.workspace_id !== workspaceId) {
+      throw new Error(
+        `contacts: ${contact.id} belongs to another workspace; the fixture will not move an existing row`
+      );
+    }
+
+    const drifted = Object.keys(contact).filter(
+      (key) => key !== "id" && existing[key] !== contact[key]
+    );
+    if (drifted.length === 0) {
+      outcome.unchanged += 1;
+      continue;
+    }
+
+    const { id: _id, ...fixtureFields } = contact;
+    const { data: updated, error } = await admin
+      .from("partner_onboarding_contacts")
+      .update({ ...fixtureFields, revision: Number(existing.revision) + 1 })
+      .eq("id", contact.id)
+      .eq("revision", existing.revision)
+      .select("id");
+    if (error) {
+      throw new Error(
+        `contacts: ${contact.id} (${drifted.join(", ")}) could not be corrected: ${error.message}`
+      );
+    }
+    if ((updated ?? []).length !== 1) {
+      throw new Error(
+        `contacts: ${contact.id} changed while the fixture was preparing it (expected revision ${existing.revision}); not retrying`
+      );
+    }
+    outcome.updated += 1;
+  }
+  return outcome;
+}
+
 async function seedPreparedSectionData(workspaceId) {
   const { data: section } = await admin
     .from("partner_onboarding_sections")
@@ -446,13 +516,10 @@ async function seedPreparedSectionData(workspaceId) {
   // Contacts live in their own table, not in the section's stored answers, and the section
   // cannot be confirmed without them. Seed them whether or not a previous run already
   // filled the section: they are a separate precondition, not part of the same write.
-  const { error: contactError } = await admin
-    .from("partner_onboarding_contacts")
-    .upsert(
-      PREPARED_CONTACTS.map((contact) => ({ ...contact, workspace_id: workspaceId })),
-      { onConflict: "id" }
-    );
-  if (contactError) throw new Error(`contacts: ${contactError.message}`);
+  const contacts = await seedPreparedContacts(workspaceId);
+  console.log(
+    `  contacts: ${contacts.inserted} created, ${contacts.updated} corrected, ${contacts.unchanged} already correct`
+  );
 
   const current = section.response_data ?? {};
   if (Object.keys(current).length > 0) {
@@ -909,7 +976,95 @@ async function runMobile(browser) {
   await ctx.close();
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+/**
+ * The contact fixture's own proof, runnable without a browser:
+ *
+ *   node scripts/capture-rcap-prepared-onboarding-acceptance.mjs --verify-contact-seed
+ *
+ * It prepares the contacts twice and asserts that the second time changes nothing, that
+ * exactly the intended rows exist under exactly the intended ids, and that the section's
+ * own validator now sees Program contacts as satisfied. The capture runs this before it
+ * opens a browser, so a fixture that cannot repeat itself never costs a capture run.
+ */
+async function verifyContactSeed() {
+  const { data: workspace } = await admin
+    .from("partner_onboarding")
+    .select("id")
+    .eq("partner_slug", SLUG)
+    .maybeSingle();
+  assert.ok(workspace?.id, "no synthetic workspace to seed contacts into");
+
+  const first = await seedPreparedContacts(workspace.id);
+  const second = await seedPreparedContacts(workspace.id);
+  console.log(`  first  run: ${JSON.stringify(first)}`);
+  console.log(`  second run: ${JSON.stringify(second)}`);
+  assert.equal(second.inserted, 0, "the second preparation created a contact again");
+  assert.equal(second.updated, 0, "the second preparation rewrote a contact that already matched");
+  assert.equal(
+    second.unchanged,
+    PREPARED_CONTACTS.length,
+    "the second preparation did not treat every contact as already satisfied"
+  );
+
+  const { data: rows } = await admin
+    .from("partner_onboarding_contacts")
+    .select("id, role, name, title, work_email, revision")
+    .eq("workspace_id", workspace.id)
+    .is("deleted_at", null);
+  const found = rows ?? [];
+  assert.equal(found.length, PREPARED_CONTACTS.length, `expected ${PREPARED_CONTACTS.length} contacts, found ${found.length}`);
+  assert.equal(new Set(found.map((row) => row.id)).size, found.length, "a stable contact id is duplicated");
+  for (const contact of PREPARED_CONTACTS) {
+    const row = found.find((candidate) => candidate.id === contact.id);
+    assert.ok(row, `contact ${contact.id} is missing`);
+    for (const [key, value] of Object.entries(contact)) {
+      assert.equal(row[key], value, `contact ${contact.id} has the wrong ${key}`);
+    }
+    assert.ok(Number(row.revision) >= 1, `contact ${contact.id} has a revision below the schema's initial revision`);
+  }
+  console.log(`  ${found.length} contacts, revisions ${found.map((row) => row.revision).join(", ")}`);
+
+  // The point of the contacts: the section's own validator has to accept them.
+  const validation = await import("../src/lib/partners/onboarding/validation.ts");
+  const { data: section } = await admin
+    .from("partner_onboarding_sections")
+    .select("response_data")
+    .eq("workspace_id", workspace.id)
+    .eq("section_key", PREPARED_SECTION)
+    .maybeSingle();
+  const result = validation.validateOnboardingSection(
+    PREPARED_SECTION,
+    {
+      ...(section?.response_data ?? {}),
+      contacts: found.map((row) => ({
+        stable_row_id: row.id,
+        role: row.role,
+        name: row.name,
+        title: row.title,
+        organization: null,
+        work_email: row.work_email,
+        phone: null
+      }))
+    },
+    "section_complete"
+  );
+  const contactIssues = (result.issues ?? []).filter((issue) =>
+    String(issue.fieldKey ?? "").startsWith("contacts")
+  );
+  assert.deepEqual(contactIssues, [], `the section validator still rejects the seeded contacts: ${JSON.stringify(contactIssues)}`);
+  console.log("  section-completion validation sees Program contacts as satisfied");
+}
+
+if (process.argv.includes("--verify-contact-seed")) {
+  verifyContactSeed()
+    .then(() => console.log("\ncontact fixture is repeatable"))
+    .catch((error) => {
+      console.error(error);
+      process.exit(1);
+    });
+} else {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
