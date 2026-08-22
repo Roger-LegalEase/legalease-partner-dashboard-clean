@@ -359,7 +359,12 @@ export async function finalizeOfficialForm({
   nonFilingNotice = null,
   maxFontSize,
   minFontSize = MIN_READABLE_FONT_SIZE,
-  title = null
+  title = null,
+  // Field name -> appearance disposition, for the family being rendered. The
+  // caller resolves it from the shared semantic registry; an empty map leaves
+  // every field on the structural default, which is what every unclassified
+  // family gets.
+  appearanceDispositions = new Map()
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -526,7 +531,11 @@ export async function finalizeOfficialForm({
   // the participant; one outside it is still showing the court's own prompt.
   const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc, {
     defaultFont: helvetica,
-    writtenFields: new Set(report.written.map((w) => w.field))
+    writtenFields: new Set(report.written.map((w) => w.field)),
+    // What each classified field's appearance means. The caller resolves this
+    // for the family it is rendering and hands over a plain field-name map, so
+    // the finalizer never learns which family it is working on.
+    appearanceDispositions
   });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 
