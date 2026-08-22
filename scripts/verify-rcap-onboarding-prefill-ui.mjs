@@ -39,7 +39,7 @@ assert.match(internal, /min-w-\[1100px\]/);
 assert.match(internal, /window\.confirm/);
 assert.match(
   home,
-  /LegalEase pre-filled known information\. Review each marked section and correct/
+  /Your starting setup is ready to review/
 );
 assert.match(home, /hasPendingPrefill/);
 const presentation = read(

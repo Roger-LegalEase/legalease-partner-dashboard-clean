@@ -374,7 +374,7 @@ assert.match(reviewHtml, /Sections complete/);
 assert.match(reviewHtml, /Open partner changes/);
 assert.match(reviewHtml, /Waiting on LegalEase/);
 assert.match(reviewHtml, /Changed since prior review/);
-assert.match(reviewHtml, /Partner blockers/);
+assert.match(reviewHtml, /Decisions remaining/);
 assert.match(reviewHtml, /View full details/);
 assert.match(reviewHtml, /data-full-audit-default="summary"/);
 assert.doesNotMatch(reviewHtml, /<details[^>]*data-full-audit-default="summary"[^>]* open/);
