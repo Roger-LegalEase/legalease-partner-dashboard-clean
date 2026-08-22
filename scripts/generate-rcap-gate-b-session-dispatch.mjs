@@ -15,6 +15,7 @@
 // denominator — a dispatch record that disagrees with the queue would send a
 // session after assets that are no longer retained.
 
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
@@ -332,6 +333,58 @@ const HTML_ADJUDICATION = {
  * reading the gate that way would either block a legitimate wave or drag
  * nineteen unrelated families into it.
  */
+/**
+ * The lane 2 semantic decision.
+ *
+ * Session 8 tried a broad rule — suppress any unwritten /Tx widget appearance —
+ * and reverted it because it also erased official court captions. That outcome
+ * is the evidence for the rule below: a string is not removable because of where
+ * it is stored. "COUNTY, NEBRASKA" and "Type of Case - Check only one:" are
+ * measured to live in flattened-widget appearance XObjects on these very forms,
+ * exactly like the chooser prompt does. Location and field flags cannot separate
+ * them; only meaning can.
+ */
+const WIDGET_TEXT_SEMANTICS = {
+  decidedBy: "captain",
+  rule: "classify by what the string means on the filed page, never by where the finalizer happened to store it",
+  prohibitedHeuristics: [
+    "suppress every unwritten /Tx widget appearance",
+    "suppress on RichText",
+    "suppress on Multiline",
+    "any other /Ff bit test used as a proxy for placeholder-ness",
+    "suppress because the text is in a widget appearance stream rather than the page content stream"
+  ],
+  whyProhibited:
+    "each of these is a storage or flags test standing in for a meaning test. Measured on these artifacts, official static text and the chooser prompt are stored identically, so any such rule removes official court captions along with the placeholder — which is what Session 8 observed and correctly reverted.",
+  placeholderSuppressWhenUnwritten: [
+    {
+      text: "(Enter the type of court)",
+      disposition: "PLACEHOLDER",
+      action: "suppress when unwritten",
+      families: ["NE:cc-6-11-form-en", "NE:cc-6-11-2-form-en", "NE:cc-6-12-form-en", "NE:cc-6-15-1-form-en"]
+    }
+  ],
+  officialStaticTextPreserve: [
+    { text: "IN THE ___ COURT OF", disposition: "OFFICIAL STATIC TEXT", action: "preserve" },
+    { text: "COUNTY, NEBRASKA", disposition: "OFFICIAL STATIC TEXT", action: "preserve" },
+    { text: "Type of Case - Check only one:", disposition: "OFFICIAL STATIC TEXT", action: "preserve",
+      families: ["NE:dc-1-15-form-en"] }
+  ],
+  measuredStorageOfEachClass: {
+    method: "every string literal in every stream joined per stream, octal escapes decoded, then matched — the finalizer emits one Tj per word and escapes parens as \\050/\\051, so per-item extraction and a (...)Tj regex both miss this text",
+    at: "ad3bca357e8030f5d07207aeec2d07927f3b1912",
+    results: [
+      { text: "(Enter the type of court)", family: "NE:cc-6-11-form-en", storedIn: "widget-appearance-XObject" },
+      { text: "COUNTY, NEBRASKA", family: "NE:cc-6-11-form-en", storedIn: "widget-appearance-XObject" },
+      { text: "IN THE", family: "NE:cc-6-11-form-en", storedIn: "page-content-stream" },
+      { text: "Type of Case - Check only one:", family: "NE:dc-1-15-form-en", storedIn: "widget-appearance-XObject" },
+      { text: "COUNTY, NEBRASKA", family: "NE:dc-1-15-form-en", storedIn: "widget-appearance-XObject" }
+    ],
+    conclusion:
+      "official static text and the placeholder share a storage class on these forms. That is the measurement that forecloses every heuristic listed above."
+  }
+};
+
 const LANE_2_EVIDENCE_WAVE = (() => {
   const STATE = { KY: "kentucky", NE: "nebraska", VT: "vermont" };
   const COMMIT = {
@@ -339,10 +392,15 @@ const LANE_2_EVIDENCE_WAVE = (() => {
     "NE:cc-6-11-form-en": "e6ffff87", "NE:cc-6-11-2-form-en": "e6ffff87", "NE:cc-6-12-form-en": "e6ffff87",
     "NE:cc-6-15-1-form-en": "ad3bca35", "NE:dc-1-15-form-en": "ad3bca35", "VT:600-00228-support-en": "ad3bca35"
   };
+  // Narrowed by re-measurement at ad3bca35. The rerender scope is exactly the
+  // families still carrying the placeholder; everything else holds byte-identical.
   const AFFECTED = new Set([
-    "KY:aoc-496-form-en", "KY:aoc-496-2-form-en", "NE:cc-6-11-form-en", "NE:cc-6-11-2-form-en",
-    "NE:cc-6-12-form-en", "NE:cc-6-15-1-form-en", "NE:dc-1-15-form-en"
+    "NE:cc-6-11-form-en", "NE:cc-6-11-2-form-en", "NE:cc-6-12-form-en", "NE:cc-6-15-1-form-en"
   ]);
+  const CLASSIFICATION_SCOPE = [
+    "NE:cc-6-11-form-en", "NE:cc-6-11-2-form-en", "NE:cc-6-12-form-en",
+    "NE:cc-6-15-1-form-en", "NE:dc-1-15-form-en"
+  ];
   const assignment = readJson(`${ASSIGNMENTS}/family-rerender-2.json`);
   const assigned = new Set(assignment.familyIds ?? []);
   const allowed = assignment.allowedPaths ?? [];
@@ -381,24 +439,85 @@ const LANE_2_EVIDENCE_WAVE = (() => {
       sourcePackBatch: member.packId, sourcePackManifest: member.manifest,
       sourcePackMemberPath: member.pathInArchive,
       sourceMemberSha256: member.memberSha256, sourceMemberByteLength: member.memberByteLength,
-      status: AFFECTED.has(familyId) ? "affected_correction_required" : "frozen_diagnostic_pass",
+      status: AFFECTED.has(familyId)
+        ? "rerender_required_placeholder_suppression"
+        : "held_byte_identical",
+      inClassificationScope: CLASSIFICATION_SCOPE.includes(familyId),
+      artifactMayMove: AFFECTED.has(familyId),
       frozen: true
     };
   });
 
-  const packMatrix = [...new Map(packs.map((p) => [p.body.packId, p])).values()].map(({ file, body }) => ({
-    packId: body.packId,
-    manifest: file,
-    archiveFileName: body.zip,
-    archiveSha256: null,
-    archiveByteLength: null,
-    built: body.built === true,
-    memberCount: (body.files ?? []).length,
-    membersInThisWave: (body.files ?? [])
-      .filter((e) => (e.familyIds ?? []).some((f) => Object.keys(COMMIT).includes(f)))
-      .map((e) => ({ familyIds: (e.familyIds ?? []).filter((f) => Object.keys(COMMIT).includes(f)),
-        pathInArchive: e.pathInArchive, sha256: e.sha256, byteLength: e.byteLength }))
-  })).filter((p) => p.membersInThisWave.length);
+  // Pack facts are read and hashed here, not transcribed. The manifest is the
+  // only artifact of a pack that exists in the repository, so it is the only
+  // thing that can carry a filename, a full digest and a byte length; the
+  // archive-level fields stay null until a ZIP is actually built.
+  const REQUIRED_FOR_CORRECTION = new Set(["family-rerender-lane-2-batch-01", "family-rerender-lane-2-batch-02"]);
+  const packMatrix = [...new Map(packs.map((p) => [p.body.packId, p])).values()].map(({ file, body }) => {
+    const bytes = fs.readFileSync(abs(file));
+    return {
+      packId: body.packId,
+      requiredForThisCorrection: REQUIRED_FOR_CORRECTION.has(body.packId),
+      manifestFileName: path.basename(file),
+      manifestPath: file,
+      manifestSha256: crypto.createHash("sha256").update(bytes).digest("hex"),
+      manifestByteLength: bytes.length,
+      archiveFileName: body.zip,
+      archiveSha256: null,
+      archiveByteLength: null,
+      built: body.built === true,
+      memberCount: (body.files ?? []).length,
+      members: (body.files ?? []).map((e) => ({
+        familyIds: e.familyIds ?? [],
+        pathInArchive: e.pathInArchive,
+        sha256: e.sha256,
+        byteLength: e.byteLength,
+        inThisWave: (e.familyIds ?? []).some((f) => Object.keys(COMMIT).includes(f))
+      }))
+    };
+  }).filter((p) => p.members.some((m) => m.inThisWave));
+
+  {
+    for (const pack of packMatrix) {
+      for (const m of pack.members) {
+        if (!/^[0-9a-f]{64}$/.test(String(m.sha256 ?? ""))) {
+          fail(`${pack.packId} member ${m.pathInArchive} carries no full SHA-256; abbreviated or missing digests are not publishable`);
+        }
+        if (!Number.isInteger(m.byteLength) || m.byteLength <= 0) {
+          fail(`${pack.packId} member ${m.pathInArchive} carries no byte length`);
+        }
+      }
+    }
+    for (const id of REQUIRED_FOR_CORRECTION) {
+      if (!packMatrix.some((p) => p.packId === id)) fail(`${id} is required for this correction but is not in the matrix`);
+    }
+  }
+
+  // The policy and the rerender scope have to agree, or a session reads one and
+  // acts on the other.
+  {
+    const placeholderFamilies = new Set(
+      WIDGET_TEXT_SEMANTICS.placeholderSuppressWhenUnwritten.flatMap((r) => r.families ?? []));
+    for (const f of placeholderFamilies) {
+      if (!AFFECTED.has(f)) fail(`${f} carries a placeholder disposition but is not in the rerender scope`);
+    }
+    for (const f of AFFECTED) {
+      if (!placeholderFamilies.has(f)) fail(`${f} is in the rerender scope but carries no placeholder disposition`);
+      if (!CLASSIFICATION_SCOPE.includes(f)) fail(`${f} is rerendered but is outside the classification scope`);
+    }
+    const preserveOnly = new Set(
+      WIDGET_TEXT_SEMANTICS.officialStaticTextPreserve.flatMap((r) => r.families ?? []));
+    for (const f of preserveOnly) {
+      if (AFFECTED.has(f)) fail(`${f} carries only preserve dispositions; its artifact may not move`);
+    }
+    for (const f of Object.keys(COMMIT)) {
+      const state = f.split(":")[0];
+      if ((state === "KY" || state === "VT") && AFFECTED.has(f)) {
+        fail(`${f} is a ${state} family; no Kentucky or Vermont artifact may move in this correction`);
+      }
+    }
+    if (!WIDGET_TEXT_SEMANTICS.prohibitedHeuristics.length) fail("the semantic decision records no prohibited heuristic");
+  }
 
   return {
     wave: "lane-2-evidence",
@@ -412,7 +531,29 @@ const LANE_2_EVIDENCE_WAVE = (() => {
       disposition: "diagnostic_only_source_bytes_unavailable",
       rastersManifestsIndexIntegrated: false,
       why: "its own manifests record binaryAvailableToThisRun false and censusPinConfirmedAgainstBytes false: the lane 2 pack is not in the clone, so nothing it says about source preservation rests on official bytes",
-      butItsArtifactBoundObservationsReopenedTheGate: true
+      butItsArtifactBoundObservationsReopenedTheGate: true,
+      findingsNarrowedAt: "ad3bca357e8030f5d07207aeec2d07927f3b1912",
+      findingsNarrowedBy:
+        "each reported string re-measured directly against the fixtures at ad3bca35 by joining every string literal per stream and decoding octal escapes. The earlier confirmation was taken against the diagnostic tip's own artifacts, not against ad3bca35; measuring the implementation snapshot narrows it.",
+      confirmedCurrentPlaceholderDefects: [
+        { text: "(Enter the type of court)", occurrences: 4,
+          families: ["NE:cc-6-11-form-en", "NE:cc-6-11-2-form-en", "NE:cc-6-12-form-en", "NE:cc-6-15-1-form-en"] }
+      ],
+      refutedAtThisSnapshot: [
+        { text: "Print Form", family: "KY:aoc-496-form-en", measured: "absent" },
+        { text: "Reset Form", family: "KY:aoc-496-form-en", measured: "absent" },
+        { text: "Print Form", family: "KY:aoc-496-2-form-en", measured: "absent" },
+        { text: "Reset Form", family: "KY:aoc-496-2-form-en", measured: "absent" },
+        { text: "RESET FORM", family: "NE:dc-1-15-form-en", measured: "absent" }
+      ],
+      preserveNotADefect: [
+        { text: "Type of Case - Check only one:", family: "NE:dc-1-15-form-en",
+          measured: "present in a widget-appearance-XObject", disposition: "OFFICIAL STATIC TEXT" }
+      ],
+      unconfirmed: [
+        { finding: "date-caption overlap", family: "NE:cc-6-15-1-form-en",
+          why: "the caption/value x-positions differ by extraction method — 367.22 by this tree's extraction against 366.22 by the diagnostic — so the reported magnitude is method-dependent and no overlap figure is certified here" }
+      ]
     },
     familyCount: families.length,
     affectedFamilies: [...AFFECTED],
@@ -423,8 +564,17 @@ const LANE_2_EVIDENCE_WAVE = (() => {
       zipsBuilt: 0,
       consequence:
         "no archive filename, archive SHA-256 or archive byte length exists to publish for any lane-2 pack. Every manifest records built:false and zip:null, and the generator that would build them writes into tmp/source-packs, which git refuses to track. Member paths, member digests and member byte lengths ARE published below, because those are pinned in the manifests; the archive-level values are not invented.",
+      whatIsPublishedInstead:
+        "each pack's manifest file name, its full SHA-256, its byte length, and every member's archive path, full SHA-256 and byte length. The manifest is the committed half of a pack and is the only half that exists.",
       withdrawnClaim:
-        "an earlier checkpoint recorded sourcePackSha256 11e1311c… for this wave. That value is a pack-pinned member digest carried in the diagnostic's manifests, not the SHA-256 of a built archive, and it was recorded here without being derived. It is withdrawn as an archive digest."
+        "an earlier checkpoint recorded sourcePackSha256 11e1311c… for this wave. That value is a pack-pinned member digest carried in the diagnostic's manifests, not the SHA-256 of a built archive, and it was recorded here without being derived. It is withdrawn as an archive digest.",
+      abbreviatedValueNotStored: {
+        value: "e0d801c0…",
+        resolvedAgainst: "all 107 member entries across every committed source-pack manifest, and the SHA-256 of every lane-2 manifest file",
+        matches: 0,
+        disposition:
+          "not stored. It is an abbreviation with no resolvable full value in this tree, and an abbreviation is not a digest. If Session 8 holds the full value it must be published with what it hashes."
+      }
     },
     gate: {
       allNineInTheAssignment: true,
@@ -433,13 +583,43 @@ const LANE_2_EVIDENCE_WAVE = (() => {
       parentAssignmentSize: (assignment.familyIds ?? []).length,
       note: "the parent assignment holds more than nine, and that is not a failure — the gate is about these nine, not the parent's size"
     },
+    widgetTextSemantics: WIDGET_TEXT_SEMANTICS,
     dispatch: {
-      correctionSession: 8,
+      order: [
+        "1. Session 6 publishes the semantic classification commit",
+        "2. Session 8 rerenders the four placeholder families against it",
+        "3. only then may Sessions 9 and 10 produce evidence"
+      ],
+      classification: {
+        session: 6,
+        status: "dispatched",
+        role: "shared code and source-pack factory",
+        whyThisSession:
+          "the classification governs the finalizer, and the finalizer lives under scripts/rcap-official-forms/**, which Session 8's own assignment lists as a prohibited path. Session 6 already owns shared code and its current tip is on this exact question. This is read off the committed assignment, not assigned by preference.",
+        familyIds: CLASSIFICATION_SCOPE,
+        mustLandBefore: "any finalizer change or artifact rerender by Session 8",
+        mayNotWriteInto: "the family package directories — those are Session 8's allowed paths, and a classification record is shared, not per-package",
+        producesNoArtifactMovement: true
+      },
+      rerender: {
+        session: 8,
+        status: "blocked_until_classification_commit",
+        assignment: "family-rerender-2.json",
+        familyIds: [...AFFECTED],
+        artifactsThatMayMove: [...AFFECTED],
+        artifactsHeldByteIdentical: Object.keys(COMMIT).filter((f) => !AFFECTED.has(f)),
+        explicitHolds: [
+          "no Kentucky artifact may move",
+          "no Vermont artifact may move",
+          "NE:dc-1-15-form-en's artifact may not move"
+        ]
+      },
       sidecarSession: { session: 9, status: "not_dispatched" },
       visualSession: { session: 10, status: "not_dispatched" },
       reviewer: { session: 2, status: "not_dispatched", isAnEvidenceProducer: false },
       evidenceMayNotStartUntil: [
-        "Session 8 pushes the corrected implementation",
+        "Session 6 pushes the semantic classification commit",
+        "Session 8 pushes the four-family rerender against it",
         "every required source-pack archive hash is published",
         "every required source archive is available to the evidence sessions"
       ]

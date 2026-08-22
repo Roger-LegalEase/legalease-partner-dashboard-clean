@@ -230,17 +230,70 @@
       "disposition": "diagnostic_only_source_bytes_unavailable",
       "rastersManifestsIndexIntegrated": false,
       "why": "its own manifests record binaryAvailableToThisRun false and censusPinConfirmedAgainstBytes false: the lane 2 pack is not in the clone, so nothing it says about source preservation rests on official bytes",
-      "butItsArtifactBoundObservationsReopenedTheGate": true
+      "butItsArtifactBoundObservationsReopenedTheGate": true,
+      "findingsNarrowedAt": "ad3bca357e8030f5d07207aeec2d07927f3b1912",
+      "findingsNarrowedBy": "each reported string re-measured directly against the fixtures at ad3bca35 by joining every string literal per stream and decoding octal escapes. The earlier confirmation was taken against the diagnostic tip's own artifacts, not against ad3bca35; measuring the implementation snapshot narrows it.",
+      "confirmedCurrentPlaceholderDefects": [
+        {
+          "text": "(Enter the type of court)",
+          "occurrences": 4,
+          "families": [
+            "NE:cc-6-11-form-en",
+            "NE:cc-6-11-2-form-en",
+            "NE:cc-6-12-form-en",
+            "NE:cc-6-15-1-form-en"
+          ]
+        }
+      ],
+      "refutedAtThisSnapshot": [
+        {
+          "text": "Print Form",
+          "family": "KY:aoc-496-form-en",
+          "measured": "absent"
+        },
+        {
+          "text": "Reset Form",
+          "family": "KY:aoc-496-form-en",
+          "measured": "absent"
+        },
+        {
+          "text": "Print Form",
+          "family": "KY:aoc-496-2-form-en",
+          "measured": "absent"
+        },
+        {
+          "text": "Reset Form",
+          "family": "KY:aoc-496-2-form-en",
+          "measured": "absent"
+        },
+        {
+          "text": "RESET FORM",
+          "family": "NE:dc-1-15-form-en",
+          "measured": "absent"
+        }
+      ],
+      "preserveNotADefect": [
+        {
+          "text": "Type of Case - Check only one:",
+          "family": "NE:dc-1-15-form-en",
+          "measured": "present in a widget-appearance-XObject",
+          "disposition": "OFFICIAL STATIC TEXT"
+        }
+      ],
+      "unconfirmed": [
+        {
+          "finding": "date-caption overlap",
+          "family": "NE:cc-6-15-1-form-en",
+          "why": "the caption/value x-positions differ by extraction method — 367.22 by this tree's extraction against 366.22 by the diagnostic — so the reported magnitude is method-dependent and no overlap figure is certified here"
+        }
+      ]
     },
     "familyCount": 9,
     "affectedFamilies": [
-      "KY:aoc-496-form-en",
-      "KY:aoc-496-2-form-en",
       "NE:cc-6-11-form-en",
       "NE:cc-6-11-2-form-en",
       "NE:cc-6-12-form-en",
-      "NE:cc-6-15-1-form-en",
-      "NE:dc-1-15-form-en"
+      "NE:cc-6-15-1-form-en"
     ],
     "frozenCleanFamilies": [
       "KY:aoc-496-4-form-en",
@@ -261,7 +314,9 @@
         "sourcePackMemberPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496__expungement-order__REV-2016-07__EN.pdf",
         "sourceMemberSha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
         "sourceMemberByteLength": 218186,
-        "status": "affected_correction_required",
+        "status": "held_byte_identical",
+        "inClassificationScope": false,
+        "artifactMayMove": false,
         "frozen": true
       },
       {
@@ -278,7 +333,9 @@
         "sourcePackMemberPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
         "sourceMemberSha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
         "sourceMemberByteLength": 237812,
-        "status": "affected_correction_required",
+        "status": "held_byte_identical",
+        "inClassificationScope": false,
+        "artifactMayMove": false,
         "frozen": true
       },
       {
@@ -295,7 +352,9 @@
         "sourcePackMemberPath": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.4__496-4__REV-2023-06__EN.pdf",
         "sourceMemberSha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
         "sourceMemberByteLength": 251246,
-        "status": "frozen_diagnostic_pass",
+        "status": "held_byte_identical",
+        "inClassificationScope": false,
+        "artifactMayMove": false,
         "frozen": true
       },
       {
@@ -312,7 +371,9 @@
         "sourcePackMemberPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11__cc-6-11-petition-to-set-aside-a-criminal-conviction__REV-2024-04__EN.pdf",
         "sourceMemberSha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
         "sourceMemberByteLength": 3003355,
-        "status": "affected_correction_required",
+        "status": "rerender_required_placeholder_suppression",
+        "inClassificationScope": true,
+        "artifactMayMove": true,
         "frozen": true
       },
       {
@@ -329,7 +390,9 @@
         "sourcePackMemberPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
         "sourceMemberSha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
         "sourceMemberByteLength": 2766067,
-        "status": "affected_correction_required",
+        "status": "rerender_required_placeholder_suppression",
+        "inClassificationScope": true,
+        "artifactMayMove": true,
         "frozen": true
       },
       {
@@ -346,7 +409,9 @@
         "sourcePackMemberPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
         "sourceMemberSha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
         "sourceMemberByteLength": 1682731,
-        "status": "affected_correction_required",
+        "status": "rerender_required_placeholder_suppression",
+        "inClassificationScope": true,
+        "artifactMayMove": true,
         "frozen": true
       },
       {
@@ -363,7 +428,9 @@
         "sourcePackMemberPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-15.1__motion-to-seal-record__REV-2021-05__EN.pdf",
         "sourceMemberSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
         "sourceMemberByteLength": 2909936,
-        "status": "affected_correction_required",
+        "status": "rerender_required_placeholder_suppression",
+        "inClassificationScope": true,
+        "artifactMayMove": true,
         "frozen": true
       },
       {
@@ -380,7 +447,9 @@
         "sourcePackMemberPath": "STATES/NE/02_PACKET_FORMS/NE__FORM__DC-1-15__notice-of-hearing__REV-UNKNOWN__EN.pdf",
         "sourceMemberSha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
         "sourceMemberByteLength": 8485306,
-        "status": "affected_correction_required",
+        "status": "held_byte_identical",
+        "inClassificationScope": true,
+        "artifactMayMove": false,
         "frozen": true
       },
       {
@@ -397,27 +466,34 @@
         "sourcePackMemberPath": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
         "sourceMemberSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
         "sourceMemberByteLength": 2871072,
-        "status": "frozen_diagnostic_pass",
+        "status": "held_byte_identical",
+        "inClassificationScope": false,
+        "artifactMayMove": false,
         "frozen": true
       }
     ],
     "sourcePackMatrix": [
       {
         "packId": "family-rerender-lane-2-batch-01",
-        "manifest": "data/rcap-all50/source-packs/family-rerender-lane-2-batch-01.manifest.json",
+        "requiredForThisCorrection": true,
+        "manifestFileName": "family-rerender-lane-2-batch-01.manifest.json",
+        "manifestPath": "data/rcap-all50/source-packs/family-rerender-lane-2-batch-01.manifest.json",
+        "manifestSha256": "5b0e8f502839260bde73f9056ce2f61c126888a5845995309d7187abf9f0c40f",
+        "manifestByteLength": 6696,
         "archiveFileName": null,
         "archiveSha256": null,
         "archiveByteLength": null,
         "built": false,
         "memberCount": 7,
-        "membersInThisWave": [
+        "members": [
           {
             "familyIds": [
               "KY:aoc-496-2-form-en"
             ],
             "pathInArchive": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
             "sha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
-            "byteLength": 237812
+            "byteLength": 237812,
+            "inThisWave": true
           },
           {
             "familyIds": [
@@ -425,7 +501,8 @@
             ],
             "pathInArchive": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.4__496-4__REV-2023-06__EN.pdf",
             "sha256": "70f9540b2a6ce517024c9b53815e964141e3641dd1a2b62a97af257146508182",
-            "byteLength": 251246
+            "byteLength": 251246,
+            "inThisWave": true
           },
           {
             "familyIds": [
@@ -433,7 +510,8 @@
             ],
             "pathInArchive": "STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496__expungement-order__REV-2016-07__EN.pdf",
             "sha256": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
-            "byteLength": 218186
+            "byteLength": 218186,
+            "inThisWave": true
           },
           {
             "familyIds": [
@@ -441,7 +519,8 @@
             ],
             "pathInArchive": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11.2__cc-6-11-2-order-setting-aside-a-criminal-conviction__REV-2020-12__EN.pdf",
             "sha256": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
-            "byteLength": 2766067
+            "byteLength": 2766067,
+            "inThisWave": true
           },
           {
             "familyIds": [
@@ -449,7 +528,17 @@
             ],
             "pathInArchive": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-11__cc-6-11-petition-to-set-aside-a-criminal-conviction__REV-2024-04__EN.pdf",
             "sha256": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
-            "byteLength": 3003355
+            "byteLength": 3003355,
+            "inThisWave": true
+          },
+          {
+            "familyIds": [
+              "NE:cc-6-11a-instructions-en"
+            ],
+            "pathInArchive": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-11A__completing-the-petition-to-set-aside-a-criminal-conviction__REV-UNKNOWN__EN.pdf",
+            "sha256": "615c64b428d5fdd43ea7d96e3be387bc623860709106b511a16c452c9d9a50ac",
+            "byteLength": 821244,
+            "inThisWave": false
           },
           {
             "familyIds": [
@@ -457,26 +546,41 @@
             ],
             "pathInArchive": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-12__motion-to-seal-an__REV-2024-04__EN.pdf",
             "sha256": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
-            "byteLength": 1682731
+            "byteLength": 1682731,
+            "inThisWave": true
           }
         ]
       },
       {
         "packId": "family-rerender-lane-2-batch-02",
-        "manifest": "data/rcap-all50/source-packs/family-rerender-lane-2-batch-02.manifest.json",
+        "requiredForThisCorrection": true,
+        "manifestFileName": "family-rerender-lane-2-batch-02.manifest.json",
+        "manifestPath": "data/rcap-all50/source-packs/family-rerender-lane-2-batch-02.manifest.json",
+        "manifestSha256": "925676675858a2ba18382aec1004426d17d3ec24c963eb0a5301e4f8f3a79f64",
+        "manifestByteLength": 5346,
         "archiveFileName": null,
         "archiveSha256": null,
         "archiveByteLength": null,
         "built": false,
         "memberCount": 5,
-        "membersInThisWave": [
+        "members": [
+          {
+            "familyIds": [
+              "NE:cc-6-12-instructions-en"
+            ],
+            "pathInArchive": "STATES/NE/03_INSTRUCTIONS/NE__INSTRUCTIONS__CC-6-12__completing-the-motion-to__REV-2024-06__EN.pdf",
+            "sha256": "b76a0931b781a97de38d17d5856996de307e8c3fb9a67fb48e5679bd232da26a",
+            "byteLength": 137633,
+            "inThisWave": false
+          },
           {
             "familyIds": [
               "NE:cc-6-15-1-form-en"
             ],
             "pathInArchive": "STATES/NE/02_PACKET_FORMS/NE__FORM__CC-6-15.1__motion-to-seal-record__REV-2021-05__EN.pdf",
             "sha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
-            "byteLength": 2909936
+            "byteLength": 2909936,
+            "inThisWave": true
           },
           {
             "familyIds": [
@@ -484,26 +588,82 @@
             ],
             "pathInArchive": "STATES/NE/02_PACKET_FORMS/NE__FORM__DC-1-15__notice-of-hearing__REV-UNKNOWN__EN.pdf",
             "sha256": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
-            "byteLength": 8485306
+            "byteLength": 8485306,
+            "inThisWave": true
+          },
+          {
+            "familyIds": [
+              "VA:cc-1201-en",
+              "VA:cc-1201-form-en"
+            ],
+            "pathInArchive": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1201__petition-for-sealing-pursuant__REV-2026-07__EN.pdf",
+            "sha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+            "byteLength": 282919,
+            "inThisWave": false
+          },
+          {
+            "familyIds": [
+              "VA:cc-1473-en",
+              "VA:cc-1473-form-en"
+            ],
+            "pathInArchive": "STATES/VA/02_PACKET_FORMS/VA__FORM__CC-1473__petition-for-expungement__REV-2026-07__EN.pdf",
+            "sha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+            "byteLength": 120875,
+            "inThisWave": false
           }
         ]
       },
       {
         "packId": "family-rerender-lane-2-batch-04",
-        "manifest": "data/rcap-all50/source-packs/family-rerender-lane-2-batch-04.manifest.json",
+        "requiredForThisCorrection": false,
+        "manifestFileName": "family-rerender-lane-2-batch-04.manifest.json",
+        "manifestPath": "data/rcap-all50/source-packs/family-rerender-lane-2-batch-04.manifest.json",
+        "manifestSha256": "c1d22832817f3933dcc8aded7d9019a72114b6658ebd2bdf2dffbfdf5c980f50",
+        "manifestByteLength": 5209,
         "archiveFileName": null,
         "archiveSha256": null,
         "archiveByteLength": null,
         "built": false,
         "memberCount": 4,
-        "membersInThisWave": [
+        "members": [
           {
             "familyIds": [
+              "VT:200-00132a-form-en"
+            ],
+            "pathInArchive": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00132A__stipulation-to-expunge-criminal-history-record-and-order__REV-2025-07__EN.pdf",
+            "sha256": "9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+            "byteLength": 1959576,
+            "inThisWave": false
+          },
+          {
+            "familyIds": [
+              "VT:200-00331-en",
+              "VT:200-00331-support-en"
+            ],
+            "pathInArchive": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__200-00331__request-for-criminal-record-search__REV-2026-05__EN.pdf",
+            "sha256": "6001c4bd36be3e6b4f84b6352ebc94178f3535e39a9109665a2ac35aa2095212",
+            "byteLength": 1055720,
+            "inThisWave": false
+          },
+          {
+            "familyIds": [
+              "VT:200-00631-en",
+              "VT:200-00631-form-en"
+            ],
+            "pathInArchive": "STATES/VT/02_PACKET_FORMS/VT__FORM__200-00631__request-for-sealing-order-in-special-index__REV-2019-09__EN.pdf",
+            "sha256": "a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+            "byteLength": 832881,
+            "inThisWave": false
+          },
+          {
+            "familyIds": [
+              "VT:600-00228-en",
               "VT:600-00228-support-en"
             ],
             "pathInArchive": "STATES/VT/04_SUPPORTING_PROCESS/VT__SUPPORT__600-00228__application-to-waive-filing-fees-and-service-costs__REV-2026-04__EN.pdf",
             "sha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
-            "byteLength": 2871072
+            "byteLength": 2871072,
+            "inThisWave": true
           }
         ]
       }
@@ -511,7 +671,14 @@
     "sourcePackArchivesDoNotExistYet": {
       "zipsBuilt": 0,
       "consequence": "no archive filename, archive SHA-256 or archive byte length exists to publish for any lane-2 pack. Every manifest records built:false and zip:null, and the generator that would build them writes into tmp/source-packs, which git refuses to track. Member paths, member digests and member byte lengths ARE published below, because those are pinned in the manifests; the archive-level values are not invented.",
-      "withdrawnClaim": "an earlier checkpoint recorded sourcePackSha256 11e1311c… for this wave. That value is a pack-pinned member digest carried in the diagnostic's manifests, not the SHA-256 of a built archive, and it was recorded here without being derived. It is withdrawn as an archive digest."
+      "whatIsPublishedInstead": "each pack's manifest file name, its full SHA-256, its byte length, and every member's archive path, full SHA-256 and byte length. The manifest is the committed half of a pack and is the only half that exists.",
+      "withdrawnClaim": "an earlier checkpoint recorded sourcePackSha256 11e1311c… for this wave. That value is a pack-pinned member digest carried in the diagnostic's manifests, not the SHA-256 of a built archive, and it was recorded here without being derived. It is withdrawn as an archive digest.",
+      "abbreviatedValueNotStored": {
+        "value": "e0d801c0…",
+        "resolvedAgainst": "all 107 member entries across every committed source-pack manifest, and the SHA-256 of every lane-2 manifest file",
+        "matches": 0,
+        "disposition": "not stored. It is an abbreviation with no resolvable full value in this tree, and an abbreviation is not a digest. If Session 8 holds the full value it must be published with what it hashes."
+      }
     },
     "gate": {
       "allNineInTheAssignment": true,
@@ -520,8 +687,134 @@
       "parentAssignmentSize": 28,
       "note": "the parent assignment holds more than nine, and that is not a failure — the gate is about these nine, not the parent's size"
     },
+    "widgetTextSemantics": {
+      "decidedBy": "captain",
+      "rule": "classify by what the string means on the filed page, never by where the finalizer happened to store it",
+      "prohibitedHeuristics": [
+        "suppress every unwritten /Tx widget appearance",
+        "suppress on RichText",
+        "suppress on Multiline",
+        "any other /Ff bit test used as a proxy for placeholder-ness",
+        "suppress because the text is in a widget appearance stream rather than the page content stream"
+      ],
+      "whyProhibited": "each of these is a storage or flags test standing in for a meaning test. Measured on these artifacts, official static text and the chooser prompt are stored identically, so any such rule removes official court captions along with the placeholder — which is what Session 8 observed and correctly reverted.",
+      "placeholderSuppressWhenUnwritten": [
+        {
+          "text": "(Enter the type of court)",
+          "disposition": "PLACEHOLDER",
+          "action": "suppress when unwritten",
+          "families": [
+            "NE:cc-6-11-form-en",
+            "NE:cc-6-11-2-form-en",
+            "NE:cc-6-12-form-en",
+            "NE:cc-6-15-1-form-en"
+          ]
+        }
+      ],
+      "officialStaticTextPreserve": [
+        {
+          "text": "IN THE ___ COURT OF",
+          "disposition": "OFFICIAL STATIC TEXT",
+          "action": "preserve"
+        },
+        {
+          "text": "COUNTY, NEBRASKA",
+          "disposition": "OFFICIAL STATIC TEXT",
+          "action": "preserve"
+        },
+        {
+          "text": "Type of Case - Check only one:",
+          "disposition": "OFFICIAL STATIC TEXT",
+          "action": "preserve",
+          "families": [
+            "NE:dc-1-15-form-en"
+          ]
+        }
+      ],
+      "measuredStorageOfEachClass": {
+        "method": "every string literal in every stream joined per stream, octal escapes decoded, then matched — the finalizer emits one Tj per word and escapes parens as \\050/\\051, so per-item extraction and a (...)Tj regex both miss this text",
+        "at": "ad3bca357e8030f5d07207aeec2d07927f3b1912",
+        "results": [
+          {
+            "text": "(Enter the type of court)",
+            "family": "NE:cc-6-11-form-en",
+            "storedIn": "widget-appearance-XObject"
+          },
+          {
+            "text": "COUNTY, NEBRASKA",
+            "family": "NE:cc-6-11-form-en",
+            "storedIn": "widget-appearance-XObject"
+          },
+          {
+            "text": "IN THE",
+            "family": "NE:cc-6-11-form-en",
+            "storedIn": "page-content-stream"
+          },
+          {
+            "text": "Type of Case - Check only one:",
+            "family": "NE:dc-1-15-form-en",
+            "storedIn": "widget-appearance-XObject"
+          },
+          {
+            "text": "COUNTY, NEBRASKA",
+            "family": "NE:dc-1-15-form-en",
+            "storedIn": "widget-appearance-XObject"
+          }
+        ],
+        "conclusion": "official static text and the placeholder share a storage class on these forms. That is the measurement that forecloses every heuristic listed above."
+      }
+    },
     "dispatch": {
-      "correctionSession": 8,
+      "order": [
+        "1. Session 6 publishes the semantic classification commit",
+        "2. Session 8 rerenders the four placeholder families against it",
+        "3. only then may Sessions 9 and 10 produce evidence"
+      ],
+      "classification": {
+        "session": 6,
+        "status": "dispatched",
+        "role": "shared code and source-pack factory",
+        "whyThisSession": "the classification governs the finalizer, and the finalizer lives under scripts/rcap-official-forms/**, which Session 8's own assignment lists as a prohibited path. Session 6 already owns shared code and its current tip is on this exact question. This is read off the committed assignment, not assigned by preference.",
+        "familyIds": [
+          "NE:cc-6-11-form-en",
+          "NE:cc-6-11-2-form-en",
+          "NE:cc-6-12-form-en",
+          "NE:cc-6-15-1-form-en",
+          "NE:dc-1-15-form-en"
+        ],
+        "mustLandBefore": "any finalizer change or artifact rerender by Session 8",
+        "mayNotWriteInto": "the family package directories — those are Session 8's allowed paths, and a classification record is shared, not per-package",
+        "producesNoArtifactMovement": true
+      },
+      "rerender": {
+        "session": 8,
+        "status": "blocked_until_classification_commit",
+        "assignment": "family-rerender-2.json",
+        "familyIds": [
+          "NE:cc-6-11-form-en",
+          "NE:cc-6-11-2-form-en",
+          "NE:cc-6-12-form-en",
+          "NE:cc-6-15-1-form-en"
+        ],
+        "artifactsThatMayMove": [
+          "NE:cc-6-11-form-en",
+          "NE:cc-6-11-2-form-en",
+          "NE:cc-6-12-form-en",
+          "NE:cc-6-15-1-form-en"
+        ],
+        "artifactsHeldByteIdentical": [
+          "KY:aoc-496-form-en",
+          "KY:aoc-496-2-form-en",
+          "KY:aoc-496-4-form-en",
+          "NE:dc-1-15-form-en",
+          "VT:600-00228-support-en"
+        ],
+        "explicitHolds": [
+          "no Kentucky artifact may move",
+          "no Vermont artifact may move",
+          "NE:dc-1-15-form-en's artifact may not move"
+        ]
+      },
       "sidecarSession": {
         "session": 9,
         "status": "not_dispatched"
@@ -536,7 +829,8 @@
         "isAnEvidenceProducer": false
       },
       "evidenceMayNotStartUntil": [
-        "Session 8 pushes the corrected implementation",
+        "Session 6 pushes the semantic classification commit",
+        "Session 8 pushes the four-family rerender against it",
         "every required source-pack archive hash is published",
         "every required source archive is available to the evidence sessions"
       ]
