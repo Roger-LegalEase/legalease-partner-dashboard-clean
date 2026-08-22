@@ -61,8 +61,12 @@ assert.doesNotMatch(service, /openai|anthropic|fetch\(/i);
 const reproposal = read(
   "supabase/migrations/20260822180000_rcap_prefill_reproposal.sql"
 );
-assert.match(service, /const ACTIONABLE_REVIEW_STATUSES = \["proposed", "approved", "conflict"\]/);
-assert.match(service, /const HISTORY_REVIEW_STATUSES = \["applied", "rejected", "superseded"\]/);
+// The vocabulary lives in the domain module, which a client component may import; pulling
+// it from the service would drag server-only code into the browser bundle.
+const domain = read("src/lib/partners/onboarding/prefill-domain.ts");
+assert.match(domain, /export const ACTIONABLE_REVIEW_STATUSES = \[\s*"proposed",\s*"approved",\s*"conflict"\s*\]/);
+assert.match(domain, /export const HISTORY_REVIEW_STATUSES = \[\s*"applied",\s*"rejected",\s*"superseded"\s*\]/);
+assert.match(service, /ACTIONABLE_REVIEW_STATUSES/);
 assert.doesNotMatch(
   service,
   /\["proposed", "approved", "applied", "conflict"\]/,

@@ -12,6 +12,8 @@ import {
   getPrefillEligibleFields,
   isPrefillSourceType,
   normalizePrefillValue,
+  ACTIONABLE_REVIEW_STATUSES,
+  isActionablePrefillStatus,
   requirePrefillEligibleField,
   stablePrefillJson,
   withCanonicalPrefillValue,
@@ -112,26 +114,6 @@ type ValueRow = {
   superseded_at: string | null;
   supersedes_value_id: string | null;
 };
-
-/**
- * Which suggestion states are still someone's to act on, and which are history.
- *
- * An applied suggestion is history: it records what LegalEase put in front of the partner
- * and when. Treating it as the field's active suggestion is what made a later proposal
- * impossible once a value had been applied, so it no longer participates in the
- * one-active-suggestion rule — in this module or in the partial unique index behind it.
- */
-const ACTIONABLE_REVIEW_STATUSES = ["proposed", "approved", "conflict"] as const;
-const HISTORY_REVIEW_STATUSES = ["applied", "rejected", "superseded"] as const;
-
-/** Everything the internal review surface shows: what is actionable, and what came before. */
-export function isActionablePrefillStatus(status: string): boolean {
-  return (ACTIONABLE_REVIEW_STATUSES as readonly string[]).includes(status);
-}
-
-export function isHistoricalPrefillStatus(status: string): boolean {
-  return (HISTORY_REVIEW_STATUSES as readonly string[]).includes(status);
-}
 
 type PartnerRecordSourceRow = {
   id: string;
