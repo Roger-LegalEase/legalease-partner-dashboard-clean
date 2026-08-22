@@ -5,6 +5,7 @@
   "assetIds": [
     "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
     "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+    "VT|200-00129|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
     "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
     "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
     "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
@@ -16,6 +17,7 @@
   "familyIds": [
     "KY:aoc-496-3-form-en",
     "KY:aoc-497-form-en",
+    "VT:200-00129-petition-to-expunge-criminal-history",
     "WI:dj-le-250b-en",
     "WI:dj-le-250b-support-en",
     "AK:ak-record-relief-forms",
@@ -53,6 +55,7 @@
   "primaryOwner": "retirement and repoint lane",
   "terminalOutcomeMix": {
     "repoint": 3,
+    "retire": 1,
     "packet_ready": 6
   },
   "terminalWork": [
@@ -67,6 +70,12 @@
       "terminalOutcome": "repoint",
       "mustPacket": false,
       "doneCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+    },
+    {
+      "assetId": "VT|200-00129|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+      "terminalOutcome": "retire",
+      "mustPacket": false,
+      "doneCondition": "the retirement script writes this asset's marker with every operational reference proven absent, and the determination re-derives without it"
     },
     {
       "assetId": "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
@@ -113,7 +122,7 @@
   ],
   "mustPacketAssets": [],
   "blockedAssetsDoNotHoldOthers": true,
-  "baseSha": "b7064e388b09729964860c5242db6a32fd6c1e33",
+  "baseSha": "b375b13a3c021bf424ecb4e0441400fff161f46d",
   "globalProhibitedPaths": [
     "src/**",
     "package.json",

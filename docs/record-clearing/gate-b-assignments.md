@@ -1,6 +1,6 @@
 # Gate B assignments
 
-Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `b7064e388b09`.
+Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `b375b13a3c02`.
 
 | assignment | lane | assets | expected output |
 | --- | --- | ---: | --- |
@@ -13,12 +13,12 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `b7064e3
 | `evidence-sidecars` | LANE-EVIDENCE | 38 | a conformant provenance sidecar for every re-rendered family, every field non-null, bound by hash to the artif |
 | `evidence-visual` | LANE-EVIDENCE | 38 | one rasterised page per page carrying a field, for every re-rendered family, each bound to the current contact |
 | `source-direct` | LANE-SOURCE | 11 | for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record |
-| `source-resolution` | LANE-SOURCE | 11 | for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record |
-| `retirement-repoint` | LANE-RETIRE | 9 | for each assigned asset: a retirement marker written by the canonical retirement script with every operational |
+| `source-resolution` | LANE-SOURCE | 10 | for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record |
+| `retirement-repoint` | LANE-RETIRE | 10 | for each assigned asset: a retirement marker written by the canonical retirement script with every operational |
 
 ## `reviewer-a`
 
-- **base** `b7064e388b09`
+- **base** `b375b13a3c02`
 - **assets** 0
 - **expected output** one canonical batch — manifest, group review file and verdict rollup — carrying a verdict for each assigned family, with every referenced hash recomputed from disk and the official source SHA-256 recomputed from the mounted Edition 1 bytes
 - **focused verifier** `node scripts/verify-rcap-pdf-independent-review-records.mjs`
@@ -26,7 +26,7 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `b7064e3
 
 ## `reviewer-b`
 
-- **base** `b7064e388b09`
+- **base** `b375b13a3c02`
 - **assets** 0
 - **expected output** one canonical batch — manifest, group review file and verdict rollup — carrying a verdict for each assigned family, with every referenced hash recomputed from disk and the official source SHA-256 recomputed from the mounted Edition 1 bytes
 - **focused verifier** `node scripts/verify-rcap-pdf-independent-review-records.mjs`
@@ -34,7 +34,7 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `b7064e3
 
 ## `reviewer-c`
 
-- **base** `b7064e388b09`
+- **base** `b375b13a3c02`
 - **assets** 0
 - **expected output** one canonical batch — manifest, group review file and verdict rollup — carrying a verdict for each assigned family, with every referenced hash recomputed from disk and the official source SHA-256 recomputed from the mounted Edition 1 bytes
 - **focused verifier** `node scripts/verify-rcap-pdf-independent-review-records.mjs`
@@ -42,7 +42,7 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `b7064e3
 
 ## `reviewer-d`
 
-- **base** `b7064e388b09`
+- **base** `b375b13a3c02`
 - **assets** 0
 - **expected output** one canonical batch — manifest, group review file and verdict rollup — carrying a verdict for each assigned family, with every referenced hash recomputed from disk and the official source SHA-256 recomputed from the mounted Edition 1 bytes
 - **focused verifier** `node scripts/verify-rcap-pdf-independent-review-records.mjs`
@@ -50,7 +50,7 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `b7064e3
 
 ## `family-rerender-1`
 
-- **base** `b7064e388b09`
+- **base** `b375b13a3c02`
 - **assets** 19
 - **expected output** the D1 driver emitting classifiedFieldsOrAnchors and discoveredFieldsOrAnchors, every assigned family re-derived and re-rendered from the mounted source, and each family's reports regenerated
 - **focused verifier** `node scripts/verify-rcap-official-forms-d1.mjs && node scripts/verify-rcap-evidence-contract-controls.mjs`
@@ -58,7 +58,7 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `b7064e3
 
 ## `family-rerender-2`
 
-- **base** `b7064e388b09`
+- **base** `b375b13a3c02`
 - **assets** 19
 - **expected output** every assigned family re-derived and re-rendered against the corrected binder rerender-shard-a lands, with reports regenerated
 - **focused verifier** `node scripts/verify-rcap-official-forms-d1.mjs`
@@ -66,7 +66,7 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `b7064e3
 
 ## `evidence-sidecars`
 
-- **base** `b7064e388b09`
+- **base** `b375b13a3c02`
 - **assets** 38
 - **expected output** a conformant provenance sidecar for every re-rendered family, every field non-null, bound by hash to the artifacts it describes
 - **focused verifier** `node scripts/generate-rcap-gate-b-evidence-completion.mjs --check`
@@ -74,7 +74,7 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `b7064e3
 
 ## `evidence-visual`
 
-- **base** `b7064e388b09`
+- **base** `b375b13a3c02`
 - **assets** 38
 - **expected output** one rasterised page per page carrying a field, for every re-rendered family, each bound to the current contact-sheet hash
 - **focused verifier** `node scripts/verify-rcap-evidence-contract-controls.mjs`
@@ -82,7 +82,7 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `b7064e3
 
 ## `source-direct`
 
-- **base** `b7064e388b09`
+- **base** `b375b13a3c02`
 - **assets** 11
 - **expected output** for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record, or a recorded finding that no official source exists
 - **focused verifier** `node scripts/generate-rcap-source-resolution.mjs --check`
@@ -90,16 +90,16 @@ Cut from `data/rcap-all50/gate-b-81-terminalization-queue.json` at base `b7064e3
 
 ## `source-resolution`
 
-- **base** `b7064e388b09`
-- **assets** 11
+- **base** `b375b13a3c02`
+- **assets** 10
 - **expected output** for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record, or a recorded finding that no official source exists
 - **focused verifier** `node scripts/generate-rcap-source-resolution.mjs --check`
 - **stop condition** every assigned asset carries either an acquired source with a receipt, or a recorded no-official-source finding naming what was searched
 
 ## `retirement-repoint`
 
-- **base** `b7064e388b09`
-- **assets** 9
+- **base** `b375b13a3c02`
+- **assets** 10
 - **expected output** for each assigned asset: a retirement marker written by the canonical retirement script with every operational reference proven absent, or a recorded repoint to the canonical asset
 - **focused verifier** `node scripts/verify-rcap-binary-identity-rules.mjs && node scripts/generate-rcap-retirement-adjudication.mjs --check`
 - **stop condition** every assigned asset is either retired with its seventh condition satisfied or carries a recorded repoint; no asset with a surviving operational dependency is retired

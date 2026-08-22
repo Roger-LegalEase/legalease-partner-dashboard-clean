@@ -23,5 +23,5 @@ Frozen for the life of the wave: AK:tf-810-form-en, NC:aoc-cr-287-form-es, NC:ao
 | 9 | provenance sidecars | `evidence-sidecars.json` | 38 | `818c0ddc63cc` |
 | 10 | all-page visual evidence | `evidence-visual.json` | 38 | `ac91c7d0a1b5` |
 | 11 | source acquisition | `source-direct.json` | 11 | `6f9e87374063` |
-| 12 | source resolution | `source-resolution.json` | 11 | `c8528c411827` |
-| 13 | retirement and repoint | `retirement-repoint.json` | 9 | `f005a0eb1b40` |
+| 12 | source resolution | `source-resolution.json` | 10 | `c8528c411827` |
+| 13 | retirement and repoint | `retirement-repoint.json` | 10 | `f005a0eb1b40` |

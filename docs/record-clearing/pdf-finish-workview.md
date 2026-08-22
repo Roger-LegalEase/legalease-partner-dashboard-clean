@@ -31,15 +31,16 @@ Source re-derived by hashing 686 corpus files: **71 present and hash-verified**,
 | family | jurisdiction | root blocker | source | terminal outcome |
 | --- | --- | --- | --- | --- |
 
-## Captured HTML, index or download page — retire, repoint or guidance — 3
+## Captured HTML, index or download page — retire, repoint or guidance — 4
 
 | family | jurisdiction | root blocker | source | terminal outcome |
 | --- | --- | --- | --- | --- |
 | `KY:aoc-496-3-form-en` | KY | recorded stale or superseded while 1 operational surface(s) still name | master_library | repoint |
 | `KY:aoc-497-form-en` | KY | recorded stale or superseded while 1 operational surface(s) still name | master_library | repoint |
+| `VT:200-00129-petition-to-expunge-criminal-history` | VT | no operational surface names this asset, so nothing depends on it and  | master_library | retire |
 | `WI:dj-le-250b-en` | WI | recorded stale or superseded while 1 operational surface(s) still name | master_library | repoint |
 
-## Source reachable; artifact carries a render, classification or finalizer defect — 66
+## Source reachable; artifact carries a render, classification or finalizer defect — 65
 
 | family | jurisdiction | root blocker | source | terminal outcome |
 | --- | --- | --- | --- | --- |
@@ -73,9 +74,9 @@ Source re-derived by hashing 686 corpus files: **71 present and hash-verified**,
 | `NC:aoc-cr-297-form-en` | NC | the produced artifact carries visually_unsafe | master_library | packet_ready |
 | `NC:aoc-cr-298-instructions-en` | NC | the produced artifact carries flat_overlay_geometry_or_readback, stale | master_library | guidance_terminal |
 | `NC:aoc-cr-298-form-en` | NC | the produced artifact carries visually_unsafe | master_library | packet_ready |
-| `NC:aoc-cv-226-support-es` | NC | the produced artifact carries contact_sheet_shows_no_fill, flat_overla | master_library | packet_ready |
+| `NC:aoc-cv-226-support-es` | NC | the produced artifact carries contact_sheet_shows_no_fill, flat_overla | master_library | guidance_terminal |
 | `NC:aoc-cv-226-support-en` | NC | the produced artifact carries visually_unsafe | master_library | packet_ready |
-| `NC:aoc-cv-226-support-vi` | NC | the produced artifact carries contact_sheet_shows_no_fill, flat_overla | master_library | packet_ready |
+| `NC:aoc-cv-226-support-vi` | NC | the produced artifact carries contact_sheet_shows_no_fill, flat_overla | master_library | guidance_terminal |
 | `NC:expungements` | NC | the official binary is absent from the clone, so its SHA-256 cannot be | nationwide | guidance_terminal |
 | `NC:forms-2` | NC | the official binary is absent from the clone, so its SHA-256 cannot be | nationwide | guidance_terminal |
 | `NC:forms` | NC | the official binary is absent from the clone, so its SHA-256 cannot be | nationwide | guidance_terminal |
@@ -94,7 +95,6 @@ Source re-derived by hashing 686 corpus files: **71 present and hash-verified**,
 | `VA:cc1473` | VA | the official binary is absent from the clone, so its SHA-256 cannot be | nationwide | exact_deferral |
 | `VA:cc1473inst` | VA | the official binary is absent from the clone, so its SHA-256 cannot be | nationwide | deliberate_scope_exclusion |
 | `VA:va-expungement-sealing-forms` | VA | the official binary is absent from the clone, so its SHA-256 cannot be | nationwide | guidance_terminal |
-| `VT:200-00129-petition-to-expunge-criminal-history` | VT | the official binary is absent from the clone, so its SHA-256 cannot be | master_library | packet_ready |
 | `VT:200-00130-en` | VT | the produced artifact carries visually_unsafe | master_library | packet_ready |
 | `VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record` | VT | the official binary is absent from the clone, so its SHA-256 cannot be | master_library | packet_ready |
 | `VT:200-00131` | VT | the official binary is absent from the clone, so its SHA-256 cannot be | master_library | packet_ready |

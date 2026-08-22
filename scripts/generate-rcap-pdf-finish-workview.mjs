@@ -171,7 +171,10 @@ const WAVE1 = (() => {
   return { terminalised, jobs };
 })();
 
-const INTEGRATED_COMMITS = ["d199e04a", "ff60bcd2", "0e40fbd8"];
+// Wave 1's three, plus the three residual commits that finished the last six
+// families. A package produced by any of them carries a current implementation
+// outcome.
+const INTEGRATED_COMMITS = ["d199e04a", "ff60bcd2", "0e40fbd8", "fd4fe257", "db858929", "22d6026d"];
 const integratedPackages = new Set();
 {
   for (const commit of INTEGRATED_COMMITS) {
@@ -206,6 +209,31 @@ const canonicalPackageFor = (familyId, packagePath) => {
     if (integratedPackages.has(candidate)) return { path: candidate, corrected: true, from: packagePath };
   }
   return { path: packagePath, corrected: false };
+};
+
+/**
+ * The canonical terminal disposition for a reference-only document.
+ *
+ * Session 7 recorded implementationStatus "no_fill_reference_only_translation"
+ * on the two NC translations. That phrase is useful and stays on the family
+ * record, but it is a new coinage: the canonical vocabulary already has
+ * `reference_only`, defined in the master list as an instruction, guidance or
+ * supporting-process document rather than a filed component. Publishing a second
+ * enum for the same meaning would leave two names for one state in the generated
+ * register, and whichever a later reader matched on would be a coin toss.
+ *
+ * Read from the family record rather than keyed to a family id, so any document
+ * a court marks reference-only lands here.
+ */
+const CANONICAL_REFERENCE_ONLY = "reference_only";
+const referenceOnlyDetail = (packagePath) => {
+  if (!packagePath) return null;
+  const record = abs(`${packagePath}/source-record.json`);
+  if (!fs.existsSync(record)) return null;
+  let body;
+  try { body = JSON.parse(fs.readFileSync(record, "utf8")); } catch { return null; }
+  const status = String(body.implementationStatus ?? "");
+  return /reference_only/.test(status) ? status : null;
 };
 
 const ROOT_CAUSE_GROUPS = [
@@ -317,7 +345,11 @@ const families = scope.map((asset) => {
           const o = ownerFor(asset.familyId, asset.familyPackagePath);
           const terminal = WAVE1.terminalised.get(asset.familyId) ?? null;
           const job = WAVE1.jobs.get(asset.familyId) ?? null;
-          const complete = !terminal && !job && integratedPackages.has(canonical.path);
+          // An integrated package outranks a wave-1 job listing. That listing is a
+          // snapshot of what was outstanding when wave 1 ran; a family a worker
+          // has since finished is complete, and leaving it "active" because an
+          // older record still names it would keep the queue permanently open.
+          const complete = !terminal && integratedPackages.has(canonical.path);
           const state = terminal ? "terminalized" : complete ? "implementation_complete" : "active";
           return {
             session: state === "active" ? (job ? job.assignedTo ?? o.session : o.session) : null,
@@ -329,6 +361,9 @@ const families = scope.map((asset) => {
             lane: state === "active" ? "implementation worker" : state,
             waveOneState: state,
             terminalInstrument: terminal?.instrument ?? null,
+            canonicalTerminalDisposition: referenceOnlyDetail(canonical.path)
+              ? CANONICAL_REFERENCE_ONLY : (terminal?.instrument ?? null),
+            familyLocalImplementationStatus: referenceOnlyDetail(canonical.path),
             canonicalSuccessor: terminal?.canonicalSuccessor ?? null,
             allowedPackagePath: canonical.path,
             packagePathCorrectedFrom: canonical.corrected ? canonical.from : null,
@@ -423,6 +458,30 @@ const record = {
       .filter((f) => f.ownerLane.lane === "implementation worker")
       .reduce((acc, f) => { acc[f.ownerLane.session] = (acc[f.ownerLane.session] ?? 0) + 1; return acc; }, {})
   },
+  /**
+   * Three queues, not one number.
+   *
+   * retained_problematic stops distinguishing between "nobody has built this"
+   * and "it is built and waiting to be looked at", and those need completely
+   * different people. Implementation is finished; what is left is evidence and
+   * review, and saying so is the difference between a board that looks stalled
+   * and one that shows where the work actually sits.
+   */
+  queues: (() => {
+    const complete = families.filter((f) => f.ownerLane.lane === "implementation_complete");
+    const stale = (v) => !v || /none|absent|no |not /i.test(String(v));
+    const evidence = complete.filter(
+      (f) => stale(f.evidenceStatus?.sidecar) || stale(f.evidenceStatus?.visual));
+    const review = complete.filter((f) => !/approved/i.test(String(f.reviewStatus ?? "")));
+    return {
+      IMPLEMENTATION_QUEUE: families.filter((f) => f.ownerLane.lane === "implementation worker").length,
+      EVIDENCE_QUEUE: evidence.length,
+      REVIEW_QUEUE: review.length,
+      derivation: "evidence: an implementation-complete family whose sidecar or all-page visual evidence is absent or stale. review: an implementation-complete family carrying no current approval.",
+      noneOfTheseArePlatformReady:
+        "implementation-complete is not platform_ready. Promotion needs current evidence AND an independent approval of these exact bytes; neither is implied by the code being written."
+    };
+  })(),
   waveOne: {
     activeImplementationFamilies: families.filter((f) => f.ownerLane.lane === "implementation worker").length,
     implementationComplete: families.filter((f) => f.ownerLane.lane === "implementation_complete").length,

@@ -12,7 +12,9 @@
     },
     {
       "name": "First Middle and Last name",
-      "class": "participant"
+      "class": "manual_participant",
+      "classCorrectedFrom": "participant",
+      "basis": "The caption box printed '(First, Middle and Last name)'. The shared binder resolves it to participant.last_name, which is ordered above participant.full_legal_name, so a petition caption would read the surname alone. Written by hand until the box can be bound to the whole name."
     },
     {
       "name": "1",
@@ -88,7 +90,9 @@
     },
     {
       "name": "COUNTY/CITY",
-      "class": "participant"
+      "class": "manual_participant",
+      "classCorrectedFrom": "participant",
+      "basis": "The venue blank in 'IN THE ____ COURT OF ____, ARKANSAS' (p1 x=320.0..444.6 y=706.0). The shared binder resolves it to participant.city, ordered above matter.county, which would file the petition naming the petitioner's home city as the court's venue."
     },
     {
       "name": "DAY 1",
@@ -120,11 +124,15 @@
     },
     {
       "name": "ADDRESS 2",
-      "class": "participant"
+      "class": "manual_participant",
+      "classCorrectedFrom": "participant",
+      "basis": "The second address line (p2 x=75.8..301.7 y=336.1). It resolves to the same participant.street_address as ADDRESS 1, so both lines would carry one street line twice. The continuation line is the participant's."
     },
     {
       "name": "Petitioner",
-      "class": "participant"
+      "class": "signature",
+      "classCorrectedFrom": "participant",
+      "basis": "Two widgets carry this name and one of them is the signature line: p3 x=325.1..540.5 y=527.4, the blank directly above the printed word 'Petitioner' at y=511.8, in a jurat that opens 'Comes the Petitioner, ____, under oath'. A field value reaches every widget of its field, so the legitimate verification blank cannot be filled without also typing a name onto the line the petitioner signs."
     },
     {
       "name": "DAY 2",
@@ -148,7 +156,9 @@
     },
     {
       "name": "DEFENDANT",
-      "class": "participant"
+      "class": "manual_participant",
+      "classCorrectedFrom": "participant",
+      "basis": "The blank in 'I, ____, do hereby certify that a true and correct copy of the foregoing Petition has been provided to...' on p4, under the printed heading 'Certificate of Service'. A certificate of service is a statement about an act of service that has actually happened; nothing in it is the platform's to assert."
     },
     {
       "name": "Check Box2",
@@ -182,5 +192,12 @@
       "name": "Check Box8",
       "class": "manual_participant"
     }
-  ]
+  ],
+  "classCounts": {
+    "participant": 12,
+    "manual_participant": 30,
+    "signature": 2,
+    "protected": 1
+  },
+  "correctionBasis": "Each corrected entry names the printed caption its widget actually sits on, measured from the pinned binary's page content streams. The AcroForm field names on these two petitions do not everywhere describe the box the widget draws in, and the shared binder decides from the name."
 }

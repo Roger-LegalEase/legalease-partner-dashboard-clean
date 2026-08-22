@@ -74,7 +74,10 @@ for (const state of fs.readdirSync(abs(PRODUCTION))) {
  * So a twin is authoritative when a worker commit in this integration produced
  * its current outcome, whether or not that outcome includes a rendered PDF.
  */
-const INTEGRATED_COMMITS = ["d199e04a", "ff60bcd2", "0e40fbd8"];
+// Wave 1's three, plus the three residual commits that finished the last six
+// families. A package produced by any of them carries a current implementation
+// outcome.
+const INTEGRATED_COMMITS = ["d199e04a", "ff60bcd2", "0e40fbd8", "fd4fe257", "db858929", "22d6026d"];
 const integratedPackages = new Set();
 {
   const { execFileSync } = await import("node:child_process");
@@ -321,11 +324,21 @@ const stillJobs = rows.filter((r) => r.instrument === "remains_implementation_jo
 const byInstrument = terminalised.reduce((acc, r) => { acc[r.instrument] = (acc[r.instrument] ?? 0) + 1; return acc; }, {});
 
 {
-  if (rows.length !== 21) fail(`expected 21 session 11+12 rows, built ${rows.length}`);
+  // The invariant is coverage, not a row count. Wave 1's scope legitimately
+  // shrinks as its jobs get finished: a family it once listed as outstanding and
+  // a worker has since implemented is out of scope here, so asserting a fixed 21
+  // would fail for the good reason rather than a bad one.
+  const assigned = implementation.filter(
+    (f) => [11, 12].includes(f.ownerLane.assignedSession ?? f.ownerLane.session));
+  const resolved = new Set(rows.map((r) => r.familyId));
+  for (const f of assigned) {
+    if (resolved.has(f.familyId)) continue;
+    if (alreadyFinished(f)) continue;
+    fail(`${f.familyId} is assigned to session ${f.ownerLane.assignedSession} but is neither resolved here nor finished by an integrated commit`);
+  }
   if (terminalised.length !== 17) fail(`expected 17 terminalized or deduplicated rows, got ${terminalised.length}`);
-  if (stillJobs.length !== 4) fail(`expected 4 remaining jobs from these two sessions, got ${stillJobs.length}`);
   const lifted = stillJobs.filter((r) => r.editionHoldLifted);
-  if (lifted.length !== 3) fail(`the Edition hold must lift for exactly the three session 11 filing PDFs, not ${lifted.length}`);
+  if (lifted.length > 3) fail(`the Edition hold lifted for ${lifted.length} families; only three were ever authorised`);
   for (const r of rows.filter((x) => x.instrument === "superseded_by_canonical_successor")) {
     if (!carriesCurrentOutcome(r.canonicalSuccessor)) fail(`${r.familyId}: successor ${r.canonicalSuccessor} carries no current implementation outcome`);
   }
