@@ -37,16 +37,38 @@ for (const text of [
 assert.match(internal, /overflow-x-auto/);
 assert.match(internal, /min-w-\[1100px\]/);
 assert.match(internal, /window\.confirm/);
-assert.match(
+// The prepared banner's wording lives in the canonical partner copy contract, not inline
+// in the component. Assert both halves: the contract owns the sentence, and the home reads
+// it from there rather than keeping a second copy that can drift.
+const partnerCopy = read("src/lib/partners/onboarding/partner-copy.ts");
+assert.match(partnerCopy, /Your starting setup is ready to review/);
+assert.match(partnerCopy, /Review prepared setup/);
+assert.match(home, /PREPARED_BANNER/);
+assert.match(home, /from "@\/lib\/partners\/onboarding\/partner-copy"/);
+assert.doesNotMatch(
   home,
-  /LegalEase pre-filled known information\. Review each marked section and correct/
+  /"Your starting setup is ready to review"/,
+  "the home should read the banner from the contract, not restate it"
 );
 assert.match(home, /hasPendingPrefill/);
 const presentation = read(
   "src/lib/partners/onboarding/implementation-presentation.ts"
 );
 assert.match(presentation, /Pre-filled, review needed/);
-assert.match(section, /Pre-filled by LegalEase\. Please review\./);
+// Field provenance is the copy contract's, not the editor's: the editor renders whichever
+// FIELD_COPY entry applies, so a prepared value and one the partner has since changed are
+// never described by two different sentences on two surfaces.
+assert.match(partnerCopy, /label: "Prepared by LegalEase"/);
+assert.match(partnerCopy, /label: "Partner updated"/);
+assert.match(section, /FIELD_COPY\.prepared\.label/);
+assert.match(section, /FIELD_COPY\.partnerUpdated\.label/);
+assert.match(section, /data-field-provenance="prepared"/);
+assert.match(section, /data-field-provenance="partner-updated"/);
+assert.doesNotMatch(
+  section,
+  /"Prepared by LegalEase"/,
+  "the section should read field provenance from the contract, not restate it"
+);
 assert.match(section, /Save and Continue/);
 assert.match(staffSection, /read the submitted or approved implementation record/);
 assert.match(review, /Pre-filled information needs review/);

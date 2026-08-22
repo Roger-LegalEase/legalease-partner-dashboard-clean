@@ -17,6 +17,10 @@ import {
   agreementStatusLabel,
   agreementTypeLabel
 } from "@/lib/partners/onboarding/partner-labels";
+import {
+  commercialState,
+  setupActionLabel
+} from "@/lib/partners/onboarding/partner-copy";
 import { getPartnerLaunchReadiness } from "@/lib/partners/onboarding/launch-readiness-service";
 import { buildPartnerImplementationPresentation } from "@/lib/partners/onboarding/implementation-presentation";
 import {
@@ -203,14 +207,12 @@ async function Phase1PartnerOnboardingPage() {
       ? guidedSections.get(nextSection)?.href ??
         `/partner/onboarding/${nextSection}`
       : "/partner/onboarding/review";
-  const dominantLabel =
-    portal.role === "partner_staff"
-      ? "View setup"
-      : portal.canEdit
-        ? reviewReady
-          ? "Review and submit"
-          : "Continue setup"
-        : "View setup";
+  const dominantLabel = setupActionLabel({
+    role: portal.role,
+    canEdit: portal.canEdit,
+    workspaceStatus: portal.workspace.status,
+    reviewReady
+  });
   const coBrandedPageArtifact = readinessView?.board.entries.find(
     (entry) => entry.artifactType === "co_branded_page_configuration"
   );
@@ -291,6 +293,11 @@ async function Phase1PartnerOnboardingPage() {
         presentation={presentation}
         isPartnerStaff={portal.role === "partner_staff"}
         hasPendingPrefill={portal.prefill.pendingCount > 0}
+        preparedWorkload={{
+          prepared: portal.prefill.preparedCount,
+          needsInput: portal.prefill.needsInputCount,
+          optional: portal.prefill.optionalCount
+        }}
         commercial={commercialSummary(portal)}
         agreements={portal.agreements.map((agreement) => ({
           label: agreementTypeLabel(agreement.type),
@@ -341,23 +348,31 @@ function sectionSummary(
     (requirement) => requirement.sectionKey === section.key
   );
   if (missing.length === 0) return null;
-  if (missing.length === 1) return `Missing: ${missing[0].label}`;
-  return `${missing.length} required items remain`;
+  // Work remaining is phrased as work, not as a defect count. "59 required items remain"
+  // read as a wall of failures on the one screen a program director opens first.
+  if (missing.length === 1) return `Needs your input: ${missing[0].label}`;
+  return `${missing.length} decisions remaining`;
 }
 
+/**
+ * The commercial gate stores one value for two different situations, and only one of them
+ * is the partner's work. This reads the ownership the derivation already resolved from the
+ * agreement record and hands it to the canonical copy contract, so the Implementation
+ * Center cannot describe program terms differently from every other surface.
+ */
 function commercialSummary(portal: PartnerOnboardingPortal) {
-  if (portal.workspace.commercialGateStatus === "blocked") {
-    return {
-      label: "Commercial step required",
-      blocked: true,
-      detail:
-        "Setup editing will open after the billing or purchasing requirement is resolved. Contact LegalEase if you need help with this status."
-    };
-  }
+  const blocked = portal.workspace.commercialGateStatus === "blocked";
+  const state = commercialState({
+    outcome: !blocked
+      ? "cleared"
+      : portal.workspace.blockerCode === "commercial_gate_partner_step"
+        ? "partner_owned"
+        : "legalease_owned",
+    partnerActionHref: "#commercial-support"
+  });
   return {
-    label: "Cleared for setup",
-    blocked: false,
-    detail:
-      "LegalEase recorded the applicable paid invoice, approved purchase order, or authorized internal clearance."
+    label: state.heading,
+    blocked,
+    detail: state.explanation
   };
 }

@@ -104,7 +104,7 @@ function configurationFact(
     },
     commercially_blocked: {
       label: "Waiting on LegalEase",
-      description: "Commercial clearance must be recorded before setup can continue."
+      description: "Your program terms need to be confirmed before setup can continue."
     },
     setup_in_progress: {
       label: completionPercentage > 0 ? "In progress" : "Not started",

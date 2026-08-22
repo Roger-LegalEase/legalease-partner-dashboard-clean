@@ -3,7 +3,7 @@
   "purpose": "One recorded decision per verifier script. Reconciliation workstream opened by commit 1c3015a8, which found that only 60 of 200 verifier scripts are reached by npm test.",
   "note": "decidedBy 'generated' is a default and may be changed freely. Set decidedBy to 'human' to pin a decision so regeneration preserves it. Entries in the script's OVERRIDES map are re-applied every run.",
   "counts": {
-    "keep_available": 177,
+    "keep_available": 179,
     "wired": 126,
     "fix_then_wire": 27,
     "retire": 1,
@@ -1503,6 +1503,12 @@
       "observedStatus": "added_since_audit",
       "decidedBy": "generated"
     },
+    "verify-rcap-approved-release-checks.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
     "verify-rcap-authoritative-profile-version.mjs": {
       "disposition": "keep_available",
       "reason": "The render job's profile identity must come from the profile its route was resolved against. The consumer caller used to pass profileId: item.state beside a literal profileVersion: \"1.3.0\" that no compiled profile has ever carried, so the worker's allowlist refused every paid consumer claim with profile_version_unknown before rendering anything and no packet could be delivered (hosted run 32195867963, job ca12bf6b). Twenty-four checks: the value is derived from getProfileByJurisdiction(route.jurisdiction), no caller can name it, no version literal survives on the enqueue path, an underivable profile raises the same typed code the worker raises and the caller turns it into a typed outcome before anything durable exists; then every renderable route across all 51 compiled jurisdictions is built and checked for a nonempty id and version that exist together in the registry, come from the route's own profile, agree with the route id and renderer, and never reproduce the \"1.3.0\" stamp; hostile browser, Stripe and stale-Briefcase values are ignored; and the worker's real allowlist accepts all 49 specifications. Mississippi's hosted fixture, the three reachable Illinois sellable pathways and a composed-document route are proved by name; the absence of any renderable official-form overlay route is recorded rather than skipped; Pennsylvania is recorded as guidance-held in the evaluator while its routes still derive correctly. Its --mutations suite requires eight breakages red, including pinning today's corpus version, because that fix would recreate the same failure on the next profile update. Blocking on every pull request via rcap-all50-handoff.yml rather than the npm test chain, because package.json is an image input for both images.",
@@ -1802,6 +1808,12 @@
       "decidedBy": "generated"
     },
     "verify-rcap-participant-fill-hold-derivation.mjs": {
+      "disposition": "keep_available",
+      "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
+      "observedStatus": "added_since_audit",
+      "decidedBy": "generated"
+    },
+    "verify-rcap-partner-copy.mjs": {
       "disposition": "keep_available",
       "reason": "Added after the last coverage audit, so no measured status exists yet. Provisional; the next audit run replaces this with a measured disposition.",
       "observedStatus": "added_since_audit",

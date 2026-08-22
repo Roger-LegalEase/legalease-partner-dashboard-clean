@@ -164,7 +164,7 @@ function stableRowIdSchema() {
   return safeString(36, "trim")
     .transform((value) => value.toLowerCase())
     .refine((value) => STABLE_ROW_ID_PATTERN.test(value), {
-      message: "A valid stable row ID is required."
+      message: "This entry could not be identified. Refresh the page and try again."
     });
 }
 
@@ -690,7 +690,7 @@ function duplicateIssues<T extends { stable_row_id: string }>(
           sectionKey,
           `${collectionKey}[].stable_row_id`,
           "duplicate",
-          "Each row must have a unique stable ID.",
+          "Each entry in this list must be distinct.",
           row.stable_row_id
         )
       );
@@ -705,7 +705,7 @@ function duplicateIssues<T extends { stable_row_id: string }>(
             sectionKey,
             `${collectionKey}[].work_email`,
             "duplicate",
-            "Each row in this list must use a unique work email.",
+            "Each entry in this list must use a different work email.",
             row.stable_row_id
           )
         );
@@ -1104,7 +1104,7 @@ export function validateFinalOnboardingSubmission(
           changeRequest.sectionKey,
           "change_request",
           "change_request_unresolved",
-          "Resolve the requested changes before submitting."
+          "Reply to the requested changes before submitting."
         )
       );
     }

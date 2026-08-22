@@ -52,7 +52,12 @@ failIf(!routeSource.includes("resolveSessionPartner()"), "POST route must derive
 failIf(!routeSource.includes("const input = body && typeof body === \"object\" ? (body as { email?: unknown; name?: unknown }) : {}"), "POST route must read only safe invite fields from the body.");
 failIf(routeSource.includes("body.partnerSlug") || routeSource.includes("body.partner_slug") || routeSource.includes("body.role"), "POST route must not read partner slug or role from the request body.");
 failIf(!routeSource.includes("partnerSlug: gate.sessionPartner.partnerSlug") || !routeSource.includes('role: "partner_staff"'), "POST route must return only the session partner slug and forced partner_staff role.");
-failIf(!routeSource.includes('"rate_limited"') || !routeSource.includes("Too many invite attempts. Please try again later."), "POST route must expose safe rate-limit failure output.");
+// The sentence itself now belongs to the partner copy contract, which the request form
+// reads for the same state. Assert the architecture and the sentence, rather than grepping
+// the route for a literal the contract owns.
+const inviteCopySource = read("src/lib/partners/onboarding/partner-copy.ts");
+failIf(!inviteCopySource.includes("Too many invite attempts. Please try again later."), "Partner copy contract must own the rate-limit sentence.");
+failIf(!routeSource.includes('"rate_limited"') || !routeSource.includes("INVITATION_DELIVERY_COPY.rateLimited"), "POST route must expose safe rate-limit failure output from the copy contract.");
 for (const forbidden of ["inviteLink", "action_link", "access_token", "refresh_token", "document.cookie", "headers.entries", "Object.fromEntries(request.headers", "stack"]) {
   failIf(routeSource.includes(forbidden), `POST route must not return or expose sensitive marker: ${forbidden}`);
 }

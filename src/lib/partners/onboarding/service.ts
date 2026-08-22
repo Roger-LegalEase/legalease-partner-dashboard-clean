@@ -9,12 +9,15 @@ import type {
 } from "./auth-context";
 import {
   deriveOnboardingSummary,
+  isFieldActive,
+  isFieldRequired,
   ONBOARDING_BLOCKER_COPY,
   ONBOARDING_NEXT_ACTION_COPY
 } from "./derivations";
 import { Phase1OnboardingError } from "./errors";
 import { isRcapOnboardingPrefillEnabled } from "./feature";
 import {
+  getPartnerEditableTopLevelFields,
   ONBOARDING_SCHEMA_VERSION,
   ONBOARDING_SECTION_DEFINITIONS,
   ONBOARDING_SECTION_ORDER
@@ -62,6 +65,10 @@ export type OnboardingSectionView<K extends OnboardingSectionKey = OnboardingSec
   changeRequestStatus: "open" | "partner_responded" | null;
   changeRequests: OnboardingChangeRequestView[];
   pendingPrefillFieldKeys: string[];
+  // Prepared values the partner has since changed. They stay identified on the section so
+  // the partner can see their edit held, and so a later preparation run has to ask before
+  // replacing one.
+  partnerUpdatedPrefillFieldKeys: string[];
   hasPendingPrefill: boolean;
   firstStartedAt: string | null;
   completedAt: string | null;
@@ -169,6 +176,14 @@ export type PartnerOnboardingPortal = {
     hasAppliedPrefill: boolean;
     pendingCount: number;
     pendingSections: OnboardingSectionKey[];
+    /**
+     * The three workload counts the prepared-onboarding summary reads. They answer
+     * "what did LegalEase already do, what is genuinely mine, and what is discretionary"
+     * without ever presenting the partner with a defect count.
+     */
+    preparedCount: number;
+    needsInputCount: number;
+    optionalCount: number;
   };
 };
 
@@ -486,6 +501,9 @@ export async function getPartnerOnboardingPortal(
   const pendingPrefillRows = prefillRows.filter(
     (row) => row.partner_review_status === "pending"
   );
+  const partnerUpdatedPrefillRows = prefillRows.filter(
+    (row) => row.partner_review_status === "modified"
+  );
   const pendingPrefillSections = [
     ...new Set(
       pendingPrefillRows.map((row) => asSectionKey(row.section_key))
@@ -514,7 +532,7 @@ export async function getPartnerOnboardingPortal(
   const recordShieldInScope = recordShieldScope.inScope;
   const overageApprovalRequired = entitlement?.overage_enabled === true;
   const presentAssetCategories = assets.map((asset) => asset.category);
-  const derivation = deriveOnboardingSummary(data, {
+  const derivationContext = {
     workspaceStatus: asWorkspaceStatus(workspace.status),
     commercialGateOutcome: asCommercialGate(workspace.commercial_gate_status),
     sectionStatuses: Object.fromEntries(
@@ -547,8 +565,14 @@ export async function getPartnerOnboardingPortal(
     pendingPrefillSections,
     procurementRequired,
     recordShieldInScope,
-    overageApprovalRequired
-  });
+    overageApprovalRequired,
+    // "requested" is the one agreement state that names work on the partner's side. Every
+    // other blocked-gate shape is LegalEase finalising terms.
+    partnerOwedCommercialStep: agreements.some(
+      (agreement) => agreement.status === "requested"
+    )
+  };
+  const derivation = deriveOnboardingSummary(data, derivationContext);
 
   const instructionsBySection = new Map<string, string[]>();
   for (const change of changes.filter(
@@ -589,6 +613,9 @@ export async function getPartnerOnboardingPortal(
             )
         : [],
       pendingPrefillFieldKeys: pendingPrefillRows
+        .filter((prefill) => prefill.section_key === definition.key)
+        .map((prefill) => prefill.field_key),
+      partnerUpdatedPrefillFieldKeys: partnerUpdatedPrefillRows
         .filter((prefill) => prefill.section_key === definition.key)
         .map((prefill) => prefill.field_key),
       hasPendingPrefill: pendingPrefillRows.some(
@@ -678,8 +705,66 @@ export async function getPartnerOnboardingPortal(
       enabled: prefillEnabled,
       hasAppliedPrefill: prefillRows.length > 0,
       pendingCount: pendingPrefillRows.length,
-      pendingSections: pendingPrefillSections
+      pendingSections: pendingPrefillSections,
+      ...countPreparedWorkload({
+        prefillRows,
+        data,
+        derivationContext,
+        sectionsNeedingInput: new Set(
+          derivation.completion.missingRequirements.map(
+            (requirement) => requirement.sectionKey
+          )
+        ).size
+      })
     }
+  };
+}
+
+/**
+ * The three numbers the prepared-onboarding summary shows a partner: what LegalEase
+ * already prepared, what only their team can answer, and what is discretionary.
+ *
+ * Deliberately not a defect count. The screen this feeds used to read "59 required items
+ * remain", which framed a normal, mostly-prepared workspace as a wall of failures.
+ *
+ * "Prepared" counts distinct applied fields rather than prefill rows, because a field
+ * re-proposed and re-applied is still one prepared field to the partner.
+ */
+function countPreparedWorkload(input: {
+  prefillRows: PartnerPrefillSafeRow[];
+  data: OnboardingPartnerData;
+  derivationContext: Parameters<typeof deriveOnboardingSummary>[1];
+  sectionsNeedingInput: number;
+}): { preparedCount: number; needsInputCount: number; optionalCount: number } {
+  const preparedFieldKeys = new Set(
+    input.prefillRows
+      .filter((row) => row.partner_review_status !== "not_applied")
+      .map((row) => `${row.section_key}.${row.field_key}`)
+  );
+
+  let optionalCount = 0;
+  for (const sectionKey of ONBOARDING_SECTION_ORDER) {
+    const section = (input.data[sectionKey] ?? {}) as Record<string, unknown>;
+    for (const field of getPartnerEditableTopLevelFields(sectionKey)) {
+      if (!isFieldActive(field, input.data, input.derivationContext)) continue;
+      if (isFieldRequired(field, input.data, input.derivationContext)) continue;
+      const value = section[field.dataKey];
+      const empty =
+        value === null ||
+        value === undefined ||
+        value === "" ||
+        (Array.isArray(value) && value.length === 0);
+      if (empty) optionalCount += 1;
+    }
+  }
+
+  return {
+    preparedCount: preparedFieldKeys.size,
+    // Sections, not individual decisions. A single "59" on the landing banner is the
+    // same wall of requirements the review page was rebuilt to remove; the per-section
+    // breakdown underneath is where a partner can actually act on the detail.
+    needsInputCount: input.sectionsNeedingInput,
+    optionalCount
   };
 }
 
@@ -883,6 +968,7 @@ export async function savePartnerOnboardingSection<K extends OnboardingSectionKe
         input.mode === "section_complete"
           ? []
           : section.pendingPrefillFieldKeys,
+      partnerUpdatedPrefillFieldKeys: section.partnerUpdatedPrefillFieldKeys,
       hasPendingPrefill:
         input.mode === "section_complete"
           ? false

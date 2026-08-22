@@ -157,7 +157,7 @@ const RAW_GUIDED_SECTIONS = [
         id: "goal-and-success",
         title: "Program goal and definition of success",
         purpose:
-          "Describe the result this program should pursue and how your organization will recognize progress.",
+          "Describe the result this program should pursue and how your team will recognize progress.",
         outcome:
           "LegalEase will use this language to align implementation decisions and reporting.",
         ...fields("primary_goal", "definition_of_success")
@@ -189,7 +189,7 @@ const RAW_GUIDED_SECTIONS = [
         id: "timing-and-model",
         title: "Program timing and model",
         purpose:
-          "Choose the operating model and the dates your organization currently expects.",
+          "Choose the operating model and the dates your team currently expects.",
         outcome:
           "LegalEase will compare this plan with readiness and scheduling decisions.",
         ...fields(
@@ -217,7 +217,7 @@ const RAW_GUIDED_SECTIONS = [
         id: "partner-measurement",
         title: "Partner-side measurement",
         purpose:
-          "Explain what your organization will measure outside LegalEase reporting.",
+          "Explain what your team will measure outside LegalEase reporting.",
         outcome:
           "The saved answer will define the partner-side measurement responsibility.",
         ...fields("partner_side_outcome_tracking")
@@ -601,7 +601,7 @@ const RAW_GUIDED_SECTIONS = [
         purpose:
           "Review missing information, requested changes, and actions still owned by LegalEase.",
         outcome:
-          "Partner blockers must be cleared before final submission is available.",
+          "The remaining decisions on your side need to be complete before you can submit.",
         ...reviewTask(
           "exceptions",
           "The current exceptions and unresolved items have been reviewed."

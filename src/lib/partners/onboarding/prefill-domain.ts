@@ -14,6 +14,33 @@ import type {
 } from "./types";
 import { validateOnboardingSection } from "./validation";
 
+/**
+ * Which suggestion states are still someone's to act on, and which are history.
+ *
+ * An applied suggestion records what LegalEase put in front of the partner and when.
+ * Treating it as the field's active suggestion is what made a later proposal impossible
+ * once a value had been applied, so it takes no part in the one-active-suggestion rule.
+ */
+export const ACTIONABLE_REVIEW_STATUSES = [
+  "proposed",
+  "approved",
+  "conflict"
+] as const;
+
+export const HISTORY_REVIEW_STATUSES = [
+  "applied",
+  "rejected",
+  "superseded"
+] as const;
+
+export function isActionablePrefillStatus(status: string): boolean {
+  return (ACTIONABLE_REVIEW_STATUSES as readonly string[]).includes(status);
+}
+
+export function isHistoricalPrefillStatus(status: string): boolean {
+  return (HISTORY_REVIEW_STATUSES as readonly string[]).includes(status);
+}
+
 export const PREFILL_SOURCE_TYPES = [
   "partner_record",
   "contact_record",

@@ -26,11 +26,13 @@ export const ONBOARDING_BLOCKER_COPY: Readonly<
   Record<OnboardingBlockerCode, string>
 > = {
   commercial_gate_blocked:
-    "Setup is waiting for the commercial requirements shown in your agreement summary.",
+    "LegalEase is confirming the remaining agreement details for your program.",
+  commercial_gate_partner_step:
+    "One agreement step needs your attention before LegalEase can continue.",
   partner_changes_requested:
     "LegalEase requested updates to part of your onboarding package.",
   pending_prefill_review:
-    "LegalEase pre-filled information that your organization still needs to review.",
+    "LegalEase prepared this information from what was already on file. Your team still needs to review it.",
   required_asset_missing:
     "A required organizational asset still needs to be uploaded.",
   required_procurement_item_missing:
@@ -43,7 +45,9 @@ export const ONBOARDING_NEXT_ACTION_COPY: Readonly<
   Record<OnboardingNextActionCode, string>
 > = {
   complete_commercial_requirements:
-    "Complete the requested commercial or procurement step.",
+    "No action is needed from your team right now.",
+  complete_partner_commercial_step:
+    "Complete the agreement step shown in your agreement summary.",
   address_change_request: "Review and respond to the requested changes.",
   review_prefilled_information: "Review the pre-filled information.",
   upload_required_asset: "Upload the required organizational asset.",
@@ -301,12 +305,22 @@ export function deriveOnboardingSummary(
   const completion = calculateOnboardingCompletion(data, context);
 
   if (context.commercialGateOutcome === "blocked") {
-    return buildSummary(
-      completion,
-      "commercial_gate_blocked",
-      "complete_commercial_requirements",
-      "partner"
-    );
+    // Two different situations wear the same stored value. Only one of them is the
+    // partner's work, and presenting the other as theirs is what sent program directors
+    // chasing a step LegalEase already owned.
+    return context.partnerOwedCommercialStep
+      ? buildSummary(
+          completion,
+          "commercial_gate_partner_step",
+          "complete_partner_commercial_step",
+          "partner"
+        )
+      : buildSummary(
+          completion,
+          "commercial_gate_blocked",
+          "complete_commercial_requirements",
+          "legalease"
+        );
   }
 
   const changeRequestSection = firstSectionByCanonicalOrder(
@@ -658,7 +672,7 @@ export function evaluateWorkspaceTransition(
     if (hasUnresolvedChangeRequests) {
       return deny(
         "change_request_unresolved",
-        "Requested changes must be resolved before launch preparation."
+        "Requested changes need a reply before launch preparation can continue."
       );
     }
     return reviewApproved

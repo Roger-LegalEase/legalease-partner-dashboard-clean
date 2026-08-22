@@ -28,6 +28,7 @@ import {
   nextActionOwnerLabel,
   workspaceStatusLabel
 } from "@/lib/partners/onboarding/partner-labels";
+import { setupActionLabel } from "@/lib/partners/onboarding/partner-copy";
 
 export const dynamic = "force-dynamic";
 
@@ -261,24 +262,19 @@ function Header({
   );
 }
 
+/**
+ * The dashboard card and the Implementation Center offer the same next step, so the label
+ * is resolved by the copy contract rather than derived independently on each screen.
+ */
 function onboardingDashboardActionLabel(
   onboarding: Awaited<ReturnType<typeof getPartnerOnboardingPortal>>
 ) {
-  if (
-    ["ready_to_launch", "live", "paused", "closed"].includes(
-      onboarding.workspace.status
-    )
-  ) {
-    return "View program setup";
-  }
-  if (onboarding.role === "partner_staff") return "View setup";
-  if (
-    onboarding.canEdit &&
-    onboarding.derivation.nextActionCode === "submit_for_review"
-  ) {
-    return "Review and submit";
-  }
-  return onboarding.canEdit ? "Continue setup" : "View setup";
+  return setupActionLabel({
+    role: onboarding.role,
+    canEdit: onboarding.canEdit,
+    workspaceStatus: onboarding.workspace.status,
+    reviewReady: onboarding.derivation.nextActionCode === "submit_for_review"
+  });
 }
 
 function IntakeLinkCard({ intakeDisplayUrl, intakeOpenUrl, publicPartnerPageUrl }: { intakeDisplayUrl: string; intakeOpenUrl: string; publicPartnerPageUrl: string }) {
@@ -499,7 +495,7 @@ function Journey({ metrics, isEmpty }: { metrics: Metrics; isEmpty: boolean }) {
       </div>
       <div style={{ marginTop: 14, display: "grid", gap: 6 }}>
         <p style={{ margin: 0, fontSize: 12, color: "#8A8278", lineHeight: 1.5 }}>
-          <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Packets created:</strong> Document packet rows created for this partner.
+          <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Packets created:</strong> Document packets created for this partner.
         </p>
         <p style={{ margin: 0, fontSize: 12, color: "#8A8278", lineHeight: 1.5 }}>
           <strong style={{ color: "#0F1E3D", fontWeight: 600 }}>Saved cases:</strong> Cases saved through this partner so a user can come back later.

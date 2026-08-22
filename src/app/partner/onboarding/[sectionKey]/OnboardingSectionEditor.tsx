@@ -2,6 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import {
+  FIELD_COPY,
+  SAVE_COPY,
+  concurrentUpdateState,
+  expiredSessionState,
+  saveFailureState
+} from "@/lib/partners/onboarding/partner-copy";
 import { useRouter } from "next/navigation";
 import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
 import type { CoBrandedPagePreview } from "@/lib/partners/onboarding/artifact-generator";
@@ -134,6 +141,7 @@ export type OnboardingSectionEditorProps = {
   previousHref: string | null;
   nextHref: string;
   pendingPrefillFieldKeys: string[];
+  partnerUpdatedPrefillFieldKeys?: string[];
   initialStepId: string;
   missingRequiredKeys: string[];
   completionHref: string;
@@ -247,6 +255,9 @@ const inputClassName =
   "min-h-11 w-full rounded-none border border-grayWilma-200 bg-white px-3 py-2 text-sm text-navy shadow-none outline-none transition placeholder:text-grayWilma-500 focus:border-teal focus:ring-2 focus:ring-teal/25 disabled:cursor-not-allowed disabled:bg-grayWilma-100 disabled:text-grayWilma-600";
 const textareaClassName = `${inputClassName} min-h-28 resize-y`;
 const PrefillFieldContext = createContext<ReadonlySet<string>>(new Set());
+// Fields the partner has changed since LegalEase prepared them. Kept separate from the
+// pending set: one asks for a review, the other records that the answer is already theirs.
+const PartnerUpdatedFieldContext = createContext<ReadonlySet<string>>(new Set());
 const GuidedRenderContext = createContext<GuidedRenderContextValue | null>(null);
 
 export function OnboardingSectionEditor({
@@ -265,6 +276,7 @@ export function OnboardingSectionEditor({
   readOnlyValues,
   assets: initialAssets,
   pendingPrefillFieldKeys,
+  partnerUpdatedPrefillFieldKeys = [],
   initialStepId,
   missingRequiredKeys,
   completionHref,
@@ -291,13 +303,18 @@ export function OnboardingSectionEditor({
   const [indicator, setIndicator] = useState<SaveIndicator>({
     kind: "idle",
     message: commercialBlocked
-      ? "Editing opens after commercial clearance."
+      ? "Editing opens once your program terms are confirmed."
       : canEdit
         ? "Changes save automatically."
         : "Editing is currently locked."
   });
   const [dirty, setDirty] = useState(false);
   const [conflictRevision, setConflictRevision] = useState<number | null>(null);
+  // One authored concurrent-update state, shared with every other surface that has to
+  // explain a save someone else got to first.
+  const concurrentUpdate = concurrentUpdateState(
+    `/partner/onboarding/${sectionKey}`
+  );
   const [completing, setCompleting] = useState(false);
   const [currentAssets, setCurrentAssets] =
     useState<OnboardingEditorAsset[]>(initialAssets);
@@ -546,7 +563,7 @@ export function OnboardingSectionEditor({
           message:
             operation.mode === "section_complete"
               ? "Checking and saving this section"
-              : "Saving"
+              : SAVE_COPY.saving
         });
       }
 
@@ -668,7 +685,7 @@ export function OnboardingSectionEditor({
                   confirmedSaved
                     ? {
                         kind: "saved",
-                        message: `Saved at ${formatLocalSaveTime(new Date())}`
+                        message: `${SAVE_COPY.saved} at ${formatLocalSaveTime(new Date())}`
                       }
                     : {
                         kind: "idle",
@@ -980,7 +997,7 @@ export function OnboardingSectionEditor({
       });
       const payload = response.payload;
       if (response.status < 200 || response.status >= 300 || payload?.success !== true) {
-        throw new Error(assetErrorMessage(response.status, payload));
+        throw new Error(assetErrorMessage(response.status));
       }
 
       const returnedAssets = parseAssets(payload.assets);
@@ -1065,7 +1082,7 @@ export function OnboardingSectionEditor({
       );
       const payload = await readJsonObject(response);
       if (!response.ok || payload?.success !== true) {
-        throw new Error(assetErrorMessage(response.status, payload));
+        throw new Error(assetErrorMessage(response.status));
       }
       const returnedAssets = parseAssets(payload.assets);
       setCurrentAssets((current) =>
@@ -1193,6 +1210,9 @@ export function OnboardingSectionEditor({
   const guidedTaskContent = (
     <GuidedRenderContext.Provider value={guidedRenderValue}>
       <PrefillFieldContext.Provider value={new Set(pendingPrefillFieldKeys)}>
+        <PartnerUpdatedFieldContext.Provider
+          value={new Set(partnerUpdatedPrefillFieldKeys)}
+        >
         <GuidedSurfaceContent
           canonicalReferences={canonicalReferences}
           sectionSummary={sectionSummary}
@@ -1224,6 +1244,7 @@ export function OnboardingSectionEditor({
           updateField={updateField}
           uploadAsset={uploadAsset}
         />
+        </PartnerUpdatedFieldContext.Provider>
       </PrefillFieldContext.Provider>
     </GuidedRenderContext.Provider>
   );
@@ -1300,7 +1321,7 @@ export function OnboardingSectionEditor({
               aria-labelledby="commercial-block-heading"
             >
               <h2 id="commercial-block-heading" className="font-extrabold text-[#071B33]">
-                Setup is waiting on commercial clearance
+                Setup is waiting on your program terms
               </h2>
               <p className="mt-2 text-sm leading-6 text-[#475A6E]">
                 You can review this task. Editing opens after LegalEase confirms
@@ -1316,11 +1337,11 @@ export function OnboardingSectionEditor({
               aria-labelledby="revision-conflict-heading"
             >
               <h2 id="revision-conflict-heading" className="font-extrabold text-[#071B33]">
-                A newer version of this section exists
+                {concurrentUpdate.heading}
               </h2>
               <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-                Review the newer version before saving. Your entries remain in
-                this view and did not overwrite revision {conflictRevision}.
+                {concurrentUpdate.explanation} Your entries remain in this view
+                and nothing you typed was overwritten.
               </p>
               <Button
                 className="mt-4 min-h-11 rounded-none"
@@ -1328,7 +1349,7 @@ export function OnboardingSectionEditor({
                 type="button"
                 variant="secondary"
               >
-                Review newer version
+                {concurrentUpdate.primaryAction?.label ?? "Review latest version"}
               </Button>
             </div>
           ) : null}
@@ -2685,7 +2706,7 @@ function BrandFields(props: FieldRendererProps) {
 
       <FieldGroup
         title="Approved public-page copy"
-        description="Provide plain text approved by your organization. LegalEase-controlled legal and product language remains read-only."
+        description="Provide plain text approved by your team. LegalEase-controlled legal and product language remains read-only."
         fieldKeys={[
           "approved_organization_description",
           "program_headline",
@@ -3070,7 +3091,7 @@ function SupportReportingFields(props: FieldRendererProps) {
 
       <FieldGroup
         title="Reporting recipients"
-        description="These rows define intended report delivery only; saving them sends nothing."
+        description="These entries define intended report delivery only; saving them sends nothing."
         fieldKeys={["report_recipients"]}
       >
         <div
@@ -4114,6 +4135,7 @@ function FieldFrame({
   const guided = useContext(GuidedRenderContext);
   const visible = useGuidedFieldVisibility(fieldKey);
   const prefilled = useContext(PrefillFieldContext).has(fieldKey);
+  const partnerUpdated = useContext(PartnerUpdatedFieldContext).has(fieldKey);
   const requested = Boolean(
     guided?.requestedFieldKey &&
       guidedFieldRoot(guided.requestedFieldKey) === guidedFieldRoot(fieldKey)
@@ -4141,8 +4163,15 @@ function FieldFrame({
         ) : null}
       </label>
       {prefilled ? (
-        <p className="mt-1 text-xs font-semibold text-teal">
-          Pre-filled by LegalEase. Please review.
+        <p className="mt-1 text-xs font-semibold text-teal" data-field-provenance="prepared">
+          {FIELD_COPY.prepared.label}. {FIELD_COPY.shared.supporting}
+        </p>
+      ) : partnerUpdated ? (
+        <p
+          className="mt-1 text-xs font-semibold text-[#475A6E]"
+          data-field-provenance="partner-updated"
+        >
+          {FIELD_COPY.partnerUpdated.label}. {FIELD_COPY.partnerUpdated.supporting}
         </p>
       ) : null}
       {requested && guided?.activeChangeRequest ? (
@@ -4687,7 +4716,8 @@ function requestErrorMessage(
   payload: Record<string, unknown> | null
 ) {
   if (status === 401) {
-    return "Your session expired. Sign in again to continue. Your last confirmed save is still available.";
+    const expired = expiredSessionState("/sign-in?next=/partner/onboarding");
+    return `${expired.heading}. ${expired.explanation}`;
   }
   if (status === 403) {
     return "Could not save. Nothing changed. This role cannot edit the onboarding section.";
@@ -4698,16 +4728,17 @@ function requestErrorMessage(
   if (Array.isArray(payload?.issues) && payload.issues.length > 0) {
     return "Review the marked information. Nothing has been discarded.";
   }
-  if (typeof payload?.error === "string") {
-    return `Could not save. Nothing changed. ${payload.error}`;
-  }
-  return "Could not save. Nothing changed. Your entries remain on this page. Retry when your connection is available.";
+  // The server's own wording is internal diagnostic text. It is logged, never rendered:
+  // a partner reading a save failure needs to know their work is safe and what to do next.
+  // The sentence itself belongs to the copy contract, which also declares it for every
+  // other surface that has to explain a failed save.
+  const failure = saveFailureState(null);
+  return `${failure.heading}. ${failure.explanation}`;
 }
 
-function assetErrorMessage(
-  status: number,
-  payload: Record<string, unknown> | null
-) {
+// The server's own error text is internal diagnostic wording and is never rendered. Each
+// case below tells the partner what happened to their file and what to do next instead.
+function assetErrorMessage(status: number) {
   if (status === 401) {
     return "Your session expired. The upload was not confirmed and existing private assets remain safe. Sign in again and return to this task.";
   }
@@ -4720,12 +4751,8 @@ function assetErrorMessage(
   if (status === 409) {
     return "A newer private asset version exists. Nothing was replaced. Refresh this task before trying again.";
   }
-  if (
-    status === 400 &&
-    typeof payload?.error === "string" &&
-    payload.error.length <= 220
-  ) {
-    return `File type or contents are not supported. Nothing was uploaded. ${payload.error}`;
+  if (status === 400) {
+    return "That file type isn't supported. Nothing was uploaded and your current file is unchanged. Choose a different file and try again.";
   }
   return "Upload could not be completed. No success was recorded and the current private asset remains safe. Choose the file and try again.";
 }
@@ -5020,7 +5047,7 @@ export function GuidedChangeRequestPanel({
                 <p className="mt-2 text-xs text-[#475A6E] [font-family:var(--font-rcap-mono)]">
                   Requested {formatTimestamp(request.requestedAt)}
                   {request.resolvedAt
-                    ? ` | Resolved ${formatTimestamp(request.resolvedAt)}`
+                    ? ` | Closed ${formatTimestamp(request.resolvedAt)}`
                     : ""}
                 </p>
                 {request.partnerResponse ? (
