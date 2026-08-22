@@ -29,6 +29,7 @@ import { finalizeOfficialForm, finalizeFlatOverlay, NonFilingHoldError }
   from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenance.mjs";
 import { loadAppearanceSemantics, dispositionsForFamily } from "./rcap-official-forms/rcap-appearance-semantics.mjs";
+import { detectNonFilingNotice } from "./rcap-official-forms/rcap-source-notice.mjs";
 import { buildContactSheet, ContactSheetProofError, visibleTextOfDocument, missingExpectedValues }
   from "./rcap-official-forms/rcap-contact-sheet.mjs";
 import { reconcileWrittenAgainstDeclared } from "./rcap-official-forms/rcap-evidence-contract.mjs";
@@ -868,11 +869,16 @@ for (const fam of index.families) {
     try { documentTextLines.push(...groupIntoLines(extractTextItems(page))); } catch { /* unreadable page */ }
   }
 
-  const NOT_FOR_FILING = /\bnot\s+for\s+filing\b|\bsample\s+only\b|\bspecimen\s+copy\b|\bfor\s+illustration\s+only\b|\bdo\s+not\s+file\s+this\s+form\b/i;
-  const notForFilingLine = (documentTextLines ?? []).map((l) => l.text).find((t) => NOT_FOR_FILING.test(t)) ?? null;
-  const notForFilingNotice = notForFilingLine;
-  if (notForFilingNotice) {
-    findings.push({ check: "document_states_it_is_not_for_filing", notice: notForFilingNotice });
+  // The phrases live in rcap-source-notice.mjs, shared by both finalization
+  // paths. The five shapes this used to test inline returned false against the
+  // notice the North Carolina translations print — three sentences, none of
+  // which contains any of them — so a document whose own first line says it is
+  // for informational purposes only was free to be filled.
+  const nonFilingHold = detectNonFilingNotice(documentTextLines);
+  const notForFilingNotice = nonFilingHold?.notice ?? null;
+  if (nonFilingHold) {
+    findings.push({ check: "document_states_it_is_not_for_filing", notice: nonFilingHold.notice,
+      matched: nonFilingHold.matched, basis: nonFilingHold.basis });
   }
 
   const renderable = mapKind === "acroform" ? bindings.length > 0 : anchors.length > 0;
@@ -888,12 +894,14 @@ for (const fam of index.families) {
               unwritableFields: classification.filter((c) => isUnwritableClass(c.class)).map((c) => ({ field: c.name, class: c.class })),
               captionOnly: ownership === OWNERSHIP.COURT_ORDER,
               nonFilingNotice: notForFilingNotice,
+              documentTextLines,
               appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${fam.jurisdiction}:${fam.familySlug}`),
               title: `${fam.jurisdiction} ${record.documentId}`
             })
           : await finalizeFlatOverlay({
               sourceBytes: bytes, expectedSha256: sha, anchors, facts,
               nonFilingNotice: notForFilingNotice,
+              documentTextLines,
               title: `${fam.jurisdiction} ${record.documentId}`
             });
         fs.writeFileSync(path.join(familyDir, "fixtures", `${label}-filled.pdf`), result.bytes);

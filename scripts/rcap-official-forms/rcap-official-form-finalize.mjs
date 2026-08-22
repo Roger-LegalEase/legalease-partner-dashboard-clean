@@ -11,6 +11,7 @@ import crypto from "node:crypto";
 import { decideBinding, resolveFact, valueMatchesType, selectOnePerSlot, isChooserPrompt } from "./rcap-field-semantics.mjs";
 import { fitTextToWidget, applyFitToTextField, MIN_READABLE_FONT_SIZE } from "./rcap-text-fitting.mjs";
 import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances } from "./rcap-active-content.mjs";
+import { detectNonFilingNotice } from "./rcap-source-notice.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFDropdown, PDFName, StandardFonts, rgb } = require("pdf-lib");
@@ -177,6 +178,11 @@ export async function finalizeFlatOverlay({
   protectedRules = [],
   facts,
   nonFilingNotice = null,
+  // The document's own printed text. Passed so this path can hold for itself
+  // rather than only when a caller remembered to look: the defect this closes
+  // was a detector that returned false, and a path that trusts the caller
+  // inherits every future miss the same way.
+  documentTextLines = [],
   minFontSize = MIN_READABLE_FONT_SIZE,
   title = null,
   approvedTextColor = null
@@ -186,7 +192,14 @@ export async function finalizeFlatOverlay({
   if (expectedSha256 && expectedSha256 !== sourceSha) {
     throw new Error(`source drift: expected ${expectedSha256}, read ${sourceSha}`);
   }
-  if (nonFilingNotice) throw new NonFilingHoldError(nonFilingNotice);
+  // Either the caller's notice or one this path finds for itself, including in
+  // the anchor labels — on a flat overlay those ARE the document's printed
+  // text, so a reference-only notice sitting on an anchor is caught even with
+  // no line list supplied.
+  const flatHold = nonFilingNotice
+    ?? detectNonFilingNotice([...documentTextLines, ...(anchors ?? []).map((a) => a?.label)])?.notice
+    ?? null;
+  if (flatHold) throw new NonFilingHoldError(flatHold);
 
   const pdfDoc = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -357,6 +370,9 @@ export async function finalizeOfficialForm({
   captionOnly = false,
   documentAcceptsFill = true,
   nonFilingNotice = null,
+  // As above: this path holds on the document's own words, not only on the
+  // caller's reading of them.
+  documentTextLines = [],
   maxFontSize,
   minFontSize = MIN_READABLE_FONT_SIZE,
   title = null,
@@ -373,7 +389,8 @@ export async function finalizeOfficialForm({
 
   // A form that says on its own face that it must not be completed for filing
   // is never filled, whatever else the profile says.
-  if (nonFilingNotice) throw new NonFilingHoldError(nonFilingNotice);
+  const hold = nonFilingNotice ?? detectNonFilingNotice(documentTextLines)?.notice ?? null;
+  if (hold) throw new NonFilingHoldError(hold);
 
   const pdfDoc = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
   const form = pdfDoc.getForm();
