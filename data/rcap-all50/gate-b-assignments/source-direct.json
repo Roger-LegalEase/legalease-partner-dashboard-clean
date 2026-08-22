@@ -3,6 +3,7 @@
   "lane": "LANE-SOURCE",
   "role": "source acquisition",
   "assetIds": [
+    "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
     "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
     "NC|forms-2.html|30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
     "NC|forms.html|1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
@@ -10,11 +11,12 @@
     "VA|cc1473.pdf|6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
     "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
     "VA|va-expungement-sealing-forms.html|b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
-    "AR|7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
-    "AR|Felony-Petition-Form-f.pdf|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+    "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+    "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
     "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a"
   ],
   "familyIds": [
+    "NC:aoc-cr-296-form-en",
     "NC:expungements",
     "NC:forms-2",
     "NC:forms",
@@ -22,12 +24,13 @@
     "VA:cc1473",
     "VA:cc1473inst",
     "VA:va-expungement-sealing-forms",
-    "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f",
-    "AR:felony-petition-form-f",
+    "KY:496-2",
+    "KY:496-3",
     "AK:requesttosealcriminfo"
   ],
   "allowedPaths": [
     "data/rcap-all50/pdf-source-handoffs/source-direct/**",
+    "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en/source-record.json",
     "data/rcap-all50/overlays/production/north-carolina/expungements/source-record.json",
     "data/rcap-all50/overlays/production/north-carolina/forms-2/source-record.json",
     "data/rcap-all50/overlays/production/north-carolina/forms/source-record.json",
@@ -35,8 +38,8 @@
     "data/rcap-all50/overlays/production/virginia/cc1473/source-record.json",
     "data/rcap-all50/overlays/production/virginia/cc1473inst/source-record.json",
     "data/rcap-all50/overlays/production/virginia/va-expungement-sealing-forms/source-record.json",
-    "data/rcap-all50/overlays/production/arkansas/7-nolle-prosequi-dismissed-acquittal-petition-2020-f/source-record.json",
-    "data/rcap-all50/overlays/production/arkansas/felony-petition-form-f/source-record.json",
+    "data/rcap-all50/overlays/production/kentucky/496-2/source-record.json",
+    "data/rcap-all50/overlays/production/kentucky/496-3/source-record.json",
     "data/rcap-all50/overlays/production/alaska/requesttosealcriminfo/source-record.json"
   ],
   "prohibitedPaths": [
@@ -63,12 +66,18 @@
   "stopCondition": "every assigned asset carries either an acquired source with a receipt, or a recorded no-official-source finding naming what was searched",
   "primaryOwner": "source acquisition and resolution lane",
   "terminalOutcomeMix": {
+    "exact_deferral": 2,
     "guidance_terminal": 5,
-    "exact_deferral": 1,
     "deliberate_scope_exclusion": 1,
     "packet_ready": 3
   },
   "terminalWork": [
+    {
+      "assetId": "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+      "terminalOutcome": "exact_deferral",
+      "mustPacket": true,
+      "doneCondition": "the route completes with this component named as an exact deferral, stating what the participant must obtain and from whom, until the official binary is acquired"
+    },
     {
       "assetId": "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
       "terminalOutcome": "guidance_terminal",
@@ -112,13 +121,13 @@
       "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
     },
     {
-      "assetId": "AR|7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "assetId": "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
       "terminalOutcome": "packet_ready",
       "mustPacket": false,
       "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
     },
     {
-      "assetId": "AR|Felony-Petition-Form-f.pdf|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "assetId": "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
       "terminalOutcome": "packet_ready",
       "mustPacket": false,
       "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
@@ -131,10 +140,11 @@
     }
   ],
   "mustPacketAssets": [
+    "NC|AOC-CR-296|48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
     "VA|cc1473.pdf|6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3"
   ],
   "blockedAssetsDoNotHoldOthers": true,
-  "baseSha": "92304539dbad4c5ff58cff5ec554e0d2d4bf3008",
+  "baseSha": "b7064e388b09729964860c5242db6a32fd6c1e33",
   "globalProhibitedPaths": [
     "src/**",
     "package.json",

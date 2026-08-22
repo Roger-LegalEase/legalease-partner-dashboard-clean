@@ -112,7 +112,12 @@ const capturedIndexPages = (() => {
   return ids;
 })();
 
-const rerender = byBucket("RERENDER_REQUIRED");
+// A captured index page is not an official form, so it belongs to retirement no
+// matter which bucket the queue currently puts it in. The exclusion used to be
+// applied to SOURCE_REQUIRED alone, which held only while every such asset was
+// waiting on source: once a source receipt moved one into RERENDER_REQUIRED it
+// was claimed by a rerender shard AND by retirement at the same time.
+const rerender = byBucket("RERENDER_REQUIRED").filter((a) => !capturedIndexPages.has(a.assetId));
 const source = byBucket("SOURCE_REQUIRED").filter((a) => !capturedIndexPages.has(a.assetId));
 const retire = [
   ...byBucket("RETIRE_OR_REPOINT"),

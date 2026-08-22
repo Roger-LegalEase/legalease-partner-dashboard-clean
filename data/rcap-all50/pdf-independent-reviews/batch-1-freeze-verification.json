@@ -9,9 +9,9 @@
   "totals": {
     "familiesInFreeze": 27,
     "artifactsInFreeze": 81,
-    "artifactHashesStillMatching": 25,
-    "artifactHashesDrifted": 56,
-    "artifactsAbsent": 0,
+    "artifactHashesStillMatching": 6,
+    "artifactHashesDrifted": 72,
+    "artifactsAbsent": 3,
     "classificationHashesStillMatching": 1
   },
   "adoptedVerdicts": {
@@ -34,6 +34,12 @@
     "KY:aoc-496-2-form-en:fixtures/canonical-filled.pdf",
     "KY:aoc-496-2-form-en:fixtures/boundary-filled.pdf",
     "KY:aoc-496-2-form-en:contact-sheet/blank-vs-filled.pdf",
+    "KY:aoc-496-3-form-en:fixtures/canonical-filled.pdf",
+    "KY:aoc-496-3-form-en:fixtures/boundary-filled.pdf",
+    "KY:aoc-496-3-form-en:contact-sheet/blank-vs-filled.pdf",
+    "KY:aoc-496-4-form-en:fixtures/canonical-filled.pdf",
+    "KY:aoc-496-4-form-en:fixtures/boundary-filled.pdf",
+    "KY:aoc-496-4-form-en:contact-sheet/blank-vs-filled.pdf",
     "KY:aoc-496-form-en:fixtures/canonical-filled.pdf",
     "KY:aoc-496-form-en:fixtures/boundary-filled.pdf",
     "KY:aoc-496-form-en:contact-sheet/blank-vs-filled.pdf",
@@ -46,9 +52,6 @@
     "NC:aoc-cr-288-form-en:fixtures/canonical-filled.pdf",
     "NC:aoc-cr-288-form-en:fixtures/boundary-filled.pdf",
     "NC:aoc-cr-288-form-en:contact-sheet/blank-vs-filled.pdf",
-    "NC:aoc-cr-296-form-en:fixtures/canonical-filled.pdf",
-    "NC:aoc-cr-296-form-en:fixtures/boundary-filled.pdf",
-    "NC:aoc-cr-296-form-en:contact-sheet/blank-vs-filled.pdf",
     "NC:aoc-cr-297-form-en:fixtures/canonical-filled.pdf",
     "NC:aoc-cr-297-form-en:fixtures/boundary-filled.pdf",
     "NC:aoc-cr-297-form-en:contact-sheet/blank-vs-filled.pdf",
@@ -71,15 +74,32 @@
     "NE:cc-6-15-1-form-en:fixtures/boundary-filled.pdf",
     "NE:cc-6-15-1-form-en:contact-sheet/blank-vs-filled.pdf",
     "NE:dc-1-15-form-en:fixtures/canonical-filled.pdf",
+    "NE:dc-1-15-form-en:fixtures/boundary-filled.pdf",
     "NE:dc-1-15-form-en:contact-sheet/blank-vs-filled.pdf",
     "VA:cc-1201-form-en:fixtures/canonical-filled.pdf",
     "VA:cc-1201-form-en:fixtures/boundary-filled.pdf",
     "VA:cc-1201-form-en:contact-sheet/blank-vs-filled.pdf",
     "VA:cc-1473-form-en:fixtures/canonical-filled.pdf",
     "VA:cc-1473-form-en:fixtures/boundary-filled.pdf",
-    "VA:cc-1473-form-en:contact-sheet/blank-vs-filled.pdf"
+    "VA:cc-1473-form-en:contact-sheet/blank-vs-filled.pdf",
+    "VT:200-00130-form-en:fixtures/canonical-filled.pdf",
+    "VT:200-00130-form-en:fixtures/boundary-filled.pdf",
+    "VT:200-00130-form-en:contact-sheet/blank-vs-filled.pdf",
+    "VT:200-00132-form-en:fixtures/canonical-filled.pdf",
+    "VT:200-00132-form-en:fixtures/boundary-filled.pdf",
+    "VT:200-00132-form-en:contact-sheet/blank-vs-filled.pdf",
+    "VT:200-00132a-form-en:fixtures/canonical-filled.pdf",
+    "VT:200-00132a-form-en:fixtures/boundary-filled.pdf",
+    "VT:200-00132a-form-en:contact-sheet/blank-vs-filled.pdf",
+    "VT:600-00228-support-en:fixtures/canonical-filled.pdf",
+    "VT:600-00228-support-en:fixtures/boundary-filled.pdf",
+    "VT:600-00228-support-en:contact-sheet/blank-vs-filled.pdf"
   ],
-  "missing": [],
+  "missing": [
+    "NC:aoc-cr-296-form-en:fixtures/canonical-filled.pdf",
+    "NC:aoc-cr-296-form-en:fixtures/boundary-filled.pdf",
+    "NC:aoc-cr-296-form-en:contact-sheet/blank-vs-filled.pdf"
+  ],
   "families": [
     {
       "familyId": "AK:tf-800-form-en",
@@ -186,19 +206,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "2dd15a6598e351b7334c9dad0a0f7533a2b0c4a8a5eda1dee4c324d8febc2c10",
-          "observed": "133421661451e326099d5843ba83315a1dd624de776c8b3fe33a1a627b673a04"
+          "observed": "0b47b43b1126923ddb46b680986820c27afb15e7ce22827a195b90bab45aa0b9"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
           "state": "drifted",
           "frozen": "38857fab1509fe1801815da267da26aff4c0ae5863b36f59edc82411669bd39a",
-          "observed": "10a6898d58eac072e71fcbad69d02d272e281edb1dd8bd89495d6bea629a012d"
+          "observed": "e59645fc710c83b8149d2dfcbe4fd1d26b7902c01b29beaa44c4d1cbca3c21c2"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "92e092df5ab1a8bd99e67ce508179baac17ef595b2c6326088e432db04d53221",
-          "observed": "3351a3715110eab6b104fd57ca7301ef46bb4467077a7de1711a1c72a71d3911"
+          "observed": "15f54e1a818eb5a6bf28ab486c6089b70bcb77f7f4c1896ec58efcc1bfcb4f6a"
         }
       ],
       "classificationStillMatches": false
@@ -209,18 +229,21 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a"
+          "state": "drifted",
+          "frozen": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a",
+          "observed": "188405e8bd9508b08fabed8b3a4c9292df099848ba5ec9c215382d2dd552c68f"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "d3344eed7672e3ee8be9a85e15fe5447e91a287dfc1d33837f3587ecae7b7d79"
+          "state": "drifted",
+          "frozen": "d3344eed7672e3ee8be9a85e15fe5447e91a287dfc1d33837f3587ecae7b7d79",
+          "observed": "33773da0645c24c0b352da283eb868950010aa293a3f049e082fe27f89376a20"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb"
+          "state": "drifted",
+          "frozen": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb",
+          "observed": "08c5f4216286d4763cdb687b29ea3ac002eaa1623266e6e0efeff27078b45b4b"
         }
       ],
       "classificationStillMatches": false
@@ -231,18 +254,21 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "2a1277400e66cbe7fc352a02131256f4c232f664cd9a274ed2a53e6679defe78"
+          "state": "drifted",
+          "frozen": "2a1277400e66cbe7fc352a02131256f4c232f664cd9a274ed2a53e6679defe78",
+          "observed": "b364359660cbc67ac5bcbe57be2a40759884fcfef341575a7924f8adee38198d"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "ebaa046d8336a704c7b8b95477c441aa3328fede37dbbe57091bc9dda1f626c6"
+          "state": "drifted",
+          "frozen": "ebaa046d8336a704c7b8b95477c441aa3328fede37dbbe57091bc9dda1f626c6",
+          "observed": "f2645000daadad347753397e78c526d8cee4f86caf06e27e9e618cbe8c1a0163"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "ea30f977b782d675043533c5f3c1c665cdfe3912f7632b1313bc438ffe2310f3"
+          "state": "drifted",
+          "frozen": "ea30f977b782d675043533c5f3c1c665cdfe3912f7632b1313bc438ffe2310f3",
+          "observed": "46ce014dc24324378cc4114929bbbcbc30562b80805dd2e6ccdb991a5fab08bf"
         }
       ],
       "classificationStillMatches": false
@@ -255,19 +281,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "8d3b618342b8e20955109569e9b0f3ebb77e1464ee82b879ae409743ebbf3a45",
-          "observed": "25df98d8e8a60ab236cfafa70a23ba842a76769f594225ec5f224a026496350e"
+          "observed": "77c693ac0ef3c93003b9a47f82aabbbf069dea4be63d4a51b3e378b7714829df"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
           "state": "drifted",
           "frozen": "aeaff361b68ad1497a22c5953777bfaf8d43bb5a0a1bca79a5d5599bf2d3e33a",
-          "observed": "921fbeafc1eb46b58e30170703a23408d1dc6435b8187302d59be59a22e2452f"
+          "observed": "55a44cb9d32e856b7d3ae138e0f5676246953eb3fbecb8b0f788c7f75c1ccf96"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "3794c895d3fa9290f33615368c08017649c54d40ae7dbb0d3f75404643e48fc7",
-          "observed": "cdb99ddab73703b8faacbf549d000999971e015e777eac9212faced34d3de0e9"
+          "observed": "b0392bb9d5412357cef582ba28e3963ec7bd882913894387107e8f71d9abecc0"
         }
       ],
       "classificationStillMatches": false
@@ -280,19 +306,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "2e23ea6eea2b6126bb14dba59260dcd50e9fc275eeff3979f5e3ff344bbdbc59",
-          "observed": "f04220c027afa8b6d6c1b29e4eba9bff125e4e2d8c2d4fb15b616bbfb4ea5d02"
+          "observed": "34e824319af7eaed380ac6313d25045fb9b9c7d8523588cc645766eb662dfc8a"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
           "state": "drifted",
           "frozen": "e0dd58c05f05d30d1d76fccedf5b22aeb0aeb3c4a510ec72f679918c4bbbb522",
-          "observed": "b5848467b1fb6b4f1d46c6cd071e435770a34fcb8d606d831da1c246f16f206f"
+          "observed": "0a186b8627ba1ee9a86ca3830fb46f1e426cb3365a641aea5fee39e47ac5ba37"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "8f0966a78e9e8bc152972f9584a7deab0500d7abe759ac288ad742e095c9c3a4",
-          "observed": "3d529db77e469c9fb17d041b861ef04ff66cda777836e15c8211c7a10d985aca"
+          "observed": "6fe897393a24eac55ca50fea70cf863f3ecc0454386e79368b6a9cada7331b25"
         }
       ],
       "classificationStillMatches": false
@@ -353,21 +379,15 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "drifted",
-          "frozen": "bfff2e3a94523f145eb6b0aad877f84b6d2b968ed9eeb5941cb96189db45f16f",
-          "observed": "13f3068260ae17d8846bc8345ceaa57fa705273ad785bcc418becfa777c00720"
+          "state": "absent"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "drifted",
-          "frozen": "60bf177ebf6ec68c9454a4a4b7ca18f0cf569155748cad8a91ebc499e79e7a2c",
-          "observed": "aff9db5184b05036230e5f37f447b79558b00dd5a73c0b8fce6583b11f856036"
+          "state": "absent"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "drifted",
-          "frozen": "a27ecc3ac56f79238d959cd950175e696190f804fa7b33488863a9301b3b6daa",
-          "observed": "a12f03576f0914d7c953679222525db96922ffd1a642702a4f1180d8f03c7c7e"
+          "state": "absent"
         }
       ],
       "classificationStillMatches": false
@@ -380,19 +400,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "4e15783f6641c968274def95b38b6ce487a43080ebadf6974b829027ce4f6488",
-          "observed": "72194d7e51aa7ed39a89d9a31d1c9f0deda3d77cf5f7215be770dde19e598d50"
+          "observed": "35cf4fc0aad5916a06b3bb7a3406315e22536848a1a01ba4e3efa1ac38983af8"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
           "state": "drifted",
           "frozen": "434ab8ca96130d3b27ca3cc51348fa7571c5b9f014d84786c71efb4b8360d660",
-          "observed": "9b3baea68e60a5b4c746342c8ed65f8207a1ebc40553691dba734a8b18cf2aef"
+          "observed": "ee7e38747808ec4e5018c514082197a8a5b8ee262b27c033c294642d27713115"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "8c7834867538502d3fdb0acaea34cfd51ad7e38101dfc6f195e107de9f19a2b0",
-          "observed": "430835076f69ef75ad45b58ddc2602ac6b5a881978637ca6dfabf2c5b473856b"
+          "observed": "7a7c3d394c7fefe2c2d8d60aa4941d4a1b00459197f53b2530d91531e06ec80b"
         }
       ],
       "classificationStillMatches": false
@@ -405,19 +425,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "309aa7a0699b58a4462f409bcd7867f4450f1d8be30bee2e433e46cd23143da9",
-          "observed": "9347fb6f136048fd14df03de50655c143cdcbd9eb2c1796b69a33adf3792c4c3"
+          "observed": "788c0d7e06880f021578ce31333e286fd8307cb3329720219ef7a2d154df9c74"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
           "state": "drifted",
           "frozen": "a8a41cde96e3a4c1f604664d225cbe10f0fa830d8ff22a9d97bdb3d8b58bc1e3",
-          "observed": "df0df8304c17cde4b0d9385088ab295984af1037fc50aec3437a1d09d8df42a7"
+          "observed": "2bc41af1dcc34c7ef156dd843004fab63a9872aae30310d05b5adc0479fffa21"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "d9ea7ca6523c7816c2bb3e47035fcf909e1f73b3a2cc8432ae04ce449b8dea84",
-          "observed": "dc5d399811a708c299de8b692f6a67ce7c97e78728903a653f616e95590f9a44"
+          "observed": "2760cc020b65338628c89f617f9fa0a5390f5a278fe1312183dcf990ee8b9e02"
         }
       ],
       "classificationStillMatches": false
@@ -430,19 +450,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "8ebd1ccf32044b3b52689d5231ef4d0ddd8c06f74a5a38eb54a2d0be1ee47a53",
-          "observed": "607f138440ace5bb7fe880b970be5d46d00d3971cfd3e660428d61df0ce5b936"
+          "observed": "99631f0faa0e4b7c47d4bb1942c8065bd81168f30abb3951618a2ca8677c923c"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
           "state": "drifted",
           "frozen": "52ca5719efcb4fe94313e0ee2dfb569ccd2b8550ee4959af1461af233b230739",
-          "observed": "588c933119f14095855ed20065110ce9695e20e4a49f761d227f17e2e0ab0406"
+          "observed": "97a45a338a0d8772fd91035a9d910548d0ec931b4265b97ef5b29644422dd78b"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "26bb43ea85d42b881dbd8b9d21d09067f2c5a44285b0420114f3aab5104088b4",
-          "observed": "e1f3c451f5dc839b77b50123fa18f67855e168e5a87840ec18b39a893cf145e7"
+          "observed": "ab0681faa9af7a9d4f3e257b679bd3efd7560870c3c4e3482aba1dc84e65a906"
         }
       ],
       "classificationStillMatches": false
@@ -455,19 +475,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "cd503faa72efa82d6a18be2748f966304d5421b59621c06681e99f12b3a9b06e",
-          "observed": "0dd6fbff24a11884632829a6641ad170cdabc27af9883d94ed31ffaf452ef495"
+          "observed": "b296cdc2ec785f7681a276ba8dd0b0931eebf4e605a72f8a3bb90d3c18723240"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
           "state": "drifted",
           "frozen": "58a806f8e7731fac499cc7d9387e425b04234bbc757a4a0e826ae4ad628b6e7d",
-          "observed": "1a19b3cc2535a15f6e1c79420840d6c4215c8bd4ab511fb84f9cf1112d98937d"
+          "observed": "055e3bb597a60e869c4334ca26ba99d765d5cad9695688b7f48cae8e0a7b6347"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "e69a23f741eb79656e8c8970a1062250b47c0d85500301409f1f3c9e29e3e27d",
-          "observed": "a4ca81012a8666e4332cf10782ec949fd55bb779b7a6eb8db5552e048df5b314"
+          "observed": "aa469aa7145fd2087544a7c43f216d942f8b095b00d416a782e6dabaf021a5a3"
         }
       ],
       "classificationStillMatches": false
@@ -480,19 +500,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "6a7f0e4db821767783c14b5d560618f6361c0d1609c562b0086f4a6dde21a823",
-          "observed": "0adfe77241308e5262a2a7fe53168ab211989dc5926293e08ebe38cd4aaf7942"
+          "observed": "585e770a147de2b43bab1837e9151b2381e423ba980dfd1a39d00c59b4f78c0d"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
           "state": "drifted",
           "frozen": "ec715fda7e14108024628a330fd8e5a94c415f9339be1f726eb99dad37b48023",
-          "observed": "09cd21272f739bb7e0aad7fcfe6db3b363abe707a1f1dc9783cda3e24c66b8fe"
+          "observed": "3a22672b1761350af3105b1cf77e3c6108dd742aae1c334a75b7fa9005b18be5"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "878bea5971981a938047052eedc3a71685a4cb0c2a1c6160832ae0a2a1da62d9",
-          "observed": "51bdf6a6f366968f0964a83674b36cce464363339efa95f68e4a9dc2b990a9e3"
+          "observed": "124503c7ca5e02593a1747865136290f2a4ca3080557684794ca074961cbe4b6"
         }
       ],
       "classificationStillMatches": false
@@ -505,19 +525,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "21a1715a6bddd41d642e7127b90ac971044faf616d40d09e857571cb72417bb8",
-          "observed": "f73c780e529e171ec76af78cec4ff5b914ef5f971d53e188df4a2ed888ad10d6"
+          "observed": "f2143ff4e72b574c24acf74b1bb44c80a688c740aad6ccd30bf03219ee8bf344"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
           "state": "drifted",
           "frozen": "0aa3468c1afa6d30e1b219ebb638e3fc5b341b11d23e533c2c96dcea6a0f6162",
-          "observed": "80699880459930b1b61b66abdd0008866d15db9e2e009b7c28d403adaa578c7d"
+          "observed": "7b49ae5ba63f869f4de58134d3362f208720429aca34a439c3b2c23e253da2d1"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "02c41c6227027aef9015aad59b42a4bc579971513d6baffa3745b3756cc780b3",
-          "observed": "5c1a29545f320ec88caf49ee58fca2b1fda85ce2e9217789f7ad69bc3d41b44c"
+          "observed": "651be5f06437e7ea374fabfda7990f25363f407d61086d0c4f3f2b1d212ba972"
         }
       ],
       "classificationStillMatches": false
@@ -530,19 +550,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "e2a68152e06354761b3001a0fcfee6a9d96e101344d4b9f831a6b4e2e1879238",
-          "observed": "41d2dfd959fddfe8df4a0d062e0599abf114f2f93d1694125a5cf0b2379ee55d"
+          "observed": "53686fb10cc3de2f62054fcc543fd43c374f8a4a02e0d413df86dadc005661c6"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
           "state": "drifted",
           "frozen": "427bff7969be39a7605c08b0d0b6d8bc6447ebb7b575ebfa0305255d9841a51d",
-          "observed": "ef0bb178a26fc79464a43d5da0d07cc942bb33eec3597ac3ba51839a334c750a"
+          "observed": "550f2a3bf5f3ff9c302b023c5d6ceeb18f10dd3e1db3835e919ecef4816934b9"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "2960c343551b8c81ba96291792a8480c62cc73cc6c7d5a3d0c80a7bd298ea7be",
-          "observed": "bdf404f876e66464cba20010e15819522c380d068b7642bcddd5b901d943184f"
+          "observed": "7d31c001527d71c0bfdaeff7891753c15f8ac69c7e5bdd9457d2d70502b81613"
         }
       ],
       "classificationStillMatches": false
@@ -555,18 +575,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "3f0bc4bac2e1216e62e64da7e0d9ae897a1dfa2b822d1a14807505e656f6f2b1",
-          "observed": "411ebb3f5fe0ed3cf8ac6e3f5d7f24cfa9b2ed27122a6c0f5574d0624d7b01a2"
+          "observed": "a235362b324c5be0246c8e35bb83b89ef34298de4429e042e8bc645fd1048db2"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "a997b0df17375606c9f3f14f3ef1d341fa0b472314555891a47cc51d5d9b5d27"
+          "state": "drifted",
+          "frozen": "a997b0df17375606c9f3f14f3ef1d341fa0b472314555891a47cc51d5d9b5d27",
+          "observed": "13b779cfff2bdd8a15749ed34bec7bad5b3214322681b25c3b3ed577bdea0be5"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "1481d199522a0cadd82b42b7193260bec525869304c815ad32dc0aa88701a131",
-          "observed": "9e7dbbcad263818181b6f2133e1cc28785be52343539ec60752494a9ea52c0fb"
+          "observed": "1c3e61ddf1245d3a1a98747df0b4b9b6b4c13a2bc8e46bc6159be71e586d35bc"
         }
       ],
       "classificationStillMatches": false
@@ -579,19 +600,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "427770d0ba6d3f512b8de6d6b631cf388afb7025057b5c0c191d6c1a2a356eb4",
-          "observed": "3793af1fb7f254d2e7d178f7d81823d031762d68b2c8b0faa8e94c4a28cbbe91"
+          "observed": "eea51728c959ab6bf56d54cba696e8f1aba7be5c3560f369f130731049f20d34"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
           "state": "drifted",
           "frozen": "0cbd4278cf7185e3556101607e0d6c58ee51b1537dfdf3e1b1f16a5fead82b3f",
-          "observed": "000c74fd830a6c112df0beb14c33051d714dd406d5a8d24ded05ffc39e4eee9a"
+          "observed": "bfe3099e44c505c45d13f7b897b8305cebe9938a305715cadcd21f435c6ea26d"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "6b58a4a3bf5fade40c2fcea53aabe0a7734cacdf3edfdc701a3bd971c31c57d8",
-          "observed": "50ea6d547e8ea2eec0db196c84f0d0610ed9baa5aa2d103415b37740e5bc5f4a"
+          "observed": "36676b6b08dee7cbb19bc44369889f9fd44b9176c8ebecae148262d0e4dfb6af"
         }
       ],
       "classificationStillMatches": false
@@ -604,19 +625,19 @@
           "rel": "fixtures/canonical-filled.pdf",
           "state": "drifted",
           "frozen": "0c28f8653692c860c5cb29e99135ecae2d42410de48682b41814042e0d03f87d",
-          "observed": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9"
+          "observed": "dff7e78c80b9deaac102a649d486f520dc330f934ec8611971a9e46e3ae1b950"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
           "state": "drifted",
           "frozen": "9a661e69c05e6880cc412003f3f83e6b375ed605806fa49faff667663a0c8aad",
-          "observed": "778d9be31c08cbfe0fd03519de48e926ea6528d1701de7c19b711584d53b232e"
+          "observed": "6cd890c8ce6d568cdd1bb17a29b08ba87e4b5878687b3cfae09a6c583e887650"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
           "state": "drifted",
           "frozen": "02384e76303d212325e4fcf5eb4e4d502ff81c6642af3a9a17f57b5cdba02a29",
-          "observed": "db394760780d9d8f2e064fdecbf3f849deda423d88f716956ddaec3061a84be3"
+          "observed": "45240f1b9cb52249113c79261aa889a0c963b2bbb01c390f78825e5eb4689ae9"
         }
       ],
       "classificationStillMatches": false
@@ -627,18 +648,21 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "8523aca4ae536e662f1e0b5c21f883996a4e866db1d1a7c08b72c78602bf865e"
+          "state": "drifted",
+          "frozen": "8523aca4ae536e662f1e0b5c21f883996a4e866db1d1a7c08b72c78602bf865e",
+          "observed": "c7e01a852e689cecd08d0aee8c117b87a5b590ddd7583f50bcb66721043ade7c"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "eb68699331c34738921bd0192574a011877b90f6a33eaa33ee1f73070f8fa3e3"
+          "state": "drifted",
+          "frozen": "eb68699331c34738921bd0192574a011877b90f6a33eaa33ee1f73070f8fa3e3",
+          "observed": "44d439442085fe359fede7467d2b21719b737c5e3b349607742dddd9968da8ec"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "9c34f37911dc2cc0279280478a7cead31b17de4a6169038e4d2620699dd890a3"
+          "state": "drifted",
+          "frozen": "9c34f37911dc2cc0279280478a7cead31b17de4a6169038e4d2620699dd890a3",
+          "observed": "5951b04b882c74e6b7a6757cbd68f0acf12f5f06aa15ec75b590914496e2409b"
         }
       ],
       "classificationStillMatches": false
@@ -649,18 +673,21 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "c49ba8941a0ab6a6a05cd2d4a8c32301d563c9692658f50122891e67d966cf60"
+          "state": "drifted",
+          "frozen": "c49ba8941a0ab6a6a05cd2d4a8c32301d563c9692658f50122891e67d966cf60",
+          "observed": "0655bf15329c85e43e80b4dc610ecded83f83d90c004db442c2c627cce97ab32"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "33f38e0e4b3024cc62090ab5d9f7c71cb9d46a9cfb7db04847c5bd7578346e82"
+          "state": "drifted",
+          "frozen": "33f38e0e4b3024cc62090ab5d9f7c71cb9d46a9cfb7db04847c5bd7578346e82",
+          "observed": "23cd750559c9b1c07e44c812eba7544aaa9acbb3e258450b5a59a6fccdf830b6"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "b774d621d4e9e90232b9f7177874a121d42fdf9aa88bc82bd273273dea930e1e"
+          "state": "drifted",
+          "frozen": "b774d621d4e9e90232b9f7177874a121d42fdf9aa88bc82bd273273dea930e1e",
+          "observed": "e44949ae36ec93ecf0a99b7810d66547e3f4ee4661e061e66ea737e2e8400afb"
         }
       ],
       "classificationStillMatches": false
@@ -671,18 +698,21 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "5df4cceba1208a226792a927ce6b89f54c16632f780f872179942807c0f0ff6f"
+          "state": "drifted",
+          "frozen": "5df4cceba1208a226792a927ce6b89f54c16632f780f872179942807c0f0ff6f",
+          "observed": "90f15ad749f2869d43cb49f4c6970a1158a6dd79c49362022c56f5f3becba00f"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "6a9c3137f09fa1a59076703917aa3100f7b5ccbf1be977e8629fcabeba8d0ed7"
+          "state": "drifted",
+          "frozen": "6a9c3137f09fa1a59076703917aa3100f7b5ccbf1be977e8629fcabeba8d0ed7",
+          "observed": "2c75ce0f09287fe92dd8fd0d080dd27c83e47dfb20b6aeb07bb6002361634e80"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "1c56457dbd05ac939c079150124c30d5124863a73b3254550d9b0c2b2621fb38"
+          "state": "drifted",
+          "frozen": "1c56457dbd05ac939c079150124c30d5124863a73b3254550d9b0c2b2621fb38",
+          "observed": "8f9e60ab7a3b00f78e7881de2531d9fb4c9c6f587b91b9ff12659c49e3aba790"
         }
       ],
       "classificationStillMatches": false
@@ -693,18 +723,21 @@
       "artifacts": [
         {
           "rel": "fixtures/canonical-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "3badbfe515021b919e42eab8f487030cae408aaaf0d983d26d22a42ae3468b6e"
+          "state": "drifted",
+          "frozen": "3badbfe515021b919e42eab8f487030cae408aaaf0d983d26d22a42ae3468b6e",
+          "observed": "ce40547daf5ab6bfae1a9b0898a33ba513e59de4c4e9524225fe0cf3c2f619d9"
         },
         {
           "rel": "fixtures/boundary-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "37eb5ff468c72187bdcd61a68d08b93c9f080ba08fe61929c1b9b8f0760ce39e"
+          "state": "drifted",
+          "frozen": "37eb5ff468c72187bdcd61a68d08b93c9f080ba08fe61929c1b9b8f0760ce39e",
+          "observed": "9dc5427aae515e9972b02e2baef70f544f76de58e71fad91aad25ee658db094c"
         },
         {
           "rel": "contact-sheet/blank-vs-filled.pdf",
-          "state": "matches_the_freeze",
-          "sha256": "991176ec5412fc285362f2f080ee041ed7b843e99f013d0d9b4b471f3c676490"
+          "state": "drifted",
+          "frozen": "991176ec5412fc285362f2f080ee041ed7b843e99f013d0d9b4b471f3c676490",
+          "observed": "8ad9fe2b0c0fd92efdb96a7b85c46b613562f878cfba4d409daa2e31885a45b2"
         }
       ],
       "classificationStillMatches": false

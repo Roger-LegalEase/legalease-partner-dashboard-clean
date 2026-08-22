@@ -26,6 +26,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { operationalCorpusPath, OPERATIONAL_CORPUS_RELATIVE, MASTER_LIBRARY_RELATIVE }
   from "./rcap-official-forms/operational-corpus-precondition.mjs";
@@ -150,6 +151,63 @@ function ownerFor(familyId, packagePath) {
   };
 }
 
+/**
+ * Where wave 1 left each family.
+ *
+ * Three states, and the difference matters to whoever reads this next:
+ * implementation_complete means a worker produced its current outcome (which for
+ * a non-fillable family is legitimately no fixture at all); terminalized means it
+ * never needed a customer PDF; active means somebody still has to build one.
+ */
+const WAVE1 = (() => {
+  const file = abs("data/rcap-all50/pdf-finish-wave1-terminalization.json");
+  if (!fs.existsSync(file)) return { terminalised: new Map(), jobs: new Map() };
+  const body = JSON.parse(fs.readFileSync(file, "utf8"));
+  const terminalised = new Map();
+  const jobs = new Map();
+  for (const row of body.rows ?? []) {
+    (row.instrument === "remains_implementation_job" ? jobs : terminalised).set(row.familyId, row);
+  }
+  return { terminalised, jobs };
+})();
+
+const INTEGRATED_COMMITS = ["d199e04a", "ff60bcd2", "0e40fbd8"];
+const integratedPackages = new Set();
+{
+  for (const commit of INTEGRATED_COMMITS) {
+    let out = "";
+    try {
+      out = execFileSync("git", ["diff-tree", "--no-commit-id", "--name-only", "-r", commit],
+        { cwd: rootDir, maxBuffer: 1 << 28 }).toString();
+    } catch { /* a base without the worker commits still generates */ }
+    for (const line of out.split("\n")) {
+      const m = line.match(/^(data\/rcap-all50\/overlays\/production\/[^/]+\/[^/]+)\//);
+      if (m) integratedPackages.add(m[1]);
+    }
+  }
+}
+
+/**
+ * Alias rows whose implementation landed in the canonical sibling package.
+ *
+ * Session 8 and Session 7 wrote the -form-en / -support-en directories while the
+ * old grant named only the -en alias. The work is valid and nothing else owns
+ * those directories, so the path is corrected to where the package actually
+ * lives rather than the implementation being refused for a stale grant.
+ */
+const canonicalPackageFor = (familyId, packagePath) => {
+  if (integratedPackages.has(packagePath)) return { path: packagePath, corrected: false };
+  const slug = packagePath?.split("/").pop();
+  const state = packagePath?.split("/").slice(-2, -1)[0];
+  if (!slug || !state) return { path: packagePath, corrected: false };
+  const base = slug.replace(/-en$/, "");
+  for (const suffix of ["-form-en", "-support-en", "-instructions-en"]) {
+    const candidate = `data/rcap-all50/overlays/production/${state}/${base}${suffix}`;
+    if (integratedPackages.has(candidate)) return { path: candidate, corrected: true, from: packagePath };
+  }
+  return { path: packagePath, corrected: false };
+};
+
 const ROOT_CAUSE_GROUPS = [
   { id: "launch_safe_terminal_closed", title: "Closed — launch-safe terminal exclusion, source unobtainable and no route reaches it",
     owner: { session: null, lane: "closed, no owner required" } },
@@ -255,10 +313,30 @@ const families = scope.map((asset) => {
     mustPacket: asset.mustPacket === true,
     ownerLane: group === "render_or_finalizer_defect" || group === "not_a_filing_artifact"
       ? (() => {
+          const canonical = canonicalPackageFor(asset.familyId, asset.familyPackagePath);
           const o = ownerFor(asset.familyId, asset.familyPackagePath);
-          return { session: o.session, lane: "implementation worker", fromAssignment: o.fromAssignment,
-            allowedPackagePath: asset.familyPackagePath, grantedByAssignmentPath: o.grantedByAssignmentPath,
-            supersededAssignments: o.supersededAssignments, derivation: o.derivation };
+          const terminal = WAVE1.terminalised.get(asset.familyId) ?? null;
+          const job = WAVE1.jobs.get(asset.familyId) ?? null;
+          const complete = !terminal && !job && integratedPackages.has(canonical.path);
+          const state = terminal ? "terminalized" : complete ? "implementation_complete" : "active";
+          return {
+            session: state === "active" ? (job ? job.assignedTo ?? o.session : o.session) : null,
+            // Who the family was assigned to, regardless of where wave 1 left it.
+            // The wave-1 record selects its rows from this, so clearing `session`
+            // on a terminalized family cannot make that family invisible to the
+            // pass that terminalized it.
+            assignedSession: o.session,
+            lane: state === "active" ? "implementation worker" : state,
+            waveOneState: state,
+            terminalInstrument: terminal?.instrument ?? null,
+            canonicalSuccessor: terminal?.canonicalSuccessor ?? null,
+            allowedPackagePath: canonical.path,
+            packagePathCorrectedFrom: canonical.corrected ? canonical.from : null,
+            fromAssignment: o.fromAssignment,
+            grantedByAssignmentPath: o.grantedByAssignmentPath,
+            supersededAssignments: o.supersededAssignments,
+            derivation: o.derivation
+          };
         })()
       : ROOT_CAUSE_GROUPS.find((g) => g.id === group).owner,
     ownedPaths: asset.ownedPaths ?? []
@@ -280,6 +358,8 @@ const families = scope.map((asset) => {
   // asserted, because an unowned family stalls silently and a doubly-owned
   // package corrupts whichever session writes second.
   const implementation = families.filter((f) => f.ownerLane.lane === "implementation worker");
+  const complete = families.filter((f) => f.ownerLane.lane === "implementation_complete");
+  const terminalisedRows = families.filter((f) => f.ownerLane.lane === "terminalized");
   const byPackage = new Map();
   for (const f of implementation) {
     if (!f.ownerLane.session) fail(`${f.familyId} has no owner session`);
@@ -290,8 +370,9 @@ const families = scope.map((asset) => {
     }
     byPackage.set(f.packagePath, f.ownerLane.session);
   }
-  if (implementation.length !== register.totals.problematicPdfsTotal) {
-    fail(`${implementation.length} implementation famil(ies) against a retained count of ${register.totals.problematicPdfsTotal}`);
+  const accounted = implementation.length + complete.length + terminalisedRows.length;
+  if (accounted !== register.totals.problematicPdfsTotal) {
+    fail(`${accounted} famil(ies) accounted for (${implementation.length} active, ${complete.length} complete, ${terminalisedRows.length} terminalized) against a retained count of ${register.totals.problematicPdfsTotal}`);
   }
   const denominator = register.totals.problematicPdfsTotal + (register.totals.launchSafelyTerminal ?? 0);
   if (families.length !== denominator) {
@@ -341,6 +422,14 @@ const record = {
     perSession: families
       .filter((f) => f.ownerLane.lane === "implementation worker")
       .reduce((acc, f) => { acc[f.ownerLane.session] = (acc[f.ownerLane.session] ?? 0) + 1; return acc; }, {})
+  },
+  waveOne: {
+    activeImplementationFamilies: families.filter((f) => f.ownerLane.lane === "implementation worker").length,
+    implementationComplete: families.filter((f) => f.ownerLane.lane === "implementation_complete").length,
+    terminalizedOrDeduplicated: families.filter((f) => f.ownerLane.lane === "terminalized").length,
+    packagePathsCorrectedToCanonicalSibling: families.filter((f) => f.ownerLane.packagePathCorrectedFrom).length,
+    activeAreNotPlatformReady:
+      "the remaining families still require implementation, evidence and independent review. Nothing here promotes anything."
   },
   totals: { families: families.length, ...counts },
   families

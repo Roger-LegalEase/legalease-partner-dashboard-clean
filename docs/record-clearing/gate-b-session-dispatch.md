@@ -18,10 +18,10 @@ Frozen for the life of the wave: AK:tf-810-form-en, NC:aoc-cr-287-form-es, NC:ao
 | 4 | independent review | `reviewer-c.json` | 0 | — |
 | 5 | independent review | `reviewer-d.json` | 0 | — |
 | 6 | shared code and source-pack factory | — | 0 | `c5c60eb00693` |
-| 7 | family rerender | `family-rerender-1.json` | 20 | `32f6e39a3bf4` |
+| 7 | family rerender | `family-rerender-1.json` | 19 | `32f6e39a3bf4` |
 | 8 | family rerender | `family-rerender-2.json` | 19 | `af9c0107a29c` |
-| 9 | provenance sidecars | `evidence-sidecars.json` | 39 | `818c0ddc63cc` |
-| 10 | all-page visual evidence | `evidence-visual.json` | 39 | `ac91c7d0a1b5` |
-| 11 | source acquisition | `source-direct.json` | 10 | `6f9e87374063` |
+| 9 | provenance sidecars | `evidence-sidecars.json` | 38 | `818c0ddc63cc` |
+| 10 | all-page visual evidence | `evidence-visual.json` | 38 | `ac91c7d0a1b5` |
+| 11 | source acquisition | `source-direct.json` | 11 | `6f9e87374063` |
 | 12 | source resolution | `source-resolution.json` | 11 | `c8528c411827` |
 | 13 | retirement and repoint | `retirement-repoint.json` | 9 | `f005a0eb1b40` |

@@ -68,7 +68,7 @@
       "class": "participant",
       "factId": "participant.state",
       "factBasis": "field_name",
-      "effectiveLabel": "Telephone Number Of ApplicantDate Of Birth"
+      "effectiveLabel": "Date Of Birth"
     },
     {
       "field": "ApplicantZip",
@@ -82,7 +82,14 @@
       "class": "participant",
       "factId": "participant.zip",
       "factBasis": "field_name",
-      "effectiveLabel": "Telephone Number Of ApplicantDate Of Birth"
+      "effectiveLabel": "Date Of Birth"
+    },
+    {
+      "field": "ApplicantFullPermanentMailingAddressAddr1",
+      "class": "participant",
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": "Full Permanent Mailing Address Of Applicant (if di(úerent th"
     },
     {
       "field": "ApplicantTelephoneNumber",
@@ -96,7 +103,7 @@
       "class": "participant",
       "factId": "participant.date_of_birth",
       "factBasis": "field_name",
-      "effectiveLabel": "Telephone Number Of ApplicantDate Of Birth"
+      "effectiveLabel": "Telephone Number Of Applicant"
     }
   ],
   "bindingRefusals": [
@@ -140,18 +147,6 @@
       "field": "ApplicantStreetNumberAndStreetNameLine2",
       "reason": "no_allowlisted_fact_matches",
       "category": null,
-      "regionHeading": null
-    },
-    {
-      "field": "ApplicantFullPermanentMailingAddressAddr1",
-      "reason": "protected_category",
-      "category": "money",
-      "regionHeading": null
-    },
-    {
-      "field": "ApplicantFullPermanentMailingAddressAddr2",
-      "reason": "protected_category",
-      "category": "money",
       "regionHeading": null
     },
     {
@@ -240,8 +235,8 @@
     },
     {
       "field": "NumberOfDependents",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
@@ -277,7 +272,7 @@
     {
       "field": "CarMonthlyExpensesAmount",
       "reason": "protected_category",
-      "category": "outside_party",
+      "category": "money",
       "regionHeading": null
     },
     {
@@ -324,20 +319,20 @@
     },
     {
       "field": "LastIncomeTaxFiledYearLastTwoDigits",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null,
       "regionHeading": null
     },
     {
       "field": "LastIncomeTaxFiledRefundCkBox",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
       "field": "LastIncomeTaxFiledOweCkBox",
-      "reason": "protected_category",
-      "category": "money",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
@@ -420,8 +415,8 @@
     },
     {
       "field": "GovernmentalAgenciesOrOtherEntitesAuthorizedToBeContactedAndOrToReleaseInformation",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
+      "reason": "protected_category",
+      "category": "agency",
       "regionHeading": null
     },
     {
@@ -433,13 +428,13 @@
     {
       "field": "SignedByApplicantName",
       "reason": "protected_category",
-      "category": "court",
+      "category": "clerk",
       "regionHeading": null
     },
     {
       "field": "SigningApplicantIsDefendantCkBox",
-      "reason": "protected_category",
-      "category": "notarization",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
@@ -463,19 +458,19 @@
     {
       "field": "JuratAssistantCSCCkBox",
       "reason": "protected_category",
-      "category": "court",
+      "category": "notarization",
       "regionHeading": null
     },
     {
       "field": "JuratClerkOfSuperiorCourtCkBox",
       "reason": "protected_category",
-      "category": "court",
+      "category": "notarization",
       "regionHeading": null
     },
     {
       "field": "JuratMagistrateCkBox",
       "reason": "protected_category",
-      "category": "court",
+      "category": "clerk",
       "regionHeading": null
     },
     {
@@ -501,6 +496,16 @@
       "reason": "protected_category",
       "category": "outside_party",
       "regionHeading": null
+    },
+    {
+      "field": "ApplicantFullPermanentMailingAddressAddr2",
+      "reason": "duplicate_widget_for_one_slot",
+      "category": "caption_slot",
+      "factId": "participant.street_address",
+      "keptInstead": "ApplicantFullPermanentMailingAddressAddr1",
+      "overlapsWith": [
+        "ApplicantFullPermanentMailingAddressAddr1"
+      ]
     }
   ],
   "unwritableFields": [
