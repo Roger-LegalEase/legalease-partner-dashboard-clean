@@ -1,0 +1,242 @@
+{
+  "schemaVersion": "rcap-field-classification/v2-complete",
+  "rule": "Every discovered field or measured anchor carries exactly one class. classifiedFieldsOrAnchors must equal discoveredFieldsOrAnchors; there is no unresolved bucket.",
+  "classes": {
+    "participant_writable": "The participant or a deterministic case fact owns this field and the factory may write it.",
+    "protected": "A court, clerk, prosecutor, agency, identifier or signature field. Never written, whatever anchor is supplied.",
+    "not_applicable": "Discovered on the form but outside this packet's participant set, so nothing is written and nothing is claimed."
+  },
+  "familyId": "AK:requesttosealcriminfo",
+  "jurisdiction": "AK",
+  "documentId": "DPS-SEAL-REQ-2-04",
+  "sourceSha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+  "denominator": "every caption PART II prints on page 3, which is the only page of this form a participant completes",
+  "discoveredFieldsOrAnchors": 28,
+  "classifiedFieldsOrAnchors": 28,
+  "complete": true,
+  "counts": {
+    "participant_writable": 5,
+    "not_applicable": 14,
+    "protected": 9
+  },
+  "pagesOutsideDenominator": [
+    {
+      "page": 1,
+      "why": "Instructions. Carries no cell and no caption a participant writes on."
+    },
+    {
+      "page": 2,
+      "why": "PART I: the text of AS 12.62.180 and 13 AAC 68.205. Statute text, no rules drawn at all."
+    },
+    {
+      "page": 4,
+      "why": "PART III: an open explanation area with no ruled write box. The participant's statement is theirs to compose; nothing is placed here."
+    },
+    {
+      "page": 5,
+      "why": "PART IV: certification blocks the arresting officer and the prosecutor complete and sign. Not the participant's."
+    },
+    {
+      "page": 6,
+      "why": "PART V and PART VI: completed by the Records and Identification Bureau and by the Commissioner of Public Safety."
+    }
+  ],
+  "entries": [
+    {
+      "label": "FULL NAME (Last) (First) (Middle) (Suffix)",
+      "source": "measured_anchor",
+      "factId": "participant.full_legal_name",
+      "class": "participant_writable",
+      "basis": "bound to participant.full_legal_name"
+    },
+    {
+      "label": "FORMER OR OTHER NAMES/ALIASES",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "No allowlisted fact matches: an alias is not the participant's legal name and the platform holds no alias fact. Left for the participant."
+    },
+    {
+      "label": "MAILING ADDRESS",
+      "source": "measured_anchor",
+      "factId": "participant.street_address",
+      "class": "participant_writable",
+      "basis": "bound to participant.street_address"
+    },
+    {
+      "label": "PHONE NUMBER(S)",
+      "source": "measured_anchor",
+      "factId": "participant.phone",
+      "class": "participant_writable",
+      "basis": "bound to participant.phone"
+    },
+    {
+      "label": "SOCIAL SECURITY #",
+      "source": "measured_anchor",
+      "factId": null,
+      "class": "protected",
+      "basis": "government_identifier. Carried as an anchor that must be refused, so the refusal is exercised on every run."
+    },
+    {
+      "label": "DATE OF BIRTH",
+      "source": "measured_anchor",
+      "factId": "participant.date_of_birth",
+      "class": "participant_writable",
+      "basis": "bound to participant.date_of_birth"
+    },
+    {
+      "label": "ALASKA DRIVERS LICENSE # OR STATE ID #",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "protected",
+      "basis": "government_identifier. No anchor; the cell's two rule segments are declared protected."
+    },
+    {
+      "label": "ARREST TRACKING NUMBER",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "An APSIN tracking number the platform does not hold."
+    },
+    {
+      "label": "DATE OF ARREST",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "matter.arrest_date requires an explicit mapping the flat-overlay path cannot supply, and a wrong arrest date misstates the record to the Bureau."
+    },
+    {
+      "label": "DATE OF OFFENSE",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "matter.offense_date, as above."
+    },
+    {
+      "label": "POLICE AGENCY CASE #",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "protected",
+      "basis": "agency block."
+    },
+    {
+      "label": "NAME OF ARRESTING AGENCY",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "protected",
+      "basis": "agency block."
+    },
+    {
+      "label": "NAME OF ARRESTING OFFICER",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "protected",
+      "basis": "A third party. The shared binder resolves this caption to participant.full_legal_name, so it carries no anchor and its rule is declared protected."
+    },
+    {
+      "label": "PROSECUTION CASE #",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "protected",
+      "basis": "prosecutor block."
+    },
+    {
+      "label": "NAME OF PROSECUTING AGENCY",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "protected",
+      "basis": "prosecutor block."
+    },
+    {
+      "label": "NAME OF PROSECUTOR",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "protected",
+      "basis": "prosecutor block."
+    },
+    {
+      "label": "TRIAL COURT CASE #:",
+      "source": "measured_anchor",
+      "factId": "matter.case_number",
+      "class": "participant_writable",
+      "basis": "bound to matter.case_number"
+    },
+    {
+      "label": "NAME OF TRIAL COURT",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "The court's own name. The shared binder resolves this caption to participant.full_legal_name; it carries no anchor and its rule is declared protected."
+    },
+    {
+      "label": "APPELLATE COURT CASE #:",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "The shared binder resolves this to matter.case_number, which is the TRIAL court's number. Writing it here would assert an appeal that may not exist, so the caption carries no anchor."
+    },
+    {
+      "label": "NAME OF APPELLATE COURT",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "As above; also mis-resolved by the shared binder."
+    },
+    {
+      "label": "CHARGE(S): STATUTE/ORDINANCE #",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "matter.charge requires an explicit mapping the flat-overlay path cannot supply."
+    },
+    {
+      "label": "NAME OF OFFENSE(S)",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "The shared binder resolves this to participant.full_legal_name. No anchor."
+    },
+    {
+      "label": "DATE CHARGE DISMISSED",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "A disposition date requiring an explicit mapping."
+    },
+    {
+      "label": "AGENCY THAT DISMISSED",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "protected",
+      "basis": "agency block."
+    },
+    {
+      "label": "DATE ACQUITTED",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "No allowlisted fact matches."
+    },
+    {
+      "label": "DATE SENTENCED",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "No allowlisted fact matches."
+    },
+    {
+      "label": "DATE CONVICTION REVERSED OR VACATED",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "disposition_or_hearing; no allowlisted fact and not the participant's to assert."
+    },
+    {
+      "label": "DATE PARDONED",
+      "source": "printed_caption_left_unbound",
+      "factId": null,
+      "class": "not_applicable",
+      "basis": "No allowlisted fact matches."
+    }
+  ]
+}
