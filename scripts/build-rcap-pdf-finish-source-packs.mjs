@@ -177,7 +177,22 @@ function buildPack(packId, families, note) {
 
   const zip = path.join(OUT_DIR, `${packId}.zip`);
   fs.rmSync(zip, { force: true });
-  execFileSync("zip", ["-rq", "-X", zip, "."], { cwd: dir });
+  // Pin every entry's mtime before zipping. A ZIP stores modification times, so
+  // rebuilding identical content otherwise yields a different archive and a
+  // different digest — which makes the published SHA-256 worthless the moment
+  // anything is rebuilt. Fixed timestamp plus -X (no extra attributes) makes the
+  // archive a pure function of its contents.
+  const PINNED = new Date("2020-01-01T00:00:00Z");
+  const stamp = (d) => {
+    for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
+      const full = path.join(d, entry.name);
+      if (entry.isDirectory()) stamp(full);
+      fs.utimesSync(full, PINNED, PINNED);
+    }
+  };
+  stamp(dir);
+  fs.utimesSync(dir, PINNED, PINNED);
+  execFileSync("zip", ["-rqX", "-o", zip, "."], { cwd: dir });
   const zipBytes = fs.readFileSync(zip);
   return { packId, zip, families: families.length, members: members.length,
     sha256: sha256(zipBytes), byteLength: zipBytes.length };
