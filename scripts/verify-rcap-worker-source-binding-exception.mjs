@@ -18,6 +18,13 @@
 //   - widening it fails;
 //   - and a CONTRADICTORY revision fails even with a perfect record, because
 //     the exception compensates for absence and never for disagreement.
+//
+// A retired record is the other legal state. The publication that succeeded
+// 5ac0d8d6 states its own revision, so nothing compensates for anything any
+// more. A retired record must say so, must keep the tuple it covered so the
+// history stays readable, and must not name the accepted publication — because
+// a record that still pointed at the image in force would be an exception
+// pretending to be history.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -54,6 +61,7 @@ function failures(w) {
   const out = [];
   const fail = (condition, message) => { if (!condition) out.push(message); };
   const x = w.exception;
+  const retired = x.status === "retired_not_in_force";
 
   // The future rule: the next image must not need this exception at all.
   fail(
@@ -69,33 +77,69 @@ function failures(w) {
     "the publication workflow records no source URL label"
   );
 
-  // Exactly one digest wide.
-  fail(x.reusable === false, "the exception does not declare reusable: false");
-  fail(x.ownerDecision === "approved_for_this_exact_digest_only", "the exception is not scoped to one exact digest by owner decision");
-  fail(x.scope?.appliesToExactlyOneTuple === true, "the exception does not declare that it covers exactly one tuple");
-  fail(DIGEST_RE.test(String(x.immutableDigest)), "the exception's digest is malformed");
-  fail(SHA40.test(String(x.sourceSha)), "the exception's source SHA is malformed");
-  fail(SHA40.test(String(x.prHeadSha)), "the exception's PR head SHA is malformed");
-  fail(Number.isInteger(x.publicationRunId), "the exception names no publication run");
+  // Exactly one digest wide, whether it is in force or kept as history.
+  const tuple = retired ? (x.supersededTuple ?? {}) : x;
+  fail(tuple.reusable === false, "the exception does not declare reusable: false");
+  fail(tuple.ownerDecision === "approved_for_this_exact_digest_only", "the exception is not scoped to one exact digest by owner decision");
+  fail(tuple.scope?.appliesToExactlyOneTuple === true, "the exception does not declare that it covers exactly one tuple");
+  fail(DIGEST_RE.test(String(tuple.immutableDigest)), "the exception's digest is malformed");
+  fail(SHA40.test(String(tuple.sourceSha)), "the exception's source SHA is malformed");
+  fail(SHA40.test(String(tuple.prHeadSha)), "the exception's PR head SHA is malformed");
+  fail(Number.isInteger(tuple.publicationRunId), "the exception names no publication run");
 
   // It must state the absence rather than paper over it.
-  fail(x.ociRevisionPresent === false, "the exception reports an OCI revision as present, which misreports the image");
-  fail(x.provenanceAttestationPresent === false, "the exception reports a provenance attestation as present");
+  fail(tuple.ociRevisionPresent === false, "the exception reports an OCI revision as present, which misreports the image");
+  fail(tuple.provenanceAttestationPresent === false, "the exception reports a provenance attestation as present");
   fail(
     x.exceptionType === "missing_oci_revision_compensated_by_external_source_binding",
     "the exception does not name what it is compensating for"
   );
 
-  // The committed evidence must independently agree — one record asserting
-  // itself is not a binding.
-  fail(w.evidence.immutableRegistryDigest === x.immutableDigest, "the publication evidence and the exception name different digests");
-  fail(w.evidence.sourceSha === x.sourceSha, "the publication evidence and the exception name different source SHAs");
-  fail(w.evidence.workflowRunId === x.publicationRunId, "the publication evidence and the exception name different publication runs");
+  if (retired) {
+    // Retired means the accepted image states its own revision. The record must
+    // therefore NOT name the publication in force, or it is an exception wearing
+    // history's clothes.
+    fail(typeof x.retiredBecause === "string" && x.retiredBecause.length > 40, "the retired exception does not say why it stopped applying");
+    fail(
+      w.evidence.immutableRegistryDigest !== tuple.immutableDigest,
+      "the exception is marked retired but still names the digest under acceptance"
+    );
+    fail(
+      w.evidence.sourceSha !== tuple.sourceSha,
+      "the exception is marked retired but still names the accepted worker source"
+    );
+    fail(
+      w.evidence.workflowRunId !== tuple.publicationRunId,
+      "the exception is marked retired but still names the publication run in force"
+    );
+    // And it must still name the publication it actually covered, which the
+    // evidence records as the superseded one. Without this anchor a retired
+    // record could be edited to name any digest at all and stay "not in force".
+    const superseded = w.evidence.supersededPublication ?? {};
+    fail(
+      superseded.immutableRegistryDigest === tuple.immutableDigest,
+      "the retired exception does not name the digest the evidence records as superseded"
+    );
+    fail(
+      superseded.sourceSha === tuple.sourceSha,
+      "the retired exception does not name the source the evidence records as superseded"
+    );
+    fail(
+      superseded.publicationRunId === tuple.publicationRunId,
+      "the retired exception does not name the run the evidence records as superseded"
+    );
+  } else {
+    // In force: the committed evidence must independently agree — one record
+    // asserting itself is not a binding.
+    fail(w.evidence.immutableRegistryDigest === tuple.immutableDigest, "the publication evidence and the exception name different digests");
+    fail(w.evidence.sourceSha === tuple.sourceSha, "the publication evidence and the exception name different source SHAs");
+    fail(w.evidence.workflowRunId === tuple.publicationRunId, "the publication evidence and the exception name different publication runs");
+  }
 
   // It authorizes nothing beyond the binding.
   fail(x.noDeploymentAuthorizedByException === true, "the exception does not disclaim deployment authority");
   fail(
-    Array.isArray(x.sourceBindingMethod) && x.sourceBindingMethod.length >= 5,
+    Array.isArray(tuple.sourceBindingMethod) && tuple.sourceBindingMethod.length >= 5,
     "the exception names fewer than five independent source-binding facts"
   );
   fail(
@@ -128,19 +172,24 @@ function failures(w) {
 const base = world();
 const baseFailures = failures(base);
 
+const tupleOf = (w) =>
+  w.exception.status === "retired_not_in_force" ? w.exception.supersededTuple : w.exception;
+
 if (MUTATIONS) {
   const clone = () => JSON.parse(JSON.stringify({ ...base }));
   const mutations = [
-    ["reusable: false is removed", (w) => { w.exception.reusable = true; }],
+    ["reusable: false is removed", (w) => { tupleOf(w).reusable = true; }],
     ["one digest character is changed", (w) => {
-      w.exception.immutableDigest = w.exception.immutableDigest.replace(/.$/, (c) => (c === "0" ? "1" : "0"));
+      const t = tupleOf(w);
+      t.immutableDigest = t.immutableDigest.replace(/.$/, (c) => (c === "0" ? "1" : "0"));
     }],
     ["one source-SHA character is changed", (w) => {
-      w.exception.sourceSha = w.exception.sourceSha.replace(/.$/, (c) => (c === "0" ? "1" : "0"));
+      const t = tupleOf(w);
+      t.sourceSha = t.sourceSha.replace(/.$/, (c) => (c === "0" ? "1" : "0"));
     }],
-    ["the publication run is changed", (w) => { w.exception.publicationRunId = 1; }],
-    ["the exception claims the OCI revision is present", (w) => { w.exception.ociRevisionPresent = true; }],
-    ["the owner decision is widened beyond one digest", (w) => { w.exception.ownerDecision = "approved_for_all_images"; }],
+    ["the publication run is changed", (w) => { tupleOf(w).publicationRunId = 1; }],
+    ["the exception claims the OCI revision is present", (w) => { tupleOf(w).ociRevisionPresent = true; }],
+    ["the owner decision is widened beyond one digest", (w) => { tupleOf(w).ownerDecision = "approved_for_all_images"; }],
     ["the future workflow stops recording the revision", (w) => {
       w.publishWorkflow = w.publishWorkflow.replace(/org\.opencontainers\.image\.revision=/g, "org.opencontainers.image.notrevision=");
     }],
@@ -150,7 +199,17 @@ if (MUTATIONS) {
     ["the verifier reports the revision as a pass", (w) => {
       w.revisionVerifier = w.revisionVerifier.replace(/OCI REVISION: ABSENT/g, "OCI REVISION: PASS");
     }],
-    ["the exception no longer disclaims deployment", (w) => { w.exception.noDeploymentAuthorizedByException = false; }]
+    ["the exception no longer disclaims deployment", (w) => { w.exception.noDeploymentAuthorizedByException = false; }],
+    ["a retired record is pointed back at the digest in force", (w) => {
+      w.exception.supersededTuple.immutableDigest = w.evidence.immutableRegistryDigest;
+    }],
+    ["a retired record is pointed back at the accepted source", (w) => {
+      w.exception.supersededTuple.sourceSha = w.evidence.sourceSha;
+    }],
+    ["a retired record is pointed back at the publication run in force", (w) => {
+      w.exception.supersededTuple.publicationRunId = w.evidence.workflowRunId;
+    }],
+    ["a retired record stops saying why it stopped applying", (w) => { w.exception.retiredBecause = ""; }]
   ];
 
   let undetected = 0;
@@ -176,8 +235,16 @@ if (baseFailures.length > 0) {
 }
 
 const x = base.exception;
+const spent = x.status === "retired_not_in_force";
+const tuple = spent ? x.supersededTuple : x;
 console.log("verify-rcap-worker-source-binding-exception passed.");
-console.log(`  exception covers exactly one tuple: ${x.sourceSha.slice(0, 12)}… -> ${x.immutableDigest.slice(0, 20)}… (run ${x.publicationRunId})`);
-console.log(`  reusable: ${x.reusable}; OCI revision present: ${x.ociRevisionPresent}; provenance present: ${x.provenanceAttestationPresent}`);
+if (spent) {
+  console.log("  no source-binding exception is in force.");
+  console.log(`  the record is history for ${tuple.sourceSha.slice(0, 12)}… -> ${tuple.immutableDigest.slice(0, 20)}… (run ${tuple.publicationRunId}),`);
+  console.log(`  and names neither the accepted source ${base.evidence.sourceSha.slice(0, 12)}… nor the digest under acceptance.`);
+} else {
+  console.log(`  exception covers exactly one tuple: ${tuple.sourceSha.slice(0, 12)}… -> ${tuple.immutableDigest.slice(0, 20)}… (run ${tuple.publicationRunId})`);
+}
+console.log(`  reusable: ${tuple.reusable}; OCI revision present: ${tuple.ociRevisionPresent}; provenance present: ${tuple.provenanceAttestationPresent}`);
 console.log("  future publications record org.opencontainers.image.revision, so the next image needs no exception.");
 console.log("  a contradictory revision still fails: the exception compensates for absence, never for disagreement.");

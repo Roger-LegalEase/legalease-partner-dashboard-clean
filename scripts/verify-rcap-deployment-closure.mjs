@@ -28,14 +28,15 @@ const emitEvidence = process.argv.includes("--emit-evidence");
 /**
  * The accepted application source. Image-input equality is proven against it.
  *
- * Rebound from 15c50500 — the provisioning lane's own accepted SHA, which
- * arrived with this file when main merged — to the reconciled release source.
- * 5ac0d8d6 is the commit the accepted worker digest was built from, and both
- * the application and worker input sets are byte-identical between it and this
- * head. Leaving the provisioning lane's SHA here would assert that this
- * release's deployment closes over bytes it does not contain.
+ * Rebound from 5ac0d8d6, the pre-PR-127 release source, to the commit the
+ * currently accepted worker digest was built from. PR #127 merged the
+ * prepared-onboarding partner experience and the applied-prefill reproposal
+ * lifecycle into main as 57318c20, which changed 33 image-input paths, and the
+ * worker was republished from that exact merge commit. Leaving the earlier SHA
+ * here would assert that this release's deployment closes over bytes it no
+ * longer contains.
  */
-const APPLICATION_SHA = "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8";
+const APPLICATION_SHA = "57318c2046a9f8c149beff0053373ad3bfe3fc71";
 
 /** Exactly the paths a Next.js build consumes. */
 const APPLICATION_INPUTS = ["src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "public"];
