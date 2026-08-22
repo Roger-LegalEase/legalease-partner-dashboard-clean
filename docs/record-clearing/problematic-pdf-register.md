@@ -8,8 +8,8 @@ Terminalizing a track around a broken PDF is a legitimate product decision. It i
 
 | Measure | Count |
 | --- | ---: |
-| Problematic Pdfs Total | 71 |
-| Launch Safely Terminal | 10 |
+| Problematic Pdfs Total | 69 |
+| Launch Safely Terminal | 12 |
 | Platform Ready | 5 |
 | Retired From Operational Inventory | 42 |
 | Retired Family Directories | 47 |

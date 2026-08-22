@@ -660,45 +660,94 @@ for (const entry of [...records]) {
  */
 const launchSafelyTerminal = [];
 {
-  const TERMINALIZATION = "data/rcap-all50/unavailable-source-terminalization.json";
-  const file = path.join(rootDir, TERMINALIZATION);
-  if (fs.existsSync(file)) {
-    const claimed = JSON.parse(fs.readFileSync(file, "utf8"));
-    const byIdentity = new Map(records.map((r) => [r.identity, r]));
-    for (const family of claimed.families ?? []) {
-      const entry = byIdentity.get(family.assetId);
-      if (!entry) {
-        console.error(`FAIL problematic PDF register — ${TERMINALIZATION} names ${family.assetId}, which is not a register record`);
-        process.exit(1);
+  const byIdentity = new Map(records.map((r) => [r.identity, r]));
+  const die = (m) => { console.error(`FAIL problematic PDF register — ${m}`); process.exit(1); };
+
+  /**
+   * Two different things can make an asset launch-safely terminal, and they are
+   * NOT interchangeable, so each carries its own re-check:
+   *
+   *   source_unobtainable      nothing can be built from it — no digest match in
+   *                            any corpus — and nothing points at it.
+   *   every_naming_track_dead  it is buildable, but every track that names it is
+   *                            terminal and no live route reaches it.
+   *
+   * The second basis is why a blanket "zero tracks" rule would be wrong: an
+   * asset can be named by two tracks and still be unreachable, because those
+   * tracks are themselves terminal. What matters is not how many tracks name it
+   * but whether any of them can sell, charge or serve a packet.
+   */
+  const CLAIMS = [
+    {
+      file: "data/rcap-all50/unavailable-source-terminalization.json",
+      basis: "source_unobtainable",
+      list: (body) => body.families ?? [],
+      accepts: () => true,
+      disposition: (f) => f.consumedDisposition,
+      reason: (f) => f.reason?.exact ?? null,
+      reasonKind: (f) => f.reason?.kind ?? null,
+      recheck: (entry) => {
+        if ((entry.affectedTrackIds ?? []).length > 0) {
+          return `is referenced by ${(entry.affectedTrackIds ?? []).length} track(s); a reachable asset may not exit on an unobtainable-source basis`;
+        }
+        if (entry.binaryPresent === true) return "has its binary present; an obtainable source is buildable and may not exit as unavailable";
+        return null;
       }
-      if (entry.platformReady) {
-        console.error(`FAIL problematic PDF register — ${family.assetId} is platform_ready and cannot also be launch-safely terminal`);
-        process.exit(1);
+    },
+    {
+      file: "data/rcap-all50/pdf-retirement-evidence/session-13-terminalization.json",
+      basis: "every_naming_track_dead",
+      list: (body) => body.assets ?? [],
+      accepts: (a) => a.terminalOutcome === "launch_safe_exclusion",
+      disposition: () => "launch_safe_exclusion",
+      reason: (a) => a.terminalBasis ?? null,
+      reasonKind: () => "every_naming_track_terminal_and_unreachable",
+      recheck: (entry) => {
+        const tracks = entry.affectedTracks ?? [];
+        if (!tracks.length) return "names no track at all; that is an unobtainable-source case, not a dead-track one";
+        const live = tracks.filter((t) => !t.terminal);
+        if (live.length) return `is named by ${live.length} non-terminal track(s): ${live.map((t) => t.trackId).join(", ")}`;
+        // Terminal is not enough on its own — a terminal track that can still
+        // sell or charge is a live route by every measure that matters here.
+        const reachable = tracks.filter((t) => t.sellable || t.creditConsumable || t.paymentAllowed || t.publicPacketRoute);
+        if (reachable.length) {
+          return `is named by ${reachable.length} track(s) that can still sell, charge or serve a public packet: ${reachable.map((t) => t.trackId).join(", ")}`;
+        }
+        return null;
       }
-      // Re-checked here, not trusted from the claim.
-      const reachable = (entry.affectedTrackIds ?? []).length > 0;
-      if (reachable) {
-        console.error(`FAIL problematic PDF register — ${family.assetId} is referenced by ${(entry.affectedTrackIds ?? []).length} track(s); a reachable asset may not exit as launch-safely terminal`);
-        process.exit(1);
-      }
-      if (entry.binaryPresent === true) {
-        console.error(`FAIL problematic PDF register — ${family.assetId} has its binary present; an obtainable source is buildable and may not exit as unavailable`);
-        process.exit(1);
-      }
+    }
+  ];
+
+  for (const claim of CLAIMS) {
+    const file = path.join(rootDir, claim.file);
+    if (!fs.existsSync(file)) continue;
+    const body = JSON.parse(fs.readFileSync(file, "utf8"));
+    for (const item of claim.list(body)) {
+      if (!claim.accepts(item)) continue;
+      const identity = item.assetId;
+      const entry = byIdentity.get(identity);
+      if (!entry) die(`${claim.file} names ${identity}, which is not a register record`);
+      if (entry.platformReady) die(`${identity} is platform_ready and cannot also be launch-safely terminal`);
+      if (entry.launchSafelyTerminal) die(`${identity} is claimed launch-safely terminal by two records; one asset has one basis`);
+      // Re-checked from this register's own records, never trusted from the claim.
+      const problem = claim.recheck(entry);
+      if (problem) die(`${identity} ${problem} (claimed on the ${claim.basis} basis by ${claim.file})`);
       entry.launchSafelyTerminal = true;
-      entry.launchSafeTerminalDisposition = family.consumedDisposition;
-      entry.launchSafeTerminalReason = family.reason?.exact ?? null;
+      entry.launchSafeTerminalBasis = claim.basis;
+      entry.launchSafeTerminalDisposition = claim.disposition(item);
+      entry.launchSafeTerminalReason = claim.reason(item);
       entry.launchSafeTerminalIsNotApproval =
-        "no reviewer approved this asset. It leaves the problematic count because it cannot be built and cannot be reached, not because it is fit to file.";
+        "no reviewer approved this asset. It leaves the problematic count because nothing can reach it, not because it is fit to file.";
       launchSafelyTerminal.push({
         identity: entry.identity,
         jurisdiction: entry.jurisdiction,
         formId: entry.formId,
         familyIds: entry.familyIds,
-        disposition: family.consumedDisposition,
-        reasonKind: family.reason?.kind ?? null,
-        reason: family.reason?.exact ?? null,
-        tracksReferencingThisAsset: 0,
+        basis: claim.basis,
+        disposition: claim.disposition(item),
+        reasonKind: claim.reasonKind(item),
+        reason: claim.reason(item),
+        tracksReferencingThisAsset: (entry.affectedTrackIds ?? []).length,
         isPlatformReady: false
       });
     }

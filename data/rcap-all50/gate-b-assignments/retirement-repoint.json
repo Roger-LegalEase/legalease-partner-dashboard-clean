@@ -3,10 +3,8 @@
   "lane": "LANE-RETIRE",
   "role": "retirement and repoint",
   "assetIds": [
-    "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
     "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
     "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
-    "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
     "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
     "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
     "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
@@ -16,11 +14,8 @@
     "KY|Kentucky-Expungement-Forms.html|c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8"
   ],
   "familyIds": [
-    "KY:aoc-334-form-en",
     "KY:aoc-496-3-form-en",
     "KY:aoc-497-form-en",
-    "WI:dj-le-247-en",
-    "WI:dj-le-247-support-en",
     "WI:dj-le-250b-en",
     "WI:dj-le-250b-support-en",
     "AK:ak-record-relief-forms",
@@ -57,16 +52,10 @@
   "stopCondition": "every assigned asset is either retired with its seventh condition satisfied or carries a recorded repoint; no asset with a surviving operational dependency is retired",
   "primaryOwner": "retirement and repoint lane",
   "terminalOutcomeMix": {
-    "repoint": 5,
+    "repoint": 3,
     "guidance_terminal": 6
   },
   "terminalWork": [
-    {
-      "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
-      "terminalOutcome": "repoint",
-      "mustPacket": false,
-      "doneCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
-    },
     {
       "assetId": "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
       "terminalOutcome": "repoint",
@@ -78,12 +67,6 @@
       "terminalOutcome": "repoint",
       "mustPacket": false,
       "doneCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
-    },
-    {
-      "assetId": "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
-      "terminalOutcome": "repoint",
-      "mustPacket": false,
-      "doneCondition": "every one of the 2 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
     },
     {
       "assetId": "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
@@ -130,7 +113,7 @@
   ],
   "mustPacketAssets": [],
   "blockedAssetsDoNotHoldOthers": true,
-  "baseSha": "9f8f781ffde490e49c1af7859b0d6d4bcf65d5a3",
+  "baseSha": "92304539dbad4c5ff58cff5ec554e0d2d4bf3008",
   "globalProhibitedPaths": [
     "src/**",
     "package.json",

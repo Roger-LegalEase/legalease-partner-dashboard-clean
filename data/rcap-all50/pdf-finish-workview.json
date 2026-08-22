@@ -5,7 +5,7 @@
   "denominator": {
     "platform_ready": 5,
     "retired": 42,
-    "retained_problematic": 71,
+    "retained_problematic": 69,
     "retained_missing_per_register": 37
   },
   "corpus": {
@@ -32,7 +32,7 @@
         "session": null,
         "lane": "closed, no owner required"
       },
-      "familyCount": 10
+      "familyCount": 12
     },
     {
       "id": "source_unmaterialized",
@@ -59,7 +59,7 @@
         "session": 13,
         "lane": "retirement, repoint and guidance"
       },
-      "familyCount": 5
+      "familyCount": 3
     },
     {
       "id": "render_or_finalizer_defect",
@@ -71,12 +71,32 @@
       "familyCount": 66
     }
   ],
+  "assignmentRevision": "pdf-finish-69/r1",
+  "captainBaseSha": "92304539dbad4c5ff58cff5ec554e0d2d4bf3008",
+  "workerOwnership": {
+    "derivedFrom": [
+      "family-rerender-1.json -> session 7",
+      "family-rerender-2.json -> session 8",
+      "source-direct.json -> session 11",
+      "source-resolution.json -> session 12"
+    ],
+    "overflowSession": 5,
+    "sharedCodeOwner": 6,
+    "sourceIsNoLongerAnImplementationDependency": "every remaining implementation source is hash-verified present in the corpora and shipped in a session pack, so no worker waits on source custody",
+    "perSession": {
+      "5": 9,
+      "7": 20,
+      "8": 19,
+      "11": 10,
+      "12": 11
+    }
+  },
   "totals": {
     "families": 81,
     "byGroup": {
       "render_or_finalizer_defect": 66,
-      "not_a_filing_artifact": 5,
-      "launch_safe_terminal_closed": 10
+      "not_a_filing_artifact": 3,
+      "launch_safe_terminal_closed": 12
     },
     "bySource": {
       "present_and_hash_verified": 71,
@@ -128,8 +148,13 @@
       "terminalExitCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 5,
+        "lane": "implementation worker",
+        "fromAssignment": null,
+        "allowedPackagePath": "data/rcap-all50/overlays/production/alaska/ak-record-relief-forms",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "no committed assignment names this family, so it falls to the overflow worker"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/alaska/ak-record-relief-forms",
@@ -178,8 +203,13 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 11,
+        "lane": "implementation worker",
+        "fromAssignment": "source-direct.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/alaska/requesttosealcriminfo",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/alaska/requesttosealcriminfo",
@@ -228,8 +258,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/alaska/tf-810-form-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/alaska/tf-810-form-en",
@@ -278,8 +313,13 @@
       "terminalExitCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 5,
+        "lane": "implementation worker",
+        "fromAssignment": null,
+        "allowedPackagePath": "data/rcap-all50/overlays/production/alabama/al-expungement-petition",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "no committed assignment names this family, so it falls to the overflow worker"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/alabama/al-expungement-petition",
@@ -328,8 +368,13 @@
       "terminalExitCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 5,
+        "lane": "implementation worker",
+        "fromAssignment": null,
+        "allowedPackagePath": "data/rcap-all50/overlays/production/alabama/criminal-forms",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "no committed assignment names this family, so it falls to the overflow worker"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/alabama/criminal-forms",
@@ -378,8 +423,13 @@
       "terminalExitCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 5,
+        "lane": "implementation worker",
+        "fromAssignment": null,
+        "allowedPackagePath": "data/rcap-all50/overlays/production/alabama/criminal-record-expungement",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "no committed assignment names this family, so it falls to the overflow worker"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/alabama/criminal-record-expungement",
@@ -428,8 +478,13 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 11,
+        "lane": "implementation worker",
+        "fromAssignment": "source-direct.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/arkansas/7-nolle-prosequi-dismissed-acquittal-petition-2020-f",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/arkansas/7-nolle-prosequi-dismissed-acquittal-petition-2020-f",
@@ -478,8 +533,13 @@
       "terminalExitCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 5,
+        "lane": "implementation worker",
+        "fromAssignment": null,
+        "allowedPackagePath": "data/rcap-all50/overlays/production/arkansas/arkansas-petition-order-forms",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "no committed assignment names this family, so it falls to the overflow worker"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/arkansas/arkansas-petition-order-forms",
@@ -528,8 +588,13 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 11,
+        "lane": "implementation worker",
+        "fromAssignment": "source-direct.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/arkansas/felony-petition-form-f",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/arkansas/felony-petition-form-f",
@@ -578,8 +643,13 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 12,
+        "lane": "implementation worker",
+        "fromAssignment": "source-resolution.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/kentucky/496-2",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/kentucky/496-2",
@@ -628,61 +698,16 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 12,
+        "lane": "implementation worker",
+        "fromAssignment": "source-resolution.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/kentucky/496-3",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/kentucky/496-3",
-        "docs/record-clearing/pdf-visual-evidence/"
-      ]
-    },
-    {
-      "familyId": "KY:aoc-334-form-en",
-      "familyIds": [
-        "KY:aoc-334-form-en"
-      ],
-      "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
-      "jurisdiction": "KY",
-      "formId": "AOC-334",
-      "packagePath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
-      "artifactPaths": [
-        "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/fixtures/canonical-filled.pdf",
-        "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/fixtures/boundary-filled.pdf",
-        "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/contact-sheet/blank-vs-filled.pdf"
-      ],
-      "sourceRecordPath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en/source-record.json",
-      "rootCauseGroup": "not_a_filing_artifact",
-      "rootBlocker": "recorded stale or superseded while 1 operational surface(s) still name it: legal_design_registry",
-      "sourceAvailability": {
-        "status": "present_and_hash_verified",
-        "corpus": "master_library",
-        "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf",
-        "sha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
-        "byteLength": 252268
-      },
-      "registerSaysBinaryPresent": true,
-      "registerAndCorpusDisagree": false,
-      "currentnessStatus": "recorded as stale or superseded",
-      "mapOrProfileStatus": "canonical fixture present",
-      "censusStatus": "official binary present in the clone and hashable",
-      "classificationStatus": "not_flagged",
-      "artifactStatus": "canonical fixture present",
-      "evidenceStatus": {
-        "sidecar": "artifact-provenance.json present",
-        "visual": "1 rasterised contact-sheet page(s) committed"
-      },
-      "reviewStatus": "correction_required in batch wave-c-final-a",
-      "primaryBucket": "RETIRE_OR_REPOINT",
-      "terminalOutcome": "repoint",
-      "terminalTarget": "retired_from_operational_inventory, or repointed to the canonical asset",
-      "terminalExitCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired",
-      "mustPacket": false,
-      "ownerLane": {
-        "session": 13,
-        "lane": "retirement, repoint and guidance"
-      },
-      "ownedPaths": [
-        "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
         "docs/record-clearing/pdf-visual-evidence/"
       ]
     },
@@ -728,8 +753,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en",
@@ -778,8 +808,13 @@
       "terminalExitCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired",
       "mustPacket": false,
       "ownerLane": {
-        "session": 13,
-        "lane": "retirement, repoint and guidance"
+        "session": 5,
+        "lane": "implementation worker",
+        "fromAssignment": null,
+        "allowedPackagePath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "no committed assignment names this family, so it falls to the overflow worker"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en",
@@ -828,8 +863,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en",
@@ -878,8 +918,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en",
@@ -928,8 +973,13 @@
       "terminalExitCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired",
       "mustPacket": false,
       "ownerLane": {
-        "session": 13,
-        "lane": "retirement, repoint and guidance"
+        "session": 5,
+        "lane": "implementation worker",
+        "fromAssignment": null,
+        "allowedPackagePath": "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "no committed assignment names this family, so it falls to the overflow worker"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en",
@@ -978,8 +1028,13 @@
       "terminalExitCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 5,
+        "lane": "implementation worker",
+        "fromAssignment": null,
+        "allowedPackagePath": "data/rcap-all50/overlays/production/kentucky/kentucky-expungement-forms",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "no committed assignment names this family, so it falls to the overflow worker"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/kentucky/kentucky-expungement-forms",
@@ -1028,8 +1083,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-vi",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-vi",
@@ -1078,8 +1138,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-es",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-es",
@@ -1128,8 +1193,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-vi",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-vi",
@@ -1178,8 +1248,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-es",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-es",
@@ -1228,8 +1303,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-instructions-en",
@@ -1278,8 +1358,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-instructions-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-instructions-en",
@@ -1328,8 +1413,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-instructions-es",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-instructions-es",
@@ -1378,8 +1468,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-vi",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-vi",
@@ -1428,8 +1523,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-es",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-es",
@@ -1478,8 +1578,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-instructions-vi",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-instructions-vi",
@@ -1528,8 +1633,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
@@ -1578,8 +1688,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-instructions-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-instructions-en",
@@ -1628,8 +1743,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en",
@@ -1678,8 +1798,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-instructions-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-instructions-en",
@@ -1728,8 +1853,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en",
@@ -1778,8 +1908,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-es",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-es",
@@ -1828,8 +1963,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
@@ -1878,8 +2018,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-vi",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-vi",
@@ -1928,8 +2073,13 @@
       "terminalExitCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 11,
+        "lane": "implementation worker",
+        "fromAssignment": "source-direct.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/expungements",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/expungements",
@@ -1978,8 +2128,13 @@
       "terminalExitCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 11,
+        "lane": "implementation worker",
+        "fromAssignment": "source-direct.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/forms-2",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/forms-2",
@@ -2028,8 +2183,13 @@
       "terminalExitCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 11,
+        "lane": "implementation worker",
+        "fromAssignment": "source-direct.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/forms",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/forms",
@@ -2078,8 +2238,13 @@
       "terminalExitCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 11,
+        "lane": "implementation worker",
+        "fromAssignment": "source-direct.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/north-carolina/nc-expunction-petition",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/north-carolina/nc-expunction-petition",
@@ -2128,8 +2293,13 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 12,
+        "lane": "implementation worker",
+        "fromAssignment": "source-resolution.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/nebraska/cc-6-11-2",
@@ -2178,8 +2348,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en",
@@ -2228,8 +2403,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
@@ -2278,8 +2458,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-11a-instructions-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/nebraska/cc-6-11a-instructions-en",
@@ -2328,8 +2513,13 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 12,
+        "lane": "implementation worker",
+        "fromAssignment": "source-resolution.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-12",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/nebraska/cc-6-12",
@@ -2378,8 +2568,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
@@ -2428,8 +2623,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-instructions-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/nebraska/cc-6-12-instructions-en",
@@ -2478,8 +2678,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
@@ -2528,8 +2733,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
@@ -2579,8 +2789,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/virginia/cc-1201-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/virginia/cc-1201-en",
@@ -2630,8 +2845,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/virginia/cc-1473-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/virginia/cc-1473-en",
@@ -2680,8 +2900,13 @@
       "terminalExitCondition": "the route completes with this component named as an exact deferral, stating what the participant must obtain and from whom, until the official binary is acquired",
       "mustPacket": true,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 11,
+        "lane": "implementation worker",
+        "fromAssignment": "source-direct.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/virginia/cc1473",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/virginia/cc1473",
@@ -2730,8 +2955,13 @@
       "terminalExitCondition": "the asset is recorded out of scope for this gate: no route, packet family or legal-design surface depends on it, and no participant treatment is diminished by its absence",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 11,
+        "lane": "implementation worker",
+        "fromAssignment": "source-direct.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/virginia/cc1473inst",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/virginia/cc1473inst",
@@ -2780,8 +3010,13 @@
       "terminalExitCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 11,
+        "lane": "implementation worker",
+        "fromAssignment": "source-direct.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/virginia/va-expungement-sealing-forms",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/virginia/va-expungement-sealing-forms",
@@ -2830,8 +3065,13 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 12,
+        "lane": "implementation worker",
+        "fromAssignment": "source-resolution.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/200-00129-petition-to-expunge-criminal-history",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/200-00129-petition-to-expunge-criminal-history",
@@ -2881,8 +3121,13 @@
       "terminalExitCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/200-00130-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/200-00130-en",
@@ -2931,8 +3176,13 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 12,
+        "lane": "implementation worker",
+        "fromAssignment": "source-resolution.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record",
@@ -2981,8 +3231,13 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 12,
+        "lane": "implementation worker",
+        "fromAssignment": "source-resolution.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/200-00131",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/200-00131",
@@ -3032,8 +3287,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/200-00131-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/200-00131-en",
@@ -3082,8 +3342,13 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 12,
+        "lane": "implementation worker",
+        "fromAssignment": "source-resolution.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/200-00132-stipulation-to-seal-criminal-history-record-order",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/200-00132-stipulation-to-seal-criminal-history-record-order",
@@ -3133,8 +3398,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/200-00132-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/200-00132-en",
@@ -3183,8 +3453,13 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 12,
+        "lane": "implementation worker",
+        "fromAssignment": "source-resolution.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/200-00132a-stipulation-to-expunge-criminal-history-record-order",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/200-00132a-stipulation-to-expunge-criminal-history-record-order",
@@ -3234,8 +3509,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/200-00132a-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/200-00132a-en",
@@ -3285,8 +3565,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/200-00331-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/200-00331-en",
@@ -3335,8 +3620,13 @@
       "terminalExitCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 12,
+        "lane": "implementation worker",
+        "fromAssignment": "source-resolution.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/200-00631",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/200-00631",
@@ -3386,8 +3676,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/200-00631-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/200-00631-en",
@@ -3437,8 +3732,13 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 8,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-2.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/600-00228-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/600-00228-en",
@@ -3487,8 +3787,13 @@
       "terminalExitCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 12,
+        "lane": "implementation worker",
+        "fromAssignment": "source-resolution.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/vermont/application-waive-filing-fees-and-service-costs",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family but grants no path for its current package; the path is corrected here"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/vermont/application-waive-filing-fees-and-service-costs",
@@ -3538,62 +3843,16 @@
       "terminalExitCondition": "the route's guidance explains who completes this form and when; the platform produces no fill because the document is not the participant's to complete",
       "mustPacket": false,
       "ownerLane": {
-        "session": null,
-        "lane": "implementation worker"
+        "session": 7,
+        "lane": "implementation worker",
+        "fromAssignment": "family-rerender-1.json",
+        "allowedPackagePath": "data/rcap-all50/overlays/production/wisconsin/cr-267-en",
+        "grantedByAssignmentPath": true,
+        "supersededAssignments": [],
+        "derivation": "the committed assignment names this family and grants its exact package path"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/wisconsin/cr-267-en",
-        "docs/record-clearing/pdf-visual-evidence/"
-      ]
-    },
-    {
-      "familyId": "WI:dj-le-247-en",
-      "familyIds": [
-        "WI:dj-le-247-en",
-        "WI:dj-le-247-support-en"
-      ],
-      "assetId": "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
-      "jurisdiction": "WI",
-      "formId": "DJ-LE-247",
-      "packagePath": "data/rcap-all50/overlays/production/wisconsin/dj-le-247-en",
-      "artifactPaths": [
-        "data/rcap-all50/overlays/production/wisconsin/dj-le-247-en/fixtures/canonical-filled.pdf",
-        "data/rcap-all50/overlays/production/wisconsin/dj-le-247-en/fixtures/boundary-filled.pdf",
-        "data/rcap-all50/overlays/production/wisconsin/dj-le-247-en/contact-sheet/blank-vs-filled.pdf"
-      ],
-      "sourceRecordPath": "data/rcap-all50/overlays/production/wisconsin/dj-le-247-en/source-record.json",
-      "rootCauseGroup": "not_a_filing_artifact",
-      "rootBlocker": "recorded stale or superseded while 2 operational surface(s) still name it: legal_design_registry, d_track_queue",
-      "sourceAvailability": {
-        "status": "present_and_hash_verified",
-        "corpus": "master_library",
-        "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf",
-        "sha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
-        "byteLength": 130938
-      },
-      "registerSaysBinaryPresent": true,
-      "registerAndCorpusDisagree": false,
-      "currentnessStatus": "recorded as stale or superseded",
-      "mapOrProfileStatus": "family package exists and carries no canonical fixture",
-      "censusStatus": "official binary present in the clone and hashable",
-      "classificationStatus": "not_flagged",
-      "artifactStatus": "family package exists and carries no canonical fixture",
-      "evidenceStatus": {
-        "sidecar": "no provenance sidecar",
-        "visual": "no committed raster evidence"
-      },
-      "reviewStatus": "never carried an independent review verdict",
-      "primaryBucket": "RETIRE_OR_REPOINT",
-      "terminalOutcome": "repoint",
-      "terminalTarget": "retired_from_operational_inventory, or repointed to the canonical asset",
-      "terminalExitCondition": "every one of the 2 surviving operational reference is repointed to the canonical asset, and only then is this id retired",
-      "mustPacket": false,
-      "ownerLane": {
-        "session": 13,
-        "lane": "retirement, repoint and guidance"
-      },
-      "ownedPaths": [
-        "data/rcap-all50/overlays/production/wisconsin/dj-le-247-en",
         "docs/record-clearing/pdf-visual-evidence/"
       ]
     },
@@ -3640,8 +3899,13 @@
       "terminalExitCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired",
       "mustPacket": false,
       "ownerLane": {
-        "session": 13,
-        "lane": "retirement, repoint and guidance"
+        "session": 5,
+        "lane": "implementation worker",
+        "fromAssignment": null,
+        "allowedPackagePath": "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-en",
+        "grantedByAssignmentPath": false,
+        "supersededAssignments": [],
+        "derivation": "no committed assignment names this family, so it falls to the overflow worker"
       },
       "ownedPaths": [
         "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-en",
@@ -3811,6 +4075,49 @@
       "reviewStatus": null,
       "primaryBucket": "LAUNCH_SAFE_TERMINAL",
       "terminalOutcome": "deliberate_scope_exclusion",
+      "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
+      "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+      "mustPacket": false,
+      "ownerLane": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "ownedPaths": []
+    },
+    {
+      "familyId": "KY:aoc-334-form-en",
+      "familyIds": [
+        "KY:aoc-334-form-en"
+      ],
+      "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "jurisdiction": "KY",
+      "formId": "AOC-334",
+      "packagePath": null,
+      "artifactPaths": [],
+      "sourceRecordPath": null,
+      "rootCauseGroup": "launch_safe_terminal_closed",
+      "rootBlocker": "Every track naming this form is terminal in the ledger and unreachable in the compiled runtime (ky_void_seal_controlled_substance: the ledger maps this track to no compiled pathway, so the compiled runtime has no route to it; ky_void_seal_marijuana_synthetic_salvia: the ledger maps this track to no compiled pathway, so the compiled runtime has no route to it), so no participant route can reach the asset. The terminal status is the ledger's own, with no treatment written yet; the exclusion rests on the ledger and the compiled runtime rather than on a treatment.",
+      "sourceAvailability": {
+        "status": "present_and_hash_verified",
+        "corpus": "master_library",
+        "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf",
+        "sha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+        "byteLength": 252268
+      },
+      "registerSaysBinaryPresent": true,
+      "registerAndCorpusDisagree": false,
+      "currentnessStatus": null,
+      "mapOrProfileStatus": null,
+      "censusStatus": null,
+      "classificationStatus": "not_flagged",
+      "artifactStatus": null,
+      "evidenceStatus": {
+        "sidecar": null,
+        "visual": null
+      },
+      "reviewStatus": null,
+      "primaryBucket": "LAUNCH_SAFE_TERMINAL",
+      "terminalOutcome": "launch_safe_exclusion",
       "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
       "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
       "mustPacket": false,
@@ -4069,6 +4376,50 @@
       "reviewStatus": null,
       "primaryBucket": "LAUNCH_SAFE_TERMINAL",
       "terminalOutcome": "deliberate_scope_exclusion",
+      "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
+      "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
+      "mustPacket": false,
+      "ownerLane": {
+        "session": null,
+        "lane": "closed, no owner required"
+      },
+      "ownedPaths": []
+    },
+    {
+      "familyId": "WI:dj-le-247-en",
+      "familyIds": [
+        "WI:dj-le-247-en",
+        "WI:dj-le-247-support-en"
+      ],
+      "assetId": "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "jurisdiction": "WI",
+      "formId": "DJ-LE-247",
+      "packagePath": null,
+      "artifactPaths": [],
+      "sourceRecordPath": null,
+      "rootCauseGroup": "launch_safe_terminal_closed",
+      "rootBlocker": "Every track naming this form is terminal in the ledger and unreachable in the compiled runtime (wi_nc_doj_challenge: the ledger maps this track to no compiled pathway, so the compiled runtime has no route to it), so no participant route can reach the asset. An existing terminal treatment covers it: wi_nc_doj_challenge = exact_supported_deferral.",
+      "sourceAvailability": {
+        "status": "present_and_hash_verified",
+        "corpus": "master_library",
+        "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf",
+        "sha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+        "byteLength": 130938
+      },
+      "registerSaysBinaryPresent": true,
+      "registerAndCorpusDisagree": false,
+      "currentnessStatus": null,
+      "mapOrProfileStatus": null,
+      "censusStatus": null,
+      "classificationStatus": "not_flagged",
+      "artifactStatus": null,
+      "evidenceStatus": {
+        "sidecar": null,
+        "visual": null
+      },
+      "reviewStatus": null,
+      "primaryBucket": "LAUNCH_SAFE_TERMINAL",
+      "terminalOutcome": "launch_safe_exclusion",
       "terminalTarget": "launch-safe terminal exclusion — never platform_ready",
       "terminalExitCondition": "already terminal: no obtainable source, and no track, packet family or sellable pathway reaches it",
       "mustPacket": false,

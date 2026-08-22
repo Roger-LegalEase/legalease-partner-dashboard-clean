@@ -9,8 +9,8 @@ Head: `a7c9f0aa0dc19bb569783691e0bc0e65c0b57605`
 | original operational PDF assets | 128 |
 | platform_ready | 5 |
 | retired | 42 |
-| retained_problematic | 71 |
-| changed by this lane | 10 |
+| retained_problematic | 69 |
+| changed by this lane | 12 |
 
 
 
@@ -96,9 +96,9 @@ Cleared by: The correction packets, worked through in their stated order, then a
 | | required | observed |
 | --- | ---: | ---: |
 | platform_ready + retired | 128 | 47 |
-| retained_problematic | 0 | 71 |
+| retained_problematic | 0 | 69 |
 | retained_missing | 0 | 37 |
 | retained_source_unknown | 0 | 11 |
-| retained_unreviewed | 0 | 44 |
+| retained_unreviewed | 0 | 42 |
 
 Not met.

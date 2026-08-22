@@ -1,0 +1,207 @@
+{
+  "schemaVersion": "rcap-source-resolution-lane-outcome/v1",
+  "session": 12,
+  "lane": "source resolution",
+  "base": "8f28cf0a871dc9fb32fbf27c3c6e24e34c1f00fc",
+  "consumed": [
+    "data/rcap-all50/pdf-finish-workview.json",
+    "data/rcap-all50/gate-b-assignments/session-dispatch.json"
+  ],
+  "assignedFamilies": 16,
+  "whatThisLaneDid": "Resolved the source for every assigned family against the captain re-derivation over 686 indexed corpus files, and corrected the presence fact on every record that wrongly declared its source missing.",
+  "headlineCorrection": {
+    "defect": "nine assigned records carried sourcePresenceInClone false and an exactSourceRequirement to \"supply\" a file that the re-derivation locates, by exact path and exact digest, in an accessible corpus",
+    "proof": "for all nine, the re-derived sha256 AND byte length equal the values the record itself already expected",
+    "consequence": "the source was never missing. It was unmaterialized. Each requirement now reads as materialization at the resolved path, and explicitly forbids re-acquisition from the publisher.",
+    "alsoCorrected": "two records classified true_hash_missing. That classification was computed against the Edition 1 Master Library alone and is left unchanged, with a scope note, because the pinned hash IS present in the Nationwide corpus. It must not be read as \"no official source exists\"."
+  },
+  "totals": {
+    "resolved": 9,
+    "unresolved": 7,
+    "byStatus": {
+      "present_and_hash_verified": 9,
+      "absent_from_every_accessible_corpus": 6,
+      "no_digest_ever_recorded": 1
+    }
+  },
+  "resolvedFamilies": [
+    {
+      "familyId": "KY:496-2",
+      "assetId": "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "jurisdiction": "KY",
+      "formId": "496.2.pdf",
+      "status": "present_and_hash_verified",
+      "corpus": "master_library",
+      "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.2__petition-for-expungement__REV-2016-07__EN.pdf",
+      "sha256": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "byteLength": 237812,
+      "rootCauseGroup": "render_or_finalizer_defect",
+      "terminalOutcome": "packet_ready"
+    },
+    {
+      "familyId": "KY:496-3",
+      "assetId": "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "jurisdiction": "KY",
+      "formId": "496.3.pdf",
+      "status": "present_and_hash_verified",
+      "corpus": "master_library",
+      "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+      "sha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "byteLength": 385938,
+      "rootCauseGroup": "render_or_finalizer_defect",
+      "terminalOutcome": "packet_ready"
+    },
+    {
+      "familyId": "NC:expungements",
+      "assetId": "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+      "jurisdiction": "NC",
+      "formId": "expungements.html",
+      "status": "present_and_hash_verified",
+      "corpus": "nationwide",
+      "resolvedPath": "private/Nationwide Record Clearing/LegalEase North Carolina/expungements.html",
+      "sha256": "e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+      "byteLength": 21280,
+      "rootCauseGroup": "render_or_finalizer_defect",
+      "terminalOutcome": "guidance_terminal"
+    },
+    {
+      "familyId": "NC:forms-2",
+      "assetId": "NC|forms-2.html|30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+      "jurisdiction": "NC",
+      "formId": "forms-2.html",
+      "status": "present_and_hash_verified",
+      "corpus": "nationwide",
+      "resolvedPath": "private/Nationwide Record Clearing/LegalEase North Carolina/forms-2.html",
+      "sha256": "30ab86332b088712d661f1760393e50cb9d26a44e59655dca244bb721567d93e",
+      "byteLength": 73040,
+      "rootCauseGroup": "render_or_finalizer_defect",
+      "terminalOutcome": "guidance_terminal"
+    },
+    {
+      "familyId": "NC:forms",
+      "assetId": "NC|forms.html|1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+      "jurisdiction": "NC",
+      "formId": "forms.html",
+      "status": "present_and_hash_verified",
+      "corpus": "nationwide",
+      "resolvedPath": "private/Nationwide Record Clearing/LegalEase North Carolina/forms.html",
+      "sha256": "1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+      "byteLength": 73962,
+      "rootCauseGroup": "render_or_finalizer_defect",
+      "terminalOutcome": "guidance_terminal"
+    },
+    {
+      "familyId": "NC:nc-expunction-petition",
+      "assetId": "NC|nc-expunction-petition.html|912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c",
+      "jurisdiction": "NC",
+      "formId": "nc-expunction-petition.html",
+      "status": "present_and_hash_verified",
+      "corpus": "nationwide",
+      "resolvedPath": "private/Nationwide Record Clearing/LegalEase North Carolina/nc-expunction-petition.html",
+      "sha256": "912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c",
+      "byteLength": 56452,
+      "rootCauseGroup": "render_or_finalizer_defect",
+      "terminalOutcome": "guidance_terminal"
+    },
+    {
+      "familyId": "VA:cc1473",
+      "assetId": "VA|cc1473.pdf|6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+      "jurisdiction": "VA",
+      "formId": "cc1473.pdf",
+      "status": "present_and_hash_verified",
+      "corpus": "nationwide",
+      "resolvedPath": "private/Nationwide Record Clearing/LegalEase Virginia /cc1473.pdf",
+      "sha256": "6f4390495a8781ee48845b575c7e245eb09a2e492319aa51206882a1b4cdf3f3",
+      "byteLength": 31540,
+      "rootCauseGroup": "render_or_finalizer_defect",
+      "terminalOutcome": "exact_deferral"
+    },
+    {
+      "familyId": "VA:cc1473inst",
+      "assetId": "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+      "jurisdiction": "VA",
+      "formId": "cc1473inst.pdf",
+      "status": "present_and_hash_verified",
+      "corpus": "nationwide",
+      "resolvedPath": "private/Nationwide Record Clearing/LegalEase Virginia /cc1473inst.pdf",
+      "sha256": "ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+      "byteLength": 20802,
+      "rootCauseGroup": "render_or_finalizer_defect",
+      "terminalOutcome": "deliberate_scope_exclusion"
+    },
+    {
+      "familyId": "VA:va-expungement-sealing-forms",
+      "assetId": "VA|va-expungement-sealing-forms.html|b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+      "jurisdiction": "VA",
+      "formId": "va-expungement-sealing-forms.html",
+      "status": "present_and_hash_verified",
+      "corpus": "nationwide",
+      "resolvedPath": "private/Nationwide Record Clearing/LegalEase Virginia /va-expungement-sealing-forms.html",
+      "sha256": "b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+      "byteLength": 19347,
+      "rootCauseGroup": "render_or_finalizer_defect",
+      "terminalOutcome": "guidance_terminal"
+    }
+  ],
+  "sourceCustodyHandoffToSession3": {
+    "to": "session 3 — source custody and materialization",
+    "families": [
+      {
+        "familyId": "KY:497-2",
+        "assetId": "KY|497.2.pdf|080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+        "status": "absent_from_every_accessible_corpus",
+        "exactMissingBytes": "the member whose sha256 is 080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+        "whyThisLaneCannotClearIt": "the bytes are present in no accessible corpus across both roots"
+      },
+      {
+        "familyId": "KY:jv-29-1",
+        "assetId": "KY|JV-29.1.pdf|5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
+        "status": "absent_from_every_accessible_corpus",
+        "exactMissingBytes": "the member whose sha256 is 5dacccad4cc01732bc8b25f7b2bce14f26003c24c05913e22500c4f373b8d477",
+        "whyThisLaneCannotClearIt": "the bytes are present in no accessible corpus across both roots"
+      },
+      {
+        "familyId": "KY:jv-29",
+        "assetId": "KY|JV-29.pdf|557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
+        "status": "absent_from_every_accessible_corpus",
+        "exactMissingBytes": "the member whose sha256 is 557f0e5567d4a79c0d037ae1e38d7683153b32abdaa17f68511327bd0644ff45",
+        "whyThisLaneCannotClearIt": "the bytes are present in no accessible corpus across both roots"
+      },
+      {
+        "familyId": "KY:jv-30",
+        "assetId": "KY|JV-30.pdf|c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
+        "status": "absent_from_every_accessible_corpus",
+        "exactMissingBytes": "the member whose sha256 is c1ca3e80cd7cb7afc8cec7b2922691895e5c6f8d761c052bbdc98ff317d1e5ee",
+        "whyThisLaneCannotClearIt": "the bytes are present in no accessible corpus across both roots"
+      },
+      {
+        "familyId": "NC:cr297",
+        "assetId": "NC|cr297.pdf|sha256_unrecorded_in_repo",
+        "status": "no_digest_ever_recorded",
+        "exactMissingBytes": "an official binary whose identity is pinned by a recorded sha256; none exists yet",
+        "whyThisLaneCannotClearIt": "identity was never pinned, so no corpus match can settle it and acquiring bytes cannot either"
+      },
+      {
+        "familyId": "AL:cr-65-expunge-petition-10-2024",
+        "assetId": "AL|cr-65-expunge-petition-10-2024.pdf|c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+        "status": "absent_from_every_accessible_corpus",
+        "exactMissingBytes": "the member whose sha256 is c2e0c7bd7abca2c83c469d7da1aa0b80b132e653f8712d0b4ce77c8b160b2a39",
+        "whyThisLaneCannotClearIt": "the bytes are present in no accessible corpus across both roots"
+      },
+      {
+        "familyId": "AL:cr-65a-order-on-petition-for-expungement-10-2024",
+        "assetId": "AL|cr-65a-order-on-petition-for-expungement-10-2024.pdf|7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
+        "status": "absent_from_every_accessible_corpus",
+        "exactMissingBytes": "the member whose sha256 is 7bae84d50ef27e30458048805e996654736af561db4e0ca3acae250a6fe50a12",
+        "whyThisLaneCannotClearIt": "the bytes are present in no accessible corpus across both roots"
+      }
+    ],
+    "note": "these seven are the only assigned families this lane cannot close. Nothing here is blocked on rendering, review or shared code."
+  },
+  "whatThisLaneDidNotDo": [
+    "recompute any digest: private/ is absent from this clone, so every hash here is the re-derivation’s, carried with its provenance",
+    "materialize any bytes: that is session 3’s custody lane",
+    "generate, rerender or finalize any artifact",
+    "issue any review verdict"
+  ]
+}

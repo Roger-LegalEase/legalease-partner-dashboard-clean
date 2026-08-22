@@ -25,6 +25,8 @@ import {
   scanAnnotationActions
 } from "../rcap-hard-form-xfa-shadow-fill.mjs";
 
+import { APPEARANCE_DISPOSITION, structuralDisposition } from "./rcap-appearance-semantics.mjs";
+
 const require = createRequire(import.meta.url);
 const { PDFName, PDFDict, PDFArray, PDFDocument, PDFNumber, PDFRawStream, PDFRef, decodePDFRawStream } = require("pdf-lib");
 
@@ -248,6 +250,29 @@ function isChoiceField(acroField) {
   return String(acroField.dict.lookup(PDFName.of("FT"))?.toString?.() ?? "") === "/Ch";
 }
 
+/**
+ * Detaches a field from the AcroForm so nothing downstream can revive it.
+ *
+ * Clearing the widget's /AP and removing its /Annots entry is not enough on its
+ * own. updateFieldAppearances() runs after this and regenerates an appearance
+ * for every field the form still lists — for a pushbutton, straight from its
+ * /MK /CA caption — and flatten() finds the page through the widget's own /P
+ * rather than through /Annots, so the caption this function was called to remove
+ * gets stamped anyway. A field the form no longer lists is not regenerated and
+ * not flattened.
+ */
+function detachFromAcroForm(pdfDoc, acroField) {
+  const acroForm = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
+  const fields = acroForm?.lookupMaybe(PDFName.of("Fields"), PDFArray);
+  if (!fields) return 0;
+  let removed = 0;
+  for (let i = fields.size() - 1; i >= 0; i -= 1) {
+    const entry = fields.get(i);
+    if (entry === acroField.ref || pdfDoc.context.lookup(entry) === acroField.dict) { fields.remove(i); removed += 1; }
+  }
+  return removed;
+}
+
 /** Drops a field's widgets so flatten has nothing to draw for it. */
 function dropWidgets(pdfDoc, acroField) {
   let dropped = 0;
@@ -262,6 +287,7 @@ function dropWidgets(pdfDoc, acroField) {
     }
     widget.dict.delete(PDFName.of("AP"));
   }
+  detachFromAcroForm(pdfDoc, acroField);
   return dropped;
 }
 
@@ -361,30 +387,44 @@ function stripWidgetBackground(pdfDoc, acroField) {
  * to. Only the caller knows that, and it is the difference between a chooser
  * the participant answered and one still showing the form's prompt.
  */
-export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Set()) {
-  const report = { commandControlsDropped: [], unselectedChoicesDropped: [], backgroundsNeutralized: 0 };
+export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Set(), dispositions = new Map()) {
+  const report = { commandControlsDropped: [], unselectedChoicesDropped: [], unwrittenParticipantInputsDropped: [],
+    sourceAppearancesPreserved: [], backgroundsNeutralized: 0, dispositionsApplied: {} };
   for (const field of form.getFields()) {
     const name = field.getName();
     const acroField = field.acroField;
-    if (isPushButton(acroField)) {
+    // What this field's appearance MEANS. A classified field says so; anything
+    // else falls back to the structural rule. Both arrive as one of three
+    // dispositions, and everything below switches on that value alone - never on
+    // the family, the form, the field name, the text drawn, or a flag bit.
+    const disposition = dispositions.get(name)
+      ?? structuralDisposition({ isPushButton: isPushButton(acroField), isChoice: isChoiceField(acroField) });
+    report.dispositionsApplied[name] = disposition;
+
+    if (disposition === APPEARANCE_DISPOSITION.SUPPRESS_CONTROL_APPEARANCE) {
       dropWidgets(pdfDoc, acroField);
       report.commandControlsDropped.push(name);
       continue;
     }
-    if (isChoiceField(acroField) && !writtenFields.has(name)) {
-      // No participant selection: whatever it would draw is the form's own
-      // prompt, default or option list.
+    if (disposition === APPEARANCE_DISPOSITION.RENDER_PARTICIPANT_VALUE_ONLY_WHEN_WRITTEN && !writtenFields.has(name)) {
+      // Nothing was written here, so whatever the source draws inside the field
+      // is the court's instruction to a person filling it in by hand, or its own
+      // prompt, default or option list. It does not go on the filing.
       acroField.dict.delete(PDFName.of("V"));
       dropWidgets(pdfDoc, acroField);
-      report.unselectedChoicesDropped.push(name);
+      (isChoiceField(acroField) ? report.unselectedChoicesDropped : report.unwrittenParticipantInputsDropped).push(name);
       continue;
     }
+    if (disposition === APPEARANCE_DISPOSITION.PRESERVE_SOURCE_APPEARANCE) report.sourceAppearancesPreserved.push(name);
+    // A written participant input and preserved source text are treated alike
+    // from here: the appearance stays, and only an opaque background painted
+    // over the page is removed from it.
     report.backgroundsNeutralized += stripWidgetBackground(pdfDoc, acroField);
   }
   return report;
 }
 
-export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, defaultFont = null, writtenFields = new Set() } = {}) {
+export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, defaultFont = null, writtenFields = new Set(), appearanceDispositions = new Map() } = {}) {
   const report = {};
 
   const acroBefore = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
@@ -405,7 +445,7 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
       // background rectangle into the stream it generates, so removing the
       // background afterwards would mean editing generated streams instead of
       // never asking for the rectangle at all.
-      report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields);
+      report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields, appearanceDispositions);
       // Appearances must exist before flattening: flatten draws each field's
       // appearance stream onto the page, so a field whose appearance was never
       // generated flattens to nothing and the value disappears.

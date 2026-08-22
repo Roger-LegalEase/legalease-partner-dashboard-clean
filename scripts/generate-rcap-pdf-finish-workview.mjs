@@ -95,6 +95,61 @@ for (const rec of register.records ?? []) recordFor.set(rec.identity, rec);
  * problem fixed first, so source outranks everything; a retire/repoint decision
  * outranks a render defect because the artifact may not need to exist at all.
  */
+/**
+ * Worker ownership, derived from the committed assignments rather than dealt out.
+ *
+ * A family already worked by a session should stay with that session: it has the
+ * package's history, its source pack and its defect. Precedence resolves the
+ * families that appear in more than one historical assignment — earlier entries
+ * win, and the losing assignment is recorded as superseded rather than silently
+ * dropped, so a session reading its old shard can see where the family went.
+ *
+ * Session 6 owns shared code and takes no families. Session 3 is no longer an
+ * implementation dependency: every remaining source is hash-verified present.
+ */
+const WORKER_PRECEDENCE = [
+  { assignment: "family-rerender-1.json", session: 7 },
+  { assignment: "family-rerender-2.json", session: 8 },
+  { assignment: "source-direct.json", session: 11 },
+  { assignment: "source-resolution.json", session: 12 }
+];
+const FALLBACK_SESSION = 5;
+
+const ASSIGNMENT_DIR = "data/rcap-all50/gate-b-assignments";
+const workerShards = WORKER_PRECEDENCE.map((w) => {
+  const body = readJson(`${ASSIGNMENT_DIR}/${w.assignment}`);
+  return { ...w, familyIds: new Set(body.familyIds ?? []), allowedPaths: body.allowedPaths ?? [] };
+});
+
+const coversExactly = (allowedPaths, packagePath) =>
+  packagePath ? allowedPaths.some((x) => x.replace(/\/\*\*$/, "") === packagePath) : false;
+
+/**
+ * Pick the owner for one family.
+ *
+ * A shard that names the family AND grants its exact package path wins outright.
+ * A shard that names it without granting the path is a stale claim — the family
+ * moved packages — so it is recorded as superseded instead of being honoured,
+ * which is what would otherwise hand a session a family it cannot write to.
+ */
+function ownerFor(familyId, packagePath) {
+  const naming = workerShards.filter((w) => w.familyIds.has(familyId));
+  const withPath = naming.filter((w) => coversExactly(w.allowedPaths, packagePath));
+  const chosen = withPath[0] ?? naming[0] ?? null;
+  const superseded = naming.filter((w) => w !== chosen).map((w) => w.assignment);
+  return {
+    session: chosen ? chosen.session : FALLBACK_SESSION,
+    fromAssignment: chosen ? chosen.assignment : null,
+    grantedByAssignmentPath: chosen ? coversExactly(chosen.allowedPaths, packagePath) : false,
+    supersededAssignments: superseded,
+    derivation: chosen
+      ? (coversExactly(chosen.allowedPaths, packagePath)
+        ? "the committed assignment names this family and grants its exact package path"
+        : "the committed assignment names this family but grants no path for its current package; the path is corrected here")
+      : "no committed assignment names this family, so it falls to the overflow worker"
+  };
+}
+
 const ROOT_CAUSE_GROUPS = [
   { id: "launch_safe_terminal_closed", title: "Closed — launch-safe terminal exclusion, source unobtainable and no route reaches it",
     owner: { session: null, lane: "closed, no owner required" } },
@@ -198,7 +253,14 @@ const families = scope.map((asset) => {
     terminalTarget: asset.terminalTarget,
     terminalExitCondition: asset.doneCondition,
     mustPacket: asset.mustPacket === true,
-    ownerLane: ROOT_CAUSE_GROUPS.find((g) => g.id === group).owner,
+    ownerLane: group === "render_or_finalizer_defect" || group === "not_a_filing_artifact"
+      ? (() => {
+          const o = ownerFor(asset.familyId, asset.familyPackagePath);
+          return { session: o.session, lane: "implementation worker", fromAssignment: o.fromAssignment,
+            allowedPackagePath: asset.familyPackagePath, grantedByAssignmentPath: o.grantedByAssignmentPath,
+            supersededAssignments: o.supersededAssignments, derivation: o.derivation };
+        })()
+      : ROOT_CAUSE_GROUPS.find((g) => g.id === group).owner,
     ownedPaths: asset.ownedPaths ?? []
   };
 });
@@ -213,6 +275,23 @@ const families = scope.map((asset) => {
     const key = f.assetId;
     if (seen.has(key)) fail(`${key} appears twice; a family may have exactly one owner`);
     seen.add(key);
+  }
+  // Ownership is only useful if it is total, single and writable. All three are
+  // asserted, because an unowned family stalls silently and a doubly-owned
+  // package corrupts whichever session writes second.
+  const implementation = families.filter((f) => f.ownerLane.lane === "implementation worker");
+  const byPackage = new Map();
+  for (const f of implementation) {
+    if (!f.ownerLane.session) fail(`${f.familyId} has no owner session`);
+    if (!f.packagePath) fail(`${f.familyId} has no package path to own`);
+    const prior = byPackage.get(f.packagePath);
+    if (prior && prior !== f.ownerLane.session) {
+      fail(`${f.packagePath} is owned by session ${prior} and session ${f.ownerLane.session}; one package has one writer`);
+    }
+    byPackage.set(f.packagePath, f.ownerLane.session);
+  }
+  if (implementation.length !== register.totals.problematicPdfsTotal) {
+    fail(`${implementation.length} implementation famil(ies) against a retained count of ${register.totals.problematicPdfsTotal}`);
   }
   const denominator = register.totals.problematicPdfsTotal + (register.totals.launchSafelyTerminal ?? 0);
   if (families.length !== denominator) {
@@ -251,6 +330,18 @@ const record = {
       "retained_missing stays as the register computes it. This records what is reachable; only a canonical generator may move a count."
   },
   rootCauseGroups: ROOT_CAUSE_GROUPS.map((g) => ({ ...g, familyCount: counts.byGroup[g.id] ?? 0 })),
+  assignmentRevision: "pdf-finish-69/r1",
+  captainBaseSha: "92304539dbad4c5ff58cff5ec554e0d2d4bf3008",
+  workerOwnership: {
+    derivedFrom: WORKER_PRECEDENCE.map((w) => `${w.assignment} -> session ${w.session}`),
+    overflowSession: FALLBACK_SESSION,
+    sharedCodeOwner: 6,
+    sourceIsNoLongerAnImplementationDependency:
+      "every remaining implementation source is hash-verified present in the corpora and shipped in a session pack, so no worker waits on source custody",
+    perSession: families
+      .filter((f) => f.ownerLane.lane === "implementation worker")
+      .reduce((acc, f) => { acc[f.ownerLane.session] = (acc[f.ownerLane.session] ?? 0) + 1; return acc; }, {})
+  },
   totals: { families: families.length, ...counts },
   families
 };
