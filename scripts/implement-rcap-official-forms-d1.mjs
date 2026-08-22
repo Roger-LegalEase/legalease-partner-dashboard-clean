@@ -28,6 +28,7 @@ import { decideBinding as decideTypedBinding, selectOnePerSlot } from "./rcap-of
 import { finalizeOfficialForm, finalizeFlatOverlay, NonFilingHoldError }
   from "./rcap-official-forms/rcap-official-form-finalize.mjs";
 import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenance.mjs";
+import { loadAppearanceSemantics, dispositionsForFamily } from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 import { buildContactSheet, ContactSheetProofError, visibleTextOfDocument, missingExpectedValues }
   from "./rcap-official-forms/rcap-contact-sheet.mjs";
 import { reconcileWrittenAgainstDeclared } from "./rcap-official-forms/rcap-evidence-contract.mjs";
@@ -38,6 +39,14 @@ const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const SRC = process.env.RCAP_BUNDLE_EXTRACT
   ?? "/tmp/claude-0/-home-user-legalease-partner-dashboard-clean/54ff2bf1-37ee-5073-8d13-dc21b63a0975/scratchpad/bundle/extracted";
 const OUT = path.join(rootDir, "data/rcap-all50/overlays/production");
+
+// What each classified field's appearance means. Resolved here because only the
+// driver knows which family it is rendering; the finalizer is handed a plain
+// field-name map and never learns the family. Without this the registry is
+// inert: finalizeOfficialForm defaults to an empty map, every field falls to
+// the structural default, and a classified placeholder is flattened onto the
+// filing exactly as before.
+const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
 const RENDERER_VERSION = "implement-rcap-official-forms-d1/v2-provenance-sidecar";
 // Pinned rather than read from the clock, so re-running unchanged inputs
 // produces an identical record and a drift check keeps its meaning.
@@ -705,6 +714,7 @@ for (const fam of index.families) {
               unwritableFields: classification.filter((c) => isUnwritableClass(c.class)).map((c) => ({ field: c.name, class: c.class })),
               captionOnly: ownership === OWNERSHIP.COURT_ORDER,
               nonFilingNotice: notForFilingNotice,
+              appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${fam.jurisdiction}:${fam.familySlug}`),
               title: `${fam.jurisdiction} ${record.documentId}`
             })
           : await finalizeFlatOverlay({
