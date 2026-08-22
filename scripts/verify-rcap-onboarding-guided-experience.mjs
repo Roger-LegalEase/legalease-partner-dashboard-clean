@@ -229,7 +229,17 @@ assert.match(editorSource, /addEventListener\("popstate"/);
 assert.match(editorSource, /history\.pushState/);
 assert.match(editorSource, /history\.replaceState/);
 assert.match(editorSource, /Could not save\. Nothing changed\./);
-assert.match(editorSource, /Your last confirmed save is still available/);
+// The expired-session sentence belongs to the copy contract, which declares it for every
+// surface that has to explain a lost session. Assert the contract owns it and the editor
+// reads it from there, rather than pinning the editor to a literal it no longer holds.
+assert.match(editorSource, /expiredSessionState\(/);
+assert.match(
+  fs.readFileSync(
+    path.join(rootDir, "src/lib/partners/onboarding/partner-copy.ts"),
+    "utf8"
+  ),
+  /Your saved information is still available\./
+);
 assert.match(editorSource, /pendingFocusRef/);
 
 const staffResolution = guided.resolveGuidedStep({

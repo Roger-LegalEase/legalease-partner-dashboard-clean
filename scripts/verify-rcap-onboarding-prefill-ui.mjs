@@ -55,7 +55,20 @@ const presentation = read(
   "src/lib/partners/onboarding/implementation-presentation.ts"
 );
 assert.match(presentation, /Pre-filled, review needed/);
-assert.match(section, /Pre-filled by LegalEase\. Please review\./);
+// Field provenance is the copy contract's, not the editor's: the editor renders whichever
+// FIELD_COPY entry applies, so a prepared value and one the partner has since changed are
+// never described by two different sentences on two surfaces.
+assert.match(partnerCopy, /label: "Prepared by LegalEase"/);
+assert.match(partnerCopy, /label: "Partner updated"/);
+assert.match(section, /FIELD_COPY\.prepared\.label/);
+assert.match(section, /FIELD_COPY\.partnerUpdated\.label/);
+assert.match(section, /data-field-provenance="prepared"/);
+assert.match(section, /data-field-provenance="partner-updated"/);
+assert.doesNotMatch(
+  section,
+  /"Prepared by LegalEase"/,
+  "the section should read field provenance from the contract, not restate it"
+);
 assert.match(section, /Save and Continue/);
 assert.match(staffSection, /read the submitted or approved implementation record/);
 assert.match(review, /Pre-filled information needs review/);
