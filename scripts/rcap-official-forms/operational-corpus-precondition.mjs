@@ -31,6 +31,7 @@
 // intended, so a corpus with the Master Library's shape is refused by name.
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 
 export const OPERATIONAL_CORPUS_ENV = "OFFICIAL_FORMS_SOURCE_DIR";
 export const OPERATIONAL_CORPUS_RELATIVE = "private/Nationwide Record Clearing";
@@ -64,6 +65,45 @@ function corpusShape(dir) {
   if (names.has("STATES") && names.has("00_GOVERNANCE")) return "master_library";
   if (entries.some((entry) => entry.isDirectory() && /^LegalEase[\s_]/i.test(entry.name))) return "operational_nationwide";
   return "unrecognized";
+}
+
+/**
+ * What a corpus IS, read from its contents rather than from where it is mounted.
+ *
+ * The generator and this module resolved their trees independently and the
+ * agreement test compared the two absolute paths. An absolute filesystem prefix
+ * is not corpus identity: the same Nationwide tree reached as
+ * /workspaces/... and as /home/user/... is one corpus, and refusing it made a
+ * mount-point difference look like a substituted archive. The reverse error is
+ * worse and this still catches it -- a partial tree, a different edition, or the
+ * Master Library at the expected path all fingerprint differently.
+ *
+ * Identity is the corpus role plus the exact member set: every member's path
+ * relative to the corpus root, its byte length, and its SHA-256.
+ */
+export function corpusFingerprint(dir) {
+  const files = filesUnder(dir);
+  if (files === null) return null;
+  const hash = crypto.createHash("sha256");
+  let byteLength = 0;
+  for (const relative of files) {
+    let bytes;
+    try { bytes = fs.readFileSync(path.join(dir, relative)); } catch { return null; }
+    byteLength += bytes.length;
+    hash.update(`${relative}\t${bytes.length}\t${crypto.createHash("sha256").update(bytes).digest("hex")}\n`);
+  }
+  return {
+    role: corpusShape(dir),
+    sourceCount: files.length,
+    byteLength,
+    digest: hash.digest("hex")
+  };
+}
+
+/** Two trees are the same corpus when their contents say so, wherever they sit. */
+export function sameCorpus(a, b) {
+  if (!a || !b) return false;
+  return a.role === b.role && a.sourceCount === b.sourceCount && a.byteLength === b.byteLength && a.digest === b.digest;
 }
 
 /** Every file under a directory, or null if it cannot be walked. */
@@ -149,12 +189,23 @@ export async function resolveOperationalCorpus(rootDir, { requireManifestGenerat
         module: MANIFEST_GENERATOR,
         loadable: true,
         readsTree: factory.sourceDir ?? null,
-        agreesWithTheCorpus: factory.sourceDir ? realPath(factory.sourceDir) === realPath(resolvedPath) : false
+        // Same path is the cheap yes. Different paths are not yet a no: the
+        // contents decide, so an identical corpus mounted elsewhere agrees.
+        agreesWithTheCorpus: factory.sourceDir
+          ? (realPath(factory.sourceDir) === realPath(resolvedPath)
+            || sameCorpus(corpusFingerprint(factory.sourceDir), corpusFingerprint(resolvedPath)))
+          : false
       };
       if (!manifestGenerator.agreesWithTheCorpus) {
+        const theirs = factory.sourceDir ? corpusFingerprint(factory.sourceDir) : null;
+        const ours = corpusFingerprint(resolvedPath);
         refuse(
-          "manifest_generator_reads_a_different_tree",
-          `The manifest generator reads ${manifestGenerator.readsTree}, not ${resolvedPath}, so regenerating it would answer condition 7 against a different corpus. Set ${OPERATIONAL_CORPUS_ENV} to the operational tree so both read the same one.`
+          "manifest_generator_reads_a_different_corpus",
+          `The manifest generator reads ${manifestGenerator.readsTree}, whose contents are not this corpus `
+          + `(${theirs ? `${theirs.role}, ${theirs.sourceCount} source(s), ${theirs.digest.slice(0, 12)}` : "unreadable"} `
+          + `against ${ours ? `${ours.role}, ${ours.sourceCount} source(s), ${ours.digest.slice(0, 12)}` : "unreadable"}), `
+          + `so regenerating it would answer condition 7 against a different corpus. `
+          + `Set ${OPERATIONAL_CORPUS_ENV} to the operational tree so both read the same one.`
         );
       }
     } catch (error) {

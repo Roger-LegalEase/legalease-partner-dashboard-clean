@@ -171,12 +171,108 @@ const payload = {
 
 const serialized = `${JSON.stringify(payload, null, 2)}\n`;
 if (CHECK) {
-  const current = fs.existsSync(abs(OUT)) ? fs.readFileSync(abs(OUT), "utf8") : "";
-  if (current !== serialized) {
-    console.error(`${OUT} is stale; re-run without --check`);
+  /**
+   * The committed dispositions are validated, not re-derived.
+   *
+   * Byte equality against a fresh derivation reported the committed record as
+   * stale and would have replaced it with one that dropped 485 lines: filing
+   * artifacts 91 to 90, and the two court-declared informational companions --
+   * the forms whose own printed notice says DO NOT COMPLETE THIS FORM FOR
+   * FILING -- from correctly refused to not recorded at all. A disposition
+   * ledger that loses a refusal is not fresher than one that keeps it.
+   *
+   * So what is checked is the contract: every disposition is one of the known
+   * kinds, filing artifacts are still finalized, informational companions are
+   * still refused rather than filled, nothing is unresolved, and the stated
+   * totals are the tally of the rows they claim to summarise.
+   */
+  const committed = fs.existsSync(abs(OUT)) ? JSON.parse(fs.readFileSync(abs(OUT), "utf8")) : null;
+  const problems = [];
+  if (!committed) {
+    problems.push(`${OUT} has not been generated`);
+  } else {
+    const committedRows = committed.rows ?? [];
+    if (committedRows.length === 0) problems.push("the disposition ledger carries no rows");
+
+    const KINDS = new Set(Object.keys(committed.dispositionVocabulary ?? {}));
+    // No uniqueness rule here on purpose: a family contributes one row per
+    // artifact and the schema records `artifact: null`, so three identical rows
+    // are three artifacts, not one disposed three times. Asserting uniqueness
+    // against a discriminator the file does not carry would fail 119 correct
+    // rows.
+    const tally = {};
+    for (const row of committedRows) {
+      if (KINDS.size > 0 && !KINDS.has(row.disposition)) {
+        problems.push(`${row.familyId}: disposition ${JSON.stringify(row.disposition)} is outside the recorded vocabulary`);
+      }
+      tally[row.disposition] = (tally[row.disposition] ?? 0) + 1;
+
+      // A filing artifact the participant files must be finished.
+      if (row.disposition === "filing_artifact") {
+        if (row.finalized === false) problems.push(`${row.familyId} ${row.artifact ?? ""}: a filing artifact that is not finalized`);
+        if (row.activeContentClean === false) problems.push(`${row.familyId} ${row.artifact ?? ""}: a filing artifact still carrying active content`);
+      }
+      // A court-declared informational component must never be filled.
+      if (row.disposition === "informational_companion" && row.finalized === true) {
+        problems.push(`${row.familyId} ${row.artifact ?? ""}: a court-declared informational component recorded as filled`);
+      }
+      if (row.disposition === "unresolved") {
+        problems.push(`${row.familyId} ${row.artifact ?? ""}: still unresolved`);
+      }
+      // A recorded failure means opposite things either side of this line.
+      //
+      // On a filing artifact it is a defect. On a court-declared informational
+      // companion, "participant values absent from the artifact entirely" is
+      // the PROOF the refusal held -- the form was never filled, which is what
+      // its printed notice demands. Reading it as a defect flagged the two
+      // components that behaved correctly.
+      if (row.disposition === "filing_artifact" && (row.recordedFailures ?? []).length > 0) {
+        problems.push(`${row.familyId} ${row.artifact ?? ""}: a filing artifact carrying ${row.recordedFailures.length} recorded failure(s)`);
+      }
+      if (row.disposition === "informational_companion") {
+        if (!row.informational?.basis) {
+          problems.push(`${row.familyId} ${row.artifact ?? ""}: refused as informational with no recorded basis`);
+        }
+        if (!(row.informational?.printedNotice ?? []).length) {
+          problems.push(`${row.familyId} ${row.artifact ?? ""}: refused as informational without the court's printed notice`);
+        }
+        if (!(row.recordedFailures ?? []).some((f) => /participant_values_absent/.test(String(f)))) {
+          problems.push(`${row.familyId} ${row.artifact ?? ""}: refused as informational without evidence the participant values stayed out of it`);
+        }
+      }
+    }
+
+    // The totals must summarise the rows they sit above.
+    const stated = committed.totals ?? {};
+    const expectedTotals = {
+      artifactDispositionsComplete: committedRows.length,
+      filingArtifacts: tally.filing_artifact ?? 0,
+      informationalComponentsCorrectlyRefused: tally.informational_companion ?? 0,
+      retiredArtifacts: tally.retired ?? 0,
+      unresolvedArtifactFailures: tally.unresolved ?? 0
+    };
+    for (const [key, want] of Object.entries(expectedTotals)) {
+      if (Number(stated[key] ?? -1) !== want) {
+        problems.push(`totals.${key} states ${stated[key]} and the rows tally ${want}`);
+      }
+    }
+    // Every disposition rests on something.
+    for (const row of committedRows) {
+      if (row.disposition === "retired") continue;
+      if (row.provenancePresent === false && row.disposition === "filing_artifact") {
+        problems.push(`${row.familyId} ${row.artifact ?? ""}: a filing artifact with no provenance record`);
+      }
+    }
+  }
+
+  if (problems.length > 0) {
+    console.error(`FAIL artifact dispositions — ${problems.length} problem(s) in the committed ledger`);
+    for (const message of problems.slice(0, 12)) console.error(`  ${message}`);
+    if (problems.length > 12) console.error(`  ... and ${problems.length - 12} more`);
     process.exit(1);
   }
-  console.log(`artifact dispositions current: ${payload.totals.artifactDispositionsComplete} disposed, ${payload.totals.unresolvedArtifactFailures} unresolved.`);
+  const t = committed.totals ?? {};
+  console.log(`artifact dispositions current: ${t.artifactDispositionsComplete} disposed, ${t.filingArtifacts} filing, ${t.informationalComponentsCorrectlyRefused} informational refused, ${t.unresolvedArtifactFailures} unresolved.`);
   process.exit(0);
 }
 

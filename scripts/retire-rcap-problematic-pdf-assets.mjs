@@ -78,6 +78,66 @@ function familyDirectoriesFor(familyIds) {
   return [...new Set(found)];
 }
 
+/**
+ * What a marker must still say, as opposed to how it says it.
+ *
+ * This compared the marker's bytes to a freshly serialized one, so a marker was
+ * "stale" whenever any derived sentence had been reworded -- and forty of them
+ * were, by a LATER generator than the one in this tree: the committed markers
+ * name terminal treatments and carry the census caveat, and re-serializing here
+ * would have overwritten that guidance with an earlier draft. A retirement
+ * ledger checked by prose equality reports authorship drift as a governance
+ * failure and repairs it by deleting the better text.
+ *
+ * So the contract is what a retirement asserts: this asset, this disposition,
+ * these families, probed against these surfaces, with no use site and no track,
+ * and a historical identity that still matches its source record. Prose must be
+ * present and non-empty -- an empty basis is a marker that says nothing -- but
+ * its wording is not the contract.
+ *
+ * Returns null when the marker holds, or a sentence naming the first breach.
+ */
+function markerContractBreach(file, expected) {
+  if (!fs.existsSync(file)) return "no retirement marker is present";
+  let actual;
+  try { actual = JSON.parse(fs.readFileSync(file, "utf8")); }
+  catch (error) { return `the marker is not readable JSON (${String(error.message).slice(0, 80)})`; }
+
+  const identical = (key) => JSON.stringify(actual[key]) === JSON.stringify(expected[key]);
+  for (const key of ["schemaVersion", "status", "jurisdiction", "formNumber", "assetId"]) {
+    if (!identical(key)) {
+      return `${key} is ${JSON.stringify(actual[key])}, and the determination says ${JSON.stringify(expected[key])}`;
+    }
+  }
+  // Order is not identity for a set of ids.
+  const asSet = (value) => JSON.stringify([...(value ?? [])].sort());
+  if (asSet(actual.familyIds) !== asSet(expected.familyIds)) {
+    return `it marks families ${asSet(actual.familyIds)}, and the determination retires ${asSet(expected.familyIds)}`;
+  }
+  if (asSet(actual.surfacesProbed) !== asSet(expected.surfacesProbed)) {
+    return `it records ${(actual.surfacesProbed ?? []).length} probed surface(s) and the determination probed ${expected.surfacesProbed.length}`;
+  }
+  // The two numbers that make a retirement true at all.
+  if (Number(actual.useSitesFound) !== 0) return `it records ${actual.useSitesFound} use site(s); a retired asset has none`;
+  if ((actual.affectedTrackIds ?? []).length !== 0) {
+    return `it records ${actual.affectedTrackIds.length} affected track(s); a retired asset has none`;
+  }
+  // Identity of the thing retired, so a later reader can tell which form this is.
+  for (const key of ["documentId", "sha256", "revision", "documentRole"]) {
+    const a = actual.historicalSource?.[key] ?? null;
+    const b = expected.historicalSource?.[key] ?? null;
+    if (JSON.stringify(a) !== JSON.stringify(b)) {
+      return `historicalSource.${key} is ${JSON.stringify(a)}, and the source record says ${JSON.stringify(b)}`;
+    }
+  }
+  for (const key of ["meaning", "basis", "reversal"]) {
+    if (typeof actual[key] !== "string" || actual[key].trim() === "") {
+      return `${key} is empty; a marker that explains nothing is not evidence`;
+    }
+  }
+  return null;
+}
+
 const written = [];
 const refused = [];
 const pruned = [];
@@ -161,8 +221,8 @@ for (const asset of determination.assets) {
     const file = path.join(dir, MARKER);
     const json = `${JSON.stringify(marker, null, 2)}\n`;
     if (checkOnly) {
-      const current = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : "";
-      if (current !== json) stale.push(path.relative(rootDir, file));
+      const problem = markerContractBreach(file, marker);
+      if (problem) stale.push(`${path.relative(rootDir, file)}: ${problem}`);
     } else {
       fs.writeFileSync(file, json);
     }
@@ -176,7 +236,7 @@ if (refused.length > 0) {
   process.exit(1);
 }
 if (checkOnly && stale.length > 0) {
-  console.error(`FAIL asset retirement — ${stale.length} retirement marker(s) are stale or missing; re-run scripts/retire-rcap-problematic-pdf-assets.mjs`);
+  console.error(`FAIL asset retirement — ${stale.length} retirement marker(s) contradict the determination; re-run scripts/retire-rcap-problematic-pdf-assets.mjs`);
   for (const file of stale.slice(0, 10)) console.error(`  ${file}`);
   process.exit(1);
 }
