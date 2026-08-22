@@ -17,7 +17,7 @@ Frozen for the life of the wave: AK:tf-810-form-en, NC:aoc-cr-287-form-es, NC:ao
 | 3 | independent review | `reviewer-b.json` | 0 | — |
 | 4 | independent review | `reviewer-c.json` | 0 | — |
 | 5 | independent review | `reviewer-d.json` | 0 | — |
-| 6 | shared code and source-pack factory | — | 0 | `190643bcfce9` |
+| 6 | shared code and source-pack factory | — | 0 | `c5c60eb00693` |
 | 7 | family rerender | `family-rerender-1.json` | 20 | `32f6e39a3bf4` |
 | 8 | family rerender | `family-rerender-2.json` | 19 | `af9c0107a29c` |
 | 9 | provenance sidecars | `evidence-sidecars.json` | 39 | `818c0ddc63cc` |
