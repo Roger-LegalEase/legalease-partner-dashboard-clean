@@ -56,22 +56,6 @@
     {
       "fixture": "canonical",
       "check": "binding_refused",
-      "field": "ApplicantFullPermanentMailingAddressAddr1",
-      "reason": "protected_category",
-      "category": "money",
-      "regionHeading": null
-    },
-    {
-      "fixture": "canonical",
-      "check": "binding_refused",
-      "field": "ApplicantFullPermanentMailingAddressAddr2",
-      "reason": "protected_category",
-      "category": "money",
-      "regionHeading": null
-    },
-    {
-      "fixture": "canonical",
-      "check": "binding_refused",
       "field": "YesHaveServedInUnitedStatesArmedForcesCkBox",
       "reason": "classified_unwritable_by_role",
       "category": "role"
@@ -407,8 +391,8 @@
       "fixture": "canonical",
       "check": "binding_refused",
       "field": "SigningApplicantIsDefendantCkBox",
-      "reason": "protected_category",
-      "category": "notarization",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
@@ -482,6 +466,15 @@
       "reason": "protected_category",
       "category": "outside_party",
       "regionHeading": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "ApplicantFullPermanentMailingAddressAddr2",
+      "reason": "duplicate_widget_for_one_slot",
+      "category": "caption_slot",
+      "factId": "participant.street_address",
+      "keptInstead": "ApplicantFullPermanentMailingAddressAddr1"
     },
     {
       "fixture": "boundary",
@@ -537,22 +530,6 @@
     {
       "fixture": "boundary",
       "check": "binding_refused",
-      "field": "ApplicantFullPermanentMailingAddressAddr1",
-      "reason": "protected_category",
-      "category": "money",
-      "regionHeading": null
-    },
-    {
-      "fixture": "boundary",
-      "check": "binding_refused",
-      "field": "ApplicantFullPermanentMailingAddressAddr2",
-      "reason": "protected_category",
-      "category": "money",
-      "regionHeading": null
-    },
-    {
-      "fixture": "boundary",
-      "check": "binding_refused",
       "field": "YesHaveServedInUnitedStatesArmedForcesCkBox",
       "reason": "classified_unwritable_by_role",
       "category": "role"
@@ -888,8 +865,8 @@
       "fixture": "boundary",
       "check": "binding_refused",
       "field": "SigningApplicantIsDefendantCkBox",
-      "reason": "protected_category",
-      "category": "notarization",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
@@ -963,6 +940,15 @@
       "reason": "protected_category",
       "category": "outside_party",
       "regionHeading": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "ApplicantFullPermanentMailingAddressAddr2",
+      "reason": "duplicate_widget_for_one_slot",
+      "category": "caption_slot",
+      "factId": "participant.street_address",
+      "keptInstead": "ApplicantFullPermanentMailingAddressAddr1"
     }
   ]
 }

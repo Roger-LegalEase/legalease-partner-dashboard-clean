@@ -55,6 +55,13 @@
       "factId": "participant.city",
       "factBasis": "field_name",
       "effectiveLabel": null
+    },
+    {
+      "field": "PetitionerState",
+      "class": "participant",
+      "factId": "participant.state",
+      "factBasis": "field_name",
+      "effectiveLabel": "State"
     }
   ],
   "bindingRefusals": [
@@ -74,12 +81,6 @@
       "field": "SuperiorCourtDivisionCkBox",
       "reason": "non_text_field_type",
       "category": "type_guard",
-      "regionHeading": null
-    },
-    {
-      "field": "PetitionerState",
-      "reason": "protected_category",
-      "category": "race",
       "regionHeading": null
     },
     {
@@ -121,19 +122,19 @@
     {
       "field": "SSN",
       "reason": "protected_category",
-      "category": "agency",
+      "category": "government_identifier",
       "regionHeading": null
     },
     {
       "field": "AttorneyName",
       "reason": "protected_category",
-      "category": "race",
+      "category": "attorney",
       "regionHeading": null
     },
     {
       "field": "AttorneyStreetAddress",
       "reason": "protected_category",
-      "category": "race",
+      "category": "attorney",
       "regionHeading": null
     },
     {
@@ -222,8 +223,8 @@
     },
     {
       "field": "Stateagency2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null,
+      "reason": "protected_category",
+      "category": "agency",
       "regionHeading": null
     },
     {
@@ -282,20 +283,20 @@
     },
     {
       "field": "ArrestDate:1",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
       "regionHeading": null
     },
     {
       "field": "OffenseDescription:1",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
       "regionHeading": null
     },
     {
       "field": "DateOfOffense:1",
-      "reason": "protected_category",
-      "category": "disposition_or_hearing",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact",
       "regionHeading": null
     },
     {
@@ -372,8 +373,8 @@
     },
     {
       "field": "PetitionerCkBox",
-      "reason": "non_text_field_type",
-      "category": "type_guard",
+      "reason": "protected_category",
+      "category": "agency",
       "regionHeading": null
     },
     {
@@ -402,15 +403,15 @@
     },
     {
       "field": "EmailCkBox",
-      "reason": "protected_page_region",
-      "category": "prosecutor",
-      "regionHeading": "U.S. Postal Service, directed to the district attorney."
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "ICMS/OFSCkBox",
-      "reason": "protected_category",
+      "reason": "protected_page_region",
       "category": "prosecutor",
-      "regionHeading": null
+      "regionHeading": "U.S. Postal Service, directed to the district attorney."
     },
     {
       "field": "EmailAddressOfRecord",
@@ -432,9 +433,9 @@
     },
     {
       "field": "ServiceAcceptedCkBox",
-      "reason": "protected_page_region",
-      "category": "prosecutor",
-      "regionHeading": "U.S. Postal Service, directed to the district attorney."
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "PersonAcceptingServiceSignedDate",
@@ -505,44 +506,44 @@
     {
       "field": "RecordsOfficerSignedDate",
       "reason": "protected_category",
-      "category": "responsible_official",
+      "category": "signature",
       "regionHeading": null
     },
     {
       "field": "FindingsItem1CkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem2CkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem3CkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem4CkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem4aCkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem4bCkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem4bGoodCauseCkBox",
@@ -552,57 +553,57 @@
     },
     {
       "field": "FindingsItem5CkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem6CkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem7CkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem8CkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem9CkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem10CkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "FindingsItem11CkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "EligibleCkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "NotEligibleCkBox",
-      "reason": "protected_page_region",
-      "category": "court",
-      "regionHeading": "FINDINGS OF FACT"
+      "reason": "non_text_field_type",
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "NotEligibleReason",
@@ -648,14 +649,14 @@
     },
     {
       "field": "DepCSCCkBox",
-      "reason": "protected_page_region",
-      "category": "clerk",
-      "regionHeading": "CERTIFICATION BY CLERK"
+      "reason": "protected_category",
+      "category": "agency",
+      "regionHeading": null
     },
     {
       "field": "AsstCSCCkBox",
-      "reason": "protected_category",
-      "category": "signature",
+      "reason": "non_text_field_type",
+      "category": "type_guard",
       "regionHeading": null
     },
     {
