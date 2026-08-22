@@ -9,6 +9,8 @@ import {
   DEFAULT_ONBOARDING_REVIEW_DETAIL_MODE,
   isOnboardingReviewAuditOpen
 } from "@/lib/partners/onboarding/review-presentation";
+import { reviewNextActionState } from "@/lib/partners/onboarding/partner-copy";
+import { workspaceStatusLabel } from "@/lib/partners/onboarding/partner-labels";
 import { PartnerSupportLink } from "../PartnerSupportLink";
 
 type ReviewValue =
@@ -150,6 +152,17 @@ export function OnboardingReviewClient({
         section.missingItems.length > 0 || section.hasPendingPrefill
     ) ??
     sections.find((section) => section.state === "Needs attention");
+  // Four partner states, authored once. Two of them were held in this component as
+  // literals that the copy contract also declared, which is exactly how the same state
+  // ends up worded two ways on two screens.
+  const nextAction = reviewNextActionState({
+    submitted,
+    submitEnabled,
+    nextSectionTitle: submitted ? null : firstActionSection?.title ?? null,
+    nextSectionHref: submitted ? null : firstActionSection?.editHref ?? null,
+    submitHref: "#current-review-action-heading",
+    returnHref: "/partner/onboarding#program-configuration"
+  });
 
   async function submitForReview() {
     if (!submitEnabled || submittingRef.current) return;
@@ -211,9 +224,7 @@ export function OnboardingReviewClient({
         statusLabel:
           typeof payload.statusLabel === "string"
             ? payload.statusLabel
-            : savedStatus === "ready_for_review"
-              ? "Awaiting LegalEase review"
-              : "Submitted",
+            : workspaceStatusLabel(savedStatus ?? "ready_for_review"),
         historical: false
       });
     } catch {
@@ -449,22 +460,10 @@ export function OnboardingReviewClient({
       <section aria-labelledby="current-review-action-heading" className="mt-8 border border-[#B8C1C7] border-t-4 border-t-[#071B33] bg-[#F7F4EE] p-5 md:p-6">
         <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">Current next action</p>
         <h2 className="mt-2 text-xl font-extrabold" id="current-review-action-heading">
-          {submitted
-            ? "Your setup is with LegalEase"
-            : firstActionSection
-              ? "Continue your next section"
-              : submitEnabled
-                ? "Your setup is ready for final review"
-                : "You can view this program setup"}
+          {nextAction.heading}
         </h2>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-[#475A6E]">
-          {submitted
-            ? "LegalEase owns the next review decision. We'll let you know here if anything needs a change."
-            : firstActionSection
-              ? `Pick up where you left off in ${firstActionSection.title}.`
-              : submitEnabled
-                ? "Your required program information is complete. Submitting starts LegalEase review. It doesn't publish your page or activate your program."
-                : "Only a partner administrator can make changes or submit information to LegalEase."}
+          {nextAction.explanation}
         </p>
         <div className="mt-5">
           {submitEnabled ? (
@@ -475,17 +474,19 @@ export function OnboardingReviewClient({
               onClick={() => void submitForReview()}
               type="button"
             >
-              {submission.kind === "submitting" ? "Submitting" : "Submit for LegalEase review"}
+              {submission.kind === "submitting"
+                ? "Submitting"
+                : nextAction.primaryAction?.label ?? "Submit for LegalEase review"}
             </button>
-          ) : (
+          ) : nextAction.primaryAction ? (
             <Link
               className={primaryActionClass}
               data-review-primary-action={firstActionSection ? "resolve" : "return"}
-              href={firstActionSection?.editHref ?? "/partner/onboarding#program-configuration"}
+              href={nextAction.primaryAction.href ?? "/partner/onboarding#program-configuration"}
             >
-              {firstActionSection ? "Continue your next section" : "Return to implementation center"}
+              {nextAction.primaryAction.label}
             </Link>
-          )}
+          ) : null}
         </div>
       </section>
     </div>

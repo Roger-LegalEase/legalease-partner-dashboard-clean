@@ -2,6 +2,7 @@ import {
   nextActionOwnerLabel,
   sectionStatusLabel
 } from "./partner-labels";
+import { commercialState } from "./partner-copy";
 import type {
   CommercialGateOutcome,
   OnboardingNextActionOwner,
@@ -9,6 +10,12 @@ import type {
   OnboardingSectionStatus,
   OnboardingWorkspaceStatus
 } from "./types";
+
+// The two LegalEase-owned commercial states, authored by the copy contract and reused
+// here so the milestone card cannot describe program terms differently from the
+// Implementation Center or the section editor.
+const COMMERCIAL_IN_PROGRESS = commercialState({ outcome: "legalease_owned" });
+const COMMERCIAL_CONFIRMED = commercialState({ outcome: "cleared" });
 
 export type PartnerImplementationTone =
   | "teal"
@@ -236,8 +243,8 @@ export function buildPartnerImplementationPresentation(
       description: "Billing, procurement, and agreement details for your program.",
       state:
         input.commercialGateStatus === "blocked"
-          ? fact("blocked", "In progress", "Program terms are being finalized.", "orange")
-          : fact("cleared", "Confirmed", "Program terms are confirmed.", "teal"),
+          ? fact("blocked", "In progress", `${COMMERCIAL_IN_PROGRESS.heading}.`, "orange")
+          : fact("cleared", "Confirmed", `${COMMERCIAL_CONFIRMED.heading}.`, "teal"),
       dateLabel: input.commercialGateStatus === "blocked" ? "Due date" : "Completed",
       date: input.commercialGateStatus === "blocked" ? null : input.commercialGateChangedAt,
       dateFallback:
@@ -245,11 +252,11 @@ export function buildPartnerImplementationPresentation(
       blocker:
         input.commercialGateStatus === "blocked"
           ? input.blockerCopy
-          : "Program terms confirmed.",
+          : `${COMMERCIAL_CONFIRMED.heading}.`,
       nextAction:
         input.commercialGateStatus === "blocked"
           ? input.nextActionCopy
-          : "Your program can continue through implementation planning.",
+          : COMMERCIAL_CONFIRMED.explanation,
       actionLabel: "View program terms",
       href: "#commercial-support"
     },
@@ -434,7 +441,7 @@ export function buildPartnerImplementationPresentation(
             milestone.state.key === "complete" ||
             milestone.state.key === "ready" ||
             milestone.state.key === "live"
-          ? "No action needed"
+          ? nextActionOwnerLabel("none")
           : "Not assigned"
     };
   });
@@ -652,10 +659,12 @@ function overallFact(
     return fact("live", "Program live", "Participant intake is active.", "teal");
   }
   if (input.commercialGateStatus === "blocked") {
+    // The gate's own vocabulary is internal. What a program director needs here is who
+    // owns the remaining step, which the copy contract answers for every surface.
     return fact(
       "commercial_action",
       "Program terms in progress",
-      "Implementation cannot proceed until the commercial gate clears.",
+      COMMERCIAL_IN_PROGRESS.explanation,
       "orange"
     );
   }
@@ -722,7 +731,7 @@ function currentActionFor(
   if (input.workspaceStatus === "live") {
     return {
       action: "Review current program operations and participant activity.",
-      owner: "No action needed",
+      owner: nextActionOwnerLabel("none"),
       dueDate: null,
       dueDateFallback: "Not scheduled",
       schedulingAction: "No implementation due date is required while the program is live.",
@@ -734,7 +743,7 @@ function currentActionFor(
   if (input.workspaceStatus === "paused" || input.workspaceStatus === "closed") {
     return {
       action: "Review the program record and contact LegalEase with questions.",
-      owner: "No action needed",
+      owner: nextActionOwnerLabel("none"),
       dueDate: null,
       dueDateFallback: "Not scheduled",
       schedulingAction: "No implementation due date is scheduled for this program state.",

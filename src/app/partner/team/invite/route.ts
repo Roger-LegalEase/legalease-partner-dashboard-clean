@@ -4,6 +4,7 @@ import { failureMessageForAddPartnerUser, invitePartnerStaffForCurrentPartner, v
 import { checkPartnerTeamInviteRateLimit } from "@/lib/partners/partner-team-rate-limit";
 import { resolveSessionPartner, SessionPartnerError } from "@/lib/partners/session-partner";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
+import { INVITATION_DELIVERY_COPY } from "@/lib/partners/onboarding/partner-copy";
 
 export const dynamic = "force-dynamic";
 
@@ -45,7 +46,7 @@ export async function POST(request: Request) {
 
   const supabase = getSupabaseAdminClient();
   if (!supabase) {
-    return failureResponse("unknown_error", "Unable to invite partner staff right now.", { status: 500 });
+    return failureResponse("unknown_error", INVITATION_DELIVERY_COPY.unavailable, { status: 500 });
   }
 
   const rateLimit = await checkPartnerTeamInviteRateLimit(supabase, {
@@ -63,10 +64,10 @@ export async function POST(request: Request) {
     });
 
     if (rateLimit.reason === "blocked") {
-      return failureResponse("rate_limited", "Too many invite attempts. Please try again later.", { status: 429 });
+      return failureResponse("rate_limited", INVITATION_DELIVERY_COPY.rateLimited, { status: 429 });
     }
 
-    return failureResponse("unknown_error", "Unable to invite partner staff right now.", { status: 500 });
+    return failureResponse("unknown_error", INVITATION_DELIVERY_COPY.unavailable, { status: 500 });
   }
 
   let result: Awaited<ReturnType<typeof invitePartnerStaffForCurrentPartner>>;
@@ -81,7 +82,7 @@ export async function POST(request: Request) {
       error,
       metadata: { action: "partner_team_invite", error_code: "unknown_error" }
     });
-    return failureResponse("unknown_error", "Unable to invite partner staff right now.", { status: 500 });
+    return failureResponse("unknown_error", INVITATION_DELIVERY_COPY.unavailable, { status: 500 });
   }
 
   if (!result.ok) {

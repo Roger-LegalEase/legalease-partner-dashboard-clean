@@ -65,6 +65,10 @@ export type OnboardingSectionView<K extends OnboardingSectionKey = OnboardingSec
   changeRequestStatus: "open" | "partner_responded" | null;
   changeRequests: OnboardingChangeRequestView[];
   pendingPrefillFieldKeys: string[];
+  // Prepared values the partner has since changed. They stay identified on the section so
+  // the partner can see their edit held, and so a later preparation run has to ask before
+  // replacing one.
+  partnerUpdatedPrefillFieldKeys: string[];
   hasPendingPrefill: boolean;
   firstStartedAt: string | null;
   completedAt: string | null;
@@ -497,6 +501,9 @@ export async function getPartnerOnboardingPortal(
   const pendingPrefillRows = prefillRows.filter(
     (row) => row.partner_review_status === "pending"
   );
+  const partnerUpdatedPrefillRows = prefillRows.filter(
+    (row) => row.partner_review_status === "modified"
+  );
   const pendingPrefillSections = [
     ...new Set(
       pendingPrefillRows.map((row) => asSectionKey(row.section_key))
@@ -606,6 +613,9 @@ export async function getPartnerOnboardingPortal(
             )
         : [],
       pendingPrefillFieldKeys: pendingPrefillRows
+        .filter((prefill) => prefill.section_key === definition.key)
+        .map((prefill) => prefill.field_key),
+      partnerUpdatedPrefillFieldKeys: partnerUpdatedPrefillRows
         .filter((prefill) => prefill.section_key === definition.key)
         .map((prefill) => prefill.field_key),
       hasPendingPrefill: pendingPrefillRows.some(
@@ -958,6 +968,7 @@ export async function savePartnerOnboardingSection<K extends OnboardingSectionKe
         input.mode === "section_complete"
           ? []
           : section.pendingPrefillFieldKeys,
+      partnerUpdatedPrefillFieldKeys: section.partnerUpdatedPrefillFieldKeys,
       hasPendingPrefill:
         input.mode === "section_complete"
           ? false

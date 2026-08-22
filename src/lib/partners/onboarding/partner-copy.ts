@@ -16,6 +16,7 @@
 //   4. What is the one next step?  -> primaryAction  (exactly one, never two)
 //   5. Where is help?              -> support        (only when a human can help)
 
+import { nextActionOwnerLabel } from "./partner-labels";
 import { getPartnerSupportContact } from "./support-contact";
 
 export type PartnerStateOwner = "partner" | "legalease" | "none";
@@ -38,15 +39,10 @@ export type PartnerState = {
 // Section 4 requires ownership to read as the partner's own team, LegalEase, or nobody.
 // "Your organization" was the previous wording and it made LegalEase-owned commercial work
 // look like partner work on the one screen where that distinction decides who picks up the
-// phone.
-const OWNER_LABELS: Record<PartnerStateOwner, string> = {
-  partner: "Your team",
-  legalease: "LegalEase",
-  none: "No action needed"
-};
-
+// phone. The three sentences themselves belong to the status vocabulary module, which every
+// other surface already reads; a second copy here would be free to drift from it.
 export function partnerOwnerLabel(owner: PartnerStateOwner): string {
-  return OWNER_LABELS[owner] ?? OWNER_LABELS.none;
+  return nextActionOwnerLabel(owner);
 }
 
 function supportPath(subject: string) {
@@ -110,6 +106,13 @@ export const FIELD_COPY = {
   optional: {
     label: "Optional",
     supporting: "Add this information when it would help LegalEase prepare your program."
+  },
+  // Once a partner edits a prepared value the field is theirs, and both sides need to see
+  // that: the partner needs to know their edit stuck, and LegalEase must not quietly
+  // replace it on a later preparation run.
+  partnerUpdated: {
+    label: "Partner updated",
+    supporting: "Your team changed this prepared value. LegalEase will not replace it without asking."
   }
 } as const;
 
@@ -121,6 +124,25 @@ export const REVIEW_SUMMARY_LABELS = {
   changesSincePreparation: "Changes since preparation",
   requestsFromLegalEase: "Requests from LegalEase"
 } as const;
+
+/**
+ * The one action a partner is offered for program setup, wherever it is offered: the
+ * dashboard program-setup card and the Implementation Center both point at the same next
+ * step. Both surfaces derived this independently and could disagree about whether a staff
+ * member sees "View setup" or "Continue setup" on the same workspace.
+ */
+export function setupActionLabel(input: {
+  role: string;
+  canEdit: boolean;
+  workspaceStatus: string;
+  reviewReady: boolean;
+}): "Continue setup" | "Review and submit" | "View setup" | "View program setup" {
+  if (["ready_to_launch", "live", "paused", "closed"].includes(input.workspaceStatus.trim().toLowerCase())) {
+    return "View program setup";
+  }
+  if (input.role === "partner_staff" || !input.canEdit) return "View setup";
+  return input.reviewReady ? "Review and submit" : "Continue setup";
+}
 
 export function reviewState(input: { readyToSubmit: boolean; submitHref: string; firstSectionHref: string | null }): PartnerState {
   if (input.readyToSubmit) {
@@ -139,6 +161,50 @@ export function reviewState(input: { readyToSubmit: boolean; submitHref: string;
     owner: "partner",
     action: { label: "Review prepared setup", href: input.firstSectionHref ?? "/partner/onboarding" }
   });
+}
+
+/**
+ * The review page's "Current next action". Four states, one of which is the read-only staff
+ * state below, and the page used to assemble all four from literals held in the component.
+ * Two of those literals were already in this module, free to drift from it.
+ */
+export function reviewNextActionState(input: {
+  submitted: boolean;
+  submitEnabled: boolean;
+  nextSectionTitle: string | null;
+  nextSectionHref: string | null;
+  submitHref: string;
+  returnHref: string;
+}): PartnerState {
+  if (input.submitted) {
+    return state({
+      heading: "Your setup is with LegalEase",
+      explanation:
+        "LegalEase owns the next review decision. We'll let you know here if anything needs a change.",
+      owner: "legalease"
+    });
+  }
+  if (input.nextSectionTitle && input.nextSectionHref) {
+    return state({
+      heading: "Continue your next section",
+      explanation: `Pick up where you left off in ${input.nextSectionTitle}.`,
+      owner: "partner",
+      action: { label: "Continue your next section", href: input.nextSectionHref }
+    });
+  }
+  if (input.submitEnabled) {
+    return state({
+      heading: "Your setup is ready for final review",
+      explanation:
+        "Your required program information is complete. Submitting starts LegalEase review. It doesn't publish your page or activate your program.",
+      owner: "partner",
+      action: { label: "Submit for LegalEase review", href: input.submitHref }
+    });
+  }
+  return {
+    ...readOnlyStaffState(),
+    primaryAction: { label: "Return to implementation center", href: input.returnHref }
+  };
 }
 
 export function sectionConfirmationState(confirmHref: string): PartnerState {
@@ -235,6 +301,13 @@ export function readOnlyStaffState(): PartnerState {
   });
 }
 
+/**
+ * The one sentence a partner reads when an action on a saved record could not be applied.
+ * The artifacts board and the launch-readiness list both used to hold their own copy of it,
+ * and both fell back to the service's own error text, which is internal diagnostic wording.
+ */
+export const ACTION_FAILURE_COPY = "That action could not be completed." as const;
+
 /* ----------------------------------------------------- invitation states (§7) */
 
 export function invitationSendFailureState(retryHref: string | null): PartnerState {
@@ -264,35 +337,35 @@ export function wrongAccountInvitationState(signOutHref: string): PartnerState {
   });
 }
 
+/**
+ * Partner staff invitation outcomes. The form and the endpoint that answers it both speak
+ * these sentences: the endpoint returns them, and the form falls back to them when a
+ * response cannot be read. They are authored here so the two can never disagree about what
+ * happened to an invitation.
+ */
+export const INVITATION_DELIVERY_COPY = {
+  unavailable: "Unable to invite partner staff right now.",
+  rateLimited: "Too many invite attempts. Please try again later.",
+  signedOut: "Sign in with a partner admin account and try again.",
+  forbidden: "Partner admin access is required to invite staff.",
+  failed: "Unable to invite partner staff.",
+  alreadyMapped: "That user already has partner staff access.",
+  existingUserMapped: "Existing user was granted partner staff access.",
+  created: "Partner staff invitation created."
+} as const;
+
 /* ------------------------------------------------------------ status labels (§8) */
 
-// Short, commercial and truthful. "Blocked" is reserved for a true launch-readiness
-// status and always arrives with a business reason attached.
-const PARTNER_STATUS_LABELS: Record<string, string> = {
-  not_started: "Getting started",
-  prepared: "Prepared for review",
-  in_progress: "Getting started",
-  needs_partner_input: "Needs your input",
-  ready_to_submit: "Ready to submit",
-  submitted: "Under LegalEase review",
-  under_review: "Under LegalEase review",
-  needs_changes: "Changes requested",
-  approved: "Approved",
-  not_ready: "Not ready",
-  private: "Private",
-  inactive: "Inactive",
-  not_scheduled: "Not scheduled",
-  none: "No action needed"
-};
-
-/**
- * Any value missing from the map returns neutral partner copy rather than a prettified
- * stored value. A status added to storage without being added here must never reach a
- * partner as machine vocabulary.
- */
-export function partnerStatusLabel(value: string): string {
-  return PARTNER_STATUS_LABELS[value.trim().toLowerCase()] ?? "In progress";
-}
+// Stored status values are turned into partner sentences by partner-labels.ts, which the
+// onboarding home, the section editor, the review page and the dashboard card all read.
+// This module deliberately keeps no second map of the same values: two vocabularies for
+// one stored status is how "Not started" and "Getting started" end up on two screens
+// describing the same section.
+export {
+  agreementStatusLabel,
+  sectionStatusLabel,
+  workspaceStatusLabel
+} from "./partner-labels";
 
 /**
  * The only place "Blocked" is allowed. The business reason is required, so a blocked

@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { SAVE_COPY } from "@/lib/partners/onboarding/partner-copy";
+import {
+  FIELD_COPY,
+  SAVE_COPY,
+  concurrentUpdateState,
+  expiredSessionState,
+  saveFailureState
+} from "@/lib/partners/onboarding/partner-copy";
 import { useRouter } from "next/navigation";
 import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
 import type { CoBrandedPagePreview } from "@/lib/partners/onboarding/artifact-generator";
@@ -135,6 +141,7 @@ export type OnboardingSectionEditorProps = {
   previousHref: string | null;
   nextHref: string;
   pendingPrefillFieldKeys: string[];
+  partnerUpdatedPrefillFieldKeys?: string[];
   initialStepId: string;
   missingRequiredKeys: string[];
   completionHref: string;
@@ -248,6 +255,9 @@ const inputClassName =
   "min-h-11 w-full rounded-none border border-grayWilma-200 bg-white px-3 py-2 text-sm text-navy shadow-none outline-none transition placeholder:text-grayWilma-500 focus:border-teal focus:ring-2 focus:ring-teal/25 disabled:cursor-not-allowed disabled:bg-grayWilma-100 disabled:text-grayWilma-600";
 const textareaClassName = `${inputClassName} min-h-28 resize-y`;
 const PrefillFieldContext = createContext<ReadonlySet<string>>(new Set());
+// Fields the partner has changed since LegalEase prepared them. Kept separate from the
+// pending set: one asks for a review, the other records that the answer is already theirs.
+const PartnerUpdatedFieldContext = createContext<ReadonlySet<string>>(new Set());
 const GuidedRenderContext = createContext<GuidedRenderContextValue | null>(null);
 
 export function OnboardingSectionEditor({
@@ -266,6 +276,7 @@ export function OnboardingSectionEditor({
   readOnlyValues,
   assets: initialAssets,
   pendingPrefillFieldKeys,
+  partnerUpdatedPrefillFieldKeys = [],
   initialStepId,
   missingRequiredKeys,
   completionHref,
@@ -299,6 +310,11 @@ export function OnboardingSectionEditor({
   });
   const [dirty, setDirty] = useState(false);
   const [conflictRevision, setConflictRevision] = useState<number | null>(null);
+  // One authored concurrent-update state, shared with every other surface that has to
+  // explain a save someone else got to first.
+  const concurrentUpdate = concurrentUpdateState(
+    `/partner/onboarding/${sectionKey}`
+  );
   const [completing, setCompleting] = useState(false);
   const [currentAssets, setCurrentAssets] =
     useState<OnboardingEditorAsset[]>(initialAssets);
@@ -1194,6 +1210,9 @@ export function OnboardingSectionEditor({
   const guidedTaskContent = (
     <GuidedRenderContext.Provider value={guidedRenderValue}>
       <PrefillFieldContext.Provider value={new Set(pendingPrefillFieldKeys)}>
+        <PartnerUpdatedFieldContext.Provider
+          value={new Set(partnerUpdatedPrefillFieldKeys)}
+        >
         <GuidedSurfaceContent
           canonicalReferences={canonicalReferences}
           sectionSummary={sectionSummary}
@@ -1225,6 +1244,7 @@ export function OnboardingSectionEditor({
           updateField={updateField}
           uploadAsset={uploadAsset}
         />
+        </PartnerUpdatedFieldContext.Provider>
       </PrefillFieldContext.Provider>
     </GuidedRenderContext.Provider>
   );
@@ -1317,11 +1337,11 @@ export function OnboardingSectionEditor({
               aria-labelledby="revision-conflict-heading"
             >
               <h2 id="revision-conflict-heading" className="font-extrabold text-[#071B33]">
-                A newer version of this section exists
+                {concurrentUpdate.heading}
               </h2>
               <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-                Review the newer version before saving. Your entries remain in
-                this view and did not overwrite revision {conflictRevision}.
+                {concurrentUpdate.explanation} Your entries remain in this view
+                and nothing you typed was overwritten.
               </p>
               <Button
                 className="mt-4 min-h-11 rounded-none"
@@ -1329,7 +1349,7 @@ export function OnboardingSectionEditor({
                 type="button"
                 variant="secondary"
               >
-                Review newer version
+                {concurrentUpdate.primaryAction?.label ?? "Review latest version"}
               </Button>
             </div>
           ) : null}
@@ -4115,6 +4135,7 @@ function FieldFrame({
   const guided = useContext(GuidedRenderContext);
   const visible = useGuidedFieldVisibility(fieldKey);
   const prefilled = useContext(PrefillFieldContext).has(fieldKey);
+  const partnerUpdated = useContext(PartnerUpdatedFieldContext).has(fieldKey);
   const requested = Boolean(
     guided?.requestedFieldKey &&
       guidedFieldRoot(guided.requestedFieldKey) === guidedFieldRoot(fieldKey)
@@ -4142,8 +4163,15 @@ function FieldFrame({
         ) : null}
       </label>
       {prefilled ? (
-        <p className="mt-1 text-xs font-semibold text-teal">
-          Pre-filled by LegalEase. Please review.
+        <p className="mt-1 text-xs font-semibold text-teal" data-field-provenance="prepared">
+          {FIELD_COPY.prepared.label}. {FIELD_COPY.shared.supporting}
+        </p>
+      ) : partnerUpdated ? (
+        <p
+          className="mt-1 text-xs font-semibold text-[#475A6E]"
+          data-field-provenance="partner-updated"
+        >
+          {FIELD_COPY.partnerUpdated.label}. {FIELD_COPY.partnerUpdated.supporting}
         </p>
       ) : null}
       {requested && guided?.activeChangeRequest ? (
@@ -4688,7 +4716,8 @@ function requestErrorMessage(
   payload: Record<string, unknown> | null
 ) {
   if (status === 401) {
-    return "Your session expired. Sign in again to continue. Your last confirmed save is still available.";
+    const expired = expiredSessionState("/sign-in?next=/partner/onboarding");
+    return `${expired.heading}. ${expired.explanation}`;
   }
   if (status === 403) {
     return "Could not save. Nothing changed. This role cannot edit the onboarding section.";
@@ -4701,7 +4730,10 @@ function requestErrorMessage(
   }
   // The server's own wording is internal diagnostic text. It is logged, never rendered:
   // a partner reading a save failure needs to know their work is safe and what to do next.
-  return "We could not save your changes. Your changes are still on this page. Try saving again. If the problem continues, contact LegalEase support.";
+  // The sentence itself belongs to the copy contract, which also declares it for every
+  // other surface that has to explain a failed save.
+  const failure = saveFailureState(null);
+  return `${failure.heading}. ${failure.explanation}`;
 }
 
 // The server's own error text is internal diagnostic wording and is never rendered. Each

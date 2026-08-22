@@ -17,6 +17,10 @@ import {
   agreementStatusLabel,
   agreementTypeLabel
 } from "@/lib/partners/onboarding/partner-labels";
+import {
+  commercialState,
+  setupActionLabel
+} from "@/lib/partners/onboarding/partner-copy";
 import { getPartnerLaunchReadiness } from "@/lib/partners/onboarding/launch-readiness-service";
 import { buildPartnerImplementationPresentation } from "@/lib/partners/onboarding/implementation-presentation";
 import {
@@ -203,14 +207,12 @@ async function Phase1PartnerOnboardingPage() {
       ? guidedSections.get(nextSection)?.href ??
         `/partner/onboarding/${nextSection}`
       : "/partner/onboarding/review";
-  const dominantLabel =
-    portal.role === "partner_staff"
-      ? "View setup"
-      : portal.canEdit
-        ? reviewReady
-          ? "Review and submit"
-          : "Continue setup"
-        : "View setup";
+  const dominantLabel = setupActionLabel({
+    role: portal.role,
+    canEdit: portal.canEdit,
+    workspaceStatus: portal.workspace.status,
+    reviewReady
+  });
   const coBrandedPageArtifact = readinessView?.board.entries.find(
     (entry) => entry.artifactType === "co_branded_page_configuration"
   );
@@ -352,19 +354,25 @@ function sectionSummary(
   return `${missing.length} decisions remaining`;
 }
 
+/**
+ * The commercial gate stores one value for two different situations, and only one of them
+ * is the partner's work. This reads the ownership the derivation already resolved from the
+ * agreement record and hands it to the canonical copy contract, so the Implementation
+ * Center cannot describe program terms differently from every other surface.
+ */
 function commercialSummary(portal: PartnerOnboardingPortal) {
-  if (portal.workspace.commercialGateStatus === "blocked") {
-    return {
-      label: "Program terms in progress",
-      blocked: true,
-      detail:
-        "Setup editing opens once your program terms are confirmed. Contact LegalEase if you have a question about this step."
-    };
-  }
+  const blocked = portal.workspace.commercialGateStatus === "blocked";
+  const state = commercialState({
+    outcome: !blocked
+      ? "cleared"
+      : portal.workspace.blockerCode === "commercial_gate_partner_step"
+        ? "partner_owned"
+        : "legalease_owned",
+    partnerActionHref: "#commercial-support"
+  });
   return {
-    label: "Program terms confirmed",
-    blocked: false,
-    detail:
-      "LegalEase recorded the applicable paid invoice, approved purchase order, or authorized internal clearance."
+    label: state.heading,
+    blocked,
+    detail: state.explanation
   };
 }

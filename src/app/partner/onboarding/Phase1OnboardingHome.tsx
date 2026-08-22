@@ -54,10 +54,14 @@ export function Phase1OnboardingHome({
   supportHref
 }: Phase1OnboardingHomeProps) {
   const recentActivity = activity.slice(0, 5);
-  // The prepared banner already carries this screen's primary action, so the current
-  // next action only competes with it when the partner is the one who owes something.
-  const legalEaseOwnsNextAction =
-    presentation.currentAction.owner === "LegalEase" && hasPendingPrefill;
+  // While a prepared setup is waiting to be reviewed, the banner above owns the single
+  // call to action. The standing implementation story still names the next step, but it
+  // renders as a quiet link: two orange buttons on one screen leave a program director
+  // guessing which one is theirs, whichever of them owns the work.
+  const preparedReviewOffered = hasPendingPrefill && PREPARED_BANNER.primaryAction !== null;
+  const nextActionIsQuiet =
+    (presentation.currentAction.owner === "LegalEase" && hasPendingPrefill) ||
+    preparedReviewOffered;
 
   return (
     <div className="min-w-0 text-[#071B33]">
@@ -200,13 +204,13 @@ export function Phase1OnboardingHome({
                 guessing which one is theirs. */}
             <Link
               className={
-                legalEaseOwnsNextAction
+                nextActionIsQuiet
                   ? "inline-flex min-h-11 items-center justify-center border border-[#475A6E] px-5 py-2.5 text-center text-sm font-bold text-[#071B33] hover:bg-[#EDF1F3] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
                   : "inline-flex min-h-12 w-full items-center justify-center bg-[#FF3B00] px-5 py-3 text-center text-sm font-extrabold text-white hover:bg-[#D93400] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
               }
               href={presentation.currentAction.href}
-              data-primary-next-action={legalEaseOwnsNextAction ? undefined : true}
-              data-secondary-next-action={legalEaseOwnsNextAction ? true : undefined}
+              data-primary-next-action={nextActionIsQuiet ? undefined : true}
+              data-secondary-next-action={nextActionIsQuiet ? true : undefined}
             >
               {presentation.currentAction.label}
             </Link>

@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { LaunchKitView } from "@/components/partners/onboarding/LaunchKitView";
 import { LaunchReadinessView } from "@/components/partners/onboarding/LaunchReadinessView";
 import type { ArtifactBoardEntry } from "@/lib/partners/onboarding/artifact-service";
+import { ACTION_FAILURE_COPY } from "@/lib/partners/onboarding/partner-copy";
 import type {
   LaunchCheckEvaluation,
   LaunchReadiness
@@ -67,12 +68,12 @@ export function PartnerResourcesClient({
         readiness?: LaunchReadiness;
       };
       if (!response.ok || !body.success) {
-        setMessage(body.error ?? "That action could not be completed.");
+        setMessage(ACTION_FAILURE_COPY);
         return;
       }
       if (body.readiness) setCurrent(body.readiness);
     } catch {
-      setMessage("That action could not be completed.");
+      setMessage(ACTION_FAILURE_COPY);
     } finally {
       setPending(false);
     }

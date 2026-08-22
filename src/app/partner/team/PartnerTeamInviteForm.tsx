@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useRef, useState } from "react";
+import { INVITATION_DELIVERY_COPY } from "@/lib/partners/onboarding/partner-copy";
 
 type PartnerTeamInviteFormProps = {
   partnerSlug: string;
@@ -65,7 +66,7 @@ export function PartnerTeamInviteForm({ partnerSlug, partnerName }: PartnerTeamI
 
       setState({ kind: "error", message: safeInviteErrorMessage(response.status, result) });
     } catch {
-      setState({ kind: "error", message: "Unable to invite partner staff right now." });
+      setState({ kind: "error", message: INVITATION_DELIVERY_COPY.unavailable });
     } finally {
       isSubmittingRef.current = false;
     }
@@ -169,30 +170,30 @@ function safeInviteErrorMessage(status: number, result: InviteResponse) {
   }
 
   if (status === 401) {
-    return "Sign in with a partner admin account and try again.";
+    return INVITATION_DELIVERY_COPY.signedOut;
   }
 
   if (status === 403) {
-    return "Partner admin access is required to invite staff.";
+    return INVITATION_DELIVERY_COPY.forbidden;
   }
 
   if (status === 429) {
-    return "Too many invite attempts. Please try again later.";
+    return INVITATION_DELIVERY_COPY.rateLimited;
   }
 
-  return "Unable to invite partner staff.";
+  return INVITATION_DELIVERY_COPY.failed;
 }
 
 function successMessage(outcome: string | undefined) {
   if (outcome === "already_mapped") {
-    return "That user already has partner staff access.";
+    return INVITATION_DELIVERY_COPY.alreadyMapped;
   }
 
   if (outcome === "existing_user_mapped" || outcome === "mapped_existing_user") {
-    return "Existing user was granted partner staff access.";
+    return INVITATION_DELIVERY_COPY.existingUserMapped;
   }
 
-  return "Partner staff invitation created.";
+  return INVITATION_DELIVERY_COPY.created;
 }
 
 function safelyResetForm(form: HTMLFormElement) {
