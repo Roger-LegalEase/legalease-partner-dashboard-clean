@@ -849,7 +849,7 @@ Defects:
 - **Family ids**: NC:aoc-cr-287-form-vi
 - **Source SHA**: 2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f (revision REV-2020-12)
 - **Binary present**: true
-- **Structural class**: flat_pdf; participant fillable: true
+- **Structural class**: flat_pdf; participant fillable: false
 - **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: overlay_no_participant_label_matched
 - **Legal disposition**: no_independent_approval
@@ -864,6 +864,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
@@ -936,7 +937,7 @@ Defects:
 - **Family ids**: NC:aoc-cr-287-form-es
 - **Source SHA**: 9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a (revision REV-2020-12)
 - **Binary present**: true
-- **Structural class**: flat_pdf; participant fillable: true
+- **Structural class**: flat_pdf; participant fillable: false
 - **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
@@ -951,6 +952,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
 - `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
@@ -1306,7 +1308,7 @@ Defects:
 - **Family ids**: NC:aoc-cr-288-form-vi
 - **Source SHA**: 37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027 (revision REV-2020-12)
 - **Binary present**: true
-- **Structural class**: flat_pdf; participant fillable: true
+- **Structural class**: flat_pdf; participant fillable: false
 - **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: overlay_no_participant_label_matched
 - **Legal disposition**: no_independent_approval
@@ -1321,6 +1323,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
@@ -1335,7 +1338,7 @@ Defects:
 - **Family ids**: NC:aoc-cr-288-form-es
 - **Source SHA**: 46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64 (revision REV-2020-12)
 - **Binary present**: true
-- **Structural class**: flat_pdf; participant fillable: true
+- **Structural class**: flat_pdf; participant fillable: false
 - **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
@@ -1350,6 +1353,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
 - `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
@@ -5876,7 +5880,7 @@ Defects:
 - **Family ids**: NC:aoc-cr-287-form-vi
 - **Source SHA**: 2294223f9157d78d3ad756e50befff6c2d6fa08dff96214d751e5229cfd2460f (revision REV-2020-12)
 - **Binary present**: true
-- **Structural class**: flat_pdf; participant fillable: true
+- **Structural class**: flat_pdf; participant fillable: false
 - **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: overlay_no_participant_label_matched
 - **Legal disposition**: no_independent_approval
@@ -5891,6 +5895,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
@@ -5963,7 +5968,7 @@ Defects:
 - **Family ids**: NC:aoc-cr-287-form-es
 - **Source SHA**: 9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a (revision REV-2020-12)
 - **Binary present**: true
-- **Structural class**: flat_pdf; participant fillable: true
+- **Structural class**: flat_pdf; participant fillable: false
 - **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
@@ -5978,6 +5983,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
 - `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
@@ -6333,7 +6339,7 @@ Defects:
 - **Family ids**: NC:aoc-cr-288-form-vi
 - **Source SHA**: 37f40f194b64bdc0e2a5189f1b4ee98e9a0722f0b91eac2184a5eee840dde027 (revision REV-2020-12)
 - **Binary present**: true
-- **Structural class**: flat_pdf; participant fillable: true
+- **Structural class**: flat_pdf; participant fillable: false
 - **Defect categories**: currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, multi_widget_ambiguity, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence
 - **Technical disposition**: overlay_no_participant_label_matched
 - **Legal disposition**: no_independent_approval
@@ -6348,6 +6354,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
 - `stale_contact_sheet_manifest_or_review_evidence` — No contact sheet was produced, so there is no visual evidence to review. _(implementation-index.json:contactSheet)_
 - `multi_widget_ambiguity` — No participant label could be matched on the overlay, so no field can be bound unambiguously. _(implementation-index.json:status)_
@@ -6362,7 +6369,7 @@ Defects:
 - **Family ids**: NC:aoc-cr-288-form-es
 - **Source SHA**: 46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64 (revision REV-2020-12)
 - **Binary present**: true
-- **Structural class**: flat_pdf; participant fillable: true
+- **Structural class**: flat_pdf; participant fillable: false
 - **Defect categories**: contact_sheet_shows_no_fill, currentness_unverified, flat_overlay_geometry_or_readback, held_on_source_or_design, never_independently_approved, stale_contact_sheet_manifest_or_review_evidence, unfinalized_rendered_artifact
 - **Technical disposition**: overlay_implemented_pending_independent_review
 - **Legal disposition**: no_independent_approval
@@ -6377,6 +6384,7 @@ Defects:
 - `held_on_source_or_design` — state_manifest_generation_allowed_no _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — edition_1_runtime_disabled _(source-record.json:productionHolds)_
 - `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — not_participant_fillable_no_fixture_fill _(source-record.json:productionHolds)_
 - `flat_overlay_geometry_or_readback` — The asset is a flat PDF, so every value is placed by measured geometry rather than into a widget. _(verified-binary-index.json:structuralClass)_
 - `unfinalized_rendered_artifact` — fixtures/canonical-filled.pdf is not a finalized participant artifact: participant values absent from the artifact entirely. _(finalized-artifact-audit.json:families[].artifacts[].failures)_
 - `stale_contact_sheet_manifest_or_review_evidence` — The committed contact sheet was built from a fixture that is not a finalized artifact, so the values it was meant to show live in widget appearances its page-copy does not carry. _(finalized-artifact-audit.json:families[].artifacts[].finalized)_
