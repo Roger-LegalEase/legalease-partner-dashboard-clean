@@ -110,7 +110,28 @@ type ValueRow = {
   reviewed_at: string | null;
   applied_at: string | null;
   superseded_at: string | null;
+  supersedes_value_id: string | null;
 };
+
+/**
+ * Which suggestion states are still someone's to act on, and which are history.
+ *
+ * An applied suggestion is history: it records what LegalEase put in front of the partner
+ * and when. Treating it as the field's active suggestion is what made a later proposal
+ * impossible once a value had been applied, so it no longer participates in the
+ * one-active-suggestion rule — in this module or in the partial unique index behind it.
+ */
+const ACTIONABLE_REVIEW_STATUSES = ["proposed", "approved", "conflict"] as const;
+const HISTORY_REVIEW_STATUSES = ["applied", "rejected", "superseded"] as const;
+
+/** Everything the internal review surface shows: what is actionable, and what came before. */
+export function isActionablePrefillStatus(status: string): boolean {
+  return (ACTIONABLE_REVIEW_STATUSES as readonly string[]).includes(status);
+}
+
+export function isHistoricalPrefillStatus(status: string): boolean {
+  return (HISTORY_REVIEW_STATUSES as readonly string[]).includes(status);
+}
 
 type PartnerRecordSourceRow = {
   id: string;
@@ -183,6 +204,10 @@ export type InternalPrefillSuggestionView = {
   createdBy: string;
   createdAt: string;
   appliedAt: string | null;
+  /** The applied preparation this suggestion follows, when it is a reproposal. */
+  supersedesValueId: string | null;
+  /** What the partner did with the preparation this one follows. */
+  priorPartnerReviewStatus: PartnerPrefillReviewStatus | null;
 };
 
 export type InternalPrefillSnapshot = {
@@ -258,7 +283,7 @@ export async function getInternalPrefillSnapshot(
     admin
       .from("partner_onboarding_prefill_values")
       .select(
-        "id, batch_id, workspace_id, section_key, field_key, proposed_value, source_type, source_reference_id, source_label, confidence, review_status, base_value_hash, proposed_value_hash, base_section_revision, applied_value_hash, applied_section_revision, applied_workspace_version, partner_review_status, partner_reviewed_at, partner_modified, created_by, created_at, reviewed_by, reviewed_at, applied_at, superseded_at"
+        "id, batch_id, workspace_id, section_key, field_key, proposed_value, source_type, source_reference_id, source_label, confidence, review_status, base_value_hash, proposed_value_hash, base_section_revision, applied_value_hash, applied_section_revision, applied_workspace_version, partner_review_status, partner_reviewed_at, partner_modified, created_by, created_at, reviewed_by, reviewed_at, applied_at, superseded_at, supersedes_value_id"
       )
       .eq("workspace_id", loaded.workspace.id)
       .order("created_at", { ascending: false })
@@ -269,8 +294,10 @@ export async function getInternalPrefillSnapshot(
 
   const batches = (batchesResult.data ?? []) as BatchRow[];
   const batchById = new Map(batches.map((batch) => [batch.id, batch]));
-  const suggestions = ((valuesResult.data ?? []) as ValueRow[]).map((row) =>
-    mapInternalSuggestion(row, batchById, loaded)
+  const valueRows = (valuesResult.data ?? []) as ValueRow[];
+  const rowsById = new Map(valueRows.map((row) => [row.id, row]));
+  const suggestions = valueRows.map((row) =>
+    mapInternalSuggestion(row, batchById, loaded, rowsById)
   );
 
   return {
@@ -312,7 +339,7 @@ export async function importKnownPartnerData(
       .from("partner_onboarding_prefill_values")
       .select("section_key, field_key")
       .eq("workspace_id", loaded.workspace.id)
-      .in("review_status", ["proposed", "approved", "applied", "conflict"])
+      .in("review_status", [...ACTIONABLE_REVIEW_STATUSES])
       .is("superseded_at", null)
   ]);
   if (partnerResult.error || usersResult.error || activeValuesResult.error) {
@@ -386,16 +413,30 @@ export async function addStructuredPrefillSuggestion(
     .eq("workspace_id", loaded.workspace.id)
     .eq("section_key", input.sectionKey)
     .eq("field_key", input.fieldKey)
-    .in("review_status", ["proposed", "approved", "applied", "conflict"])
+    .in("review_status", [...ACTIONABLE_REVIEW_STATUSES])
     .is("superseded_at", null)
     .maybeSingle();
   if (error) throw persistenceError("The prefill suggestion could not be checked.");
   if (existing) {
     throw new Phase1OnboardingError(
       "invalid_input",
-      "Supersede the active suggestion for this field before creating another."
+      "Supersede the suggestion already awaiting review for this field before creating another."
     );
   }
+
+  // A field whose earlier preparation was applied may be prepared again. The applied row
+  // stays exactly as it is and becomes the lineage the new suggestion is raised against,
+  // which is what lets the review surface say what the partner did with it.
+  const { data: priorApplied, error: priorError } = await admin
+    .from("partner_onboarding_prefill_values")
+    .select("id")
+    .eq("workspace_id", loaded.workspace.id)
+    .eq("section_key", input.sectionKey)
+    .eq("field_key", input.fieldKey)
+    .eq("review_status", "applied")
+    .is("superseded_at", null)
+    .maybeSingle();
+  if (priorError) throw persistenceError("The prefill suggestion could not be checked.");
 
   const prepared = prepareSuggestions(loaded, [
     {
@@ -416,13 +457,29 @@ export async function addStructuredPrefillSuggestion(
       "The proposed value already matches the current onboarding value."
     );
   }
-  return prepareBatch(admin, context, loaded, {
+  const batch = await prepareBatch(admin, context, loaded, {
     requestId: input.requestId,
     sourceSummary: `Structured ${input.sourceType.replaceAll("_", " ")} suggestion.`,
     batchStatus: "ready_for_review",
     origin: "manual",
     suggestions: prepared
   });
+
+  if (priorApplied?.id && !batch.duplicate) {
+    // The id was minted before the row was written, so this names one exact row. A repeat
+    // of the same request is a no-op: prepare is idempotent on the request id, and the
+    // lineage is only written where it is still absent.
+    const { error: lineageError } = await admin
+      .from("partner_onboarding_prefill_values")
+      .update({ supersedes_value_id: priorApplied.id })
+      .eq("id", prepared[0].id)
+      .is("supersedes_value_id", null);
+    if (lineageError) {
+      throw persistenceError("The prefill suggestion could not be linked to the applied preparation.");
+    }
+  }
+
+  return batch;
 }
 
 export async function reviewPrefillSuggestion(
@@ -464,6 +521,139 @@ export async function reviewPrefillSuggestion(
   };
 }
 
+/**
+ * Replacing a partner's own answer with a LegalEase value.
+ *
+ * The ordinary apply cannot do this and must not: it compares the partner's current answer
+ * against the value each suggestion was raised against and refuses on any difference. This
+ * is the deliberate path, and everything it requires is what makes it accountable — the
+ * operator names the exact suggestion, states a reason, confirms the partner's answer is
+ * being replaced, and passes the section revision they were looking at.
+ *
+ * It writes no partner data itself. It records the decision and re-bases the suggestion
+ * onto the answer being replaced, after which the ordinary guarded apply is what performs
+ * the write, with its own version checks intact.
+ */
+export async function overridePrefillConflict(
+  context: InternalOnboardingContext,
+  input: {
+    requestId: string;
+    valueId: string;
+    expectedBatchVersion: number;
+    expectedSectionRevision: number;
+    reason: string;
+    acknowledgePartnerValueReplaced: boolean;
+  }
+) {
+  assertPrefillEnabled();
+  const reason = String(input.reason ?? "").trim();
+  if (reason.length < 10 || reason.length > 500 || /[\u0000-\u001f\u007f]/.test(reason)) {
+    throw new Phase1OnboardingError(
+      "invalid_input",
+      "Record why the partner's answer is being replaced, in a sentence of at least ten characters."
+    );
+  }
+  if (input.acknowledgePartnerValueReplaced !== true) {
+    throw new Phase1OnboardingError(
+      "invalid_input",
+      "Confirm that the partner's current answer will be replaced."
+    );
+  }
+
+  const admin = requireAdmin();
+  const loaded = await requireCanonicalWorkspace(admin, context.partnerSlug);
+  const { data: row, error } = await admin
+    .from("partner_onboarding_prefill_values")
+    .select(
+      "id, workspace_id, batch_id, section_key, field_key, review_status, superseded_at, override_at"
+    )
+    .eq("id", input.valueId)
+    .eq("workspace_id", loaded.workspace.id)
+    .maybeSingle();
+  if (error) throw persistenceError("The suggestion could not be read.");
+  if (!row || row.superseded_at !== null || !isActionablePrefillStatus(row.review_status)) {
+    throw new Phase1OnboardingError(
+      "invalid_transition",
+      "This suggestion is no longer open for a decision."
+    );
+  }
+  if (row.override_at !== null) {
+    throw new Phase1OnboardingError(
+      "invalid_transition",
+      "This suggestion already carries a recorded override."
+    );
+  }
+
+  const section = loaded.sections.find(
+    (candidate) => candidate.section_key === row.section_key
+  );
+  if (!section || Number(section.revision) !== Number(input.expectedSectionRevision)) {
+    throw new Phase1OnboardingError(
+      "revision_conflict",
+      "This section changed while the override was being prepared. Review it again."
+    );
+  }
+
+  const { data: batch } = await admin
+    .from("partner_onboarding_prefill_batches")
+    .select("aggregate_version")
+    .eq("id", row.batch_id)
+    .maybeSingle();
+  if (Number(batch?.aggregate_version ?? -1) !== Number(input.expectedBatchVersion)) {
+    throw new Phase1OnboardingError(
+      "revision_conflict",
+      "This suggestion changed while the override was being prepared. Review it again."
+    );
+  }
+
+  // The partner answer being replaced is recorded before anything moves.
+  const partnerValue = canonicalPrefillFieldValue(
+    loaded.data,
+    asSectionKey(row.section_key),
+    row.field_key
+  );
+  const partnerValueHash = hashPrefill(partnerValue);
+
+  const { data: updated, error: updateError } = await admin
+    .from("partner_onboarding_prefill_values")
+    .update({
+      review_status: "approved",
+      reviewed_by: context.authUserId,
+      reviewed_at: new Date().toISOString(),
+      base_value_hash: partnerValueHash,
+      base_section_revision: Number(section.revision),
+      override_reason: reason,
+      override_by: context.authUserId,
+      override_at: new Date().toISOString(),
+      override_partner_value_hash: partnerValueHash
+    })
+    .eq("id", row.id)
+    .eq("review_status", row.review_status)
+    .is("override_at", null)
+    .select("id");
+  if (updateError) throw persistenceError("The override could not be recorded.");
+  if ((updated ?? []).length !== 1) {
+    throw new Phase1OnboardingError(
+      "revision_conflict",
+      "This suggestion changed while the override was being recorded. Review it again."
+    );
+  }
+
+  await admin.from("partner_onboarding_activity").insert({
+    workspace_id: loaded.workspace.id,
+    event_type: "prefill_conflict_override_recorded",
+    section_key: row.section_key,
+    status_code: "prefill_conflict_override_recorded",
+    summary_code: "prefill_conflict_override_recorded",
+    owner_type: "legalease",
+    actor_user_id: context.authUserId,
+    request_id: input.requestId,
+    dedupe_key: `${input.requestId}:prefill_conflict_override`
+  });
+
+  return { overridden: true as const, valueId: row.id };
+}
+
 export async function applyOnboardingPrefill(
   context: InternalOnboardingContext,
   input: {
@@ -495,7 +685,7 @@ export async function applyOnboardingPrefill(
   const { data: valuesData, error: valuesError } = await admin
     .from("partner_onboarding_prefill_values")
     .select(
-      "id, batch_id, workspace_id, section_key, field_key, proposed_value, source_type, source_reference_id, source_label, confidence, review_status, base_value_hash, proposed_value_hash, base_section_revision, applied_value_hash, applied_section_revision, applied_workspace_version, partner_review_status, partner_reviewed_at, partner_modified, created_by, created_at, reviewed_by, reviewed_at, applied_at, superseded_at"
+      "id, batch_id, workspace_id, section_key, field_key, proposed_value, source_type, source_reference_id, source_label, confidence, review_status, base_value_hash, proposed_value_hash, base_section_revision, applied_value_hash, applied_section_revision, applied_workspace_version, partner_review_status, partner_reviewed_at, partner_modified, created_by, created_at, reviewed_by, reviewed_at, applied_at, superseded_at, supersedes_value_id"
     )
     .eq("workspace_id", input.workspaceId)
     .in("id", selectedIds);
@@ -1291,7 +1481,8 @@ function buildPartnerData(
 function mapInternalSuggestion(
   row: ValueRow,
   batches: ReadonlyMap<string, BatchRow>,
-  loaded: LoadedWorkspace
+  loaded: LoadedWorkspace,
+  rowsById: ReadonlyMap<string, ValueRow>
 ): InternalPrefillSuggestionView {
   const sectionKey = asSectionKey(row.section_key);
   const section = loaded.sections.find(
@@ -1302,8 +1493,26 @@ function mapInternalSuggestion(
     sectionKey,
     row.field_key
   );
+  const actionable = (ACTIONABLE_REVIEW_STATUSES as readonly string[]).includes(
+    row.review_status
+  );
+  const priorApplied = row.supersedes_value_id
+    ? rowsById.get(row.supersedes_value_id) ?? null
+    : null;
+  // The partner changed a value LegalEase had already applied. This is the reason an
+  // operator most needs to see, and it outranks the others: it says whose answer is
+  // currently in place and why this proposal cannot simply be applied over it.
+  const partnerChangedSinceApplied =
+    priorApplied !== null &&
+    (priorApplied.partner_review_status === "modified" ||
+      (priorApplied.applied_value_hash !== null &&
+        priorApplied.applied_value_hash !== hashPrefill(currentValue)));
+
   let conflictReason: string | null = null;
-  if (
+  if (actionable && partnerChangedSinceApplied) {
+    conflictReason =
+      "The partner changed this answer after LegalEase applied the earlier preparation.";
+  } else if (
     ["proposed", "approved", "conflict"].includes(row.review_status) &&
     !["not_started", "in_progress"].includes(section?.status ?? "")
   ) {
@@ -1360,7 +1569,9 @@ function mapInternalSuggestion(
     conflictReason,
     createdBy: row.created_by,
     createdAt: row.created_at,
-    appliedAt: row.applied_at
+    appliedAt: row.applied_at,
+    supersedesValueId: row.supersedes_value_id,
+    priorPartnerReviewStatus: priorApplied?.partner_review_status ?? null
   };
 }
 
