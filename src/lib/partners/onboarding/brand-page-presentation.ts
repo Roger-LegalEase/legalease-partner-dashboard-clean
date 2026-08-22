@@ -1,5 +1,16 @@
 import type { CoBrandedPagePreview } from "./artifact-generator";
+import {
+  expiredSessionState,
+  wrongAccountInvitationState
+} from "./partner-copy";
 import type { OrganizationalAssetCategory } from "./types";
+
+// Two recovery states the copy contract also declares. Reading them from there keeps one
+// authored wording per state instead of two that can drift apart.
+const WRONG_ACCOUNT = wrongAccountInvitationState("/sign-in?next=/partner/dashboard");
+const EXPIRED_SESSION = expiredSessionState(
+  "/sign-in?next=/partner/onboarding/brand_public_page"
+);
 
 export type BrandPreviewAsset = {
   id: string;
@@ -252,27 +263,30 @@ const RECOVERY_PRESENTATIONS: Readonly<
     returnHref: "/sign-in?next=/partner/dashboard"
   },
   wrong_signed_in_email: {
-    heading: "Use the email address that received the invitation",
+    // Heading, next step and action label come from the copy contract, which declares this
+    // state for every surface that has to explain it. What stays here is what only the
+    // recovery panel says: what happened, and what is safe.
+    heading: WRONG_ACCOUNT.heading,
     happened: "The signed-in account does not match the administrator email on the setup invitation.",
     safe: "No membership was created and no existing access was changed.",
-    next: "Sign out, then sign in with the invited work email.",
-    returnLabel: "Sign in with another account",
+    next: WRONG_ACCOUNT.explanation,
+    returnLabel: WRONG_ACCOUNT.primaryAction?.label ?? "Sign in with another account",
     returnHref: "/sign-in?next=/partner/dashboard"
   },
   account_already_connected: {
     heading: "This account is already connected",
     happened: "The signed-in account already belongs to a partner workspace.",
-    safe: "The existing membership was preserved and no second tenant connection was created.",
+    safe: "Your existing access is unchanged, and no second connection was created.",
     next: "Return to the dashboard for the connected workspace or contact LegalEase if that access is incorrect.",
     returnLabel: "Return to your dashboard",
     returnHref: "/partner/dashboard"
   },
   session_expired: {
-    heading: "Your session expired",
+    heading: EXPIRED_SESSION.heading,
     happened: "The sign-in session ended before this action could be confirmed.",
     safe: "Your last confirmed save remains available and the unfinished action was not applied.",
     next: "Sign in again, then return to the current brand task.",
-    returnLabel: "Sign in again",
+    returnLabel: EXPIRED_SESSION.primaryAction?.label ?? "Sign in again",
     returnHref: "/sign-in?next=/partner/onboarding/brand_public_page"
   },
   private_preview_unavailable: {

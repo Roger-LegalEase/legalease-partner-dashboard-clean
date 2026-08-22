@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import {
+  isActionablePrefillStatus,
   PREFILL_SOURCE_TYPES,
   type PrefillSourceType
 } from "@/lib/partners/onboarding/prefill-domain";
@@ -17,6 +18,57 @@ const buttonClass =
   "inline-flex min-h-11 items-center justify-center rounded-md bg-navy px-4 py-2 text-sm font-bold text-white hover:bg-teal disabled:cursor-not-allowed disabled:opacity-50";
 const quietButtonClass =
   "inline-flex min-h-10 items-center justify-center rounded-md border border-grayWilma-200 bg-white px-3 py-2 text-xs font-bold text-navy hover:border-teal hover:text-teal disabled:cursor-not-allowed disabled:opacity-50";
+
+/**
+ * Operator-facing wording for the two states this panel exists to make legible. Stored
+ * status values, row ids and revisions are not operator language and are never rendered.
+ */
+const PARTNER_UPDATED = {
+  heading: "Partner updated this information",
+  explanation:
+    "The partner changed the value after LegalEase prepared the original draft. Their current answer remains in place.",
+  action: "Propose an updated value"
+} as const;
+
+const REVIEW_DIFFERENCE = {
+  heading: "Review this difference",
+  explanation:
+    "The partner's current answer and the proposed LegalEase value do not match. This change will not be included when you apply the prepared setup.",
+  override:
+    "Replacing the partner's answer takes a deliberate override with a recorded reason, not this apply."
+} as const;
+
+const SUGGESTION_STATUS_LABELS: Record<string, string> = {
+  proposed: "Awaiting review",
+  approved: "Ready to apply",
+  rejected: "Not proceeding",
+  applied: "Applied to the workspace",
+  conflict: "Needs a decision",
+  superseded: "Replaced by a later preparation"
+};
+
+const PARTNER_REVIEW_LABELS: Record<string, string> = {
+  not_applied: "Not yet with the partner",
+  pending: "Waiting on the partner",
+  confirmed: "Partner kept this value",
+  modified: "Partner changed this value",
+  rejected: "Partner cleared this value"
+};
+
+function suggestionStatusLabel(status: string) {
+  return SUGGESTION_STATUS_LABELS[status] ?? "In review";
+}
+
+function partnerReviewLabel(status: string) {
+  return PARTNER_REVIEW_LABELS[status] ?? "No partner decision recorded";
+}
+
+function preparedOn(value: string) {
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime())
+    ? "Date not recorded"
+    : parsed.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+}
 
 export function Phase1PrefillPanel({
   partnerSlug,
@@ -52,6 +104,33 @@ export function Phase1PrefillPanel({
     (suggestion) =>
       suggestion.reviewStatus === "approved" && !suggestion.conflict
   );
+  // Applied preparations the partner has since changed, and which no one has proposed a
+  // replacement for yet. Until this branch, the panel could not offer anything here at all.
+  const awaitingReproposal = current.suggestions.filter(
+    (suggestion) =>
+      suggestion.reviewStatus === "applied" &&
+      suggestion.partnerReviewStatus === "modified" &&
+      !current.suggestions.some(
+        (candidate) =>
+          candidate.sectionKey === suggestion.sectionKey &&
+          candidate.fieldKey === suggestion.fieldKey &&
+          isActionablePrefillStatus(candidate.reviewStatus)
+      )
+  );
+
+  function proposeUpdatedValue(suggestion: (typeof current.suggestions)[number]) {
+    setSectionKey(suggestion.sectionKey);
+    setFieldKey(suggestion.fieldKey);
+    setProposedValue("");
+    setSourceType("partner_record");
+    setSourceLabel("");
+    setMessage(null);
+    if (typeof document !== "undefined") {
+      document
+        .querySelector("[data-prefill-add-form]")
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }
   const chosen = approved.filter((suggestion) =>
     selected.includes(suggestion.id)
   );
@@ -198,7 +277,7 @@ export function Phase1PrefillPanel({
               </button>
             </Card>
 
-            <Card className="border-grayWilma-200 p-5">
+            <Card className="border-grayWilma-200 p-5" data-prefill-add-form>
               <h3 className="text-lg font-black">Add structured suggestion</h3>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <label className="text-sm font-bold">
@@ -265,6 +344,7 @@ export function Phase1PrefillPanel({
                   ) : (
                     <textarea
                       className={`${inputClass} mt-1 min-h-24`}
+                      data-proposed-value
                       maxLength={selectedField?.maxLength ?? 5000}
                       value={proposedValue}
                       onChange={(event) => setProposedValue(event.target.value)}
@@ -291,6 +371,7 @@ export function Phase1PrefillPanel({
                   Short source label
                   <input
                     className={`${inputClass} mt-1`}
+                    data-source-label
                     maxLength={200}
                     value={sourceLabel}
                     onChange={(event) => setSourceLabel(event.target.value)}
@@ -339,12 +420,56 @@ export function Phase1PrefillPanel({
                     confidence
                   })
                 }
+                data-add-suggestion
                 type="button"
               >
                 Add suggestion
               </button>
             </Card>
           </div>
+
+          {awaitingReproposal.length ? (
+            <Card
+              className="mt-5 border-orange/40 bg-orange/5 p-5"
+              data-partner-updated-band
+            >
+              <h3 className="text-lg font-black">{PARTNER_UPDATED.heading}</h3>
+              <p className="mt-2 max-w-3xl text-sm text-grayWilma-700">
+                {PARTNER_UPDATED.explanation}
+              </p>
+              <ul className="mt-4 grid gap-3">
+                {awaitingReproposal.map((suggestion) => (
+                  <li
+                    className="flex flex-wrap items-end justify-between gap-3 border-b border-grayWilma-200 pb-3 last:border-b-0 last:pb-0"
+                    key={suggestion.id}
+                  >
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold">
+                        {suggestion.sectionLabel}: {suggestion.fieldLabel}
+                      </p>
+                      <p className="mt-1 break-words text-sm text-grayWilma-700">
+                        Partner&apos;s answer: {formatValue(suggestion.currentValue)}
+                      </p>
+                      <p className="mt-1 break-words text-xs text-grayWilma-700">
+                        LegalEase prepared {formatValue(suggestion.proposedValue)} from{" "}
+                        {suggestion.sourceLabel}, applied{" "}
+                        {suggestion.appliedAt ? preparedOn(suggestion.appliedAt) : "date not recorded"}.
+                      </p>
+                    </div>
+                    <button
+                      className={quietButtonClass}
+                      data-propose-updated-value={suggestion.fieldKey}
+                      disabled={pending}
+                      onClick={() => proposeUpdatedValue(suggestion)}
+                      type="button"
+                    >
+                      {PARTNER_UPDATED.action}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          ) : null}
 
           <Card className="mt-5 overflow-hidden border-grayWilma-200">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-grayWilma-200 p-5">
@@ -426,16 +551,39 @@ export function Phase1PrefillPanel({
                         <Badge tone={suggestion.conflict ? "orange" : "neutral"}>
                           {suggestion.conflict
                             ? "Conflict"
-                            : humanize(suggestion.reviewStatus)}
+                            : suggestionStatusLabel(suggestion.reviewStatus)}
                         </Badge>
-                        {suggestion.conflictReason ? (
-                          <p className="mt-2 max-w-48 text-xs text-orange">
-                            {suggestion.conflictReason}
-                          </p>
+                        {suggestion.conflict ? (
+                          <div className="mt-2 max-w-56" data-conflict-detail>
+                            <p className="text-xs font-bold text-orange">
+                              {REVIEW_DIFFERENCE.heading}
+                            </p>
+                            <p className="mt-1 text-xs text-grayWilma-700">
+                              {suggestion.conflictReason ?? REVIEW_DIFFERENCE.explanation}
+                            </p>
+                            <p className="mt-1 text-xs text-grayWilma-700">
+                              {REVIEW_DIFFERENCE.explanation}
+                            </p>
+                            <p className="mt-1 text-xs text-grayWilma-700">
+                              {REVIEW_DIFFERENCE.override}
+                            </p>
+                          </div>
                         ) : null}
                       </td>
                       <td className="p-3">
-                        {humanize(suggestion.partnerReviewStatus)}
+                        <p>{partnerReviewLabel(suggestion.partnerReviewStatus)}</p>
+                        {suggestion.supersedesValueId ? (
+                          <p className="mt-1 text-xs text-grayWilma-700">
+                            Follows an earlier LegalEase preparation
+                            {suggestion.priorPartnerReviewStatus
+                              ? `: ${partnerReviewLabel(suggestion.priorPartnerReviewStatus).toLowerCase()}`
+                              : ""}
+                            .
+                          </p>
+                        ) : null}
+                        <p className="mt-1 text-xs text-grayWilma-700">
+                          Prepared by LegalEase on {preparedOn(suggestion.createdAt)}
+                        </p>
                       </td>
                       <td className="p-3">
                         <div className="flex flex-wrap gap-2">

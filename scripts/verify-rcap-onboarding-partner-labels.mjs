@@ -103,7 +103,9 @@ check("an unknown status degrades to a partner-safe phrase, never a prettified e
 
 check("agreement wording names who owes the next step", () => {
   // "Requested" and "Under review" on their own do not answer "who owns the next action".
-  assert.match(labels.agreementStatusLabel("requested"), /your organization/i);
+  // The partner side reads "your team": "your organization" was the previous wording and
+  // it made LegalEase-owned commercial work look like partner work.
+  assert.match(labels.agreementStatusLabel("requested"), /your team/i);
   assert.match(labels.agreementStatusLabel("under_review"), /LegalEase/i);
 });
 
@@ -112,7 +114,7 @@ check("a change request is described as LegalEase's, not as a bare defect", () =
 });
 
 check("next-action owner reads as a party, not a code", () => {
-  assert.equal(labels.nextActionOwnerLabel("partner"), "Your organization");
+  assert.equal(labels.nextActionOwnerLabel("partner"), "Your team");
   assert.equal(labels.nextActionOwnerLabel("legalease"), "LegalEase");
   assert.equal(labels.nextActionOwnerLabel("none"), "No action needed");
 });

@@ -206,7 +206,7 @@ const html = renderToStaticMarkup(
 );
 
 for (const milestone of [
-  "Commercial clearance",
+  "Program terms",
   "Administrator access",
   "Program configuration",
   "Brand and participant page",

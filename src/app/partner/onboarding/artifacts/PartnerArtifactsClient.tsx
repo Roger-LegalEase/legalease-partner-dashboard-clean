@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
 import { ArtifactDocumentView } from "@/components/partners/onboarding/ArtifactDocumentView";
 import { CoBrandedPageView } from "@/components/partners/onboarding/CoBrandedPageView";
+import { ACTION_FAILURE_COPY } from "@/lib/partners/onboarding/partner-copy";
 import type {
   ArtifactBoard,
   ArtifactBoardEntry
@@ -74,14 +75,14 @@ export function PartnerArtifactsClient({
         board?: ArtifactBoard;
       };
       if (!response.ok || !body.success) {
-        setMessage(body.error ?? "That action could not be completed.");
+        setMessage(ACTION_FAILURE_COPY);
         return;
       }
       if (body.board) setCurrent(body.board);
       setCorrectionFor(null);
       setComment("");
     } catch {
-      setMessage("That action could not be completed.");
+      setMessage(ACTION_FAILURE_COPY);
     } finally {
       setPending(false);
     }

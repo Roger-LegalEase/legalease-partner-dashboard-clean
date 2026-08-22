@@ -320,7 +320,7 @@ const commerciallyBlockedEditorHtml = render(OnboardingSectionEditor, {
 });
 assert.match(
   commerciallyBlockedEditorHtml,
-  /Editing opens after commercial clearance/
+  /Editing opens once your program terms are confirmed/
 );
 assert.doesNotMatch(commerciallyBlockedEditorHtml, /View-only section/);
 

@@ -186,6 +186,7 @@ export type OnboardingNextActionOwner = "partner" | "legalease" | "none";
 
 export type OnboardingBlockerCode =
   | "commercial_gate_blocked"
+  | "commercial_gate_partner_step"
   | "partner_changes_requested"
   | "pending_prefill_review"
   | "required_asset_missing"
@@ -194,6 +195,7 @@ export type OnboardingBlockerCode =
 
 export type OnboardingNextActionCode =
   | "complete_commercial_requirements"
+  | "complete_partner_commercial_step"
   | "address_change_request"
   | "review_prefilled_information"
   | "upload_required_asset"
@@ -501,6 +503,12 @@ export type OnboardingDerivationContext = {
   pendingPrefillSections?: readonly OnboardingSectionKey[];
   procurementRequired?: boolean;
   procurementItemsMissing?: boolean;
+  /**
+   * True only when the canonical commercial record shows a step the partner owes, such as
+   * an agreement in `requested`. A commercial gate with nothing outstanding on the partner
+   * side belongs to LegalEase, and must not be presented to a partner as their work.
+   */
+  partnerOwedCommercialStep?: boolean;
   recordShieldInScope?: boolean;
   overageApprovalRequired?: boolean;
 };

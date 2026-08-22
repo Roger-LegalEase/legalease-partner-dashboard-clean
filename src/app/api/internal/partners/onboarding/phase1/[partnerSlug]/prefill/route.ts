@@ -7,6 +7,7 @@ import {
   applyOnboardingPrefill,
   getInternalPrefillSnapshot,
   importKnownPartnerData,
+  overridePrefillConflict,
   reviewPrefillSuggestion
 } from "@/lib/partners/onboarding/prefill-service";
 import {
@@ -79,6 +80,17 @@ export async function POST(
         valueId: requiredUuid(payload.valueId),
         expectedBatchVersion: requiredVersion(payload.expectedBatchVersion),
         action
+      });
+    } else if (action === "override_conflict") {
+      // Replacing a partner's own answer is its own action, never a variant of apply.
+      result = await overridePrefillConflict(context, {
+        requestId,
+        valueId: requiredUuid(payload.valueId),
+        expectedBatchVersion: requiredVersion(payload.expectedBatchVersion),
+        expectedSectionRevision: requiredVersion(payload.expectedSectionRevision),
+        reason: requiredString(payload.reason, 500),
+        acknowledgePartnerValueReplaced:
+          payload.acknowledgePartnerValueReplaced === true
       });
     } else if (action === "apply") {
       result = await applyOnboardingPrefill(context, {

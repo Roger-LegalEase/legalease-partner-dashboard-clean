@@ -54,12 +54,18 @@ const REGISTRY = [
   { file: "verify-rcap-onboarding-prefill-ui.mjs", group: "local" },
   { file: "verify-rcap-onboarding-partner-labels.mjs", group: "local" },
   { file: "verify-rcap-onboarding-implementation-center.mjs", group: "local" },
+  { file: "verify-rcap-partner-copy.mjs", group: "local",
+    note: "partner-facing copy gate: internal vocabulary, voice, one primary action, required copy" },
   { file: "verify-rcap-onboarding-guided-experience.mjs", group: "local" },
   { file: "verify-rcap-onboarding-task3b.mjs", group: "local" },
   { file: "verify-rcap-onboarding-support-contact.mjs", group: "local" },
   { file: "verify-first-admin-provisioning.mjs", group: "local" },
   { file: "verify-first-admin-first-impressions.mjs", group: "local" },
   { file: "verify-launch-readiness.mjs", group: "local" },
+
+  // --- browser: drives a running application -------------------------------------------
+  { file: "capture-rcap-prepared-onboarding-acceptance.mjs", group: "browser",
+    note: "local acceptance against a loopback Supabase; needs `supabase start`, a production build and Playwright chromium" },
 
   // --- database: needs a reachable Supabase --------------------------------------------
   { file: "verify-onboarding-persistence.mjs", group: "database",
@@ -125,7 +131,7 @@ if (missing.length) {
 
 const selected = REGISTRY.filter((e) => e.group === group);
 if (!selected.length) {
-  console.error(`No verifiers in group "${group}". Known groups: local, database, staging.`);
+  console.error(`No verifiers in group "${group}". Known groups: local, browser, database, staging.`);
   process.exit(1);
 }
 

@@ -81,7 +81,7 @@ export function OnboardingDashboardCard({
             {!compactCompleteState ? (
               <dl className="mt-5 grid gap-3 sm:grid-cols-3">
                 <div>
-                  <dt className="text-xs font-bold uppercase tracking-[0.05em] text-[#8A8278]">Current blocker</dt>
+                  <dt className="text-xs font-bold uppercase tracking-[0.05em] text-[#8A8278]">Where things stand</dt>
                   <dd className="mt-1 text-sm font-semibold leading-5 text-[#3A332C]">{blockerCopy}</dd>
                 </div>
                 <div>
