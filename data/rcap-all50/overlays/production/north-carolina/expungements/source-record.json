@@ -13,10 +13,29 @@
   "pageCount": null,
   "currentnessBasis": "registry pin 3b6f4c103d2f97249b45acc0ea3fb889ff8787e5 + compiled profile NC-north-carolina formInventory + state pack citation",
   "sourcePresenceInClone": false,
+  "sourceResolution": {
+    "schemaVersion": "rcap-source-resolution/v1",
+    "status": "present_and_hash_verified",
+    "corpus": "nationwide",
+    "resolvedPath": "private/Nationwide Record Clearing/LegalEase North Carolina/expungements.html",
+    "sha256": "e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+    "byteLength": 21280,
+    "matchesThisRecordsExpectedDigest": true,
+    "matchesThisRecordsExpectedSize": true,
+    "correctsThisRecord": "this record carried sourcePresenceInClone false and an exactSourceRequirement to \"supply\" the file. The exact member exists in the corpus named above at the path named above, with the digest this record already expected. The source was never missing; it was unmaterialized.",
+    "whatIsStillTrue": "the bytes are not in this clone right now, because private/ is git-ignored. Presence in the corpus and presence in a given checkout are different facts, and only the second one is environment-dependent.",
+    "verifiedBy": "the captain re-derivation published in data/rcap-all50/pdf-finish-workview.json at commit 8f28cf0a",
+    "corpusRootsSearched": [
+      "private/Nationwide Record Clearing",
+      "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1"
+    ],
+    "filesIndexed": 686,
+    "notRecomputedHere": "this session did not recompute the digest. private/ is git-ignored and absent from this clone, so the hash above is the re-derivation's, recorded with its provenance rather than re-asserted as a fresh measurement."
+  },
   "fieldExtractionStatus": "field_census_unavailable_in_repo",
   "extractedFieldCount": 0,
   "failClosed": true,
-  "exactSourceRequirement": "Supply 'private/Nationwide Record Clearing/LegalEase North Carolina/expungements.html' with sha256 e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d.",
+  "exactSourceRequirement": "Materialize the already-verified member at 'private/Nationwide Record Clearing/LegalEase North Carolina/expungements.html' (sha256 e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d, 21280 bytes). Do not re-acquire it from the publisher: the exact member exists in the nationwide corpus and its digest matches this record.",
   "coBrandingRule": "No LegalEase or partner branding may be added to the official form itself.",
   "bundleReconciliation": {
     "schemaVersion": "rcap-bundle-reconciliation/v1",
@@ -28,7 +47,8 @@
     "matchedBy": null,
     "note": "The pinned hash appears in no Edition 1 asset. The pinned copy predates the curated library or was excluded as duplicate/obsolete/out-of-scope.",
     "supersedingCandidatesByDocumentId": [],
-    "actionRequired": "Acquire the official asset; no Edition 1 asset carries a matching document id."
+    "actionRequired": "Acquire the official asset; no Edition 1 asset carries a matching document id.",
+    "scopeNote": "This classification was computed against the Edition 1 Master Library alone. It remains accurate for that corpus and is left unchanged. The pinned hash IS present in the corpus named in sourceResolution, so \"true_hash_missing\" must not be read as \"no official source exists\"."
   },
   "sourcePresenceInBundleManifest": false,
   "bundleBinaryBytesPresentInContainer": false,
