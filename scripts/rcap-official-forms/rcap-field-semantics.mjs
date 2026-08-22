@@ -484,15 +484,33 @@ export function selectOnePerSlot(candidates) {
 }
 
 /**
- * Whether a choice field's current value is the source document's own chooser
- * prompt rather than a selection.
+ * One layer of the brackets a form wraps an instruction in, removed.
+ *
+ * Nebraska writes its caption instructions parenthesised — "(Enter the type of
+ * court)" — so every test below anchored at the start of the string missed
+ * them by one character.
+ */
+function unwrapInstruction(text) {
+  const unwrapped = /^\((.*)\)$/s.exec(text) ?? /^\[(.*)\]$/s.exec(text);
+  return unwrapped ? unwrapped[1].trim() : text;
+}
+
+/**
+ * Whether a field's current value is an instruction the form addresses to the
+ * person filling it in, rather than content.
  *
  * Nebraska's dropdowns ship selected on "Choose the court" and "Choose the
- * county". Left alone through a flatten those strings are drawn onto the page
+ * county", and its caption carries a text field reading "(Enter the type of
+ * court)". Left alone through a flatten those strings are drawn onto the page
  * as ordinary ink, and a filed pleading tells the court to choose one.
+ *
+ * What this must NOT match is the court's own caption text, which on these
+ * same forms also lives in field values: "IN THE ... COURT OF",
+ * "COUNTY, NEBRASKA" and "Type of Case - Check only one:" are the document
+ * speaking, not a placeholder, and they stay on the filing.
  */
 export function isChooserPrompt(value, options = []) {
-  const text = String(value ?? "").trim();
+  const text = unwrapInstruction(String(value ?? "").trim());
   if (text === "") return false;
   if (/^[\s_\-–—.·•]+$/.test(text)) return true;
   if (/^(--+|choose|select|pick|click|please\s+(choose|select|pick)|enter\s+the)\b/i.test(text)) return true;

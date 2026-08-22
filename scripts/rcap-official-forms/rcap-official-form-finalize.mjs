@@ -13,7 +13,7 @@ import { fitTextToWidget, applyFitToTextField, MIN_READABLE_FONT_SIZE } from "./
 import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances } from "./rcap-active-content.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFTextField, PDFDropdown, PDFName, StandardFonts, rgb } = require("pdf-lib");
+const { PDFDocument, PDFTextField, PDFDropdown, PDFName, PDFArray, StandardFonts, rgb } = require("pdf-lib");
 
 // A fixed instant: a fresh document otherwise stamps the wall clock into its
 // info dictionary, and every render of the same facts would differ.
@@ -337,6 +337,40 @@ export class NonFilingHoldError extends Error {
  * protected field, an unfittable value, a charge row with no charge -- are
  * returned, never worked around.
  */
+/**
+ * Every string an unwritten field would still draw onto the filed page.
+ *
+ * For a text field that is its stored value. For a choice field it is the
+ * stored value AND the display label of the option that value selects, because
+ * the label is what a viewer renders: Nebraska's court chooser stores
+ * "IN THE ... COURT OF" and draws "Choose the court". A caller that inspects
+ * only /V sees a caption where the page shows a prompt.
+ *
+ * Returns the strings themselves rather than a verdict, so the one policy that
+ * decides what a value MEANS stays in `isChooserPrompt` and is not restated
+ * here.
+ */
+export function residualSourceText(handle) {
+  const decode = (obj) => (typeof obj?.decodeText === "function" ? obj.decodeText() : null);
+  const dict = handle.acroField.dict;
+  const stored = decode(dict.lookup(PDFName.of("V")));
+  const residual = [];
+  if (stored !== null && stored.trim() !== "") residual.push(stored);
+
+  const options = dict.lookup(PDFName.of("Opt"));
+  if (stored !== null && options instanceof PDFArray) {
+    for (const entry of options.asArray()) {
+      // Only the [export, display] pair form carries a label distinct from the
+      // value; a flat option list already renders what it stores.
+      if (!(entry instanceof PDFArray)) continue;
+      const [exportValue, displayLabel] = entry.asArray();
+      const label = decode(displayLabel);
+      if (decode(exportValue) === stored && label !== null && label.trim() !== "") residual.push(label);
+    }
+  }
+  return residual;
+}
+
 export async function finalizeOfficialForm({
   sourceBytes,
   expectedSha256,
@@ -498,28 +532,49 @@ export async function finalizeOfficialForm({
     report.expectedValues.push(text);
   }
 
-  // A choice field nobody selected still carries the source document's own
-  // chooser prompt, and flattening draws it onto the page as ordinary ink:
-  // Nebraska's forms ship selected on "Choose the court" and "Choose the
-  // county", so a filed pleading told the court to choose one.
+  // A field nobody wrote still carries whatever the source document put in it,
+  // and flattening draws that onto the page as ordinary ink. Nebraska's forms
+  // ship a caption text field reading "(Enter the type of court)" and dropdowns
+  // selected on "Choose the court", so a filed pleading instructed the court to
+  // fill its own caption in.
   //
-  // Clearing the value alone does not do it. pdf-lib leaves the widget's
+  // Two things this loop must get right, and got wrong before:
+  //
+  //   Participant-written is decided HERE, from the write ledger this run just
+  //   built — never from /V being non-empty. On these same forms the court's
+  //   own caption words live in field values: TYPEOFCOURTRESULTS holds
+  //   "IN THE ... COURT OF" and fullcountystatementRIGHT holds
+  //   "COUNTY, NEBRASKA". Reading a non-empty /V as participant content would
+  //   strip the court's caption off its own pleading.
+  //
+  //   A choice field draws the DISPLAY label of its selected option, not the
+  //   export value stored in /V. Asking about /V alone could never recognise
+  //   "Choose the court", whose export value is "IN THE ... COURT OF".
+  //
+  // Clearing the value alone does not do it either: pdf-lib leaves the widget's
   // existing appearance stream in place and the prompt renders from that, so
-  // the stale appearance goes too and flatten regenerates from nothing. A
-  // field this run WROTE is never touched here.
+  // the stale appearance goes too and flatten regenerates from nothing.
   const written = new Set(report.written.map((w) => w.field));
   report.promptsSuppressed = [];
+  report.sourceAppearancePreserved = [];
   for (const handle of form.getFields()) {
     const name = handle.getName();
     if (written.has(name)) continue;
-    if (typeof handle.getOptions !== "function" || typeof handle.getSelected !== "function") continue;
-    let selected = [];
+    const residual = residualSourceText(handle);
+    if (residual.length === 0) continue;
     let options = [];
-    try { selected = handle.getSelected() ?? []; options = handle.getOptions() ?? []; } catch { continue; }
-    if (!selected.some((value) => isChooserPrompt(value, options))) continue;
+    if (typeof handle.getOptions === "function") {
+      try { options = handle.getOptions() ?? []; } catch { options = []; }
+    }
+    const prompts = residual.filter((text) => isChooserPrompt(text, options));
+    if (prompts.length === 0) {
+      // The document speaking, not a placeholder. It stays.
+      report.sourceAppearancePreserved.push({ field: name, preserved: residual });
+      continue;
+    }
     handle.acroField.dict.delete(PDFName.of("V"));
     for (const widget of handle.acroField.getWidgets()) widget.dict.delete(PDFName.of("AP"));
-    report.promptsSuppressed.push({ field: name, suppressed: selected });
+    report.promptsSuppressed.push({ field: name, suppressed: prompts });
   }
 
   // The fields this run actually bound. A chooser in this set was answered by
