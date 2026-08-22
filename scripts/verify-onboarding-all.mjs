@@ -63,6 +63,10 @@ const REGISTRY = [
   { file: "verify-first-admin-first-impressions.mjs", group: "local" },
   { file: "verify-launch-readiness.mjs", group: "local" },
 
+  // --- browser: drives a running application -------------------------------------------
+  { file: "capture-rcap-prepared-onboarding-acceptance.mjs", group: "browser",
+    note: "local acceptance against a loopback Supabase; needs `supabase start`, a production build and Playwright chromium" },
+
   // --- database: needs a reachable Supabase --------------------------------------------
   { file: "verify-onboarding-persistence.mjs", group: "database",
     note: "requires NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY" },
@@ -127,7 +131,7 @@ if (missing.length) {
 
 const selected = REGISTRY.filter((e) => e.group === group);
 if (!selected.length) {
-  console.error(`No verifiers in group "${group}". Known groups: local, database, staging.`);
+  console.error(`No verifiers in group "${group}". Known groups: local, browser, database, staging.`);
   process.exit(1);
 }
 

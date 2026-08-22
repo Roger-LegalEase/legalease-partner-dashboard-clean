@@ -37,9 +37,18 @@ for (const text of [
 assert.match(internal, /overflow-x-auto/);
 assert.match(internal, /min-w-\[1100px\]/);
 assert.match(internal, /window\.confirm/);
-assert.match(
+// The prepared banner's wording lives in the canonical partner copy contract, not inline
+// in the component. Assert both halves: the contract owns the sentence, and the home reads
+// it from there rather than keeping a second copy that can drift.
+const partnerCopy = read("src/lib/partners/onboarding/partner-copy.ts");
+assert.match(partnerCopy, /Your starting setup is ready to review/);
+assert.match(partnerCopy, /Review prepared setup/);
+assert.match(home, /PREPARED_BANNER/);
+assert.match(home, /from "@\/lib\/partners\/onboarding\/partner-copy"/);
+assert.doesNotMatch(
   home,
-  /Your starting setup is ready to review/
+  /"Your starting setup is ready to review"/,
+  "the home should read the banner from the contract, not restate it"
 );
 assert.match(home, /hasPendingPrefill/);
 const presentation = read(
