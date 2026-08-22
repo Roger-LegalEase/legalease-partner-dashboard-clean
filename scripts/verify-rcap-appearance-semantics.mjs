@@ -27,6 +27,8 @@ const require = createRequire(import.meta.url);
 const { PDFDocument, PDFName, PDFArray, PDFDict, StandardFonts } = require("pdf-lib");
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const MODULE = path.join(rootDir, "scripts/rcap-official-forms/rcap-active-content.mjs");
+const FINALIZE = path.join(rootDir, "scripts/rcap-official-forms/rcap-official-form-finalize.mjs");
+const DRIVER = path.join(rootDir, "scripts/implement-rcap-official-forms-d1.mjs");
 const failures = [];
 const note = (m) => failures.push(m);
 
@@ -42,6 +44,25 @@ const CHOOSER_PROMPT = "Choose the county";
 const RESET_CAPTION = "Reset Form";
 
 const escape = (s) => s.replace(/([()\\])/g, "\\$1");
+
+/**
+ * The argument list of one call, by brace balance.
+ *
+ * Slicing to the first `})` truncates at the first nested object literal in the
+ * arguments, which is how a control asserting a wired-up call read as unwired
+ * against a call site that was wired.
+ */
+function argumentsOf(source, opening) {
+  const at = source.indexOf(opening);
+  if (at < 0) return null;
+  let depth = 0;
+  for (let i = at + opening.length - 1; i < source.length; i += 1) {
+    const c = source[i];
+    if (c === "{" || c === "(") depth += 1;
+    else if (c === "}" || c === ")") { depth -= 1; if (depth === 0) return source.slice(at, i + 1); }
+  }
+  return null;
+}
 
 /** An appearance stream shaped like the ones these forms ship. */
 function appearanceBody({ draws, background, width, height }) {
@@ -236,6 +257,38 @@ const CONTROLS = [
   { id: "existing_participant_values_are_unchanged",
     holds: () => unwritten.includes(PARTICIPANT_NAME) && unwritten.includes(COURT_VALUE)
       ? null : "a written participant value is missing" },
+  { id: "the_driver_hands_the_registry_to_the_finalizer",
+    // The defect this catches: the policy was complete and correct, and nothing
+    // passed it in. finalizeOfficialForm defaults appearanceDispositions to an
+    // empty Map, so every classified field fell to the structural default and a
+    // placeholder was preserved as though it were the court's own text. The
+    // rerender changed bytes and removed no appearance at all.
+    holds: () => {
+      const driver = fs.readFileSync(DRIVER, "utf8");
+      if (!/dispositionsForFamily/.test(driver)) return "the driver never resolves a family's dispositions";
+      const args = argumentsOf(driver, "await finalizeOfficialForm({");
+      if (args === null) return "the driver no longer calls finalizeOfficialForm";
+      if (!/appearanceDispositions:/.test(args)) return "finalizeOfficialForm is called without appearanceDispositions";
+      const resolved = dispositionsForFamily(loadAppearanceSemantics(), "NE:cc-6-11-form-en");
+      if (resolved.get("enter the type of court") !== RENDER_PARTICIPANT_VALUE_ONLY_WHEN_WRITTEN) {
+        return "resolving a covered family does not classify its placeholder field";
+      }
+      return null;
+    } },
+  { id: "the_written_predicate_comes_from_the_write_ledger",
+    // Not from a non-empty source /V and not from a post-load field value: the
+    // court ships this placeholder AS the field's value, so reading the value
+    // would call it participant-written and preserve it forever.
+    holds: () => {
+      const finalize = fs.readFileSync(FINALIZE, "utf8");
+      const args = argumentsOf(finalize, "await sanitizeAndFlatten(pdfDoc, {");
+      if (args === null) return "the finalizer no longer calls sanitizeAndFlatten";
+      if (!/writtenFields:\s*new Set\(report\.written\.map/.test(args)) {
+        return "writtenFields is no longer built from the write ledger";
+      }
+      if (/getText\(\)|PDFName\.of\("V"\)/.test(args)) return "writtenFields is derived from a field value";
+      return null;
+    } },
   { id: "no_family_form_field_text_or_flag_based_exception_exists",
     holds: () => {
       const source = fs.readFileSync(MODULE, "utf8");
@@ -288,6 +341,19 @@ const MUTATIONS = [
 ];
 
 console.log("  mutations");
+
+// The wiring mutation is a source mutation, because the control it covers is a
+// source control: unwire the driver and the finalizer receives an empty map
+// again, which is exactly the state that shipped.
+{
+  const driver = fs.readFileSync(DRIVER, "utf8");
+  const unwired = driver.replace(/^\s*appearanceDispositions: dispositionsForFamily\([^\n]*\n/m, "");
+  const args = argumentsOf(unwired, "await finalizeOfficialForm({");
+  const wentRed = unwired !== driver && args !== null && !/appearanceDispositions:/.test(args);
+  console.log(`    ${wentRed ? "ok  " : "FAIL"} ${"unwire_the_driver".padEnd(38)} -> the_driver_hands_the_registry_to_the_finalizer goes red`);
+  if (!wentRed) note("mutation \"unwire_the_driver\" changed nothing measurable, so the wiring control proves nothing");
+}
+
 const original = fs.readFileSync(MODULE, "utf8");
 const copies = [];
 process.on("exit", () => { for (const file of copies) { try { fs.rmSync(file, { force: true }); } catch { /* best effort */ } } });
@@ -336,4 +402,4 @@ if (failures.length) {
   process.exit(1);
 }
 console.log(`OK appearance semantics — ${CONTROLS.length} controls hold on synthetic bytes, `
-  + `${MUTATIONS.length} mutations each turn their control red, and the registry covers exactly the five assigned families`);
+  + `${MUTATIONS.length + 1} mutations each turn their control red, and the registry covers exactly the five assigned families`);

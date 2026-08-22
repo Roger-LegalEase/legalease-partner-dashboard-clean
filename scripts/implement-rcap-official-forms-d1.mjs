@@ -31,6 +31,7 @@ import { artifactProvenance } from "./rcap-official-forms/rcap-artifact-provenan
 import { buildContactSheet, ContactSheetProofError, visibleTextOfDocument, missingExpectedValues }
   from "./rcap-official-forms/rcap-contact-sheet.mjs";
 import { reconcileWrittenAgainstDeclared } from "./rcap-official-forms/rcap-evidence-contract.mjs";
+import { loadAppearanceSemantics, dispositionsForFamily } from "./rcap-official-forms/rcap-appearance-semantics.mjs";
 
 const require = createRequire(import.meta.url);
 const { PDFDocument, PDFTextField, PDFCheckBox, PDFRadioGroup, PDFDropdown, PDFOptionList, StandardFonts, rgb } = require("pdf-lib");
@@ -413,6 +414,13 @@ const results = [];
 // and a run made entirely of skips is exactly the run this guard exists to stop.
 let processedFamilies = 0;
 
+// What each classified field's appearance means. Read once: it is static data,
+// and the family being rendered is the only key the finalizer needs resolved for
+// it. Without this the finalizer receives an empty map, every field falls to the
+// structural default, and a classified placeholder is preserved as though it
+// were the court's own text.
+const APPEARANCE_SEMANTICS = loadAppearanceSemantics();
+
 for (const fam of index.families) {
   const jurisdictionSlug = { WI: "wisconsin", AL: "alabama", AR: "arkansas", VA: "virginia", AK: "alaska",
     KY: "kentucky", NC: "north-carolina", NE: "nebraska", VT: "vermont" }[fam.jurisdiction];
@@ -705,6 +713,10 @@ for (const fam of index.families) {
               unwritableFields: classification.filter((c) => isUnwritableClass(c.class)).map((c) => ({ field: c.name, class: c.class })),
               captionOnly: ownership === OWNERSHIP.COURT_ORDER,
               nonFilingNotice: notForFilingNotice,
+              // The semantic policy, resolved for this family. This is the only
+              // place the family identity and the registry meet; the finalizer
+              // is handed field names and meanings, never a family.
+              appearanceDispositions: dispositionsForFamily(APPEARANCE_SEMANTICS, `${fam.jurisdiction}:${fam.familySlug}`),
               title: `${fam.jurisdiction} ${record.documentId}`
             })
           : await finalizeFlatOverlay({
