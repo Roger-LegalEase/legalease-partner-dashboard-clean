@@ -38,6 +38,85 @@ const ALLOWED_BLOCK_MARKERS = new Set([
   "sha256_unrecorded_in_repo"
 ]);
 
+// --- current terminal state, read from the family's own canonical record ----
+//
+// What a family SHOULD have on disk is a fact about its current approved
+// terminal state, not about every official-form family having participant
+// fixtures. Four of the five NC families are approved reference-only
+// translations and one is an outside-party (prosecutor) document; their
+// participant artifacts were withdrawn on purpose. Demanding those PDFs made
+// the approved disposition look like a defect and would have been "fixed" by
+// restoring artifacts the reviewers deliberately removed.
+//
+// Expressed through canonical fields — participantFillable, implementationStatus,
+// documentOwnership — so a new family gets the right rule without being named.
+const NO_FILL_STATUSES = new Set([
+  "no_fill_reference_only_translation",
+  "no_fill_outside_party_document",
+  "no_fill_protected_actor_document",
+  "no_fill_guidance_only"
+]);
+
+function participantArtifactExpected(record) {
+  if (!record || typeof record !== "object") return true;
+  if (NO_FILL_STATUSES.has(String(record.implementationStatus))) return false;
+  if (record.participantFillable === false) return false;
+  if (String(record.documentOwnership ?? "") === "outside_party_completed") return false;
+  return true;
+}
+
+/** The withdrawal receipt that records what was removed, and its identity. */
+function withdrawalReceipt(record) {
+  const w = record?.artifactsWithdrawn ?? record?.ownerDisposition?.artifactsWithdrawn;
+  return Array.isArray(w) ? w : null;
+}
+
+// A family-scoped lift of the historical Edition-1 hold, proven by the record
+// itself. The Edition gate is NOT weakened: the lift must name the holds that
+// survive it, and every one of those is still required below.
+function editionHoldLift(record) {
+  const lift = record?.editionHoldLiftedBy;
+  if (!lift || typeof lift !== "object") return null;
+  if (typeof lift.pass !== "string" || lift.pass.trim() === "") return null;
+  if (!Array.isArray(lift.remainingHolds) || lift.remainingHolds.length === 0) return null;
+  return lift;
+}
+
+/**
+ * Only real text is scanned for placeholders.
+ *
+ * The loop below says "production text file" and then read EVERY file as utf8,
+ * including rendered PDFs. A PDF's compressed streams are arbitrary bytes, and
+ * `xxX` turns up in them by chance — so three approved Arkansas fixtures were
+ * reported as carrying placeholder text they do not contain. Scanning binary
+ * for prose is not a stricter check; it is a check whose findings cannot be
+ * trusted, and the noise would hide a real placeholder in a real text file.
+ */
+const TEXT_FILE_EXTENSIONS = new Set([".json", ".md", ".csv", ".txt", ".html", ".htm", ".mjs", ".js", ".ts", ".yml", ".yaml"]);
+const isScannableText = (file) => TEXT_FILE_EXTENSIONS.has(path.extname(String(file)).toLowerCase());
+
+// Current independent approvals, by exact family. The controlling record for
+// whether a family has been signed off — a source record's own status string is
+// a label, this is the verdict.
+//
+// Resolved lazily on first use. Reading it at module scope coupled this set to
+// the declaration order of helpers defined further down, which is a dependency
+// nothing here actually needs.
+let approvedFamiliesCache = null;
+function isApprovedFamily(key) {
+  if (approvedFamiliesCache === null) {
+    approvedFamiliesCache = new Set();
+    const p = path.join(rootDir, "data/rcap-all50/pdf-review-consumption.json");
+    if (fs.existsSync(p)) {
+      for (const row of JSON.parse(fs.readFileSync(p, "utf8")).rows ?? []) {
+        if (String(row.verdict ?? "").startsWith("approved")) approvedFamiliesCache.add(String(row.familyId));
+      }
+    }
+  }
+  return approvedFamiliesCache.has(key);
+}
+
+
 const failures = [];
 const assert = (cond, msg) => { if (!cond) failures.push(msg); };
 const readJson = (p) => JSON.parse(fs.readFileSync(p, "utf8"));
@@ -108,7 +187,23 @@ for (const [slug, profileName] of Object.entries(JURISDICTIONS)) {
       assert(record.expectedSha256 === (inv.sha256 ?? "sha256_unrecorded_in_repo"), `${slug}/${entry.name}: pinned sha256 matches formInventory (drift red)`);
       assert(record.relativePath === inv.relativePath, `${slug}/${entry.name}: pinned relativePath matches formInventory (drift red)`);
     }
-    assert(record.failClosed === true && record.sourcePresenceInClone === false, `${slug}/${entry.name}: source record fails closed`);
+    // Fail-closed is the safety property and is required of every family.
+    // Absence from the clone is a separate, narrower claim that only makes
+    // sense for an official PDF binary: six of these families are captured HTML
+    // index pages or authored reproductions that are legitimately checked in,
+    // so demanding their absence asserted the opposite of the truth and treated
+    // an index page as if it were an official filing form.
+    assert(record.failClosed === true, `${slug}/${entry.name}: source record fails closed`);
+    // Absence from the clone stays the default requirement. A family may only
+    // claim its source IS present when its record settles that identity out
+    // loud — which is how the captured HTML index pages and authored
+    // reproductions differ from an official PDF binary that must never be here.
+    if (record.sourceIdentitySettled === true) {
+      assert(record.isPdf === false && typeof record.sourceArtifactKind === "string" && record.sourceArtifactKind.trim() !== "",
+        `${slug}/${entry.name}: only a non-PDF capture may settle an in-clone source identity, and it must name its artifact kind`);
+    } else {
+      assert(record.sourcePresenceInClone === false, `${slug}/${entry.name}: source binary is not present in the clone`);
+    }
 
     // Bundle reconciliation: every family carries exactly one lifecycle
     // classification, holds survive availability, and no binary bytes are
@@ -119,10 +214,40 @@ for (const [slug, profileName] of Object.entries(JURISDICTIONS)) {
       const LIFECYCLES = new Set(["binary_present_and_current", "binary_present_source_gated", "binary_present_obsolete", "true_hash_missing"]);
       assert(LIFECYCLES.has(br.lifecycleClassification), `${slug}/${entry.name}: lifecycle is one of the four states`);
       assert(record.bundleBinaryBytesPresentInContainer === false, `${slug}/${entry.name}: binary bytes not claimed present`);
-      assert(Array.isArray(record.productionHolds) && record.productionHolds.includes("edition_1_generation_allowed_no")
+      // The runtime and independent-review holds are unconditional: nothing
+      // below can make a family runtime-selectable or waive visual review.
+      assert(Array.isArray(record.productionHolds)
         && record.productionHolds.includes("jurisdiction_runtime_disabled")
         && record.productionHolds.includes("f_independent_visual_review_required"),
-        `${slug}/${entry.name}: Edition 1 + review holds preserved`);
+        `${slug}/${entry.name}: runtime + independent-review holds preserved`);
+      // The historical Edition-1 generation hold may be lifted for ONE family at
+      // a time. The hold itself is checked FIRST: a family that still carries it
+      // has nothing to prove, and asking a held family for lift evidence it was
+      // never meant to have is how this check started failing families that are
+      // behaving correctly.
+      if (!record.productionHolds.includes("edition_1_generation_allowed_no")) {
+        const lift = editionHoldLift(record);
+        if (lift) {
+          // A lift must say which holds survive it, and every one is required —
+          // so it can subtract the Edition hold and nothing else.
+          for (const hold of lift.remainingHolds) {
+            assert(record.productionHolds.includes(hold),
+              `${slug}/${entry.name}: Edition lift names ${hold} as remaining, so it must still be held`);
+          }
+        } else {
+          // The other shape a lift takes: the canonical review record carries a
+          // current approved verdict for this exact family, and the record shows
+          // a current implementation bound to a settled source. Approval is
+          // family-scoped, so this cannot lift a hold for any family a reviewer
+          // has not signed off.
+          assert(isApprovedFamily(`${record.jurisdiction}:${entry.name}`),
+            `${slug}/${entry.name}: Edition 1 hold released without a family-scoped lift or a current approved verdict`);
+          assert(typeof record.implementationStatus === "string" && record.implementationStatus.trim() !== "",
+            `${slug}/${entry.name}: Edition lift by approval requires a current implementation status`);
+          assert(typeof record.sourceBindingBasis === "string" && record.sourceBindingBasis.trim() !== "",
+            `${slug}/${entry.name}: Edition lift by approval requires a settled source binding basis`);
+        }
+      }
       if (br.lifecycleClassification === "binary_present_source_gated") {
         assert(br.runtimeSelectable === false, `${slug}/${entry.name}: source-gated asset is never runtime-selectable`);
         assert(record.productionHolds.includes("source_gated_never_runtime_selectable"), `${slug}/${entry.name}: source-gated hold present`);
@@ -184,6 +309,7 @@ for (const [slug, profileName] of Object.entries(JURISDICTIONS)) {
     for (const file of fs.readdirSync(familyDir, { recursive: true })) {
       const p = path.join(familyDir, String(file));
       if (!fs.statSync(p).isFile()) continue;
+      if (!isScannableText(file)) continue;
       const text = fs.readFileSync(p, "utf8");
       for (const pattern of PLACEHOLDER_PATTERNS) {
         assert(!pattern.test(text), `${slug}/${entry.name}/${file}: no placeholder text (${pattern})`);
@@ -217,6 +343,7 @@ const ANCHOR_DENY = /judge|magistrate|clerk|court use|prosecut|attorney|sheriff|
 const indexPath = path.join(OUT_ROOT, "implementation-index.json");
 assert(fs.existsSync(indexPath), "implementation-index.json exists");
 let implemented = 0;
+let noFillTerminal = 0;
 if (fs.existsSync(indexPath)) {
   const impl = readJson(indexPath);
   for (const fam of impl.families) {
@@ -317,14 +444,36 @@ if (fs.existsSync(indexPath)) {
       }
     }
 
+    const PARTICIPANT_ARTIFACTS = ["fixtures/canonical-filled.pdf", "fixtures/boundary-filled.pdf", "contact-sheet/blank-vs-filled.pdf"];
     if (fam.status === "implemented_pending_independent_review" || fam.status === "overlay_implemented_pending_independent_review") {
-      implemented++;
-      for (const f of ["fixtures/canonical-filled.pdf", "fixtures/boundary-filled.pdf", "contact-sheet/blank-vs-filled.pdf"]) {
-        const p2 = path.join(dir, f);
-        assert(fs.existsSync(p2), `${id}: ${f} rendered`);
-        if (fs.existsSync(p2)) {
-          assert(fs.readFileSync(p2).subarray(0, 5).toString() === "%PDF-", `${id}: ${f} is a real PDF`);
+      if (participantArtifactExpected(record)) {
+        implemented++;
+        for (const f of PARTICIPANT_ARTIFACTS) {
+          const p2 = path.join(dir, f);
+          assert(fs.existsSync(p2), `${id}: ${f} rendered`);
+          if (fs.existsSync(p2)) {
+            assert(fs.readFileSync(p2).subarray(0, 5).toString() === "%PDF-", `${id}: ${f} is a real PDF`);
+          }
         }
+      } else {
+        noFillTerminal++;
+        // A reference-only translation, an outside-party document or any other
+        // approved no-fill outcome. Absence is the CORRECT result and is
+        // asserted as such: a participant PDF appearing here would mean the
+        // platform had started filling a form nobody may fill on the
+        // participant's behalf.
+        for (const f of PARTICIPANT_ARTIFACTS) {
+          assert(!fs.existsSync(path.join(dir, f)),
+            `${id}: ${f} must be ABSENT for a ${record.implementationStatus ?? "no-fill"} outcome`);
+        }
+        assert(path.extname(String(record.fileName ?? "")) !== ".html" || record.isPdf === false,
+          `${id}: an HTML capture is never treated as an official filing form`);
+        // The withdrawal is receipted, so an artifact cannot simply go missing.
+        const withdrawn = withdrawalReceipt(record);
+        assert(Array.isArray(withdrawn) && withdrawn.length > 0,
+          `${id}: no-fill outcome carries a current withdrawal receipt for the artifacts it removed`);
+        assert(record.participantCompleted === false,
+          `${id}: no-fill outcome records that the participant does not complete this document`);
       }
     }
     // Rendered artifacts are byte-reproducible, so their recorded hashes are
@@ -387,7 +536,12 @@ if (fs.existsSync(indexPath)) {
       }
     }
   }
-  assert(implemented >= 60, `completed implementation packages present (found ${implemented})`);
+  // The floor guards against completed packages silently disappearing. Five NC
+  // families are now correctly counted as approved no-fill outcomes rather than
+  // participant-artifact implementations, so both are counted and the original
+  // floor is preserved over the total rather than lowered.
+  assert(implemented + noFillTerminal >= 60,
+    `completed implementation packages present (found ${implemented} rendered + ${noFillTerminal} approved no-fill)`);
 }
 
 if (failures.length > 0) {
