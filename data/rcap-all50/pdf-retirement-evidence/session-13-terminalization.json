@@ -1,0 +1,584 @@
+{
+  "schemaVersion": "rcap-session-13-terminalization/v1",
+  "generatedBy": "scripts/generate-rcap-session-13-terminalization.mjs",
+  "purpose": "Terminalize the five non-filing assets the finish work view assigns to Session 13, each on the instrument its evidence supports.",
+  "readFrom": "data/rcap-all50/pdf-finish-workview.json",
+  "instruments": {
+    "retired_from_operational_inventory": "no packet component, route, profile or manifest dependency remains",
+    "repointed_to_canonical_asset": "a target that exists, resolves for the jurisdiction, and carries real content",
+    "launch_safe_exclusion": "every naming track is terminal in the ledger and unreachable in the compiled runtime, so no participant route reaches the asset",
+    "retained_operational_dependency_survives": "a live packet component or reachable route still names it; a terminal state reached on evidence, not an unfinished one"
+  },
+  "whyNoneIsRetired": "Every assigned asset is named by at least one packet component in the byte-pinned legal design. Retiring one removes a required or conditional filing from a packet that still asks for it.",
+  "whyNoneIsRepointed": "A repoint needs a canonical asset to point at, and all five hash exactly to the Master Library edition of the same document. They are the canonical asset.",
+  "totals": {
+    "assigned": 5,
+    "retired": 0,
+    "launchSafeExcluded": 2,
+    "retained": 3,
+    "repointed": 0,
+    "workViewPremisesCorrected": 10
+  },
+  "assets": [
+    {
+      "familyId": "KY:aoc-334-form-en",
+      "familyIds": [
+        "KY:aoc-334-form-en"
+      ],
+      "assetId": "KY|AOC-334|7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "jurisdiction": "KY",
+      "formId": "AOC-334",
+      "documentSha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+      "packagePath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en"
+      ],
+      "terminalOutcome": "launch_safe_exclusion",
+      "terminalBasis": "Every track naming this form is terminal in the ledger and unreachable in the compiled runtime (ky_void_seal_controlled_substance: the ledger maps this track to no compiled pathway, so the compiled runtime has no route to it; ky_void_seal_marijuana_synthetic_salvia: the ledger maps this track to no compiled pathway, so the compiled runtime has no route to it), so no participant route can reach the asset. The terminal status is the ledger's own, with no treatment written yet; the exclusion rests on the ledger and the compiled runtime rather than on a treatment.",
+      "workViewSaid": {
+        "rootCauseGroup": "not_a_filing_artifact",
+        "groupTitle": "Captured HTML, index or download page",
+        "rootBlocker": "recorded stale or superseded while 1 operational surface(s) still name it: legal_design_registry",
+        "currentnessStatus": "recorded as stale or superseded",
+        "terminalOutcome": "repoint",
+        "terminalExitCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+      },
+      "correctionsToTheWorkView": [
+        {
+          "premise": "not_a_filing_artifact — captured HTML, index or download page",
+          "holds": false,
+          "because": "AOC-334 is a court-published PDF at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf, 252268 bytes, bound as a packet component with outputStrategy official_pdf_fill."
+        },
+        {
+          "premise": "recorded as stale or superseded",
+          "holds": false,
+          "because": "the work view's own sourceAvailability resolves 7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d in the master_library, byte-identical to this asset's identity, so nothing supersedes it and \"repoint to the canonical asset\" has no destination."
+        }
+      ],
+      "identity": {
+        "sourceStatus": "present_and_hash_verified",
+        "corpus": "master_library",
+        "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-334__is-hereby-void-and-all-records-pertaining-thereto-that-are-in-custody-of-the-court-and-any__REV-UNKNOWN__EN.pdf",
+        "sha256": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+        "byteLength": 252268,
+        "matchesTheAssetIdentity": true,
+        "supersededByTheArchive": false
+      },
+      "legalDesign": {
+        "pin": {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9",
+          "readFrom": "git:3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+        },
+        "components": [
+          {
+            "trackId": "ky_void_seal_controlled_substance",
+            "jurisdiction": "KY",
+            "componentId": "ky_void_seal_controlled_substance-proposed-order-2",
+            "role": "proposed_order",
+            "requirement": "required",
+            "outputStrategy": "official_pdf_fill"
+          },
+          {
+            "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+            "jurisdiction": "KY",
+            "componentId": "ky_void_seal_marijuana_synthetic_salvia-proposed-order-2",
+            "role": "proposed_order",
+            "requirement": "required",
+            "outputStrategy": "official_pdf_fill"
+          }
+        ]
+      },
+      "routes": [
+        {
+          "trackId": "ky_void_seal_controlled_substance",
+          "jurisdiction": "KY",
+          "inTheLedger": true,
+          "coverageDisposition": "missing_from_compiled_runtime",
+          "ledgerTerminal": true,
+          "holds": [
+            "missing_from_compiled_runtime"
+          ],
+          "mappedCompiledPathwayIds": [],
+          "compiledProfile": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "resolved": [],
+          "reachable": false,
+          "why": "the ledger maps this track to no compiled pathway, so the compiled runtime has no route to it"
+        },
+        {
+          "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+          "jurisdiction": "KY",
+          "inTheLedger": true,
+          "coverageDisposition": "missing_from_compiled_runtime",
+          "ledgerTerminal": true,
+          "holds": [
+            "missing_from_compiled_runtime"
+          ],
+          "mappedCompiledPathwayIds": [],
+          "compiledProfile": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "resolved": [],
+          "reachable": false,
+          "why": "the ledger maps this track to no compiled pathway, so the compiled runtime has no route to it"
+        }
+      ],
+      "terminalTreatments": [
+        {
+          "trackId": "ky_void_seal_controlled_substance",
+          "file": "data/rcap-all50/terminalization-treatments/ky.json",
+          "exists": true,
+          "treatment": null,
+          "saysThePlatformDoesNotProduceIt": false,
+          "basis": null
+        },
+        {
+          "trackId": "ky_void_seal_marijuana_synthetic_salvia",
+          "file": "data/rcap-all50/terminalization-treatments/ky.json",
+          "exists": true,
+          "treatment": null,
+          "saysThePlatformDoesNotProduceIt": false,
+          "basis": null
+        }
+      ],
+      "retirementAvailable": false,
+      "repointAvailable": false,
+      "whyRepointIsUnavailable": "A repoint needs a canonical asset to point at. These bytes are the canonical edition the archive holds, so there is nowhere for a reference to move.",
+      "launchSafeExclusionAvailable": true
+    },
+    {
+      "familyId": "KY:aoc-496-3-form-en",
+      "familyIds": [
+        "KY:aoc-496-3-form-en"
+      ],
+      "assetId": "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "jurisdiction": "KY",
+      "formId": "AOC-496.3",
+      "documentSha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "packagePath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en",
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en"
+      ],
+      "terminalOutcome": "retained_operational_dependency_survives",
+      "terminalBasis": "2 packet component(s) name this form and 2 route(s) reach it in the compiled runtime, so it cannot be retired. It is not superseded either: the archive holds it at 3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa, which is this asset's own identity, so a repoint has no destination.",
+      "workViewSaid": {
+        "rootCauseGroup": "not_a_filing_artifact",
+        "groupTitle": "Captured HTML, index or download page",
+        "rootBlocker": "recorded stale or superseded while 1 operational surface(s) still name it: legal_design_registry",
+        "currentnessStatus": "recorded as stale or superseded",
+        "terminalOutcome": "repoint",
+        "terminalExitCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+      },
+      "correctionsToTheWorkView": [
+        {
+          "premise": "not_a_filing_artifact — captured HTML, index or download page",
+          "holds": false,
+          "because": "AOC-496.3 is a court-published PDF at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf, 385938 bytes, bound as a packet component with outputStrategy official_pdf_fill."
+        },
+        {
+          "premise": "recorded as stale or superseded",
+          "holds": false,
+          "because": "the work view's own sourceAvailability resolves 3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa in the master_library, byte-identical to this asset's identity, so nothing supersedes it and \"repoint to the canonical asset\" has no destination."
+        }
+      ],
+      "identity": {
+        "sourceStatus": "present_and_hash_verified",
+        "corpus": "master_library",
+        "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-496.3__in-support-of-this-application-the-defendant-states-as-follows__REV-UNKNOWN__EN.pdf",
+        "sha256": "3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+        "byteLength": 385938,
+        "matchesTheAssetIdentity": true,
+        "supersededByTheArchive": false
+      },
+      "legalDesign": {
+        "pin": {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9",
+          "readFrom": "git:3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+        },
+        "components": [
+          {
+            "trackId": "ky_felony_vacatur_expungement",
+            "jurisdiction": "KY",
+            "componentId": "ky_felony_vacatur_expungement-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "outputStrategy": "official_pdf_fill"
+          },
+          {
+            "trackId": "ky_felony_expungement_after_pardon",
+            "jurisdiction": "KY",
+            "componentId": "ky_felony_expungement_after_pardon-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "outputStrategy": "official_pdf_fill"
+          }
+        ]
+      },
+      "routes": [
+        {
+          "trackId": "ky_felony_vacatur_expungement",
+          "jurisdiction": "KY",
+          "inTheLedger": true,
+          "coverageDisposition": "exact_current_pathway",
+          "ledgerTerminal": true,
+          "holds": [
+            "counsel_review_requirement"
+          ],
+          "mappedCompiledPathwayIds": [
+            "felony-conviction-431073"
+          ],
+          "compiledProfile": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "resolved": [
+            {
+              "pathwayId": "felony-conviction-431073",
+              "inTheCompiledProfile": true
+            }
+          ],
+          "reachable": true,
+          "why": "a mapped compiled pathway is present in the profile the runtime loads"
+        },
+        {
+          "trackId": "ky_felony_expungement_after_pardon",
+          "jurisdiction": "KY",
+          "inTheLedger": true,
+          "coverageDisposition": "exact_current_pathway",
+          "ledgerTerminal": true,
+          "holds": [
+            "counsel_review_requirement"
+          ],
+          "mappedCompiledPathwayIds": [
+            "felony-conviction-431073"
+          ],
+          "compiledProfile": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "resolved": [
+            {
+              "pathwayId": "felony-conviction-431073",
+              "inTheCompiledProfile": true
+            }
+          ],
+          "reachable": true,
+          "why": "a mapped compiled pathway is present in the profile the runtime loads"
+        }
+      ],
+      "terminalTreatments": [
+        {
+          "trackId": "ky_felony_vacatur_expungement",
+          "file": "data/rcap-all50/terminalization-treatments/ky.json",
+          "exists": true,
+          "treatment": null,
+          "saysThePlatformDoesNotProduceIt": false,
+          "basis": null
+        },
+        {
+          "trackId": "ky_felony_expungement_after_pardon",
+          "file": "data/rcap-all50/terminalization-treatments/ky.json",
+          "exists": true,
+          "treatment": null,
+          "saysThePlatformDoesNotProduceIt": false,
+          "basis": null
+        }
+      ],
+      "retirementAvailable": false,
+      "repointAvailable": false,
+      "whyRepointIsUnavailable": "A repoint needs a canonical asset to point at. These bytes are the canonical edition the archive holds, so there is nowhere for a reference to move.",
+      "launchSafeExclusionAvailable": false
+    },
+    {
+      "familyId": "KY:aoc-497-form-en",
+      "familyIds": [
+        "KY:aoc-497-form-en"
+      ],
+      "assetId": "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "jurisdiction": "KY",
+      "formId": "AOC-497",
+      "documentSha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "packagePath": "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en",
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en"
+      ],
+      "terminalOutcome": "retained_operational_dependency_survives",
+      "terminalBasis": "1 packet component(s) name this form and 1 route(s) reach it in the compiled runtime, so it cannot be retired. It is not superseded either: the archive holds it at 715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b, which is this asset's own identity, so a repoint has no destination.",
+      "workViewSaid": {
+        "rootCauseGroup": "not_a_filing_artifact",
+        "groupTitle": "Captured HTML, index or download page",
+        "rootBlocker": "recorded stale or superseded while 1 operational surface(s) still name it: legal_design_registry",
+        "currentnessStatus": "recorded as stale or superseded",
+        "terminalOutcome": "repoint",
+        "terminalExitCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+      },
+      "correctionsToTheWorkView": [
+        {
+          "premise": "not_a_filing_artifact — captured HTML, index or download page",
+          "holds": false,
+          "because": "AOC-497 is a court-published PDF at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-497__the-court-having-reviewed-defendants-petition-to-expunge-and-being-sufficiently-advised-fi__REV-UNKNOWN__EN.pdf, 176877 bytes, bound as a packet component with outputStrategy official_pdf_fill."
+        },
+        {
+          "premise": "recorded as stale or superseded",
+          "holds": false,
+          "because": "the work view's own sourceAvailability resolves 715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b in the master_library, byte-identical to this asset's identity, so nothing supersedes it and \"repoint to the canonical asset\" has no destination."
+        }
+      ],
+      "identity": {
+        "sourceStatus": "present_and_hash_verified",
+        "corpus": "master_library",
+        "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/KY/02_PACKET_FORMS/KY__FORM__AOC-497__the-court-having-reviewed-defendants-petition-to-expunge-and-being-sufficiently-advised-fi__REV-UNKNOWN__EN.pdf",
+        "sha256": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+        "byteLength": 176877,
+        "matchesTheAssetIdentity": true,
+        "supersededByTheArchive": false
+      },
+      "legalDesign": {
+        "pin": {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9",
+          "readFrom": "git:3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+        },
+        "components": [
+          {
+            "trackId": "ky_nonconviction_expungement",
+            "jurisdiction": "KY",
+            "componentId": "ky_nonconviction_expungement-proposed-order-2",
+            "role": "proposed_order",
+            "requirement": "conditional",
+            "outputStrategy": "official_pdf_fill"
+          }
+        ]
+      },
+      "routes": [
+        {
+          "trackId": "ky_nonconviction_expungement",
+          "jurisdiction": "KY",
+          "inTheLedger": true,
+          "coverageDisposition": "exact_current_pathway",
+          "ledgerTerminal": true,
+          "holds": [],
+          "mappedCompiledPathwayIds": [
+            "nonconviction-431076"
+          ],
+          "compiledProfile": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+          "resolved": [
+            {
+              "pathwayId": "nonconviction-431076",
+              "inTheCompiledProfile": true
+            }
+          ],
+          "reachable": true,
+          "why": "a mapped compiled pathway is present in the profile the runtime loads"
+        }
+      ],
+      "terminalTreatments": [
+        {
+          "trackId": "ky_nonconviction_expungement",
+          "file": "data/rcap-all50/terminalization-treatments/ky.json",
+          "exists": true,
+          "treatment": null,
+          "saysThePlatformDoesNotProduceIt": false,
+          "basis": null
+        }
+      ],
+      "retirementAvailable": false,
+      "repointAvailable": false,
+      "whyRepointIsUnavailable": "A repoint needs a canonical asset to point at. These bytes are the canonical edition the archive holds, so there is nowhere for a reference to move.",
+      "launchSafeExclusionAvailable": false
+    },
+    {
+      "familyId": "WI:dj-le-247-en",
+      "familyIds": [
+        "WI:dj-le-247-en",
+        "WI:dj-le-247-support-en"
+      ],
+      "assetId": "WI|DJ-LE-247|ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "jurisdiction": "WI",
+      "formId": "DJ-LE-247",
+      "documentSha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+      "packagePath": "data/rcap-all50/overlays/production/wisconsin/dj-le-247-en",
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/wisconsin/dj-le-247-en",
+        "data/rcap-all50/overlays/production/wisconsin/dj-le-247-support-en"
+      ],
+      "terminalOutcome": "launch_safe_exclusion",
+      "terminalBasis": "Every track naming this form is terminal in the ledger and unreachable in the compiled runtime (wi_nc_doj_challenge: the ledger maps this track to no compiled pathway, so the compiled runtime has no route to it), so no participant route can reach the asset. An existing terminal treatment covers it: wi_nc_doj_challenge = exact_supported_deferral.",
+      "workViewSaid": {
+        "rootCauseGroup": "not_a_filing_artifact",
+        "groupTitle": "Captured HTML, index or download page",
+        "rootBlocker": "recorded stale or superseded while 2 operational surface(s) still name it: legal_design_registry, d_track_queue",
+        "currentnessStatus": "recorded as stale or superseded",
+        "terminalOutcome": "repoint",
+        "terminalExitCondition": "every one of the 2 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+      },
+      "correctionsToTheWorkView": [
+        {
+          "premise": "not_a_filing_artifact — captured HTML, index or download page",
+          "holds": false,
+          "because": "DJ-LE-247 is a court-published PDF at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf, 130938 bytes, bound as a packet component with outputStrategy official_pdf_fill."
+        },
+        {
+          "premise": "recorded as stale or superseded",
+          "holds": false,
+          "because": "the work view's own sourceAvailability resolves ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7 in the master_library, byte-identical to this asset's identity, so nothing supersedes it and \"repoint to the canonical asset\" has no destination."
+        }
+      ],
+      "identity": {
+        "sourceStatus": "present_and_hash_verified",
+        "corpus": "master_library",
+        "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-247__wisconsin-criminal-history-record-challenge-form__REV-UNKNOWN__EN.pdf",
+        "sha256": "ada016d389ef1f0b343432b187aec8c8c93bd7711c85d4ccce847f75572ae6f7",
+        "byteLength": 130938,
+        "matchesTheAssetIdentity": true,
+        "supersededByTheArchive": false
+      },
+      "legalDesign": {
+        "pin": {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9",
+          "readFrom": "git:3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+        },
+        "components": [
+          {
+            "trackId": "wi_nc_doj_challenge",
+            "jurisdiction": "WI",
+            "componentId": "wi_nc_doj_challenge-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "outputStrategy": "official_pdf_fill"
+          }
+        ]
+      },
+      "routes": [
+        {
+          "trackId": "wi_nc_doj_challenge",
+          "jurisdiction": "WI",
+          "inTheLedger": true,
+          "coverageDisposition": "missing_from_compiled_runtime",
+          "ledgerTerminal": true,
+          "holds": [
+            "missing_from_compiled_runtime"
+          ],
+          "mappedCompiledPathwayIds": [],
+          "compiledProfile": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "resolved": [],
+          "reachable": false,
+          "why": "the ledger maps this track to no compiled pathway, so the compiled runtime has no route to it"
+        }
+      ],
+      "terminalTreatments": [
+        {
+          "trackId": "wi_nc_doj_challenge",
+          "file": "data/rcap-all50/terminalization-treatments/wi.json",
+          "exists": true,
+          "treatment": "exact_supported_deferral",
+          "saysThePlatformDoesNotProduceIt": true,
+          "basis": "You submit this challenge yourself to the Wisconsin Department of Justice and the mechanism is in scope, but the whole filing is built out of the difference between what your criminal history record says and what the court record says, and neither document is one LegalEase holds, so no completed challenge can be handed to you."
+        }
+      ],
+      "retirementAvailable": false,
+      "repointAvailable": false,
+      "whyRepointIsUnavailable": "A repoint needs a canonical asset to point at. These bytes are the canonical edition the archive holds, so there is nowhere for a reference to move.",
+      "launchSafeExclusionAvailable": true
+    },
+    {
+      "familyId": "WI:dj-le-250b-en",
+      "familyIds": [
+        "WI:dj-le-250b-en",
+        "WI:dj-le-250b-support-en"
+      ],
+      "assetId": "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "jurisdiction": "WI",
+      "formId": "DJ-LE-250B",
+      "documentSha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "packagePath": "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-en",
+      "familyDirectories": [
+        "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-en",
+        "data/rcap-all50/overlays/production/wisconsin/dj-le-250b-support-en"
+      ],
+      "terminalOutcome": "retained_operational_dependency_survives",
+      "terminalBasis": "1 packet component(s) name this form and 1 route(s) reach it in the compiled runtime, so it cannot be retired. It is not superseded either: the archive holds it at 3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6, which is this asset's own identity, so a repoint has no destination.",
+      "workViewSaid": {
+        "rootCauseGroup": "not_a_filing_artifact",
+        "groupTitle": "Captured HTML, index or download page",
+        "rootBlocker": "recorded stale or superseded while 1 operational surface(s) still name it: legal_design_registry",
+        "currentnessStatus": "recorded as stale or superseded",
+        "terminalOutcome": "repoint",
+        "terminalExitCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+      },
+      "correctionsToTheWorkView": [
+        {
+          "premise": "not_a_filing_artifact — captured HTML, index or download page",
+          "holds": false,
+          "because": "DJ-LE-250B is a court-published PDF at private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf, 475556 bytes, bound as a packet component with outputStrategy official_pdf_fill."
+        },
+        {
+          "premise": "recorded as stale or superseded",
+          "holds": false,
+          "because": "the work view's own sourceAvailability resolves 3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6 in the master_library, byte-identical to this asset's identity, so nothing supersedes it and \"repoint to the canonical asset\" has no destination."
+        }
+      ],
+      "identity": {
+        "sourceStatus": "present_and_hash_verified",
+        "corpus": "master_library",
+        "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/WI/04_SUPPORTING_PROCESS/WI__SUPPORT__DJ-LE-250B__fingerprint-record-removal-request__REV-UNKNOWN__EN.pdf",
+        "sha256": "3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+        "byteLength": 475556,
+        "matchesTheAssetIdentity": true,
+        "supersededByTheArchive": false
+      },
+      "legalDesign": {
+        "pin": {
+          "path": "data/record-clearing/legal-design-track-registry.json",
+          "commit": "3b6f4c103d2f97249b45acc0ea3fb889ff8787e5",
+          "sha256": "9d37ca7c654d71e6583950ed7cf3c32387f7f275b8f35cd46729a157ceea4ae9",
+          "readFrom": "git:3b6f4c103d2f97249b45acc0ea3fb889ff8787e5"
+        },
+        "components": [
+          {
+            "trackId": "wi_nc_doj_fingerprint_removal",
+            "jurisdiction": "WI",
+            "componentId": "wi_nc_doj_fingerprint_removal-primary-filing-1",
+            "role": "primary_filing",
+            "requirement": "required",
+            "outputStrategy": "official_pdf_fill"
+          }
+        ]
+      },
+      "routes": [
+        {
+          "trackId": "wi_nc_doj_fingerprint_removal",
+          "jurisdiction": "WI",
+          "inTheLedger": true,
+          "coverageDisposition": "exact_current_pathway",
+          "ledgerTerminal": true,
+          "holds": [],
+          "mappedCompiledPathwayIds": [
+            "adult-non-conviction-arrest-only-record-correction-or-removal"
+          ],
+          "compiledProfile": "src/lib/rcap-engine/compiled/profiles/WI-wisconsin.json",
+          "resolved": [
+            {
+              "pathwayId": "adult-non-conviction-arrest-only-record-correction-or-removal",
+              "inTheCompiledProfile": true
+            }
+          ],
+          "reachable": true,
+          "why": "a mapped compiled pathway is present in the profile the runtime loads"
+        }
+      ],
+      "terminalTreatments": [
+        {
+          "trackId": "wi_nc_doj_fingerprint_removal",
+          "file": "data/rcap-all50/terminalization-treatments/wi.json",
+          "exists": true,
+          "treatment": null,
+          "saysThePlatformDoesNotProduceIt": false,
+          "basis": null
+        }
+      ],
+      "retirementAvailable": false,
+      "repointAvailable": false,
+      "whyRepointIsUnavailable": "A repoint needs a canonical asset to point at. These bytes are the canonical edition the archive holds, so there is nowhere for a reference to move.",
+      "launchSafeExclusionAvailable": false
+    }
+  ]
+}
