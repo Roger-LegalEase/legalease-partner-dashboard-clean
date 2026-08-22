@@ -556,7 +556,8 @@ const LANE_2_EVIDENCE_WAVE = (() => {
   return {
     wave: "lane-2-evidence",
     implementationBase: "ad3bca357e8030f5d07207aeec2d07927f3b1912",
-    implementationStatus: "visual_gate_failed",
+    implementationStatus: "classification_integrated_rerender_dispatched",
+    implementationStatusWas: "visual_gate_failed — held until the semantic policy existed. It exists and is integrated, so the hold is lifted and the correction is in flight.",
     canonicalSidecars: "none",
     canonicalVisual: "none",
     reviewer: "not dispatched",
@@ -632,13 +633,42 @@ const LANE_2_EVIDENCE_WAVE = (() => {
     },
     dispatch: {
       order: [
-        "1. Session 6 publishes the semantic classification commit",
-        "2. Session 8 rerenders the four placeholder families against it",
+        "1. DONE — Session 6 published the semantic classification commit; it is integrated at df15404f",
+        "2. NOW — Session 8 rerenders the four placeholder families against that base",
         "3. only then may Sessions 9 and 10 produce evidence"
       ],
       classification: {
         session: 6,
-        status: "dispatched",
+        status: "consumed",
+        policyCommit: "c5c60eb00693bedb65652821f93085e2b79af60c",
+        policyCommitSubject: "feat(rcap-pdf): classify what a field's appearance means, not where it is stored",
+        sharedCodeParent: "190643bcfce9549b1434d1a6350ee9d623cf8d58",
+        integratedBase: "df15404f8e5a440a7bfda07e70aa6d248a153991",
+        integratedBranch: "claude/rcap-lane2-semantic-policy-integrated",
+        integratedBaseIs:
+          "ad3bca35 plus exactly c5c60eb, cherry-picked clean. Session 6's earlier branch history is deliberately not carried: the four commits between ad3bca35 and c5c60eb are lane-1 rerenders and a separate shared hotfix, and importing them would move family artifacts this correction holds still.",
+        pathsImported: [
+          "data/rcap-all50/shared/field-appearance-semantics.json",
+          "scripts/rcap-official-forms/rcap-active-content.mjs",
+          "scripts/rcap-official-forms/rcap-appearance-semantics.mjs",
+          "scripts/rcap-official-forms/rcap-official-form-finalize.mjs",
+          "scripts/verify-rcap-appearance-semantics.mjs"
+        ],
+        pathsImportedCount: 5,
+        familyArtifactsMoved: 0,
+        verified: {
+          "verify-rcap-appearance-semantics.mjs": "pass — 10 controls on synthetic bytes, 4 mutations each turn their control red, registry covers exactly the five assigned families",
+          "git diff --check": "clean",
+          "diff vs ad3bca35": "exactly the five paths above; nothing under data/rcap-all50/overlays, no register, no review record, no denominator"
+        },
+        notAvailableOnThisBranch: {
+          script: "scripts/verify-rcap-shared-hotfix-controls.mjs",
+          why:
+            "it is not one of c5c60eb's five paths — df147097 introduced it, three commits earlier in the history this integration is instructed not to carry. Base ad3bca35 plus only c5c60eb cannot contain it.",
+          doesThisLeaveSomethingUnchecked:
+            "no. It covers determineOwnership, controllingDesignRole and mergeImplementationIndex in scripts/implement-rcap-official-forms-d1.mjs, and ad3bca35 carries none of those three. The branch lacks both the hotfix and its verifier, so the pair is coherent rather than one-sided. It becomes required the moment df147097 is carried onto an implementation base.",
+          disposition: "unavailable_by_construction_not_skipped"
+        },
         role: "shared code and source-pack factory",
         whyThisSession:
           "the classification governs the finalizer, and the finalizer lives under scripts/rcap-official-forms/**, which Session 8's own assignment lists as a prohibited path. Session 6 already owns shared code and its current tip is on this exact question. This is read off the committed assignment, not assigned by preference.",
@@ -649,7 +679,20 @@ const LANE_2_EVIDENCE_WAVE = (() => {
       },
       rerender: {
         session: 8,
-        status: "blocked_until_classification_commit",
+        status: "dispatched",
+        unblockedBy: "c5c60eb00693bedb65652821f93085e2b79af60c",
+        baseToWorkFrom: "df15404f8e5a440a7bfda07e70aa6d248a153991",
+        mustPassBeforePushing: [
+          "scripts/verify-rcap-appearance-semantics.mjs",
+          "scripts/verify-rcap-lane2-widget-text-semantics.mjs",
+          "scripts/verify-rcap-lane2-widget-text-semantics.mjs --mutations"
+        ],
+        captainRegressionVerifierRemainsRequired: {
+          script: "scripts/verify-rcap-lane2-widget-text-semantics.mjs",
+          publishedAt: "97a7d76a193dca4c273ea48304caedacdada0b2a",
+          appliesAfter: "the four-family rerender",
+          note: "97a7d76 is captain-owned coordination and regression work and is deliberately NOT cherry-picked into the implementation branch; Session 8 runs the verifier from the captain branch against its own artifacts"
+        },
         assignment: "family-rerender-2.json",
         familyIds: [...AFFECTED],
         artifactsThatMayMove: [...AFFECTED],
@@ -664,8 +707,7 @@ const LANE_2_EVIDENCE_WAVE = (() => {
       visualSession: { session: 10, status: "not_dispatched" },
       reviewer: { session: 2, status: "not_dispatched", isAnEvidenceProducer: false },
       evidenceMayNotStartUntil: [
-        "Session 6 pushes the semantic classification commit",
-        "Session 8 pushes the four-family rerender against it",
+        "Session 8 pushes the four-family rerender against the classification-integrated base",
         "every required source-pack archive hash is published",
         "every required source archive is available to the evidence sessions"
       ]
