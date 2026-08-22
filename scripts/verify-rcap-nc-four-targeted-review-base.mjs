@@ -129,8 +129,14 @@ check(same, "both legs cover the identical family set",
   const consumption = readJson(CONSUMPTION);
   const approved = consumption.rows.filter((r) => r.verdict === "approved_platform_ready");
   const drifted = approved.filter((r) => !r.pinsStillMatching);
-  check(approved.length === 48, "48 approvals present", `${approved.length} approvals present, expected 48`);
-  check(drifted.length === 0, "all 48 approvals still bind their reviewed bytes",
+  // Count asserted as an invariant, not a snapshot. This read "48" while the four
+  // were still under review; once they were approved the same healthy state
+  // failed the check. What must hold is that every reviewed outcome is approved
+  // and still binding, whatever the running total.
+  const rejected = consumption.rows.filter((r) => r.verdict !== "approved_platform_ready");
+  check(rejected.length === 0, `all ${consumption.rows.length} reviewed outcomes are approved`,
+    `${rejected.length} reviewed outcome(s) are not approved: ${rejected.slice(0, 3).map((r) => r.familyId).join(", ")}`);
+  check(drifted.length === 0, `all ${approved.length} approvals still bind their reviewed bytes`,
     `${drifted.length} approval(s) no longer bind: ${drifted.slice(0, 3).map((r) => r.familyId).join(", ")}`);
 }
 

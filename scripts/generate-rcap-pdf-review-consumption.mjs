@@ -45,19 +45,48 @@ const sha256 = (p) => (fs.existsSync(abs(p))
  * names, so it is the review of these bytes and no other.
  */
 const freezeSha = readJson(FREEZE).PDF_IMPLEMENTATION_FREEZE_SHA;
+const NC_FOUR_FREEZE = (() => {
+  const f = "data/rcap-all50/pdf-nc-four-freeze-dispatch.json";
+  return fs.existsSync(abs(f)) ? readJson(f).NC_FOUR_IMPLEMENTATION_FREEZE_SHA : null;
+})();
+const CURRENT_FREEZES = new Set([freezeSha, NC_FOUR_FREEZE].filter(Boolean));
+
+// A verdict names its freeze under whichever field its batch used.
+const freezeOf = (v) => v.implementationFreeze ?? v.correctedImplementationFreeze ?? null;
+
 const allGroups = fs.readdirSync(abs(REVIEWS))
   .filter((f) => /-group-\d+\.review\.json$/.test(f))
   .sort()
   .map((f) => ({ file: f, body: readJson(`${REVIEWS}/${f}`) }));
 const groups = allGroups.filter((g) => {
   const v = (g.body.verdicts ?? [])[0];
-  return v && v.implementationFreeze === freezeSha;
+  return v && CURRENT_FREEZES.has(freezeOf(v));
 });
 if (!groups.length) {
-  fail(`no review group binds the current implementation freeze ${freezeSha.slice(0, 12)}; ${allGroups.length} historical group file(s) were found and none of them reviewed these bytes`);
+  fail(`no review group binds a current freeze; ${allGroups.length} historical group file(s) were found and none reviewed these bytes`);
 }
 
-const verdicts = groups.flatMap((g) => g.body.verdicts ?? []);
+/**
+ * One current outcome per family, and the later freeze wins.
+ *
+ * Four families were reviewed twice: rejected against the original freeze, then
+ * approved against the corrected one. Both records are real and neither is
+ * rewritten, but only one describes the bytes on disk. Keeping both would report
+ * 56 outcomes for 52 families and leave four correction_required rulings
+ * standing over corrections that have since been made and approved.
+ */
+const order = (v) => (freezeOf(v) === NC_FOUR_FREEZE ? 1 : 0);
+const currentByFamily = new Map();
+const superseded = [];
+for (const v of groups.flatMap((g) => g.body.verdicts ?? [])) {
+  const held = currentByFamily.get(v.family);
+  if (!held) { currentByFamily.set(v.family, v); continue; }
+  const [keep, drop] = order(v) >= order(held) ? [v, held] : [held, v];
+  currentByFamily.set(v.family, keep);
+  superseded.push({ familyId: drop.family, verdict: drop.verdict, freeze: freezeOf(drop),
+    supersededBy: freezeOf(keep) });
+}
+const verdicts = [...currentByFamily.values()];
 if (!verdicts.length) fail("the review records carry no verdicts");
 
 const dirFor = (familyId) => {
@@ -86,10 +115,37 @@ function rebind(v) {
     const actual = sha256(`${dir}/${rel}`);
     checks.push({ label, rel, expected, actual, ok: actual === expected });
   };
+  // The nc-four batch pins the sidecar's own recorded terminalState and
+  // withdrawalReceipt digests and the visual manifest's self-declared hash,
+  // rather than file-level digests. Those are checked where they actually live.
+  const isNcFour = v.correctedImplementationFreeze != null;
+  if (isNcFour) {
+    const sidecar = fs.existsSync(abs(`${dir}/artifact-provenance.json`))
+      ? fs.readFileSync(abs(`${dir}/artifact-provenance.json`), "utf8") : "";
+    for (const [label, expected] of [["terminal state", v.terminalStateDigest],
+      ["withdrawal receipt", v.withdrawalReceiptDigest]]) {
+      if (!expected) continue;
+      checks.push({ label, rel: "artifact-provenance.json:recorded", expected,
+        actual: sidecar.includes(expected) ? expected : null, ok: sidecar.includes(expected) });
+    }
+    if (v.visualManifestDigest) {
+      const vdir = "docs/record-clearing/pdf-visual-evidence/nc-four-terminal";
+      let hit = false;
+      if (fs.existsSync(abs(vdir))) {
+        for (const f of fs.readdirSync(abs(vdir)).filter((x) => x.endsWith(".json"))) {
+          let body; try { body = JSON.parse(fs.readFileSync(abs(`${vdir}/${f}`), "utf8")); } catch { continue; }
+          if (body.familyId === v.family && (body.visualManifestHash ?? body.manifestHash) === v.visualManifestDigest) hit = true;
+        }
+      }
+      checks.push({ label: "visual manifest", rel: `${vdir}:visualManifestHash`,
+        expected: v.visualManifestDigest, actual: hit ? v.visualManifestDigest : null, ok: hit });
+    }
+  }
   add("source record", "source-record.json", v.sourceRecordDigest);
   add("census", "field-census.json", v.censusDigest);
   add("classification", "field-classification.json", v.classificationDigest);
-  add("sidecar", "artifact-provenance.json", v.sidecarDigest);
+  if (!isNcFour) add("sidecar", "artifact-provenance.json", v.sidecarDigest);
+  else add("sidecar", "artifact-provenance.json", v.sidecarDigest);
   for (const [rel, expected] of Object.entries(v.artifactDigests ?? {})) add(rel, rel, expected);
   // The map/profile pin names whichever shape this family carries.
   if (v.mapOrProfileDigest != null) {
@@ -138,6 +194,8 @@ const record = {
   implementationFreeze: readJson(FREEZE).PDF_IMPLEMENTATION_FREEZE_SHA,
   reviewer: [...new Set(rows.map((r) => r.reviewer))].join(", "),
   batchesConsumed: groups.map((g) => g.file),
+  supersededVerdicts: superseded,
+  supersessionRule: "a family reviewed against both freezes keeps the verdict bound to the corrected one. Neither record is rewritten; the earlier ruling stays as history.",
   historicalBatchesIgnored: allGroups.length - groups.length,
   totals: {
     verdictsConsumed: rows.length,

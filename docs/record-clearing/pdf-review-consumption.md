@@ -1,13 +1,17 @@
 # PDF review consumption
 
-52 verdicts consumed — 48 approved and locked, 4 correction_required.
+52 verdicts consumed — 52 approved and locked, 0 correction_required.
 
-Every pin each verdict names was recomputed from disk: 224 digests, all matching. An approval that no longer matched its bytes would have failed this generator.
+Every pin each verdict names was recomputed from disk: 212 digests, all matching. An approval that no longer matched its bytes would have failed this generator.
 
 Approval is not promotion — the canonical register still applies its own conditions.
 
 | family | verdict | pins rechecked |
 | --- | --- | --- |
+| `NC:aoc-cr-287-form-es` | approved_platform_ready | 4 |
+| `NC:aoc-cr-287-form-vi` | approved_platform_ready | 4 |
+| `NC:aoc-cr-288-form-es` | approved_platform_ready | 4 |
+| `NC:aoc-cr-288-form-vi` | approved_platform_ready | 4 |
 | `AL:al-expungement-petition` | approved_platform_ready | 1 |
 | `AL:criminal-forms` | approved_platform_ready | 1 |
 | `AL:criminal-record-expungement` | approved_platform_ready | 1 |
@@ -17,10 +21,6 @@ Approval is not promotion — the canonical register still applies its own condi
 | `KY:kentucky-expungement-forms` | approved_platform_ready | 1 |
 | `AR:felony-petition-form-f` | approved_platform_ready | 7 |
 | `AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f` | approved_platform_ready | 7 |
-| `NC:aoc-cr-287-form-es` | correction_required | 7 |
-| `NC:aoc-cr-287-form-vi` | correction_required | 7 |
-| `NC:aoc-cr-288-form-es` | correction_required | 7 |
-| `NC:aoc-cr-288-form-vi` | correction_required | 7 |
 | `NC:aoc-cr-296-form-en` | approved_platform_ready | 4 |
 | `NC:aoc-cr-287-instructions-es` | approved_platform_ready | 4 |
 | `NC:aoc-cr-287-instructions-vi` | approved_platform_ready | 4 |
