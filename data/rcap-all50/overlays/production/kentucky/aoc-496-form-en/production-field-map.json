@@ -18,6 +18,8 @@
     }
   ],
   "captionOnly": true,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "Case.County",
@@ -35,9 +37,156 @@
       "factId": "participant.full_legal_name"
     },
     {
+      "field": "Def.Info.JailId",
+      "class": "manual",
+      "factId": "participant.full_legal_name"
+    },
+    {
       "field": "Def.VitalStats.DOB",
       "class": "participant",
       "factId": "participant.date_of_birth"
+    },
+    {
+      "field": "Def.VitalStats.SSN",
+      "class": "manual",
+      "factId": "participant.full_legal_name"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Case.Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Def.Address.Line1",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "Def.Address.City",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "Def.Address.State",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "Def.Address.Zip",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "Def.PhoneNo",
+      "reason": "court_issued_order_accepts_caption_facts_only",
+      "category": "court"
+    },
+    {
+      "field": "Text1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Charge.violation.date",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Charge1",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Charge2",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Charge3",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Charge4",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Charge5",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Charge6",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Check Box2",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box3",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box4",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box5",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box6",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box7",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box8",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Other",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text12",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box9",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Agencies",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Print",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
     }
   ],
   "unwritableFields": [

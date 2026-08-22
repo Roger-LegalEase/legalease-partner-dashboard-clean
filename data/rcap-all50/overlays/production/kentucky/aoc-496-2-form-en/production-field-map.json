@@ -18,6 +18,8 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "Case.County",
@@ -60,44 +62,121 @@
       "factId": "participant.phone"
     },
     {
+      "field": "Def.Info.JailId",
+      "class": "manual",
+      "factId": "participant.full_legal_name"
+    },
+    {
       "field": "Def.VitalStats.DOB",
       "class": "participant",
       "factId": "participant.date_of_birth"
     },
     {
+      "field": "Def.VitalStats.SSN",
+      "class": "manual",
+      "factId": "participant.full_legal_name"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "Case.Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Court Division",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
       "field": "Charge.violation.date",
-      "class": "participant",
-      "factId": "matter.offense_date"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "Charge1",
-      "class": "participant",
-      "factId": "matter.charges[0].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "Charge2",
-      "class": "participant",
-      "factId": "matter.charges[1].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "Charge3",
-      "class": "participant",
-      "factId": "matter.charges[2].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "Charge4",
-      "class": "participant",
-      "factId": "matter.charges[3].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "Charge5",
-      "class": "participant",
-      "factId": "matter.charges[4].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
     },
     {
       "field": "Charge6",
-      "class": "participant",
-      "factId": "matter.charges[5].charge"
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "Victims.List",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text11",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "PWRI.List",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Text12",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Agencies",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "Check Box19",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box20",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Check Box21",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Print",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Reset",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "Text1",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ],
   "unwritableFields": [],

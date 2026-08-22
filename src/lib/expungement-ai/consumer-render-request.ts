@@ -14,7 +14,7 @@ import {
 import { getBriefcaseItem, getBriefcaseItemForWebhook } from "@/lib/expungement-ai/briefcase";
 import { packetInformationModelFor, type PacketInformationModel } from "@/lib/expungement-ai/packet-information";
 import type { ConsumerBriefcaseItem } from "@/lib/expungement-ai/types";
-import { buildRenderJobSpec } from "@/lib/rcap/render/job-contract";
+import { buildRenderJobSpec, RenderContractError } from "@/lib/rcap/render/job-contract";
 import { enqueueRenderJob } from "@/lib/rcap/render/job-queue";
 import { resolveConsumerDeliveryAccess } from "@/lib/rcap/render/consumer-delivery-control";
 import { getSupabaseAdminClient } from "@/lib/supabase/server";
@@ -42,6 +42,10 @@ export type ConsumerRenderOutcome =
   | { status: "route_not_renderable"; reason: string }
   | { status: "payment_required"; reason: string }
   | { status: "identity_unresolved"; reason: string }
+  // The route resolved but the server could not derive a verifiable job
+  // specification for it — a corpus inconsistency, not anything the
+  // participant did or can fix. Fail before the durable job exists.
+  | { status: "route_contract_unverifiable"; reason: string }
   | { status: "enqueue_failed"; reason: string };
 
 const CONSUMER_PACKET_NAMESPACE = "rcap:consumer-packet:v1";
@@ -301,17 +305,38 @@ async function requestConsumerPacketRenderInternal(input: {
   // deferred composed route is refused here — before a packet row is created,
   // before payment is consulted, before a person is resolved and before
   // anything is enqueued.
-  const built = buildRenderJobSpec({
-    packetId: deterministicUuid(`${CONSUMER_PACKET_NAMESPACE}:${item.id}`),
-    state: item.state,
-    pathway: item.pathwayLabel,
-    profileId: item.state ?? "",
-    profileVersion: "1.3.0",
-    briefcaseItemId: item.id,
-    trackId: item.selectedTrackId
-      ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null),
-    packetFields
-  });
+  //
+  // The profile identity and version are no longer passed in. They used to be:
+  // `profileId: item.state` — a stored Briefcase display value — beside a
+  // literal `profileVersion: "1.3.0"` that no compiled profile has ever
+  // carried. Every consumer job was therefore stamped with an unknown profile
+  // version, the worker's allowlist refused the claim before rendering, and no
+  // paid packet could ever be delivered (hosted run 32195867963). Both are now
+  // derived inside buildRenderJobSpec from the compiled profile the route
+  // itself resolved against, so the browser, Stripe metadata and a stale
+  // stored value have no way to name them.
+  let built;
+  try {
+    built = buildRenderJobSpec({
+      packetId: deterministicUuid(`${CONSUMER_PACKET_NAMESPACE}:${item.id}`),
+      state: item.state,
+      pathway: item.pathwayLabel,
+      briefcaseItemId: item.id,
+      trackId: item.selectedTrackId
+        ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null),
+      packetFields
+    });
+  } catch (error) {
+    // A route that resolves but cannot be described by a verifiable
+    // specification stops here, before a person is resolved, before payment
+    // authority is consulted and before any durable row exists.
+    return {
+      status: "route_contract_unverifiable",
+      reason: error instanceof RenderContractError
+        ? `${error.errorCode}: ${error.message}`
+        : error instanceof Error ? error.message : String(error)
+    };
+  }
   if (!built.spec) return { status: "route_not_renderable", reason: built.route.reason };
 
   const person = await resolveConsumerPersonId(authUserId);

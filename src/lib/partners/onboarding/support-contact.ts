@@ -61,6 +61,6 @@ export function partnerSupportMailto(
   if (context.subject) parts.push(context.subject);
   if (context.organizationName) parts.push(context.organizationName);
   if (!parts.length) return mailtoHref;
-  const subject = `RCAP setup — ${parts.join(" — ")}`;
+  const subject = `RCAP setup: ${parts.join(", ")}`;
   return `mailto:${email}?subject=${encodeURIComponent(subject)}`;
 }

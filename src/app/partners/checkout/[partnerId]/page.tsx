@@ -40,8 +40,9 @@ export default async function PartnerCheckoutPage({
             <Badge tone="teal">Scoped partner billing</Badge>
             <h1 className="mt-4 text-4xl font-black leading-tight text-navy">Partner billing is handled by invoice.</h1>
             <p className="mt-4 text-sm leading-6 text-grayWilma-700">
-              LegalEase partner engagements are custom-scoped after discovery. An internal LegalEase admin creates the
-              Stripe invoice for the agreed scope, and payment state is reconciled only by verified Stripe webhook events.
+              LegalEase partner engagements are scoped to your program after an initial discovery conversation.
+              LegalEase prepares an invoice for the agreed scope, and your billing status updates once payment is
+              confirmed.
             </p>
 
             <div className="mt-6 rounded-md border border-grayWilma-200 bg-[#f7f8f6] p-5">
@@ -88,7 +89,8 @@ function PartnerNotFound() {
         <Card className="w-full rounded-md p-6 text-center">
           <h1 className="text-3xl font-black text-navy">Partner not found</h1>
           <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-            This partner billing link does not match a seeded LegalEase partner record.
+            We couldn&rsquo;t find a partner program for this billing link. Check the link, or contact LegalEase and
+            we&rsquo;ll send you a new one.
           </p>
           <Link
             href="/partners"

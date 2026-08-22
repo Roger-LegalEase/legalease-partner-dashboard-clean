@@ -1,0 +1,247 @@
+# Branch-runnable official-source acquisition.
+#
+# The dispatch-only workflow beside this one can only be started from the
+# default branch, which is why nothing had been acquired: the remediation branch
+# could not run it. This one runs on push and on pull_request, so it executes on
+# the branch that carries the queue, and it reads the queue rather than taking a
+# URL from a person.
+#
+# It fetches, follows redirects, and records for every asset: the requested URL,
+# the final resolved URL, HTTP status, content type, byte size, retrieval time
+# and SHA-256. Downloads are restricted to official government hosts by the
+# acquisition script, on both the requested and the final URL, so a redirect off
+# the allowlist is a refusal rather than a silent substitution.
+#
+# It commits nothing. Every byte leaves as a workflow artifact, and whether it
+# enters the repository is a decision a person makes after source identity,
+# currentness and intended use are settled.
+name: RCAP Source Acquisition (branch)
+
+on:
+  push:
+    branches:
+      - "claude/**"
+    paths:
+      - "data/rcap-all50/source-acquisition-queue.json"
+      - "scripts/rcap-acquire-official-source.mjs"
+      - "scripts/generate-rcap-source-acquisition-queue.mjs"
+      - ".github/workflows/rcap-source-acquisition-branch.yml"
+  pull_request:
+    paths:
+      - "data/rcap-all50/source-acquisition-queue.json"
+      - "scripts/rcap-acquire-official-source.mjs"
+      - ".github/workflows/rcap-source-acquisition-branch.yml"
+  workflow_dispatch:
+    inputs:
+      include_probes:
+        description: "Also probe unverified pattern candidates (set 3)"
+        required: false
+        default: "true"
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rcap-source-acquisition-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    name: Read the acquisition queue
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.build.outputs.matrix }}
+      count: ${{ steps.build.outputs.count }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # The queue is regenerated and compared, not trusted. A committed queue
+      # that no longer matches its own generator would send this workflow at
+      # URLs nobody can reproduce.
+      - name: Regenerate the queue and confirm it matches the committed one
+        run: |
+          cp data/rcap-all50/source-acquisition-queue.json /tmp/queue-committed.json
+          node scripts/generate-rcap-source-acquisition-queue.mjs
+          diff -u /tmp/queue-committed.json data/rcap-all50/source-acquisition-queue.json
+
+      # One leg per DISTINCT official source, not one per queue record. Several
+      # records legitimately name the same document; fetching it six times adds
+      # nothing and, because receipts were named by jurisdiction and form number
+      # alone, six receipts collided into one file and the collector's JSON.parse
+      # hit two concatenated documents. Records are grouped, never dropped.
+      - name: Build the acquisition matrix, one leg per distinct source
+        id: build
+        env:
+          INCLUDE_PROBES: ${{ github.event.inputs.include_probes || 'true' }}
+        run: node scripts/rcap-source-acquisition-plan.mjs
+
+  acquire:
+    name: ${{ matrix.entry.jurisdiction }} ${{ matrix.entry.formNumber }} (${{ matrix.entry.receiptSlug }})
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    strategy:
+      # One refused or moved form must not cost the other forty their receipts.
+      fail-fast: false
+      max-parallel: 6
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Acquire and receipt the official source
+        env:
+          RCAP_SOURCE_URL: ${{ matrix.entry.url }}
+          RCAP_JURISDICTION: ${{ matrix.entry.jurisdiction }}
+          RCAP_FORM_NUMBER: ${{ matrix.entry.formNumber }}
+          RCAP_EXPECTED_SHA256: ${{ matrix.entry.expectedSha256 }}
+          RCAP_URL_KIND: ${{ matrix.entry.urlKind }}
+          RCAP_ASSET_ID: ${{ matrix.entry.coveredAssetIds[0] }}
+          RCAP_SOURCE_KEY: ${{ matrix.entry.sourceKey }}
+          RCAP_RECEIPT_SLUG: ${{ matrix.entry.receiptSlug }}
+          RCAP_COVERED_ASSET_IDS: ${{ join(matrix.entry.coveredAssetIds, ',') }}
+          RCAP_COVERED_ENTRY_COUNT: ${{ matrix.entry.coveredQueueEntryCount }}
+          RCAP_CANONICAL_URL: ${{ matrix.entry.canonicalUrl }}
+          RCAP_TOLERATE_FAILURE: "1"
+        run: node scripts/rcap-acquire-official-source.mjs
+
+      - name: Upload the binary and its receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-source-${{ matrix.entry.receiptSlug }}
+          path: acquired-source/
+          if-no-files-found: error
+          retention-days: 30
+
+  collect:
+    name: Collect every receipt
+    needs: [plan, acquire]
+    if: always() && needs.plan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Download every acquisition artifact
+        uses: actions/download-artifact@v4
+        with:
+          pattern: rcap-source-*
+          path: acquired
+          merge-multiple: true
+
+      # The collector proves the plan was honoured, then summarises.
+      #
+      # A previous run had all 45 legs succeed and still failed here: duplicate
+      # queue records produced receipts named by jurisdiction and form number
+      # alone, download-artifact merged them into one directory, and one file
+      # ended up holding two concatenated JSON documents. JSON.parse stopped at
+      # the seam. Parsing each receipt individually and naming the offending
+      # file is the difference between "a receipt is malformed" and a stack
+      # trace at position 883.
+      - name: Summarise what arrived
+        env:
+          EXPECTED_LEGS: ${{ needs.plan.outputs.count }}
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const dir = "acquired";
+            const files = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith(".receipt.json")).sort() : [];
+
+            const receipts = [];
+            const malformed = [];
+            for (const f of files) {
+              const text = fs.readFileSync(`${dir}/${f}`, "utf8");
+              try {
+                const parsed = JSON.parse(text);
+                if (Array.isArray(parsed)) { malformed.push({ file: f, why: "receipt is an array, not one receipt" }); continue; }
+                receipts.push(parsed);
+              } catch (error) {
+                // Name the file and the shape of the problem. Never the content.
+                const looksConcatenated = /\}\s*\{/.test(text);
+                malformed.push({
+                  file: f,
+                  why: looksConcatenated
+                    ? "file holds two concatenated JSON documents — two legs wrote the same receipt filename"
+                    : `malformed JSON: ${String(error.message).split("\n")[0]}`
+                });
+              }
+            }
+            if (malformed.length > 0) {
+              console.error("FAIL receipts that cannot be read:");
+              for (const m of malformed) console.error(`  ${m.file}: ${m.why}`);
+              process.exit(1);
+            }
+
+            const expected = Number(process.env.EXPECTED_LEGS ?? 0);
+            const slugs = receipts.map((r) => r.receiptSlug).filter(Boolean);
+            const keys = receipts.map((r) => r.sourceKey).filter(Boolean);
+            const problems = [];
+            if (receipts.length !== expected) problems.push(`${receipts.length} receipt(s) for ${expected} planned leg(s)`);
+            if (new Set(files).size !== files.length) problems.push("a receipt filename occurs twice");
+            if (new Set(slugs).size !== slugs.length) problems.push("two receipts share a receipt slug");
+            if (new Set(keys).size !== keys.length) problems.push("two receipts claim the same source key");
+            if (slugs.length !== receipts.length) problems.push("a receipt carries no receipt slug, so it cannot be tied to its source");
+            const coveredEntries = receipts.reduce((n, r) => n + Number(r.coveredQueueEntryCount ?? 0), 0);
+            if (coveredEntries < receipts.length) problems.push(`covered queue entries (${coveredEntries}) is below the receipt count`);
+            if (problems.length > 0) {
+              console.error("FAIL the receipts do not account for the plan:");
+              for (const p of problems) console.error(`  ${p}`);
+              process.exit(1);
+            }
+
+            const acquired = receipts.filter((r) => r.outcome === "acquired");
+            const summary = {
+              schemaVersion: "rcap-source-acquisition-summary/v1",
+              runId: process.env.GITHUB_RUN_ID ?? null,
+              ref: process.env.GITHUB_REF ?? null,
+              sha: process.env.GITHUB_SHA ?? null,
+              totals: {
+                plannedLegs: expected,
+                attempted: receipts.length,
+                acquired: acquired.length,
+                notAcquired: receipts.length - acquired.length,
+                queueEntriesCovered: coveredEntries,
+                pdfBytes: acquired.filter((r) => r.looksLikePdf).length,
+                notPdfBytes: acquired.filter((r) => r.looksLikePdf === false).length,
+                matchedExpectedHash: acquired.filter((r) => r.matchesExpectedSha256 === true).length,
+                differsFromExpectedHash: acquired.filter((r) => r.matchesExpectedSha256 === false).length
+              },
+              // None of these are settled by fetching. They stay open.
+              stillUnmade: ["edition", "currentness", "supersession", "intended use"],
+              receipts
+            };
+            fs.writeFileSync("acquisition-summary.json", `${JSON.stringify(summary, null, 2)}\n`);
+            const rows = receipts.map((r) => `| ${r.jurisdiction} | ${r.formNumber} | ${r.coveredQueueEntryCount ?? 1} | ${r.outcome} | ${r.httpStatus ?? "-"} | ${r.observedByteLength ?? "-"} | ${(r.sha256 ?? "").slice(0, 12) || "-"} |`);
+            const md = [
+              `## RCAP source acquisition — ${summary.totals.acquired}/${summary.totals.attempted} acquired`,
+              ``,
+              `${expected} unique source(s) covering ${coveredEntries} queue entries.`,
+              ``,
+              `| Jurisdiction | Form | Entries | Outcome | HTTP | Bytes | SHA-256 |`,
+              `| --- | --- | --- | --- | --- | --- | --- |`,
+              ...rows
+            ].join("\n");
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, md);
+          '
+
+      - name: Upload the acquisition summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-acquisition-summary
+          path: |
+            acquisition-summary.json
+            acquired/
+          if-no-files-found: error
+          retention-days: 30

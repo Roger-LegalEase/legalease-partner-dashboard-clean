@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "rcap-participant-packet-proof/v1",
+  "jobId": "rcap-wi-custom-pleading",
+  "parentJobId": "NEW-02-custom-pleading-families",
+  "jurisdiction": "WI",
+  "completionCommit": "69b215d3673600b18ead7422699eb4e6636de6fe",
+  "authorityEdition": "1.2",
+  "verifier": {
+    "path": "scripts/verify-rcap-wisconsin-custom-pleading.mjs",
+    "sha256": "6de858e2fa5235063812e45726cabce2558be301bb7d1d4269b34632bb392a60",
+    "result": "passed"
+  },
+  "implementationOutputs": [
+    {
+      "path": "src/lib/rcap/packets/jurisdictions/wisconsin/custom-pleading.ts",
+      "sha256": "2cfc68eff96ded56228722d55a8ba74236d9b20fbf8acd6c840c0e1c73480e9a"
+    },
+    {
+      "path": "scripts/verify-rcap-wisconsin-custom-pleading.mjs",
+      "sha256": "6de858e2fa5235063812e45726cabce2558be301bb7d1d4269b34632bb392a60"
+    }
+  ],
+  "finalPdfCount": 1,
+  "assembledPageCount": 4,
+  "canonicalPacketCount": 1,
+  "variantPacketCount": 2,
+  "technicalFixtureCount": 3,
+  "technicalFixturePageCount": 16,
+  "samplePackets": [
+    {
+      "trackId": "wi_exp_certificate_of_discharge_followup",
+      "fixtureId": "wi-certificate-request-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "wi-certificate-request-positive-1-technical-fixture.pdf",
+      "assembledSha256": "459b024f9b0107fa7530db8d44003f8b70bb3b996e50b26d57076d39dd52c7d4",
+      "assembledPageCount": 4
+    },
+    {
+      "trackId": "wi_exp_certificate_of_discharge_followup",
+      "fixtureId": "wi-certificate-no-supervision-identifiers-3",
+      "sampleRole": "variant",
+      "variantOfTrackId": "wi_exp_certificate_of_discharge_followup",
+      "assembledFileName": "wi-certificate-no-supervision-identifiers-3-technical-fixture.pdf",
+      "assembledSha256": "3f75feea8b8ecb083e48297131e9f35e455ffbfc9e1c979746d55180904ea7af",
+      "assembledPageCount": 4
+    },
+    {
+      "trackId": "wi_exp_certificate_of_discharge_followup",
+      "fixtureId": "wi-certificate-status-only-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "wi_exp_certificate_of_discharge_followup",
+      "assembledFileName": "wi-certificate-status-only-2-technical-fixture.pdf",
+      "assembledSha256": "9758fe72bb29d4310344945351704119bea4b20f1eedf7e30f01c8b687e6c642",
+      "assembledPageCount": 8
+    }
+  ],
+  "deterministic": true,
+  "generatedPacketBytesTracked": false,
+  "runtimeStatus": "runtime_disabled",
+  "technicalEvidence": "complete",
+  "visualProof": "pending",
+  "visualReview": "formal_visual_review_pending",
+  "completedOutputLegalReview": "pending",
+  "counselAdopted": false,
+  "packetReady": false,
+  "productionEnabled": false
+}

@@ -18,7 +18,7 @@ export async function GET() {
 
   const xml = buildRssFeed({
     surface: "legalease_partner",
-    title: "LegalEase Partner — Insights",
+    title: "LegalEase Partner Insights",
     description:
       "How courts, nonprofits, employers, and community organizations expand record-clearing access: program design, operations, funding, and outcomes.",
     indexPath: "/insights",

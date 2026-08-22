@@ -9,6 +9,8 @@ import {
   DEFAULT_ONBOARDING_REVIEW_DETAIL_MODE,
   isOnboardingReviewAuditOpen
 } from "@/lib/partners/onboarding/review-presentation";
+import { reviewNextActionState } from "@/lib/partners/onboarding/partner-copy";
+import { workspaceStatusLabel } from "@/lib/partners/onboarding/partner-labels";
 import { PartnerSupportLink } from "../PartnerSupportLink";
 
 type ReviewValue =
@@ -150,6 +152,17 @@ export function OnboardingReviewClient({
         section.missingItems.length > 0 || section.hasPendingPrefill
     ) ??
     sections.find((section) => section.state === "Needs attention");
+  // Four partner states, authored once. Two of them were held in this component as
+  // literals that the copy contract also declared, which is exactly how the same state
+  // ends up worded two ways on two screens.
+  const nextAction = reviewNextActionState({
+    submitted,
+    submitEnabled,
+    nextSectionTitle: submitted ? null : firstActionSection?.title ?? null,
+    nextSectionHref: submitted ? null : firstActionSection?.editHref ?? null,
+    submitHref: "#current-review-action-heading",
+    returnHref: "/partner/onboarding#program-configuration"
+  });
 
   async function submitForReview() {
     if (!submitEnabled || submittingRef.current) return;
@@ -211,9 +224,7 @@ export function OnboardingReviewClient({
         statusLabel:
           typeof payload.statusLabel === "string"
             ? payload.statusLabel
-            : savedStatus === "ready_for_review"
-              ? "Awaiting LegalEase review"
-              : "Submitted",
+            : workspaceStatusLabel(savedStatus ?? "ready_for_review"),
         historical: false
       });
     } catch {
@@ -243,7 +254,7 @@ export function OnboardingReviewClient({
         <p className="mt-3 max-w-3xl text-sm leading-6 text-[#475A6E]">
           {isPartnerStaff
             ? "This read-only summary shows the submitted implementation record. A partner administrator manages changes and submission."
-            : "Start with blockers, changes, and decisions. Open the full field audit only when you need the complete saved record."}
+            : "Start with the changes and decisions that need attention. Open the full field audit only when you need the complete saved record."}
         </p>
       </header>
 
@@ -326,31 +337,52 @@ export function OnboardingReviewClient({
           <Metric label="Open partner changes" value={String(openPartnerChanges)} />
           <Metric label="Waiting on LegalEase" value={String(waitingOnLegalEase)} />
           <Metric label="Changed since prior review" value={String(changedSincePriorReview)} />
-          <Metric label="Partner blockers" value={String(partnerBlockers)} />
+          <Metric label="Decisions remaining" value={String(partnerBlockers)} />
           <Metric
-            label="Approvals missing"
+            label="Sections remaining"
             value={String(sections.filter((section) => !section.approvalSatisfied).length)}
           />
         </dl>
       </section>
 
       {partnerBlockers > 0 ? (
-        <section aria-labelledby="partner-blockers-heading" className="mt-6 border-l-[6px] border-[#FF3B00] bg-white p-5">
-          <h2 className="text-xl font-extrabold" id="partner-blockers-heading">Partner changes are still required</h2>
-          <p className="mt-2 text-sm leading-6 text-[#475A6E]">
-            Resolve {partnerBlockers} required item{partnerBlockers === 1 ? "" : "s"} before final submission.
+        <section aria-labelledby="partner-decisions-heading" className="mt-6 border-l-[6px] border-[#0A8E9A] bg-white p-5">
+          <h2 className="text-xl font-extrabold" id="partner-decisions-heading">Your setup is partly prepared</h2>
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-[#475A6E]">
+            We completed the information already on file. Review it, update anything that has
+            changed, and complete the remaining decisions before submitting your setup to LegalEase.
           </p>
-          <ul className="mt-3 grid gap-2 text-sm">
-            {sections.flatMap((section) =>
-              section.missingItems.map((item) => (
-                <li key={`${section.key}-${item.fieldKey}`}>
-                  <Link className={inlineLinkClass} href={item.href}>
-                    {section.title}: {item.label}
-                  </Link>
-                </li>
-              ))
-            )}
-          </ul>
+          {/* Grouped by section and collapsed. The previous version printed every remaining
+              decision as one flat list, so a mostly-prepared workspace opened as a wall of
+              sixty links with no way to tell which section to start in. */}
+          <div className="mt-4 grid gap-2">
+            {sections
+              .filter((section) => section.missingItems.length > 0)
+              .map((section) => (
+                <details
+                  className="border border-[#D8DDDF] px-4 py-3"
+                  key={section.key}
+                  data-remaining-decisions-section={section.key}
+                >
+                  <summary className="cursor-pointer text-sm font-bold text-[#071B33]">
+                    {section.title}
+                    <span className="ml-2 font-semibold text-[#475A6E]">
+                      {section.missingItems.length} decision
+                      {section.missingItems.length === 1 ? "" : "s"} remaining
+                    </span>
+                  </summary>
+                  <ul className="mt-3 grid gap-2 text-sm">
+                    {section.missingItems.map((item) => (
+                      <li key={`${section.key}-${item.fieldKey}`}>
+                        <Link className={inlineLinkClass} href={item.href}>
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              ))}
+          </div>
         </section>
       ) : null}
 
@@ -380,7 +412,7 @@ export function OnboardingReviewClient({
                 <dl className="grid gap-3 sm:grid-cols-3">
                   <DecisionFact label="Setup information" value={`${section.completionPercentage}% recorded`} />
                   <DecisionFact label="Requested changes" value={String(section.openChangeRequests)} />
-                  <DecisionFact label="Resolved history" value={String(section.resolvedChangeRequests)} />
+                  <DecisionFact label="Decision history" value={String(section.resolvedChangeRequests)} />
                 </dl>
                 <Link className={`${secondaryActionClass} mt-4`} href={section.editHref}>
                   {sectionActionLabel(section, canEdit)}
@@ -428,22 +460,10 @@ export function OnboardingReviewClient({
       <section aria-labelledby="current-review-action-heading" className="mt-8 border border-[#B8C1C7] border-t-4 border-t-[#071B33] bg-[#F7F4EE] p-5 md:p-6">
         <p className="text-xs font-bold uppercase tracking-[0.1em] text-[#475A6E] [font-family:var(--font-rcap-mono)]">Current next action</p>
         <h2 className="mt-2 text-xl font-extrabold" id="current-review-action-heading">
-          {submitted
-            ? "Monitor LegalEase review"
-            : firstActionSection
-              ? "Resolve the next partner item"
-              : submitEnabled
-                ? "Submit for LegalEase review"
-                : "Review the current implementation status"}
+          {nextAction.heading}
         </h2>
         <p className="mt-2 max-w-3xl text-sm leading-6 text-[#475A6E]">
-          {submitted
-            ? "LegalEase owns the next review decision. Return here if a correction is requested."
-            : firstActionSection
-              ? `Open ${firstActionSection.title} at the narrowest available task.`
-              : submitEnabled
-                ? "All current partner blockers are clear. Submission starts review and does not activate or publish the program."
-                : "No submission action is available for this role or current state."}
+          {nextAction.explanation}
         </p>
         <div className="mt-5">
           {submitEnabled ? (
@@ -454,17 +474,19 @@ export function OnboardingReviewClient({
               onClick={() => void submitForReview()}
               type="button"
             >
-              {submission.kind === "submitting" ? "Submitting" : "Submit for LegalEase review"}
+              {submission.kind === "submitting"
+                ? "Submitting"
+                : nextAction.primaryAction?.label ?? "Submit for LegalEase review"}
             </button>
-          ) : (
+          ) : nextAction.primaryAction ? (
             <Link
               className={primaryActionClass}
               data-review-primary-action={firstActionSection ? "resolve" : "return"}
-              href={firstActionSection?.editHref ?? "/partner/onboarding#program-configuration"}
+              href={nextAction.primaryAction.href ?? "/partner/onboarding#program-configuration"}
             >
-              {firstActionSection ? "Open next required task" : "Return to implementation center"}
+              {nextAction.primaryAction.label}
             </Link>
-          )}
+          ) : null}
         </div>
       </section>
     </div>

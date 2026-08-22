@@ -120,11 +120,9 @@ export default async function PartnerOnboardingPage({
             body="Review the partner-facing onboarding, launch prep, weekly reporting, and final impact report email previews."
             href={routes.emailSequence}
           />
-          <HubCard
-            title="Internal provisioning status"
-            body="LegalEase operations view for asset status, owners, next actions, and launch readiness. Internal only."
-            href={routes.internalProvisioning}
-          />
+          {/* The LegalEase operations view is reached from /internal. It used to render
+              here as a card labelled "Internal only" on a page whose own heading welcomes
+              a partner, which put internal vocabulary in front of a partner audience. */}
         </section>
 
         <section className="mt-8 grid gap-3 rounded-md border border-grayWilma-200 bg-white p-5 shadow-sm md:grid-cols-2 lg:grid-cols-4">
@@ -177,7 +175,7 @@ function PartnerNotFound() {
         <Card className="w-full rounded-md p-6 text-center">
           <h1 className="text-3xl font-black text-navy">Partner not found</h1>
           <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-            This onboarding link does not match a seeded LegalEase partner record.
+            We couldn&rsquo;t find a partner program for this link. Check the link, or contact LegalEase and we&rsquo;ll send you a new one.
           </p>
           <Link
             href="/partners"

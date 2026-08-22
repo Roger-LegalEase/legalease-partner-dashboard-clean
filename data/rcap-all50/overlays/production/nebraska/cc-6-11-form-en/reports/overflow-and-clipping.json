@@ -4,55 +4,160 @@
   "findings": [
     {
       "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Text2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Text5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Text6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "Check Box7",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "noemailreason",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "noemailreason2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "emailaddress",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
       "field": "TYPEOFCOURTDROPDOWN",
-      "check": "option_not_in_list",
-      "value": "District Court",
-      "optionCount": 5,
-      "handling": "left_blank_for_participant_selection"
+      "reason": "value_not_among_field_options",
+      "factId": "matter.court"
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "DROPDOWNCOUNTY2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "canonical",
+      "check": "binding_refused",
+      "field": "fullcountystatementRIGHT",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "fixture": "boundary",
+      "check": "unfittable_refused_not_clipped",
       "field": "defendant",
-      "check": "clipping",
-      "widgetWidth": 198,
-      "textWidthAt": 326.1,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "factId": "participant.full_legal_name",
+      "outcome": "refused",
+      "reason": "value_exceeds_widget_width_at_minimum_font",
+      "value": "Alexandrina-Katharine Montgomery-Vandenberg-Oyelaran y Fitzwilliam III",
+      "rect": {
+        "x": 109,
+        "y": 575,
+        "width": 198,
+        "height": 14
+      },
+      "minFontSize": 6,
+      "requiredWidthAtMin": 195.6
     },
     {
       "fixture": "boundary",
-      "field": "printedname",
-      "check": "clipping",
-      "widgetWidth": 319,
-      "textWidthAt": 326.1,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "check": "binding_refused",
+      "field": "Text2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "fixture": "boundary",
-      "field": "streetaddress",
-      "check": "clipping",
-      "widgetWidth": 268,
-      "textWidthAt": 357.8,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "check": "binding_refused",
+      "field": "Text5",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "fixture": "boundary",
-      "field": "citystatezip",
-      "check": "clipping",
-      "widgetWidth": 289,
-      "textWidthAt": 298.3,
-      "fontSize": 10,
-      "handling": "shrink_to_fit_required_at_render"
+      "check": "binding_refused",
+      "field": "Text6",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     },
     {
       "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "Check Box7",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "noemailreason",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "noemailreason2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "emailaddress",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
       "field": "TYPEOFCOURTDROPDOWN",
-      "check": "option_not_in_list",
-      "value": "District Court",
-      "optionCount": 5,
-      "handling": "left_blank_for_participant_selection"
+      "reason": "value_not_among_field_options",
+      "factId": "matter.court"
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "DROPDOWNCOUNTY2",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "fixture": "boundary",
+      "check": "binding_refused",
+      "field": "fullcountystatementRIGHT",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ]
 }

@@ -148,7 +148,7 @@ function PartnerNotFound() {
         <Card className="w-full rounded-md p-6 text-center">
           <h1 className="text-3xl font-black text-navy">Partner not found</h1>
           <p className="mt-3 text-sm leading-6 text-grayWilma-700">
-            This launch kit link does not match a seeded LegalEase partner record.
+            We couldn&rsquo;t find a partner program for this link. Check the link, or contact LegalEase and we&rsquo;ll send you a new one.
           </p>
           <Link
             href="/partners"

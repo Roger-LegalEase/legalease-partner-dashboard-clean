@@ -191,6 +191,7 @@ export default async function PartnerOnboardingSectionPage({
             : "/partner/onboarding/review"
         }
         pendingPrefillFieldKeys={section.pendingPrefillFieldKeys}
+        partnerUpdatedPrefillFieldKeys={section.partnerUpdatedPrefillFieldKeys}
         initialStepId={initialStepId}
         missingRequiredKeys={section.missingRequiredKeys}
         completionHref="/partner/onboarding#program-configuration"

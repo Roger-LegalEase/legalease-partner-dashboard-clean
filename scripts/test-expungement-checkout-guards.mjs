@@ -239,6 +239,18 @@ function buildPaymentAdapter({
       exactDeferralForTrack: () => null,
       terminalTreatmentForTrack: () => null
     },
+    // The delivery gate the payment adapter consults before it will sell.
+    // Stubbed permissive here on purpose: these cases exercise the OTHER
+    // checkout guards, and a route that cannot render would short-circuit them
+    // all, so every assertion below would pass for the wrong reason. The real
+    // binding — no route may take money for a packet it cannot produce — is
+    // proven against the real resolver by
+    // scripts/verify-rcap-money-gate-delivery-binding.mjs, over every
+    // jurisdiction, with its own mutations.
+    "@/lib/rcap/documents/packet-route-resolver": {
+      packetRouteCanRender: () => true,
+      resolvePacketRoute: () => ({ kind: "factory_v2", canRender: true })
+    },
     "@/lib/expungement-ai/briefcase": {
       getBriefcaseItem: async () => null
     },

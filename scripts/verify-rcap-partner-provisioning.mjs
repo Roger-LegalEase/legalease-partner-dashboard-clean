@@ -85,7 +85,15 @@ check("every provisioning caller goes through provisionPartner", () => {
   // this verifier. Nothing else may reach it, and none of them may write.
   assert.deepEqual(
     callers.sort(),
-    [CANARY, "scripts/test-rcap-partner-provisioning-lifecycle.mjs", ROUTE].sort()
+    [
+      CANARY,
+      // Local browser acceptance seeds its synthetic tenant through the same service, so
+      // the screens under review are the real screens rather than a fixture. It refuses any
+      // non-loopback Supabase URL before it reaches this call.
+      "scripts/capture-rcap-prepared-onboarding-acceptance.mjs",
+      "scripts/test-rcap-partner-provisioning-lifecycle.mjs",
+      ROUTE
+    ].sort()
   );
   for (const caller of callers) {
     const source = read(caller);

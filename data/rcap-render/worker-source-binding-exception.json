@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "rcap-worker-source-binding-exception/v1",
+  "exceptionType": "missing_oci_revision_compensated_by_external_source_binding",
+  "whyThisExists": "The accepted worker image carries no org.opencontainers.image.revision label and no source-naming provenance attestation, because the publication workflow passed tags without labels and the Dockerfile declares none. The image therefore cannot state which source it was built from. Attaching one now is impossible: a label lives in deploy/rcap-render-worker/Dockerfile, a canonical image input, so adding it would change the fingerprint and mint a different digest. The binding is instead established outside the image, by five independent facts that all name the same source, and this record says plainly that the label is ABSENT rather than pretending it is present.",
+
+  "sourceSha": "5ac0d8d6910aec3dc6259b2d4da6931abc5af7e8",
+  "prHeadSha": "aa424f47a590db4146c1311d44be450463b192e6",
+  "immutableDigest": "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530",
+  "publicationRunId": 32307070302,
+
+  "ociRevisionPresent": false,
+  "provenanceAttestationPresent": false,
+
+  "sourceBindingMethod": [
+    "committed publication evidence",
+    "authenticated full-SHA tag resolution",
+    "immutable digest resolution",
+    "canonical image-input fingerprint",
+    "empty source-to-PR-head image-input diff"
+  ],
+
+  "ownerDecision": "approved_for_this_exact_digest_only",
+  "reusable": false,
+  "futurePublicationRequirement": "OCI revision label or source-naming provenance attestation required",
+  "noDeploymentAuthorizedByException": true,
+
+  "scope": {
+    "appliesToExactlyOneTuple": true,
+    "note": "This exception covers the single (sourceSha, prHeadSha, immutableDigest, publicationRunId) tuple above and nothing else. It may not be reused for another SHA, tag, digest, run, package, repository, or publication attempt. It compensates for ABSENCE only: an image that states a revision which disagrees with the accepted source is a contradiction, not a gap, and must fail regardless of this record."
+  },
+
+  "doesNotAuthorize": [
+    "deployment of this or any image",
+    "rebuilding, republishing, retagging or a latest tag",
+    "reuse for a future digest",
+    "relaxing the source-binding requirement for any other image",
+    "reporting the OCI revision as present or passing"
+  ]
+}

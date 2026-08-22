@@ -2,6 +2,7 @@ import {
   nextActionOwnerLabel,
   sectionStatusLabel
 } from "./partner-labels";
+import { commercialState } from "./partner-copy";
 import type {
   CommercialGateOutcome,
   OnboardingNextActionOwner,
@@ -9,6 +10,12 @@ import type {
   OnboardingSectionStatus,
   OnboardingWorkspaceStatus
 } from "./types";
+
+// The two LegalEase-owned commercial states, authored by the copy contract and reused
+// here so the milestone card cannot describe program terms differently from the
+// Implementation Center or the section editor.
+const COMMERCIAL_IN_PROGRESS = commercialState({ outcome: "legalease_owned" });
+const COMMERCIAL_CONFIRMED = commercialState({ outcome: "cleared" });
 
 export type PartnerImplementationTone =
   | "teal"
@@ -232,12 +239,12 @@ export function buildPartnerImplementationPresentation(
   > = [
     {
       key: "commercial_clearance",
-      title: "Commercial clearance",
-      description: "Billing, procurement, and agreement gates for implementation.",
+      title: "Program terms",
+      description: "Billing, procurement, and agreement details for your program.",
       state:
         input.commercialGateStatus === "blocked"
-          ? fact("blocked", "Action required", "Commercial clearance is still required.", "orange")
-          : fact("cleared", "Cleared", "LegalEase recorded commercial clearance.", "teal"),
+          ? fact("blocked", "In progress", `${COMMERCIAL_IN_PROGRESS.heading}.`, "orange")
+          : fact("cleared", "Confirmed", `${COMMERCIAL_CONFIRMED.heading}.`, "teal"),
       dateLabel: input.commercialGateStatus === "blocked" ? "Due date" : "Completed",
       date: input.commercialGateStatus === "blocked" ? null : input.commercialGateChangedAt,
       dateFallback:
@@ -245,12 +252,12 @@ export function buildPartnerImplementationPresentation(
       blocker:
         input.commercialGateStatus === "blocked"
           ? input.blockerCopy
-          : "No commercial blocker is active.",
+          : `${COMMERCIAL_CONFIRMED.heading}.`,
       nextAction:
         input.commercialGateStatus === "blocked"
           ? input.nextActionCopy
-          : "Review the recorded commercial summary below.",
-      actionLabel: "View commercial summary",
+          : COMMERCIAL_CONFIRMED.explanation,
+      actionLabel: "View program terms",
       href: "#commercial-support"
     },
     {
@@ -267,8 +274,8 @@ export function buildPartnerImplementationPresentation(
         administrator?.membershipStatus === "active" ? administrator.updatedAt : null,
       dateFallback: administratorActive ? "Date not recorded" : "Not scheduled",
       blocker: administratorActive
-        ? "No access blocker is active."
-        : "Administrator activation is not confirmed in this workspace.",
+        ? "Administrator access is confirmed."
+        : "Administrator access isn't confirmed yet.",
       nextAction: administratorActive
         ? "Review team access when roles change."
         : "Ask LegalEase to confirm administrator access.",
@@ -301,10 +308,12 @@ export function buildPartnerImplementationPresentation(
           : "Not scheduled",
       blocker:
         openChangeRequests > 0
-          ? `${openChangeRequests} LegalEase change request${openChangeRequests === 1 ? " is" : "s are"} unresolved.`
+          ? `${openChangeRequests} LegalEase change request${openChangeRequests === 1 ? " is" : "s are"} waiting on your reply.`
           : completion < 100
             ? input.blockerCopy
-            : "No partner setup blocker is active.",
+            // "Recorded" rather than "complete": this line is also read on a paused or
+            // closed program, where claiming completion would overstate where things stand.
+            : "Your setup information is recorded.",
       nextAction:
         currentMilestone === "program_configuration"
           ? currentAction.action
@@ -338,10 +347,10 @@ export function buildPartnerImplementationPresentation(
       dateFallback: brandSection?.approvedAt ? "Date not recorded" : "Not scheduled",
       blocker:
         (input.coBrandedPageArtifact?.missingRequiredAssetCount ?? 1) > 0
-          ? `${input.coBrandedPageArtifact?.missingRequiredAssetCount ?? 1} required brand asset is missing.`
+          ? `${input.coBrandedPageArtifact?.missingRequiredAssetCount ?? 1} brand asset still needs to be added.`
           : brandArtifactApproved
-            ? "No brand-content blocker is active. Publication and activation remain separate."
-            : "Factual and brand content still requires the applicable partner or LegalEase review.",
+            ? "Brand content is approved. Publication and activation remain separate decisions."
+            : "Brand content is waiting on review.",
       nextAction: brandSection?.currentSubstepTitle
         ? `Continue ${brandSection.currentSubstepTitle}.`
         : "Review brand inputs and the private preview configuration.",
@@ -358,8 +367,8 @@ export function buildPartnerImplementationPresentation(
       dateFallback: training.key === "complete" ? "Date not recorded" : "Not scheduled",
       blocker:
         training.key === "complete"
-          ? "No training blocker is active."
-          : "A team training date is not recorded.",
+          ? "Team training is complete."
+          : "A team training date isn't scheduled yet.",
       nextAction:
         training.key === "complete"
           ? "Review staff access as team responsibilities change."
@@ -432,7 +441,7 @@ export function buildPartnerImplementationPresentation(
             milestone.state.key === "complete" ||
             milestone.state.key === "ready" ||
             milestone.state.key === "live"
-          ? "No action needed"
+          ? nextActionOwnerLabel("none")
           : "Not assigned"
     };
   });
@@ -650,10 +659,12 @@ function overallFact(
     return fact("live", "Program live", "Participant intake is active.", "teal");
   }
   if (input.commercialGateStatus === "blocked") {
+    // The gate's own vocabulary is internal. What a program director needs here is who
+    // owns the remaining step, which the copy contract answers for every surface.
     return fact(
       "commercial_action",
-      "Commercial clearance needed",
-      "Implementation cannot proceed until the commercial gate clears.",
+      "Program terms in progress",
+      COMMERCIAL_IN_PROGRESS.explanation,
       "orange"
     );
   }
@@ -720,7 +731,7 @@ function currentActionFor(
   if (input.workspaceStatus === "live") {
     return {
       action: "Review current program operations and participant activity.",
-      owner: "No action needed",
+      owner: nextActionOwnerLabel("none"),
       dueDate: null,
       dueDateFallback: "Not scheduled",
       schedulingAction: "No implementation due date is required while the program is live.",
@@ -732,7 +743,7 @@ function currentActionFor(
   if (input.workspaceStatus === "paused" || input.workspaceStatus === "closed") {
     return {
       action: "Review the program record and contact LegalEase with questions.",
-      owner: "No action needed",
+      owner: nextActionOwnerLabel("none"),
       dueDate: null,
       dueDateFallback: "Not scheduled",
       schedulingAction: "No implementation due date is scheduled for this program state.",
@@ -853,7 +864,7 @@ function fallbackSectionSummary(status: OnboardingSectionStatus): string {
 function whyCurrentActionMatters(status: OnboardingWorkspaceStatus): string {
   const copy: Record<OnboardingWorkspaceStatus, string> = {
     draft: "This starts the implementation record.",
-    commercially_blocked: "Commercial clearance is required before configuration can continue.",
+    commercially_blocked: "LegalEase is finalizing your program terms before configuration continues.",
     setup_in_progress: "The setup package must be complete before LegalEase can review it.",
     waiting_on_partner: "LegalEase cannot continue review until the requested correction is submitted.",
     ready_for_review: "LegalEase review is required before launch preparation can proceed.",

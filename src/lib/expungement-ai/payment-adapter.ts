@@ -5,6 +5,7 @@ import { absoluteExpungementAiUrl } from "@/lib/app-url";
 import { getStripeServerClient, isProductionRuntime, isStripeConfigurationError } from "@/lib/stripe/server";
 import { isConsumerPaymentAllowed } from "@/lib/expungement-ai/eligibility-adapter";
 import { componentDeferralForTrack, exactDeferralForPathway, exactDeferralForTrack, terminalTreatmentForTrack } from "@/lib/rcap/documents/guidance-packet-registry";
+import { packetRouteCanRender, resolvePacketRoute } from "@/lib/rcap/documents/packet-route-resolver";
 import { getBriefcaseItem } from "@/lib/expungement-ai/briefcase";
 import { consumerMatterIdForItem, resolveConsumerPersonId } from "@/lib/expungement-ai/consumer-identity";
 import { packetInformationModelFor, packetInformationReviewSafety, reviewedPacketInputHash } from "@/lib/expungement-ai/packet-information";
@@ -73,7 +74,17 @@ export function createConsumerPaymentPlaceholder(result: ExpungementAiEligibilit
     || Boolean(exactDeferralForTrack(result.selectedTrackId ?? null))
     || Boolean(terminalTreatmentForTrack(result.selectedTrackId ?? null))
     || Boolean(exactDeferralForPathway(result.state, result.pathwayLabel ?? null));
-  const enabled = !deferred && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
+  // A price we cannot honour is not shown. The evaluator's payment gate and the
+  // packet route resolver were independent of each other, so a participant on a
+  // ratified route in a jurisdiction with no certified renderer saw a $50 offer
+  // for a packet the download route would refuse with a 409. Guidance is not
+  // sold, and neither is a packet we cannot produce.
+  const canDeliver = packetRouteCanRender(resolvePacketRoute({
+    state: result.state,
+    pathway: result.pathwayLabel ?? null,
+    trackId: result.selectedTrackId ?? null
+  }));
+  const enabled = !deferred && canDeliver && isConsumerPaymentAllowed(result.resultCode, result.paymentAllowed);
 
   return {
     enabled,
@@ -475,10 +486,37 @@ function assertNotTerminalTreatment(item: ConsumerBriefcaseItem) {
   }
 }
 
+/**
+ * The money gate may never be wider than the delivery gate.
+ *
+ * The evaluator decides whether a route is legally and technically ratified;
+ * the packet route resolver decides whether an artifact can actually be
+ * produced. Nothing bound the two together, so a route could be payable in a
+ * jurisdiction whose packet route resolves to guidance — the participant paid
+ * $50 and the download route answered 409, and buildRenderJobSpec returned no
+ * job. That is charging for guidance, and it fails closed here.
+ *
+ * This does not reclassify the route. The pathway stays in the intended-sellable
+ * denominator with `renderer_unavailable` recorded against it as an open
+ * blocker in data/rcap-ledger/sellable-pathway-closure.json; what changes is
+ * only that we stop taking money for a packet we cannot hand over.
+ */
+export function assertPacketRouteCanDeliver(item: ConsumerBriefcaseItem) {
+  const route = resolvePacketRoute({
+    state: item.state,
+    pathway: item.pathwayLabel ?? null,
+    trackId: item.selectedTrackId ?? (typeof item.artifactRefs?.selectedTrackId === "string" ? item.artifactRefs.selectedTrackId : null)
+  });
+  if (!packetRouteCanRender(route)) {
+    throw new ConsumerPacketNotDeliverableError(route.routeKind);
+  }
+}
+
 export function assertCheckoutAllowed(item: ConsumerBriefcaseItem) {
   assertNotExactDeferral(item);
   assertNotComponentDeferral(item);
   assertNotTerminalTreatment(item);
+  assertPacketRouteCanDeliver(item);
   const packetProduct = item.packetType === "custom_pleading"
     || item.packetType === "official_pdf_overlay"
     || item.packetType === "legacy_packet";
@@ -513,6 +551,13 @@ export class ConsumerCheckoutNotAllowedError extends Error {
   constructor(readonly resultCode: string) {
     super(`Consumer checkout is not allowed for ${resultCode}.`);
     this.name = "ConsumerCheckoutNotAllowedError";
+  }
+}
+
+export class ConsumerPacketNotDeliverableError extends Error {
+  constructor(readonly routeKind: string) {
+    super("This route cannot produce a packet yet, so it is not sold.");
+    this.name = "ConsumerPacketNotDeliverableError";
   }
 }
 

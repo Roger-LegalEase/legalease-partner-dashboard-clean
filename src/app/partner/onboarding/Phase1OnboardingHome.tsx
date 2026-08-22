@@ -4,6 +4,10 @@ import type {
   PartnerImplementationPresentation,
   PartnerImplementationTone
 } from "@/lib/partners/onboarding/implementation-presentation";
+import {
+  PREPARATION_CARD_LABELS,
+  PREPARED_BANNER
+} from "@/lib/partners/onboarding/partner-copy";
 import type { PartnerSupportContact } from "@/lib/partners/onboarding/support-contact";
 import { PartnerSupportLink } from "./PartnerSupportLink";
 
@@ -14,6 +18,7 @@ export type Phase1OnboardingHomeProps = {
   presentation: PartnerImplementationPresentation;
   isPartnerStaff: boolean;
   hasPendingPrefill: boolean;
+  preparedWorkload: { prepared: number; needsInput: number; optional: number };
   commercial: {
     label: string;
     blocked: boolean;
@@ -41,6 +46,7 @@ export function Phase1OnboardingHome({
   presentation,
   isPartnerStaff,
   hasPendingPrefill,
+  preparedWorkload,
   commercial,
   agreements,
   activity,
@@ -48,6 +54,14 @@ export function Phase1OnboardingHome({
   supportHref
 }: Phase1OnboardingHomeProps) {
   const recentActivity = activity.slice(0, 5);
+  // While a prepared setup is waiting to be reviewed, the banner above owns the single
+  // call to action. The standing implementation story still names the next step, but it
+  // renders as a quiet link: two orange buttons on one screen leave a program director
+  // guessing which one is theirs, whichever of them owns the work.
+  const preparedReviewOffered = hasPendingPrefill && PREPARED_BANNER.primaryAction !== null;
+  const nextActionIsQuiet =
+    (presentation.currentAction.owner === "LegalEase" && hasPendingPrefill) ||
+    preparedReviewOffered;
 
   return (
     <div className="min-w-0 text-[#071B33]">
@@ -134,10 +148,38 @@ export function Phase1OnboardingHome({
       </section>
 
       {hasPendingPrefill ? (
-        <div className="mt-6 border border-[#0A8E9A] bg-[#EAF5F4] px-4 py-4 text-sm leading-6 text-[#071B33] md:px-5">
-          <p className="font-bold">
-            LegalEase pre-filled known information. Review each marked section and correct anything that changed.
-          </p>
+        <div
+          className="mt-6 border border-[#0A8E9A] bg-[#EAF5F4] px-4 py-4 text-sm leading-6 text-[#071B33] md:px-5"
+          data-prepared-onboarding-banner
+        >
+          <p className="text-base font-extrabold">{PREPARED_BANNER.heading}</p>
+          <p className="mt-2 max-w-3xl">{PREPARED_BANNER.explanation}</p>
+          <dl className="mt-4 grid gap-3 sm:grid-cols-3" data-prepared-workload>
+            <WorkloadCard
+              label={PREPARATION_CARD_LABELS.prepared}
+              count={preparedWorkload.prepared}
+              scope="prepared"
+            />
+            <WorkloadCard
+              label={PREPARATION_CARD_LABELS.needsInput}
+              count={preparedWorkload.needsInput}
+              scope="needs-input"
+            />
+            <WorkloadCard
+              label={PREPARATION_CARD_LABELS.optional}
+              count={preparedWorkload.optional}
+              scope="optional"
+            />
+          </dl>
+          {PREPARED_BANNER.primaryAction ? (
+            <Link
+              className="mt-4 inline-flex min-h-11 items-center justify-center bg-[#071B33] px-5 py-2.5 text-sm font-extrabold text-white hover:bg-[#0A2A4E] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
+              href={PREPARED_BANNER.primaryAction.href ?? "/partner/onboarding"}
+              data-prepared-onboarding-action
+            >
+              {PREPARED_BANNER.primaryAction.label}
+            </Link>
+          ) : null}
         </div>
       ) : null}
 
@@ -157,10 +199,18 @@ export function Phase1OnboardingHome({
                 {presentation.currentAction.whyItMatters}
               </p>
             </div>
+            {/* A state LegalEase owns gets a quiet link, not a second orange call to
+                action. Two primary actions on one screen leaves a program director
+                guessing which one is theirs. */}
             <Link
-              className="inline-flex min-h-12 w-full items-center justify-center bg-[#FF3B00] px-5 py-3 text-center text-sm font-extrabold text-white hover:bg-[#D93400] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
+              className={
+                nextActionIsQuiet
+                  ? "inline-flex min-h-11 items-center justify-center border border-[#475A6E] px-5 py-2.5 text-center text-sm font-bold text-[#071B33] hover:bg-[#EDF1F3] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
+                  : "inline-flex min-h-12 w-full items-center justify-center bg-[#FF3B00] px-5 py-3 text-center text-sm font-extrabold text-white hover:bg-[#D93400] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#0A8E9A] focus-visible:ring-offset-2"
+              }
               href={presentation.currentAction.href}
-              data-primary-next-action
+              data-primary-next-action={nextActionIsQuiet ? undefined : true}
+              data-secondary-next-action={nextActionIsQuiet ? true : undefined}
             >
               {presentation.currentAction.label}
             </Link>
@@ -529,6 +579,24 @@ function StatusText({ fact, compact = false }: { fact: PartnerImplementationFact
     >
       {fact.label}
     </span>
+  );
+}
+
+/** One prepared-onboarding workload count. A number and what it is, never a defect. */
+function WorkloadCard({
+  label,
+  count,
+  scope
+}: {
+  label: string;
+  count: number;
+  scope: string;
+}) {
+  return (
+    <div className="border border-[#0A8E9A] bg-white px-3 py-2" data-workload-scope={scope}>
+      <dt className="text-xs font-bold uppercase tracking-[0.05em] text-[#475A6E]">{label}</dt>
+      <dd className="mt-1 text-xl font-extrabold text-[#071B33]">{count}</dd>
+    </div>
   );
 }
 

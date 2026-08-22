@@ -49,6 +49,14 @@ export async function POST(request: NextRequest) {
         { error: "Packet rendering is not enabled in this environment.", status: outcome.status },
         { status: 503 }
       );
+    // The route exists and the participant did nothing wrong; the server could
+    // not derive a verifiable job specification for it. 503 rather than 403,
+    // because this is ours to fix and the request is worth repeating once it is.
+    case "route_contract_unverifiable":
+      return NextResponse.json(
+        { error: "This packet cannot be prepared right now. Your information is saved.", status: outcome.status, reason: outcome.reason },
+        { status: 503 }
+      );
     case "unauthenticated":
       return NextResponse.json({ error: "Authentication is required." }, { status: 401 });
     case "item_not_found":

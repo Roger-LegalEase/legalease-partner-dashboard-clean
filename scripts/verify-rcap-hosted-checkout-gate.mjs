@@ -22,10 +22,17 @@ function includesEvery(text, values, label) {
   for (const value of values) check(text.includes(value), `${label} is missing ${JSON.stringify(value)}`);
 }
 
+// The accepted release. This verifier previously asserted the superseded pair
+// (264d2a24 / sha256:1d30530b), so it did not merely fail to catch the gate
+// going stale — it REQUIRED the stale value. A pin asserted in two places drifts
+// as one fact, so both move together or neither does.
+const ACCEPTED_APPLICATION_SHA = "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926";
+const ACCEPTED_WORKER_DIGEST = "sha256:4e5b58e4492289446bcbdd100bb39dcd13dd4512916679fa2a252e4532ab9530";
+
 includesEvery(gate, [
-  "264d2a240e5c857f55ee645f2683830e94f67c19",
+  ACCEPTED_APPLICATION_SHA,
   "hyflxnlhpmiqxvvcoiia",
-  "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101",
+  ACCEPTED_WORKER_DIGEST,
   "HOSTED_PREVIEW_DEPLOYMENT_ID",
   "vercel_project_identity_resolved",
   "/v13/deployments/",
@@ -64,6 +71,13 @@ includesEvery(gate, [
   "fixtureRetainedForRoger = true"
 ], "gate");
 
+// A partial rebind is the dangerous shape: one constant moved, the other left
+// behind, and the gate then pins a pair that was never published together.
+for (const superseded of [
+  "264d2a240e5c857f55ee645f2683830e94f67c19",
+  "sha256:1d30530b726554b458a347fd9a00619e38e19d380f058c42504f56631de0f101"
+]) check(!gate.includes(superseded), `gate still pins the superseded identity ${superseded}`);
+
 for (const eventType of [
   "checkout.session.completed",
   "checkout.session.async_payment_succeeded",
@@ -97,13 +111,40 @@ includesEvery(entry, [
 includesEvery(hosted, [
   "checkout_gate",
   "preview_deployment_id",
+  // The resolver reads the CANDIDATE from the inputs; the gate reads the
+  // RESOLVED identity from the one resolution boundary.
   "HOSTED_PREVIEW_DEPLOYMENT_ID: ${{ inputs.preview_deployment_id }}",
   "node scripts/rcap-hosted-checkout-gate.mjs",
   "node scripts/verify-rcap-hosted-checkout-gate.mjs",
-  "checkout_gate requires one exact Vercel deployment id",
-  "if: inputs.phase == 'checkout_gate'",
-  "inputs.phase == 'payment' || inputs.phase == 'checkout_gate'"
+  "checkout_gate requires one exact Vercel deployment id"
 ], "hosted workflow");
+
+// The gate and its verifier are driven by the normalized contract, not by
+// hand-written phase lists. Eight independently-written `inputs.phase ==`
+// conditions is exactly how `full` went missing from the matrix.
+const gateStep = hosted.match(/- name: Prepare one real Pennsylvania Sandbox Checkout and stop unpaid[\s\S]*?\n\s+env:/)?.[0] ?? "";
+check(Boolean(gateStep), "could not locate the Checkout gate step");
+check(/steps\.contract\.outputs\.(gate|matrix)/.test(gateStep),
+  "the Checkout gate step is not driven by the normalized phase contract");
+
+// The verifier must run in EVERY phase that runs the gate. It previously ran
+// only on `checkout_gate`, so a `full` run executed the gate while nothing
+// checked that the gate still pinned the accepted release — which is precisely
+// how a superseded pin reached a hosted acceptance run.
+const verifyStep = hosted.match(/- name: Verify the reuse-only human Checkout gate[\s\S]*?run: node scripts\/verify-rcap-hosted-checkout-gate\.mjs/)?.[0] ?? "";
+check(Boolean(verifyStep), "could not locate the Checkout gate verification step");
+check(/steps\.contract\.outputs\.(gate|matrix)/.test(verifyStep),
+  "the Checkout gate verifier is gated on a phase list rather than the contract, so a phase can run the gate without verifying it");
+check(!/if:\s*inputs\.phase == 'checkout_gate'\s*$/m.test(verifyStep),
+  "the Checkout gate verifier still runs only on the checkout_gate phase");
+
+// `checkout_gate` must remain a gate-only phase: it may not run the matrix.
+check(/checkout_gate\)\s*DEPLOY=false;\s*MATRIX=false;\s*GATE=true/.test(hosted),
+  "the contract no longer confines checkout_gate to the gate alone");
+// Resolver first, deploy step as the only permitted fallback for the create
+// path; never a raw input on a consumer step.
+check(/HOSTED_PREVIEW_DEPLOYMENT_ID: \$\{\{ steps\.resolve_preview\.outputs\.deployment_id( \|\| steps\.deploy_preview\.outputs\.deployment_id)? \}\}/.test(hosted),
+  "the gate does not receive the deployment id from the resolution boundary");
 check(hosted.includes("PREVIEW_DEPLOYMENT_ID_INPUT: ${{ inputs.preview_deployment_id }}"),
   "workflow must transport the deployment id through the environment");
 check(!hosted.includes('"${{ inputs.preview_deployment_id }}"'),
@@ -131,10 +172,17 @@ check(!paymentStep.includes("checkout_gate"), "checkout_gate must never run the 
 function gitDiffQuiet(paths) {
   const run = spawnSync("git", [
     "diff", "--quiet",
-    "264d2a240e5c857f55ee645f2683830e94f67c19",
+    ACCEPTED_APPLICATION_SHA,
     "--",
     ...paths
   ], { cwd: root, encoding: "utf8" });
+  // `git diff --quiet` exits 1 for "differs" but 128 for "bad revision" — and
+  // treating 128 as merely-differs would report a missing object as a content
+  // change. Anything other than a clean 0 or a genuine 1 is a broken check.
+  if (run.status !== 0 && run.status !== 1) {
+    failures.push(`git diff against ${ACCEPTED_APPLICATION_SHA} could not run (exit ${run.status}): ${String(run.stderr ?? "").trim()}`);
+    return false;
+  }
   return run.status === 0;
 }
 

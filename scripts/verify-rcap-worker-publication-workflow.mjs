@@ -57,6 +57,30 @@ check('the canonical integration history is main',
   /^\s{2}CANONICAL_INTEGRATION_BRANCH:\s*main\s*$/m.test(src),
   'the publication gate is pinned to a superseded feature branch instead of final merged main');
 
+// A candidate publication from the head that is about to merge is permitted,
+// because requiring the merge first and the publication first at once is a
+// deadlock: the required PR check runs the staging-action gate, which refuses
+// to pass until a worker exists for the current image inputs. The widening is
+// held to one exact branch name so it cannot become "any branch".
+check('the release-integration branch is pinned to one exact name',
+  /^\s{2}RELEASE_INTEGRATION_BRANCH:\s*claude\/rcap-48h-launch-integration\s*$/m.test(src),
+  'the release-integration branch is absent or is not the exact expected branch');
+
+check('no wildcard or pattern is accepted as a containment branch',
+  !/RELEASE_INTEGRATION_BRANCH:\s*.*[*?\[\]]/.test(src)
+    && !/RELEASE_INTEGRATION_BRANCH:\s*\$\{\{/.test(src),
+  'the containment branch is a pattern or is supplied at run time, which would accept any branch');
+
+check('containment is checked against both branches and nothing else',
+  (src.match(/git merge-base --is-ancestor/g) ?? []).length === 2
+    && /origin\/\$\{CANONICAL_INTEGRATION_BRANCH\}/.test(src)
+    && /origin\/\$\{RELEASE_INTEGRATION_BRANCH\}/.test(src),
+  'containment is not checked against exactly the two pinned branches');
+
+check('the publication records which branch contained the SHA',
+  /"containedIn":/.test(src) && /contained_in=/.test(src),
+  'the publication evidence does not record which branch contained the SHA');
+
 check('the exact supplied SHA is checked out',
   /git checkout --detach/.test(src), 'the workflow does not detach onto the supplied SHA');
 

@@ -17,7 +17,7 @@ import type {
 
 const WORKSPACE_STATUS_LABELS: Record<OnboardingWorkspaceStatus, string> = {
   draft: "Draft",
-  commercially_blocked: "Commercial step required",
+  commercially_blocked: "Program terms in progress",
   setup_in_progress: "Setup in progress",
   waiting_on_partner: "Updates requested",
   ready_for_review: "Awaiting LegalEase review",
@@ -43,7 +43,7 @@ const SECTION_STATUS_LABELS: Record<OnboardingSectionStatus, string> = {
 const AGREEMENT_STATUS_LABELS: Record<OnboardingAgreementStatus, string> = {
   not_required: "Not required",
   not_started: "Not started",
-  requested: "Waiting on your organization",
+  requested: "Waiting on your team",
   under_review: "Waiting on LegalEase",
   finalized: "Finalized",
   executed: "Executed",
@@ -52,7 +52,7 @@ const AGREEMENT_STATUS_LABELS: Record<OnboardingAgreementStatus, string> = {
 };
 
 const OWNER_LABELS: Record<"partner" | "legalease" | "none", string> = {
-  partner: "Your organization",
+  partner: "Your team",
   legalease: "LegalEase",
   none: "No action needed"
 };

@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "rcap-counsel-adoption-applicability/v1",
+  "recordId": "EXT-ADOPT-01-APPLICABILITY-01-georgia-layout-only-regeneration",
+  "recordedOn": "2026-08-09",
+  "recordedBy": "Session A integration captain",
+  "whatThisRecordIs": "A statement that the standing external counsel adoption reaches the Georgia superior-court pleading family after its rendered evidence was regenerated, and that the regeneration changed measurement and nothing else. It is not a new legal review, it is not a new adoption, and it records no counsel act that did not happen.",
+  "derivesFrom": {
+    "standingAdoptionRecordId": "EXT-ADOPT-01-standing-external-counsel-adoption",
+    "standingAdoptionPath": "data/record-clearing/template-families/EXT-ADOPT-01-standing-external-counsel-adoption.json",
+    "standingAdoptionClause": "continuityPolicy.doesNotRequireNewAdoptionFor — \"a PDF hash change from pagination or appearance correction\"",
+    "attestedBy": "Roger Roman, LegalEase project owner",
+    "attestedDate": "2026-08-08"
+  },
+  "historicalAdoptionPreserved": {
+    "recordId": "ADOPT-01-custom-pleading-family-adoption",
+    "path": "data/record-clearing/template-families/ADOPT-01-custom-pleading-family-adoption.json",
+    "familyId": "tranche-3-georgia-superior-court-pleadings",
+    "adoptedOn": "2026-08-04",
+    "integratedImplementationCommit": "037d1a2ce2bccd0dffc243e213a26c5019865561",
+    "rewritten": false,
+    "rePinned": true,
+    "note": "The historical adoption stays pinned to the bytes counsel read on 2026-08-04. Nothing in it is edited. This record sits beside it and says which later bytes the standing adoption reaches.",
+    "recordSha256BeforeRepin": "3fa444381d1750a2ff85af86303d0f53c600a54f09e3f006a1489d8f824898f7",
+    "rePinnedNote": "ADOPT-01 is a derived record: its hash-bound scope is recomputed from the artifacts on disk, so it cannot be both frozen and verifiable. Re-pinning it moves the measurement and nothing else — adoptedOn, approvedByRole, approvalBasis and the nine approvedRouteIds are byte-identical before and after, and the pre-repin digest of the whole record is kept here so the state counsel read on 2026-08-04 stays recoverable.",
+    "unchangedAcrossRepin": [
+      "adoptedOn",
+      "approvedByRole",
+      "approvalBasis",
+      "completedScopes[].approvedRouteIds",
+      "completedScopes[].status",
+      "completedScopes[].scopeCompletion",
+      "blanketFutureApproval",
+      "productionEnabled"
+    ]
+  },
+  "appliesTo": {
+    "familyId": "tranche-3-georgia-superior-court-pleadings",
+    "jurisdiction": "GA",
+    "artifactPath": "data/record-clearing/implementation-tranches/tranche-3-review-manifest.json",
+    "artifactSha256Before": "322636876880f4497a5f419f1579fd652f6754669b756b2d5fe6cd16ef83705a",
+    "artifactSha256After": "7d6a17365fedd7b2454c819bc8dddff9c8ebeb54a420324e7049a312a1e57967",
+    "regeneratedBy": "node scripts/rcap-generate-ga-superior-court-pleading-family-review.mjs",
+    "causedBy": {
+      "commit": "6b5a521952843514b055f33e5ca6e8aa1d542321",
+      "change": "The shared custom-pleading engine now lays VERIFICATION and CERTIFICATE OF SERVICE out with the content they introduce, so neither can stand alone at the foot of a page.",
+      "ownedBy": "src/lib/rcap/packets/engines/custom-pleading.ts"
+    },
+    "alsoRePinned": [
+      {
+        "path": "data/record-clearing/production-factory/review-manifests/rcap-ga-custom-pleading.json",
+        "what": "the six moved packet digests only; page counts, file names and track ids unchanged",
+        "sha256After": "4387e4692c7f3075595fefb426d439a0c7b649002b980b221b38362f00eb06f3"
+      },
+      {
+        "path": "data/record-clearing/template-families/ADOPT-01-custom-pleading-family-adoption.json",
+        "what": "the derived hash-bound scope; adoption date, approving role, approval basis and all fourteen approved route ids unchanged",
+        "sha256After": "c1c60d37aa9cfcfc9fc615a9972c1c617bf69200bcdafb808a0516f4562b6b77"
+      }
+    ]
+  },
+  "whatMoved": {
+    "kind": "layout_only",
+    "packetsMoved": 6,
+    "packetsUnchanged": 3,
+    "packets": [
+      {
+        "fixtureId": "ga-felony-j1__standard",
+        "pageCountBefore": 8,
+        "pageCountAfter": 8,
+        "beforeSha": "b6d3e0ca4fc69aac9cf97f49cddb92eaafa212889f3613dbd52b789a6d3e1cbc",
+        "afterSha": "ef4115444d285bc8c785f254600533f9db6c0f56a1f89dc58a7546337314eee9",
+        "beforeBytes": 13455,
+        "afterBytes": 13507
+      },
+      {
+        "fixtureId": "ga-vacated-j2__standard",
+        "pageCountBefore": 8,
+        "pageCountAfter": 8,
+        "beforeSha": "f0f422ef91a5406b9f0005521e9be21fa93161a810c0ed84373ad24aa8b99f22",
+        "afterSha": "9c954ea0203e0b17e986e46512fd0220fe7091b8be1cb67719afdb82ad480dd7",
+        "beforeBytes": 12817,
+        "afterBytes": 12853
+      },
+      {
+        "fixtureId": "ga-deaddocket-j3__standard",
+        "pageCountBefore": 7,
+        "pageCountAfter": 7,
+        "beforeSha": "67b7c94786d5831f02047c184932424bc0e4002b6f6f06c69f3fb36776e773fd",
+        "afterSha": "b1c5c7799a3d294dc5320f99ac4ad2c3df4af6c38501642ef26386f6578fdd44",
+        "beforeBytes": 11485,
+        "afterBytes": 11514
+      },
+      {
+        "fixtureId": "ga-misd-j4__standard",
+        "pageCountBefore": 10,
+        "pageCountAfter": 10,
+        "beforeSha": "e14a29250bde0daddd0c8d2d8d8c06211d67b50dfd109c298249a7e50d079360",
+        "afterSha": "e14a29250bde0daddd0c8d2d8d8c06211d67b50dfd109c298249a7e50d079360",
+        "beforeBytes": 17338,
+        "afterBytes": 17338
+      },
+      {
+        "fixtureId": "ga-fugitive-j5__standard",
+        "pageCountBefore": 6,
+        "pageCountAfter": 6,
+        "beforeSha": "3a5b6f1741897f152377f125c4e1bd10ef5387d917b66415b2b24de8b0f43fc9",
+        "afterSha": "3a5b6f1741897f152377f125c4e1bd10ef5387d917b66415b2b24de8b0f43fc9",
+        "beforeBytes": 11288,
+        "afterBytes": 11288
+      },
+      {
+        "fixtureId": "ga-pardon-j7__standard",
+        "pageCountBefore": 9,
+        "pageCountAfter": 9,
+        "beforeSha": "c71bd738b1b2addfe16d436d3af7a8fc7e419780ab3fe87f3802b3e7b3f960e8",
+        "afterSha": "93c3e35ecad3414e21bd0add664434fdc3f2ef0186015f63fee1ae556c26b7e3",
+        "beforeBytes": 14257,
+        "afterBytes": 14323
+      },
+      {
+        "fixtureId": "ga-seal-m__standard",
+        "pageCountBefore": 7,
+        "pageCountAfter": 7,
+        "beforeSha": "2f3af954b7fa0806f380550b42f57abfcab5525a59dfa2a9564a860ed8eb12b2",
+        "afterSha": "c545f36e8988cc833996330a721b321887516e5aa9d4165e242e0ba16d00cd59",
+        "beforeBytes": 13008,
+        "afterBytes": 13005
+      },
+      {
+        "fixtureId": "ga-fo-active-pre2026__standard",
+        "pageCountBefore": 7,
+        "pageCountAfter": 7,
+        "beforeSha": "b888ae83b4fe47459afa6b689762fa1148db1c6d009766117e235eadb310e30d",
+        "afterSha": "2d3f7bb0987c00634de5d9b2eb99316621a3d18e7b767e4bc07c547082ac0f73",
+        "beforeBytes": 12285,
+        "afterBytes": 12327
+      },
+      {
+        "fixtureId": "ga-fo-discharged-pre2026__standard",
+        "pageCountBefore": 7,
+        "pageCountAfter": 7,
+        "beforeSha": "5681cf06b88040c0ea15723121e0e1fda1880b512274bcedf4a8e84078e0425b",
+        "afterSha": "5681cf06b88040c0ea15723121e0e1fda1880b512274bcedf4a8e84078e0425b",
+        "beforeBytes": 12509,
+        "afterBytes": 12509
+      }
+    ]
+  },
+  "whatDidNotMove": {
+    "extractedText": "identical — every rendered page of every Georgia template compared before and after by extracting the text operators from the content streams",
+    "evidence": "scripts/rcap-captain-custom-pleading-impact-sweep.mjs, run before and after commit 6b5a521 and compared with --compare",
+    "pageCount": "identical on all nine assembled packets",
+    "routes": "identical — the same nine approved route ids",
+    "components": "identical — same components, same roles, same order",
+    "fixtures": "identical — no fixture added, removed or edited",
+    "legalDesign": "identical — legal-design specifications, templates, registry and controlling authority untouched",
+    "controllingAuthority": "identical"
+  },
+  "boundary": {
+    "appliesOnlyWhen": "the regenerated artifact is byte-identical to the adopted one once sha256, assembledSha256, assembledBytes and byteSize are removed",
+    "recheckedAtVerificationTime": true,
+    "recheckedBy": "scripts/lib/rcap-counsel-adoption.mjs — the comparison is recomputed from the two artifacts on every run rather than read from this record",
+    "doesNotApplyTo": [
+      "a text change",
+      "a page-count change",
+      "a route change",
+      "a component change",
+      "a fixture change",
+      "a controlling-authority change",
+      "any change to a template, specification or implementation module"
+    ],
+    "substantiveLegalReviewPerformed": false,
+    "newCounselRequestMade": false
+  },
+  "runtimeEffect": {
+    "runtimeStatus": "runtime_disabled",
+    "packetReady": 0,
+    "enabledJurisdictions": 0,
+    "launchGate": "red",
+    "productionEnabled": false,
+    "technicalAndVisualReviewUnaffected": "Technical review is a separate gate and reopens on the new bytes by itself."
+  }
+}

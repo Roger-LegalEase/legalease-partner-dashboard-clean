@@ -18,6 +18,8 @@
     }
   ],
   "captionOnly": false,
+  "factoryVersion": "d0-remediated-v1",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs)",
   "bindings": [
     {
       "field": "User.CaseNo",
@@ -35,9 +37,9 @@
       "factId": "matter.case_number"
     },
     {
-      "field": "User.AncillaryDateOfArrest",
-      "class": "participant",
-      "factId": "matter.arrest_date"
+      "field": "User.AncillaryFullNameOfArrest",
+      "class": "manual",
+      "factId": "participant.full_legal_name"
     },
     {
       "field": "User.AncillaryCityOrCounty",
@@ -60,9 +62,9 @@
       "factId": "matter.case_number"
     },
     {
-      "field": "User.AncillaryDateOfArrestA",
-      "class": "participant",
-      "factId": "matter.arrest_date"
+      "field": "User.AncillaryFullNameOfArrestA",
+      "class": "manual",
+      "factId": "participant.full_legal_name"
     },
     {
       "field": "User.AncillaryCityOrCountyA",
@@ -73,6 +75,173 @@
       "field": "UserPetitionerName",
       "class": "participant",
       "factId": "participant.full_legal_name"
+    }
+  ],
+  "bindingRefusals": [
+    {
+      "field": "ResetButton",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB19",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB20",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB21",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB22",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.AncillaryDateOfDisp",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.AncillaryDateOfArrest",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "User.AncillaryAgency",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "User.AncillaryDCN",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.CB23",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.AncillaryReasonably",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.AncillaryCCourt",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.AncillaryGDCourt",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.AncillaryJDCourt",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB24",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB25",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.AncillaryWarrantSummons",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.CB28",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB29",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB30",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB31",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.AncillaryDateOfDispA",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.AncillaryDateOfArrestA",
+      "reason": "requires_explicit_mapping",
+      "category": "sensitive_fact"
+    },
+    {
+      "field": "User.AncillaryAgencyA",
+      "reason": "protected_category",
+      "category": "agency"
+    },
+    {
+      "field": "User.AncillaryDCNA",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.CB32",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.AncillaryReasonablyA",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
+    },
+    {
+      "field": "User.AncillaryCCourtA",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.AncillaryGDCourtA",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.AncillaryJDCourtA",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB33",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.CB34",
+      "reason": "non_text_field_type",
+      "category": "type_guard"
+    },
+    {
+      "field": "User.AncillaryWarrantSummonA",
+      "reason": "no_allowlisted_fact_matches",
+      "category": null
     }
   ],
   "unwritableFields": [],

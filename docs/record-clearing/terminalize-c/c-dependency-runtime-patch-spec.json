@@ -150,7 +150,12 @@
         "treatmentClassification": "component_deferral",
         "packetPlan": null
       },
-      "appliedSha256": "54cea35b38a5eb28b227b20c0306bab5bfc3840f7075bfb042db8f073b55be3e"
+      "appliedSha256": "e912682c9a7201cfbf1f33e609a6a282ed75ba0b9e16a374698ea1c42202e459",
+      "priorAppliedSha256": [
+        "54cea35b38a5eb28b227b20c0306bab5bfc3840f7075bfb042db8f073b55be3e",
+        "7945d9639c86c699c0351609c76ad9049424a3bddced694d7c6186e7a1f98725",
+        "2d964ebba24aa6cb47fe5da5a4fbb36d25fbcf5750a947b6ee9703e5f1a3d694"
+      ]
     },
     {
       "id": "c-deferral-consumer-shape",
@@ -297,10 +302,11 @@
         "sellable": false,
         "creditConsumable": false
       },
-      "appliedSha256": "6fd85d63c65540ae8a3569ef8393cff6e0eb509afe3f2bc6baa2c5b9c10b7065",
+      "appliedSha256": "2e8d0ec8e3c934dccfc43a7d16a11212fc9e97b9052745125c5de337d3426d31",
       "priorAppliedSha256": [
         "b70589747d19949ae928ffb2e4ad62a3e8a35c1f43feca683b7c83efc0cbf898",
-        "d20939ef63c8541cf0ec5e72845db4fc60c8a2165d6731421aaba279164a6aad"
+        "d20939ef63c8541cf0ec5e72845db4fc60c8a2165d6731421aaba279164a6aad",
+        "6fd85d63c65540ae8a3569ef8393cff6e0eb509afe3f2bc6baa2c5b9c10b7065"
       ]
     },
     {
@@ -322,10 +328,11 @@
         "enabled": false,
         "exception": "ConsumerCheckoutNotAllowedError for any direct checkout call"
       },
-      "appliedSha256": "6c1f44750cce7d52f9c5f2a6799bf61d947838de8dee0eddfc4cecf473b9ad5d",
+      "appliedSha256": "57a48833928a48761f862677777a1d11fa712ac08d2a79c20c61b92214ed1dc6",
       "priorAppliedSha256": [
         "8450a4a0db6decee1158992828aa48e1e98005786523c45a93e4438e94c6cb4f",
-        "c293b29a2067143316a083b4270e0966ba43252cec11bd68dd6dd19613503b5a"
+        "c293b29a2067143316a083b4270e0966ba43252cec11bd68dd6dd19613503b5a",
+        "6c1f44750cce7d52f9c5f2a6799bf61d947838de8dee0eddfc4cecf473b9ad5d"
       ]
     },
     {
@@ -344,10 +351,11 @@
         "status": 403,
         "body": "non-purchasable result without checkout fields"
       },
-      "appliedSha256": "69a1b9c7b56d524a48b95e854752d04ea2401b427f7c6df05cbf6a32cfac2fe5",
+      "appliedSha256": "b084d2b2b3dd0d8634ceca55e4e3231c73bbc63166da5ae5747d2ba338ab95de",
       "priorAppliedSha256": [
         "4d3bcc5d15d1595f2f1d2524c3e1bd322138bfebaaed1804821133bc4057f15f",
-        "deeb970ad65c17c65162172c01aebc5ec6252d91751c7ce82d254b981eedcf9f"
+        "deeb970ad65c17c65162172c01aebc5ec6252d91751c7ce82d254b981eedcf9f",
+        "69a1b9c7b56d524a48b95e854752d04ea2401b427f7c6df05cbf6a32cfac2fe5"
       ]
     },
     {
@@ -367,7 +375,10 @@
         "route.routeKind": "component_deferral",
         "route.creditConsumable": false
       },
-      "appliedSha256": "9478e0a1140bfbf9c30a734d9f1e5390f4b1089eb5700c0bd4d7d23e8b47d3a9"
+      "appliedSha256": "2aa387785cc80d5f16ee9897189f8a7b4fb73686c2a1293fa823da02abe2fc71",
+      "priorAppliedSha256": [
+        "9478e0a1140bfbf9c30a734d9f1e5390f4b1089eb5700c0bd4d7d23e8b47d3a9"
+      ]
     },
     {
       "id": "c-deferral-consumer-render-defense",
@@ -386,9 +397,10 @@
         "status": "route_not_renderable",
         "sideEffects": "none"
       },
-      "appliedSha256": "9e1148702abf79c7fd91af1876e94ba0de7ace9e0353fbf116f0e8565cb7d37f",
+      "appliedSha256": "45c3a332ddbf1526f0fe58c2633a01255d15c1b1593648fd2bbbb7b42c203fa8",
       "priorAppliedSha256": [
-        "a632170ddf24573ec16027675215599d0ece8d7f9178b9970424e0b2e41a5149"
+        "a632170ddf24573ec16027675215599d0ece8d7f9178b9970424e0b2e41a5149",
+        "9e1148702abf79c7fd91af1876e94ba0de7ace9e0353fbf116f0e8565cb7d37f"
       ]
     }
   ],
@@ -526,6 +538,19 @@
           "src/app/api/expungement-ai/checkout/route.ts",
           "src/lib/expungement-ai/consumer-render-request.ts"
         ]
+      }
+    ],
+    "laterApplications": [
+      {
+        "window": "sellable-closure-w1",
+        "appliedBy": "sellable pathway closure",
+        "files": [
+          "src/app/api/expungement-ai/checkout/route.ts",
+          "src/lib/expungement-ai/payment-adapter.ts"
+        ],
+        "change": "assertPacketRouteCanDeliver binds the consumer money gate to the packet route resolver's delivery gate, and the checkout route answers ConsumerPacketNotDeliverableError with a 409. The component-deferral, exact-deferral and terminal-treatment refusals this spec installed are untouched and still run first; the new guard is an additional closed door on the same authority, never a way past one.",
+        "why": "The evaluator's payment gate and the packet route resolver were independent, so 71 payment-eligible routes across 46 jurisdictions could take $50 and then answer the download with a 409.",
+        "verifier": "scripts/verify-rcap-money-gate-delivery-binding.mjs"
       }
     ]
   }

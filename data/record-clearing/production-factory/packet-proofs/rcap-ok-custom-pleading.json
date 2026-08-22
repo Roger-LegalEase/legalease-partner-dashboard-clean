@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-participant-packet-proof/v1",
+  "jobId": "rcap-ok-custom-pleading",
+  "parentJobId": "NEW-02-custom-pleading-families",
+  "jurisdiction": "OK",
+  "completionCommit": "1602ca5ebbf69b9688a3b941b017da6ee6da8609",
+  "authorityEdition": "1.2",
+  "verifier": {
+    "path": "scripts/verify-rcap-oklahoma-custom-pleading.mjs",
+    "sha256": "a55f194ba1cff577d3b915126b55aa64da30e63afd51a16de1cd868e32a66eba",
+    "result": "passed"
+  },
+  "implementationOutputs": [
+    {
+      "path": "src/lib/rcap/packets/jurisdictions/oklahoma/custom-pleading.ts",
+      "sha256": "d04d44153d43b92bfd84ab12f0502f1e2a9dd2dab72e6d64428f5382f267e056"
+    },
+    {
+      "path": "scripts/verify-rcap-oklahoma-custom-pleading.mjs",
+      "sha256": "a55f194ba1cff577d3b915126b55aa64da30e63afd51a16de1cd868e32a66eba"
+    }
+  ],
+  "finalPdfCount": 8,
+  "assembledPageCount": 47,
+  "canonicalPacketCount": 8,
+  "variantPacketCount": 3,
+  "technicalFixtureCount": 11,
+  "technicalFixturePageCount": 65,
+  "samplePackets": [
+    {
+      "trackId": "ok_18_19_deferred_dismissal",
+      "fixtureId": "ok-deferred-dismissal-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "ok-deferred-dismissal-positive-1-technical-fixture.pdf",
+      "assembledSha256": "aa65bcd11464f6091be8f7ffad4fd68a0293593afe2a978af45dc9dd5dc54fbb",
+      "assembledPageCount": 7
+    },
+    {
+      "trackId": "ok_18_19_felony_conviction",
+      "fixtureId": "ok-felony-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "ok-felony-positive-1-technical-fixture.pdf",
+      "assembledSha256": "27a7f0557825584f50334c8038d5575d1db11d5c1a145b393ef559303237862f",
+      "assembledPageCount": 6
+    },
+    {
+      "trackId": "ok_18_19_felony_conviction",
+      "fixtureId": "ok-felony-reclassified-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "ok_18_19_felony_conviction",
+      "assembledFileName": "ok-felony-reclassified-2-technical-fixture.pdf",
+      "assembledSha256": "5261662438330be9c6c86222e6ff134ed876b767d217cc4c168306629a05c856",
+      "assembledPageCount": 6
+    },
+    {
+      "trackId": "ok_18_19_misdemeanor_conviction",
+      "fixtureId": "ok-misdemeanor-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "ok-misdemeanor-positive-1-technical-fixture.pdf",
+      "assembledSha256": "4ea24f278f5242bda9aa4059a06e9ce8b96aaf911279b64bbdc70178ab50a245",
+      "assembledPageCount": 6
+    },
+    {
+      "trackId": "ok_18_19_nonconviction",
+      "fixtureId": "ok-nonconviction-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "ok-nonconviction-positive-1-technical-fixture.pdf",
+      "assembledSha256": "c919614687096cc73532137024883d3c0e891d029992263c848967ac67d76c13",
+      "assembledPageCount": 6
+    },
+    {
+      "trackId": "ok_18_19_nonconviction",
+      "fixtureId": "ok-nonconviction-court-record-only-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "ok_18_19_nonconviction",
+      "assembledFileName": "ok-nonconviction-court-record-only-2-technical-fixture.pdf",
+      "assembledSha256": "5a354742d84232fd147bf89fe7574ce10dc302657f353142066b039dd10d3ae4",
+      "assembledPageCount": 6
+    },
+    {
+      "trackId": "ok_18_19_pardon",
+      "fixtureId": "ok-pardon-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "ok-pardon-positive-1-technical-fixture.pdf",
+      "assembledSha256": "ef626d52722fe54bcf6e13c1d9c0d7f1aa661885e87851aa3060296b4459c23f",
+      "assembledPageCount": 6
+    },
+    {
+      "trackId": "ok_991c_deferred",
+      "fixtureId": "ok-991c-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "ok-991c-positive-1-technical-fixture.pdf",
+      "assembledSha256": "f88334f2e499daba0ce2bd9685a0c4b0abe09e89b798a34c153e8a223e8ad5ff",
+      "assembledPageCount": 4
+    },
+    {
+      "trackId": "ok_identity_theft",
+      "fixtureId": "ok-identity-theft-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "ok-identity-theft-positive-1-technical-fixture.pdf",
+      "assembledSha256": "4d828c5cc2871d686aa1b101b3ebbc66f519175667a0e238c7cb97ba78c2087b",
+      "assembledPageCount": 6
+    },
+    {
+      "trackId": "ok_vpo_60_18",
+      "fixtureId": "ok-vpo-dismissed-positive-1",
+      "sampleRole": "canonical",
+      "assembledFileName": "ok-vpo-dismissed-positive-1-technical-fixture.pdf",
+      "assembledSha256": "2ca3c07a4a65d305fcd22891eb27339bf40684aae78d2e1a8310053ba71038ef",
+      "assembledPageCount": 6
+    },
+    {
+      "trackId": "ok_vpo_60_18",
+      "fixtureId": "ok-vpo-denied-2",
+      "sampleRole": "variant",
+      "variantOfTrackId": "ok_vpo_60_18",
+      "assembledFileName": "ok-vpo-denied-2-technical-fixture.pdf",
+      "assembledSha256": "08851d5cfeb05d7e7a02d0355d0fd45f7812db5f5aab3b6208e2e48c3419f232",
+      "assembledPageCount": 6
+    }
+  ],
+  "deterministic": true,
+  "generatedPacketBytesTracked": false,
+  "runtimeStatus": "runtime_disabled",
+  "technicalEvidence": "complete",
+  "visualProof": "pending",
+  "visualReview": "formal_visual_review_pending",
+  "completedOutputLegalReview": "pending",
+  "counselAdopted": false,
+  "packetReady": false,
+  "productionEnabled": false
+}
