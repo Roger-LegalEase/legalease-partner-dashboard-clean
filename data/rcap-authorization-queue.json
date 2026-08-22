@@ -1306,18 +1306,20 @@
       "productionStatus": "queued",
       "why": "Partner-facing copy across the prepared-onboarding experience carried internal engineering vocabulary and, more seriously, presented LegalEase-owned commercial work as the partner's. The blocked commercial gate hardcoded owner=partner, so a program director opening the Implementation Center was told to complete a step LegalEase already owned. The review page presented a mostly-prepared workspace as 60 partner blockers and 8 approvals missing, in one flat uncollapsed list. This entry covers the canonical partner copy contract, the two-sided commercial ownership derivation, the three prepared-onboarding workload counts, and the review page rebuild.",
       "risk": "low",
-      "riskNote": "No schema object is created, altered or dropped, and no migration is included. The behavioural changes are: the commercial gate now resolves ownership from the canonical agreement record rather than assuming the partner, and the prepared-onboarding summary counts sections rather than individual decisions. Both are presentation-layer derivations over existing stored values. Nothing publishes, activates, creates an access code, or touches billing.",
+      "riskNote": "No schema object is dropped and no data is rewritten. The migration adds a lineage column, an override audit column set, one partial unique index in place of another so an applied preparation stops blocking a later proposal, a trigger that retires a replaced applied row without altering it, one narrowed partner-facing view with the column grant that view now needs, and one more permitted activity event type. It is applied only to the loopback acceptance database. Nothing publishes, activates, creates an access code, or touches billing.",
       "rollback": "Revert the commits. No data is written by this change and no stored value changes meaning.",
       "evidence": [
         "node scripts/verify-rcap-partner-copy.mjs — 69 surfaces, 1,791 rendered strings, 0 violations, all required copy present",
-        "RCAP_TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:54322/rcap_isolation node scripts/verify-onboarding-tenant-isolation.mjs — 17/17 live checks on a loopback database: an authorized operator can prepare a tenant and a tenant member cannot; another tenant can neither read nor mutate prepared values, source notes or provenance; the preparation function is executable by service_role only and refused for partner administrator, partner staff and anonymous requests; a disabled membership reaches nothing; synthetic rows removed",
-        "node scripts/verify-rcap-partner-provisioning.mjs — 33/33, including the single-caller rule the browser harness now satisfies through provisionPartner",
-        "npm run typecheck clean; targeted eslint clean; git diff --check clean",
-        "credential-free production build passes: compiled, 168/168 static pages generated, exit 0",
-        "node scripts/capture-rcap-prepared-onboarding-acceptance.mjs — loopback browser acceptance reached 10 of 14 screenshots; the run stops in fixture seeding on partner_onboarding_contacts, which requires an update to advance its revision. No product defect: both refusals in that run were the application enforcing a required field and a row revision guard. The visual bundle is not complete and Roger's visual review is still outstanding."
+        "RCAP_TEST_DATABASE_URL=postgresql://postgres@127.0.0.1:54322/rcap_isolation node scripts/verify-onboarding-tenant-isolation.mjs — 22/22 live checks, including the applied-prefill reproposal lifecycle: a field whose prepared value was applied can be prepared again, the applied row is untouched, one suggestion is actionable and one applied preparation is current, lineage is recorded and self-reference refused, applying a newer preparation retires the earlier one as history, an override record without a reason is refused, and no partner administrator, partner staff member, other tenant or anonymous request can reach any of it",
+        "node scripts/verify-rcap-onboarding-prefill-service.mjs — the actionable/history split, lineage, and the explicit override boundary, including that the override writes no partner data itself",
+        "node scripts/verify-onboarding-all.mjs — 28/28 local group green",
+        "node scripts/capture-rcap-prepared-onboarding-acceptance.mjs — 14 of 14 screenshots from one run: the partner edits a value LegalEase applied, the canonical save returns 200, the field reads Partner updated, the operator reopens preparation and the partner value is held, a new LegalEase proposal against that applied field is presented as a conflict beside the partner's answer and cannot be selected for the ordinary apply, and publication, activation, intake, access codes, billing, allocation, packets and participant records are asserted untouched before and after",
+        "npm run typecheck clean; targeted eslint clean; git diff --check clean; credential-free production build passes"
       ],
       "notes": "Local acceptance runs against 127.0.0.1:54321 and 127.0.0.1:54322 only. The harness refuses any non-loopback Supabase URL and refuses the Production project ref outright. The live isolation proof runs against rcap_isolation, a schema-only copy inside the local stack, never the application database. No Production credential was read and the live Rythm Labs workspace was not touched. Worker republication is required after merge: the published worker source 5ac0d8d6 differs from this branch on canonical image-input paths under src/.",
       "authorizedPaths": [
+        "src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/prefill/route.ts",
+        "src/app/internal/partners/onboarding/[partnerSlug]/Phase1PrefillPanel.tsx",
         "src/app/partner/dashboard/page.tsx",
         "src/app/partner/onboarding/OnboardingDashboardCard.tsx",
         "src/app/partner/onboarding/Phase1OnboardingHome.tsx",
@@ -1342,13 +1344,18 @@
         "src/lib/partners/onboarding/implementation-presentation.ts",
         "src/lib/partners/onboarding/partner-copy.ts",
         "src/lib/partners/onboarding/partner-labels.ts",
+        "src/lib/partners/onboarding/prefill-domain.ts",
+        "src/lib/partners/onboarding/prefill-service.ts",
         "src/lib/partners/onboarding/service.ts",
         "src/lib/partners/onboarding/support-contact.ts",
         "src/lib/partners/onboarding/types.ts",
         "src/lib/partners/onboarding/validation.ts",
-        "src/lib/partners/partner-launch-materials.ts"
+        "src/lib/partners/partner-launch-materials.ts",
+        "supabase/migrations/20260822180000_rcap_prefill_reproposal.sql"
       ],
       "authorizedSha256": [
+        "0a16972cc7fc247cc4f2e6da9a68c99a28067afb25e6c2582617ec3f9539a719",
+        "25274878d643a844bb4f7c5d9078c1d24835fcb52453827223546366123e0ae6",
         "2c47952ab6d8304390b6c3a445b8cb820f60b81db9ce8c6d1f753dde2535c9e6",
         "11465e5eb53fb27c78d0780bd0ed42d61b2eabf4893de8dc33e3b8fdedaaf274",
         "9edb2d4ce78306cf0a44256f4d5da3865e41619da7d5dffce9e42c609c6630b8",
@@ -1373,11 +1380,14 @@
         "6d1e6d2ce04a66517376336c9c8229c71230cdb62a4da22e7dbced77eb42007b",
         "66d5ec7367d779d490d1044c0480d46d5ac27b576275349ab3667cadc2de078d",
         "6b685455363f9a9c4563d526f0e9ac2810319e54a6f01540a8b09bcf5888fa61",
+        "acd6c2e0235e0fcb64a06457671764ac41eacf3347127131427e01d5dadd58fa",
+        "864cce7b456623e0a6154060c1ee66092c37d9484de42124ade2f6a43bf82cee",
         "e02a8e5a820953df35be86f11104fb10c032b2b7197b7adc0357a6ae1c16e2d9",
         "64b23f00b342120404aa3f55cfcfdd16e5e2404ca2746fc56b77ace8910bbefa",
         "5f3cb2dd21a14842b18d3bf7a2ea20fa5ecae9d61787cb5549ada821daab0928",
         "8ad75821920c3c16043b7af06e175b711002e8ac2477399f8339224b30c754f3",
-        "5c695ce8e227b22c18db181a00b294328746c9f3ea2b3c0d2fa384b33e754d4e"
+        "5c695ce8e227b22c18db181a00b294328746c9f3ea2b3c0d2fa384b33e754d4e",
+        "a96372dd5e8b4c7e274aa89dc98c3bcde51eb6d12b0bab7e8e3d6fbe80011077"
       ]
     }
   ],
