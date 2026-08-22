@@ -44,39 +44,39 @@ Source re-derived by hashing 686 corpus files: **71 present and hash-verified**,
 
 | family | jurisdiction | root blocker | source | terminal outcome |
 | --- | --- | --- | --- | --- |
-| `AK:ak-record-relief-forms` | AK | the produced artifact carries flat_overlay_geometry_or_readback | nationwide | packet_ready |
+| `AK:ak-record-relief-forms` | AK | no source, render or evidence objection is open against this asset and | nationwide | packet_ready |
 | `AK:requesttosealcriminfo` | AK | the official binary is absent from the clone, so its SHA-256 cannot be | nationwide | packet_ready |
 | `AK:tf-810-form-en` | AK | the produced artifact carries visually_unsafe | master_library | packet_ready |
-| `AL:al-expungement-petition` | AL | the produced artifact carries flat_overlay_geometry_or_readback | nationwide | packet_ready |
-| `AL:criminal-forms` | AL | the produced artifact carries flat_overlay_geometry_or_readback | nationwide | packet_ready |
-| `AL:criminal-record-expungement` | AL | the produced artifact carries flat_overlay_geometry_or_readback | nationwide | packet_ready |
+| `AL:al-expungement-petition` | AL | no source, render or evidence objection is open against this asset and | nationwide | packet_ready |
+| `AL:criminal-forms` | AL | no source, render or evidence objection is open against this asset and | nationwide | packet_ready |
+| `AL:criminal-record-expungement` | AL | no source, render or evidence objection is open against this asset and | nationwide | packet_ready |
 | `AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f` | AR | the official binary is absent from the clone, so its SHA-256 cannot be | master_library | packet_ready |
-| `AR:arkansas-petition-order-forms` | AR | the produced artifact carries flat_overlay_geometry_or_readback | nationwide | packet_ready |
+| `AR:arkansas-petition-order-forms` | AR | no source, render or evidence objection is open against this asset and | nationwide | packet_ready |
 | `AR:felony-petition-form-f` | AR | the official binary is absent from the clone, so its SHA-256 cannot be | master_library | packet_ready |
 | `KY:496-2` | KY | the official binary is absent from the clone, so its SHA-256 cannot be | master_library | packet_ready |
 | `KY:496-3` | KY | the official binary is absent from the clone, so its SHA-256 cannot be | master_library | packet_ready |
 | `KY:aoc-496-2-form-en` | KY | the produced artifact carries visually_unsafe | master_library | packet_ready |
 | `KY:aoc-496-4-form-en` | KY | the produced artifact carries visually_unsafe | master_library | packet_ready |
 | `KY:aoc-496-form-en` | KY | the produced artifact carries visually_unsafe | master_library | packet_ready |
-| `KY:kentucky-expungement-forms` | KY | the produced artifact carries flat_overlay_geometry_or_readback | nationwide | packet_ready |
-| `NC:aoc-cr-287-form-vi` | NC | the produced artifact carries flat_overlay_geometry_or_readback, multi | master_library | packet_ready |
-| `NC:aoc-cr-287-instructions-es` | NC | the produced artifact carries flat_overlay_geometry_or_readback, stale | master_library | guidance_terminal |
-| `NC:aoc-cr-287-instructions-vi` | NC | the produced artifact carries flat_overlay_geometry_or_readback, stale | master_library | guidance_terminal |
-| `NC:aoc-cr-287-form-es` | NC | the produced artifact carries contact_sheet_shows_no_fill, flat_overla | master_library | packet_ready |
-| `NC:aoc-cr-287-instructions-en` | NC | the produced artifact carries flat_overlay_geometry_or_readback, stale | master_library | guidance_terminal |
-| `NC:aoc-cr-288-instructions-en` | NC | the produced artifact carries flat_overlay_geometry_or_readback, stale | master_library | guidance_terminal |
-| `NC:aoc-cr-288-instructions-es` | NC | the produced artifact carries flat_overlay_geometry_or_readback, stale | master_library | guidance_terminal |
-| `NC:aoc-cr-288-form-vi` | NC | the produced artifact carries flat_overlay_geometry_or_readback, multi | master_library | packet_ready |
-| `NC:aoc-cr-288-form-es` | NC | the produced artifact carries contact_sheet_shows_no_fill, flat_overla | master_library | packet_ready |
-| `NC:aoc-cr-288-instructions-vi` | NC | the produced artifact carries flat_overlay_geometry_or_readback, stale | master_library | guidance_terminal |
+| `KY:kentucky-expungement-forms` | KY | no source, render or evidence objection is open against this asset and | nationwide | packet_ready |
+| `NC:aoc-cr-287-form-vi` | NC | the produced artifact carries multi_widget_ambiguity, stale_contact_sh | master_library | guidance_terminal |
+| `NC:aoc-cr-287-instructions-es` | NC | the produced artifact carries stale_contact_sheet_manifest_or_review_e | master_library | guidance_terminal |
+| `NC:aoc-cr-287-instructions-vi` | NC | the produced artifact carries stale_contact_sheet_manifest_or_review_e | master_library | guidance_terminal |
+| `NC:aoc-cr-287-form-es` | NC | the produced artifact carries contact_sheet_shows_no_fill, stale_conta | master_library | guidance_terminal |
+| `NC:aoc-cr-287-instructions-en` | NC | the produced artifact carries stale_contact_sheet_manifest_or_review_e | master_library | guidance_terminal |
+| `NC:aoc-cr-288-instructions-en` | NC | the produced artifact carries stale_contact_sheet_manifest_or_review_e | master_library | guidance_terminal |
+| `NC:aoc-cr-288-instructions-es` | NC | the produced artifact carries stale_contact_sheet_manifest_or_review_e | master_library | guidance_terminal |
+| `NC:aoc-cr-288-form-vi` | NC | the produced artifact carries multi_widget_ambiguity, stale_contact_sh | master_library | guidance_terminal |
+| `NC:aoc-cr-288-form-es` | NC | the produced artifact carries contact_sheet_shows_no_fill, stale_conta | master_library | guidance_terminal |
+| `NC:aoc-cr-288-instructions-vi` | NC | the produced artifact carries stale_contact_sheet_manifest_or_review_e | master_library | guidance_terminal |
 | `NC:aoc-cr-296-form-en` | NC | every open objection is about the source itself (currentness_unverifie | master_library | exact_deferral |
-| `NC:aoc-cr-297-instructions-en` | NC | the produced artifact carries flat_overlay_geometry_or_readback, stale | master_library | guidance_terminal |
+| `NC:aoc-cr-297-instructions-en` | NC | the produced artifact carries stale_contact_sheet_manifest_or_review_e | master_library | guidance_terminal |
 | `NC:aoc-cr-297-form-en` | NC | the produced artifact carries visually_unsafe | master_library | packet_ready |
-| `NC:aoc-cr-298-instructions-en` | NC | the produced artifact carries flat_overlay_geometry_or_readback, stale | master_library | guidance_terminal |
+| `NC:aoc-cr-298-instructions-en` | NC | the produced artifact carries stale_contact_sheet_manifest_or_review_e | master_library | guidance_terminal |
 | `NC:aoc-cr-298-form-en` | NC | the produced artifact carries visually_unsafe | master_library | packet_ready |
-| `NC:aoc-cv-226-support-es` | NC | the produced artifact carries contact_sheet_shows_no_fill, flat_overla | master_library | guidance_terminal |
+| `NC:aoc-cv-226-support-es` | NC | the produced artifact carries contact_sheet_shows_no_fill, visually_un | master_library | guidance_terminal |
 | `NC:aoc-cv-226-support-en` | NC | the produced artifact carries visually_unsafe | master_library | packet_ready |
-| `NC:aoc-cv-226-support-vi` | NC | the produced artifact carries contact_sheet_shows_no_fill, flat_overla | master_library | guidance_terminal |
+| `NC:aoc-cv-226-support-vi` | NC | the produced artifact carries contact_sheet_shows_no_fill, visually_un | master_library | guidance_terminal |
 | `NC:expungements` | NC | the official binary is absent from the clone, so its SHA-256 cannot be | nationwide | guidance_terminal |
 | `NC:forms-2` | NC | the official binary is absent from the clone, so its SHA-256 cannot be | nationwide | guidance_terminal |
 | `NC:forms` | NC | the official binary is absent from the clone, so its SHA-256 cannot be | nationwide | guidance_terminal |
@@ -84,10 +84,10 @@ Source re-derived by hashing 686 corpus files: **71 present and hash-verified**,
 | `NE:cc-6-11-2` | NE | the official binary is absent from the clone, so its SHA-256 cannot be | master_library | packet_ready |
 | `NE:cc-6-11-2-form-en` | NE | the produced artifact carries visually_unsafe | master_library | packet_ready |
 | `NE:cc-6-11-form-en` | NE | the produced artifact carries visually_unsafe | master_library | packet_ready |
-| `NE:cc-6-11a-instructions-en` | NE | the produced artifact carries flat_overlay_geometry_or_readback, stale | master_library | guidance_terminal |
+| `NE:cc-6-11a-instructions-en` | NE | the produced artifact carries stale_contact_sheet_manifest_or_review_e | master_library | guidance_terminal |
 | `NE:cc-6-12` | NE | the official binary is absent from the clone, so its SHA-256 cannot be | master_library | packet_ready |
 | `NE:cc-6-12-form-en` | NE | the produced artifact carries visually_unsafe | master_library | packet_ready |
-| `NE:cc-6-12-instructions-en` | NE | the produced artifact carries flat_overlay_geometry_or_readback, stale | master_library | guidance_terminal |
+| `NE:cc-6-12-instructions-en` | NE | the produced artifact carries stale_contact_sheet_manifest_or_review_e | master_library | guidance_terminal |
 | `NE:cc-6-15-1-form-en` | NE | the produced artifact carries visually_unsafe | master_library | packet_ready |
 | `NE:dc-1-15-form-en` | NE | the produced artifact carries visually_unsafe | master_library | packet_ready |
 | `VA:cc-1201-en` | VA | the produced artifact carries visually_unsafe | master_library | packet_ready |
@@ -108,5 +108,5 @@ Source re-derived by hashing 686 corpus files: **71 present and hash-verified**,
 | `VT:200-00631-en` | VT | the produced artifact carries missing_required_packet_component, multi | master_library | guidance_terminal |
 | `VT:600-00228-en` | VT | the produced artifact carries visually_unsafe | master_library | guidance_terminal |
 | `VT:application-waive-filing-fees-and-service-costs` | VT | the official binary is absent from the clone, so its SHA-256 cannot be | nationwide | guidance_terminal |
-| `WI:cr-267-en` | WI | the produced artifact carries flat_overlay_geometry_or_readback, multi | master_library | guidance_terminal |
+| `WI:cr-267-en` | WI | the produced artifact carries multi_widget_ambiguity, stale_contact_sh | master_library | guidance_terminal |
 

@@ -36,9 +36,18 @@ const readJson = (file, fallback = null) => {
 };
 
 /** A form identifier reduced to comparable characters: CR-65, cr_65, CR65 fold. */
+// Dash style is not identity.
+//
+// This stripped the ASCII hyphen and left every other dash standing, so
+// "200-00129 \u2013 Petition to Expunge Criminal History" and the family id
+// "200-00129-petition-to-expunge-criminal-history" normalized to two different
+// strings that differ only by an en dash. Surface membership is exact, so the
+// probe reported that src/ does not name a form src/ names on eleven lines.
+// Court filenames use en and em dashes routinely, so every dash variant folds
+// away with the hyphen.
 const normalize = (value) => String(value ?? "")
   .replace(/\.(pdf|html?|docx?)$/i, "")
-  .replace(/[-_\s.]/g, "")
+  .replace(/[-_\s.\u2010-\u2015\u2212]/g, "")
   .toUpperCase();
 
 // ---- every surface that could reach an asset --------------------------------
