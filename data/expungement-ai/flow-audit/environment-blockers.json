@@ -1,0 +1,251 @@
+{
+  "schemaVersion": "expai-flow-audit-environment-blockers/v1",
+  "recordedBy": "Phase 1 flow audit",
+  "purpose": "The exact environment inputs the Phase 1 prompt and the program master plan require, which of them this session had, and what could not be exercised as a result. Recorded rather than worked around: a crawl that pretends to have exercised a paid path it never reached is worse than an honest gap.",
+  "requiredInputsFromTheMasterPlan": [
+    {
+      "input": "REPOSITORY",
+      "supplied": true,
+      "value": "Roger-LegalEase/legalease-partner-dashboard-clean"
+    },
+    {
+      "input": "STAGING_BASE_URL",
+      "supplied": false,
+      "value": null,
+      "substitute": "A local production build of the audit branch served by `next start` on 127.0.0.1. Public, unauthenticated surfaces only."
+    },
+    {
+      "input": "STAGING_DEPLOYMENT_SHA",
+      "supplied": false,
+      "value": null,
+      "substitute": "The audit's own base SHA, because the local build is built from this working tree at that SHA."
+    },
+    {
+      "input": "SYNTHETIC_TEST_USER_EMAIL_PATTERN",
+      "supplied": false,
+      "value": null
+    },
+    {
+      "input": "SYNTHETIC_TEST_USER_PASSWORD_SECRET_NAME",
+      "supplied": false,
+      "value": null
+    },
+    {
+      "input": "INTERNAL_TEST_ADMIN_SECRET_NAME",
+      "supplied": false,
+      "value": null
+    },
+    {
+      "input": "STRIPE_TEST_MODE_CONFIGURATION",
+      "supplied": false,
+      "value": null
+    },
+    {
+      "input": "SPONSORED_TEST_PARTNER_SLUG",
+      "supplied": false,
+      "value": null
+    },
+    {
+      "input": "SPONSORED_TEST_ACCESS_CODE_SECRET_NAME",
+      "supplied": false,
+      "value": null
+    },
+    {
+      "input": "TEST_PACKET_CREDIT_ALLOCATION",
+      "supplied": false,
+      "value": null
+    },
+    {
+      "input": "TEST_COUNTY_AND_COURT_DATA_SOURCE",
+      "supplied": false,
+      "value": null,
+      "note": "No controlled county or court dataset exists in the repository either; see UX-COUNTY-001 and UX-COURT-001."
+    },
+    {
+      "input": "BROWSER_AUTOMATION_COMMAND",
+      "supplied": true,
+      "value": "node tests/e2e/expungement-ai/flow-audit/crawl-screening-flows.mjs",
+      "note": "Uses the repository's existing browser-testing framework (Playwright chromium in a .mjs script writing an evidence directory). No new vendor was added; playwright@1.60.0 is already a direct dependency."
+    },
+    {
+      "input": "SCREENSHOT_ARTIFACT_DESTINATION",
+      "supplied": true,
+      "value": "data/expungement-ai/flow-audit/evidence/screenshots"
+    },
+    {
+      "input": "ANALYTICS_TEST_DESTINATION",
+      "supplied": false,
+      "value": null,
+      "note": "POST /api/analytics/web answers 503 without Supabase. Analytics request bodies were still captured at the browser boundary."
+    }
+  ],
+  "blockers": [
+    {
+      "blockerId": "ENV-001",
+      "title": "No staging environment exists for this session",
+      "detail": "No STAGING_BASE_URL, no Vercel preview, and no deployment SHA were supplied, and none is discoverable from the repository. The crawl therefore runs against a local production build (`next build && next start`) of the audit branch, served on 127.0.0.1. That is a substitute for the public, unauthenticated surface only.",
+      "surfacesNotExercised": [],
+      "consequence": "Every finding drawn from the crawl describes a locally built copy of this exact SHA rather than a deployed environment. Nothing in the audit asserts deployed behaviour.",
+      "unblockedBy": "A staging base URL and its deployment SHA."
+    },
+    {
+      "blockerId": "ENV-002",
+      "title": "No Supabase project, so no authenticated participant exists",
+      "detail": "The local build was given a syntactically valid but non-functional NEXT_PUBLIC_SUPABASE_URL and anon key so the client bundle could construct its auth client; there is no database behind them. Sign-in, session creation, matter persistence and every Briefcase read therefore cannot run.",
+      "surfacesNotExercised": [
+        "/expungement-ai/sign-in",
+        "/briefcase",
+        "/briefcase/{matterId}",
+        "/briefcase/{matterId}/packet-information",
+        "/briefcase/{matterId}/review",
+        "POST /api/expungement-ai/screening/pending",
+        "POST /api/expungement-ai/screening/pending/claim",
+        "POST /api/expungement-ai/briefcase/{itemId}/packet-information"
+      ],
+      "consequence": "Canary 1 (the Open matter / Complete packet information loop), canary 4 (a known fact re-asked), canary 5, 6, 7, 8, 9 (the packet-information fact model) and canary 10 (raw values on the accuracy review page) are established from source and from the derived manifests, not from a browser. Each is recorded with the exact file and line it was read from so it can be confirmed in one staging pass.",
+      "unblockedBy": "A staging Supabase project plus the four synthetic users the master plan names."
+    },
+    {
+      "blockerId": "ENV-003",
+      "title": "No Stripe test-mode configuration, so no checkout session can be created",
+      "detail": "STRIPE_SECRET_KEY is unset. POST /api/expungement-ai/checkout cannot reach Stripe, and the review page that hosts the checkout control needs an authenticated matter it cannot have (ENV-002).",
+      "surfacesNotExercised": [
+        "POST /api/expungement-ai/checkout",
+        "Stripe Checkout redirect",
+        "POST /api/expungement-ai/payment/confirm"
+      ],
+      "consequence": "Paid paths were tested statically: the checkout request contract, its five refusal branches, and the absence of any discount entry were read from source. No Stripe session was created, which is also what the Phase 1 prompt requires.",
+      "unblockedBy": "Stripe test-mode keys scoped to staging."
+    },
+    {
+      "blockerId": "ENV-004",
+      "title": "No sponsored partner or access code, so the sponsored lane cannot be entered",
+      "detail": "Partner mode is entered only through a ?session= query naming a server-verified RCAP partner screening session. Creating one needs a partner row, a slot, and a Supabase session.",
+      "surfacesNotExercised": [
+        "/expungement-ai/screening/{state}?session={partnerSessionId}",
+        "/intake/{partnerSlug}",
+        "the sponsored packet generation lane"
+      ],
+      "consequence": "The 41 sponsored flow rows in the manifest are derived from the evaluator plus the sponsorship branch in ScreeningResult.tsx and the checkout route's sponsored refusal. No sponsored packet was generated.",
+      "unblockedBy": "SPONSORED_TEST_PARTNER_SLUG and a staging access code."
+    },
+    {
+      "blockerId": "ENV-005",
+      "title": "No pre-rebuild legacy matter fixture can be created",
+      "detail": "The legacy-matter canary needs a persisted consumer_briefcase_items row whose artifactRefs carry no commercialFlow and whose paymentAllowed is false. That is a database row, and there is no database.",
+      "surfacesNotExercised": [
+        "the legacy-matter loop reproduction"
+      ],
+      "consequence": "The loop is established statically instead, from the guard mismatch between the matter page and the packet-information page and from commercialFlowForItem's null return. The exact fixture shape needed to reproduce it in a browser is written down in docs/expungement-ai/flow-audit/human-review-required.md so one staging pass can confirm or disprove it.",
+      "unblockedBy": "A staging database plus permission to insert one synthetic legacy matter."
+    },
+    {
+      "blockerId": "ENV-006",
+      "title": "Staging provisioning credentials are not available to this session",
+      "detail": "The single blocker behind ENV-001 through ENV-005. Staging is not a standing environment in this repository; it is provisioned by .github/workflows/rcap-hosted-acceptance-staging.yml, which reads GitHub Actions repository secrets this session cannot see.",
+      "missingCredentials": [
+        "SUPABASE_ACCESS_TOKEN",
+        "VERCEL_TOKEN",
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_AUTOMATION_BYPASS_SECRET"
+      ],
+      "platform": "GitHub Actions repository secrets on Roger-LegalEase/legalease-partner-dashboard-clean",
+      "exactStagingOnlyActionAuthorized": "Run the rcap-hosted-acceptance-staging workflow against the audit branch to deploy one Vercel Preview of this exact SHA, apply migrations to the staging Supabase project, and seed the four synthetic users, the one synthetic partner, the four access-code states and 100 packet credits \u2014 after which the browser crawl can enter the authenticated Briefcase, packet-information, accuracy-review, checkout and sponsored surfaces.",
+      "surfacesNotExercised": [
+        "every authenticated surface listed in ENV-002, ENV-003, ENV-004 and ENV-005"
+      ],
+      "consequence": "The static audit is complete and the browser harness is complete and proven against a local build of the public surface. The authenticated half of the crawl waits on exactly this one grant.",
+      "unblockedBy": "The five secrets above, or a maintainer running that workflow on claude/expai-flow-audit-p1 and handing back the Preview hostname and its deployment SHA."
+    }
+  ],
+  "localProtectedSetup": {
+    "present": true,
+    "files": [
+      "~/.config/legalease/expai-flow-audit.config",
+      "~/.config/legalease/expai-flow-audit.env",
+      "~/.config/legalease/load-expai-flow-audit.sh",
+      "~/.config/legalease/check-expai-flow-audit.sh"
+    ],
+    "committed": false,
+    "note": "Created outside the repository with mode 600/700 by the owner-supplied setup script. No value from either file is printed, logged, or committed. The three generated synthetic secrets (test-user password, internal-admin password, sponsored access code) exist but authorize nothing, because no environment accepts them."
+  },
+  "discovery": {
+    "performedBy": "Phase 1 audit, from the repository, Git metadata, CI configuration and current tooling",
+    "results": [
+      {
+        "input": "staging or preview URL",
+        "discovered": false,
+        "finding": "No standing staging environment exists. .github/workflows/rcap-hosted-acceptance-staging.yml provisions a Vercel Preview on demand and no hostname is recorded anywhere in the tree, so there is nothing to point a crawl at without running that workflow."
+      },
+      {
+        "input": "staging deployment SHA",
+        "discovered": false,
+        "finding": "Follows from the above: with no deployment there is no deployment SHA. The crawl instead records the SHA of the local build, which is the audit's own base SHA."
+      },
+      {
+        "input": "browser-automation command",
+        "discovered": true,
+        "finding": "node tests/e2e/expungement-ai/flow-audit/crawl-screening-flows.mjs"
+      },
+      {
+        "input": "browser-testing framework",
+        "discovered": true,
+        "finding": "playwright@1.60.0 chromium driven from .mjs scripts writing an evidence directory. Already a direct dependency; no new vendor was added."
+      },
+      {
+        "input": "authoritative county dataset",
+        "discovered": false,
+        "finding": "None exists. The only county material in the repository is prose guidance for three legacy states in src/lib/rcap/state-packs/{illinois,mississippi,pennsylvania}/county-court-instructions.ts, which itself says the system must not invent county-specific data."
+      },
+      {
+        "input": "authoritative court dataset",
+        "discovered": false,
+        "finding": "None exists. src/lib/rcap/state-packs/{illinois,mississippi}/court-routing.ts hold one general filing rule each; packetGenerator.filingDestinationRules is empty in the compiled profiles sampled."
+      },
+      {
+        "input": "synthetic-user creation or seeding tool",
+        "discovered": true,
+        "finding": "scripts/rcap-hosted-acceptance-matrix.mjs creates GoTrue identities through POST /auth/v1/admin/users with a service key; scripts/f1-ephemeral-staging-stack.mjs does the same against a disposable local Supabase stack. Both need a Supabase project and a service-role key."
+      },
+      {
+        "input": "synthetic partner provisioning tool",
+        "discovered": true,
+        "finding": "scripts/export-partner-seed-sql.mjs with supabase/partner-seed-demo.sql, verified by scripts/verify-rcap-partner-provisioning.mjs. Needs a database."
+      },
+      {
+        "input": "Stripe test-mode setup",
+        "discovered": true,
+        "finding": "EXPUNGEMENT_AI_CHECKOUT_DRY_RUN=true opens a dry-run checkout in any non-production runtime (src/lib/expungement-ai/payment-adapter.ts). It is not the binding constraint: the dry run still needs an authenticated Briefcase matter."
+      },
+      {
+        "input": "sponsored-access fixture mechanism",
+        "discovered": true,
+        "finding": "src/lib/partners/partner-access-codes.ts createPartnerAccessCode / setPartnerAccessCodeActive against supabase/phase-41-rcap-partner-access-codes.sql. Needs a database."
+      }
+    ]
+  },
+  "fixtureCreation": {
+    "attempted": false,
+    "authorized": false,
+    "reason": "Every fixture the addendum names \u2014 four synthetic consumer users, one synthetic partner, four access-code states and 100 packet credits \u2014 is a row in a Supabase project. This session has no Supabase project, no service-role key, and no Supabase access token, so there is no staging database in which to create them. Improvising a different mechanism, or asking for production credentials, is explicitly out of bounds.",
+    "wouldCreate": [
+      "flow-audit+consumer@legalease.com",
+      "flow-audit+sponsored@legalease.com",
+      "flow-audit+legacy@legalease.com",
+      "flow-audit+admin@legalease.com",
+      "one staging-only synthetic partner: Flow Audit Synthetic Partner",
+      "one valid sponsored code",
+      "one expired sponsored code",
+      "one exhausted sponsored code",
+      "one invalid-code fixture",
+      "100 synthetic packet credits"
+    ],
+    "toolingThatWouldCreateThem": [
+      "scripts/rcap-hosted-acceptance-matrix.mjs (GoTrue identities)",
+      "scripts/export-partner-seed-sql.mjs with supabase/partner-seed-demo.sql (partner)",
+      "src/lib/partners/partner-access-codes.ts (access codes)",
+      "src/lib/expungement-ai/rcap-entitlement-admin.ts (packet credits)"
+    ]
+  }
+}

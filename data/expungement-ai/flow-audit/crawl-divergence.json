@@ -1,0 +1,309 @@
+{
+  "schemaVersion": "expai-crawl-divergence/v1",
+  "generatedBy": "scripts/expungement-ai/flow-audit/explain-crawl-divergence.mjs",
+  "baseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "evaluatorToday": "2026-07-01",
+  "changesNoProductBehavior": true,
+  "question": "Where the browser reached a different terminal than the manifest predicted, was that the crawl's fault or the product's?",
+  "classifications": {
+    "unrendered_fact_missing": "The manifest fixture supplied a fact the flow never renders. Adding it back reproduces the manifest's terminal, so the disagreement is a product gap: the participant cannot supply that fact.",
+    "crawl_answer_differs": "Both answer sets cover the same question ids and still differ. The crawl driver is responsible.",
+    "evaluator_disagrees": "Replaying the browser's own answers does not reproduce the browser's own terminal. Neither side can be trusted until this is explained.",
+    "unrendered_fact_changes_the_outcome": "Adding the unrendered facts back moves the terminal, but not all the way to the manifest's expected value. The product gap is real; something else also differs.",
+    "crawl_did_not_record_the_value": "The crawl walked a screen without recording which value it chose, so the replay has nothing to reproduce. An audit defect, not a product one."
+  },
+  "totals": {
+    "divergentRecords": 4,
+    "classificationCounts": {
+      "crawl_answer_differs": 2,
+      "evaluator_disagrees": 2
+    },
+    "topBlockingReasonCodes": {
+      "ca_prop64_completed_sentence_branch_not_confirmed": 2,
+      "compiled_rule_match": 2
+    },
+    "unrenderedFactFrequency": {
+      "new_convictions_during_waiting_period": 4,
+      "record_documents": 4,
+      "special_preconditions_confirmed": 4,
+      "conviction_date": 2,
+      "disposition_date": 2,
+      "pending_cases": 2,
+      "release_date": 2
+    }
+  },
+  "divergences": [
+    {
+      "flowId": "EXPAI-CA-820d8cab8d",
+      "jurisdiction": "CA",
+      "viewport": "desktop-1440x1000",
+      "role": "unsupported_or_referral",
+      "observedInBrowser": "needs_review",
+      "expectedFromManifest": "likely_not_eligible",
+      "classification": "crawl_answer_differs",
+      "screensTheFlowRendered": [
+        "ca_prop64_branch",
+        "ca_prop64_lesser_or_no_offense",
+        "ca_prop64_qualifying_marijuana_offense",
+        "ca_prop64_relief_requested",
+        "case_outcome",
+        "financial_obligations",
+        "jurisdiction_scope",
+        "offense_level",
+        "ownership_scope",
+        "pardon_status",
+        "pending_cases",
+        "possible_pathway_context",
+        "resolved_timing_bucket",
+        "sentence_completion_date",
+        "state_exclusion_categories"
+      ],
+      "browserAnswers": {
+        "ownership_scope": "Yes",
+        "jurisdiction_scope": "State or local",
+        "case_outcome": "Arrest or citation with no charge filed",
+        "offense_level": "Misdemeanor",
+        "possible_pathway_context": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application",
+        "pardon_status": "No",
+        "sentence_completion_date": "Yes",
+        "financial_obligations": "Yes",
+        "pending_cases": "No",
+        "ca_prop64_qualifying_marijuana_offense": "Yes",
+        "ca_prop64_lesser_or_no_offense": "Yes",
+        "ca_prop64_branch": "FLOW-AUDIT SYNTHETIC VALUE",
+        "ca_prop64_relief_requested": "FLOW-AUDIT SYNTHETIC VALUE",
+        "resolved_timing_bucket": "gt_10_years",
+        "state_exclusion_categories": [
+          "None of these"
+        ]
+      },
+      "screensWithoutARecordedValue": [],
+      "factsTheFixtureSuppliedThatTheFlowNeverRenders": [
+        "new_convictions_during_waiting_period",
+        "record_documents",
+        "special_preconditions_confirmed"
+      ],
+      "browserAnswerReplay": {
+        "resultCode": "needs_review",
+        "pathwayId": "prop-64-completed-sentence-application-11361-8",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ca.ca_prop64_completed_sentence_branch_not_confirmed"
+        ],
+        "reasonText": [
+          "The HSC § 11361.8 completed-sentence application branch must be confirmed before packet support opens."
+        ]
+      },
+      "unrenderedFactsChangeTheOutcome": false,
+      "toppedUpReplay": {
+        "resultCode": "needs_review",
+        "pathwayId": "prop-64-completed-sentence-application-11361-8",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ca.ca_prop64_completed_sentence_branch_not_confirmed"
+        ]
+      }
+    },
+    {
+      "flowId": "EXPAI-DE-72bbc41cea",
+      "jurisdiction": "DE",
+      "viewport": "desktop-1440x1000",
+      "role": "canonical_supported",
+      "observedInBrowser": "packet_ready_with_caution",
+      "expectedFromManifest": "packet_ready",
+      "classification": "evaluator_disagrees",
+      "screensTheFlowRendered": [
+        "case_outcome",
+        "financial_obligations",
+        "jurisdiction_scope",
+        "offense_level",
+        "ownership_scope",
+        "pardon_status",
+        "possible_pathway_context",
+        "resolved_timing_bucket",
+        "sentence_completion_date",
+        "state_exclusion_categories"
+      ],
+      "browserAnswers": {
+        "ownership_scope": "Yes",
+        "jurisdiction_scope": "State or local",
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor",
+        "possible_pathway_context": "Discretionary court expungement under 11 Del. C. § 4374",
+        "pardon_status": "No",
+        "sentence_completion_date": "Yes",
+        "financial_obligations": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "state_exclusion_categories": [
+          "None of these"
+        ]
+      },
+      "screensWithoutARecordedValue": [],
+      "factsTheFixtureSuppliedThatTheFlowNeverRenders": [
+        "conviction_date",
+        "disposition_date",
+        "new_convictions_during_waiting_period",
+        "pending_cases",
+        "record_documents",
+        "release_date",
+        "special_preconditions_confirmed"
+      ],
+      "browserAnswerReplay": {
+        "resultCode": "packet_ready",
+        "pathwayId": "discretionary-court-expungement-under-11-del-c-4374",
+        "paymentAllowed": true,
+        "reasonCodes": [
+          "de.compiled_rule_match.rule-28-agencies-cannot-see-it-on-public-sources-mandatory-and-"
+        ],
+        "reasonText": [
+          "Compiled source rule rule-28-agencies-cannot-see-it-on-public-sources-mandatory-and- matches Discretionary court expungement under 11 Del. C. § 4374."
+        ]
+      },
+      "unrenderedFactsChangeTheOutcome": false,
+      "toppedUpReplay": {
+        "resultCode": "packet_ready",
+        "pathwayId": "discretionary-court-expungement-under-11-del-c-4374",
+        "paymentAllowed": true,
+        "reasonCodes": [
+          "de.compiled_rule_match.rule-28-agencies-cannot-see-it-on-public-sources-mandatory-and-"
+        ]
+      }
+    },
+    {
+      "flowId": "EXPAI-CA-820d8cab8d",
+      "jurisdiction": "CA",
+      "viewport": "mobile-390x844",
+      "role": "unsupported_or_referral",
+      "observedInBrowser": "needs_review",
+      "expectedFromManifest": "likely_not_eligible",
+      "classification": "crawl_answer_differs",
+      "screensTheFlowRendered": [
+        "ca_prop64_branch",
+        "ca_prop64_lesser_or_no_offense",
+        "ca_prop64_qualifying_marijuana_offense",
+        "ca_prop64_relief_requested",
+        "case_outcome",
+        "financial_obligations",
+        "jurisdiction_scope",
+        "offense_level",
+        "ownership_scope",
+        "pardon_status",
+        "pending_cases",
+        "possible_pathway_context",
+        "resolved_timing_bucket",
+        "sentence_completion_date",
+        "state_exclusion_categories"
+      ],
+      "browserAnswers": {
+        "ownership_scope": "Yes",
+        "jurisdiction_scope": "State or local",
+        "case_outcome": "Arrest or citation with no charge filed",
+        "offense_level": "Misdemeanor",
+        "possible_pathway_context": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application",
+        "pardon_status": "No",
+        "sentence_completion_date": "Yes",
+        "financial_obligations": "Yes",
+        "pending_cases": "No",
+        "ca_prop64_qualifying_marijuana_offense": "Yes",
+        "ca_prop64_lesser_or_no_offense": "Yes",
+        "ca_prop64_branch": "FLOW-AUDIT SYNTHETIC VALUE",
+        "ca_prop64_relief_requested": "FLOW-AUDIT SYNTHETIC VALUE",
+        "resolved_timing_bucket": "gt_10_years",
+        "state_exclusion_categories": [
+          "None of these"
+        ]
+      },
+      "screensWithoutARecordedValue": [],
+      "factsTheFixtureSuppliedThatTheFlowNeverRenders": [
+        "new_convictions_during_waiting_period",
+        "record_documents",
+        "special_preconditions_confirmed"
+      ],
+      "browserAnswerReplay": {
+        "resultCode": "needs_review",
+        "pathwayId": "prop-64-completed-sentence-application-11361-8",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ca.ca_prop64_completed_sentence_branch_not_confirmed"
+        ],
+        "reasonText": [
+          "The HSC § 11361.8 completed-sentence application branch must be confirmed before packet support opens."
+        ]
+      },
+      "unrenderedFactsChangeTheOutcome": false,
+      "toppedUpReplay": {
+        "resultCode": "needs_review",
+        "pathwayId": "prop-64-completed-sentence-application-11361-8",
+        "paymentAllowed": false,
+        "reasonCodes": [
+          "ca.ca_prop64_completed_sentence_branch_not_confirmed"
+        ]
+      }
+    },
+    {
+      "flowId": "EXPAI-DE-72bbc41cea",
+      "jurisdiction": "DE",
+      "viewport": "mobile-390x844",
+      "role": "canonical_supported",
+      "observedInBrowser": "packet_ready_with_caution",
+      "expectedFromManifest": "packet_ready",
+      "classification": "evaluator_disagrees",
+      "screensTheFlowRendered": [
+        "case_outcome",
+        "financial_obligations",
+        "jurisdiction_scope",
+        "offense_level",
+        "ownership_scope",
+        "pardon_status",
+        "possible_pathway_context",
+        "resolved_timing_bucket",
+        "sentence_completion_date",
+        "state_exclusion_categories"
+      ],
+      "browserAnswers": {
+        "ownership_scope": "Yes",
+        "jurisdiction_scope": "State or local",
+        "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+        "offense_level": "Misdemeanor",
+        "possible_pathway_context": "Discretionary court expungement under 11 Del. C. § 4374",
+        "pardon_status": "No",
+        "sentence_completion_date": "Yes",
+        "financial_obligations": "Yes",
+        "resolved_timing_bucket": "gt_10_years",
+        "state_exclusion_categories": [
+          "None of these"
+        ]
+      },
+      "screensWithoutARecordedValue": [],
+      "factsTheFixtureSuppliedThatTheFlowNeverRenders": [
+        "conviction_date",
+        "disposition_date",
+        "new_convictions_during_waiting_period",
+        "pending_cases",
+        "record_documents",
+        "release_date",
+        "special_preconditions_confirmed"
+      ],
+      "browserAnswerReplay": {
+        "resultCode": "packet_ready",
+        "pathwayId": "discretionary-court-expungement-under-11-del-c-4374",
+        "paymentAllowed": true,
+        "reasonCodes": [
+          "de.compiled_rule_match.rule-28-agencies-cannot-see-it-on-public-sources-mandatory-and-"
+        ],
+        "reasonText": [
+          "Compiled source rule rule-28-agencies-cannot-see-it-on-public-sources-mandatory-and- matches Discretionary court expungement under 11 Del. C. § 4374."
+        ]
+      },
+      "unrenderedFactsChangeTheOutcome": false,
+      "toppedUpReplay": {
+        "resultCode": "packet_ready",
+        "pathwayId": "discretionary-court-expungement-under-11-del-c-4374",
+        "paymentAllowed": true,
+        "reasonCodes": [
+          "de.compiled_rule_match.rule-28-agencies-cannot-see-it-on-public-sources-mandatory-and-"
+        ]
+      }
+    }
+  ]
+}
