@@ -15,8 +15,13 @@ Supabase global sign-out requires a valid logged-in JWT; global scope removes af
 - Use a secure incident workstation and a production-specific shell with history disabled.
 - Never paste a service-role key or user access token into a command argument, ticket, chat, or receipt.
 - Supply secrets only through the approved secret-injection mechanism. The remediation tool reads `SUPABASE_SERVICE_ROLE_KEY` and, during revoke only, `RCAP_PERSONAL_ACCOUNT_ACCESS_TOKEN` from the environment and never prints them.
-- Store receipts in the incident evidence vault; do not commit them. In apply mode the tool reserves
-  the receipt before its first mutation and records `completed` or `failed` without tokens or secrets.
+- Store receipts in the incident evidence vault; do not commit them. Apply mode requires an explicit
+  `--receipt-output` in that vault (prefer an absolute path outside the source tree). A repository-local
+  destination is permitted only when the entire destination is covered by the repository's approved
+  gitignore rules. The tool refuses tracked or unignored paths, symlink traversal, the repository root,
+  and an existing file. It reserves the receipt with mode `0600` before its first mutation and records
+  `completed` or `failed` without passwords, tokens, cookies, service-role keys, JWTs, or session values.
+- Dry-run mode writes no receipt by default.
 - Do not delete either Auth user, merge identities, or update either email.
 - Do not continue if either email is ambiguous, both resolve to one UUID, the corporate email is unverified, the corporate UUID has partner-scoped membership, or the planned result has no recovery administrator.
 
@@ -63,7 +68,8 @@ node scripts/security/remediate-internal-admin-accounts.mjs \
   --personal-email roman.roger@gmail.com \
   --expected-corporate-uuid <CORPORATE_UUID> \
   --expected-personal-uuid <PERSONAL_UUID> \
-  --receipt <SECURE_EVIDENCE_PATH>/corporate-grant.json \
+  --receipt-output <SECURE_EVIDENCE_PATH>/corporate-grant.json \
+  --operator-id <APPROVED_OPERATOR_ID> \
   --apply
 ```
 
@@ -120,11 +126,12 @@ node scripts/security/remediate-internal-admin-accounts.mjs \
   --expected-corporate-uuid <CORPORATE_UUID> \
   --expected-personal-uuid <PERSONAL_UUID> \
   --confirm-corporate-access \
-  --receipt <SECURE_EVIDENCE_PATH>/personal-revocation.json \
+  --receipt-output <SECURE_EVIDENCE_PATH>/personal-revocation.json \
+  --operator-id <APPROVED_OPERATOR_ID> \
   --apply
 ```
 
-Remove `RCAP_PERSONAL_ACCOUNT_ACCESS_TOKEN` from the process environment immediately after the command. Preserve the receipt securely and do not commit it.
+Remove `RCAP_PERSONAL_ACCOUNT_ACCESS_TOKEN` from the process environment immediately after the command. Preserve the receipt securely and do not commit it. The receipt records the operation ID and timestamps, target UUIDs, non-secret before/after role state, planned/attempted/completed actions, session-revocation result, operator identity when supplied, and tool/candidate SHA. It never records either email or the injected credentials.
 
 ## 7. Post-change verification
 

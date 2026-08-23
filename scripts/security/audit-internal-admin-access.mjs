@@ -71,7 +71,9 @@ export async function auditExactEmail({ email, client, env = process.env }) {
   const revokedOrExpired = partnerUsers.filter(
     (row) => row.role === "internal_admin" && row.status !== "active"
   );
-  const partnerMemberships = partnerUsers.filter((row) => row.role !== "internal_admin");
+  const partnerMemberships = partnerUsers.filter(
+    (row) => row.partner_slug !== null || row.role !== "internal_admin"
+  );
   const metadata = user
     ? {
         app_metadata: relevantMetadata(user.app_metadata),
