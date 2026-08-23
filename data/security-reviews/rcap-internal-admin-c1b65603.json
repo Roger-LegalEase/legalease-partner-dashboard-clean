@@ -1,0 +1,347 @@
+{
+  "reviewVersion": 1,
+  "reviewType": "independent_security_review",
+  "subject": "RCAP internal admin authorization hardening",
+  "candidateSha": "c1b65603eba80c19f48919f70ae7cccfb3f5c026",
+  "baseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "implementationBranch": "codex/rcap-internal-admin-auth-hardening",
+  "reviewBranch": "codex/review-rcap-internal-admin-c1b65603",
+  "reviewerIsImplementer": false,
+  "implementationModified": false,
+  "migrationApplied": false,
+  "productionAccessed": false,
+  "productionMutationsExecuted": false,
+  "sessionsRevoked": false,
+  "merged": false,
+  "deployed": false,
+  "inputIntegrity": {
+    "candidateExistsRemotely": true,
+    "candidateIsExactBranchHead": true,
+    "baseIsAncestorOfCandidate": true,
+    "trackedWorktreeCleanAtStart": true,
+    "mergeOrRebaseInProgress": false
+  },
+  "implementationCommits": [
+    {
+      "sha": "01bcec9f",
+      "subject": "security: harden internal admin application boundary"
+    },
+    {
+      "sha": "2469be8b",
+      "subject": "security: consolidate internal admin RLS authority"
+    },
+    {
+      "sha": "63037f81",
+      "subject": "security: reconcile internal admin remediation controls"
+    },
+    {
+      "sha": "c1b65603",
+      "subject": "security: preserve internal admin deep-link redirects"
+    }
+  ],
+  "changedPathCount": 42,
+  "rootCause": {
+    "confirmed": true,
+    "canonicalAuthority": "public.partner_users",
+    "principal": "auth.users.id / auth.uid()",
+    "rule": "status = active AND role = internal_admin AND partner_slug IS NULL",
+    "applicationHelper": "src/lib/partners/session-partner.ts#requireInternalAdminSession",
+    "databaseHelper": "public.is_internal_admin()",
+    "emailOrDomainGrantedAccess": false,
+    "schemaFactsVerified": [
+      "partner_users.auth_user_id is UNIQUE, so at most one membership per Auth UUID",
+      "partner_users_role_partner_slug_check forces NULL partner_slug for internal_admin",
+      "no expires_at column exists; revocation and completed expiry are status = disabled",
+      "public.is_internal_admin() predicate is identical to the application rule"
+    ],
+    "alternativeGrantPathsSearched": [
+      "hardcoded emails",
+      "email-domain checks",
+      "environment allowlists",
+      "auth user_metadata",
+      "auth app_metadata",
+      "JWT claims",
+      "partner_admin equivalence",
+      "content_admin_users",
+      "content_current_role",
+      "INTERNAL_ADMIN_ACCESS_TOKEN",
+      "COMMAND_CENTER_API_KEY",
+      "proxy bearer admission",
+      "development/preview bypasses",
+      "owner/founder exceptions",
+      "inactive or revoked role paths",
+      "privilege escalation via partner invitation"
+    ],
+    "alternativeGrantPathsFound": []
+  },
+  "competingAuthoritiesClosed": [
+    {
+      "authority": "INTERNAL_ADMIN_ACCESS_TOKEN",
+      "layer": "proxy",
+      "closure": "bearer admission, session probe and 401 page removed from src/proxy.ts; variable removed from .env.example"
+    },
+    {
+      "authority": "content_admin_users",
+      "layer": "application",
+      "closure": "src/lib/content/auth.ts resolveContentSession delegates only to requireInternalAdminSession"
+    },
+    {
+      "authority": "COMMAND_CENTER_API_KEY",
+      "layer": "internal API",
+      "closure": "src/app/api/internal/analytics/summary/route.ts now uses requireInternalAdminRouteAccess"
+    },
+    {
+      "authority": "content_current_role() fallback",
+      "layer": "database",
+      "closure": "returns primary_admin only when public.is_internal_admin(), else null"
+    },
+    {
+      "authority": "consumer wilma telemetry internal safety select",
+      "layer": "database",
+      "closure": "role-only predicate replaced by public.is_internal_admin(), TO authenticated"
+    },
+    {
+      "authority": "legalease_os_support_items_internal_admin_all",
+      "layer": "database",
+      "closure": "role-only predicate replaced by public.is_internal_admin() in USING and WITH CHECK, TO authenticated"
+    }
+  ],
+  "competingAuthoritiesRemaining": [
+    {
+      "authority": "COMMAND_CENTER_API_KEY",
+      "route": "GET /api/metrics/signups",
+      "internalBoundaryBypass": false,
+      "note": "outside /internal, aggregate count-only via service role; the candidate's audit doc and authorization map describe this key as scoped to /api/internal/analytics/summary only, so the inventory is incomplete"
+    }
+  ],
+  "guardCoverage": {
+    "internalPages": {
+      "total": 39,
+      "guarded": 39,
+      "adapters": [
+        "resolveInternalAdminPageAccess",
+        "resolveContentPageAccess",
+        "listPilotRequestsForInternalAdmin"
+      ]
+    },
+    "internalRouteHandlers": {
+      "total": 31,
+      "guarded": 31,
+      "adapters": [
+        "requireInternalAdminRouteAccess",
+        "requireInternalAdminSession",
+        "denyUnlessInternalAdmin",
+        "requireInternalOnboardingContext",
+        "denyUnlessContentCapability"
+      ]
+    },
+    "layoutGuardPresent": true,
+    "layoutGuardIsSoleAuthority": false,
+    "serverActionsFound": 0,
+    "dataLoadedBeforeAuthorization": false,
+    "mutationsParsedBeforeAuthorization": false,
+    "partnerAdminTreatedAsInternalAdmin": false
+  },
+  "migration": {
+    "path": "supabase/migrations/20260823171000_internal_admin_authority_hardening.sql",
+    "onlyMigrationTouched": true,
+    "additive": true,
+    "destructiveStatements": 0,
+    "dataRowsModified": 0,
+    "policyNamesMatchDeployedNames": true,
+    "priorPredicatesVerifiedAt": "supabase/migrations/20260728213131_remote_schema.sql",
+    "priorPredicateDefects": [
+      "role-only match with no status test",
+      "role-only match with no partner-scope test",
+      "extra role strings safety_reviewer and support_reviewer admitted"
+    ],
+    "preservation": {
+      "serviceRole": "preserved",
+      "publicView": "preserved",
+      "tenantIsolation": "preserved",
+      "crossTenantAccess": "denied",
+      "historicalRows": "untouched"
+    },
+    "rollbackDocumented": true,
+    "rollbackAccurate": true,
+    "rollbackReopenedExposureStated": true,
+    "executedInThisReview": false
+  },
+  "identityAndSession": {
+    "identityDisplay": "server-derived email in the /internal shell and on both denial screens",
+    "roleDisplay": "server-derived effective role in the /internal shell",
+    "authUuidRenderedInUi": false,
+    "signOut": "POST /sign-out, supabase.auth.signOut scope local, cleared SSR cookies, 303 to /sign-in, no-store plus Clear-Site-Data",
+    "postSignOutProtectedAccess": "denied",
+    "backNavigationReplay": "prevented by force-dynamic, noStore and proxy private no-store headers",
+    "accessDeniedExperience": "identity shown, no partner data, Sign out and switch-account controls, keyboard focus rings, responsive layout",
+    "returnToSafety": "incomplete - see finding-1",
+    "openRedirectIntroducedByCandidate": false
+  },
+  "tooling": {
+    "auditToolReadOnly": true,
+    "remediationDryRunDefault": true,
+    "remediationRequiresApplyFlag": true,
+    "remediationResolvesExactUuids": true,
+    "remediationRequiresBothExpectedUuids": true,
+    "remediationRefusesAmbiguousResolution": true,
+    "remediationRefusesSingleSharedUuid": true,
+    "remediationGrantsCorporateBeforeRevoke": true,
+    "remediationPreservesBothAuthUsers": true,
+    "remediationPreservesAuditHistory": true,
+    "remediationReceiptNonSecret": true,
+    "remediationPrintsNoTokensOrKeys": true,
+    "remediationUsesAuthorizedRevocationMechanism": true,
+    "remediationLockoutProtection": "effective via the revoke precondition requiring exactly one active corporate internal administrator; the explicit zero-administrator check is vacuous (see finding-8)",
+    "hardcodedIncidentEmailsInAuthorizationCode": false,
+    "hardcodedIncidentEmailsInSyntheticFixtures": false,
+    "remediationExecuted": false
+  },
+  "tests": {
+    "focused": "pass",
+    "focusedDetail": "scripts/verify-internal-admin-browser-access.mjs 31/31",
+    "rlsStatic": "pass",
+    "rlsStaticDetail": "scripts/test-internal-admin-rls-hardening.mjs applies the real migration in isolated PGlite; no external database used",
+    "securityToolGuardrails": "pass",
+    "contentCmsAccess": "pass",
+    "commandCenterSummary": "pass",
+    "launchReadiness": "pass",
+    "browserTests": "not_run_environment_blocked",
+    "realDatabaseTests": "not_run_environment_blocked",
+    "typecheck": "pass",
+    "lint": "pass_zero_errors_102_preexisting_warnings",
+    "credentialedLegacyGateSuite": "not_run_environment_blocked",
+    "fullNpmTest": "fail",
+    "problemClassRegressionConfirmed": true,
+    "fullNpmTestDetail": "red at scripts/verify-rcap-verifier-dispositions.mjs, which runs before the Phase 52 suites; caused by this candidate (see finding-4). Base passes the same verifier 340/340."
+  },
+  "phase52": {
+    "reportedByImplementer": "npm test red with 12 surviving mutations",
+    "reproducedAtCandidate": false,
+    "harnessByteIdenticalToBase": true,
+    "verifierByteIdenticalToBase": true,
+    "targetMigrationByteIdenticalToBase": true,
+    "outsideChangedAuthorizationPaths": true,
+    "verifierResultAtCandidate": "pass 32/32",
+    "mutationResultAtCandidate": "pass 12/12 mutations caught",
+    "attribution": "not_caused_by_candidate_and_not_currently_failing",
+    "paymentOrPhase52CodeModifiedByReview": false,
+    "reachedByFullNpmTestAtCandidate": false,
+    "note": "npm test stops at the verifier-disposition gate before Phase 52; both Phase 52 suites pass when run directly at the candidate"
+  },
+  "scope": {
+    "protectedTreesCompared": 23,
+    "protectedTreesUnchanged": 22,
+    "protectedTreesChanged": [
+      "supabase/migrations"
+    ],
+    "protectedTreeChangeExplanation": "differs only by the single added hardening migration; no existing migration modified",
+    "unrelatedProductDiff": "none",
+    "secretsCommitted": false,
+    "tokensCommitted": false,
+    "cookiesCommitted": false,
+    "productionDatabaseExportsCommitted": false,
+    "productionUserRecordsCommitted": false,
+    "serviceRoleKeysCommitted": false
+  },
+  "findings": [
+    {
+      "id": "finding-1",
+      "severity": "blocker",
+      "title": "returnTo accepts a backslash-prefixed off-site path",
+      "location": "src/lib/auth/redirect.ts#safeAppRedirectPath, consumed by src/app/sign-in/page.tsx",
+      "introducedByCandidate": false,
+      "detail": "safeAppRedirectPath accepts '/\\\\evil.com'; the WHATWG URL parser treats a backslash as a slash for special schemes, so window.location.assign resolves it to https://evil.com/. Verified locally on Node v22. This is the sign-in returnTo path the internal gate redirects unauthenticated users into.",
+      "acceptanceCriterionViolated": "returnTo accepts safe local internal paths only",
+      "candidateTestGap": "scripts/verify-internal-admin-browser-access.mjs asserts 'returnTo accepts safe local paths only' but covers only //, absolute URLs and scheme prefixes",
+      "suggestedCorrection": "reject any value containing a backslash or control character and extend the unsafe-value table in the focused suite"
+    },
+    {
+      "id": "finding-2",
+      "severity": "correction",
+      "title": "remediation receipt defaults into a tracked repository directory",
+      "location": "scripts/security/remediate-internal-admin-accounts.mjs",
+      "introducedByCandidate": true,
+      "detail": "default receipt path artifacts/security/internal-admin-remediation-<mode>-<timestamp>.json sits inside the tracked, non-gitignored artifacts/ tree and contains production emails and both production Auth UUIDs. Mitigated by 0600 mode, wx flag, an explicit do-not-commit warning, and a runbook that always passes --receipt.",
+      "suggestedCorrection": "require --receipt in apply mode or default outside the repository, and/or gitignore artifacts/security/"
+    },
+    {
+      "id": "finding-3",
+      "severity": "recommended",
+      "title": "COMMAND_CENTER_API_KEY inventory is incomplete",
+      "location": "src/app/api/metrics/signups/route.ts, docs/security/rcap-internal-admin-authorization-audit.md, docs/security/rcap-internal-admin-authorization-map.json",
+      "introducedByCandidate": false,
+      "detail": "the bearer key still authorizes GET /api/metrics/signups (aggregate counts only, outside /internal). The audit record describes the key's scope as /api/internal/analytics/summary only."
+    },
+    {
+      "id": "finding-4",
+      "severity": "blocker",
+      "title": "candidate makes npm test red at the verifier-disposition gate, and the new suites are unwired",
+      "location": "data/rcap-verifier-dispositions.json, scripts/verify-rcap-verifier-dispositions.mjs, package.json",
+      "introducedByCandidate": true,
+      "detail": "npm test fails at scripts/verify-rcap-verifier-dispositions.mjs with \"no recorded disposition\" for scripts/test-internal-admin-rls-hardening.mjs and scripts/verify-internal-admin-security-tools.mjs. data/rcap-verifier-dispositions.json is byte-identical between base and candidate (blob c5e83a9f0f12831540abb5deef240940a46a384e) and has no entry for either newly added script. The base tree passes the same verifier 340/340. The gate runs before the Phase 52 suites, so npm test never reaches them. The same omission means the RLS boundary suite and the remediation-tool guardrails do not run in CI: test-internal-admin-rls-hardening.mjs has an npm alias but no caller, verify-internal-admin-security-tools.mjs has neither.",
+      "suggestedCorrection": "run npm run rcap:generate-verifier-dispositions, record a deliberate disposition for both scripts, and wire security:test-internal-admin-rls into the default gate",
+      "baseReproduces": false
+    },
+    {
+      "id": "finding-5",
+      "severity": "informational",
+      "title": "POST /sign-out has no same-origin check",
+      "location": "src/app/sign-out/route.ts",
+      "introducedByCandidate": false,
+      "detail": "cross-site form submission can force a sign-out; impact is limited and fail-safe, but asymmetric with the invite route's isSameOriginRequest check"
+    },
+    {
+      "id": "finding-6",
+      "severity": "informational",
+      "title": "/internal is no longer refused at the edge on public product hosts",
+      "location": "src/proxy.ts, scripts/verify-content-cms-access.mjs",
+      "introducedByCandidate": true,
+      "detail": "removing the proxy authority means /internal renders the server-side denial on expungement.ai, legalease.com, legalease.law and cleartherecord.org instead of a proxy 401. Authorization is unaffected and noindex plus no-store are applied, but the removed host-scoping assertions were not replaced"
+    },
+    {
+      "id": "finding-7",
+      "severity": "informational",
+      "title": "non-internal content roles lose all CMS access",
+      "location": "supabase/migrations/20260823171000_internal_admin_authority_hardening.sql",
+      "introducedByCandidate": true,
+      "detail": "editor, legal_reviewer, social_manager, contributor and partner_contributor rows no longer grant any privileged access at either layer. Documented as intended in the blast-radius review; confirm during staging that no live content operator depends on one"
+    },
+    {
+      "id": "finding-8",
+      "severity": "informational",
+      "title": "vacuous zero-administrator check",
+      "location": "scripts/security/remediate-internal-admin-accounts.mjs#planGrant,planRevoke",
+      "introducedByCandidate": true,
+      "detail": "plannedActive.size < 1 can never be true because the corporate UUID is unconditionally added first; lockout protection actually rests on the corporate active-administrator precondition"
+    }
+  ],
+  "verdicts": {
+    "codeAndStaticSecurityReview": "CORRECTION_REQUIRED",
+    "credentialedStagingAcceptance": "ENVIRONMENT_BLOCKED",
+    "overall": "CORRECTION_REQUIRED",
+    "exactBlocker": "finding-4",
+    "blockers": [
+      "finding-4",
+      "finding-1"
+    ],
+    "requiredCorrections": [
+      "finding-4",
+      "finding-1",
+      "finding-2"
+    ]
+  },
+  "readiness": {
+    "readyForStagingAcceptance": false,
+    "readyToMerge": false,
+    "readyForClinicModeFoundation": false,
+    "stagingAcceptanceStillMandatoryAfterCorrection": true,
+    "environmentBlockedItems": [
+      "RCAP_TEST_DATABASE_URL",
+      "staging URL",
+      "synthetic staging identities",
+      "credentialed non-production migration apply and catalog verification",
+      "desktop and mobile browser acceptance"
+    ]
+  }
+}
