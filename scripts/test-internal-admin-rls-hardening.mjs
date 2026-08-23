@@ -26,6 +26,9 @@ const ids = {
   corporate: "40000000-0000-4000-8000-000000000010",
   tenantBAdmin: "40000000-0000-4000-8000-000000000011"
 };
+const records = {
+  legalReviewPost: "50000000-0000-4000-8000-000000000001"
+};
 
 verifyMigrationSource();
 
@@ -131,6 +134,9 @@ async function verifyIdentityMatrix(db) {
     values ('forbidden-content-write','expungement_ai','blog_article','draft','Forbidden',
       '{"type":"doc","content":[]}'::jsonb)
   `, "content-role-only identity wrote an internal content row");
+  await assertDenied(db, "authenticated", ids.contentOnly,
+    `select public.content_apply_legal_review('${records.legalReviewPost}', 'approved', 'Forbidden review')`,
+    "content-role-only identity invoked the legal-review mutation");
   await assertDenied(db, "authenticated", ids.external, `
     insert into public.legalease_os_support_items
       (source, channel, type, category, status, priority, email, message_redacted, route_submitted_from)
@@ -146,6 +152,11 @@ async function verifyInternalAdminAccess(db) {
   assert.equal(await scalarAs(db, "authenticated", ids.internal, "select public.content_current_role()"), "primary_admin");
   assert.equal(await countAs(db, "authenticated", ids.internal, "select id from public.consumer_wilma_telemetry"), 1);
   assert.equal(await countAs(db, "authenticated", ids.internal, "select id from public.legalease_os_support_items"), 1);
+
+  const review = await asRole(db, "authenticated", ids.internal,
+    `select public.content_apply_legal_review('${records.legalReviewPost}', 'approved', 'Synthetic internal review') as status`,
+    { commit: true });
+  assert.equal(review[0]?.status, "approved", "active internal admin could not invoke the legal-review mutation");
 
   const inserted = await asRole(db, "authenticated", ids.internal, `
     insert into public.legalease_os_support_items
@@ -241,11 +252,13 @@ async function seed(db) {
       'synthetic-customer@example.test','Synthetic redacted message','/synthetic-support');
 
     insert into public.content_posts
-      (slug, destination, content_type, status, title, doc, rendered_html, published_at)
+      (post_id, slug, destination, content_type, status, title, doc, rendered_html, published_at)
     values
-      ('public-synthetic-post','expungement_ai','blog_article','published','Public synthetic post',
+      (gen_random_uuid(),'public-synthetic-post','expungement_ai','blog_article','published','Public synthetic post',
        '{"type":"doc","content":[]}'::jsonb,'<p>Public</p>',now() - interval '1 day'),
-      ('draft-synthetic-post','expungement_ai','blog_article','draft','Draft synthetic post',
+      (gen_random_uuid(),'draft-synthetic-post','expungement_ai','blog_article','draft','Draft synthetic post',
+       '{"type":"doc","content":[]}'::jsonb,null,null),
+      ('${records.legalReviewPost}','legal-review-synthetic-post','expungement_ai','blog_article','in_legal_review','Legal review synthetic post',
        '{"type":"doc","content":[]}'::jsonb,null,null);
   `);
 }

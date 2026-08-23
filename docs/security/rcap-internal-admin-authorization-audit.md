@@ -33,12 +33,12 @@ The application rule is fail-closed:
 
 The schema has no membership `expires_at` column. No schema extension is needed for this incident or account transition: current internal memberships are non-expiring while active, and revocation/expiry completion is represented by `status = 'disabled'`.
 
-An RLS-only migration is nevertheless required to finish authority consolidation. Existing content policies fall back to `content_admin_users`, and the Wilma telemetry and LegalEase OS support policies use role-only checks that omit active/null-scope requirements. The exact proposed replacements, effect, and rollback are in `rcap-internal-admin-rls-migration-blocker.md`. Per repository instruction, no migration was written.
+The authorized RLS-only migration finishes authority consolidation in the branch. Existing content policies fell back to `content_admin_users`, and the Wilma telemetry and LegalEase OS support policies used role-only checks that omitted active/null-scope requirements. `20260823171000_internal_admin_authority_hardening.sql` replaces those predicates with `public.is_internal_admin()`. Its blast radius, exact effect, and reviewed rollback are in `rcap-internal-admin-rls-blast-radius.md` and `rcap-internal-admin-rls-migration-blocker.md`. The migration was verified in isolated PGlite and was not applied to production or an external staging database.
 
 ## Competing authorities and bypasses found
 
 - `INTERNAL_ADMIN_ACCESS_TOKEN` let a bearer secret pass the `/internal` proxy independently of a user session. It did not by itself pass the provisioning page's second guard, but it was a conflicting environment authority and could expose any incompletely guarded page. It was removed from the proxy and environment contract.
-- `content_admin_users` allowed a non-internal content role to reach `/internal/content` pages and APIs. Application content capabilities now require the canonical internal-admin session first. The table remains untouched for data/history compatibility, but deployed content RLS still treats it as a direct database authority until the separately approved migration is applied.
+- `content_admin_users` allowed a non-internal content role to reach `/internal/content` pages, APIs, and content-table RLS. Application content capabilities now require the canonical internal-admin session first. The migration makes `content_current_role()` return `primary_admin` only for `public.is_internal_admin()` and null otherwise. Existing role rows remain untouched for history, but cease to authorize when the migration is applied.
 - `COMMAND_CENTER_API_KEY` independently authorized `/api/internal/analytics/summary`. That internal endpoint now requires the canonical UUID-bound session.
 - The proxy formerly made an authorization decision and had content/invite carve-outs. It now refreshes cookies and applies private no-store headers only. Page and handler checks remain load-bearing.
 - No product authorization code contained either incident email, a hardcoded administrator UUID, a corporate-domain grant, or an owner/founder exception.
@@ -50,9 +50,9 @@ An RLS-only migration is nevertheless required to finish authority consolidation
 
 Every internal page in the proposed application change retains a page-level guard before its sensitive read; the root internal layout adds a second server-derived shell identity and denial boundary. Every internal API, route handler, upload/download handler, publication/activation path, invitation path, and onboarding mutation uses the canonical helper or an adapter that calls it before data access.
 
-Provisioning and partner RLS already use `public.is_internal_admin()`, which applies the same Auth UUID, active status, internal role, and null partner scope. Partner policies continue to use `current_partner_slug()` and cannot turn `partner_admin` into provisioning access. Service-role clients remain server-only, and provisioning/Phase 1 RPCs additionally validate the actor UUID in the database.
+Provisioning and partner RLS use `public.is_internal_admin()`, which applies the same Auth UUID, active status, internal role, and null partner scope. Partner policies continue to use `current_partner_slug()` and cannot turn `partner_admin` into provisioning access. Service-role clients remain server-only, and provisioning/Phase 1 RPCs additionally validate the actor UUID in the database.
 
-RLS was not changed because repository instructions require stopping before an unavoidable additive migration. The content, telemetry, and support exceptions above mean the complete database boundary is not yet hardened and the branch is not ready for merge.
+The new migration consolidates the content resolver, Wilma telemetry SELECT, and LegalEase OS support ALL policy on `public.is_internal_admin()`. Its isolated tests prove canonical allow, role-only/inactive/partner/participant denial, service-role preservation, public-view preservation, tenant isolation, and historical-row preservation. A credentialed non-production database verification remains required before merge; no external database was used in this task.
 
 ## Identity, denial, sign-out, and caching
 
@@ -72,11 +72,26 @@ Application security logs record allowed/denied internal access and sign-out wit
 
 The focused synthetic matrix covers unauthenticated, participant, partner viewer, partner staff, partner administrator, external personal-email, corporate-domain-without-role, active internal administrator, revoked internal administrator, and completed-expiration/disabled administrator identities. It also covers direct API denial, mutation guard ordering, publication, activation, invitations, commercial gate, no partner data in denial payloads, metadata and legacy-token non-bypass, identity UI, keyboard focus, local sign-out, post-sign-out denial, Back/cache controls, and safe local return paths.
 
-Before edits, the base revision's proxy/session suite passed 20/20, the first-admin provisioning suite passed, and the RCAP partner-provisioning suite passed 33 checks. Those results and the guard-before-data trace are recorded separately from the after-state in `rcap-internal-admin-pre-hardening-matrix.json`. The local database tenant-isolation suite could not start because `RCAP_TEST_DATABASE_URL` was not configured; it is not represented as an executed result.
+Before edits, the base revision's proxy/session suite passed 20/20, the first-admin provisioning suite passed, and the RCAP partner-provisioning suite passed 33 checks. Those results and the guard-before-data trace are recorded separately from the after-state in `rcap-internal-admin-pre-hardening-matrix.json`. The local database tenant-isolation suite could not start because `RCAP_TEST_DATABASE_URL` was not configured. The new isolated PGlite suite applies the real migration and verifies same-tenant access plus cross-tenant denial, but it does not substitute for the credentialed non-production integration suite.
 
 The external-email regression is synthetic and contains neither real incident address:
 
 `authenticated external-email UUID + no active internal authorization = 403 / access denied`
+
+After-state repository verification on 2026-08-23:
+
+- canonical application boundary: 31/31 focused checks passed;
+- RLS overlay: the real migration passed the isolated PGlite boundary suite without an external database;
+- content boundary and route suites: passed;
+- first-admin provisioning: passed;
+- RCAP partner provisioning: 33/33 checks passed;
+- onboarding security, prefill RLS, artifact security, and workflow suites: passed;
+- Command Center summary canonical-session verifier: passed;
+- audit/remediation tool guardrails: passed;
+- TypeScript: passed;
+- ESLint: passed with 102 repository warnings and zero errors;
+- `RCAP_TEST_DATABASE_URL`: absent, so the credentialed non-production RLS/tenant suite remains required;
+- staging browser identities: absent, so desktop/mobile browser acceptance remains required.
 
 ## Production boundary
 

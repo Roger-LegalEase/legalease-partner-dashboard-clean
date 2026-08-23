@@ -32,6 +32,37 @@ Blast-radius review: `docs/security/rcap-internal-admin-rls-blast-radius.md`
 - Disabled internal administrators no longer read Wilma telemetry or read/write support records directly.
 - Service-role policies, public content projection views, partner-scoped policies, and tenant isolation remain unchanged.
 
+## Post-apply schema verification
+
+Run these read-only catalog queries after applying the migration in an authorized non-production
+environment. They inspect definitions only and return no user, partner, telemetry, support, or
+content rows.
+
+```sql
+select pg_get_functiondef('public.content_current_role()'::regprocedure);
+
+select schemaname, tablename, policyname, roles, cmd, qual, with_check
+from pg_policies
+where schemaname = 'public'
+  and (
+    (tablename = 'consumer_wilma_telemetry'
+      and policyname = 'consumer wilma telemetry internal safety select')
+    or
+    (tablename = 'legalease_os_support_items'
+      and policyname = 'legalease_os_support_items_internal_admin_all')
+  )
+order by tablename, policyname;
+
+select obj_description('public.content_current_role()'::regprocedure, 'pg_proc')
+  as content_current_role_boundary;
+```
+
+Require the function definition to contain `public.is_internal_admin()` and no
+`content_admin_users` lookup. Require both policies to name `public.is_internal_admin()`, the support
+policy to have the same predicate in `qual` and `with_check`, and their `roles` to be exactly
+`{authenticated}`. Then run `npm run security:test-internal-admin-rls` and the credentialed staging
+identity matrix; do not substitute a production database.
+
 ## Reviewed rollback procedure
 
 The repository does not use automatically executed down migrations. If an incident owner authorizes rollback, run the following as one reviewed transaction. These statements restore the exact prior authority predicates. No data restoration is necessary because membership, content-role, telemetry, support, and audit rows are not deleted or rewritten by the forward migration.

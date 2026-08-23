@@ -82,7 +82,11 @@ async function verifyDeniedAccount() {
   const api = await context.request.get(`${baseUrl}${apiPath}`);
   assert.equal(api.status(), 403);
   await captureLocator(page, "denied-account.png", "main", "denied identity and recovery controls");
-  evidence.push("external account denied without internal data", "denied API 403");
+  await page.getByRole("button", { name: "Sign in with another account" }).click();
+  await page.waitForURL(/\/sign-in\?switchAccount=1$/u);
+  const afterSwitch = await context.request.get(`${baseUrl}${apiPath}`);
+  assert.equal(afterSwitch.status(), 401, "switch-account must clear the denied account session");
+  evidence.push("external account denied without internal data", "denied API 403", "switch-account local sign-out");
   await context.close();
 }
 

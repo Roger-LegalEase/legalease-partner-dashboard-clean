@@ -18,6 +18,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const form = await request.formData().catch(() => null);
+  const switchingAccount = form?.get("intent") === "switch-account";
   const supabase = await createServerSupabaseAuthClient();
   const { data } = await supabase.auth.getUser();
   const { error } = await supabase.auth.signOut({ scope: "local" });
@@ -41,7 +43,8 @@ export async function POST(request: Request) {
     outcome: "signed_out",
     metadata: { auth_user_id: data.user?.id }
   });
-  return NextResponse.redirect(new URL("/sign-in?signedOut=1", request.url), {
+  const destination = switchingAccount ? "/sign-in?switchAccount=1" : "/sign-in?signedOut=1";
+  return NextResponse.redirect(new URL(destination, request.url), {
     status: 303,
     headers: NO_STORE_HEADERS
   });

@@ -104,15 +104,16 @@ async function main() {
   if (options.mode === "revoke") {
     revocationToken = validatedRevocationToken(options.expectedPersonalUuid);
   }
-  if (options.mode === "grant") await applyGrant(client, corporate);
-  else await applyRevoke(client, options.expectedPersonalUuid, revocationToken);
-  const completedAt = new Date().toISOString();
-
+  const receiptPath = options.receipt || path.join(
+    "artifacts",
+    "security",
+    `internal-admin-remediation-${options.mode}-${startedAt.replace(/[:.]/gu, "-")}.json`
+  );
   const receipt = {
     receiptVersion: 1,
     mode: options.mode,
+    status: "started",
     startedAt,
-    completedAt,
     corporateEmail: options.corporateEmail,
     corporateUuid: options.expectedCorporateUuid,
     personalEmail: options.personalEmail,
@@ -121,13 +122,24 @@ async function main() {
     authUsersDeleted: false,
     emailsChanged: false
   };
-  const receiptPath = options.receipt || path.join(
-    "artifacts",
-    "security",
-    `internal-admin-remediation-${options.mode}-${completedAt.replace(/[:.]/gu, "-")}.json`
-  );
   fs.mkdirSync(path.dirname(receiptPath), { recursive: true });
   fs.writeFileSync(receiptPath, `${JSON.stringify(receipt, null, 2)}\n`, { flag: "wx", mode: 0o600 });
+
+  try {
+    if (options.mode === "grant") await applyGrant(client, corporate);
+    else await applyRevoke(client, personal, revocationToken);
+    Object.assign(receipt, { status: "completed", completedAt: new Date().toISOString() });
+    fs.writeFileSync(receiptPath, `${JSON.stringify(receipt, null, 2)}\n`, { mode: 0o600 });
+  } catch (error) {
+    Object.assign(receipt, {
+      status: "failed",
+      failedAt: new Date().toISOString(),
+      failure: safeError(error)
+    });
+    fs.writeFileSync(receiptPath, `${JSON.stringify(receipt, null, 2)}\n`, { mode: 0o600 });
+    throw error;
+  }
+
   process.stdout.write(`Applied ${options.mode} phase. Audit receipt: ${receiptPath}\n`);
   process.stdout.write("The receipt contains account identifiers; store it securely and do not commit it.\n");
 }
@@ -154,16 +166,23 @@ function planRevoke(options, corporate, personal, activeAdmins) {
   if (corporate.canonicalAuthorization.activeInternalAdminRecords.length !== 1) {
     throw new Error("Corporate account is not exactly one active internal administrator; refusing personal-account revocation.");
   }
+  if (personal.contentRoles.unavailable) {
+    throw new Error("Legacy content-role authority could not be audited; refusing incomplete personal-account revocation.");
+  }
   const plannedActive = new Set(activeAdmins.map((row) => row.auth_user_id));
   plannedActive.delete(options.expectedPersonalUuid);
   plannedActive.add(options.expectedCorporateUuid);
   if (plannedActive.size < 1) throw new Error("Revocation would leave no recovery administrator.");
   const metadataKeys = internalMetadataKeys(personal.metadataClaims);
+  const activeLegacyContentRoles = personal.contentRoles.rows.filter((row) => row.status === "active");
   return {
     mode: "revoke",
     recoveryAdministratorCountAfter: plannedActive.size,
     operations: [
       "Disable personal UUID's internal_admin membership without deleting its row",
+      activeLegacyContentRoles.length
+        ? `Disable ${activeLegacyContentRoles.length} active legacy content-role row(s) without deleting history`
+        : "Confirm no active legacy content-role row exists",
       metadataKeys.length ? `Neutralize internal-role Auth metadata keys: ${metadataKeys.join(", ")}` : "Confirm no internal-role Auth metadata claim exists",
       "Globally revoke refresh-token sessions using a validated personal-account access token",
       "Preserve both Auth users and existing audit history"
@@ -198,7 +217,8 @@ async function applyGrant(client, corporate) {
   }
 }
 
-async function applyRevoke(client, expectedPersonalUuid, targetAccessToken) {
+async function applyRevoke(client, personal, targetAccessToken) {
+  const expectedPersonalUuid = personal.auth.user.id;
   const { data: authData, error: authError } = await client.auth.admin.getUserById(expectedPersonalUuid);
   if (authError || !authData.user) throw new Error(`Personal Auth metadata lookup failed: ${safeError(authError)}`);
   const appMetadata = neutralizeInternalMetadata(authData.user.app_metadata ?? {});
@@ -209,6 +229,12 @@ async function applyRevoke(client, expectedPersonalUuid, targetAccessToken) {
     .eq("auth_user_id", expectedPersonalUuid)
     .eq("role", "internal_admin");
   if (membershipError) throw new Error(`Personal authorization disable failed: ${safeError(membershipError)}`);
+
+  const { error: contentRoleError } = await client.from("content_admin_users")
+    .update({ status: "disabled" })
+    .eq("auth_user_id", expectedPersonalUuid)
+    .eq("status", "active");
+  if (contentRoleError) throw new Error(`Legacy content-role disable failed: ${safeError(contentRoleError)}`);
 
   const { error: metadataError } = await client.auth.admin.updateUserById(expectedPersonalUuid, {
     app_metadata: appMetadata,

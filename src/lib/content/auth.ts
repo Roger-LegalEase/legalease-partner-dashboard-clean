@@ -69,8 +69,8 @@ export type ContentPageAccess =
 
 /**
  * Gate a CMS page. Mirrors the shape of the existing internal-admin page gate: unauthenticated
- * users are redirected to sign-in with a `next` param; an authenticated user without a content role
- * gets a denial page rather than a redirect loop.
+ * users are redirected to sign-in with a `next` param; an authenticated user without canonical
+ * internal authorization gets a denial page rather than a redirect loop.
  *
  * IMPORTANT: call this before any data read in the page component — the legacy gate verifier
  * asserts gate-before-read ordering textually, and it is a good rule regardless.
@@ -90,8 +90,8 @@ export async function resolveContentPageAccess(nextPath: string): Promise<Conten
       logSecurityWarn({ event: "content gate denied", route: nextPath, outcome: "forbidden", error });
       return {
         kind: "denied",
-        title: "Content access denied",
-        body: "Your authenticated account is not authorized for the LegalEase content platform."
+        title: "Internal access denied",
+        body: "Your authenticated account does not have an active LegalEase internal administrator authorization."
       };
     }
 
@@ -125,7 +125,7 @@ export async function denyUnlessContentCapability(
     if (error instanceof ContentAuthError) {
       logSecurityWarn({ event: "content route denied", route, outcome: "forbidden", requestId, error });
       return {
-        denied: NextResponse.json({ success: false, error: "Content access required." }, { status: 403 })
+        denied: NextResponse.json({ success: false, error: "Internal administrator access required." }, { status: 403 })
       };
     }
 

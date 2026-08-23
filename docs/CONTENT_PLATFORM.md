@@ -91,7 +91,8 @@ Not even a `primary_admin` can publish an unreviewed state resource. Scheduling 
 **A legal reviewer has no UPDATE privilege on `content_posts` at all.** Legal review happens only
 through the `content_apply_legal_review(post_id, decision, notes)` database function, which:
 
-- re-derives the caller's role from their JWT (so it is safe under a direct PostgREST/RPC call);
+- re-derives the caller's canonical internal-admin authority from their JWT (so it is safe under a
+  direct PostgREST/RPC call);
 - accepts only a post id, a decision, and notes;
 - writes **only** `legal_approved_at` / `legal_approved_by` and the review-state transition
   (`in_legal_review` → `approved` | `changes_requested`);
@@ -141,9 +142,11 @@ history. Verified as a superuser in the schema test.
 
 ## Roles
 
-Content roles live in `content_admin_users`. There is **no second login system and no hardcoded
-administrator email**. An existing trusted internal admin (`public.is_internal_admin()`, phase 21) is a
-content `primary_admin` implicitly.
+LegalEase internal access comes only from the UUID-bound active global internal-admin membership used
+by `public.is_internal_admin()`. The `content_admin_users` rows are retained as historical workflow
+assignments and audit context; they are not a second login system and cannot grant `/internal` or
+direct content-table access. Every authorized internal admin has the effective content role
+`primary_admin`. There is no hardcoded administrator email or domain rule.
 
 | Role | Can |
 | --- | --- |
@@ -155,8 +158,10 @@ content `primary_admin` implicitly.
 | `partner_contributor` | Create + edit **own partner's** drafts only. Cannot publish. |
 | `viewer` | Read **published content only** — a viewer does *not* see drafts or in-review work (least privilege; enforced by RLS, not the UI) |
 
-`partner_contributor` is row-scoped by RLS: a partner contributor **cannot see or write another
-partner's drafts**. Proven in the schema test.
+These roles remain the content workflow vocabulary and historical capability matrix. They do not
+authorize an account to enter the internal platform. The hardening overlay is verified separately
+from the phase-43 schema test so the former `partner_contributor` rules remain documented without
+remaining an active internal-access path.
 
 ---
 
@@ -348,6 +353,7 @@ forge them.
 
 ```bash
 npm run content:test-schema        # migration + RLS in hermetic PGlite
+npm run security:test-internal-admin-rls  # canonical internal authority overlay in isolated PGlite
 npm run content:verify-renderer    # XSS / sanitization
 npm run content:verify-resources   # 51 states, no internal leak
 npm run content:verify-workflow    # legal gate, roles, media
@@ -372,7 +378,9 @@ curl -H "Host: legaleasepartner.com" http://localhost:3000/insights
 1. **Review and apply `supabase/phase-43-content-platform.sql`.** It has *not* been applied to any
    database. It requires phase 21 (`public.is_internal_admin()`).
 2. Create the `content-media` storage bucket (the migration does it when the `storage` schema exists).
-3. Assign content roles in `content_admin_users` (internal admins already have `primary_admin`).
+3. Apply `20260823171000_internal_admin_authority_hardening.sql`; provision internal access only
+   through an active global `partner_users.internal_admin` membership. Do not use
+   `content_admin_users` as an access grant.
 4. Set `CONTENT_SCHEDULER_SECRET` and point a cron at `POST /api/content/scheduler/run`. Without the
    secret the route returns 503 rather than running unprotected.
 5. Configure the Command Center env vars **only** once the receiving endpoint exists.

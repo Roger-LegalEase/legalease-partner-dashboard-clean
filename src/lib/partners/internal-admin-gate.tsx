@@ -1,6 +1,5 @@
 import "server-only";
 
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ShieldCheck } from "lucide-react";
 import { Card } from "@/components/ui/Card";
@@ -84,12 +83,15 @@ export async function InternalAdminDenied({ title, body, email }: { title: strin
                 Sign out
               </button>
             </form>
-            <Link
-              href="/sign-in"
-              className="inline-flex min-h-11 items-center justify-center rounded-md border-2 border-navy px-5 py-2 text-sm font-semibold text-navy transition hover:bg-grayWilma-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
-            >
-              Sign in with another account
-            </Link>
+            <form action="/sign-out" method="post">
+              <input type="hidden" name="intent" value="switch-account" />
+              <button
+                type="submit"
+                className="inline-flex min-h-11 w-full items-center justify-center rounded-md border-2 border-navy px-5 py-2 text-sm font-semibold text-navy transition hover:bg-grayWilma-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2"
+              >
+                Sign in with another account
+              </button>
+            </form>
           </div>
         </Card>
       </div>

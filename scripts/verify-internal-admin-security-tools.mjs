@@ -104,6 +104,10 @@ for (const mutation of [".insert(", ".update(", ".delete(", "updateUserById(", "
 const remediationSource = read("scripts/security/remediate-internal-admin-accounts.mjs");
 assert.ok(remediationSource.includes("if (!options.apply)"));
 assert.ok(!remediationSource.includes("deleteUser("));
+assert.ok(remediationSource.includes('from("content_admin_users")'), "remediation must neutralize the legacy content authority");
+assert.ok(remediationSource.includes('.update({ status: "disabled" })'), "remediation must preserve legacy rows while disabling them");
+assert.ok(remediationSource.indexOf('{ flag: "wx", mode: 0o600 }') < remediationSource.indexOf('await applyGrant(client, corporate)'), "apply must reserve a non-secret receipt before mutations");
+assert.ok(remediationSource.includes('status: "failed"'), "failed apply attempts must preserve a receipt");
 const authMetadataUpdate = remediationSource.match(/updateUserById\([\s\S]*?\n  \}\);/u)?.[0] ?? "";
 assert.ok(authMetadataUpdate, "remediation must have one guarded Auth metadata update");
 assert.ok(!/\n\s*email\s*:/u.test(authMetadataUpdate), "remediation must not send an Auth email update");

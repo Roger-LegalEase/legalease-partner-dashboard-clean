@@ -15,7 +15,8 @@ Supabase global sign-out requires a valid logged-in JWT; global scope removes af
 - Use a secure incident workstation and a production-specific shell with history disabled.
 - Never paste a service-role key or user access token into a command argument, ticket, chat, or receipt.
 - Supply secrets only through the approved secret-injection mechanism. The remediation tool reads `SUPABASE_SERVICE_ROLE_KEY` and, during revoke only, `RCAP_PERSONAL_ACCOUNT_ACCESS_TOKEN` from the environment and never prints them.
-- Store receipts in the incident evidence vault; do not commit them.
+- Store receipts in the incident evidence vault; do not commit them. In apply mode the tool reserves
+  the receipt before its first mutation and records `completed` or `failed` without tokens or secrets.
 - Do not delete either Auth user, merge identities, or update either email.
 - Do not continue if either email is ambiguous, both resolve to one UUID, the corporate email is unverified, the corporate UUID has partner-scoped membership, or the planned result has no recovery administrator.
 
@@ -100,6 +101,7 @@ The plan must:
 
 - preserve both Auth users and emails;
 - set the Gmail UUID's internal-admin membership to disabled rather than delete it;
+- set any active legacy `content_admin_users` row for the Gmail UUID to disabled rather than delete it;
 - neutralize only Auth metadata keys that contain an internal-admin claim;
 - refuse any remaining legacy environment email allowlist match;
 - preserve partner/audit history;
@@ -130,6 +132,7 @@ Re-run the exact read-only audits. Require:
 
 - corporate UUID: exactly one active canonical internal-admin record;
 - Gmail UUID: zero active internal-admin records and a preserved disabled record;
+- Gmail UUID: zero active legacy content-role records and preserved disabled content-role history;
 - neither user was deleted and neither email changed;
 - no internal/admin metadata claim remains on the Gmail user;
 - no legacy allowlist exact match remains;

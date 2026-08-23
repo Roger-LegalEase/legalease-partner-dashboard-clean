@@ -177,8 +177,8 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   // The service-role client can write any column of any row, so performing a legal approval with it
   // would mean the *application* is the only thing deciding that a reviewer stayed inside their
   // lane. Instead we call content_apply_legal_review() with the USER'S OWN session client: the
-  // function re-derives the caller's content role from their JWT, refuses anyone who is not a legal
-  // reviewer or primary admin, refuses a post that is not in_legal_review, and can only write the
+  // function re-derives the caller's canonical internal authorization from their JWT and effective
+  // primary-admin role, refuses a post that is not in_legal_review, and can only write the
   // legal-review columns. It also writes the review row and the audit event itself, so those cannot
   // be skipped. There is no path by which this publishes, schedules, archives, or rewrites a post.
   if (from === "in_legal_review" && (to === "approved" || to === "changes_requested")) {

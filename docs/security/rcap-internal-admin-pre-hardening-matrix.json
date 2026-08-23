@@ -78,6 +78,8 @@
     "class": "active content_admin_users role without partner_users internal_admin",
     "preHardenedResult": "could enter /internal/content and its APIs through a separate server-side authority, but could not pass the provisioning page's canonical guard",
     "applicationAfterResult": "403 from canonical internal-admin guard",
-    "directDatabaseAfterResult": "still authorized by existing content RLS until the required migration is approved and applied"
+    "branchAfterResult": "denied by the canonical application guard and by content_current_role after the new migration is applied",
+    "deployedUntilMigrationApplied": "the former direct content RLS authority remains in an environment that has not applied the migration",
+    "historicalRows": "preserved unchanged"
   }
 }

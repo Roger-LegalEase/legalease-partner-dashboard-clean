@@ -1,5 +1,5 @@
-// Verifies the Command Center web-traffic summary API + dashboard: bearer-key protection, aggregate
-// grouping by domain, the documented response shape, and that the dashboard consumes the summary.
+// Verifies the Command Center web-traffic summary API + dashboard: canonical internal-admin
+// protection, aggregate grouping by domain, the documented response shape, and dashboard use.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -28,16 +28,22 @@ function assertIncludes(relativePath, markers) {
   }
 }
 
-// 1. Summary API is protected by the existing internal Command Center token, fails closed.
-assertIncludes("src/app/api/internal/analytics/summary/route.ts", [
-  "COMMAND_CENTER_API_KEY",
-  "timingSafeEqual",
-  '"Bearer "',
+// 1. Summary API uses the canonical UUID-bound session guard and fails closed.
+const summaryRoute = read("src/app/api/internal/analytics/summary/route.ts");
+for (const marker of [
+  "requireInternalAdminRouteAccess",
+  "SessionPartnerError",
   "getWebAnalyticsSummary",
-  "not_configured",
-  '{ status: 401 }',
+  "Authentication required.",
+  "Internal administrator access required.",
+  '{ status: unauthenticated ? 401 : 403',
   '{ status: 503 }'
-]);
+]) {
+  assert(summaryRoute.includes(marker), `summary route missing canonical-auth marker: ${marker}`);
+}
+for (const forbidden of ["COMMAND_CENTER_API_KEY", "timingSafeEqual", '"Bearer "']) {
+  assert(!summaryRoute.includes(forbidden), `summary route retains competing authority: ${forbidden}`);
+}
 
 // 2. Summary aggregation groups by domain + funnels, aggregate-only (no visitor/session rows leaked).
 assertIncludes("src/lib/analytics/web-analytics-repository.ts", [
@@ -67,7 +73,7 @@ assertIncludes("src/app/internal/command-center/web-traffic/page.tsx", [
 // 4. Documented response shape present in the integration doc.
 assertIncludes("docs/WEB_ANALYTICS.md", [
   "/api/internal/analytics/summary",
-  "COMMAND_CENTER_API_KEY",
+  "UUID-bound internal-admin session",
   '"byDomain"',
   '"funnels"'
 ]);

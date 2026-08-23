@@ -128,15 +128,15 @@ export default async function ContentSettingsPage() {
       </Panel>
 
       <Panel
-        title="Role assignments"
-        description="Existing internal admins are content primary_admins implicitly and need no row here. There is no second login system and no hardcoded administrator."
+        title="Historical role assignments"
+        description="These rows are retained for workflow history and audit context. They do not grant internal access; only an active global internal-admin membership does."
       >
         {assignments.length === 0 ? (
           <EmptyState
-            message="No explicit content role assignments."
+            message="No historical content role assignments."
             hint={
               configured
-                ? "Only internal admins currently have content access."
+                ? "Only active global internal admins have content access."
                 : "Content storage is not configured in this environment."
             }
           />
@@ -159,8 +159,8 @@ export default async function ContentSettingsPage() {
       </Panel>
 
       <Panel
-        title="Content roles and capabilities"
-        description="This matrix is the one in src/lib/content/types.ts, which is mirrored by the RLS policies in the database. Both layers are load-bearing."
+        title="Content workflow vocabulary"
+        description="This historical capability matrix describes workflow semantics. It is not an authorization source; authorized internal admins operate as primary admins."
       >
         <div className="space-y-4">
           {CONTENT_ROLES.map((role) => (

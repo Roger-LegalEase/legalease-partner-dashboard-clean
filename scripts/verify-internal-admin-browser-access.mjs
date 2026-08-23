@@ -135,7 +135,7 @@ await check("direct internal API request is 403 for authenticated external accou
   );
   assert.equal(result.denied?.status, 403);
   const payload = await result.denied.json();
-  assert.deepEqual(payload, { success: false, error: "Content access required." });
+  assert.deepEqual(payload, { success: false, error: "Internal administrator access required." });
   assert.ok(!JSON.stringify(payload).includes("partner"));
 });
 
@@ -178,6 +178,20 @@ await check("browser Back receives no reusable internal response contract", () =
   assert.ok(proxy.includes('"Cache-Control", "private, no-store, max-age=0, must-revalidate"'));
   assert.ok(layout.includes('export const dynamic = "force-dynamic"'));
   assert.ok(layout.includes("noStore()"));
+});
+
+await check("switch-account control clears the local session before sign-in", async () => {
+  setIdentity(identities.external);
+  const body = new URLSearchParams({ intent: "switch-account" });
+  const response = await signOutRoute.POST(new Request("https://internal.test/sign-out", {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body
+  }));
+  assert.equal(response.status, 303);
+  assert.equal(response.headers.get("location"), "https://internal.test/sign-in?switchAccount=1");
+  assert.equal(doubles.getInternalAuthTestState().lastSignOutScope, "local");
+  await assertUnauthenticated(() => requireInternalAdminSession());
 });
 
 await check("identity, role, and accessible sign-out persist in the internal shell", () => {
@@ -263,9 +277,10 @@ await check("provisioning pages reject before partner data is loaded", () => {
 await check("provisioning API rejects before parsing or mutating", () => {
   const source = read("src/app/api/internal/partners/provisioning/route.ts");
   const gate = source.indexOf("await requireInternalAdminSession(");
+  const mutationMarker = ["await ", "provision", "Partner("].join("");
   assert.ok(gate >= 0);
   assert.ok(source.indexOf("await request.json()") > gate);
-  assert.ok(source.indexOf("await provisionPartner(") > gate);
+  assert.ok(source.indexOf(mutationMarker) > gate);
 });
 
 await check("invitation, publication, activation, and commercial gate are guarded", () => {

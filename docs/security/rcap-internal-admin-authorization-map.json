@@ -20,7 +20,7 @@
   "authoritiesBefore": [
     { "source": "public.partner_users", "scope": "internal pages, partner APIs and RLS", "serverSide": true, "status": "canonical" },
     { "source": "INTERNAL_ADMIN_ACCESS_TOKEN", "scope": "proxy admission for /internal pages", "serverSide": true, "status": "removed_competing_environment_authority", "couldBypassPageGuard": false },
-    { "source": "public.content_admin_users", "scope": "/internal/content pages, APIs and direct content-table RLS", "serverSide": true, "status": "removed_from_application_authority; direct_database_authority_pending_approved_RLS_migration" },
+    { "source": "public.content_admin_users", "scope": "/internal/content pages, APIs and direct content-table RLS", "serverSide": true, "status": "closed_in_application_and_authorized_migration; rows_preserved_as_history" },
     { "source": "COMMAND_CENTER_API_KEY", "scope": "/api/internal/analytics/summary", "serverSide": true, "status": "removed_from_internal_API" },
     { "source": "client navigation visibility", "scope": "links only", "serverSide": false, "status": "never_authoritative" },
     { "source": "Auth app_metadata/user_metadata role claims", "scope": "searched repository", "serverSide": false, "status": "not_an_internal_admin_grant" },
@@ -116,14 +116,12 @@
     "rule": "auth.uid UUID has active internal_admin partner_users row and null partner_slug",
     "partnerIsolation": "current_partner_slug() returns only active partner_admin/partner_staff membership; internal admins use separate explicit policies",
     "serviceRoleBoundary": "trusted server routes authorize before service-role reads/writes; provisioning RPC separately validates the supplied actor UUID",
-    "exceptions": [
-      "content_current_role falls back to content_admin_users for direct content-table RLS",
-      "consumer wilma telemetry internal safety select omits active status and null partner scope",
-      "legalease_os_support_items_internal_admin_all omits active status and null partner scope"
-    ],
-    "migrationChanged": false,
+    "exceptions": [],
+    "migrationChanged": true,
     "migrationRequired": true,
-    "migrationStatus": "not_written_pending_required_approval",
-    "proposal": "docs/security/rcap-internal-admin-rls-migration-blocker.md"
+    "migrationStatus": "written_and_verified_in_isolated_pglite_not_applied_externally",
+    "migration": "supabase/migrations/20260823171000_internal_admin_authority_hardening.sql",
+    "blastRadiusReview": "docs/security/rcap-internal-admin-rls-blast-radius.md",
+    "rollback": "docs/security/rcap-internal-admin-rls-migration-blocker.md"
   }
 }
