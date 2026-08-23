@@ -111,8 +111,117 @@ env:
   PREVIOUS_STRIPE_WEBHOOK_HOST: legalease-partner-dashboard-clean-qfqpixip0-roger947s-projects.vercel.app
 
 jobs:
-  preflight:
-    name: Preflight — credentials usable, acceptance project demonstrably not production
+  # ---------------------------------------------------------------------------
+  # READ-ONLY PHASES. `preflight` proves the credentials and the acceptance
+  # project; `vercel_audit` performs GETs against Vercel after a failed CLI
+  # deployment. Neither writes anything anywhere, so neither declares a GitHub
+  # Environment and neither is handed the write-environment secrets.
+  #
+  # They live in their own job precisely so the write job below can carry an
+  # `environment:` unconditionally. A single job cannot declare an environment
+  # for some phases and not others, and an empty environment name is not a
+  # documented way to say "no environment".
+  # ---------------------------------------------------------------------------
+  readonly_probe:
+    name: Read-only — credentials, acceptance project identity, post-failure Vercel audit
+    if: inputs.phase == 'preflight' || inputs.phase == 'vercel_audit'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Refuse any input that is not the authorized pinned value
+        env:
+          PHASE_INPUT: ${{ inputs.phase }}
+          APPLICATION_SHA_INPUT: ${{ inputs.application_sha }}
+          WORKER_SOURCE_SHA_INPUT: ${{ inputs.worker_source_sha }}
+          WORKER_DIGEST_INPUT: ${{ inputs.worker_digest }}
+          TOOLS_SHA_INPUT: ${{ inputs.tools_sha }}
+          SUPABASE_PROJECT_REF_INPUT: ${{ inputs.supabase_project_ref }}
+        run: |
+          set -euo pipefail
+          [ "$APPLICATION_SHA_INPUT" = "$AUTHORIZED_APPLICATION_SHA" ] || { echo "::error::application_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_SOURCE_SHA_INPUT" = "$AUTHORIZED_WORKER_SOURCE_SHA" ] || { echo "::error::worker_source_sha is not the authorized value"; exit 1; }
+          [ "$WORKER_DIGEST_INPUT" = "$AUTHORIZED_WORKER_DIGEST" ] || { echo "::error::worker_digest is not the authorized value"; exit 1; }
+          [ "$SUPABASE_PROJECT_REF_INPUT" = "$AUTHORIZED_ACCEPTANCE_PROJECT_REF" ] || { echo "::error::supabase_project_ref is not the authorized acceptance project"; exit 1; }
+          printf '%s' "$TOOLS_SHA_INPUT" | grep -Eq '^[0-9a-f]{40}$' || { echo "::error::tools_sha must be a full commit SHA"; exit 1; }
+
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify ancestry and image-input equivalence of every pinned SHA
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin "$CANONICAL_INTEGRATION_BRANCH"
+          for SHA in "${{ inputs.application_sha }}" "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}"; do
+            git cat-file -e "${SHA}^{commit}" || { echo "::error::$SHA does not resolve"; exit 1; }
+            git merge-base --is-ancestor "$SHA" "origin/$CANONICAL_INTEGRATION_BRANCH" || { echo "::error::$SHA is outside the canonical integration history"; exit 1; }
+          done
+          git diff --quiet "${{ inputs.application_sha }}" "${{ inputs.tools_sha }}" -- src package.json package-lock.json tsconfig.json next.config.ts public docs/record-clearing/field-map-drafts \
+            || { echo "::error::tools_sha differs from application_sha on application bytes"; exit 1; }
+          git diff --quiet "${{ inputs.worker_source_sha }}" "${{ inputs.tools_sha }}" -- package.json package-lock.json tsconfig.json scripts/rcap-render-worker.mjs deploy/rcap-render-worker/Dockerfile scripts/lib src \
+            || { echo "::error::tools_sha differs from the freeze SHA on worker image inputs"; exit 1; }
+          git checkout --detach "${{ inputs.tools_sha }}"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Verify the read-only post-failure Vercel audit
+        if: inputs.phase == 'vercel_audit'
+        run: node scripts/verify-rcap-vercel-failure-audit.mjs
+
+      - name: Prove the credentials and the acceptance project
+        if: inputs.phase == 'preflight'
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          PREFLIGHT_SCOPE: full
+        run: node scripts/rcap-hosted-acceptance-preflight.mjs
+
+      - name: Query Vercel for an exact READY Preview after CLI failure
+        if: inputs.phase == 'vercel_audit'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
+          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+        run: node scripts/rcap-vercel-failure-audit.mjs
+
+      - name: Upload the read-only evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rcap-hosted-${{ inputs.phase }}-${{ github.run_id }}
+          path: hosted-acceptance-evidence/
+          if-no-files-found: error
+
+  # ---------------------------------------------------------------------------
+  # WRITE-CAPABLE PHASES. Everything that writes to the acceptance Supabase
+  # project, creates a Vercel Preview, runs the matrix, opens a Checkout or
+  # transacts Stripe runs here, under a real GitHub Environment.
+  #
+  # The environment name is decided from `inputs.phase` alone, before any step
+  # runs, so it cannot depend on a value produced inside the job. It is never
+  # empty: the job's own `if:` has already excluded the read-only phases.
+  #
+  #   payment                                             -> rcap-acceptance-payment
+  #   migrate | deploy | accept | full | checkout_gate |
+  #   worker_contract                                     -> rcap-acceptance
+  #
+  # The environment SUPPLEMENTS the pinned-value refusal below; it does not
+  # replace it. Both must pass.
+  # ---------------------------------------------------------------------------
+  hosted_write:
+    name: Hosted acceptance — write-capable phases
+    if: inputs.phase != 'preflight' && inputs.phase != 'vercel_audit'
+    environment:
+      name: ${{ inputs.phase == 'payment' && 'rcap-acceptance-payment' || 'rcap-acceptance' }}
     runs-on: ubuntu-latest
     # 60, not 15. The Preview deploy of the freeze publishes 97 serverless
     # functions, one of which carries the whole RCAP corpus; on the Pro plan it
@@ -181,12 +290,7 @@ jobs:
         with:
           node-version: 20
 
-      - name: Verify the read-only post-failure Vercel audit
-        if: inputs.phase == 'vercel_audit'
-        run: node scripts/verify-rcap-vercel-failure-audit.mjs
-
       - name: Prove the credentials and the acceptance project
-        if: inputs.phase != 'vercel_audit'
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -200,18 +304,34 @@ jobs:
           PREFLIGHT_SCOPE: ${{ inputs.phase == 'migrate' && 'supabase_only' || 'full' }}
         run: node scripts/rcap-hosted-acceptance-preflight.mjs
 
-      # This is the final read after a failed or timed-out CLI deployment. It
-      # neither creates nor changes a deployment: every Vercel call is GET, and
-      # an empty exact-match set is a successful, explicit audit outcome.
-      - name: Query Vercel for an exact READY Preview after CLI failure
-        if: inputs.phase == 'vercel_audit'
+      # ENV-007 GATE 1 — the worker image authority must be settled.
+      #
+      # Two authorities in this repository name different worker images. Until
+      # exactly one pair is proven on every required fact, no phase that pulls
+      # the image or deploys bytes may run. The script changes no pin: it either
+      # names a canonical pair or returns WORKER_AUTHORITY_BLOCKED and exits 1.
+      - name: The worker image authority names exactly one proven pair
+        id: worker_authority
+        # Every phase that pulls the worker image or puts bytes in front of a
+        # journey. Keyed on the input, not on a step output, so it can sit
+        # ahead of the first write instead of after it.
+        if: contains(fromJSON('["full","deploy","accept","payment","checkout_gate","worker_contract"]'), inputs.phase)
+        run: node scripts/rcap-worker-authority-reconcile.mjs
+
+      # ENV-007 GATE 2 — the bytes about to be deployed must be the bytes the
+      # flow audit measured, across the computed audited surface.
+      #
+      # The surface is the transitive import closure of the Phase 1 flow
+      # manifest's own file list plus the declared participant-facing roots, so
+      # "this difference is outside the audited surface" is a derived fact
+      # rather than a claim about a file's directory.
+      - name: The audited surface is byte-identical to the deployment source
+        id: audit_equivalence
+        if: contains(fromJSON('["full","deploy","accept","payment","checkout_gate"]'), inputs.phase)
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
-          HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
-        run: node scripts/rcap-vercel-failure-audit.mjs
+          RCAP_APPLICATION_SOURCE_SHA: ${{ inputs.application_sha }}
+          RCAP_TOOLS_SHA: ${{ inputs.tools_sha }}
+        run: node scripts/rcap-audit-surface-equivalence.mjs
 
       # Guarded by the preflight above: this step is not reached unless the
       # acceptance project has been proven empty of production data in this
@@ -226,6 +346,9 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           ACCEPTANCE_SUPABASE_PROJECT_REF: ${{ inputs.supabase_project_ref }}
           HOSTED_APPLICATION_SHA: ${{ inputs.application_sha }}
+          # Recorded in both schema snapshots, so a snapshot names the tools that
+          # produced it rather than leaving that to the run log.
+          HOSTED_TOOLS_SHA: ${{ inputs.tools_sha }}
         run: node scripts/rcap-hosted-acceptance-migrate.mjs
 
       # Deploys the FROZEN application bytes. The equivalence check above has
@@ -522,6 +645,8 @@ jobs:
           O_REGISTRY: ${{ steps.registry_login.outcome }}
           O_DEPS: ${{ steps.gate_deps.outcome }}
           O_VERIFY_GATE: ${{ steps.verify_checkout_gate.outcome }}
+          O_WORKER_AUTHORITY: ${{ steps.worker_authority.outcome }}
+          O_AUDIT_EQUIVALENCE: ${{ steps.audit_equivalence.outcome }}
           O_GATE: ${{ steps.checkout_gate.outcome }}
           O_GOLDEN: ${{ steps.golden_journey.outcome }}
           O_VERIFY_HARNESS: ${{ steps.verify_harness.outcome }}
@@ -553,6 +678,8 @@ jobs:
             *) echo "::error::the contract emitted matrix='$RUNS_MATRIX' gate='$RUNS_GATE', which is not a decision this gate can read"; exit 1 ;;
           esac
           if [ "$RUNS_MATRIX" = "true" ]; then
+            require "worker image authority resolved"    "$O_WORKER_AUTHORITY"
+            require "audited surface equals deployment source" "$O_AUDIT_EQUIVALENCE"
             require "Preview resolution boundary"        "$O_RESOLVE"
             # Reuse legitimately skips the raw deploy step; a non-reuse run must have deployed.
             if [ "$O_REUSED" != "true" ]; then
@@ -578,11 +705,14 @@ jobs:
             require "Stripe payment and packet delivery" "$O_PAYMENT"
             require "PA / MS / IL galleries"             "$O_GALLERY"
           elif [ "$RUNS_GATE" = "true" ]; then
+            require "worker image authority resolved"    "$O_WORKER_AUTHORITY"
+            require "audited surface equals deployment source" "$O_AUDIT_EQUIVALENCE"
             require "registry login for accepted worker" "$O_REGISTRY"
             require "frozen dependencies"                "$O_DEPS"
             require "Checkout gate pins the accepted release" "$O_VERIFY_GATE"
             require "Sandbox Checkout and unpaid 402"    "$O_GATE"
           elif [ "$RUNS_DIAGNOSE" = "true" ]; then
+            require "worker image authority resolved"    "$O_WORKER_AUTHORITY"
             require "registry login for accepted worker" "$O_REGISTRY"
             require "frozen dependencies"                "$O_DEPS"
             require "worker contract diagnosis"          "$O_DIAGNOSE"

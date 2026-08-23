@@ -1,0 +1,230 @@
+{
+  "schemaVersion": "rcap-acceptance-workflow-hardening-verification/v1",
+  "generatedBy": "scripts/verify-rcap-acceptance-workflow-hardening.mjs",
+  "infraBaseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "passed": 44,
+  "failed": 0,
+  "total": 44,
+  "results": [
+    {
+      "id": "legacy_regex_selection_reproduces_the_phase55_double_application",
+      "ok": true,
+      "observed": "the pre-fix regex /^phase-(49|50|51|52|53|54)-/ leaves phase 55 in the baseline; baseline selects it once and the authorized sequence selects it again — total selections: 2 (defect reproduced: true)"
+    },
+    {
+      "id": "phase_55_is_selected_exactly_once",
+      "ok": true,
+      "observed": "manifest-based selection: phase 55 appears 1 time(s) across 42 baseline file(s) and 7 sequence entr(ies)"
+    },
+    {
+      "id": "every_migration_is_selected_exactly_once",
+      "ok": true,
+      "observed": "all 7 manifest migrations are selected exactly once: 49=1, 50=1, 51=1, 52=1, 53=1, 54=1, 55=1"
+    },
+    {
+      "id": "ordered_selection_has_length_seven",
+      "ok": true,
+      "observed": "ordered authorized selection: [49, 50, 51, 52, 53, 54, 55] — length 7"
+    },
+    {
+      "id": "baseline_and_authorized_sequence_are_disjoint",
+      "ok": true,
+      "observed": "42 baseline file(s) and 7 sequence file(s) share nothing; exclusion is by exact filename"
+    },
+    {
+      "id": "a_second_completed_run_selects_zero_migrations",
+      "ok": true,
+      "observed": "with all 7 exact hashes recorded the plan is \"noop\" and selects 0 migration(s): all 7 manifest hashes are already recorded in the ledger; this run verifies and applies nothing"
+    },
+    {
+      "id": "a_completed_environment_is_verify_only",
+      "ok": true,
+      "observed": "recovery disposition: resumeSafe=true, action=verify_only"
+    },
+    {
+      "id": "a_partial_sequence_resumes_from_the_first_unapplied_exact_hash",
+      "ok": true,
+      "observed": "ledger [49,50,51] -> mode \"apply\", resumes at phase 52, applying 4: phases 49,50,51 are recorded at their exact manifest hashes; resuming at phase 52"
+    },
+    {
+      "id": "a_gapped_sequence_blocks_with_an_exact_disposable_project_recovery_instruction",
+      "ok": true,
+      "observed": "ledger [49,50,52] -> mode \"blocked\" (ledger_sequence_has_a_gap); recovery names delete-and-recreate: true; names that no production project is eligible: true"
+    },
+    {
+      "id": "phase_50_is_never_blindly_rerun_after_its_ledger_entry_exists",
+      "ok": true,
+      "observed": "phase 50 recorded -> selected for re-apply: false; the runner no longer treats a duplicate-object error as \"adopted\": true. Phase 50 creates its triggers unconditionally, so a blind re-run raises a duplicate-object error rather than converging."
+    },
+    {
+      "id": "phase_55_cannot_be_recorded_twice",
+      "ok": true,
+      "observed": "a ledger carrying phase 55 twice fails the sequence assertion: perPhase[55]=2, errors=duplicate_ledger_entries: 55; ledger_length: expected 7, observed 8; ledger_sequence: expected 49,50,51,52,53,54,55, observed 49,50,51,52,53,54,55,55; phase_55_execution_count: 2 (must be exactly 1)"
+    },
+    {
+      "id": "the_ledger_sequence_is_exactly_49_to_55_once_each",
+      "ok": true,
+      "observed": "expected [49,50,51,52,53,54,55], observed [49,50,51,52,53,54,55], per-phase counts {\"49\":1,\"50\":1,\"51\":1,\"52\":1,\"53\":1,\"54\":1,\"55\":1}"
+    },
+    {
+      "id": "explicit_migration_manifest_is_authoritative",
+      "ok": true,
+      "observed": "verifyManifest ok=true over 7 entries; the runner imports the manifest module and uses selectBaselineFiles/planSequence"
+    },
+    {
+      "id": "no_regex_decides_which_migrations_execute",
+      "ok": true,
+      "observed": "the runner's executable lines contain no phase-number regex filter; selection comes from 7 exact filenames in data/rcap-acceptance-migration-manifest.json"
+    },
+    {
+      "id": "manifest_hash_describes_its_own_contents",
+      "ok": true,
+      "observed": "manifestHash 01a7e8488df436b9366b381f0ba3cb12cdb17c93725603c044b9a8194fb9b4e4 recomputes exactly"
+    },
+    {
+      "id": "migration_hash_mismatch_stops_before_write",
+      "ok": true,
+      "observed": "a one-line change to phase 52 on disk is refused before anything is applied: hash_mismatch: supabase/phase-52-rcap-consumer-payment-authority.sql on disk is 2425894f62e49a764bba2763f7e33e6ca1238c9ccba4557b9b2f3c4a5eb46487, manifest says c906068f7800df7dd9a34baff5830269f50bab3ddc7224b72f2e7369ff256bd3"
+    },
+    {
+      "id": "unknown_migration_stops_before_write",
+      "ok": true,
+      "observed": "an unlisted phase-53a inside the authorized range is refused: unknown_migration: supabase/phase-53a-unauthorized-addition.sql sits inside the authorized range 49-55 and is not in the manifest"
+    },
+    {
+      "id": "missing_migration_stops_before_write",
+      "ok": true,
+      "observed": "a manifest member absent from disk is refused: missing_migration: supabase/phase-54-rcap-person-namespace-hardening.sql is listed in the manifest and absent on disk"
+    },
+    {
+      "id": "the_manifest_gate_precedes_every_write_in_the_runner",
+      "ok": true,
+      "observed": "the manifest refusal and process.exit sit at offset 8545, ahead of the first write at offset 10730"
+    },
+    {
+      "id": "acceptance_authorization_is_recorded_per_phase",
+      "ok": true,
+      "observed": "every one of the 7 manifest members carries its acceptance-environment authorization verbatim from data/rcap-staging-action.json; authorized: [49, 55], withheld: [50, 51, 52, 53, 54]"
+    },
+    {
+      "id": "phase_49_and_phase_55_authorization_is_read_not_assumed",
+      "ok": true,
+      "observed": "phase 49 scope \"repository_integration_and_conditional_production_application\" (acceptance: authorized); phase 55 scope \"repository_integration_and_nonproduction_acceptance_only\" (acceptance: authorized — missing migrations may be applied only to the v…) — both read from the action record, neither inferred from the runner including them"
+    },
+    {
+      "id": "a_withheld_acceptance_authorization_stops_before_write",
+      "ok": true,
+      "observed": "phases 50, 51, 52, 53, 54 are recorded \"queued\" for staging, so the runner refuses before the ledger is created, before the marker is stamped and before any snapshot: acceptance_authorization_withheld: phase 50 (supabase/phase-50-rcap-packet-delivery-hardening.sql) is recorded as \"queued — requires Roger to name both migration files and the staging environment\" under scope \"repository_integration_only\""
+    },
+    {
+      "id": "the_manifest_does_not_itself_authorize_anything",
+      "ok": true,
+      "observed": "the containing action record's status is \"prepared_queued_not_authorized\" and its \"authorizes\" list is empty; the manifest says so in its own text"
+    },
+    {
+      "id": "environment_declared_on_every_write_capable_job",
+      "ok": true,
+      "observed": "write-capable job \"hosted_write\" declares environment ${{ inputs.phase == 'payment' && 'rcap-acceptance-payment' || 'rcap-acceptance' }} and runs for every phase except preflight and vercel_audit; jobs with an environment: hosted_write; without: readonly_probe"
+    },
+    {
+      "id": "hosted_payment_uses_the_separate_payment_environment",
+      "ok": true,
+      "observed": "the environment expression selects rcap-acceptance-payment for the payment phase and rcap-acceptance otherwise: ${{ inputs.phase == 'payment' && 'rcap-acceptance-payment' || 'rcap-acceptance' }}"
+    },
+    {
+      "id": "read_only_phases_declare_no_write_environment",
+      "ok": true,
+      "observed": "\"readonly_probe\" runs for preflight and vercel_audit and declares no environment (none)"
+    },
+    {
+      "id": "the_environment_name_is_never_empty_for_a_write_capable_run",
+      "ok": true,
+      "observed": "the expression has no empty branch; every phase reaching this job resolves to a named environment"
+    },
+    {
+      "id": "pinned_value_refusal_survives_the_environment_change",
+      "ok": true,
+      "observed": "both jobs still refuse any input that is not the authorized pinned value; the environment declaration supplements the refusal rather than replacing it"
+    },
+    {
+      "id": "worker_mismatch_blocks_deploy",
+      "ok": true,
+      "observed": "the reconciler exits non-zero on WORKER_AUTHORITY_BLOCKED, the workflow runs it for every deploying/matrix/gate/diagnose phase ahead of the first write, and the anti-skip gate requires its outcome"
+    },
+    {
+      "id": "the_worker_authority_is_currently_blocked_and_no_pin_was_changed",
+      "ok": true,
+      "observed": "WORKER_AUTHORITY_BLOCKED — neither candidate meets every requirement; no pin is changed; the workflow pins are byte-unchanged from INFRA_BASE_SHA"
+    },
+    {
+      "id": "audit_source_equivalence_failure_blocks_deploy",
+      "ok": true,
+      "observed": "the equivalence check exits non-zero on failure, the workflow runs it before deploying, and the anti-skip gate requires its outcome"
+    },
+    {
+      "id": "the_audited_surface_is_computed_not_asserted",
+      "ok": true,
+      "observed": "190 files in the closure from 112 roots (62 from the Phase 1 flow manifest); 190 identical, 0 differing inside, 33 differing outside — each outside difference carries a derived reachability reason, not a directory claim"
+    },
+    {
+      "id": "no_unexplained_participant_facing_difference_blocks_deployment",
+      "ok": true,
+      "observed": "PASS — all 190 files in the audited surface are byte-identical between d32267b8 and f7ed0ad3, and tools_sha carries the same application bytes. 33 src file(s) differ outside the surface and are named above."
+    },
+    {
+      "id": "vercel_production_target_blocks_deploy",
+      "ok": true,
+      "observed": "all six Preview safeguards are required cases: deployed_to_preview_not_production, deployment_carries_the_final_application_sha, production_aliases_unchanged, production_domains_unchanged, production_deployment_count_unchanged, production_environment_variables_unchanged; the script never passes --prod and asserts target !== \"production\" both when selecting a reuse candidate and after deploying"
+    },
+    {
+      "id": "stripe_live_key_blocks_payment",
+      "ok": true,
+      "observed": "the payment journey refuses any key that is not sk_test_ and any signing secret that is not whsec_; the deploy refuses to place a non-test key in the acceptance environment"
+    },
+    {
+      "id": "pre_and_post_write_snapshots_capture_the_required_shape",
+      "ok": true,
+      "observed": "15 catalog sources captured, including schemas, extensions, tables, columns, constraints, functions, triggers, tableGrants, rlsPolicies, migrationLedger, environmentMarker; the runner captures pre_write and post_write and records the case as required"
+    },
+    {
+      "id": "the_snapshot_records_no_secret_and_no_production_identifier",
+      "ok": true,
+      "observed": "the snapshot carries the acceptance project ref, the source SHA, the tools SHA and the manifest hash, and reads no key, token or password"
+    },
+    {
+      "id": "the_pre_write_snapshot_precedes_the_first_schema_write",
+      "ok": true,
+      "observed": "pre_write is captured before the environment marker is stamped and before the baseline loop runs"
+    },
+    {
+      "id": "the_recovery_model_is_stated_explicitly",
+      "ok": true,
+      "observed": "recoveryDisposition returns resume-safe or delete-and-recreate, names the phase-50 and phase-53 partial states that force recreation, and states that no production project is eligible"
+    },
+    {
+      "id": "product_behavior_files_unchanged",
+      "ok": true,
+      "observed": "no file under src/ or public/, and neither package manifest nor next.config.ts, differs from INFRA_BASE_SHA or is dirty in the worktree (13 path(s) touched in total)"
+    },
+    {
+      "id": "migration_sql_files_unchanged",
+      "ok": true,
+      "observed": "no supabase/*.sql file differs from INFRA_BASE_SHA or is dirty; all 7 manifest hashes still recompute to their authorized values"
+    },
+    {
+      "id": "audit_manifests_unchanged_on_this_branch",
+      "ok": true,
+      "observed": "the Phase 1 / Phase 1B / ENV-007 audit artifacts are untouched by this branch; the infrastructure report references the audit commit externally"
+    },
+    {
+      "id": "git_diff_check_is_clean",
+      "ok": true,
+      "observed": "git diff --check and git diff --check --cached report no whitespace error and no conflict marker"
+    },
+    {
+      "id": "every_manifest_hash_still_recomputes_from_disk",
+      "ok": true,
+      "observed": "all 7 manifest SHA-256 values recompute from the files in supabase/"
+    }
+  ]
+}
