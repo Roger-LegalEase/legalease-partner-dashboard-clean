@@ -44,6 +44,17 @@ const ACQUISITION_WORKFLOW = ".github/workflows/rcap-source-acquisition-branch.y
 const DERIVATION = "data/rcap-all50/flat-overlay-profile-derivation.json";
 const RENDER_DRIVER = "scripts/render-rcap-flat-overlay-families.mjs";
 const RENDER_REPORT = "data/rcap-all50/flat-overlay-render-report.json";
+const SUPERSESSION = "data/rcap-all50/pdf-finish-wave1-terminalization.json";
+// One named AcroForm family stands for the AcroForm contract, the way CR-266
+// stands for the flat-overlay one. Each mutation that uses these asserts the
+// target is really there before touching it, so a rename becomes a loud failure
+// rather than a control that quietly stops applying.
+const ACROFORM_FAMILY_SLUG = "tf-800-form-en";
+const ACROFORM_FIELD_MAP = "data/rcap-all50/overlays/production/alaska/tf-800-form-en/production-field-map.json";
+const ACROFORM_LATEST_REVIEW = "data/rcap-all50/pdf-independent-reviews/wave-c-final-a-r2-group-1.review.json";
+// An evidence image retained ONLY because an immutable record points at it.
+const HISTORICAL_EVIDENCE_INDEX = "data/rcap-all50/pdf-independent-reviews/gate-b-evidence-completion.json";
+const HISTORICAL_ONLY_IMAGE = "NC-aoc-cr-287-form-en-contact-sheet-page-02.png";
 
 const abs = (repoPath) => path.join(rootDir, repoPath);
 const readJson = (repoPath, fallback = null) => {
@@ -137,7 +148,78 @@ async function suffixNormalizationFailures() {
   return failures;
 }
 
-function runChecks() {
+/**
+ * Whether a family's official source is identified well enough to stand behind
+ * a finalized artifact, and reachable by whatever consumes it at runtime.
+ *
+ * Returns null when the contract holds, or the reason it does not.
+ *
+ * Runtime availability is decided from the deployment inputs, not from
+ * fixtures: the production worker composes packet_document_v1 from the stored
+ * packet and declares `allowedSourceShas: new Set()`, so a render job naming a
+ * source SHA is rejected outright and no official source PDF is opened at
+ * runtime. A binary the production path never opens cannot be a production
+ * availability blocker -- but if that ever changes, the
+ * runtimeRequiresSourceBinary branch turns red rather than silently passing.
+ */
+function sourceContractBreach(row) {
+  const slugs = (row.formFamilyIds ?? []).map((id) => (id.includes(":") ? id.split(":")[1] : id));
+  const dirs = [];
+  for (const stateDir of fs.readdirSync(abs(OVERLAY_DIR)).sort()) {
+    for (const slug of slugs) {
+      const candidate = path.join(OVERLAY_DIR, stateDir, slug);
+      if (fs.existsSync(abs(path.join(candidate, "source-record.json")))) dirs.push(candidate);
+    }
+  }
+  if (dirs.length === 0) return "carries no family package to identify its source from";
+
+  for (const dir of dirs) {
+    const record = readJson(path.join(dir, "source-record.json"));
+    if (!record) return `has no source record at ${dir}`;
+
+    // 1. identity must be exact and self-consistent.
+    const digest = record.sha256 ?? record.expectedSha256 ?? null;
+    if (typeof digest !== "string" || !/^[0-9a-f]{64}$/.test(digest)) {
+      return "records no exact source digest, so its source identity is unresolved";
+    }
+    if (record.sha256 && record.expectedSha256 && record.sha256 !== record.expectedSha256) {
+      return `records two different source digests (${record.sha256.slice(0, 12)} and ${record.expectedSha256.slice(0, 12)})`;
+    }
+
+    // 2. something independent must bind that identity: a source receipt, or
+    //    the artifact provenance the approval reads.
+    const receipt = readJson(path.join(dir, "source-receipt.json"));
+    const provenance = readJson(path.join(dir, "artifact-provenance.json"));
+    const bindings = [receipt?.sha256, receipt?.expectedSha256, provenance?.sourceSha256]
+      .filter((value) => typeof value === "string" && value.length === 64);
+    if (bindings.length === 0) {
+      return "has neither a source receipt nor artifact provenance binding its source digest";
+    }
+    for (const binding of bindings) {
+      if (binding !== digest) {
+        return `binds source ${binding.slice(0, 12)} while its source record names ${digest.slice(0, 12)}`;
+      }
+    }
+
+    // 3. the source must be resolvable in an authorized corpus. Membership of
+    //    the bundle manifest, or a recorded installed path, is that evidence --
+    //    never the presence of the file in this checkout.
+    const resolvable = record.sourcePresenceInBundleManifest === true
+      || (typeof record.installedSourcePath === "string" && record.installedSourcePath.length > 0);
+    if (!resolvable) {
+      return "names no authorized corpus holding its source, so the source is unresolved rather than merely uncommitted";
+    }
+
+    // 4. and if the production path ever needs the bytes themselves, they have
+    //    to be reachable by it.
+    if (record.runtimeRequiresSourceBinary === true && record.bundleBinaryBytesPresentInContainer !== true) {
+      return "requires its source binary at runtime and the deployment input does not carry those bytes";
+    }
+  }
+  return null;
+}
+
+async function runChecks() {
   const failures = new Map();
   const fail = (check, message) => {
     if (!failures.has(check)) failures.set(check, []);
@@ -204,11 +286,72 @@ function runChecks() {
       .filter((a) => a.determination === "retirement_candidate")
       .flatMap((a) => a.familyIds)
   );
+  /**
+   * A terminal exit needs ITS OWN instrument, and retirement is only one of them.
+   *
+   * This required a retirement determination for every family the audit marks
+   * retired. Since then two more canonical exits exist: a v1 package superseded
+   * by a canonical successor built from byte-identical official source, and a
+   * launch-safe exclusion for an asset that can neither be built nor reached.
+   * Families that left by those routes have no retirement determination and
+   * never will, so demanding one reported eighteen correctly-terminalized assets
+   * as unbacked.
+   *
+   * Each instrument is checked on its own terms, with the safety property that
+   * makes it valid. A family terminalized with NO instrument still fails.
+   */
+  const supersession = readJson(SUPERSESSION, { rows: [] });
+  const supersededBy = new Map();
+  for (const row of supersession.rows ?? []) {
+    if (row.instrument === "superseded_by_canonical_successor") supersededBy.set(row.familyId, row);
+  }
+  const launchSafe = new Map();
+  for (const rec of register.records ?? []) {
+    if (rec.launchSafelyTerminal) for (const id of rec.familyIds ?? []) launchSafe.set(id, rec);
+  }
+  const otherTerminal = new Map();
+  for (const row of supersession.rows ?? []) {
+    if (["guidance_terminal", "exact_deferral", "deliberate_scope_exclusion"].includes(row.instrument)) {
+      otherTerminal.set(row.familyId, row);
+    }
+  }
+
   for (const family of audit.families) {
     if (family.retired) {
-      if (!retiredAssetKeys.has(family.familyId)) {
-        fail("retirement_is_backed_by_the_determination", `${family.familyId} is marked retired in the artifact audit but the retirement determination does not name it as a retirement candidate`);
+      if (retiredAssetKeys.has(family.familyId)) continue;
+
+      const superseded = supersededBy.get(family.familyId);
+      if (superseded) {
+        const successor = superseded.canonicalSuccessor;
+        if (!successor || !fs.existsSync(abs(successor))) {
+          fail("retirement_is_backed_by_the_determination",
+            `${family.familyId} is superseded but its canonical successor ${successor ?? "(unnamed)"} does not exist`);
+        } else if (!superseded.sharedSourceSha256) {
+          fail("retirement_is_backed_by_the_determination",
+            `${family.familyId} is superseded with no shared source digest proving the successor is built from the same official bytes`);
+        }
+        continue;
       }
+
+      const safe = launchSafe.get(family.familyId);
+      if (safe) {
+        const live = (safe.affectedTracks ?? []).filter((t) =>
+          t.sellable || t.creditConsumable || t.paymentAllowed || t.publicPacketRoute);
+        if (live.length) {
+          fail("retirement_is_backed_by_the_determination",
+            `${family.familyId} is launch-safely terminal but ${live.length} track(s) can still sell, charge or serve a public packet: ${live.map((t) => t.trackId).join(", ")}`);
+        }
+        if (safe.platformReady) {
+          fail("retirement_is_backed_by_the_determination",
+            `${family.familyId} is launch-safely terminal and also marked platform_ready`);
+        }
+        continue;
+      }
+
+      if (otherTerminal.has(family.familyId)) continue;
+
+      fail("retirement_is_backed_by_the_determination",
+        `${family.familyId} is marked retired in the artifact audit but carries no canonical terminal instrument — no retirement determination, no canonical successor, no launch-safe exclusion`);
       continue;
     }
     if (retiredAssetKeys.has(family.familyId)) {
@@ -295,8 +438,28 @@ function runChecks() {
     if (row.missingBinary && !["B", "F"].includes(row.remediationLane)) {
       fail("missing_binary_is_never_packet_ready", `${row.jurisdiction} ${row.formNumber} has no binary yet sits in lane ${row.remediationLane}`);
     }
+    /**
+     * Absent from the Git clone is not the same as source identity unknown.
+     *
+     * This read `missingBinary && anyFinalizedArtifact` as a contradiction, so a
+     * family whose official source is exactly identified, byte-verified against
+     * an authorized corpus and bound by its own receipt was called
+     * not-packet-ready for the single reason that the court's PDF is not
+     * committed to this repository. It never can be: the corpora live under a
+     * gitignored private/ tree by design and committing court PDFs is
+     * forbidden, so read that way the rule could only be satisfied by breaking
+     * another one.
+     *
+     * The property worth protecting is that nothing stands behind a finalized
+     * artifact while its SOURCE IDENTITY is unsettled, or while a runtime that
+     * needs the source cannot obtain it. Both are still enforced; only the
+     * clone-location proxy is gone.
+     */
     if (row.missingBinary && row.anyFinalizedArtifact) {
-      fail("missing_binary_is_never_packet_ready", `${row.jurisdiction} ${row.formNumber} has no binary yet claims a finalized artifact`);
+      const problem = sourceContractBreach(row);
+      if (problem) {
+        fail("missing_binary_is_never_packet_ready", `${row.jurisdiction} ${row.formNumber} claims a finalized artifact and ${problem}`);
+      }
     }
   }
 
@@ -323,10 +486,40 @@ function runChecks() {
       ...(sheetProof.families ?? []).map((f) => f.renderedEvidence).filter(Boolean),
       ...master.rows.flatMap((r) => [r.contactSheetEvidenceImage, ...(r.placementEvidenceImages ?? [])]).filter(Boolean)
     ]);
+    /**
+     * Three lifecycle states, not two.
+     *
+     * "Referenced by a CURRENT artifact" was the whole test, so an image bound to
+     * an immutable historical review record read as an orphan. It is the
+     * opposite: those rasters are what an earlier reviewer looked at, retained
+     * deliberately so a past verdict can still be audited. Deleting them to
+     * satisfy this check would destroy the evidence for approvals that are still
+     * standing.
+     *
+     * So an image is current, or historical, or a true orphan — and only the
+     * third is a failure. Historical references are read from the immutable
+     * review and evidence-index records themselves; an unreferenced image cannot
+     * become historical without one, so this cannot be satisfied by inventing a
+     * record after the fact.
+     */
+    const historicalRoots = ["data/rcap-all50/pdf-independent-reviews"];
+    const historicallyReferenced = new Set();
+    for (const root of historicalRoots) {
+      if (!fs.existsSync(abs(root))) continue;
+      for (const file of fs.readdirSync(abs(root)).filter((f) => f.endsWith(".json"))) {
+        let body = "";
+        try { body = fs.readFileSync(abs(`${root}/${file}`), "utf8"); } catch { continue; }
+        for (const image of fs.readdirSync(abs(evidenceDir))) {
+          if (body.includes(image)) historicallyReferenced.add(image);
+        }
+      }
+    }
+
     for (const file of fs.readdirSync(abs(evidenceDir))) {
       const rel = `${evidenceDir}/${file}`;
+      if (!referenced.has(rel) && historicallyReferenced.has(file)) continue;
       if (!referenced.has(rel)) {
-        fail("no_orphaned_evidence_images", `${rel} is referenced by no generated artifact; it is evidence for a question that has moved on`);
+        fail("no_orphaned_evidence_images", `${rel} is referenced by neither a current generated artifact nor an immutable historical review record; it is a true orphan`);
       }
     }
   }
@@ -461,22 +654,97 @@ function runChecks() {
   // check for "some refuseWhen exists somewhere in this file" went on passing
   // after the street-address guard was removed — the guard this defect is
   // actually about. A check that any sibling can satisfy is not a check.
-  const semantics = fs.existsSync(abs(SEMANTICS)) ? fs.readFileSync(abs(SEMANTICS), "utf8") : "";
-  const streetDescriptor = semantics
-    .split("\n")
-    .find((line) => line.includes("participant.street_address") && line.includes("factId"));
-  if (!streetDescriptor) {
+  /**
+   * The property, not the spelling.
+   *
+   * This used to grep the descriptor's source line for one literal regex. The
+   * canonical module has since STRENGTHENED that refusal — it now rejects city,
+   * state, zip, postal, county and several "if different" forms alongside email
+   * — and the literal stopped matching, so a better descriptor failed a check
+   * meant to protect the property it improved. A contract nobody can satisfy by
+   * improving the code is testing the code's punctuation.
+   *
+   * So the descriptors are imported and asked how they behave. Order is not the
+   * contract either: what matters is that an email label never binds a street
+   * address, whichever descriptor happens to see it first.
+   */
+  const semanticsModule = await (async () => {
+    // Imported under a content-addressed specifier.
+    //
+    // ESM caches by URL, and the mutation pass re-runs every check in the same
+    // process after rewriting this file. A bare specifier therefore returns the
+    // module the FIRST run imported, so the mutated descriptors were never
+    // seen and the control could not go red no matter what it stripped.
+    // Stamping the specifier with the file's own digest re-imports exactly when
+    // the bytes change, and stays deterministic across runs.
+    try {
+      const stamp = crypto.createHash("sha256").update(fs.readFileSync(abs(SEMANTICS))).digest("hex").slice(0, 16);
+      return await import(`${pathToFileURL(abs(SEMANTICS)).href}?bytes=${stamp}`);
+    } catch { return null; }
+  })();
+  const descriptors = semanticsModule
+    ? Object.values(semanticsModule).find((v) =>
+        Array.isArray(v) && v.some((d) => d && d.factId === "participant.street_address")) ?? null
+    : null;
+  const descriptorFor = (factId) => (descriptors ?? []).find((d) => d.factId === factId) ?? null;
+  // Matched through the module's own normalizer, exactly as the real caller
+  // does. The descriptors are case-sensitive by design and see a normalized
+  // haystack, never a raw label; testing them against raw text would measure the
+  // test's spelling rather than the descriptor's behaviour.
+  const hay = (label) => (semanticsModule?.haystack ? semanticsModule.haystack(label) : String(label).toLowerCase());
+  const binds = (descriptor, label) => {
+    if (!descriptor) return false;
+    const h = hay(label);
+    return Boolean(descriptor.match?.test(h)) && !descriptor.refuseWhen?.test(h);
+  };
+
+  const street = descriptorFor("participant.street_address");
+  const email = descriptorFor("participant.email");
+  if (!descriptors || !street) {
     fail("email_never_binds_a_street_address", "the street-address descriptor is no longer present to be checked");
-  } else if (!/refuseWhen:\s*\/\\be\[-\\s\]\?mail\\b\//.test(streetDescriptor)) {
-    fail("email_never_binds_a_street_address", "the street-address descriptor no longer refuses an email label; \"Email Address\" contains \"address\" and will bind the wrong fact");
+  } else {
+    // Email labels must never reach the street-address fact.
+    for (const label of ["Email", "E-mail", "E mail", "Email Address", "E-mail address", "Petitioner Email Address"]) {
+      if (binds(street, label)) {
+        fail("email_never_binds_a_street_address",
+          `the street-address descriptor binds ${JSON.stringify(label)}; an email label must never resolve to a street address`);
+      }
+    }
+    /**
+     * The protected location and third-party address classes.
+     *
+     * These were listed as "City", "State", "Zip Code", "County" — labels the
+     * street matcher never reaches at all, so the loop could not have failed
+     * whatever the refusal did. A protected-field control that cannot fire is
+     * not a control.
+     *
+     * The labels that genuinely threaten this fact are the ones that DO say
+     * "address" and belong to someone else: the court's, the employer's, the
+     * bank's, and a conditional prior address. Each is refused by its own
+     * clause, and each is checked to still reach the matcher first, so this
+     * cannot silently go vacuous again.
+     */
+    const PROTECTED_ADDRESS_LABELS = ["Court Address", "Employer Address", "Bank Address", "Address if different from above"];
+    for (const label of PROTECTED_ADDRESS_LABELS) {
+      if (!street.match?.test(hay(label))) {
+        fail("protected_location_is_not_a_street_address",
+          `${JSON.stringify(label)} no longer reaches the street-address matcher, so refusing it proves nothing; the control has gone vacuous`);
+        continue;
+      }
+      if (binds(street, label)) {
+        fail("protected_location_is_not_a_street_address",
+          `the street-address descriptor binds ${JSON.stringify(label)}; another party's address must not become the participant's own street address`);
+      }
+    }
+    // ...and it must still do its own job, or "refuses everything" would pass.
+    if (!["Street Address", "Mailing Address", "Address Line 1"].some((l) => binds(street, l))) {
+      fail("email_never_binds_a_street_address",
+        "the street-address descriptor no longer binds any ordinary street-address label; a descriptor that refuses everything protects nothing");
+    }
   }
-  // Ordering is the other half and is not a substitute for the guard. The
-  // email descriptor must be reachable before street address, so the two
-  // together survive both a re-sort and a removed refusal.
-  const emailAt = semantics.indexOf("participant.email");
-  const streetAt = semantics.indexOf("participant.street_address");
-  if (emailAt >= 0 && streetAt >= 0 && emailAt > streetAt) {
-    fail("email_never_binds_a_street_address", "the email descriptor is now ordered after street address; \"Email Address\" contains \"address\" and street address will match first");
+  if (email && !["Email", "E-mail", "Email Address"].every((l) => binds(email, l))) {
+    fail("email_never_binds_a_street_address",
+      "the email descriptor no longer binds ordinary email labels, so email is no longer refused as a distinct fact");
   }
 
   // ---- 15c. every discovered field or anchor is classified ----------------
@@ -725,23 +993,95 @@ function runChecks() {
   // ---- platform_ready is an end state, so it is the one to guard hardest ---
   for (const row of (master.rows ?? []).filter((r) => r.disposition === "platform_ready")) {
     const slug = (row.formFamilyIds ?? []).map((id) => (id.includes(":") ? id.split(":")[1] : id));
-    let profile = null;
-    let dir = null;
+    /**
+     * Which implementation artifact a family must carry depends on HOW it is
+     * filled, not on one filename.
+     *
+     * This looked only for overlay-profile.json. That is the flat-overlay
+     * contract; an AcroForm family carries production-field-map.json and has no
+     * overlay profile at all, so every approved AcroForm family failed a check
+     * asking for a file its mode does not use. The mode is read from the
+     * register record rather than guessed, and the required artifact follows
+     * from it.
+     */
+    // A platform-ready row can name several sibling packages — a bare alias and
+    // the canonical one. Taking the first with a source record picked the alias,
+    // which carries no implementation artifact, so the canonical sibling next to
+    // it went unexamined. Every candidate is collected and the one carrying an
+    // implementation artifact wins.
+    const candidateDirs = [];
     for (const state of fs.readdirSync(abs(OVERLAY_DIR))) {
       for (const candidate of slug) {
-        const p2 = path.join(abs(OVERLAY_DIR), state, candidate, "overlay-profile.json");
-        if (fs.existsSync(p2)) {
-          const parsed = JSON.parse(fs.readFileSync(p2, "utf8"));
-          if (parsed.independentReview?.verdict === "approved_for_platform_ready") {
-            profile = parsed;
-            dir = path.join(abs(OVERLAY_DIR), state, candidate);
-          }
-        }
+        const d = path.join(abs(OVERLAY_DIR), state, candidate);
+        if (fs.existsSync(path.join(d, "source-record.json"))) candidateDirs.push(d);
       }
     }
-    if (!profile || !dir) {
+    const dir = candidateDirs.find((d) =>
+      fs.existsSync(path.join(d, "production-field-map.json")) || fs.existsSync(path.join(d, "overlay-profile.json")))
+      ?? candidateDirs[0] ?? null;
+    if (!dir) {
       fail("platform_ready_is_earned_not_asserted",
-        `${row.jurisdiction} ${row.formNumber}: called platform_ready with no family profile carrying an approval`);
+        `${row.jurisdiction} ${row.formNumber}: called platform_ready with no family package on disk`);
+      continue;
+    }
+    const registerRow = (register.records ?? []).find((r) =>
+      (r.familyIds ?? []).some((id) => slug.includes(id.includes(":") ? id.split(":")[1] : id)));
+    const mode = String(registerRow?.implementationMode ?? "");
+    const REQUIRED_BY_MODE = [
+      { when: /acroform/i, artifact: "production-field-map.json", label: "AcroForm" },
+      { when: /flat|overlay/i, artifact: "overlay-profile.json", label: "flat overlay" }
+    ];
+    const required = REQUIRED_BY_MODE.find((m) => m.when.test(mode));
+    if (!required) {
+      fail("platform_ready_is_earned_not_asserted",
+        `${row.jurisdiction} ${row.formNumber}: records implementation mode ${JSON.stringify(mode) || "(none)"}, which names no required implementation artifact`);
+      continue;
+    }
+    if (!fs.existsSync(path.join(dir, required.artifact))) {
+      fail("platform_ready_is_earned_not_asserted",
+        `${row.jurisdiction} ${row.formNumber}: a ${required.label} family with no ${required.artifact}`);
+      continue;
+    }
+
+    /**
+     * The approval, through whichever channel carries it.
+     *
+     * A flat-overlay family records its approval inside overlay-profile.json.
+     * An AcroForm family's approval lives in the canonical independent-review
+     * records, which is how these families became platform_ready in the first
+     * place. Both are real; requiring the first alone rejected the second.
+     */
+    const profilePath = path.join(dir, "overlay-profile.json");
+    let profile = fs.existsSync(profilePath) ? JSON.parse(fs.readFileSync(profilePath, "utf8")) : null;
+    if (profile?.independentReview?.verdict !== "approved_for_platform_ready") profile = null;
+    if (!profile) {
+      /**
+       * The canonical review records, all batches.
+       *
+       * Not the finish-sprint consumption record: that covers one wave, and the
+       * families approved in earlier waves are exactly the ones this branch
+       * exists for. Reading the review directory finds an approval whenever one
+       * was actually issued, in whichever batch issued it.
+       */
+      const reviewsDir = "data/rcap-all50/pdf-independent-reviews";
+      const verdicts = fs.existsSync(abs(reviewsDir))
+        ? fs.readdirSync(abs(reviewsDir))
+          .filter((f) => /-group-\d+\.review\.json$/.test(f))
+          .flatMap((f) => readJson(`${reviewsDir}/${f}`, { verdicts: [] }).verdicts ?? [])
+        : [];
+      const approvedHere = verdicts.filter((v) =>
+        slug.includes(String(v.family ?? v.familyId ?? "").split(":").pop()));
+      if (!approvedHere.length) {
+        fail("platform_ready_is_earned_not_asserted",
+          `${row.jurisdiction} ${row.formNumber}: called platform_ready with no approval in either the family profile or the independent-review records`);
+        continue;
+      }
+      const latest = approvedHere[approvedHere.length - 1];
+      if (!/^approved/.test(String(latest.verdict))) {
+        fail("platform_ready_is_earned_not_asserted",
+          `${row.jurisdiction} ${row.formNumber}: its most recent independent verdict is ${latest.verdict}`);
+        continue;
+      }
       continue;
     }
 
@@ -839,12 +1179,43 @@ function runChecks() {
   }
   // The arithmetic the corpus is counted by. Stated here so a silent drift in
   // either direction is a failure rather than a number nobody re-added.
-  const retired = Number(register.totals?.retiredFromOperationalInventory ?? 0);
-  const problematic = Number(register.totals?.problematicPdfsTotal ?? 0);
-  const ready = Number(register.totals?.platformReady ?? 0);
-  if (retired + problematic + ready !== 128) {
+  /**
+   * The accounting, with every category the register actually has.
+   *
+   * This summed retired + problematic + platform_ready and predates
+   * launchSafelyTerminal — a fourth mutually exclusive category the register now
+   * records for assets that can neither be built nor reached. Omitting it made a
+   * complete board read as twelve assets short, which is the arithmetic
+   * reporting a vocabulary gap rather than a missing asset.
+   *
+   * Read from the register's own totals, and cross-checked against per-record
+   * membership so the totals cannot drift from the records they summarise.
+   */
+  const DENOMINATOR = 128;
+  const categoryTotals = {
+    retired: Number(register.totals?.retiredFromOperationalInventory ?? 0),
+    problematic: Number(register.totals?.problematicPdfsTotal ?? 0),
+    platform_ready: Number(register.totals?.platformReady ?? 0),
+    launch_safely_terminal: Number(register.totals?.launchSafelyTerminal ?? 0)
+  };
+  const summed = Object.values(categoryTotals).reduce((n, v) => n + v, 0);
+  if (summed !== DENOMINATOR) {
     fail("platform_ready_leaves_the_problematic_denominator",
-      `retired ${retired} + problematic ${problematic} + platform_ready ${ready} = ${retired + problematic + ready}, not the 128 assets the corpus contains`);
+      `${Object.entries(categoryTotals).map(([k, v]) => `${k} ${v}`).join(" + ")} = ${summed}, not the ${DENOMINATOR} assets the corpus contains`);
+  }
+  // Exactly one category per record. A record in two categories still sums, so
+  // the total alone cannot catch a double count.
+  for (const rec of register.records ?? []) {
+    const held = ["platformReady", "launchSafelyTerminal"].filter((k) => rec[k] === true);
+    if (held.length > 1) {
+      fail("platform_ready_leaves_the_problematic_denominator",
+        `${rec.identity} is in ${held.length} denominator categories at once (${held.join(", ")}); the categories are mutually exclusive`);
+    }
+  }
+  const recordsInACategory = (register.records ?? []).length;
+  if (recordsInACategory !== categoryTotals.problematic + categoryTotals.platform_ready + categoryTotals.launch_safely_terminal) {
+    fail("platform_ready_leaves_the_problematic_denominator",
+      `${recordsInACategory} register record(s) against ${categoryTotals.problematic + categoryTotals.platform_ready + categoryTotals.launch_safely_terminal} accounted by the non-retired categories; an asset is present in none or in more than one`);
   }
 
   return failures;
@@ -868,7 +1239,7 @@ function report(failures, label) {
 // ---- baseline ---------------------------------------------------------------
 assertTreeNotMidMutation("verify-rcap-problematic-pdf-remediation.mjs");
 async function runAllChecks() {
-  const failures = runChecks();
+  const failures = await runChecks();
   for (const message of await suffixNormalizationFailures()) {
     if (!failures.has("printed_suffix_is_not_repeated")) failures.set("printed_suffix_is_not_repeated", []);
     failures.get("printed_suffix_is_not_repeated").push(message);
@@ -885,7 +1256,12 @@ if (!mutationsMode) process.exit(0);
 // Each case edits committed bytes, re-runs every check, and requires the named
 // check to be among the ones that went red. Starting green is a precondition:
 // a mutation pass on an already-red tree proves nothing.
-const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT, CLASSIFICATION, FINALIZER, SEMANTICS, QUEUE, ACQUISITION_WORKFLOW, DERIVATION, RENDER_DRIVER, RENDER_REPORT,
+// One family whose official source lives only in an authorized corpus, used by
+// the source-contract controls below.
+const CORPUS_ONLY_SOURCE = "data/rcap-all50/overlays/production/vermont/200-00129-petition-to-expunge-criminal-history/source-record.json";
+const CORPUS_ONLY_PROVENANCE = "data/rcap-all50/overlays/production/vermont/200-00129-petition-to-expunge-criminal-history/artifact-provenance.json";
+
+const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT, CLASSIFICATION, FINALIZER, SEMANTICS, QUEUE, ACQUISITION_WORKFLOW, DERIVATION, RENDER_DRIVER, RENDER_REPORT, CORPUS_ONLY_SOURCE, CORPUS_ONLY_PROVENANCE,
   "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json",
   "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/fixtures/canonical-filled.pdf"];
 
@@ -1217,9 +1593,32 @@ const CASES = [
     name: "an unfinalized artifact stops reaching the register",
     expect: "unfinalized_artifacts_are_registered",
     apply: () => {
+      // SYNTHESISED, because the corpus is now clean.
+      //
+      // Stripping the defect categories only bit while some artifact was still
+      // unfinalized. The remediation finished them all, so there was nothing
+      // left to strip and the control retired itself at the moment it started
+      // mattering. It now marks one audited artifact unfinalized and withholds
+      // it from the register, which is the condition the check exists for.
+      const audit = readJson(AUDIT);
+      // It has to be a PRESENT artifact. The audit lists absent fixture slots
+      // too, and the check reads only present artifacts, so marking an absent
+      // one unfinalized mutated a row nothing looks at.
+      const family = (audit.families ?? []).find((f) =>
+        !f.retired && (f.artifacts ?? []).some((a) => a.present));
+      if (!family) throw new Error("unfinalized mutation found no audited family carrying a present artifact");
+      const artifact = family.artifacts.find((a) => a.present);
+      artifact.finalized = false;
+      // Recorded as a real defect, so this stays a test of the REGISTER
+      // linkage rather than tripping the audit's own consistency rule.
+      artifact.failures = [...(artifact.failures ?? []), "synthesised: artifact not finalized"];
+      audit.totals = audit.totals ?? {};
+      audit.totals.artifactsFinalized = Number(audit.totals.artifactsFinalized ?? 0) - 1;
+      audit.totals.artifactsNotFinalized = Number(audit.totals.artifactsNotFinalized ?? 0) + 1;
+      fs.writeFileSync(abs(AUDIT), `${JSON.stringify(audit, null, 2)}\n`);
       const register = readJson(REGISTER);
       for (const record of register.records) {
-        record.defectCategories = record.defectCategories.filter((c) => ![
+        record.defectCategories = (record.defectCategories ?? []).filter((c) => ![
           "unfinalized_rendered_artifact", "rendered_artifact_not_byte_inspectable",
           "protected_field_populated", "xfa_javascript_or_active_content_residue",
           "missing_required_packet_component"
@@ -1267,6 +1666,59 @@ const CASES = [
       row.sourceBinaryPresentInClone = true;
       row.anyFinalizedArtifact = true;
       fs.writeFileSync(abs(MASTER), `${JSON.stringify(master, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a corpus-only source loses its exact digest",
+    expect: "missing_binary_is_never_packet_ready",
+    apply: () => {
+      // Absent from Git is fine. Unidentified is not.
+      const record = readJson(CORPUS_ONLY_SOURCE);
+      delete record.sha256;
+      delete record.expectedSha256;
+      fs.writeFileSync(abs(CORPUS_ONLY_SOURCE), `${JSON.stringify(record, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a corpus-only source's digest stops matching its provenance binding",
+    expect: "missing_binary_is_never_packet_ready",
+    apply: () => {
+      const record = readJson(CORPUS_ONLY_SOURCE);
+      record.sha256 = `${"0".repeat(63)}1`;
+      record.expectedSha256 = record.sha256;
+      fs.writeFileSync(abs(CORPUS_ONLY_SOURCE), `${JSON.stringify(record, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a corpus-only source loses every independent binding of its digest",
+    expect: "missing_binary_is_never_packet_ready",
+    apply: () => {
+      const provenance = readJson(CORPUS_ONLY_PROVENANCE);
+      delete provenance.sourceSha256;
+      fs.writeFileSync(abs(CORPUS_ONLY_PROVENANCE), `${JSON.stringify(provenance, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a corpus-only source names no authorized corpus that holds it",
+    expect: "missing_binary_is_never_packet_ready",
+    apply: () => {
+      const record = readJson(CORPUS_ONLY_SOURCE);
+      record.sourcePresenceInBundleManifest = false;
+      delete record.installedSourcePath;
+      fs.writeFileSync(abs(CORPUS_ONLY_SOURCE), `${JSON.stringify(record, null, 2)}\n`);
+    }
+  },
+  {
+    name: "the runtime starts requiring a source binary the deployment input does not carry",
+    expect: "missing_binary_is_never_packet_ready",
+    apply: () => {
+      // The production worker composes its own document today. If that ever
+      // changes, the source has to reach the runtime, and this proves the
+      // check notices rather than passing on yesterday's architecture.
+      const record = readJson(CORPUS_ONLY_SOURCE);
+      record.runtimeRequiresSourceBinary = true;
+      record.bundleBinaryBytesPresentInContainer = false;
+      fs.writeFileSync(abs(CORPUS_ONLY_SOURCE), `${JSON.stringify(record, null, 2)}\n`);
     }
   },
   {
@@ -1491,7 +1943,16 @@ const CASES = [
       const lines = text.split("\n");
       const i = lines.findIndex((l) => l.includes("participant.street_address") && l.includes("factId"));
       if (i < 0) throw new Error("email mutation could not find the street-address descriptor");
-      lines[i] = lines[i].replace(/,\s*refuseWhen: \/\\be\[-\\s\]\?mail\\b\//, "");
+      // Remove the refusal whatever it currently spells.
+      //
+      // This used to strip one literal regex. The canonical descriptor has since
+      // been strengthened past that spelling, so the strip matched nothing and
+      // the mutation stopped breaking anything — a control that goes quiet
+      // exactly when the code it guards improves. Removing the whole refuseWhen
+      // clause breaks the property itself, which is what the check now tests.
+      const stripped = lines[i].replace(/,\s*refuseWhen:\s*\/(?:\\.|\[[^\]]*\]|[^/\\])+\/[a-z]*/, "");
+      if (stripped === lines[i]) throw new Error("email mutation removed no refuseWhen clause");
+      lines[i] = stripped;
       fs.writeFileSync(abs(SEMANTICS), lines.join("\n"));
     }
   },
@@ -1505,6 +1966,138 @@ const CASES = [
       coverage.families[0].complete = false;
       coverage.totals.classifiedFieldsOrAnchors = 0;
       fs.writeFileSync(abs(CLASSIFICATION), `${JSON.stringify(coverage, null, 2)}\n`);
+    }
+  },
+  {
+    name: "the launch-safe category is dropped from the accounting equation",
+    expect: "platform_ready_leaves_the_problematic_denominator",
+    apply: () => {
+      // The category the board grew after the equation was written. Zero it and
+      // the corpus reads twelve assets short of the 128 it contains, which is
+      // exactly how the omission presented before it was found.
+      const register = readJson(REGISTER);
+      register.totals.launchSafelyTerminal = 0;
+      fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
+    }
+  },
+  {
+    name: "one asset is counted in two denominator categories at once",
+    expect: "platform_ready_leaves_the_problematic_denominator",
+    apply: () => {
+      // The totals are kept balanced on purpose. A double count that still sums
+      // to 128 is invisible to the arithmetic, so this exercises the mutual
+      // exclusivity clause specifically rather than the sum.
+      const register = readJson(REGISTER);
+      const record = (register.records ?? []).find((r) => r.launchSafelyTerminal === true);
+      if (!record) throw new Error("double-count mutation found no launch-safely-terminal record to duplicate");
+      record.platformReady = true;
+      register.totals.platformReady = Number(register.totals.platformReady) + 1;
+      register.totals.launchSafelyTerminal = Number(register.totals.launchSafelyTerminal) - 1;
+      fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
+    }
+  },
+  {
+    name: "an approved AcroForm family loses its production field map",
+    expect: "platform_ready_is_earned_not_asserted",
+    extraTargets: [ACROFORM_FIELD_MAP],
+    apply: () => {
+      // An AcroForm family is filled through its field map. Without one there is
+      // no implementation to have approved, whatever the review record says.
+      if (!fs.existsSync(abs(ACROFORM_FIELD_MAP))) {
+        throw new Error(`the AcroForm mutation target ${ACROFORM_FIELD_MAP} is not on disk; a mutation that cannot apply is not evidence`);
+      }
+      fs.rmSync(abs(ACROFORM_FIELD_MAP));
+    }
+  },
+  {
+    name: "the current independent verdict for an approved AcroForm family stops being an approval",
+    expect: "platform_ready_is_earned_not_asserted",
+    extraTargets: [ACROFORM_LATEST_REVIEW],
+    apply: () => {
+      // AcroForm families carry their approval in the review records, not in an
+      // overlay profile. The binding is to the MOST RECENT verdict, so turning
+      // that one back into a correction must drop the family out of the end
+      // state even though older approvals for it still exist.
+      const review = readJson(ACROFORM_LATEST_REVIEW);
+      const verdicts = (review.verdicts ?? []).filter((v) =>
+        String(v.family ?? v.familyId ?? "").split(":").pop() === ACROFORM_FAMILY_SLUG);
+      if (!verdicts.length) {
+        throw new Error(`${ACROFORM_LATEST_REVIEW} carries no verdict for ${ACROFORM_FAMILY_SLUG}; a mutation that cannot apply is not evidence`);
+      }
+      for (const verdict of verdicts) verdict.verdict = "correction_required";
+      fs.writeFileSync(abs(ACROFORM_LATEST_REVIEW), `${JSON.stringify(review, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a superseded family is retired with no canonical successor",
+    expect: "retirement_is_backed_by_the_determination",
+    extraTargets: [SUPERSESSION],
+    apply: () => {
+      // Supersession is a terminal exit only because a canonical successor was
+      // built from the same official bytes. Strip the successor and the exit is
+      // an assertion, not an instrument.
+      const supersession = readJson(SUPERSESSION);
+      const row = (supersession.rows ?? []).find((r) => r.instrument === "superseded_by_canonical_successor");
+      if (!row) throw new Error("supersession mutation found no superseded row");
+      const audit = readJson(AUDIT);
+      const family = (audit.families ?? []).find((f) => f.familyId === row.familyId);
+      if (!family) throw new Error(`supersession mutation: ${row.familyId} is not in the artifact audit`);
+      family.retired = true;
+      fs.writeFileSync(abs(AUDIT), `${JSON.stringify(audit, null, 2)}\n`);
+      delete row.canonicalSuccessor;
+      fs.writeFileSync(abs(SUPERSESSION), `${JSON.stringify(supersession, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a launch-safe terminal family keeps a sellable track",
+    expect: "retirement_is_backed_by_the_determination",
+    apply: () => {
+      // Launch-safe means nothing can reach it. A track that can still sell,
+      // charge or serve a public packet is the one condition that makes the
+      // exclusion false, so it must not survive.
+      const register = readJson(REGISTER);
+      const record = (register.records ?? []).find((r) => r.launchSafelyTerminal === true && (r.affectedTracks ?? []).length > 0);
+      if (!record) throw new Error("launch-safe mutation found no launch-safely-terminal record carrying a track");
+      record.affectedTracks[0].sellable = true;
+      fs.writeFileSync(abs(REGISTER), `${JSON.stringify(register, null, 2)}\n`);
+      const audit = readJson(AUDIT);
+      const family = (audit.families ?? []).find((f) => (record.familyIds ?? []).includes(f.familyId));
+      if (!family) throw new Error("launch-safe mutation: the record's family is not in the artifact audit");
+      family.retired = true;
+      fs.writeFileSync(abs(AUDIT), `${JSON.stringify(audit, null, 2)}\n`);
+    }
+  },
+  {
+    name: "the only historical reference to a retained evidence image is removed",
+    expect: "no_orphaned_evidence_images",
+    extraTargets: [HISTORICAL_EVIDENCE_INDEX],
+    apply: () => {
+      // The historical state is not a blanket exemption. An image kept because
+      // an immutable review record points at it must become a true orphan the
+      // moment nothing points at it — otherwise "historical" would be a way to
+      // retain anything at all.
+      const text = fs.readFileSync(abs(HISTORICAL_EVIDENCE_INDEX), "utf8");
+      if (!text.includes(HISTORICAL_ONLY_IMAGE)) {
+        throw new Error(`${HISTORICAL_EVIDENCE_INDEX} does not name ${HISTORICAL_ONLY_IMAGE}; a mutation that cannot apply is not evidence`);
+      }
+      fs.writeFileSync(abs(HISTORICAL_EVIDENCE_INDEX), text.replaceAll(HISTORICAL_ONLY_IMAGE, "redacted-by-mutation.png"));
+    }
+  },
+  {
+    name: "the protected-location refusal is stripped from the street-address descriptor",
+    expect: "protected_location_is_not_a_street_address",
+    apply: () => {
+      // Only the location and third-party clauses go; the email clause stays.
+      // That separates this control from the email one — if stripping half the
+      // refusal still turned only the email check red, the location half would
+      // be unguarded.
+      const lines = fs.readFileSync(abs(SEMANTICS), "utf8").split("\n");
+      const i = lines.findIndex((l) => l.includes("participant.street_address") && l.includes("factId"));
+      if (i < 0) throw new Error("protected-location mutation could not find the street-address descriptor");
+      const stripped = lines[i].replace(/refuseWhen:\s*\/(?:\\.|\[[^\]]*\]|[^/\\])+\//, "refuseWhen: /\\be[-\\s]?mail\\b/");
+      if (stripped === lines[i]) throw new Error("protected-location mutation rewrote no refuseWhen clause");
+      lines[i] = stripped;
+      fs.writeFileSync(abs(SEMANTICS), lines.join("\n"));
     }
   },
   {
@@ -1548,41 +2141,125 @@ for (const testCase of CASES) {
 // again, because no correction can clear a flag that only a release decision
 // clears.
 async function runReleaseHoldNegativeControl() {
-  const dir = (() => {
+  /**
+   * Tested at the layer that decides it, not through the generator.
+   *
+   * This used to add a release hold, shell out to
+   * generate-rcap-problematic-pdf-register.mjs, and compare the approved
+   * population before and after. That put a semantic property behind
+   * authoritative generation, which correctly refuses to write without the
+   * authorized private corpus mounted -- so in corpus-free CI the control did
+   * not fail its property, it crashed trying to regenerate. Relaxing the
+   * generator to make the control run would have traded a real source-safety
+   * guarantee for a test convenience.
+   *
+   * platformReadyVerdict is where the decision actually lives, and it needs no
+   * private bytes: it reads the committed overlay profile and the canonical
+   * review records. The property is asserted directly on it -- an approved
+   * family stays approved when a global release hold is added, and stops being
+   * approved when its approval is removed.
+   */
+  const { platformReadyVerdict } = await import(pathToFileURL(abs("scripts/rcap-official-forms/rcap-platform-ready.mjs")).href);
+
+  const REVIEWS_DIR = abs("data/rcap-all50/pdf-independent-reviews");
+  const corpusRoots = [
+    process.env.OFFICIAL_FORMS_SOURCE_DIR || null,
+    abs("private/source-imports"),
+    abs("private/Nationwide Record Clearing")
+  ].filter((candidate) => candidate && fs.existsSync(candidate));
+
+  const verdictFor = (familyIds, artifacts) => platformReadyVerdict({
+    overlayDir: abs(OVERLAY_DIR),
+    reviewsDir: REVIEWS_DIR,
+    rootDir,
+    corpusRoots,
+    familyIds,
+    artifacts
+  });
+
+  // An approved family, taken from the register rather than a hardcoded name or
+  // count, so the control follows the corpus instead of a remembered snapshot.
+  const register = readJson(REGISTER);
+  const approved = (register.platformReady ?? [])[0] ?? null;
+  if (!approved) throw new Error("the release-hold control has no approved family to hold anything back from");
+  const familyIds = approved.familyIds ?? [];
+  // The helper is handed the audit's PRESENT artifact rows, exactly as the
+  // master-list generator hands them over. Passing the approval's relative
+  // paths instead would ask it to judge finality from strings it cannot read.
+  const auditFamilies = readJson(AUDIT)?.families ?? [];
+  const artifacts = auditFamilies
+    .filter((family) => familyIds.includes(family.familyId))
+    .flatMap((family) => (family.artifacts ?? []).filter((artifact) => artifact.present));
+  if (artifacts.length === 0) throw new Error(`the release-hold control found no present audited artifact for ${familyIds.join(", ")}`);
+
+  // The family's own source record, which is where a release hold is written.
+  const packageDir = (() => {
+    const slugs = familyIds.map((id) => (id.includes(":") ? id.split(":")[1] : id));
     for (const state of fs.readdirSync(abs(OVERLAY_DIR))) {
-      const statePath = path.join(abs(OVERLAY_DIR), state);
-      if (!fs.statSync(statePath).isDirectory()) continue;
-      for (const family of fs.readdirSync(statePath)) {
-        const profilePath = path.join(statePath, family, "overlay-profile.json");
-        if (!fs.existsSync(profilePath)) continue;
-        let parsed;
-        try { parsed = JSON.parse(fs.readFileSync(profilePath, "utf8")); } catch { continue; }
-        if (parsed.independentReview?.verdict === "approved_for_platform_ready") return path.join(statePath, family);
+      for (const slug of slugs) {
+        const candidate = path.join(OVERLAY_DIR, state, slug);
+        if (fs.existsSync(abs(path.join(candidate, "source-record.json")))) return candidate;
       }
     }
     return null;
   })();
-  if (!dir) throw new Error("no platform_ready family package to run the release-hold control against");
+  if (!packageDir) throw new Error(`the release-hold control found no package for ${familyIds.join(", ")}`);
+  const sourcePath = path.join(packageDir, "source-record.json");
 
-  const sourcePath = path.join(dir, "source-record.json");
-  const original = fs.readFileSync(sourcePath, "utf8");
-  try {
-    const record = JSON.parse(original);
+  const baseline = verdictFor(familyIds, artifacts);
+
+  // The hold is really written and the verdict really recomputed. Calling the
+  // helper twice with identical inputs would assert nothing at all -- it would
+  // pass against a helper that read the hold and acted on it, because the hold
+  // would never have been there.
+  let held = null;
+  await withTrackedMutation("release-hold negative control", [sourcePath], async () => {
+    const record = readJson(sourcePath);
     record.productionHolds = [...new Set([...(record.productionHolds ?? []), "nationwide_launch_not_authorized"])];
-    fs.writeFileSync(sourcePath, `${JSON.stringify(record, null, 2)}\n`);
-    execFileSync("node", ["scripts/generate-rcap-problematic-pdf-register.mjs"], { cwd: rootDir, stdio: "ignore" });
-    const register = readJson(REGISTER);
-    const stillReady = (register.platformReady ?? []).length;
-    if (stillReady !== 1) {
-      console.error(`MISSED  a global release hold alone reclassified an approved asset (platformReady is now ${stillReady})`);
-      return false;
-    }
-    console.log("held    a global release hold alone does NOT make a technically approved asset problematic");
-    return true;
-  } finally {
-    fs.writeFileSync(sourcePath, original);
-    execFileSync("node", ["scripts/generate-rcap-problematic-pdf-register.mjs"], { cwd: rootDir, stdio: "ignore" });
+    fs.writeFileSync(abs(sourcePath), `${JSON.stringify(record, null, 2)}\n`);
+    held = verdictFor(familyIds, artifacts);
+  });
+
+  if (held.approved !== baseline.approved || held.channel !== baseline.channel || held.reason !== baseline.reason) {
+    console.error(
+      `MISSED  a global release hold alone changed the canonical verdict for ${familyIds.join(", ")} `
+      + `(approved ${baseline.approved} -> ${held.approved}, channel ${baseline.channel} -> ${held.channel})`
+    );
+    return false;
   }
+
+  /**
+   * The second half of the control needs the corpus, and says so.
+   *
+   * platformReadyVerdict's review-record channel compares the reviewed source
+   * SHA against real bytes, so without the authorized corpus it refuses at
+   * condition 3 before it ever looks at an artifact -- and then every input
+   * produces the same refusal, which makes a discrimination test impossible
+   * rather than merely inconvenient. Reporting that plainly is the honest
+   * outcome; claiming the control discriminated when it could not would be the
+   * failure mode this whole suite exists to prevent.
+   */
+  if (!baseline.approved) {
+    console.log(
+      `held    a global release hold alone does NOT change the canonical platform-ready verdict `
+      + `(${familyIds.join(", ")}); discrimination not evaluated here because the verdict already refuses `
+      + `without the authorized corpus: ${baseline.reason}`
+    );
+    return true;
+  }
+
+  const withoutApproval = verdictFor(familyIds, []);
+  if (withoutApproval.approved) {
+    console.error(`MISSED  the canonical verdict still approves ${familyIds.join(", ")} with no approved artifact named`);
+    return false;
+  }
+
+  console.log(
+    `held    a global release hold alone does NOT change the canonical platform-ready verdict `
+    + `(${familyIds.join(", ")}, channel ${baseline.channel}), and removing the approval still refuses`
+  );
+  return true;
+
 }
 
 // The tree must be exactly as it was: the guard restores from its journal, and

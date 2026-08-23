@@ -30,137 +30,234 @@
     {
       "field": "address",
       "class": "participant",
-      "factId": "participant.street_address"
+      "factId": "participant.street_address",
+      "factBasis": "field_name",
+      "effectiveLabel": "Address"
     },
     {
       "field": "caseName",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "documents to you at this email address"
     },
     {
       "field": "partyNames",
       "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "caseNo",
-      "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "Party Names"
     },
     {
       "field": "name",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "Address"
+    },
+    {
+      "field": "caseNo",
+      "class": "participant",
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": "Case Name: Case No"
     },
     {
       "field": "dayPhone",
       "class": "participant",
-      "factId": "participant.phone"
+      "factId": "participant.phone",
+      "factBasis": "field_name",
+      "effectiveLabel": "Email*: Daytime Phone"
     },
     {
       "field": "email",
       "class": "participant",
-      "factId": "participant.email"
-    },
-    {
-      "field": "certDate",
-      "class": "deterministic",
-      "factId": "deterministic.filing_date"
+      "factId": "participant.email",
+      "factBasis": "field_name",
+      "effectiveLabel": "Address"
     }
   ],
   "bindingRefusals": [
     {
       "field": "Group1",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "Check Box1",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "Check Box2",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "documents",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Check Box3",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "dateHearing",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Check Box4",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "audioRecording",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Check Box5",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "transcript",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "confidentialBecause",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "certDate",
+      "reason": "protected_category",
+      "category": "service_block",
+      "regionHeading": null
     },
     {
       "field": "time2",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "service_block",
+      "regionHeading": null
     },
     {
       "field": "mail",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "hd",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "tf",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "emailCB",
-      "reason": "non_text_field_type",
-      "category": "type_guard"
+      "reason": "protected_category",
+      "category": "service_block",
+      "regionHeading": null
     },
     {
       "field": "needText1",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "signature0",
       "reason": "protected_category",
-      "category": "signature"
+      "category": "signature",
+      "regionHeading": null
     }
   ],
   "unwritableFields": [
+    {
+      "field": "Group1",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box1",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box2",
+      "class": "manual"
+    },
+    {
+      "field": "documents",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box3",
+      "class": "manual"
+    },
+    {
+      "field": "dateHearing",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box4",
+      "class": "manual"
+    },
+    {
+      "field": "audioRecording",
+      "class": "manual"
+    },
+    {
+      "field": "Check Box5",
+      "class": "manual"
+    },
+    {
+      "field": "transcript",
+      "class": "manual"
+    },
+    {
+      "field": "confidentialBecause",
+      "class": "manual"
+    },
+    {
+      "field": "time2",
+      "class": "manual"
+    },
+    {
+      "field": "mail",
+      "class": "manual"
+    },
+    {
+      "field": "hd",
+      "class": "manual"
+    },
+    {
+      "field": "tf",
+      "class": "manual"
+    },
+    {
+      "field": "needText1",
+      "class": "manual"
+    },
     {
       "field": "signature0",
       "class": "signature"

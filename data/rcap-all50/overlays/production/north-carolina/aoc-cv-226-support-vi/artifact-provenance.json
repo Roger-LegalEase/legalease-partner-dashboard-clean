@@ -1,48 +1,78 @@
 {
-  "schemaVersion": "rcap-artifact-provenance/v1",
-  "purpose": "External provenance for finalized participant artifacts. The PDF Info dictionary carries the court's metadata, not ours, so nothing here may be inferred from it and no staleness check may depend on a Producer stamp.",
-  "jurisdiction": "NC",
-  "assetId": "AOC-CV-226",
-  "documentId": "AOC-CV-226",
-  "formFamily": null,
-  "officialFormNumber": null,
-  "officialTitle": null,
-  "sourcePublisher": null,
-  "sourceUrl": null,
-  "sourceRevision": "REV-2021-06",
-  "sourceSha256": "76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a",
-  "sourceMetadataFingerprint": null,
-  "fieldMapSha256": "40a958a1eba89707bc66c37131db2c0994867190450646f19803e31cf09f9cdc",
-  "classificationSha256": null,
-  "packetSpecSha256": null,
-  "factoryVersion": "d0-remediated-v2-content-stream-geometry",
-  "rendererVersion": "implement-rcap-official-forms-d1/v2-provenance-sidecar",
-  "generatedAt": "2026-08-19T00:00:00.000Z",
-  "activeContentResult": null,
-  "flatteningResult": null,
-  "protectedFieldResult": null,
-  "fixtureIdentity": null,
-  "artifacts": [
+  "schemaVersion": "rcap-terminal-provenance/v1",
+  "purpose": "Provenance for a family whose terminal disposition correctly produces no participant artifact. The absence is the outcome, not a gap: no artifact digest is manufactured, and this record must never be read as one describing a document.",
+  "implementationFreezeSha": "f34fe99d8760805eef219c4014664a87f6e90e50",
+  "captainCoordinationHead": "513b9ce35df005af956781ce4e05c5a400806478",
+  "sourcePack": "pdf-finish-final-evidence",
+  "familyId": "NC:aoc-cv-226-support-vi",
+  "disposition": "reference_only",
+  "canonicalTerminalDisposition": "reference_only",
+  "artifactExpected": false,
+  "sourceIdentity": {
+    "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/04_SUPPORTING_PROCESS/NC__SUPPORT__AOC-CV-226__aoc-cv-226-affidavit-of-indigency__REV-2021-06__VI.pdf",
+    "sha256": "76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a",
+    "byteLength": 328157,
+    "hashedFromInstalledBytes": true,
+    "matchesImplementationFreeze": true,
+    "sourcePack": "pdf-finish-final-evidence",
+    "sourceUrl": null
+  },
+  "packageIdentity": {
+    "sourceRecordSha256": "130053688c02fbb74d71b41772009f063b12f2e7f4d999fda8ee2bc15288b2c3",
+    "sourceReceiptSha256": "e6a0be2c0b19fa2282a0b4401609d31ff1accba422ce4f4c19631654e5ef688d",
+    "maps": [
+      {
+        "file": "overlay-profile.json",
+        "sha256": "f428af4264b88563846ceb7090e3e442192308ca5a8fb7d00ec8b5f978687391",
+        "schemaVersion": "rcap-flat_overlay-map/v5"
+      }
+    ],
+    "fieldCensusSha256": "75582bae85961510d09bc04ac225f5622e36303c256a859ee5922d55856b64a2",
+    "fieldClassificationSha256": "beacf1fdaa5ba09285feb65d10316f6a88bd591ce973b360ffc2ff7044f0491f",
+    "familyLocalProofs": []
+  },
+  "classification": {
+    "schemaVersion": "rcap-field-classification/v4-nine-class",
+    "documentOwnership": "participant_completed",
+    "denominator": null,
+    "discoveredFieldsOrAnchors": null,
+    "classifiedFieldsOrAnchors": null,
+    "countersPresent": false,
+    "complete": null,
+    "classCounts": {},
+    "classCountsTotal": 0,
+    "entries": 0
+  },
+  "freezeBinding": [
     {
-      "artifact": "fixtures/canonical-filled.pdf",
-      "outputSha256": "db2f2cb441c8fb6fe093287ff748f83430bdbf8d5bf6a5057d9a98d1ddf21682",
-      "normalizedContentSha256": "3dcd2448be6d68713bb98f01b55bfe0efdb7ba81c32439fa8c2894cf588c74b4",
-      "byteLength": 322069,
-      "pageCount": 4
+      "file": "source-record.json",
+      "frozenSha256": "130053688c02fbb74d71b41772009f063b12f2e7f4d999fda8ee2bc15288b2c3",
+      "onDiskSha256": "130053688c02fbb74d71b41772009f063b12f2e7f4d999fda8ee2bc15288b2c3"
     },
     {
-      "artifact": "fixtures/boundary-filled.pdf",
-      "outputSha256": "fadf290e340d14eb0841b0753f0b3e8874eb7b48ffa39486497e44b58295e35d",
-      "normalizedContentSha256": "e7982e8dac75691c33d4b2cbd2ba11b0e40f50a6f4f0b89ca6e9c3a0f6ad37f0",
-      "byteLength": 322092,
-      "pageCount": 4
+      "file": "field-census.json",
+      "frozenSha256": "75582bae85961510d09bc04ac225f5622e36303c256a859ee5922d55856b64a2",
+      "onDiskSha256": "75582bae85961510d09bc04ac225f5622e36303c256a859ee5922d55856b64a2"
     },
     {
-      "artifact": "contact-sheet/blank-vs-filled.pdf",
-      "outputSha256": "87548340e2bf60451d0263e88202d3f96310e42ca117eb31b5de4ef6d87bfa1f",
-      "normalizedContentSha256": "9d862e576cd2e626521e4fe2ac8bf109efab6cb0f32a341e34c0da2159f36ffe",
-      "byteLength": 1872616,
-      "pageCount": 4
+      "file": "field-classification.json",
+      "frozenSha256": "beacf1fdaa5ba09285feb65d10316f6a88bd591ce973b360ffc2ff7044f0491f",
+      "onDiskSha256": "beacf1fdaa5ba09285feb65d10316f6a88bd591ce973b360ffc2ff7044f0491f"
+    },
+    {
+      "file": "overlay-profile.json",
+      "frozenSha256": "f428af4264b88563846ceb7090e3e442192308ca5a8fb7d00ec8b5f978687391",
+      "onDiskSha256": "f428af4264b88563846ceb7090e3e442192308ca5a8fb7d00ec8b5f978687391"
     }
-  ]
+  ],
+  "terminalState": {
+    "disposition": "reference_only",
+    "documentRole": "AFFIDAVIT",
+    "language": "VI",
+    "participantFillable": false,
+    "referenceOnlyNotice": "the court's own printed notice on this translation: NOTE: THIS FORM IS FOR INFORMATIONAL PURPOSES ONLY. DO NOT COMPLETE THIS FORM FOR FILING. USE THE ENGLISH",
+    "participantArtifacts": 0
+  },
+  "generatedAt": "2026-08-22T00:00:00.000Z",
+  "artifacts": []
 }

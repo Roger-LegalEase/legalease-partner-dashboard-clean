@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-group/v1",
+  "batch": "wave-c-final-b-r2",
+  "group": 1,
+  "reviewDate": "2026-08-21",
+  "reviewerBranch": "claude/gate-b-wave-c-review-zr5151",
+  "reviewedLaneBranch": "claude/rcap-classification-completeness-iei2sc",
+  "reviewedLaneHead": "65cf3c9c3af01f6b94bf403f31f1010af81145ab",
+  "headline": "Metadata-only reapproval. The P0 wave gave field-classification.json the denominator it never carried; entries, classCounts and every artifact byte are untouched, and the counters equal the canonical census exactly. Both NC approvals are re-issued against the same bytes with the moved classification and sidecar hashes repinned.",
+  "visualReviewRepeated": false,
+  "verdicts": [
+    {
+      "family": "NC:aoc-cr-287-form-en",
+      "jurisdiction": "NC",
+      "verdict": "approved_platform_ready",
+      "asset": "fixtures/canonical-filled.pdf",
+      "openCorrections": 0,
+      "reapprovalBasis": "metadata_only_classification_completeness_repin",
+      "observed": "The P0 wave adds four keys to field-classification.json \u2014 discoveredFieldsOrAnchors, classifiedFieldsOrAnchors, complete and denominatorBasis \u2014 and repins the sidecar's classificationSha256 to match. Nothing else moved. entries and classCounts are byte-identical to the reviewed base, no key was removed or altered, and the counters equal the canonical census exactly: 119 of 119, matching both census fields[] and the declared fieldCount. Source, field map, both fixtures, the contact sheet and every all-page raster hash to the same bytes reviewed at b3e3e98a, with the source SHA recomputed from the official bytes under RCAP_BUNDLE_EXTRACT rather than read from a receipt.",
+      "independentlyVerified": {
+        "sourceHashUnchanged": true,
+        "artifactHashesUnchanged": true,
+        "mapHashUnchanged": true,
+        "visualEvidenceHashesUnchanged": true,
+        "classificationEntriesUnchanged": true,
+        "classCountsUnchanged": true,
+        "countersEqualCanonicalCensus": true,
+        "sidecarPinsNewClassificationHash": true,
+        "sidecarChangedOnlyClassificationSha256": true,
+        "sidecarStillPinsCurrentArtifactBytes": true,
+        "noHistoricalCorrectionReopened": true
+      },
+      "visualReviewRepeated": false,
+      "visualReviewBasis": "not repeated, and not required: no artifact or raster byte changed, so the pages reviewed at b3e3e98a are the pages this record approves.",
+      "whatIsCorrectlyProtected": "Unchanged from b3e3e98a \u2014 court, judge, clerk, prosecutor, attorney, agency, service, signature, notarization and decision regions blank on every page; page 2 word-for-word identical to the blank rendering.",
+      "artifactSafety": "Flattened; zero AcroForm fields, no XFA, no JavaScript, no OpenAction or additional actions.",
+      "advisoriesCarriedForward": [
+        "WCB-B-REGION-ATTRIBUTION",
+        "WCB-B-OVERFLOW-SILENT-OMISSION",
+        "WCB-B-287-LABEL-MOJIBAKE"
+      ],
+      "advisoryNote": "Recorded in the shard record at b3e3e98a and unchanged by this wave. None is a family blocker."
+    },
+    {
+      "family": "NC:aoc-cr-288-form-en",
+      "jurisdiction": "NC",
+      "verdict": "approved_platform_ready",
+      "asset": "fixtures/canonical-filled.pdf",
+      "openCorrections": 0,
+      "reapprovalBasis": "metadata_only_classification_completeness_repin",
+      "observed": "The P0 wave adds four keys to field-classification.json \u2014 discoveredFieldsOrAnchors, classifiedFieldsOrAnchors, complete and denominatorBasis \u2014 and repins the sidecar's classificationSha256 to match. Nothing else moved. entries and classCounts are byte-identical to the reviewed base, no key was removed or altered, and the counters equal the canonical census exactly: 128 of 128, matching both census fields[] and the declared fieldCount. Source, field map, both fixtures, the contact sheet and every all-page raster hash to the same bytes reviewed at b3e3e98a, with the source SHA recomputed from the official bytes under RCAP_BUNDLE_EXTRACT rather than read from a receipt.",
+      "independentlyVerified": {
+        "sourceHashUnchanged": true,
+        "artifactHashesUnchanged": true,
+        "mapHashUnchanged": true,
+        "visualEvidenceHashesUnchanged": true,
+        "classificationEntriesUnchanged": true,
+        "classCountsUnchanged": true,
+        "countersEqualCanonicalCensus": true,
+        "sidecarPinsNewClassificationHash": true,
+        "sidecarChangedOnlyClassificationSha256": true,
+        "sidecarStillPinsCurrentArtifactBytes": true,
+        "noHistoricalCorrectionReopened": true
+      },
+      "visualReviewRepeated": false,
+      "visualReviewBasis": "not repeated, and not required: no artifact or raster byte changed, so the pages reviewed at b3e3e98a are the pages this record approves.",
+      "whatIsCorrectlyProtected": "Unchanged from b3e3e98a \u2014 court, judge, clerk, prosecutor, attorney, agency, service, signature, notarization and decision regions blank on every page; page 2 word-for-word identical to the blank rendering.",
+      "artifactSafety": "Flattened; zero AcroForm fields, no XFA, no JavaScript, no OpenAction or additional actions.",
+      "advisoriesCarriedForward": [
+        "WCB-B-REGION-ATTRIBUTION",
+        "WCB-B-OVERFLOW-SILENT-OMISSION"
+      ],
+      "advisoryNote": "Recorded in the shard record at b3e3e98a and unchanged by this wave. None is a family blocker."
+    }
+  ]
+}

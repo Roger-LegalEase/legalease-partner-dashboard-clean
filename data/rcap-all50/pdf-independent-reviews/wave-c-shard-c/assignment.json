@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "rcap-independent-review-assignment/v1",
+  "wave": "C",
+  "shardName": "c",
+  "shardIndex": 2,
+  "reviewer": "independent-reviewer-wave-c-shard-c",
+  "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "headAtAssignment": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "reviewerBranch": "claude/epic-newton-022oud",
+  "reviewedBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewerBranchDistinctFromReviewedBranch": true,
+  "denominatorDerivation": {
+    "sourceRecords": [
+      "data/rcap-all50/pdf-independent-reviews/gate-b-family-rerender-evidence.json",
+      "data/rcap-all50/pdf-independent-reviews/gate-b-evidence-completion.json"
+    ],
+    "criteriaAppliedAgainstDisk": [
+      "current source binary present and hash-matched (verified for the four assigned families from the shard-c reviewer source pack; not verifiable for the other twelve, whose sources this pack does not carry)",
+      "current finalized artifact hash present and recomputed-equal on disk",
+      "all-page evidence package present",
+      "every relevant artifact page rasterized",
+      "raster manifest bound to the current artifact hash and each raster recomputed-equal",
+      "provenance sidecar recomputed-equal and satisfying the 24-field canonical contract with no null field",
+      "not NE DC-1-15"
+    ],
+    "criterionNotIndependentlyVerifiable": {
+      "criterion": "corpus-wide inventory counts (499 source-library files, 329 PDFs)",
+      "why": "the shard-c reviewer source pack carries only the four PDFs assigned to this shard; it is not the full Master Library",
+      "consequence": "reported as a standing gate-level blocker, not as a family defect. Every source this shard actually reviews is verified from bytes."
+    },
+    "familiesQualifying": 16,
+    "heldBackByTheImplementationLane": [
+      "NE:dc-1-15-form-en"
+    ]
+  },
+  "frozenFamilyIds": [
+    "AK:tf-800-form-en",
+    "AK:tf-805-form-en",
+    "KY:aoc-334-form-en",
+    "KY:aoc-496-3-form-en",
+    "NC:aoc-cr-287-form-en",
+    "NC:aoc-cr-288-form-en",
+    "NC:aoc-cr-296-form-en",
+    "NC:aoc-cr-298-form-en",
+    "NC:aoc-cv-226-support-en",
+    "NE:cc-6-11-2-form-en",
+    "NE:cc-6-11-form-en",
+    "NE:cc-6-12-form-en",
+    "NE:cc-6-15-1-form-en",
+    "VA:cc-1201-form-en",
+    "VA:cc-1473-form-en",
+    "VT:600-00228-support-en"
+  ],
+  "sliceRule": {
+    "start": 8,
+    "end": 12,
+    "sort": "lexicographic on canonical family id"
+  },
+  "assignedFamilies": [
+    "NC:aoc-cv-226-support-en",
+    "NE:cc-6-11-2-form-en",
+    "NE:cc-6-11-form-en",
+    "NE:cc-6-12-form-en"
+  ],
+  "assignedCount": 4,
+  "overlapChecks": {
+    "wave-c-shard-a_slice": [
+      "AK:tf-800-form-en",
+      "AK:tf-805-form-en",
+      "KY:aoc-334-form-en",
+      "KY:aoc-496-3-form-en"
+    ],
+    "wave-c-shard-b_slice": [
+      "NC:aoc-cr-287-form-en",
+      "NC:aoc-cr-288-form-en",
+      "NC:aoc-cr-296-form-en",
+      "NC:aoc-cr-298-form-en"
+    ],
+    "wave-c-shard-d_slice": [
+      "NE:cc-6-15-1-form-en",
+      "VA:cc-1201-form-en",
+      "VA:cc-1473-form-en",
+      "VT:600-00228-support-en"
+    ],
+    "overlapWithOtherShards": [],
+    "includesNeDc115": false
+  },
+  "scope": {
+    "reviewOnly": true,
+    "writablePaths": [
+      "data/rcap-all50/pdf-independent-reviews/wave-c-shard-c/",
+      "docs/record-clearing/pdf-independent-reviews/wave-c-shard-c/"
+    ]
+  },
+  "sourceCorpus": {
+    "installedAt": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "pack": "rcap-wave-c-review-source-pack/v1 shard c",
+    "packSha256": "48a551b1a7ffa5e1e5412385b746dad1f67bb125c1a3dd488c1c41dbcb127326",
+    "pdfCount": 4,
+    "gitignored": true,
+    "committed": false,
+    "proofMethod": "each source SHA-256 recomputed from bytes and compared against the family's own source-record.json, source-receipt.json, artifact-provenance.json and the digest embedded in the sidecar sourceUrl; the pack manifest was not used as proof"
+  }
+}

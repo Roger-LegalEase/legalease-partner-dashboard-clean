@@ -1,0 +1,365 @@
+{
+  "schemaVersion": "rcap-gate-b-dispatch-package/v1",
+  "generatedBy": "scripts/generate-rcap-gate-b-dispatch-package.mjs",
+  "reviewedHead": "ea1a16b6358086c3c24fbd66e2fd005173d3ad87",
+  "evidenceGeneratedFrom": "scripts/generate-rcap-gate-b-evidence-completion.mjs",
+  "notAnApproval": "No verdict is issued here. Every family below is a re-review candidate. The reviewer records at the reviewed head remain the current verdicts until a reviewer issues new ones against the new bytes.",
+  "theBlockerThisLaneCannotClear": "Four families -- AK TF-800, AK TF-805, NC AOC-CR-287 and NC AOC-CR-298 -- were refused for one reason only: the reviewer could not recompute the official source SHA-256, because the Master Library extract is absent from the reviewer's clone. That is an environment fact, not a defect in any artifact. The corpus is mounted in this lane's container and all four sources hash to their pinned values there, but the reviewer must recompute it in their own clone, and no commit in this repository can carry the corpus bytes to them.",
+  "totals": {
+    "familiesReviewed": 8,
+    "approvalsAtTheReviewedHead": 0,
+    "objectionsCorrectedInThisWave": 5,
+    "objectionsStillOpen": 4,
+    "familiesBlockedOnlyByTheSourceMount": 3,
+    "familiesReadyForReReview": 5,
+    "familiesAwaitingAnOwnerDecision": 1
+  },
+  "families": [
+    {
+      "familyId": "AK:tf-800-form-en",
+      "reviewedVerdict": "correction_required",
+      "objections": [
+        {
+          "finding": "A-SOURCE-BYTES-ABSENT",
+          "status": "outside_this_lane",
+          "what": "the reviewer could not recompute the official source SHA-256, because the Master Library extract is not mounted in the reviewer's clone",
+          "closedBy": null,
+          "provenBy": null,
+          "remains": "the reviewer needs RCAP_BUNDLE_EXTRACT set to a mounted Edition 1 extract; this repository cannot carry the corpus bytes"
+        }
+      ],
+      "correctedInThisWave": 0,
+      "stillOpen": 0,
+      "blockedOutsideThisLane": 1,
+      "evidenceAtThisHead": {
+        "pagesCarryingFields": [
+          1,
+          2,
+          3
+        ],
+        "pagesRasterised": [
+          1,
+          2,
+          3
+        ],
+        "rasterCoverageComplete": true,
+        "placementClean": true,
+        "artifactSha256": {
+          "fixtures/canonical-filled.pdf": "de4d5014a0d9934c9b256959b7947ee0acbffb67eab2e8099f0d614276b1b807",
+          "fixtures/boundary-filled.pdf": "931ef62a7cf75a0a6e1597e3bab78987fbc86aaf9a1a1bf30a6e19dbff3f6287",
+          "contact-sheet/blank-vs-filled.pdf": "dd7b228ac0400cb6abfd618b595fbe095edaeb92b52778f5ebe3fa63a9768a23"
+        },
+        "sidecarFields": 24,
+        "readyForIndependentReview": true
+      },
+      "readyForReReview": true
+    },
+    {
+      "familyId": "AK:tf-805-form-en",
+      "reviewedVerdict": "correction_required",
+      "objections": [
+        {
+          "finding": "A-SOURCE-BYTES-ABSENT",
+          "status": "outside_this_lane",
+          "what": "the official source SHA-256 could not be recomputed from bytes",
+          "closedBy": null,
+          "provenBy": null,
+          "remains": "same mount; no artifact, map, classification or sidecar change was requested or made"
+        }
+      ],
+      "correctedInThisWave": 0,
+      "stillOpen": 0,
+      "blockedOutsideThisLane": 1,
+      "evidenceAtThisHead": {
+        "pagesCarryingFields": [
+          1,
+          2
+        ],
+        "pagesRasterised": [
+          1,
+          2
+        ],
+        "rasterCoverageComplete": true,
+        "placementClean": true,
+        "artifactSha256": {
+          "fixtures/canonical-filled.pdf": "d8bdd48265050a708de1c59411f58da7c02bb34ef2110cd1e13657d805d37a5a",
+          "fixtures/boundary-filled.pdf": "0c29b6b481d971497d8a7446aa0cdc818a724a941a60484ed25b53d48c83f949",
+          "contact-sheet/blank-vs-filled.pdf": "9e30b4beea7a121f9c7d51f3f748f1c7b50aa95d4e0accb9891f0bd67b2f837d"
+        },
+        "sidecarFields": 24,
+        "readyForIndependentReview": true
+      },
+      "readyForReReview": true
+    },
+    {
+      "familyId": "KY:aoc-334-form-en",
+      "reviewedVerdict": "correction_required",
+      "objections": [
+        {
+          "finding": "A-KY334-UNDECLARED-WRITES",
+          "status": "corrected",
+          "what": "the artifact drew 7 values against a map declaring 5: the case number into `Court` and the participant's name onto the rule captioned `Date`, both recorded unwritable in the family's own map",
+          "closedBy": "the renderer is now given the role refusals the map records and applies them before any name match, and the family was re-rendered",
+          "provenBy": "controls C2 and C3 reproduce both writes from the bytes at the reviewed head and require the contract to refuse them; the placement audit at this head reports no protected-slot finding for this family",
+          "remains": null
+        },
+        {
+          "finding": "A-X3-NEVER-WRITE-COVERS-ONLY-MANUAL",
+          "status": "corrected",
+          "what": "field `Text1` is classified `unused`, which the binder's denylist did not name, and was bound and written",
+          "closedBy": "writable classes are an allowlist of participant, deterministic and participant_writable, mirrored in the verifier",
+          "provenBy": "control C7; `unused`, `not_applicable`, `manual_participant` and `prosecutor_or_outside_party` are all refused by default now",
+          "remains": null
+        },
+        {
+          "finding": "batch-1: ownership typed as participant filing on a court order; revision REV-UNKNOWN; scraped officialTitle; Reset/Print captions flattened into ink",
+          "status": "open",
+          "what": "recorded by the reviewer as open at the reviewed head",
+          "closedBy": null,
+          "provenBy": null,
+          "remains": "source-identity and document-ownership questions this correction wave did not address"
+        }
+      ],
+      "correctedInThisWave": 2,
+      "stillOpen": 1,
+      "blockedOutsideThisLane": 0,
+      "evidenceAtThisHead": {
+        "pagesCarryingFields": [
+          1
+        ],
+        "pagesRasterised": [
+          1
+        ],
+        "rasterCoverageComplete": true,
+        "placementClean": true,
+        "artifactSha256": {
+          "fixtures/canonical-filled.pdf": "d56f10d2f71407fb290808b57cc7eb0adb5fdc66fb31859e8e10815963248247",
+          "fixtures/boundary-filled.pdf": "1eff7f2cc107df77cdc76834627cef7d372cc1ba51627a9da8bae875a0d896ce",
+          "contact-sheet/blank-vs-filled.pdf": "195a356d7e8ab583ef3965519fef5a98b77dd2fa1149eca4bed987f3cd40676a"
+        },
+        "sidecarFields": 24,
+        "readyForIndependentReview": true
+      },
+      "readyForReReview": false
+    },
+    {
+      "familyId": "KY:aoc-496-3-form-en",
+      "reviewedVerdict": "correction_required",
+      "objections": [
+        {
+          "finding": "A-KY4963-COUNTY-DROPPED",
+          "status": "corrected",
+          "what": "the map declares 2 bindings, the artifact draws 1, and the scan reported both numbers and passed: the county dropdown produced nothing and nothing said so",
+          "closedBy": "populated-fields.json records what the renderer did rather than only what the map declared, and the scan reconciles written against declared in both directions",
+          "provenBy": "control C9; this family's scan now records `value_not_among_field_options` against `3 County Dropdown` -- the fixture county is not one of the form's real options -- rather than reporting it populated",
+          "remains": "the binding is still not exercised by any fixture, because selecting a real county would mean putting a county this platform did not choose onto a filed document"
+        },
+        {
+          "finding": "A-KY4963-IDENTITY-UNRECORDED",
+          "status": "open",
+          "what": "revision REV-UNKNOWN with freshnessStatus revision_confirmation_required, and officialTitle is a scraped body fragment",
+          "closedBy": null,
+          "provenBy": null,
+          "remains": "source identity, unaddressed by this wave"
+        }
+      ],
+      "correctedInThisWave": 1,
+      "stillOpen": 1,
+      "blockedOutsideThisLane": 0,
+      "evidenceAtThisHead": {
+        "pagesCarryingFields": [
+          1,
+          2,
+          3
+        ],
+        "pagesRasterised": [
+          1,
+          2,
+          3
+        ],
+        "rasterCoverageComplete": true,
+        "placementClean": true,
+        "artifactSha256": {
+          "fixtures/canonical-filled.pdf": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a",
+          "fixtures/boundary-filled.pdf": "d3344eed7672e3ee8be9a85e15fe5447e91a287dfc1d33837f3587ecae7b7d79",
+          "contact-sheet/blank-vs-filled.pdf": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb"
+        },
+        "sidecarFields": 24,
+        "readyForIndependentReview": true
+      },
+      "readyForReReview": false
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-en",
+      "reviewedVerdict": "correction_required",
+      "objections": [
+        {
+          "finding": "source binary not resolvable",
+          "status": "outside_this_lane",
+          "what": "the reviewed source binary could not be resolved in the reviewer's clone",
+          "closedBy": null,
+          "provenBy": null,
+          "remains": "the same mount blocker as the two Alaska families"
+        }
+      ],
+      "correctedInThisWave": 0,
+      "stillOpen": 0,
+      "blockedOutsideThisLane": 1,
+      "evidenceAtThisHead": {
+        "pagesCarryingFields": [
+          1,
+          2
+        ],
+        "pagesRasterised": [
+          1,
+          2
+        ],
+        "rasterCoverageComplete": true,
+        "placementClean": true,
+        "artifactSha256": {
+          "fixtures/canonical-filled.pdf": "cc44d0a733fcd4a2bc2b501f3e1c3ac2e0a70dc44d82890e79a321a8cd3a0c0d",
+          "fixtures/boundary-filled.pdf": "917280a556e74a14c258e1e333be51597c3ab8c70e6000ec6d79a55bfcd912f2",
+          "contact-sheet/blank-vs-filled.pdf": "8faf419772b2e856724c44237576a0bd06d1d879043e7bd5bb598ad6d59ff1e0"
+        },
+        "sidecarFields": 24,
+        "readyForIndependentReview": true
+      },
+      "readyForReReview": true
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "reviewedVerdict": "correction_required",
+      "objections": [
+        {
+          "finding": "ESC-GEOMETRY-NOT-AN-INPUT (still present)",
+          "status": "corrected",
+          "what": "the petitioner's name was written into `PetitionerIsEligibleBecauseText1`, a field whose widget sits under the printed heading FINDINGS OF FACT on page 2 -- the judge's block",
+          "closedBy": "the region channel consults a heading vocabulary rather than the field-name rules, which match nothing in `FINDINGS OF FACT`; and page 2's topmost heading is no longer suppressed as a document title",
+          "provenBy": "controls C1 and C6; the binder now refuses this field with reason protected_page_region / court",
+          "remains": null
+        },
+        {
+          "finding": "withdraw the false provenAgainstThisFamilysBytes claim",
+          "status": "acknowledged",
+          "what": "the rerender record claimed this escalation proven against this family's bytes and it was not",
+          "closedBy": "the claim is superseded: the check the reviewer said was missing now runs against every family, not just this one",
+          "provenBy": "the placement audit reports 17 of 17 rerendered families clean on every page, measured rather than asserted",
+          "remains": null
+        }
+      ],
+      "correctedInThisWave": 1,
+      "stillOpen": 0,
+      "blockedOutsideThisLane": 0,
+      "evidenceAtThisHead": {
+        "pagesCarryingFields": [
+          1,
+          2
+        ],
+        "pagesRasterised": [
+          1,
+          2
+        ],
+        "rasterCoverageComplete": true,
+        "placementClean": true,
+        "artifactSha256": {
+          "fixtures/canonical-filled.pdf": "a505c3064c1d61c99ffcf74c5ba3a6d3bd59083410a0a5de9468c8f45bb8ae4e",
+          "fixtures/boundary-filled.pdf": "b7f035ab8d10d032457205ee092d3e2ff7758294409f6d24ae29b25bd5cb7a81",
+          "contact-sheet/blank-vs-filled.pdf": "5071453ddc4d16336b7ca74537e9281b4e1f5fd8e33a139194cd2982108b0aa8"
+        },
+        "sidecarFields": 24,
+        "readyForIndependentReview": true
+      },
+      "readyForReReview": true
+    },
+    {
+      "familyId": "NC:aoc-cr-296-form-en",
+      "reviewedVerdict": "substantive_owner_decision_required",
+      "objections": [
+        {
+          "finding": "substantive_owner_decision_required",
+          "status": "owner_decision",
+          "what": "AOC-CR-296 is prosecutor-controlled, and whether it belongs in a participant-completed packet at all is not a technical question",
+          "closedBy": null,
+          "provenBy": null,
+          "remains": "an owner has to decide; the pathway stays sellable only through supported participant-filed documents"
+        },
+        {
+          "finding": "DLState bound to participant.state on a field-name substring match",
+          "status": "open",
+          "what": "the residence state and the state that issued a driver's licence are different facts, and the canonical fixture renders 'XX' in the Drivers License State column",
+          "closedBy": null,
+          "provenBy": null,
+          "remains": "subordinate to the ownership decision, and wrong either way"
+        }
+      ],
+      "correctedInThisWave": 0,
+      "stillOpen": 2,
+      "blockedOutsideThisLane": 0,
+      "evidenceAtThisHead": {
+        "pagesCarryingFields": [
+          1,
+          2
+        ],
+        "pagesRasterised": [
+          1,
+          2
+        ],
+        "rasterCoverageComplete": true,
+        "placementClean": true,
+        "artifactSha256": {
+          "fixtures/canonical-filled.pdf": "13f3068260ae17d8846bc8345ceaa57fa705273ad785bcc418becfa777c00720",
+          "fixtures/boundary-filled.pdf": "aff9db5184b05036230e5f37f447b79558b00dd5a73c0b8fce6583b11f856036",
+          "contact-sheet/blank-vs-filled.pdf": "a12f03576f0914d7c953679222525db96922ffd1a642702a4f1180d8f03c7c7e"
+        },
+        "sidecarFields": 24,
+        "readyForIndependentReview": true
+      },
+      "readyForReReview": false
+    },
+    {
+      "familyId": "NC:aoc-cr-298-form-en",
+      "reviewedVerdict": "correction_required",
+      "objections": [
+        {
+          "finding": "source binary not resolvable",
+          "status": "outside_this_lane",
+          "what": "the reviewed source binary could not be resolved in the reviewer's clone",
+          "closedBy": null,
+          "provenBy": null,
+          "remains": "the same mount blocker"
+        },
+        {
+          "finding": "not raised by any reviewer",
+          "status": "found_by_the_new_contract",
+          "what": "the participant's name was drawn into `NotEligibleReason` on page 2, a field recorded unwritable in this family's own map",
+          "closedBy": "the same role refusal now reaching the renderer",
+          "provenBy": "the placement audit; this defect was invisible to a page-1 raster, which is why no reviewer saw it",
+          "remains": null
+        }
+      ],
+      "correctedInThisWave": 1,
+      "stillOpen": 0,
+      "blockedOutsideThisLane": 1,
+      "evidenceAtThisHead": {
+        "pagesCarryingFields": [
+          1,
+          2
+        ],
+        "pagesRasterised": [
+          1,
+          2
+        ],
+        "rasterCoverageComplete": true,
+        "placementClean": true,
+        "artifactSha256": {
+          "fixtures/canonical-filled.pdf": "9347fb6f136048fd14df03de50655c143cdcbd9eb2c1796b69a33adf3792c4c3",
+          "fixtures/boundary-filled.pdf": "df0df8304c17cde4b0d9385088ab295984af1037fc50aec3437a1d09d8df42a7",
+          "contact-sheet/blank-vs-filled.pdf": "dc5d399811a708c299de8b692f6a67ce7c97e78728903a653f616e95590f9a44"
+        },
+        "sidecarFields": 24,
+        "readyForIndependentReview": true
+      },
+      "readyForReReview": true
+    }
+  ]
+}

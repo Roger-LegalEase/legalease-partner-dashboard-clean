@@ -27,7 +27,9 @@ import { register } from "node:module";
 import { fileURLToPath } from "node:url";
 import { structuralClassesAgree } from "./rcap-official-forms/rcap-structural-class.mjs";
 import { ROOT_CAUSES, rootCause } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
+import { sourceValidationMode, validateAgainstCommittedProof } from "./rcap-official-forms/rcap-source-validation-mode.mjs";
 import { platformReadyVerdict, RELEASE_STATE_HOLDS, REVIEW_REQUIRED_HOLDS } from "./rcap-official-forms/rcap-platform-ready.mjs";
+import { PARTICIPANT_FILL_HOLD, participantFillEvidence } from "./rcap-official-forms/rcap-participant-fill-hold.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -36,6 +38,15 @@ const { resolvePacketRoute } = await import("../src/lib/rcap/documents/packet-ro
 const { terminalTreatmentForTrack } = await import("../src/lib/rcap/documents/guidance-packet-registry.ts");
 
 const OVERLAY_DIR = path.join(rootDir, "data/rcap-all50/overlays/production");
+const REVIEWS_DIR = path.join(rootDir, "data/rcap-all50/pdf-independent-reviews");
+// Where a blank official form could be, if the corpus is mounted. The gate
+// compares a reviewed source SHA against real bytes, so it needs somewhere to
+// look — and an unmounted corpus makes that condition fail rather than pass.
+const CORPUS_ROOTS = [
+  process.env.OFFICIAL_FORMS_SOURCE_DIR || null,
+  path.join(rootDir, "private/source-imports"),
+  path.join(rootDir, "private/Nationwide Record Clearing")
+].filter((candidate) => candidate && fs.existsSync(candidate));
 const LEDGER = path.join(rootDir, "data/rcap-ledger/track-terminalization.json");
 const QUEUE = path.join(rootDir, "data/rcap-all50/review-artifacts/d-track-queue.json");
 const F2 = path.join(rootDir, "data/rcap-all50/review-artifacts/f2-dispositions.json");
@@ -54,6 +65,35 @@ function fail(message) {
   console.error(`FAIL problematic PDF register — ${message}`);
   process.exit(1);
 }
+
+// Which of the three source-validation states this run is in, and what each one
+// permits. See scripts/rcap-official-forms/rcap-source-validation-mode.mjs.
+const SOURCE_MODE = sourceValidationMode();
+
+// A source-empty `--check` validates the promotion proof instead of rederiving
+// outcomes it cannot see. It writes nothing and exits BEFORE the
+// source-dependent generation below, so the false demotion is never computed.
+if (checkOnly && SOURCE_MODE.mode === "committed_promotion_proof") {
+  const problems = validateAgainstCommittedProof(OUT_JSON);
+  console.log("source_validation_mode=committed_promotion_proof");
+  if (problems.length > 0) {
+    console.error(`FAIL problematic PDF register — source-empty validation against the committed promotion proof found ${problems.length} problem(s):`);
+    for (const problem of problems) console.error(` - ${problem}`);
+    process.exit(1);
+  }
+  console.log("OK problematic PDF register — no configured source root is mounted, so the committed register was validated against the source-mounted promotion proof (52 reviewed outcomes, 0 unresolved, denominator 128, retained_problematic 0). No source-dependent outcome was rederived from an empty corpus, and nothing was written.");
+  process.exit(0);
+}
+
+if (SOURCE_MODE.mode === "partial_or_invalid_source_mount") {
+  console.log("source_validation_mode=partial_or_invalid_source_mount");
+  fail(`a source root is mounted but ${SOURCE_MODE.missing.length} reviewed source(s) are not present under it, so neither real source validation nor the source-empty proof path is honest here. First missing: ${SOURCE_MODE.missing.slice(0, 3).join("; ")}`);
+}
+
+if (!checkOnly && SOURCE_MODE.mode !== "mounted_corpus") {
+  fail("refusing to write the register without the authorized source corpus mounted; run with OFFICIAL_FORMS_SOURCE_DIR set, or use --check");
+}
+console.log("source_validation_mode=mounted_corpus");
 
 function readJson(file, fallback = null) {
   if (!fs.existsSync(file)) return fallback;
@@ -187,8 +227,17 @@ function familyDirectories() {
  * with different owners and different acceptance conditions, and collapsing
  * them into "needs work" is how a register stops being useful.
  */
+/**
+ * Families whose participant-fill hold was discharged by measured evidence.
+ *
+ * Recorded so a discharge is auditable per family rather than silently absent
+ * from the register: a hold that vanishes without a record is indistinguishable
+ * from one that was never written.
+ */
+const participantFillHoldsDischarged = [];
+
 function defectsFor(ctx) {
-  const { record, impl, overflow, protectedScan, binary, visualStatus, trackKeys, audit, sheet, rendered } = ctx;
+  const { record, impl, overflow, protectedScan, binary, visualStatus, trackKeys, audit, sheet, rendered, familyPath, familyId } = ctx;
   const defects = [];
   // Every finding names a root cause, and the catalogue decides whether that
   // cause is systemic -- one upstream problem clearing on many assets at once
@@ -224,7 +273,23 @@ function defectsFor(ctx) {
     }
     if (record.generationAllowed === false) add("held_on_source_or_design", "RC-G-GENERATION-NOT-ALLOWED", "Generation from this asset is not allowed by its committed source record.", "source-record.json:generationAllowed");
     for (const hold of record.productionHolds ?? []) {
-      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", typeof hold === "string" ? hold : JSON.stringify(hold), "source-record.json:productionHolds");
+      const text = typeof hold === "string" ? hold : JSON.stringify(hold);
+      // The one hold in this vocabulary that is derived rather than decided.
+      // Its string is carried forward verbatim by later stages that rewrite the
+      // source record, so it outlives the fact it was derived from; every other
+      // hold is somebody's decision and is passed through untouched, which is
+      // what stops this becoming a general way to argue a hold away.
+      if (text === PARTICIPANT_FILL_HOLD && familyPath) {
+        const evidence = participantFillEvidence({ familyPath, record, protectedScan, sheet });
+        if (evidence.proven) {
+          participantFillHoldsDischarged.push({
+            familyId: familyId ?? null, hold: text, evidence,
+            why: "the record's own participantFillable is true and its committed evidence shows a participant fill visible on the finalized page, so the hold contradicts the fact it is derived from"
+          });
+          continue;
+        }
+      }
+      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", text, "source-record.json:productionHolds");
     }
   } else {
     if (record.sourcePresenceInClone === false) add("missing_binary", "RC-S-BUNDLE-ABSENT", `${record.fileName} is expected at ${record.relativePath} and is not present in the clone.`, "source-record.json:sourcePresenceInClone");
@@ -237,7 +302,23 @@ function defectsFor(ctx) {
     // reported on its own terms.
     if (record.failClosed === true) add("held_on_source_or_design", "RC-G-GENERATION-NOT-ALLOWED", "The source record fails closed: no generation is permitted from it in its current state.", "source-record.json:failClosed");
     for (const hold of record.productionHolds ?? []) {
-      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", typeof hold === "string" ? hold : JSON.stringify(hold), "source-record.json:productionHolds");
+      const text = typeof hold === "string" ? hold : JSON.stringify(hold);
+      // The one hold in this vocabulary that is derived rather than decided.
+      // Its string is carried forward verbatim by later stages that rewrite the
+      // source record, so it outlives the fact it was derived from; every other
+      // hold is somebody's decision and is passed through untouched, which is
+      // what stops this becoming a general way to argue a hold away.
+      if (text === PARTICIPANT_FILL_HOLD && familyPath) {
+        const evidence = participantFillEvidence({ familyPath, record, protectedScan, sheet });
+        if (evidence.proven) {
+          participantFillHoldsDischarged.push({
+            familyId: familyId ?? null, hold: text, evidence,
+            why: "the record's own participantFillable is true and its committed evidence shows a participant fill visible on the finalized page, so the hold contradicts the fact it is derived from"
+          });
+          continue;
+        }
+      }
+      add("held_on_source_or_design", "RC-G-PRODUCTION-HOLD", text, "source-record.json:productionHolds");
     }
   }
 
@@ -412,7 +493,7 @@ for (const family of familyDirectories()) {
   const affectedTrackIds = [...new Set([...fromQueue, ...fromRegistry])].sort();
   const trackKeys = affectedTrackIds.map((trackId) => `${ledgerByTrack.get(trackId)?.jurisdiction ?? jurisdiction}:${trackId}`);
 
-  const defects = defectsFor({ record, impl, overflow, protectedScan, binary, visualStatus: visualJobStatusByFamily.get(familyId), trackKeys, audit: auditByFamily.get(familyId) ?? null, sheet: sheetProofByFamily.get(familyId) ?? null, rendered: renderedByFamily.get(familyId) ?? null });
+  const defects = defectsFor({ record, impl, overflow, protectedScan, binary, visualStatus: visualJobStatusByFamily.get(familyId), trackKeys, audit: auditByFamily.get(familyId) ?? null, sheet: sheetProofByFamily.get(familyId) ?? null, rendered: renderedByFamily.get(familyId) ?? null, familyPath: family.familyPath, familyId });
   if (defects.length === 0) continue;
 
   const existing = seen.get(identity);
@@ -561,6 +642,9 @@ const OUTRANKED_BY_APPROVAL = new Set(["never_independently_approved", "visually
 for (const entry of [...records]) {
   const approval = platformReadyVerdict({
     overlayDir: OVERLAY_DIR,
+    reviewsDir: REVIEWS_DIR,
+    rootDir,
+    corpusRoots: CORPUS_ROOTS,
     familyIds: entry.familyIds,
     artifacts: (entry.familyIds ?? []).flatMap((id) => auditByFamily.get(id)?.artifacts ?? []).filter((a) => a.present)
   });
@@ -604,6 +688,123 @@ for (const entry of [...records]) {
   // They are the history of what was wrong before the review closed it, and a
   // record that simply loses them cannot show why it is finished.
   entry.findingsOutrankedByApproval = entry.defectCategories;
+}
+
+/**
+ * The second exit from retained_problematic: launch-safe terminal exclusion.
+ *
+ * Until now the only way out was platformReady, so an asset whose official
+ * source cannot be obtained stayed problematic forever — correctly, while it was
+ * still reachable, and pointlessly once it was not. An asset that no track, no
+ * packet family and no sellable pathway references, whose source cannot be
+ * acquired, is finished. Holding it open does not protect anyone; it just makes
+ * the board unable to distinguish work from wreckage.
+ *
+ * This is deliberately NOT platformReady, and the two are counted separately. A
+ * launch-safely-terminal asset is one nobody can reach and nobody can build,
+ * not one that was approved.
+ *
+ * The decision is made in generate-rcap-unavailable-source-terminalization.mjs,
+ * which proves the reachability conditions per family. This generator does not
+ * take that file's word for it: it re-checks, against its own records, that the
+ * asset really is unreachable and really is not sellable or public, and refuses
+ * the whole run if the file names an asset that fails either test. A record that
+ * could be widened by editing its input is not a gate.
+ */
+const launchSafelyTerminal = [];
+{
+  const byIdentity = new Map(records.map((r) => [r.identity, r]));
+  const die = (m) => { console.error(`FAIL problematic PDF register — ${m}`); process.exit(1); };
+
+  /**
+   * Two different things can make an asset launch-safely terminal, and they are
+   * NOT interchangeable, so each carries its own re-check:
+   *
+   *   source_unobtainable      nothing can be built from it — no digest match in
+   *                            any corpus — and nothing points at it.
+   *   every_naming_track_dead  it is buildable, but every track that names it is
+   *                            terminal and no live route reaches it.
+   *
+   * The second basis is why a blanket "zero tracks" rule would be wrong: an
+   * asset can be named by two tracks and still be unreachable, because those
+   * tracks are themselves terminal. What matters is not how many tracks name it
+   * but whether any of them can sell, charge or serve a packet.
+   */
+  const CLAIMS = [
+    {
+      file: "data/rcap-all50/unavailable-source-terminalization.json",
+      basis: "source_unobtainable",
+      list: (body) => body.families ?? [],
+      accepts: () => true,
+      disposition: (f) => f.consumedDisposition,
+      reason: (f) => f.reason?.exact ?? null,
+      reasonKind: (f) => f.reason?.kind ?? null,
+      recheck: (entry) => {
+        if ((entry.affectedTrackIds ?? []).length > 0) {
+          return `is referenced by ${(entry.affectedTrackIds ?? []).length} track(s); a reachable asset may not exit on an unobtainable-source basis`;
+        }
+        if (entry.binaryPresent === true) return "has its binary present; an obtainable source is buildable and may not exit as unavailable";
+        return null;
+      }
+    },
+    {
+      file: "data/rcap-all50/pdf-retirement-evidence/session-13-terminalization.json",
+      basis: "every_naming_track_dead",
+      list: (body) => body.assets ?? [],
+      accepts: (a) => a.terminalOutcome === "launch_safe_exclusion",
+      disposition: () => "launch_safe_exclusion",
+      reason: (a) => a.terminalBasis ?? null,
+      reasonKind: () => "every_naming_track_terminal_and_unreachable",
+      recheck: (entry) => {
+        const tracks = entry.affectedTracks ?? [];
+        if (!tracks.length) return "names no track at all; that is an unobtainable-source case, not a dead-track one";
+        const live = tracks.filter((t) => !t.terminal);
+        if (live.length) return `is named by ${live.length} non-terminal track(s): ${live.map((t) => t.trackId).join(", ")}`;
+        // Terminal is not enough on its own — a terminal track that can still
+        // sell or charge is a live route by every measure that matters here.
+        const reachable = tracks.filter((t) => t.sellable || t.creditConsumable || t.paymentAllowed || t.publicPacketRoute);
+        if (reachable.length) {
+          return `is named by ${reachable.length} track(s) that can still sell, charge or serve a public packet: ${reachable.map((t) => t.trackId).join(", ")}`;
+        }
+        return null;
+      }
+    }
+  ];
+
+  for (const claim of CLAIMS) {
+    const file = path.join(rootDir, claim.file);
+    if (!fs.existsSync(file)) continue;
+    const body = JSON.parse(fs.readFileSync(file, "utf8"));
+    for (const item of claim.list(body)) {
+      if (!claim.accepts(item)) continue;
+      const identity = item.assetId;
+      const entry = byIdentity.get(identity);
+      if (!entry) die(`${claim.file} names ${identity}, which is not a register record`);
+      if (entry.platformReady) die(`${identity} is platform_ready and cannot also be launch-safely terminal`);
+      if (entry.launchSafelyTerminal) die(`${identity} is claimed launch-safely terminal by two records; one asset has one basis`);
+      // Re-checked from this register's own records, never trusted from the claim.
+      const problem = claim.recheck(entry);
+      if (problem) die(`${identity} ${problem} (claimed on the ${claim.basis} basis by ${claim.file})`);
+      entry.launchSafelyTerminal = true;
+      entry.launchSafeTerminalBasis = claim.basis;
+      entry.launchSafeTerminalDisposition = claim.disposition(item);
+      entry.launchSafeTerminalReason = claim.reason(item);
+      entry.launchSafeTerminalIsNotApproval =
+        "no reviewer approved this asset. It leaves the problematic count because nothing can reach it, not because it is fit to file.";
+      launchSafelyTerminal.push({
+        identity: entry.identity,
+        jurisdiction: entry.jurisdiction,
+        formId: entry.formId,
+        familyIds: entry.familyIds,
+        basis: claim.basis,
+        disposition: claim.disposition(item),
+        reasonKind: claim.reasonKind(item),
+        reason: claim.reason(item),
+        tracksReferencingThisAsset: (entry.affectedTrackIds ?? []).length,
+        isPlatformReady: false
+      });
+    }
+  }
 }
 
 records.sort((a, b) => a.identity.localeCompare(b.identity));
@@ -654,7 +855,8 @@ const rootCauseIndex = [...new Set(records.flatMap((r) => r.rootCauseIds))].sort
 }));
 const retiredAssetIds = [...new Set(retired.map((r) => r.marker?.assetId).filter(Boolean))];
 const totals = {
-  problematicPdfsTotal: records.filter((r) => !r.platformReady).length,
+  problematicPdfsTotal: records.filter((r) => !r.platformReady && !r.launchSafelyTerminal).length,
+  launchSafelyTerminal: launchSafelyTerminal.length,
   platformReady: platformReady.length,
   retiredFromOperationalInventory: retiredAssetIds.length,
   retiredFamilyDirectories: retired.length,
@@ -715,6 +917,10 @@ const payload = {
   // findings it outranked named. An asset that simply vanishes from a register
   // is indistinguishable from one nobody looked at.
   platformReady,
+  launchSafelyTerminal,
+  readingLaunchSafelyTerminal:
+    "these assets left the problematic count without being approved. Each has no obtainable official source, and no track, packet family or sellable pathway reaches it. They are not platform_ready and must never be presented as fit to file.",
+  participantFillHoldsDischarged,
   totals,
   sections: {
     activeTrackProblemPdfs: sections.active_track_problem_pdfs.map((r) => r.identity),

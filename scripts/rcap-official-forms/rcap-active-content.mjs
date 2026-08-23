@@ -25,8 +25,10 @@ import {
   scanAnnotationActions
 } from "../rcap-hard-form-xfa-shadow-fill.mjs";
 
+import { APPEARANCE_DISPOSITION, structuralDisposition } from "./rcap-appearance-semantics.mjs";
+
 const require = createRequire(import.meta.url);
-const { PDFName, PDFDict, PDFArray, PDFDocument } = require("pdf-lib");
+const { PDFName, PDFDict, PDFArray, PDFDocument, PDFNumber, PDFRawStream, PDFRef, decodePDFRawStream } = require("pdf-lib");
 
 export { neutralizeXfa, stripDocumentActions, stripLinkAnnotations, scanAnnotationActions };
 
@@ -212,7 +214,217 @@ export function compactAnnots(pdfDoc) {
  * no widget survives, link annotations go, and only then is the document
  * rebuilt from its flattened pages so orphaned script objects are left behind.
  */
-export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, defaultFont = null } = {}) {
+
+// --- what a widget may contribute to a filed page ----------------------------
+//
+// Flattening stamps every field's appearance stream onto the page as ordinary
+// ink. pdf-lib generates those appearances from the field's own dictionary, so
+// three things the court's form carries for INTERACTIVE use were being printed
+// into filings:
+//
+//   * `/MK /BG` — a widget background colour. On these forms it is white, and
+//     the generated appearance paints it as a filled rectangle before drawing
+//     any value. Flattened, that is an opaque white box over whatever the
+//     official page printed underneath: rules, captions, dotted leaders. Thirty
+//     four of them across four KY and NE families.
+//   * Pushbuttons — Print, Reset, Clear. Controls for a person at a screen.
+//     Their captions have no meaning on a filed document.
+//   * Unselected choosers — a dropdown still carrying the form's own prompt or
+//     its default string, and in one case its entire county option list. A
+//     filing that says "Choose the court" tells the court to choose one.
+//
+// The rule is about what a widget CONTRIBUTES, not about which form it is on:
+// a control the participant never completed contributes nothing, and no widget
+// contributes a background. Nothing here names a family, a field or a form.
+
+/** Pushbutton: /FT /Btn with the pushbutton flag (bit 17) set. */
+function isPushButton(acroField) {
+  const dict = acroField.dict;
+  if (String(dict.lookup(PDFName.of("FT"))?.toString?.() ?? "") !== "/Btn") return false;
+  const flags = dict.lookup(PDFName.of("Ff"));
+  return flags instanceof PDFNumber && (flags.asNumber() & (1 << 16)) !== 0;
+}
+
+/** Choice control: /FT /Ch — a dropdown or list box. */
+function isChoiceField(acroField) {
+  return String(acroField.dict.lookup(PDFName.of("FT"))?.toString?.() ?? "") === "/Ch";
+}
+
+/**
+ * Detaches a field from the AcroForm so nothing downstream can revive it.
+ *
+ * Clearing the widget's /AP and removing its /Annots entry is not enough on its
+ * own. updateFieldAppearances() runs after this and regenerates an appearance
+ * for every field the form still lists — for a pushbutton, straight from its
+ * /MK /CA caption — and flatten() finds the page through the widget's own /P
+ * rather than through /Annots, so the caption this function was called to remove
+ * gets stamped anyway. A field the form no longer lists is not regenerated and
+ * not flattened.
+ */
+function detachFromAcroForm(pdfDoc, acroField) {
+  const acroForm = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
+  const fields = acroForm?.lookupMaybe(PDFName.of("Fields"), PDFArray);
+  if (!fields) return 0;
+  let removed = 0;
+  for (let i = fields.size() - 1; i >= 0; i -= 1) {
+    const entry = fields.get(i);
+    if (entry === acroField.ref || pdfDoc.context.lookup(entry) === acroField.dict) { fields.remove(i); removed += 1; }
+  }
+  return removed;
+}
+
+/** Drops a field's widgets so flatten has nothing to draw for it. */
+function dropWidgets(pdfDoc, acroField) {
+  let dropped = 0;
+  for (const widget of acroField.getWidgets()) {
+    for (const page of pdfDoc.getPages()) {
+      const annots = page.node.lookup(PDFName.of("Annots"));
+      if (!(annots instanceof PDFArray)) continue;
+      for (let i = annots.size() - 1; i >= 0; i -= 1) {
+        const entry = annots.get(i);
+        if (entry === widget.dict || pdfDoc.context.lookup(entry) === widget.dict) { annots.remove(i); dropped += 1; }
+      }
+    }
+    widget.dict.delete(PDFName.of("AP"));
+  }
+  detachFromAcroForm(pdfDoc, acroField);
+  return dropped;
+}
+
+/** The last fill colour a token sets, as a grey level, or null. */
+function fillGreyOf(colourTokens) {
+  if (colourTokens.g !== undefined) return parseFloat(colourTokens.g);
+  return (parseFloat(colourTokens.r) + parseFloat(colourTokens.gr) + parseFloat(colourTokens.b)) / 3;
+}
+
+/**
+ * Removes the opaque background paint from one appearance stream.
+ *
+ * These streams come from the court's own form, not from us: the widget's `/AP
+ * /N` opens by setting a near-white fill and filling a rectangle the size of
+ * the widget, and only then draws the rule the participant writes on. On screen
+ * that background is invisible against a white page. Flattened onto a filing it
+ * is an opaque box over whatever the official page printed underneath.
+ *
+ * Only the leading background paint is removed — the colour it sets, its
+ * rectangle and the fill operator. Everything after it, the rules and any text,
+ * is left exactly as the court drew it. A rectangle that does not cover the
+ * widget is not a background and is not touched.
+ */
+function stripOpaqueBackgroundPaint(streamText, bbox) {
+  const pattern = /(?:^|\n)\s*(?:(?<g>[\d.]+)\s+g|(?<r>[\d.]+)\s+(?<gr>[\d.]+)\s+(?<b>[\d.]+)\s+rg)\s*\n\s*(?<x>-?[\d.]+)\s+(?<y>-?[\d.]+)\s+(?<w>-?[\d.]+)\s+(?<h>-?[\d.]+)\s+re\s*\n\s*(?:f|F|f\*)\s*(?=\n|$)/g;
+  let removed = 0;
+  const out = streamText.replace(pattern, (match, ...args) => {
+    const groups = args[args.length - 1];
+    const grey = fillGreyOf(groups);
+    if (!(grey >= 0.9)) return match;
+    const w = Math.abs(parseFloat(groups.w));
+    const h = Math.abs(parseFloat(groups.h));
+    // A background covers the widget. A smaller rectangle is form art.
+    if (!(w >= bbox.width * 0.9 && h >= bbox.height * 0.9)) return match;
+    removed += 1;
+    return "\n";
+  });
+  return { text: out, removed };
+}
+
+/** The /BBox of an appearance stream, as width and height. */
+function bboxOf(stream) {
+  const box = stream.dict.lookup(PDFName.of("BBox"));
+  if (!(box instanceof PDFArray) || box.size() < 4) return null;
+  const n = (i) => box.lookup(i).asNumber();
+  return { width: Math.abs(n(2) - n(0)), height: Math.abs(n(3) - n(1)) };
+}
+
+/**
+ * Strips the widget background so nothing opaque is flattened behind the value.
+ *
+ * Two sources: `/MK /BG`, which pdf-lib turns into a filled rectangle when it
+ * generates an appearance, and the background already painted inside an
+ * appearance stream the form shipped. Both have to go — clearing only the first
+ * leaves thirty-four white boxes standing.
+ */
+function stripWidgetBackground(pdfDoc, acroField) {
+  let stripped = 0;
+  for (const widget of acroField.getWidgets()) {
+    const mk = widget.dict.lookup(PDFName.of("MK"));
+    if (mk instanceof PDFDict && mk.get(PDFName.of("BG")) !== undefined) {
+      mk.delete(PDFName.of("BG"));
+      stripped += 1;
+    }
+    const ap = widget.dict.lookup(PDFName.of("AP"));
+    if (!(ap instanceof PDFDict)) continue;
+    for (const [stateKey, ref] of ap.entries()) {
+      const target = pdfDoc.context.lookup(ref);
+      const streams = target instanceof PDFDict
+        ? [...target.entries()].map(([, r]) => [r, pdfDoc.context.lookup(r)])
+        : [[ap.get(stateKey), target]];
+      for (const [ref2, stream] of streams) {
+        if (!(stream instanceof PDFRawStream) || !(ref2 instanceof PDFRef)) continue;
+        const bbox = bboxOf(stream);
+        if (!bbox || bbox.width === 0 || bbox.height === 0) continue;
+        let text;
+        try { text = new TextDecoder().decode(decodePDFRawStream(stream).decode()); } catch { continue; }
+        const { text: cleaned, removed } = stripOpaqueBackgroundPaint(text, bbox);
+        if (removed === 0) continue;
+        const dict = stream.dict.clone(pdfDoc.context);
+        dict.delete(PDFName.of("Filter"));
+        dict.delete(PDFName.of("DecodeParms"));
+        const bytes = new TextEncoder().encode(cleaned);
+        dict.set(PDFName.of("Length"), pdfDoc.context.obj(bytes.length));
+        pdfDoc.context.assign(ref2, PDFRawStream.of(dict, bytes));
+        stripped += removed;
+      }
+    }
+  }
+  return stripped;
+}
+
+/**
+ * Decides, per field, what survives into the flattened page.
+ *
+ * `writtenFields` are the fields this run actually bound a participant value
+ * to. Only the caller knows that, and it is the difference between a chooser
+ * the participant answered and one still showing the form's prompt.
+ */
+export function restrictWidgetContributions(pdfDoc, form, writtenFields = new Set(), dispositions = new Map()) {
+  const report = { commandControlsDropped: [], unselectedChoicesDropped: [], unwrittenParticipantInputsDropped: [],
+    sourceAppearancesPreserved: [], backgroundsNeutralized: 0, dispositionsApplied: {} };
+  for (const field of form.getFields()) {
+    const name = field.getName();
+    const acroField = field.acroField;
+    // What this field's appearance MEANS. A classified field says so; anything
+    // else falls back to the structural rule. Both arrive as one of three
+    // dispositions, and everything below switches on that value alone - never on
+    // the family, the form, the field name, the text drawn, or a flag bit.
+    const disposition = dispositions.get(name)
+      ?? structuralDisposition({ isPushButton: isPushButton(acroField), isChoice: isChoiceField(acroField) });
+    report.dispositionsApplied[name] = disposition;
+
+    if (disposition === APPEARANCE_DISPOSITION.SUPPRESS_CONTROL_APPEARANCE) {
+      dropWidgets(pdfDoc, acroField);
+      report.commandControlsDropped.push(name);
+      continue;
+    }
+    if (disposition === APPEARANCE_DISPOSITION.RENDER_PARTICIPANT_VALUE_ONLY_WHEN_WRITTEN && !writtenFields.has(name)) {
+      // Nothing was written here, so whatever the source draws inside the field
+      // is the court's instruction to a person filling it in by hand, or its own
+      // prompt, default or option list. It does not go on the filing.
+      acroField.dict.delete(PDFName.of("V"));
+      dropWidgets(pdfDoc, acroField);
+      (isChoiceField(acroField) ? report.unselectedChoicesDropped : report.unwrittenParticipantInputsDropped).push(name);
+      continue;
+    }
+    if (disposition === APPEARANCE_DISPOSITION.PRESERVE_SOURCE_APPEARANCE) report.sourceAppearancesPreserved.push(name);
+    // A written participant input and preserved source text are treated alike
+    // from here: the appearance stays, and only an opaque background painted
+    // over the page is removed from it.
+    report.backgroundsNeutralized += stripWidgetBackground(pdfDoc, acroField);
+  }
+  return report;
+}
+
+export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, defaultFont = null, writtenFields = new Set(), appearanceDispositions = new Map() } = {}) {
   const report = {};
 
   const acroBefore = pdfDoc.catalog.lookupMaybe(PDFName.of("AcroForm"), PDFDict);
@@ -229,6 +441,11 @@ export async function sanitizeAndFlatten(pdfDoc, { alreadyFlattened = false, def
     const fieldCount = form.getFields().length;
     if (fieldCount > 0) {
       report.defaultAppearancesRepaired = ensureDefaultAppearances(form);
+      // Before appearances are generated, not after: pdf-lib builds the
+      // background rectangle into the stream it generates, so removing the
+      // background afterwards would mean editing generated streams instead of
+      // never asking for the rectangle at all.
+      report.widgetContributions = restrictWidgetContributions(pdfDoc, form, writtenFields, appearanceDispositions);
       // Appearances must exist before flattening: flatten draws each field's
       // appearance stream onto the page, so a field whose appearance was never
       // generated flattens to nothing and the value disappears.

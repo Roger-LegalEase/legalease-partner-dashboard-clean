@@ -1,0 +1,147 @@
+{
+  "id": "source-resolution",
+  "lane": "LANE-SOURCE",
+  "role": "source acquisition",
+  "assetIds": [
+    "VT|200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+    "VT|200-00131.pdf|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+    "VT|200-00132 – Stipulation to Seal Criminal History Record + Order.pdf|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+    "VT|200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+    "VT|200-00631.pdf|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+    "VT|application-waive-filing-fees-and-service-costs.html|1b9348d18347d3adb278a209046c3593e595c385b1c2081c6a33142767196b59",
+    "AR|7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+    "AR|Felony-Petition-Form-f.pdf|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+    "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+    "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa"
+  ],
+  "familyIds": [
+    "VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record",
+    "VT:200-00131",
+    "VT:200-00132-stipulation-to-seal-criminal-history-record-order",
+    "VT:200-00132a-stipulation-to-expunge-criminal-history-record-order",
+    "VT:200-00631",
+    "VT:application-waive-filing-fees-and-service-costs",
+    "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f",
+    "AR:felony-petition-form-f",
+    "KY:496-2",
+    "KY:496-3"
+  ],
+  "allowedPaths": [
+    "data/rcap-all50/pdf-source-handoffs/source-resolution/**",
+    "data/rcap-all50/source-acquisition-queue.json",
+    "data/rcap-all50/overlays/production/vermont/200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record/source-record.json",
+    "data/rcap-all50/overlays/production/vermont/200-00131/source-record.json",
+    "data/rcap-all50/overlays/production/vermont/200-00132-stipulation-to-seal-criminal-history-record-order/source-record.json",
+    "data/rcap-all50/overlays/production/vermont/200-00132a-stipulation-to-expunge-criminal-history-record-order/source-record.json",
+    "data/rcap-all50/overlays/production/vermont/200-00631/source-record.json",
+    "data/rcap-all50/overlays/production/vermont/application-waive-filing-fees-and-service-costs/source-record.json",
+    "data/rcap-all50/overlays/production/arkansas/7-nolle-prosequi-dismissed-acquittal-petition-2020-f/source-record.json",
+    "data/rcap-all50/overlays/production/arkansas/felony-petition-form-f/source-record.json",
+    "data/rcap-all50/overlays/production/kentucky/496-2/source-record.json",
+    "data/rcap-all50/overlays/production/kentucky/496-3/source-record.json"
+  ],
+  "prohibitedPaths": [
+    "src/**",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json",
+    "next.config.ts",
+    "supabase/migrations/**",
+    "deploy/rcap-render-worker/**",
+    ".github/workflows/**",
+    "scripts/rcap-official-forms/rcap-platform-ready.mjs",
+    "data/rcap-all50/pdf-independent-reviews/*-manifest.json",
+    "data/rcap-all50/pdf-independent-reviews/*-group-*.review.json",
+    "any fixture, map, classification or contact sheet",
+    "source-direct's assets",
+    "data/rcap-all50/pdf-source-handoffs/source-direct/**"
+  ],
+  "rootBlocker": "the official binary is absent from the clone, so no SHA-256 can be recomputed and neither a render nor a review is possible",
+  "requiredSourceInput": "publisher-of-record access for the assigned jurisdictions; no corpus file may be committed",
+  "expectedOutput": "for each assigned asset: the official binary acquired and its SHA-256 recorded against the publisher of record, or a recorded finding that no official source exists",
+  "focusedVerifier": "node scripts/generate-rcap-source-resolution.mjs --check",
+  "stopCondition": "every assigned asset carries either an acquired source with a receipt, or a recorded no-official-source finding naming what was searched",
+  "primaryOwner": "source acquisition and resolution lane",
+  "terminalOutcomeMix": {
+    "packet_ready": 9,
+    "guidance_terminal": 1
+  },
+  "terminalWork": [
+    {
+      "assetId": "VT|200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
+    },
+    {
+      "assetId": "VT|200-00131.pdf|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
+    },
+    {
+      "assetId": "VT|200-00132 – Stipulation to Seal Criminal History Record + Order.pdf|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
+    },
+    {
+      "assetId": "VT|200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
+    },
+    {
+      "assetId": "VT|200-00631.pdf|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
+    },
+    {
+      "assetId": "VT|application-waive-filing-fees-and-service-costs.html|1b9348d18347d3adb278a209046c3593e595c385b1c2081c6a33142767196b59",
+      "terminalOutcome": "guidance_terminal",
+      "mustPacket": false,
+      "doneCondition": "the route's guidance names this official resource, its publisher and what the participant does with it; no customer PDF is produced because none exists to produce"
+    },
+    {
+      "assetId": "AR|7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
+    },
+    {
+      "assetId": "AR|Felony-Petition-Form-f.pdf|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
+    },
+    {
+      "assetId": "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
+    },
+    {
+      "assetId": "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the Master Library pack is built, this family renders from the packed source, and an independent review accepts the result"
+    }
+  ],
+  "mustPacketAssets": [],
+  "blockedAssetsDoNotHoldOthers": true,
+  "baseSha": "b375b13a3c021bf424ecb4e0441400fff161f46d",
+  "globalProhibitedPaths": [
+    "src/**",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json",
+    "next.config.ts",
+    "supabase/migrations/**",
+    "deploy/rcap-render-worker/**",
+    ".github/workflows/**",
+    "scripts/rcap-official-forms/rcap-platform-ready.mjs",
+    "data/rcap-all50/pdf-independent-reviews/*-manifest.json",
+    "data/rcap-all50/pdf-independent-reviews/*-group-*.review.json"
+  ]
+}

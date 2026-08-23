@@ -1,0 +1,883 @@
+{
+  "schemaVersion": "rcap-pdf-retirement-conditions/v1",
+  "generatedBy": "scripts/generate-rcap-pdf-inventory-closure.mjs",
+  "purpose": "The seven conditions each manifest-only retirement candidate has to satisfy, evaluated one at a time, with the one that cannot be evaluated in this clone named rather than waived.",
+  "consumedHandoff": "data/rcap-all50/manifest-only-retirement-handoff.json",
+  "canonicalGraph": {
+    "path": "data/rcap-ledger/paid-pathway-legal-join.json",
+    "sha256": "25601ca0b07b0d1ea31abf607ccf95e8ea7cec83e75f0a73ba645c010124817f",
+    "pathways": 284
+  },
+  "verifier": "node scripts/verify-rcap-manifest-only-retention.mjs",
+  "verifierResult": "reproduces: 30 assets, re-derived against the canonical graph at 284 pathways and 1136 non-manifest files, none named by a pathway, a packet track, the legal-design registry, or any runtime surface other than the overlay factory manifest",
+  "corpusMount": {
+    "declaredCorpusRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "nationwideSourceDir": "private/Nationwide Record Clearing",
+    "masterLibraryMounted": true,
+    "masterLibraryRoot": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1",
+    "nationwideSourceMounted": true,
+    "nationwideSourcePresentButIncomplete": false,
+    "nationwideCompleteness": {
+      "formsThePreviousManifestNamed": 170,
+      "ofThoseStillInTheOperationalTree": 170,
+      "noLongerInTheOperationalTree": 0,
+      "formsTheRegenerationProduces": 170,
+      "measuredHow": "buildOverlayFactory() run against this tree, twice, byte-identical apart from its own generatedAt stamp. 170 logical records from 187 physical files and 63 PDFs; 0 unresolved source references; 1 blocked form (an encrypted PA PDF).",
+      "whyThisIsRecorded": "The previous manifest was built from a larger tree. Every count that moved here moved because the operational corpus is smaller than the one that produced the old manifest, and that is worth being able to point at later rather than rediscovering."
+    },
+    "nationwideSourceRoot": "private/Nationwide Record Clearing",
+    "corpusIsMounted": true,
+    "pdfsTheIndexRecords": 329,
+    "whatTheMasterLibraryUnblocks": [
+      "resolving a missing binary against real bytes, and writing a receipt that names a computed SHA-256",
+      "reading a blank form, so an independent reviewer can confirm a source identity",
+      "re-rendering a family, once its shared-module defect is corrected"
+    ],
+    "whatStillNeedsTheNationwideTree": [
+      "regenerating data/rcap-all50/overlays/overlay-factory-manifest.json",
+      "the seventh retirement condition, for all 30 candidates — the manifest is what has to stop naming the asset"
+    ],
+    "whyTheyAreNotInterchangeable": "Zero of the 30 retirement candidates' filenames exist in the Master Library. They are Nationwide assets — ak-record-relief-forms.html, RequestToSealCrimInfo.pdf — under LegalEase <State>/ paths the Master Library does not carry."
+  },
+  "refusedRetirements": [
+    {
+      "assetId": "VA|cc1473inst.pdf|ffbfc0da7254f3c6bebc9d76878f34e7b2e701324fa2f56bf58460b28479fde6",
+      "formId": "CC-1473",
+      "trackIds": [
+        "va_exp_nonconviction"
+      ],
+      "why": "the byte-pinned legal-design registry names this asset, so the manifest is not the only thing depending on it",
+      "refusedBy": "this lane, on the same ground the handoff gives",
+      "condition": "no legal-design reference"
+    }
+  ],
+  "totals": {
+    "candidates": 30,
+    "repositoryConditionsProven": 30,
+    "retirementsProven": 2,
+    "blockedOnTheSeventhCondition": 28,
+    "refused": 1
+  },
+  "ifTheCorpusIsMounted": {
+    "expectedPlatformReady": 1,
+    "expectedRetired": 70,
+    "expectedRetainedProblematic": 57,
+    "note": "Stated as the arithmetic that would follow, not as a result. Nothing in this lane has moved the count."
+  },
+  "candidates": [
+    {
+      "assetId": "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "jurisdiction": "AK",
+      "formNumber": "ak-record-relief-forms.html",
+      "formFamilyIds": [
+        "AK:ak-record-relief-forms"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alaska/ak-record-relief-forms"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "AK|RequestToSealCrimInfo.pdf|1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "jurisdiction": "AK",
+      "formNumber": "RequestToSealCrimInfo.pdf",
+      "formFamilyIds": [
+        "AK:requesttosealcriminfo"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alaska/requesttosealcriminfo"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "jurisdiction": "AL",
+      "formNumber": "al-expungement-petition.html",
+      "formFamilyIds": [
+        "AL:al-expungement-petition"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alabama/al-expungement-petition"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "AL|criminal-forms.html|55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "jurisdiction": "AL",
+      "formNumber": "criminal-forms.html",
+      "formFamilyIds": [
+        "AL:criminal-forms"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alabama/criminal-forms"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "AL|criminal-record-expungement.html|021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "jurisdiction": "AL",
+      "formNumber": "criminal-record-expungement.html",
+      "formFamilyIds": [
+        "AL:criminal-record-expungement"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/alabama/criminal-record-expungement"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "AR|3-Misdemeanor-Petition-8_01_2023.pdf|63a308c4fd36a35918249574675c3e83ed47e677cffeae30e09c7e344cfcda23",
+      "jurisdiction": "AR",
+      "formNumber": "3-Misdemeanor-Petition-8_01_2023.pdf",
+      "formFamilyIds": [
+        "AR:3-misdemeanor-petition-8-01-2023"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/arkansas/3-misdemeanor-petition-8-01-2023"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "AR|7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf|09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+      "jurisdiction": "AR",
+      "formNumber": "7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf",
+      "formFamilyIds": [
+        "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/arkansas/7-nolle-prosequi-dismissed-acquittal-petition-2020-f"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "AR|Arkansas-Petition-Order-Forms.html|f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+      "jurisdiction": "AR",
+      "formNumber": "Arkansas-Petition-Order-Forms.html",
+      "formFamilyIds": [
+        "AR:arkansas-petition-order-forms"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/arkansas/arkansas-petition-order-forms"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "AR|Felony-Petition-Form-f.pdf|6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+      "jurisdiction": "AR",
+      "formNumber": "Felony-Petition-Form-f.pdf",
+      "formFamilyIds": [
+        "AR:felony-petition-form-f"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/arkansas/felony-petition-form-f"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "KY|496.2.pdf|5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+      "jurisdiction": "KY",
+      "formNumber": "496.2.pdf",
+      "formFamilyIds": [
+        "KY:496-2"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/496-2"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "KY|496.3.pdf|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "jurisdiction": "KY",
+      "formNumber": "496.3.pdf",
+      "formFamilyIds": [
+        "KY:496-3"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/496-3"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "KY|497.2.pdf|080acd68f99ff84afb9b1d08721b5dbff516b8531f0ce53ca7ffc030e80f19e4",
+      "jurisdiction": "KY",
+      "formNumber": "497.2.pdf",
+      "formFamilyIds": [
+        "KY:497-2"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/497-2"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "KY|Kentucky-Expungement-Forms.html|c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+      "jurisdiction": "KY",
+      "formNumber": "Kentucky-Expungement-Forms.html",
+      "formFamilyIds": [
+        "KY:kentucky-expungement-forms"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/kentucky/kentucky-expungement-forms"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "NC|cr287_1.pdf|sha256_unrecorded_in_repo",
+      "jurisdiction": "NC",
+      "formNumber": "cr287_1.pdf",
+      "formFamilyIds": [
+        "NC:cr287-1"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/cr287-1"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": true,
+      "whyNotRetired": null
+    },
+    {
+      "assetId": "NC|cr297.pdf|sha256_unrecorded_in_repo",
+      "jurisdiction": "NC",
+      "formNumber": "cr297.pdf",
+      "formFamilyIds": [
+        "NC:cr297"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/cr297"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "NC|cr298_1.pdf|sha256_unrecorded_in_repo",
+      "jurisdiction": "NC",
+      "formNumber": "cr298_1.pdf",
+      "formFamilyIds": [
+        "NC:cr298-1"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/cr298-1"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": true,
+      "whyNotRetired": null
+    },
+    {
+      "assetId": "NC|expungements.html|e29c7cc5f83a352601ccffb0443e4e74ef68e8dedcc7d6a1caca356f39940a9d",
+      "jurisdiction": "NC",
+      "formNumber": "expungements.html",
+      "formFamilyIds": [
+        "NC:expungements"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/expungements"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "NC|forms.html|1903dd98396c983cb00d8a2783a44140d4490f1bc03c1f321eda6b23a6fcbe11",
+      "jurisdiction": "NC",
+      "formNumber": "forms.html",
+      "formFamilyIds": [
+        "NC:forms"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/forms"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "NC|nc-expunction-petition.html|912cb79923dd1699e81daefc261d2a8a473dfeea70287e6026680032ac7b335c",
+      "jurisdiction": "NC",
+      "formNumber": "nc-expunction-petition.html",
+      "formFamilyIds": [
+        "NC:nc-expunction-petition"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/north-carolina/nc-expunction-petition"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "VA|va-expungement-sealing-forms.html|b9ed3bfc69c4a82954801b3d99b6f8c01fbe3b0edfe876aa6db4f9ba7b1d6f5f",
+      "jurisdiction": "VA",
+      "formNumber": "va-expungement-sealing-forms.html",
+      "formFamilyIds": [
+        "VA:va-expungement-sealing-forms"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/virginia/va-expungement-sealing-forms"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "VT|200-00129 – Petition to Expunge Criminal History.pdf|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+      "jurisdiction": "VT",
+      "formNumber": "200-00129 – Petition to Expunge Criminal History.pdf",
+      "formFamilyIds": [
+        "VT:200-00129-petition-to-expunge-criminal-history"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00129-petition-to-expunge-criminal-history"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "VT|200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf|8a44b91cd2f48af494cefcadb557c3c0f5a35b0bdeef06272ee54c66f9ca8078",
+      "jurisdiction": "VT",
+      "formNumber": "200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf",
+      "formFamilyIds": [
+        "VT:200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00130a-filing-a-petition-to-expunge-or-seal-a-criminal-record"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "VT|200-00131|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "jurisdiction": "VT",
+      "formNumber": "200-00131",
+      "formFamilyIds": [
+        "VT:200-00131-en",
+        "VT:200-00131-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00131-en",
+        "data/rcap-all50/overlays/production/vermont/200-00131-form-en"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "VT|200-00131.pdf|5afb8d524b52a6e9faaa2a797c9d2230dc11a492d1f5544bd9cf9f05a9d3379a",
+      "jurisdiction": "VT",
+      "formNumber": "200-00131.pdf",
+      "formFamilyIds": [
+        "VT:200-00131"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00131"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "VT|200-00132 – Stipulation to Seal Criminal History Record + Order.pdf|088116244572ec7ccf00db799e1f6561928715e45c178f20b06de48d8d7a81c2",
+      "jurisdiction": "VT",
+      "formNumber": "200-00132 – Stipulation to Seal Criminal History Record + Order.pdf",
+      "formFamilyIds": [
+        "VT:200-00132-stipulation-to-seal-criminal-history-record-order"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00132-stipulation-to-seal-criminal-history-record-order"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "VT|200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf|9f530430fba20599eb5d838c3e0aa505647124fbe976e74d0a6a349e3ea41dec",
+      "jurisdiction": "VT",
+      "formNumber": "200-00132A – Stipulation to Expunge Criminal History Record + Order.pdf",
+      "formFamilyIds": [
+        "VT:200-00132a-stipulation-to-expunge-criminal-history-record-order"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00132a-stipulation-to-expunge-criminal-history-record-order"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "VT|200-00631|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "jurisdiction": "VT",
+      "formNumber": "200-00631",
+      "formFamilyIds": [
+        "VT:200-00631-en",
+        "VT:200-00631-form-en"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00631-en",
+        "data/rcap-all50/overlays/production/vermont/200-00631-form-en"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "VT|200-00631.pdf|a4afde13b306a87f65fb40f43eb00a8e57a15d4e8b80255d11decfca0b96e6d3",
+      "jurisdiction": "VT",
+      "formNumber": "200-00631.pdf",
+      "formFamilyIds": [
+        "VT:200-00631"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/200-00631"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "VT|400-00171.pdf|b57dc05d9bccb54468aa5928745a46464c72e7470bf1b93cf3fcad2e7ef53a1a",
+      "jurisdiction": "VT",
+      "formNumber": "400-00171.pdf",
+      "formFamilyIds": [
+        "VT:400-00171"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/400-00171"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    },
+    {
+      "assetId": "VT|application-waive-filing-fees-and-service-costs.html|1b9348d18347d3adb278a209046c3593e595c385b1c2081c6a33142767196b59",
+      "jurisdiction": "VT",
+      "formNumber": "application-waive-filing-fees-and-service-costs.html",
+      "formFamilyIds": [
+        "VT:application-waive-filing-fees-and-service-costs"
+      ],
+      "familyPackagePaths": [
+        "data/rcap-all50/overlays/production/vermont/application-waive-filing-fees-and-service-costs"
+      ],
+      "repositoryConditions": {
+        "noCurrentPublicRouteReference": "none: no compiled pathway names this asset",
+        "noRegistryTrackReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noPacketFamilyReference": null,
+        "noLegalDesignReference": "none: the byte-pinned legal-design registry does not name this asset",
+        "noSrcRuntimeReference": null,
+        "noIntendedPaidPathwayDependency": null
+      },
+      "repositoryConditionsProven": true,
+      "regeneratedManifestCondition": {
+        "required": "the manifest, regenerated from the Nationwide source tree, no longer names the asset",
+        "state": "regenerate_and_confirm",
+        "why": "the Nationwide tree is mounted and complete; run the overlay factory generator and confirm"
+      },
+      "retired": false,
+      "whyNotRetired": "The asset is still named by the manifest regenerated from the operational tree, so the seventh condition fails and it stays in the inventory."
+    }
+  ]
+}

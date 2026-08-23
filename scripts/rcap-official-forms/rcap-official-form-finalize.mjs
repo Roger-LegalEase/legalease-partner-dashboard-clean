@@ -8,12 +8,13 @@
 // one, because an intermediate is not what gets filed.
 import { createRequire } from "node:module";
 import crypto from "node:crypto";
-import { decideBinding, resolveFact, valueMatchesType } from "./rcap-field-semantics.mjs";
+import { decideBinding, resolveFact, valueMatchesType, selectOnePerSlot, isChooserPrompt } from "./rcap-field-semantics.mjs";
 import { fitTextToWidget, applyFitToTextField, MIN_READABLE_FONT_SIZE } from "./rcap-text-fitting.mjs";
 import { sanitizeAndFlatten, scanBytesForActiveContent, ensureDefaultAppearances } from "./rcap-active-content.mjs";
+import { detectNonFilingNotice } from "./rcap-source-notice.mjs";
 
 const require = createRequire(import.meta.url);
-const { PDFDocument, PDFTextField, PDFDropdown, StandardFonts, rgb } = require("pdf-lib");
+const { PDFDocument, PDFTextField, PDFDropdown, PDFName, StandardFonts, rgb } = require("pdf-lib");
 
 // A fixed instant: a fresh document otherwise stamps the wall clock into its
 // info dictionary, and every render of the same facts would differ.
@@ -177,6 +178,11 @@ export async function finalizeFlatOverlay({
   protectedRules = [],
   facts,
   nonFilingNotice = null,
+  // The document's own printed text. Passed so this path can hold for itself
+  // rather than only when a caller remembered to look: the defect this closes
+  // was a detector that returned false, and a path that trusts the caller
+  // inherits every future miss the same way.
+  documentTextLines = [],
   minFontSize = MIN_READABLE_FONT_SIZE,
   title = null,
   approvedTextColor = null
@@ -186,7 +192,14 @@ export async function finalizeFlatOverlay({
   if (expectedSha256 && expectedSha256 !== sourceSha) {
     throw new Error(`source drift: expected ${expectedSha256}, read ${sourceSha}`);
   }
-  if (nonFilingNotice) throw new NonFilingHoldError(nonFilingNotice);
+  // Either the caller's notice or one this path finds for itself, including in
+  // the anchor labels — on a flat overlay those ARE the document's printed
+  // text, so a reference-only notice sitting on an anchor is caught even with
+  // no line list supplied.
+  const flatHold = nonFilingNotice
+    ?? detectNonFilingNotice([...documentTextLines, ...(anchors ?? []).map((a) => a?.label)])?.notice
+    ?? null;
+  if (flatHold) throw new NonFilingHoldError(flatHold);
 
   const pdfDoc = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -343,12 +356,31 @@ export async function finalizeOfficialForm({
   census,
   facts,
   explicitMappings = {},
+  // Fields the classifier decided, by ROLE, that the participant does not
+  // complete. Supplied by the caller because only the caller has the
+  // classification, and required here because deciding twice means deciding
+  // differently: the driver refused these and recorded them in the map's
+  // unwritableFields, then called this function, which re-derived every
+  // decision from the census alone and wrote them anyway. KY AOC-334's `Court`
+  // and `Date`, VA CC-1201's `User.FullName` and `User.Sex`, NE DC 1:15's
+  // `adoptionof` and VT 600-00228's `3` were all refused in their own maps and
+  // present in their own bytes -- and the comment beside the driver's refusal
+  // asserted the factory would refuse them at render time, which nothing did.
+  unwritableFields = [],
   captionOnly = false,
   documentAcceptsFill = true,
   nonFilingNotice = null,
+  // As above: this path holds on the document's own words, not only on the
+  // caller's reading of them.
+  documentTextLines = [],
   maxFontSize,
   minFontSize = MIN_READABLE_FONT_SIZE,
-  title = null
+  title = null,
+  // Field name -> appearance disposition, for the family being rendered. The
+  // caller resolves it from the shared semantic registry; an empty map leaves
+  // every field on the structural default, which is what every unclassified
+  // family gets.
+  appearanceDispositions = new Map()
 }) {
   const sourceSha = crypto.createHash("sha256").update(sourceBytes).digest("hex");
   if (expectedSha256 && expectedSha256 !== sourceSha) {
@@ -357,7 +389,8 @@ export async function finalizeOfficialForm({
 
   // A form that says on its own face that it must not be completed for filing
   // is never filled, whatever else the profile says.
-  if (nonFilingNotice) throw new NonFilingHoldError(nonFilingNotice);
+  const hold = nonFilingNotice ?? detectNonFilingNotice(documentTextLines)?.notice ?? null;
+  if (hold) throw new NonFilingHoldError(hold);
 
   const pdfDoc = await PDFDocument.load(sourceBytes, { ignoreEncryption: true, updateMetadata: false });
   const form = pdfDoc.getForm();
@@ -376,20 +409,53 @@ export async function finalizeOfficialForm({
     expectedValues: []
   };
 
+  // Deciding and writing used to happen in one pass, which cannot see that two
+  // widgets are competing for one place on the paper. Every field is decided
+  // first, the writable ones are reduced to one per slot, and only then is
+  // anything written — so the artifact and the map agree about which widget
+  // carries the value.
+  const unwritableByRole = new Set((unwritableFields ?? []).map((f) => String(f?.field ?? f?.name ?? f)));
+
+  const allowed = [];
   for (const field of census) {
+    // Role first, and it is not overridable. The name channel can only ever
+    // widen what binds; a class the classifier declined to call participant is
+    // the caller's finding about the whole field, and no pattern match on its
+    // name is entitled to reverse it.
+    if (unwritableByRole.has(field.name)) {
+      report.refused.push({ field: field.name, reason: "classified_unwritable_by_role", category: "role" });
+      report.protectedFields.push({ field: field.name, category: "role" });
+      continue;
+    }
+
     const decision = decideBinding(
-      { name: field.name, pdfType: field.type, effectiveLabel: field.effectiveLabel },
+      { name: field.name, pdfType: field.type, effectiveLabel: field.effectiveLabel, regionHeading: field.regionHeading },
       { explicitMappings, captionOnly, availableChargeRows, documentAcceptsFill }
     );
 
     if (!decision.writable) {
-      report.refused.push({ field: field.name, reason: decision.reason, category: decision.category ?? null });
-      if (decision.reason === "protected_category" || decision.category === "type_guard") {
+      report.refused.push({ field: field.name, reason: decision.reason, category: decision.category ?? null,
+        regionHeading: decision.regionHeading ?? null });
+      if (decision.reason === "protected_category" || decision.reason === "protected_page_region" || decision.category === "type_guard") {
         report.protectedFields.push({ field: field.name, category: decision.category });
       }
       continue;
     }
+    allowed.push({
+      field, decision,
+      name: field.name, factId: decision.factId, pdfType: field.type,
+      page: field.widgets?.[0]?.page ?? 1, rect: field.widgets?.[0]?.rect ?? null
+    });
+  }
 
+  const slots = selectOnePerSlot(allowed);
+  for (const loser of slots.refused) {
+    report.refused.push({ field: loser.name, reason: loser.reason, category: loser.category,
+      factId: loser.factId, keptInstead: loser.keptInstead });
+  }
+  report.slotArbitration = { candidates: allowed.length, kept: slots.kept.length, refusedAsDuplicate: slots.refused.length };
+
+  for (const { field, decision } of slots.kept) {
     const value = resolveFact(facts, decision.factId);
     if (!valueMatchesType(value, decision.valueType)) {
       report.refused.push({ field: field.name, reason: "no_value_or_type_mismatch", factId: decision.factId });
@@ -454,7 +520,40 @@ export async function finalizeOfficialForm({
     report.expectedValues.push(text);
   }
 
-  const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc, { defaultFont: helvetica });
+  // A choice field nobody selected still carries the source document's own
+  // chooser prompt, and flattening draws it onto the page as ordinary ink:
+  // Nebraska's forms ship selected on "Choose the court" and "Choose the
+  // county", so a filed pleading told the court to choose one.
+  //
+  // Clearing the value alone does not do it. pdf-lib leaves the widget's
+  // existing appearance stream in place and the prompt renders from that, so
+  // the stale appearance goes too and flatten regenerates from nothing. A
+  // field this run WROTE is never touched here.
+  const written = new Set(report.written.map((w) => w.field));
+  report.promptsSuppressed = [];
+  for (const handle of form.getFields()) {
+    const name = handle.getName();
+    if (written.has(name)) continue;
+    if (typeof handle.getOptions !== "function" || typeof handle.getSelected !== "function") continue;
+    let selected = [];
+    let options = [];
+    try { selected = handle.getSelected() ?? []; options = handle.getOptions() ?? []; } catch { continue; }
+    if (!selected.some((value) => isChooserPrompt(value, options))) continue;
+    handle.acroField.dict.delete(PDFName.of("V"));
+    for (const widget of handle.acroField.getWidgets()) widget.dict.delete(PDFName.of("AP"));
+    report.promptsSuppressed.push({ field: name, suppressed: selected });
+  }
+
+  // The fields this run actually bound. A chooser in this set was answered by
+  // the participant; one outside it is still showing the court's own prompt.
+  const { clean, report: sanitation } = await sanitizeAndFlatten(pdfDoc, {
+    defaultFont: helvetica,
+    writtenFields: new Set(report.written.map((w) => w.field)),
+    // What each classified field's appearance means. The caller resolves this
+    // for the family it is rendering and hands over a plain field-name map, so
+    // the finalizer never learns which family it is working on.
+    appearanceDispositions
+  });
   report.sanitation = { ...sanitation, defaultAppearancesRepairedBeforeFill: defaultAppearancesRepaired };
 
   report.sourceMetadataFingerprint = sourceMetadataFingerprint(pdfDoc);

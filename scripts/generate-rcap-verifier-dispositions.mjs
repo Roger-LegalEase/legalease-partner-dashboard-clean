@@ -204,6 +204,18 @@ const OVERRIDES = {
     reason:
       "Proves each part of the hosted acceptance verdict guard is load-bearing. Nineteen mutations - record() stops counting arguments, accepts anything truthy, allows a case to be recorded twice, accepts an empty observation, a real call site regains a fourth argument, the worker verdict reads a process exit code again, a claimed job stops counting as in flight, the cycle result is parsed from stdout and stderr together, a worker account contradicting the database is tolerated, the claim duration reverts to the 600-second worker default, the immutable-digest condition is dropped, the binding case loses its substitution negative controls, the owner content type stops being checked, the jurisdiction scope disappears from the evidence, the worker output is concatenated and cut to a tail again, the binding case joins the finalization-written accounting row again, the replay case demands an entitlement only finalization writes, delivery passes on refusals alone, and delivery is pointed back at the legacy consumer route - each turn verify-rcap-hosted-acceptance-verdicts red for its own named check, with signal-safe byte restoration. Blocking alongside that verifier in rcap-all50-handoff.yml for the same image-input reason.",
     decidedBy: "captain"
+  },
+  "verify-rcap-official-forms-d1-controls.mjs": {
+    disposition: "keep_available",
+    reason:
+      "Controls for the reconciled verify-rcap-official-forms-d1. That reconciliation REMOVED 28 assertions - participant fixtures are no longer demanded of families whose approved terminal state is no-fill - and a check that stops failing is worth exactly what it can still catch. Six controls each reintroduce one real defect and require the verifier to go red: a participant PDF added back to a reference-only translation, a withdrawal receipt removed while the artifacts stay absent, a filing-artifact family marked complete with its canonical PDF absent, a scoped authorization removed from a family whose Edition hold was lifted, a chooser placeholder reintroduced into an expected filing artifact, and a protected-actor family turned into a participant-filled outcome. Every mutation is restored and the run refuses to finish with data/rcap-all50 dirty. Ad hoc rather than wired: it mutates tracked source, so it must not run concurrently with commits or tree reads in the shared chain, and wiring it would mean editing package.json - a worker image input - for a check that alters nothing the image contains.",
+    decidedBy: "captain"
+  },
+  "verify-rcap-problematic-pdf-register-source-modes.mjs": {
+    disposition: "keep_available",
+    reason:
+      "Controls for the problematic-PDF register's three source-validation states. Source-empty `--check` no longer rederives platform-ready outcomes from an empty corpus - which had silently demoted four approved assets, 5 platform_ready to 1 and the accounting 128 to 124 - and instead validates the committed register against the promotion proof generated WITH the corpus mounted. That is only defensible if it can still fail, so six controls prove it does: a current matching proof passes; a removed proof, an altered reviewed source digest and a non-approved review binding each fail in proof-backed mode; a partial corpus root fails as partial_or_invalid_source_mount rather than falling back to proof mode; and a complete mounted corpus whose bytes are not the reviewed bytes fails in mounted_corpus mode. Reads the generator's real exit code, never a pipeline sink's. Ad hoc for the same reason as the D1 controls: it mutates tracked data under data/rcap-all50 and refuses to finish dirty.",
+    decidedBy: "captain"
   }
 };
 

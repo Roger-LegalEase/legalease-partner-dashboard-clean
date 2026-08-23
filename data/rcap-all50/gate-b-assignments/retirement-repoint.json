@@ -1,0 +1,139 @@
+{
+  "id": "retirement-repoint",
+  "lane": "LANE-RETIRE",
+  "role": "retirement and repoint",
+  "assetIds": [
+    "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+    "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+    "VT|200-00129|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+    "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+    "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+    "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+    "AL|criminal-forms.html|55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+    "AL|criminal-record-expungement.html|021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+    "AR|Arkansas-Petition-Order-Forms.html|f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+    "KY|Kentucky-Expungement-Forms.html|c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8"
+  ],
+  "familyIds": [
+    "KY:aoc-496-3-form-en",
+    "KY:aoc-497-form-en",
+    "VT:200-00129-petition-to-expunge-criminal-history",
+    "WI:dj-le-250b-en",
+    "WI:dj-le-250b-support-en",
+    "AK:ak-record-relief-forms",
+    "AL:al-expungement-petition",
+    "AL:criminal-forms",
+    "AL:criminal-record-expungement",
+    "AR:arkansas-petition-order-forms",
+    "KY:kentucky-expungement-forms"
+  ],
+  "allowedPaths": [
+    "data/rcap-all50/overlays/production/*/*/retirement.json",
+    "data/rcap-all50/pdf-retirement-evidence/**",
+    "scripts/retire-rcap-problematic-pdf-assets.mjs"
+  ],
+  "prohibitedPaths": [
+    "src/**",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json",
+    "next.config.ts",
+    "supabase/migrations/**",
+    "deploy/rcap-render-worker/**",
+    ".github/workflows/**",
+    "scripts/rcap-official-forms/rcap-platform-ready.mjs",
+    "data/rcap-all50/pdf-independent-reviews/*-manifest.json",
+    "data/rcap-all50/pdf-independent-reviews/*-group-*.review.json",
+    "any fixture, map, classification, sidecar or raster",
+    "any asset outside this assignment"
+  ],
+  "rootBlocker": "no operational surface names the asset, or it is superseded while operational surfaces still name it",
+  "requiredSourceInput": "the current retirement determination and the binary-identity ledger",
+  "expectedOutput": "for each assigned asset: a retirement marker written by the canonical retirement script with every operational reference proven absent, or a recorded repoint to the canonical asset",
+  "focusedVerifier": "node scripts/verify-rcap-binary-identity-rules.mjs && node scripts/generate-rcap-retirement-adjudication.mjs --check",
+  "stopCondition": "every assigned asset is either retired with its seventh condition satisfied or carries a recorded repoint; no asset with a surviving operational dependency is retired",
+  "primaryOwner": "retirement and repoint lane",
+  "terminalOutcomeMix": {
+    "repoint": 3,
+    "retire": 1,
+    "packet_ready": 6
+  },
+  "terminalWork": [
+    {
+      "assetId": "KY|AOC-496.3|3225f34ea85bb9e4649e41257530d40e9565a4a7b95628148ee115edced47eaa",
+      "terminalOutcome": "repoint",
+      "mustPacket": false,
+      "doneCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+    },
+    {
+      "assetId": "KY|AOC-497|715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+      "terminalOutcome": "repoint",
+      "mustPacket": false,
+      "doneCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+    },
+    {
+      "assetId": "VT|200-00129|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+      "terminalOutcome": "retire",
+      "mustPacket": false,
+      "doneCondition": "the retirement script writes this asset's marker with every operational reference proven absent, and the determination re-derives without it"
+    },
+    {
+      "assetId": "WI|DJ-LE-250B|3c5d4806ff1061246ec06c93716cfa80ec3d61b9e21c5c79639114ab1e5454b6",
+      "terminalOutcome": "repoint",
+      "mustPacket": false,
+      "doneCondition": "every one of the 1 surviving operational reference is repointed to the canonical asset, and only then is this id retired"
+    },
+    {
+      "assetId": "AK|ak-record-relief-forms.html|e85e1adc3462452fe4dbe83ffc28de8cef7528e2f6cb2771e4412abf3aa656f0",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts"
+    },
+    {
+      "assetId": "AL|al-expungement-petition.html|fbeb00bc41b8ed948fbbaa31276216849bef70c4cb9cf55e197a414e5725e8b4",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts"
+    },
+    {
+      "assetId": "AL|criminal-forms.html|55acbbbee2554b6c57dbae84ad13c7aaa78545521cba341499d1c21c07a9e666",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts"
+    },
+    {
+      "assetId": "AL|criminal-record-expungement.html|021c264e33e7b124273795c68c62b3f5e24d82c28326ed69cb2ebeb4320726bf",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts"
+    },
+    {
+      "assetId": "AR|Arkansas-Petition-Order-Forms.html|f47ff079d70a3973ecbdd32c524f373af88801fe8cd3e91b7a6f090f825f8d42",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts"
+    },
+    {
+      "assetId": "KY|Kentucky-Expungement-Forms.html|c144558f1a2e7745631fbfc599744a4e0c8a3099d905eaed6258fed342858dc8",
+      "terminalOutcome": "packet_ready",
+      "mustPacket": false,
+      "doneCondition": "the family re-renders clean against the corrected binder, carries complete sidecar and all-page evidence, and holds a current independent approval the gate accepts"
+    }
+  ],
+  "mustPacketAssets": [],
+  "blockedAssetsDoNotHoldOthers": true,
+  "baseSha": "b375b13a3c021bf424ecb4e0441400fff161f46d",
+  "globalProhibitedPaths": [
+    "src/**",
+    "package.json",
+    "package-lock.json",
+    "tsconfig.json",
+    "next.config.ts",
+    "supabase/migrations/**",
+    "deploy/rcap-render-worker/**",
+    ".github/workflows/**",
+    "scripts/rcap-official-forms/rcap-platform-ready.mjs",
+    "data/rcap-all50/pdf-independent-reviews/*-manifest.json",
+    "data/rcap-all50/pdf-independent-reviews/*-group-*.review.json"
+  ]
+}

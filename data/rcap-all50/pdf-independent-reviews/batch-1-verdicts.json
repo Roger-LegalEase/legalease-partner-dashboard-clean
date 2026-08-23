@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-rollup/v1",
+  "batch": "batch-1",
+  "reviewDate": "2026-08-19",
+  "reviewerBranch": "claude/rcap-pdf-independent-review-batch-1",
+  "reviewedLaneBranch": "claude/rcap-problematic-pdf-full-remediation",
+  "reviewedLaneHead": "a7c9f0aa0dc19bb569783691e0bc0e65c0b57605",
+
+  "totals": {
+    "familiesReviewed": 27,
+    "approvedPlatformReady": 0,
+    "correctionRequired": 26,
+    "sourceIdentityUnresolved": 1,
+    "substantiveOwnerDecisionRequired": 0
+  },
+
+  "theOneFindingThatMattersMost": {
+    "statement": "Protection is decided from the AcroForm field name and nothing else. The widget rects are captured and written to field-census.json; they are never passed to the binder. The printed-caption channel exists and is dead code.",
+    "mechanism": [
+      "implement-rcap-official-forms-d1.mjs:428 — classification rows are built as { name, type, class }, with no effectiveLabel.",
+      "implement-rcap-official-forms-d1.mjs:442 — the binder is then called with effectiveLabel: c.effectiveLabel, which is undefined for every field of every family.",
+      "rcap-field-semantics.mjs — `const subject = effectiveLabel ?? name`, so the protect rules only ever match the internal field name.",
+      "decideBinding() takes { name, pdfType, effectiveLabel }. There is no rect, no page, no zone. Geometry is not an input."
+    ],
+    "secondMechanism": "implement-rcap-official-forms-d1.mjs:151 — NEVER_WRITE is { prohibited, protected, signature, court_or_agency, outside_party }. `manual` is absent, so a field the classifier itself called manual can still be bound and written. verify-rcap-official-forms-d1.mjs:206 carries the identical set, so the verifier cannot catch what the binder allows.",
+    "foundIndependentlyByAllThreeReviewers": true,
+    "everyClaimBelowWasVerifiedByTheCaptainAgainstTheCommittedFieldMaps": true
+  },
+
+  "whatThatCausedInFiledDocuments": [
+    { "family": "NC:aoc-cr-288-form-en", "effect": "The petitioner's own name and address are written into the block captioned 'Name And Address Of Petitioner's Attorney'. The filed petition asserts the petitioner is represented by counsel who is the petitioner." },
+    { "family": "NC:aoc-cr-288-form-en", "effect": "The court's FINDINGS OF FACT lines — 'If not eligible, it is because:' — carry the petitioner's name." },
+    { "family": "NC:aoc-cr-298-form-en", "effect": "The participant's own email is written as the district attorney's address of record, inside a certificate of service." },
+    { "family": "NC:aoc-cr-296-form-en", "effect": "The petitioner's name is written on the 'District Attorney Name (type or print)' line." },
+    { "family": "KY:aoc-334-form-en", "effect": "The participant's name is written into the Defendant's SSN blank. There is no SSN protect rule at all." },
+    { "family": "KY:aoc-496-2-form-en and KY:aoc-496-form-en", "effect": "The participant's name is written into the SSN and Jail ID boxes — on a court-issued expungement order in one case." },
+    { "family": "NC:aoc-cv-226-support-en", "effect": "On a sworn affidavit of indigency: the applicant's name printed as their street address twice and as their bank name; their street address printed in the City and Zip boxes." },
+    { "family": "AK:tf-800-form-en and AK:tf-805-form-en", "effect": "A filing date auto-written into 'I certify on ___' under Certificate of Service, producing a half-completed sworn certification dated by a platform that does not know when service occurred." },
+    { "family": "VA:cc-1473-form-en", "effect": "The petitioner's city written on the court's 'CITY OR COUNTY' line, and the case number written into an appeal-history field and an attached-warrant field, so the filing asserts facts not in evidence." },
+    { "family": "VA:cc-1201-form-en", "effect": "The case number written into the 'NUMBER of addendums attached' blank, and bound to the attorney's Virginia State Bar number field (latent — it renders blank only because the box is too narrow)." },
+    { "family": "NE:cc-6-11-form-en, cc-6-11-2-form-en, cc-6-12-form-en", "effect": "The venue caption loses the court's own printed words, prints the court name twice from overlapping widgets, and keeps the source dropdown prompts 'Choose the court' and 'Choose the county' as ink on a filed pleading." },
+    { "family": "NE:dc-1-15-form-en", "effect": "Every alternative caption variant renders at once, overlapping, with the participant's name stamped three times." },
+    { "family": "NC:aoc-cr-287-form-en, NC:aoc-cr-297-form-en, KY:aoc-497-form-en", "effect": "The street address printed twice, on two consecutive caption rules." },
+    { "family": "VT:600-00228-support-en", "effect": "The same cause in reverse: a fee-waiver application whose fields are named as bare digits, so every applicant field is refused and the application carries no applicant data at all." }
+  ],
+
+  "structuralBlockersAboveAnyForm": {
+    "approvalChannel": "1 of 27 families can record an approval. rcap-platform-ready.mjs reads independentReview from overlay-profile.json; the 26 AcroForm-fill families carry production-field-map.json, which has no such field. They cannot reach platform_ready however clean their review comes back.",
+    "provenanceConformance": "0 of 27 sidecars carry the 20 fields the shared contract requires. The contract proves its P-block against a sidecar it synthesizes from a canary and never opens a committed one, so nothing had compared them. This does not fail the platform-ready gate — it is a divergence between the contract the platform states and the gate it enforces.",
+    "sourceReadability": "1 of 27 source binaries is readable here. The other 26 are unmounted rather than missing: all are exact-hash matches in the committed corpus index.",
+    "visualEvidence": "The repository holds 9 rasterized PNGs for 27 families, roughly one per jurisdiction. The contact-sheet PDFs were confirmed to be genuine two-panel evidence rather than stubs, but a PDF is not the rasterized blank-versus-filled check the contract asks for.",
+    "fixtureMatrix": "No rendered fixture anywhere for a missing optional value, and none for the protected-field case outside WI. The negative fixture asserts that nothing is written with no participant facts, but copies its refusals from the canonical render — the empty-facts case is asserted, never rendered."
+  },
+
+  "artifactSafety": {
+    "result": "clean across all 81 artifacts in the batch",
+    "observed": "Every artifact hash matches the manifest, the sidecar and the rendered-artifacts report. All parse. Page counts match. Zero live AcroForm fields, zero widgets, zero XFA, zero JavaScript, zero OpenAction or Additional Actions, zero unsafe annotation actions, zero object streams hiding content from the residue scan, empty /Annots on every page. Participant values are real page content. No clipping and no silent truncation anywhere — overflow shrinks to the 6pt floor and then refuses.",
+    "whatThisMeans": "Every one of these documents is technically well-formed. Not one of the 26 corrections is an artifact-safety defect. What is wrong is what they say."
+  },
+
+  "closestToApproval": {
+    "family": "VT:200-00132-form-en",
+    "why": "Its only finding is the corpus-wide provenance sidecar gap. Field safety, artifact, fixtures and visual evidence are all clean, and it is a bilateral stipulation on which nothing was written on the prosecutor's half. It would approve the moment the sidecar is emitted through the canonical module — except that it is an AcroForm-fill family, so there is nowhere to record the approval."
+  },
+
+  "exactPdfLaneAction": "Three shared fixes, in order, before any per-family work. (1) Pass the widget rect and the printed caption into decideBinding — the rects are already on disk in field-census.json and the caption channel already exists; WI's protectedRules demonstrate geometry-based protection working. (2) Add `manual` to NEVER_WRITE in both the binder and the verifier, and add an SSN protect rule. (3) Add refuseWhen guards so street_address declines city/state/zip haystacks and full_legal_name declines street-name and bank-name. Then re-derive the field maps and re-render; most of the 26 should clear together, and what remains is worth reviewing individually.",
+  "exactSessionAAction": "Zero families from batch-1 may be counted platform_ready. WI CR-266, the corpus's only current platform_ready asset, is correction_required at this head on both findings raised at the previous head — its fixtures carry the deterministic creation-date stamp where the source's own date is expected, so they were produced by pre-a7c9f0aa code and re-rendering will change every hash its approval names."
+}

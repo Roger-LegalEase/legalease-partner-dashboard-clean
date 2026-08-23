@@ -1,0 +1,768 @@
+{
+  "schemaVersion": "rcap-pdf-review-freeze-verification/v1",
+  "generatedBy": "scripts/generate-rcap-pdf-inventory-closure.mjs",
+  "purpose": "The batch-1 independent review was taken against this exact head. Adopting it into a second lane is only honest if the bytes it names are still the bytes on disk, so every hash the frozen manifest pins is recomputed here.",
+  "whyThisLaneDidNotReReview": "A second reading of the same 27 families at the same head produces a second opinion, not a second measurement. The measurement that adds something is whether the freeze still holds, and that is what this record is.",
+  "reviewedLaneHead": "a7c9f0aa0dc19bb569783691e0bc0e65c0b57605",
+  "verifiedAtHead": "a7c9f0aa0dc19bb569783691e0bc0e65c0b57605",
+  "headsAgree": true,
+  "totals": {
+    "familiesInFreeze": 27,
+    "artifactsInFreeze": 81,
+    "artifactHashesStillMatching": 6,
+    "artifactHashesDrifted": 72,
+    "artifactsAbsent": 3,
+    "classificationHashesStillMatching": 1
+  },
+  "adoptedVerdicts": {
+    "familiesReviewed": 27,
+    "approvedPlatformReady": 0,
+    "correctionRequired": 26,
+    "sourceIdentityUnresolved": 1,
+    "substantiveOwnerDecisionRequired": 0
+  },
+  "drifted": [
+    "AK:tf-800-form-en:fixtures/canonical-filled.pdf",
+    "AK:tf-800-form-en:fixtures/boundary-filled.pdf",
+    "AK:tf-800-form-en:contact-sheet/blank-vs-filled.pdf",
+    "AK:tf-805-form-en:fixtures/canonical-filled.pdf",
+    "AK:tf-805-form-en:fixtures/boundary-filled.pdf",
+    "AK:tf-805-form-en:contact-sheet/blank-vs-filled.pdf",
+    "KY:aoc-334-form-en:fixtures/canonical-filled.pdf",
+    "KY:aoc-334-form-en:fixtures/boundary-filled.pdf",
+    "KY:aoc-334-form-en:contact-sheet/blank-vs-filled.pdf",
+    "KY:aoc-496-2-form-en:fixtures/canonical-filled.pdf",
+    "KY:aoc-496-2-form-en:fixtures/boundary-filled.pdf",
+    "KY:aoc-496-2-form-en:contact-sheet/blank-vs-filled.pdf",
+    "KY:aoc-496-3-form-en:fixtures/canonical-filled.pdf",
+    "KY:aoc-496-3-form-en:fixtures/boundary-filled.pdf",
+    "KY:aoc-496-3-form-en:contact-sheet/blank-vs-filled.pdf",
+    "KY:aoc-496-4-form-en:fixtures/canonical-filled.pdf",
+    "KY:aoc-496-4-form-en:fixtures/boundary-filled.pdf",
+    "KY:aoc-496-4-form-en:contact-sheet/blank-vs-filled.pdf",
+    "KY:aoc-496-form-en:fixtures/canonical-filled.pdf",
+    "KY:aoc-496-form-en:fixtures/boundary-filled.pdf",
+    "KY:aoc-496-form-en:contact-sheet/blank-vs-filled.pdf",
+    "KY:aoc-497-form-en:fixtures/canonical-filled.pdf",
+    "KY:aoc-497-form-en:fixtures/boundary-filled.pdf",
+    "KY:aoc-497-form-en:contact-sheet/blank-vs-filled.pdf",
+    "NC:aoc-cr-287-form-en:fixtures/canonical-filled.pdf",
+    "NC:aoc-cr-287-form-en:fixtures/boundary-filled.pdf",
+    "NC:aoc-cr-287-form-en:contact-sheet/blank-vs-filled.pdf",
+    "NC:aoc-cr-288-form-en:fixtures/canonical-filled.pdf",
+    "NC:aoc-cr-288-form-en:fixtures/boundary-filled.pdf",
+    "NC:aoc-cr-288-form-en:contact-sheet/blank-vs-filled.pdf",
+    "NC:aoc-cr-297-form-en:fixtures/canonical-filled.pdf",
+    "NC:aoc-cr-297-form-en:fixtures/boundary-filled.pdf",
+    "NC:aoc-cr-297-form-en:contact-sheet/blank-vs-filled.pdf",
+    "NC:aoc-cr-298-form-en:fixtures/canonical-filled.pdf",
+    "NC:aoc-cr-298-form-en:fixtures/boundary-filled.pdf",
+    "NC:aoc-cr-298-form-en:contact-sheet/blank-vs-filled.pdf",
+    "NC:aoc-cv-226-support-en:fixtures/canonical-filled.pdf",
+    "NC:aoc-cv-226-support-en:fixtures/boundary-filled.pdf",
+    "NC:aoc-cv-226-support-en:contact-sheet/blank-vs-filled.pdf",
+    "NE:cc-6-11-2-form-en:fixtures/canonical-filled.pdf",
+    "NE:cc-6-11-2-form-en:fixtures/boundary-filled.pdf",
+    "NE:cc-6-11-2-form-en:contact-sheet/blank-vs-filled.pdf",
+    "NE:cc-6-11-form-en:fixtures/canonical-filled.pdf",
+    "NE:cc-6-11-form-en:fixtures/boundary-filled.pdf",
+    "NE:cc-6-11-form-en:contact-sheet/blank-vs-filled.pdf",
+    "NE:cc-6-12-form-en:fixtures/canonical-filled.pdf",
+    "NE:cc-6-12-form-en:fixtures/boundary-filled.pdf",
+    "NE:cc-6-12-form-en:contact-sheet/blank-vs-filled.pdf",
+    "NE:cc-6-15-1-form-en:fixtures/canonical-filled.pdf",
+    "NE:cc-6-15-1-form-en:fixtures/boundary-filled.pdf",
+    "NE:cc-6-15-1-form-en:contact-sheet/blank-vs-filled.pdf",
+    "NE:dc-1-15-form-en:fixtures/canonical-filled.pdf",
+    "NE:dc-1-15-form-en:fixtures/boundary-filled.pdf",
+    "NE:dc-1-15-form-en:contact-sheet/blank-vs-filled.pdf",
+    "VA:cc-1201-form-en:fixtures/canonical-filled.pdf",
+    "VA:cc-1201-form-en:fixtures/boundary-filled.pdf",
+    "VA:cc-1201-form-en:contact-sheet/blank-vs-filled.pdf",
+    "VA:cc-1473-form-en:fixtures/canonical-filled.pdf",
+    "VA:cc-1473-form-en:fixtures/boundary-filled.pdf",
+    "VA:cc-1473-form-en:contact-sheet/blank-vs-filled.pdf",
+    "VT:200-00130-form-en:fixtures/canonical-filled.pdf",
+    "VT:200-00130-form-en:fixtures/boundary-filled.pdf",
+    "VT:200-00130-form-en:contact-sheet/blank-vs-filled.pdf",
+    "VT:200-00132-form-en:fixtures/canonical-filled.pdf",
+    "VT:200-00132-form-en:fixtures/boundary-filled.pdf",
+    "VT:200-00132-form-en:contact-sheet/blank-vs-filled.pdf",
+    "VT:200-00132a-form-en:fixtures/canonical-filled.pdf",
+    "VT:200-00132a-form-en:fixtures/boundary-filled.pdf",
+    "VT:200-00132a-form-en:contact-sheet/blank-vs-filled.pdf",
+    "VT:600-00228-support-en:fixtures/canonical-filled.pdf",
+    "VT:600-00228-support-en:fixtures/boundary-filled.pdf",
+    "VT:600-00228-support-en:contact-sheet/blank-vs-filled.pdf"
+  ],
+  "missing": [
+    "NC:aoc-cr-296-form-en:fixtures/canonical-filled.pdf",
+    "NC:aoc-cr-296-form-en:fixtures/boundary-filled.pdf",
+    "NC:aoc-cr-296-form-en:contact-sheet/blank-vs-filled.pdf"
+  ],
+  "families": [
+    {
+      "familyId": "AK:tf-800-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "9583d1f2228dc3ba9a36b3cf61f3cfc36e8ac90246c1d9b965138bc4054cd227",
+          "observed": "de4d5014a0d9934c9b256959b7947ee0acbffb67eab2e8099f0d614276b1b807"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "3f2e1b74436925ff7a926ff5b8d77a99d4d49248e64be7372c1bf6fd26adb1fb",
+          "observed": "931ef62a7cf75a0a6e1597e3bab78987fbc86aaf9a1a1bf30a6e19dbff3f6287"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "e5ecf77f72e9ddd2e9c08b4e3e82484f796df4d08b4c343f0cc973d7cd67477e",
+          "observed": "dd7b228ac0400cb6abfd618b595fbe095edaeb92b52778f5ebe3fa63a9768a23"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "AK:tf-805-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "4ff71dd8d636a2bb5340737dafb4d258bba2b0d950065654528af52d2d88a979",
+          "observed": "d8bdd48265050a708de1c59411f58da7c02bb34ef2110cd1e13657d805d37a5a"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "17be2f738b14985830733ad6df42e946900b6cd0f6dcec0513a76ce4761cb099",
+          "observed": "0c29b6b481d971497d8a7446aa0cdc818a724a941a60484ed25b53d48c83f949"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "2233423100912bd9fbc5362241dbf7c7eb712532c8591dd9d6c89aa20d1d9c91",
+          "observed": "9e30b4beea7a121f9c7d51f3f748f1c7b50aa95d4e0accb9891f0bd67b2f837d"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "AK:tf-810-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-810-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "matches_the_freeze",
+          "sha256": "b67ef7839af4a9ed27d438dd37cb6e29d14a2335be5749916f46af7a125b0340"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "matches_the_freeze",
+          "sha256": "2417a90b58b7fe0b61999a3a67c7a1e80e6481229fff090310387a5ccdd2088a"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "matches_the_freeze",
+          "sha256": "990913a7d7220a9262d96895cd27ab95ac4689f8be3c12a652146843218f9a21"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "KY:aoc-334-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "5f01b700543a2e9b6499ff80cb6afe7a43c31d1b4ca47e29088282dd8628a03c",
+          "observed": "d56f10d2f71407fb290808b57cc7eb0adb5fdc66fb31859e8e10815963248247"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "e06ce34853fd46a16f6a4c8e3488764b6b58375ffdc197b6a3a6923bb2c08afa",
+          "observed": "1eff7f2cc107df77cdc76834627cef7d372cc1ba51627a9da8bae875a0d896ce"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "af53ae57fff29b2499617a5a3b3d9c85008f284102ff135a06e3b370801ed139",
+          "observed": "195a356d7e8ab583ef3965519fef5a98b77dd2fa1149eca4bed987f3cd40676a"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "KY:aoc-496-2-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "2dd15a6598e351b7334c9dad0a0f7533a2b0c4a8a5eda1dee4c324d8febc2c10",
+          "observed": "0b47b43b1126923ddb46b680986820c27afb15e7ce22827a195b90bab45aa0b9"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "38857fab1509fe1801815da267da26aff4c0ae5863b36f59edc82411669bd39a",
+          "observed": "e59645fc710c83b8149d2dfcbe4fd1d26b7902c01b29beaa44c4d1cbca3c21c2"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "92e092df5ab1a8bd99e67ce508179baac17ef595b2c6326088e432db04d53221",
+          "observed": "15f54e1a818eb5a6bf28ab486c6089b70bcb77f7f4c1896ec58efcc1bfcb4f6a"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "KY:aoc-496-3-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-3-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "850a0936b631a88142e480ae858bf7ab827e742b6c7360a7a360111be86bf83a",
+          "observed": "188405e8bd9508b08fabed8b3a4c9292df099848ba5ec9c215382d2dd552c68f"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "d3344eed7672e3ee8be9a85e15fe5447e91a287dfc1d33837f3587ecae7b7d79",
+          "observed": "33773da0645c24c0b352da283eb868950010aa293a3f049e082fe27f89376a20"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "afb520375e80cc44378ac8760d92bb0d24066eea20626bda3dec7040145759eb",
+          "observed": "08c5f4216286d4763cdb687b29ea3ac002eaa1623266e6e0efeff27078b45b4b"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "KY:aoc-496-4-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-4-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "2a1277400e66cbe7fc352a02131256f4c232f664cd9a274ed2a53e6679defe78",
+          "observed": "b364359660cbc67ac5bcbe57be2a40759884fcfef341575a7924f8adee38198d"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "ebaa046d8336a704c7b8b95477c441aa3328fede37dbbe57091bc9dda1f626c6",
+          "observed": "f2645000daadad347753397e78c526d8cee4f86caf06e27e9e618cbe8c1a0163"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "ea30f977b782d675043533c5f3c1c665cdfe3912f7632b1313bc438ffe2310f3",
+          "observed": "46ce014dc24324378cc4114929bbbcbc30562b80805dd2e6ccdb991a5fab08bf"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "KY:aoc-496-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "8d3b618342b8e20955109569e9b0f3ebb77e1464ee82b879ae409743ebbf3a45",
+          "observed": "77c693ac0ef3c93003b9a47f82aabbbf069dea4be63d4a51b3e378b7714829df"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "aeaff361b68ad1497a22c5953777bfaf8d43bb5a0a1bca79a5d5599bf2d3e33a",
+          "observed": "55a44cb9d32e856b7d3ae138e0f5676246953eb3fbecb8b0f788c7f75c1ccf96"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "3794c895d3fa9290f33615368c08017649c54d40ae7dbb0d3f75404643e48fc7",
+          "observed": "b0392bb9d5412357cef582ba28e3963ec7bd882913894387107e8f71d9abecc0"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "KY:aoc-497-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "2e23ea6eea2b6126bb14dba59260dcd50e9fc275eeff3979f5e3ff344bbdbc59",
+          "observed": "34e824319af7eaed380ac6313d25045fb9b9c7d8523588cc645766eb662dfc8a"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "e0dd58c05f05d30d1d76fccedf5b22aeb0aeb3c4a510ec72f679918c4bbbb522",
+          "observed": "0a186b8627ba1ee9a86ca3830fb46f1e426cb3365a641aea5fee39e47ac5ba37"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "8f0966a78e9e8bc152972f9584a7deab0500d7abe759ac288ad742e095c9c3a4",
+          "observed": "6fe897393a24eac55ca50fea70cf863f3ecc0454386e79368b6a9cada7331b25"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "c6807758e58b8ee0cb9c91f6da8bb50a4c3ab838329e3e47fce9cf0fe6123f4f",
+          "observed": "cc44d0a733fcd4a2bc2b501f3e1c3ac2e0a70dc44d82890e79a321a8cd3a0c0d"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "5d585951d26a48adc458406da52f3180864c456d2c2f3e4485d605b4ec2548ae",
+          "observed": "917280a556e74a14c258e1e333be51597c3ab8c70e6000ec6d79a55bfcd912f2"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "ffd0db5aac3eabfe2db2003c4634014259853a8731b882abd8892e94af4df8d5",
+          "observed": "8faf419772b2e856724c44237576a0bd06d1d879043e7bd5bb598ad6d59ff1e0"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "96ff5609fb6a0e9168e6e86c36112a538a231334155ac166a1027302c154a1d6",
+          "observed": "a505c3064c1d61c99ffcf74c5ba3a6d3bd59083410a0a5de9468c8f45bb8ae4e"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "5a00ee6811f8681cf257daa094b46ec7e64ca172f9f9dbc94716678845e69c2a",
+          "observed": "b7f035ab8d10d032457205ee092d3e2ff7758294409f6d24ae29b25bd5cb7a81"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "5703d476da2e832cddb97aa8ffd247b19b250b1ba82b5aa1c1f2f94a948ee618",
+          "observed": "5071453ddc4d16336b7ca74537e9281b4e1f5fd8e33a139194cd2982108b0aa8"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "NC:aoc-cr-296-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "absent"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "absent"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "absent"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "NC:aoc-cr-297-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "4e15783f6641c968274def95b38b6ce487a43080ebadf6974b829027ce4f6488",
+          "observed": "35cf4fc0aad5916a06b3bb7a3406315e22536848a1a01ba4e3efa1ac38983af8"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "434ab8ca96130d3b27ca3cc51348fa7571c5b9f014d84786c71efb4b8360d660",
+          "observed": "ee7e38747808ec4e5018c514082197a8a5b8ee262b27c033c294642d27713115"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "8c7834867538502d3fdb0acaea34cfd51ad7e38101dfc6f195e107de9f19a2b0",
+          "observed": "7a7c3d394c7fefe2c2d8d60aa4941d4a1b00459197f53b2530d91531e06ec80b"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "NC:aoc-cr-298-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "309aa7a0699b58a4462f409bcd7867f4450f1d8be30bee2e433e46cd23143da9",
+          "observed": "788c0d7e06880f021578ce31333e286fd8307cb3329720219ef7a2d154df9c74"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "a8a41cde96e3a4c1f604664d225cbe10f0fa830d8ff22a9d97bdb3d8b58bc1e3",
+          "observed": "2bc41af1dcc34c7ef156dd843004fab63a9872aae30310d05b5adc0479fffa21"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "d9ea7ca6523c7816c2bb3e47035fcf909e1f73b3a2cc8432ae04ce449b8dea84",
+          "observed": "2760cc020b65338628c89f617f9fa0a5390f5a278fe1312183dcf990ee8b9e02"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-en",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "8ebd1ccf32044b3b52689d5231ef4d0ddd8c06f74a5a38eb54a2d0be1ee47a53",
+          "observed": "99631f0faa0e4b7c47d4bb1942c8065bd81168f30abb3951618a2ca8677c923c"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "52ca5719efcb4fe94313e0ee2dfb569ccd2b8550ee4959af1461af233b230739",
+          "observed": "97a45a338a0d8772fd91035a9d910548d0ec931b4265b97ef5b29644422dd78b"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "26bb43ea85d42b881dbd8b9d21d09067f2c5a44285b0420114f3aab5104088b4",
+          "observed": "ab0681faa9af7a9d4f3e257b679bd3efd7560870c3c4e3482aba1dc84e65a906"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "NE:cc-6-11-2-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "cd503faa72efa82d6a18be2748f966304d5421b59621c06681e99f12b3a9b06e",
+          "observed": "b296cdc2ec785f7681a276ba8dd0b0931eebf4e605a72f8a3bb90d3c18723240"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "58a806f8e7731fac499cc7d9387e425b04234bbc757a4a0e826ae4ad628b6e7d",
+          "observed": "055e3bb597a60e869c4334ca26ba99d765d5cad9695688b7f48cae8e0a7b6347"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "e69a23f741eb79656e8c8970a1062250b47c0d85500301409f1f3c9e29e3e27d",
+          "observed": "aa469aa7145fd2087544a7c43f216d942f8b095b00d416a782e6dabaf021a5a3"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "NE:cc-6-11-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "6a7f0e4db821767783c14b5d560618f6361c0d1609c562b0086f4a6dde21a823",
+          "observed": "585e770a147de2b43bab1837e9151b2381e423ba980dfd1a39d00c59b4f78c0d"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "ec715fda7e14108024628a330fd8e5a94c415f9339be1f726eb99dad37b48023",
+          "observed": "3a22672b1761350af3105b1cf77e3c6108dd742aae1c334a75b7fa9005b18be5"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "878bea5971981a938047052eedc3a71685a4cb0c2a1c6160832ae0a2a1da62d9",
+          "observed": "124503c7ca5e02593a1747865136290f2a4ca3080557684794ca074961cbe4b6"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "NE:cc-6-12-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "21a1715a6bddd41d642e7127b90ac971044faf616d40d09e857571cb72417bb8",
+          "observed": "f2143ff4e72b574c24acf74b1bb44c80a688c740aad6ccd30bf03219ee8bf344"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "0aa3468c1afa6d30e1b219ebb638e3fc5b341b11d23e533c2c96dcea6a0f6162",
+          "observed": "7b49ae5ba63f869f4de58134d3362f208720429aca34a439c3b2c23e253da2d1"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "02c41c6227027aef9015aad59b42a4bc579971513d6baffa3745b3756cc780b3",
+          "observed": "651be5f06437e7ea374fabfda7990f25363f407d61086d0c4f3f2b1d212ba972"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "NE:cc-6-15-1-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "e2a68152e06354761b3001a0fcfee6a9d96e101344d4b9f831a6b4e2e1879238",
+          "observed": "53686fb10cc3de2f62054fcc543fd43c374f8a4a02e0d413df86dadc005661c6"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "427bff7969be39a7605c08b0d0b6d8bc6447ebb7b575ebfa0305255d9841a51d",
+          "observed": "550f2a3bf5f3ff9c302b023c5d6ceeb18f10dd3e1db3835e919ecef4816934b9"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "2960c343551b8c81ba96291792a8480c62cc73cc6c7d5a3d0c80a7bd298ea7be",
+          "observed": "7d31c001527d71c0bfdaeff7891753c15f8ac69c7e5bdd9457d2d70502b81613"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "NE:dc-1-15-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "3f0bc4bac2e1216e62e64da7e0d9ae897a1dfa2b822d1a14807505e656f6f2b1",
+          "observed": "a235362b324c5be0246c8e35bb83b89ef34298de4429e042e8bc645fd1048db2"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "a997b0df17375606c9f3f14f3ef1d341fa0b472314555891a47cc51d5d9b5d27",
+          "observed": "13b779cfff2bdd8a15749ed34bec7bad5b3214322681b25c3b3ed577bdea0be5"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "1481d199522a0cadd82b42b7193260bec525869304c815ad32dc0aa88701a131",
+          "observed": "1c3e61ddf1245d3a1a98747df0b4b9b6b4c13a2bc8e46bc6159be71e586d35bc"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "VA:cc-1201-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "427770d0ba6d3f512b8de6d6b631cf388afb7025057b5c0c191d6c1a2a356eb4",
+          "observed": "eea51728c959ab6bf56d54cba696e8f1aba7be5c3560f369f130731049f20d34"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "0cbd4278cf7185e3556101607e0d6c58ee51b1537dfdf3e1b1f16a5fead82b3f",
+          "observed": "bfe3099e44c505c45d13f7b897b8305cebe9938a305715cadcd21f435c6ea26d"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "6b58a4a3bf5fade40c2fcea53aabe0a7734cacdf3edfdc701a3bd971c31c57d8",
+          "observed": "36676b6b08dee7cbb19bc44369889f9fd44b9176c8ebecae148262d0e4dfb6af"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "VA:cc-1473-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "0c28f8653692c860c5cb29e99135ecae2d42410de48682b41814042e0d03f87d",
+          "observed": "dff7e78c80b9deaac102a649d486f520dc330f934ec8611971a9e46e3ae1b950"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "9a661e69c05e6880cc412003f3f83e6b375ed605806fa49faff667663a0c8aad",
+          "observed": "6cd890c8ce6d568cdd1bb17a29b08ba87e4b5878687b3cfae09a6c583e887650"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "02384e76303d212325e4fcf5eb4e4d502ff81c6642af3a9a17f57b5cdba02a29",
+          "observed": "45240f1b9cb52249113c79261aa889a0c963b2bbb01c390f78825e5eb4689ae9"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "VT:200-00130-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/vermont/200-00130-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "8523aca4ae536e662f1e0b5c21f883996a4e866db1d1a7c08b72c78602bf865e",
+          "observed": "c7e01a852e689cecd08d0aee8c117b87a5b590ddd7583f50bcb66721043ade7c"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "eb68699331c34738921bd0192574a011877b90f6a33eaa33ee1f73070f8fa3e3",
+          "observed": "44d439442085fe359fede7467d2b21719b737c5e3b349607742dddd9968da8ec"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "9c34f37911dc2cc0279280478a7cead31b17de4a6169038e4d2620699dd890a3",
+          "observed": "5951b04b882c74e6b7a6757cbd68f0acf12f5f06aa15ec75b590914496e2409b"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "VT:200-00132-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/vermont/200-00132-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "c49ba8941a0ab6a6a05cd2d4a8c32301d563c9692658f50122891e67d966cf60",
+          "observed": "0655bf15329c85e43e80b4dc610ecded83f83d90c004db442c2c627cce97ab32"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "33f38e0e4b3024cc62090ab5d9f7c71cb9d46a9cfb7db04847c5bd7578346e82",
+          "observed": "23cd750559c9b1c07e44c812eba7544aaa9acbb3e258450b5a59a6fccdf830b6"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "b774d621d4e9e90232b9f7177874a121d42fdf9aa88bc82bd273273dea930e1e",
+          "observed": "e44949ae36ec93ecf0a99b7810d66547e3f4ee4661e061e66ea737e2e8400afb"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "VT:200-00132a-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/vermont/200-00132a-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "5df4cceba1208a226792a927ce6b89f54c16632f780f872179942807c0f0ff6f",
+          "observed": "90f15ad749f2869d43cb49f4c6970a1158a6dd79c49362022c56f5f3becba00f"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "6a9c3137f09fa1a59076703917aa3100f7b5ccbf1be977e8629fcabeba8d0ed7",
+          "observed": "2c75ce0f09287fe92dd8fd0d080dd27c83e47dfb20b6aeb07bb6002361634e80"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "1c56457dbd05ac939c079150124c30d5124863a73b3254550d9b0c2b2621fb38",
+          "observed": "8f9e60ab7a3b00f78e7881de2531d9fb4c9c6f587b91b9ff12659c49e3aba790"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "VT:600-00228-support-en",
+      "familyPath": "data/rcap-all50/overlays/production/vermont/600-00228-support-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "drifted",
+          "frozen": "3badbfe515021b919e42eab8f487030cae408aaaf0d983d26d22a42ae3468b6e",
+          "observed": "ce40547daf5ab6bfae1a9b0898a33ba513e59de4c4e9524225fe0cf3c2f619d9"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "drifted",
+          "frozen": "37eb5ff468c72187bdcd61a68d08b93c9f080ba08fe61929c1b9b8f0760ce39e",
+          "observed": "9dc5427aae515e9972b02e2baef70f544f76de58e71fad91aad25ee658db094c"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "drifted",
+          "frozen": "991176ec5412fc285362f2f080ee041ed7b843e99f013d0d9b4b471f3c676490",
+          "observed": "8ad9fe2b0c0fd92efdb96a7b85c46b613562f878cfba4d409daa2e31885a45b2"
+        }
+      ],
+      "classificationStillMatches": false
+    },
+    {
+      "familyId": "WI:cr-266-form-en",
+      "familyPath": "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en",
+      "artifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "state": "matches_the_freeze",
+          "sha256": "5e78523d2a44d27fb280d87622f9f7d16afbf2b247ade9b31ad9f8fa51bb50e7"
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "state": "matches_the_freeze",
+          "sha256": "b6f0cea57d584f129ccbe142dcf4a6f2d9216f169e896417cddee47227dec145"
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "state": "matches_the_freeze",
+          "sha256": "cd906b1d37fcdb549f0b507b29faaecea99259b6ac48beb57ddd0a542112f93d"
+        }
+      ],
+      "classificationStillMatches": true
+    }
+  ]
+}

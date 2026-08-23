@@ -1,0 +1,267 @@
+{
+  "schemaVersion": "rcap-independent-review-visual-evidence/v2-source-verified",
+  "wave": "C",
+  "shardName": "c",
+  "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "method": {
+    "renderer": "PyMuPDF 1.28.2, rendered by this reviewer from the committed artifacts",
+    "whatWasInspected": "for every family: the blank official source and the filled canonical artifact page by page, plus the blank panel against the filled panel of the committed contact sheet",
+    "notInspected": null,
+    "geometryBasis": "widget rectangles recomputed by this reviewer from the source AcroForm. All 130 rectangles in the four families' field-census.json files were confirmed equal to the source widgets, so the census is corroborated rather than assumed.",
+    "sourceSemantics": "field roles were read from the source itself: ComboBox export/display pairs, text-field default values, and the per-field calculate JavaScript"
+  },
+  "protectedRegionResult": {
+    "regionsRequiredBlank": [
+      "court",
+      "judge",
+      "clerk",
+      "prosecutor",
+      "attorney",
+      "agency",
+      "service",
+      "signature",
+      "notarization",
+      "decision"
+    ],
+    "familiesWithAnyProtectedRegionWritten": 0,
+    "notes": "AOC-CV-226 side two (SWORN/AFFIRMED, Deputy CSC, Assistant CSC, Clerk Of Superior Court, Magistrate, Notary, SEAL, County Where Notarized, Date My Commission Expires, Signature Of Applicant, Name Of Applicant, Plaintiff/Defendant) is entirely blank. CC 6:11.2 is a court-owned Order; its findings, order body, Dated, BY THE COURT and JUDGE regions are entirely blank. CC 6:11 and CC 6:12 signature, date and email regions are blank."
+  },
+  "placementResult": {
+    "participantDrawsChecked": 28,
+    "insideTheRectOfTheFieldTheyWereBoundTo": 28,
+    "outsideThatRect": 0,
+    "boundToTheWrongSlot": 3,
+    "wrongSlotDetail": "matter.county in NE:cc-6-11-form-en, NE:cc-6-11-2-form-en and NE:cc-6-12-form-en is written into 'enter the county', a caption hint field whose source value is '(Enter the county name)', rather than into 'fullcountystatementRIGHT', the county data slot whose source calculate action is event.value = this.getField(\"DROPDOWNCOUNTY2\").value",
+    "writtenIntoARefusedField": 0
+  },
+  "defectsSeenInTheRaster": [
+    {
+      "familyIds": [
+        "NE:cc-6-11-form-en",
+        "NE:cc-6-11-2-form-en",
+        "NE:cc-6-12-form-en"
+      ],
+      "page": 1,
+      "defect": "stale chooser prompts survive flattening",
+      "strings": [
+        {
+          "text": "Choose the court",
+          "rect": [
+            144.3,
+            120.2,
+            198.6,
+            131.0
+          ],
+          "insideRefusedWidget": "TYPEOFCOURTDROPDOWN",
+          "widgetRect": [
+            142,
+            119,
+            221,
+            133
+          ]
+        },
+        {
+          "text": "Choose the county",
+          "rect": [
+            291.8,
+            120.2,
+            351.3,
+            131.0
+          ],
+          "insideRefusedWidget": "DROPDOWNCOUNTY2",
+          "widgetRect": [
+            290,
+            119,
+            369,
+            133
+          ]
+        }
+      ],
+      "collidesWith": {
+        "text": "(Enter the type of court)",
+        "rect": [
+          147.8,
+          117.8,
+          225.0,
+          128.5
+        ],
+        "printedBy": "source"
+      },
+      "presentInBlankPanel": true,
+      "presentInFilledPanel": true,
+      "whyItIsStillADefect": "the finalized filed artifact must carry no chooser prompt; ESC-CAPTION-VARIANTS records that an unselected chooser's value and stale appearance stream are both cleared before flatten, and they are not",
+      "sourceMechanism": "TYPEOFCOURTDROPDOWN and DROPDOWNCOUNTY2 are ComboBoxes whose unselected default option pairs export value 'IN THE                   COURT OF' / '                            COUNTY, NEBRASKA ' with display label 'Choose the court' / 'Choose the county'. The display label is what the widget appearance renders, and it survives flattening because the finalizer refuses to write the widget rather than clearing it."
+    },
+    {
+      "familyIds": [
+        "NE:cc-6-11-form-en",
+        "NE:cc-6-11-2-form-en",
+        "NE:cc-6-12-form-en"
+      ],
+      "page": 1,
+      "defect": "matter.county written into the caption hint field instead of the county data slot",
+      "drawnValue": "Example County",
+      "drawnRect": [
+        278,
+        107,
+        359,
+        123
+      ],
+      "widgetOverlap": "51%",
+      "renderedCaption": "Example County COUNTY, NEBRASKA \u2014 'COUNTY, NEBRASKA' is printed source text, confirmed present in the blank panel",
+      "correctionToThisReviewersEarlierReading": "the first pass called 'COUNTY, NEBRASKA' printed source text and called the draw correctly anchored. The source shows otherwise: 'COUNTY, NEBRASKA' is the flattened default value of the fullcountystatementRIGHT form field, and that field \u2014 not 'enter the county' \u2014 is the intended county slot. The draw is inside the rect of the field it was bound to, but that field is the wrong slot.",
+      "intendedSlot": {
+        "field": "fullcountystatementRIGHT",
+        "rect": [
+          279,
+          102,
+          505,
+          120
+        ],
+        "sourceDefaultValue": "                            COUNTY, NEBRASKA ",
+        "sourceCalculateAction": "event.value = this.getField(\"DROPDOWNCOUNTY2\").value;"
+      },
+      "slotActuallyWritten": {
+        "field": "enter the county",
+        "rect": [
+          277,
+          106,
+          381,
+          133
+        ],
+        "sourceDefaultValue": "\r   (Enter the county name)",
+        "role": "caption hint"
+      }
+    },
+    {
+      "familyIds": [
+        "NC:aoc-cv-226-support-en"
+      ],
+      "page": 1,
+      "defect": "applicant street address absent and city/state/zip duplicated",
+      "blankBlock": "Street Number And Street Name, Including Apartment Or Unit Number If Applicable",
+      "duplicatedValues": [
+        {
+          "value": "Springfield",
+          "rects": [
+            [
+              81,
+              143,
+              140,
+              158
+            ],
+            [
+              81,
+              189,
+              140,
+              204
+            ]
+          ]
+        },
+        {
+          "value": "XX",
+          "rects": [
+            [
+              237,
+              158,
+              251,
+              173
+            ],
+            [
+              237,
+              204,
+              252,
+              219
+            ]
+          ]
+        },
+        {
+          "value": "01234",
+          "rects": [
+            [
+              270,
+              158,
+              301,
+              173
+            ],
+            [
+              270,
+              204,
+              300,
+              219
+            ]
+          ]
+        }
+      ],
+      "conditionOnTheForm": "Full Permanent Mailing Address Of Applicant (if different than above)"
+    },
+    {
+      "familyIds": [
+        "NE:cc-6-11-form-en",
+        "NE:cc-6-11-2-form-en",
+        "NE:cc-6-12-form-en"
+      ],
+      "page": 1,
+      "defect": "TYPEOFCOURTRESULTS carries a bare court name instead of the export phrase",
+      "observed": "'District Court'",
+      "sourceCalculateAction": "event.value = this.getField(\"TYPEOFCOURTDROPDOWN\").value;",
+      "exportValuesAvailable": [
+        "IN THE                   COURT OF",
+        "IN THE ___________ COURT OF",
+        "IN THE DISTRICT COURT OF"
+      ],
+      "consequence": "the filed caption loses the phrase the court's own form composes"
+    }
+  ],
+  "falsePositivesRuledOut": [
+    {
+      "observation": "raw byte scan reports /AA in the CC 6:12 artifacts",
+      "resolution": "font subset prefix 'AAAZSD+TimesNewRomanPSMT'; no object dictionary carries an /AA key and every page carries /Annots [ ]",
+      "isDefect": false
+    },
+    {
+      "observation": "'01234' appears three times on AOC-CV-226 page 1 against two bound ZIP slots",
+      "resolution": "the third occurrence at (502,36,532,51) is the tail of '24-CR-001234' drawn into FileNumber (398,36,594,51)",
+      "isDefect": false
+    },
+    {
+      "observation": "the lane recorded ApplicantState and ApplicantFullPermanentMailingAddressState as notLocatableBecauseTooShort",
+      "resolution": "both located: 'XX' (237,158,251,173) inside (232,158,257,174) and 'XX' (237,204,252,219) inside (232,206,256,219)",
+      "isDefect": false
+    },
+    {
+      "observation": "the blank Nebraska sources contain ComboBox calculate JavaScript and the NC source contains 70 JS objects",
+      "resolution": "none of it survives into the finalized artifacts; every artifact has zero JavaScript, zero AcroForm fields and zero annotations",
+      "isDefect": false
+    }
+  ],
+  "reviewerGeneratedCrops": [
+    {
+      "path": "docs/record-clearing/pdf-independent-reviews/wave-c-shard-c/NC-aoc-cv-226-support-en-reviewer-crop-applicant-address-block.png",
+      "sha256": "f7498549866f6e1b8dbbc15fde6f6bc655ef2346de3281bcfd36a8c10952b2cd"
+    },
+    {
+      "path": "docs/record-clearing/pdf-independent-reviews/wave-c-shard-c/NE-cc-6-11-2-form-en-reviewer-crop-caption-band.png",
+      "sha256": "22b6b5772745c58fcee03a59e674391e9463f715b7b821f6762d0f4567070732"
+    },
+    {
+      "path": "docs/record-clearing/pdf-independent-reviews/wave-c-shard-c/NE-cc-6-11-form-en-reviewer-crop-caption-band.png",
+      "sha256": "22b6b5772745c58fcee03a59e674391e9463f715b7b821f6762d0f4567070732"
+    },
+    {
+      "path": "docs/record-clearing/pdf-independent-reviews/wave-c-shard-c/NE-cc-6-12-form-en-reviewer-crop-caption-band.png",
+      "sha256": "22b6b5772745c58fcee03a59e674391e9463f715b7b821f6762d0f4567070732"
+    }
+  ],
+  "sourceVerification": {
+    "status": "performed",
+    "familiesVerified": 4,
+    "result": "every source SHA-256 recomputed from bytes and equal to all pinned identities; byte lengths match",
+    "visibleRevisions": {
+      "NC:aoc-cv-226-support-en": "AOC-CV-226, Rev. 4/23",
+      "NE:cc-6-11-form-en": "CC 6:11 Rev. 04/2024",
+      "NE:cc-6-11-2-form-en": "CC 6:11.2 Rev. 12/2020",
+      "NE:cc-6-12-form-en": "CC 6:12 Rev. 04/2024"
+    }
+  }
+}

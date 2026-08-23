@@ -1,48 +1,83 @@
 {
-  "schemaVersion": "rcap-artifact-provenance/v1",
-  "purpose": "External provenance for finalized participant artifacts. The PDF Info dictionary carries the court's metadata, not ours, so nothing here may be inferred from it and no staleness check may depend on a Producer stamp.",
-  "jurisdiction": "NC",
-  "assetId": "AOC-CR-296",
-  "documentId": "AOC-CR-296",
-  "formFamily": null,
-  "officialFormNumber": null,
-  "officialTitle": null,
-  "sourcePublisher": null,
-  "sourceUrl": null,
-  "sourceRevision": "REV-2025-03",
-  "sourceSha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
-  "sourceMetadataFingerprint": null,
-  "fieldMapSha256": "df470b0e497777ddad760e20340a3629f294ec73e4f1e79fee8299d4924307d9",
-  "classificationSha256": null,
-  "packetSpecSha256": null,
-  "factoryVersion": "d0-remediated-v2-content-stream-geometry",
-  "rendererVersion": "implement-rcap-official-forms-d1/v2-provenance-sidecar",
-  "generatedAt": "2026-08-19T00:00:00.000Z",
-  "activeContentResult": null,
-  "flatteningResult": null,
-  "protectedFieldResult": null,
-  "fixtureIdentity": null,
-  "artifacts": [
+  "schemaVersion": "rcap-terminal-provenance/v1",
+  "purpose": "Provenance for a family whose terminal disposition correctly produces no participant artifact. The absence is the outcome, not a gap: no artifact digest is manufactured, and this record must never be read as one describing a document.",
+  "implementationFreezeSha": "f34fe99d8760805eef219c4014664a87f6e90e50",
+  "captainCoordinationHead": "513b9ce35df005af956781ce4e05c5a400806478",
+  "sourcePack": "pdf-finish-final-evidence",
+  "familyId": "NC:aoc-cr-296-form-en",
+  "disposition": "no_participant_artifact",
+  "canonicalTerminalDisposition": null,
+  "artifactExpected": false,
+  "sourceIdentity": {
+    "resolvedPath": "private/source-imports/Expungement_AI_RCAP_Master_Library_Edition_1/STATES/NC/02_PACKET_FORMS/NC__FORM__AOC-CR-296__aoc-cr-296-petition-and-order-of-expunction__REV-2025-03__EN.pdf",
+    "sha256": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+    "byteLength": 241203,
+    "hashedFromInstalledBytes": true,
+    "matchesImplementationFreeze": true,
+    "sourcePack": "pdf-finish-final-evidence",
+    "sourceUrl": null
+  },
+  "packageIdentity": {
+    "sourceRecordSha256": "e20288027880eae42b61875b39c152f9a1aea3590b9450bd4a1d3ba1248a5fb0",
+    "sourceReceiptSha256": "f119bc1c9bf0ad05f536275fad9f5eea7fab15a735b7bcd4bd89adc223dc7262",
+    "maps": [
+      {
+        "file": "production-field-map.json",
+        "sha256": "2f45b235170cb8ed2ef183a08ff6e266ec430f6a8f7138a7b2cec2064f10b608",
+        "schemaVersion": "rcap-acroform-map/v5"
+      }
+    ],
+    "fieldCensusSha256": "5c372fee87708a9dd33f4247e9b97fb7c313abf84461fbbfaad69cf3b8da3d64",
+    "fieldClassificationSha256": "290990ba52ee06b17b35694c0cd4d631f47592337f158f2ef193cc3a4df03a94",
+    "familyLocalProofs": []
+  },
+  "classification": {
+    "schemaVersion": "rcap-field-classification/v4-nine-class",
+    "documentOwnership": "outside_party_completed",
+    "denominator": null,
+    "discoveredFieldsOrAnchors": null,
+    "classifiedFieldsOrAnchors": null,
+    "countersPresent": false,
+    "complete": null,
+    "classCounts": {
+      "participant": 45,
+      "prohibited": 1,
+      "manual": 75,
+      "court_or_agency": 5
+    },
+    "classCountsTotal": 126,
+    "entries": 126
+  },
+  "freezeBinding": [
     {
-      "artifact": "fixtures/canonical-filled.pdf",
-      "outputSha256": "bfff2e3a94523f145eb6b0aad877f84b6d2b968ed9eeb5941cb96189db45f16f",
-      "normalizedContentSha256": "76f661d4ca9db681077265d9d82e04218fec69d3a099ad80385ac4bc7ba4ccf0",
-      "byteLength": 275196,
-      "pageCount": 2
+      "file": "source-record.json",
+      "frozenSha256": "e20288027880eae42b61875b39c152f9a1aea3590b9450bd4a1d3ba1248a5fb0",
+      "onDiskSha256": "e20288027880eae42b61875b39c152f9a1aea3590b9450bd4a1d3ba1248a5fb0"
     },
     {
-      "artifact": "fixtures/boundary-filled.pdf",
-      "outputSha256": "60bf177ebf6ec68c9454a4a4b7ca18f0cf569155748cad8a91ebc499e79e7a2c",
-      "normalizedContentSha256": "b1fa5f9bc03d8e2eaf78f7726cadd3d0c8b6d82f1e52120ebeb30397caba6dc7",
-      "byteLength": 275457,
-      "pageCount": 2
+      "file": "field-census.json",
+      "frozenSha256": "5c372fee87708a9dd33f4247e9b97fb7c313abf84461fbbfaad69cf3b8da3d64",
+      "onDiskSha256": "5c372fee87708a9dd33f4247e9b97fb7c313abf84461fbbfaad69cf3b8da3d64"
     },
     {
-      "artifact": "contact-sheet/blank-vs-filled.pdf",
-      "outputSha256": "a27ecc3ac56f79238d959cd950175e696190f804fa7b33488863a9301b3b6daa",
-      "normalizedContentSha256": "5e0aa41af724a2a468314c1c3a3dbe207939749130f9a15e92f15527171214e8",
-      "byteLength": 884640,
-      "pageCount": 2
+      "file": "field-classification.json",
+      "frozenSha256": "290990ba52ee06b17b35694c0cd4d631f47592337f158f2ef193cc3a4df03a94",
+      "onDiskSha256": "290990ba52ee06b17b35694c0cd4d631f47592337f158f2ef193cc3a4df03a94"
+    },
+    {
+      "file": "production-field-map.json",
+      "frozenSha256": "2f45b235170cb8ed2ef183a08ff6e266ec430f6a8f7138a7b2cec2064f10b608",
+      "onDiskSha256": "2f45b235170cb8ed2ef183a08ff6e266ec430f6a8f7138a7b2cec2064f10b608"
     }
-  ]
+  ],
+  "terminalState": {
+    "disposition": "no_participant_artifact",
+    "documentRole": "PETITION",
+    "language": "EN",
+    "participantFillable": false,
+    "referenceOnlyNotice": null,
+    "participantArtifacts": 0
+  },
+  "generatedAt": "2026-08-22T00:00:00.000Z",
+  "artifacts": []
 }

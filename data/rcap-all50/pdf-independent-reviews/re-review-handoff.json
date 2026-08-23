@@ -1,0 +1,1185 @@
+{
+  "schemaVersion": "rcap-pdf-re-review-handoff/v1",
+  "generatedBy": "scripts/generate-rcap-re-review-handoff.mjs",
+  "purpose": "Corrected families handed back for a new independent review, with every current hash and the proof each finding is closed.",
+  "handTo": "the independent-review lane",
+  "correctedAtHead": "73f9883c486b26505d8b96e5d0ce1cb2f8fb9ba9",
+  "reviewedLaneHead": "a7c9f0aa0dc19bb569783691e0bc0e65c0b57605",
+  "whatChangedUnderneath": "Four shared corrections in scripts/rcap-official-forms/rcap-field-semantics.mjs and the D1 binder/verifier pair, then a re-derivation and re-render. No family map was hand-edited; the maps are generated, and every binding that disappeared did so because the shared rule refused it.",
+  "aPriorRecordMayNotBecomeAnApproval": "Each family below carries a correction_required verdict against superseded bytes. The gate reads artifact hashes, so those records now fail their own hash check — which is the correct behaviour and the reason a new record is required rather than an edit.",
+  "totals": {
+    "familiesHandedBack": 19,
+    "withEveryObjectedFieldClosed": 11,
+    "withNoFieldLevelFinding": 7,
+    "artifactsChanged": 56
+  },
+  "families": [
+    {
+      "familyId": "AK:tf-800-form-en",
+      "jurisdiction": "AK",
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-800-form-en",
+      "documentId": "TF-800",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-1.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 2,
+        "fieldOrGeometry": "certDate, rect [128,357 89x14]",
+        "observed": "The page prints 'Certificate of Service' at y=385.5 and 'I certify on ' at y=358.9. certDate is bound to deterministic.filing_date and both fixtures write 2026-08-12 at x=128.8, y=359.7. Its companion time2 is refused, so the finished page reads 'I certify on 2026-08-12 at ________' — a half-completed sworn certification of service, dated by a platform that does not know when service occurred.",
+        "required": "Service-block fields remain protected.",
+        "why": "PROTECT_RULES has an explicit service_block category matching /certificate\\s*of\\s*service/. It is tested against the field name 'certDate', which does not match, while the deterministic.filing_date descriptor's /cert\\s*date/ does. The widget sits 28pt below the printed heading, on the certification line — geometry identifies the area unambiguously and is never consulted.",
+        "smallestCorrection": "Refuse a binding whose widget rect falls inside a page region whose printed heading matches service_block; or add cert\\s*date to the service_block pattern.",
+        "additionalCorrections": null,
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "94bab52533d74551f7a8ff8644a9671241b38075c7e05f10806d627dfb898cbd",
+        "sourceUnchanged": true,
+        "fieldMap": "01dc07e5c489a7986f7b8d1c60e0643d4eb77f9c7413f4a3f99eaafe0ff3d6c5",
+        "fieldMapReviewed": "bbc994d51418b1b4a89151e1c63a1dc39bc6f0867400b79f7aefcc525043c4a7",
+        "classification": "9ef9ec0c0f76245b0c35cc12604447f5c7b2b108293207d7e03e5d815d93ca2f",
+        "classificationReviewed": "9ff878c157140b56fbfe2d5060c2fd6f87e9fad3b71950aa92423d98ad834c8d",
+        "provenance": "5fa9a2363f3276aec43ca9115809126e8d601502a12d1c23ebec8901120a14c3",
+        "provenanceReviewed": "99d194ae601961c6245a8fa728349ce41a2dbbc13812cd7847330e33938c0e52",
+        "visualEvidence": "ab0eb071fd708123457b98146e3545244c61d2a8df0ba195ddfaa1de0b488968",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "9583d1f2228dc3ba9a36b3cf61f3cfc36e8ac90246c1d9b965138bc4054cd227",
+            "currentSha256": "de4d5014a0d9934c9b256959b7947ee0acbffb67eab2e8099f0d614276b1b807",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "3f2e1b74436925ff7a926ff5b8d77a99d4d49248e64be7372c1bf6fd26adb1fb",
+            "currentSha256": "931ef62a7cf75a0a6e1597e3bab78987fbc86aaf9a1a1bf30a6e19dbff3f6287",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "e5ecf77f72e9ddd2e9c08b4e3e82484f796df4d08b4c343f0cc973d7cd67477e",
+            "currentSha256": "dd7b228ac0400cb6abfd618b595fbe095edaeb92b52778f5ebe3fa63a9768a23",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [
+        {
+          "field": "certDate",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        }
+      ],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "AK:tf-805-form-en",
+      "jurisdiction": "AK",
+      "familyPath": "data/rcap-all50/overlays/production/alaska/tf-805-form-en",
+      "documentId": "TF-805",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-2.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 2,
+        "fieldOrGeometry": "certDate",
+        "observed": "The filing date is written into the blank of 'I certify on ___ at ___ [date/time] I gave a copy of this document', under the printed heading 'Certificate of Service'.",
+        "required": "Service-block fields remain protected.",
+        "why": "The service_block protect rule tests the name 'certDate', which contains no service token, while the deterministic.filing_date matcher explicitly matches /cert\\s*date/. The block is not protected as a service block at all.",
+        "smallestCorrection": "Refuse certDate — either drop the cert-date pattern from the filing_date matcher, or fire service_block from the block's printed heading.",
+        "additionalCorrections": null,
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "96306d64eda397e25094f92c3d67a642372b82cba12f97c6666e5500136e8f54",
+        "sourceUnchanged": true,
+        "fieldMap": "45eb1789cf1b5d5ebeb1ca8d74244efcb0541e24cd752c2aa8795ddee5eebbb0",
+        "fieldMapReviewed": "d8c9de27b79072451a1188354ea6e7ae04677ab41800771d045c57ca7a6dfbff",
+        "classification": "b96efc7cbc6cb97296afba0bbd8e86bebb25e809f63837e83188b2c60eeccca3",
+        "classificationReviewed": "f870d102495622edd914d393e389d03efe03eb0f69b84e85791ecfb345f5f7c4",
+        "provenance": "f0490e609f9b5445daf13099c488cb3666f583f54006779c1da98d0e00ed7cee",
+        "provenanceReviewed": "624a9360a528d9b4c8491fd3f0b4330d742cbad7452eb09e860376753703603c",
+        "visualEvidence": "95f1b2304d75abcb965ed118ad0ba710d78b1d16a583a198926806c58e3c3987",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "4ff71dd8d636a2bb5340737dafb4d258bba2b0d950065654528af52d2d88a979",
+            "currentSha256": "d8bdd48265050a708de1c59411f58da7c02bb34ef2110cd1e13657d805d37a5a",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "17be2f738b14985830733ad6df42e946900b6cd0f6dcec0513a76ce4761cb099",
+            "currentSha256": "0c29b6b481d971497d8a7446aa0cdc818a724a941a60484ed25b53d48c83f949",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "2233423100912bd9fbc5362241dbf7c7eb712532c8591dd9d6c89aa20d1d9c91",
+            "currentSha256": "9e30b4beea7a121f9c7d51f3f748f1c7b50aa95d4e0accb9891f0bd67b2f837d",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [
+        {
+          "field": "certDate",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        }
+      ],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "KY:aoc-334-form-en",
+      "jurisdiction": "KY",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-334-form-en",
+      "documentId": "AOC-334",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-1.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 1,
+        "fieldOrGeometry": "\"Defendants ssn\", rect [297,536 90x17]",
+        "observed": "The participant's full legal name is written at x=298.0, y=541.5 directly after the printed caption \"Defendant's SSN: ________________\".",
+        "required": "The field refuses. A name is not an SSN, and an SSN is not a participant-writable fact.",
+        "why": "There is no SSN protect rule at all. /defendant/ in the full_legal_name descriptor matches the field name 'Defendants ssn'. classify() does catch it and marks the field `manual`, but `manual` is absent from NEVER_WRITE so the guard never fires.",
+        "smallestCorrection": "Add \\bssn\\b|social\\s*security to PROTECT_RULES, and add `manual` to NEVER_WRITE.",
+        "additionalCorrections": null,
+        "secondCorrection": {
+          "observed": "The document ends 'So ORDERED this ____ day of ______, 2____' over a Judge line and recites that the conviction is hereby void. It is a court order, and determineOwnership() types it as a participant filing, so the captionOnly guard never applies.",
+          "why": "Ownership is keyed on documentRole, filename slug and officialTitle. The recorded officialTitle is a scraped mid-sentence fragment containing no order/judgment/decree token, so it falls through to the participant default.",
+          "required": "OWNERSHIP.COURT_ORDER, with captionOnly engaged."
+        },
+        "thirdCorrection": {
+          "observed": "revision REV-UNKNOWN with freshnessStatus revision_confirmation_required, and officialTitle a mid-sentence fragment — while the artifact itself prints AOC-334, Doc. Code: OVSR, Rev. 1-22.",
+          "required": "REV-2022-01 and the real title. The identity was legible in the binary and was not captured."
+        },
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "7eb2838037903de1769a0253d6ad9b092dd72f4aa363b323968c8c510fd55d3d",
+        "sourceUnchanged": true,
+        "fieldMap": "3f040c54a96623079ca8da2ec8e62139c68203535564a1520873e2ba4c22c088",
+        "fieldMapReviewed": "5c7841efa3f183e878babb0e9cf4c077b367b1f30a8773cce2c955f62b128d35",
+        "classification": "615555bc8239ed0333f35c095f0d7493e7d3d1f1b5a39d38384a7244471f5d12",
+        "classificationReviewed": "1ced0b7ba9aaaba67aec228c2f3aa79840945b8182dff5c0857e140d41d5040a",
+        "provenance": "67f251d7a79db9543db75f48c539ed573de796f1b3dee29aead1b009cb85109e",
+        "provenanceReviewed": "d918c99d0ee471b66f92ddb93c5f3e2bee6d9018d1d3a758e9365085999ac73b",
+        "visualEvidence": "cb9251c03705c8eb39177fd39aa95daf50a3d8f3373957fccda4a0e360b47fa2",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "5f01b700543a2e9b6499ff80cb6afe7a43c31d1b4ca47e29088282dd8628a03c",
+            "currentSha256": "d56f10d2f71407fb290808b57cc7eb0adb5fdc66fb31859e8e10815963248247",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "e06ce34853fd46a16f6a4c8e3488764b6b58375ffdc197b6a3a6923bb2c08afa",
+            "currentSha256": "1eff7f2cc107df77cdc76834627cef7d372cc1ba51627a9da8bae875a0d896ce",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "af53ae57fff29b2499617a5a3b3d9c85008f284102ff135a06e3b370801ed139",
+            "currentSha256": "195a356d7e8ab583ef3965519fef5a98b77dd2fa1149eca4bed987f3cd40676a",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [
+        {
+          "field": "Defendants ssn",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        }
+      ],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "KY:aoc-496-2-form-en",
+      "jurisdiction": "KY",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-2-form-en",
+      "documentId": "AOC-496.2",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-2.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 1,
+        "fieldOrGeometry": "Def.Address.City, Def.VitalStats.SSN, Def.Info.JailId",
+        "observed": "The street address is written into the City box (so it appears twice), and the participant's full legal name is written into the Defendant's SSN box and the Jail ID Number box.",
+        "required": "City binds city; SSN and Jail ID are refused.",
+        "why": "\\baddress\\b in the street_address matcher hits 'def address city', and street_address precedes city in the descriptor list. \\bdef\\b matches full_legal_name. There is no SSN protect rule anywhere. Both SSN and Jail ID are classified `manual` and listed in the family's own manualFields, yet bound and written.",
+        "smallestCorrection": "Add `manual` to NEVER_WRITE, and add an ssn|social security protect rule.",
+        "additionalCorrections": null,
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "5d1ca608d94911a3f2fa0ed168ea43da2d72e685b85c48b3c220ed5ea6896bde",
+        "sourceUnchanged": true,
+        "fieldMap": "24f45fe02076b2f494daeb6354945015f2d13a07d2e9c8700ffd31022524a3c1",
+        "fieldMapReviewed": "e75adcadcaa75f0598d68bf77938e9068dc0d773257fd36d41d7f6d6073253b7",
+        "classification": "9b361afe76e94cf8a5b65a27c8f4ca87375b9ba5ae26043d9c300465e6d4e578",
+        "classificationReviewed": "627c0524c061d14cae0bbeefa27c31a623c14343112f8a0368372580f74510f3",
+        "provenance": "eb73b2985f2a30fd1302e0fe70933bff1e509406254df0a0f15e683cfe9662a8",
+        "provenanceReviewed": "b0f902f48d66b5a247ab6fb08387128f324a84110bf0e1131a5a0a3af9407c3e",
+        "visualEvidence": "627d261c328c61004b367a5595814480199c06648d89c521158ef10b80f8b7cf",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "2dd15a6598e351b7334c9dad0a0f7533a2b0c4a8a5eda1dee4c324d8febc2c10",
+            "currentSha256": "133421661451e326099d5843ba83315a1dd624de776c8b3fe33a1a627b673a04",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "38857fab1509fe1801815da267da26aff4c0ae5863b36f59edc82411669bd39a",
+            "currentSha256": "10a6898d58eac072e71fcbad69d02d272e281edb1dd8bd89495d6bea629a012d",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "92e092df5ab1a8bd99e67ce508179baac17ef595b2c6326088e432db04d53221",
+            "currentSha256": "3351a3715110eab6b104fd57ca7301ef46bb4467077a7de1711a1c72a71d3911",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [
+        {
+          "field": "Def.VitalStats.SSN",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        },
+        {
+          "field": "Def.Info.JailId",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        }
+      ],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "KY:aoc-496-form-en",
+      "jurisdiction": "KY",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-496-form-en",
+      "documentId": "AOC-496",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-2.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 1,
+        "fieldOrGeometry": "Def.VitalStats.SSN, Def.Info.JailId",
+        "observed": "The participant's full legal name is written into the SSN box and the Jail ID box of a court-issued EXPUNGEMENT ORDER.",
+        "required": "Both refused. This document is captionOnly and court-issued.",
+        "why": "captionOnly did not stop them because full_legal_name is itself a caption fact. Both fields are classified `manual`.",
+        "smallestCorrection": "As above — `manual` in NEVER_WRITE, plus an SSN rule.",
+        "additionalCorrections": null,
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "4c4658780c576300d55f0262fd2455d6eae2a9b2d3e73972dece8a834ea1fdbd",
+        "sourceUnchanged": true,
+        "fieldMap": "08f9e44d037e4884c11df1d78405cf1e74f636accd250d4fd40f6615e3c1b5ab",
+        "fieldMapReviewed": "1831645bce5ed50c07749b21cac19d43c890ee86e9d7380556fc2bc003091ed4",
+        "classification": "d301a8a6dbe948998c00b1f918ecdc1d38ade49f7fde0b0ac8b3ae18d49f950e",
+        "classificationReviewed": "493f1f0946998720a7a55821ff2ca2797a827727e350add79f2f290abbf194f5",
+        "provenance": "911a7389a864e1a0ffa0defca3f2538031ef08aa72b7eedee6db45c76195ef81",
+        "provenanceReviewed": "83f8826ec01d48bb6657c1a713c41b485a57d8dcd2fc64f60146493ce0981440",
+        "visualEvidence": "63f185fc9dde8af53619006682aaa76e6f2e411090f1fb11976e687ebbeaa2d5",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "8d3b618342b8e20955109569e9b0f3ebb77e1464ee82b879ae409743ebbf3a45",
+            "currentSha256": "25df98d8e8a60ab236cfafa70a23ba842a76769f594225ec5f224a026496350e",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "aeaff361b68ad1497a22c5953777bfaf8d43bb5a0a1bca79a5d5599bf2d3e33a",
+            "currentSha256": "921fbeafc1eb46b58e30170703a23408d1dc6435b8187302d59be59a22e2452f",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "3794c895d3fa9290f33615368c08017649c54d40ae7dbb0d3f75404643e48fc7",
+            "currentSha256": "cdb99ddab73703b8faacbf549d000999971e015e777eac9212faced34d3de0e9",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [
+        {
+          "field": "Def.VitalStats.SSN",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        },
+        {
+          "field": "Def.Info.JailId",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        }
+      ],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "KY:aoc-497-form-en",
+      "jurisdiction": "KY",
+      "familyPath": "data/rcap-all50/overlays/production/kentucky/aoc-497-form-en",
+      "documentId": "AOC-497",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-3.review.json",
+      "originalFinding": {
+        "asset": null,
+        "page": null,
+        "fieldOrGeometry": null,
+        "observed": null,
+        "required": null,
+        "why": null,
+        "smallestCorrection": null,
+        "additionalCorrections": [
+          {
+            "page": 1,
+            "fieldOrGeometry": "ADDRESS (rect x=38 y=581 w=269) and address2 (rect x=38 y=563 w=269)",
+            "observed": "both bind participant.street_address, so '118 Maple Street' is rendered twice, on two consecutive caption rules. The block reads NAME / ADDRESS / (unlabeled continuation, conventionally city-state-zip).",
+            "required": "the second rule receives a distinct value or stays blank; the same street line must not appear twice",
+            "smallestCorrection": "rebind address2 to a city-state-zip fact, or move it to bindingRefusals",
+            "verifiedIndependently": "Yes — both bindings read from the committed production-field-map.json."
+          },
+          {
+            "asset": "source-record.json / source-receipt.json",
+            "observed": "revision REV-UNKNOWN and documentRole PETITION, with officialTitle a scraped sentence",
+            "required": "REV-2020-07, documentRole ORDER, and the printed title",
+            "why": "the artifact prints AOC-497 / Rev. 7-20 and is titled EXPUNGEMENT ORDER. Page 2 carries 'THEREFORE, IT IS HEREBY ORDERED', a DENIED/GRANTED election, a judge signature block and an agency certification. This is a court-issued order recorded as a petition."
+          }
+        ],
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "715c00db62e19f07f7dedde68e89309027f4ed9566198a3617cb9bb34a98368b",
+        "sourceUnchanged": true,
+        "fieldMap": "b1cf4afb7aa9311f257b77559b589cafd32e9713e3e354279b7d4a0ef1e9fb81",
+        "fieldMapReviewed": "fed0fd878a1be67a0dfd03a13c9ff8262accbf17d9167ebc7ec812e641fe7f1e",
+        "classification": "5f77f1338ba1e74e27560ef6de540697bb5c9c9c0c13c5be81db87629089d8bf",
+        "classificationReviewed": "aad0c3d3e70633c439f8843424f1de4482ecc2cfeca3181ee50ed78cb227b90e",
+        "provenance": "b7a0f6efd027fabd5b00f4d35b7aba35aa3dd5c317beee0f275a962eda9ef413",
+        "provenanceReviewed": "d6cc359e1a96b589bb95809e6a29731e86564ffbcd35bffa4c6765d55331ea4b",
+        "visualEvidence": "9d17ab5cb69d6478765ba83a299da6108c65a6a6e5a5ea01b1901cd6e524ccb1",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "2e23ea6eea2b6126bb14dba59260dcd50e9fc275eeff3979f5e3ff344bbdbc59",
+            "currentSha256": "f04220c027afa8b6d6c1b29e4eba9bff125e4e2d8c2d4fb15b616bbfb4ea5d02",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "e0dd58c05f05d30d1d76fccedf5b22aeb0aeb3c4a510ec72f679918c4bbbb522",
+            "currentSha256": "b5848467b1fb6b4f1d46c6cd071e435770a34fcb8d606d831da1c246f16f206f",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "8f0966a78e9e8bc152972f9584a7deab0500d7abe759ac288ad742e095c9c3a4",
+            "currentSha256": "3d529db77e469c9fb17d041b861ef04ff66cda777836e15c8211c7a10d985aca",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [
+        {
+          "field": "Def.Address.City",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        }
+      ],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "NC:aoc-cr-287-form-en",
+      "jurisdiction": "NC",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-287-form-en",
+      "documentId": "AOC-CR-287",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-1.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 1,
+        "fieldOrGeometry": "PetitionerAddr1 [37,667 278x13] and PetitionerAddr2 [37,655 278x13]",
+        "observed": "Both are bound to participant.street_address, so the street line is printed twice. The four-line 'Name And Address Of Petitioner' block reads: name / 118 Maple Street / 118 Maple Street / city state zip. The boundary fixture duplicates the long address on both lines at 7.5pt.",
+        "required": "Bind only line 1; leave line 2 blank absent a distinct address-line-2 fact.",
+        "why": null,
+        "smallestCorrection": null,
+        "additionalCorrections": null,
+        "secondCorrection": {
+          "fieldOrGeometry": "DriversLicenseState, class manual",
+          "observed": "bound to participant.state and writing the residential state while DriversLicenseNumber stays blank — the raster shows a licence-issuing state with no licence number",
+          "required": "a licence-issuing-state fact or a refusal"
+        },
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+        "sourceUnchanged": true,
+        "fieldMap": "b564c6f8380d2bd00ee198f94886200491936105f809b474781c2756f72af944",
+        "fieldMapReviewed": "a8eb280efba4794559950c11576015df1dded1917e79443e38fd17b1600e1060",
+        "classification": "2a5fc644ecaa0028273cd7141ad2677422dafd699e902f94747e8a532216b326",
+        "classificationReviewed": "e1f2e4fd768d2a6e9d6238d6f323602135c13a420737bc56f3fa8dc757b12fb2",
+        "provenance": "2d5b7130496a9131474f8f609fce627b4d8dab71cd14c8f81caf6b7451cb9069",
+        "provenanceReviewed": "fbdc34631641fda02edbdd620d1d368bc138663a1c8929a7cfd33d2c24429302",
+        "visualEvidence": "823aaeed10c0631ce471f72692ccf44bc5f9862434046ce7d01385c3b3ce78fa",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "c6807758e58b8ee0cb9c91f6da8bb50a4c3ab838329e3e47fce9cf0fe6123f4f",
+            "currentSha256": "cc44d0a733fcd4a2bc2b501f3e1c3ac2e0a70dc44d82890e79a321a8cd3a0c0d",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "5d585951d26a48adc458406da52f3180864c456d2c2f3e4485d605b4ec2548ae",
+            "currentSha256": "917280a556e74a14c258e1e333be51597c3ab8c70e6000ec6d79a55bfcd912f2",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "ffd0db5aac3eabfe2db2003c4634014259853a8731b882abd8892e94af4df8d5",
+            "currentSha256": "8faf419772b2e856724c44237576a0bd06d1d879043e7bd5bb598ad6d59ff1e0",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [
+        {
+          "field": "PetitionerAddr2",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        }
+      ],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "jurisdiction": "NC",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-288-form-en",
+      "documentId": "AOC-CR-288",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-2.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": "1 and 2",
+        "fieldOrGeometry": "NameAtty, CityAtty, StateAtty, ZipCodeAtty (p1); PetitionerIsEligibleBecauseText1/Text2 (p2); PetitionNotFiledSignName",
+        "observed": "The petitioner's own name and address are written into the block captioned 'Name And Address Of Petitioner's Attorney For Expunction Petition', so the filed petition asserts the petitioner is represented by counsel who is the petitioner. On page 2, under the heading 'FINDINGS OF FACT' and the line 'Petitioner is / is not eligible ... If not eligible, it is because:', both reason lines carry the petitioner's name. The clerk-certification signature name is also written.",
+        "required": "The attorney block, the findings-of-fact lines and the clerk-certification block all refuse.",
+        "why": "'Atty' does not match the attorney pattern; 'petitioner' is in the full_legal_name matcher; PetitionNotFiledSignName is class `manual`, which is not in NEVER_WRITE.",
+        "smallestCorrection": "Extend the attorney rule to \\batty\\b; add `manual` to NEVER_WRITE; refuse any field whose geometry falls on the order/findings side of a petition-and-order form.",
+        "additionalCorrections": null,
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+        "sourceUnchanged": true,
+        "fieldMap": "3c14cfb850b45633c27b056fefa930480cbff863f8c0134282a2914194cfa2b7",
+        "fieldMapReviewed": "68ab64f8e7332aaef2664b13997f8b82e506ef8104c9dab801d918843ee30631",
+        "classification": "dc1cc60558c44d1c8960cf7a7f1dc2ab9d478a7d0302e1f96a1d3268247cb7b5",
+        "classificationReviewed": "fe13b554b4515331e3867805e9260362cbe17c1b666e8f407fef50f15cfd86ba",
+        "provenance": "9db5c45a08616790af15a40c2d91290d98fafd191dbe324c72d38d656d6fd1f9",
+        "provenanceReviewed": "d5c12a28ecb4ed4bf394d88bc081725f700fe7104e683b65ffb5c8859f3b637b",
+        "visualEvidence": "b4df151286aaba318d16494b446c6dd908969b935a08b3c9f5c46f4a37154c49",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "96ff5609fb6a0e9168e6e86c36112a538a231334155ac166a1027302c154a1d6",
+            "currentSha256": "a505c3064c1d61c99ffcf74c5ba3a6d3bd59083410a0a5de9468c8f45bb8ae4e",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "5a00ee6811f8681cf257daa094b46ec7e64ca172f9f9dbc94716678845e69c2a",
+            "currentSha256": "b7f035ab8d10d032457205ee092d3e2ff7758294409f6d24ae29b25bd5cb7a81",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "5703d476da2e832cddb97aa8ffd247b19b250b1ba82b5aa1c1f2f94a948ee618",
+            "currentSha256": "5071453ddc4d16336b7ca74537e9281b4e1f5fd8e33a139194cd2982108b0aa8",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [
+        {
+          "field": "NameAtty",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        },
+        {
+          "field": "CityAtty",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        },
+        {
+          "field": "StateAtty",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        },
+        {
+          "field": "ZipCodeAtty",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        }
+      ],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "NC:aoc-cr-296-form-en",
+      "jurisdiction": "NC",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-296-form-en",
+      "documentId": "AOC-CR-296",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-3.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 1,
+        "fieldOrGeometry": "PetitionNotFiledSignName, widget rect x=117 y=128 w=238",
+        "observed": "The participant's full legal name is drawn at x=118.32, y=132.00. The court's printed caption row sits 12.3pt above at y=144.34 and reads, in three runs: 'Date' at x=38.62, 'District Attorney Name (type or print)' at x=118.58, 'Signature' at x=358.10. The written value begins 0.26pt left of the District Attorney caption. It is on the district attorney's printed-name line, above the DA's certification sentence. The form's own header states that this petition is filed by the district attorney.",
+        "required": "The petitioner's name must never be written on a district attorney's name line. The field must refuse under prosecutor or court.",
+        "why": "Protection is label-only. The haystack for 'PetitionNotFiledSignName' is 'petition not filed sign name', which matches no prosecutor pattern and no signature pattern (\\bsig\\b does not match 'sign'), so \\bname\\b binds full_legal_name. Geometry independently identifies this area — the caption 12pt above names the district attorney — and geometry is never consulted.",
+        "smallestCorrection": "Add a geometry-based protected band over the DA certification block, using the protectedRules mechanism that already exists and works in WI; or pass the printed caption as effectiveLabel so the existing prosecutor rule fires.",
+        "additionalCorrections": null,
+        "secondCorrection": {
+          "fieldOrGeometry": "DLState (rect x=177 y=602 w=45)",
+          "observed": "bound to participant.state and rendering the residential state under the caption row 'Drivers License No. | State | Race | Sex'",
+          "required": "a licence-issuing-state fact, or a refusal",
+          "smallestCorrection": "move DLState to bindingRefusals"
+        },
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+        "sourceUnchanged": true,
+        "fieldMap": "4b9fc312fd90888ffe7f921c7fb502564e072a243bd2d68128f22e78312a2986",
+        "fieldMapReviewed": "bc25d4f46dc0335789c36586302cebe3e1205c51e3ae35bfdb6ee8ea10ae380e",
+        "classification": "60553c3b44c5823e4cbfc063a09d12dce705a4b38b8337a70355c8a3279707ae",
+        "classificationReviewed": "996c01d97b022a8ff01a1489e92d68b27217a5070d70c5737f40ecf1144ac551",
+        "provenance": "c4b3ad3d4f693f1ce2e60570fcaf9948544349af93451b28d12bb29543131bf6",
+        "provenanceReviewed": "93d1e150f4dea6544feab2150e24f919914f93321d0ab8e4d5b2346afc7c7ccb",
+        "visualEvidence": "32f52a5dd15dacabdc8cba5d2d44e9ba68c8d8516b39f3758c05ac2bb8dcb2e1",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "bfff2e3a94523f145eb6b0aad877f84b6d2b968ed9eeb5941cb96189db45f16f",
+            "currentSha256": "13f3068260ae17d8846bc8345ceaa57fa705273ad785bcc418becfa777c00720",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "60bf177ebf6ec68c9454a4a4b7ca18f0cf569155748cad8a91ebc499e79e7a2c",
+            "currentSha256": "aff9db5184b05036230e5f37f447b79558b00dd5a73c0b8fce6583b11f856036",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "a27ecc3ac56f79238d959cd950175e696190f804fa7b33488863a9301b3b6daa",
+            "currentSha256": "a12f03576f0914d7c953679222525db96922ffd1a642702a4f1180d8f03c7c7e",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [
+        {
+          "field": "DistrictAttorneyName",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        }
+      ],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "NC:aoc-cr-297-form-en",
+      "jurisdiction": "NC",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-297-form-en",
+      "documentId": "AOC-CR-297",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-1.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 1,
+        "fieldOrGeometry": "PetitionerStreetAddress [37,659 278x13] and PetitionerMailAddress [37,646 278x13]",
+        "observed": "The same duplicated address as AOC-CR-287: both bound to participant.street_address, written at y=662.1 and y=649.1, and duplicated again in the boundary fixture at 7.5pt.",
+        "required": "One address line receives the street address; the mailing line receives a mailing address or stays blank.",
+        "why": null,
+        "smallestCorrection": null,
+        "additionalCorrections": null,
+        "secondCorrection": {
+          "observed": "The recorded sourceUrl names the nonviolent-MISDEMEANORS instructions, while the binary prints 'UNDER G.S. 15A-145.5' / '(NONVIOLENT FELONY(IES))' and instructs the reader to use form AOC-CR-298 for misdemeanors.",
+          "required": "the sourceUrl of the felony form",
+          "note": "The sha256 pin still governs the bytes and the binary's identity is unambiguous, so this is a wrong provenance URL rather than an unresolved identity. It is exactly the kind of error that would send a later re-acquisition to the wrong document."
+        },
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "99c17942a23c80d4e6e66615bc0dca5630fbfe5c5982540cc577da8d89e1eb7c",
+        "sourceUnchanged": true,
+        "fieldMap": "1cdb1ecaf6961cf9ce93e96ae0efcc7311efb6d62f9f696876b87ca61aa4ef8a",
+        "fieldMapReviewed": "abecd54bf3e460c07eeb9ca3b4afbbb61b5c0a4087d4b1893234095fad6340d9",
+        "classification": "e7e5f8bcc60de0ab9d412890628e1a786251f65eaa83214b0669e478eb228d4c",
+        "classificationReviewed": "493edb717c2cf945c5c8e43eb1b75869cec3c5b7dc820bff3b22600896465ee4",
+        "provenance": "989312ce2f6ffd3896572badbdaa4f2e6911d2466188f2980ec722def66252d5",
+        "provenanceReviewed": "c26279b3ca1b0cf6af8c33619c18d5455334fc36fcc2b280b0e8273aa10d0f94",
+        "visualEvidence": "b72ef9049e2108dff3a363e6874f4c39facb7a45ade781a4aca3c7b8968badd6",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "4e15783f6641c968274def95b38b6ce487a43080ebadf6974b829027ce4f6488",
+            "currentSha256": "72194d7e51aa7ed39a89d9a31d1c9f0deda3d77cf5f7215be770dde19e598d50",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "434ab8ca96130d3b27ca3cc51348fa7571c5b9f014d84786c71efb4b8360d660",
+            "currentSha256": "9b3baea68e60a5b4c746342c8ed65f8207a1ebc40553691dba734a8b18cf2aef",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "8c7834867538502d3fdb0acaea34cfd51ad7e38101dfc6f195e107de9f19a2b0",
+            "currentSha256": "430835076f69ef75ad45b58ddc2602ac6b5a881978637ca6dfabf2c5b473856b",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [
+        {
+          "field": "PetitionerMailAddress",
+          "stillBound": true,
+          "proof": "STILL BOUND — the finding is not closed"
+        }
+      ],
+      "allObjectedFieldsClosed": false,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "NC:aoc-cr-298-form-en",
+      "jurisdiction": "NC",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cr-298-form-en",
+      "documentId": "AOC-CR-298",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-2.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 1,
+        "fieldOrGeometry": "EmailAddressOfRecord",
+        "observed": "The participant's own email address is written onto the line reading 'email (from ICMS/OFS) to the district attorney at ___, the email address of record with this court for that person', inside the block headed 'I certify that a copy of this motion was served by:'. The finalized certificate of service therefore states that the district attorney's address of record with the court is the petitioner's own address.",
+        "required": "Prosecutor and service fields remain protected.",
+        "why": "Both the prosecutor and service_block rules exist. Neither fires, because the field is named EmailAddressOfRecord and carries no such token, while \\be[-\\s]?mail\\b matches participant.email.",
+        "smallestCorrection": "Refuse EmailAddressOfRecord — fire prosecutor or service_block from the printed line, or deny it explicitly.",
+        "additionalCorrections": null,
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+        "sourceUnchanged": true,
+        "fieldMap": "76fb94351d9407d78f74b3dedc0a24bc512d3f553d9780fbcdf7f3bda9dce682",
+        "fieldMapReviewed": "54e231a8c474a77df38f1e66980a3959d1d5557172f71250d4d1350665ff5cfd",
+        "classification": "fd3b65593da396a196a10d0b0602347cfc359bf2df5b80a61f44c560ff1af69a",
+        "classificationReviewed": "f88c2d23747551600dd1ddb148fcccf4f6a3acb5f3c06a80fd671d9a0e916dab",
+        "provenance": "eb8da6bfbb9659785f11b36865bd15e1b58ad50160050ccc1bd5306cc4a1e4dd",
+        "provenanceReviewed": "659f9587c70be0cc0bc5f064aeb75b04ca3889f8b90dc89b0d00ae08bc17ef3e",
+        "visualEvidence": "27af40915e9c1286994c98370ac600e3b44aa17582652b5e51a4dbd7ccef90ed",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "309aa7a0699b58a4462f409bcd7867f4450f1d8be30bee2e433e46cd23143da9",
+            "currentSha256": "9347fb6f136048fd14df03de50655c143cdcbd9eb2c1796b69a33adf3792c4c3",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "a8a41cde96e3a4c1f604664d225cbe10f0fa830d8ff22a9d97bdb3d8b58bc1e3",
+            "currentSha256": "df0df8304c17cde4b0d9385088ab295984af1037fc50aec3437a1d09d8df42a7",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "d9ea7ca6523c7816c2bb3e47035fcf909e1f73b3a2cc8432ae04ce449b8dea84",
+            "currentSha256": "dc5d399811a708c299de8b692f6a67ce7c97e78728903a653f616e95590f9a44",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [
+        {
+          "field": "EmailAddressOfRecord",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        }
+      ],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "NC:aoc-cv-226-support-en",
+      "jurisdiction": "NC",
+      "familyPath": "data/rcap-all50/overlays/production/north-carolina/aoc-cv-226-support-en",
+      "documentId": "AOC-CV-226",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-3.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 1,
+        "fieldOrGeometry": null,
+        "observed": "Six fields carry the wrong fact onto a sworn affidavit of indigency. The applicant's legal name is printed as their street address on both street-address lines, and again as their bank name under 'Cash On Hand And In Bank Accounts (list name of bank and account type)'. Their street address is printed in the City box and the Zip box, and the State box is blank only because 24pt cannot hold it.",
+        "required": "Street-address lines receive the street address; City, State and Zip receive city, state and zip; BankNameAndAccountType refuses.",
+        "why": "\\bname\\b on full_legal_name matches 'Street Name' and 'Bank Name'. /mailing\\s*addr/ on street_address matches 'MailingAddressCity', 'MailingAddressState' and 'MailingAddressZip', and outranks the city, state and zip descriptors because it comes earlier in the descriptor list.",
+        "smallestCorrection": "Add refuseWhen guards in rcap-field-semantics.mjs so street_address declines a haystack ending in city|state|zip, and full_legal_name declines street\\s*name and bank\\s*name. Do not repair per field in the map.",
+        "additionalCorrections": null,
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "74057a13e4bccccbbac785c845b4996b322c6219e1c45f1ab42dca2377755a8f",
+        "sourceUnchanged": true,
+        "fieldMap": "9a0c3db3f30605a50e8b13509dc318ecc95d4cfd7a97f42294723529b9c39a8f",
+        "fieldMapReviewed": "5d87be753d03339029d4145c3a01fc2dd1c9c10b9c26eaaaa8388be96fce13bb",
+        "classification": "48f7f1fe65e18d12a9ca765300fa7fba123f1d49dde9960d36329f04ea046152",
+        "classificationReviewed": "cb5a7bcfdc5937d9e6ecf5bfc4ee8b19757c0f5b181e4cd474a43243e0703c00",
+        "provenance": "ac840da90d5b08c7fae1382b721ba7391ff1422f111acaa6232fd27a7ee9af2d",
+        "provenanceReviewed": "f7b53a48cf9cc57e1a28e0a6bb4ce2998cb469a2118a3fd967eb92bdaa95ab62",
+        "visualEvidence": "90e6d9fcf556791d114249524e2b231f5e6e0dece8d65f37ced1135cbb289c0c",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "8ebd1ccf32044b3b52689d5231ef4d0ddd8c06f74a5a38eb54a2d0be1ee47a53",
+            "currentSha256": "607f138440ace5bb7fe880b970be5d46d00d3971cfd3e660428d61df0ce5b936",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "52ca5719efcb4fe94313e0ee2dfb569ccd2b8550ee4959af1461af233b230739",
+            "currentSha256": "588c933119f14095855ed20065110ce9695e20e4a49f761d227f17e2e0ab0406",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "26bb43ea85d42b881dbd8b9d21d09067f2c5a44285b0420114f3aab5104088b4",
+            "currentSha256": "e1f3c451f5dc839b77b50123fa18f67855e168e5a87840ec18b39a893cf145e7",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [
+        {
+          "field": "NameOfBank",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        },
+        {
+          "field": "BankStreetAddress",
+          "stillBound": false,
+          "proof": "the regenerated field map carries no binding for this field, so nothing is written into it"
+        }
+      ],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "NE:cc-6-11-2-form-en",
+      "jurisdiction": "NE",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-2-form-en",
+      "documentId": "CC-6-11.2",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-1.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 1,
+        "fieldOrGeometry": "the caption band, y 640-700",
+        "observed": "In that band the finalized page has no printed page content at all — the whole caption is composed of AcroForm field values. The blank source reads 'IN THE ______ COURT OF ______' with '(Enter the type of court)' and '(Enter the county name)' beneath. The finalized artifact reads, in three stacked layers: 'District Court ... COUNTY, NEBRASKA' / 'District Court ... Example County' / 'Choose the court ... Choose the county'.",
+        "required": "One value per caption slot; the court's own printed caption words preserved; no source placeholder text on a filed pleading.",
+        "why": null,
+        "smallestCorrection": "Bind exactly one court field and one county field, and refuse a write whose target widget's flattened appearance is a dropdown default.",
+        "additionalCorrections": null,
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "8bfa884d66c2d485fc28acfae865075bdb02ae7d6b7a3de839c0248464e767b6",
+        "sourceUnchanged": true,
+        "fieldMap": "5aaf9bd5792bd8e52f14464cb047adbe1fa8cbfef53c273125ac95eddda2cc46",
+        "fieldMapReviewed": "969bb535f56dc9fc7fdb8acf66a081ea4a4ce1276774e638b27801a1185ca489",
+        "classification": "5c14f1969fd2689e6640a04d5a0a2d3d5a49db5cbc81f25bf3aa76a7e5ed559a",
+        "classificationReviewed": "204835274598dfd5212352f6de3582e87eec7685e92fffe05c2bbcdc3d88739a",
+        "provenance": "f57d68f717ad03d8809fc4d3d72200234a1a5ec02346083f1f7847e57f53a93f",
+        "provenanceReviewed": "921864fd4c50619ce8607e1d86ee3ee21c9d88e303580ea571d45bf4f98c2f1c",
+        "visualEvidence": "499c098b011799add304bbce90a653ccb0fcaec58adab9cf240f6228c57a83dc",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "cd503faa72efa82d6a18be2748f966304d5421b59621c06681e99f12b3a9b06e",
+            "currentSha256": "0dd6fbff24a11884632829a6641ad170cdabc27af9883d94ed31ffaf452ef495",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "58a806f8e7731fac499cc7d9387e425b04234bbc757a4a0e826ae4ad628b6e7d",
+            "currentSha256": "1a19b3cc2535a15f6e1c79420840d6c4215c8bd4ab511fb84f9cf1112d98937d",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "e69a23f741eb79656e8c8970a1062250b47c0d85500301409f1f3c9e29e3e27d",
+            "currentSha256": "a4ca81012a8666e4332cf10782ec949fd55bb779b7a6eb8db5552e048df5b314",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "NE:cc-6-11-form-en",
+      "jurisdiction": "NE",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-11-form-en",
+      "documentId": "CC-6-11",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-2.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 1,
+        "fieldOrGeometry": "caption band y 663-678; emailaddress",
+        "observed": "The blank sheet reads 'IN THE ____ COURT OF ____ COUNTY, NEBRASKA'. The filled sheet reads 'District Court District CourtExample County COUNTY, NEBRASKA', with the unfilled dropdown prompts 'Choose the court' and 'Choose the county' still printed beneath, and the court's own printed words 'IN THE' and 'COURT OF' covered by field appearances. Separately, the '*Email address:' line is blank, the box for 'I do not have the ability to receive emails' is unchecked, and the reason line is blank — on a form stating that Supreme Court Rule 2-208 requires the address.",
+        "required": "One court value and one county value on the correct line, no placeholder residue, the court's caption words intact, and the required email supplied or its absence explained.",
+        "why": "Three fields bind matter.court and two bind matter.county. The email field is named 'emailaddress' all lowercase, so \\be[-\\s]?mail\\b cannot match on a word boundary and it is refused no_allowlisted_fact_matches.",
+        "smallestCorrection": "Bind exactly one field per caption slot and refuse the rest; suppress unfilled dropdown prompts on flatten; make the email matcher tolerate squashed names.",
+        "additionalCorrections": null,
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "c0dcc5c093790f0a54199ab6769876d1c124485cea5de08fb8fc783e9f6a5492",
+        "sourceUnchanged": true,
+        "fieldMap": "47369372a099621f8e7eecc3e947b8ef0042441f30a613fa3c5bce82d426795f",
+        "fieldMapReviewed": "e0929ba98de4a6426765e48f2115b6a2e74f79f6949db6b8b5c14df0caf9d391",
+        "classification": "fa0322013e7120728cdff833ec6ca1620d0fea8a5b9f7134bfb4165e4d6c759a",
+        "classificationReviewed": "90ea87b44e35c324ff3ca52a9d410377a1722deeedcc118261d1090442a73918",
+        "provenance": "b77f4c4d45eb10cea7391700f47084a7cd70f1c99dad9fa20c6edb480efbd182",
+        "provenanceReviewed": "4ec778d5f7378d6cddc7cf05192fd3855d5aba8655256eed0f984d70f757d7d2",
+        "visualEvidence": "7a01fde2ce0fc3e43583151cf1f396b9850b2476dd560294ba2fd30c6a0bc76f",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "6a7f0e4db821767783c14b5d560618f6361c0d1609c562b0086f4a6dde21a823",
+            "currentSha256": "0adfe77241308e5262a2a7fe53168ab211989dc5926293e08ebe38cd4aaf7942",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "ec715fda7e14108024628a330fd8e5a94c415f9339be1f726eb99dad37b48023",
+            "currentSha256": "09cd21272f739bb7e0aad7fcfe6db3b363abe707a1f1dc9783cda3e24c66b8fe",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "878bea5971981a938047052eedc3a71685a4cb0c2a1c6160832ae0a2a1da62d9",
+            "currentSha256": "51bdf6a6f366968f0964a83674b36cce464363339efa95f68e4a9dc2b990a9e3",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "NE:cc-6-12-form-en",
+      "jurisdiction": "NE",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-12-form-en",
+      "documentId": "CC-6-12",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-3.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": 1,
+        "fieldOrGeometry": null,
+        "observed": "Three defects in the venue caption. (i) The court name is printed twice from two overlapping widgets — TYPEOFCOURTRESULTS and 'enter the type of court' overlap in x 138-242 and both bind matter.court, rendering 'District Court' at two positions about 5pt apart. (ii) The source's dropdown placeholders remain visible beneath the written values: 'Choose the court' and 'Choose the county' both render at 8pt in the finalized artifact. (iii) TYPEOFCOURTDROPDOWN is recorded as written with matter.court in both the field map and the populated-fields report, yet its own flattened appearance still shows the placeholder — a value written but not visible.",
+        "required": "One value per caption slot; no source placeholder text on a finalized filing; a field the map records as written must be visible.",
+        "why": null,
+        "smallestCorrection": "Bind exactly one of the three matter.court fields and refuse the others; regenerate dropdown appearance streams from the bound value rather than carrying the source appearance forward; make the scan compare rendered strings against the source's default appearance text.",
+        "additionalCorrections": null,
+        "secondCorrection": {
+          "page": 2,
+          "fieldOrGeometry": "datesigned (rect x=370 y=618 w=138)",
+          "observed": "the filing date is rendered beside a signature rule that is left blank, so the artifact shows a dated but unsigned declaration",
+          "why": "the identical field is protected in AK because 'dateSigned' yields the haystack 'date signed' and \\bsigned\\b fires; 'datesigned' yields no word boundary and no match",
+          "smallestCorrection": "a geometry band over the signature block, or normalise squashed names in the haystack"
+        },
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "68478452073cdb89dac20843e3d7f5df2ad31b41608ab04deafe940bd6401d28",
+        "sourceUnchanged": true,
+        "fieldMap": "0edfe6609cb78c6596df570f13b892cd4254ae7bf6470ce226f17e6445b9e28c",
+        "fieldMapReviewed": "d79a3cf70c51ab2b0704745232fb54d506a21f514cac7f0e39c68e5fac3261df",
+        "classification": "5ccd63ccd6031d77c19f9ec404218c86650cf8e663f1ffe2475d4076254cf10b",
+        "classificationReviewed": "e74a521c96f70f443b68a10495a5134e0bd02705a5bab6185354c4f7bc90c86d",
+        "provenance": "a21e3a708f26a848913b7526e18e5e36c1dfe62b7a4f61537cf6f590e460266e",
+        "provenanceReviewed": "7c320f7f05ba4ab3a3e4343b2ab39b680ebd9bea5ce216ac1950abdff39641a9",
+        "visualEvidence": "f29d19ca48b2f5f3ee350abde5f69e21d3ed48d6a9c23350b9b0a706eb9b8d15",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "21a1715a6bddd41d642e7127b90ac971044faf616d40d09e857571cb72417bb8",
+            "currentSha256": "f73c780e529e171ec76af78cec4ff5b914ef5f971d53e188df4a2ed888ad10d6",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "0aa3468c1afa6d30e1b219ebb638e3fc5b341b11d23e533c2c96dcea6a0f6162",
+            "currentSha256": "80699880459930b1b61b66abdd0008866d15db9e2e009b7c28d403adaa578c7d",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "02c41c6227027aef9015aad59b42a4bc579971513d6baffa3745b3756cc780b3",
+            "currentSha256": "5c1a29545f320ec88caf49ee58fca2b1fda85ce2e9217789f7ad69bc3d41b44c",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "NE:cc-6-15-1-form-en",
+      "jurisdiction": "NE",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/cc-6-15-1-form-en",
+      "documentId": "CC-6-15.1",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-1.review.json",
+      "originalFinding": {
+        "asset": null,
+        "page": null,
+        "fieldOrGeometry": null,
+        "observed": "The identical caption defect at the same coordinates — the caption block is shared between the Nebraska forms. The body is otherwise correct: printed name, street address, city/state/zip, telephone and date all land inside their rects under the matching printed captions, and the boundary auto-shrinks without a single unfittable refusal.",
+        "required": "As NE:cc-6-11-2-form-en.",
+        "why": null,
+        "smallestCorrection": null,
+        "additionalCorrections": null,
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": [
+          "emailaddress is refused no_allowlisted_fact_matches — the descriptor cannot match the squashed name, so the form's email line stays blank though the fact exists. Safe, but a coverage miss the shared contract's bind test does not cover, since it only exercises separated labels.",
+          "datesigned writes the filing date beside a signature line that has no field and stays blank, producing a dated, unsigned page. Unlike AK this is the signer's own date on their own motion rather than a certificate of service, so it is recorded as an observation, not a protection failure."
+        ]
+      },
+      "currentHashes": {
+        "source": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+        "sourceUnchanged": true,
+        "fieldMap": "472a431e086fe8897fe5c98c689ee1caac64cbea5a5b271c8f35ef12f529e001",
+        "fieldMapReviewed": "fe26ec93c27590dde7676779921932f29f3eb983b99578181809e14ec2d78038",
+        "classification": "4d96ca534e4cf44dbf110b3886850aa866f40bad9d626c7e38042aa596941940",
+        "classificationReviewed": "c82d792dafcb9875c07e9f0b6e5eb6497ddbbe2e685a26b494f62866d14d9249",
+        "provenance": "7ee872202e8f3408b074c195c872ea94da5bde124a52b4ef6f1956121b3c1380",
+        "provenanceReviewed": "970c2a03f2ca9a0407ce5b653d04334923159ae629b711a49b63ab38e2d3b64b",
+        "visualEvidence": "ed4d5214a0d07056df1e0a1ca64f0c2d5f902f2ca98b210f0d48bf34914caeb2",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "e2a68152e06354761b3001a0fcfee6a9d96e101344d4b9f831a6b4e2e1879238",
+            "currentSha256": "41d2dfd959fddfe8df4a0d062e0599abf114f2f93d1694125a5cf0b2379ee55d",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "427bff7969be39a7605c08b0d0b6d8bc6447ebb7b575ebfa0305255d9841a51d",
+            "currentSha256": "ef0bb178a26fc79464a43d5da0d07cc942bb33eec3597ac3ba51839a334c750a",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "2960c343551b8c81ba96291792a8480c62cc73cc6c7d5a3d0c80a7bd298ea7be",
+            "currentSha256": "bdf404f876e66464cba20010e15819522c380d068b7642bcddd5b901d943184f",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "NE:dc-1-15-form-en",
+      "jurisdiction": "NE",
+      "familyPath": "data/rcap-all50/overlays/production/nebraska/dc-1-15-form-en",
+      "documentId": "DC-1-15",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-2.review.json",
+      "originalFinding": {
+        "asset": "fixtures/canonical-filled.pdf",
+        "page": "1 and 2",
+        "fieldOrGeometry": "caption band y 540-640; printedname",
+        "observed": "This is a multi-purpose caption form whose variants are normally shown and hidden by JavaScript. With the script stripped and everything flattened, the adoption, emancipation, name-change and estate captions all render at once, overlapping, and the participant's name is stamped three times at three different variants. On page 2, under the heading 'Certificate of Service', the printed name is written again.",
+        "required": "One caption variant, one name, and the service-block printed name refused.",
+        "why": "Three fields each bind participant.full_legal_name. service_block never fires because the field is named 'printedname'.",
+        "smallestCorrection": "Bind one caption field only; refuse printedname under a certificate-of-service heading.",
+        "additionalCorrections": null,
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "43675986d4b740ebb26c0b6778655e25f5d1bd6145a439154b00350c6072cd5b",
+        "sourceUnchanged": true,
+        "fieldMap": "2bd010992d265bb39fbc799c303a87aa424bc033a491e906a973259316de6001",
+        "fieldMapReviewed": "4e8b9b3c21d06e1b9c6d6a3f3bd363252143e06ae2e5319d1044f8deb796af7a",
+        "classification": "9f1fab92f69916bd19ef368bea3382bfd4007b5a2ddb2bb27d05fcf2ebc37f6c",
+        "classificationReviewed": "70ff29fe9def2aeeabbdb317727b7926c8b34b90a4e1bc97fe7773a59dd5d26e",
+        "provenance": "c30bbd5fddedb4d90850c3430033c5ff20f4b8ca7e4f1280618819720c75d517",
+        "provenanceReviewed": "34faac31f42b92e61a31a10598257b708c032e432570d6641123c01306914be7",
+        "visualEvidence": "e6bc4a41cfda839b4eece21e4510990c32a6212e64df9997939cebad0a187629",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "3f0bc4bac2e1216e62e64da7e0d9ae897a1dfa2b822d1a14807505e656f6f2b1",
+            "currentSha256": "411ebb3f5fe0ed3cf8ac6e3f5d7f24cfa9b2ed27122a6c0f5574d0624d7b01a2",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "a997b0df17375606c9f3f14f3ef1d341fa0b472314555891a47cc51d5d9b5d27",
+            "currentSha256": "a997b0df17375606c9f3f14f3ef1d341fa0b472314555891a47cc51d5d9b5d27",
+            "changed": false
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "1481d199522a0cadd82b42b7193260bec525869304c815ad32dc0aa88701a131",
+            "currentSha256": "9e7dbbcad263818181b6f2133e1cc28785be52343539ec60752494a9ea52c0fb",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "VA:cc-1201-form-en",
+      "jurisdiction": "VA",
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1201-form-en",
+      "documentId": "CC-1201",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-3.review.json",
+      "originalFinding": {
+        "asset": null,
+        "page": null,
+        "fieldOrGeometry": null,
+        "observed": null,
+        "required": null,
+        "why": null,
+        "smallestCorrection": null,
+        "additionalCorrections": [
+          {
+            "page": 4,
+            "fieldOrGeometry": "User.CaseNumber1201 (rect x=134 y=579 w=53)",
+            "observed": "the case number is written, shrunk to 7pt, into a blank whose printed line reads '...FORM CC-1201(A). ..... addendums are attached to this petition' and whose sub-caption directly beneath is the single word NUMBER. The blank asks how many addendum sheets are attached.",
+            "required": "a count, or a refusal",
+            "smallestCorrection": "move User.CaseNumber1201 to bindingRefusals — no allowlisted fact represents an addendum count",
+            "verifiedIndependently": "Yes — bound to matter.charges[0].case_number in the committed field map."
+          },
+          {
+            "page": 4,
+            "fieldOrGeometry": "User.VSBCaseNumber (rect x=549 y=447 w=28)",
+            "observed": "bound to matter.case_number. The printed line reads '[ ] ATTORNEY FOR PETITIONER (VSB No. ...)' — this is the attorney of record's Virginia State Bar number. Both fixtures render blank only because 28pt cannot hold a 12-character value; a shorter case number would print.",
+            "required": "refuse under attorney, as its five siblings already do",
+            "smallestCorrection": "extend the attorney protect pattern to catch vsb, or refuse the field explicitly",
+            "note": "This one is latent rather than visible. It does not show in these fixtures and would show with a shorter case number."
+          }
+        ],
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+        "sourceUnchanged": true,
+        "fieldMap": "b4b831c8a6f23ad46e703ddf7d02de6ef83207d0195d111853fe8679ad42fc77",
+        "fieldMapReviewed": "972deb9e7377c2915e41be6cf00ca9259915edfefaecbf28f773e6ca7e3a290b",
+        "classification": "916a63d37011854fd6d44332a9f07584283424475ab6a1349542775d116cfa49",
+        "classificationReviewed": "5f30b0bfd60189212feff7bf55999fea34f4e3dd33af1411494b49fbbe9c7d4b",
+        "provenance": "09ab0a741a5b49f69e8abb3304a2cdd78e9443e8f4da2f967fbd5a7d416019c2",
+        "provenanceReviewed": "33f14a2d7cb5f341dde1bf236ed27fcbb39b4becfdf04d0d56e332abfd6f6502",
+        "visualEvidence": "e42a10c35b2e909607f5e51e736608790dc54ba0058e6115134f501eae654bd8",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "427770d0ba6d3f512b8de6d6b631cf388afb7025057b5c0c191d6c1a2a356eb4",
+            "currentSha256": "3793af1fb7f254d2e7d178f7d81823d031762d68b2c8b0faa8e94c4a28cbbe91",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "0cbd4278cf7185e3556101607e0d6c58ee51b1537dfdf3e1b1f16a5fead82b3f",
+            "currentSha256": "000c74fd830a6c112df0beb14c33051d714dd406d5a8d24ded05ffc39e4eee9a",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "6b58a4a3bf5fade40c2fcea53aabe0a7734cacdf3edfdc701a3bd971c31c57d8",
+            "currentSha256": "50ea6d547e8ea2eec0db196c84f0d0610ed9baa5aa2d103415b37740e5bc5f4a",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    },
+    {
+      "familyId": "VA:cc-1473-form-en",
+      "jurisdiction": "VA",
+      "familyPath": "data/rcap-all50/overlays/production/virginia/cc-1473-form-en",
+      "documentId": "CC-1473",
+      "previousVerdict": "correction_required",
+      "previousRecord": "data/rcap-all50/pdf-independent-reviews/batch-1-group-1.review.json",
+      "originalFinding": {
+        "asset": null,
+        "page": null,
+        "fieldOrGeometry": null,
+        "observed": null,
+        "required": null,
+        "why": null,
+        "smallestCorrection": null,
+        "additionalCorrections": [
+          {
+            "page": 1,
+            "fieldOrGeometry": "User.City, rect [74,676 373x16]",
+            "observed": "The widget sits on the line reading '.......... Circuit Court' and captioned 'CITY OR COUNTY' — the city or county OF THE CIRCUIT COURT. Both fixtures write participant.city there, so the filled panel reads 'Springfield .......... Circuit Court'.",
+            "required": "Refuse, or bind the court-locality fact rather than the participant's city.",
+            "why": "The binder matched /\\bcity\\b/ on the field name User.City. The printed caption identifies it as the court's locality.",
+            "visualEvidence": "Plainly visible in the committed raster, which was read."
+          },
+          {
+            "page": 1,
+            "fieldOrGeometry": "User.CaseNumbers [92,427 483x16] and User.UnderlyingCaseNumbers [459,410 115x16]",
+            "observed": "Both receive matter.case_number. The first sits under 'If matter was heard on appeal from General District Court, list applicable General District Court case number(s):'; the second sits on '[ ] A copy of the warrant or indictment is attached ... Underlying Case No.(s)'. The circuit case number therefore appears in three places, two of which assert an appeal history and an attached warrant that the fact set does not establish.",
+            "required": "Both fields refuse unless the corresponding condition is established.",
+            "note": "This is the sharpest form of the defect class: the values are not merely misplaced, they make the filing assert facts that are not in evidence."
+          }
+        ],
+        "secondCorrection": null,
+        "thirdCorrection": null,
+        "lesserObservations": null
+      },
+      "currentHashes": {
+        "source": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "sourceUnchanged": true,
+        "fieldMap": "dcbb79528f461ef9da578f7f4e44e8657d0f9ff3d40d753ea8737f3798e68748",
+        "fieldMapReviewed": "6dfc37578b2d543178b5271036d63a866cada0252b2a4eed987474d2ad0dcfa6",
+        "classification": "a7d5bd94c9cf54070b2b35d73a71171728fa80d2f5a3c9486fed6a19e1df40ef",
+        "classificationReviewed": "c846adb9bf8ab77f61a6c4ad4cda1cdd4fbe1af3380169c186401aff77793b7d",
+        "provenance": "c7180dce387e50c74969c0bb82573c3b5d988edb4412ee43426ce37b2041a18d",
+        "provenanceReviewed": "5f3fc1062b577e9f41eec41856264af5f28c5e3061757906de1a3ac0f57af5e1",
+        "visualEvidence": "c48b6be0ac7c8f32056237b375f62fca9425639e16561df3dc3b3b27f1f16ae5",
+        "artifacts": {
+          "fixtures/canonical-filled.pdf": {
+            "reviewedSha256": "0c28f8653692c860c5cb29e99135ecae2d42410de48682b41814042e0d03f87d",
+            "currentSha256": "5c1f8ab699594d7025b10b975058510daa267bcccfaaec5046e8bcba50d8fae9",
+            "changed": true
+          },
+          "fixtures/boundary-filled.pdf": {
+            "reviewedSha256": "9a661e69c05e6880cc412003f3f83e6b375ed605806fa49faff667663a0c8aad",
+            "currentSha256": "778d9be31c08cbfe0fd03519de48e926ea6528d1701de7c19b711584d53b232e",
+            "changed": true
+          },
+          "contact-sheet/blank-vs-filled.pdf": {
+            "reviewedSha256": "02384e76303d212325e4fcf5eb4e4d502ff81c6642af3a9a17f57b5cdba02a29",
+            "currentSha256": "db394760780d9d8f2e064fdecbf3f849deda423d88f716956ddaec3061a84be3",
+            "changed": true
+          }
+        }
+      },
+      "proofTheFindingIsClosed": [],
+      "allObjectedFieldsClosed": true,
+      "reviewerMustIssueANewRecord": "The batch-1 verdict for this family is correction_required against artifact bytes that no longer exist. It cannot be edited into an approval; a new record has to be taken against the hashes above."
+    }
+  ]
+}

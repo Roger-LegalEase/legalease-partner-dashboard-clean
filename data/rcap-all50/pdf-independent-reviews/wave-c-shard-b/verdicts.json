@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "rcap-gate-b-wave-c-independent-review-verdicts/v1",
+  "shard": "b",
+  "shardIndex": 1,
+  "reviewBaseCommit": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "reviewerBranch": "claude/gate-b-wave-c-review-zr5151",
+  "reviewedBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewerBranchDistinctFromReviewedBranch": true,
+  "vocabulary": [
+    "approved_platform_ready",
+    "correction_required",
+    "substantive_owner_decision_required"
+  ],
+  "frozenDenominator": [
+    "AK:tf-800-form-en",
+    "AK:tf-805-form-en",
+    "KY:aoc-334-form-en",
+    "KY:aoc-496-3-form-en",
+    "NC:aoc-cr-287-form-en",
+    "NC:aoc-cr-288-form-en",
+    "NC:aoc-cr-296-form-en",
+    "NC:aoc-cr-298-form-en",
+    "NC:aoc-cv-226-support-en",
+    "NE:cc-6-11-2-form-en",
+    "NE:cc-6-11-form-en",
+    "NE:cc-6-12-form-en",
+    "NE:cc-6-15-1-form-en",
+    "VA:cc-1201-form-en",
+    "VA:cc-1473-form-en",
+    "VT:600-00228-support-en"
+  ],
+  "assignedFamilies": [
+    "NC:aoc-cr-287-form-en",
+    "NC:aoc-cr-288-form-en",
+    "NC:aoc-cr-296-form-en",
+    "NC:aoc-cr-298-form-en"
+  ],
+  "familiesReviewed": 4,
+  "counts": {
+    "approved_platform_ready": 2,
+    "correction_required": 1,
+    "substantive_owner_decision_required": 1
+  },
+  "verdicts": [
+    {
+      "familyId": "NC:aoc-cr-287-form-en",
+      "verdict": "approved_platform_ready",
+      "finalizedArtifactSha256": "cc44d0a733fcd4a2bc2b501f3e1c3ac2e0a70dc44d82890e79a321a8cd3a0c0d",
+      "completeVisualEvidenceSha256": "cf6f90cb3ffc53dcebe32d0e380d5fa0841cdd816a111a622fa7666551c20d2b",
+      "reviewRecord": "data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/NC-aoc-cr-287-form-en.review.json",
+      "sourceSha256Verified": "a876229328f9ee8325890b597633b661711fe606da1be8ddb573cd50791365ed",
+      "sourceHashMatchesCommittedPin": true
+    },
+    {
+      "familyId": "NC:aoc-cr-288-form-en",
+      "verdict": "approved_platform_ready",
+      "finalizedArtifactSha256": "a505c3064c1d61c99ffcf74c5ba3a6d3bd59083410a0a5de9468c8f45bb8ae4e",
+      "completeVisualEvidenceSha256": "90d0d8d4b94e3df0c4a7b5522f156bbb0dcbc0f276731819646615c9c2581979",
+      "reviewRecord": "data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/NC-aoc-cr-288-form-en.review.json",
+      "sourceSha256Verified": "776210116d1ee07a2a53aab41cd3f0a51e382fd3c6f5a7bba9798fc667246a08",
+      "sourceHashMatchesCommittedPin": true
+    },
+    {
+      "familyId": "NC:aoc-cr-296-form-en",
+      "verdict": "substantive_owner_decision_required",
+      "finalizedArtifactSha256": "13f3068260ae17d8846bc8345ceaa57fa705273ad785bcc418becfa777c00720",
+      "completeVisualEvidenceSha256": "7dd64abc064d5ed8ef312bbaae18d99bf36bf2e3cd005bc5a96ce742fc0232e5",
+      "reviewRecord": "data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/NC-aoc-cr-296-form-en.review.json",
+      "sourceSha256Verified": "48cc30cdc4681822e9be5b8a94e4ca10c07f9dafa67b01b17c78d5cc05cb0f4d",
+      "sourceHashMatchesCommittedPin": true
+    },
+    {
+      "familyId": "NC:aoc-cr-298-form-en",
+      "verdict": "correction_required",
+      "finalizedArtifactSha256": "9347fb6f136048fd14df03de50655c143cdcbd9eb2c1796b69a33adf3792c4c3",
+      "completeVisualEvidenceSha256": "d68e7da42b530c9dad149efd83f3377924f9641824df6af1b7b7ece6f07091ac",
+      "reviewRecord": "data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/NC-aoc-cr-298-form-en.review.json",
+      "sourceSha256Verified": "8f526257102e5a5f59bed531e227a2d263d4ef192aaf99fd808a1a866385872b",
+      "sourceHashMatchesCommittedPin": true
+    }
+  ],
+  "notAPromotion": "This record issues reviewer verdicts only. It promotes nothing, edits no historical verdict, and repairs nothing.",
+  "sourceVerification": {
+    "record": "data/rcap-all50/pdf-independent-reviews/wave-c-shard-b/source-verification.json",
+    "performedForAllAssignedFamilies": true,
+    "allFourMatchTheirCommittedPins": true,
+    "comparedAgainst": "each family's committed source-record.json digest, not the pack manifest",
+    "residualPrecondition": "the pack carries only this shard's four PDFs; the whole-corpus counts of 499 files and 329 PDFs remain uncounted and stay with the captain"
+  },
+  "shardLevelBlockerResolved": {
+    "id": "WCB-SOURCE-UNVERIFIABLE",
+    "status": "RESOLVED",
+    "was": "no official source SHA-256 could be recomputed, so no family could be approved",
+    "now": "the shard b source pack was installed and all four sources verified from their own bytes against their committed pins; two families are approved and the two that are not are held for reasons that have nothing to do with the digests"
+  },
+  "whatWasVerified": [
+    "official source SHA-256 and byte length recomputed for all four and matched against their committed pins",
+    "visible form number and revision read off each source and matched to the pinned identity",
+    "each source checked for prefilled widget values and for fixture-fact leakage",
+    "every non-source hash recomputed from disk and compared with both evidence records and the committed provenance sidecar",
+    "every relevant page of every family inspected as an image, blank against filled",
+    "every bound value located in the artifact's content stream and its bounding box compared with the rectangle its own map declares",
+    "the whole document searched for every canonical fact so that a value in an unintended place would surface wherever it sat",
+    "blank and filled halves of every contact-sheet page diffed word by word",
+    "flattening, XFA, JavaScript and action residue checked on every artifact",
+    "each historical objection rechecked against these bytes rather than read off its prior flag"
+  ]
+}

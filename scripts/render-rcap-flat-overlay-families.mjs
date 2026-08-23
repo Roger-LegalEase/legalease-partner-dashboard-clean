@@ -106,6 +106,246 @@ function binariesBySha() {
   return found;
 }
 
+/**
+ * --check validates the approved release. It never renders.
+ *
+ * The check used to run the factory for every family and compare the report it
+ * produced against the committed one. That is a re-render: it loads the source
+ * binaries, fills fixtures and builds contact sheets in memory, so the check
+ * could only pass where the current factory happens to reproduce bytes an
+ * independent reviewer approved earlier -- and any improvement to fitting or
+ * semantics turned an approved release red without a single approved artifact
+ * having changed. It also meant a check could not run at all without the source
+ * corpus mounted.
+ *
+ * So the check reads. For every measured flat-overlay family it proves the
+ * artifacts on disk are the ones the provenance and the approval name, that
+ * nothing active survived into them, and that a family approved with NO artifact
+ * carries none. The report is then held to what those files say rather than to
+ * a fresh render of them.
+ */
+function validateApprovedRelease() {
+  const problems = [];
+  const seen = [];
+
+  for (const stateDir of fs.readdirSync(OVERLAY_DIR).sort()) {
+    const statePath = path.join(OVERLAY_DIR, stateDir);
+    if (!fs.statSync(statePath).isDirectory()) continue;
+    for (const familyDir of fs.readdirSync(statePath).sort()) {
+      const familyPath = path.join(statePath, familyDir);
+      const profile = readJson(path.join(familyPath, "overlay-profile.json"));
+      if (!profile || !Array.isArray(profile.anchors) || profile.anchors.length === 0) continue;
+      if (fs.existsSync(path.join(familyPath, "retirement.json"))) continue;
+
+      const record = readJson(path.join(familyPath, "source-record.json")) ?? {};
+      const jurisdiction = String(record.jurisdiction ?? stateDir).toUpperCase();
+      const familyId = `${jurisdiction}:${familyDir}`;
+      const provenance = readJson(path.join(familyPath, "artifact-provenance.json"));
+      const approved = profile.independentReview?.verdict === "approved_for_platform_ready";
+      const terminal = profile.terminalOutcome ?? profile.independentReview?.terminalOutcome ?? null;
+      const expectsArtifacts = !terminal || terminal.expectsParticipantArtifact !== false;
+      seen.push({ familyId, approved, expectsArtifacts });
+
+      const fail = (why) => problems.push(`${familyId}: ${why}`);
+
+      // Source identity is still the identity the profile and provenance name.
+      const sourceSha = profile.sha256 ?? record.sha256 ?? null;
+      if (provenance?.sourceSha256 && sourceSha && provenance.sourceSha256 !== sourceSha) {
+        fail(`its provenance names source ${String(provenance.sourceSha256).slice(0, 12)} and the profile pins ${String(sourceSha).slice(0, 12)}`);
+      }
+
+      const FIXTURES = ["fixtures/canonical-filled.pdf", "fixtures/boundary-filled.pdf", "contact-sheet/blank-vs-filled.pdf"];
+
+      if (!expectsArtifacts) {
+        // A no-artifact terminal outcome is falsified by a leftover artifact.
+        for (const relative of FIXTURES) {
+          if (fs.existsSync(path.join(familyPath, relative))) {
+            fail(`its approved terminal outcome expects no participant artifact and ${relative} is still on disk`);
+          }
+        }
+        if ((provenance?.artifacts ?? []).length > 0) {
+          fail("its approved terminal outcome expects no participant artifact and its provenance still records rendered artifacts");
+        }
+        continue;
+      }
+
+      if (!provenance) {
+        fail("it is measured and carries no artifact-provenance record");
+        continue;
+      }
+
+      // Every artifact the provenance names is present with the bytes it named.
+      for (const artifact of provenance.artifacts ?? []) {
+        const relative = artifact.artifact ?? artifact.rel ?? null;
+        if (!relative) { fail("its provenance records an artifact with no path"); continue; }
+        const file = path.join(familyPath, relative);
+        if (!fs.existsSync(file)) { fail(`${relative} is recorded by the provenance and is not on disk`); continue; }
+        const digest = sha256(fs.readFileSync(file));
+        if (artifact.outputSha256 && digest !== artifact.outputSha256) {
+          fail(`${relative} is ${digest.slice(0, 12)} on disk and its provenance records ${String(artifact.outputSha256).slice(0, 12)}`);
+        }
+      }
+
+      // The approval names these exact bytes.
+      if (approved) {
+        const round = [...(profile.independentReview.rounds ?? [])].reverse()
+          .find((r) => r.verdict === "approved_for_platform_ready");
+        const pins = round?.reviewedArtifactSha256 ?? {};
+        if (Object.keys(pins).length === 0) {
+          fail("it is approved and the approval names no artifact hashes, so it approves nothing in particular");
+        }
+        for (const [relative, pin] of Object.entries(pins)) {
+          const file = path.join(familyPath, relative);
+          if (!fs.existsSync(file)) { fail(`${relative} was approved and is not on disk`); continue; }
+          const digest = sha256(fs.readFileSync(file));
+          if (digest !== pin) {
+            fail(`${relative} is ${digest.slice(0, 12)} on disk and the approval pins ${String(pin).slice(0, 12)}`);
+          }
+        }
+      }
+
+      // Nothing live survived into a filed document.
+      for (const [label, result] of [["active content", provenance.activeContentResult], ["flattening", provenance.flatteningResult], ["protected fields", provenance.protectedFieldResult]]) {
+        if (!result || typeof result !== "object") continue;
+        const bad = ["javascriptFound", "xfaFound", "openActionFound", "acroFormFieldsRemaining", "annotationsRemaining", "widgetsRemaining", "protectedFieldsWritten"]
+          .filter((key) => Number(result[key] ?? 0) > 0);
+        if (bad.length) fail(`its ${label} record still reports ${bad.map((k) => `${k}=${result[k]}`).join(", ")}`);
+      }
+    }
+  }
+
+  // The committed report is held to what those files say.
+  const report = readJson(OUT);
+  if (!report) {
+    problems.push(`${path.relative(rootDir, OUT)} has not been generated`);
+  } else {
+    const rows = new Map((report.families ?? []).map((row) => [row.familyId, row]));
+    for (const family of seen) {
+      if (!family.expectsArtifacts) continue;
+      const row = rows.get(family.familyId);
+      if (!row) { problems.push(`${family.familyId}: measured and absent from ${path.relative(rootDir, OUT)}`); continue; }
+      if (family.approved && row.rendered !== true) {
+        problems.push(`${family.familyId}: approved artifacts on disk and the report says rendered=${row.rendered}`);
+      }
+    }
+    const measured = seen.filter((f) => f.expectsArtifacts).length;
+    if (Number(report.totals?.familiesWithMeasuredAnchors ?? -1) !== measured) {
+      problems.push(`${path.relative(rootDir, OUT)} reports ${report.totals?.familiesWithMeasuredAnchors} measured family(ies) and ${measured} are measured on disk`);
+    }
+  }
+
+  if (problems.length > 0) {
+    console.error(`FAIL flat-overlay render — ${problems.length} problem(s) in the committed release`);
+    for (const message of problems.slice(0, 12)) console.error(`  ${message}`);
+    if (problems.length > 12) console.error(`  ... and ${problems.length - 12} more`);
+    process.exit(1);
+  }
+  const approvedCount = seen.filter((f) => f.approved).length;
+  console.log(`OK flat-overlay render — ${seen.length} measured family(ies) validated read-only; ${approvedCount} approved, artifacts match their provenance and their approval, nothing re-rendered`);
+  process.exit(0);
+}
+
+/**
+ * Rebuilds the report from what is committed, rendering nothing.
+ *
+ * The report is derived, unpinned by any review or promotion record, and it had
+ * fallen behind: a measured family with artifacts and provenance on disk was
+ * simply absent from it. Re-running the renderer would have added the row and
+ * rewritten approved fixtures to do it. This adds the row from the bytes that
+ * are already there.
+ *
+ * Rows that already exist are carried forward untouched -- they carry refusal
+ * records a re-derivation cannot reconstruct, and those records are what prove
+ * the signature rule was refused by geometry.
+ */
+function rebuildReportFromCommitted() {
+  const existing = readJson(OUT, { families: [] });
+  const rows = new Map((existing.families ?? []).map((row) => [row.familyId, row]));
+  const added = [];
+
+  for (const stateDir of fs.readdirSync(OVERLAY_DIR).sort()) {
+    const statePath = path.join(OVERLAY_DIR, stateDir);
+    if (!fs.statSync(statePath).isDirectory()) continue;
+    for (const familyDir of fs.readdirSync(statePath).sort()) {
+      const familyPath = path.join(statePath, familyDir);
+      const profile = readJson(path.join(familyPath, "overlay-profile.json"));
+      if (!profile || !Array.isArray(profile.anchors) || profile.anchors.length === 0) continue;
+      if (fs.existsSync(path.join(familyPath, "retirement.json"))) continue;
+
+      const record = readJson(path.join(familyPath, "source-record.json")) ?? {};
+      const familyId = `${String(record.jurisdiction ?? stateDir).toUpperCase()}:${familyDir}`;
+      if (rows.has(familyId)) continue;
+
+      const provenance = readJson(path.join(familyPath, "artifact-provenance.json"));
+      const artifacts = provenance?.artifacts ?? [];
+      const onDisk = artifacts.length > 0 && artifacts.every((artifact) => {
+        const relative = artifact.artifact ?? artifact.rel ?? null;
+        return relative && fs.existsSync(path.join(familyPath, relative));
+      });
+      /**
+       * The refusals come from the family's own committed reports.
+       *
+       * Omitting them made a correct family look defective: the geometric
+       * protection check reads canonicalRefused/boundaryRefused to confirm a
+       * write box landing on a court-owned rule was refused, and an absent list
+       * reads as "nothing was refused". AK's SOCIAL SECURITY # was refused --
+       * populated-fields.json records written:false with the rule as the
+       * reason, and the flattened-artifact scan reports it as declared and
+       * refused with a reason -- so the evidence is on disk and belongs in the
+       * row rather than being re-derived by a render.
+       */
+      const populated = readJson(path.join(familyPath, "reports/populated-fields.json"), []);
+      const refusedFromReports = (Array.isArray(populated) ? populated : [])
+        .filter((field) => field.written === false && field.notWrittenBecause)
+        .map((field) => ({
+          anchor: field.field,
+          reason: field.notWrittenBecause,
+          category: (profile.anchors ?? []).find((a) => a.label === field.field)?.expectedOutcome === "refused_protected_category"
+            ? "protected"
+            : "refused"
+        }));
+      const written = (Array.isArray(populated) ? populated : [])
+        .filter((field) => field.written === true)
+        .map((field) => field.field);
+
+      rows.set(familyId, {
+        canonicalWritten: written,
+        canonicalRefused: refusedFromReports,
+        boundaryRefused: refusedFromReports,
+        familyId,
+        documentId: record.documentId ?? familyDir,
+        sourceSha256: profile.sha256 ?? record.sha256 ?? null,
+        // Deliberately not resolved by walking the clone: the source corpus is
+        // mounted in some environments and not others, and a report field that
+        // changes with the mount makes the same tree read fresh here and stale
+        // in CI.
+        sourceBinaryPath: null,
+        anchors: profile.anchors.length,
+        rendered: onDisk,
+        skippedReason: onDisk ? null : "no artifact recorded by this family's provenance is on disk",
+        provenance: provenance ?? null,
+        rebuilt: false,
+        notRebuiltReason: "recorded from the committed artifacts and their provenance; this row was added without rendering"
+      });
+      added.push(familyId);
+    }
+  }
+
+  const families = [...rows.values()].sort((a, b) => a.familyId.localeCompare(b.familyId));
+  const totals = {
+    familiesWithMeasuredAnchors: families.length,
+    familiesRendered: families.filter((f) => f.rendered).length,
+    familiesSkippedForMissingBinary: families.filter((f) => f.skippedReason?.includes("not in the clone")).length,
+    familiesRefused: families.filter((f) => f.skippedReason && !f.skippedReason.includes("not in the clone")).length
+  };
+  fs.writeFileSync(OUT, `${JSON.stringify({ ...existing, totals, families }, null, 2)}\n`);
+  console.log(`OK flat-overlay render — report rebuilt from committed artifacts; ${added.length} row(s) added (${added.join(", ") || "none"}), nothing rendered`);
+  process.exit(0);
+}
+
+if (process.argv.includes("--report-only")) rebuildReportFromCommitted();
+if (checkOnly) validateApprovedRelease();
+
 const binaries = binariesBySha();
 const families = [];
 const written = [];

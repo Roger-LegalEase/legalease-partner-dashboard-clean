@@ -4,12 +4,210 @@
   "purpose": "Renders every flat-overlay family whose write boxes have been measured, through the existing D0 factory, and records what each run wrote and refused.",
   "factory": "scripts/rcap-official-forms/rcap-official-form-finalize.mjs (finalizeFlatOverlay)",
   "totals": {
-    "familiesWithMeasuredAnchors": 1,
-    "familiesRendered": 1,
+    "familiesWithMeasuredAnchors": 2,
+    "familiesRendered": 2,
     "familiesSkippedForMissingBinary": 0,
     "familiesRefused": 0
   },
   "families": [
+    {
+      "canonicalWritten": [
+        "FULL NAME (Last) (First) (Middle) (Suffix)",
+        "MAILING ADDRESS",
+        "PHONE NUMBER(S)",
+        "DATE OF BIRTH",
+        "TRIAL COURT CASE #:"
+      ],
+      "canonicalRefused": [
+        {
+          "anchor": "SOCIAL SECURITY #",
+          "reason": "write_box_lands_on_a_rule_the_court_owns",
+          "category": "protected"
+        }
+      ],
+      "boundaryRefused": [
+        {
+          "anchor": "SOCIAL SECURITY #",
+          "reason": "write_box_lands_on_a_rule_the_court_owns",
+          "category": "protected"
+        }
+      ],
+      "familyId": "AK:requesttosealcriminfo",
+      "documentId": "requesttosealcriminfo",
+      "sourceSha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+      "sourceBinaryPath": null,
+      "anchors": 6,
+      "rendered": true,
+      "skippedReason": null,
+      "provenance": {
+        "schemaVersion": "rcap-artifact-provenance/v1",
+        "purpose": "External provenance for finalized participant artifacts. The PDF Info dictionary carries the court's metadata, not ours, so nothing here may be inferred from it and no staleness check may depend on a Producer stamp.",
+        "jurisdiction": "AK",
+        "assetId": "DPS-SEAL-REQ-2-04",
+        "documentId": "DPS-SEAL-REQ-2-04",
+        "formFamily": "requesttosealcriminfo",
+        "officialFormNumber": "DPS-SEAL-REQ-2-04",
+        "officialTitle": null,
+        "sourcePublisher": null,
+        "sourceUrl": null,
+        "sourceRevision": "REV-2004-02",
+        "sourceSha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+        "sourceMetadataFingerprint": null,
+        "fieldMapSha256": "81bd99f338cd7f54dcb19bc85c1ec92337a71e3d705ba869f9a86fd0746060d4",
+        "classificationSha256": "302bf40d315acbe6c317e44a870fef5573897fb4b06956cec1a545beb14a03b4",
+        "packetSpecSha256": null,
+        "factoryVersion": "d0-remediated-v2-content-stream-geometry",
+        "rendererVersion": "implement-rcap-residual-session-11-families/v1",
+        "generatedAt": "2026-08-22T00:00:00.000Z",
+        "activeContentResult": {
+          "basis": "scanBytesForActiveContent over the frozen artifact bytes",
+          "clean": true,
+          "perArtifact": {
+            "fixtures/canonical-filled.pdf": {
+              "inspectable": true,
+              "hits": [],
+              "clean": true
+            },
+            "fixtures/boundary-filled.pdf": {
+              "inspectable": true,
+              "hits": [],
+              "clean": true
+            },
+            "contact-sheet/blank-vs-filled.pdf": {
+              "inspectable": true,
+              "hits": [],
+              "clean": true
+            }
+          }
+        },
+        "flatteningResult": {
+          "basis": "AcroForm and XFA state observed on the frozen artifact",
+          "allFlattened": true,
+          "perArtifact": {
+            "fixtures/canonical-filled.pdf": {
+              "acroFormPresent": false,
+              "formFields": 0,
+              "xfaPresent": false,
+              "flattened": true
+            },
+            "fixtures/boundary-filled.pdf": {
+              "acroFormPresent": false,
+              "formFields": 0,
+              "xfaPresent": false,
+              "flattened": true
+            },
+            "contact-sheet/blank-vs-filled.pdf": {
+              "acroFormPresent": false,
+              "formFields": 0,
+              "xfaPresent": false,
+              "flattened": true
+            }
+          }
+        },
+        "protectedFieldResult": null,
+        "fixtureIdentity": {
+          "implementationFreezeSha": "f34fe99d8760805eef219c4014664a87f6e90e50",
+          "captainCoordinationHead": "513b9ce35df005af956781ce4e05c5a400806478",
+          "sourcePack": "pdf-finish-final-evidence",
+          "familyId": "AK:requesttosealcriminfo",
+          "disposition": "filing_artifact",
+          "canonicalTerminalDisposition": null,
+          "artifactExpected": true,
+          "sourceIdentity": {
+            "resolvedPath": "private/Nationwide Record Clearing/LegalEase Alaska/RequestToSealCrimInfo.pdf",
+            "sha256": "1fb64733f46c397beb69d1da8d72a1f1462669f8dfb7611e86a833c45aa5c80a",
+            "byteLength": 37708,
+            "hashedFromInstalledBytes": true,
+            "matchesImplementationFreeze": true,
+            "sourcePack": "pdf-finish-final-evidence",
+            "sourceUrl": null
+          },
+          "packageIdentity": {
+            "sourceRecordSha256": "e60f41f5122091a5700e9c1c3fa4544e1cddd8f58b404bdd7b312449b530433e",
+            "sourceReceiptSha256": "7466956dc614e6fb10917131f319a0701cf5f6b9995bfed4e88702d398885bfb",
+            "maps": [
+              {
+                "file": "overlay-profile.json",
+                "sha256": "81bd99f338cd7f54dcb19bc85c1ec92337a71e3d705ba869f9a86fd0746060d4",
+                "schemaVersion": "rcap-flat_overlay-map/v8-content-stream-measured"
+              }
+            ],
+            "fieldCensusSha256": null,
+            "fieldClassificationSha256": "302bf40d315acbe6c317e44a870fef5573897fb4b06956cec1a545beb14a03b4",
+            "familyLocalProofs": []
+          },
+          "classification": {
+            "schemaVersion": "rcap-field-classification/v2-complete",
+            "documentOwnership": null,
+            "denominator": "every caption PART II prints on page 3, which is the only page of this form a participant completes",
+            "discoveredFieldsOrAnchors": 28,
+            "classifiedFieldsOrAnchors": 28,
+            "countersPresent": true,
+            "complete": true,
+            "classCounts": {},
+            "classCountsTotal": 0,
+            "entries": 28
+          },
+          "freezeBinding": [
+            {
+              "file": "source-record.json",
+              "frozenSha256": "e60f41f5122091a5700e9c1c3fa4544e1cddd8f58b404bdd7b312449b530433e",
+              "onDiskSha256": "e60f41f5122091a5700e9c1c3fa4544e1cddd8f58b404bdd7b312449b530433e"
+            },
+            {
+              "file": "field-classification.json",
+              "frozenSha256": "302bf40d315acbe6c317e44a870fef5573897fb4b06956cec1a545beb14a03b4",
+              "onDiskSha256": "302bf40d315acbe6c317e44a870fef5573897fb4b06956cec1a545beb14a03b4"
+            },
+            {
+              "file": "overlay-profile.json",
+              "frozenSha256": "81bd99f338cd7f54dcb19bc85c1ec92337a71e3d705ba869f9a86fd0746060d4",
+              "onDiskSha256": "81bd99f338cd7f54dcb19bc85c1ec92337a71e3d705ba869f9a86fd0746060d4"
+            },
+            {
+              "file": "fixtures/canonical-filled.pdf",
+              "frozenSha256": "580b15f2045eb878ef288c313dfff4c04b9c1c7f21895f25ba5de8d6d49f39d3",
+              "onDiskSha256": "580b15f2045eb878ef288c313dfff4c04b9c1c7f21895f25ba5de8d6d49f39d3"
+            },
+            {
+              "file": "fixtures/boundary-filled.pdf",
+              "frozenSha256": "8334911d23a7da6cd5afd4a66e78677a336116107e0fab6ea622d4dfbd81e69d",
+              "onDiskSha256": "8334911d23a7da6cd5afd4a66e78677a336116107e0fab6ea622d4dfbd81e69d"
+            },
+            {
+              "file": "contact-sheet/blank-vs-filled.pdf",
+              "frozenSha256": "0e800e78f30dea36d74709ddd3acfae2678075c2f8d5648f7c58c34690a9de3f",
+              "onDiskSha256": "0e800e78f30dea36d74709ddd3acfae2678075c2f8d5648f7c58c34690a9de3f"
+            }
+          ]
+        },
+        "artifacts": [
+          {
+            "artifact": "fixtures/canonical-filled.pdf",
+            "outputSha256": "580b15f2045eb878ef288c313dfff4c04b9c1c7f21895f25ba5de8d6d49f39d3",
+            "normalizedContentSha256": "af115011e05d95dd2b9aa146e523cd15583049c490ecb22c9ee9cec35ac020bc",
+            "byteLength": 35304,
+            "pageCount": 6
+          },
+          {
+            "artifact": "fixtures/boundary-filled.pdf",
+            "outputSha256": "8334911d23a7da6cd5afd4a66e78677a336116107e0fab6ea622d4dfbd81e69d",
+            "normalizedContentSha256": "432538e8ad02ed507c8e0ce3eba6f69605faf45421548857fccf6e6eabaaeef6",
+            "byteLength": 35444,
+            "pageCount": 6
+          },
+          {
+            "artifact": "contact-sheet/blank-vs-filled.pdf",
+            "outputSha256": "0e800e78f30dea36d74709ddd3acfae2678075c2f8d5648f7c58c34690a9de3f",
+            "normalizedContentSha256": "944ae9df6e3c0467c431eeca8da91f3c8ca53b75b4f1a63806dbb85be8068e94",
+            "byteLength": 131094,
+            "pageCount": 6
+          }
+        ]
+      },
+      "rebuilt": false,
+      "notRebuiltReason": "recorded from the committed artifacts and their provenance; this row was added without rendering"
+    },
     {
       "familyId": "WI:cr-266-form-en",
       "documentId": "CR-266",

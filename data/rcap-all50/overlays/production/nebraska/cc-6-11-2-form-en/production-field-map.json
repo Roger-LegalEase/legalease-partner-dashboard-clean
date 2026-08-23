@@ -18,52 +18,86 @@
     {
       "field": "defendant",
       "class": "participant",
-      "factId": "participant.full_legal_name"
-    },
-    {
-      "field": "TYPEOFCOURTDROPDOWN",
-      "class": "participant",
-      "factId": "matter.court"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "vs"
     },
     {
       "field": "TYPEOFCOURTRESULTS",
       "class": "participant",
-      "factId": "matter.court"
-    },
-    {
-      "field": "enter the type of court",
-      "class": "participant",
-      "factId": "matter.court"
+      "factId": "matter.court",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "enter the county",
       "class": "participant",
-      "factId": "matter.county"
+      "factId": "matter.county",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     }
   ],
   "bindingRefusals": [
     {
       "field": "Text2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Text4",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "DROPDOWNCOUNTY2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "fullcountystatementRIGHT",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
+    },
+    {
+      "field": "enter the type of court",
+      "reason": "duplicate_widget_for_one_slot",
+      "category": "caption_slot",
+      "factId": "matter.court",
+      "keptInstead": "TYPEOFCOURTRESULTS",
+      "overlapsWith": [
+        "TYPEOFCOURTDROPDOWN",
+        "TYPEOFCOURTRESULTS"
+      ]
+    },
+    {
+      "field": "TYPEOFCOURTDROPDOWN",
+      "reason": "duplicate_widget_for_one_slot",
+      "category": "caption_slot",
+      "factId": "matter.court",
+      "keptInstead": "TYPEOFCOURTRESULTS",
+      "overlapsWith": [
+        "TYPEOFCOURTRESULTS",
+        "enter the type of court"
+      ]
     }
   ],
   "unwritableFields": [
+    {
+      "field": "Text2",
+      "class": "unused"
+    },
+    {
+      "field": "Text4",
+      "class": "unused"
+    },
+    {
+      "field": "DROPDOWNCOUNTY2",
+      "class": "manual"
+    },
     {
       "field": "fullcountystatementRIGHT",
       "class": "court_or_agency"

@@ -6,97 +6,128 @@
   "censusBasis": "extracted_from_committed_shadow_sample",
   "bindings": [
     {
-      "field": "DIVISION",
-      "class": "participant",
-      "factId": "court",
-      "maturity": "profile_question_bound"
-    },
-    {
       "field": "Case No",
       "class": "participant",
-      "factId": "case_identifier",
-      "maturity": "profile_question_bound"
-    },
-    {
-      "field": "First Middle and Last name",
-      "class": "participant",
-      "factId": "packet_intake:full_legal_name",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
+      "factId": "matter.case_number",
+      "writeBox": "the blank after the printed 'vs. Case No.' on p1",
+      "maturity": "confirmed_against_printed_caption"
     },
     {
       "field": "City",
       "class": "participant",
-      "factId": "packet_intake:city",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
+      "factId": "participant.city",
+      "writeBox": "the blank after the printed 'City:' on p2",
+      "maturity": "confirmed_against_printed_caption"
+    },
+    {
+      "field": "State",
+      "class": "participant",
+      "factId": "participant.state",
+      "writeBox": "the 39pt blank after the printed 'State:' on p2. Written by the renderer but absent from the draft map; declared here so the artifact and the map agree.",
+      "maturity": "confirmed_against_printed_caption"
     },
     {
       "field": "Zip code",
       "class": "participant",
-      "factId": "packet_intake:zip",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
+      "factId": "participant.zip",
+      "writeBox": "the blank after the printed 'Zip code:' on p2",
+      "maturity": "confirmed_against_printed_caption"
     },
     {
       "field": "COUNTY OF",
       "class": "participant",
-      "factId": "county",
-      "maturity": "profile_question_bound"
+      "factId": "matter.county",
+      "writeBox": "the jurat venue blank after the printed 'COUNTY OF' on p3",
+      "maturity": "confirmed_against_printed_caption"
     },
     {
       "field": "DOB",
       "class": "participant",
-      "factId": "packet_intake:date_of_birth",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
-    },
-    {
-      "field": "COUNTY/CITY",
-      "class": "participant",
-      "factId": "county",
-      "maturity": "profile_question_bound"
-    },
-    {
-      "field": "CHARGES 1",
-      "class": "participant",
-      "factId": "charge",
-      "maturity": "profile_question_bound"
-    },
-    {
-      "field": "CHARGES 2",
-      "class": "participant",
-      "factId": "charge",
-      "maturity": "profile_question_bound"
+      "factId": "participant.date_of_birth",
+      "writeBox": "the blank after the printed 'DOB' on p3",
+      "maturity": "confirmed_against_printed_caption"
     },
     {
       "field": "Defendant",
       "class": "participant",
-      "factId": "packet_intake:full_legal_name",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
+      "factId": "participant.full_legal_name",
+      "writeBox": "the blank in 'WHEREFORE, the Defendant, ____,' on p2",
+      "maturity": "confirmed_against_printed_caption"
     },
     {
       "field": "ADDRESS 1",
       "class": "participant",
-      "factId": "packet_intake:mailing_address",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
-    },
-    {
-      "field": "ADDRESS 2",
-      "class": "participant",
-      "factId": "packet_intake:mailing_address",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
-    },
-    {
-      "field": "Petitioner",
-      "class": "participant",
-      "factId": "packet_intake:full_legal_name",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
-    },
-    {
-      "field": "DEFENDANT",
-      "class": "participant",
-      "factId": "packet_intake:full_legal_name",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
+      "factId": "participant.street_address",
+      "writeBox": "the first address line on p2, above the printed 'City:' line",
+      "maturity": "confirmed_against_printed_caption"
     }
   ],
   "boundsChecks": {
     "longText": "shrink_to_fit_then_addendum"
+  },
+  "sha256": "09f323174881934239734e3a418eb4fec0b4bd0f7e199e8698c3af95a659fa61",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs), each binding confirmed against the printed caption its widget sits on",
+  "bindingRefusals": [
+    {
+      "field": "DIVISION",
+      "class": "participant",
+      "reason": "no_allowlisted_fact_matches",
+      "why": "The circuit court's division number. The draft map bound it to the compiled profile's 'court' question, which would print a court name in a division-number blank; the fail-closed binder matches no fact for it."
+    },
+    {
+      "field": "CHARGES 1",
+      "class": "participant",
+      "reason": "no_allowlisted_fact_matches",
+      "why": "A charge line. matter.charge requires an explicit mapping this path does not supply, and a misstated charge misdescribes the record to the court."
+    },
+    {
+      "field": "CHARGES 2",
+      "class": "participant",
+      "reason": "no_allowlisted_fact_matches",
+      "why": "As CHARGES 1."
+    },
+    {
+      "field": "First Middle and Last name",
+      "class": "manual_participant",
+      "reason": "classified_unwritable_by_role",
+      "why": "Resolves to the surname alone; see the classification."
+    },
+    {
+      "field": "COUNTY/CITY",
+      "class": "manual_participant",
+      "reason": "classified_unwritable_by_role",
+      "why": "Resolves to the petitioner's residence city in the court's venue blank; see the classification."
+    },
+    {
+      "field": "ADDRESS 2",
+      "class": "manual_participant",
+      "reason": "classified_unwritable_by_role",
+      "why": "Would repeat the street line; see the classification."
+    },
+    {
+      "field": "Petitioner",
+      "class": "signature",
+      "reason": "classified_unwritable_by_role",
+      "why": "One of its widgets is the signature line; see the classification."
+    },
+    {
+      "field": "DEFENDANT",
+      "class": "manual_participant",
+      "reason": "classified_unwritable_by_role",
+      "why": "Certificate of Service; see the classification."
+    }
+  ],
+  "refusalFallbacks": {
+    "rule": "A value that cannot be placed correctly is refused, never guessed, never shrunk below the readable floor and never clipped. The packet leaves the blank empty and raises it as a required manual step, because a wrong value on a filed document is worse than a blank one.",
+    "notAFallback": "Writing the nearest fact we happen to hold, shrinking below the readable floor, clipping at the box edge, or overflowing into the caption beside it. None of those is done.",
+    "byField": {
+      "First Middle and Last name": "The petition caption. The packet leaves it blank and instructs the participant to print their full legal name — first, middle and last — exactly as it appears on the charging document. This is a required manual step, not a note: a petition whose caption does not name the petitioner does not identify the case.",
+      "COUNTY/CITY": "The venue in 'IN THE ____ COURT OF ____, ARKANSAS'. The participant writes the county or city of the court that handled the case. Required manual step: a petition filed without a venue is not filed.",
+      "ADDRESS 2": "The continuation line of the mailing address. The participant writes an apartment, unit or PO box here if the street line does not hold the whole address.",
+      "Petitioner": "The signature line of the verification. Signed by hand in front of the notary, never typed. The same field name also reaches the 'Comes the Petitioner,' blank, so that blank is written by hand at the same time.",
+      "DEFENDANT": "The Certificate of Service. The participant writes their own name, signs and dates it at the moment they actually mail or deliver the copy to the prosecuting or city attorney and the arresting agency — not before.",
+      "DIVISION": "The circuit court's division number, copied by the participant from the case's own caption.",
+      "CHARGES 1 and CHARGES 2": "The charges to be sealed, copied by the participant from the nolle prosequi, dismissal or acquittal order they are attaching."
+    }
   }
 }

@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "rcap-field-appearance-semantics/v1",
+  "purpose": "What each classified field's appearance MEANS, so the finalizer can decide what it may contribute without branching on the family, the form, the field name or the text.",
+  "measuredAt": "ad3bca357e8030f5d07207aeec2d07927f3b1912",
+  "dispositions": {
+    "preserve_source_appearance": "official or source-inherent text the court put on its own form. It is carried onto the filing unchanged. Storage location does not decide this: official text lives in a widget appearance XObject on these forms just as a placeholder does.",
+    "render_participant_value_only_when_written": "a participant input. Its appearance renders only when this run actually wrote a value for it; unwritten, it contributes nothing, so the source placeholder or default never reaches the filing.",
+    "suppress_control_appearance": "chrome for a person at a screen - a pushbutton and anything else that is a control rather than content. It never contributes to a finalized artifact."
+  },
+  "defaultWhenUnclassified": "preserve_source_appearance for anything that is not structurally a control or an unanswered chooser. Being wrong towards preservation leaves the court's own text on the filing; being wrong the other way removes it.",
+  "notAHeuristic": "no entry here is derived from RichText, Multiline, a /Ff bit combination, ReadOnly, or whether the text sits in page content or a widget XObject. Each was measured at the snapshot above by reading the drawn appearance and matching it to its field by widget rectangle.",
+  "families": {
+    "NE:cc-6-11-form-en": {
+      "measuredAt": "ad3bca357e8030f5d07207aeec2d07927f3b1912",
+      "captionBandFixedWordsLiveIn": "the source page layer, not a widget: at this snapshot no drawn text run on these forms contains \"IN THE\" or \"COURT OF\". The band's fixed words are part of the page the court published, so they are preserved by the official layer being carried forward unrewritten, and what could still hide them is an opaque widget background painted over them.",
+      "fields": {
+        "enter the type of court": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "(Enter the type of court)",
+          "because": "the court printed this inside the field for someone filling the form in by hand. It is an instruction to the filer, not a value the filer supplied, so a filing that carries it is telling the court to enter the type of court."
+        },
+        "fullcountystatementRIGHT": {
+          "disposition": "preserve_source_appearance",
+          "sourceAppearance": "COUNTY, NEBRASKA",
+          "because": "the court's own caption band. It is an unwritten /Tx widget whose appearance draws text, exactly like the placeholder above, which is why disposition here cannot be read from structure."
+        }
+      }
+    },
+    "NE:cc-6-11-2-form-en": {
+      "measuredAt": "ad3bca357e8030f5d07207aeec2d07927f3b1912",
+      "captionBandFixedWordsLiveIn": "the source page layer, not a widget: at this snapshot no drawn text run on these forms contains \"IN THE\" or \"COURT OF\". The band's fixed words are part of the page the court published, so they are preserved by the official layer being carried forward unrewritten, and what could still hide them is an opaque widget background painted over them.",
+      "fields": {
+        "enter the type of court": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "(Enter the type of court)",
+          "because": "the court printed this inside the field for someone filling the form in by hand. It is an instruction to the filer, not a value the filer supplied, so a filing that carries it is telling the court to enter the type of court."
+        },
+        "fullcountystatementRIGHT": {
+          "disposition": "preserve_source_appearance",
+          "sourceAppearance": "COUNTY, NEBRASKA",
+          "because": "the court's own caption band. It is an unwritten /Tx widget whose appearance draws text, exactly like the placeholder above, which is why disposition here cannot be read from structure."
+        }
+      }
+    },
+    "NE:cc-6-12-form-en": {
+      "measuredAt": "ad3bca357e8030f5d07207aeec2d07927f3b1912",
+      "captionBandFixedWordsLiveIn": "the source page layer, not a widget: at this snapshot no drawn text run on these forms contains \"IN THE\" or \"COURT OF\". The band's fixed words are part of the page the court published, so they are preserved by the official layer being carried forward unrewritten, and what could still hide them is an opaque widget background painted over them.",
+      "fields": {
+        "enter the type of court": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "(Enter the type of court)",
+          "because": "the court printed this inside the field for someone filling the form in by hand. It is an instruction to the filer, not a value the filer supplied, so a filing that carries it is telling the court to enter the type of court."
+        },
+        "fullcountystatementRIGHT": {
+          "disposition": "preserve_source_appearance",
+          "sourceAppearance": "COUNTY, NEBRASKA",
+          "because": "the court's own caption band. It is an unwritten /Tx widget whose appearance draws text, exactly like the placeholder above, which is why disposition here cannot be read from structure."
+        }
+      }
+    },
+    "NE:cc-6-15-1-form-en": {
+      "measuredAt": "ad3bca357e8030f5d07207aeec2d07927f3b1912",
+      "captionBandFixedWordsLiveIn": "the source page layer, not a widget: at this snapshot no drawn text run on these forms contains \"IN THE\" or \"COURT OF\". The band's fixed words are part of the page the court published, so they are preserved by the official layer being carried forward unrewritten, and what could still hide them is an opaque widget background painted over them.",
+      "fields": {
+        "enter the type of court": {
+          "disposition": "render_participant_value_only_when_written",
+          "sourceAppearanceWhenUnwritten": "(Enter the type of court)",
+          "because": "the court printed this inside the field for someone filling the form in by hand. It is an instruction to the filer, not a value the filer supplied, so a filing that carries it is telling the court to enter the type of court."
+        },
+        "fullcountystatementRIGHT": {
+          "disposition": "preserve_source_appearance",
+          "sourceAppearance": "COUNTY, NEBRASKA",
+          "because": "the court's own caption band. It is an unwritten /Tx widget whose appearance draws text, exactly like the placeholder above, which is why disposition here cannot be read from structure."
+        }
+      }
+    },
+    "NE:dc-1-15-form-en": {
+      "measuredAt": "ad3bca357e8030f5d07207aeec2d07927f3b1912",
+      "captionBandFixedWordsLiveIn": "the source page layer, as above.",
+      "fields": {
+        "fullcountystatementRIGHT": {
+          "disposition": "preserve_source_appearance",
+          "sourceAppearance": "______________ COUNTY, NEBRASKA",
+          "because": "the court's own caption band. It is an unwritten /Tx widget whose appearance draws text, exactly like the placeholder above, which is why disposition here cannot be read from structure."
+        },
+        "Text24": {
+          "disposition": "preserve_source_appearance",
+          "sourceAppearance": "Type of Case - Check only one:",
+          "because": "an official heading that introduces the case-type checkboxes. It is an instruction the court printed, not chooser furniture, and removing it would leave the boxes unlabelled."
+        },
+        "adoptionof": {
+          "disposition": "preserve_source_appearance",
+          "sourceAppearance": "IN THE MATTER OF THE ADOPTION OF: ____________",
+          "because": "an official case-caption line the court printed inside the field."
+        },
+        "probateof": {
+          "disposition": "preserve_source_appearance",
+          "sourceAppearance": "IN THE MATTER OF THE ESTATE OF: ______________",
+          "because": "an official case-caption line the court printed inside the field."
+        }
+      }
+    }
+  }
+}

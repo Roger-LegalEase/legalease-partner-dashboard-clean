@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-group/v1",
+  "batch": "wave-c-final-d",
+  "group": 1,
+  "reviewDate": "2026-08-21",
+  "reviewerBranch": "claude/gate-b-wave-c-review-kibrgo",
+  "reviewedLaneBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewedLaneHead": "e94fb456b13dacd05479641bc3c4fe37eb898d07",
+  "headline": "Four families, every source verified from its own bytes with zero mismatches, and no approval among them. NE CC-6-15.1 destroys the preprinted words IN THE and COURT OF. VA CC-1201 writes matter.court onto the rule captioned CITY OR COUNTY and a case number into an addendum-count box. VT 600-00228 leaves the applicant identity block unbound. VA CC-1473 is geometrically clean and needs an owner ruling on a locality fact and on pre-filling conditional slots.",
+  "reEmission": {
+    "of": "data/rcap-all50/pdf-independent-reviews/wave-c-shard-d/",
+    "statement": "Canonical re-emission only. No re-review, no verdict change, no pinned hash change."
+  },
+  "verdicts": [
+    {
+      "family": "NE:cc-6-15-1-form-en",
+      "jurisdiction": "NE",
+      "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf",
+      "sourceVerified": {
+        "recomputedByReviewer": true,
+        "sourceSha256": "d1fb1340b1ef42bab9da89f9ed6bc8d669057158065bd6bfcb37e762777a6b79",
+        "matchesCommittedPin": true,
+        "byteLengthMatches": true,
+        "visibleFormNumberAndRevision": "CC-6-15.1 REV-2021-05",
+        "comparedAgainst": "the digests pinned in this family's committed source-receipt.json, source-record.json and artifact-provenance.json, not the source pack manifest"
+      },
+      "visualEvidence": "Page 1 caption band fails: preprinted 'IN THE' and 'COURT OF' and the italic '(Enter the county name)' are obliterated by the drawn values. Signature rule blank; Printed Name, Street Address, City/State/ZIP and Telephone carry the participant's own values in their own captioned rules; the Date beside the unsigned Signature rule carries deterministic.filing_date.",
+      "verifiedIndependently": "Yes — every pinned digest recomputed from disk, the artifact catalog and page tree parsed directly for active content, and each bound value's rectangle compared with the rectangle the family's own census declares for it.",
+      "openCorrections": 3,
+      "observed": "correction_required. Source verified from its own bytes (d1fb1340…), zero mismatch, and the visible 'CC 6:15.1 NEW 05/2021' agrees with the pinned REV-2021-05. The artifact destroys preprinted wording the official form carries: a registered per-pixel comparison of blank source against finalized artifact shows 402 source-ink pixels destroyed and 1037 added, in exactly the columns holding 'IN THE' (x429-479) and 'COURT OF' (x557-634), with 'COUNTY, NEBRASKA' untouched as the alignment control. The caption band renders 'District CourtExample County COUNTY, NEBRASKA' with the two values abutting. The flatten also materialises the italic captions the official form keeps hidden behind its chooser widgets while the unselected chooser prompts survive it, and the contact sheet's own blank panel already carries those materialised captions, so it is not a faithful rendering of the official form. Separately, all 21 classification entries store effectiveLabel and regionHeading as raw Identity-H glyph ids at a fixed +29 offset from ASCII, never mapped through ToUnicode, so the heading-vocabulary region channel has nothing legible to match on this family. Flattened, no XFA, JavaScript, OpenAction or additional actions.",
+      "corrections": [
+        {
+          "family": "NE:cc-6-15-1-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "TYPEOFCOURTRESULTS and 'enter the county' in the page-1 caption band (raster row y=174-181 of the page-01 contact-sheet raster)",
+          "observedResult": "The drawn values obliterate the form's own preprinted caption words. Column-wise ink measurement over the caption row shows the blank panel carrying ink across x=251-283 ('IN THE') and the filled panel carrying zero ink over the same columns; 'COURT OF' is overwritten by the drawn value 'District Court'; the two values abut with no separator so the band reads 'District CourtExample County COUNTY, NEBRASKA'. On the sub-caption row the printed italic '(Enter the county name)' is absent from the filled panel while the unselected chooser prompt 'Choose the county' survives the flatten. Re-proven against the official source bytes (SHA-256 d1fb1340…, recomputed by this reviewer): the blank source and the finalized artifact were rasterized through the same engine at identical scale and compared per pixel. In the caption band the artifact destroys 402 pixels of source ink and adds 1037, and the destroyed columns are exactly x 429-479 ('IN THE') and x 557-634 ('COURT OF'), with 'COUNTY, NEBRASKA' unchanged as an alignment control. The official source renders the line cleanly as 'IN THE ___ COURT OF ___ COUNTY, NEBRASKA' with two tidy chooser widgets beneath it and no italic caption visible.",
+          "requiredResult": "'IN THE', 'COURT OF' and '(Enter the county name)' must remain legible in the finalized artifact, each drawn value must sit inside its own slot without covering preprinted wording, the court-type and county values must be separated, and an unselected chooser's prompt must not survive the flatten.",
+          "smallestCorrection": "Constrain each caption-band draw to the horizontal span of its own widget rect between the preprinted words, and clear the unselected chooser's appearance stream before flatten as ESC-CAPTION-VARIANTS already requires.",
+          "sourceProven": true
+        },
+        {
+          "family": "NE:cc-6-15-1-form-en",
+          "artifact": "field-classification.json",
+          "page": null,
+          "fieldOrRectangle": "all 21 entries: effectiveLabel and regionHeading",
+          "observedResult": "Every label and region heading is stored as raw Identity-H glyph ids rather than text: the bytes decode to a fixed +29 offset from ASCII, so 'Neb. Rev. Stat.' is recorded as '1HE\\x11\\x035HY\\x11\\x036WDW\\x11'. 21 of 21 entries are affected; the other three families in this shard have none.",
+          "requiredResult": "Labels and region headings must be mapped through the font's ToUnicode CMap before they are recorded.",
+          "smallestCorrection": "Apply the ToUnicode CMap when extracting caption text in the content-stream geometry module, so the heading-vocabulary channel added at this review base has legible input on this family.",
+          "whyThisMatters": "The region channel the base commit added consults a heading vocabulary. With every heading unreadable that channel cannot match on this family, which is the mechanism by which the caption-band draw went unrefused."
+        },
+        {
+          "family": "NE:cc-6-15-1-form-en",
+          "artifact": "contact-sheet/blank-vs-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "the 'blank' panel of the contact sheet, page-1 caption band",
+          "observedResult": "The contact sheet's blank panel is not a faithful rendering of the official form. Rendered directly from the verified source bytes the caption band shows only 'IN THE ___ COURT OF ___ COUNTY, NEBRASKA' with two shaded chooser widgets below it; the contact sheet's blank panel additionally materialises the hidden italic captions '(Enter the type of court)' and '(Enter the county name)' overlapping the chooser prompts.",
+          "requiredResult": "The blank panel must depict the official source as it renders, so that a reviewer comparing panels sees caption damage rather than a blank that already carries it.",
+          "smallestCorrection": "Compose the blank panel from the unmodified source rather than from a flattened pass over it.",
+          "whyThisMatters": "Comparing the artifact against a blank that has already been through the same flatten hides exactly the class of damage found here."
+        }
+      ]
+    },
+    {
+      "family": "VA:cc-1201-form-en",
+      "jurisdiction": "VA",
+      "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf",
+      "sourceVerified": {
+        "recomputedByReviewer": true,
+        "sourceSha256": "7b56d8e167f610739da1578ec96e8bc7925ae029141857e7350bd7482c8e7e78",
+        "matchesCommittedPin": true,
+        "byteLengthMatches": true,
+        "visibleFormNumberAndRevision": "CC-1201 REV-2026-07",
+        "comparedAgainst": "the digests pinned in this family's committed source-receipt.json, source-record.json and artifact-provenance.json, not the source pack manifest"
+      },
+      "visualEvidence": "Pages 1-4 inspected. Page 3 identical blank vs filled. Page 4 signature and date rules blank, PRINTED NAME and ADDRESS OF PETITIONER correct. Defects are on pages 1 and 4 as recorded under corrections.",
+      "verifiedIndependently": "Yes — every pinned digest recomputed from disk, the artifact catalog and page tree parsed directly for active content, and each bound value's rectangle compared with the rectangle the family's own census declares for it.",
+      "openCorrections": 3,
+      "observed": "correction_required. Source verified from its own bytes (7b56d8e1…), zero mismatch, visible 'FORM CC-1201, (MASTER) … 07/26' agrees with the pinned REV-2026-07, and page 1 loses no source ink — the defects are wrong values inside correct rectangles. User.CourtName (page 1, rect x=37 y=651 w=366 h=12) is written with matter.court = 'District Court' onto the court caption rule whose printed caption is CITY OR COUNTY and whose preprinted continuation is 'Circuit Court', so the line renders 'District Court … Circuit Court'; the same slot type is already refused on page 2 as User.Court. User.CaseNumber1201 (page 4, rect x=134 y=579 w=53 h=12) is written with the case number into the addendum-count slot captioned NUMBER, shrunk well below body size to fit a 53pt box, and the family's own boundary fixture already refuses that field with value_exceeds_widget_width_at_minimum_font. Underlying both, the census resolves captions with labelBasis 'printed_directly_above_in_the_same_column' while this form prints each caption below its rule, so UserPetitionerName is recorded with effectiveLabel 'CITY OR COUNTY'. Flattened, no active content.",
+      "corrections": [
+        {
+          "family": "VA:cc-1201-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "User.CourtName, widget rect x=37 y=651 w=366 h=12",
+          "observedResult": "matter.court = 'District Court' is written onto the court caption rule whose printed caption is CITY OR COUNTY and whose preprinted continuation is 'Circuit Court'. The line renders 'District Court ......... Circuit Court'. The same slot type is refused on page 2 (User.Court, 'Court of final disposition', also captioned CITY OR COUNTY), so the treatment is inconsistent within the family.",
+          "requiredResult": "The rule captioned CITY OR COUNTY must carry a city or county, not a court name.",
+          "smallestCorrection": "Bind User.CourtName to matter.county rather than matter.court, or refuse it as User.Court is already refused."
+        },
+        {
+          "family": "VA:cc-1201-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 4,
+          "fieldOrRectangle": "User.CaseNumber1201, widget rect x=134 y=579 w=53 h=12",
+          "observedResult": "matter.charges[0].case_number = '24-CR-001234' is written into the addendum-count slot captioned NUMBER, so the sentence renders 'CC-1201(A). 24-CR-001234 addendums are attached to this petition and are incorporated herein.' The value is shrunk well below body size to fit a 53pt box; the family's own boundary fixture already refuses this field with reason value_exceeds_widget_width_at_minimum_font.",
+          "requiredResult": "The slot captioned NUMBER must carry the count of addendums attached, or stay blank.",
+          "smallestCorrection": "Refuse User.CaseNumber1201 for case-number facts and bind it to the addendum count, or leave it unwritten."
+        },
+        {
+          "family": "VA:cc-1201-form-en",
+          "artifact": "production-field-map.json",
+          "page": 1,
+          "fieldOrRectangle": "effectiveLabel on User.CourtName and UserPetitionerName",
+          "observedResult": "The census resolves captions with labelBasis 'printed_directly_above_in_the_same_column', but this form prints each caption BELOW its rule. UserPetitionerName is therefore recorded with effectiveLabel 'CITY OR COUNTY' and User.CourtName with 'and any related ancillary matters)'. Every caption on this block is attributed to the rule above the one it belongs to.",
+          "requiredResult": "A caption printed beneath a fill-in rule must be attributed to that rule.",
+          "smallestCorrection": "Let the caption resolver consider text printed below a widget rect for caption-block layouts, and prefer the nearer of above/below."
+        }
+      ]
+    },
+    {
+      "family": "VA:cc-1473-form-en",
+      "jurisdiction": "VA",
+      "verdict": "substantive_owner_decision_required",
+      "asset": "fixtures/canonical-filled.pdf",
+      "sourceVerified": {
+        "recomputedByReviewer": true,
+        "sourceSha256": "6176c2f55bdb320682acecf0a79931bd5e496c4c93b5696645d4ef447fa67219",
+        "matchesCommittedPin": true,
+        "byteLengthMatches": true,
+        "visibleFormNumberAndRevision": "CC-1473 REV-2026-07",
+        "comparedAgainst": "the digests pinned in this family's committed source-receipt.json, source-record.json and artifact-provenance.json, not the source pack manifest"
+      },
+      "visualEvidence": "Pages 1-2 inspected. DATE, SIGNATURE, PRINT NAME, TELEPHONE, EMAIL, VSB and CLERK rules all blank; page 2 checklist identical blank vs filled; street address correctly on the ADDRESS OF PETITIONER rule.",
+      "verifiedIndependently": "Yes — every pinned digest recomputed from disk, the artifact catalog and page tree parsed directly for active content, and each bound value's rectangle compared with the rectangle the family's own census declares for it.",
+      "openCorrections": 0,
+      "observed": "substantive_owner_decision_required. Source verified from its own bytes (6176c2f5…), zero mismatch, visible 'FORM CC-1473 (MASTER …) 07/26' agrees with the pinned REV-2026-07, and page 1 loses no source ink. Geometry is clean: values land on their captioned rules, DATE, SIGNATURE, PRINT NAME, TELEPHONE, EMAIL, VSB and CLERK are all blank, page 2 is untouched, the artifact is flattened with no active content, and every pinned digest matches disk. Two questions are the owner's rather than a reviewer's. User.City writes participant.city into the court caption's CITY OR COUNTY slot — the value type is right and nothing preprinted is damaged, but the fact is the petitioner's residence city while the slot names the circuit court's locality, and the fixture also carries matter.county; the two coincide only by fixture. User.CaseNumbers and User.UnderlyingCaseNumbers fill conditional slots — 'if matter was heard on appeal from General District Court' and an 'Underlying Case No.(s)' line gated by an unchecked attachment box — so as rendered the document asserts an appeal history and an attachment the fact set does not establish.",
+      "ownerQuestions": [
+        {
+          "family": "VA:cc-1473-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "User.City, on the court caption rule captioned CITY OR COUNTY",
+          "observed": "participant.city = 'Springfield' is written into the CITY OR COUNTY slot of the court caption, rendering 'Springfield Circuit Court'. The value type is right and nothing preprinted is damaged, but the fact is the petitioner's residence city while the slot names the locality of the circuit court. The fixture also carries matter.county = 'Example County'. The two coincide only by fixture.",
+          "decision": "Which fact owns the court's CITY OR COUNTY slot: the petitioner's residence locality or the matter's filing locality."
+        },
+        {
+          "family": "VA:cc-1473-form-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "User.CaseNumbers and User.UnderlyingCaseNumbers",
+          "observed": "The circuit case number is written into 'If matter was heard on appeal from General District Court, list applicable General District Court case number(s)' and into 'Underlying Case No.(s)' on the line gated by the unchecked box 'A copy of the warrant or indictment is attached to this petition'. Both are conditional slots and neither condition is established by the fact set.",
+          "decision": "Whether the platform pre-fills conditional slots for participant review, or leaves a slot blank until its condition is asserted. As rendered the document states an appeal history and an attachment that the facts do not establish."
+        }
+      ]
+    },
+    {
+      "family": "VT:600-00228-support-en",
+      "jurisdiction": "VT",
+      "verdict": "correction_required",
+      "asset": "fixtures/canonical-filled.pdf",
+      "sourceVerified": {
+        "recomputedByReviewer": true,
+        "sourceSha256": "263d4e196cbca1bfba14ec730368fcc897dd2bb667d6a43ade7f612d42541654",
+        "matchesCommittedPin": true,
+        "byteLengthMatches": true,
+        "visibleFormNumberAndRevision": "600-00228 REV-2026-04",
+        "comparedAgainst": "the digests pinned in this family's committed source-receipt.json, source-record.json and artifact-provenance.json, not the source pack manifest"
+      },
+      "visualEvidence": "Pages 1-2 inspected. Page 2 identical blank vs filled: Section 5 Date, Applicant Signature and Printed Name all blank. No misplacement found; the defect is that the applicant identity block is left empty.",
+      "verifiedIndependently": "Yes — every pinned digest recomputed from disk, the artifact catalog and page tree parsed directly for active content, and each bound value's rectangle compared with the rectangle the family's own census declares for it.",
+      "openCorrections": 2,
+      "observed": "correction_required. Source verified from its own bytes (263d4e19…), zero mismatch, visible '600-00228 … (04/2026)' agrees with the pinned REV-2026-04. Page 1 loses 17 pixels of source ink, all of it the unfilled widgets' background shading that flattening removes by design; no printed text is lost, and page 2's Section 5 signature block is correctly blank. The defect is what is missing: field '3' carries the correctly captured caption 'Name: (First & Last) …' and is classified manual, as are '2' (Street Address), '4' (City/State/Zip), '5a' (Email Address) and '6'/'7' (phone). classCounts is {manual: 78, participant: 2} — only Docket Number and Case Name are written, so the applicant's name, address, phone and email are blank on an application whose purpose is to state the applicant's identity and means, while every one of those facts exists in the fact set and is written on other families in this shard. ESC-VALUE-NOT-VISIBLE states its own mutation test as offering full_legal_name to a field named '2' under a printed Name caption and requiring it to bind rather than refuse; that is precisely this case and it still refuses.",
+      "corrections": [
+        {
+          "family": "VT:600-00228-support-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "fields '3' (Name: First & Last), '2' (Street Address), '4' (City/State/Zip), '5a' (Email Address), '6' and '7' (Home/Cell and Work Phone)",
+          "observedResult": "Each of these fields carries a correctly captured printed caption in effectiveLabel and is classified manual, so all are left blank. classCounts is {manual: 78, participant: 2}; only 'Docket Number' and 'Case Name' are written. The applicant's name, street address, city/state/zip, phone and email are absent from an application whose purpose is to state the applicant's identity and means, while participant.full_legal_name, participant.street_address, participant.city_state_zip and participant.phone are all present in the fact set and are written on other families in this shard.",
+          "requiredResult": "A field whose captured caption reads 'Name: (First & Last)', 'Street Address', 'City/State/Zip', 'Email Address' or a phone caption must classify as participant and bind, which is exactly the mutation ESC-VALUE-NOT-VISIBLE says must turn red.",
+          "smallestCorrection": "Let the captured caption drive the class, not only the fact match, so a numerically named field under a participant caption classifies participant rather than manual."
+        },
+        {
+          "family": "VT:600-00228-support-en",
+          "artifact": "fixtures/canonical-filled.pdf",
+          "page": 1,
+          "fieldOrRectangle": "'Case Name' box",
+          "observedResult": "participant.full_legal_name is written into the case-caption box while the applicant's own 'Name: (First & Last)' rule directly beneath it is blank. The name therefore appears only in the caption box.",
+          "requiredResult": "The applicant's name must appear in the applicant Name field; use of the Case Name box is a separate decision.",
+          "smallestCorrection": "Bind participant.full_legal_name to field '3' under the 'Name: (First & Last)' caption; keep or drop the Case Name binding as the owner decides."
+        }
+      ]
+    }
+  ]
+}

@@ -16,11 +16,15 @@
     },
     {
       "name": "First Middle and Last name",
-      "class": "participant"
+      "class": "manual_participant",
+      "classCorrectedFrom": "participant",
+      "basis": "The caption box printed '(First, Middle and Last name)'. Resolves to participant.last_name, ordered above participant.full_legal_name, so the caption would carry the surname alone."
     },
     {
       "name": "1 The Defendant was arrested on the",
-      "class": "participant"
+      "class": "manual_participant",
+      "classCorrectedFrom": "participant",
+      "basis": "The widget is the arrest-DATE blank in '1. The Defendant was arrested on the ____, and charged with the offenses of' (p1 x=282.7..393.2 y=400.9). Both the draft map and the shared binder resolve it to a full legal name, which would print the petitioner's name where the date of arrest belongs."
     },
     {
       "name": "day of",
@@ -104,7 +108,9 @@
     },
     {
       "name": "Defendant",
-      "class": "participant"
+      "class": "manual_participant",
+      "classCorrectedFrom": "participant",
+      "basis": "The widget is the charge-status continuation blank for item 9 (p2 x=136.0..521.5 y=342.8), between the printed 'federal court and the status of that/those charges is/are as follows:' at y=378.5 and item 10 at y=320.2. Resolving it to a full legal name would answer 'the status of those charges is' with the petitioner's name."
     },
     {
       "name": "IS or",
@@ -132,7 +138,9 @@
     },
     {
       "name": "State",
-      "class": "participant"
+      "class": "manual_participant",
+      "classCorrectedFrom": "participant",
+      "basis": "This field's widget is the printed CITY blank, not a state blank: p2 x=110.76..282.24 y=123.48, immediately after the printed 'City:' which ends at x=106.7. Writing participant.state there prints a two-letter state code on the city line of a filed petition. The field name and the box disagree, and the shared binder decides from the name."
     },
     {
       "name": "Date",
@@ -140,7 +148,9 @@
     },
     {
       "name": "Defendants Address",
-      "class": "participant"
+      "class": "manual_participant",
+      "classCorrectedFrom": "participant",
+      "basis": "This field's widget is the printed STATE blank: p2 x=119.40..158.40 y=99.36, 39.00pt wide, exactly the five-underscore run after the printed 'State:'. It is not an address box. The renderer already refused it because a street address will not fit 39pt, but the reason it must never be written is that the box collects something else."
     },
     {
       "name": "Zip code",
@@ -156,7 +166,9 @@
     },
     {
       "name": "Petitioner",
-      "class": "participant"
+      "class": "signature",
+      "classCorrectedFrom": "participant",
+      "basis": "The blank directly above the printed word 'Petitioner' at p3 y=543.3, in a jurat that opens 'Comes the Petitioner, ____, under oath'. That line is signed, not typed."
     },
     {
       "name": "Subscribed and sworn to before me on this",
@@ -214,5 +226,14 @@
       "name": "Date_2",
       "class": "manual_participant"
     }
-  ]
+  ],
+  "classCounts": {
+    "manual_participant": 37,
+    "participant": 11,
+    "court_or_agency": 1,
+    "signature": 2,
+    "protected": 1,
+    "prosecutor_or_outside_party": 1
+  },
+  "correctionBasis": "Each corrected entry names the printed caption its widget actually sits on, measured from the pinned binary's page content streams. The AcroForm field names on these two petitions do not everywhere describe the box the widget draws in, and the shared binder decides from the name."
 }

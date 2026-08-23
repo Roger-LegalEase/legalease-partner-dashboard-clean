@@ -18,107 +18,161 @@
     {
       "field": "Case  No",
       "class": "participant",
-      "factId": "matter.case_number"
+      "factId": "matter.case_number",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "Defendants Birthdate",
       "class": "participant",
-      "factId": "participant.date_of_birth"
-    },
-    {
-      "field": "County dropdown",
-      "class": "participant",
-      "factId": "matter.county"
+      "factId": "participant.date_of_birth",
+      "factBasis": "field_name",
+      "effectiveLabel": null
     },
     {
       "field": "Defendant",
       "class": "participant",
-      "factId": "participant.full_legal_name"
+      "factId": "participant.full_legal_name",
+      "factBasis": "field_name",
+      "effectiveLabel": "v"
     },
     {
-      "field": "Defendants ssn",
-      "class": "manual",
-      "factId": "participant.full_legal_name"
+      "field": "listed charges",
+      "class": "participant",
+      "factId": "participant.full_legal_name",
+      "factBasis": "printed_label",
+      "effectiveLabel": "their custody regarding the above-named Defendant and above-"
     }
   ],
   "bindingRefusals": [
     {
       "field": "Court",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     },
     {
       "field": "CHARGE",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "Division",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "ViolationArrest  Date",
-      "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     },
     {
       "field": "CHARGE_2",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "CHARGE_3",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "CHARGE_4",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "CHARGE_5",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "CHARGE_6",
       "reason": "requires_explicit_mapping",
-      "category": "sensitive_fact"
+      "category": "sensitive_fact",
+      "regionHeading": null
     },
     {
       "field": "Date",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "manual"
     },
     {
       "field": "2",
       "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "category": null,
+      "regionHeading": null
     },
     {
       "field": "Reset",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
     },
     {
       "field": "Print",
       "reason": "non_text_field_type",
-      "category": "type_guard"
+      "category": "type_guard",
+      "regionHeading": null
+    },
+    {
+      "field": "County dropdown",
+      "reason": "protected_category",
+      "category": "disposition_or_hearing",
+      "regionHeading": null
     },
     {
       "field": "Text1",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "reason": "classified_unwritable_by_role",
+      "category": "unused"
     },
     {
-      "field": "listed charges",
-      "reason": "no_allowlisted_fact_matches",
-      "category": null
+      "field": "Defendants ssn",
+      "reason": "protected_category",
+      "category": "government_identifier",
+      "regionHeading": null
     }
   ],
-  "unwritableFields": [],
+  "unwritableFields": [
+    {
+      "field": "Court",
+      "class": "manual"
+    },
+    {
+      "field": "Division",
+      "class": "manual"
+    },
+    {
+      "field": "Date",
+      "class": "manual"
+    },
+    {
+      "field": "2",
+      "class": "manual"
+    },
+    {
+      "field": "Reset",
+      "class": "manual"
+    },
+    {
+      "field": "Print",
+      "class": "manual"
+    },
+    {
+      "field": "Text1",
+      "class": "unused"
+    },
+    {
+      "field": "Defendants ssn",
+      "class": "manual"
+    }
+  ],
   "manualFields": [
     "Court",
     "Division",

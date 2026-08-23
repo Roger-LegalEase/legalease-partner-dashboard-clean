@@ -41,30 +41,30 @@
   "totals": {
     "assetsTotal": 88,
     "activeTrack": 45,
-    "orphanedOrOptional": 4,
-    "expectedButAbsent": 39,
+    "orphanedOrOptional": 10,
+    "expectedButAbsent": 33,
     "laneA_actionableNow": 0,
-    "laneB_sourceAcquisitionRequired": 57,
+    "laneB_sourceAcquisitionRequired": 51,
     "laneC_currentnessHold": 27,
     "laneD_legalDesignHold": 0,
-    "laneE_orphanedOrOptional": 4,
+    "laneE_orphanedOrOptional": 10,
     "laneF_missingBinaryCompleteDeferral": 0,
     "sourceBinariesPresentInClone": 1,
-    "assetsWithAFinalizedArtifact": 31,
+    "assetsWithAFinalizedArtifact": 30,
     "assetsWhoseActiveContentVerdictIsUnprovable": 0,
     "contactSheetsShowingAFill": 27,
     "contactSheetsShowingNoFill": 4,
     "activeTrackAssetsBlockingPacketPromotion": 1,
     "activeTrackAssetsSafelyServedByGuidanceOrDeferral": 18,
-    "orphanedOrOptionalAssets": 4,
+    "orphanedOrOptionalAssets": 10,
     "archiveCandidates": 0,
     "retirementCandidates": 0,
     "referenceOnly": 2,
-    "orphaned": 2,
+    "orphaned": 8,
     "optional": 0,
-    "officialSourceRequired": 53,
-    "certificationUnproven": 2,
-    "independentReviewRequired": 27,
+    "officialSourceRequired": 52,
+    "certificationUnproven": 0,
+    "independentReviewRequired": 20,
     "legalDesignHold": 0,
     "sourceAcquisitionCandidates": 44,
     "sourceAcquisitionPriority1": 1,
@@ -73,12 +73,12 @@
     "sourceAcquisitionPriority4DoNotAcquire": 43,
     "assetsAwaitingAPlacementDecision": 3,
     "recordedTitlesThatLookMisextracted": 3,
-    "assetsWithNoTrackBinding": 43,
+    "assetsWithNoTrackBinding": 42,
     "assetsWithACandidateUnconfirmedTrackBinding": 7,
     "neverIndependentlyReviewed": 85,
     "sellable": 0,
     "publicPacketRoutes": 0,
-    "highSeverity": 4
+    "highSeverity": 5
   },
   "rows": [
     {
@@ -95,7 +95,7 @@
       "candidateRegistryFormId": null,
       "candidateRegistryTrackIds": [],
       "affectedCompiledPathwayIds": [],
-      "activeTrackStatus": "expected_but_absent",
+      "activeTrackStatus": "orphaned_or_optional",
       "routeKinds": [],
       "rendererKind": "no render strategy recorded",
       "packetCapable": false,
@@ -115,7 +115,7 @@
       "sourceBinaryPathInClone": null,
       "currentnessStatus": "not recorded",
       "supersededSourceIdentity": null,
-      "missingBinary": true,
+      "missingBinary": false,
       "structuralClass": "html_form",
       "interactiveFieldCount": null,
       "xfaPresentInSource": null,
@@ -131,17 +131,16 @@
       "defectCategories": [
         "geometry_unmeasured",
         "held_on_source_or_design",
-        "missing_binary",
         "never_independently_approved"
       ],
       "severity": "low",
       "releaseRisk": "none",
-      "owner": "Roger (official source acquisition)",
+      "owner": "RCAP inventory owner",
       "independentReviewStatus": "never_independently_reviewed",
-      "remediationLane": "B",
-      "remediationLaneName": "official_source_acquisition_required",
-      "exactBlocker": "The verified binary for AK ak-record-relief-forms.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either.",
-      "exactNextAction": "Retrieve the current official AK ak-record-relief-forms.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects.",
+      "remediationLane": "E",
+      "remediationLaneName": "orphaned_or_optional_asset",
+      "exactBlocker": "Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work.",
+      "exactNextAction": "Decide retain, archive or retire for AK ak-record-relief-forms.html and record the decision. It blocks nothing in the meantime.",
       "evidencePaths": [
         "data/rcap-all50/overlays/production/alaska/ak-record-relief-forms"
       ],
@@ -149,21 +148,19 @@
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
-        "RC-S-BUNDLE-ABSENT",
         "RC-T-NO-FIELD-CENSUS"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
-        "RC-G-PRODUCTION-HOLD",
-        "RC-S-BUNDLE-ABSENT"
+        "RC-G-PRODUCTION-HOLD"
       ],
       "familySpecificRootCauseIds": [
         "RC-T-NO-FIELD-CENSUS"
       ],
-      "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
+      "disposition": "orphaned",
+      "platformReadyBasis": "AK:ak-record-relief-forms: condition 3 — the reviewed source binary is not present, so the reviewed source SHA cannot be compared",
+      "dispositionMeaning": "No active track requires it and no candidate binding to one exists.",
       "libraryFolder": null,
       "documentRole": null,
       "packetCapableTreatment": false,
@@ -212,9 +209,28 @@
       "structuralClass": "scanned_pdf",
       "interactiveFieldCount": null,
       "xfaPresentInSource": null,
-      "renderedArtifacts": [],
-      "anyFinalizedArtifact": false,
-      "activeContentVerdict": "no rendered artifact to judge",
+      "renderedArtifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "finalized": true,
+          "failures": []
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "finalized": true,
+          "failures": []
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "finalized": true,
+          "failures": []
+        }
+      ],
+      "anyFinalizedArtifact": true,
+      "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": null,
       "contactSheetEvidenceImage": null,
       "labelsAwaitingAPlacementDecision": 0,
@@ -225,7 +241,8 @@
         "geometry_unmeasured",
         "held_on_source_or_design",
         "missing_binary",
-        "never_independently_approved"
+        "never_independently_approved",
+        "visually_unsafe"
       ],
       "severity": "low",
       "releaseRisk": "none",
@@ -243,7 +260,8 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-BUNDLE-ABSENT",
-        "RC-T-NO-FIELD-CENSUS"
+        "RC-T-NO-FIELD-CENSUS",
+        "RC-V-UNSAFE-PLACEMENT"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
@@ -252,16 +270,17 @@
         "RC-S-BUNDLE-ABSENT"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-NO-FIELD-CENSUS"
+        "RC-T-NO-FIELD-CENSUS",
+        "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "AK:requesttosealcriminfo: condition 3 — the reviewed source binary is not present, so the reviewed source SHA cannot be compared",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": null,
       "documentRole": null,
       "packetCapableTreatment": false,
       "servedByGuidanceOrDeferral": false,
-      "certifiableArtifacts": false,
+      "certifiableArtifacts": true,
       "acquisitionPriority": 4,
       "acquisitionPriorityMeaning": "Orphaned, optional, historical or reference-only. do_not_acquire_without_a_named_current_use.",
       "acquisitionRule": "do_not_acquire_without_a_named_current_use",
@@ -372,9 +391,9 @@
       "familySpecificRootCauseIds": [
         "RC-V-UNSAFE-PLACEMENT"
       ],
-      "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
+      "disposition": "platform_ready",
+      "platformReadyBasis": "canonical independent-review record wave-c-final-a-r2 approved these exact bytes, and all twelve conditions hold",
+      "dispositionMeaning": "The official source is pinned, every field or anchor is classified, the artifacts are finalized, inspectable and visibly filled, and an independent reviewer approved these exact bytes.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "FORM",
       "packetCapableTreatment": false,
@@ -452,7 +471,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/AK-tf-805-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -490,9 +509,9 @@
       "familySpecificRootCauseIds": [
         "RC-V-UNSAFE-PLACEMENT"
       ],
-      "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
+      "disposition": "platform_ready",
+      "platformReadyBasis": "canonical independent-review record wave-c-final-a-r2 approved these exact bytes, and all twelve conditions hold",
+      "dispositionMeaning": "The official source is pinned, every field or anchor is classified, the artifacts are finalized, inspectable and visibly filled, and an independent reviewer approved these exact bytes.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "FORM",
       "packetCapableTreatment": false,
@@ -568,7 +587,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/AK-tf-810-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -607,7 +626,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "AK:tf-810-form-en: the field or anchor classification is not complete",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "FORM",
@@ -633,7 +652,7 @@
       "candidateRegistryFormId": null,
       "candidateRegistryTrackIds": [],
       "affectedCompiledPathwayIds": [],
-      "activeTrackStatus": "expected_but_absent",
+      "activeTrackStatus": "orphaned_or_optional",
       "routeKinds": [],
       "rendererKind": "no render strategy recorded",
       "packetCapable": false,
@@ -653,7 +672,7 @@
       "sourceBinaryPathInClone": null,
       "currentnessStatus": "not recorded",
       "supersededSourceIdentity": null,
-      "missingBinary": true,
+      "missingBinary": false,
       "structuralClass": "html_form",
       "interactiveFieldCount": null,
       "xfaPresentInSource": null,
@@ -669,17 +688,16 @@
       "defectCategories": [
         "geometry_unmeasured",
         "held_on_source_or_design",
-        "missing_binary",
         "never_independently_approved"
       ],
       "severity": "low",
       "releaseRisk": "none",
-      "owner": "Roger (official source acquisition)",
+      "owner": "RCAP inventory owner",
       "independentReviewStatus": "never_independently_reviewed",
-      "remediationLane": "B",
-      "remediationLaneName": "official_source_acquisition_required",
-      "exactBlocker": "The verified binary for AL al-expungement-petition.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either.",
-      "exactNextAction": "Retrieve the current official AL al-expungement-petition.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects.",
+      "remediationLane": "E",
+      "remediationLaneName": "orphaned_or_optional_asset",
+      "exactBlocker": "Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work.",
+      "exactNextAction": "Decide retain, archive or retire for AL al-expungement-petition.html and record the decision. It blocks nothing in the meantime.",
       "evidencePaths": [
         "data/rcap-all50/overlays/production/alabama/al-expungement-petition"
       ],
@@ -687,21 +705,19 @@
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
-        "RC-S-BUNDLE-ABSENT",
         "RC-T-NO-FIELD-CENSUS"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
-        "RC-G-PRODUCTION-HOLD",
-        "RC-S-BUNDLE-ABSENT"
+        "RC-G-PRODUCTION-HOLD"
       ],
       "familySpecificRootCauseIds": [
         "RC-T-NO-FIELD-CENSUS"
       ],
-      "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
+      "disposition": "orphaned",
+      "platformReadyBasis": "AL:al-expungement-petition: condition 3 — the reviewed source binary is not present, so the reviewed source SHA cannot be compared",
+      "dispositionMeaning": "No active track requires it and no candidate binding to one exists.",
       "libraryFolder": null,
       "documentRole": null,
       "packetCapableTreatment": false,
@@ -921,7 +937,7 @@
       "candidateRegistryFormId": null,
       "candidateRegistryTrackIds": [],
       "affectedCompiledPathwayIds": [],
-      "activeTrackStatus": "expected_but_absent",
+      "activeTrackStatus": "orphaned_or_optional",
       "routeKinds": [],
       "rendererKind": "no render strategy recorded",
       "packetCapable": false,
@@ -941,7 +957,7 @@
       "sourceBinaryPathInClone": null,
       "currentnessStatus": "not recorded",
       "supersededSourceIdentity": null,
-      "missingBinary": true,
+      "missingBinary": false,
       "structuralClass": "html_form",
       "interactiveFieldCount": null,
       "xfaPresentInSource": null,
@@ -957,17 +973,16 @@
       "defectCategories": [
         "geometry_unmeasured",
         "held_on_source_or_design",
-        "missing_binary",
         "never_independently_approved"
       ],
       "severity": "low",
       "releaseRisk": "none",
-      "owner": "Roger (official source acquisition)",
+      "owner": "RCAP inventory owner",
       "independentReviewStatus": "never_independently_reviewed",
-      "remediationLane": "B",
-      "remediationLaneName": "official_source_acquisition_required",
-      "exactBlocker": "The verified binary for AL criminal-forms.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either.",
-      "exactNextAction": "Retrieve the current official AL criminal-forms.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects.",
+      "remediationLane": "E",
+      "remediationLaneName": "orphaned_or_optional_asset",
+      "exactBlocker": "Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work.",
+      "exactNextAction": "Decide retain, archive or retire for AL criminal-forms.html and record the decision. It blocks nothing in the meantime.",
       "evidencePaths": [
         "data/rcap-all50/overlays/production/alabama/criminal-forms"
       ],
@@ -975,21 +990,19 @@
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
-        "RC-S-BUNDLE-ABSENT",
         "RC-T-NO-FIELD-CENSUS"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
-        "RC-G-PRODUCTION-HOLD",
-        "RC-S-BUNDLE-ABSENT"
+        "RC-G-PRODUCTION-HOLD"
       ],
       "familySpecificRootCauseIds": [
         "RC-T-NO-FIELD-CENSUS"
       ],
-      "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
+      "disposition": "orphaned",
+      "platformReadyBasis": "AL:criminal-forms: condition 3 — the reviewed source binary is not present, so the reviewed source SHA cannot be compared",
+      "dispositionMeaning": "No active track requires it and no candidate binding to one exists.",
       "libraryFolder": null,
       "documentRole": null,
       "packetCapableTreatment": false,
@@ -1014,7 +1027,7 @@
       "candidateRegistryFormId": null,
       "candidateRegistryTrackIds": [],
       "affectedCompiledPathwayIds": [],
-      "activeTrackStatus": "expected_but_absent",
+      "activeTrackStatus": "orphaned_or_optional",
       "routeKinds": [],
       "rendererKind": "no render strategy recorded",
       "packetCapable": false,
@@ -1034,7 +1047,7 @@
       "sourceBinaryPathInClone": null,
       "currentnessStatus": "not recorded",
       "supersededSourceIdentity": null,
-      "missingBinary": true,
+      "missingBinary": false,
       "structuralClass": "html_form",
       "interactiveFieldCount": null,
       "xfaPresentInSource": null,
@@ -1050,17 +1063,16 @@
       "defectCategories": [
         "geometry_unmeasured",
         "held_on_source_or_design",
-        "missing_binary",
         "never_independently_approved"
       ],
       "severity": "low",
       "releaseRisk": "none",
-      "owner": "Roger (official source acquisition)",
+      "owner": "RCAP inventory owner",
       "independentReviewStatus": "never_independently_reviewed",
-      "remediationLane": "B",
-      "remediationLaneName": "official_source_acquisition_required",
-      "exactBlocker": "The verified binary for AL criminal-record-expungement.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either.",
-      "exactNextAction": "Retrieve the current official AL criminal-record-expungement.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects.",
+      "remediationLane": "E",
+      "remediationLaneName": "orphaned_or_optional_asset",
+      "exactBlocker": "Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work.",
+      "exactNextAction": "Decide retain, archive or retire for AL criminal-record-expungement.html and record the decision. It blocks nothing in the meantime.",
       "evidencePaths": [
         "data/rcap-all50/overlays/production/alabama/criminal-record-expungement"
       ],
@@ -1068,21 +1080,19 @@
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
-        "RC-S-BUNDLE-ABSENT",
         "RC-T-NO-FIELD-CENSUS"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
-        "RC-G-PRODUCTION-HOLD",
-        "RC-S-BUNDLE-ABSENT"
+        "RC-G-PRODUCTION-HOLD"
       ],
       "familySpecificRootCauseIds": [
         "RC-T-NO-FIELD-CENSUS"
       ],
-      "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
+      "disposition": "orphaned",
+      "platformReadyBasis": "AL:criminal-record-expungement: condition 3 — the reviewed source binary is not present, so the reviewed source SHA cannot be compared",
+      "dispositionMeaning": "No active track requires it and no candidate binding to one exists.",
       "libraryFolder": null,
       "documentRole": null,
       "packetCapableTreatment": false,
@@ -1224,9 +1234,28 @@
       "structuralClass": "dirty_acroform",
       "interactiveFieldCount": null,
       "xfaPresentInSource": null,
-      "renderedArtifacts": [],
-      "anyFinalizedArtifact": false,
-      "activeContentVerdict": "no rendered artifact to judge",
+      "renderedArtifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "finalized": true,
+          "failures": []
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "finalized": true,
+          "failures": []
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "finalized": true,
+          "failures": []
+        }
+      ],
+      "anyFinalizedArtifact": true,
+      "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": null,
       "contactSheetEvidenceImage": null,
       "labelsAwaitingAPlacementDecision": 0,
@@ -1237,6 +1266,7 @@
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved",
+        "visually_unsafe",
         "xfa_javascript_or_active_content_residue"
       ],
       "severity": "low",
@@ -1255,7 +1285,8 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-BUNDLE-ABSENT",
-        "RC-T-DIRTY-ACROFORM-SOURCE"
+        "RC-T-DIRTY-ACROFORM-SOURCE",
+        "RC-V-UNSAFE-PLACEMENT"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
@@ -1264,16 +1295,17 @@
         "RC-S-BUNDLE-ABSENT"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-DIRTY-ACROFORM-SOURCE"
+        "RC-T-DIRTY-ACROFORM-SOURCE",
+        "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "AR:7-nolle-prosequi-dismissed-acquittal-petition-2020-f: condition 3 — the reviewed source binary is not present, so the reviewed source SHA cannot be compared",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": null,
       "documentRole": null,
       "packetCapableTreatment": false,
       "servedByGuidanceOrDeferral": false,
-      "certifiableArtifacts": false,
+      "certifiableArtifacts": true,
       "acquisitionPriority": 4,
       "acquisitionPriorityMeaning": "Orphaned, optional, historical or reference-only. do_not_acquire_without_a_named_current_use.",
       "acquisitionRule": "do_not_acquire_without_a_named_current_use",
@@ -1293,7 +1325,7 @@
       "candidateRegistryFormId": null,
       "candidateRegistryTrackIds": [],
       "affectedCompiledPathwayIds": [],
-      "activeTrackStatus": "expected_but_absent",
+      "activeTrackStatus": "orphaned_or_optional",
       "routeKinds": [],
       "rendererKind": "no render strategy recorded",
       "packetCapable": false,
@@ -1313,7 +1345,7 @@
       "sourceBinaryPathInClone": null,
       "currentnessStatus": "not recorded",
       "supersededSourceIdentity": null,
-      "missingBinary": true,
+      "missingBinary": false,
       "structuralClass": "html_form",
       "interactiveFieldCount": null,
       "xfaPresentInSource": null,
@@ -1329,17 +1361,16 @@
       "defectCategories": [
         "geometry_unmeasured",
         "held_on_source_or_design",
-        "missing_binary",
         "never_independently_approved"
       ],
       "severity": "low",
       "releaseRisk": "none",
-      "owner": "Roger (official source acquisition)",
+      "owner": "RCAP inventory owner",
       "independentReviewStatus": "never_independently_reviewed",
-      "remediationLane": "B",
-      "remediationLaneName": "official_source_acquisition_required",
-      "exactBlocker": "The verified binary for AR Arkansas-Petition-Order-Forms.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either.",
-      "exactNextAction": "Retrieve the current official AR Arkansas-Petition-Order-Forms.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects.",
+      "remediationLane": "E",
+      "remediationLaneName": "orphaned_or_optional_asset",
+      "exactBlocker": "Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work.",
+      "exactNextAction": "Decide retain, archive or retire for AR Arkansas-Petition-Order-Forms.html and record the decision. It blocks nothing in the meantime.",
       "evidencePaths": [
         "data/rcap-all50/overlays/production/arkansas/arkansas-petition-order-forms"
       ],
@@ -1347,21 +1378,19 @@
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
-        "RC-S-BUNDLE-ABSENT",
         "RC-T-NO-FIELD-CENSUS"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
-        "RC-G-PRODUCTION-HOLD",
-        "RC-S-BUNDLE-ABSENT"
+        "RC-G-PRODUCTION-HOLD"
       ],
       "familySpecificRootCauseIds": [
         "RC-T-NO-FIELD-CENSUS"
       ],
-      "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
+      "disposition": "orphaned",
+      "platformReadyBasis": "AR:arkansas-petition-order-forms: condition 3 — the reviewed source binary is not present, so the reviewed source SHA cannot be compared",
+      "dispositionMeaning": "No active track requires it and no candidate binding to one exists.",
       "libraryFolder": null,
       "documentRole": null,
       "packetCapableTreatment": false,
@@ -1410,9 +1439,28 @@
       "structuralClass": "dirty_acroform",
       "interactiveFieldCount": null,
       "xfaPresentInSource": null,
-      "renderedArtifacts": [],
-      "anyFinalizedArtifact": false,
-      "activeContentVerdict": "no rendered artifact to judge",
+      "renderedArtifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "finalized": true,
+          "failures": []
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "finalized": true,
+          "failures": []
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "finalized": true,
+          "failures": []
+        }
+      ],
+      "anyFinalizedArtifact": true,
+      "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": null,
       "contactSheetEvidenceImage": null,
       "labelsAwaitingAPlacementDecision": 0,
@@ -1423,6 +1471,7 @@
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved",
+        "visually_unsafe",
         "xfa_javascript_or_active_content_residue"
       ],
       "severity": "low",
@@ -1441,7 +1490,8 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-BUNDLE-ABSENT",
-        "RC-T-DIRTY-ACROFORM-SOURCE"
+        "RC-T-DIRTY-ACROFORM-SOURCE",
+        "RC-V-UNSAFE-PLACEMENT"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
@@ -1450,16 +1500,17 @@
         "RC-S-BUNDLE-ABSENT"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-DIRTY-ACROFORM-SOURCE"
+        "RC-T-DIRTY-ACROFORM-SOURCE",
+        "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "AR:felony-petition-form-f: condition 3 — the reviewed source binary is not present, so the reviewed source SHA cannot be compared",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": null,
       "documentRole": null,
       "packetCapableTreatment": false,
       "servedByGuidanceOrDeferral": false,
-      "certifiableArtifacts": false,
+      "certifiableArtifacts": true,
       "acquisitionPriority": 4,
       "acquisitionPriorityMeaning": "Orphaned, optional, historical or reference-only. do_not_acquire_without_a_named_current_use.",
       "acquisitionRule": "do_not_acquire_without_a_named_current_use",
@@ -1812,7 +1863,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/KY-aoc-334-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -1848,7 +1899,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "active_track_delivery_hold",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "KY:aoc-334-form-en: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "An active track's packet delivery is blocked on this asset.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "FORM",
@@ -1925,7 +1976,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/KY-aoc-496-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -1964,7 +2015,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "KY:aoc-496-form-en: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "ORDER",
@@ -2041,7 +2092,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/KY-aoc-496-2-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -2080,7 +2131,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "KY:aoc-496-2-form-en: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PETITION",
@@ -2160,7 +2211,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/KY-aoc-496-3-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -2196,7 +2247,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "KY:aoc-496-3-form-en: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "APPLICATION",
@@ -2275,7 +2326,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/KY-aoc-496-4-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -2311,7 +2362,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "KY:aoc-496-4-form-en: the field or anchor classification is not complete",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "FORM",
@@ -2388,7 +2439,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/KY-aoc-497-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -2427,7 +2478,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "KY:aoc-497-form-en: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PETITION",
@@ -2732,7 +2783,7 @@
       "candidateRegistryFormId": null,
       "candidateRegistryTrackIds": [],
       "affectedCompiledPathwayIds": [],
-      "activeTrackStatus": "expected_but_absent",
+      "activeTrackStatus": "orphaned_or_optional",
       "routeKinds": [],
       "rendererKind": "no render strategy recorded",
       "packetCapable": false,
@@ -2752,7 +2803,7 @@
       "sourceBinaryPathInClone": null,
       "currentnessStatus": "not recorded",
       "supersededSourceIdentity": null,
-      "missingBinary": true,
+      "missingBinary": false,
       "structuralClass": "html_form",
       "interactiveFieldCount": null,
       "xfaPresentInSource": null,
@@ -2768,17 +2819,16 @@
       "defectCategories": [
         "geometry_unmeasured",
         "held_on_source_or_design",
-        "missing_binary",
         "never_independently_approved"
       ],
       "severity": "low",
       "releaseRisk": "none",
-      "owner": "Roger (official source acquisition)",
+      "owner": "RCAP inventory owner",
       "independentReviewStatus": "never_independently_reviewed",
-      "remediationLane": "B",
-      "remediationLaneName": "official_source_acquisition_required",
-      "exactBlocker": "The verified binary for KY Kentucky-Expungement-Forms.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either.",
-      "exactNextAction": "Retrieve the current official KY Kentucky-Expungement-Forms.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects.",
+      "remediationLane": "E",
+      "remediationLaneName": "orphaned_or_optional_asset",
+      "exactBlocker": "Nothing is blocked. No active launch track's packet set requires this asset, so it is inventory rather than pending work.",
+      "exactNextAction": "Decide retain, archive or retire for KY Kentucky-Expungement-Forms.html and record the decision. It blocks nothing in the meantime.",
       "evidencePaths": [
         "data/rcap-all50/overlays/production/kentucky/kentucky-expungement-forms"
       ],
@@ -2786,21 +2836,19 @@
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
-        "RC-S-BUNDLE-ABSENT",
         "RC-T-NO-FIELD-CENSUS"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
-        "RC-G-PRODUCTION-HOLD",
-        "RC-S-BUNDLE-ABSENT"
+        "RC-G-PRODUCTION-HOLD"
       ],
       "familySpecificRootCauseIds": [
         "RC-T-NO-FIELD-CENSUS"
       ],
-      "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
+      "disposition": "orphaned",
+      "platformReadyBasis": "KY:kentucky-expungement-forms: condition 3 — the reviewed source binary is not present, so the reviewed source SHA cannot be compared",
+      "dispositionMeaning": "No active track requires it and no candidate binding to one exists.",
       "libraryFolder": null,
       "documentRole": null,
       "packetCapableTreatment": false,
@@ -2904,7 +2952,7 @@
         "RC-T-NO-DERIVABLE-WRITE-BOX"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cr-287-form-vi: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PETITION",
@@ -3006,7 +3054,7 @@
         "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cr-287-instructions-es: condition 6 — the record names no artifacts",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "03_INSTRUCTIONS",
       "documentRole": "INSTRUCTIONS",
@@ -3108,7 +3156,7 @@
         "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cr-287-instructions-vi: condition 6 — the record names no artifacts",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "03_INSTRUCTIONS",
       "documentRole": "INSTRUCTIONS",
@@ -3164,30 +3212,9 @@
       "structuralClass": "flat_pdf",
       "interactiveFieldCount": 0,
       "xfaPresentInSource": null,
-      "renderedArtifacts": [
-        {
-          "rel": "fixtures/canonical-filled.pdf",
-          "kind": "canonical_fixture",
-          "finalized": false,
-          "failures": [
-            "participant_values_absent_from_the_artifact_entirely"
-          ]
-        },
-        {
-          "rel": "fixtures/boundary-filled.pdf",
-          "kind": "boundary_fixture",
-          "finalized": true,
-          "failures": []
-        },
-        {
-          "rel": "contact-sheet/blank-vs-filled.pdf",
-          "kind": "contact_sheet",
-          "finalized": true,
-          "failures": []
-        }
-      ],
-      "anyFinalizedArtifact": true,
-      "activeContentVerdict": "clean and provable",
+      "renderedArtifacts": [],
+      "anyFinalizedArtifact": false,
+      "activeContentVerdict": "no rendered artifact to judge",
       "contactSheetShowsAFill": false,
       "contactSheetEvidenceImage": null,
       "labelsAwaitingAPlacementDecision": 0,
@@ -3199,9 +3226,7 @@
         "currentness_unverified",
         "geometry_unmeasured",
         "held_on_source_or_design",
-        "never_independently_approved",
-        "stale_contact_sheet_manifest_or_review_evidence",
-        "unfinalized_rendered_artifact"
+        "never_independently_approved"
       ],
       "severity": "high",
       "releaseRisk": "contained_by_terminal_treatment",
@@ -3220,8 +3245,6 @@
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
         "RC-T-FLAT-GEOMETRY-UNMEASURED",
-        "RC-T-VALUES-ABSENT",
-        "RC-V-SHEET-FROM-UNFINALIZED-SOURCE",
         "RC-V-SHEET-PANELS-IDENTICAL"
       ],
       "systemicRootCauseIds": [
@@ -3229,16 +3252,14 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-V-SHEET-FROM-UNFINALIZED-SOURCE",
         "RC-V-SHEET-PANELS-IDENTICAL"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY-UNMEASURED",
-        "RC-T-VALUES-ABSENT"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ],
-      "disposition": "certification_unproven",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "Artifacts exist but cannot be certified: their active-content cleanliness or finalization cannot be established from the committed bytes.",
+      "disposition": "official_source_required",
+      "platformReadyBasis": "NC:aoc-cr-287-form-es: condition 1 — the verdict is correction_required, not approved_platform_ready",
+      "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PETITION",
       "packetCapableTreatment": false,
@@ -3354,9 +3375,9 @@
       "familySpecificRootCauseIds": [
         "RC-V-UNSAFE-PLACEMENT"
       ],
-      "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
+      "disposition": "platform_ready",
+      "platformReadyBasis": "canonical independent-review record wave-c-final-b-r2 approved these exact bytes, and all twelve conditions hold",
+      "dispositionMeaning": "The official source is pinned, every field or anchor is classified, the artifacts are finalized, inspectable and visibly filled, and an independent reviewer approved these exact bytes.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PACKET",
       "packetCapableTreatment": false,
@@ -3457,7 +3478,7 @@
         "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cr-287-instructions-en: condition 6 — the record names no artifacts",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "03_INSTRUCTIONS",
       "documentRole": "INSTRUCTIONS",
@@ -3557,7 +3578,7 @@
         "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cr-288-instructions-en: condition 6 — the record names no artifacts",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "03_INSTRUCTIONS",
       "documentRole": "INSTRUCTIONS",
@@ -3657,7 +3678,7 @@
         "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cr-288-instructions-es: condition 6 — the record names no artifacts",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "03_INSTRUCTIONS",
       "documentRole": "INSTRUCTIONS",
@@ -3760,7 +3781,7 @@
         "RC-T-NO-DERIVABLE-WRITE-BOX"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cr-288-form-vi: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PETITION",
@@ -3814,30 +3835,9 @@
       "structuralClass": "flat_pdf",
       "interactiveFieldCount": 0,
       "xfaPresentInSource": null,
-      "renderedArtifacts": [
-        {
-          "rel": "fixtures/canonical-filled.pdf",
-          "kind": "canonical_fixture",
-          "finalized": false,
-          "failures": [
-            "participant_values_absent_from_the_artifact_entirely"
-          ]
-        },
-        {
-          "rel": "fixtures/boundary-filled.pdf",
-          "kind": "boundary_fixture",
-          "finalized": true,
-          "failures": []
-        },
-        {
-          "rel": "contact-sheet/blank-vs-filled.pdf",
-          "kind": "contact_sheet",
-          "finalized": true,
-          "failures": []
-        }
-      ],
-      "anyFinalizedArtifact": true,
-      "activeContentVerdict": "clean and provable",
+      "renderedArtifacts": [],
+      "anyFinalizedArtifact": false,
+      "activeContentVerdict": "no rendered artifact to judge",
       "contactSheetShowsAFill": false,
       "contactSheetEvidenceImage": null,
       "labelsAwaitingAPlacementDecision": 0,
@@ -3849,9 +3849,7 @@
         "currentness_unverified",
         "geometry_unmeasured",
         "held_on_source_or_design",
-        "never_independently_approved",
-        "stale_contact_sheet_manifest_or_review_evidence",
-        "unfinalized_rendered_artifact"
+        "never_independently_approved"
       ],
       "severity": "high",
       "releaseRisk": "contained_by_terminal_treatment",
@@ -3870,8 +3868,6 @@
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
         "RC-T-FLAT-GEOMETRY-UNMEASURED",
-        "RC-T-VALUES-ABSENT",
-        "RC-V-SHEET-FROM-UNFINALIZED-SOURCE",
         "RC-V-SHEET-PANELS-IDENTICAL"
       ],
       "systemicRootCauseIds": [
@@ -3879,16 +3875,14 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-V-SHEET-FROM-UNFINALIZED-SOURCE",
         "RC-V-SHEET-PANELS-IDENTICAL"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY-UNMEASURED",
-        "RC-T-VALUES-ABSENT"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ],
-      "disposition": "certification_unproven",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "Artifacts exist but cannot be certified: their active-content cleanliness or finalization cannot be established from the committed bytes.",
+      "disposition": "official_source_required",
+      "platformReadyBasis": "NC:aoc-cr-288-form-es: condition 1 — the verdict is correction_required, not approved_platform_ready",
+      "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PETITION",
       "packetCapableTreatment": false,
@@ -3964,7 +3958,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-288-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -4002,9 +3996,9 @@
       "familySpecificRootCauseIds": [
         "RC-V-UNSAFE-PLACEMENT"
       ],
-      "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
+      "disposition": "platform_ready",
+      "platformReadyBasis": "canonical independent-review record wave-c-final-b-r2 approved these exact bytes, and all twelve conditions hold",
+      "dispositionMeaning": "The official source is pinned, every field or anchor is classified, the artifacts are finalized, inspectable and visibly filled, and an independent reviewer approved these exact bytes.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PETITION",
       "packetCapableTreatment": false,
@@ -4103,7 +4097,7 @@
         "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cr-288-instructions-vi: condition 6 — the record names no artifacts",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "03_INSTRUCTIONS",
       "documentRole": "INSTRUCTIONS",
@@ -4157,30 +4151,11 @@
       "structuralClass": "acroform",
       "interactiveFieldCount": 126,
       "xfaPresentInSource": null,
-      "renderedArtifacts": [
-        {
-          "rel": "fixtures/canonical-filled.pdf",
-          "kind": "canonical_fixture",
-          "finalized": true,
-          "failures": []
-        },
-        {
-          "rel": "fixtures/boundary-filled.pdf",
-          "kind": "boundary_fixture",
-          "finalized": true,
-          "failures": []
-        },
-        {
-          "rel": "contact-sheet/blank-vs-filled.pdf",
-          "kind": "contact_sheet",
-          "finalized": true,
-          "failures": []
-        }
-      ],
-      "anyFinalizedArtifact": true,
-      "activeContentVerdict": "clean and provable",
+      "renderedArtifacts": [],
+      "anyFinalizedArtifact": false,
+      "activeContentVerdict": "no rendered artifact to judge",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-296-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -4188,8 +4163,7 @@
       "defectCategories": [
         "currentness_unverified",
         "held_on_source_or_design",
-        "never_independently_approved",
-        "visually_unsafe"
+        "never_independently_approved"
       ],
       "severity": "medium",
       "releaseRisk": "contained_by_terminal_treatment",
@@ -4206,8 +4180,7 @@
         "RC-G-GENERATION-NOT-ALLOWED",
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
-        "RC-S-CURRENTNESS-UNVERIFIED",
-        "RC-V-UNSAFE-PLACEMENT"
+        "RC-S-CURRENTNESS-UNVERIFIED"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
@@ -4215,17 +4188,15 @@
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED"
       ],
-      "familySpecificRootCauseIds": [
-        "RC-V-UNSAFE-PLACEMENT"
-      ],
-      "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
+      "familySpecificRootCauseIds": [],
+      "disposition": "official_source_required",
+      "platformReadyBasis": "NC:aoc-cr-296-form-en: condition 1 — the verdict is substantive_owner_decision_required, not approved_platform_ready",
+      "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PETITION",
       "packetCapableTreatment": false,
       "servedByGuidanceOrDeferral": false,
-      "certifiableArtifacts": true,
+      "certifiableArtifacts": false,
       "acquisitionPriority": 2,
       "acquisitionPriorityMeaning": "Active-track source required before technical or visual review can begin.",
       "acquisitionRule": null,
@@ -4319,7 +4290,7 @@
         "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cr-297-instructions-en: condition 6 — the record names no artifacts",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "03_INSTRUCTIONS",
       "documentRole": "INSTRUCTIONS",
@@ -4396,7 +4367,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-297-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -4435,7 +4406,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cr-297-form-en: the field or anchor classification is not complete",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PACKET",
@@ -4537,7 +4508,7 @@
         "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cr-298-instructions-en: condition 6 — the record names no artifacts",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "03_INSTRUCTIONS",
       "documentRole": "INSTRUCTIONS",
@@ -4616,7 +4587,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/NC-aoc-cr-298-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -4655,7 +4626,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cr-298-form-en: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PACKET",
@@ -4715,28 +4686,9 @@
       "structuralClass": "flat_pdf",
       "interactiveFieldCount": 0,
       "xfaPresentInSource": null,
-      "renderedArtifacts": [
-        {
-          "rel": "fixtures/canonical-filled.pdf",
-          "kind": "canonical_fixture",
-          "finalized": true,
-          "failures": []
-        },
-        {
-          "rel": "fixtures/boundary-filled.pdf",
-          "kind": "boundary_fixture",
-          "finalized": true,
-          "failures": []
-        },
-        {
-          "rel": "contact-sheet/blank-vs-filled.pdf",
-          "kind": "contact_sheet",
-          "finalized": true,
-          "failures": []
-        }
-      ],
-      "anyFinalizedArtifact": true,
-      "activeContentVerdict": "clean and provable",
+      "renderedArtifacts": [],
+      "anyFinalizedArtifact": false,
+      "activeContentVerdict": "no rendered artifact to judge",
       "contactSheetShowsAFill": false,
       "contactSheetEvidenceImage": null,
       "labelsAwaitingAPlacementDecision": 1,
@@ -4758,7 +4710,8 @@
         "currentness_unverified",
         "geometry_unmeasured",
         "held_on_source_or_design",
-        "never_independently_approved"
+        "never_independently_approved",
+        "visually_unsafe"
       ],
       "severity": "high",
       "releaseRisk": "contained_by_terminal_treatment",
@@ -4777,7 +4730,8 @@
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
         "RC-T-FLAT-GEOMETRY-UNMEASURED",
-        "RC-V-SHEET-PANELS-IDENTICAL"
+        "RC-V-SHEET-PANELS-IDENTICAL",
+        "RC-V-UNSAFE-PLACEMENT"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
@@ -4787,16 +4741,17 @@
         "RC-V-SHEET-PANELS-IDENTICAL"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY-UNMEASURED"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
+        "RC-V-UNSAFE-PLACEMENT"
       ],
-      "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
+      "disposition": "official_source_required",
+      "platformReadyBasis": "NC:aoc-cv-226-support-es: condition 6 — the record names no artifacts",
+      "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "04_SUPPORTING_PROCESS",
       "documentRole": "AFFIDAVIT",
       "packetCapableTreatment": false,
       "servedByGuidanceOrDeferral": false,
-      "certifiableArtifacts": true,
+      "certifiableArtifacts": false,
       "acquisitionPriority": 2,
       "acquisitionPriorityMeaning": "Active-track source required before technical or visual review can begin.",
       "acquisitionRule": null,
@@ -4873,7 +4828,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/NC-aoc-cv-226-support-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -4912,7 +4867,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NC:aoc-cv-226-support-en: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "04_SUPPORTING_PROCESS",
       "documentRole": "AFFIDAVIT",
@@ -4972,28 +4927,9 @@
       "structuralClass": "flat_pdf",
       "interactiveFieldCount": 0,
       "xfaPresentInSource": null,
-      "renderedArtifacts": [
-        {
-          "rel": "fixtures/canonical-filled.pdf",
-          "kind": "canonical_fixture",
-          "finalized": true,
-          "failures": []
-        },
-        {
-          "rel": "fixtures/boundary-filled.pdf",
-          "kind": "boundary_fixture",
-          "finalized": true,
-          "failures": []
-        },
-        {
-          "rel": "contact-sheet/blank-vs-filled.pdf",
-          "kind": "contact_sheet",
-          "finalized": true,
-          "failures": []
-        }
-      ],
-      "anyFinalizedArtifact": true,
-      "activeContentVerdict": "clean and provable",
+      "renderedArtifacts": [],
+      "anyFinalizedArtifact": false,
+      "activeContentVerdict": "no rendered artifact to judge",
       "contactSheetShowsAFill": false,
       "contactSheetEvidenceImage": null,
       "labelsAwaitingAPlacementDecision": 1,
@@ -5015,7 +4951,8 @@
         "currentness_unverified",
         "geometry_unmeasured",
         "held_on_source_or_design",
-        "never_independently_approved"
+        "never_independently_approved",
+        "visually_unsafe"
       ],
       "severity": "high",
       "releaseRisk": "contained_by_terminal_treatment",
@@ -5034,7 +4971,8 @@
         "RC-G-PRODUCTION-HOLD",
         "RC-S-CURRENTNESS-UNVERIFIED",
         "RC-T-FLAT-GEOMETRY-UNMEASURED",
-        "RC-V-SHEET-PANELS-IDENTICAL"
+        "RC-V-SHEET-PANELS-IDENTICAL",
+        "RC-V-UNSAFE-PLACEMENT"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
@@ -5044,16 +4982,17 @@
         "RC-V-SHEET-PANELS-IDENTICAL"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-FLAT-GEOMETRY-UNMEASURED"
+        "RC-T-FLAT-GEOMETRY-UNMEASURED",
+        "RC-V-UNSAFE-PLACEMENT"
       ],
-      "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
-      "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
+      "disposition": "official_source_required",
+      "platformReadyBasis": "NC:aoc-cv-226-support-vi: condition 6 — the record names no artifacts",
+      "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "04_SUPPORTING_PROCESS",
       "documentRole": "AFFIDAVIT",
       "packetCapableTreatment": false,
       "servedByGuidanceOrDeferral": false,
-      "certifiableArtifacts": true,
+      "certifiableArtifacts": false,
       "acquisitionPriority": 2,
       "acquisitionPriorityMeaning": "Active-track source required before technical or visual review can begin.",
       "acquisitionRule": null,
@@ -5812,7 +5751,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NE:cc-6-11-form-en: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": null,
@@ -5986,7 +5925,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/NE-cc-6-11-2-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -6022,7 +5961,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NE:cc-6-11-2-form-en: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": null,
@@ -6214,7 +6153,7 @@
         "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ],
       "disposition": "reference_only",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NE:cc-6-11a-instructions-en: condition 6 — the record names no artifacts",
       "dispositionMeaning": "An instruction, guidance or supporting-process document, not a filed component.",
       "libraryFolder": "03_INSTRUCTIONS",
       "documentRole": null,
@@ -6296,7 +6235,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/NE-cc-6-12-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -6332,7 +6271,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NE:cc-6-12-form-en: condition 1 — the verdict is substantive_owner_decision_required, not approved_platform_ready",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": null,
@@ -6434,7 +6373,7 @@
         "RC-T-FLAT-GEOMETRY-UNMEASURED"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NE:cc-6-12-instructions-en: condition 6 — the record names no artifacts",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "03_INSTRUCTIONS",
       "documentRole": null,
@@ -6610,7 +6549,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/NE-cc-6-15-1-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -6646,7 +6585,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NE:cc-6-15-1-form-en: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": null,
@@ -6724,7 +6663,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/NE-dc-1-15-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -6760,7 +6699,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "NE:dc-1-15-form-en: condition 1 — the verdict is correction_required, not approved_platform_ready",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": null,
@@ -6844,7 +6783,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/VA-cc-1201-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -6884,7 +6823,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "VA:cc-1201-en: condition 4 — production-field-map.json is not pinned by the record",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PETITION",
@@ -7004,7 +6943,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "VA:cc-1473-en: condition 4 — production-field-map.json is not pinned by the record",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PETITION",
@@ -7301,20 +7240,24 @@
     },
     {
       "jurisdiction": "VT",
-      "assetId": "VT|200-00129 – Petition to Expunge Criminal History.pdf|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
-      "formName": "200-00129 – Petition to Expunge Criminal History.pdf",
+      "assetId": "VT|200-00129|6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
+      "formName": "200-00129 — Petition to Expunge Criminal History",
       "formNameLooksMisextracted": false,
-      "formNumber": "200-00129 – Petition to Expunge Criminal History.pdf",
+      "formNumber": "200-00129",
       "formFamilyIds": [
         "VT:200-00129-petition-to-expunge-criminal-history"
       ],
-      "affectedTrackIds": [],
-      "trackBindingStatus": "no_track_binding_established",
+      "affectedTrackIds": [
+        "vt_exp_decriminalized"
+      ],
+      "trackBindingStatus": "bound_to_tracks_by_the_committed_relationships",
       "candidateRegistryFormId": null,
       "candidateRegistryTrackIds": [],
       "affectedCompiledPathwayIds": [],
       "activeTrackStatus": "expected_but_absent",
-      "routeKinds": [],
+      "routeKinds": [
+        "factory_v2"
+      ],
       "rendererKind": "no render strategy recorded",
       "packetCapable": false,
       "participantTreatment": [],
@@ -7327,19 +7270,38 @@
       "sourcePublisher": null,
       "sourcePublisherBasis": "no source URL is recorded against this asset",
       "sourceRetrievalDate": null,
-      "sourceRevision": null,
+      "sourceRevision": "REV-2025-07",
       "sourceSha256": "6b855b1976bb10bb1a623e4ae1741545d36108c5e320c7ce542d214481ab9be5",
       "sourceBinaryPresentInClone": false,
       "sourceBinaryPathInClone": null,
       "currentnessStatus": "not recorded",
       "supersededSourceIdentity": null,
       "missingBinary": true,
-      "structuralClass": "dirty_acroform",
-      "interactiveFieldCount": null,
+      "structuralClass": "acroform",
+      "interactiveFieldCount": 50,
       "xfaPresentInSource": null,
-      "renderedArtifacts": [],
-      "anyFinalizedArtifact": false,
-      "activeContentVerdict": "no rendered artifact to judge",
+      "renderedArtifacts": [
+        {
+          "rel": "fixtures/canonical-filled.pdf",
+          "kind": "canonical_fixture",
+          "finalized": true,
+          "failures": []
+        },
+        {
+          "rel": "fixtures/boundary-filled.pdf",
+          "kind": "boundary_fixture",
+          "finalized": true,
+          "failures": []
+        },
+        {
+          "rel": "contact-sheet/blank-vs-filled.pdf",
+          "kind": "contact_sheet",
+          "finalized": true,
+          "failures": []
+        }
+      ],
+      "anyFinalizedArtifact": true,
+      "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": null,
       "contactSheetEvidenceImage": null,
       "labelsAwaitingAPlacementDecision": 0,
@@ -7350,16 +7312,17 @@
         "held_on_source_or_design",
         "missing_binary",
         "never_independently_approved",
+        "visually_unsafe",
         "xfa_javascript_or_active_content_residue"
       ],
-      "severity": "low",
+      "severity": "high",
       "releaseRisk": "none",
       "owner": "Roger (official source acquisition)",
       "independentReviewStatus": "never_independently_reviewed",
       "remediationLane": "B",
       "remediationLaneName": "official_source_acquisition_required",
-      "exactBlocker": "The verified binary for VT 200-00129 – Petition to Expunge Criminal History.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either.",
-      "exactNextAction": "Retrieve the current official VT 200-00129 – Petition to Expunge Criminal History.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects.",
+      "exactBlocker": "The verified binary for VT 200-00129 is not in the clone and no track it serves has a recorded complete terminal treatment.",
+      "exactNextAction": "Retrieve the current official VT 200-00129 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.",
       "evidencePaths": [
         "data/rcap-all50/overlays/production/vermont/200-00129-petition-to-expunge-criminal-history"
       ],
@@ -7368,7 +7331,8 @@
         "RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL",
         "RC-G-PRODUCTION-HOLD",
         "RC-S-BUNDLE-ABSENT",
-        "RC-T-DIRTY-ACROFORM-SOURCE"
+        "RC-T-DIRTY-ACROFORM-SOURCE",
+        "RC-V-UNSAFE-PLACEMENT"
       ],
       "systemicRootCauseIds": [
         "RC-G-GENERATION-NOT-ALLOWED",
@@ -7377,16 +7341,17 @@
         "RC-S-BUNDLE-ABSENT"
       ],
       "familySpecificRootCauseIds": [
-        "RC-T-DIRTY-ACROFORM-SOURCE"
+        "RC-T-DIRTY-ACROFORM-SOURCE",
+        "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "VT:200-00129-petition-to-expunge-criminal-history: the field or anchor classification is not complete",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": null,
       "documentRole": null,
       "packetCapableTreatment": false,
       "servedByGuidanceOrDeferral": false,
-      "certifiableArtifacts": false,
+      "certifiableArtifacts": true,
       "acquisitionPriority": 4,
       "acquisitionPriorityMeaning": "Orphaned, optional, historical or reference-only. do_not_acquire_without_a_named_current_use.",
       "acquisitionRule": "do_not_acquire_without_a_named_current_use",
@@ -7466,7 +7431,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/VT-200-00130-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -7506,7 +7471,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "VT:200-00130-en: condition 4 — production-field-map.json is not pinned by the record",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PETITION",
@@ -7700,7 +7665,7 @@
         "RC-T-NO-DERIVABLE-WRITE-BOX"
       ],
       "disposition": "orphaned",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "VT:200-00131-en: condition 4 — production-field-map.json is not pinned by the record",
       "dispositionMeaning": "No active track requires it and no candidate binding to one exists.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "RESPONSE",
@@ -7919,7 +7884,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "VT:200-00132-en: condition 4 — production-field-map.json is not pinned by the record",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PACKET",
@@ -8090,7 +8055,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/VT-200-00132a-form-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -8130,7 +8095,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "VT:200-00132a-en: condition 4 — production-field-map.json is not pinned by the record",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "PACKET",
@@ -8324,7 +8289,7 @@
         "RC-T-NO-DERIVABLE-WRITE-BOX"
       ],
       "disposition": "reference_only",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "VT:200-00331-en: condition 4 — production-field-map.json is not pinned by the record",
       "dispositionMeaning": "An instruction, guidance or supporting-process document, not a filed component.",
       "libraryFolder": "04_SUPPORTING_PROCESS",
       "documentRole": "RECORD_REQUEST",
@@ -8425,7 +8390,7 @@
         "RC-T-NO-DERIVABLE-WRITE-BOX"
       ],
       "disposition": "orphaned",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "VT:200-00631-en: condition 4 — production-field-map.json is not pinned by the record",
       "dispositionMeaning": "No active track requires it and no candidate binding to one exists.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "ORDER",
@@ -8698,7 +8663,7 @@
       "anyFinalizedArtifact": true,
       "activeContentVerdict": "clean and provable",
       "contactSheetShowsAFill": true,
-      "contactSheetEvidenceImage": null,
+      "contactSheetEvidenceImage": "docs/record-clearing/pdf-visual-evidence/VT-600-00228-support-en-contact-sheet-page-01.png",
       "labelsAwaitingAPlacementDecision": 0,
       "precisePlacementQuestion": null,
       "placementLabels": [],
@@ -8738,7 +8703,7 @@
         "RC-V-UNSAFE-PLACEMENT"
       ],
       "disposition": "independent_review_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "VT:600-00228-en: condition 4 — production-field-map.json is not pinned by the record",
       "dispositionMeaning": "Certifiable artifacts exist and no independent review has approved them.",
       "libraryFolder": "04_SUPPORTING_PROCESS",
       "documentRole": "FEE_WAIVER",
@@ -9068,7 +9033,7 @@
         "RC-T-NO-DERIVABLE-WRITE-BOX"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "WI:cr-267-en: condition 4 — production-field-map.json is not pinned by the record",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "02_PACKET_FORMS",
       "documentRole": "ORDER",
@@ -9280,7 +9245,7 @@
         "RC-T-NO-DERIVABLE-WRITE-BOX"
       ],
       "disposition": "official_source_required",
-      "platformReadyBasis": "no overlay profile carries an independent review for this family",
+      "platformReadyBasis": "WI:dj-le-250b-en: condition 4 — production-field-map.json is not pinned by the record",
       "dispositionMeaning": "The verified source binary is unavailable, so nothing downstream can be attempted.",
       "libraryFolder": "04_SUPPORTING_PROCESS",
       "documentRole": "RECORD_REQUEST",

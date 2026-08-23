@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "rcap-pdf-independent-review-verdicts/v1",
+  "batch": "batch-a",
+  "reviewDate": "2026-08-20",
+  "reviewer": "independent-reviewer-a",
+  "reviewerBranch": "claude/rcap-pdf-independent-review-a-qkff6d",
+  "reviewedLaneBranch": "claude/rcap-pdf-family-rerender-mounted",
+  "reviewedLaneHead": "ea1a16b6358086c3c24fbd66e2fd005173d3ad87",
+  "totals": {
+    "familiesReviewed": 4,
+    "approved_platform_ready": 0,
+    "correction_required": 4,
+    "substantive_owner_decision_required": 0,
+    "ownerDecisionsEscalatedWithinACorrectionVerdict": 1
+  },
+  "verdictsByFamily": {
+    "AK:tf-800-form-en": "correction_required",
+    "AK:tf-805-form-en": "correction_required",
+    "KY:aoc-334-form-en": "correction_required",
+    "KY:aoc-496-3-form-en": "correction_required"
+  },
+  "readingTheseVerdicts": "Two different kinds of correction are recorded under one word. AK tf-800 and AK tf-805 are clean in every artifact respect this reviewer could test and are held back solely because the official source bytes are absent at this head, so their source SHA-256 could not be recomputed. KY aoc-334 and KY aoc-496-3 carry defects in their own bytes and would not be approved even with the corpus mounted.",
+  "closestToApproval": "AK:tf-805-form-en. Seven bindings, seven drawn values, exact map-to-artifact agreement, every protected area blank on both pages, correct identity and revision, flattened and active-content clean, sidecar complete and hash-bound, raster bound to the current contact sheet with a discriminating control. Mount the corpus and it approves.",
+  "structuralBlockersAboveAnyForm": [
+    "The source corpus is not mounted at this head: RCAP_BUNDLE_EXTRACT is unset, private/ does not exist, and no copy of any official source binary is on the filesystem. The instruction's precondition of 499 source-library files and 329 PDFs is not met. No family can complete source verification until this is fixed.",
+    "No family was re-rendered. Every canonical artifact hash equals the pre-rerender hash gate-b recorded. Corrected maps and uncorrected bytes coexist.",
+    "No approval channel exists for these four families: no overlay-profile.json, and no independentReview field on the field map. An approval recorded here cannot reach the platform-ready gate."
+  ],
+  "artifactSafety": "All eight finalized PDFs across the four families are flattened and active-content clean, verified by parsing rather than by byte-grep: no AcroForm, zero form fields, zero annotations, no OpenAction, no additional actions, no JavaScript name tree. The one raw '/JS' byte sequence in KY aoc-496-3 lies inside a compressed image stream and is not an action. The Reset and Print captions printed on KY aoc-334 are inherited static ink from the source form, present in the blank panel too, not live widgets.",
+  "exactPdfLaneAction": [
+    "Mount the Edition 1 Master Library extract and set RCAP_BUNDLE_EXTRACT, then re-render all four families against the corrected binder.",
+    "Before re-rendering KY:aoc-334-form-en, close A-KY334-NAME-INTO-SEALING-ORDER: refuse classes other than participant rather than the single class 'manual', and refuse printed_label matches taken from truncated mid-sentence fragments.",
+    "Resolve A-KY4963-COUNTY-DROPPED: either render the dropdown selection or record the field in bindingRefusals with a reason.",
+    "Add a written-versus-bound reconciliation to reports/protected-fields-scan.json so neither an undeclared write nor a silent drop can report pass.",
+    "Capture revision and officialTitle from the printed headers for both KY families: AOC-334 is Rev. 1-22 and AOC-496.3 is Rev. 6-23; both officialTitles are currently scraped body fragments.",
+    "Re-run the contact-sheet visual proof for KY:aoc-334-form-en so the recorded contact-sheet hash is the one on disk and a discrimination control is captured.",
+    "Rasterise every page of each contact sheet."
+  ],
+  "exactSessionAAction": [
+    "Correct provenAgainstThisFamilysBytes in gate-b-family-rerender-evidence.json wherever no re-render occurred, so the per-family field agrees with the record's own notAnApproval statement.",
+    "Put the KY:aoc-334-form-en ownership question to the owner: AOC-334 is a court order and is currently typed participant_completed with captionOnly false."
+  ],
+  "whatThisRecordDoesNotDo": [
+    "It does not edit, adopt, extend or restate the batch-1 record.",
+    "It does not copy any batch-1 verdict forward; each verdict here was reached from the evidence at this head.",
+    "It does not approve anything, so it promotes nothing.",
+    "It changed no source binary, sidecar, artifact, map, classification, raster, register count, retirement record, runtime, worker or implementation path."
+  ]
+}

@@ -6,97 +6,126 @@
   "censusBasis": "extracted_from_committed_shadow_sample",
   "bindings": [
     {
-      "field": "DIVISION",
-      "class": "participant",
-      "factId": "court",
-      "maturity": "profile_question_bound"
-    },
-    {
       "field": "Case No",
       "class": "participant",
-      "factId": "case_identifier",
-      "maturity": "profile_question_bound"
-    },
-    {
-      "field": "First Middle and Last name",
-      "class": "participant",
-      "factId": "packet_intake:full_legal_name",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
-    },
-    {
-      "field": "1 The Defendant was arrested on the",
-      "class": "participant",
-      "factId": "packet_intake:full_legal_name",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
-    },
-    {
-      "field": "and charged with the offenses of",
-      "class": "participant",
-      "factId": "charge",
-      "maturity": "profile_question_bound"
-    },
-    {
-      "field": "offenses of 1",
-      "class": "participant",
-      "factId": "charge",
-      "maturity": "profile_question_bound"
-    },
-    {
-      "field": "offenses of 2",
-      "class": "participant",
-      "factId": "charge",
-      "maturity": "profile_question_bound"
-    },
-    {
-      "field": "federal court and the status of thatthose charges isare as follows",
-      "class": "participant",
-      "factId": "charge",
-      "maturity": "profile_question_bound"
-    },
-    {
-      "field": "Defendant",
-      "class": "participant",
-      "factId": "packet_intake:full_legal_name",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
-    },
-    {
-      "field": "Defendants Address",
-      "class": "participant",
-      "factId": "packet_intake:full_legal_name",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
+      "factId": "matter.case_number",
+      "writeBox": "the blank after the printed 'vs. Case No.' on p1",
+      "maturity": "confirmed_against_printed_caption"
     },
     {
       "field": "Zip code",
       "class": "participant",
-      "factId": "packet_intake:zip",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
+      "factId": "participant.zip",
+      "writeBox": "the blank after the printed 'Zip code:' on p2",
+      "maturity": "confirmed_against_printed_caption"
     },
     {
       "field": "COUNTY OF",
       "class": "participant",
-      "factId": "county",
-      "maturity": "profile_question_bound"
-    },
-    {
-      "field": "Comes the Petitioner",
-      "class": "participant",
-      "factId": "packet_intake:full_legal_name",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
-    },
-    {
-      "field": "Petitioner",
-      "class": "participant",
-      "factId": "packet_intake:full_legal_name",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
+      "factId": "matter.county",
+      "writeBox": "the jurat venue blank after the printed 'COUNTY OF' on p3",
+      "maturity": "confirmed_against_printed_caption"
     },
     {
       "field": "DOB",
       "class": "participant",
-      "factId": "packet_intake:date_of_birth",
-      "maturity": "binding_vocabulary_pending_packet_intake_schema"
+      "factId": "participant.date_of_birth",
+      "writeBox": "the blank after the printed 'DOB' on p3",
+      "maturity": "confirmed_against_printed_caption"
+    },
+    {
+      "field": "Comes the Petitioner",
+      "class": "participant",
+      "factId": "participant.full_legal_name",
+      "writeBox": "the blank in 'Comes the Petitioner, ____, under oath' on p3",
+      "maturity": "confirmed_against_printed_caption"
     }
   ],
   "boundsChecks": {
     "longText": "shrink_to_fit_then_addendum"
+  },
+  "sha256": "6065fe0248e9022c866ac2506c02df35b533439f6d15fc40843b709eea375d9b",
+  "bindingBasis": "typed fail-closed binder (scripts/rcap-official-forms/rcap-field-semantics.mjs), each binding confirmed against the printed caption its widget sits on",
+  "bindingRefusals": [
+    {
+      "field": "DIVISION",
+      "class": "participant",
+      "reason": "no_allowlisted_fact_matches",
+      "why": "The circuit court's division number; the fail-closed binder matches no fact for it."
+    },
+    {
+      "field": "and charged with the offenses of",
+      "class": "participant",
+      "reason": "no_allowlisted_fact_matches",
+      "why": "A charge line; matter.charge requires an explicit mapping this path does not supply."
+    },
+    {
+      "field": "offenses of 1",
+      "class": "participant",
+      "reason": "no_allowlisted_fact_matches",
+      "why": "As above."
+    },
+    {
+      "field": "offenses of 2",
+      "class": "participant",
+      "reason": "no_allowlisted_fact_matches",
+      "why": "As above."
+    },
+    {
+      "field": "federal court and the status of thatthose charges isare as follows",
+      "class": "participant",
+      "reason": "no_allowlisted_fact_matches",
+      "why": "A pending-charge narrative; no allowlisted fact describes it."
+    },
+    {
+      "field": "First Middle and Last name",
+      "class": "manual_participant",
+      "reason": "classified_unwritable_by_role",
+      "why": "Resolves to the surname alone; see the classification."
+    },
+    {
+      "field": "1 The Defendant was arrested on the",
+      "class": "manual_participant",
+      "reason": "classified_unwritable_by_role",
+      "why": "The widget is the arrest-date blank; see the classification."
+    },
+    {
+      "field": "Defendant",
+      "class": "manual_participant",
+      "reason": "classified_unwritable_by_role",
+      "why": "The widget is the charge-status blank; see the classification."
+    },
+    {
+      "field": "Defendants Address",
+      "class": "manual_participant",
+      "reason": "classified_unwritable_by_role",
+      "why": "The widget is the printed State blank; see the classification."
+    },
+    {
+      "field": "Petitioner",
+      "class": "signature",
+      "reason": "classified_unwritable_by_role",
+      "why": "The widget is the signature line; see the classification."
+    },
+    {
+      "field": "State",
+      "class": "manual_participant",
+      "reason": "classified_unwritable_by_role",
+      "why": "The widget is the printed City blank; see the classification."
+    }
+  ],
+  "refusalFallbacks": {
+    "rule": "A value that cannot be placed correctly is refused, never guessed, never shrunk below the readable floor and never clipped. The packet leaves the blank empty and raises it as a required manual step, because a wrong value on a filed document is worse than a blank one.",
+    "notAFallback": "Writing the nearest fact we happen to hold, shrinking below the readable floor, clipping at the box edge, or overflowing into the caption beside it. None of those is done.",
+    "byField": {
+      "First Middle and Last name": "The petition caption. Printed by hand, in full, exactly as it appears on the judgment. Required manual step.",
+      "State": "This widget is the printed CITY blank, so it is left empty by the factory and the participant writes the city of their mailing address on it. Do not be misled by the field's name: the box collects a city.",
+      "Defendants Address": "This widget is the printed STATE blank, 39.00pt wide. The participant writes the two-letter state of their mailing address on it. The street lines are the two blanks above the City line.",
+      "1 The Defendant was arrested on the": "The date of arrest in item 1. Copied by the participant from the arrest record or the judgment. Required manual step: item 1 is the factual basis of the petition.",
+      "Defendant": "The continuation blank for item 9, 'the status of that/those charges is/are as follows'. The participant describes any pending felony charges, or strikes item 9 if there are none.",
+      "Petitioner": "The signature line of the verification. Signed by hand in front of the notary, never typed.",
+      "DIVISION": "The circuit court's division number, copied from the case's own caption.",
+      "and charged with the offenses of / offenses of 1 / offenses of 2 / federal court and the status of thatthose charges isare as follows": "The offences and pending-charge narrative, written by the participant from the judgment. A misstated charge misdescribes the record to the court."
+    }
   }
 }

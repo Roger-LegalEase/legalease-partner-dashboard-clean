@@ -32,6 +32,7 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { ROOT_CAUSES } from "./rcap-official-forms/rcap-pdf-root-causes.mjs";
 import { platformReadyVerdict } from "./rcap-official-forms/rcap-platform-ready.mjs";
+import { sourceValidationMode, validateAgainstCommittedProof } from "./rcap-official-forms/rcap-source-validation-mode.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const REGISTER = path.join(rootDir, "data/rcap-all50/problematic-pdf-register.json");
@@ -39,6 +40,12 @@ const AUDIT = path.join(rootDir, "data/rcap-all50/finalized-artifact-audit.json"
 const SHEET_PROOF = path.join(rootDir, "data/rcap-all50/contact-sheet-visual-proof.json");
 const PLACEMENT = path.join(rootDir, "data/rcap-all50/overlay-placement-evidence.json");
 const OVERLAY_DIR = path.join(rootDir, "data/rcap-all50/overlays/production");
+const REVIEWS_DIR = path.join(rootDir, "data/rcap-all50/pdf-independent-reviews");
+const CORPUS_ROOTS = [
+  process.env.OFFICIAL_FORMS_SOURCE_DIR || null,
+  path.join(rootDir, "private/source-imports"),
+  path.join(rootDir, "private/Nationwide Record Clearing")
+].filter((candidate) => candidate && fs.existsSync(candidate));
 const OUT_JSON = path.join(rootDir, "data/rcap-all50/problematic-pdf-master-list.json");
 const OUT_MD = path.join(rootDir, "docs/record-clearing/problematic-pdf-master-list.md");
 const OUT_CSV = path.join(rootDir, "docs/record-clearing/problematic-pdf-master-list.csv");
@@ -50,6 +57,37 @@ function fail(message) {
   console.error(`FAIL problematic PDF master list — ${message}`);
   process.exit(1);
 }
+
+// The same three source-validation states the register uses. The master list is
+// built FROM the register, so a source-empty regeneration inherits both the
+// false platform-ready demotion and — after this integration — a root-cause
+// vocabulary mismatch: the approved register names RC-T-FLAT-GEOMETRY, which the
+// current catalogue has renamed to RC-T-FLAT-GEOMETRY-UNMEASURED. Neither is a
+// finding about a form; both are artifacts of rebuilding approved output in an
+// environment that cannot see what it was built from.
+const SOURCE_MODE = sourceValidationMode();
+
+if (checkOnly && SOURCE_MODE.mode === "committed_promotion_proof") {
+  const problems = validateAgainstCommittedProof(OUT_JSON);
+  console.log("source_validation_mode=committed_promotion_proof");
+  if (problems.length > 0) {
+    console.error(`FAIL problematic PDF master list — source-empty validation against the committed promotion proof found ${problems.length} problem(s):`);
+    for (const problem of problems) console.error(` - ${problem}`);
+    process.exit(1);
+  }
+  console.log("OK problematic PDF master list — no configured source root is mounted, so the committed master list was validated against the source-mounted promotion proof. Nothing was rederived and nothing was written.");
+  process.exit(0);
+}
+
+if (SOURCE_MODE.mode === "partial_or_invalid_source_mount") {
+  console.log("source_validation_mode=partial_or_invalid_source_mount");
+  fail(`a source root is mounted but ${SOURCE_MODE.missing.length} reviewed source(s) are not present under it. First missing: ${SOURCE_MODE.missing.slice(0, 3).join("; ")}`);
+}
+
+if (!checkOnly && SOURCE_MODE.mode !== "mounted_corpus") {
+  fail("refusing to write the master list without the authorized source corpus mounted; run with OFFICIAL_FORMS_SOURCE_DIR set, or use --check");
+}
+console.log("source_validation_mode=mounted_corpus");
 const readJson = (file, fallback = null) => {
   if (!fs.existsSync(file)) return fallback;
   try { return JSON.parse(fs.readFileSync(file, "utf8")); } catch { return fallback; }
@@ -207,7 +245,14 @@ const registryByForm = registryFormIds();
 function reviewVerdictFor(familyIds, artifacts) {
   // One shared derivation, imported rather than restated. The register needs the
   // same answer and cannot ask this generator for it without closing a cycle.
-  return platformReadyVerdict({ overlayDir: OVERLAY_DIR, familyIds, artifacts });
+  return platformReadyVerdict({
+    overlayDir: OVERLAY_DIR,
+    reviewsDir: REVIEWS_DIR,
+    rootDir,
+    corpusRoots: CORPUS_ROOTS,
+    familyIds,
+    artifacts
+  });
 }
 
 // Exactly one operational disposition per asset, from an explicit vocabulary.
