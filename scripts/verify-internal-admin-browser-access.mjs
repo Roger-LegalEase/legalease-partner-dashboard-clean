@@ -157,7 +157,10 @@ await check("active internal administrator gets effective content capability", a
 
 await check("sign-out is local, clears the session, and disables protected actions", async () => {
   setIdentity(identities.internal);
-  const response = await signOutRoute.POST(new Request("https://internal.test/sign-out", { method: "POST" }));
+  const response = await signOutRoute.POST(new Request("https://internal.test/sign-out", {
+    method: "POST",
+    headers: sameOriginHeaders()
+  }));
   assert.equal(response.status, 303);
   assert.equal(response.headers.get("location"), "https://internal.test/sign-in?signedOut=1");
   assert.match(response.headers.get("cache-control") ?? "", /no-store/);
@@ -188,7 +191,7 @@ await check("switch-account control clears the local session before sign-in", as
   const body = new URLSearchParams({ intent: "switch-account" });
   const response = await signOutRoute.POST(new Request("https://internal.test/sign-out", {
     method: "POST",
-    headers: { "content-type": "application/x-www-form-urlencoded" },
+    headers: sameOriginHeaders({ "content-type": "application/x-www-form-urlencoded" }),
     body
   }));
   assert.equal(response.status, 303);
@@ -308,8 +311,20 @@ await check("there are no internal server actions outside guarded handlers", () 
 });
 
 await check("returnTo accepts safe local paths only", () => {
-  assert.equal(safeAppRedirectPath("/internal/partners/provisioning", "/sign-in"), "/internal/partners/provisioning");
-  for (const unsafe of ["https://attacker.test", "//attacker.test", "javascript:alert(1)", "data:text/html,x"]) {
+  const deepLink = "/internal/partners/provisioning/example?tab=access#users";
+  const signIn = new URL(`/sign-in?next=${encodeURIComponent(deepLink)}`, "https://internal.test");
+  const resolved = safeAppRedirectPath(signIn.searchParams.get("next"), "/sign-in");
+  assert.equal(resolved, deepLink);
+  assert.equal(new URL(resolved, signIn.origin).origin, signIn.origin);
+  for (const unsafe of [
+    "https://attacker.test",
+    "//attacker.test",
+    "/\\attacker.test",
+    "/%5cattacker.test",
+    "/%252f%252fattacker.test",
+    "javascript:alert(1)",
+    "data:text/html,x"
+  ]) {
     assert.equal(safeAppRedirectPath(unsafe, "/sign-in"), "/sign-in");
   }
 });
@@ -375,4 +390,12 @@ function walk(relativeDirectory, predicate = () => true) {
 function firstIndex(source, markers) {
   const indexes = markers.map((marker) => source.indexOf(marker)).filter((index) => index >= 0);
   return indexes.length ? Math.min(...indexes) : Number.POSITIVE_INFINITY;
+}
+
+function sameOriginHeaders(additional = {}) {
+  return {
+    host: "internal.test",
+    origin: "https://internal.test",
+    ...additional
+  };
 }

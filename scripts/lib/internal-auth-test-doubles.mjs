@@ -4,7 +4,8 @@ const defaultState = {
   rows: [],
   queryError: null,
   signOutError: null,
-  lastSignOutScope: null
+  lastSignOutScope: null,
+  signOutCalls: 0
 };
 
 let state = { ...defaultState };
@@ -24,6 +25,7 @@ export async function createServerSupabaseAuthClient() {
         return { data: { user: state.user }, error: state.userError };
       },
       async signOut(options = {}) {
+        state.signOutCalls += 1;
         state.lastSignOutScope = options.scope ?? "global";
         if (!state.signOutError) state.user = null;
         return { error: state.signOutError };

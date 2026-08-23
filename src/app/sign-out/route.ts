@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
+import { isFirstAdminSameOriginRequest } from "@/lib/partners/first-admin-request-security";
 import { createServerSupabaseAuthClient } from "@/lib/supabase/auth-server";
 
 const NO_STORE_HEADERS = {
@@ -18,6 +19,18 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  if (!isFirstAdminSameOriginRequest(request)) {
+    logSecurityWarn({
+      event: "sign-out denied",
+      route: "/sign-out",
+      outcome: "invalid_origin"
+    });
+    return NextResponse.json(
+      { ok: false, error: "Invalid request origin." },
+      { status: 403, headers: NO_STORE_HEADERS }
+    );
+  }
+
   const form = await request.formData().catch(() => null);
   const switchingAccount = form?.get("intent") === "switch-account";
   const supabase = await createServerSupabaseAuthClient();
