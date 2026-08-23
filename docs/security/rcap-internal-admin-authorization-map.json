@@ -21,11 +21,34 @@
     { "source": "public.partner_users", "scope": "internal pages, partner APIs and RLS", "serverSide": true, "status": "canonical" },
     { "source": "INTERNAL_ADMIN_ACCESS_TOKEN", "scope": "proxy admission for /internal pages", "serverSide": true, "status": "removed_competing_environment_authority", "couldBypassPageGuard": false },
     { "source": "public.content_admin_users", "scope": "/internal/content pages, APIs and direct content-table RLS", "serverSide": true, "status": "closed_in_application_and_authorized_migration; rows_preserved_as_history" },
-    { "source": "COMMAND_CENTER_API_KEY", "scope": "/api/internal/analytics/summary", "serverSide": true, "status": "removed_from_internal_API" },
+    { "source": "COMMAND_CENTER_API_KEY", "scope": "/api/internal/analytics/summary", "serverSide": true, "status": "removed_from_internal_API; retained separately on inventoried non-internal aggregate route GET /api/metrics/signups" },
     { "source": "client navigation visibility", "scope": "links only", "serverSide": false, "status": "never_authoritative" },
     { "source": "Auth app_metadata/user_metadata role claims", "scope": "searched repository", "serverSide": false, "status": "not_an_internal_admin_grant" },
     { "source": "hardcoded administrator email or UUID", "scope": "searched repository", "serverSide": false, "status": "none_found_in_product_authorization" },
     { "source": "corporate email domain", "scope": "searched repository", "serverSide": false, "status": "not_an_authority" }
+  ],
+  "nonInternalAuthorities": [
+    {
+      "route": "GET /api/metrics/signups",
+      "sourceFile": "src/app/api/metrics/signups/route.ts",
+      "authority": "COMMAND_CENTER_API_KEY",
+      "authenticationMechanism": "Authorization: Bearer value compared to COMMAND_CENTER_API_KEY using constant-time SHA-256 digest comparison",
+      "returnedDataClass": "aggregate non-sensitive operational counts: registered and paid",
+      "aggregateOnly": true,
+      "queryShape": "two exact count queries with head true; zero database rows returned",
+      "tenantScope": "global aggregate; no tenant selector and no tenant-level breakdown",
+      "rateLimiting": "none at the route layer",
+      "personalDataPresent": false,
+      "partnerLevelDataPresent": false,
+      "matterDataPresent": false,
+      "paymentRecordDataPresent": false,
+      "paymentDerivedAggregatePresent": true,
+      "participantDataPresent": false,
+      "canInvokeInternalAction": false,
+      "internalAdminBoundary": false,
+      "internalAdminBoundaryReason": "The route is outside /api/internal, is read-only, exposes only global count values, and cannot establish a user session, internal role, tenant scope, or mutation authority.",
+      "lifecycle": "continued legacy aggregate endpoint; deprecation or continued-use owner is not recorded in the repository"
+    }
   ],
   "pageGuard": {
     "sharedShell": "src/app/internal/layout.tsx",

@@ -31,6 +31,15 @@ const records = {
 };
 
 verifyMigrationSource();
+for (const [label, marker, replacement] of [
+  ["content role authority", "when public.is_internal_admin() then 'primary_admin'::text", "when true then 'primary_admin'::text"],
+  ["Wilma telemetry authority", "to authenticated\nusing (public.is_internal_admin());", "to authenticated\nusing (true);"],
+  ["support queue authority", "using (public.is_internal_admin())\nwith check (public.is_internal_admin());", "using (true)\nwith check (true);"]
+]) {
+  const mutated = migration.replace(marker, replacement);
+  assert.notEqual(mutated, migration, `mutation fixture missing for ${label}`);
+  assert.throws(() => verifyMigrationSource(mutated), undefined, `${label} mutation must make this verifier fail`);
+}
 
 const db = new PGlite();
 try {
@@ -67,7 +76,7 @@ try {
 console.log("Internal admin RLS hardening: isolated migration boundary suite passed.");
 console.log("Production/external databases used: none.");
 
-function verifyMigrationSource() {
+function verifyMigrationSource(source = migration) {
   for (const marker of [
     "create or replace function public.content_current_role()",
     "when public.is_internal_admin() then 'primary_admin'::text",
@@ -77,13 +86,23 @@ function verifyMigrationSource() {
     "drop policy if exists legalease_os_support_items_internal_admin_all",
     "with check (public.is_internal_admin())"
   ]) {
-    assert.ok(migration.includes(marker), `migration missing ${marker}`);
+    assert.ok(source.includes(marker), `migration missing ${marker}`);
   }
-  assert.ok(!/content_admin_users\s+cau/iu.test(migration), "content role table must not authorize the resolver");
-  assert.ok(!/^\s*(insert|update|delete|truncate)\s/imu.test(stripSqlComments(migration)), "migration must not mutate data rows");
-  assert.ok(!/^\s*(drop\s+(table|column)|alter\s+table[\s\S]*?drop\s+column)\b/imu.test(stripSqlComments(migration)), "migration must not remove schema objects");
+  assert.match(
+    source,
+    /create policy "consumer wilma telemetry internal safety select"[\s\S]*?to authenticated\s+using \(public\.is_internal_admin\(\)\);/u,
+    "Wilma telemetry SELECT must use the canonical internal-admin helper"
+  );
+  assert.match(
+    source,
+    /create policy legalease_os_support_items_internal_admin_all[\s\S]*?to authenticated\s+using \(public\.is_internal_admin\(\)\)\s+with check \(public\.is_internal_admin\(\)\);/u,
+    "support ALL policy must use the canonical helper for USING and WITH CHECK"
+  );
+  assert.ok(!/content_admin_users\s+cau/iu.test(source), "content role table must not authorize the resolver");
+  assert.ok(!/^\s*(insert|update|delete|truncate)\s/imu.test(stripSqlComments(source)), "migration must not mutate data rows");
+  assert.ok(!/^\s*(drop\s+(table|column)|alter\s+table[\s\S]*?drop\s+column)\b/imu.test(stripSqlComments(source)), "migration must not remove schema objects");
   for (const forbidden of ["user_metadata", "app_metadata", "@legalease", "@gmail", "email like", "email ="] ) {
-    assert.ok(!migration.toLowerCase().includes(forbidden), `migration must not authorize through ${forbidden}`);
+    assert.ok(!source.toLowerCase().includes(forbidden), `migration must not authorize through ${forbidden}`);
   }
 }
 

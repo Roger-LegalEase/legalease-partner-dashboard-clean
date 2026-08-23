@@ -39,7 +39,7 @@ The authorized RLS-only migration finishes authority consolidation in the branch
 
 - `INTERNAL_ADMIN_ACCESS_TOKEN` let a bearer secret pass the `/internal` proxy independently of a user session. It did not by itself pass the provisioning page's second guard, but it was a conflicting environment authority and could expose any incompletely guarded page. It was removed from the proxy and environment contract.
 - `content_admin_users` allowed a non-internal content role to reach `/internal/content` pages, APIs, and content-table RLS. Application content capabilities now require the canonical internal-admin session first. The migration makes `content_current_role()` return `primary_admin` only for `public.is_internal_admin()` and null otherwise. Existing role rows remain untouched for history, but cease to authorize when the migration is applied.
-- `COMMAND_CENTER_API_KEY` independently authorized `/api/internal/analytics/summary`. That internal endpoint now requires the canonical UUID-bound session.
+- `COMMAND_CENTER_API_KEY` independently authorized `/api/internal/analytics/summary`. That internal endpoint now requires the canonical UUID-bound session. The same key remains intentionally accepted by `GET /api/metrics/signups`, a separate legacy, non-internal, read-only endpoint. It returns only two global exact counts (`registered` and `paid`) using count-only/head queries, returns no rows or personal/partner/payment-record data, has no mutation path or tenant selector, and currently has no route-local rate limiter. This aggregate authority neither grants nor participates in internal-admin access. No continued-use/deprecation owner is recorded in the repository, so ownership must be assigned before that legacy endpoint is changed or retired.
 - The proxy formerly made an authorization decision and had content/invite carve-outs. It now refreshes cookies and applies private no-store headers only. Page and handler checks remain load-bearing.
 - No product authorization code contained either incident email, a hardcoded administrator UUID, a corporate-domain grant, or an owner/founder exception.
 - Auth `app_metadata` and `user_metadata` are not consulted by the canonical helper. Synthetic internal-role claims in both are denied without the database membership.
@@ -60,7 +60,7 @@ The shared `/internal` shell persistently shows server-derived email, effective 
 
 An authenticated denied account sees its server-derived email, a clear inactive-authorization explanation, Sign out, and Sign in with another account. The denial renders before child internal content.
 
-Ordinary Sign out explicitly uses Supabase's local scope, clears the current SSR session cookies, returns a 303 to `/sign-in?signedOut=1`, emits a security event, and returns `no-store` plus `Clear-Site-Data: "cache"`. Internal responses are forced dynamic and carry private no-store headers. Administrative global revocation remains a separate guarded production operation.
+Ordinary Sign out accepts only a same-origin POST (using the repository's Origin/Referer request check), explicitly uses Supabase's local scope, clears the current SSR session cookies, returns a 303 to `/sign-in?signedOut=1`, emits a security event, and returns `no-store` plus `Clear-Site-Data: "cache"`. Cross-origin submissions are rejected before the Auth client is created, and GET never mutates a session. Internal responses are forced dynamic and carry private no-store headers. Administrative global revocation remains a separate guarded production operation.
 
 ## Audit visibility
 

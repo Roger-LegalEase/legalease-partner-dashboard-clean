@@ -9,7 +9,10 @@ import {
   parseArgs,
   relevantMetadata
 } from "./security/audit-internal-admin-access.mjs";
-import { parseRemediationArgs } from "./security/remediate-internal-admin-accounts.mjs";
+import {
+  buildRemediationPlan,
+  parseRemediationArgs
+} from "./security/remediate-internal-admin-accounts.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relative) => fs.readFileSync(path.join(root, relative), "utf8");
@@ -92,9 +95,21 @@ assert.throws(
     "--personal-email", "admin@personal.test",
     "--expected-corporate-uuid", corporateUuid,
     "--expected-personal-uuid", personalUuid,
+    "--receipt-output", "/secure/evidence/revoke.json",
     "--apply"
   ]),
   /confirm-corporate-access/u
+);
+assert.throws(
+  () => parseRemediationArgs([
+    "--mode", "grant",
+    "--corporate-email", "admin@corp.test",
+    "--personal-email", "admin@personal.test",
+    "--expected-corporate-uuid", corporateUuid,
+    "--expected-personal-uuid", personalUuid,
+    "--apply"
+  ]),
+  /explicit --receipt-output/u
 );
 
 const auditSource = read("scripts/security/audit-internal-admin-access.mjs");
@@ -102,17 +117,69 @@ for (const mutation of [".insert(", ".update(", ".delete(", "updateUserById(", "
   assert.ok(!auditSource.includes(mutation), `read-only audit tool must not contain ${mutation}`);
 }
 const remediationSource = read("scripts/security/remediate-internal-admin-accounts.mjs");
-assert.ok(remediationSource.includes("if (!options.apply)"));
-assert.ok(!remediationSource.includes("deleteUser("));
-assert.ok(remediationSource.includes('from("content_admin_users")'), "remediation must neutralize the legacy content authority");
-assert.ok(remediationSource.includes('.update({ status: "disabled" })'), "remediation must preserve legacy rows while disabling them");
-assert.ok(remediationSource.indexOf('{ flag: "wx", mode: 0o600 }') < remediationSource.indexOf('await applyGrant(client, corporate)'), "apply must reserve a non-secret receipt before mutations");
-assert.ok(remediationSource.includes('status: "failed"'), "failed apply attempts must preserve a receipt");
+verifyRemediationSource(remediationSource);
+for (const [label, marker, replacement] of [
+  ["tracked receipt refusal", '["ls-files", "--error-unmatch", "--", relative]', '["status", "--porcelain"]'],
+  ["exclusive receipt creation", 'fs.openSync(receiptPath, "wx", 0o600)', 'fs.openSync(receiptPath, "w", 0o600)'],
+  ["post-plan recovery invariant", "assertPostPlanRecoverySet(plannedActive, options.expectedCorporateUuid);", "void plannedActive;"],
+  ["post-apply recovery invariant", "assertAppliedInvariant({ options, corporate: corporateAfter, personal: personalAfter, activeAdmins: activeAdminsAfter });", "void activeAdminsAfter;"]
+]) {
+  const mutated = remediationSource.replace(marker, replacement);
+  assert.notEqual(mutated, remediationSource, `mutation fixture missing for ${label}`);
+  assert.throws(() => verifyRemediationSource(mutated), undefined, `${label} mutation must make this verifier fail`);
+}
 const authMetadataUpdate = remediationSource.match(/updateUserById\([\s\S]*?\n  \}\);/u)?.[0] ?? "";
 assert.ok(authMetadataUpdate, "remediation must have one guarded Auth metadata update");
 assert.ok(!/\n\s*email\s*:/u.test(authMetadataUpdate), "remediation must not send an Auth email update");
 
+const basePlanInputs = {
+  options: {
+    mode: "revoke",
+    expectedCorporateUuid: corporateUuid,
+    expectedPersonalUuid: personalUuid
+  },
+  corporate: syntheticAuditReport(corporateUuid, true),
+  personal: syntheticAuditReport(personalUuid, true)
+};
+assert.throws(
+  () => buildRemediationPlan({ ...basePlanInputs, activeAdmins: [{
+    auth_user_id: personalUuid,
+    partner_slug: null,
+    role: "internal_admin",
+    status: "active"
+  }] }),
+  /authoritative active global internal administrator/u
+);
+
 console.log("Internal admin audit/remediation tool guardrails passed.");
+
+function verifyRemediationSource(source) {
+  assert.ok(source.includes("if (!options.apply)"));
+  assert.ok(!source.includes("deleteUser("));
+  assert.ok(source.includes('from("content_admin_users")'), "remediation must neutralize the legacy content authority");
+  assert.ok(source.includes('.update({ status: "disabled" })'), "remediation must preserve legacy rows while disabling them");
+  assert.ok(source.includes('["ls-files", "--error-unmatch", "--", relative]'), "tracked receipt targets must be refused");
+  assert.ok(source.includes('["check-ignore", "-q", "--no-index", "--", relative]'), "repository-local receipts must be gitignored");
+  assert.ok(source.includes("isSymbolicLink()"), "receipt paths must refuse symlink traversal");
+  assert.ok(source.includes('fs.openSync(receiptPath, "wx", 0o600)'), "receipt creation must be exclusive and restrictive");
+  assert.ok(source.indexOf("reserveReceipt(receiptPath, receipt)") < source.indexOf("await applyGrant(client, corporate, recordAction)"), "apply must reserve a non-secret receipt before mutations");
+  assert.ok(source.includes('status: "failed"'), "failed apply attempts must preserve a receipt");
+  assert.ok(source.includes("assertPostPlanRecoverySet(plannedActive, options.expectedCorporateUuid);"), "the complete plan must retain a recovery administrator");
+  assert.ok(source.includes("assertAppliedInvariant({ options, corporate: corporateAfter, personal: personalAfter, activeAdmins: activeAdminsAfter });"), "the applied state must be re-audited");
+}
+
+function syntheticAuditReport(id, active) {
+  return {
+    auth: { matchCount: 1, user: { id, emailVerified: true, bannedUntil: null } },
+    canonicalAuthorization: {
+      activeInternalAdminRecords: active ? [{ auth_user_id: id, partner_slug: null, role: "internal_admin", status: "active" }] : [],
+      revokedOrExpiredRecords: [],
+      partnerMemberships: []
+    },
+    contentRoles: { rows: [], unavailable: null },
+    metadataClaims: { app_metadata: {}, user_metadata: {} }
+  };
+}
 
 function syntheticReadOnlyClient({ authUsers, tables }) {
   return {
