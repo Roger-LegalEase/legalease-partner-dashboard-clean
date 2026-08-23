@@ -148,6 +148,77 @@ async function suffixNormalizationFailures() {
   return failures;
 }
 
+/**
+ * Whether a family's official source is identified well enough to stand behind
+ * a finalized artifact, and reachable by whatever consumes it at runtime.
+ *
+ * Returns null when the contract holds, or the reason it does not.
+ *
+ * Runtime availability is decided from the deployment inputs, not from
+ * fixtures: the production worker composes packet_document_v1 from the stored
+ * packet and declares `allowedSourceShas: new Set()`, so a render job naming a
+ * source SHA is rejected outright and no official source PDF is opened at
+ * runtime. A binary the production path never opens cannot be a production
+ * availability blocker -- but if that ever changes, the
+ * runtimeRequiresSourceBinary branch turns red rather than silently passing.
+ */
+function sourceContractBreach(row) {
+  const slugs = (row.formFamilyIds ?? []).map((id) => (id.includes(":") ? id.split(":")[1] : id));
+  const dirs = [];
+  for (const stateDir of fs.readdirSync(abs(OVERLAY_DIR)).sort()) {
+    for (const slug of slugs) {
+      const candidate = path.join(OVERLAY_DIR, stateDir, slug);
+      if (fs.existsSync(abs(path.join(candidate, "source-record.json")))) dirs.push(candidate);
+    }
+  }
+  if (dirs.length === 0) return "carries no family package to identify its source from";
+
+  for (const dir of dirs) {
+    const record = readJson(path.join(dir, "source-record.json"));
+    if (!record) return `has no source record at ${dir}`;
+
+    // 1. identity must be exact and self-consistent.
+    const digest = record.sha256 ?? record.expectedSha256 ?? null;
+    if (typeof digest !== "string" || !/^[0-9a-f]{64}$/.test(digest)) {
+      return "records no exact source digest, so its source identity is unresolved";
+    }
+    if (record.sha256 && record.expectedSha256 && record.sha256 !== record.expectedSha256) {
+      return `records two different source digests (${record.sha256.slice(0, 12)} and ${record.expectedSha256.slice(0, 12)})`;
+    }
+
+    // 2. something independent must bind that identity: a source receipt, or
+    //    the artifact provenance the approval reads.
+    const receipt = readJson(path.join(dir, "source-receipt.json"));
+    const provenance = readJson(path.join(dir, "artifact-provenance.json"));
+    const bindings = [receipt?.sha256, receipt?.expectedSha256, provenance?.sourceSha256]
+      .filter((value) => typeof value === "string" && value.length === 64);
+    if (bindings.length === 0) {
+      return "has neither a source receipt nor artifact provenance binding its source digest";
+    }
+    for (const binding of bindings) {
+      if (binding !== digest) {
+        return `binds source ${binding.slice(0, 12)} while its source record names ${digest.slice(0, 12)}`;
+      }
+    }
+
+    // 3. the source must be resolvable in an authorized corpus. Membership of
+    //    the bundle manifest, or a recorded installed path, is that evidence --
+    //    never the presence of the file in this checkout.
+    const resolvable = record.sourcePresenceInBundleManifest === true
+      || (typeof record.installedSourcePath === "string" && record.installedSourcePath.length > 0);
+    if (!resolvable) {
+      return "names no authorized corpus holding its source, so the source is unresolved rather than merely uncommitted";
+    }
+
+    // 4. and if the production path ever needs the bytes themselves, they have
+    //    to be reachable by it.
+    if (record.runtimeRequiresSourceBinary === true && record.bundleBinaryBytesPresentInContainer !== true) {
+      return "requires its source binary at runtime and the deployment input does not carry those bytes";
+    }
+  }
+  return null;
+}
+
 async function runChecks() {
   const failures = new Map();
   const fail = (check, message) => {
@@ -367,8 +438,28 @@ async function runChecks() {
     if (row.missingBinary && !["B", "F"].includes(row.remediationLane)) {
       fail("missing_binary_is_never_packet_ready", `${row.jurisdiction} ${row.formNumber} has no binary yet sits in lane ${row.remediationLane}`);
     }
+    /**
+     * Absent from the Git clone is not the same as source identity unknown.
+     *
+     * This read `missingBinary && anyFinalizedArtifact` as a contradiction, so a
+     * family whose official source is exactly identified, byte-verified against
+     * an authorized corpus and bound by its own receipt was called
+     * not-packet-ready for the single reason that the court's PDF is not
+     * committed to this repository. It never can be: the corpora live under a
+     * gitignored private/ tree by design and committing court PDFs is
+     * forbidden, so read that way the rule could only be satisfied by breaking
+     * another one.
+     *
+     * The property worth protecting is that nothing stands behind a finalized
+     * artifact while its SOURCE IDENTITY is unsettled, or while a runtime that
+     * needs the source cannot obtain it. Both are still enforced; only the
+     * clone-location proxy is gone.
+     */
     if (row.missingBinary && row.anyFinalizedArtifact) {
-      fail("missing_binary_is_never_packet_ready", `${row.jurisdiction} ${row.formNumber} has no binary yet claims a finalized artifact`);
+      const problem = sourceContractBreach(row);
+      if (problem) {
+        fail("missing_binary_is_never_packet_ready", `${row.jurisdiction} ${row.formNumber} claims a finalized artifact and ${problem}`);
+      }
     }
   }
 
@@ -1165,7 +1256,12 @@ if (!mutationsMode) process.exit(0);
 // Each case edits committed bytes, re-runs every check, and requires the named
 // check to be among the ones that went red. Starting green is a precondition:
 // a mutation pass on an already-red tree proves nothing.
-const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT, CLASSIFICATION, FINALIZER, SEMANTICS, QUEUE, ACQUISITION_WORKFLOW, DERIVATION, RENDER_DRIVER, RENDER_REPORT,
+// One family whose official source lives only in an authorized corpus, used by
+// the source-contract controls below.
+const CORPUS_ONLY_SOURCE = "data/rcap-all50/overlays/production/vermont/200-00129-petition-to-expunge-criminal-history/source-record.json";
+const CORPUS_ONLY_PROVENANCE = "data/rcap-all50/overlays/production/vermont/200-00129-petition-to-expunge-criminal-history/artifact-provenance.json";
+
+const MUTATION_TARGETS = [REGISTER, AUDIT, SHEET_PROOF, MASTER, F3, WORKFLOW, RETIREMENT, PLACEMENT, CLASSIFICATION, FINALIZER, SEMANTICS, QUEUE, ACQUISITION_WORKFLOW, DERIVATION, RENDER_DRIVER, RENDER_REPORT, CORPUS_ONLY_SOURCE, CORPUS_ONLY_PROVENANCE,
   "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/overlay-profile.json",
   "data/rcap-all50/overlays/production/wisconsin/cr-266-form-en/fixtures/canonical-filled.pdf"];
 
@@ -1570,6 +1666,59 @@ const CASES = [
       row.sourceBinaryPresentInClone = true;
       row.anyFinalizedArtifact = true;
       fs.writeFileSync(abs(MASTER), `${JSON.stringify(master, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a corpus-only source loses its exact digest",
+    expect: "missing_binary_is_never_packet_ready",
+    apply: () => {
+      // Absent from Git is fine. Unidentified is not.
+      const record = readJson(CORPUS_ONLY_SOURCE);
+      delete record.sha256;
+      delete record.expectedSha256;
+      fs.writeFileSync(abs(CORPUS_ONLY_SOURCE), `${JSON.stringify(record, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a corpus-only source's digest stops matching its provenance binding",
+    expect: "missing_binary_is_never_packet_ready",
+    apply: () => {
+      const record = readJson(CORPUS_ONLY_SOURCE);
+      record.sha256 = `${"0".repeat(63)}1`;
+      record.expectedSha256 = record.sha256;
+      fs.writeFileSync(abs(CORPUS_ONLY_SOURCE), `${JSON.stringify(record, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a corpus-only source loses every independent binding of its digest",
+    expect: "missing_binary_is_never_packet_ready",
+    apply: () => {
+      const provenance = readJson(CORPUS_ONLY_PROVENANCE);
+      delete provenance.sourceSha256;
+      fs.writeFileSync(abs(CORPUS_ONLY_PROVENANCE), `${JSON.stringify(provenance, null, 2)}\n`);
+    }
+  },
+  {
+    name: "a corpus-only source names no authorized corpus that holds it",
+    expect: "missing_binary_is_never_packet_ready",
+    apply: () => {
+      const record = readJson(CORPUS_ONLY_SOURCE);
+      record.sourcePresenceInBundleManifest = false;
+      delete record.installedSourcePath;
+      fs.writeFileSync(abs(CORPUS_ONLY_SOURCE), `${JSON.stringify(record, null, 2)}\n`);
+    }
+  },
+  {
+    name: "the runtime starts requiring a source binary the deployment input does not carry",
+    expect: "missing_binary_is_never_packet_ready",
+    apply: () => {
+      // The production worker composes its own document today. If that ever
+      // changes, the source has to reach the runtime, and this proves the
+      // check notices rather than passing on yesterday's architecture.
+      const record = readJson(CORPUS_ONLY_SOURCE);
+      record.runtimeRequiresSourceBinary = true;
+      record.bundleBinaryBytesPresentInContainer = false;
+      fs.writeFileSync(abs(CORPUS_ONLY_SOURCE), `${JSON.stringify(record, null, 2)}\n`);
     }
   },
   {
