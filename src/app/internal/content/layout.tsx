@@ -9,10 +9,9 @@ import type { Metadata } from "next";
  * draft and unpublished legal content would be discoverable. Every page under /internal/content
  * inherits this.
  *
- * The shell deliberately holds no data and performs no reads — authorization is enforced by each
- * page's resolveContentPageAccess() gate, before that page reads anything. A layout is the wrong
- * place for an authorization boundary (it does not re-run on every navigation the way a page does),
- * so it is not used as one here.
+ * The shell deliberately holds no content data and performs no content reads. The shared
+ * /internal layout enforces the canonical UUID-bound boundary, and each page repeats the
+ * resolveContentPageAccess() check before its own read so client navigation cannot weaken it.
  */
 export const metadata: Metadata = {
   title: "LegalEase Content",

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { updatePilotRequestStatusForInternalAdmin } from "@/lib/partners/pilot-requests";
 import { isPilotRequestStatus } from "@/lib/partners/pilot-request-status";
+import { requireInternalAdminRouteAccess } from "@/lib/partners/internal-admin-gate";
 import { SessionPartnerError } from "@/lib/partners/session-partner";
 
 export const runtime = "nodejs";
@@ -10,6 +11,7 @@ export const dynamic = "force-dynamic";
 export async function POST(request: Request) {
   const requestId = getSafeRequestId(request);
   try {
+    await requireInternalAdminRouteAccess();
     let body: unknown;
     try {
       body = await request.json();

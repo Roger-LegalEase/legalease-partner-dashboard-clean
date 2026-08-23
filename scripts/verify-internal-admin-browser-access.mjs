@@ -1,491 +1,360 @@
-// The /internal admission gate.
-//
-// These checks drive the real proxy function against a stub Supabase, so what is
-// asserted is what the gate actually decides rather than what its source says.
-// What they defend: a browser session belonging to an internal administrator
-// gets in, nothing else new does, the bearer path still works, the token
-// comparison is constant time, the two carve-outs are exactly as wide as they
-// were, and no internal page is left without an application-level check.
+/**
+ * Focused internal-administrator authorization regression suite.
+ *
+ * Drives the canonical resolver with synthetic identities, exercises page/API
+ * denial and sign-out, and inventories every internal page and handler so a
+ * proxy, email, metadata claim, content role, or partner role cannot become an
+ * alternate authorization authority.
+ */
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { register } from "node:module";
 
 register("./lib/ts-esm-loader.mjs", import.meta.url);
+register("./lib/internal-auth-test-loader.mjs", import.meta.url);
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const read = (relativePath) =>
-  fs.readFileSync(path.join(rootDir, relativePath), "utf8");
+const read = (relativePath) => fs.readFileSync(path.join(rootDir, relativePath), "utf8");
+const doubles = await import("./lib/internal-auth-test-doubles.mjs");
+const {
+  requireInternalAdminSession,
+  SessionPartnerError
+} = await import("../src/lib/partners/session-partner.ts");
+const {
+  denyUnlessContentCapability,
+  resolveContentSession
+} = await import("../src/lib/content/auth.ts");
+const { resolveInternalAdminPageAccess } = await import(
+  "../src/lib/partners/internal-admin-gate.tsx"
+);
+const { safeAppRedirectPath } = await import("../src/lib/auth/redirect.ts");
+const signOutRoute = await import("../src/app/sign-out/route.ts");
+
+const IDS = {
+  participant: "10000000-0000-4000-8000-000000000001",
+  viewer: "10000000-0000-4000-8000-000000000002",
+  staff: "10000000-0000-4000-8000-000000000003",
+  partnerAdmin: "10000000-0000-4000-8000-000000000004",
+  external: "10000000-0000-4000-8000-000000000005",
+  corporate: "10000000-0000-4000-8000-000000000006",
+  internal: "10000000-0000-4000-8000-000000000007",
+  revoked: "10000000-0000-4000-8000-000000000008",
+  expired: "10000000-0000-4000-8000-000000000009"
+};
+
+const identities = {
+  participant: identity(IDS.participant, "participant@outside.test", []),
+  viewer: identity(IDS.viewer, "viewer@partner.test", [partnerRow(IDS.viewer, "partner_viewer")]),
+  staff: identity(IDS.staff, "staff@partner.test", [partnerRow(IDS.staff, "partner_staff")]),
+  partnerAdmin: identity(IDS.partnerAdmin, "admin@partner.test", [partnerRow(IDS.partnerAdmin, "partner_admin")]),
+  external: identity(IDS.external, "operator@personal.test", [], {
+    app_metadata: { role: "internal_admin" },
+    user_metadata: { role: "internal_admin" }
+  }),
+  corporate: identity(IDS.corporate, "employee@legalease.test", []),
+  internal: identity(IDS.internal, "security-admin@legalease.test", [internalRow(IDS.internal, "active")]),
+  revoked: identity(IDS.revoked, "revoked@legalease.test", [internalRow(IDS.revoked, "disabled")]),
+  // The current schema represents completed expiration by disabling the
+  // membership; the historical cause never restores active status.
+  expired: identity(IDS.expired, "expired@legalease.test", [internalRow(IDS.expired, "disabled")])
+};
 
 let passed = 0;
-const results = [];
-
 async function check(name, fn) {
   await fn();
   passed += 1;
-  results.push(name);
   console.log(`  ok  ${name}`);
 }
 
-// --- stub Supabase -----------------------------------------------------------
-
-const INTERNAL_ADMIN = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
-const PARTNER_ADMIN = "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb";
-const AMBIGUOUS_USER = "cccccccc-cccc-4ccc-8ccc-cccccccccccc";
-const SLUG_BEARING_ADMIN = "dddddddd-dddd-4ddd-8ddd-dddddddddddd";
-
-/**
- * Answers the two calls the gate makes: who the session belongs to, and what
- * active partner_users rows that user has. Keyed by the access token the client
- * presents, which is what a real Supabase would do.
- */
-const USERS = {
-  "token-internal-admin": { id: INTERNAL_ADMIN },
-  "token-partner-admin": { id: PARTNER_ADMIN },
-  "token-ambiguous": { id: AMBIGUOUS_USER },
-  "token-slug-bearing-admin": { id: SLUG_BEARING_ADMIN }
-};
-
-const ROWS = {
-  [INTERNAL_ADMIN]: [
-    { auth_user_id: INTERNAL_ADMIN, partner_slug: null, role: "internal_admin", status: "active" }
-  ],
-  [PARTNER_ADMIN]: [
-    {
-      auth_user_id: PARTNER_ADMIN,
-      partner_slug: "demo-partner",
-      role: "partner_admin",
-      status: "active"
-    }
-  ],
-  // Two active identities: resolveSessionPartner refuses this, so the gate must
-  // refuse it too.
-  [AMBIGUOUS_USER]: [
-    { auth_user_id: AMBIGUOUS_USER, partner_slug: null, role: "internal_admin", status: "active" },
-    {
-      auth_user_id: AMBIGUOUS_USER,
-      partner_slug: "demo-partner",
-      role: "partner_admin",
-      status: "active"
-    }
-  ],
-  // An internal_admin row that carries a partner slug is invalid by the same
-  // rule the application enforces.
-  [SLUG_BEARING_ADMIN]: [
-    {
-      auth_user_id: SLUG_BEARING_ADMIN,
-      partner_slug: "demo-partner",
-      role: "internal_admin",
-      status: "active"
-    }
-  ]
-};
-
-let requestLog = [];
-
-const stub = http.createServer((request, response) => {
-  const url = new URL(request.url, "http://127.0.0.1");
-  requestLog.push(url.pathname);
-  const authorization = request.headers.authorization ?? "";
-  const accessToken = authorization.replace(/^Bearer\s+/i, "").trim();
-
-  const send = (status, body) => {
-    response.writeHead(status, { "content-type": "application/json" });
-    response.end(JSON.stringify(body));
-  };
-
-  if (url.pathname === "/auth/v1/user") {
-    const user = USERS[accessToken];
-    if (!user) return send(401, { message: "invalid token" });
-    return send(200, { id: user.id, aud: "authenticated", role: "authenticated" });
-  }
-
-  if (url.pathname === "/rest/v1/partner_users") {
-    const user = USERS[accessToken];
-    if (!user) return send(200, []);
-    return send(200, ROWS[user.id] ?? []);
-  }
-
-  return send(404, { message: "not stubbed" });
+await check("unauthenticated internal page request redirects before data", async () => {
+  setIdentity(null);
+  await assert.rejects(
+    () => resolveInternalAdminPageAccess("/internal/partners/provisioning"),
+    (error) => error?.location === "/sign-in?next=%2Finternal%2Fpartners%2Fprovisioning"
+  );
 });
 
-await new Promise((resolve) => stub.listen(0, "127.0.0.1", resolve));
-const stubUrl = `http://127.0.0.1:${stub.address().port}`;
-
-// The proxy reads its Supabase configuration from the environment, so it is
-// pointed at the stub before the module is imported.
-process.env.NEXT_PUBLIC_SUPABASE_URL = stubUrl;
-process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = "stub-anon-key";
-process.env.INTERNAL_ADMIN_ACCESS_TOKEN = "correct-horse-battery-staple";
-// Production behaviour: the development passthrough must not mask anything.
-process.env.NODE_ENV = "production";
-
-// @supabase/ssr constructs a Realtime client as a side effect of
-// createServerClient, and that constructor demands a WebSocket implementation.
-// Node 22 and later provide one globally; CI runs Node 20, which does not. The
-// gate never opens a socket, so a constructor that would throw if anything
-// actually tried is enough, and it keeps this verifier honest on both versions.
-// This is not a proxy concern: refreshSupabaseSession already called
-// createServerClient before this change, so nothing new depends on it.
-if (typeof globalThis.WebSocket === "undefined") {
-  globalThis.WebSocket = class UnusedWebSocket {
-    constructor() {
-      throw new Error("the /internal gate must never open a realtime socket");
-    }
-  };
-}
-
-const { NextRequest } = await import("next/server");
-const { proxy } = await import("../src/proxy.ts");
-
-const INTERNAL_PATH = "/internal/partners/provisioning";
-const RECOVERY_HEADING = "You do not have access to this workspace";
-
-/** Builds a request the way a browser or a script would send one. */
-function buildRequest({
-  pathname = INTERNAL_PATH,
-  method = "GET",
-  bearer = null,
-  sessionToken = null
-} = {}) {
-  const headers = new Headers();
-  if (bearer) headers.set("Authorization", `Bearer ${bearer}`);
-  if (sessionToken) {
-    // What @supabase/ssr reads: the project-scoped auth cookie carrying the
-    // session. The stub keys off the access token inside it.
-    const session = {
-      access_token: sessionToken,
-      refresh_token: "stub-refresh",
-      expires_at: Math.floor(Date.now() / 1000) + 3600,
-      expires_in: 3600,
-      token_type: "bearer",
-      user: { id: USERS[sessionToken]?.id ?? "unknown" }
-    };
-    headers.set(
-      "cookie",
-      `sb-127-auth-token=base64-${Buffer.from(JSON.stringify(session)).toString("base64")}`
-    );
-  }
-  return new NextRequest(new URL(`http://127.0.0.1:3000${pathname}`), {
-    method,
-    headers
+for (const [name, label] of [
+  ["participant", "participant"],
+  ["viewer", "partner viewer"],
+  ["staff", "partner staff"],
+  ["partnerAdmin", "partner administrator"],
+  ["external", "external personal-email account"],
+  ["corporate", "corporate-domain account without a role"],
+  ["revoked", "revoked internal administrator"],
+  ["expired", "expired internal administrator"]
+]) {
+  await check(`${label} is denied`, async () => {
+    setIdentity(identities[name]);
+    await assertForbidden(() => requireInternalAdminSession());
   });
 }
 
-/** True when the gate refused the request. */
-function refused(response) {
-  return response.status === 401;
-}
+await check("active internal administrator is allowed with server-derived identity", async () => {
+  setIdentity(identities.internal);
+  const session = await requireInternalAdminSession();
+  assert.deepEqual(session, {
+    kind: "internal_admin",
+    authUserId: IDS.internal,
+    email: "security-admin@legalease.test",
+    role: "internal_admin"
+  });
+});
 
-/** True when the gate let the request continue to the application. */
-function admitted(response) {
-  // NextResponse.next() carries the rewrite marker rather than a body.
-  return response.status === 200 && !response.headers.get("content-type")?.includes("text/plain");
-}
+await check("personal email and metadata claims cannot bypass UUID membership", async () => {
+  setIdentity(identities.external);
+  await assertForbidden(() => requireInternalAdminSession());
+});
 
-async function assertDesignedRefusal(response) {
-  assert.ok(refused(response), `expected 401, got ${response.status}`);
-  assert.match(response.headers.get("content-type") ?? "", /^text\/html; charset=utf-8$/);
-  assert.equal(response.headers.get("cache-control"), "no-store");
-  assert.equal(response.headers.get("x-robots-tag"), "noindex, nofollow");
+await check("corporate email alone never grants authorization", async () => {
+  setIdentity(identities.corporate);
+  await assertForbidden(() => requireInternalAdminSession());
+});
 
-  const body = await response.text();
+await check("partner_admin never implies internal_admin", async () => {
+  setIdentity(identities.partnerAdmin);
+  await assertForbidden(() => requireInternalAdminSession());
+});
+
+await check("denied page decision names the authenticated account without data", async () => {
+  setIdentity(identities.external);
+  const access = await resolveInternalAdminPageAccess("/internal/partners/provisioning");
+  assert.equal(access.kind, "denied");
+  assert.equal(access.email, "operator@personal.test");
+  assert.ok(!JSON.stringify(access).includes("partnerSlug"));
+});
+
+await check("direct internal API request is 403 for authenticated external account", async () => {
+  setIdentity(identities.external);
+  const result = await denyUnlessContentCapability(
+    "content.read",
+    "/api/internal/content/posts",
+    "focused-security-test"
+  );
+  assert.equal(result.denied?.status, 403);
+  const payload = await result.denied.json();
+  assert.deepEqual(payload, { success: false, error: "Content access required." });
+  assert.ok(!JSON.stringify(payload).includes("partner"));
+});
+
+await check("direct internal API request is 401 when signed out", async () => {
+  setIdentity(null);
+  const result = await denyUnlessContentCapability(
+    "content.read",
+    "/api/internal/content/posts",
+    "focused-security-test"
+  );
+  assert.equal(result.denied?.status, 401);
+});
+
+await check("active internal administrator gets effective content capability", async () => {
+  setIdentity(identities.internal);
+  const session = await resolveContentSession();
+  assert.deepEqual(session, { userId: IDS.internal, role: "primary_admin", partnerSlug: null });
+});
+
+await check("sign-out is local, clears the session, and disables protected actions", async () => {
+  setIdentity(identities.internal);
+  const response = await signOutRoute.POST(new Request("https://internal.test/sign-out", { method: "POST" }));
+  assert.equal(response.status, 303);
+  assert.equal(response.headers.get("location"), "https://internal.test/sign-in?signedOut=1");
+  assert.match(response.headers.get("cache-control") ?? "", /no-store/);
+  assert.equal(response.headers.get("clear-site-data"), '"cache"');
+  assert.equal(doubles.getInternalAuthTestState().lastSignOutScope, "local");
+  await assertUnauthenticated(() => requireInternalAdminSession());
+  const after = await denyUnlessContentCapability(
+    "content.publish",
+    "/api/internal/content/posts/example/transition",
+    "after-sign-out"
+  );
+  assert.equal(after.denied?.status, 401);
+});
+
+await check("browser Back receives no reusable internal response contract", () => {
+  const proxy = read("src/proxy.ts");
+  const layout = read("src/app/internal/layout.tsx");
+  assert.ok(proxy.includes('"Cache-Control", "private, no-store, max-age=0, must-revalidate"'));
+  assert.ok(layout.includes('export const dynamic = "force-dynamic"'));
+  assert.ok(layout.includes("noStore()"));
+});
+
+await check("identity, role, and accessible sign-out persist in the internal shell", () => {
+  const layout = read("src/app/internal/layout.tsx");
   for (const marker of [
-    RECOVERY_HEADING,
-    "The signed-in account is not authorized for the requested workspace.",
-    "No information was changed.",
-    "does not confirm whether another organization or workspace exists.",
-    "Return to your dashboard",
+    "Signed in as:",
+    "access.session.email",
+    "Role:",
+    "access.session.role",
+    'action="/sign-out"',
+    'aria-label="Sign out of LegalEase Internal"',
+    "focus-visible:ring-2"
+  ]) assert.ok(layout.includes(marker), `internal shell missing ${marker}`);
+  assert.ok(!layout.includes("authUserId"), "the shell must not expose the Auth UUID");
+});
+
+await check("access denied shows identity, sign-out, and switch-account controls", () => {
+  const gate = read("src/lib/partners/internal-admin-gate.tsx");
+  for (const marker of [
+    "Signed in as:",
+    'action="/sign-out"',
+    "Sign out",
     "Sign in with another account",
-    "partners@legalease.com",
-    'data-access-recovery="generic"'
+    "does not have an active LegalEase internal administrator authorization"
+  ]) assert.ok(gate.includes(marker), `denial experience missing ${marker}`);
+});
+
+await check("legacy environment and email allowlists cannot bypass membership", () => {
+  const proxy = read("src/proxy.ts");
+  const envExample = read(".env.example");
+  assert.ok(!proxy.includes("INTERNAL_ADMIN_ACCESS_TOKEN"));
+  assert.ok(!proxy.includes("bearerTokenMatches"));
+  assert.ok(!envExample.includes("INTERNAL_ADMIN_ACCESS_TOKEN"));
+  assert.ok(!/roman\.roger@gmail\.com|roger@legalease\.com/i.test([
+    proxy,
+    read("src/lib/partners/session-partner.ts"),
+    read("src/lib/partners/internal-admin-gate.tsx")
+  ].join("\n")));
+});
+
+await check("every internal page has a direct canonical server guard", () => {
+  const pages = walk("src/app/internal", (file) => file.endsWith("/page.tsx"));
+  assert.ok(pages.length >= 38, `expected internal pages, found ${pages.length}`);
+  const gates = [
+    "resolveInternalAdminPageAccess(",
+    "resolveContentPageAccess(",
+    "listPilotRequestsForInternalAdmin("
+  ];
+  const ungated = pages.filter((file) => !gates.some((gate) => read(file).includes(gate)));
+  assert.deepEqual(ungated, []);
+});
+
+await check("every internal API and route handler has a canonical server guard", () => {
+  const routes = [
+    ...walk("src/app/api/internal", (file) => file.endsWith("/route.ts")),
+    ...walk("src/app/internal", (file) => file.endsWith("/route.ts"))
+  ];
+  assert.ok(routes.length >= 27, `expected internal handlers, found ${routes.length}`);
+  const gates = [
+    "requireInternalAdminSession(",
+    "requireInternalAdminRouteAccess(",
+    "requireInternalOnboardingContext(",
+    "denyUnlessInternalAdmin(",
+    "denyUnlessContentCapability("
+  ];
+  const ungated = routes.filter((file) => !gates.some((gate) => read(file).includes(gate)));
+  assert.deepEqual(ungated, []);
+});
+
+await check("provisioning pages reject before partner data is loaded", () => {
+  for (const file of [
+    "src/app/internal/partners/provisioning/page.tsx",
+    "src/app/internal/partners/provisioning/new/page.tsx",
+    "src/app/internal/partners/provisioning/[partnerSlug]/page.tsx"
   ]) {
-    assert.ok(body.includes(marker), `designed recovery response is missing: ${marker}`);
+    const source = read(file);
+    const gate = source.indexOf("await resolveInternalAdminPageAccess(");
+    const sensitive = firstIndex(source, ["getAllPartners(", "getPartnerRecordBySlug(", "getFirstAdminAccessView("]);
+    assert.ok(gate >= 0 && sensitive > gate, `${file} must authorize before partner data`);
   }
-  assert.ok(!/\btoken\b/i.test(body), "recovery response must not expose credential terminology");
-  assert.ok(!/\btenant\b/i.test(body), "recovery response must not expose tenant terminology");
-  assert.ok(!body.includes("Internal admin access"), "legacy raw denial copy must be absent");
-  assert.ok(!body.includes("Error:") && !body.includes("at proxy"), "recovery response must not expose a stack trace");
-  return body;
+});
+
+await check("provisioning API rejects before parsing or mutating", () => {
+  const source = read("src/app/api/internal/partners/provisioning/route.ts");
+  const gate = source.indexOf("await requireInternalAdminSession(");
+  assert.ok(gate >= 0);
+  assert.ok(source.indexOf("await request.json()") > gate);
+  assert.ok(source.indexOf("await provisionPartner(") > gate);
+});
+
+await check("invitation, publication, activation, and commercial gate are guarded", () => {
+  const cases = [
+    ["src/app/api/internal/partners/first-admin/[partnerSlug]/route.ts", "await internalAdminGate(", "createFirstAdminInvitation("],
+    ["src/app/api/internal/content/posts/[id]/transition/route.ts", "await denyUnlessContentCapability(", ".update(patch)"],
+    ["src/app/api/internal/partners/onboarding/[partnerSlug]/route.ts", "await denyUnlessInternalAdmin(", "markLive("],
+    ["src/app/api/internal/partners/onboarding/phase1/[partnerSlug]/route.ts", "await requireInternalOnboardingContext(", "applyInternalOnboardingReview("]
+  ];
+  for (const [file, guardMarker, mutationMarker] of cases) {
+    const source = read(file);
+    const gate = source.indexOf(guardMarker);
+    const mutation = source.indexOf(mutationMarker);
+    assert.ok(gate >= 0 && mutation > gate, `${file} must guard ${mutationMarker}`);
+  }
+});
+
+await check("there are no internal server actions outside guarded handlers", () => {
+  const files = [...walk("src/app/internal"), ...walk("src/lib/partners"), ...walk("src/lib/content")];
+  const actions = files.filter((file) => /["']use server["']/.test(read(file)));
+  assert.deepEqual(actions, []);
+});
+
+await check("returnTo accepts safe local paths only", () => {
+  assert.equal(safeAppRedirectPath("/internal/partners/provisioning", "/sign-in"), "/internal/partners/provisioning");
+  for (const unsafe of ["https://attacker.test", "//attacker.test", "javascript:alert(1)", "data:text/html,x"]) {
+    assert.equal(safeAppRedirectPath(unsafe, "/sign-in"), "/sign-in");
+  }
+});
+
+await check("service role and internal secrets remain server-only", () => {
+  const clientFiles = [
+    ...walk("src/app/internal", (file) => /\.(tsx?|jsx?)$/.test(file)),
+    ...walk("src/components", (file) => /\.(tsx?|jsx?)$/.test(file))
+  ].filter((file) => read(file).includes('"use client"') || read(file).includes("'use client'"));
+  for (const file of clientFiles) {
+    const source = read(file);
+    assert.ok(!source.includes("SUPABASE_SERVICE_ROLE_KEY"), `${file} exposes service-role configuration`);
+    assert.ok(!source.includes("INTERNAL_ADMIN_ACCESS_TOKEN"), `${file} exposes a legacy internal secret`);
+  }
+});
+
+console.log(`\nInternal admin authorization hardening: ${passed}/${passed} focused checks passed.`);
+
+function identity(id, email, rows, metadata = {}) {
+  return { user: { id, email, ...metadata }, rows };
 }
 
-try {
-  // --- refusals --------------------------------------------------------------
-
-  await check("no session and no token is refused", async () => {
-    const response = await proxy(buildRequest());
-    await assertDesignedRefusal(response);
-  });
-
-  await check("a wrong bearer token is refused", async () => {
-    const response = await proxy(buildRequest({ bearer: "not-the-token" }));
-    assert.ok(refused(response), `expected 401, got ${response.status}`);
-  });
-
-  await check("a bearer token of the right length but wrong value is refused", async () => {
-    const wrong = "x".repeat("correct-horse-battery-staple".length);
-    const response = await proxy(buildRequest({ bearer: wrong }));
-    assert.ok(refused(response), `expected 401, got ${response.status}`);
-  });
-
-  await check("a partner administrator session is refused", async () => {
-    const response = await proxy(buildRequest({ sessionToken: "token-partner-admin" }));
-    assert.ok(refused(response), `a partner session must not open /internal`);
-  });
-
-  await check("an ambiguous identity is refused", async () => {
-    const response = await proxy(buildRequest({ sessionToken: "token-ambiguous" }));
-    assert.ok(
-      refused(response),
-      "two active identities must be refused, as the application refuses them"
-    );
-  });
-
-  await check("an internal_admin row carrying a partner slug is refused", async () => {
-    const response = await proxy(buildRequest({ sessionToken: "token-slug-bearing-admin" }));
-    assert.ok(refused(response), "an internal admin must not be partner-scoped");
-  });
-
-  await check("an unrecognised session cookie is refused", async () => {
-    const response = await proxy(buildRequest({ sessionToken: "token-does-not-exist" }));
-    assert.ok(refused(response), `expected 401, got ${response.status}`);
-  });
-
-  await check("known-looking and guessed workspace paths receive the same recovery response", async () => {
-    const knownLooking = await proxy(
-      buildRequest({ pathname: "/internal/partners/provisioning/rythm-labs-test" })
-    );
-    const guessed = await proxy(
-      buildRequest({ pathname: "/internal/partners/provisioning/does-not-exist" })
-    );
-    const [knownBody, guessedBody] = await Promise.all([
-      assertDesignedRefusal(knownLooking),
-      assertDesignedRefusal(guessed)
-    ]);
-    assert.equal(knownBody, guessedBody, "a guessed path must not reveal whether a workspace exists");
-    assert.ok(!knownBody.includes("rythm-labs-test") && !guessedBody.includes("does-not-exist"));
-  });
-
-  // --- admissions ------------------------------------------------------------
-
-  await check("the correct bearer token passes, with no session", async () => {
-    requestLog = [];
-    const response = await proxy(
-      buildRequest({ bearer: "correct-horse-battery-staple" })
-    );
-    assert.ok(admitted(response), `expected admission, got ${response.status}`);
-    // The bearer path must cost no Supabase round trip.
-    assert.deepEqual(requestLog, [], "the token path must not call Supabase");
-  });
-
-  await check("an internal administrator session passes", async () => {
-    const response = await proxy(buildRequest({ sessionToken: "token-internal-admin" }));
-    assert.ok(
-      admitted(response),
-      `an internal admin session must open /internal, got ${response.status}`
-    );
-  });
-
-  await check("the session path proves identity against partner_users", async () => {
-    requestLog = [];
-    await proxy(buildRequest({ sessionToken: "token-internal-admin" }));
-    assert.ok(
-      requestLog.includes("/auth/v1/user"),
-      "the gate must establish who the session belongs to"
-    );
-    assert.ok(
-      requestLog.includes("/rest/v1/partner_users"),
-      "the gate must check the identity, not merely that a session exists"
-    );
-  });
-
-  // --- carve-outs, exactly as wide as before ---------------------------------
-
-  await check("the invite carve-out still allows only POST to that one path", async () => {
-    const post = await proxy(
-      buildRequest({ pathname: "/internal/partner-users/invite", method: "POST" })
-    );
-    assert.ok(admitted(post), "POST to the invite path must pass, as it did before");
-
-    // Same path, different method: back behind the gate.
-    const get = await proxy(
-      buildRequest({ pathname: "/internal/partner-users/invite", method: "GET" })
-    );
-    assert.ok(refused(get), "GET on the invite path must not be carved out");
-
-    // A neighbouring path must not inherit the carve-out.
-    const sibling = await proxy(
-      buildRequest({ pathname: "/internal/partner-users/invite/extra", method: "POST" })
-    );
-    assert.ok(refused(sibling), "the carve-out must not extend to subpaths");
-    const other = await proxy(
-      buildRequest({ pathname: "/internal/partner-users/new", method: "POST" })
-    );
-    assert.ok(refused(other), "the carve-out must not extend to sibling paths");
-  });
-
-  await check("the content carve-out still covers exactly /internal/content", async () => {
-    for (const pathname of ["/internal/content", "/internal/content/articles"]) {
-      const response = await proxy(buildRequest({ pathname }));
-      assert.ok(
-        admitted(response),
-        `${pathname} passed the gate before this change and must still pass`
-      );
-    }
-    // A path that merely starts with the same letters must not be carved out.
-    const lookalike = await proxy(buildRequest({ pathname: "/internal/contentx" }));
-    assert.ok(refused(lookalike), "the content carve-out must not match a prefix");
-  });
-
-  await check("a non-internal path is untouched", async () => {
-    const response = await proxy(buildRequest({ pathname: "/partner/dashboard" }));
-    assert.ok(!refused(response), "the gate must only guard /internal");
-  });
-
-  // --- constant-time comparison, asserted against the implementation ---------
-
-  /**
-   * Asserted structurally rather than by timing measurement: a wall-clock test
-   * on a shared runner is noise, and what actually matters is that the code
-   * cannot short-circuit. Both sides are hashed to a fixed length and every byte
-   * is folded into one accumulator.
-   */
-  await check("the token comparison cannot short-circuit", () => {
-    const source = read("src/proxy.ts");
-    const fn = source.match(/async function bearerTokenMatches[\s\S]*?\n}\n/)?.[0];
-    assert.ok(fn, "the bearer check must be one named function");
-
-    assert.ok(
-      !/token\s*!==\s*configuredToken/.test(source),
-      "the raw non-constant-time comparison must be gone"
-    );
-    assert.ok(
-      !/presented\s*===\s*configuredToken|presented\s*!==\s*configuredToken/.test(fn),
-      "the presented token must never be compared directly"
-    );
-    assert.ok(fn.includes("sha256Bytes("), "both sides must be hashed first");
-    assert.ok(
-      /difference \|= presentedDigest\[index\] \^ configuredDigest\[index\]/.test(fn),
-      "every byte must be folded into one accumulator"
-    );
-    assert.ok(
-      !/return\s+false;[\s\S]*for \(let index/.test(
-        fn.slice(fn.indexOf("for (let index"))
-      ),
-      "the comparison loop must not return early"
-    );
-    assert.ok(
-      /return difference === 0;/.test(fn),
-      "the result must come from the accumulator alone"
-    );
-    // A length test on the raw values would itself leak the secret's length.
-    assert.ok(
-      !/presented\.length\s*[=!]==\s*configuredToken\.length/.test(fn),
-      "no raw length comparison may gate the check"
-    );
-  });
-
-  await check("the digest helper hashes with SHA-256 over the whole value", () => {
-    const source = read("src/proxy.ts");
-    const fn = source.match(/async function sha256Bytes[\s\S]*?\n}\n/)?.[0];
-    assert.ok(fn);
-    assert.ok(fn.includes('crypto.subtle.digest("SHA-256"'));
-    assert.ok(fn.includes("new TextEncoder().encode(value)"));
-  });
-
-  // --- the application checks are still there --------------------------------
-
-  /**
-   * The regression this fix could have introduced: the proxy learning to accept
-   * a session while some page underneath has no check of its own. Nothing
-   * asserted this before, which is how two such pages survived.
-   */
-  await check("every internal page has an application-level gate", () => {
-    const GATES = [
-      "resolveInternalAdminPageAccess",
-      "requireInternalAdminSession",
-      "requireInternalAdminRouteAccess",
-      "requireInternalOnboardingContext",
-      "resolveContentPageAccess",
-      "requireContentCapability",
-      "denyUnlessContentCapability",
-      "resolveContentSession",
-      "listPilotRequestsForInternalAdmin"
-    ];
-    const pages = listPages(path.join(rootDir, "src/app/internal"));
-    assert.ok(pages.length >= 38, `expected the internal surface, found ${pages.length}`);
-
-    const ungated = pages.filter((file) => {
-      const source = fs.readFileSync(file, "utf8");
-      return !GATES.some((gate) => source.includes(gate));
-    });
-    assert.deepEqual(
-      ungated.map((file) => path.relative(rootDir, file)),
-      [],
-      "an internal page with no application-level check is reachable by anyone the proxy admits"
-    );
-  });
-
-  await check("the two newly gated pages use the shared gate", () => {
-    for (const file of [
-      "src/app/internal/partners/data/page.tsx",
-      "src/app/internal/partners/supabase-check/page.tsx"
-    ]) {
-      const source = read(file);
-      assert.ok(
-        source.includes("resolveInternalAdminPageAccess("),
-        `${file} must resolve internal admin access`
-      );
-      assert.ok(
-        source.includes("<InternalAdminDenied"),
-        `${file} must render the denied state rather than its own`
-      );
-      assert.ok(
-        !source.includes("Auth will be added before production"),
-        `${file} must not still promise authorization it now has`
-      );
-    }
-  });
-
-  await check("the proxy did not become the only check anywhere", () => {
-    const gate = read("src/lib/partners/internal-admin-gate.tsx");
-    // The application gate is untouched: still session-derived, still redirecting
-    // an unauthenticated viewer and denying an unauthorized one.
-    assert.ok(gate.includes("await requireInternalAdminSession()"));
-    assert.ok(gate.includes('redirect(`/sign-in?next=${encodeURIComponent(nextPath)}`)'));
-    assert.ok(gate.includes('kind: "denied"'));
-
-    const session = read("src/lib/partners/session-partner.ts");
-    assert.ok(session.includes('.eq("status", "active")'));
-    assert.ok(session.includes("rows.length > 1"), "ambiguity must still be refused");
-    assert.ok(
-      session.includes('row.partner_slug !== null'),
-      "a partner-scoped internal admin must still be refused"
-    );
-  });
-} finally {
-  stub.close();
+function partnerRow(authUserId, role) {
+  return { auth_user_id: authUserId, partner_slug: "synthetic-partner", role, status: "active" };
 }
 
-function listPages(directory) {
+function internalRow(authUserId, status) {
+  return { auth_user_id: authUserId, partner_slug: null, role: "internal_admin", status };
+}
+
+function setIdentity(value) {
+  doubles.setInternalAuthTestState(value ? { user: value.user, rows: value.rows } : {});
+}
+
+async function assertForbidden(fn) {
+  await assert.rejects(fn, (error) => {
+    assert.ok(error instanceof SessionPartnerError);
+    assert.notEqual(error.code, "unauthenticated");
+    return true;
+  });
+}
+
+async function assertUnauthenticated(fn) {
+  await assert.rejects(fn, (error) => {
+    assert.ok(error instanceof SessionPartnerError);
+    assert.equal(error.code, "unauthenticated");
+    return true;
+  });
+}
+
+function walk(relativeDirectory, predicate = () => true) {
+  const absolute = path.join(rootDir, relativeDirectory);
+  if (!fs.existsSync(absolute)) return [];
   const found = [];
-  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-    const full = path.join(directory, entry.name);
-    if (entry.isDirectory()) {
-      found.push(...listPages(full));
-    } else if (entry.name === "page.tsx") {
-      found.push(full);
-    }
+  for (const entry of fs.readdirSync(absolute, { withFileTypes: true })) {
+    const relative = path.join(relativeDirectory, entry.name).replaceAll("\\", "/");
+    if (entry.isDirectory()) found.push(...walk(relative, predicate));
+    else if (predicate(`/${relative}`)) found.push(relative);
   }
   return found;
 }
 
-await check("the gate opens no realtime socket", () => {
-  const source = read("src/proxy.ts");
-  assert.ok(!source.includes(".channel("), "the proxy must not subscribe to anything");
-  assert.ok(!source.includes("realtime"), "the proxy must not configure realtime");
-});
-
-console.log(`\nInternal admin browser access: ${passed}/${passed} checks passed.`);
+function firstIndex(source, markers) {
+  const indexes = markers.map((marker) => source.indexOf(marker)).filter((index) => index >= 0);
+  return indexes.length ? Math.min(...indexes) : Number.POSITIVE_INFINITY;
+}

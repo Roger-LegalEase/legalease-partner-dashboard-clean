@@ -134,7 +134,25 @@ export async function POST(request: Request) {
   }
 }
 
-export function GET() {
+export async function GET(request: Request) {
+  const requestId = getSafeRequestId(request);
+  try {
+    await requireInternalAdminSession();
+  } catch (error) {
+    const unauthenticated =
+      error instanceof SessionPartnerError && error.code === "unauthenticated";
+    logSecurityWarn({
+      event: "partner provisioning denied",
+      route: routeName,
+      outcome: unauthenticated ? "unauthenticated" : "forbidden",
+      requestId,
+      error
+    });
+    return NextResponse.json(
+      { ok: false, message: unauthenticated ? "Authentication required." : "This operation is not available for your account." },
+      { status: unauthenticated ? 401 : 403 }
+    );
+  }
   return NextResponse.json(
     { ok: false, message: "Method not allowed." },
     { status: 405 }

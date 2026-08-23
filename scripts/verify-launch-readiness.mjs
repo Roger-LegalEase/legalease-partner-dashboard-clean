@@ -28,7 +28,6 @@ const requiredEnvKeys = [
   "PARTNER_EMAIL_FROM",
   "PARTNER_EMAIL_REPLY_TO",
   "INTERNAL_LEGALEASE_NOTIFICATIONS_EMAIL",
-  "INTERNAL_ADMIN_ACCESS_TOKEN",
   "PARTNER_PREVIEW_ACCESS_TOKEN"
 ];
 const approvedProductModules = [
@@ -47,6 +46,8 @@ const failures = [];
 const appUrlSource = readSource("src/lib/app-url.ts");
 const envExampleSource = readSource(".env.example");
 const proxySource = readSource("src/proxy.ts");
+const internalLayoutSource = readSource("src/app/internal/layout.tsx");
+const internalGateSource = readSource("src/lib/partners/internal-admin-gate.tsx");
 const landingDataSource = readSource("src/lib/partners/landing-page.ts");
 const routesSource = readSource("src/lib/partners/routes.ts");
 const deploymentDocSource = readSource("docs/PHASE_17_PRODUCTION_DEPLOYMENT.md");
@@ -95,20 +96,15 @@ if (!fs.existsSync(path.join(rootDir, "docs/RCAP_INDEPENDENCE.md")) || !independ
   failures.push("RCAP independence documentation is missing or incomplete.");
 }
 
-// The "/internal/:path*" matcher entry this used to require no longer exists. Host-based
-// product routing needed one catch-all matcher, so /internal protection moved into the
-// middleware body: it matches pathname.startsWith("/internal") and denies by default.
-// Requiring the old literal asserted an implementation detail, not the property that
-// matters, so it failed while the route was in fact protected. These checks assert the
-// gate itself, including the deny path the old check never looked at. The behavioral
-// coverage lives in scripts/verify-internal-admin-browser-access.mjs, which drives the
-// gate and runs in npm test.
+// The proxy is a cookie refresh/cache-control boundary, never an authorization
+// authority. The server layout and each page/handler resolve the canonical
+// UUID-bound internal_admin membership.
 if (
-  !proxySource.includes("INTERNAL_ADMIN_ACCESS_TOKEN") ||
-  !proxySource.includes("Authorization") ||
   !proxySource.includes('startsWith("/internal")') ||
-  !proxySource.includes("hasInternalAdminSession") ||
-  !proxySource.includes("return unauthorized()")
+  !proxySource.includes("intentionally not an authorization") ||
+  proxySource.includes("INTERNAL_ADMIN_ACCESS_TOKEN") ||
+  !internalLayoutSource.includes("resolveInternalAdminPageAccess(") ||
+  !internalGateSource.includes("requireInternalAdminSession()")
 ) {
   failures.push("Internal route protection is not configured.");
 }
@@ -117,10 +113,6 @@ if (
 // Without it the gate above is unreachable and every internal route is open.
 if (!proxySource.includes("export const config") || !proxySource.includes("matcher")) {
   failures.push("Internal route protection is not wired into the proxy matcher.");
-}
-
-if (!proxySource.includes("NODE_ENV") || !proxySource.includes("production")) {
-  failures.push("Internal route protection does not fail closed in production.");
 }
 
 if (!fs.existsSync(path.join(rootDir, "src/app/intake/[partnerSlug]/page.tsx"))) {

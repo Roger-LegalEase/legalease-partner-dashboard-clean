@@ -39,7 +39,12 @@ const allowedMetadataKeys = new Set([
   "mode",
   "action",
   "error_code",
-  "retry_after_seconds"
+  "retry_after_seconds",
+  "auth_user_id",
+  "role",
+  "decision",
+  "partner_id",
+  "tenant_id"
 ]);
 
 export function logSecurityInfo(fields: SecurityLogFields) {

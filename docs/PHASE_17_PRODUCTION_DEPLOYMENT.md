@@ -61,7 +61,6 @@ INTERNAL_LEGALEASE_NOTIFICATIONS_EMAIL=
 Production protection:
 
 ```bash
-INTERNAL_ADMIN_ACCESS_TOKEN=
 PARTNER_PREVIEW_ACCESS_TOKEN=
 ```
 
@@ -106,17 +105,14 @@ Stripe setup:
 - Preview templates from internal admin pages.
 - Use dry-run records before turning on live delivery.
 
-## Internal Admin Token Setup
+## Internal Admin Authorization
 
-Internal routes are protected in production by `INTERNAL_ADMIN_ACCESS_TOKEN`.
-
-Use:
-
-```text
-Authorization: Bearer <token>
-```
-
-If the token is missing in production, internal routes fail closed.
+Internal pages and APIs require a server-verified Supabase session whose Auth
+user UUID has exactly one active `public.partner_users` row with role
+`internal_admin` and a null partner scope. Email strings, corporate domain,
+partner roles, metadata claims, and environment bearer tokens do not grant
+internal access. Follow `docs/security/rcap-internal-admin-production-remediation.md`
+for guarded account transitions and session revocation.
 
 ## DNS Checklist
 

@@ -22,42 +22,16 @@ export async function proxy(request: NextRequest) {
     return refreshSupabaseSession(request);
   }
 
-  if (isContentCmsPath(request.nextUrl.pathname)) {
-    return refreshSupabaseSession(request);
-  }
-
   if (!request.nextUrl.pathname.startsWith("/internal")) {
     return NextResponse.next();
   }
 
-  if (request.nextUrl.pathname === "/internal/partner-users/invite" && request.method === "POST") {
-    return refreshSupabaseSession(request);
-  }
-
-  const configuredToken = process.env.INTERNAL_ADMIN_ACCESS_TOKEN;
-
-  // Unchanged: outside production with no token configured, the gate is inert.
-  // Local development and the acceptance harnesses depend on this, and the
-  // application's own internal-admin checks still run on every page underneath.
-  if (process.env.NODE_ENV !== "production" && !configuredToken) {
-    return NextResponse.next();
-  }
-
-  // The bearer path first, because it costs no network round trip. Scripts and
-  // tooling that already send the token keep working exactly as before.
-  if (configuredToken && (await bearerTokenMatches(request, configuredToken))) {
-    return NextResponse.next();
-  }
-
-  // The session path. A browser cannot attach an Authorization header to a page
-  // navigation, so without this an internal administrator has no way in at all.
-  // This is the outer door only: every page underneath still runs its own
-  // internal-admin check, and that check remains authoritative.
-  if (await hasInternalAdminSession(request)) {
-    return refreshSupabaseSession(request);
-  }
-
-  return unauthorized();
+  // The proxy refreshes cookies only. It is intentionally not an authorization
+  // authority: every page and handler below /internal resolves the UUID-bound
+  // internal_admin membership on the server. Keeping unauthorized sessions in
+  // the application allows the server-rendered denial screen to name the signed-
+  // in account and offer a reliable sign-out/switch-account path.
+  return refreshSupabaseSession(request);
 }
 
 export const config = {
@@ -255,171 +229,6 @@ function isPassthroughPath(pathname: string) {
     pathname.startsWith("/briefcase/");
 }
 
-/**
- * Constant-time bearer check.
- *
- * Both sides are hashed first so the comparison always operates on two 32-byte
- * digests: a raw comparison would have to test length first, and that test
- * leaks the length of the configured secret. This is the same construction the
- * Node route handlers use with crypto.timingSafeEqual — see
- * src/app/api/content/scheduler/run/route.ts — expressed with Web Crypto,
- * because a proxy runs in the edge runtime where node:crypto is unavailable.
- * The final compare accumulates XOR over every byte and never short-circuits.
- */
-async function bearerTokenMatches(request: NextRequest, configuredToken: string) {
-  const header =
-    request.headers.get("Authorization") ?? request.headers.get("authorization") ?? "";
-  const match = /^bearer\s+(.+)$/i.exec(header.trim());
-  const presented = match?.[1]?.trim();
-  if (!presented) {
-    return false;
-  }
-
-  const [presentedDigest, configuredDigest] = await Promise.all([
-    sha256Bytes(presented),
-    sha256Bytes(configuredToken)
-  ]);
-
-  let difference = 0;
-  for (let index = 0; index < presentedDigest.length; index += 1) {
-    difference |= presentedDigest[index] ^ configuredDigest[index];
-  }
-
-  return difference === 0;
-}
-
-async function sha256Bytes(value: string) {
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
-  return new Uint8Array(digest);
-}
-
-/**
- * Whether the request carries a session belonging to an internal administrator.
- *
- * This deliberately mirrors the rules resolveSessionPartner() enforces — exactly
- * one active partner_users row, role internal_admin, and no partner slug on it —
- * rather than inventing a looser edge-only notion of the same thing. It cannot
- * call that module: it is server-only and reads cookies through next/headers,
- * neither of which a proxy has. It is a coarse admission check; the page it
- * admits still resolves the identity itself and can still deny.
- */
-async function hasInternalAdminSession(request: NextRequest) {
-  let config: { url: string; anonKey: string };
-  try {
-    config = getSupabasePublicConfig();
-  } catch {
-    // No Supabase configuration means no session can be proven either way.
-    return false;
-  }
-
-  const supabase = createServerClient(config.url, config.anonKey, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
-      },
-      // Read-only probe. Cookie refresh is left to refreshSupabaseSession(),
-      // which runs only once the request has actually been admitted.
-      setAll() {}
-    }
-  });
-
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-  if (userError || !userData.user) {
-    return false;
-  }
-
-  const { data, error } = await supabase
-    .from("partner_users")
-    .select("auth_user_id, partner_slug, role, status")
-    .eq("auth_user_id", userData.user.id)
-    .eq("status", "active")
-    .limit(2);
-
-  if (error) {
-    return false;
-  }
-
-  const rows = (data ?? []) as Array<{
-    auth_user_id: string;
-    partner_slug: string | null;
-    role: string;
-    status: string;
-  }>;
-
-  // More than one active identity is ambiguous and is refused, exactly as
-  // resolveSessionPartner() refuses it.
-  if (rows.length !== 1) {
-    return false;
-  }
-
-  const row = rows[0];
-  return (
-    row.auth_user_id === userData.user.id &&
-    row.status === "active" &&
-    row.role === "internal_admin" &&
-    row.partner_slug === null
-  );
-}
-
-function unauthorized() {
-  return new NextResponse(ACCESS_RECOVERY_HTML, {
-    status: 401,
-    headers: {
-      "Cache-Control": "no-store",
-      "Content-Language": "en",
-      "Content-Type": "text/html; charset=utf-8",
-      "Referrer-Policy": "no-referrer",
-      "X-Content-Type-Options": "nosniff",
-      "X-Robots-Tag": "noindex, nofollow"
-    }
-  });
-}
-
-const ACCESS_RECOVERY_HTML = `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="noindex, nofollow">
-    <title>Workspace access | LegalEase</title>
-    <style>
-      :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #f7f4ee; color: #071b33; }
-      * { box-sizing: border-box; }
-      body { margin: 0; background: #f7f4ee; color: #071b33; }
-      main { min-height: 100vh; display: grid; place-items: center; padding: 2rem 1rem; }
-      section { width: min(100%, 42rem); border: 1px solid #cbd3db; background: #fff; padding: clamp(1.5rem, 5vw, 3rem); }
-      .label { margin: 0; color: #0a8e9a; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-      h1 { margin: .75rem 0 0; font-size: clamp(2rem, 6vw, 3.25rem); line-height: 1.05; letter-spacing: -.035em; }
-      .explanation { margin: 1.25rem 0 0; max-width: 37rem; color: #475a6e; font-size: 1rem; line-height: 1.65; }
-      nav { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
-      a { min-height: 2.75rem; display: inline-flex; align-items: center; justify-content: center; padding: .7rem 1rem; border: 2px solid transparent; color: #071b33; font-weight: 750; text-underline-offset: .2em; }
-      a.primary { background: #ff3b00; color: #fff; text-decoration: none; }
-      a.secondary { border-color: #071b33; text-decoration: none; }
-      a.support { width: 100%; justify-content: flex-start; padding-inline: 0; color: #475a6e; }
-      a:hover { text-decoration-thickness: .14em; }
-      a:focus-visible { outline: 3px solid #0a8e9a; outline-offset: 3px; }
-      @media (max-width: 32rem) { nav { flex-direction: column; } a.primary, a.secondary { width: 100%; } }
-    </style>
-  </head>
-  <body>
-    <main>
-      <section aria-labelledby="access-recovery-heading" data-access-recovery="generic">
-        <p class="label">Workspace access</p>
-        <h1 id="access-recovery-heading">You do not have access to this workspace</h1>
-        <p class="explanation">
-          The signed-in account is not authorized for the requested workspace. No information was changed.
-          This response does not confirm whether another organization or workspace exists.
-        </p>
-        <nav aria-label="Access recovery actions">
-          <a class="primary" href="/partner/dashboard">Return to your dashboard</a>
-          <a class="secondary" href="/sign-in">Sign in with another account</a>
-          <a class="support" href="mailto:partners@legalease.com">Email partners@legalease.com</a>
-        </nav>
-      </section>
-    </main>
-  </body>
-</html>`;
-
 function isAuthSessionPath(pathname: string) {
   if (
     isRcapPartnerOnboardingEnabled() &&
@@ -434,10 +243,6 @@ function isAuthSessionPath(pathname: string) {
     pathname.startsWith("/briefcase/") ||
     pathname === "/partner/dashboard" ||
     pathname.startsWith("/partner/dashboard/");
-}
-
-function isContentCmsPath(pathname: string) {
-  return pathname === "/internal/content" || pathname.startsWith("/internal/content/");
 }
 
 async function refreshSupabaseSession(request: NextRequest) {
@@ -469,7 +274,7 @@ async function refreshSupabaseSession(request: NextRequest) {
 
   await supabase.auth.getUser();
 
-  return response;
+  return applyPrivateInternalHeaders(response, request.nextUrl.pathname);
 }
 
 function nextWithRequest(request: NextRequest) {
@@ -478,4 +283,14 @@ function nextWithRequest(request: NextRequest) {
       headers: request.headers
     }
   });
+}
+
+function applyPrivateInternalHeaders(response: NextResponse, pathname: string) {
+  if (pathname.startsWith("/internal")) {
+    response.headers.set("Cache-Control", "private, no-store, max-age=0, must-revalidate");
+    response.headers.set("Pragma", "no-cache");
+    response.headers.set("Referrer-Policy", "no-referrer");
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+  return response;
 }

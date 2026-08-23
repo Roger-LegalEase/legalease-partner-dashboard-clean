@@ -96,7 +96,26 @@ export async function POST(request: Request) {
   });
 }
 
-export function GET() {
+export async function GET(request: Request) {
+  const requestId = getSafeRequestId(request);
+  try {
+    await requireInternalAdminRouteAccess();
+  } catch (error) {
+    const unauthenticated =
+      error instanceof SessionPartnerError && error.code === "unauthenticated";
+    logSecurityWarn({
+      event: "partner_user_invite denied",
+      route: "/internal/partner-users/invite",
+      outcome: unauthenticated ? "unauthenticated" : "forbidden",
+      requestId,
+      error
+    });
+    return failureResponse(
+      "unknown_error",
+      unauthenticated ? "Authentication required." : "Internal admin access required.",
+      { status: unauthenticated ? 401 : 403 }
+    );
+  }
   return failureResponse("unknown_error", "Method not allowed.", { status: 405 });
 }
 

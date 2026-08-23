@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "securityBaseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "capturedBeforeEdits": true,
+  "productionDataUsed": false,
+  "verification": {
+    "executed": [
+      "node scripts/verify-internal-admin-browser-access.mjs (base revision: 20/20)",
+      "node scripts/verify-first-admin-provisioning.mjs (base revision: passed)",
+      "node scripts/verify-rcap-partner-provisioning.mjs (base revision: 33 passed)"
+    ],
+    "databaseSuite": "node scripts/verify-onboarding-tenant-isolation.mjs was not executed because RCAP_TEST_DATABASE_URL was absent",
+    "method": "Synthetic session/role fixtures plus request-path and guard-before-read/mutation tracing at the immutable base SHA. No production participant or production credential was used."
+  },
+  "operations": [
+    "page request /internal/partners/provisioning",
+    "RSC request for the provisioning page",
+    "direct provisioning API request",
+    "direct provisioning server action (none exist)",
+    "partner data read",
+    "invitation create",
+    "invitation resend",
+    "invitation revoke",
+    "workspace creation",
+    "commercial-gate mutation",
+    "publication action",
+    "activation action",
+    "user/role mutation",
+    "onboarding upload or asset access"
+  ],
+  "resultProfiles": {
+    "signed_out": {
+      "page": "401 generic proxy denial; no redirect and no partner data",
+      "rsc": "401/no protected RSC payload",
+      "api": "401 before protected data or mutation",
+      "serverAction": "not_applicable_none_exist",
+      "reads": "denied",
+      "mutations": "denied",
+      "dataLeak": false
+    },
+    "authenticated_non_internal": {
+      "page": "401 generic proxy denial before page render",
+      "rsc": "401/no protected RSC payload",
+      "api": "403 from the UUID-bound application/service guard before protected data or mutation",
+      "serverAction": "not_applicable_none_exist",
+      "reads": "denied",
+      "mutations": "denied",
+      "dataLeak": false
+    },
+    "active_internal_admin": {
+      "page": "200/rendered provisioning data",
+      "rsc": "200/protected payload rendered",
+      "api": "authorized; operation still subject to input, state, origin and business gates",
+      "serverAction": "not_applicable_none_exist",
+      "reads": "allowed",
+      "mutations": "allowed when the operation-specific gates pass",
+      "dataLeak": false
+    }
+  },
+  "identities": [
+    { "id": "A", "class": "unauthenticated", "fixture": "no session", "resultProfile": "signed_out" },
+    { "id": "B", "class": "ordinary participant", "fixture": "authenticated UUID with no partner_users internal row", "resultProfile": "authenticated_non_internal" },
+    { "id": "C", "class": "partner viewer", "fixture": "synthetic unsupported partner_viewer membership", "resultProfile": "authenticated_non_internal" },
+    { "id": "D", "class": "partner staff", "fixture": "active partner_staff membership", "resultProfile": "authenticated_non_internal" },
+    { "id": "E", "class": "partner administrator", "fixture": "active partner_admin membership", "resultProfile": "authenticated_non_internal" },
+    { "id": "F", "class": "external personal-email account without internal role", "fixture": "synthetic personal-domain email, authenticated UUID, no internal row", "resultProfile": "authenticated_non_internal" },
+    { "id": "G", "class": "corporate-domain account without internal role", "fixture": "synthetic corporate-domain email, authenticated UUID, no internal row", "resultProfile": "authenticated_non_internal" },
+    { "id": "H", "class": "active internal administrator", "fixture": "exact authenticated UUID with one active, null-scope internal_admin row", "resultProfile": "active_internal_admin" },
+    { "id": "I", "class": "revoked internal administrator", "fixture": "exact authenticated UUID with disabled internal_admin row", "resultProfile": "authenticated_non_internal" }
+  ],
+  "incidentClass": {
+    "condition": "authenticated external-email user with no active internal authorization",
+    "preHardenedResult": "denied",
+    "reportedProductionCondition": "personal-email page render",
+    "necessaryCodePathExplanation": "The reported session necessarily resolved as result profile active_internal_admin at request time; the email string did not cause that result. The exact production UUID/row remains intentionally unqueried in this task."
+  },
+  "competingClassOutsideRequiredMatrix": {
+    "class": "active content_admin_users role without partner_users internal_admin",
+    "preHardenedResult": "could enter /internal/content and its APIs through a separate server-side authority, but could not pass the provisioning page's canonical guard",
+    "applicationAfterResult": "403 from canonical internal-admin guard",
+    "directDatabaseAfterResult": "still authorized by existing content RLS until the required migration is approved and applied"
+  }
+}
