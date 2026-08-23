@@ -1,0 +1,252 @@
+{
+  "testedBaseUrl": "http://127.0.0.1:3100",
+  "environment": "local production-shaped Next.js process without Supabase credentials",
+  "testedSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "capturedAt": "2026-08-23T17:11:01.854Z",
+  "note": "These screenshots prove route absence and unauthenticated gating only. No staging fixture authority was available, and no Clinic Mode surface exists to capture.",
+  "requestedCoverage": [
+    {
+      "surface": "internal event setup",
+      "evidenceId": "BROWSER-001",
+      "result": "ABSENT_ROUTE_404"
+    },
+    {
+      "surface": "partner event view",
+      "evidenceId": "BROWSER-002",
+      "result": "ABSENT_ROUTE_404"
+    },
+    {
+      "surface": "QR/code",
+      "evidenceId": "BROWSER-004",
+      "result": "ADJACENT_ROUTE_ENVIRONMENT_500; NO EVENT_QR_ROUTE"
+    },
+    {
+      "surface": "participant entry",
+      "evidenceId": "BROWSER-003",
+      "result": "ABSENT_ROUTE_404"
+    },
+    {
+      "surface": "assisted intake",
+      "evidenceId": "BROWSER-003",
+      "result": "ABSENT_ROUTE_404"
+    },
+    {
+      "surface": "shared-device reset",
+      "evidenceId": "BROWSER-008",
+      "result": "ABSENT_ROUTE_404"
+    },
+    {
+      "surface": "follow-up queue",
+      "evidenceId": "BROWSER-006",
+      "result": "ABSENT_ROUTE_404"
+    },
+    {
+      "surface": "reporting",
+      "evidenceId": "BROWSER-007",
+      "result": "ABSENT_ROUTE_404"
+    },
+    {
+      "surface": "access required",
+      "evidenceId": "BROWSER-009",
+      "result": "LOCAL_ENVIRONMENT_404_BECAUSE_SUPABASE_PUBLIC_CONFIG_IS_MISSING"
+    },
+    {
+      "surface": "capacity/code failure",
+      "evidenceId": null,
+      "result": "NOT_CAPTURED_NO_AUTHORIZED_STAGING_FIXTURE"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "BROWSER-001",
+      "name": "internal-clinic-route-absent-desktop",
+      "route": "/internal/clinic",
+      "role": "unauthenticated",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "findingIds": [
+        "CLINIC-P1-001"
+      ],
+      "requestedUrl": "http://127.0.0.1:3100/internal/clinic",
+      "finalUrl": "http://127.0.0.1:3100/internal/clinic",
+      "httpStatus": 404,
+      "title": "LegalEase Partner Dashboard",
+      "screenshot": "docs/rcap-clinic-mode-audit/evidence/screenshots/internal-clinic-route-absent-desktop.png",
+      "sha256": "4f30376220b190144cba9899b006a81a6a59d4614de535c732fbec0145b5ba23",
+      "containsSyntheticParticipants": false,
+      "containsSecrets": false
+    },
+    {
+      "id": "BROWSER-002",
+      "name": "partner-clinic-route-absent-desktop",
+      "route": "/partner/clinic",
+      "role": "unauthenticated",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "findingIds": [
+        "CLINIC-P1-001"
+      ],
+      "requestedUrl": "http://127.0.0.1:3100/partner/clinic",
+      "finalUrl": "http://127.0.0.1:3100/partner/clinic",
+      "httpStatus": 404,
+      "title": "LegalEase Partner Dashboard",
+      "screenshot": "docs/rcap-clinic-mode-audit/evidence/screenshots/partner-clinic-route-absent-desktop.png",
+      "sha256": "4f30376220b190144cba9899b006a81a6a59d4614de535c732fbec0145b5ba23",
+      "containsSyntheticParticipants": false,
+      "containsSecrets": false
+    },
+    {
+      "id": "BROWSER-003",
+      "name": "participant-clinic-route-absent-mobile",
+      "route": "/clinic/audit-event",
+      "role": "unauthenticated",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "findingIds": [
+        "CLINIC-P1-001",
+        "CLINIC-P0-001"
+      ],
+      "requestedUrl": "http://127.0.0.1:3100/clinic/audit-event",
+      "finalUrl": "http://127.0.0.1:3100/clinic/audit-event",
+      "httpStatus": 404,
+      "title": "LegalEase Partner Dashboard",
+      "screenshot": "docs/rcap-clinic-mode-audit/evidence/screenshots/participant-clinic-route-absent-mobile.png",
+      "sha256": "356ea59ea9447eede55b50b5a2f9410c6dd05bd4ef0b9c55743c014b640691b6",
+      "containsSyntheticParticipants": false,
+      "containsSecrets": false
+    },
+    {
+      "id": "BROWSER-004",
+      "name": "access-codes-authentication-gate-desktop",
+      "route": "/partner/access-codes",
+      "role": "unauthenticated",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "findingIds": [
+        "CLINIC-P1-006"
+      ],
+      "requestedUrl": "http://127.0.0.1:3100/partner/access-codes",
+      "finalUrl": "http://127.0.0.1:3100/partner/access-codes",
+      "httpStatus": 500,
+      "title": "",
+      "screenshot": "docs/rcap-clinic-mode-audit/evidence/screenshots/access-codes-authentication-gate-desktop.png",
+      "sha256": "eeb52cc0dbee37d614f242fab89cff386c4bd1c86e099ed7b670e16eb2f197ef",
+      "containsSyntheticParticipants": false,
+      "containsSecrets": false
+    },
+    {
+      "id": "BROWSER-005",
+      "name": "synthetic-partner-page-unavailable-mobile",
+      "route": "/p/clinic-audit-synthetic",
+      "role": "unauthenticated",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "findingIds": [
+        "CLINIC-P1-007"
+      ],
+      "requestedUrl": "http://127.0.0.1:3100/p/clinic-audit-synthetic",
+      "finalUrl": "http://127.0.0.1:3100/p/clinic-audit-synthetic",
+      "httpStatus": 404,
+      "title": "404: This page could not be found.",
+      "screenshot": "docs/rcap-clinic-mode-audit/evidence/screenshots/synthetic-partner-page-unavailable-mobile.png",
+      "sha256": "356ea59ea9447eede55b50b5a2f9410c6dd05bd4ef0b9c55743c014b640691b6",
+      "containsSyntheticParticipants": false,
+      "containsSecrets": false
+    },
+    {
+      "id": "BROWSER-006",
+      "name": "follow-up-route-absent-desktop",
+      "route": "/partner/follow-up",
+      "role": "unauthenticated",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "findingIds": [
+        "CLINIC-P1-004"
+      ],
+      "requestedUrl": "http://127.0.0.1:3100/partner/follow-up",
+      "finalUrl": "http://127.0.0.1:3100/partner/follow-up",
+      "httpStatus": 404,
+      "title": "LegalEase Partner Dashboard",
+      "screenshot": "docs/rcap-clinic-mode-audit/evidence/screenshots/follow-up-route-absent-desktop.png",
+      "sha256": "4f30376220b190144cba9899b006a81a6a59d4614de535c732fbec0145b5ba23",
+      "containsSyntheticParticipants": false,
+      "containsSecrets": false
+    },
+    {
+      "id": "BROWSER-007",
+      "name": "clinic-reporting-route-absent-desktop",
+      "route": "/partner/clinic/reports",
+      "role": "unauthenticated",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "findingIds": [
+        "CLINIC-P1-005"
+      ],
+      "requestedUrl": "http://127.0.0.1:3100/partner/clinic/reports",
+      "finalUrl": "http://127.0.0.1:3100/partner/clinic/reports",
+      "httpStatus": 404,
+      "title": "LegalEase Partner Dashboard",
+      "screenshot": "docs/rcap-clinic-mode-audit/evidence/screenshots/clinic-reporting-route-absent-desktop.png",
+      "sha256": "4f30376220b190144cba9899b006a81a6a59d4614de535c732fbec0145b5ba23",
+      "containsSyntheticParticipants": false,
+      "containsSecrets": false
+    },
+    {
+      "id": "BROWSER-008",
+      "name": "shared-device-reset-route-absent-mobile",
+      "route": "/clinic/reset",
+      "role": "unauthenticated",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "findingIds": [
+        "CLINIC-P0-001"
+      ],
+      "requestedUrl": "http://127.0.0.1:3100/clinic/reset",
+      "finalUrl": "http://127.0.0.1:3100/clinic/reset",
+      "httpStatus": 404,
+      "title": "LegalEase Partner Dashboard",
+      "screenshot": "docs/rcap-clinic-mode-audit/evidence/screenshots/shared-device-reset-route-absent-mobile.png",
+      "sha256": "356ea59ea9447eede55b50b5a2f9410c6dd05bd4ef0b9c55743c014b640691b6",
+      "containsSyntheticParticipants": false,
+      "containsSecrets": false
+    },
+    {
+      "id": "BROWSER-009",
+      "name": "partner-sign-in-required-desktop",
+      "route": "/sign-in?next=/partner/access-codes",
+      "role": "unauthenticated",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "findingIds": [
+        "CLINIC-P1-006",
+        "CLINIC-P1-011"
+      ],
+      "requestedUrl": "http://127.0.0.1:3100/sign-in?next=/partner/access-codes",
+      "finalUrl": "http://127.0.0.1:3100/sign-in?next=/partner/access-codes",
+      "httpStatus": 500,
+      "title": "",
+      "screenshot": "docs/rcap-clinic-mode-audit/evidence/screenshots/partner-sign-in-required-desktop.png",
+      "sha256": "b06251687686337ee940119c1e9a2ee09ff9d3e67ee8400431428b419ec7992f",
+      "containsSyntheticParticipants": false,
+      "containsSecrets": false
+    }
+  ]
+}

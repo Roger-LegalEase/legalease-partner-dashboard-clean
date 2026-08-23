@@ -1,0 +1,863 @@
+{
+  "schemaVersion": 1,
+  "auditBaseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "statusVocabulary": [
+    "IMPLEMENTED_AND_WIRED",
+    "IMPLEMENTED_NOT_REACHABLE",
+    "IMPLEMENTED_BEHIND_FLAG",
+    "PARTIALLY_IMPLEMENTED",
+    "DOCUMENTED_ONLY",
+    "TEST_ONLY",
+    "STUB_OR_PLACEHOLDER",
+    "ABSENT",
+    "CONFLICTING_IMPLEMENTATIONS",
+    "HUMAN_CONFIRMATION_REQUIRED"
+  ],
+  "summary": {
+    "ABSENT": 8,
+    "DOCUMENTED_ONLY": 2,
+    "HUMAN_CONFIRMATION_REQUIRED": 1,
+    "IMPLEMENTED_AND_WIRED": 4,
+    "IMPLEMENTED_BEHIND_FLAG": 2,
+    "PARTIALLY_IMPLEMENTED": 8
+  },
+  "capabilities": [
+    {
+      "capabilityId": "CAP-001",
+      "capability": "Canonical clinic-event model and CRUD",
+      "expectedContract": [
+        "REQ-001"
+      ],
+      "status": "ABSENT",
+      "sourceFiles": [],
+      "routeOrAction": "NO CURRENT ROUTE",
+      "uiEntryPoint": "NO CURRENT ENTRY POINT",
+      "serverSideAuthority": "none",
+      "databaseTablesFunctions": [
+        "No clinic_events equivalent"
+      ],
+      "rlsPolicy": "none",
+      "featureFlag": "none",
+      "environmentDependency": "none",
+      "rolesAllowed": [],
+      "testCoverage": "none",
+      "deployedReachability": "No route in repository; deployment cannot make it reachable.",
+      "evidence": [
+        "No clinic/event route, server action, API, or canonical event table found.",
+        "partner_events is a lifecycle log, not an event entity."
+      ],
+      "gap": "CLINIC-P1-001",
+      "recommendedOwner": "Clinic product + data platform"
+    },
+    {
+      "capabilityId": "CAP-002",
+      "capability": "Clinic-labelled general partner onboarding",
+      "expectedContract": [
+        "REQ-001",
+        "REQ-004",
+        "REQ-019"
+      ],
+      "status": "IMPLEMENTED_BEHIND_FLAG",
+      "sourceFiles": [
+        "src/lib/partners/onboarding/schema.ts",
+        "src/lib/partners/onboarding/feature.ts"
+      ],
+      "routeOrAction": "/internal/partners/onboarding/[partnerSlug]; /partner/onboarding",
+      "uiEntryPoint": "Program setup sections",
+      "serverSideAuthority": "general onboarding services and RLS",
+      "databaseTablesFunctions": [
+        "partner_onboarding",
+        "partner_onboarding_sections"
+      ],
+      "rlsPolicy": "partner-scoped and internal-onboarding policies",
+      "featureFlag": "RCAP_PARTNER_ONBOARDING_ENABLED",
+      "environmentDependency": "Supabase public/auth and service-role configuration",
+      "rolesAllowed": [
+        "partner_admin",
+        "internal_admin"
+      ],
+      "testCoverage": "onboarding verifier suite",
+      "deployedReachability": "Unknown; flag defaults false and no safe staging values were available.",
+      "evidence": [
+        "program_model accepts clinic/event",
+        "program start/end dates, geography, access plan and referrals are generic partner-workspace data"
+      ],
+      "gap": "CLINIC-P1-001",
+      "recommendedOwner": "Clinic product"
+    },
+    {
+      "capabilityId": "CAP-003",
+      "capability": "General partner launch-kit QR",
+      "expectedContract": [
+        "REQ-002",
+        "REQ-019"
+      ],
+      "status": "IMPLEMENTED_BEHIND_FLAG",
+      "sourceFiles": [
+        "src/lib/partners/onboarding/artifact-service.ts",
+        "src/components/partners/onboarding/LaunchKitView.tsx"
+      ],
+      "routeOrAction": "/internal/partners/onboarding/[partnerSlug]; /partner/onboarding/resources",
+      "uiEntryPoint": "Artifacts > Partner Launch Kit; Resources > Partner launch kit",
+      "serverSideAuthority": "buildLaunchKitQr derives target from authorized partner slug",
+      "databaseTablesFunctions": [
+        "partner_onboarding_artifacts",
+        "partner_onboarding_artifact_versions"
+      ],
+      "rlsPolicy": "artifact and workspace tenant policies",
+      "featureFlag": "RCAP_ONBOARDING_LAUNCH_PREP_ENABLED plus onboarding flag",
+      "environmentDependency": "absolute app URL",
+      "rolesAllowed": [
+        "partner_admin",
+        "internal_admin"
+      ],
+      "testCoverage": "verify-rcap-onboarding-launch-kit.mjs",
+      "deployedReachability": "Unknown; code marks QR target unpublished.",
+      "evidence": [
+        "QR points only to /p/[partnerSlug]",
+        "published is hard-coded false in builder",
+        "no event/code identity in target"
+      ],
+      "gap": "CLINIC-P1-007",
+      "recommendedOwner": "Clinic product + partner onboarding"
+    },
+    {
+      "capabilityId": "CAP-004",
+      "capability": "Partner access codes and campaign labels",
+      "expectedContract": [
+        "REQ-002",
+        "REQ-013",
+        "REQ-014"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED",
+      "sourceFiles": [
+        "src/app/partner/access-codes/page.tsx",
+        "src/app/partner/access-codes/PartnerAccessCodesManager.tsx",
+        "src/lib/partners/partner-access-codes.ts",
+        "supabase/phase-41-rcap-partner-access-codes.sql"
+      ],
+      "routeOrAction": "/partner/access-codes; /api/partners/access-codes; /api/rcap/access-code/validate",
+      "uiEntryPoint": "Partner dashboard > Manage codes",
+      "serverSideAuthority": "service-role code service plus claim/validate RPCs",
+      "databaseTablesFunctions": [
+        "partner_access_codes",
+        "validate_partner_access_code",
+        "claim_rcap_partner_screening_session"
+      ],
+      "rlsPolicy": "tenant-scoped reads; mutations service role",
+      "featureFlag": "none specific to codes",
+      "environmentDependency": "phase-41 schema and Supabase credentials",
+      "rolesAllowed": [
+        "UI: partner_admin",
+        "API defect: partner_admin, partner_staff, internal_admin"
+      ],
+      "testCoverage": "verify-rcap-partner-access-codes.mjs",
+      "deployedReachability": "Repository-only in July production reconciliation; current deployment not safely readable.",
+      "evidence": [
+        "valid/expired/exhausted/disabled validation exists",
+        "campaign is free text and is not an event FK",
+        "no QR generation or event metadata"
+      ],
+      "gap": "CLINIC-P1-006",
+      "recommendedOwner": "Partner platform"
+    },
+    {
+      "capabilityId": "CAP-005",
+      "capability": "Participant partner entry and account-first intake",
+      "expectedContract": [
+        "REQ-004",
+        "REQ-008",
+        "REQ-013"
+      ],
+      "status": "IMPLEMENTED_AND_WIRED",
+      "sourceFiles": [
+        "src/app/p/[partnerSlug]/page.tsx",
+        "src/app/intake/[partnerSlug]/page.tsx",
+        "src/app/intake/[partnerSlug]/actions.ts"
+      ],
+      "routeOrAction": "/p/[partnerSlug]; /intake/[partnerSlug]",
+      "uiEntryPoint": "Start your record-clearing screening",
+      "serverSideAuthority": "public publication projection, authenticated intake action and claim RPC",
+      "databaseTablesFunctions": [
+        "partner_records",
+        "partner_entitlement",
+        "screening_sessions"
+      ],
+      "rlsPolicy": "public safe projection plus server-side claims",
+      "featureFlag": "partner state/publication gates, not Clinic Mode",
+      "environmentDependency": "Supabase URL/anon/service-role and deployed phase schema",
+      "rolesAllowed": [
+        "unauthenticated visitor for public page",
+        "authenticated participant for intake"
+      ],
+      "testCoverage": "partner public-page/intake/attribution verifiers",
+      "deployedReachability": "Local synthetic slug returned 404; no authorized staging fixture.",
+      "evidence": [
+        "ordinary partner page and intake are routed",
+        "participant must create/sign in before partner screening begins"
+      ],
+      "gap": "CLINIC-P1-001",
+      "recommendedOwner": "Participant platform"
+    },
+    {
+      "capabilityId": "CAP-006",
+      "capability": "Event attribution across intake, matter, packet, reporting and follow-up",
+      "expectedContract": [
+        "REQ-006"
+      ],
+      "status": "ABSENT",
+      "sourceFiles": [
+        "supabase/phase-41-rcap-partner-access-codes.sql",
+        "supabase/phase-41b-rcap-screening-analytics.sql"
+      ],
+      "routeOrAction": "NO CURRENT ROUTE",
+      "uiEntryPoint": "none",
+      "serverSideAuthority": "partner/campaign only",
+      "databaseTablesFunctions": [
+        "screening_sessions.partner_slug",
+        "screening_sessions.partner_access_code_id",
+        "screening_sessions.campaign_name"
+      ],
+      "rlsPolicy": "partner-scoped adjacent analytics",
+      "featureFlag": "none",
+      "environmentDependency": "phase 41/41b",
+      "rolesAllowed": [],
+      "testCoverage": "campaign attribution tests only",
+      "deployedReachability": "No event foreign key exists in any deployment schema source.",
+      "evidence": [
+        "No event_id on screening session, matter, packet, follow-up or analytics",
+        "campaign_name is nullable free text"
+      ],
+      "gap": "CLINIC-P1-002",
+      "recommendedOwner": "Clinic data platform"
+    },
+    {
+      "capabilityId": "CAP-007",
+      "capability": "Assisted intake and explicit assistance consent",
+      "expectedContract": [
+        "REQ-007",
+        "REQ-008",
+        "REQ-009"
+      ],
+      "status": "ABSENT",
+      "sourceFiles": [],
+      "routeOrAction": "NO CURRENT ROUTE",
+      "uiEntryPoint": "none",
+      "serverSideAuthority": "none",
+      "databaseTablesFunctions": [
+        "none"
+      ],
+      "rlsPolicy": "none",
+      "featureFlag": "none",
+      "environmentDependency": "none",
+      "rolesAllowed": [],
+      "testCoverage": "none",
+      "deployedReachability": "No code path.",
+      "evidence": [
+        "No assisted-intake grant, consent text, staff identity, timestamp, decline, or expiry model found."
+      ],
+      "gap": "CLINIC-P1-003",
+      "recommendedOwner": "Clinic product + privacy"
+    },
+    {
+      "capabilityId": "CAP-008",
+      "capability": "Cross-device save/resume",
+      "expectedContract": [
+        "REQ-012"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED",
+      "sourceFiles": [
+        "src/app/api/expungement-ai/screening/save-resume/route.ts",
+        "src/lib/expungement-ai/screening-resume-service.ts",
+        "src/components/expungement-ai/screening/ResumeScreeningClient.tsx"
+      ],
+      "routeOrAction": "/expungement-ai/screening/resume; /api/expungement-ai/screening/save-resume",
+      "uiEntryPoint": "Save progress / emailed resume link",
+      "serverSideAuthority": "public endpoint using service role and rotating email token",
+      "databaseTablesFunctions": [
+        "screening_sessions"
+      ],
+      "rlsPolicy": "service-role storage; browser roles have no ownership policy",
+      "featureFlag": "email delivery configuration",
+      "environmentDependency": "Supabase service role, app URL, email provider",
+      "rolesAllowed": [
+        "public caller with token/email"
+      ],
+      "testCoverage": "verify-expungement-screening-resume-links.mjs",
+      "deployedReachability": "Not browser-tested; no configured staging fixture/email channel.",
+      "evidence": [
+        "rotating token and email match exist",
+        "save accepts caller-supplied session UUID with no participant ownership check",
+        "full answers temporarily placed in sessionStorage"
+      ],
+      "gap": "CLINIC-P0-002",
+      "recommendedOwner": "Participant identity + security"
+    },
+    {
+      "capabilityId": "CAP-009",
+      "capability": "Shared-device end-session/reset",
+      "expectedContract": [
+        "REQ-010",
+        "REQ-018"
+      ],
+      "status": "ABSENT",
+      "sourceFiles": [],
+      "routeOrAction": "NO CURRENT ROUTE",
+      "uiEntryPoint": "No End clinic session or Reset device control",
+      "serverSideAuthority": "none",
+      "databaseTablesFunctions": [
+        "none"
+      ],
+      "rlsPolicy": "none",
+      "featureFlag": "none",
+      "environmentDependency": "none",
+      "rolesAllowed": [],
+      "testCoverage": "none",
+      "deployedReachability": "No code path.",
+      "evidence": [
+        "Auth cookie persists",
+        "session UUID remains in history",
+        "no bfcache/history/autofill/storage purge contract"
+      ],
+      "gap": "CLINIC-P0-001",
+      "recommendedOwner": "Clinic security"
+    },
+    {
+      "capabilityId": "CAP-010",
+      "capability": "No sensitive browser storage",
+      "expectedContract": [
+        "REQ-011"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED",
+      "sourceFiles": [
+        "src/components/expungement-ai/screening/ResumeScreeningClient.tsx",
+        "src/components/expungement-ai/screening/ScreeningFlow.tsx"
+      ],
+      "routeOrAction": "/expungement-ai/screening/resume",
+      "uiEntryPoint": "resume confirmation",
+      "serverSideAuthority": "not applicable",
+      "databaseTablesFunctions": [
+        "screening_sessions"
+      ],
+      "rlsPolicy": "not applicable to browser storage",
+      "featureFlag": "none",
+      "environmentDependency": "browser sessionStorage",
+      "rolesAllowed": [
+        "participant"
+      ],
+      "testCoverage": "unit verifier does not enforce Clinic shared-device clearing",
+      "deployedReachability": "Source-proven.",
+      "evidence": [
+        "full resume session including answers written to sessionStorage",
+        "analytics/locale IDs in localStorage are non-sensitive",
+        "no IndexedDB or service worker implementation found"
+      ],
+      "gap": "CLINIC-P0-001",
+      "recommendedOwner": "Participant security"
+    },
+    {
+      "capabilityId": "CAP-011",
+      "capability": "Participant-owned Briefcase",
+      "expectedContract": [
+        "REQ-008",
+        "REQ-009"
+      ],
+      "status": "IMPLEMENTED_AND_WIRED",
+      "sourceFiles": [
+        "src/app/briefcase/page.tsx",
+        "src/lib/expungement-ai/auth.ts",
+        "src/lib/expungement-ai/briefcase.ts"
+      ],
+      "routeOrAction": "/briefcase; /briefcase/[packetId]",
+      "uiEntryPoint": "View my Briefcase",
+      "serverSideAuthority": "authenticated user_id-scoped service functions",
+      "databaseTablesFunctions": [
+        "consumer_briefcase_items"
+      ],
+      "rlsPolicy": "owner policies plus server checks",
+      "featureFlag": "none",
+      "environmentDependency": "Supabase auth/service role",
+      "rolesAllowed": [
+        "authenticated participant owner"
+      ],
+      "testCoverage": "briefcase and consumer identity verifiers",
+      "deployedReachability": "General flow only; no clinic-assisted access model.",
+      "evidence": [
+        "Briefcase retrieval uses auth user id",
+        "no clinic staff delegation exists"
+      ],
+      "gap": "CLINIC-P1-003",
+      "recommendedOwner": "Participant platform"
+    },
+    {
+      "capabilityId": "CAP-012",
+      "capability": "Sponsorship binding",
+      "expectedContract": [
+        "REQ-013"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED",
+      "sourceFiles": [
+        "src/app/api/expungement-ai/screening/pending/route.ts",
+        "src/app/api/expungement-ai/screening/pending/claim/route.ts",
+        "src/lib/expungement-ai/briefcase.ts"
+      ],
+      "routeOrAction": "pending result create/claim; packet generate",
+      "uiEntryPoint": "Save result and continue to Briefcase",
+      "serverSideAuthority": "service-role lookup of source screening UUID",
+      "databaseTablesFunctions": [
+        "screening_sessions",
+        "consumer_pending_screening_results",
+        "consumer_briefcase_items"
+      ],
+      "rlsPolicy": "participant matter owner after claim; source session itself is not user-bound",
+      "featureFlag": "none",
+      "environmentDependency": "phase 38/41/55 schema",
+      "rolesAllowed": [
+        "authenticated participant for claim"
+      ],
+      "testCoverage": "partner result and matter-binding tests do not cover cross-user session replay",
+      "deployedReachability": "Static source proof; staging exploit not attempted.",
+      "evidence": [
+        "public pending endpoint accepts product=rcap_partner and any syntactically valid sourceSessionId",
+        "sponsor test checks session flags but not participant owner"
+      ],
+      "gap": "CLINIC-P0-002",
+      "recommendedOwner": "Payment/sponsorship security"
+    },
+    {
+      "capabilityId": "CAP-013",
+      "capability": "Packet-credit accounting",
+      "expectedContract": [
+        "REQ-014"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED",
+      "sourceFiles": [
+        "src/app/api/expungement-ai/packet/generate/route.ts",
+        "src/lib/expungement-ai/rcap-slot-lifecycle.ts",
+        "supabase/phase-41b-rcap-screening-analytics.sql"
+      ],
+      "routeOrAction": "/api/expungement-ai/packet/generate; record_partner_packet_generation",
+      "uiEntryPoint": "Generate my packet",
+      "serverSideAuthority": "authenticated owner packet generation then service-role accounting RPC",
+      "databaseTablesFunctions": [
+        "partner_entitlement",
+        "screening_sessions.claimed_slot_state",
+        "record_partner_packet_generation"
+      ],
+      "rlsPolicy": "service-role mutations",
+      "featureFlag": "none",
+      "environmentDependency": "phase 41b and packet worker configuration",
+      "rolesAllowed": [
+        "authenticated participant owner"
+      ],
+      "testCoverage": "slot lifecycle/access-code verifiers",
+      "deployedReachability": "Not safely testable without authorized staging fixture.",
+      "evidence": [
+        "included and overage accounting is idempotent per session",
+        "generation route ignores recorded=false result after packet is ready",
+        "cap_reached_no_overage consumes session without counting packet"
+      ],
+      "gap": "CLINIC-P0-004",
+      "recommendedOwner": "Payment/accounting platform"
+    },
+    {
+      "capabilityId": "CAP-014",
+      "capability": "Partner aggregate dashboard",
+      "expectedContract": [
+        "REQ-015",
+        "REQ-016"
+      ],
+      "status": "IMPLEMENTED_AND_WIRED",
+      "sourceFiles": [
+        "src/app/partner/dashboard/page.tsx",
+        "src/lib/partners/partner-dashboard.ts"
+      ],
+      "routeOrAction": "/partner/dashboard",
+      "uiEntryPoint": "Partner dashboard",
+      "serverSideAuthority": "session partner + tenant-scoped Supabase client",
+      "databaseTablesFunctions": [
+        "screening_sessions",
+        "rcap_screening_analytics_events",
+        "partner_entitlement"
+      ],
+      "rlsPolicy": "partner-scoped reads",
+      "featureFlag": "none specific",
+      "environmentDependency": "phase schema and Supabase auth",
+      "rolesAllowed": [
+        "partner_admin",
+        "partner_staff"
+      ],
+      "testCoverage": "partner dashboard isolation verifiers",
+      "deployedReachability": "General dashboard; not Clinic Mode.",
+      "evidence": [
+        "aggregate starts/completions/packets/saved",
+        "no event filter, participant list, follow-up assignment, or clinic controls"
+      ],
+      "gap": "CLINIC-P1-005",
+      "recommendedOwner": "Partner reporting"
+    },
+    {
+      "capabilityId": "CAP-015",
+      "capability": "Clinic follow-up queue",
+      "expectedContract": [
+        "REQ-005",
+        "REQ-015",
+        "REQ-020"
+      ],
+      "status": "DOCUMENTED_ONLY",
+      "sourceFiles": [
+        "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md"
+      ],
+      "routeOrAction": "NO CURRENT ROUTE",
+      "uiEntryPoint": "none",
+      "serverSideAuthority": "none",
+      "databaseTablesFunctions": [
+        "partner_onboarding_tasks is setup work, not participant follow-up"
+      ],
+      "rlsPolicy": "none for clinic follow-up",
+      "featureFlag": "none",
+      "environmentDependency": "none",
+      "rolesAllowed": [],
+      "testCoverage": "none",
+      "deployedReachability": "No current route or participant follow-up entity.",
+      "evidence": [
+        "source-of-truth describes partner_follow_up task intent",
+        "partner dashboard explicitly presents neutral incomplete counts, not a queue"
+      ],
+      "gap": "CLINIC-P1-004",
+      "recommendedOwner": "Clinic operations + case journey"
+    },
+    {
+      "capabilityId": "CAP-016",
+      "capability": "Clinic/event reporting and export",
+      "expectedContract": [
+        "REQ-016"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED",
+      "sourceFiles": [
+        "src/app/dashboard/partners/page.tsx",
+        "src/lib/partner-dashboard-data.ts",
+        "src/app/api/partner-reports/final/route.ts",
+        "src/app/api/partner-reports/weekly/route.ts"
+      ],
+      "routeOrAction": "/dashboard/partners; POST /api/partner-reports/final; POST /api/partner-reports/weekly",
+      "uiEntryPoint": "internal general partner dashboard/report downloads",
+      "serverSideAuthority": "final report uses service-role reads; both report endpoints omit auth",
+      "databaseTablesFunctions": [
+        "rcap_intake_sessions",
+        "rcap_document_packets",
+        "rcap_record_events",
+        "seeded dashboard arrays"
+      ],
+      "rlsPolicy": "bypassed by final-report service role; route has no caller authorization",
+      "featureFlag": "LEGALEASE_FINAL_IMPACT_REPORT_USE_SEED_FIXTURES can force seed data outside production",
+      "environmentDependency": "Supabase admin configuration and report rendering",
+      "rolesAllowed": [
+        "defect: unauthenticated caller can invoke"
+      ],
+      "testCoverage": "live-data unit verifier; no route auth test",
+      "deployedReachability": "Not probed outside local; production use not authorized.",
+      "evidence": [
+        "no event dimension",
+        "weekly report is seeded",
+        "final report accepts arbitrary partnerId and service-role reads without authentication"
+      ],
+      "gap": "CLINIC-P0-003",
+      "recommendedOwner": "Reporting security"
+    },
+    {
+      "capabilityId": "CAP-017",
+      "capability": "Partner tenant isolation",
+      "expectedContract": [
+        "REQ-003",
+        "REQ-015",
+        "REQ-016"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED",
+      "sourceFiles": [
+        "src/lib/partners/session-partner.ts",
+        "src/lib/partners/partner-scope-auth.ts",
+        "supabase/phase-21-partner-auth-rls-foundation.sql"
+      ],
+      "routeOrAction": "general partner routes/APIs",
+      "uiEntryPoint": "partner dashboard",
+      "serverSideAuthority": "active partner_users row and tenant RLS",
+      "databaseTablesFunctions": [
+        "partner_users",
+        "current_partner_slug",
+        "is_internal_admin"
+      ],
+      "rlsPolicy": "tenant-scoped general partner policies",
+      "featureFlag": "none",
+      "environmentDependency": "phase schema and Supabase auth",
+      "rolesAllowed": [
+        "partner_admin",
+        "partner_staff",
+        "internal_admin"
+      ],
+      "testCoverage": "RLS and tenant-isolation verifiers",
+      "deployedReachability": "Local database evidence exists; clinic/event scope absent and report route bypasses isolation.",
+      "evidence": [
+        "mismatched partner slug fails in partner-scope helper",
+        "final report API is unauthenticated",
+        "no event-scoped membership"
+      ],
+      "gap": "CLINIC-P0-003",
+      "recommendedOwner": "Security"
+    },
+    {
+      "capabilityId": "CAP-018",
+      "capability": "Roles without uncontrolled clinic role invention",
+      "expectedContract": [
+        "REQ-003"
+      ],
+      "status": "IMPLEMENTED_AND_WIRED",
+      "sourceFiles": [
+        "src/lib/partners/session-partner.ts",
+        "supabase/phase-21-partner-auth-rls-foundation.sql"
+      ],
+      "routeOrAction": "/partner/team",
+      "uiEntryPoint": "Partner dashboard > Manage team",
+      "serverSideAuthority": "partner_users role constraint",
+      "databaseTablesFunctions": [
+        "partner_users"
+      ],
+      "rlsPolicy": "self/tenant role policies",
+      "featureFlag": "none",
+      "environmentDependency": "Supabase auth",
+      "rolesAllowed": [
+        "partner_admin",
+        "partner_staff",
+        "internal_admin"
+      ],
+      "testCoverage": "team invite and RLS verifiers",
+      "deployedReachability": "General partner roles only.",
+      "evidence": [
+        "Only three permanent roles exist",
+        "no partner_viewer runtime role despite onboarding planning label reporting_viewer"
+      ],
+      "gap": "CLINIC-P1-009",
+      "recommendedOwner": "Identity platform"
+    },
+    {
+      "capabilityId": "CAP-019",
+      "capability": "Approved event staff membership",
+      "expectedContract": [
+        "REQ-003",
+        "REQ-009"
+      ],
+      "status": "ABSENT",
+      "sourceFiles": [
+        "src/app/partner/team/page.tsx"
+      ],
+      "routeOrAction": "NO CURRENT EVENT-STAFF ROUTE",
+      "uiEntryPoint": "general Manage team only",
+      "serverSideAuthority": "permanent partner membership only",
+      "databaseTablesFunctions": [
+        "partner_users; no event_staff table"
+      ],
+      "rlsPolicy": "partner-level only",
+      "featureFlag": "none",
+      "environmentDependency": "none",
+      "rolesAllowed": [],
+      "testCoverage": "none",
+      "deployedReachability": "No code path.",
+      "evidence": [
+        "staff accounts are partner-wide, not approved/expiring per event"
+      ],
+      "gap": "CLINIC-P1-003",
+      "recommendedOwner": "Clinic identity"
+    },
+    {
+      "capabilityId": "CAP-020",
+      "capability": "Clinic audit history",
+      "expectedContract": [
+        "REQ-006",
+        "REQ-007",
+        "REQ-009",
+        "REQ-017"
+      ],
+      "status": "PARTIALLY_IMPLEMENTED",
+      "sourceFiles": [
+        "supabase/phase-28-rcap-record-audit-trail.sql",
+        "supabase/phase-41-rcap-partner-access-codes.sql",
+        "supabase/phase-41b-rcap-screening-analytics.sql"
+      ],
+      "routeOrAction": "append-only record/analytics events",
+      "uiEntryPoint": "no clinic audit UI",
+      "serverSideAuthority": "service-role/trigger events",
+      "databaseTablesFunctions": [
+        "rcap_record_events",
+        "rcap_screening_analytics_events"
+      ],
+      "rlsPolicy": "forced/tenant RLS depending table",
+      "featureFlag": "none",
+      "environmentDependency": "phase migrations",
+      "rolesAllowed": [
+        "partner aggregate readers",
+        "internal_admin"
+      ],
+      "testCoverage": "record audit and analytics verifiers",
+      "deployedReachability": "No clinic actor/event fields; July production lacked phase-41 additions.",
+      "evidence": [
+        "system/access-code/accounting events exist",
+        "no staff actor, assisted consent, reset, incident or event membership event"
+      ],
+      "gap": "CLINIC-P1-010",
+      "recommendedOwner": "Clinic data platform"
+    },
+    {
+      "capabilityId": "CAP-021",
+      "capability": "Clinic capacity, pause, close and archive",
+      "expectedContract": [
+        "REQ-001",
+        "REQ-017"
+      ],
+      "status": "ABSENT",
+      "sourceFiles": [
+        "src/lib/partners/onboarding/schema.ts",
+        "supabase/phase-41b-rcap-screening-analytics.sql"
+      ],
+      "routeOrAction": "NO CURRENT ROUTE",
+      "uiEntryPoint": "general plan fields only",
+      "serverSideAuthority": "partner-wide packet cap only",
+      "databaseTablesFunctions": [
+        "partner_entitlement.pause_at_cap; no event capacity/status"
+      ],
+      "rlsPolicy": "none for event controls",
+      "featureFlag": "none",
+      "environmentDependency": "none",
+      "rolesAllowed": [],
+      "testCoverage": "partner-wide cap tests only",
+      "deployedReachability": "No event control path.",
+      "evidence": [
+        "onboarding records planned capacity procedure",
+        "it does not enforce event capacity or event state"
+      ],
+      "gap": "CLINIC-P1-008",
+      "recommendedOwner": "Clinic operations"
+    },
+    {
+      "capabilityId": "CAP-022",
+      "capability": "Clinic incidents and end-of-day review",
+      "expectedContract": [
+        "REQ-017",
+        "REQ-020"
+      ],
+      "status": "ABSENT",
+      "sourceFiles": [],
+      "routeOrAction": "NO CURRENT ROUTE",
+      "uiEntryPoint": "none",
+      "serverSideAuthority": "none",
+      "databaseTablesFunctions": [
+        "none"
+      ],
+      "rlsPolicy": "none",
+      "featureFlag": "none",
+      "environmentDependency": "none",
+      "rolesAllowed": [],
+      "testCoverage": "none",
+      "deployedReachability": "No code path.",
+      "evidence": [
+        "No clinic incident entity, action, filter, or runbook surface."
+      ],
+      "gap": "CLINIC-P1-010",
+      "recommendedOwner": "Clinic operations"
+    },
+    {
+      "capabilityId": "CAP-023",
+      "capability": "Ten-participant shared-device acceptance",
+      "expectedContract": [
+        "REQ-018"
+      ],
+      "status": "ABSENT",
+      "sourceFiles": [
+        "tests/e2e/rcap-clinic-mode-audit/ten-participant-shared-device-audit.mjs"
+      ],
+      "routeOrAction": "NOT_RUN_NO_CLINIC_SESSION_BOUNDARY",
+      "uiEntryPoint": "none",
+      "serverSideAuthority": "none",
+      "databaseTablesFunctions": [
+        "none"
+      ],
+      "rlsPolicy": "none",
+      "featureFlag": "none",
+      "environmentDependency": "authorized staging fixture was unavailable",
+      "rolesAllowed": [],
+      "testCoverage": "audit-only fail-closed ten-iteration static test",
+      "deployedReachability": "Cannot execute contract because no Clinic Mode or reset boundary exists.",
+      "evidence": [
+        "All 10 iterations recorded NOT_RUN_NO_CLINIC_SESSION_BOUNDARY",
+        "result FAIL_CLOSED/UNSAFE"
+      ],
+      "gap": "CLINIC-P0-001",
+      "recommendedOwner": "Clinic QA + security"
+    },
+    {
+      "capabilityId": "CAP-024",
+      "capability": "Clinic-day rehearsal and network/device plan",
+      "expectedContract": [
+        "REQ-019",
+        "REQ-020"
+      ],
+      "status": "DOCUMENTED_ONLY",
+      "sourceFiles": [
+        "src/lib/partners/onboarding/artifact-generator.ts",
+        "src/lib/partners/onboarding/launch-readiness.ts"
+      ],
+      "routeOrAction": "general onboarding artifacts",
+      "uiEntryPoint": "Artifacts / Launch readiness",
+      "serverSideAuthority": "general partner readiness",
+      "databaseTablesFunctions": [
+        "partner_onboarding_launch_checks",
+        "partner_onboarding_artifact_versions"
+      ],
+      "rlsPolicy": "onboarding tenant scope",
+      "featureFlag": "RCAP_ONBOARDING_LAUNCH_PREP_ENABLED",
+      "environmentDependency": "onboarding flags and schema",
+      "rolesAllowed": [
+        "partner_admin",
+        "internal_admin"
+      ],
+      "testCoverage": "launch-readiness verifiers",
+      "deployedReachability": "No Clinic Mode-specific rehearsal record.",
+      "evidence": [
+        "manual training/launch approvals exist for a general program",
+        "no device inventory, network fallback rehearsal, venue test or clinic-day monitor"
+      ],
+      "gap": "CLINIC-P1-010",
+      "recommendedOwner": "Clinic operations"
+    },
+    {
+      "capabilityId": "CAP-025",
+      "capability": "Deployed Clinic Mode reachability",
+      "expectedContract": [
+        "REQ-001",
+        "REQ-019"
+      ],
+      "status": "HUMAN_CONFIRMATION_REQUIRED",
+      "sourceFiles": [
+        "docs/rcap/production/MIGRATION_20260728213131_RECONCILIATION.md",
+        "data/rcap-staging-authorization-readiness.json"
+      ],
+      "routeOrAction": "No authorized staging target",
+      "uiEntryPoint": "none",
+      "serverSideAuthority": "unknown external state",
+      "databaseTablesFunctions": [
+        "production July baseline lacks partner_access_codes and rcap_screening_analytics_events"
+      ],
+      "rlsPolicy": "unknown current external state",
+      "featureFlag": "unknown current external state",
+      "environmentDependency": "missing acceptance project ref, public URL, anon key, service-role key and hosted URL",
+      "rolesAllowed": [],
+      "testCoverage": "static and local route-absence capture only",
+      "deployedReachability": "Production was not used; staging target was not configured.",
+      "evidence": [
+        "application deployment target is blank in readiness artifact",
+        "local /partner/access-codes returns 500 without Supabase public config"
+      ],
+      "gap": "CLINIC-P1-011",
+      "recommendedOwner": "Release engineering"
+    }
+  ]
+}

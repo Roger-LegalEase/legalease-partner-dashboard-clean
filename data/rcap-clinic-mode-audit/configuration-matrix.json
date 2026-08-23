@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "auditBaseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "secretPolicy": "No secret value was read or printed.",
+  "entries": [
+    {
+      "name": "CLINIC_MODE feature flag",
+      "source": "ABSENT",
+      "default": "none",
+      "developmentValue": "none",
+      "stagingValue": "unknown/not applicable",
+      "productionValue": "unknown/not applicable",
+      "effect": "No dedicated mode can be activated",
+      "owner": "Clinic product",
+      "safeActivationProcedure": "NOT CURRENTLY IMPLEMENTED"
+    },
+    {
+      "name": "ENABLE_SUPABASE_PARTNER_DATA",
+      "source": ".env.example and partner repository",
+      "default": "true in example",
+      "developmentValue": "not exported in audit shell",
+      "stagingValue": "unknown",
+      "productionValue": "unknown",
+      "effect": "Selects persistent partner repository for legacy internal data surfaces",
+      "owner": "Partner platform",
+      "safeActivationProcedure": "Set only through approved environment process; not a Clinic Mode control"
+    },
+    {
+      "name": "RCAP_PARTNER_ONBOARDING_ENABLED",
+      "source": "src/lib/partners/onboarding/feature.ts",
+      "default": "false/absent",
+      "developmentValue": "unset",
+      "stagingValue": "unknown",
+      "productionValue": "unknown",
+      "effect": "Enables general partner onboarding",
+      "owner": "Partner onboarding",
+      "safeActivationProcedure": "Enable only after phase-43+ schema and partner configuration review"
+    },
+    {
+      "name": "RCAP_ONBOARDING_PREFILL_ENABLED",
+      "source": "src/lib/partners/onboarding/feature.ts",
+      "default": "false/absent",
+      "developmentValue": "unset",
+      "stagingValue": "unknown",
+      "productionValue": "unknown",
+      "effect": "Enables onboarding prefill only when onboarding enabled",
+      "owner": "Partner onboarding",
+      "safeActivationProcedure": "Server-only approved flag change"
+    },
+    {
+      "name": "RCAP_ONBOARDING_LAUNCH_PREP_ENABLED",
+      "source": "src/lib/partners/onboarding/feature.ts",
+      "default": "false/absent",
+      "developmentValue": "unset",
+      "stagingValue": "unknown",
+      "productionValue": "unknown",
+      "effect": "Enables general artifacts, QR and launch readiness",
+      "owner": "Partner onboarding",
+      "safeActivationProcedure": "Requires onboarding flag and phase-45/47 schema; does not enable Clinic Mode"
+    },
+    {
+      "name": "NEXT_PUBLIC_WILMA_ENABLED",
+      "source": "src/components/expungement-ai/WilmaBubble.tsx",
+      "default": "enabled unless exactly false",
+      "developmentValue": "unset",
+      "stagingValue": "unknown",
+      "productionValue": "unknown",
+      "effect": "Controls Wilma bubble, not clinic assistance",
+      "owner": "Participant product",
+      "safeActivationProcedure": "Not a Clinic Mode control"
+    },
+    {
+      "name": "LEGALEASE_FINAL_IMPACT_REPORT_USE_SEED_FIXTURES",
+      "source": "src/lib/reports/partner-final-impact-report-data.ts",
+      "default": "false unless true; ignored in production",
+      "developmentValue": "unset",
+      "stagingValue": "unknown",
+      "productionValue": "unknown",
+      "effect": "Forces seeded final impact report outside production",
+      "owner": "Reporting",
+      "safeActivationProcedure": "Must remain false for operational reporting; report routes still require auth remediation"
+    },
+    {
+      "name": "Supabase public URL/anon key",
+      "source": "src/lib/supabase/config.ts",
+      "default": "required for auth routes",
+      "developmentValue": "unset",
+      "stagingValue": "unknown",
+      "productionValue": "not read",
+      "effect": "Authentication and RLS client",
+      "owner": "Platform",
+      "safeActivationProcedure": "Supply only through authorized synthetic environment"
+    },
+    {
+      "name": "SUPABASE_SERVICE_ROLE_KEY",
+      "source": "server configuration",
+      "default": "required for privileged services",
+      "developmentValue": "unset",
+      "stagingValue": "unknown",
+      "productionValue": "not read",
+      "effect": "Code claims, resume storage, packets and reports",
+      "owner": "Platform security",
+      "safeActivationProcedure": "Never expose; use scoped staging credentials"
+    },
+    {
+      "name": "Partner payment/qualification/provisioning/publication state",
+      "source": "partner_records/public partner projection",
+      "default": "fail closed",
+      "developmentValue": "no fixture",
+      "stagingValue": "unknown",
+      "productionValue": "not read",
+      "effect": "Controls ordinary /p and /intake reachability",
+      "owner": "Partner operations",
+      "safeActivationProcedure": "Set synthetic partner paid/demo, qualified, provisioned and published"
+    },
+    {
+      "name": "Partner access_mode/code state",
+      "source": "partner_records/partner_access_codes",
+      "default": "open or stored value",
+      "developmentValue": "no fixture",
+      "stagingValue": "unknown",
+      "productionValue": "not read",
+      "effect": "Controls ordinary intake code requirement and valid/disabled/expired/exhausted results",
+      "owner": "Partner admin",
+      "safeActivationProcedure": "Use /partner/access-codes after role fix; no event state"
+    },
+    {
+      "name": "Partner entitlement/capacity/sponsorship",
+      "source": "partner_entitlement",
+      "default": "database record required",
+      "developmentValue": "no fixture",
+      "stagingValue": "unknown",
+      "productionValue": "not read",
+      "effect": "Partner-wide sponsored packet cap",
+      "owner": "LegalEase operations",
+      "safeActivationProcedure": "No safe event-level activation exists"
+    },
+    {
+      "name": "Application deployment target",
+      "source": "data/rcap-staging-authorization-readiness.json",
+      "default": "none",
+      "developmentValue": "blank/unset",
+      "stagingValue": "blank",
+      "productionValue": "not read",
+      "effect": "Prevents deployed browser verification",
+      "owner": "Release engineering",
+      "safeActivationProcedure": "Provide authorized staging URL/project ref and synthetic fixture authority"
+    }
+  ]
+}

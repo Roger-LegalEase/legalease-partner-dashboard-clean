@@ -1,0 +1,96 @@
+{
+  "auditBaseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "productionDataUsed": false,
+  "tests": [
+    {
+      "name": "audit artifact consistency",
+      "command": "node scripts/rcap-clinic-mode-audit/verify-audit.mjs",
+      "result": "PASS"
+    },
+    {
+      "name": "ten-participant contract",
+      "command": "node tests/e2e/rcap-clinic-mode-audit/ten-participant-shared-device-audit.mjs",
+      "result": "FAIL_CLOSED_UNSAFE: ten iterations not runnable without Clinic Mode/reset boundary"
+    },
+    {
+      "name": "local browser evidence",
+      "command": "node scripts/rcap-clinic-mode-audit/capture-browser-evidence.mjs",
+      "result": "PASS: 9 non-sensitive screenshots; requested capacity/code failure blocked by missing staging fixture"
+    },
+    {
+      "name": "partner access codes",
+      "command": "node scripts/verify-rcap-partner-access-codes.mjs",
+      "result": "PASS"
+    },
+    {
+      "name": "screening analytics",
+      "command": "node scripts/verify-rcap-screening-analytics.mjs",
+      "result": "PASS"
+    },
+    {
+      "name": "screening resume links",
+      "command": "node scripts/verify-expungement-screening-resume-links.mjs",
+      "result": "PASS"
+    },
+    {
+      "name": "general partner attribution",
+      "command": "node scripts/verify-rcap-partner-attribution.mjs",
+      "result": "PASS with documented county/UTM persistence gap"
+    },
+    {
+      "name": "slot lifecycle",
+      "command": "node scripts/verify-rcap-slot-lifecycle.mjs",
+      "result": "PASS"
+    },
+    {
+      "name": "onboarding launch kit",
+      "command": "node scripts/verify-rcap-onboarding-launch-kit.mjs",
+      "result": "PASS 15/15"
+    },
+    {
+      "name": "onboarding launch readiness",
+      "command": "node scripts/verify-rcap-onboarding-launch-readiness.mjs",
+      "result": "PASS 21/21 plus scope checks"
+    },
+    {
+      "name": "final impact live data",
+      "command": "node scripts/verify-rcap-final-impact-live-data.mjs",
+      "result": "PASS; does not test report-route authorization"
+    },
+    {
+      "name": "onboarding security",
+      "command": "node scripts/verify-rcap-partner-onboarding-security.mjs",
+      "result": "PASS 47/47"
+    },
+    {
+      "name": "partner mode",
+      "command": "node scripts/verify-rcap-partner-mode.mjs",
+      "result": "PASS"
+    },
+    {
+      "name": "partner intake slot claim",
+      "command": "node scripts/verify-rcap-partner-intake-slot-claim.mjs",
+      "result": "PASS"
+    },
+    {
+      "name": "public profile route",
+      "command": "node scripts/verify-public-profile-route.mjs",
+      "result": "PASS"
+    },
+    {
+      "name": "internal admin browser access",
+      "command": "node scripts/verify-internal-admin-browser-access.mjs",
+      "result": "PASS 20/20"
+    },
+    {
+      "name": "authenticated partner RLS",
+      "command": "node scripts/verify-partner-auth-rls-foundation.mjs",
+      "result": "ENVIRONMENT_BLOCKED: Supabase URL/anon/service key and five synthetic role credential pairs absent"
+    },
+    {
+      "name": "authenticated dashboard tenant isolation",
+      "command": "node scripts/verify-partner-dashboard-rls-isolation.mjs",
+      "result": "ENVIRONMENT_BLOCKED: Supabase URL/anon key and five synthetic role credential pairs absent"
+    }
+  ]
+}

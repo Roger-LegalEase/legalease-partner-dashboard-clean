@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 1,
+  "auditBaseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "conclusion": "There is no canonical clinic-event entity. Generic partner/program planning JSON, lifecycle logs, access-code campaign text and partner-attributed screening analytics are not an event model.",
+  "entities": [
+    {
+      "canonicalConcept": "clinic event",
+      "tableType": "ABSENT",
+      "columns": [],
+      "constraints": [],
+      "foreignKeys": [],
+      "indexes": [],
+      "rls": "none",
+      "serverWriter": "none",
+      "serverReader": "none",
+      "retention": "undefined",
+      "auditEvents": "none",
+      "migration": "none",
+      "fidelity": "ABSENT"
+    },
+    {
+      "canonicalConcept": "generic partner/program relationship",
+      "tableType": "partner_records + partner_onboarding + partner_onboarding_sections.response_data",
+      "columns": [
+        "partner_slug",
+        "program_name",
+        "program_model",
+        "program_start_date",
+        "program_end_date",
+        "jurisdictions",
+        "service_area_description",
+        "out_of_area_policy",
+        "support/referral/reporting plan"
+      ],
+      "constraints": [
+        "partner slug uniqueness",
+        "onboarding schema validation in app/RPC"
+      ],
+      "foreignKeys": [
+        "onboarding.partner_slug -> partner_records.partner_slug"
+      ],
+      "indexes": [
+        "partner_slug"
+      ],
+      "rls": "tenant and internal-admin onboarding policies",
+      "serverWriter": "onboarding services/RPCs",
+      "serverReader": "onboarding services",
+      "retention": "not stated",
+      "auditEvents": "partner_onboarding_activity/integration events",
+      "migration": "phase-42 through phase-47",
+      "fidelity": "PARTIAL: program-level, not event-level"
+    },
+    {
+      "canonicalConcept": "partner lifecycle event log (not clinic event)",
+      "tableType": "partner_events",
+      "columns": [
+        "id",
+        "partner_slug",
+        "event_type",
+        "event_label",
+        "event_payload",
+        "created_at"
+      ],
+      "constraints": [
+        "event_type and label not null"
+      ],
+      "foreignKeys": [
+        "partner_slug -> partner_records"
+      ],
+      "indexes": [
+        "partner_slug",
+        "created_at"
+      ],
+      "rls": "partner/internal read policies",
+      "serverWriter": "partner admin action layer",
+      "serverReader": "internal partner detail",
+      "retention": "not stated",
+      "auditEvents": "self",
+      "migration": "partner-journey-os.sql",
+      "fidelity": "NOT AN EVENT ENTITY: append-only lifecycle log without schedule/location/code/staff/status"
+    },
+    {
+      "canonicalConcept": "event code (generic campaign code)",
+      "tableType": "partner_access_codes",
+      "columns": [
+        "id",
+        "partner_slug",
+        "code_hash",
+        "code_hint",
+        "campaign_name",
+        "description",
+        "code_type",
+        "max_uses",
+        "uses_count",
+        "is_active",
+        "starts_at",
+        "expires_at",
+        "created_by",
+        "created_at",
+        "updated_at"
+      ],
+      "constraints": [
+        "unique partner_slug/code_hash",
+        "max uses nonnegative",
+        "uses not above max"
+      ],
+      "foreignKeys": [
+        "partner_slug -> partner_records"
+      ],
+      "indexes": [
+        "partner_slug",
+        "partner_slug/is_active",
+        "partner_slug/campaign_name"
+      ],
+      "rls": "own-partner/internal SELECT; service-role mutation",
+      "serverWriter": "partner-access-codes service",
+      "serverReader": "partner access-code analytics",
+      "retention": "not stated",
+      "auditEvents": "partner_code_used and best-effort code admin events",
+      "migration": "phase-41; forward upgrade migrations",
+      "fidelity": "PARTIAL: campaign free text; no clinic event FK or QR"
+    },
+    {
+      "canonicalConcept": "participant-event attribution (partner/campaign substitute)",
+      "tableType": "screening_sessions",
+      "columns": [
+        "session_id",
+        "answers",
+        "status",
+        "partner_slug",
+        "flow_mode",
+        "claimed_slot_state",
+        "partner_access_code_id",
+        "campaign_name",
+        "attribution_source",
+        "partner_benefit_active",
+        "resume fields"
+      ],
+      "constraints": [
+        "attribution_source partner_page/partner_code/consumer",
+        "status lifecycle"
+      ],
+      "foreignKeys": [
+        "partner_access_code_id -> partner_access_codes"
+      ],
+      "indexes": [
+        "partner_access_code_id",
+        "resume token indexes"
+      ],
+      "rls": "RLS enabled with service-role persistence; no participant owner key",
+      "serverWriter": "claim RPC and public save/resume service role",
+      "serverReader": "screening/resume/sponsorship services",
+      "retention": "resume token expiry exists; row retention not stated",
+      "auditEvents": "coarse screening analytics",
+      "migration": "phase-32, phase-33, phase-35b-d, phase-41",
+      "fidelity": "PARTIAL/UNSAFE: no event FK and no participant owner binding"
+    },
+    {
+      "canonicalConcept": "matter-event and packet-event attribution",
+      "tableType": "ABSENT",
+      "columns": [
+        "consumer_briefcase_items.source_session_id is indirect only"
+      ],
+      "constraints": [],
+      "foreignKeys": [],
+      "indexes": [],
+      "rls": "participant owner applies to matter, not source session",
+      "serverWriter": "pending claim",
+      "serverReader": "packet generation",
+      "retention": "not stated",
+      "auditEvents": "packet events partner-only",
+      "migration": "none for event",
+      "fidelity": "ABSENT"
+    },
+    {
+      "canonicalConcept": "assisted intake consent/staff identity/session/device reset",
+      "tableType": "ABSENT",
+      "columns": [],
+      "constraints": [],
+      "foreignKeys": [],
+      "indexes": [],
+      "rls": "none",
+      "serverWriter": "none",
+      "serverReader": "none",
+      "retention": "undefined",
+      "auditEvents": "none",
+      "migration": "none",
+      "fidelity": "ABSENT"
+    },
+    {
+      "canonicalConcept": "sponsorship allocation / packet pool",
+      "tableType": "partner_entitlement + screening_sessions",
+      "columns": [
+        "screenings_allowed",
+        "screenings_used",
+        "overage_enabled",
+        "pause_at_cap",
+        "overage_packets",
+        "claimed_slot_state",
+        "partner_benefit_active"
+      ],
+      "constraints": [
+        "nonnegative counts",
+        "per-session claimed/consumed lifecycle"
+      ],
+      "foreignKeys": [
+        "partner_slug relationship"
+      ],
+      "indexes": [
+        "partner_slug"
+      ],
+      "rls": "service-role mutation, partner scoped read",
+      "serverWriter": "claim and record_partner_packet_generation RPCs",
+      "serverReader": "dashboard and cap decision",
+      "retention": "not stated",
+      "auditEvents": "partner credit/overage/cap events",
+      "migration": "phase-35/39/41/41b",
+      "fidelity": "PARTIAL: partner-wide, not event pool; unsafe user/session binding"
+    },
+    {
+      "canonicalConcept": "follow-up status/assignment/due date/contact method",
+      "tableType": "ABSENT for participants",
+      "columns": [
+        "partner_onboarding_tasks is setup-only"
+      ],
+      "constraints": [],
+      "foreignKeys": [],
+      "indexes": [],
+      "rls": "none for clinic follow-up",
+      "serverWriter": "none",
+      "serverReader": "none",
+      "retention": "undefined",
+      "auditEvents": "none",
+      "migration": "none",
+      "fidelity": "ABSENT"
+    },
+    {
+      "canonicalConcept": "reporting scope",
+      "tableType": "rcap_screening_analytics_events",
+      "columns": [
+        "session_id",
+        "partner_slug",
+        "partner_access_code_id",
+        "campaign_name",
+        "event_type",
+        "outcome_category",
+        "packet_route_available",
+        "occurred_at",
+        "metadata"
+      ],
+      "constraints": [
+        "coarse event/outcome enums",
+        "append-only triggers"
+      ],
+      "foreignKeys": [
+        "logical session/code/partner references; not all declared"
+      ],
+      "indexes": [
+        "partner/occurred_at",
+        "code",
+        "session/event_type"
+      ],
+      "rls": "own partner/internal SELECT; service-role write",
+      "serverWriter": "triggers and RPCs",
+      "serverReader": "access-code analytics",
+      "retention": "not stated",
+      "auditEvents": "self",
+      "migration": "phase-41b",
+      "fidelity": "PARTIAL: partner/campaign aggregate only, no clinic event/home market/incidents/follow-up"
+    },
+    {
+      "canonicalConcept": "incident record",
+      "tableType": "ABSENT",
+      "columns": [],
+      "constraints": [],
+      "foreignKeys": [],
+      "indexes": [],
+      "rls": "none",
+      "serverWriter": "none",
+      "serverReader": "none",
+      "retention": "undefined",
+      "auditEvents": "none",
+      "migration": "none",
+      "fidelity": "ABSENT"
+    }
+  ]
+}

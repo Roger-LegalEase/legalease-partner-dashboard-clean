@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "auditBaseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "executionMode": "STATIC_CODE_AND_SQL_TRACE_ONLY",
+  "liveDataUsed": false,
+  "verdict": "UNSAFE_NOT_PROVEN_END_TO_END",
+  "cases": [
+    {
+      "rule": "valid sponsored access bypasses payment",
+      "result": "PARTIAL",
+      "evidence": "Session flags can mark a matter partner-sponsored, but the session is not bound to the participant user."
+    },
+    {
+      "rule": "invalid code",
+      "result": "IMPLEMENTED_STATIC",
+      "evidence": "Validation returns invalid without benefit."
+    },
+    {
+      "rule": "expired code",
+      "result": "IMPLEMENTED_STATIC",
+      "evidence": "Validation checks expires_at."
+    },
+    {
+      "rule": "disabled code",
+      "result": "IMPLEMENTED_STATIC",
+      "evidence": "Validation checks is_active."
+    },
+    {
+      "rule": "exhausted code",
+      "result": "IMPLEMENTED_STATIC",
+      "evidence": "Atomic claim checks uses_count/max_uses."
+    },
+    {
+      "rule": "one completed sponsored packet consumes exactly one credit",
+      "result": "PARTIAL_UNSAFE",
+      "evidence": "RPC is session-idempotent, but packet generation occurs first and ignores recorded=false."
+    },
+    {
+      "rule": "incomplete screening consumes none",
+      "result": "IMPLEMENTED_STATIC",
+      "evidence": "Accounting is invoked only after ready packet."
+    },
+    {
+      "rule": "guidance-only consumes none",
+      "result": "IMPLEMENTED_STATIC",
+      "evidence": "No ready packet route, no accounting call."
+    },
+    {
+      "rule": "failed generation consumes none",
+      "result": "IMPLEMENTED_STATIC",
+      "evidence": "Accounting follows ready result."
+    },
+    {
+      "rule": "retry consumes none additional",
+      "result": "IMPLEMENTED_STATIC_PER_SESSION",
+      "evidence": "claimed_slot_state prevents double count for one session."
+    },
+    {
+      "rule": "repeat download consumes none",
+      "result": "IMPLEMENTED_STATIC",
+      "evidence": "Download route does not invoke accounting."
+    },
+    {
+      "rule": "separate matters follow approved rule",
+      "result": "NOT_PROVEN",
+      "evidence": "No Clinic Mode/event accounting rule or browser fixture."
+    },
+    {
+      "rule": "capacity stop is isolated",
+      "result": "PARTIAL",
+      "evidence": "Partner-wide pause_at_cap exists; event pool does not."
+    },
+    {
+      "rule": "credit cannot be replayed across accounts",
+      "result": "FAIL",
+      "evidence": "sourceSessionId is not bound to user; one session can sponsor another user's claimed matter while later packet accounting reports already_recorded."
+    },
+    {
+      "rule": "no free packet at cap without overage",
+      "result": "FAIL",
+      "evidence": "cap_reached_no_overage returns recorded=false after generation, and the route ignores that result."
+    }
+  ],
+  "blockers": [
+    "CLINIC-P0-002",
+    "CLINIC-P0-004"
+  ],
+  "requiredDynamicFixture": "Authorized staging project with phase-41/41b/55 schema, synthetic partner entitlement, packet dry-run worker and ten synthetic auth users."
+}

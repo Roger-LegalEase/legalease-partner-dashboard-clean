@@ -1,0 +1,529 @@
+{
+  "schemaVersion": 1,
+  "auditBaseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "auditDate": "2026-08-23",
+  "methodology": "Requirements are intentions only. A requirement is implemented only when UI, server authority, persistence, authorization, and operational result are connected.",
+  "repositorySearchResult": "No repository document defines a dedicated Clinic Mode. General RCAP and partner-onboarding documents describe adjacent requirements; the dedicated contract below originates in the user-supplied audit brief.",
+  "requirements": [
+    {
+      "requirementId": "REQ-001",
+      "expectedContract": "Canonical clinic event model",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "LegalEase operator",
+      "intendedSurface": "event setup",
+      "intendedData": "partner/program/event identity, name, date, time, timezone, venue, status",
+      "intendedSecurityProperty": "tenant-scoped event",
+      "intendedAcceptanceTest": "create/read/update/close an event"
+    },
+    {
+      "requirementId": "REQ-002",
+      "expectedContract": "Event code and final QR",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "operator and partner admin",
+      "intendedSurface": "event assets",
+      "intendedData": "event code, QR destination, state",
+      "intendedSecurityProperty": "code cannot cross tenants or outlive event",
+      "intendedAcceptanceTest": "valid, expired, exhausted, and disabled paths"
+    },
+    {
+      "requirementId": "REQ-003",
+      "expectedContract": "Approved event staff",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "operator and partner admin",
+      "intendedSurface": "staff management",
+      "intendedData": "event membership and role",
+      "intendedSecurityProperty": "reuse controlled permanent roles; event access expires",
+      "intendedAcceptanceTest": "staff can access only assigned event"
+    },
+    {
+      "requirementId": "REQ-004",
+      "expectedContract": "Supported geography and out-of-area routing",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "participant",
+      "intendedSurface": "clinic entry and intake",
+      "intendedData": "event geography and referral route",
+      "intendedSecurityProperty": "unsupported route never becomes sellable",
+      "intendedAcceptanceTest": "inside/outside-area journeys"
+    },
+    {
+      "requirementId": "REQ-005",
+      "expectedContract": "Referral contact and follow-up owner",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "staff",
+      "intendedSurface": "event setup and follow-up",
+      "intendedData": "contact and assignment",
+      "intendedSecurityProperty": "least-privilege participant detail",
+      "intendedAcceptanceTest": "unsupported/incomplete outcomes enter queue"
+    },
+    {
+      "requirementId": "REQ-006",
+      "expectedContract": "Event attribution",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "all roles",
+      "intendedSurface": "intake through reporting",
+      "intendedData": "event foreign keys on participant/session, matter, packet, follow-up",
+      "intendedSecurityProperty": "immutable and tenant-consistent attribution",
+      "intendedAcceptanceTest": "trace one participant end to end"
+    },
+    {
+      "requirementId": "REQ-007",
+      "expectedContract": "Assisted-intake consent",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "participant",
+      "intendedSurface": "assisted intake",
+      "intendedData": "explicit consent, timestamp, staff identity, decline",
+      "intendedSecurityProperty": "generic terms do not qualify",
+      "intendedAcceptanceTest": "accept and decline paths"
+    },
+    {
+      "requirementId": "REQ-008",
+      "expectedContract": "Participant remains account owner",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "participant",
+      "intendedSurface": "authentication and Briefcase",
+      "intendedData": "participant auth user and matter ownership",
+      "intendedSecurityProperty": "staff never becomes durable owner",
+      "intendedAcceptanceTest": "staff loses access after session"
+    },
+    {
+      "requirementId": "REQ-009",
+      "expectedContract": "No permanent staff case access",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "clinic staff",
+      "intendedSurface": "assistance session",
+      "intendedData": "ephemeral event-scoped grant",
+      "intendedSecurityProperty": "automatic expiry and auditable access",
+      "intendedAcceptanceTest": "post-session denial"
+    },
+    {
+      "requirementId": "REQ-010",
+      "expectedContract": "Shared-device reset",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "clinic staff",
+      "intendedSurface": "day-of dashboard",
+      "intendedData": "session boundary/reset audit",
+      "intendedSecurityProperty": "cookies, history, caches, storage, autofill, previews cleared",
+      "intendedAcceptanceTest": "Back/reopen/storage checks after each participant"
+    },
+    {
+      "requirementId": "REQ-011",
+      "expectedContract": "No sensitive browser storage",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "participant",
+      "intendedSurface": "intake/resume",
+      "intendedData": "no answers, files, result or PII in Web Storage",
+      "intendedSecurityProperty": "browser-profile confidentiality",
+      "intendedAcceptanceTest": "storage inventory"
+    },
+    {
+      "requirementId": "REQ-012",
+      "expectedContract": "Cross-device save and resume",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "participant",
+      "intendedSurface": "intake and email resume",
+      "intendedData": "participant-bound durable session and rotating token",
+      "intendedSecurityProperty": "unguessable token and ownership check",
+      "intendedAcceptanceTest": "resume on a second device"
+    },
+    {
+      "requirementId": "REQ-013",
+      "expectedContract": "Sponsorship preservation",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "participant",
+      "intendedSurface": "entry through packet",
+      "intendedData": "partner/program/event sponsorship binding",
+      "intendedSecurityProperty": "cannot be replayed by another account",
+      "intendedAcceptanceTest": "sponsored and non-sponsored paths"
+    },
+    {
+      "requirementId": "REQ-014",
+      "expectedContract": "Packet accounting",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "partner admin",
+      "intendedSurface": "packet generation",
+      "intendedData": "atomic credit ledger",
+      "intendedSecurityProperty": "one successful sponsored packet exactly once",
+      "intendedAcceptanceTest": "incomplete/guidance/failure/retry/download rules"
+    },
+    {
+      "requirementId": "REQ-015",
+      "expectedContract": "Follow-up queue",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "partner staff",
+      "intendedSurface": "operations dashboard",
+      "intendedData": "status, assignment, due date, contact method, event filter",
+      "intendedSecurityProperty": "approved case-detail scope",
+      "intendedAcceptanceTest": "status and privacy tests"
+    },
+    {
+      "requirementId": "REQ-016",
+      "expectedContract": "Clinic reporting",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "partner admin and LegalEase",
+      "intendedSurface": "event reports",
+      "intendedData": "distinct starts, screenings, possible paths, packets, guidance, referrals, incompletes, credits, errors",
+      "intendedSecurityProperty": "tenant and event isolation; no false equivalence",
+      "intendedAcceptanceTest": "aggregate/export tests"
+    },
+    {
+      "requirementId": "REQ-017",
+      "expectedContract": "Incident and pause controls",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "operator",
+      "intendedSurface": "clinic dashboard",
+      "intendedData": "incident, pause authority, capacity stop",
+      "intendedSecurityProperty": "fail closed without cross-tenant disclosure",
+      "intendedAcceptanceTest": "pause/close/capacity tests"
+    },
+    {
+      "requirementId": "REQ-018",
+      "expectedContract": "Ten sequential participants",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "clinic staff",
+      "intendedSurface": "one shared browser profile",
+      "intendedData": "ten synthetic participant sessions",
+      "intendedSecurityProperty": "zero participant N data visible to N+1",
+      "intendedAcceptanceTest": "mandatory ten-participant browser test"
+    },
+    {
+      "requirementId": "REQ-019",
+      "expectedContract": "Pre-clinic operating plan",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "operator",
+      "intendedSurface": "launch readiness",
+      "intendedData": "approved page, QR/code, devices, volunteers, network fallback, legal escalation, rehearsal",
+      "intendedSecurityProperty": "approval does not substitute for verification",
+      "intendedAcceptanceTest": "real-device/network checklist"
+    },
+    {
+      "requirementId": "REQ-020",
+      "expectedContract": "Day-of and post-clinic operations",
+      "sources": [
+        {
+          "file": "USER_SUPPLIED_AUDIT_BRIEF",
+          "lines": "Expected Clinic Mode contract and sections 11-20",
+          "note": "Controlling audit contract"
+        },
+        {
+          "file": "docs/product-flows/rcap-partner-portal-user-flow.md",
+          "lines": "30-153",
+          "note": "Adjacent account-first, attribution, sponsorship, packet and follow-up intentions"
+        },
+        {
+          "file": "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md",
+          "lines": "23-368",
+          "note": "Adjacent case ownership, Briefcase, tasks, follow-up and reporting intentions"
+        }
+      ],
+      "intendedUser": "operator and staff",
+      "intendedSurface": "monitoring and follow-up",
+      "intendedData": "usage, incidents, end-of-day review, follow-up",
+      "intendedSecurityProperty": "minimum necessary data",
+      "intendedAcceptanceTest": "runbook rehearsal"
+    }
+  ]
+}

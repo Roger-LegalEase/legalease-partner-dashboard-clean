@@ -1,0 +1,500 @@
+{
+  "schemaVersion": 1,
+  "auditBaseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "overallVerdict": "CLINIC_MODE_UNSAFE",
+  "counts": {
+    "P0": 4,
+    "P1": 11,
+    "P2": 2,
+    "P3": 1
+  },
+  "gaps": [
+    {
+      "id": "CLINIC-P0-001",
+      "severity": "P0",
+      "title": "No shared-device session boundary or reset; prior participant state can remain visible",
+      "affectedRole": "participant and clinic staff",
+      "route": "/expungement-ai/screening/[state]?session=[uuid]; /briefcase; all proposed clinic routes",
+      "actual": "No End clinic session/Reset device action. Auth cookies persist; screening session UUID remains in history; resume payload with answers is temporarily stored in sessionStorage; no bfcache/history/autofill/cache purge contract exists.",
+      "required": "Atomic end-session action that revokes assistance, signs the participant out, clears all sensitive client state and caches, prevents Back leakage, and returns to a clean event entry.",
+      "reproduction": [
+        "Start ordinary participant sign-in/intake in one browser profile.",
+        "Observe authenticated cookie and screening URL containing ?session=<uuid>.",
+        "Use email resume and observe expungement-ai:resume-session in sessionStorage before ScreeningFlow removes it.",
+        "Search UI/source for End clinic session or Reset device: none exists.",
+        "Attempt the mandated next-participant reset: no product action is available."
+      ],
+      "evidence": [
+        "src/components/expungement-ai/screening/ResumeScreeningClient.tsx:47",
+        "src/components/expungement-ai/screening/ScreeningFlow.tsx:155-175",
+        "data/rcap-clinic-mode-audit/browser-evidence.json",
+        "tests/e2e/rcap-clinic-mode-audit/ten-participant-shared-device-audit.mjs"
+      ],
+      "sourceFiles": [
+        "src/components/expungement-ai/screening/ResumeScreeningClient.tsx",
+        "src/components/expungement-ai/screening/ScreeningFlow.tsx"
+      ],
+      "owner": "Clinic security",
+      "smallestSafeCorrection": "Add a dedicated server-backed assisted-session boundary and reset control; eliminate answer payloads from Web Storage; set no-store/bfcache protections; validate ten sequential participants.",
+      "migrationRequired": true,
+      "humanDecisionRequired": "Privacy/security must approve the reset and retention contract."
+    },
+    {
+      "id": "CLINIC-P0-002",
+      "severity": "P0",
+      "title": "Caller-supplied screening UUID is not participant-bound, enabling answer overwrite and sponsorship replay",
+      "affectedRole": "participant",
+      "route": "POST /api/expungement-ai/screening/save-resume; POST /api/expungement-ai/screening/pending; pending claim; packet generate",
+      "actual": "Public save/resume accepts a caller-provided sessionId and service-role upserts it. Public pending-result creation accepts product=rcap_partner and any UUID. Sponsorship checks session flags but not the authenticated participant owner.",
+      "required": "Every session must be cryptographically/relationally bound to the participant account or a one-time pre-auth handoff; no UUID alone may authorize writes or sponsorship.",
+      "reproduction": [
+        "Obtain a partner screening session UUID (the ordinary URL/history exposes it).",
+        "POST save-resume with that UUID, new answers and a different email.",
+        "POST pending with product=rcap_partner and the same sourceSessionId.",
+        "Authenticate as another synthetic participant and claim; static trace shows no user/session equality check."
+      ],
+      "evidence": [
+        "src/app/api/expungement-ai/screening/save-resume/route.ts:22-69",
+        "src/lib/expungement-ai/screening-resume-service.ts:248-267",
+        "src/app/api/expungement-ai/screening/pending/route.ts:65-84",
+        "src/app/api/expungement-ai/packet/generate/route.ts:29-63"
+      ],
+      "sourceFiles": [
+        "src/app/api/expungement-ai/screening/save-resume/route.ts",
+        "src/lib/expungement-ai/screening-resume-service.ts",
+        "src/app/api/expungement-ai/screening/pending/route.ts",
+        "src/app/api/expungement-ai/screening/pending/claim/route.ts",
+        "src/lib/expungement-ai/briefcase.ts"
+      ],
+      "owner": "Participant identity and sponsorship security",
+      "smallestSafeCorrection": "Add owner/handoff binding, reject mutation/claim on mismatch, rotate/remove URL capability, and invalidate it at reset.",
+      "migrationRequired": true,
+      "humanDecisionRequired": "Security review of pre-auth-to-account handoff."
+    },
+    {
+      "id": "CLINIC-P0-003",
+      "severity": "P0",
+      "title": "Final report endpoint permits unauthenticated cross-tenant aggregate reads through service role",
+      "affectedRole": "unauthenticated user and all partners",
+      "route": "POST /api/partner-reports/final",
+      "actual": "Route accepts arbitrary partnerId/partnerName and calls a service-role report loader without authentication or tenant authorization. Weekly endpoint is also unauthenticated and seeded.",
+      "required": "Authenticate, authorize partner/internal role, derive partner scope server-side, deny cross-tenant requests, and distinguish live from seed output.",
+      "reproduction": [
+        "Send POST JSON with an arbitrary known partnerId to /api/partner-reports/final without cookies.",
+        "Observe no auth call in route and service-role .eq(partner_slug, caller value) in loader.",
+        "Repeat with another partnerId."
+      ],
+      "evidence": [
+        "src/app/api/partner-reports/final/route.ts:15-47",
+        "src/lib/reports/partner-final-impact-report-data.ts:74-115",
+        "src/app/api/partner-reports/weekly/route.ts:15-49"
+      ],
+      "sourceFiles": [
+        "src/app/api/partner-reports/final/route.ts",
+        "src/app/api/partner-reports/weekly/route.ts",
+        "src/lib/reports/partner-final-impact-report-data.ts"
+      ],
+      "owner": "Reporting security",
+      "smallestSafeCorrection": "Require session partner, derive/validate partner slug, restrict internal override, add negative route tests; fail closed if seed mode is active outside development.",
+      "migrationRequired": false,
+      "humanDecisionRequired": "Define which aggregate fields each partner role may export."
+    },
+    {
+      "id": "CLINIC-P0-004",
+      "severity": "P0",
+      "title": "Sponsored packet can be generated when credit accounting reports not recorded",
+      "affectedRole": "participant and partner sponsor",
+      "route": "POST /api/expungement-ai/packet/generate",
+      "actual": "Packet generation completes before credit RPC. The route awaits but ignores recorded/reason. SQL returns recorded=false for already_recorded, no_entitlement, paused_at_cap and cap_reached_no_overage; the ready packet is not rolled back.",
+      "required": "Sponsorship authorization and atomic reservation must precede/cover generation; a ready sponsored artifact and exactly one valid ledger result must commit together or fail closed.",
+      "reproduction": [
+        "Use a partner session already marked consumed, missing entitlement, or cap reached without overage.",
+        "Associate it to an owned Briefcase item through the unbound source-session path.",
+        "Generate packet; static route trace shows accounting result is discarded after ready artifact."
+      ],
+      "evidence": [
+        "src/app/api/expungement-ai/packet/generate/route.ts:51-69",
+        "supabase/phase-41b-rcap-screening-analytics.sql:193-290"
+      ],
+      "sourceFiles": [
+        "src/app/api/expungement-ai/packet/generate/route.ts",
+        "src/lib/expungement-ai/rcap-slot-lifecycle.ts",
+        "supabase/phase-41b-rcap-screening-analytics.sql"
+      ],
+      "owner": "Payment/accounting platform",
+      "smallestSafeCorrection": "Reserve/validate sponsorship atomically before generation and require a recorded included/overage result before releasing artifact; add ledger reconciliation.",
+      "migrationRequired": true,
+      "humanDecisionRequired": "Confirm approved no-overage behavior and failure compensation."
+    },
+    {
+      "id": "CLINIC-P1-001",
+      "severity": "P1",
+      "title": "No canonical Clinic Mode event model, routes, or management surfaces",
+      "affectedRole": "all",
+      "route": "NO CURRENT ROUTE",
+      "actual": "A general onboarding enum may say Clinic/Event, but there is no clinic event CRUD, exact schedule/timezone/location/status, event page, or clinic navigation.",
+      "required": "Canonical tenant-scoped clinic event with internal, partner and participant surfaces.",
+      "reproduction": [
+        "List src/app routes and API handlers.",
+        "Search schema/migrations for clinic_events and event foreign keys.",
+        "Open /internal/clinic, /partner/clinic and /clinic/audit-event; all return 404."
+      ],
+      "evidence": [
+        "data/rcap-clinic-mode-audit/browser-evidence.json",
+        "src/lib/partners/onboarding/schema.ts:561-600",
+        "supabase/partner-journey-os.sql:128-138"
+      ],
+      "sourceFiles": [
+        "src/app",
+        "src/lib/partners/onboarding/schema.ts",
+        "supabase/partner-journey-os.sql"
+      ],
+      "owner": "Clinic product and data platform",
+      "smallestSafeCorrection": "Create event entity/CRUD/access layers and wire it to existing partner identity without inventing a permanent clinic role.",
+      "migrationRequired": true,
+      "humanDecisionRequired": "Confirm event lifecycle/status and ownership semantics."
+    },
+    {
+      "id": "CLINIC-P1-002",
+      "severity": "P1",
+      "title": "No event attribution across session, matter, packet, follow-up or reports",
+      "affectedRole": "all",
+      "route": "/intake/[partnerSlug] and downstream",
+      "actual": "Only partner_slug, access-code ID, campaign_name and coarse attribution_source survive on screening session; event identity is absent downstream.",
+      "required": "Immutable event ID consistently bound to participant session, matter, packet, credit ledger, follow-up and reporting.",
+      "reproduction": [
+        "Start at /intake/[partnerSlug] with code/campaign.",
+        "Inspect phase-41/41b columns.",
+        "Inspect Briefcase, document packet, follow-up and report models for event_id: none."
+      ],
+      "evidence": [
+        "supabase/phase-41-rcap-partner-access-codes.sql:153-178",
+        "supabase/phase-41b-rcap-screening-analytics.sql:26-62"
+      ],
+      "sourceFiles": [
+        "supabase/phase-41-rcap-partner-access-codes.sql",
+        "supabase/phase-41b-rcap-screening-analytics.sql"
+      ],
+      "owner": "Clinic data platform",
+      "smallestSafeCorrection": "Add canonical event foreign keys and immutable server propagation; reject partner/program/event disagreement.",
+      "migrationRequired": true,
+      "humanDecisionRequired": "Set attribution retention and late/reassigned event rules."
+    },
+    {
+      "id": "CLINIC-P1-003",
+      "severity": "P1",
+      "title": "Assisted intake, consent, ephemeral staff access and approved event staff are absent",
+      "affectedRole": "clinic staff and participant",
+      "route": "NO CURRENT ROUTE",
+      "actual": "Only permanent partner_admin/partner_staff memberships and participant-owned normal flow exist. There is no assistance consent, staff actor identity, decline path, session expiry or event staff membership.",
+      "required": "Personal staff accounts, event-scoped approval, explicit participant consent and automatically expiring least-privilege assistance while participant stays owner.",
+      "reproduction": [
+        "Inspect partner_users roles and team routes.",
+        "Search assisted/consent/event staff models and routes.",
+        "Attempt to locate a staff-assisted entry: none."
+      ],
+      "evidence": [
+        "src/lib/partners/session-partner.ts:5-18",
+        "supabase/phase-21-partner-auth-rls-foundation.sql:15-75"
+      ],
+      "sourceFiles": [
+        "src/lib/partners/session-partner.ts",
+        "src/app/partner/team",
+        "supabase/phase-21-partner-auth-rls-foundation.sql"
+      ],
+      "owner": "Clinic product, identity, privacy",
+      "smallestSafeCorrection": "Implement event membership, assistance session and explicit consent ledger with post-session denial tests.",
+      "migrationRequired": true,
+      "humanDecisionRequired": "Counsel/privacy approve consent text and allowed assistance scope."
+    },
+    {
+      "id": "CLINIC-P1-004",
+      "severity": "P1",
+      "title": "Participant follow-up queue is documented but absent",
+      "affectedRole": "partner staff/admin and participant",
+      "route": "NO CURRENT ROUTE",
+      "actual": "No participant follow-up entity or surface supports status, assignment, due date, contact method, event/jurisdiction filters, privacy or history. Onboarding tasks are setup tasks only.",
+      "required": "Operational follow-up queue with canonical status semantics and approved data scope.",
+      "reproduction": [
+        "Search routes and schema for participant follow-up.",
+        "Open /partner/follow-up; 404.",
+        "Inspect partner dashboard; it shows aggregate incompletes only."
+      ],
+      "evidence": [
+        "docs/rcap/RCAP_SOURCE_OF_TRUTH_v2.md:282-344",
+        "data/rcap-clinic-mode-audit/browser-evidence.json"
+      ],
+      "sourceFiles": [
+        "src/app/partner/dashboard/page.tsx",
+        "supabase/phase-42-partner-onboarding.sql"
+      ],
+      "owner": "Case journey and clinic operations",
+      "smallestSafeCorrection": "Implement follow-up records/queue with assignment, audit history, filters and least-privilege detail.",
+      "migrationRequired": true,
+      "humanDecisionRequired": "Operations/legal define statuses, contact permissions and closure rules."
+    },
+    {
+      "id": "CLINIC-P1-005",
+      "severity": "P1",
+      "title": "No event reporting; generic reporting is partly seeded and conflates unsupported metrics",
+      "affectedRole": "partner admin and LegalEase",
+      "route": "NO CURRENT CLINIC REPORTING ROUTE; adjacent /dashboard/partners and report APIs",
+      "actual": "No event filter/dimension, follow-up/referral/incident metrics, home market, or credit remaining per event. Internal dashboard uses seeded data including an Expungement Clinic campaign.",
+      "required": "Truthful event-scoped aggregate reporting that separates started, screened, possible path, packet, filed and cleared.",
+      "reproduction": [
+        "Open /partner/clinic/reports; 404.",
+        "Trace /dashboard/partners to partner-dashboard-data.ts.",
+        "Inspect report data models for event ID: none."
+      ],
+      "evidence": [
+        "src/lib/partner-dashboard-data.ts",
+        "src/lib/reports/partner-final-impact-report-data.ts",
+        "data/rcap-clinic-mode-audit/browser-evidence.json"
+      ],
+      "sourceFiles": [
+        "src/app/dashboard/partners",
+        "src/lib/partner-dashboard-data.ts",
+        "src/lib/reports/partner-final-impact-report-data.ts"
+      ],
+      "owner": "Reporting",
+      "smallestSafeCorrection": "Build event-scoped live queries and labels; remove seed fallback from operational routes; add honest funnel assertions.",
+      "migrationRequired": true,
+      "humanDecisionRequired": "Approve aggregate/participant-detail reporting scope."
+    },
+    {
+      "id": "CLINIC-P1-006",
+      "severity": "P1",
+      "title": "Partner staff can mutate access codes through APIs despite admin-only UI",
+      "affectedRole": "partner staff",
+      "route": "/api/partners/access-codes; /api/partners/access-codes/toggle; /api/partners/access-mode",
+      "actual": "UI requires partner_admin, but resolveAuthorizedPartnerSlug authorizes both partner_admin and partner_staff; APIs do not re-check role and stamp createdBy=partner_admin.",
+      "required": "Server-side partner_admin check for code/mode mutation and truthful actor identity.",
+      "reproduction": [
+        "Authenticate as active partner_staff.",
+        "POST own partnerSlug to access-code or access-mode API.",
+        "Helper returns authorized own slug; route performs mutation."
+      ],
+      "evidence": [
+        "src/app/partner/access-codes/page.tsx:75-99",
+        "src/lib/partners/partner-scope-auth.ts:9-25",
+        "src/app/api/partners/access-codes/route.ts:36-69"
+      ],
+      "sourceFiles": [
+        "src/lib/partners/partner-scope-auth.ts",
+        "src/app/api/partners/access-codes/route.ts",
+        "src/app/api/partners/access-codes/toggle/route.ts",
+        "src/app/api/partners/access-mode/route.ts"
+      ],
+      "owner": "Partner identity/security",
+      "smallestSafeCorrection": "Add server-side role-aware guards to every mutation and record auth user/actual role.",
+      "migrationRequired": false,
+      "humanDecisionRequired": "Confirm whether staff may read analytics but not mutate."
+    },
+    {
+      "id": "CLINIC-P1-007",
+      "severity": "P1",
+      "title": "Launch-kit QR is general, unpublished and not event/code-specific",
+      "affectedRole": "operator, partner admin, participant",
+      "route": "/internal/partners/onboarding/[partnerSlug]; /partner/onboarding/resources",
+      "actual": "QR encodes /p/[partnerSlug], marks published=false, and carries no event or code. It cannot prove final clinic attribution/access.",
+      "required": "Approved event-specific QR bound to active event and safe code/handoff without exposing secrets in URL.",
+      "reproduction": [
+        "Generate Partner Launch Kit with launch-prep enabled.",
+        "Inspect target URL and published flag.",
+        "Scan target; it enters ordinary partner page."
+      ],
+      "evidence": [
+        "src/lib/partners/onboarding/artifact-service.ts:704-722",
+        "src/lib/partners/onboarding/artifact-generator.ts:2484-2500"
+      ],
+      "sourceFiles": [
+        "src/lib/partners/onboarding/artifact-service.ts",
+        "src/lib/partners/onboarding/artifact-generator.ts"
+      ],
+      "owner": "Clinic product and partner onboarding",
+      "smallestSafeCorrection": "Generate event QR only after event publication; bind attribution through a one-time/opaque event handoff.",
+      "migrationRequired": true,
+      "humanDecisionRequired": "Decide whether QR carries public event slug or opaque token."
+    },
+    {
+      "id": "CLINIC-P1-008",
+      "severity": "P1",
+      "title": "Capacity and sponsorship are partner-wide, not event-scoped",
+      "affectedRole": "operator and partner admin",
+      "route": "/partner/access-codes and packet generation",
+      "actual": "Onboarding stores planned code capacity, while enforcement uses partner_entitlement. No event allocation, capacity stop, sponsor owner, or per-event pool exists.",
+      "required": "Event allocation and stop state that cannot leak or consume another event/tenant pool.",
+      "reproduction": [
+        "Set planned code_level_capacity in onboarding.",
+        "Trace intake/claim/packet RPCs.",
+        "Observe they use partner entitlement and access-code max uses, not event allocation."
+      ],
+      "evidence": [
+        "src/lib/partners/onboarding/schema.ts:918-967",
+        "supabase/phase-41b-rcap-screening-analytics.sql:213-290"
+      ],
+      "sourceFiles": [
+        "src/lib/partners/onboarding/schema.ts",
+        "supabase/phase-41b-rcap-screening-analytics.sql"
+      ],
+      "owner": "Clinic accounting",
+      "smallestSafeCorrection": "Add event allocation/ledger and enforce before claim/generation with tenant/event consistency constraints.",
+      "migrationRequired": true,
+      "humanDecisionRequired": "Define whether event pool reserves or draws from partner pool."
+    },
+    {
+      "id": "CLINIC-P1-009",
+      "severity": "P1",
+      "title": "Planned reporting viewer role is not a runtime role",
+      "affectedRole": "partner viewer",
+      "route": "partner portal",
+      "actual": "Onboarding accepts reporting_viewer as a planned role, but partner_users only permits partner_admin, partner_staff and internal_admin.",
+      "required": "Either map viewer planning to an approved least-privilege runtime role or remove the false promise; do not invent uncontrolled clinic roles.",
+      "reproduction": [
+        "Select reporting viewer in onboarding plan.",
+        "Inspect partner_users role CHECK and session resolver.",
+        "No runtime viewer can be provisioned."
+      ],
+      "evidence": [
+        "src/lib/partners/onboarding/schema.ts:143-154",
+        "supabase/phase-21-partner-auth-rls-foundation.sql:41-75"
+      ],
+      "sourceFiles": [
+        "src/lib/partners/onboarding/schema.ts",
+        "src/lib/partners/session-partner.ts",
+        "supabase/phase-21-partner-auth-rls-foundation.sql"
+      ],
+      "owner": "Identity and partner product",
+      "smallestSafeCorrection": "Make an explicit governance decision: approved read-only role with server/RLS tests, or remove planned viewer option.",
+      "migrationRequired": true,
+      "humanDecisionRequired": "Role governance decision required."
+    },
+    {
+      "id": "CLINIC-P1-010",
+      "severity": "P1",
+      "title": "Clinic-day operating controls and incident lifecycle are absent",
+      "affectedRole": "operator and clinic staff",
+      "route": "NO CURRENT ROUTE",
+      "actual": "General onboarding can record training, support, referral and program pause plans, but there is no device/network rehearsal, event monitor, incident record, pause/close control, end-of-day review or post-clinic job.",
+      "required": "Executable clinic-day runbook backed by event controls and incident/follow-up records.",
+      "reproduction": [
+        "Inspect launch-readiness definitions.",
+        "Search event monitor/incident/rehearsal/device/network routes and models.",
+        "No operational surface exists."
+      ],
+      "evidence": [
+        "src/lib/partners/onboarding/launch-readiness.ts:517-667",
+        "src/lib/partners/onboarding/schema.ts:1512-1701"
+      ],
+      "sourceFiles": [
+        "src/lib/partners/onboarding/launch-readiness.ts",
+        "src/lib/partners/onboarding/schema.ts"
+      ],
+      "owner": "Clinic operations",
+      "smallestSafeCorrection": "Add event readiness checklist, device/network rehearsal record, live monitor, incident/pause workflow and closeout review.",
+      "migrationRequired": true,
+      "humanDecisionRequired": "Operations define pause authority, incident severity and escalation SLAs."
+    },
+    {
+      "id": "CLINIC-P1-011",
+      "severity": "P1",
+      "title": "No authorized staging target or complete fixture configuration for dynamic proof",
+      "affectedRole": "auditor/release operator",
+      "route": "environment",
+      "actual": "Acceptance project reference, public URL, service key and hosted app URL are unavailable in this session. Local auth route returned 500 without Supabase public config. July production reconciliation shows phase-41/41b tables were repository-only then.",
+      "required": "Authorized synthetic staging app and project with known applied migrations, test accounts, email capture and packet dry-run worker.",
+      "reproduction": [
+        "Read data/rcap-staging-authorization-readiness.json.",
+        "Inspect environment presence without printing values.",
+        "Open /partner/access-codes locally; missing public Supabase config causes 500."
+      ],
+      "evidence": [
+        "data/rcap-staging-authorization-readiness.json",
+        "data/rcap-clinic-mode-audit/browser-evidence.json",
+        "docs/rcap/production/MIGRATION_20260728213131_RECONCILIATION.md:121-179"
+      ],
+      "sourceFiles": [
+        "data/rcap-staging-authorization-readiness.json",
+        "docs/rcap/production/MIGRATION_20260728213131_RECONCILIATION.md"
+      ],
+      "owner": "Release engineering",
+      "smallestSafeCorrection": "Provision an authorized synthetic staging target and publish redacted migration/flag/fixture evidence.",
+      "migrationRequired": "Current deployed migration state must be verified; no migration was applied in Phase A.",
+      "humanDecisionRequired": "Release owner must authorize staging target and fixture creation."
+    },
+    {
+      "id": "CLINIC-P2-001",
+      "severity": "P2",
+      "title": "Clinic/campaign vocabulary can falsely imply an event exists",
+      "affectedRole": "operator and partner admin",
+      "route": "onboarding; /partner/access-codes; /dashboard/partners",
+      "actual": "Clinic is a program_model enum, campaign name placeholder says July clinic, and seeded dashboard includes Expungement Clinic.",
+      "required": "Labels must distinguish generic program/campaign from a canonical clinic event.",
+      "reproduction": [
+        "Choose Clinic program model.",
+        "Enter campaign July clinic.",
+        "Observe no event is created."
+      ],
+      "evidence": [
+        "src/lib/partners/onboarding/schema.ts:114-121",
+        "src/app/partner/access-codes/PartnerAccessCodesManager.tsx",
+        "src/lib/partner-dashboard-data.ts"
+      ],
+      "sourceFiles": [
+        "src/lib/partners/onboarding/schema.ts",
+        "src/app/partner/access-codes/PartnerAccessCodesManager.tsx",
+        "src/lib/partner-dashboard-data.ts"
+      ],
+      "owner": "Content design",
+      "smallestSafeCorrection": "Rename adjacent labels until a real event entity exists, then use event-linked selectors.",
+      "migrationRequired": false,
+      "humanDecisionRequired": "Content/product naming decision."
+    },
+    {
+      "id": "CLINIC-P2-002",
+      "severity": "P2",
+      "title": "Authentication configuration failure renders a 500 instead of a safe denial",
+      "affectedRole": "unauthenticated partner user",
+      "route": "/partner/access-codes",
+      "actual": "Missing Supabase public URL/anon key throws before SessionPartnerError handling, producing 500 in local browser audit.",
+      "required": "Configuration preflight or safe unavailable state without stack-bearing product failure.",
+      "reproduction": [
+        "Run app without Supabase public config.",
+        "Open /partner/access-codes.",
+        "Observe HTTP 500."
+      ],
+      "evidence": [
+        "data/rcap-clinic-mode-audit/browser-evidence.json",
+        "src/lib/supabase/config.ts:1-9"
+      ],
+      "sourceFiles": [
+        "src/lib/supabase/config.ts",
+        "src/app/partner/access-codes/page.tsx"
+      ],
+      "owner": "Platform",
+      "smallestSafeCorrection": "Add deployment preflight and safe error boundary for configuration absence.",
+      "migrationRequired": false,
+      "humanDecisionRequired": false
+    },
+    {
+      "id": "CLINIC-P3-001",
+      "severity": "P3",
+      "title": "No consolidated Clinic Mode operator documentation existed",
+      "affectedRole": "all operators",
+      "route": "documentation",
+      "actual": "Repository had general partner/onboarding docs but no truth-first Clinic Mode access and runbook set.",
+      "required": "Keep the Phase A guides current with implementation and rehearsal evidence.",
+      "reproduction": [
+        "Search docs for dedicated Clinic Mode guide before this audit."
+      ],
+      "evidence": [
+        "docs/rcap-clinic-mode-audit/**"
+      ],
+      "sourceFiles": [],
+      "owner": "Clinic operations/documentation",
+      "smallestSafeCorrection": "Update these guides in Phase B alongside product changes and tests.",
+      "migrationRequired": false,
+      "humanDecisionRequired": false
+    }
+  ]
+}
