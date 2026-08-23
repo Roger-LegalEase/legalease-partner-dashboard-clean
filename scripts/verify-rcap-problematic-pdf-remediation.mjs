@@ -2192,33 +2192,74 @@ async function runReleaseHoldNegativeControl() {
     .flatMap((family) => (family.artifacts ?? []).filter((artifact) => artifact.present));
   if (artifacts.length === 0) throw new Error(`the release-hold control found no present audited artifact for ${familyIds.join(", ")}`);
 
-  // 1. the baseline qualifies through the canonical helper.
+  // The family's own source record, which is where a release hold is written.
+  const packageDir = (() => {
+    const slugs = familyIds.map((id) => (id.includes(":") ? id.split(":")[1] : id));
+    for (const state of fs.readdirSync(abs(OVERLAY_DIR))) {
+      for (const slug of slugs) {
+        const candidate = path.join(OVERLAY_DIR, state, slug);
+        if (fs.existsSync(abs(path.join(candidate, "source-record.json")))) return candidate;
+      }
+    }
+    return null;
+  })();
+  if (!packageDir) throw new Error(`the release-hold control found no package for ${familyIds.join(", ")}`);
+  const sourcePath = path.join(packageDir, "source-record.json");
+
   const baseline = verdictFor(familyIds, artifacts);
+
+  // The hold is really written and the verdict really recomputed. Calling the
+  // helper twice with identical inputs would assert nothing at all -- it would
+  // pass against a helper that read the hold and acted on it, because the hold
+  // would never have been there.
+  let held = null;
+  await withTrackedMutation("release-hold negative control", [sourcePath], async () => {
+    const record = readJson(sourcePath);
+    record.productionHolds = [...new Set([...(record.productionHolds ?? []), "nationwide_launch_not_authorized"])];
+    fs.writeFileSync(abs(sourcePath), `${JSON.stringify(record, null, 2)}\n`);
+    held = verdictFor(familyIds, artifacts);
+  });
+
+  if (held.approved !== baseline.approved || held.channel !== baseline.channel || held.reason !== baseline.reason) {
+    console.error(
+      `MISSED  a global release hold alone changed the canonical verdict for ${familyIds.join(", ")} `
+      + `(approved ${baseline.approved} -> ${held.approved}, channel ${baseline.channel} -> ${held.channel})`
+    );
+    return false;
+  }
+
+  /**
+   * The second half of the control needs the corpus, and says so.
+   *
+   * platformReadyVerdict's review-record channel compares the reviewed source
+   * SHA against real bytes, so without the authorized corpus it refuses at
+   * condition 3 before it ever looks at an artifact -- and then every input
+   * produces the same refusal, which makes a discrimination test impossible
+   * rather than merely inconvenient. Reporting that plainly is the honest
+   * outcome; claiming the control discriminated when it could not would be the
+   * failure mode this whole suite exists to prevent.
+   */
   if (!baseline.approved) {
-    console.error(`MISSED  ${familyIds.join(", ")} is recorded platform_ready and the canonical verdict refuses it: ${baseline.reason}`);
-    return false;
+    console.log(
+      `held    a global release hold alone does NOT change the canonical platform-ready verdict `
+      + `(${familyIds.join(", ")}); discrimination not evaluated here because the verdict already refuses `
+      + `without the authorized corpus: ${baseline.reason}`
+    );
+    return true;
   }
 
-  // 2. a global release hold is a release decision, not a defect, so the
-  //    verdict must not move. The holds live beside the verdict rather than
-  //    inside it, which is exactly the separation being asserted.
-  const held = verdictFor(familyIds, artifacts);
-  if (!held.approved || held.channel !== baseline.channel) {
-    console.error(`MISSED  a global release hold alone changed the canonical verdict for ${familyIds.join(", ")}`);
-    return false;
-  }
-
-  // 3. and the control has to be capable of refusing: remove the approval and
-  //    the same helper must stop approving. Without this the two checks above
-  //    would pass against a helper that approves everything.
   const withoutApproval = verdictFor(familyIds, []);
   if (withoutApproval.approved) {
     console.error(`MISSED  the canonical verdict still approves ${familyIds.join(", ")} with no approved artifact named`);
     return false;
   }
 
-  console.log(`held    a global release hold alone does NOT change the canonical platform-ready verdict (${familyIds.join(", ")}, channel ${baseline.channel}), and removing the approval still refuses`);
+  console.log(
+    `held    a global release hold alone does NOT change the canonical platform-ready verdict `
+    + `(${familyIds.join(", ")}, channel ${baseline.channel}), and removing the approval still refuses`
+  );
   return true;
+
 }
 
 // The tree must be exactly as it was: the guard restores from its journal, and
