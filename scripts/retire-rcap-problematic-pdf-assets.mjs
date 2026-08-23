@@ -17,6 +17,7 @@
 // recorded use site is refused here even if someone lists it.
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { resolveOperationalCorpus, refusalReport } from "./rcap-official-forms/operational-corpus-precondition.mjs";
 
@@ -29,7 +30,22 @@ const checkOnly = process.argv.includes("--check");
 // retirement ledger that prunes itself on every run is one bad probe away from
 // silently un-retiring the corpus, and the refusal is what makes a
 // contradiction visible in the first place.
-const prune = process.argv.includes("--prune");
+const prune = process.argv.includes("--prune") || process.argv.includes("--prune-stale-only");
+/**
+ * Remove contradicted markers and touch nothing else.
+ *
+ * The broad `--prune` clears a stale marker, but it also re-serializes every
+ * SURVIVING marker on the same pass, because writing markers and pruning them
+ * share one loop. Those rewrites are not corrections: the committed markers were
+ * written by a later generator than the one in this tree, so re-serializing
+ * replaces their basis and reversal prose with an earlier draft. Repairing two
+ * wrong retirements is not a licence to move forty right ones.
+ *
+ * This mode removes only markers the current determination contradicts, creates
+ * nothing, rewrites nothing, and writes outside a retirement-marker path not at
+ * all.
+ */
+const pruneStaleOnly = process.argv.includes("--prune-stale-only");
 const DISPUTED_OUT = path.join(rootDir, "data/rcap-all50/pdf-retirement-evidence/disputed-retirement-markers.json");
 
 function fail(message) {
@@ -49,7 +65,20 @@ function fail(message) {
 // against the determination, which creates no retirement and needs no corpus.
 // Writing is what makes an asset disappear from the inventory, and that is the
 // direction that has to fail closed.
-if (!checkOnly) {
+/**
+ * The corpus gate guards the direction that removes an asset from the
+ * inventory, which is writing a marker. Removing a marker is the opposite
+ * direction: it returns an asset to retained/remediation, and this file already
+ * says so -- "Writing is what makes an asset disappear from the inventory, and
+ * that is the direction that has to fail closed."
+ *
+ * --prune-stale-only writes no marker, so it is not gated on the seventh
+ * condition. What it IS gated on is the determination being current, which the
+ * check above enforces through the generator's own --check. Requiring the
+ * corpus here would make the correction for a retirement taken on absent
+ * evidence itself impossible without that evidence.
+ */
+if (!checkOnly && !pruneStaleOnly) {
   const corpus = await resolveOperationalCorpus(rootDir);
   if (!corpus.evaluable) {
     fail(`${refusalReport(corpus)}\n  no retirement marker is written while the seventh condition is unevaluable; --check still verifies markers that already exist`);
@@ -59,6 +88,22 @@ if (!checkOnly) {
 const determination = fs.existsSync(DETERMINATION)
   ? JSON.parse(fs.readFileSync(DETERMINATION, "utf8"))
   : fail("the retirement determination has not been generated");
+
+/**
+ * A removal is only as good as the determination behind it.
+ *
+ * Pruning against a stale determination un-retires assets on the strength of a
+ * probe that no longer describes this tree — the same class of error that
+ * retired these assets in the first place. The canonical freshness test is the
+ * generator's own --check, so that is what runs.
+ */
+if (pruneStaleOnly && !checkOnly) {
+  try {
+    execFileSync("node", [path.join(rootDir, "scripts/generate-rcap-pdf-retirement-determination.mjs"), "--check"], { cwd: rootDir, stdio: "pipe" });
+  } catch {
+    fail("the retirement determination is stale; regenerate it before pruning, because a removal derived from a stale probe repeats the error it is meant to correct");
+  }
+}
 
 if (determination.totals.surfacesUnreadable !== 0) {
   fail("the determination could not read every surface; an unchecked surface cannot support a retirement");
@@ -223,7 +268,7 @@ for (const asset of determination.assets) {
     if (checkOnly) {
       const problem = markerContractBreach(file, marker);
       if (problem) stale.push(`${path.relative(rootDir, file)}: ${problem}`);
-    } else {
+    } else if (!pruneStaleOnly) {
       fs.writeFileSync(file, json);
     }
     written.push(path.relative(rootDir, file));
@@ -244,7 +289,7 @@ if (checkOnly && stale.length > 0) {
 // Every marker the correction cleared, with the reference that saved the
 // asset. A pruned marker is a retirement that was wrong, and a retirement
 // ledger that cannot say which ones were wrong is not a ledger.
-if (prune && !checkOnly) {
+if (prune && !checkOnly && !pruneStaleOnly) {
   fs.mkdirSync(path.dirname(DISPUTED_OUT), { recursive: true });
   fs.writeFileSync(DISPUTED_OUT, `${JSON.stringify({
     schemaVersion: "rcap-disputed-retirement-markers/v1",

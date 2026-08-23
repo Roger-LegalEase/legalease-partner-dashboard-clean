@@ -8,32 +8,32 @@ Terminalizing a track around a broken PDF is a legitimate product decision. It i
 
 | Measure | Count |
 | --- | ---: |
-| Problematic Pdfs Total | 69 |
+| Problematic Pdfs Total | 71 |
 | Launch Safely Terminal | 12 |
 | Platform Ready | 5 |
-| Retired From Operational Inventory | 42 |
-| Retired Family Directories | 47 |
+| Retired From Operational Inventory | 40 |
+| Retired Family Directories | 45 |
 | Active Track Problematic Pdfs | 45 |
 | Orphaned Or Optional Pdfs | 10 |
-| Missing Pdf Binaries | 31 |
-| Assets With At Least One Technical Finding | 59 |
+| Missing Pdf Binaries | 33 |
+| Assets With At Least One Technical Finding | 61 |
 | Assets With At Least One Visual Finding | 52 |
-| Assets With At Least One Source Finding | 73 |
+| Assets With At Least One Source Finding | 75 |
 | Unique Systemic Technical Root Causes | 0 |
-| Unique Family Specific Technical Defects | 67 |
+| Unique Family Specific Technical Defects | 69 |
 | Unique Systemic Visual Root Causes | 2 |
 | Unique Family Specific Visual Defects | 32 |
 | Unique Systemic Source Root Causes | 2 |
 | Unique Family Specific Source Defects | 5 |
 | Unique Root Causes In Play | 14 |
-| Technical Defects | 59 |
+| Technical Defects | 61 |
 | Visual Defects | 52 |
 | Unfinalized Rendered Artifacts | 0 |
 | Rendered Artifacts Not Byte Inspectable | 0 |
 | Contact Sheets Showing No Fill | 4 |
 | Protected Fields Populated By The Factory | 0 |
-| Source Or Currentness Defects | 73 |
-| Legal Design Or Adoption Holds | 86 |
+| Source Or Currentness Defects | 75 |
+| Legal Design Or Adoption Holds | 88 |
 | Tracks Safely Terminalized Around A Problem Pdf | 34 |
 | Problem Pdf Routes Still Sellable | 0 |
 | Problem Pdf Routes Still Public | 0 |
@@ -4483,6 +4483,32 @@ Defects:
 
 _No active launch track is proven to require this asset._
 
+### NC cr287_1.pdf — cr287_1.pdf
+
+- **Family ids**: NC:cr287-1
+- **Source SHA**: sha256_unrecorded_in_repo
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for NC cr287_1.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — cr287_1.pdf is expected at LegalEase North Carolina/cr287_1.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — pinned_hash_absent_from_canonical_library _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
 ### NC cr297.pdf — cr297.pdf
 
 - **Family ids**: NC:cr297
@@ -4499,6 +4525,32 @@ _No active launch track is proven to require this asset._
 Defects:
 
 - `missing_binary` — cr297.pdf is expected at LegalEase North Carolina/cr297.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
+- `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
+- `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
+- `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — jurisdiction_runtime_disabled _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — pinned_hash_absent_from_canonical_library _(source-record.json:productionHolds)_
+- `held_on_source_or_design` — f_independent_visual_review_required _(source-record.json:productionHolds)_
+- `never_independently_approved` — No independent technical approval exists for any track this asset serves. _(f2-dispositions.json:closures)_
+
+_No active launch track is proven to require this asset._
+
+### NC cr298_1.pdf — cr298_1.pdf
+
+- **Family ids**: NC:cr298-1
+- **Source SHA**: sha256_unrecorded_in_repo
+- **Binary present**: false
+- **Structural class**: dirty_acroform; participant fillable: unrecorded
+- **Defect categories**: held_on_source_or_design, missing_binary, never_independently_approved, xfa_javascript_or_active_content_residue
+- **Technical disposition**: no_implementation_record
+- **Legal disposition**: no_independent_approval
+- **Owner**: Terminal A route owner
+- **Post-launch priority**: low
+- **Exact next action**: Supply the exact verified binary for NC cr298_1.pdf at its committed path and SHA, then re-run the D1 implementation and visual evidence for its family.
+
+Defects:
+
+- `missing_binary` — cr298_1.pdf is expected at LegalEase North Carolina/cr298_1.pdf and is not present in the clone. _(source-record.json:sourcePresenceInClone)_
 - `xfa_javascript_or_active_content_residue` — The binary is a dirty AcroForm carrying active-content or residue that must be neutralised before any fill. _(source-record.json:classification)_
 - `held_on_source_or_design` — The source record fails closed: no generation is permitted from it in its current state. _(source-record.json:failClosed)_
 - `held_on_source_or_design` — edition_1_generation_allowed_no _(source-record.json:productionHolds)_

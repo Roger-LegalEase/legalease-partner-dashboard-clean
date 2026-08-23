@@ -6,18 +6,18 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 
 | Measure | Count |
 | --- | ---: |
-| Assets in the register | 86 |
+| Assets in the register | 88 |
 | Serving an active launch track | 45 |
 | Orphaned or optional | 10 |
-| Expected by legal design and absent | 31 |
+| Expected by legal design and absent | 33 |
 | Lane A — correctable now | 0 |
-| Lane B — official source acquisition required | 49 |
+| Lane B — official source acquisition required | 51 |
 | Lane C — source-currentness hold | 27 |
 | Lane D — legal-design hold | 0 |
 | Lane E — orphaned or optional | 10 |
 | Lane F — missing binary, complete participant deferral | 0 |
 | Verified source binaries present in this clone | 1 |
-| Assets with a finalized rendered artifact | 31 |
+| Assets with a finalized rendered artifact | 30 |
 | Assets whose active-content verdict is unprovable | 0 |
 | Contact sheets that show a fill | 27 |
 | Contact sheets that show no fill | 4 |
@@ -29,20 +29,20 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 | Reference-only documents | 2 |
 | Orphaned | 8 |
 | Optional | 0 |
-| Official source required | 45 |
-| Certification unproven | 2 |
-| Independent review required | 23 |
+| Official source required | 52 |
+| Certification unproven | 0 |
+| Independent review required | 20 |
 | Legal-design hold | 0 |
 | Source-acquisition candidates (priorities 1-3) | 44 |
 | Acquisition priority 1 — packet-capable route waiting | 1 |
 | Acquisition priority 2 — review cannot begin | 41 |
 | Acquisition priority 3 — currentness or supersession | 2 |
-| Acquisition priority 4 — do not acquire without a named current use | 41 |
+| Acquisition priority 4 — do not acquire without a named current use | 43 |
 | Assets awaiting a write-box placement decision | 3 |
 | Recorded official titles that look mis-extracted | 3 |
-| Assets with no track binding | 40 |
+| Assets with no track binding | 42 |
 | Assets with a candidate, unconfirmed track binding | 7 |
-| Never independently reviewed | 83 |
+| Never independently reviewed | 85 |
 | On a sellable route | 0 |
 | On a public packet route | 0 |
 | High severity | 5 |
@@ -50,7 +50,7 @@ Every asset is in exactly one remediation lane and states the exact thing that w
 ## Lanes
 
 - **A** — `actionable_technical_or_visual_correction` (0)
-- **B** — `official_source_acquisition_required` (49)
+- **B** — `official_source_acquisition_required` (51)
 - **C** — `source_currentness_hold` (27)
 - **D** — `legal_design_hold` (0)
 - **E** — `orphaned_or_optional_asset` (10)
@@ -90,7 +90,9 @@ _None._
 | NC | AOC-CR-298 | nc_145_5_misdemeanor | medium | Roger (official source acquisition) | Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 5d648de001ff725135f8b83eb38a8c45fc5001ae2dd1d2edb2e6e34044117d5c) is not present in this clone. The factory renders from the binary; there is nothing to render from. | Retrieve the current official NC AOC-CR-298 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. |
 | NC | AOC-CV-226 | nc_145_5_felony, nc_145_5_misdemeanor, nc_145_8a_youthful, nc_146_dismissal_petition | high | Roger (official source acquisition) | Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 08c01368a638d1f17ca4e49f8f89a0e888184e6da7d7a253c74a0b55864647e7) is not present in this clone. The factory renders from the binary; there is nothing to render from. | Retrieve the current official NC AOC-CV-226 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. |
 | NC | AOC-CV-226 | nc_145_5_felony, nc_145_5_misdemeanor, nc_145_8a_youthful, nc_146_dismissal_petition | high | Roger (official source acquisition) | Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 76de51d6bb88f8e3b85983ecdbdaeac08eb683837ff737203eb39c24ad495c9a) is not present in this clone. The factory renders from the binary; there is nothing to render from. | Retrieve the current official NC AOC-CV-226 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. |
+| NC | cr287_1.pdf | — | low | Roger (official source acquisition) | The verified binary for NC cr287_1.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official NC cr287_1.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | NC | cr297.pdf | — | low | Roger (official source acquisition) | The verified binary for NC cr297.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official NC cr297.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
+| NC | cr298_1.pdf | — | low | Roger (official source acquisition) | The verified binary for NC cr298_1.pdf is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official NC cr298_1.pdf binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | NC | expungements.html | — | low | Roger (official source acquisition) | The verified binary for NC expungements.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official NC expungements.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | NC | forms-2.html | — | low | Roger (official source acquisition) | The verified binary for NC forms-2.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official NC forms-2.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
 | NC | forms.html | — | low | Roger (official source acquisition) | The verified binary for NC forms.html is not in the clone, and no track binding exists for it: this asset is keyed by filename while the pinned legal-design registry keys packet components by form number, so nothing joins the two and the affected route cannot be stated. No candidate form-number match was found either. | Retrieve the current official NC forms.html binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes. Separately, establish which packet component, if any, depends on this asset: no track binding exists and no candidate form-number match was found, so this row cannot currently name the route it affects. |
@@ -176,9 +178,9 @@ Every asset carries exactly one. `releaseStatus` is a separate axis and is HELD 
 | Disposition | Meaning | Assets |
 | --- | --- | ---: |
 | `active_track_delivery_hold` | An active track's packet delivery is blocked on this asset. | 1 |
-| `official_source_required` | The verified source binary is unavailable, so nothing downstream can be attempted. | 45 |
-| `certification_unproven` | Artifacts exist but cannot be certified: their active-content cleanliness or finalization cannot be established from the committed bytes. | 2 |
-| `independent_review_required` | Certifiable artifacts exist and no independent review has approved them. | 23 |
+| `official_source_required` | The verified source binary is unavailable, so nothing downstream can be attempted. | 52 |
+| `certification_unproven` | Artifacts exist but cannot be certified: their active-content cleanliness or finalization cannot be established from the committed bytes. | 0 |
+| `independent_review_required` | Certifiable artifacts exist and no independent review has approved them. | 20 |
 | `legal_design_hold` | A substantive legal-design question is unresolved. | 0 |
 | `reference_only` | An instruction, guidance or supporting-process document, not a filed component. | 2 |
 | `orphaned` | No active track requires it and no candidate binding to one exists. | 8 |
@@ -195,20 +197,18 @@ How many assets carry a finding and how many distinct problems produce those fin
 
 | Root cause | Dimension | Scope | Impacted assets | Cleared by |
 | --- | --- | --- | ---: | --- |
-| `RC-G-GENERATION-NOT-ALLOWED` | governance | systemic | 86 | A recorded decision to permit generation, after the source and design questions are answered. |
-| `RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL` | governance | systemic | 83 | Independent technical review once reviewable artifacts exist. |
-| `RC-G-PRODUCTION-HOLD` | governance | systemic | 86 | Lifting the holds deliberately, which is a release decision and not a build one. |
-| `RC-S-BUNDLE-ABSENT` | source | systemic | 31 | Supplying the canonical source bundle, or opening access to the issuing bodies. |
+| `RC-G-GENERATION-NOT-ALLOWED` | governance | systemic | 88 | A recorded decision to permit generation, after the source and design questions are answered. |
+| `RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL` | governance | systemic | 85 | Independent technical review once reviewable artifacts exist. |
+| `RC-G-PRODUCTION-HOLD` | governance | systemic | 88 | Lifting the holds deliberately, which is a release decision and not a build one. |
+| `RC-S-BUNDLE-ABSENT` | source | systemic | 33 | Supplying the canonical source bundle, or opening access to the issuing bodies. |
 | `RC-S-CURRENTNESS-UNVERIFIED` | source | systemic | 37 | A currentness review pass against the issuing bodies' own publications. |
 | `RC-S-STALE-OR-SUPERSEDED` | source | family_specific | 5 | Acquiring the current edition of this form and recording the supersession. |
 | `RC-T-ALL-FIELDS-UNWRITABLE` | technical | family_specific | 2 | A reviewed mapping decision for this form, or a decision that it is court-completed. |
-| `RC-T-DIRTY-ACROFORM-SOURCE` | technical | family_specific | 23 | Sanitation of this form through the current pipeline, proved on the output. |
+| `RC-T-DIRTY-ACROFORM-SOURCE` | technical | family_specific | 25 | Sanitation of this form through the current pipeline, proved on the output. |
 | `RC-T-FLAT-GEOMETRY-UNMEASURED` | technical | family_specific | 19 | A live render proving the write boxes were measured against the rule lines they belong to. |
 | `RC-T-NO-DERIVABLE-WRITE-BOX` | technical | family_specific | 8 | A reviewed and recorded placement decision for this form. |
 | `RC-T-NO-FIELD-CENSUS` | technical | family_specific | 15 | A census taken from this form's verified binary. |
-| `RC-T-VALUES-ABSENT` | technical | family_specific | 2 | Bindings or anchors for this form, then a re-render. |
 | `RC-V-NO-SHEET-PRODUCED` | visual | systemic | 18 | Rendering the affected families, which produces the sheet as part of the run. |
-| `RC-V-SHEET-FROM-UNFINALIZED-SOURCE` | visual | systemic | 2 | Re-rendering the affected families and rebuilding their sheets from the finalized artifact. |
 | `RC-V-SHEET-PANELS-IDENTICAL` | visual | systemic | 4 | Rebuilding the affected sheets from finalized artifacts; the current builder refuses to emit a sheet whose panels match. |
 | `RC-V-UNSAFE-PLACEMENT` | visual | family_specific | 32 | Re-measuring this form's geometry and re-rendering the boundary fixture. |
 
@@ -382,7 +382,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 
 - **Recorded official title**: AOC-CR-287 Petition and Order of Expunction
 - **Affected route**: nc_146_dismissal_petition (route kind: exact_supported_deferral)
-- **Active-track status**: active_track; disposition `certification_unproven`
+- **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: yes — exact_supported_deferral
 - **Controlling first-party publisher**: www.nccourts.gov
 - **Official URL**: https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a-or-gs-15a-146a1-charges-dismissed
@@ -390,7 +390,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 9405bb36e6e879a094ecaa3bcbcd1a1fd1d918d40ecd3dfff22c5ce5043b696a) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-287 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-T-VALUES-ABSENT, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-PANELS-IDENTICAL
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-SHEET-PANELS-IDENTICAL
 
 #### NC AOC-CR-287
 
@@ -466,7 +466,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 
 - **Recorded official title**: AOC-CR-288 Petition and Order of Expunction
 - **Affected route**: nc_146_acquittal_petition (route kind: factory_v2)
-- **Active-track status**: active_track; disposition `certification_unproven`
+- **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: no terminal treatment recorded against a track
 - **Controlling first-party publisher**: www.nccourts.gov
 - **Official URL**: https://www.nccourts.gov/documents/forms/petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible-instructions-for-petition-and-order-of-expunction-under-gs-15a-146a2-not-guilty-or-not-responsible
@@ -474,7 +474,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 - **Currently pinned hash**: 46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64
 - **Why the existing bytes are insufficient**: Correcting this asset requires re-rendering it through the current official-form factory, and the verified source binary (SHA-256 46cdca90a1891b0df1cbfcc960f0c0f839a3ae717313dd46b6e3b69d68747c64) is not present in this clone. The factory renders from the binary; there is nothing to render from.
 - **Work unlocked by acquisition**: Retrieve the current official NC AOC-CR-288 binary from its issuing body, record its URL, retrieval timestamp, publisher, edition date, byte length and SHA-256, and place it at the path its source record pins. Nothing downstream can proceed without those bytes.
-- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-T-VALUES-ABSENT, RC-V-SHEET-FROM-UNFINALIZED-SOURCE, RC-V-SHEET-PANELS-IDENTICAL
+- **Root causes**: RC-G-GENERATION-NOT-ALLOWED, RC-G-NO-INDEPENDENT-TECHNICAL-APPROVAL, RC-G-PRODUCTION-HOLD, RC-S-CURRENTNESS-UNVERIFIED, RC-T-FLAT-GEOMETRY-UNMEASURED, RC-V-SHEET-PANELS-IDENTICAL
 
 #### NC AOC-CR-288
 
@@ -508,7 +508,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 
 - **Recorded official title**: AOC-CR-296 Petition and Order of Expunction
 - **Affected route**: nc_146_acquittal_petition (route kind: factory_v2)
-- **Active-track status**: active_track; disposition `independent_review_required`
+- **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: no terminal treatment recorded against a track
 - **Controlling first-party publisher**: not recorded (no source URL is recorded against this asset)
 - **Official URL**: none recorded
@@ -578,7 +578,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 
 - **Recorded official title**: AOC-CV-226 Affidavit of Indigency
 - **Affected route**: nc_145_5_felony, nc_145_5_misdemeanor, nc_145_8a_youthful, nc_146_dismissal_petition (route kind: factory_v2, exact_supported_deferral)
-- **Active-track status**: active_track; disposition `independent_review_required`
+- **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: no terminal treatment recorded against a track
 - **Controlling first-party publisher**: not recorded (no source URL is recorded against this asset)
 - **Official URL**: none recorded
@@ -606,7 +606,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 
 - **Recorded official title**: AOC-CV-226 Affidavit of Indigency
 - **Affected route**: nc_145_5_felony, nc_145_5_misdemeanor, nc_145_8a_youthful, nc_146_dismissal_petition (route kind: factory_v2, exact_supported_deferral)
-- **Active-track status**: active_track; disposition `independent_review_required`
+- **Active-track status**: active_track; disposition `official_source_required`
 - **Participant already safely served**: no terminal treatment recorded against a track
 - **Controlling first-party publisher**: not recorded (no source URL is recorded against this asset)
 - **Official URL**: none recorded
@@ -846,7 +846,7 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 
 ### Priority 4 — Orphaned, optional, historical or reference-only. do_not_acquire_without_a_named_current_use.
 
-41 asset(s).
+43 asset(s).
 
 | Jurisdiction | Form | Disposition | Rule |
 | --- | --- | --- | --- |
@@ -868,7 +868,9 @@ Priority 4 is a standing refusal, not a low queue position: retrieving an orphan
 | KY | JV-29.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | KY | JV-30.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | KY | Kentucky-Expungement-Forms.html | `orphaned` | `do_not_acquire_without_a_named_current_use` |
+| NC | cr287_1.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | NC | cr297.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
+| NC | cr298_1.pdf | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | NC | expungements.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | NC | forms-2.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
 | NC | forms.html | `official_source_required` | `do_not_acquire_without_a_named_current_use` |
@@ -911,7 +913,7 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | Jurisdiction | Form | Lane | Rendered artifact finalized | Active-content verdict | Contact sheet shows a fill | Independent review |
 | --- | --- | --- | --- | --- | --- | --- |
 | AK | ak-record-relief-forms.html | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| AK | RequestToSealCrimInfo.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| AK | RequestToSealCrimInfo.pdf | B | true | clean and provable | no sheet | never_independently_reviewed |
 | AK | TF-800 | C | true | clean and provable | true | never_independently_reviewed |
 | AK | TF-805 | C | true | clean and provable | true | never_independently_reviewed |
 | AK | TF-810 | C | true | clean and provable | true | never_independently_reviewed |
@@ -921,9 +923,9 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | AL | criminal-forms.html | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AL | criminal-record-expungement.html | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | AR | 3-Misdemeanor-Petition-8_01_2023.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| AR | 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| AR | 7_Nolle_Prosequi_Dismissed_Acquittal_Petition_2020_F.pdf | B | true | clean and provable | no sheet | never_independently_reviewed |
 | AR | Arkansas-Petition-Order-Forms.html | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| AR | Felony-Petition-Form-f.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| AR | Felony-Petition-Form-f.pdf | B | true | clean and provable | no sheet | never_independently_reviewed |
 | KY | 496.2.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | KY | 496.3.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | KY | 497.2.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
@@ -940,24 +942,26 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | NC | AOC-CR-287 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-287 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-287 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NC | AOC-CR-287 | B | true | clean and provable | false | never_independently_reviewed |
+| NC | AOC-CR-287 | B | false | no rendered artifact to judge | false | never_independently_reviewed |
 | NC | AOC-CR-287 | C | true | clean and provable | true | never_independently_reviewed |
 | NC | AOC-CR-287 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-288 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-288 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-288 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NC | AOC-CR-288 | B | true | clean and provable | false | never_independently_reviewed |
+| NC | AOC-CR-288 | B | false | no rendered artifact to judge | false | never_independently_reviewed |
 | NC | AOC-CR-288 | C | true | clean and provable | true | never_independently_reviewed |
 | NC | AOC-CR-288 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| NC | AOC-CR-296 | C | true | clean and provable | true | never_independently_reviewed |
+| NC | AOC-CR-296 | C | false | no rendered artifact to judge | true | never_independently_reviewed |
 | NC | AOC-CR-297 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-297 | C | true | clean and provable | true | never_independently_reviewed |
 | NC | AOC-CR-298 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | AOC-CR-298 | C | true | clean and provable | true | never_independently_reviewed |
-| NC | AOC-CV-226 | B | true | clean and provable | false | never_independently_reviewed |
+| NC | AOC-CV-226 | B | false | no rendered artifact to judge | false | never_independently_reviewed |
 | NC | AOC-CV-226 | C | true | clean and provable | true | never_independently_reviewed |
-| NC | AOC-CV-226 | B | true | clean and provable | false | never_independently_reviewed |
+| NC | AOC-CV-226 | B | false | no rendered artifact to judge | false | never_independently_reviewed |
+| NC | cr287_1.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | cr297.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| NC | cr298_1.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | expungements.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | forms-2.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | NC | forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
@@ -977,7 +981,7 @@ Every asset here is held. None is approved, public, sellable, packet-ready or re
 | VA | cc1473.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VA | cc1473inst.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VA | va-expungement-sealing-forms.html | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
-| VT | 200-00129 | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
+| VT | 200-00129 | B | true | clean and provable | no sheet | never_independently_reviewed |
 | VT | 200-00130 | C | true | clean and provable | true | never_independently_reviewed |
 | VT | 200-00130A - Filing a Petition to Expunge or Seal a Criminal Record.pdf | B | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
 | VT | 200-00131 | E | false | no rendered artifact to judge | no sheet | never_independently_reviewed |
