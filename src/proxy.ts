@@ -4,6 +4,8 @@ import { isRcapPartnerOnboardingEnabled } from "@/lib/partners/onboarding/featur
 import { shouldUseStaticWeMustVoteLanding } from "@/lib/partners/we-must-vote-routing";
 import { getSupabasePublicConfig } from "@/lib/supabase/config";
 
+const INTERNAL_PATH_HEADER = "x-legalease-internal-path";
+
 export async function proxy(request: NextRequest) {
   const hostRouting = routePublicProductHost(request);
   if (hostRouting) {
@@ -278,9 +280,20 @@ async function refreshSupabaseSession(request: NextRequest) {
 }
 
 function nextWithRequest(request: NextRequest) {
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.delete(INTERNAL_PATH_HEADER);
+  if (
+    request.nextUrl.pathname === "/internal" ||
+    request.nextUrl.pathname.startsWith("/internal/")
+  ) {
+    // The root server layout cannot otherwise recover the requested nested
+    // pathname. Always overwrite a caller-supplied value at the proxy boundary.
+    requestHeaders.set(INTERNAL_PATH_HEADER, request.nextUrl.pathname);
+  }
+
   return NextResponse.next({
     request: {
-      headers: request.headers
+      headers: requestHeaders
     }
   });
 }

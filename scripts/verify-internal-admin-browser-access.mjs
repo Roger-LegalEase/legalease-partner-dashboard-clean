@@ -176,8 +176,11 @@ await check("browser Back receives no reusable internal response contract", () =
   const proxy = read("src/proxy.ts");
   const layout = read("src/app/internal/layout.tsx");
   assert.ok(proxy.includes('"Cache-Control", "private, no-store, max-age=0, must-revalidate"'));
+  assert.ok(proxy.includes('requestHeaders.set(INTERNAL_PATH_HEADER, request.nextUrl.pathname)'));
   assert.ok(layout.includes('export const dynamic = "force-dynamic"'));
   assert.ok(layout.includes("noStore()"));
+  assert.ok(layout.includes('requestHeaders.get("x-legalease-internal-path")'));
+  assert.ok(layout.includes("resolveInternalAdminPageAccess(nextPath)"));
 });
 
 await check("switch-account control clears the local session before sign-in", async () => {

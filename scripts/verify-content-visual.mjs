@@ -32,6 +32,7 @@ fs.mkdirSync(shotDir, { recursive: true });
 
 const server = spawn("npx", ["next", "dev", "--port", PORT], {
   cwd: rootDir,
+  detached: process.platform !== "win32",
   env: {
     ...process.env,
     // Dummy Supabase config: the pages must render an honest empty state, not crash, when the
@@ -225,7 +226,7 @@ try {
 } catch (error) {
   failures.push(error instanceof Error ? (error.stack ?? error.message) : String(error));
 } finally {
-  server.kill("SIGTERM");
+  stopDevServer();
 }
 
 if (failures.length) {
@@ -326,4 +327,18 @@ async function waitForServer(url, timeoutMs) {
 
 function assert(condition, message) {
   if (!condition) failures.push(message);
+}
+
+function stopDevServer() {
+  if (server.pid) {
+    try {
+      if (process.platform === "win32") server.kill("SIGTERM");
+      else process.kill(-server.pid, "SIGTERM");
+    } catch {
+      server.kill("SIGTERM");
+    }
+  }
+  server.stdout.destroy();
+  server.stderr.destroy();
+  server.unref();
 }

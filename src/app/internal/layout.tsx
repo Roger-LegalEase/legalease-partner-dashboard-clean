@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { unstable_noStore as noStore } from "next/cache";
+import { headers } from "next/headers";
 import {
   InternalAdminDenied,
   resolveInternalAdminPageAccess
@@ -15,7 +16,13 @@ export const metadata: Metadata = {
 
 export default async function InternalLayout({ children }: { children: ReactNode }) {
   noStore();
-  const access = await resolveInternalAdminPageAccess("/internal");
+  const requestHeaders = await headers();
+  const requestedPath = requestHeaders.get("x-legalease-internal-path");
+  const nextPath =
+    requestedPath === "/internal" || requestedPath?.startsWith("/internal/")
+      ? requestedPath
+      : "/internal";
+  const access = await resolveInternalAdminPageAccess(nextPath);
   if (access.kind === "denied") {
     return (
       <InternalAdminDenied
