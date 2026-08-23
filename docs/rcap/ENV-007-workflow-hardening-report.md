@@ -177,12 +177,13 @@ read-only ones. It is now two jobs:
 | Job | Runs for | Environment |
 |---|---|---|
 | `readonly_probe` | `preflight`, `vercel_audit` | **none** — neither writes anything |
-| `hosted_write` | every other phase | `${{ inputs.phase == 'payment' && 'rcap-acceptance-payment' \|\| 'rcap-acceptance' }}` |
+| `hosted_write` | every write phase except the payment lane's Stripe work | `rcap-acceptance` (literal) |
+| `hosted_payment` | `payment` only, `needs: hosted_write` | `rcap-acceptance-payment` (literal) |
 
-The environment name is decided from `inputs.phase` alone, before any step runs,
-so it never depends on a value produced inside the job, and it is never empty —
-the job's own `if:` has already excluded the read-only phases. Every pinned-value
-refusal check is preserved on both jobs; the environment **supplements** them.
+Both environment names are literals, not expressions, so neither can evaluate to
+an empty name. Every pinned-value refusal check is preserved on all three jobs;
+the environment **supplements** them. See section 10 for why the payment work is
+a separate job rather than a set of conditional steps.
 
 ### Human setup checklist — GitHub Settings → Environments
 
@@ -194,13 +195,14 @@ Nothing below was created or altered by this task.
 - Wait timer: not required.
 - Deployment branch and tag restriction: **set to "Selected branches and tags" and allow only `main`.** The reusable workflow is reached through `rcap-f1-ephemeral-staging.yml`, which GitHub lists for dispatch only on the default branch; restricting the environment to `main` closes the gap where a branch push could otherwise carry a different workflow body to the same secrets.
 - Secrets to **move** from repository scope into this environment: `SUPABASE_ACCESS_TOKEN`, `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_AUTOMATION_BYPASS_SECRET`.
+- **Neither Stripe secret belongs here.** `rcap-acceptance` must not contain `HOSTED_STRIPE_TEST_SECRET` or `HOSTED_STRIPE_TEST_WEBHOOK_SECRET`. No job in this environment references either, so adding them would grant a privilege nothing uses.
 
 **Environment `rcap-acceptance-payment`** — covers `hosted_payment` only.
 
 - Required reviewers: **recommended — at least one, Roger.** This phase transacts a real Stripe Sandbox Checkout.
 - Deployment branch and tag restriction: same, `main` only.
-- Secrets that belong **only** here: `HOSTED_STRIPE_TEST_SECRET`, `HOSTED_STRIPE_TEST_WEBHOOK_SECRET`.
-- This environment also needs its own copies of `SUPABASE_ACCESS_TOKEN`, `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_AUTOMATION_BYPASS_SECRET`: a job sees the secrets of *its* environment, and `hosted_payment` deploys and runs the matrix as well as paying.
+- Secrets that belong **only** here: `HOSTED_STRIPE_TEST_SECRET`, `HOSTED_STRIPE_TEST_WEBHOOK_SECRET`. They exist in no other environment and are no longer passable as `workflow_call` secrets, so this environment is their single source.
+- This environment also needs its own copies of `SUPABASE_ACCESS_TOKEN`, `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_AUTOMATION_BYPASS_SECRET`: a job sees the secrets of *its* environment, and `hosted_payment` builds its own Stripe-configured Preview and runs the matrix as well as paying. Copying those five is not a Stripe-secret copy and does not breach the boundary.
 
 **No Production secret is copied into either environment.** Neither environment
 receives a production Supabase key, a production database URL, a live Stripe key
@@ -208,15 +210,13 @@ or a production deployment token. The acceptance Supabase project ref
 (`hyflxnlhpmiqxvvcoiia`) is pinned in the workflow file and is re-proved
 non-production per run by the preflight.
 
-**One conflict you must decide before this mapping is applied.** The requested
-split puts the Stripe test secrets only in `rcap-acceptance-payment`. Three other
-phases consume them: `hosted_checkout_gate` reads `HOSTED_STRIPE_TEST_SECRET`,
-and `hosted_accept` and `hosted_full` run the payment-journey step because that
-step is gated on `matrix == 'true'`. Under the mapping as specified those three
-phases will run with no Stripe configuration and will report that plainly rather
-than transacting. Either add the two secrets to `rcap-acceptance` as well, or
-restrict Stripe-transacting work to `hosted_payment`. This task implemented the
-mapping exactly as specified and did not silently widen it.
+**The Stripe placement conflict raised by the previous revision is resolved, by
+narrowing the phases rather than by widening the secret.** `hosted_accept`,
+`hosted_full` and `hosted_checkout_gate` no longer consume Stripe secrets at
+all: `hosted_full` and `hosted_accept` run a non-transacting matrix with no
+payment journey, and `hosted_checkout_gate` is now the static pinning
+verification only. The one operation that necessarily calls Stripe moved into
+`hosted_payment`. Section 10 has the detail.
 
 ---
 
@@ -341,7 +341,10 @@ Nothing was deployed by this task.
 
 ## 9. Tests
 
-`node scripts/verify-rcap-acceptance-workflow-hardening.mjs` — **44/44 passing**,
+`node scripts/verify-rcap-acceptance-workflow-hardening.mjs` — **63/63 passing**
+(all 44 checks from the previous revision, plus 19 for the Stripe privilege
+boundary, the explicit manifest-hash literal, blob-level migration identity and
+the audit-branch ref),
 static and dry-run only, no network, no database, no registry, no deployment.
 Results are written to `data/rcap-render/workflow-hardening-verification.json`.
 
@@ -359,7 +362,95 @@ deploy across all six cases; Stripe live key blocks payment; snapshots capture
 the required shape, carry no secret and precede the first write; the recovery
 model is stated; product behaviour files unchanged; migration SQL unchanged;
 audit artifacts unchanged; `git diff --check` clean; every manifest hash still
-recomputes.
+recomputes; only the payment-authorized job receives Stripe secret expressions;
+only the payment phase may invoke a transacting script; `hosted_accept` has no
+payment matrix; `hosted_full` cannot transact; `hosted_checkout_gate` is
+non-transacting; `hosted_worker_contract` holds no Stripe secret; no non-payment
+phase can create a Checkout Session; the Stripe secrets cannot be supplied from
+outside the payment environment; the `github_acceptance` fallback can no longer
+transact; an empty Stripe secret never reads as a completed acceptance;
+non-payment acceptance states what it did not do; payment refuses a non-sk_test
+key and an invalid webhook secret; the two environments stay separate; and the
+derived phase boundary matrices hold every invariant.
+
+---
+
+## 10. The Stripe privilege boundary
+
+`hosted_payment` is the sole payment-authorized phase. The boundary is
+structural, not conditional.
+
+### Why a separate job
+
+A GitHub job has exactly one environment, and the owner decision is that the
+Stripe test secrets live in exactly one environment. Gating steps inside the
+non-payment job would have left `secrets.HOSTED_STRIPE_TEST_SECRET` written in a
+job whose environment does not hold it — and an unset secret resolves to an
+empty string, not to a refusal. So the reference itself was removed: the
+non-payment job contains **zero** `secrets.HOSTED_STRIPE_*` expressions and
+neither transacting script.
+
+`hosted_payment` `needs: hosted_write`, so the migrate readback, the
+worker-authority gate and the audited-surface equivalence gate have all passed
+before a single Stripe call is made. It builds its **own** Preview: a
+Stripe-configured deployment can only come from the environment that holds the
+Stripe configuration.
+
+### The supply is cut, not just unused
+
+- The hosted workflow no longer declares either Stripe secret under `workflow_call.secrets`. A caller that tries to pass them now fails validation.
+- `rcap-f1-ephemeral-staging.yml` — the dispatch entry point, which has no environment — forwards neither secret to either called workflow.
+- `rcap-github-hosted-acceptance.yml` (the `github_acceptance` fallback) still references them, is `workflow_call`-only, and has exactly one caller that no longer feeds it. Its own first step exits 1 on a key that is not `sk_test_`, so that mode now fails closed instead of transacting outside the payment phase. That is a deliberate consequence: it is a payment-producing journey and it is not the payment phase.
+
+### The contract table
+
+`STRIPE` is a column, not something a step decides for itself, and two
+assertions in the contract step exit 1 rather than warn: a phase may never pair
+`CHECKOUT_SESSION=true` with `STRIPE!=true`, and no phase but `payment` may hold
+`STRIPE=true`.
+
+| phase | DEPLOY | MATRIX | VERIFY_GATE | CHECKOUT_SESSION | STRIPE |
+|---|---|---|---|---|---|
+| `full` | yes | yes | yes | no | **no** |
+| `deploy` | yes | no | no | no | **no** |
+| `accept` | no | yes | yes | no | **no** |
+| `payment` | yes | yes | yes | **yes** | **yes** |
+| `checkout_gate` | no | no | yes | no | **no** |
+| `worker_contract` | no | no | no | no | **no** |
+| `migrate` | no | no | no | no | **no** |
+| anything else | FAIL CLOSED | | | | |
+
+### What changed per phase
+
+- **`hosted_accept`** — non-payment authenticated acceptance only. It still runs the golden-journey matrix (which makes no Stripe call: its one Stripe-shaped string is a hardcoded worker placeholder), and the payment-journey step no longer exists in its job.
+- **`hosted_full`** — deploy plus the non-transacting matrix. No Checkout Session, no payment journey, and no transacting script present in its job to run even if a future edit set the flag.
+- **`hosted_checkout_gate`** — now static. It runs `verify-rcap-hosted-checkout-gate.mjs`, which reads no Stripe env and opens no socket. The transacting `rcap-hosted-checkout-gate.mjs`, which creates one real Sandbox Session, moved to `hosted_payment`.
+- **`hosted_worker_contract`** — shares the all-false contract row and runs in `hosted_write`, which holds no Stripe secret.
+- **`hosted_deploy`** — deploys with no Stripe configuration. The deploy script substitutes its own non-transacting placeholder, so a Preview built outside the payment phase cannot create a Checkout Session.
+
+### Nothing degrades silently
+
+`hosted_payment` fails closed before any Stripe call if either secret is absent
+or wrongly shaped, naming the environment rather than surfacing deep in a
+journey, and its anti-skip gate requires that step's outcome. The non-payment
+anti-skip gate records explicitly that its lane produced *no Stripe call, no
+Checkout Session and no payment journey*, so a complete non-payment run cannot
+be read as a complete payment run.
+
+### Derived matrices
+
+`scripts/rcap-phase-boundary-matrix.mjs` parses the workflow and emits
+`data/rcap-render/phase-boundary-matrices.json` — phase to environment, phase to
+referencable secrets, phase to external write — and exits non-zero if any
+invariant breaks. Current state: the only phase holding Stripe secrets, calling
+Stripe, or creating a Checkout Session is `hosted_payment`, and no phase writes
+Vercel Production.
+
+| job | environment | Stripe secret expressions | transacting scripts |
+|---|---|---|---|
+| `readonly_probe` | none | 0 | none |
+| `hosted_write` | `rcap-acceptance` | **0** | none |
+| `hosted_payment` | `rcap-acceptance-payment` | 7 | `rcap-hosted-checkout-gate.mjs`, `rcap-hosted-acceptance-payment.mjs` |
 
 ---
 
@@ -368,7 +459,7 @@ recomputes.
 1. **`ACCEPTANCE_AUTHORIZATION_WITHHELD` — phases 50, 51, 52, 53, 54.** Recorded `queued` for staging in `data/rcap-staging-action.json`; phase 54's is "explicitly withheld by the authorizing instruction". The containing record's `status` is `prepared_queued_not_authorized` and its `authorizes` list is empty. `hosted_migrate` now refuses before any write. **Remedy:** Roger records an acceptance authorization for each withheld phase under `migrationsInApplyOrder[].scopedAuthorization.staging` (or `.acceptance`), naming the migration files and the acceptance environment, and the manifest is regenerated from it.
 2. **`WORKER_AUTHORITY_BLOCKED`.** Neither candidate pair meets every requirement; no pin was changed. `hosted_deploy`, `hosted_accept`, `hosted_full`, `hosted_checkout_gate` and `hosted_worker_contract` are gated. **Remedy:** section 5, option 1 or 2.
 3. **No GitHub Environment exists yet.** `rcap-acceptance` and `rcap-acceptance-payment` are declared in the workflow but not created in GitHub Settings, and secrets have not been moved. Until they exist, a run of a write-capable phase will fail to resolve its environment. **Remedy:** the checklist in section 4.
-4. **The Stripe-secret placement conflict** in section 4 is a decision, not a defect: as specified, `hosted_accept`, `hosted_full` and `hosted_checkout_gate` lose Stripe configuration.
+4. **One assumption the first `hosted_payment` run must confirm.** The Stripe secrets are read from the `rcap-acceptance-payment` environment and are no longer declared as `workflow_call` secrets. Environment secrets are expected to resolve inside a called workflow's job that declares that environment; this could not be proven without running a hosted workflow, which is out of scope here. The `stripe_present` step exists exactly so a wrong assumption produces an explicit refusal naming the environment, never a silent skip inside a green run.
 
 ## Safe next action
 

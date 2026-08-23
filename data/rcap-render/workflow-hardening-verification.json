@@ -2,9 +2,9 @@
   "schemaVersion": "rcap-acceptance-workflow-hardening-verification/v1",
   "generatedBy": "scripts/verify-rcap-acceptance-workflow-hardening.mjs",
   "infraBaseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
-  "passed": 44,
+  "passed": 63,
   "failed": 0,
-  "total": 44,
+  "total": 63,
   "results": [
     {
       "id": "legacy_regex_selection_reproduces_the_phase55_double_application",
@@ -124,12 +124,12 @@
     {
       "id": "environment_declared_on_every_write_capable_job",
       "ok": true,
-      "observed": "write-capable job \"hosted_write\" declares environment ${{ inputs.phase == 'payment' && 'rcap-acceptance-payment' || 'rcap-acceptance' }} and runs for every phase except preflight and vercel_audit; jobs with an environment: hosted_write; without: readonly_probe"
+      "observed": "write-capable job \"hosted_write\" declares environment rcap-acceptance and runs for every phase except preflight and vercel_audit; jobs with an environment: hosted_write, hosted_payment; without: readonly_probe"
     },
     {
       "id": "hosted_payment_uses_the_separate_payment_environment",
       "ok": true,
-      "observed": "the environment expression selects rcap-acceptance-payment for the payment phase and rcap-acceptance otherwise: ${{ inputs.phase == 'payment' && 'rcap-acceptance-payment' || 'rcap-acceptance' }}"
+      "observed": "hosted_payment runs only for the payment phase in environment rcap-acceptance-payment; hosted_write runs every other write phase in rcap-acceptance. Two jobs, two environments, no shared Stripe secret."
     },
     {
       "id": "read_only_phases_declare_no_write_environment",
@@ -139,12 +139,92 @@
     {
       "id": "the_environment_name_is_never_empty_for_a_write_capable_run",
       "ok": true,
-      "observed": "the expression has no empty branch; every phase reaching this job resolves to a named environment"
+      "observed": "both write-capable jobs name a literal environment — hosted_write: rcap-acceptance, hosted_payment: rcap-acceptance-payment. Neither is an expression, so neither can evaluate to an empty name."
     },
     {
       "id": "pinned_value_refusal_survives_the_environment_change",
       "ok": true,
       "observed": "both jobs still refuse any input that is not the authorized pinned value; the environment declaration supplements the refusal rather than replacing it"
+    },
+    {
+      "id": "only_the_payment_authorized_job_receives_stripe_secret_expressions",
+      "ok": true,
+      "observed": "7 Stripe secret expression(s), all inside \"hosted_payment\"; jobs \"readonly_probe\", \"hosted_write\" carry zero"
+    },
+    {
+      "id": "only_the_payment_phase_may_invoke_a_stripe_transacting_script",
+      "ok": true,
+      "observed": "both transacting scripts (rcap-hosted-checkout-gate.mjs, rcap-hosted-acceptance-payment.mjs) are invoked only by \"hosted_payment\", whose job-level `if` is inputs.phase == 'payment'"
+    },
+    {
+      "id": "the_payment_job_is_bound_to_the_payment_phase_and_the_payment_environment",
+      "ok": true,
+      "observed": "hosted_payment if=\"inputs.phase == 'payment'\" environment=\"rcap-acceptance-payment\""
+    },
+    {
+      "id": "hosted_accept_contains_no_payment_matrix",
+      "ok": true,
+      "observed": "accept: MATRIX=true, STRIPE=false, CHECKOUT_SESSION=false — it runs the non-transacting acceptance matrix and no payment journey. The payment-journey step no longer exists in the non-payment job at all."
+    },
+    {
+      "id": "hosted_full_cannot_transact",
+      "ok": true,
+      "observed": "full: STRIPE=false, CHECKOUT_SESSION=false; and the non-payment job contains no transacting script to run even if a future edit set the flag"
+    },
+    {
+      "id": "hosted_checkout_gate_is_non_transacting",
+      "ok": true,
+      "observed": "checkout_gate: VERIFY_GATE=true, STRIPE=false, CHECKOUT_SESSION=false — it runs the STATIC pinning verifier only. The operation that necessarily calls Stripe (rcap-hosted-checkout-gate.mjs, which creates one real Sandbox Session) moved into hosted_payment"
+    },
+    {
+      "id": "hosted_worker_contract_contains_no_stripe_secret",
+      "ok": true,
+      "observed": "worker_contract shares the all-false contract row (STRIPE=false) and runs in hosted_write, which carries zero Stripe secret expressions"
+    },
+    {
+      "id": "no_non_payment_phase_can_create_a_checkout_session",
+      "ok": true,
+      "observed": "CHECKOUT_SESSION is true for payment alone and false for full, deploy, accept, checkout_gate and worker_contract; the contract step exits 1 if any phase ever pairs CHECKOUT_SESSION=true with STRIPE!=true or claims STRIPE outside the payment phase; and the only script that creates a Session is absent from the non-payment job entirely"
+    },
+    {
+      "id": "the_stripe_secrets_cannot_be_supplied_from_outside_the_payment_environment",
+      "ok": true,
+      "observed": "the hosted workflow no longer declares either Stripe secret under workflow_call.secrets (true), and the F1 dispatch entry point forwards neither to any called workflow (true). The only source is the rcap-acceptance-payment environment, read by hosted_payment"
+    },
+    {
+      "id": "the_github_acceptance_fallback_can_no_longer_transact",
+      "ok": true,
+      "observed": "rcap-github-hosted-acceptance.yml is workflow_call-only with exactly one caller, that caller no longer forwards either Stripe secret, and the fallback's own first step exits 1 on a key that is not sk_test_ — so it fails closed instead of transacting outside the payment phase"
+    },
+    {
+      "id": "an_empty_stripe_secret_never_reads_as_a_completed_acceptance",
+      "ok": true,
+      "observed": "hosted_payment fails closed on an absent or wrongly-shaped Stripe secret before any Stripe call, and its anti-skip gate requires that step's outcome, so an empty secret cannot present as a skipped step inside a green run"
+    },
+    {
+      "id": "non_payment_acceptance_states_what_it_did_not_do",
+      "ok": true,
+      "observed": "the non-payment anti-skip gate records explicitly that the lane produced no Stripe call, no Checkout Session and no payment journey, so a complete non-payment run cannot be read as a complete payment run"
+    },
+    {
+      "id": "payment_refuses_a_non_sk_test_key",
+      "ok": true,
+      "observed": "the payment journey exits 1 unless the key begins sk_test_, and the workflow refuses the same shape before the script is reached"
+    },
+    {
+      "id": "payment_refuses_an_invalid_webhook_secret",
+      "ok": true,
+      "observed": "the payment journey exits 1 unless the signing secret begins whsec_, and the workflow refuses the same shape first"
+    },
+    {
+      "id": "the_two_environments_stay_separate_with_no_shared_stripe_secret",
+      "ok": true,
+      "observed": "hosted_write -> rcap-acceptance (migrate, deploy, non-payment acceptance, worker contract; zero Stripe expressions); hosted_payment -> rcap-acceptance-payment (Stripe test payment only). The required-reviewer boundary between them is a GitHub Settings control and is listed in the setup checklist."
+    },
+    {
+      "id": "the_derived_phase_boundary_matrices_hold_every_invariant",
+      "ok": true,
+      "observed": "phases holding Stripe secrets: [hosted_payment]; phases creating a Checkout Session: [hosted_payment]; no phase writes Vercel Production. Matrices derived from the workflow by scripts/rcap-phase-boundary-matrix.mjs"
     },
     {
       "id": "worker_mismatch_blocks_deploy",
@@ -204,7 +284,7 @@
     {
       "id": "product_behavior_files_unchanged",
       "ok": true,
-      "observed": "no file under src/ or public/, and neither package manifest nor next.config.ts, differs from INFRA_BASE_SHA or is dirty in the worktree (13 path(s) touched in total)"
+      "observed": "no file under src/ or public/, and neither package manifest nor next.config.ts, differs from INFRA_BASE_SHA or is dirty in the worktree (18 path(s) touched in total)"
     },
     {
       "id": "migration_sql_files_unchanged",
@@ -220,6 +300,21 @@
       "id": "git_diff_check_is_clean",
       "ok": true,
       "observed": "git diff --check and git diff --check --cached report no whitespace error and no conflict marker"
+    },
+    {
+      "id": "migration_manifest_hash_is_exactly_the_authorized_value",
+      "ok": true,
+      "observed": "recorded 01a7e8488df436b9366b381f0ba3cb12cdb17c93725603c044b9a8194fb9b4e4; recomputed 01a7e8488df436b9366b381f0ba3cb12cdb17c93725603c044b9a8194fb9b4e4; expected 01a7e8488df436b9366b381f0ba3cb12cdb17c93725603c044b9a8194fb9b4e4"
+    },
+    {
+      "id": "all_seven_migration_sql_files_are_byte_identical_to_the_base",
+      "ok": true,
+      "observed": "all 7 migration blobs are identical between dd935798 and HEAD"
+    },
+    {
+      "id": "the_audit_branch_has_not_moved",
+      "ok": true,
+      "observed": "origin/claude/expai-flow-audit-p1 is at 00212d529e82a2a2a90b172b29268922feecfcbd (the frozen ENV-007 packet commit)"
     },
     {
       "id": "every_manifest_hash_still_recomputes_from_disk",

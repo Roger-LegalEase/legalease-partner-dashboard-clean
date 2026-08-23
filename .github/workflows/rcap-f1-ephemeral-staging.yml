@@ -93,8 +93,12 @@ jobs:
       supabase_project_ref: ${{ inputs.supabase_project_ref }}
     secrets:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
-      HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+      # The Stripe test secrets are NOT forwarded. They live only in the
+      # rcap-acceptance-payment environment, and this fallback mode is a
+      # payment-producing journey that is not the payment phase. Its own first
+      # step refuses a Stripe key that is not sk_test_, so cutting the supply
+      # makes it fail closed at its first step instead of transacting outside
+      # the payment boundary.
 
   hosted:
     name: Persistent hosted acceptance staging
@@ -115,11 +119,10 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      # Optional. Absent until Roger adds them; the hosted workflow declares
-      # them non-required so every phase still runs without Stripe configured,
-      # and the deployment simply keeps the control's disabled default.
-      HOSTED_STRIPE_TEST_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_SECRET }}
-      HOSTED_STRIPE_TEST_WEBHOOK_SECRET: ${{ secrets.HOSTED_STRIPE_TEST_WEBHOOK_SECRET }}
+      # The Stripe test secrets are NOT forwarded and the hosted workflow no
+      # longer declares them as workflow_call secrets. They are read from the
+      # rcap-acceptance-payment environment by the hosted_payment job alone, so
+      # this dispatch entry point — which has no environment — never holds them.
       VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
 
   f1:

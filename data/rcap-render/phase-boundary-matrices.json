@@ -1,0 +1,369 @@
+{
+  "schemaVersion": "rcap-phase-boundary-matrices/v1",
+  "generatedBy": "scripts/rcap-phase-boundary-matrix.mjs",
+  "readOnly": true,
+  "workflow": ".github/workflows/rcap-hosted-acceptance-staging.yml",
+  "jobs": [
+    {
+      "job": "readonly_probe",
+      "environment": null,
+      "stripeSecretExpressions": 0,
+      "transactingScripts": []
+    },
+    {
+      "job": "hosted_write",
+      "environment": "rcap-acceptance",
+      "stripeSecretExpressions": 0,
+      "transactingScripts": []
+    },
+    {
+      "job": "hosted_payment",
+      "environment": "rcap-acceptance-payment",
+      "stripeSecretExpressions": 7,
+      "transactingScripts": [
+        "scripts/rcap-hosted-checkout-gate.mjs",
+        "scripts/rcap-hosted-acceptance-payment.mjs"
+      ]
+    }
+  ],
+  "environmentMatrix": [
+    {
+      "phase": "hosted_preflight",
+      "jobs": [
+        "readonly_probe"
+      ],
+      "environments": [
+        "(none — read-only)"
+      ]
+    },
+    {
+      "phase": "hosted_vercel_audit",
+      "jobs": [
+        "readonly_probe"
+      ],
+      "environments": [
+        "(none — read-only)"
+      ]
+    },
+    {
+      "phase": "hosted_migrate",
+      "jobs": [
+        "hosted_write"
+      ],
+      "environments": [
+        "rcap-acceptance"
+      ]
+    },
+    {
+      "phase": "hosted_deploy",
+      "jobs": [
+        "hosted_write"
+      ],
+      "environments": [
+        "rcap-acceptance"
+      ]
+    },
+    {
+      "phase": "hosted_accept",
+      "jobs": [
+        "hosted_write"
+      ],
+      "environments": [
+        "rcap-acceptance"
+      ]
+    },
+    {
+      "phase": "hosted_full",
+      "jobs": [
+        "hosted_write"
+      ],
+      "environments": [
+        "rcap-acceptance"
+      ]
+    },
+    {
+      "phase": "hosted_checkout_gate",
+      "jobs": [
+        "hosted_write"
+      ],
+      "environments": [
+        "rcap-acceptance"
+      ]
+    },
+    {
+      "phase": "hosted_worker_contract",
+      "jobs": [
+        "hosted_write"
+      ],
+      "environments": [
+        "rcap-acceptance"
+      ]
+    },
+    {
+      "phase": "hosted_payment",
+      "jobs": [
+        "hosted_write",
+        "hosted_payment"
+      ],
+      "environments": [
+        "rcap-acceptance",
+        "rcap-acceptance-payment"
+      ]
+    }
+  ],
+  "secretMatrix": [
+    {
+      "phase": "hosted_preflight",
+      "jobs": [
+        "readonly_probe"
+      ],
+      "referencableSecrets": [
+        "SUPABASE_ACCESS_TOKEN",
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_TOKEN"
+      ],
+      "holdsStripeTestSecrets": false
+    },
+    {
+      "phase": "hosted_vercel_audit",
+      "jobs": [
+        "readonly_probe"
+      ],
+      "referencableSecrets": [
+        "SUPABASE_ACCESS_TOKEN",
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_TOKEN"
+      ],
+      "holdsStripeTestSecrets": false
+    },
+    {
+      "phase": "hosted_migrate",
+      "jobs": [
+        "hosted_write"
+      ],
+      "referencableSecrets": [
+        "GITHUB_TOKEN",
+        "SUPABASE_ACCESS_TOKEN",
+        "VERCEL_AUTOMATION_BYPASS_SECRET",
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_TOKEN"
+      ],
+      "holdsStripeTestSecrets": false
+    },
+    {
+      "phase": "hosted_deploy",
+      "jobs": [
+        "hosted_write"
+      ],
+      "referencableSecrets": [
+        "GITHUB_TOKEN",
+        "SUPABASE_ACCESS_TOKEN",
+        "VERCEL_AUTOMATION_BYPASS_SECRET",
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_TOKEN"
+      ],
+      "holdsStripeTestSecrets": false
+    },
+    {
+      "phase": "hosted_accept",
+      "jobs": [
+        "hosted_write"
+      ],
+      "referencableSecrets": [
+        "GITHUB_TOKEN",
+        "SUPABASE_ACCESS_TOKEN",
+        "VERCEL_AUTOMATION_BYPASS_SECRET",
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_TOKEN"
+      ],
+      "holdsStripeTestSecrets": false
+    },
+    {
+      "phase": "hosted_full",
+      "jobs": [
+        "hosted_write"
+      ],
+      "referencableSecrets": [
+        "GITHUB_TOKEN",
+        "SUPABASE_ACCESS_TOKEN",
+        "VERCEL_AUTOMATION_BYPASS_SECRET",
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_TOKEN"
+      ],
+      "holdsStripeTestSecrets": false
+    },
+    {
+      "phase": "hosted_checkout_gate",
+      "jobs": [
+        "hosted_write"
+      ],
+      "referencableSecrets": [
+        "GITHUB_TOKEN",
+        "SUPABASE_ACCESS_TOKEN",
+        "VERCEL_AUTOMATION_BYPASS_SECRET",
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_TOKEN"
+      ],
+      "holdsStripeTestSecrets": false
+    },
+    {
+      "phase": "hosted_worker_contract",
+      "jobs": [
+        "hosted_write"
+      ],
+      "referencableSecrets": [
+        "GITHUB_TOKEN",
+        "SUPABASE_ACCESS_TOKEN",
+        "VERCEL_AUTOMATION_BYPASS_SECRET",
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_TOKEN"
+      ],
+      "holdsStripeTestSecrets": false
+    },
+    {
+      "phase": "hosted_payment",
+      "jobs": [
+        "hosted_write",
+        "hosted_payment"
+      ],
+      "referencableSecrets": [
+        "GITHUB_TOKEN",
+        "HOSTED_STRIPE_TEST_SECRET",
+        "HOSTED_STRIPE_TEST_WEBHOOK_SECRET",
+        "SUPABASE_ACCESS_TOKEN",
+        "VERCEL_AUTOMATION_BYPASS_SECRET",
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_TOKEN"
+      ],
+      "holdsStripeTestSecrets": true
+    }
+  ],
+  "externalWriteMatrix": [
+    {
+      "phase": "hosted_preflight",
+      "supabaseSchemaWrite": false,
+      "supabaseAuthConfigWrite": false,
+      "vercelPreviewDeployment": false,
+      "vercelProductionWrite": false,
+      "containerRegistryPull": false,
+      "stripeApiCall": false,
+      "createsCheckoutSession": false,
+      "consumesPaymentWebhook": false,
+      "transactingScripts": []
+    },
+    {
+      "phase": "hosted_vercel_audit",
+      "supabaseSchemaWrite": false,
+      "supabaseAuthConfigWrite": false,
+      "vercelPreviewDeployment": false,
+      "vercelProductionWrite": false,
+      "containerRegistryPull": false,
+      "stripeApiCall": false,
+      "createsCheckoutSession": false,
+      "consumesPaymentWebhook": false,
+      "transactingScripts": []
+    },
+    {
+      "phase": "hosted_migrate",
+      "supabaseSchemaWrite": true,
+      "supabaseAuthConfigWrite": false,
+      "vercelPreviewDeployment": false,
+      "vercelProductionWrite": false,
+      "containerRegistryPull": false,
+      "stripeApiCall": false,
+      "createsCheckoutSession": false,
+      "consumesPaymentWebhook": false,
+      "transactingScripts": []
+    },
+    {
+      "phase": "hosted_deploy",
+      "supabaseSchemaWrite": false,
+      "supabaseAuthConfigWrite": false,
+      "vercelPreviewDeployment": true,
+      "vercelProductionWrite": false,
+      "containerRegistryPull": false,
+      "stripeApiCall": false,
+      "createsCheckoutSession": false,
+      "consumesPaymentWebhook": false,
+      "transactingScripts": []
+    },
+    {
+      "phase": "hosted_accept",
+      "supabaseSchemaWrite": false,
+      "supabaseAuthConfigWrite": true,
+      "vercelPreviewDeployment": false,
+      "vercelProductionWrite": false,
+      "containerRegistryPull": true,
+      "stripeApiCall": false,
+      "createsCheckoutSession": false,
+      "consumesPaymentWebhook": false,
+      "transactingScripts": []
+    },
+    {
+      "phase": "hosted_full",
+      "supabaseSchemaWrite": true,
+      "supabaseAuthConfigWrite": true,
+      "vercelPreviewDeployment": true,
+      "vercelProductionWrite": false,
+      "containerRegistryPull": true,
+      "stripeApiCall": false,
+      "createsCheckoutSession": false,
+      "consumesPaymentWebhook": false,
+      "transactingScripts": []
+    },
+    {
+      "phase": "hosted_checkout_gate",
+      "supabaseSchemaWrite": false,
+      "supabaseAuthConfigWrite": false,
+      "vercelPreviewDeployment": false,
+      "vercelProductionWrite": false,
+      "containerRegistryPull": false,
+      "stripeApiCall": false,
+      "createsCheckoutSession": false,
+      "consumesPaymentWebhook": false,
+      "transactingScripts": []
+    },
+    {
+      "phase": "hosted_worker_contract",
+      "supabaseSchemaWrite": false,
+      "supabaseAuthConfigWrite": false,
+      "vercelPreviewDeployment": false,
+      "vercelProductionWrite": false,
+      "containerRegistryPull": true,
+      "stripeApiCall": false,
+      "createsCheckoutSession": false,
+      "consumesPaymentWebhook": false,
+      "transactingScripts": []
+    },
+    {
+      "phase": "hosted_payment",
+      "supabaseSchemaWrite": true,
+      "supabaseAuthConfigWrite": true,
+      "vercelPreviewDeployment": true,
+      "vercelProductionWrite": false,
+      "containerRegistryPull": true,
+      "stripeApiCall": true,
+      "createsCheckoutSession": true,
+      "consumesPaymentWebhook": true,
+      "transactingScripts": [
+        "scripts/rcap-hosted-checkout-gate.mjs",
+        "scripts/rcap-hosted-acceptance-payment.mjs"
+      ]
+    }
+  ],
+  "invariants": {
+    "onlyPaymentPhaseHoldsStripeSecrets": true,
+    "onlyPaymentPhaseCallsStripe": true,
+    "onlyPaymentPhaseCreatesACheckoutSession": true,
+    "noPhaseWritesVercelProduction": true
+  }
+}
