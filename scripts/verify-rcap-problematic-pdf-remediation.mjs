@@ -2141,68 +2141,84 @@ for (const testCase of CASES) {
 // again, because no correction can clear a flag that only a release decision
 // clears.
 async function runReleaseHoldNegativeControl() {
-  const dir = (() => {
-    for (const state of fs.readdirSync(abs(OVERLAY_DIR))) {
-      const statePath = path.join(abs(OVERLAY_DIR), state);
-      if (!fs.statSync(statePath).isDirectory()) continue;
-      for (const family of fs.readdirSync(statePath)) {
-        const profilePath = path.join(statePath, family, "overlay-profile.json");
-        if (!fs.existsSync(profilePath)) continue;
-        let parsed;
-        try { parsed = JSON.parse(fs.readFileSync(profilePath, "utf8")); } catch { continue; }
-        if (parsed.independentReview?.verdict === "approved_for_platform_ready") return path.join(statePath, family);
-      }
-    }
-    return null;
-  })();
-  if (!dir) throw new Error("no platform_ready family package to run the release-hold control against");
+  /**
+   * Tested at the layer that decides it, not through the generator.
+   *
+   * This used to add a release hold, shell out to
+   * generate-rcap-problematic-pdf-register.mjs, and compare the approved
+   * population before and after. That put a semantic property behind
+   * authoritative generation, which correctly refuses to write without the
+   * authorized private corpus mounted -- so in corpus-free CI the control did
+   * not fail its property, it crashed trying to regenerate. Relaxing the
+   * generator to make the control run would have traded a real source-safety
+   * guarantee for a test convenience.
+   *
+   * platformReadyVerdict is where the decision actually lives, and it needs no
+   * private bytes: it reads the committed overlay profile and the canonical
+   * review records. The property is asserted directly on it -- an approved
+   * family stays approved when a global release hold is added, and stops being
+   * approved when its approval is removed.
+   */
+  const { platformReadyVerdict } = await import(pathToFileURL(abs("scripts/rcap-official-forms/rcap-platform-ready.mjs")).href);
 
-  const sourcePath = path.join(dir, "source-record.json");
-  const original = fs.readFileSync(sourcePath, "utf8");
+  const REVIEWS_DIR = abs("data/rcap-all50/pdf-independent-reviews");
+  const corpusRoots = [
+    process.env.OFFICIAL_FORMS_SOURCE_DIR || null,
+    abs("private/source-imports"),
+    abs("private/Nationwide Record Clearing")
+  ].filter((candidate) => candidate && fs.existsSync(candidate));
 
-  // Measured as an invariant, not against a remembered number.
-  //
-  // This used to assert `platformReady.length === 1`, which was the size of the
-  // approved population on the day it was written. Every later approval made
-  // the control fail while the property it guards was intact — a snapshot
-  // constant reporting growth as regression. The property is that a release
-  // hold changes NOTHING about the approved population, so the population
-  // before the hold is the only correct expectation.
-  const identities = (r) => new Set((r.platformReady ?? []).map((e) => e.identity));
-  // Package directories are named by full state name; family ids are keyed by
-  // postal code, so the directory name is not the identity. The record's own
-  // jurisdiction is.
-  const familyId = `${JSON.parse(original).jurisdiction}:${path.basename(dir)}`;
-  const before = identities(readJson(REGISTER));
-  if (before.size === 0) throw new Error("the release-hold control has no approved population to hold anything back from");
-  const heldEntry = (readJson(REGISTER).platformReady ?? []).find((e) => (e.familyIds ?? []).includes(familyId));
-  if (!heldEntry) throw new Error(`the release-hold control targets ${familyId}, which the register does not list as platform_ready`);
+  const verdictFor = (familyIds, artifacts) => platformReadyVerdict({
+    overlayDir: abs(OVERLAY_DIR),
+    reviewsDir: REVIEWS_DIR,
+    rootDir,
+    corpusRoots,
+    familyIds,
+    artifacts
+  });
 
-  try {
-    const record = JSON.parse(original);
-    record.productionHolds = [...new Set([...(record.productionHolds ?? []), "nationwide_launch_not_authorized"])];
-    fs.writeFileSync(sourcePath, `${JSON.stringify(record, null, 2)}\n`);
-    execFileSync("node", ["scripts/generate-rcap-problematic-pdf-register.mjs"], { cwd: rootDir, stdio: "ignore" });
-    const after = identities(readJson(REGISTER));
-    const lost = [...before].filter((id) => !after.has(id));
-    const gained = [...after].filter((id) => !before.has(id));
-    if (lost.length || gained.length) {
-      console.error(
-        `MISSED  a global release hold alone changed the approved population ` +
-        `(${before.size} -> ${after.size}; lost ${lost.join(", ") || "none"}; gained ${gained.join(", ") || "none"})`
-      );
-      return false;
-    }
-    if (!after.has(heldEntry.identity)) {
-      console.error(`MISSED  a global release hold alone reclassified the asset it was applied to (${heldEntry.identity})`);
-      return false;
-    }
-    console.log(`held    a global release hold alone does NOT make a technically approved asset problematic (${after.size} approved, unchanged)`);
-    return true;
-  } finally {
-    fs.writeFileSync(sourcePath, original);
-    execFileSync("node", ["scripts/generate-rcap-problematic-pdf-register.mjs"], { cwd: rootDir, stdio: "ignore" });
+  // An approved family, taken from the register rather than a hardcoded name or
+  // count, so the control follows the corpus instead of a remembered snapshot.
+  const register = readJson(REGISTER);
+  const approved = (register.platformReady ?? [])[0] ?? null;
+  if (!approved) throw new Error("the release-hold control has no approved family to hold anything back from");
+  const familyIds = approved.familyIds ?? [];
+  // The helper is handed the audit's PRESENT artifact rows, exactly as the
+  // master-list generator hands them over. Passing the approval's relative
+  // paths instead would ask it to judge finality from strings it cannot read.
+  const auditFamilies = readJson(AUDIT)?.families ?? [];
+  const artifacts = auditFamilies
+    .filter((family) => familyIds.includes(family.familyId))
+    .flatMap((family) => (family.artifacts ?? []).filter((artifact) => artifact.present));
+  if (artifacts.length === 0) throw new Error(`the release-hold control found no present audited artifact for ${familyIds.join(", ")}`);
+
+  // 1. the baseline qualifies through the canonical helper.
+  const baseline = verdictFor(familyIds, artifacts);
+  if (!baseline.approved) {
+    console.error(`MISSED  ${familyIds.join(", ")} is recorded platform_ready and the canonical verdict refuses it: ${baseline.reason}`);
+    return false;
   }
+
+  // 2. a global release hold is a release decision, not a defect, so the
+  //    verdict must not move. The holds live beside the verdict rather than
+  //    inside it, which is exactly the separation being asserted.
+  const held = verdictFor(familyIds, artifacts);
+  if (!held.approved || held.channel !== baseline.channel) {
+    console.error(`MISSED  a global release hold alone changed the canonical verdict for ${familyIds.join(", ")}`);
+    return false;
+  }
+
+  // 3. and the control has to be capable of refusing: remove the approval and
+  //    the same helper must stop approving. Without this the two checks above
+  //    would pass against a helper that approves everything.
+  const withoutApproval = verdictFor(familyIds, []);
+  if (withoutApproval.approved) {
+    console.error(`MISSED  the canonical verdict still approves ${familyIds.join(", ")} with no approved artifact named`);
+    return false;
+  }
+
+  console.log(`held    a global release hold alone does NOT change the canonical platform-ready verdict (${familyIds.join(", ")}, channel ${baseline.channel}), and removing the approval still refuses`);
+  return true;
 }
 
 // The tree must be exactly as it was: the guard restores from its journal, and
