@@ -1,0 +1,340 @@
+{
+  "schemaVersion": "expai-correction-contract/v1",
+  "generatedBy": "scripts/expungement-ai/flow-audit/build-correction-contract.mjs",
+  "baseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "auditHead": "8e7580ca509fb078144e64549e00ef6908b3a623",
+  "changesNoProductBehavior": true,
+  "correctionToPhase1": {
+    "phase1Claim": "19 jurisdictions reach no packet-ready outcome because lifecyclePhaseForQuestion and phaseForWilmaFact classify the facts the evaluator needs as postpay, so the flow never asks them.",
+    "phase1BVerdict": "Half right, and wrong about which half matters.",
+    "whatFalsifiedIt": "Supplying all six shared postpay facts to the closest rendered-only answer set changed no jurisdiction's terminal (experiment E2). Additionally pinning all five timing-and-completion gate fields plus the timing bucket to their clearing answers still reached packet-ready in none of the 19 (experiment E3). The lifecycle classification is real and is a defect in its own right, but it is not what closes those 19 jurisdictions.",
+    "whatIsActuallyBlockingThem": "The evaluator cannot select a waiting rule for the route the participant reaches. In 13 of the 19, naming a waiting_rule_id the jurisdiction's OWN compiled profile already contains turns the terminal into packet_ready_with_caution, in most cases with paymentAllowed true (experiment E4). The legal route, the state's data and the payment clamp are all fine. What fails is bestWaitingRuleForPathway's automatic selection, on a route whose rules are sitting right there.",
+    "methodNote": "One earlier version of this audit's own search ranked not_yet above needs_review, which gave the optimizer an incentive to answer 'no, I have not completed what the court ordered' in order to reach a better-ranked terminal. That flaw produced a false picture and is why the gate fields are pinned rather than optimized. Recorded because the same trap will catch the next person who measures this."
+  },
+  "half1_sharedExecutor": {
+    "owner": "PHASE_2_SHARED",
+    "title": "The automatic waiting-rule selector rejects rules the profile already carries, and the manual override it honours is never rendered",
+    "severity": "P0",
+    "affectedJurisdictions": [
+      "AZ",
+      "CT",
+      "DC",
+      "FL",
+      "GA",
+      "IA",
+      "MI",
+      "MT",
+      "NM",
+      "OK",
+      "PA",
+      "SC",
+      "SD"
+    ],
+    "affectedJurisdictionCount": 13,
+    "proof": [
+      {
+        "jurisdiction": "AZ",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 15,
+        "waitingRuleIdsThatReachPacketReady": 10,
+        "reachesPayment": true,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-04",
+          "ruleText": "Otherwise test sealing (§ 13-911) and the waiting tier; use set-aside (§ 13-905) for immediate relief or when sealing isn't available. Remember the sequence str",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true,
+          "pathwayId": "remedy-1-record-sealing"
+        }
+      },
+      {
+        "jurisdiction": "CT",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 8,
+        "waitingRuleIdsThatReachPacketReady": 7,
+        "reachesPayment": true,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-02",
+          "ruleText": "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true,
+          "pathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202"
+        }
+      },
+      {
+        "jurisdiction": "DC",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 8,
+        "waitingRuleIdsThatReachPacketReady": 7,
+        "reachesPayment": true,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-01",
+          "ruleText": "The statute says eligible records are to be expunged by October 1, 2027, or within 90 days after termination/final disposition, whichever is later. (\"https://co",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true,
+          "pathwayId": "dc_actual_innocence_expungement_16_803"
+        }
+      },
+      {
+        "jurisdiction": "FL",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 17,
+        "waitingRuleIdsThatReachPacketReady": 13,
+        "reachesPayment": true,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-01",
+          "ruleText": "For expunction, the petition must include a valid FDLE certificate and a sworn statement that the person satisfies the requirements and has no other pending sea",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true,
+          "pathwayId": "court-ordered-expunction-943-0585"
+        }
+      },
+      {
+        "jurisdiction": "GA",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 10,
+        "waitingRuleIdsThatReachPacketReady": 7,
+        "reachesPayment": true,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-01",
+          "ruleText": "denies, appeal to the Superior Court within 30 days.",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true,
+          "pathwayId": "sb-288-misdemeanor-conviction-restriction-and-sealing"
+        }
+      },
+      {
+        "jurisdiction": "IA",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 4,
+        "waitingRuleIdsThatReachPacketReady": 3,
+        "reachesPayment": true,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-01",
+          "ruleText": "More than 180 days must have passed after acquittal or dismissal unless the court waives that requirement.",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true,
+          "pathwayId": "nonconviction-901c2"
+        }
+      },
+      {
+        "jurisdiction": "MI",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 17,
+        "waitingRuleIdsThatReachPacketReady": 13,
+        "reachesPayment": true,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-01",
+          "ruleText": "An eligible felony is set aside automatically 10 years after",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true,
+          "pathwayId": "misdemeanor-marijuana-set-aside-under-mcl-780-621e"
+        }
+      },
+      {
+        "jurisdiction": "MT",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 8,
+        "waitingRuleIdsThatReachPacketReady": 5,
+        "reachesPayment": true,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-01",
+          "ruleText": "Five-year clean period Five years must have passed since completion of sentence terms.",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true,
+          "pathwayId": "misdemeanor-conviction-expungement-under-mont-code-46-18-1104"
+        }
+      },
+      {
+        "jurisdiction": "NM",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 18,
+        "waitingRuleIdsThatReachPacketReady": 9,
+        "reachesPayment": true,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-01",
+          "ruleText": "A person released without conviction may file one year after the final disposition in the district where the charges originated. This route covers municipal ord",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true,
+          "pathwayId": "no-conviction-released-without-conviction"
+        }
+      },
+      {
+        "jurisdiction": "OK",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 6,
+        "waitingRuleIdsThatReachPacketReady": 5,
+        "reachesPayment": true,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-01",
+          "ruleText": "Eligible if the person was charged with a misdemeanor, the charge was dismissed after successful completion of deferred judgment or delayed sentence, the person",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true,
+          "pathwayId": "acquittal-dismissal-or-other-no-conviction-expungement"
+        }
+      },
+      {
+        "jurisdiction": "PA",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 17,
+        "waitingRuleIdsThatReachPacketReady": 13,
+        "reachesPayment": true,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-01",
+          "ruleText": "If the person was acquitted of all charges based on the same conduct or criminal episode, Pennsylvania provides automatic expungement procedures. The statute do",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true,
+          "pathwayId": "path-a-non-conviction-expungement"
+        }
+      },
+      {
+        "jurisdiction": "SC",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 16,
+        "waitingRuleIdsThatReachPacketReady": 13,
+        "reachesPayment": false,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-01",
+          "ruleText": "Prosecution or law enforcement may object within 30 days, but only on limited grounds: pending charges or an ineligible charge. If no objection is filed, the tr",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": false,
+          "pathwayId": "summary-court-non-conviction-expungement"
+        }
+      },
+      {
+        "jurisdiction": "SD",
+        "terminalWithoutTheOverride": "needs_review",
+        "waitingRuleIdsInProfile": 13,
+        "waitingRuleIdsThatReachPacketReady": 10,
+        "reachesPayment": true,
+        "exampleUnblockingRule": {
+          "waitingRuleId": "wait-01",
+          "ruleText": "Arrest occurred, but no accusatory instrument was filed After 1 year from arrest",
+          "resultCode": "packet_ready_with_caution",
+          "paymentAllowed": true,
+          "pathwayId": "adult-arrest-record-expungement-under-sdcl-23a-3-27"
+        }
+      }
+    ],
+    "mechanism": [
+      "bestWaitingRuleForPathway builds its candidate set from the profile's waitingPeriodRules and the pathway's own waitingRules prose, gives each a duration from normalizeDuration(rule.duration) or parseDurationFromText(rule.ruleText), then applies two filters.",
+      "Filter one drops any candidate with no parseable duration. parseDurationFromText recognises a number plus a unit, a spelled-out number plus a unit, or the exact phrases 'immediate', 'no waiting period' and 'upon event'. It does not recognise 'No ordinary waiting period', which is how the District of Columbia's actual-innocence route states that it has none.",
+      "Filter two, waitingTextRelevant, keeps a candidate only if its prose shares a token longer than five characters with the pathway's own id, label or summary, or matches one of the case-outcome regexes. Two sentences about the same legal route, written differently, do not survive it.",
+      "When the set empties, evaluateCompiledTiming returns needs_review with reason waiting_rule_not_executed and the text 'We need one more detail before we can prepare the right packet.' The participant is told a detail is missing. No detail is missing; the selector could not choose."
+    ],
+    "sourceReferences": [
+      {
+        "file": "src/lib/rcap-engine/evaluator.ts",
+        "symbol": "bestWaitingRuleForPathway",
+        "note": "candidate construction and the two filters"
+      },
+      {
+        "file": "src/lib/rcap-engine/evaluator.ts",
+        "symbol": "waitingTextRelevant",
+        "note": "the token-overlap relevance filter"
+      },
+      {
+        "file": "src/lib/rcap-engine/evaluator.ts",
+        "symbol": "parseDurationFromText",
+        "note": "the duration regex, including the three exact zero-wait phrases"
+      },
+      {
+        "file": "src/lib/rcap-engine/evaluator.ts",
+        "symbol": "timingFromResolvedBucket",
+        "note": "the requiredYears === undefined branch that emits waiting_rule_not_executed"
+      },
+      {
+        "file": "src/lib/rcap-engine/evaluator.ts",
+        "symbol": "durationInYears",
+        "note": "returns undefined for the 'ambiguous' unit normalizeDurationUnit can produce, while durationDays handles it"
+      }
+    ],
+    "requiredCorrection": [
+      "Select a waiting rule by identity, not by prose similarity. A compiled pathway should name the waiting rules that bind it, and the evaluator should read that binding instead of inferring it from shared word tokens.",
+      "Make 'this route has no waiting period' expressible as data rather than as a sentence a regex must recognise.",
+      "Make the failure honest while the binding is missing: a route whose waiting rule cannot be selected should say the waiting period could not be determined, not that the participant owes another detail.",
+      "Either render waiting_rule_id, or stop honouring it. Today it is a published question the flow never shows, that silently changes the legal outcome when supplied. That is the worst of both."
+    ],
+    "prohibitedInThisPhase": "No change was made. This contract is a description, not a patch."
+  },
+  "half2_lifecycleClassification": {
+    "owner": "PHASE_2_SHARED",
+    "title": "Question lifecycle is decided by regular expressions over prompt text, not by which questions the evaluator reads",
+    "severity": "P1",
+    "detail": "lifecyclePhaseForQuestion matches a question's text against a list of regular expressions to decide prepay or postpay, and phaseForWilmaFact defaults every shared fact to postpay unless its jurisdiction appears in a hand-written allowlist. 15 distinct question ids are classified postpay in at least one jurisdiction while the evaluator or a compiled rule in that same jurisdiction reads them, across 484 nodes.",
+    "misclassifiedQuestionIds": [
+      "arrest_date",
+      "case_number",
+      "charge",
+      "county",
+      "court",
+      "criminal_history",
+      "disposition_date",
+      "eligible_conviction_class",
+      "eligible_conviction_count",
+      "financial_obligations",
+      "new_convictions_during_waiting_period",
+      "pending_cases",
+      "sentence_completion_date",
+      "special_preconditions_confirmed",
+      "waiting_rule_id"
+    ],
+    "misclassifiedNodeCount": 484,
+    "signature": "The signature is inconsistency rather than absence. financial_obligations renders as a screen in 30 jurisdictions and is served without being rendered in 21; pending_cases 25 and 26; sentence_completion_date 33 and 18. special_preconditions_confirmed and new_convictions_during_waiting_period render in none of the 51 and are served in all of them. The same fact, the same evaluator, a different answer per state, decided by whether a sentence happened to match a regex.",
+    "requiredCorrection": [
+      "Derive lifecycle from consumption. A fact any compiled rule references, or the evaluator reads before a packet decision, is prepay by definition.",
+      "Fail closed. A question the evaluator reads that is not classified prepay should fail the build rather than reach the browser as a postpay field.",
+      "Retire the per-jurisdiction allowlist once the derivation exists; it is a list of exceptions to a rule that should not have exceptions."
+    ],
+    "prohibitedInThisPhase": "The brief is explicit: do not patch the allowlist or the regex in this phase. Nothing here was patched."
+  },
+  "perStateWork": {
+    "owner": "PHASE_3_STATE_SHARD",
+    "waitingRuleNotExecutable": {
+      "jurisdictions": [
+        "KS",
+        "NJ",
+        "RI",
+        "UT"
+      ],
+      "detail": "Even with every timing and completion fact answered the clearing way, and with every waiting rule in the profile named explicitly, no packet-ready terminal is reachable. The shared fix above will not help these; they need a per-state legal answer about what waiting period actually binds the route."
+    },
+    "unresolved": {
+      "jurisdictions": [
+        {
+          "jurisdiction": "CA",
+          "terminal": "needs_review",
+          "reasonCodes": [
+            "ca.source_fact_unknown"
+          ]
+        },
+        {
+          "jurisdiction": "IN",
+          "terminal": "needs_more_info",
+          "reasonCodes": [
+            "in.compiled_rule_match.rule-03-because-the-supplied-packet-does-not-state-every-statut"
+          ]
+        }
+      ],
+      "detail": "Blocked for reasons unrelated to waiting-rule selection. California settles on an ambiguity reason; Indiana on a compiled rule that short-circuits before a packet decision."
+    }
+  },
+  "paymentClamp": {
+    "owner": "PHASE_2_SHARED, with a legal question attached",
+    "jurisdictions": [
+      "TX",
+      "WA",
+      "WV"
+    ],
+    "detail": "Three jurisdictions reach a packet-ready terminal from the rendered screens and are still handed paymentAllowed false. This is the exact reason the no-payment count (22) exceeds the no-packet-ready count (19). The clamp in evaluateAgainstProfile requires, on top of a packet-ready result: route.deterministic, a packet plan, routeIsRatifiedDeployable, a court-filed petition or administrative application route, and isPacketPlanFulfillmentReady. Any one of those failing closes payment silently, and the participant is shown a packet-ready result with no way to buy the packet.",
+    "requiredCorrection": "Say which clamp closed. A packet-ready result that cannot be bought should tell the participant why, and the audit should be able to read the reason without re-deriving five predicates."
+  },
+  "summary": {
+    "jurisdictionsWithNoPacketReady": 19,
+    "jurisdictionsWithNoPayment": 22,
+    "fixedByHalf1": 13,
+    "needingPerStateLegalAnswer": 6,
+    "paymentClampOnly": 3,
+    "intentionalLaunchHolds": 51,
+    "intentionalUnsupportedOrReferral": 0
+  }
+}

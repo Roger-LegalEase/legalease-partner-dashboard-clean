@@ -156,7 +156,7 @@ EXPAI-CT-fbcf6c0c31
    - **UX-COURT-001** (P1, `COURT_DATA`) — Court is collected as free text with no state-aware selector and no controlled dataset behind it
      - jurisdictions in your shard: `CT`, `DE`, `ID`, `IL`, `KY`, `LA`, `NH`, `NJ`, `VT`
      - legal review required: no
-   - **UX-STATELAW-001** (P0, `STATE_LEGAL_LOGIC`) — 19 jurisdictions reach no packet-ready outcome when the audit answers only the screens the flow renders
+   - **UX-STATELAW-001** (P1, `STATE_LEGAL_LOGIC`) — 19 jurisdictions reach no packet-ready outcome when the audit answers only the screens the flow renders
      - jurisdictions in your shard: `CT`, `NJ`
      - legal review required: **yes — do not implement until counsel answers**
    - **UX-CONTENT-001** (P3, `CONTENT_ONLY`) — 5 question id(s) are served in the public profile payload with no eligibility, form, packet-selection or escalation consumer

@@ -98,5 +98,5 @@ Either condition alone is sufficient: `paymentAllowed: false` trips the guard mi
 
 ## 6. Issues already marked legal-review-required in the register
 
-- **UX-STATELAW-001** (P0, `STATE_LEGAL_LOGIC`) — 19 jurisdictions reach no packet-ready outcome when the audit answers only the screens the flow renders
+- **UX-STATELAW-001** (P1, `STATE_LEGAL_LOGIC`) — 19 jurisdictions reach no packet-ready outcome when the audit answers only the screens the flow renders
 - **UX-LEGAL-001** (P1, `REQUIRES_LEGAL_REVIEW`) — Selecting a state exclusion category still returns packet-ready in some jurisdictions, and so does the shortest timing bucket

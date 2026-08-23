@@ -49,9 +49,9 @@ The repository holds more than one thing that looks like a flow definition. The 
 | — rendered by the packet-information builder | 257 |
 | Branch edges | 2565 |
 | Branch edges with a synthetic fixture | 2565 |
-| Issues | 24 |
-| — P0 / P1 / P2 / P3 | 3 / 12 / 7 / 2 |
-| — global | 18 |
+| Issues | 25 |
+| — P0 / P1 / P2 / P3 | 3 / 13 / 7 / 2 |
+| — global | 19 |
 | — state-specific | 6 |
 | — needing legal review | 2 |
 
@@ -134,9 +134,9 @@ This is recorded as bounded evidence, not proof of impossibility: a search that 
 
 - **UX-GLOBAL-001** — Open matter and Complete packet information loop for any packet-ready matter whose paymentAllowed is false or whose commercialFlow cannot be reconstructed
   - category `GLOBAL_NAVIGATION`, owner `PHASE_2_SHARED`, 89 flow(s) across 21 jurisdiction(s)
-- **UX-STATELAW-001** — 19 jurisdictions reach no packet-ready outcome when the audit answers only the screens the flow renders
-  - category `STATE_LEGAL_LOGIC`, owner `LEGAL_REVIEW_THEN_PHASE_3_STATE_SHARD`, 228 flow(s) across 19 jurisdiction(s), **legal review required**
-- **UX-GLOBAL-018** — The evaluator consumes facts before it will open a packet that the flow never asks for, so a browser cannot reproduce the repository's own recorded witnesses
+- **UX-GLOBAL-013** — The automatic waiting-rule selector cannot choose a rule the profile already contains, closing 13 jurisdictions that are otherwise reachable and payable
+  - category `GLOBAL_SHARED_COMPONENT`, owner `PHASE_2_SHARED`, 157 flow(s) across 13 jurisdiction(s)
+- **UX-GLOBAL-019** — The evaluator consumes facts before it will open a packet that the flow never asks for, so a browser cannot reproduce the repository's own recorded witnesses
   - category `GLOBAL_FACT_MODEL`, owner `PHASE_2_SHARED`, 2 flow(s) across 2 jurisdiction(s)
 
 ### P1
@@ -161,9 +161,11 @@ This is recorded as bounded evidence, not proof of impossibility: a search that 
   - category `GLOBAL_HELP`, owner `PHASE_2_SHARED`, 622 flow(s)
 - **UX-GLOBAL-012** — 3 sensitive question id(s) are asked with no helper text and no stated reason
   - category `GLOBAL_HELP`, owner `PHASE_2_SHARED`, 622 flow(s)
+- **UX-STATELAW-001** — 19 jurisdictions reach no packet-ready outcome when the audit answers only the screens the flow renders
+  - category `STATE_LEGAL_LOGIC`, owner `LEGAL_REVIEW_THEN_PHASE_3_STATE_SHARD`, 228 flow(s)
 - **UX-LEGAL-001** — Selecting a state exclusion category still returns packet-ready in some jurisdictions, and so does the shortest timing bucket
   - category `REQUIRES_LEGAL_REVIEW`, owner `LEGAL_REVIEW_THEN_PHASE_3_STATE_SHARD`, 20 flow(s)
-- **UX-GLOBAL-016** — A browser refresh discards every screening answer and restarts the flow at question one, with no warning and no recovery
+- **UX-GLOBAL-017** — A browser refresh discards every screening answer and restarts the flow at question one, with no warning and no recovery
   - category `GLOBAL_NAVIGATION`, owner `PHASE_2_SHARED`, 581 flow(s)
 
 ### P2
@@ -172,14 +174,14 @@ This is recorded as bounded evidence, not proof of impossibility: a search that 
 - **UX-GLOBAL-007** — Current city duplicates the address already requested inside contact information (`GLOBAL_FACT_MODEL`)
 - **UX-GLOBAL-010** — Sponsorship is a server-side session property with no consumer entry point, so it cannot be distinguished from a discount by anyone using the product (`GLOBAL_PAYMENT`)
 - **UX-STATECFG-001** — Route-specific facts are asked of every participant in the state before the route is known (`STATE_CONFIGURATION`)
-- **UX-GLOBAL-013** — The slug form of the screening route resolves to the missing-profile screen for 50 of 51 jurisdictions (`GLOBAL_NAVIGATION`)
-- **UX-GLOBAL-015** — The frontend contract states a contextOnly question never selects the pathway; the evaluator selects the pathway from one (`GLOBAL_SHARED_COMPONENT`)
-- **UX-GLOBAL-017** — packet_ready and packet_ready_with_caution render an eyebrow that differs only by a full stop, under an identical title (`GLOBAL_REVIEW_FORMATTING`)
+- **UX-GLOBAL-014** — The slug form of the screening route resolves to the missing-profile screen for 50 of 51 jurisdictions (`GLOBAL_NAVIGATION`)
+- **UX-GLOBAL-016** — The frontend contract states a contextOnly question never selects the pathway; the evaluator selects the pathway from one (`GLOBAL_SHARED_COMPONENT`)
+- **UX-GLOBAL-018** — packet_ready and packet_ready_with_caution render an eyebrow that differs only by a full stop, under an identical title (`GLOBAL_REVIEW_FORMATTING`)
 
 ### P3
 
 - **UX-CONTENT-001** — 5 question id(s) are served in the public profile payload with no eligibility, form, packet-selection or escalation consumer (`CONTENT_ONLY`)
-- **UX-GLOBAL-014** — Every jurisdiction's public profile carries other states' state-prefixed questions (51 jurisdictions affected) (`GLOBAL_SHARED_COMPONENT`)
+- **UX-GLOBAL-015** — Every jurisdiction's public profile carries other states' state-prefixed questions (51 jurisdictions affected) (`GLOBAL_SHARED_COMPONENT`)
 
 ## Browser evidence
 

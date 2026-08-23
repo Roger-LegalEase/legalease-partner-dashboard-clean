@@ -684,9 +684,46 @@ finding({
 /* Reachability findings (derived, not asserted)                       */
 /* ------------------------------------------------------------------ */
 
+const reconciliation = exists("data/expungement-ai/flow-audit/reachability-reconciliation.json")
+  ? readJson("data/expungement-ai/flow-audit/reachability-reconciliation.json")
+  : null;
+
+if (reconciliation) {
+  const technical = reconciliation.totals.technicalReachabilityDefects ?? [];
+  const detail = reconciliation.totals.technicalReachabilityDefectDetail ?? [];
+  finding({
+    defectClass: "dead_end_next_action",
+    severity: "P0",
+    scope: "GLOBAL_SHARED_COMPONENT",
+    title: `The automatic waiting-rule selector cannot choose a rule the profile already contains, closing ${technical.length} jurisdictions that are otherwise reachable and payable`,
+    detail:
+      "bestWaitingRuleForPathway builds candidates from the profile's waiting rules, drops any whose duration a regex cannot parse, then keeps only those sharing a token longer than five characters with the pathway's own prose. When the set empties, evaluateCompiledTiming returns needs_review with 'We need one more detail before we can prepare the right packet.' No detail is missing. "
+      + `Naming a waiting_rule_id the jurisdiction's own compiled profile already contains reaches packet_ready_with_caution in ${technical.length} of them — ${detail.filter((row) => row.reachesPayment).length} with paymentAllowed true. `
+      + "waiting_rule_id is a published question the flow never renders, and the evaluator honours it as an override, so the manual escape hatch exists and is unreachable while the automatic path fails.",
+    affectedFlowIds: manifest.flows.filter((flow) => technical.includes(flow.jurisdiction)).map((flow) => flow.flowId),
+    evidence: [
+      evidence("src/lib/rcap-engine/evaluator.ts", "function bestWaitingRuleForPathway(profile: EngineProfile, pathway: CompiledPathway, answers: Record<string, ScreeningAnswerValue>): SelectedWaitingRule | undefined {", "candidate construction and both filters"),
+      evidence("src/lib/rcap-engine/evaluator.ts", "function waitingTextRelevant(text: string, pathwayText: string, offenseLevel: string, charge: string, caseOutcome: string) {", "the token-overlap relevance filter"),
+      evidence("src/lib/rcap-engine/evaluator.ts", "function parseDurationFromText(text: string) {", "recognises 'no waiting period' but not 'No ordinary waiting period', which is how DC's actual-innocence route states it has none"),
+      { file: "data/expungement-ai/flow-audit/reachability-reconciliation.json", line: null, excerpt: null, note: `Experiment E4 per jurisdiction: ${JSON.stringify(detail)}` }
+    ],
+    reproduction: [
+      "Open a state screening route named in the finding and answer every rendered screen the clearing way.",
+      "Observe needs_review with reason waiting_rule_not_executed.",
+      "POST the same answers to /api/expungement-ai/evaluate with waiting_rule_id set to any rule id from that state's compiled profile.",
+      "Observe packet_ready_with_caution."
+    ],
+    actualBehaviour: "A participant with a genuinely clear record is told a detail is missing, on a route whose waiting rules the product already holds.",
+    expectedBehaviour: "A compiled pathway names the waiting rules that bind it and the evaluator reads that binding, or the failure says the waiting period could not be determined rather than blaming the participant.",
+    implementationOwner: "shared evaluator (waiting-rule selection)",
+    legalReviewRequired: false,
+    jurisdictionsAffected: technical
+  });
+}
+
 finding({
   defectClass: "dead_end_next_action",
-  severity: "P0",
+  severity: "P1",
   scope: "STATE_LEGAL_LOGIC",
   title: `${reachability.totals.jurisdictionsNotReachingPacketReady.length} jurisdictions reach no packet-ready outcome when the audit answers only the screens the flow renders`,
   detail:
@@ -697,7 +734,9 @@ finding({
     + "but its fixtures seed facts the flow never asks — financial_obligations, pending_cases, sentence_completion_date, "
     + "special_preconditions_confirmed, new_convictions_during_waiting_period and record_documents are classified postpay by "
     + "lifecyclePhaseForQuestion in many states and so never render as a screen, while the evaluator still consumes them. "
-    + "The gap is between what the projection asks and what the evaluator needs, not between the ledger and the code.",
+    + "CORRECTED IN PHASE 1B: supplying those six facts changes no jurisdiction's terminal, and neither does additionally pinning every timing and completion gate field. "
+    + "The lifecycle classification is a real defect on its own terms, but it is not what closes these jurisdictions; the waiting-rule selector is. "
+    + "See data/expungement-ai/flow-audit/correction-contract.json for the falsifying experiments and the corrected attribution.",
   affectedFlowIds: manifest.flows
     .filter((flow) => reachability.totals.jurisdictionsNotReachingPacketReady.includes(flow.jurisdiction))
     .map((flow) => flow.flowId),

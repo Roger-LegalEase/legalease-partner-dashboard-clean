@@ -151,7 +151,7 @@ EXPAI-CO-11318326ea
    - **UX-COURT-001** (P1, `COURT_DATA`) — Court is collected as free text with no state-aware selector and no controlled dataset behind it
      - jurisdictions in your shard: `AR`, `CO`, `GA`, `KS`, `OH`, `PA`, `UT`, `WV`
      - legal review required: no
-   - **UX-STATELAW-001** (P0, `STATE_LEGAL_LOGIC`) — 19 jurisdictions reach no packet-ready outcome when the audit answers only the screens the flow renders
+   - **UX-STATELAW-001** (P1, `STATE_LEGAL_LOGIC`) — 19 jurisdictions reach no packet-ready outcome when the audit answers only the screens the flow renders
      - jurisdictions in your shard: `GA`, `KS`, `PA`, `UT`
      - legal review required: **yes — do not implement until counsel answers**
    - **UX-CONTENT-001** (P3, `CONTENT_ONLY`) — 5 question id(s) are served in the public profile payload with no eligibility, form, packet-selection or escalation consumer

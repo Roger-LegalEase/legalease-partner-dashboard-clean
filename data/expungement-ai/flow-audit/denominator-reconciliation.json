@@ -1,0 +1,357 @@
+{
+  "schemaVersion": "expai-denominator-reconciliation/v1",
+  "generatedBy": "scripts/expungement-ai/flow-audit/build-denominator-reconciliation.mjs",
+  "baseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "auditHead": "8e7580ca509fb078144e64549e00ef6908b3a623",
+  "changesNoProductBehavior": true,
+  "counts": {
+    "flowIds": 622,
+    "remedyRows": 356,
+    "nonRemedyRows": 266,
+    "supportedTerminals": 90,
+    "unsupportedTerminals": 182,
+    "referralTerminals": 350,
+    "browserRecords": 123,
+    "comparableBrowserTerminals": 121,
+    "matchedTerminals": 117,
+    "divergedTerminals": 4,
+    "distinctFlowIdsCrawled": 111,
+    "paidOrSponsoredRows": 82,
+    "sponsoredRows": 41,
+    "dtcPaymentEligibleRows": 41,
+    "checkoutGuardPasses": 14,
+    "checkoutRefusals": 27,
+    "distinctPaymentEligiblePathways": 41
+  },
+  "relations": [
+    {
+      "from": "622 flow IDs",
+      "to": "356 remedy rows + 266 non-remedy rows",
+      "relation": "partition",
+      "detail": "356 rows describe a compiled pathway; 266 describe one of the six non-remedy probes across 51 jurisdictions plus the single unregistered-jurisdiction row. 51 x 5 probes = 255, plus 10 extra rows where a probe landed on a payment-eligible terminal and therefore emitted a partner-sponsored row as well, plus the unregistered row = 266."
+    },
+    {
+      "from": "622 flow IDs",
+      "to": "90 supported + 182 unsupported + 350 referral",
+      "relation": "second partition of the same rows",
+      "detail": "Not an additional 622. Terminal classification re-cuts the same denominator: a row is supported when its terminal is neither an unsupported nor a referral outcome."
+    },
+    {
+      "from": "41 paid/sponsored rows",
+      "to": "14 checkout-guard passes + 27 checkout refusals",
+      "relation": "the DTC half of the payment-eligible rows",
+      "detail": "41 distinct (jurisdiction, pathway) pairs are payment-allowed at the evaluator. Each emits one DTC row and one partner-sponsored row. The 14 DTC rows whose route is not refused by a deferral or treatment classification are the checkout-guard passes; the other 27 are refused. 14 + 27 = 41 = the sponsored row count."
+    },
+    {
+      "from": "622 flow IDs",
+      "to": "121 browser terminals",
+      "relation": "sample, not subset arithmetic",
+      "detail": "The crawl walks one canonical supported flow, one unsupported and one referral flow per jurisdiction, on desktop, plus one mobile capture per unique screen template, plus two shared surfaces. That is 111 distinct flow IDs and 123 records. Crawling all 622 would re-drive the same six to eighteen screens hundreds of times; the manifest already holds the per-flow evaluation, and the browser's job is what the evaluator cannot answer."
+    },
+    {
+      "from": "121 browser terminals",
+      "to": "117 matched + 4 diverged",
+      "relation": "partition",
+      "detail": "Each comparable record's rendered result-card eyebrow is mapped back to an engine result code and compared with the manifest row that drove it."
+    }
+  ],
+  "assertions": [
+    {
+      "label": "remedy + non-remedy = all flow IDs",
+      "actual": 622,
+      "expected": 622,
+      "holds": true,
+      "explanation": "Every flow row is either a compiled pathway or one of the six non-remedy probes. There is no third kind."
+    },
+    {
+      "label": "supported + unsupported + referral = all flow IDs",
+      "actual": 622,
+      "expected": 622,
+      "holds": true,
+      "explanation": "Terminal classification partitions the same 622 rows. It is a second cut of the SAME denominator, not an additional set — which is why supported (90) plus unsupported (182) plus referral (350) equals 622 and not something larger."
+    },
+    {
+      "label": "dtc_paid + dtc_payment_refused = sponsored rows",
+      "actual": 41,
+      "expected": 41,
+      "holds": true,
+      "explanation": "A payment-eligible terminal emits exactly two rows: one direct-to-consumer and one partner-sponsored. So the sponsored row count equals the DTC payment-eligible row count, and 14 + 27 = 41 is that identity, not a coincidence."
+    },
+    {
+      "label": "every payment mode accounted for",
+      "actual": 622,
+      "expected": 622,
+      "holds": true,
+      "explanation": "The four payment modes partition all 622 rows."
+    },
+    {
+      "label": "matched + diverged = comparable browser terminals",
+      "actual": 121,
+      "expected": 121,
+      "holds": true,
+      "explanation": "Only records that reached a result card and rendered a recognisable eyebrow are comparable. The two shared-surface records (state picker, unregistered jurisdiction) render no result code and are excluded from both sides."
+    },
+    {
+      "label": "diverged records equal the explained divergence set",
+      "actual": 4,
+      "expected": 4,
+      "holds": true,
+      "explanation": "Every divergence the crawl reports is carried into crawl-divergence.json and classified there. Nothing is dropped between the two files."
+    }
+  ],
+  "allAssertionsHold": true,
+  "divergences": [
+    {
+      "flowId": "EXPAI-CA-820d8cab8d",
+      "state": "CA",
+      "viewport": "desktop-1440x1000",
+      "fixture": {
+        "origin": "data/rcap-ledger/public-witness-fixtures.json",
+        "answers": {
+          "case_outcome": "Arrest or citation with no charge filed",
+          "financial_obligations": "Yes",
+          "jurisdiction_scope": "State or local",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Misdemeanor",
+          "ownership_scope": "Yes",
+          "pardon_status": "No",
+          "pending_cases": "No",
+          "possible_pathway_context": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application",
+          "record_documents": "Yes",
+          "sentence_completion_date": "Yes",
+          "special_preconditions_confirmed": "Yes",
+          "state_exclusion_categories": [
+            "None of these"
+          ]
+        },
+        "renderedScreensWalked": [
+          "ownership_scope",
+          "jurisdiction_scope",
+          "case_outcome",
+          "offense_level",
+          "possible_pathway_context",
+          "pardon_status",
+          "sentence_completion_date",
+          "financial_obligations",
+          "pending_cases",
+          "ca_prop64_qualifying_marijuana_offense",
+          "ca_prop64_lesser_or_no_offense",
+          "ca_prop64_branch",
+          "ca_prop64_relief_requested",
+          "resolved_timing_bucket",
+          "state_exclusion_categories"
+        ]
+      },
+      "expectedTerminal": "likely_not_eligible",
+      "actualTerminal": "needs_review",
+      "firstDivergence": {
+        "questionId": null,
+        "note": "No rendered screen was answered differently from the fixture. The divergence is downstream of the answers: either the result card renders two engine result codes identically, or the fixture supplied a fact the flow never renders."
+      },
+      "classification": "crawl_answer_differs",
+      "evidence": {
+        "crawlReport": "data/expungement-ai/flow-audit/evidence/crawl-report.json",
+        "divergenceRecord": "data/expungement-ai/flow-audit/crawl-divergence.json",
+        "browserReplayResultCode": "needs_review",
+        "browserReplayReasonCodes": [
+          "ca.ca_prop64_completed_sentence_branch_not_confirmed"
+        ],
+        "screenshots": [
+          "b49b00a13381bcf20c2662b62c5dae96a3194f8eed333db307cb9fd02792bbf5",
+          "cfe56d079260835db71719cf0ffebd90caba2a8ec56a0d0b84375e412614566f",
+          "58231e422e1338ea00756938df7706822e594c353814b4e31a07861422778845"
+        ]
+      },
+      "severity": "P3",
+      "recommendedPhase2Owner": "flow audit harness — the crawl driver, not the product"
+    },
+    {
+      "flowId": "EXPAI-DE-72bbc41cea",
+      "state": "DE",
+      "viewport": "desktop-1440x1000",
+      "fixture": {
+        "origin": "data/rcap-ledger/public-witness-fixtures.json",
+        "answers": {
+          "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+          "conviction_date": "2012-06-01",
+          "disposition_date": "2012-06-01",
+          "financial_obligations": "Yes",
+          "jurisdiction_scope": "State or local",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Misdemeanor",
+          "ownership_scope": "Yes",
+          "pardon_status": "No",
+          "pending_cases": "No",
+          "possible_pathway_context": "Discretionary court expungement under 11 Del. C. § 4374",
+          "record_documents": "Yes",
+          "release_date": "2012-06-01",
+          "sentence_completion_date": "Yes",
+          "special_preconditions_confirmed": "Yes",
+          "state_exclusion_categories": [
+            "None of these"
+          ]
+        },
+        "renderedScreensWalked": [
+          "ownership_scope",
+          "jurisdiction_scope",
+          "case_outcome",
+          "offense_level",
+          "possible_pathway_context",
+          "pardon_status",
+          "sentence_completion_date",
+          "financial_obligations",
+          "resolved_timing_bucket",
+          "state_exclusion_categories"
+        ]
+      },
+      "expectedTerminal": "packet_ready",
+      "actualTerminal": "packet_ready_with_caution",
+      "firstDivergence": {
+        "questionId": null,
+        "note": "No rendered screen was answered differently from the fixture. The divergence is downstream of the answers: either the result card renders two engine result codes identically, or the fixture supplied a fact the flow never renders."
+      },
+      "classification": "evaluator_disagrees",
+      "evidence": {
+        "crawlReport": "data/expungement-ai/flow-audit/evidence/crawl-report.json",
+        "divergenceRecord": "data/expungement-ai/flow-audit/crawl-divergence.json",
+        "browserReplayResultCode": "packet_ready",
+        "browserReplayReasonCodes": [
+          "de.compiled_rule_match.rule-28-agencies-cannot-see-it-on-public-sources-mandatory-and-"
+        ],
+        "screenshots": [
+          "b93110b97b8aed56f5b3d40dc7c7805e2087376b02b7e4ecca0666289554b365",
+          "e5b6ed6a16f0aaa8ec64fa51555b15003fa70d8def5313bb2e43e9607d4b0d15",
+          "0bb3c5d559c8d7ffb9d1d42c124a44fb587c7e30cfd39f5f820bb2a1ed70340d"
+        ]
+      },
+      "severity": "P2",
+      "recommendedPhase2Owner": "shared result presentation — two engine result codes render an eyebrow differing only by a full stop, so the browser cannot distinguish them"
+    },
+    {
+      "flowId": "EXPAI-CA-820d8cab8d",
+      "state": "CA",
+      "viewport": "mobile-390x844",
+      "fixture": {
+        "origin": "data/rcap-ledger/public-witness-fixtures.json",
+        "answers": {
+          "case_outcome": "Arrest or citation with no charge filed",
+          "financial_obligations": "Yes",
+          "jurisdiction_scope": "State or local",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Misdemeanor",
+          "ownership_scope": "Yes",
+          "pardon_status": "No",
+          "pending_cases": "No",
+          "possible_pathway_context": "HSC § 11361.8 completed-sentence marijuana dismissal/sealing or redesignation application",
+          "record_documents": "Yes",
+          "sentence_completion_date": "Yes",
+          "special_preconditions_confirmed": "Yes",
+          "state_exclusion_categories": [
+            "None of these"
+          ]
+        },
+        "renderedScreensWalked": [
+          "ownership_scope",
+          "jurisdiction_scope",
+          "case_outcome",
+          "offense_level",
+          "possible_pathway_context",
+          "pardon_status",
+          "sentence_completion_date",
+          "financial_obligations",
+          "pending_cases",
+          "ca_prop64_qualifying_marijuana_offense",
+          "ca_prop64_lesser_or_no_offense",
+          "ca_prop64_branch",
+          "ca_prop64_relief_requested",
+          "resolved_timing_bucket",
+          "state_exclusion_categories"
+        ]
+      },
+      "expectedTerminal": "likely_not_eligible",
+      "actualTerminal": "needs_review",
+      "firstDivergence": {
+        "questionId": null,
+        "note": "No rendered screen was answered differently from the fixture. The divergence is downstream of the answers: either the result card renders two engine result codes identically, or the fixture supplied a fact the flow never renders."
+      },
+      "classification": "crawl_answer_differs",
+      "evidence": {
+        "crawlReport": "data/expungement-ai/flow-audit/evidence/crawl-report.json",
+        "divergenceRecord": "data/expungement-ai/flow-audit/crawl-divergence.json",
+        "browserReplayResultCode": "needs_review",
+        "browserReplayReasonCodes": [
+          "ca.ca_prop64_completed_sentence_branch_not_confirmed"
+        ],
+        "screenshots": [
+          "78456b2a69a751cb25fa37ca1282d884b1c925b546de77dbfdc8180c3a0128c6",
+          "9537b534b4d490d85c5df650f2ec332c07caef23574fb0ecdae6329810433f83",
+          "fa4aacf667b2a21da26d4307f02f4adc5725e9c72d7917ec4ba4e69da4aa97d1"
+        ]
+      },
+      "severity": "P3",
+      "recommendedPhase2Owner": "flow audit harness — the crawl driver, not the product"
+    },
+    {
+      "flowId": "EXPAI-DE-72bbc41cea",
+      "state": "DE",
+      "viewport": "mobile-390x844",
+      "fixture": {
+        "origin": "data/rcap-ledger/public-witness-fixtures.json",
+        "answers": {
+          "case_outcome": "Dismissed, no-billed, nolle prosequi, or not prosecuted",
+          "conviction_date": "2012-06-01",
+          "disposition_date": "2012-06-01",
+          "financial_obligations": "Yes",
+          "jurisdiction_scope": "State or local",
+          "new_convictions_during_waiting_period": "No",
+          "offense_level": "Misdemeanor",
+          "ownership_scope": "Yes",
+          "pardon_status": "No",
+          "pending_cases": "No",
+          "possible_pathway_context": "Discretionary court expungement under 11 Del. C. § 4374",
+          "record_documents": "Yes",
+          "release_date": "2012-06-01",
+          "sentence_completion_date": "Yes",
+          "special_preconditions_confirmed": "Yes",
+          "state_exclusion_categories": [
+            "None of these"
+          ]
+        },
+        "renderedScreensWalked": [
+          "ownership_scope",
+          "jurisdiction_scope",
+          "case_outcome",
+          "offense_level",
+          "possible_pathway_context",
+          "pardon_status",
+          "sentence_completion_date",
+          "financial_obligations",
+          "resolved_timing_bucket",
+          "state_exclusion_categories"
+        ]
+      },
+      "expectedTerminal": "packet_ready",
+      "actualTerminal": "packet_ready_with_caution",
+      "firstDivergence": {
+        "questionId": null,
+        "note": "No rendered screen was answered differently from the fixture. The divergence is downstream of the answers: either the result card renders two engine result codes identically, or the fixture supplied a fact the flow never renders."
+      },
+      "classification": "evaluator_disagrees",
+      "evidence": {
+        "crawlReport": "data/expungement-ai/flow-audit/evidence/crawl-report.json",
+        "divergenceRecord": "data/expungement-ai/flow-audit/crawl-divergence.json",
+        "browserReplayResultCode": "packet_ready",
+        "browserReplayReasonCodes": [
+          "de.compiled_rule_match.rule-28-agencies-cannot-see-it-on-public-sources-mandatory-and-"
+        ],
+        "screenshots": [
+          "274c8b170d355b655c973f3c5c72bc31bbab43052dd2634ef88fba1181174b19",
+          "2e4e020190f74f1c2098d1c4a9f3c17ed02568b922044a782db6f54e2ec9d59f",
+          "b7da1a75ea144bde37170a739a5b9626c46ceaf98e409b670e0e73d189bcd53e"
+        ]
+      },
+      "severity": "P2",
+      "recommendedPhase2Owner": "shared result presentation — two engine result codes render an eyebrow differing only by a full stop, so the browser cannot distinguish them"
+    }
+  ]
+}

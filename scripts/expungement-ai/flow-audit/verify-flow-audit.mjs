@@ -33,6 +33,11 @@ const branchCoverage = readJson("data/expungement-ai/flow-audit/branch-coverage.
 const register = readJson("data/expungement-ai/flow-audit/issue-register.json");
 const shards = readJson("data/expungement-ai/flow-audit/shard-assignment.json");
 const screenshotIndex = readJson("data/expungement-ai/flow-audit/screenshot-index.json");
+const reconciliation = exists("data/expungement-ai/flow-audit/reachability-reconciliation.json") ? readJson("data/expungement-ai/flow-audit/reachability-reconciliation.json") : null;
+const denominator = exists("data/expungement-ai/flow-audit/denominator-reconciliation.json") ? readJson("data/expungement-ai/flow-audit/denominator-reconciliation.json") : null;
+const questionNodes = exists("data/expungement-ai/flow-audit/question-node-reconciliation.json") ? readJson("data/expungement-ai/flow-audit/question-node-reconciliation.json") : null;
+const retention = exists("data/expungement-ai/flow-audit/evidence-retention.json") ? readJson("data/expungement-ai/flow-audit/evidence-retention.json") : null;
+const hosted = exists("data/expungement-ai/flow-audit/hosted-acceptance-record.json") ? readJson("data/expungement-ai/flow-audit/hosted-acceptance-record.json") : null;
 const blockers = readJson("data/expungement-ai/flow-audit/environment-blockers.json");
 
 const EXPECTED_JURISDICTIONS = 51;
@@ -263,6 +268,104 @@ check("FA-24", "the crawl's remaining disagreements with the manifest are classi
   return {
     passed: unclassified.length === 0,
     detail: `${divergence.totals.divergentRecords} divergent record(s): ${JSON.stringify(divergence.totals.classificationCounts)}`
+  };
+});
+
+check("FA-25", "every one of the 51 jurisdictions carries a reachability classification", () => {
+  if (!reconciliation) return { passed: false, detail: "no reachability reconciliation" };
+  const vocabulary = new Set(Object.keys(reconciliation.classificationVocabulary));
+  const bad = reconciliation.jurisdictions.filter((row) => !vocabulary.has(row.classification));
+  return {
+    passed: reconciliation.jurisdictions.length === EXPECTED_JURISDICTIONS && bad.length === 0,
+    detail: `${reconciliation.jurisdictions.length} jurisdictions, ${bad.length} outside the vocabulary; ${JSON.stringify(reconciliation.totals.classificationCounts)}`
+  };
+});
+
+check("FA-26", "intentional unsupported or referral outcomes are never counted as technical failures", () => {
+  if (!reconciliation) return { passed: false, detail: "no reachability reconciliation" };
+  const overlap = reconciliation.jurisdictions.filter((row) => row.intentionalUnsupportedOrReferral && row.technicalReachabilityDefect);
+  return { passed: overlap.length === 0, detail: `${overlap.length} jurisdiction(s) claimed as both` };
+});
+
+check("FA-27", "the no-payment set is a strict superset of the no-packet-ready set", () => {
+  if (!reconciliation) return { passed: false, detail: "no reachability reconciliation" };
+  const noPayment = new Set(reconciliation.noPayment);
+  const missing = reconciliation.noPacketReady.filter((code) => !noPayment.has(code));
+  return {
+    passed: missing.length === 0 && reconciliation.noPayment.length >= reconciliation.noPacketReady.length,
+    detail: `${reconciliation.noPacketReady.length} without packet-ready, ${reconciliation.noPayment.length} without payment, difference ${reconciliation.differenceBetween19And22.difference}; ${missing.length} in the first set but not the second`
+  };
+});
+
+check("FA-28", "every denominator relation asserted by the audit still holds", () => {
+  if (!denominator) return { passed: false, detail: "no denominator reconciliation" };
+  const failing = denominator.assertions.filter((assertion) => !assertion.holds);
+  return { passed: failing.length === 0, detail: `${denominator.assertions.length} assertion(s), ${failing.length} failing` };
+});
+
+check("FA-29", "every browser/manifest divergence carries a flow ID, a first divergence, a severity and an owner", () => {
+  if (!denominator) return { passed: false, detail: "no denominator reconciliation" };
+  const incomplete = denominator.divergences.filter((row) =>
+    !row.flowId || !row.state || !row.expectedTerminal || !row.actualTerminal
+    || !row.firstDivergence || !row.severity || !row.recommendedPhase2Owner
+  );
+  return { passed: incomplete.length === 0, detail: `${denominator.divergences.length} divergence(s), ${incomplete.length} incomplete` };
+});
+
+check("FA-30", "every served-but-not-rendered question node is in exactly one bucket", () => {
+  if (!questionNodes) return { passed: false, detail: "no question-node reconciliation" };
+  const vocabulary = new Set(questionNodes.bucketVocabulary);
+  const bad = questionNodes.nodes.filter((node) => !vocabulary.has(node.bucket));
+  const total = Object.values(questionNodes.totals.byBucketRawNodes).reduce((sum, count) => sum + count, 0);
+  return {
+    passed: bad.length === 0 && total === questionNodes.totals.servedButNotRenderedNodes,
+    detail: `${questionNodes.totals.servedButNotRenderedNodes} nodes across ${questionNodes.totals.distinctQuestionIds} ids; bucket sum ${total}; ${bad.length} outside the vocabulary`
+  };
+});
+
+check("FA-31", "the raw browser evidence is retained outside Git and every committed capture's hash verifies", () => {
+  if (!retention) return { passed: false, detail: "no evidence retention record" };
+  return {
+    passed: retention.rawRetentionIsOutsideGit === true
+      && retention.totals.retainedRawCaptures > 0
+      && retention.totals.committedHashMismatches === 0
+      && retention.totals.committedPresentInGit === retention.totals.committedCaptures,
+    detail: `${retention.totals.retainedRawCaptures} raw captures retained at ${retention.rawRetentionPath}; ${retention.totals.committedHashesVerified}/${retention.totals.committedCaptures} committed hashes verified; ${retention.totals.committedHashMismatches} mismatch(es)`
+  };
+});
+
+check("FA-32", "no secret value appears in any committed audit artifact", () => {
+  const suspicious = [];
+  const patterns = [
+    /\bsbp_[A-Za-z0-9]{16,}/,
+    /\bsk_(?:live|test)_[A-Za-z0-9]{16,}/,
+    /\bwhsec_[A-Za-z0-9]{16,}/,
+    /\bghp_[A-Za-z0-9]{20,}/,
+    /\bvercel_[A-Za-z0-9]{20,}/
+  ];
+  const roots = ["data/expungement-ai/flow-audit", "docs/expungement-ai/flow-audit"];
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(path.join(ROOT_DIR, dir), { withFileTypes: true })) {
+      const rel = `${dir}/${entry.name}`;
+      if (entry.isDirectory()) { walk(rel); continue; }
+      if (!/\.(json|md)$/.test(entry.name)) continue;
+      const text = read(rel);
+      for (const pattern of patterns) if (pattern.test(text)) suspicious.push(rel);
+    }
+  };
+  for (const root of roots) walk(root);
+  return { passed: suspicious.length === 0, detail: suspicious.length === 0 ? "no credential-shaped token found in any committed artifact" : suspicious.join(", ") };
+});
+
+check("FA-33", "the hosted record does not claim a deployment it did not make", () => {
+  if (!hosted) return { passed: false, detail: "no hosted acceptance record" };
+  const claimsUrl = Boolean(hosted.deploymentUrl);
+  const anyDeployRan = (hosted.runs ?? []).some((run) => !run.readOnly);
+  return {
+    passed: claimsUrl === anyDeployRan,
+    detail: claimsUrl
+      ? `claims deployment ${hosted.deploymentUrl}`
+      : `no deployment claimed; ${(hosted.runs ?? []).length} run(s), all read-only, ${(hosted.syntheticFixtures?.created ?? []).length} synthetic fixture(s) created`
   };
 });
 

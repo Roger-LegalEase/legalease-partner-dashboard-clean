@@ -154,7 +154,7 @@ EXPAI-MA-0bf6c2500d
    - **UX-STATECFG-001** (P2, `STATE_CONFIGURATION`) — Route-specific facts are asked of every participant in the state before the route is known
      - jurisdictions in your shard: `IN`
      - legal review required: no
-   - **UX-STATELAW-001** (P0, `STATE_LEGAL_LOGIC`) — 19 jurisdictions reach no packet-ready outcome when the audit answers only the screens the flow renders
+   - **UX-STATELAW-001** (P1, `STATE_LEGAL_LOGIC`) — 19 jurisdictions reach no packet-ready outcome when the audit answers only the screens the flow renders
      - jurisdictions in your shard: `IN`, `OK`, `SC`
      - legal review required: **yes — do not implement until counsel answers**
    - **UX-CONTENT-001** (P3, `CONTENT_ONLY`) — 5 question id(s) are served in the public profile payload with no eligibility, form, packet-selection or escalation consumer
