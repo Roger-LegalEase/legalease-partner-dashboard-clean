@@ -102,3 +102,55 @@ docs/expungement-ai/flow-audit/state-reports/CT.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-6 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-6.json`.
+
+### Changed
+
+- Added src/lib/rcap/state-packs/connecticut/record-clearing-filing-locations.ts: the 13 judicial districts, the 8 historical counties, the four venues that handle erasure matters, and a labelled manual-entry fallback.
+- Exported it from the Connecticut state pack index.
+
+### Deliberately not changed
+
+- CT-connecticut.json is byte-identical to the base. No question, option value, lifecycle classification, packet family, form mapping, payment clamp or operationallySellable value moved.
+- No waiting rule was authored and no binding was added; the two conditional proposals are recorded here as evidence only.
+
+### Terminals
+
+No flow row moved. All 10 Connecticut flow IDs keep the terminal they had at the base, and the compiled profile is byte-identical to it. Proved by re-running the audit's own four generators before and after this diff: the output is byte-identical.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **14**
+- Packet-ready reachable: **yes**
+- Payment reachable: **yes**
+- Best terminal found: `packet_ready_with_caution` on `petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202`
+
+Phase 2 reopened Connecticut and it still holds at this base: the bounded sweep over rendered screens reaches packet_ready_with_caution on petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202 with payment open, and a direct replay returns the same result at every timing bucket. Nothing was re-investigated and nothing was changed.
+
+### Waiting-rule dispositions for this jurisdiction
+
+Every route below still resolves through the provisional prose selector retained in the evaluator. None is recommended ACTIVE. No waiting period is authored here; a proposal names a rule id the compiled profile already publishes and quotes its text.
+
+| Route | Disposition | Rules named |
+| --- | --- | --- |
+| `absolute-pardon-resulting-in-erasure` | conditional binding proposed | `wait-06`, `wait-07` |
+| `automatic-clean-slate-erasure-for-eligible-post-2000-convictions` | conditional binding proposed | `wait-04`, `wait-05` |
+| `automatic-non-conviction-erasure-under-conn-gen-stat-54-142a` | legal owner decision required | `wait-02`, `wait-03` |
+| `cannabis-conviction-erasure` | legal owner decision required | none |
+
+4 fallback-dependent route(s): 0 explicit binding proposed, 2 conditional binding proposed, 2 legal owner decision required, 0 held for correction.
+
+### Controlled filing-location dataset
+
+`src/lib/rcap/state-packs/connecticut/record-clearing-filing-locations.ts` — 13 judicial districts, the courts and agencies that handle record-clearing matters, and a labelled manual-entry fallback. Addresses UX-COURT-001.
+
+Still missing: the selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed.
+
+### Legal questions still open
+
+- UX-STATELAW-001 for CT is closed by the Phase 2 correction and confirmed at this base; no question remains.
+- Whether the nolle branch of § 54-142a can be separated from the dismissal branch, which the merged case_outcome option currently prevents.
+- Whether the Clean Slate felony period may be applied to every felony when the source row is limited to Class D/E and unclassified felonies punishable by five years or less.

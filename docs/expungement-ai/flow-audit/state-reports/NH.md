@@ -109,3 +109,58 @@ docs/expungement-ai/flow-audit/state-reports/NH.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-6 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-6.json`.
+
+### Changed
+
+- Added src/lib/rcap/state-packs/new-hampshire/record-clearing-filing-locations.ts: the 10 counties, the Circuit Court District and Family Divisions, the Superior Court, the State Police Criminal Records Unit, and a labelled manual-entry fallback.
+- Exported it from the New Hampshire state pack index.
+
+### Deliberately not changed
+
+- NH-new-hampshire.json is byte-identical to the base.
+- No exclusion or waiting rule was changed, so the UX-LEGAL-001 behaviour is preserved exactly.
+
+### Terminals
+
+No flow row moved. All 13 New Hampshire flow IDs keep the terminal they had at the base, and the compiled profile is byte-identical to it. Proved by re-running the audit's own four generators before and after this diff: the output is byte-identical.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **12**
+- Packet-ready reachable: **no**
+- Payment reachable: **no**
+- Best terminal found: `not_yet` on `annulment-after-dismissal-acquittal-or-nonprosecution`
+
+New Hampshire is recorded in the Phase 2 allowlist as notFoundByBoundedSearch rather than closed: the greedy sweep settles in a local optimum now that more screens render, and Phase 1's packet-ready answer set still replays to packet_ready_with_caution. Confirmed at this base — the sweep's best is not_yet on annulment-after-dismissal-acquittal-or-nonprosecution. NH is not one of this shard's two UX-STATELAW-001 jurisdictions and was not re-investigated as one.
+
+### Waiting-rule dispositions for this jurisdiction
+
+Every route below still resolves through the provisional prose selector retained in the evaluator. None is recommended ACTIVE. No waiting period is authored here; a proposal names a rule id the compiled profile already publishes and quotes its text.
+
+| Route | Disposition | Rules named |
+| --- | --- | --- |
+| `annulment-after-dismissal-acquittal-or-nonprosecution` | legal owner decision required | `wait-10`, `wait-13` |
+| `annulment-of-a-vacated-conviction` | legal owner decision required | none |
+| `conviction-annulment-under-rsa-651-5` | legal owner decision required | `wait-04`, `wait-05`, `wait-06`, `wait-07`, `wait-09` |
+| `dwi-dui-annulment` | legal owner decision required | `wait-02` |
+| `marijuana-possession-annulment-under-rsa-651-5-b` | explicit binding proposed (`no_waiting_period`) | none |
+| `out-of-state-federal-or-military-record-guidance` | held for correction | none |
+
+6 fallback-dependent route(s): 1 explicit binding proposed, 0 conditional binding proposed, 4 legal owner decision required, 1 held for correction.
+
+### Controlled filing-location dataset
+
+`src/lib/rcap/state-packs/new-hampshire/record-clearing-filing-locations.ts` — 10 counties, the courts and agencies that handle record-clearing matters, and a labelled manual-entry fallback. Addresses UX-COURT-001.
+
+Still missing: the selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed.
+
+### Legal questions still open
+
+- UX-LEGAL-001 for NH: recorded, not implemented.
+- New Hampshire has no court or county question in its compiled profile at all. UX-COURT-001 lists NH, but court is asked only through free-text source questions, so binding a selector needs a court fact in the profile first — which is a question-model change with a parity approval, both shared.
+- The RSA 651:5 offence-class periods (violation 1 year through Class A felony 10 years) are published only inside two concatenated rules whose single structured duration is one year. Binding either would give every conviction a one-year wait.
+- Whether a favourable outcome is pre- or post-2019, which moves the annulment between "petition at any time" and 30 days. NH publishes no disposition_date question.

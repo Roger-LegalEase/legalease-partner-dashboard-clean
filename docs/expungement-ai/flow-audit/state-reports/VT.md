@@ -110,3 +110,58 @@ docs/expungement-ai/flow-audit/state-reports/VT.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-6 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-6.json`.
+
+### Changed
+
+- Added src/lib/rcap/state-packs/vermont/record-clearing-filing-locations.ts: the 14 counties, the Superior Court Criminal and Family Divisions, the Judicial Bureau, the Vermont Crime Information Center, and a labelled manual-entry fallback.
+- Exported it from the Vermont state pack index.
+
+### Deliberately not changed
+
+- VT-vermont.json is byte-identical to the base.
+- wait-28's structured three-year duration was left alone even though it does not match the row that names the narrow expungement route. Correcting it would move evaluator output and needs a shared allowlist entry.
+
+### Terminals
+
+No flow row moved. All 13 Vermont flow IDs keep the terminal they had at the base, and the compiled profile is byte-identical to it. Proved by re-running the audit's own four generators before and after this diff: the output is byte-identical.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **15**
+- Packet-ready reachable: **yes**
+- Payment reachable: **yes**
+- Best terminal found: `packet_ready_with_caution` on `dui-sealing`
+
+Vermont already reaches packet_ready_with_caution with payment open from rendered screens only, on dui-sealing. Not a UX-STATELAW-001 jurisdiction.
+
+### Waiting-rule dispositions for this jurisdiction
+
+Every route below still resolves through the provisional prose selector retained in the evaluator. None is recommended ACTIVE. No waiting period is authored here; a proposal names a rule id the compiled profile already publishes and quotes its text.
+
+| Route | Disposition | Rules named |
+| --- | --- | --- |
+| `adult-conviction-expungement-narrow-statutory-route` | legal owner decision required | `wait-28` |
+| `adult-felony-conviction-sealing` | explicit binding proposed | `wait-17` |
+| `adult-misdemeanor-conviction-sealing` | explicit binding proposed | `wait-16` |
+| `dui-sealing` | explicit binding proposed | `wait-18` |
+| `juvenile-sealing` | explicit binding proposed | `wait-08`, `wait-15`, `wait-22` |
+| `non-conviction-sealing` | explicit binding proposed | `wait-19` |
+| `offense-before-age-25-sealing-under-33-v-s-a-5119-g` | explicit binding proposed | `wait-14` |
+| `young-adult-sealing-for-offenses-committed-at-ages-18-21` | explicit binding proposed | `wait-05` |
+
+8 fallback-dependent route(s): 7 explicit binding proposed, 0 conditional binding proposed, 1 legal owner decision required, 0 held for correction.
+
+### Controlled filing-location dataset
+
+`src/lib/rcap/state-packs/vermont/record-clearing-filing-locations.ts` — 14 counties, the courts and agencies that handle record-clearing matters, and a labelled manual-entry fallback. Addresses UX-COURT-001.
+
+Still missing: the selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed.
+
+### Legal questions still open
+
+- Whether the narrow expungement route for conduct no longer criminal carries any period beyond sentence completion and payment of restitution and surcharges.
+- Whether the immediate sealing of a dismissed juvenile matter under the July 1, 2006 rule should be bound as a conditional branch; it is selected by a date threshold rather than an enumerated answer.

@@ -1,0 +1,2843 @@
+{
+  "schemaVersion": "expai-phase3-shard-result/v1",
+  "shardId": "SHARD-6",
+  "sessionNumber": 6,
+  "sessionFile": "docs/expungement-ai/phase2/shard-prompts/session-06.md",
+  "phase2ProductHead": "93e05e945a52cfa1cdd2ab590636290875a48f68",
+  "baseSha": "93e05e945a52cfa1cdd2ab590636290875a48f68",
+  "branch": "claude/expai-state-shard-06",
+  "evaluatorToday": "2026-07-01",
+  "jurisdictionsOwned": [
+    "CT",
+    "DE",
+    "ID",
+    "IL",
+    "KY",
+    "LA",
+    "NH",
+    "NJ",
+    "VT"
+  ],
+  "contract": {
+    "scope": "Configuration only, and only for the nine jurisdictions this shard owns. No shared path is touched and no unassigned jurisdiction is touched.",
+    "waitingPeriods": "No waiting period is authored, shortened, reordered or bound. Every proposal below is evidence for the integration captain: a rule id the jurisdiction's own compiled profile already publishes, that rule's source text quoted verbatim, and the duration exactly as the profile already states it.",
+    "activeRecommendations": "No fallback-dependent route is recommended ACTIVE. A route still resolving through the provisional prose selector is not release-ready whatever terminal it returns."
+  },
+  "step1_reConfirmTheAuditsReadingAtThisBase": {
+    "verdict": "Re-run and reconciled. Every difference is explained by data/expungement-ai/phase2/correction-allowlist.json. Nothing unexplained was found, so nothing here is treated as a defect.",
+    "finding": "All four audit generators report stale under --check at BASE_SHA, before this shard changed anything. That is a pre-existing condition of the base, not a consequence of this diff.",
+    "reconciliation": [
+      {
+        "artifact": "data/expungement-ai/flow-audit/flow-manifest.json",
+        "differenceFromCommittedPhase1Baseline": "622 flow rows become 625; screeningScreenIds move in 614 flows; 31 witness fixtures no longer reproduce their flow's terminal.",
+        "explainedBy": [
+          "shared-facts-rendered",
+          "waiting-rule-recovery-packet-ready",
+          "ui-reachability-recovered",
+          "witness-fixtures-predate-the-shared-facts"
+        ],
+        "proof": "Regenerating at BASE_SHA produces a file byte-identical to data/expungement-ai/phase2/post-implementation/flow-manifest.json, which is Phase 2's own recorded snapshot."
+      },
+      {
+        "artifact": "data/expungement-ai/flow-audit/question-inventory.json",
+        "differenceFromCommittedPhase1Baseline": "The rendered-question set grows where a shared fact the evaluator consumes is now asked.",
+        "explainedBy": [
+          "shared-facts-rendered"
+        ],
+        "proof": "Regenerating at BASE_SHA produces a file byte-identical to Phase 2's post-implementation snapshot."
+      },
+      {
+        "artifact": "data/expungement-ai/flow-audit/ui-reachability.json",
+        "differenceFromCommittedPhase1Baseline": "32 of 51 jurisdictions reaching packet-ready becomes 43; 29 becomes 40 for payment.",
+        "explainedBy": [
+          "ui-reachability-recovered",
+          "nh-not-found-by-bounded-search",
+          "wv-waiting-rule-now-reached"
+        ],
+        "proof": "Regenerating at BASE_SHA produces a file byte-identical to Phase 2's post-implementation snapshot."
+      },
+      {
+        "artifact": "data/expungement-ai/flow-audit/branch-coverage.json",
+        "differenceFromCommittedPhase1Baseline": "Thirteen jurisdictions lose their viable branch baseline and edgesThatChangeTheTerminal falls from 1135 to 885.",
+        "explainedBy": [
+          "witness-fixtures-predate-the-shared-facts"
+        ],
+        "proof": "This generator draws its per-jurisdiction baseline from data/rcap-ledger/public-witness-fixtures.json. BASE_SHA is the commit that deliberately reverted data/rcap-ledger/* to the product base and reported the consequence rather than working around it. Phase 2's branch-coverage snapshot predates that revert, which is why it alone differs from a regeneration at BASE_SHA while the other three match byte for byte.",
+        "note": "Not a new difference and not this shard's to clear: data/rcap-* and data/expungement-ai/phase2/** are prohibited paths here, and so are the audit artifacts themselves."
+      }
+    ],
+    "thisShardsEffectOnAllFour": "Zero. All four generators were re-run after this shard's diff and produce output byte-identical to the regeneration at BASE_SHA. This diff moves no flow row, no rendered screen, no branch edge and no reachability verdict."
+  },
+  "step2_reachability": {
+    "CT": {
+      "status": "confirmed_at_this_base",
+      "detail": "Phase 2 reopened Connecticut and it still holds. The bounded sweep over rendered screens reaches packet_ready_with_caution with payment open on petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202, matching data/expungement-ai/phase2/remedy-context-replay-after.json. A direct replay returns the same result at all nine timing buckets. Not re-investigated; nothing changed."
+    },
+    "NJ": {
+      "status": "answered_and_escalated_to_the_existing_hold",
+      "missingFactIsALegalPrecondition": false,
+      "routeUnavailableToSelfHelpParticipants": false,
+      "detail": "This shard's remaining UX-STATELAW-001 jurisdiction, and the answer is neither of the two the phase offers. New Jersey's blocker is not a missing fact: the bounded sweep reports no unrendered fact the evaluator consumes except record_documents, which Phase 2 recorded as changing no decision in any of the 51. It is not a claim about self-help availability either. A direct replay of the regular-expungement route at every one of the nine timing buckets, including gt_10_years, returns needs_review with reason code nj.waiting_rule_not_executed and missingQuestionIds empty. The timing gate never clears because the waiting rule never resolves, which is exactly the hold Phase 2 recorded. Resolving it means authoring a New Jersey waiting period, which this shard may not do. No lifecycle classification correction is warranted and no escalation of the product claim is warranted; what is warranted is the waiting-rule decision that is already in the counsel queue.",
+      "evidence": {
+        "probe": "Regular expungement under N.J.S.A. 2C:52-2 / 2C:52-3, answering only rendered screens, sweeping all nine resolved_timing_bucket values.",
+        "resultAtEveryBucket": "needs_review",
+        "reasonCode": "nj.waiting_rule_not_executed",
+        "missingQuestionIds": [],
+        "paymentAllowed": false
+      },
+      "whatThisShardDidNotDo": "No lifecycle classification was corrected, because no fact is missing. No product claim was escalated, because the route is not being withdrawn. The waiting-rule decision that already sits in the counsel queue is the whole of it, and authoring it is forbidden here."
+    }
+  },
+  "step3_issueDispositions": [
+    {
+      "issueId": "UX-COUNTY-001",
+      "severity": "P1",
+      "category": "COUNTY_DATA",
+      "releaseCritical": true,
+      "myJurisdictions": [
+        "ID",
+        "KY"
+      ],
+      "whatWasBuilt": "A controlled county dataset for each, inside the state pack: 44 Idaho counties and 120 Kentucky counties, each with the courts and agencies that handle record-clearing matters and a labelled manual-entry fallback.",
+      "whatRemains": "The selector. Rendering a controlled list means a renderer branch for county (src/components/expungement-ai/**) and a change to the compiled question's type and options, which verify-expungement-plain-language-values locks against origin/main unless data/expungement-ai/screening-parity-approved-deltas.json approves it. All three paths are prohibited to this shard.",
+      "status": "dataset_delivered_binding_proposed"
+    },
+    {
+      "issueId": "UX-COURT-001",
+      "severity": "P1",
+      "category": "COURT_DATA",
+      "releaseCritical": true,
+      "myJurisdictions": [
+        "CT",
+        "DE",
+        "ID",
+        "IL",
+        "KY",
+        "LA",
+        "NH",
+        "NJ",
+        "VT"
+      ],
+      "whatWasBuilt": "A controlled record-clearing court dataset for all nine, inside each state pack, each qualified by the state's real local unit — judicial district for Connecticut, parish for Louisiana, county elsewhere — and each with a labelled manual-entry fallback.",
+      "whatRemains": "The same three prohibited paths as UX-COUNTY-001.",
+      "newFinding": "New Hampshire's compiled profile publishes no court question and no county question at all. Court is asked only through free-text source questions with no enumerated values, so for NH the selector needs a court fact in the profile before it needs a dataset. That is a question-model change with a parity approval, both shared.",
+      "status": "dataset_delivered_binding_proposed"
+    },
+    {
+      "issueId": "UX-STATELAW-001",
+      "severity": "P1",
+      "category": "STATE_LEGAL_LOGIC",
+      "releaseCritical": true,
+      "legalReviewRequired": true,
+      "myJurisdictions": [
+        "CT",
+        "NJ"
+      ],
+      "status": "recorded_not_implemented",
+      "detail": "CT is closed by Phase 2 and confirmed at this base. NJ is answered in step 2: the blocker is the held waiting-rule decision, not a missing fact and not a claim change. Recorded, not implemented, as the phase requires."
+    },
+    {
+      "issueId": "UX-LEGAL-001",
+      "severity": "P1",
+      "category": "REQUIRES_LEGAL_REVIEW",
+      "releaseCritical": true,
+      "legalReviewRequired": true,
+      "myJurisdictions": [
+        "IL",
+        "LA",
+        "NH"
+      ],
+      "status": "recorded_not_implemented",
+      "observedAtThisBase": [
+        "LA:non-conviction-arrest-expungement returns packet_ready_with_caution with payment open at every timing bucket, including lt_1_year and still_open.",
+        "LA:misdemeanor-five-year-clean-period-expungement returns packet_ready_with_caution with payment open at lt_1_year, which sells a packet on a five-year period the participant has not served.",
+        "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement behaves the same way.",
+        "IL:adult-conviction-sealing returns packet_ready_with_caution with payment open at lt_1_year.",
+        "NH returns needs_review on annulment-after-dismissal-acquittal-or-nonprosecution at every bucket, so the shortest-bucket half of this issue does not reproduce for NH at this base."
+      ],
+      "detail": "No exclusion rule and no waiting rule was changed in any of the three, so counsel sees the behaviour exactly as it stands."
+    },
+    {
+      "issueId": "UX-CONTENT-001",
+      "severity": "P3",
+      "category": "CONTENT_ONLY",
+      "releaseCritical": false,
+      "myJurisdictions": [
+        "CT",
+        "DE",
+        "ID",
+        "IL",
+        "KY",
+        "LA",
+        "NH",
+        "NJ",
+        "VT"
+      ],
+      "status": "recorded_and_left_alone",
+      "detail": "Not release-critical this phase. Removing a published question with no consumer would change the public payload of every one of the nine and is exactly the kind of deletion this shard is told not to make on the strength of the audit failing to find a purpose."
+    },
+    {
+      "issueId": "UX-STATECFG-001",
+      "severity": "P2",
+      "category": "STATE_CONFIGURATION",
+      "releaseCritical": false,
+      "myJurisdictions": [],
+      "status": "not_assigned_to_this_shard"
+    }
+  ],
+  "step4_globalIssues": {
+    "implemented": "none",
+    "detail": "No issue whose category begins GLOBAL_ was implemented, proposed or worked around. They are Phase 2's, and the ones Phase 2 did not build stay in data/expungement-ai/phase2/p2-p3-backlog.json with their reasons. This shard adds to that record here rather than acting on it."
+  },
+  "waitingRuleDispositions": {
+    "CT:absolute-pardon-resulting-in-erasure": {
+      "jurisdiction": "CT",
+      "pathwayId": "absolute-pardon-resulting-in-erasure",
+      "pathwayLabel": "Absolute pardon resulting in erasure",
+      "routeType": "portal_guidance",
+      "disposition": "EXPLICIT_CONDITIONAL_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "The profile publishes exactly two Absolute Pardon rows, one per offence level, and offense_level is a required rendered single_choice whose values map onto them one-to-one. \"I am not sure\" takes the longer of the two, which is the repository's existing longest_bound_duration policy: it can delay a packet, never open one early.",
+      "proposedConditionalBinding": {
+        "key": "CT:absolute-pardon-resulting-in-erasure",
+        "jurisdiction": "CT",
+        "pathwayId": "absolute-pardon-resulting-in-erasure",
+        "fieldId": "offense_level",
+        "branches": [
+          {
+            "answerValues": [
+              "Misdemeanor"
+            ],
+            "resolution": "rules",
+            "ruleRefs": [
+              "wait-06"
+            ]
+          },
+          {
+            "answerValues": [
+              "Felony",
+              "I am not sure"
+            ],
+            "resolution": "rules",
+            "ruleRefs": [
+              "wait-07"
+            ]
+          }
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain",
+        "schemaNote": "waiting-rule-bindings.json applies appliesWhen to the whole binding rather than per rule, so a branch-selecting binding is not expressible in the v1 schema. The proposal is recorded as evidence; extending the schema is the integration captain's, not this shard's."
+      },
+      "selectingFieldOptionsAsPublished": [
+        "Misdemeanor",
+        "Felony",
+        "I am not sure"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-06",
+          "sourceText": "Misdemeanor — Absolute Pardon BOPP pardon 3 years from disposition",
+          "durationAsThisProfileStatesIt": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchorAsThisProfileStatesIt": "disposition",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "pardon_status"
+          ]
+        },
+        {
+          "ruleId": "wait-07",
+          "sourceText": "Felony — Absolute Pardon BOPP pardon 5 years from disposition",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchorAsThisProfileStatesIt": "disposition",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "pardon_status"
+          ]
+        }
+      ]
+    },
+    "CT:automatic-clean-slate-erasure-for-eligible-post-2000-convictions": {
+      "jurisdiction": "CT",
+      "pathwayId": "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+      "pathwayLabel": "Automatic Clean Slate erasure for eligible post-2000 convictions",
+      "routeType": "automatic",
+      "disposition": "EXPLICIT_CONDITIONAL_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "The profile publishes exactly two automatic Clean Slate rows, one per offence level, and offense_level maps onto them one-to-one. \"I am not sure\" takes the longer of the two under the existing longest_bound_duration policy.",
+      "proposedConditionalBinding": {
+        "key": "CT:automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "jurisdiction": "CT",
+        "pathwayId": "automatic-clean-slate-erasure-for-eligible-post-2000-convictions",
+        "fieldId": "offense_level",
+        "branches": [
+          {
+            "answerValues": [
+              "Misdemeanor"
+            ],
+            "resolution": "rules",
+            "ruleRefs": [
+              "wait-04"
+            ]
+          },
+          {
+            "answerValues": [
+              "Felony",
+              "I am not sure"
+            ],
+            "resolution": "rules",
+            "ruleRefs": [
+              "wait-05"
+            ]
+          }
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain",
+        "schemaNote": "waiting-rule-bindings.json applies appliesWhen to the whole binding rather than per rule, so a branch-selecting binding is not expressible in the v1 schema. The proposal is recorded as evidence; extending the schema is the integration captain's, not this shard's."
+      },
+      "selectingFieldOptionsAsPublished": [
+        "Misdemeanor",
+        "Felony",
+        "I am not sure"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-04",
+          "sourceText": "Misdemeanor conviction (post-2000) Clean Slate (automatic) 7 years from last conviction",
+          "durationAsThisProfileStatesIt": {
+            "value": 7,
+            "unit": "years",
+            "raw": "7 years"
+          },
+          "anchorAsThisProfileStatesIt": "last conviction",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ]
+        },
+        {
+          "ruleId": "wait-05",
+          "sourceText": "Class D/E or unclassified felony (≤5 yr) Clean Slate (automatic) 10 years from last conviction",
+          "durationAsThisProfileStatesIt": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchorAsThisProfileStatesIt": "last conviction",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ]
+        }
+      ],
+      "openQuestionsForCounsel": [
+        "wait-05's source row is limited to a Class D/E or unclassified felony punishable by five years or less. CT's offense_level cannot express felony class, so the felony branch applies the only felony Clean Slate period the profile publishes to every felony. Counsel should confirm that is acceptable, or the profile needs a felony-class fact before this branch is bound."
+      ]
+    },
+    "CT:automatic-non-conviction-erasure-under-conn-gen-stat-54-142a": {
+      "jurisdiction": "CT",
+      "pathwayId": "automatic-non-conviction-erasure-under-conn-gen-stat-54-142a",
+      "pathwayLabel": "Automatic non-conviction erasure under Conn. Gen. Stat. § 54-142a",
+      "routeType": "automatic",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "wait-02 gives immediate erasure for a dismissal or acquittal and names § 54-142a; wait-03 gives 13 months for a nolle. They are different periods and the fact that would choose between them is not one the participant supplies: CT's case_outcome merges dismissal, no-bill, nolle prosequi and non-prosecution into a single option value, so a participant who answers it cannot be told apart. Choosing either would either delay a dismissal by 13 months or open a nolle 13 months early.",
+      "candidateRuleRefs": [
+        "wait-02",
+        "wait-03"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-02",
+          "sourceText": "Dismissal / acquittal Auto erasure (§ 54-142a) Immediate",
+          "durationAsThisProfileStatesIt": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ]
+        },
+        {
+          "ruleId": "wait-03",
+          "sourceText": "Nolle (charges dropped) Auto erasure 13 months (if not re-filed)",
+          "durationAsThisProfileStatesIt": {
+            "value": 13,
+            "unit": "months",
+            "raw": "13 months"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "charge"
+          ]
+        }
+      ],
+      "unblockedBy": "A screening question that separates a nolle from a dismissal. That is a shared question-model change, not a state-pack one."
+    },
+    "CT:cannabis-conviction-erasure": {
+      "jurisdiction": "CT",
+      "pathwayId": "cannabis-conviction-erasure",
+      "pathwayLabel": "Cannabis-conviction erasure",
+      "routeType": "automatic",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "Connecticut publishes eight waiting-period rules and none of them mentions cannabis. Every candidate the prose selector can reach belongs to the Clean Slate, non-conviction or pardon tables. There is nothing in the repository to bind, and inventing a cannabis erasure period would be authoring legal content.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "DE:discretionary-court-expungement-under-11-del-c-4374": {
+      "jurisdiction": "DE",
+      "pathwayId": "discretionary-court-expungement-under-11-del-c-4374",
+      "pathwayLabel": "Discretionary court expungement under 11 Del. C. § 4374",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "The § 4374 discretionary tier carries four different periods — 3, 5, 7 and 7 years — keyed on whether the misdemeanor is listed in § 4373(b), whether there are multiple cases, and whether a felony is a single nonviolent one. DE's offense_level offers only Misdemeanor, Felony, Infraction or violation and I am not sure, so none of the facts that select between the four is supplied. The candidates conflict and no supplied answer resolves them.",
+      "candidateRuleRefs": [
+        "wait-06",
+        "wait-07",
+        "wait-08",
+        "wait-09"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-06",
+          "sourceText": "Misdemeanor not listed in § 4373(b), single case Discretionary 3 years",
+          "durationAsThisProfileStatesIt": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ]
+        },
+        {
+          "ruleId": "wait-07",
+          "sourceText": "Multiple violations/misdemeanors across cases Discretionary 5 years",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ]
+        },
+        {
+          "ruleId": "wait-08",
+          "sourceText": "§ 4373(b)-listed misdemeanor Discretionary 7 years",
+          "durationAsThisProfileStatesIt": {
+            "value": 7,
+            "unit": "years",
+            "raw": "7 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ]
+        },
+        {
+          "ruleId": "wait-09",
+          "sourceText": "Single nonviolent felony Discretionary 7 years",
+          "durationAsThisProfileStatesIt": {
+            "value": 7,
+            "unit": "years",
+            "raw": "7 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "offense_level",
+            "offense_category"
+          ]
+        }
+      ]
+    },
+    "DE:juvenile-expungement-under-10-del-c-1017-1019-1017a": {
+      "jurisdiction": "DE",
+      "pathwayId": "juvenile-expungement-under-10-del-c-1017-1019-1017a",
+      "pathwayLabel": "Juvenile expungement under 10 Del. C. §§ 1017–1019 / 1017A",
+      "routeType": "juvenile",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "The only route-specific timing the profile publishes for the juvenile route is wait-01, and it describes the Attorney General's 120-day response window and the court's manifest-injustice finding — a post-filing procedural timetable, not a period a participant must wait before filing. Binding it would impose a pre-filing wait the source does not state. The tier table in wait-10 has no juvenile row.",
+      "candidateRuleRefs": [
+        "wait-01"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-01",
+          "sourceText": "turns on the court’s manifest-injustice finding after the AG has had 120 days to respond.",
+          "durationAsThisProfileStatesIt": {
+            "value": 120,
+            "unit": "days",
+            "raw": "120 days"
+          },
+          "anchorAsThisProfileStatesIt": "the AG has had 120 days to respond",
+          "fieldsReferenced": [
+            "court"
+          ]
+        }
+      ]
+    },
+    "DE:mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a": {
+      "jurisdiction": "DE",
+      "pathwayId": "mandatory-and-automatic-expungement-under-11-del-c-4373-and-4373a",
+      "pathwayLabel": "Mandatory and automatic expungement under 11 Del. C. §§ 4373 and 4373A",
+      "routeType": "automatic",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "The mandatory tier states None for a case terminated in favour of the accused and for marijuana, paraphernalia and underage-alcohol possession, then 3, 5 and 10 years for violations, a single misdemeanor or § 4756 drug possession, and certain eligible felonies. The None rows are not published as standalone rules with ids, and the conviction rows key on categories DE's case_outcome and offense_level cannot express — in particular which felonies are the \"certain eligible felonies\". The spread runs from none to ten years, so picking one is authoring.",
+      "candidateRuleRefs": [
+        "wait-03",
+        "wait-04",
+        "wait-05",
+        "wait-10"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-03",
+          "sourceText": "Violation(s), same case Mandatory 3 years",
+          "durationAsThisProfileStatesIt": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ]
+        },
+        {
+          "ruleId": "wait-04",
+          "sourceText": "Single misdemeanor / drug possession § 4756 Mandatory 5 years",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "offense_level",
+            "offense_category"
+          ]
+        },
+        {
+          "ruleId": "wait-05",
+          "sourceText": "Certain eligible felonies Mandatory 10 years",
+          "durationAsThisProfileStatesIt": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": []
+        },
+        {
+          "ruleId": "wait-10",
+          "sourceText": "Disposition / category Tier Waiting period Terminated in favor of accused Mandatory None (acquittal/nolle/dismissal) Marijuana/paraphernalia possession; underage Mandatory None alcohol Violation(s), same case Mandatory 3 years Single misdemeanor / drug possession § 4756 Mandatory 5 years Certain eligible felonies Mandatory 10 years Misdemeanor not listed in § 4373(b), single case Discretionary 3 years Multiple violations/misdemeanors across cases Discretionary 5 years § 4373(b)-listed misdemeanor Discretionary 7 years Single nonviolent felony Discretionary 7 years After unconditional pardon Discretionary (§ 4375) None Mandatory categories carry the shorter, entitlement-based waits and (since Aug 1, 2024) run automatically; discretionary categories carry the 3-, 5-, and 7-year waits and require a court petition.",
+          "durationAsThisProfileStatesIt": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchorAsThisProfileStatesIt": "unconditional pardon Discretionary (§ 4375) None Mandatory categories carry the shorter, entitlement",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "court",
+            "pardon_status"
+          ]
+        }
+      ],
+      "openQuestionsForCounsel": [
+        "The two None rows exist only inside wait-10's concatenated table and carry no rule id of their own. If counsel wants the non-conviction branch bound, the profile first needs those rows published as addressable rules."
+      ]
+    },
+    "DE:pardon-based-discretionary-expungement-under-11-del-c-4375": {
+      "jurisdiction": "DE",
+      "pathwayId": "pardon-based-discretionary-expungement-under-11-del-c-4375",
+      "pathwayLabel": "Pardon-based discretionary expungement under 11 Del. C. § 4375",
+      "routeType": "pardon_then_court",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "The tier table names this exact route and states its waiting period as None. It is unconditional: the row carries no offence-level, disposition or case-count qualifier. No duration is authored, because none is stated.",
+      "proposedBinding": {
+        "key": "DE:pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "jurisdiction": "DE",
+        "pathwayId": "pardon-based-discretionary-expungement-under-11-del-c-4375",
+        "resolution": "no_waiting_period",
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-10",
+          "sourceText": "Disposition / category Tier Waiting period Terminated in favor of accused Mandatory None (acquittal/nolle/dismissal) Marijuana/paraphernalia possession; underage Mandatory None alcohol Violation(s), same case Mandatory 3 years Single misdemeanor / drug possession § 4756 Mandatory 5 years Certain eligible felonies Mandatory 10 years Misdemeanor not listed in § 4373(b), single case Discretionary 3 years Multiple violations/misdemeanors across cases Discretionary 5 years § 4373(b)-listed misdemeanor Discretionary 7 years Single nonviolent felony Discretionary 7 years After unconditional pardon Discretionary (§ 4375) None Mandatory categories carry the shorter, entitlement-based waits and (since Aug 1, 2024) run automatically; discretionary categories carry the 3-, 5-, and 7-year waits and require a court petition.",
+          "durationAsThisProfileStatesIt": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchorAsThisProfileStatesIt": "unconditional pardon Discretionary (§ 4375) None Mandatory categories carry the shorter, entitlement",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "court",
+            "pardon_status"
+          ]
+        }
+      ]
+    },
+    "ID:juvenile-expungement": {
+      "jurisdiction": "ID",
+      "pathwayId": "juvenile-expungement",
+      "pathwayLabel": "Juvenile expungement",
+      "routeType": "juvenile",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "Idaho publishes two waiting-period rules. One is the non-conviction one-year request to Idaho State Police and the other is the Clean Slate five-year rule already bound to ID:clean-slate-shielding-under-idaho-code-67-3004-11. Neither is a juvenile rule, and the juvenile pathway names no waiting-rule text of its own. This is the route the shard prompt flags as having no candidate rule at base, and that is confirmed here.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10": {
+      "jurisdiction": "ID",
+      "pathwayId": "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+      "pathwayLabel": "Non-conviction fingerprint and criminal-history expungement under Idaho Code § 67-3004(10)",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "The pathway names exactly two waiting-rule texts and both resolve to published profile rules: wait-01 and wait-02. wait-02 is the Clean Slate five-year rule, which is already bound to the § 67-3004(11) shielding route, so it is not this route's. wait-01 states this route's own precondition in its own terms — not charged within one year, then a written request to Idaho State Police — and carries a structured one-year duration the profile already publishes.",
+      "proposedBinding": {
+        "key": "ID:non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "jurisdiction": "ID",
+        "pathwayId": "non-conviction-fingerprint-and-criminal-history-expungement-under-idaho-code-67-3004-10",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-01"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-01",
+          "sourceText": "A person arrested or served with a criminal summons who was not charged by indictment or information within one year may submit a written request to Idaho State Police.",
+          "durationAsThisProfileStatesIt": {
+            "value": 1,
+            "unit": "years",
+            "raw": "one year"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "charge"
+          ]
+        }
+      ]
+    },
+    "IL:adult-conviction-sealing": {
+      "jurisdiction": "IL",
+      "pathwayId": "adult-conviction-sealing",
+      "pathwayLabel": "Adult conviction sealing",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "The misdemeanor and municipal-ordinance branch is settled at two years, but the felony branch is not. wait-19 and wait-30 state three years, while wait-37 records that the shortened sealing waiting period — three years to two for certain records — takes effect on 30 June 2026. The evaluator clock is pinned to 1 July 2026, so both statements are live at evaluation time and the profile does not say which records are the \"certain records\". Two different current periods for the same branch, with no supplied fact choosing between them.",
+      "candidateRuleRefs": [
+        "wait-18",
+        "wait-19",
+        "wait-29",
+        "wait-30",
+        "wait-37"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-18",
+          "sourceText": "Misdemeanor convictions and municipal ordinance violations 2 years after completing the sentence",
+          "durationAsThisProfileStatesIt": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchorAsThisProfileStatesIt": "completing the sentence",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ]
+        },
+        {
+          "ruleId": "wait-19",
+          "sourceText": "Felony convictions not in the 2-year group 3 years after completing the last felony sentence",
+          "durationAsThisProfileStatesIt": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchorAsThisProfileStatesIt": "completing the last felony sentence",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ]
+        },
+        {
+          "ruleId": "wait-29",
+          "sourceText": "Misdemeanor conviction / municipal ordinance violation 2 years after completing sentence for sealing",
+          "durationAsThisProfileStatesIt": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchorAsThisProfileStatesIt": "completing sentence for sealing",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ]
+        },
+        {
+          "ruleId": "wait-30",
+          "sourceText": "Felony conviction 3 years after completing last felony sentence for sealing",
+          "durationAsThisProfileStatesIt": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchorAsThisProfileStatesIt": "completing last felony sentence for sealing",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ]
+        },
+        {
+          "ruleId": "wait-37",
+          "sourceText": "Most provisions take effect June 1 / June 30, 2026; the shortened sealing waiting period (3 to 2 years for certain records) and removal of the drug-test requirement take effect June 30, 2026; and AUTOMATIC sealing does not begin until January 1, 2029, phasing in through 2034. Until automatic sealing is live, the petition-based process remains the only route for most records. The agent must not tell a user their record will be sealed automatically before 2029, and must verify which effective date applies to any given rule.",
+          "durationAsThisProfileStatesIt": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "offense_category"
+          ]
+        }
+      ]
+    },
+    "IL:adult-non-conviction-expungement": {
+      "jurisdiction": "IL",
+      "pathwayId": "adult-non-conviction-expungement",
+      "pathwayLabel": "Adult non-conviction expungement",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "Illinois publishes one row per non-conviction disposition — acquittal, dismissal, released without charging, and conviction reversed or vacated — and all four state immediate eligibility, so every candidate resolves to the same zero-day period and there is nothing to disambiguate. wait-32 restates the same four rows as a single table and agrees.",
+      "proposedBinding": {
+        "key": "IL:adult-non-conviction-expungement",
+        "jurisdiction": "IL",
+        "pathwayId": "adult-non-conviction-expungement",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-01",
+          "wait-02",
+          "wait-03",
+          "wait-04"
+        ],
+        "disambiguation": "longest_bound_duration",
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-01",
+          "sourceText": "Acquittal Eligible immediately unless excluded",
+          "durationAsThisProfileStatesIt": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ]
+        },
+        {
+          "ruleId": "wait-02",
+          "sourceText": "Dismissal Eligible immediately unless excluded",
+          "durationAsThisProfileStatesIt": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ]
+        },
+        {
+          "ruleId": "wait-03",
+          "sourceText": "Released without charging Eligible immediately unless excluded",
+          "durationAsThisProfileStatesIt": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": []
+        },
+        {
+          "ruleId": "wait-04",
+          "sourceText": "Conviction reversed or vacated Eligible immediately unless excluded",
+          "durationAsThisProfileStatesIt": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome"
+          ]
+        }
+      ]
+    },
+    "IL:cannabis-specific-automatic-or-petition-expungement": {
+      "jurisdiction": "IL",
+      "pathwayId": "cannabis-specific-automatic-or-petition-expungement",
+      "pathwayLabel": "Cannabis-specific automatic or petition expungement",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "The only rule that mentions cannabis is wait-13, first-offender probation under listed drug, cannabis, meth and second-chance routes, and it carries no structured duration — its text says only \"Seal after waiting period unless excluded\". Every other candidate the prose selector reaches belongs to the general supervision, misdemeanor or felony tables. There is no cannabis period in the repository to bind.",
+      "candidateRuleRefs": [
+        "wait-13"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-13",
+          "sourceText": "First-offender probation under listed drug/cannabis/meth/second-chance routes Seal after waiting period unless excluded",
+          "durationAsThisProfileStatesIt": null,
+          "anchorAsThisProfileStatesIt": "waiting period unless excluded",
+          "fieldsReferenced": [
+            "offense_category"
+          ]
+        }
+      ]
+    },
+    "IL:clean-slate-automatic-sealing": {
+      "jurisdiction": "IL",
+      "pathwayId": "clean-slate-automatic-sealing",
+      "pathwayLabel": "Clean Slate automatic sealing",
+      "routeType": "automatic",
+      "disposition": "HELD_FOR_CORRECTION",
+      "recommendedActive": false,
+      "why": "wait-37 states that automatic sealing does not begin until 1 January 2029 and phases in through 2034, that the petition-based process remains the only route for most records until then, and that the agent must not tell a participant their record will be sealed automatically before 2029. A waiting-period binding for a route that is not yet operating is not meaningful, and the correction needed — what this route claims to a participant before 2029 — changes what the product claims. Under this shard's own instruction that is escalated, not answered.",
+      "candidateRuleRefs": [
+        "wait-23",
+        "wait-37"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-23",
+          "sourceText": "Automatic sealing will generally cover records already eligible for sealing once the system begins, including non-convictions, completed supervision/probation, most misdemeanors, and most nonviolent felonies, but the person must have completed the sentence, have no pending criminal charges, and satisfy the waiting period. (\"https://www.illinoislegalaid.org/legal-information/what-you-need-know-about-clean-slate-act\")",
+          "durationAsThisProfileStatesIt": null,
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "sentence_completion_date",
+            "charge"
+          ]
+        },
+        {
+          "ruleId": "wait-37",
+          "sourceText": "Most provisions take effect June 1 / June 30, 2026; the shortened sealing waiting period (3 to 2 years for certain records) and removal of the drug-test requirement take effect June 30, 2026; and AUTOMATIC sealing does not begin until January 1, 2029, phasing in through 2034. Until automatic sealing is live, the petition-based process remains the only route for most records. The agent must not tell a user their record will be sealed automatically before 2029, and must verify which effective date applies to any given rule.",
+          "durationAsThisProfileStatesIt": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "offense_category"
+          ]
+        }
+      ],
+      "escalation": "IL Clean Slate automatic sealing is presented as an available remedy context while the profile's own source note says it does not begin until 2029. Owner decision required on what the route should say before then."
+    },
+    "IL:criminal-identity-theft-mistaken-identity-relief": {
+      "jurisdiction": "IL",
+      "pathwayId": "criminal-identity-theft-mistaken-identity-relief",
+      "pathwayLabel": "Criminal identity-theft / mistaken-identity relief",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "No Illinois waiting-period rule mentions identity theft or mistaken identity. The rules the pathway names are the trafficking, juvenile, Clean Slate and Wilma-training rows, none of which governs this route. The four immediate non-conviction rows would be the intuitive answer, but the pathway does not name them and reading them across would be authoring, not transcribing.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "IL:expungement-after-eligible-supervision-or-qualified-probation": {
+      "jurisdiction": "IL",
+      "pathwayId": "expungement-after-eligible-supervision-or-qualified-probation",
+      "pathwayLabel": "Expungement after eligible supervision or qualified probation",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "Qualified probation is settled at five years, and source_question_10 is a rendered yes_no_unsure that identifies it. The supervision branch is not: wait-09 gives two years for most successful supervision and wait-10 gives five for supervision on listed Vehicle Code and criminal-code offences, and the profile does not publish the list, so no supplied answer chooses. wait-24 adds a third possibility, age 25. Three different periods, no supplied fact.",
+      "candidateRuleRefs": [
+        "wait-09",
+        "wait-10",
+        "wait-25",
+        "wait-26",
+        "wait-27"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-09",
+          "sourceText": "Most successful supervision 2 years after satisfactory termination",
+          "durationAsThisProfileStatesIt": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchorAsThisProfileStatesIt": "satisfactory termination",
+          "fieldsReferenced": []
+        },
+        {
+          "ruleId": "wait-10",
+          "sourceText": "Supervision for listed offenses, including certain Vehicle Code and specified criminal-code offenses 5 years after satisfactory termination",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchorAsThisProfileStatesIt": "satisfactory termination",
+          "fieldsReferenced": [
+            "charge"
+          ]
+        },
+        {
+          "ruleId": "wait-25",
+          "sourceText": "Qualified probation successfully completed Expungement or sealing Expungement wait usually 5 years after successful termination",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchorAsThisProfileStatesIt": "successful termination",
+          "fieldsReferenced": [
+            "sentence_completion_date"
+          ]
+        },
+        {
+          "ruleId": "wait-26",
+          "sourceText": "Certain listed supervision offenses 5 years after satisfactory termination for expungement",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchorAsThisProfileStatesIt": "satisfactory termination for expungement",
+          "fieldsReferenced": [
+            "charge"
+          ]
+        },
+        {
+          "ruleId": "wait-27",
+          "sourceText": "Successful qualified probation 5 years after satisfactory termination for expungement",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "5 years"
+          },
+          "anchorAsThisProfileStatesIt": "satisfactory termination for expungement",
+          "fieldsReferenced": []
+        }
+      ]
+    },
+    "IL:felony-prostitution-relief": {
+      "jurisdiction": "IL",
+      "pathwayId": "felony-prostitution-relief",
+      "pathwayLabel": "Felony-prostitution relief",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "No Illinois waiting-period rule mentions prostitution. wait-21 is the trafficking-survivor rule and is a different route with a different statutory basis. Nothing in the repository states this route's period.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "IL:human-trafficking-survivor-vacatur-and-expungement": {
+      "jurisdiction": "IL",
+      "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
+      "pathwayLabel": "Human-trafficking-survivor vacatur and expungement",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "wait-21 names this route and no other — vacation and expungement or immediate sealing for a trafficking victim after completing the last sentence — and carries the structured zero-day duration the profile already publishes. It is the only trafficking rule Illinois publishes and it is unconditional within the route.",
+      "proposedBinding": {
+        "key": "IL:human-trafficking-survivor-vacatur-and-expungement",
+        "jurisdiction": "IL",
+        "pathwayId": "human-trafficking-survivor-vacatur-and-expungement",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-21"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-21",
+          "sourceText": "Illinois allows a trafficking victim to petition for vacation and expungement or immediate sealing after completing the last sentence if participation in the underlying offense resulted from human trafficking or a severe form of trafficking under federal law. The petition must state that the person was a trafficking victim at the time of the offense and that their participation resulted from trafficking; eligibility is shown by a preponderance of the evidence. (\"https://www.ilga.gov/documents/legislation/ilcs/documents/002026300K5.2.htm\")",
+          "durationAsThisProfileStatesIt": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchorAsThisProfileStatesIt": "completing the last sentence if participation in the underlying offense resulted from human traffick",
+          "fieldsReferenced": [
+            "offense_category",
+            "charge",
+            "trafficking_status"
+          ]
+        }
+      ]
+    },
+    "IL:juvenile-automatic-or-petition-expungement": {
+      "jurisdiction": "IL",
+      "pathwayId": "juvenile-automatic-or-petition-expungement",
+      "pathwayLabel": "Juvenile automatic or petition expungement",
+      "routeType": "juvenile",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "Illinois publishes two juvenile rules and both state the same period for the petition half of this route: two years after all juvenile court proceedings and any DJJ commitment terminate. They agree, so there is nothing to disambiguate, and the automatic half involves no filing and no participant wait.",
+      "proposedBinding": {
+        "key": "IL:juvenile-automatic-or-petition-expungement",
+        "jurisdiction": "IL",
+        "pathwayId": "juvenile-automatic-or-petition-expungement",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-22",
+          "wait-31"
+        ],
+        "disambiguation": "longest_bound_duration",
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-22",
+          "sourceText": "If a juvenile record is not automatically expunged, a person may petition at no cost. For delinquency adjudications not automatically expunged, the person may petition after 2 years have passed since all juvenile court proceedings and any Department of Juvenile Justice commitment terminated, except records based on first-degree murder or Article 11 offenses requiring sex-offender registration at the time of petition. (\"https://www.ilga.gov/legislation/ilcs/fulltext?DocName=070504050K5-915&utm_source=chatgpt.com\")",
+          "durationAsThisProfileStatesIt": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchorAsThisProfileStatesIt": "2 years have passed since all juvenile court proceedings and any Department of Juvenile Justice comm",
+          "fieldsReferenced": [
+            "case_outcome",
+            "court",
+            "charge",
+            "age_at_offense",
+            "record_type"
+          ]
+        },
+        {
+          "ruleId": "wait-31",
+          "sourceText": "Juvenile petition for adjudications not automatically expunged 2 years after juvenile proceedings and DJJ commitment terminate",
+          "durationAsThisProfileStatesIt": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchorAsThisProfileStatesIt": "juvenile proceedings and DJJ commitment terminate",
+          "fieldsReferenced": [
+            "case_outcome",
+            "age_at_offense"
+          ]
+        }
+      ]
+    },
+    "KY:felony-conviction-431073": {
+      "jurisdiction": "KY",
+      "pathwayId": "felony-conviction-431073",
+      "pathwayLabel": "Eligible felony conviction vacatur and expungement under KRS 431.073",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "The pathway names three waiting-rule texts and all three resolve to published profile rules. wait-04 is the only one that states a filing delay, and it states it in this route's own terms. wait-03 is a clean-record condition over the same five years, so it cannot conflict. wait-05 is the post-filing procedural timetable — prosecutor response within 60 days, hearing within 120 — and must not be bound as a waiting period.",
+      "proposedBinding": {
+        "key": "KY:felony-conviction-431073",
+        "jurisdiction": "KY",
+        "pathwayId": "felony-conviction-431073",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-04"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-04",
+          "sourceText": "The application is filed no sooner than five years after sentence, probation, or parole completion, whichever is later.",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchorAsThisProfileStatesIt": "sentence, probation, or parole completion, whichever is later",
+          "fieldsReferenced": [
+            "sentence_completion_date"
+          ]
+        }
+      ],
+      "openQuestionsForCounsel": [
+        "wait-05's 60-day figure is a post-filing procedural window. The provisional prose selector can reach it, and if it does it under-states this route's period by nearly five years. That is a reason to bind wait-04 explicitly rather than leave the route on the fallback."
+      ]
+    },
+    "KY:juvenile-automatic-dismissal": {
+      "jurisdiction": "KY",
+      "pathwayId": "juvenile-automatic-dismissal",
+      "pathwayLabel": "Juvenile automatic expungement on qualifying dismissal",
+      "routeType": "automatic",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "The pathway names no waiting-rule text at all, and none of Kentucky's seven published rules mentions a juvenile matter. There is nothing to bind.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "KY:juvenile-petition-610330": {
+      "jurisdiction": "KY",
+      "pathwayId": "juvenile-petition-610330",
+      "pathwayLabel": "Juvenile petition to vacate and expunge under KRS 610.330",
+      "routeType": "automatic",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "The pathway names no waiting-rule text, and none of Kentucky's seven published rules mentions KRS 610.330 or a juvenile petition. There is nothing to bind.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "KY:misdemeanor-violation-traffic-conviction": {
+      "jurisdiction": "KY",
+      "pathwayId": "misdemeanor-violation-traffic-conviction",
+      "pathwayLabel": "Misdemeanor, violation, or traffic-infraction conviction expungement under KRS 431.078",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "The pathway names exactly two waiting-rule texts and both resolve to published profile rules. wait-02 is the filing delay and states it in this route's own terms; wait-01 is a clean-record condition over the same five years and cannot conflict with it.",
+      "proposedBinding": {
+        "key": "KY:misdemeanor-violation-traffic-conviction",
+        "jurisdiction": "KY",
+        "pathwayId": "misdemeanor-violation-traffic-conviction",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-02"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-02",
+          "sourceText": "The petition is filed no sooner than five years after sentence completion or successful completion of probation, whichever is later, except the named voided first-possession routes.",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchorAsThisProfileStatesIt": "sentence completion or successful completion of probation, whichever is later, except the named void",
+          "fieldsReferenced": [
+            "sentence_completion_date"
+          ]
+        }
+      ],
+      "openQuestionsForCounsel": [
+        "wait-02 carves out \"the named voided first-possession routes\". The profile does not publish which routes those are, so the carve-out cannot be expressed as a condition. The general five-year rule is proposed; the carve-out stays with counsel."
+      ]
+    },
+    "KY:nonconviction-431076": {
+      "jurisdiction": "KY",
+      "pathwayId": "nonconviction-431076",
+      "pathwayLabel": "Acquittal, dismissal, or failure-to-indict expungement under KRS 431.076",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "wait-06 gives 60 days for an acquittal or a dismissal with prejudice; wait-07 gives three years for a felony dismissal without prejudice and one year for a misdemeanor one. The fact that chooses — whether the dismissal was with or without prejudice — is not asked, because KY's case_outcome merges dismissal, no-bill, nolle prosequi and non-prosecution into one option. wait-07 also packs two periods into one rule with a single structured duration of three years, so binding it would over-state the misdemeanor branch by two years.",
+      "candidateRuleRefs": [
+        "wait-06",
+        "wait-07"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-06",
+          "sourceText": "Acquittal or dismissal with prejudice requires at least 60 days before filing and cannot have been exchanged for a guilty plea to another offense.",
+          "durationAsThisProfileStatesIt": {
+            "value": 60,
+            "unit": "days",
+            "raw": "60 days"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "charge"
+          ]
+        },
+        {
+          "ruleId": "wait-07",
+          "sourceText": "Felony dismissal without prejudice requires at least three years; misdemeanor dismissal without prejudice requires at least one year.",
+          "durationAsThisProfileStatesIt": {
+            "value": 3,
+            "unit": "years",
+            "raw": "three years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level"
+          ]
+        }
+      ],
+      "unblockedBy": "A screening question that asks whether the dismissal was with or without prejudice, and a profile that publishes the felony and misdemeanor without-prejudice periods as separate rules. Both are outside this shard."
+    },
+    "LA:automated-expungement-status-verification-art-985-2": {
+      "jurisdiction": "LA",
+      "pathwayId": "automated-expungement-status-verification-art-985-2",
+      "pathwayLabel": "Automated-expungement status verification (Art. 985.2)",
+      "routeType": "automatic",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "No Louisiana waiting-period rule mentions Article 985.2 or automated status verification. Every candidate the prose selector reaches belongs to the DWI-diversion, clean-period, marijuana, first-offender-pardon, exclusion or violent-offence rows. There is nothing to bind.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "LA:expungement-by-redaction-for-multi-person-records": {
+      "jurisdiction": "LA",
+      "pathwayId": "expungement-by-redaction-for-multi-person-records",
+      "pathwayLabel": "Expungement by redaction for multi-person records",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "No Louisiana waiting-period rule mentions redaction or a multi-person record. The seven published rules all belong to other routes.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "LA:felony-article-893-e-set-aside-followed-by-expungement": {
+      "jurisdiction": "LA",
+      "pathwayId": "felony-article-893-e-set-aside-followed-by-expungement",
+      "pathwayLabel": "Felony Article 893(E) set-aside followed by expungement",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "wait-06 mentions Article 893(E) cases, but it does so as one of Article 978's eligibility exceptions, not as a waiting period, and its five-year figure belongs to the CDS sentencing threshold in the same sentence. Reading it as this route's period would be authoring. The clean-period rules wait-02 and wait-04 belong to the five- and ten-year routes, which are separate pathways.",
+      "candidateRuleRefs": [
+        "wait-06"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-06",
+          "sourceText": "Felony hard exclusions / review flags: Article 978 generally blocks expungement for crimes of violence, sex offenses or offenses against minor victims, many controlled-dangerous-substance offenses outside listed exceptions, and domestic abuse battery. Drug convictions may still be eligible if they fall into Article 978\u0019s exceptions, including certain possession offenses, possession with intent to distribute, CDS offenses punishable by not more than five years, Article 893(E) cases, or first-offender-pardon cases. (\"https://www.legis.la.gov/legis/Law.aspx?d=919670\")",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "charge",
+            "pardon_status"
+          ]
+        }
+      ]
+    },
+    "LA:felony-ten-year-clean-period-expungement": {
+      "jurisdiction": "LA",
+      "pathwayId": "felony-ten-year-clean-period-expungement",
+      "pathwayLabel": "Felony ten-year clean-period expungement",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "wait-04 states this route in its own terms — more than ten years since completion of sentence, deferred adjudication, probation or parole, no other conviction in that ten-year period, no pending charge, DA certification required — and carries the structured ten-year duration the profile already publishes. No other Louisiana rule states a ten-year felony clean period for this route; wait-07's ten years belongs to the separate contradictory-hearing exception for named violent offences.",
+      "proposedBinding": {
+        "key": "LA:felony-ten-year-clean-period-expungement",
+        "jurisdiction": "LA",
+        "pathwayId": "felony-ten-year-clean-period-expungement",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-04"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-04",
+          "sourceText": "2 More than ten years have passed since completion of sentence, deferred adjudication, probation, or parole; the person has no other criminal conviction during the ten-year period before filing; and no criminal charge is pending. A DA certification is required.",
+          "durationAsThisProfileStatesIt": {
+            "value": 10,
+            "unit": "years",
+            "raw": "ten years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "charge"
+          ]
+        }
+      ]
+    },
+    "LA:first-offender-pardon-felony-expungement": {
+      "jurisdiction": "LA",
+      "pathwayId": "first-offender-pardon-felony-expungement",
+      "pathwayLabel": "First-offender-pardon felony expungement",
+      "routeType": "pardon_then_court",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "wait-05 is the only rule that names the first-offender pardon, but it states when the pardon arises — automatically on completion of sentence, once court costs are paid — not when the expungement may be filed. Its structured duration is zero days, so binding it would open a felony packet immediately. That is the direction in which a wrong binding causes harm, and the repository does not say whether a clean period also applies to this route.",
+      "candidateRuleRefs": [
+        "wait-05"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-05",
+          "sourceText": "Louisiana\u0019s first-offender pardon statute says a first offender never previously convicted of a felony is automatically pardoned upon completion of sentence without Board of Pardons recommendation or governor action, but no pardon is issued unless court costs for the conviction are paid. (\"https://www.legis.la.gov/legis/Law.aspx?d=79202\")",
+          "durationAsThisProfileStatesIt": {
+            "value": 0,
+            "unit": "days",
+            "raw": "immediate/upon event"
+          },
+          "anchorAsThisProfileStatesIt": "completion of sentence without Board of Pardons recommendation or governor action, but no pardon is",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "financial_obligations",
+            "court",
+            "charge",
+            "pardon_status"
+          ]
+        }
+      ]
+    },
+    "LA:first-offense-marijuana-expungement-after-90-days-art-998": {
+      "jurisdiction": "LA",
+      "pathwayId": "first-offense-marijuana-expungement-after-90-days-art-998",
+      "pathwayLabel": "First-offense marijuana expungement after 90 days (Art. 998)",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "wait-03 names this route by statute and by period: a first-offence misdemeanor conviction for possession of marijuana, THC or chemical derivatives may be filed 90 days after conviction, with Louisiana's special Article 998 form for the category. The structured 90-day duration is already in the profile.",
+      "proposedBinding": {
+        "key": "LA:first-offense-marijuana-expungement-after-90-days-art-998",
+        "jurisdiction": "LA",
+        "pathwayId": "first-offense-marijuana-expungement-after-90-days-art-998",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-03"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-03",
+          "sourceText": "Special marijuana rule: A first-offense misdemeanor conviction for possession of marijuana, THC, or chemical derivatives may be filed 90 days after conviction. Louisiana also has a special Article 998 form for this category. The special fee cap in Article 983(M) is scheduled to terminate on August 1, 2026, so Wilma should not assume that reduced-cost structure after that date without checking the statute. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
+          "durationAsThisProfileStatesIt": {
+            "value": 90,
+            "unit": "days",
+            "raw": "90 days"
+          },
+          "anchorAsThisProfileStatesIt": "conviction",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "charge"
+          ]
+        }
+      ],
+      "openQuestionsForCounsel": [
+        "wait-03 records that the Article 983(M) fee cap is scheduled to terminate on 1 August 2026. That is a fee question, not a waiting-period one, but it is inside the same rule and the evaluator clock is 1 July 2026."
+      ]
+    },
+    "LA:human-trafficking-survivor-expungement-fee-exempt-route": {
+      "jurisdiction": "LA",
+      "pathwayId": "human-trafficking-survivor-expungement-fee-exempt-route",
+      "pathwayLabel": "Human-trafficking-survivor expungement / fee-exempt route",
+      "routeType": "special",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "No Louisiana waiting-period rule mentions human trafficking. The seven published rules all belong to other routes, so this route has no period in the repository.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "LA:immediate-expungement-after-successful-court-program-completion-art-985-3": {
+      "jurisdiction": "LA",
+      "pathwayId": "immediate-expungement-after-successful-court-program-completion-art-985-3",
+      "pathwayLabel": "Immediate expungement after successful court-program completion (Art. 985.3)",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "No Louisiana waiting-period rule mentions Article 985.3 or court-program completion. The route id contains the word immediate, but a route id is not a published waiting rule and binding a zero-day period from it would be authoring — in the direction that opens a packet early.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "LA:interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction": {
+      "jurisdiction": "LA",
+      "pathwayId": "interim-expungement-of-a-felony-arrest-reduced-to-a-misdemeanor-conviction",
+      "pathwayLabel": "Interim expungement of a felony arrest reduced to a misdemeanor conviction",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "No Louisiana waiting-period rule mentions interim expungement or a felony arrest reduced to a misdemeanor conviction. There is nothing to bind.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "LA:misdemeanor-article-894-b-set-aside-followed-by-expungement": {
+      "jurisdiction": "LA",
+      "pathwayId": "misdemeanor-article-894-b-set-aside-followed-by-expungement",
+      "pathwayLabel": "Misdemeanor Article 894(B) set-aside followed by expungement",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "No rule names Article 894(B). wait-02 is the five-year clean-period route's own rule and wait-01 is the DWI-diversion special case, which applies to a subset of set-aside participants and runs from the date of arrest rather than from completion. Two different anchors, neither stated for this route.",
+      "candidateRuleRefs": [
+        "wait-01",
+        "wait-02"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-01",
+          "sourceText": "Special DWI diversion timing rule: If the arrest was for DWI or a local equivalent and the person entered pretrial diversion, expungement is not available until five years have elapsed from the date of arrest. (\"https://www.legis.la.gov/legis/Law.aspx?d=919667\")",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchorAsThisProfileStatesIt": "the date of arrest",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_category",
+            "arrest_date"
+          ]
+        },
+        {
+          "ruleId": "wait-02",
+          "sourceText": "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "charge"
+          ]
+        }
+      ]
+    },
+    "LA:misdemeanor-five-year-clean-period-expungement": {
+      "jurisdiction": "LA",
+      "pathwayId": "misdemeanor-five-year-clean-period-expungement",
+      "pathwayLabel": "Misdemeanor five-year clean-period expungement",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "wait-02 states this route in its own terms — more than five years since completion of sentence, deferred adjudication, probation or parole, no felony conviction in that period, no pending felony charge, DA certification required for the five-year route — and carries the structured five-year duration the profile already publishes.",
+      "proposedBinding": {
+        "key": "LA:misdemeanor-five-year-clean-period-expungement",
+        "jurisdiction": "LA",
+        "pathwayId": "misdemeanor-five-year-clean-period-expungement",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-02"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-02",
+          "sourceText": "2 More than five years have passed since completion of sentence, deferred adjudication, probation, or parole, and the person has had no felony conviction during that five-year period and has no pending felony charge. A DA certification is required for the five-year route. (\"https://www.legis.la.gov/legis/Law.aspx?d=919669\")",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "charge"
+          ]
+        }
+      ],
+      "openQuestionsForCounsel": [
+        "wait-01 imposes five years from the date of arrest where the arrest was for DWI and the participant entered pretrial diversion. That is a different anchor for the same duration and counsel may want it as a conditional refinement; the flow does not currently ask whether the arrest was for DWI."
+      ]
+    },
+    "LA:non-conviction-arrest-expungement": {
+      "jurisdiction": "LA",
+      "pathwayId": "non-conviction-arrest-expungement",
+      "pathwayLabel": "Non-conviction arrest expungement",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "Louisiana publishes no waiting period for a non-conviction arrest expungement. The only rule that could touch the route is wait-01, the DWI pretrial-diversion special case, which applies to a subset. This route currently returns packet_ready_with_caution with payment open at every timing bucket including the shortest, which is the behaviour UX-LEGAL-001 asks counsel to confirm or correct.",
+      "candidateRuleRefs": [
+        "wait-01"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-01",
+          "sourceText": "Special DWI diversion timing rule: If the arrest was for DWI or a local equivalent and the person entered pretrial diversion, expungement is not available until five years have elapsed from the date of arrest. (\"https://www.legis.la.gov/legis/Law.aspx?d=919667\")",
+          "durationAsThisProfileStatesIt": {
+            "value": 5,
+            "unit": "years",
+            "raw": "five years"
+          },
+          "anchorAsThisProfileStatesIt": "the date of arrest",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_category",
+            "arrest_date"
+          ]
+        }
+      ]
+    },
+    "NH:annulment-after-dismissal-acquittal-or-nonprosecution": {
+      "jurisdiction": "NH",
+      "pathwayId": "annulment-after-dismissal-acquittal-or-nonprosecution",
+      "pathwayLabel": "Annulment after dismissal, acquittal, or nonprosecution",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "wait-10 gives 30 days for a favourable outcome post-2019; the same table inside wait-13 records that a favourable outcome pre-2019 may be petitioned at any time. The fact that chooses is the disposition date, and New Hampshire's compiled profile publishes no disposition_date question — the date appears only inside free-text source questions with no enumerated values, so no exact answer value can be named.",
+      "candidateRuleRefs": [
+        "wait-10",
+        "wait-13"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-10",
+          "sourceText": "Favorable outcome post-2019 Generally annulled after 30 days if no appeal",
+          "durationAsThisProfileStatesIt": {
+            "value": 30,
+            "unit": "days",
+            "raw": "30 days"
+          },
+          "anchorAsThisProfileStatesIt": "30 days if no appeal",
+          "fieldsReferenced": []
+        },
+        {
+          "ruleId": "wait-13",
+          "sourceText": "Topic Rule Legal term Annulment Main statute RSA 651:5 Main form Petition to Annul Record, NHJB-2317-DSe Favorable outcome pre-2019 Petition at any time Favorable outcome post-2019 Generally annulled after 30 days if no appeal Conviction trigger Sentence fully completed Violation 1 year Class B misdemeanor 2 years Class A misdemeanor 3 years Class B felony 5 years Class A felony 10 years Domestic violence misdemeanor 10 years Sexual assault 10 years Felony indecent exposure/lewdness 10 years DWI Special 10-year review Marijuana possession RSA 651:5-b, 3/4 ounce or less, offense before Sept.",
+          "durationAsThisProfileStatesIt": {
+            "value": 30,
+            "unit": "days",
+            "raw": "30 days"
+          },
+          "anchorAsThisProfileStatesIt": "30 days if no appeal Conviction trigger Sentence fully completed Violation 1 year Class B misdemeano",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "sentence_completion_date",
+            "charge"
+          ]
+        }
+      ]
+    },
+    "NH:annulment-of-a-vacated-conviction": {
+      "jurisdiction": "NH",
+      "pathwayId": "annulment-of-a-vacated-conviction",
+      "pathwayLabel": "Annulment of a vacated conviction",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "No New Hampshire waiting-period rule mentions a vacated conviction. The thirteen published rules belong to the marijuana, DWI, offence-class and favourable-outcome tables.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "NH:conviction-annulment-under-rsa-651-5": {
+      "jurisdiction": "NH",
+      "pathwayId": "conviction-annulment-under-rsa-651-5",
+      "pathwayLabel": "Conviction annulment under RSA 651:5",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "RSA 651:5 sets one period per offence class — violation one year, Class B misdemeanor two, Class A misdemeanor three, Class B felony five, Class A felony ten — but the profile publishes those five rows only inside the concatenated wait-09 and wait-13, whose single structured duration is one year. Binding wait-09 would give every New Hampshire conviction a one-year wait. The offence class is asked only through free-text source questions with no enumerated values, and offense_level cannot express Class A versus Class B.",
+      "candidateRuleRefs": [
+        "wait-04",
+        "wait-05",
+        "wait-06",
+        "wait-07",
+        "wait-09"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-04",
+          "sourceText": "Sexual assault under RSA 632-A:4 10 years",
+          "durationAsThisProfileStatesIt": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "offense_category"
+          ]
+        },
+        {
+          "ruleId": "wait-05",
+          "sourceText": "Felony indecent exposure or lewdness under RSA 645:1, II 10 years",
+          "durationAsThisProfileStatesIt": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "offense_level"
+          ]
+        },
+        {
+          "ruleId": "wait-06",
+          "sourceText": "Misdemeanor domestic violence under RSA 631:2-b 10 years",
+          "durationAsThisProfileStatesIt": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "offense_level",
+            "offense_category"
+          ]
+        },
+        {
+          "ruleId": "wait-07",
+          "sourceText": "Class A misdemeanor or felony offense under RSA 318-B:26, II 2 years",
+          "durationAsThisProfileStatesIt": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "offense_level",
+            "charge"
+          ]
+        },
+        {
+          "ruleId": "wait-09",
+          "sourceText": "The basic New Hampshire conviction waiting periods are: Offense Type Waiting Period Violation 1 year Class B misdemeanor 2 years Class A misdemeanor 3 years Class B felony 5 years Class A felony 10 years Sexual assault under RSA 632-A:4 10 years Felony indecent exposure or lewdness under RSA 645:1, II 10 years Misdemeanor domestic violence under RSA 631:2-b 10 years Class A misdemeanor or felony offense under RSA 318-B:26, II 2 years DWI / DUI-type offense Special 10-year rule; verify under RSA 265-A:21 RSA 651:5 lists violation, Class B misdemeanor, Class A misdemeanor, Class B felony, Class A felony, sexual assault, felony indecent exposure/lewdness, misdemeanor domestic violence, and certain controlled-drug-act waiting periods. ( \"https://law.justia.com/codes/new-hampshire/title-lxii/chapter-651/section-651-5/\") Wilma should calculate eligibility from: the date all terms and conditions of sentence were completed, unless a special statute calculates differently, such as certain DWI or motor-vehicle rules.",
+          "durationAsThisProfileStatesIt": {
+            "value": 1,
+            "unit": "years",
+            "raw": "1 year"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "sentence_completion_date",
+            "charge"
+          ]
+        }
+      ],
+      "unblockedBy": "Publishing the five RSA 651:5 class rows as addressable rules, and an offence-class fact with enumerated values. Both are outside this shard."
+    },
+    "NH:dwi-dui-annulment": {
+      "jurisdiction": "NH",
+      "pathwayId": "dwi-dui-annulment",
+      "pathwayLabel": "DWI / DUI annulment",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "wait-02 is the only rule that names DWI, and it carries no structured duration at all — its ten-year figure exists only in prose, is attributed to a secondary source rather than to the statute, and is hedged as \"generally\". Making it executable means materialising a duration at build time, which is authoring. Binding any of the other ten-year rules would attach a sexual-assault, indecent-exposure or domestic-violence period to a DWI route.",
+      "candidateRuleRefs": [
+        "wait-02"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-02",
+          "sourceText": "DWI is a special category. New Hampshire\u0019s main statute carves out RSA 265-A:21 from the ordinary waiting-period structure. 603 Legal Aid explains that convictions for driving, attempting to drive, or operating a vehicle, OHRV, or boat while under the influence generally require a 10-year waiting period after conviction before asking for annulment. (\"https://www.603legalaid.org/how-to-remove-your-criminal-record\")",
+          "durationAsThisProfileStatesIt": null,
+          "anchorAsThisProfileStatesIt": "the ordinary waiting-period structure",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_category",
+            "charge"
+          ]
+        }
+      ]
+    },
+    "NH:marijuana-possession-annulment-under-rsa-651-5-b": {
+      "jurisdiction": "NH",
+      "pathwayId": "marijuana-possession-annulment-under-rsa-651-5-b",
+      "pathwayLabel": "Marijuana-possession annulment under RSA 651:5-b",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "wait-01 names RSA 651:5-b and states the route's own timing: the person may petition the court where the arrest or conviction occurred at any time. That is the source stating there is no ordinary waiting period for this route.",
+      "proposedBinding": {
+        "key": "NH:marijuana-possession-annulment-under-rsa-651-5-b",
+        "jurisdiction": "NH",
+        "pathwayId": "marijuana-possession-annulment-under-rsa-651-5-b",
+        "resolution": "no_waiting_period",
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-01",
+          "sourceText": "New Hampshire has a special marijuana possession annulment statute, RSA 651:5-b. A person arrested or convicted before September 16, 2017 for knowingly or purposely possessing, obtaining, purchasing, or transporting 3/4 of an ounce of marijuana or less may petition the court where the arrest or conviction occurred at any time. The prosecutor has 10 days to object; if the prosecutor objects, they must prove beyond a reasonable doubt that the marijuana amount exceeded 3/4 ounce. (\"https://law.justia.com/codes/new-hampshire/2019/title-lxii/chapter-651/section-651-5-b/\")",
+          "durationAsThisProfileStatesIt": {
+            "value": 10,
+            "unit": "days",
+            "raw": "10 days"
+          },
+          "anchorAsThisProfileStatesIt": null,
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_category",
+            "court",
+            "charge"
+          ]
+        }
+      ],
+      "openQuestionsForCounsel": [
+        "wait-01's structured duration of 10 days is the prosecutor's objection window, not a participant waiting period. The binding must be no_waiting_period with wait-01's quote as provenance; transcribing the 10 days as a duration would invent a wait the source does not impose."
+      ]
+    },
+    "NH:out-of-state-federal-or-military-record-guidance": {
+      "jurisdiction": "NH",
+      "pathwayId": "out-of-state-federal-or-military-record-guidance",
+      "pathwayLabel": "Out-of-state, federal, or military record guidance",
+      "routeType": "out_of_scope",
+      "disposition": "HELD_FOR_CORRECTION",
+      "recommendedActive": false,
+      "why": "This route is routeType out_of_scope, closure category product_scope_exclusion, and its suggested result is not_covered_yet. It produces no filing and no packet, and no New Hampshire waiting rule can govern another jurisdiction's record. A waiting-period binding is not meaningful until the resolver stops consulting a waiting rule for a product_scope_exclusion route at all, and that is an evaluator and registry change, which this shard may not make.",
+      "candidateRuleRefs": [],
+      "evidence": [],
+      "escalation": "A product_scope_exclusion route should not reach the waiting-rule resolver. Recorded for the integration captain against the shared evaluator."
+    },
+    "NJ:arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6": {
+      "jurisdiction": "NJ",
+      "pathwayId": "arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6",
+      "pathwayLabel": "Arrest, dismissal, and other non-conviction expungement under N.J.S.A. 2C:52-6",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "New Jersey is HELD_FOR_LEGAL_DECISION. Its nineteen published rules carry periods from zero days to ten years with no route attribution, and the pathway names all of them. Phase 2 recorded that the waiting rule for these routes cannot be settled from repository content, and nothing at this base changes that. Behaviour is preserved exactly: needs_review, payment closed.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "NJ:clean-slate-petition-under-n-j-s-a-2c-52-5-3": {
+      "jurisdiction": "NJ",
+      "pathwayId": "clean-slate-petition-under-n-j-s-a-2c-52-5-3",
+      "pathwayLabel": "Clean Slate petition under N.J.S.A. 2C:52-5.3",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "New Jersey is HELD_FOR_LEGAL_DECISION. Same evidence and same disposition as the other three NJ routes. Behaviour is preserved exactly.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "NJ:marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1": {
+      "jurisdiction": "NJ",
+      "pathwayId": "marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1",
+      "pathwayLabel": "Marijuana / hashish expungement under N.J.S.A. 2C:52-5.1, -5.2, and -6.1",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "New Jersey is HELD_FOR_LEGAL_DECISION. Same evidence and same disposition as the other three NJ routes. Behaviour is preserved exactly.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "NJ:regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3": {
+      "jurisdiction": "NJ",
+      "pathwayId": "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
+      "pathwayLabel": "Regular expungement under N.J.S.A. 2C:52-2 / 2C:52-3",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "New Jersey is HELD_FOR_LEGAL_DECISION. Same evidence and same disposition as the other three NJ routes. This is also the route the bounded reachability sweep names as New Jersey's best, and it returns needs_review with nj.waiting_rule_not_executed at every timing bucket, so the hold is what closes the state.",
+      "candidateRuleRefs": [],
+      "evidence": []
+    },
+    "VT:adult-conviction-expungement-narrow-statutory-route": {
+      "jurisdiction": "VT",
+      "pathwayId": "adult-conviction-expungement-narrow-statutory-route",
+      "pathwayLabel": "Adult conviction expungement — narrow statutory route",
+      "routeType": "court_filing",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED",
+      "recommendedActive": false,
+      "why": "The only row that names this route states its precondition rather than a period: a conviction for conduct no longer criminal may be expunged after the sentence or supervision is complete and restitution and surcharges are paid. wait-28's structured three-year duration is inherited from the qualifying-misdemeanor sealing row that sits in the same concatenated table and is not this route's. Reading the row as no_waiting_period would open the route earlier than the fallback does, and reading it as three years would import another route's period.",
+      "candidateRuleRefs": [
+        "wait-28"
+      ],
+      "evidence": [
+        {
+          "ruleId": "wait-28",
+          "sourceText": "Route Waiting period Conviction for conduct no longer criminal After sentence/supervision complete and restitution/surcharges paid Qualifying misdemeanor conviction 3 years after sentence completion Qualifying felony conviction 7 years after sentence completion Qualifying DUI misdemeanor 10 years after sentence completion No probable cause / dismissal / acquittal Court should seal within 60 days after final disposition unless objection Prosecutor stipulation for non-conviction Any time Petition for non-conviction sealing Any time, if interests of justice support it Age 18-21 qualifying crime 30 days after sentence completion Offense committed before age 25 2 years after final discharge, plus 10-year listed-crime clean period Juvenile delinquency Generally 2 years after final discharge Denied petition Wait 2 years unless court allows shorter period 17.",
+          "durationAsThisProfileStatesIt": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchorAsThisProfileStatesIt": "sentence/supervision complete and restitution/surcharges paid Qualifying misdemeanor conviction 3 ye",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "offense_category",
+            "sentence_completion_date",
+            "financial_obligations",
+            "court",
+            "charge",
+            "age_at_offense"
+          ]
+        }
+      ],
+      "openQuestionsForCounsel": [
+        "wait-28's structured duration does not match the row that names this route. Recorded as a profile fidelity issue; correcting it would move evaluator output and belongs with the shared allowlist, not with this shard."
+      ]
+    },
+    "VT:adult-felony-conviction-sealing": {
+      "jurisdiction": "VT",
+      "pathwayId": "adult-felony-conviction-sealing",
+      "pathwayLabel": "Adult felony-conviction sealing",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "wait-17 names this route's category and period in one line, and three further published rules agree at seven years: wait-30 for adult felony sealing, wait-25, and wait-02. Nothing the profile publishes states a different felony sealing period.",
+      "proposedBinding": {
+        "key": "VT:adult-felony-conviction-sealing",
+        "jurisdiction": "VT",
+        "pathwayId": "adult-felony-conviction-sealing",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-17"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-17",
+          "sourceText": "Qualifying felony conviction 7 years after sentence completion",
+          "durationAsThisProfileStatesIt": {
+            "value": 7,
+            "unit": "years",
+            "raw": "7 years"
+          },
+          "anchorAsThisProfileStatesIt": "sentence completion",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "sentence_completion_date"
+          ]
+        }
+      ]
+    },
+    "VT:adult-misdemeanor-conviction-sealing": {
+      "jurisdiction": "VT",
+      "pathwayId": "adult-misdemeanor-conviction-sealing",
+      "pathwayLabel": "Adult misdemeanor-conviction sealing",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "wait-16 names this route's category and period in one line, and three further published rules agree at three years: wait-29 for adult misdemeanor sealing, wait-24, and wait-01. Nothing the profile publishes states a different misdemeanor sealing period.",
+      "proposedBinding": {
+        "key": "VT:adult-misdemeanor-conviction-sealing",
+        "jurisdiction": "VT",
+        "pathwayId": "adult-misdemeanor-conviction-sealing",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-16"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-16",
+          "sourceText": "Qualifying misdemeanor conviction 3 years after sentence completion",
+          "durationAsThisProfileStatesIt": {
+            "value": 3,
+            "unit": "years",
+            "raw": "3 years"
+          },
+          "anchorAsThisProfileStatesIt": "sentence completion",
+          "fieldsReferenced": [
+            "case_outcome",
+            "offense_level",
+            "sentence_completion_date"
+          ]
+        }
+      ]
+    },
+    "VT:dui-sealing": {
+      "jurisdiction": "VT",
+      "pathwayId": "dui-sealing",
+      "pathwayLabel": "DUI sealing",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "wait-18 names the qualifying DUI misdemeanor and its ten-year period, and wait-31, wait-26 and wait-03 agree. Vermont publishes no other DUI sealing period.",
+      "proposedBinding": {
+        "key": "VT:dui-sealing",
+        "jurisdiction": "VT",
+        "pathwayId": "dui-sealing",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-18"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-18",
+          "sourceText": "Qualifying DUI misdemeanor 10 years after sentence completion",
+          "durationAsThisProfileStatesIt": {
+            "value": 10,
+            "unit": "years",
+            "raw": "10 years"
+          },
+          "anchorAsThisProfileStatesIt": "sentence completion",
+          "fieldsReferenced": [
+            "offense_level",
+            "offense_category",
+            "sentence_completion_date"
+          ]
+        }
+      ]
+    },
+    "VT:juvenile-sealing": {
+      "jurisdiction": "VT",
+      "pathwayId": "juvenile-sealing",
+      "pathwayLabel": "Juvenile sealing",
+      "routeType": "juvenile",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "Three published rules state the same juvenile sealing period — generally two years from final discharge — so there is nothing to disambiguate.",
+      "proposedBinding": {
+        "key": "VT:juvenile-sealing",
+        "jurisdiction": "VT",
+        "pathwayId": "juvenile-sealing",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-08",
+          "wait-15",
+          "wait-22"
+        ],
+        "disambiguation": "longest_bound_duration",
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-08",
+          "sourceText": "For delinquency matters adjudicated on or after July 1, 1996, Vermont generally seals the record after 2 years from final discharge unless the State\u0019s Attorney objects and the court finds a listed-crime issue or lack of rehabilitation. For older delinquency matters, sealing is available by application or court motion if there is no later listed-crime conviction/adjudication or pending proceeding, and rehabilitation is shown. (\"https://legislature.vermont.gov/statutes/section/33/051/05119?utm_source=chatgpt.com\")",
+          "durationAsThisProfileStatesIt": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchorAsThisProfileStatesIt": "July 1, 1996, Vermont generally seals the record after 2 years from final discharge unless the State",
+          "fieldsReferenced": [
+            "case_outcome",
+            "sentence_completion_date",
+            "pending_cases",
+            "court",
+            "charge"
+          ]
+        },
+        {
+          "ruleId": "wait-15",
+          "sourceText": "Juvenile delinquency Juvenile sealing Generally 2 years after final discharge unless State objects and court finds listed-crime issue or lack of rehabilitation",
+          "durationAsThisProfileStatesIt": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchorAsThisProfileStatesIt": "final discharge unless State objects and court finds listed-crime issue or lack of rehabilitation",
+          "fieldsReferenced": [
+            "sentence_completion_date",
+            "court",
+            "charge",
+            "age_at_offense"
+          ]
+        },
+        {
+          "ruleId": "wait-22",
+          "sourceText": "Juvenile delinquency Generally 2 years after final discharge",
+          "durationAsThisProfileStatesIt": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchorAsThisProfileStatesIt": "final discharge",
+          "fieldsReferenced": [
+            "sentence_completion_date",
+            "charge",
+            "age_at_offense"
+          ]
+        }
+      ],
+      "openQuestionsForCounsel": [
+        "wait-09 seals a dismissed juvenile matter without a wait where the charge or delinquency petition was on or after 1 July 2006 and before the age of majority. That is a separate branch selected by a date threshold rather than by an enumerated answer, so it is left for counsel as a possible conditional refinement rather than folded in here."
+      ]
+    },
+    "VT:non-conviction-sealing": {
+      "jurisdiction": "VT",
+      "pathwayId": "non-conviction-sealing",
+      "pathwayLabel": "Non-conviction sealing",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "wait-19 covers the whole route in one row — no probable cause, dismissal or acquittal, sealed within 60 days after final disposition unless a party objects — and wait-10, wait-11, wait-12 and wait-04 restate the same 60 days per disposition. Every candidate agrees.",
+      "proposedBinding": {
+        "key": "VT:non-conviction-sealing",
+        "jurisdiction": "VT",
+        "pathwayId": "non-conviction-sealing",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-19"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-19",
+          "sourceText": "No probable cause / dismissal / acquittal Court should seal within 60 days after final disposition unless objection",
+          "durationAsThisProfileStatesIt": {
+            "value": 60,
+            "unit": "days",
+            "raw": "60 days"
+          },
+          "anchorAsThisProfileStatesIt": "final disposition unless objection",
+          "fieldsReferenced": [
+            "case_outcome",
+            "court"
+          ]
+        }
+      ]
+    },
+    "VT:offense-before-age-25-sealing-under-33-v-s-a-5119-g": {
+      "jurisdiction": "VT",
+      "pathwayId": "offense-before-age-25-sealing-under-33-v-s-a-5119-g",
+      "pathwayLabel": "Offense-before-age-25 sealing under 33 V.S.A. § 5119(g)",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "wait-14 names this route and its period — two years after final discharge, with no listed-crime conviction or adjudication in the prior ten years and no pending listed-crime proceeding — and wait-21 and wait-32 agree at two years. The ten-year figure in the same rows is the listed-crime clean period, which is an eligibility condition rather than this route's waiting period.",
+      "proposedBinding": {
+        "key": "VT:offense-before-age-25-sealing-under-33-v-s-a-5119-g",
+        "jurisdiction": "VT",
+        "pathwayId": "offense-before-age-25-sealing-under-33-v-s-a-5119-g",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-14"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-14",
+          "sourceText": "Offense committed before age 25 Young-person sealing route 2 years after final discharge, no listed-crime conviction/adjudication in past 10 years, no pending listed-crime proceeding, rehabilitation shown",
+          "durationAsThisProfileStatesIt": {
+            "value": 2,
+            "unit": "years",
+            "raw": "2 years"
+          },
+          "anchorAsThisProfileStatesIt": "final discharge, no listed-crime conviction/adjudication in past 10 years, no pending listed-crime p",
+          "fieldsReferenced": [
+            "case_outcome",
+            "sentence_completion_date",
+            "charge"
+          ]
+        }
+      ]
+    },
+    "VT:young-adult-sealing-for-offenses-committed-at-ages-18-21": {
+      "jurisdiction": "VT",
+      "pathwayId": "young-adult-sealing-for-offenses-committed-at-ages-18-21",
+      "pathwayLabel": "Young-adult sealing for offenses committed at ages 18–21",
+      "routeType": "court_filing",
+      "disposition": "EXPLICIT_BINDING_PROPOSED",
+      "recommendedActive": false,
+      "why": "wait-05 names the statute, the age band and the period: under 13 V.S.A. § 7609 a person who was 18 to 21 when they committed a qualifying crime may petition to seal 30 days after completing the sentence. wait-13 and wait-20 restate the same 30 days.",
+      "proposedBinding": {
+        "key": "VT:young-adult-sealing-for-offenses-committed-at-ages-18-21",
+        "jurisdiction": "VT",
+        "pathwayId": "young-adult-sealing-for-offenses-committed-at-ages-18-21",
+        "resolution": "rules",
+        "ruleRefs": [
+          "wait-05"
+        ],
+        "reviewStatus": "proposed_by_phase3_shard_6_pending_integration_captain"
+      },
+      "evidence": [
+        {
+          "ruleId": "wait-05",
+          "sourceText": "Under 13 V.S.A. 7609, a person who was 18-21 when they committed a qualifying crime may petition to seal after 30 days have passed since completing the sentence. Restitution and surcharges must be paid or waived, and the prosecutor must not show sealing would be contrary to the interests of justice. A record containing both qualifying and nonqualifying offenses is not eligible under this section. (\"https://legislature.vermont.gov/statutes/fullchapter/13/230\")",
+          "durationAsThisProfileStatesIt": {
+            "value": 30,
+            "unit": "days",
+            "raw": "30 days"
+          },
+          "anchorAsThisProfileStatesIt": "30 days have passed since completing the sentence",
+          "fieldsReferenced": [
+            "financial_obligations",
+            "charge"
+          ]
+        }
+      ]
+    }
+  },
+  "waitingRuleDispositionCounts": {
+    "fallbackDependentRoutesAssigned": 54,
+    "EXPLICIT_BINDING_PROPOSED": 18,
+    "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 2,
+    "LEGAL_OWNER_DECISION_REQUIRED": 32,
+    "HELD_FOR_CORRECTION": 2,
+    "sum": 54,
+    "recommendedActive": 0
+  },
+  "proposedAllowlistEntries": {
+    "contract": "data/expungement-ai/phase2/correction-allowlist.json is a shared path. Entries are proposed here and added by the integration captain.",
+    "entries": [],
+    "why": "This shard moves no evaluator output. Every compiled profile it owns is byte-identical to BASE_SHA, and re-running all four audit generators after the diff reproduces the pre-diff bytes exactly, so there is nothing to allowlist."
+  },
+  "defectsFoundOutsideThisShardsScope": [
+    {
+      "where": "src/lib/rcap-engine/compiled/profiles/VT-vermont.json",
+      "what": "wait-28's structured duration is three years, inherited from the qualifying-misdemeanor sealing row inside the same concatenated table, while the row that names the narrow expungement route states a precondition and no period.",
+      "whyNotFixedHere": "VT-vermont.json is this shard's file, but correcting a structured duration moves evaluator output, which needs a reviewed entry in the shared correction allowlist. Recorded rather than made."
+    },
+    {
+      "where": "src/lib/rcap-engine/compiled/profiles/KY-kentucky.json",
+      "what": "wait-05's 60 days is a post-filing procedural window — prosecutor response within 60 days, hearing within 120 — and the provisional prose selector can reach it as a candidate waiting period for KY:felony-conviction-431073, where the real period is five years.",
+      "whyNotFixedHere": "The fix is the explicit binding proposed above, which is the integration captain's to add. Removing or reshaping the rule would move evaluator output."
+    },
+    {
+      "where": "src/lib/rcap-engine/compiled/profiles/NH-new-hampshire.json",
+      "what": "The five RSA 651:5 offence-class periods exist only inside concatenated rules whose single structured duration is one year, and there is no court question, no county question and no disposition_date question in the profile at all.",
+      "whyNotFixedHere": "Publishing the class rows as addressable rules and adding the three facts are question-model and evaluator-output changes; both need the shared parity approval and the shared allowlist."
+    },
+    {
+      "where": "src/lib/rcap-engine/compiled/profiles/DE-delaware.json",
+      "what": "The two \"Mandatory ... None\" rows of the § 4373 tier table exist only inside wait-10's concatenation and carry no rule id, so the one part of Delaware's mandatory route the source settles unambiguously cannot be bound.",
+      "whyNotFixedHere": "Publishing them as addressable rules moves evaluator output."
+    },
+    {
+      "where": "the shared evaluator, src/lib/rcap-engine/evaluator.ts",
+      "what": "NH:out-of-state-federal-or-military-record-guidance is routeType out_of_scope and closure category product_scope_exclusion, yet it still reaches the waiting-rule resolver and so still depends on the provisional fallback.",
+      "whyNotFixedHere": "The evaluator is a prohibited shared path."
+    },
+    {
+      "where": "outside this shard's nine jurisdictions",
+      "what": "None found. No defect in an unassigned jurisdiction was looked for, acted on, or recorded, and no unassigned jurisdiction's files were read for that purpose.",
+      "whyNotFixedHere": "Not this shard's."
+    }
+  ],
+  "jurisdictions": [
+    {
+      "jurisdiction": "CT",
+      "name": "Connecticut",
+      "slug": "connecticut",
+      "flowCount": 10,
+      "flowIds": [
+        "EXPAI-CT-1b1257abe6",
+        "EXPAI-CT-2502fa9f02",
+        "EXPAI-CT-28eaf662a0",
+        "EXPAI-CT-30719c3bae",
+        "EXPAI-CT-36a969ce81",
+        "EXPAI-CT-9238f9b93c",
+        "EXPAI-CT-a0fb254dfa",
+        "EXPAI-CT-c07d33d078",
+        "EXPAI-CT-c0bb4ab038",
+        "EXPAI-CT-fbcf6c0c31"
+      ],
+      "whatChanged": [
+        "Added src/lib/rcap/state-packs/connecticut/record-clearing-filing-locations.ts: the 13 judicial districts, the 8 historical counties, the four venues that handle erasure matters, and a labelled manual-entry fallback.",
+        "Exported it from the Connecticut state pack index."
+      ],
+      "whatWasDeliberatelyNotChanged": [
+        "CT-connecticut.json is byte-identical to the base. No question, option value, lifecycle classification, packet family, form mapping, payment clamp or operationallySellable value moved.",
+        "No waiting rule was authored and no binding was added; the two conditional proposals are recorded here as evidence only."
+      ],
+      "flowsWhoseTerminalMoved": [],
+      "terminalsBeforeAndAfter": {
+        "contract": "Every flow id of this jurisdiction keeps the terminal it had at BASE_SHA. Nothing moved, so this list is empty by construction and is proved by re-running the audit's own generators before and after the diff and comparing bytes.",
+        "moved": []
+      },
+      "compiledProfileByteIdenticalToBase": true,
+      "reachabilityFromRenderedScreensOnly": {
+        "renderedScreens": 14,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202",
+        "packetReadyReachable": true,
+        "paymentReachable": true,
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ],
+        "note": "Phase 2 reopened Connecticut and it still holds at this base: the bounded sweep over rendered screens reaches packet_ready_with_caution on petitioned-clean-slate-erasure-for-eligible-pre-2000-convictions-jd-cr-202 with payment open, and a direct replay returns the same result at every timing bucket. Nothing was re-investigated and nothing was changed."
+      },
+      "controlledFilingLocationDataset": {
+        "file": "src/lib/rcap/state-packs/connecticut/record-clearing-filing-locations.ts",
+        "localUnitPlural": "judicial districts",
+        "localUnitCount": 13,
+        "manualEntryFallback": true,
+        "addressesIssueIds": [
+          "UX-COURT-001"
+        ],
+        "whatIsStillMissing": "The selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed."
+      },
+      "waitingRuleDispositionSummary": {
+        "EXPLICIT_BINDING_PROPOSED": 0,
+        "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 2,
+        "LEGAL_OWNER_DECISION_REQUIRED": 2,
+        "HELD_FOR_CORRECTION": 0
+      },
+      "openLegalQuestions": [
+        "UX-STATELAW-001 for CT is closed by the Phase 2 correction and confirmed at this base; no question remains.",
+        "Whether the nolle branch of § 54-142a can be separated from the dismissal branch, which the merged case_outcome option currently prevents.",
+        "Whether the Clean Slate felony period may be applied to every felony when the source row is limited to Class D/E and unclassified felonies punishable by five years or less."
+      ]
+    },
+    {
+      "jurisdiction": "DE",
+      "name": "Delaware",
+      "slug": "delaware",
+      "flowCount": 10,
+      "flowIds": [
+        "EXPAI-DE-17e8aad244",
+        "EXPAI-DE-4776aaed9c",
+        "EXPAI-DE-53c782ea6f",
+        "EXPAI-DE-57ba12ba57",
+        "EXPAI-DE-72bbc41cea",
+        "EXPAI-DE-9baa09211d",
+        "EXPAI-DE-b728bf5cc4",
+        "EXPAI-DE-d44bd2db58",
+        "EXPAI-DE-dbde23721f",
+        "EXPAI-DE-f3d2e52462"
+      ],
+      "whatChanged": [
+        "Added src/lib/rcap/state-packs/delaware/record-clearing-filing-locations.ts: the three counties, the four courts and the SBI, and a labelled manual-entry fallback.",
+        "Exported it from the Delaware state pack index."
+      ],
+      "whatWasDeliberatelyNotChanged": [
+        "DE-delaware.json is byte-identical to the base.",
+        "The § 4373 / § 4373A tier table was not rewritten, even though its two None rows carry no rule id of their own. Publishing them would move evaluator output."
+      ],
+      "flowsWhoseTerminalMoved": [],
+      "terminalsBeforeAndAfter": {
+        "contract": "Every flow id of this jurisdiction keeps the terminal it had at BASE_SHA. Nothing moved, so this list is empty by construction and is proved by re-running the audit's own generators before and after the diff and comparing bytes.",
+        "moved": []
+      },
+      "compiledProfileByteIdenticalToBase": true,
+      "reachabilityFromRenderedScreensOnly": {
+        "renderedScreens": 13,
+        "bestTerminalResultCode": "packet_ready",
+        "bestPathwayId": "discretionary-court-expungement-under-11-del-c-4374",
+        "packetReadyReachable": true,
+        "paymentReachable": true,
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ],
+        "note": "Delaware already reaches packet_ready with payment open from rendered screens only, on discretionary-court-expungement-under-11-del-c-4374 from the years_3_to_5 bucket upward. Not a UX-STATELAW-001 jurisdiction."
+      },
+      "controlledFilingLocationDataset": {
+        "file": "src/lib/rcap/state-packs/delaware/record-clearing-filing-locations.ts",
+        "localUnitPlural": "counties",
+        "localUnitCount": 3,
+        "manualEntryFallback": true,
+        "addressesIssueIds": [
+          "UX-COURT-001"
+        ],
+        "whatIsStillMissing": "The selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed."
+      },
+      "waitingRuleDispositionSummary": {
+        "EXPLICIT_BINDING_PROPOSED": 1,
+        "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 0,
+        "LEGAL_OWNER_DECISION_REQUIRED": 3,
+        "HELD_FOR_CORRECTION": 0
+      },
+      "openLegalQuestions": [
+        "Which felonies are the \"certain eligible felonies\" that carry the mandatory ten-year tier, and whether a misdemeanor is listed in § 4373(b) — neither fact is asked, and both select between periods that range from none to ten years."
+      ]
+    },
+    {
+      "jurisdiction": "ID",
+      "name": "Idaho",
+      "slug": "idaho",
+      "flowCount": 10,
+      "flowIds": [
+        "EXPAI-ID-296a340aad",
+        "EXPAI-ID-4278801aed",
+        "EXPAI-ID-4f940e53ff",
+        "EXPAI-ID-514e009b5f",
+        "EXPAI-ID-7491635090",
+        "EXPAI-ID-920cbd7b83",
+        "EXPAI-ID-b5e600b3de",
+        "EXPAI-ID-bd424e69df",
+        "EXPAI-ID-c82832cd53",
+        "EXPAI-ID-e76384b6b9"
+      ],
+      "whatChanged": [
+        "Added src/lib/rcap/state-packs/idaho/record-clearing-filing-locations.ts: all 44 counties, the District Court and its Magistrate Division, the Idaho State Police Bureau of Criminal Identification, and a labelled manual-entry fallback. This is the controlled county dataset UX-COUNTY-001 names as missing for Idaho.",
+        "Exported it from the Idaho state pack index."
+      ],
+      "whatWasDeliberatelyNotChanged": [
+        "ID-idaho.json is byte-identical to the base. In particular county and court keep type text: changing a question's type or options is locked against origin/main by verify-expungement-plain-language-values, and the approval record that would unlock it is a shared path.",
+        "The two bindings Idaho already has were not touched."
+      ],
+      "flowsWhoseTerminalMoved": [],
+      "terminalsBeforeAndAfter": {
+        "contract": "Every flow id of this jurisdiction keeps the terminal it had at BASE_SHA. Nothing moved, so this list is empty by construction and is proved by re-running the audit's own generators before and after the diff and comparing bytes.",
+        "moved": []
+      },
+      "compiledProfileByteIdenticalToBase": true,
+      "reachabilityFromRenderedScreensOnly": {
+        "renderedScreens": 14,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "withheld-judgment-idaho-code-19-2604-review-branch",
+        "packetReadyReachable": true,
+        "paymentReachable": true,
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ],
+        "note": "Idaho already reaches packet_ready_with_caution with payment open from rendered screens only, on the withheld-judgment § 19-2604 review branch. Not a UX-STATELAW-001 jurisdiction."
+      },
+      "controlledFilingLocationDataset": {
+        "file": "src/lib/rcap/state-packs/idaho/record-clearing-filing-locations.ts",
+        "localUnitPlural": "counties",
+        "localUnitCount": 44,
+        "manualEntryFallback": true,
+        "addressesIssueIds": [
+          "UX-COUNTY-001",
+          "UX-COURT-001"
+        ],
+        "whatIsStillMissing": "The selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed."
+      },
+      "waitingRuleDispositionSummary": {
+        "EXPLICIT_BINDING_PROPOSED": 1,
+        "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 0,
+        "LEGAL_OWNER_DECISION_REQUIRED": 1,
+        "HELD_FOR_CORRECTION": 0
+      },
+      "openLegalQuestions": [
+        "Idaho publishes no juvenile waiting-period rule at all, so ID:juvenile-expungement has no candidate to bind."
+      ]
+    },
+    {
+      "jurisdiction": "IL",
+      "name": "Illinois",
+      "slug": "illinois",
+      "flowCount": 18,
+      "flowIds": [
+        "EXPAI-IL-0b9edff603",
+        "EXPAI-IL-0e77f4fd92",
+        "EXPAI-IL-1ab383ffaa",
+        "EXPAI-IL-1fa6667a2a",
+        "EXPAI-IL-35b2281e6d",
+        "EXPAI-IL-5c488d7673",
+        "EXPAI-IL-70a8727b63",
+        "EXPAI-IL-7e07ca1afa",
+        "EXPAI-IL-920f8b46bc",
+        "EXPAI-IL-994c073b7a",
+        "EXPAI-IL-b11c722ad3",
+        "EXPAI-IL-ba54c2b39b",
+        "EXPAI-IL-c83445d8f9",
+        "EXPAI-IL-c8d9dbcffe",
+        "EXPAI-IL-ccb0d53c93",
+        "EXPAI-IL-e5a7058122",
+        "EXPAI-IL-ea45015f9f",
+        "EXPAI-IL-f6528bd576"
+      ],
+      "whatChanged": [
+        "Added src/lib/rcap/state-packs/illinois/record-clearing-filing-locations.ts: all 102 counties, the Circuit Court, the Circuit Court of Cook County, the Juvenile Division, the ISP Bureau of Identification, and a labelled manual-entry fallback.",
+        "Exported it from the Illinois state pack index alongside the existing county-court-instructions and court-routing modules, which are prose guidance for the legacy generator rather than a selectable list."
+      ],
+      "whatWasDeliberatelyNotChanged": [
+        "IL-illinois.json is byte-identical to the base.",
+        "The Illinois legacy generator and its state pack modules were not modified; AGENTS.md preserves them.",
+        "No exclusion rule and no waiting rule was changed, so the UX-LEGAL-001 behaviour is preserved exactly for counsel to see."
+      ],
+      "flowsWhoseTerminalMoved": [],
+      "terminalsBeforeAndAfter": {
+        "contract": "Every flow id of this jurisdiction keeps the terminal it had at BASE_SHA. Nothing moved, so this list is empty by construction and is proved by re-running the audit's own generators before and after the diff and comparing bytes.",
+        "moved": []
+      },
+      "compiledProfileByteIdenticalToBase": true,
+      "reachabilityFromRenderedScreensOnly": {
+        "renderedScreens": 17,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "adult-non-conviction-expungement",
+        "packetReadyReachable": true,
+        "paymentReachable": true,
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ],
+        "note": "Illinois already reaches packet_ready_with_caution with payment open from rendered screens only, on adult-non-conviction-expungement. Not a UX-STATELAW-001 jurisdiction."
+      },
+      "controlledFilingLocationDataset": {
+        "file": "src/lib/rcap/state-packs/illinois/record-clearing-filing-locations.ts",
+        "localUnitPlural": "counties",
+        "localUnitCount": 102,
+        "manualEntryFallback": true,
+        "addressesIssueIds": [
+          "UX-COURT-001"
+        ],
+        "whatIsStillMissing": "The selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed."
+      },
+      "waitingRuleDispositionSummary": {
+        "EXPLICIT_BINDING_PROPOSED": 3,
+        "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 0,
+        "LEGAL_OWNER_DECISION_REQUIRED": 5,
+        "HELD_FOR_CORRECTION": 1
+      },
+      "openLegalQuestions": [
+        "UX-LEGAL-001: adult-conviction-sealing returns packet_ready_with_caution with payment open at the shortest timing bucket, lt_1_year. Recorded, not implemented.",
+        "Which records the June 30, 2026 shortening of the sealing wait from three years to two applies to. The evaluator clock is July 1, 2026, so both the three-year and the two-year statement are live at evaluation time.",
+        "What the Clean Slate automatic sealing route should tell a participant before automatic sealing begins on January 1, 2029."
+      ]
+    },
+    {
+      "jurisdiction": "KY",
+      "name": "Kentucky",
+      "slug": "kentucky",
+      "flowCount": 11,
+      "flowIds": [
+        "EXPAI-KY-0941060cba",
+        "EXPAI-KY-3d564f3649",
+        "EXPAI-KY-426bcb4e78",
+        "EXPAI-KY-7527840da5",
+        "EXPAI-KY-98f4aca54d",
+        "EXPAI-KY-9f969edef7",
+        "EXPAI-KY-ac3eb04c34",
+        "EXPAI-KY-bdb30142d1",
+        "EXPAI-KY-cb8bd49135",
+        "EXPAI-KY-df375a3e1d",
+        "EXPAI-KY-fe9bfaed9e"
+      ],
+      "whatChanged": [
+        "Added src/lib/rcap/state-packs/kentucky/record-clearing-filing-locations.ts: all 120 counties, the Circuit and District Courts, the Family Court Division, the AOC expungement-certification step, and a labelled manual-entry fallback. This is the controlled county dataset UX-COUNTY-001 names as missing for Kentucky.",
+        "Exported it from the Kentucky state pack index."
+      ],
+      "whatWasDeliberatelyNotChanged": [
+        "KY-kentucky.json is byte-identical to the base; county and court keep type text for the same parity reason as Idaho.",
+        "wait-05 was left in place even though its 60 days is a post-filing procedural window that the provisional selector can reach."
+      ],
+      "flowsWhoseTerminalMoved": [],
+      "terminalsBeforeAndAfter": {
+        "contract": "Every flow id of this jurisdiction keeps the terminal it had at BASE_SHA. Nothing moved, so this list is empty by construction and is proved by re-running the audit's own generators before and after the diff and comparing bytes.",
+        "moved": []
+      },
+      "compiledProfileByteIdenticalToBase": true,
+      "reachabilityFromRenderedScreensOnly": {
+        "renderedScreens": 13,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "misdemeanor-violation-traffic-conviction",
+        "packetReadyReachable": true,
+        "paymentReachable": true,
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ],
+        "note": "Kentucky already reaches packet_ready_with_caution with payment open from rendered screens only, on misdemeanor-violation-traffic-conviction from the years_1_to_2 bucket upward. Not a UX-STATELAW-001 jurisdiction."
+      },
+      "controlledFilingLocationDataset": {
+        "file": "src/lib/rcap/state-packs/kentucky/record-clearing-filing-locations.ts",
+        "localUnitPlural": "counties",
+        "localUnitCount": 120,
+        "manualEntryFallback": true,
+        "addressesIssueIds": [
+          "UX-COUNTY-001",
+          "UX-COURT-001"
+        ],
+        "whatIsStillMissing": "The selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed."
+      },
+      "waitingRuleDispositionSummary": {
+        "EXPLICIT_BINDING_PROPOSED": 2,
+        "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 0,
+        "LEGAL_OWNER_DECISION_REQUIRED": 3,
+        "HELD_FOR_CORRECTION": 0
+      },
+      "openLegalQuestions": [
+        "Whether a KRS 431.076 dismissal was with or without prejudice. The flow cannot ask it because case_outcome merges dismissal, no-bill, nolle prosequi and non-prosecution, and the answer moves the period between 60 days and three years.",
+        "Which routes are the \"named voided first-possession routes\" that wait-02 carves out of the five-year rule.",
+        "Kentucky publishes no juvenile waiting-period rule, so neither juvenile route has a candidate."
+      ]
+    },
+    {
+      "jurisdiction": "LA",
+      "name": "Louisiana",
+      "slug": "louisiana",
+      "flowCount": 25,
+      "flowIds": [
+        "EXPAI-LA-10da966e68",
+        "EXPAI-LA-18f400ac35",
+        "EXPAI-LA-33f66b2e01",
+        "EXPAI-LA-37a15fee4b",
+        "EXPAI-LA-43821840f5",
+        "EXPAI-LA-537b02436f",
+        "EXPAI-LA-5f110628fa",
+        "EXPAI-LA-6f0686bb3e",
+        "EXPAI-LA-6f327b9a1c",
+        "EXPAI-LA-7363dceed9",
+        "EXPAI-LA-84fe2ea5e3",
+        "EXPAI-LA-9142a1d4a2",
+        "EXPAI-LA-95c281fa67",
+        "EXPAI-LA-96b1e54edb",
+        "EXPAI-LA-b185e632cd",
+        "EXPAI-LA-b7c0dca2fa",
+        "EXPAI-LA-ba7a29480d",
+        "EXPAI-LA-bc9178467e",
+        "EXPAI-LA-c82c02de3c",
+        "EXPAI-LA-c95346dd24",
+        "EXPAI-LA-c977b1e773",
+        "EXPAI-LA-df5337b428",
+        "EXPAI-LA-ed3f38bf32",
+        "EXPAI-LA-edc1bc69b2",
+        "EXPAI-LA-fcaee5b845"
+      ],
+      "whatChanged": [
+        "Added src/lib/rcap/state-packs/louisiana/record-clearing-filing-locations.ts: all 64 parishes, the judicial district courts, the Orleans Parish Criminal District Court, the Municipal and Traffic Court of New Orleans, city and juvenile courts, the State Police Bureau of Criminal Identification and Information, and a labelled manual-entry fallback. Parish, not county, is the correct local unit and the dataset says so.",
+        "Exported it from the Louisiana state pack index."
+      ],
+      "whatWasDeliberatelyNotChanged": [
+        "LA-louisiana.json is byte-identical to the base.",
+        "No exclusion or waiting rule was changed, so the UX-LEGAL-001 behaviour is preserved exactly."
+      ],
+      "flowsWhoseTerminalMoved": [],
+      "terminalsBeforeAndAfter": {
+        "contract": "Every flow id of this jurisdiction keeps the terminal it had at BASE_SHA. Nothing moved, so this list is empty by construction and is proved by re-running the audit's own generators before and after the diff and comparing bytes.",
+        "moved": []
+      },
+      "compiledProfileByteIdenticalToBase": true,
+      "reachabilityFromRenderedScreensOnly": {
+        "renderedScreens": 14,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "non-conviction-arrest-expungement",
+        "packetReadyReachable": true,
+        "paymentReachable": true,
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ],
+        "note": "Louisiana already reaches packet_ready_with_caution with payment open from rendered screens only, on non-conviction-arrest-expungement. Not a UX-STATELAW-001 jurisdiction."
+      },
+      "controlledFilingLocationDataset": {
+        "file": "src/lib/rcap/state-packs/louisiana/record-clearing-filing-locations.ts",
+        "localUnitPlural": "parishes",
+        "localUnitCount": 64,
+        "manualEntryFallback": true,
+        "addressesIssueIds": [
+          "UX-COURT-001"
+        ],
+        "whatIsStillMissing": "The selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed."
+      },
+      "waitingRuleDispositionSummary": {
+        "EXPLICIT_BINDING_PROPOSED": 3,
+        "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 0,
+        "LEGAL_OWNER_DECISION_REQUIRED": 9,
+        "HELD_FOR_CORRECTION": 0
+      },
+      "openLegalQuestions": [
+        "UX-LEGAL-001: non-conviction-arrest-expungement, misdemeanor-article-894-b-set-aside and misdemeanor-five-year-clean-period all return packet_ready_with_caution with payment open at every timing bucket including lt_1_year and still_open. For the five-year route that is a packet sold on a period the participant has not served. Recorded, not implemented.",
+        "Whether an additional clean period applies to a first-offender-pardon felony expungement, or whether the automatic pardon on completion of sentence is the whole of it.",
+        "Whether Article 985.3 immediate expungement after court-program completion carries any period; nothing in the profile states one."
+      ]
+    },
+    {
+      "jurisdiction": "NH",
+      "name": "New Hampshire",
+      "slug": "new-hampshire",
+      "flowCount": 13,
+      "flowIds": [
+        "EXPAI-NH-011299114a",
+        "EXPAI-NH-1703afdc6a",
+        "EXPAI-NH-2b7849d28d",
+        "EXPAI-NH-2d30a8ab53",
+        "EXPAI-NH-6674c70335",
+        "EXPAI-NH-736505d4cc",
+        "EXPAI-NH-9bb9ca9a99",
+        "EXPAI-NH-adffa48515",
+        "EXPAI-NH-b2fabe930d",
+        "EXPAI-NH-cb9a0a5d58",
+        "EXPAI-NH-d9b8e74561",
+        "EXPAI-NH-f9eea7f107",
+        "EXPAI-NH-fbf52b1011"
+      ],
+      "whatChanged": [
+        "Added src/lib/rcap/state-packs/new-hampshire/record-clearing-filing-locations.ts: the 10 counties, the Circuit Court District and Family Divisions, the Superior Court, the State Police Criminal Records Unit, and a labelled manual-entry fallback.",
+        "Exported it from the New Hampshire state pack index."
+      ],
+      "whatWasDeliberatelyNotChanged": [
+        "NH-new-hampshire.json is byte-identical to the base.",
+        "No exclusion or waiting rule was changed, so the UX-LEGAL-001 behaviour is preserved exactly."
+      ],
+      "flowsWhoseTerminalMoved": [],
+      "terminalsBeforeAndAfter": {
+        "contract": "Every flow id of this jurisdiction keeps the terminal it had at BASE_SHA. Nothing moved, so this list is empty by construction and is proved by re-running the audit's own generators before and after the diff and comparing bytes.",
+        "moved": []
+      },
+      "compiledProfileByteIdenticalToBase": true,
+      "reachabilityFromRenderedScreensOnly": {
+        "renderedScreens": 12,
+        "bestTerminalResultCode": "not_yet",
+        "bestPathwayId": "annulment-after-dismissal-acquittal-or-nonprosecution",
+        "packetReadyReachable": false,
+        "paymentReachable": false,
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [],
+        "note": "New Hampshire is recorded in the Phase 2 allowlist as notFoundByBoundedSearch rather than closed: the greedy sweep settles in a local optimum now that more screens render, and Phase 1's packet-ready answer set still replays to packet_ready_with_caution. Confirmed at this base — the sweep's best is not_yet on annulment-after-dismissal-acquittal-or-nonprosecution. NH is not one of this shard's two UX-STATELAW-001 jurisdictions and was not re-investigated as one."
+      },
+      "controlledFilingLocationDataset": {
+        "file": "src/lib/rcap/state-packs/new-hampshire/record-clearing-filing-locations.ts",
+        "localUnitPlural": "counties",
+        "localUnitCount": 10,
+        "manualEntryFallback": true,
+        "addressesIssueIds": [
+          "UX-COURT-001"
+        ],
+        "whatIsStillMissing": "The selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed."
+      },
+      "waitingRuleDispositionSummary": {
+        "EXPLICIT_BINDING_PROPOSED": 1,
+        "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 0,
+        "LEGAL_OWNER_DECISION_REQUIRED": 4,
+        "HELD_FOR_CORRECTION": 1
+      },
+      "openLegalQuestions": [
+        "UX-LEGAL-001 for NH: recorded, not implemented.",
+        "New Hampshire has no court or county question in its compiled profile at all. UX-COURT-001 lists NH, but court is asked only through free-text source questions, so binding a selector needs a court fact in the profile first — which is a question-model change with a parity approval, both shared.",
+        "The RSA 651:5 offence-class periods (violation 1 year through Class A felony 10 years) are published only inside two concatenated rules whose single structured duration is one year. Binding either would give every conviction a one-year wait.",
+        "Whether a favourable outcome is pre- or post-2019, which moves the annulment between \"petition at any time\" and 30 days. NH publishes no disposition_date question."
+      ]
+    },
+    {
+      "jurisdiction": "NJ",
+      "name": "New Jersey",
+      "slug": "new-jersey",
+      "flowCount": 9,
+      "flowIds": [
+        "EXPAI-NJ-05eaa0fd2e",
+        "EXPAI-NJ-2470876902",
+        "EXPAI-NJ-44fa3b7453",
+        "EXPAI-NJ-90d1097645",
+        "EXPAI-NJ-a7b2821722",
+        "EXPAI-NJ-b95401deef",
+        "EXPAI-NJ-cc62cdb681",
+        "EXPAI-NJ-ed03ab1379",
+        "EXPAI-NJ-f9ed0b8b95"
+      ],
+      "whatChanged": [
+        "Added src/lib/rcap/state-packs/new-jersey/record-clearing-filing-locations.ts: the 21 counties, the Superior Court Criminal and Family Parts, the Municipal Court, the State Police Criminal Information Unit, and a labelled manual-entry fallback.",
+        "Exported it from the New Jersey state pack index."
+      ],
+      "whatWasDeliberatelyNotChanged": [
+        "NJ-new-jersey.json is byte-identical to the base. New Jersey is HELD_FOR_LEGAL_DECISION and its behaviour is preserved exactly: needs_review, payment closed, on all four routes.",
+        "No waiting rule was authored, no binding was added, and no lifecycle classification was changed."
+      ],
+      "flowsWhoseTerminalMoved": [],
+      "terminalsBeforeAndAfter": {
+        "contract": "Every flow id of this jurisdiction keeps the terminal it had at BASE_SHA. Nothing moved, so this list is empty by construction and is proved by re-running the audit's own generators before and after the diff and comparing bytes.",
+        "moved": []
+      },
+      "compiledProfileByteIdenticalToBase": true,
+      "reachabilityFromRenderedScreensOnly": {
+        "renderedScreens": 16,
+        "bestTerminalResultCode": "not_yet",
+        "bestPathwayId": "regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3",
+        "packetReadyReachable": false,
+        "paymentReachable": false,
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ],
+        "note": "This shard's remaining UX-STATELAW-001 jurisdiction, and the answer is neither of the two the phase offers. New Jersey's blocker is not a missing fact: the bounded sweep reports no unrendered fact the evaluator consumes except record_documents, which Phase 2 recorded as changing no decision in any of the 51. It is not a claim about self-help availability either. A direct replay of the regular-expungement route at every one of the nine timing buckets, including gt_10_years, returns needs_review with reason code nj.waiting_rule_not_executed and missingQuestionIds empty. The timing gate never clears because the waiting rule never resolves, which is exactly the hold Phase 2 recorded. Resolving it means authoring a New Jersey waiting period, which this shard may not do. No lifecycle classification correction is warranted and no escalation of the product claim is warranted; what is warranted is the waiting-rule decision that is already in the counsel queue."
+      },
+      "controlledFilingLocationDataset": {
+        "file": "src/lib/rcap/state-packs/new-jersey/record-clearing-filing-locations.ts",
+        "localUnitPlural": "counties",
+        "localUnitCount": 21,
+        "manualEntryFallback": true,
+        "addressesIssueIds": [
+          "UX-COURT-001"
+        ],
+        "whatIsStillMissing": "The selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed."
+      },
+      "waitingRuleDispositionSummary": {
+        "EXPLICIT_BINDING_PROPOSED": 0,
+        "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 0,
+        "LEGAL_OWNER_DECISION_REQUIRED": 4,
+        "HELD_FOR_CORRECTION": 0
+      },
+      "openLegalQuestions": [
+        "UX-STATELAW-001 for NJ: which waiting rule governs each of the four New Jersey routes. Until that is settled, no New Jersey participant can reach a packet from the rendered screens, and the four routes cannot be recommended active. This is the whole of New Jersey's unreachability."
+      ]
+    },
+    {
+      "jurisdiction": "VT",
+      "name": "Vermont",
+      "slug": "vermont",
+      "flowCount": 13,
+      "flowIds": [
+        "EXPAI-VT-149bdc4e0a",
+        "EXPAI-VT-20da1a8907",
+        "EXPAI-VT-277692e1ba",
+        "EXPAI-VT-53ec76f36e",
+        "EXPAI-VT-58f04b2b10",
+        "EXPAI-VT-5b7fac66e7",
+        "EXPAI-VT-5fb365e02f",
+        "EXPAI-VT-844787ebc0",
+        "EXPAI-VT-8ee40e9a36",
+        "EXPAI-VT-915f431b1a",
+        "EXPAI-VT-bdb42655a5",
+        "EXPAI-VT-c362d4da9a",
+        "EXPAI-VT-e10824d096"
+      ],
+      "whatChanged": [
+        "Added src/lib/rcap/state-packs/vermont/record-clearing-filing-locations.ts: the 14 counties, the Superior Court Criminal and Family Divisions, the Judicial Bureau, the Vermont Crime Information Center, and a labelled manual-entry fallback.",
+        "Exported it from the Vermont state pack index."
+      ],
+      "whatWasDeliberatelyNotChanged": [
+        "VT-vermont.json is byte-identical to the base.",
+        "wait-28's structured three-year duration was left alone even though it does not match the row that names the narrow expungement route. Correcting it would move evaluator output and needs a shared allowlist entry."
+      ],
+      "flowsWhoseTerminalMoved": [],
+      "terminalsBeforeAndAfter": {
+        "contract": "Every flow id of this jurisdiction keeps the terminal it had at BASE_SHA. Nothing moved, so this list is empty by construction and is proved by re-running the audit's own generators before and after the diff and comparing bytes.",
+        "moved": []
+      },
+      "compiledProfileByteIdenticalToBase": true,
+      "reachabilityFromRenderedScreensOnly": {
+        "renderedScreens": 15,
+        "bestTerminalResultCode": "packet_ready_with_caution",
+        "bestPathwayId": "dui-sealing",
+        "packetReadyReachable": true,
+        "paymentReachable": true,
+        "factsTheEvaluatorUsesThatTheFlowNeverRenders": [
+          "record_documents"
+        ],
+        "note": "Vermont already reaches packet_ready_with_caution with payment open from rendered screens only, on dui-sealing. Not a UX-STATELAW-001 jurisdiction."
+      },
+      "controlledFilingLocationDataset": {
+        "file": "src/lib/rcap/state-packs/vermont/record-clearing-filing-locations.ts",
+        "localUnitPlural": "counties",
+        "localUnitCount": 14,
+        "manualEntryFallback": true,
+        "addressesIssueIds": [
+          "UX-COURT-001"
+        ],
+        "whatIsStillMissing": "The selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed."
+      },
+      "waitingRuleDispositionSummary": {
+        "EXPLICIT_BINDING_PROPOSED": 7,
+        "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 0,
+        "LEGAL_OWNER_DECISION_REQUIRED": 1,
+        "HELD_FOR_CORRECTION": 0
+      },
+      "openLegalQuestions": [
+        "Whether the narrow expungement route for conduct no longer criminal carries any period beyond sentence completion and payment of restitution and surcharges.",
+        "Whether the immediate sealing of a dismissed juvenile matter under the July 1, 2006 rule should be bound as a conditional branch; it is selected by a date threshold rather than an enumerated answer."
+      ]
+    }
+  ],
+  "acceptanceTests": {
+    "contract": "Every test named in the shard prompt was run at BASE_SHA before the diff and again at HEAD. What matters is the delta: this shard turns nothing from green to red and leaves nothing red that was green.",
+    "greenAtBaseAndAtHead": [
+      "node scripts/verify-rcap-evaluator-all51-provability.mjs",
+      "node scripts/verify-public-profile-projection.mjs",
+      "node scripts/verify-expungement-dtc-flow-unchanged.mjs",
+      "node scripts/expungement-ai/phase2/verify-expungement-fact-model.mjs",
+      "node scripts/expungement-ai/phase2/verify-jurisdiction-slug-routes.mjs",
+      "node scripts/verify-expungement-plain-language-values.mjs",
+      "node scripts/verify-rcap-md-pardon-pathway.mjs",
+      "node scripts/expungement-ai/phase2/build-phase2-record.mjs",
+      "EXPAI_FLOW_AUDIT_JURISDICTIONS=<each of CT DE ID IL KY LA NH NJ VT> node tests/e2e/expungement-ai/flow-audit/crawl-screening-flows.mjs",
+      "npm run lint",
+      "npm run typecheck",
+      "git diff --check"
+    ],
+    "redAtBaseAndStillRedAtHead": [
+      {
+        "test": "node scripts/expungement-ai/flow-audit/build-flow-manifest.mjs --check",
+        "sameAtHead": true,
+        "why": "The committed artifact is the Phase 1 baseline and the phase deliberately left it there. Regenerating it would write data/expungement-ai/flow-audit/flow-manifest.json, which is not one of this shard's allowed paths. Reconciled in full under step1."
+      },
+      {
+        "test": "node scripts/expungement-ai/flow-audit/build-question-inventory.mjs --check",
+        "sameAtHead": true,
+        "why": "Same artifact family, same reason."
+      },
+      {
+        "test": "node scripts/expungement-ai/flow-audit/build-branch-coverage.mjs --check",
+        "sameAtHead": true,
+        "why": "Same artifact family, same reason, plus the witness-ledger revert at BASE_SHA."
+      },
+      {
+        "test": "node scripts/expungement-ai/flow-audit/build-ui-reachability.mjs --check",
+        "sameAtHead": true,
+        "why": "Same artifact family, same reason."
+      },
+      {
+        "test": "node scripts/expungement-ai/flow-audit/verify-flow-audit.mjs",
+        "sameAtHead": true,
+        "failingChecks": [
+          "FA-17",
+          "FA-21"
+        ],
+        "why": "31 of 33 checks pass at the base and the same 31 pass at HEAD. The two that fail read the stale committed artifacts above."
+      },
+      {
+        "test": "node scripts/verify-rcap-reachability-evidence.mjs",
+        "sameAtHead": true,
+        "why": "Named in Phase 2's own verifier-parity record: 31 recorded witness fixtures no longer reproduce their terminal because the flow now asks shared facts the fixtures predate. Clearing it means regenerating data/rcap-ledger/*, which BASE_SHA deliberately reverted and which this shard may not touch."
+      }
+    ],
+    "phase2RecordCheck": {
+      "command": "node scripts/expungement-ai/phase2/build-phase2-record.mjs",
+      "measuredDifferences": 8,
+      "unexplainedDifferences": 0,
+      "note": "Run at BASE_SHA and at HEAD with the same result. The command rewrites files under data/expungement-ai/phase2/** and docs/expungement-ai/phase2/implementation-report.md, which are prohibited paths for this shard; the only byte it changes is the recorded head SHA, and those files were restored after each run so the diff carries none of it."
+    },
+    "negativeProof": {
+      "command": "git diff --name-only 93e05e945a52cfa1cdd2ab590636290875a48f68...HEAD",
+      "sharedPathsTouched": "none",
+      "heldJurisdictionsTouched": "none",
+      "unassignedJurisdictionsTouched": "none",
+      "compiledProfilesModified": "none",
+      "everyPathMatchesAnAllowedConfigurationPath": true
+    },
+    "browserCrawls": {
+      "command": "EXPAI_FLOW_AUDIT_JURISDICTIONS=<code> node tests/e2e/expungement-ai/flow-audit/crawl-screening-flows.mjs",
+      "attempted": [
+        "CT",
+        "DE",
+        "ID",
+        "IL",
+        "KY",
+        "LA",
+        "NH",
+        "NJ",
+        "VT"
+      ],
+      "asWrittenInTheShardPrompt": "Refuses to start. The harness requires EXPAI_FLOW_AUDIT_BASE_URL and exits 2 with \"Point it at a staging or local origin, never production\", so the command as literally written cannot run for any of the nine.",
+      "withALocalOrigin": "A local next dev origin was started in this container and the CT crawl was pointed at it with an explicit chromium binary, because the Playwright build this image ships is chromium-1194 and the crawler asks for chromium_headless_shell-1223. GET /expungement-ai/screening/connecticut answers 200 and the page renders its frame, but it stays on \"Loading your state's questions...\" with no question heading and no JavaScript page error, so the crawl cannot walk a flow to a terminal and times out.",
+      "independentProbe": {
+        "url": "http://127.0.0.1:3111/expungement-ai/screening/connecticut",
+        "httpStatus": 200,
+        "bodyTextAfter45s": "Expungement.ai Briefcase Sign in Loading your state's questions... Want me to explain these questions?",
+        "headingsFound": [],
+        "pageErrors": "none"
+      },
+      "disposition": "Environment, not product. Phase 2 recorded the identical symptom for the same probe against the PRODUCT BASE source served the same way from the same container, and this shard reproduces it independently at BASE_SHA. It is unrelated to this diff, which touches no component and no compiled profile. Recorded here rather than worked around; ENV-001 already records that no staging environment exists for this programme.",
+      "whatCoversItInstead": "The deterministic harness. The audit's own four generators were re-run before and after this diff and produce byte-identical output, and every route and reachability claim in this file comes from a direct evaluator replay over the rendered screens at the pinned clock."
+    }
+  }
+}

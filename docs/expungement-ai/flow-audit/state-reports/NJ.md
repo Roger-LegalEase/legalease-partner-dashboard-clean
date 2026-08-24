@@ -104,3 +104,53 @@ docs/expungement-ai/flow-audit/state-reports/NJ.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 SHARD-6 — what this shard did
+
+Base `93e05e945a52cfa1cdd2ab590636290875a48f68` (PHASE2_PRODUCT_HEAD). Evaluator clock pinned to `2026-07-01`. Full record: `data/expungement-ai/flow-audit/shard-results/SHARD-6.json`.
+
+### Changed
+
+- Added src/lib/rcap/state-packs/new-jersey/record-clearing-filing-locations.ts: the 21 counties, the Superior Court Criminal and Family Parts, the Municipal Court, the State Police Criminal Information Unit, and a labelled manual-entry fallback.
+- Exported it from the New Jersey state pack index.
+
+### Deliberately not changed
+
+- NJ-new-jersey.json is byte-identical to the base. New Jersey is HELD_FOR_LEGAL_DECISION and its behaviour is preserved exactly: needs_review, payment closed, on all four routes.
+- No waiting rule was authored, no binding was added, and no lifecycle classification was changed.
+
+### Terminals
+
+No flow row moved. All 9 New Jersey flow IDs keep the terminal they had at the base, and the compiled profile is byte-identical to it. Proved by re-running the audit's own four generators before and after this diff: the output is byte-identical.
+
+### Reachability from the rendered screens only, at this base
+
+- Rendered screens: **16**
+- Packet-ready reachable: **no**
+- Payment reachable: **no**
+- Best terminal found: `not_yet` on `regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3`
+
+This shard's remaining UX-STATELAW-001 jurisdiction, and the answer is neither of the two the phase offers. New Jersey's blocker is not a missing fact: the bounded sweep reports no unrendered fact the evaluator consumes except record_documents, which Phase 2 recorded as changing no decision in any of the 51. It is not a claim about self-help availability either. A direct replay of the regular-expungement route at every one of the nine timing buckets, including gt_10_years, returns needs_review with reason code nj.waiting_rule_not_executed and missingQuestionIds empty. The timing gate never clears because the waiting rule never resolves, which is exactly the hold Phase 2 recorded. Resolving it means authoring a New Jersey waiting period, which this shard may not do. No lifecycle classification correction is warranted and no escalation of the product claim is warranted; what is warranted is the waiting-rule decision that is already in the counsel queue.
+
+### Waiting-rule dispositions for this jurisdiction
+
+Every route below still resolves through the provisional prose selector retained in the evaluator. None is recommended ACTIVE. No waiting period is authored here; a proposal names a rule id the compiled profile already publishes and quotes its text.
+
+| Route | Disposition | Rules named |
+| --- | --- | --- |
+| `arrest-dismissal-and-other-non-conviction-expungement-under-n-j-s-a-2c-52-6` | legal owner decision required | none |
+| `clean-slate-petition-under-n-j-s-a-2c-52-5-3` | legal owner decision required | none |
+| `marijuana-hashish-expungement-under-n-j-s-a-2c-52-5-1-5-2-and-6-1` | legal owner decision required | none |
+| `regular-expungement-under-n-j-s-a-2c-52-2-2c-52-3` | legal owner decision required | none |
+
+4 fallback-dependent route(s): 0 explicit binding proposed, 0 conditional binding proposed, 4 legal owner decision required, 0 held for correction.
+
+### Controlled filing-location dataset
+
+`src/lib/rcap/state-packs/new-jersey/record-clearing-filing-locations.ts` — 21 counties, the courts and agencies that handle record-clearing matters, and a labelled manual-entry fallback. Addresses UX-COURT-001.
+
+Still missing: the selector itself. The renderer has no selector branch for county or court, and changing a compiled question's type or options is locked against origin/main by verify-expungement-plain-language-values unless a reviewed entry exists in data/expungement-ai/screening-parity-approved-deltas.json. Both the renderer and that approval record are prohibited shared paths for this shard, so the dataset is delivered and the binding is proposed.
+
+### Legal questions still open
+
+- UX-STATELAW-001 for NJ: which waiting rule governs each of the four New Jersey routes. Until that is settled, no New Jersey participant can reach a packet from the rendered screens, and the four routes cannot be recommended active. This is the whole of New Jersey's unreachability.
