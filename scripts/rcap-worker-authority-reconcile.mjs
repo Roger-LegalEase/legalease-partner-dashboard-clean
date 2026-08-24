@@ -27,6 +27,11 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+import {
+  buildWorkerImageInputManifestAtCommit,
+  compareManifests
+} from "./control/rcap-worker-image-inputs.mjs";
+
 const OUT = path.join(rootDir, "data/rcap-render/worker-authority-reconciliation.json");
 
 const git = (...args) => execFileSync("git", args, { cwd: rootDir, encoding: "utf8" }).trim();
@@ -34,10 +39,19 @@ const tryGit = (fn, fallback = null) => { try { return fn(); } catch { return fa
 const sha256 = (s) => crypto.createHash("sha256").update(s).digest("hex");
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(rootDir, rel), "utf8"));
 
-// The canonical worker image-input path set, exactly as the workflow's
-// equivalence gate uses it. Changing this set changes what "the same image"
-// means, so it is written once and read by both.
-export const WORKER_IMAGE_INPUT_PATHS = [
+// The canonical worker image-input set is no longer a list of directories.
+//
+// ENV-007 correction: comparing whole directories — `scripts/lib` and `src`
+// among them — answered "did anything under here move?", not "did anything that
+// enters the worker image change?". A control-plane module added under
+// scripts/lib made the two indistinguishable. The authority is now
+// data/rcap-render/worker-image-input-manifest.json: every file the Dockerfile
+// actually pulls into the build context, with its exact path and SHA-256, in a
+// deterministic order, derived from the Dockerfile rather than asserted.
+//
+// The directory list survives only as the human-readable summary of where those
+// files come from. Nothing computes equivalence from it.
+export const WORKER_IMAGE_INPUT_SUMMARY_PATHS = [
   "package.json",
   "package-lock.json",
   "tsconfig.json",
@@ -64,19 +78,44 @@ function pinnedFromWorkflow(rel) {
   };
 }
 
-/** sha256 over the ordered `path:treeOrBlobSha` lines — one number per candidate image input set. */
+/**
+ * One number per candidate image-input set, computed over the per-file manifest:
+ * the sha256 of the ordered `path:sha256` lines of every file that actually
+ * enters the build context at that commit.
+ */
+const manifestCache = new Map();
+function imageInputManifestAt(sourceSha) {
+  if (!manifestCache.has(sourceSha)) {
+    manifestCache.set(sourceSha, tryGit(() => buildWorkerImageInputManifestAtCommit(rootDir, sourceSha), null));
+  }
+  return manifestCache.get(sourceSha);
+}
 function workerImageInputHash(sourceSha) {
-  const lines = WORKER_IMAGE_INPUT_PATHS.map((p) => `${p}:${tryGit(() => git("rev-parse", `${sourceSha}:${p}`), "MISSING")}`);
-  return { hash: sha256(lines.join("\n")), entries: lines };
+  const m = imageInputManifestAt(sourceSha);
+  if (!m) return { hash: "UNRESOLVED", entries: [], fileCount: 0 };
+  return {
+    hash: m.aggregateSha256,
+    fileCount: m.fileCount,
+    // The summary lines stay short; the exhaustive per-file listing is the
+    // manifest artifact itself, not this reconciliation record.
+    entries: WORKER_IMAGE_INPUT_SUMMARY_PATHS.map((p) => {
+      const under = m.entries.filter((e) => e.path === p || e.path.startsWith(`${p}/`));
+      return `${p}:${under.length} file(s)`;
+    })
+  };
 }
 
-function pathSetIdentical(a, b) {
-  try { execFileSync("git", ["diff", "--quiet", a, b, "--", ...WORKER_IMAGE_INPUT_PATHS], { cwd: rootDir }); return true; }
-  catch { return false; }
+/** Per-file equivalence. Named paths, never "the directory differs". */
+function compareImageInputs(a, b) {
+  const ma = imageInputManifestAt(a);
+  const mb = imageInputManifestAt(b);
+  if (!ma || !mb) return { identical: false, added: [], removed: [], changed: [], unresolved: true };
+  return { ...compareManifests(ma, mb), unresolved: false };
 }
+function pathSetIdentical(a, b) { return compareImageInputs(a, b).identical; }
 function differingPaths(a, b) {
-  return tryGit(() => git("diff", "--name-only", a, b, "--", ...WORKER_IMAGE_INPUT_PATHS), "")
-    .split("\n").filter(Boolean);
+  const c = compareImageInputs(a, b);
+  return [...c.changed, ...c.added.map((p) => `${p} (added)`), ...c.removed.map((p) => `${p} (removed)`)];
 }
 
 const publication = readJson("data/rcap-render/worker-publication-evidence.json");

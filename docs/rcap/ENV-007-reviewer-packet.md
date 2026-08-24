@@ -1,5 +1,14 @@
 # ENV-007 — reviewer packet
 
+> **SUPERSEDED IN PART.** An independent review of `a22066423096882f1f202990519f1dcb0d96afca`
+> returned `CORRECTION_REQUIRED` (findings C1–C7). This packet still describes the Stripe privilege
+> boundary, the environment identity sentinels and the migration manifest correctly, but its account
+> of the control plane, the payment probe, the non-payment matrix, the dispatch routing and the
+> read-only artifacts is superseded by
+> **[`ENV-007-control-plane-authority-correction.md`](./ENV-007-control-plane-authority-correction.md)**,
+> which also records the GitHub workflow-validation error this candidate carried and the parser
+> evidence that the correction resolves it. Read that document first.
+
 Read-only. Nothing in this branch was executed: no hosted workflow run, no migration applied, no deployment, no worker image built, no seeding, no payment.
 
 | | |

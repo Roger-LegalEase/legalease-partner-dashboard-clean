@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "rcap-env007-workflow-parser-evidence/v1",
+  "description": "GitHub's own workflow parser, before and after the C4 correction. Recorded from authenticated read-only GitHub REST calls; no workflow was dispatched and no hosted phase was run.",
+  "workflow": ".github/workflows/rcap-f1-ephemeral-staging.yml",
+  "signal": {
+    "why": "The workflow declares workflow_dispatch only. A push therefore cannot legitimately start it, so an instantaneous zero-job push-event workflow run naming the file is GitHub reporting that the file failed validation, and the absence of one is GitHub accepting the file.",
+    "corroboration": "Across the workflow's entire 73-run history the only push-event runs are the two at the rejected candidate. Every other run is workflow_dispatch.",
+    "howToReverify": [
+      "gh api repos/Roger-LegalEase/legalease-partner-dashboard-clean/actions/runs?head_sha=<sha>",
+      "gh api repos/Roger-LegalEase/legalease-partner-dashboard-clean/commits/<sha>/check-suites"
+    ]
+  },
+  "annotationRetrieval": {
+    "runId": 32679318369,
+    "outcome": "INVALID_WORKFLOW_ANNOTATION_BLOCKED",
+    "detail": "The run has zero jobs and its check suite has zero check runs, so the Checks annotations API has no anchor to read from. GraphQL is not served for this session and the github.com HTML surface that renders the banner is refused by the session's repository-scoped API policy. The error was therefore derived locally and confirmed against GitHub's parser instead.",
+    "routesTried": [
+      "actions/runs/32679318369",
+      "actions/runs/32679318369/jobs",
+      "actions/runs/32679318369/attempts/1/jobs",
+      "actions/runs/32679318369/logs",
+      "actions/runs/32679318369/annotations",
+      "commits/<sha>/check-suites",
+      "check-suites/88535712359/check-runs?filter=all",
+      "check-suites/88541581337/check-runs?filter=all",
+      "commits/<sha>/check-runs?filter=all",
+      "check-runs/{97293072866,97293073056,97293073135}/annotations",
+      "actions/workflows/332448793",
+      "GraphQL checkSuites -> checkRuns -> annotations",
+      "github.com HTML run page"
+    ]
+  },
+  "localDerivation": {
+    "validator": "actionlint v1.7.7",
+    "installedBy": "go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.7, into a temporary GOPATH outside the repository",
+    "moduleZipHash": "h1:0KgkoNTrYY7vmOCs9BW2AHxLvvpoY9nEUzgBHiPUr0k=",
+    "binarySha256": "b242a990881fe6697a9ff63819939e587d43c8169ead78294297eb1a0dc3ae4c",
+    "addedAsRepositoryDependency": false,
+    "error": {
+      "file": ".github/workflows/rcap-f1-ephemeral-staging.yml",
+      "line": 135,
+      "column": 639,
+      "rule": "expression",
+      "message": "parser did not reach end of input after parsing the expression. 1 remaining token(s) in the input: \")\"",
+      "construct": "the hosted `phase:` map — a chained && / || expression carrying nine opening and ten closing parentheses, ending in `|| 'preflight'`"
+    },
+    "firstInvalidCommit": {
+      "sha": "fe250b9862022349abe6a378ac957bda53cce9b1",
+      "subject": "ENV-007: environment identity sentinels, read-only probes, legacy closure",
+      "why": "It added hosted_environment_probe and hosted_payment_environment_probe to the chain, taking the opening parentheses from seven to nine while leaving ten closing parentheses in place."
+    },
+    "commitByCommit": [
+      { "sha": "dd93579871962260b12918e54c44cf9bf1e81529", "role": "base", "openParens": 7, "closeParens": 7, "locallyValid": true },
+      { "sha": "360d341e8b9ad9e7266e855252d0c6b774890415", "openParens": 7, "closeParens": 7, "locallyValid": true },
+      { "sha": "6355d1ae3acd1c1c79ce5cb99d3c74a2a35fa5d6", "openParens": 7, "closeParens": 7, "locallyValid": true },
+      { "sha": "b1412a0260ee73bc8034fe944b35faa99fc21dbc", "openParens": 7, "closeParens": 7, "locallyValid": true },
+      { "sha": "fe250b9862022349abe6a378ac957bda53cce9b1", "openParens": 9, "closeParens": 10, "locallyValid": false },
+      { "sha": "a22066423096882f1f202990519f1dcb0d96afca", "role": "rejected candidate", "openParens": 9, "closeParens": 10, "locallyValid": false }
+    ]
+  },
+  "before": {
+    "sha": "a22066423096882f1f202990519f1dcb0d96afca",
+    "branch": "claude/rcap-acceptance-workflow-hardening",
+    "invalidWorkflowRuns": 2,
+    "runIds": [32679318369, 32681783697],
+    "runShape": "event=push, conclusion=failure, jobs=0, created_at == updated_at == run_started_at",
+    "checkSuitesReportingParseFailure": 2,
+    "checkSuiteIds": [88535712359, 88541581337],
+    "checkSuiteShape": "app=github-actions, conclusion=failure, latest_check_runs_count=0"
+  },
+  "after": {
+    "sha": "5ca3aad38a11a1e9fdadd06424b9b45db4b77f5c",
+    "branch": "claude/rcap-workflow-parser-isolation-a2206642",
+    "invalidWorkflowRuns": 0,
+    "checkSuitesReportingParseFailure": 0,
+    "githubActionsCheckSuites": 0,
+    "githubProcessedThePush": true,
+    "processingEvidence": "two non-Actions app check suites (vercel, claude) were created at the push timestamp 2026-08-24T03:08:54Z, so GitHub had the commit; it created no github-actions check suite and no workflow run for it",
+    "workflowMetadataState": "active",
+    "hostedPhasesDispatched": 0,
+    "workflowDispatchesPerformed": 0
+  },
+  "diagnosticCommits": [
+    { "sha": "8869b3d6a717c54fe6b04883cdaafc57c3431237", "content": "the one-character minimum C4 correction only", "invalidWorkflowRuns": 0 },
+    { "sha": "ca2c1c548f78c5d993c785ae0709f3a06326d7e1", "content": "the three corrected workflow files", "invalidWorkflowRuns": 0 },
+    { "sha": "5ca3aad38a11a1e9fdadd06424b9b45db4b77f5c", "content": "the exact final workflow bytes, provenance caveats included", "invalidWorkflowRuns": 0 }
+  ],
+  "diagnosticPushSafety": {
+    "verdict": "DIAGNOSTIC_PUSH_SAFE",
+    "pushTriggeredWorkflowsMatchingTheBranch": [
+      {
+        "workflow": ".github/workflows/rcap-source-acquisition-branch.yml",
+        "branchFilter": "claude/**",
+        "pathFilter": [
+          "data/rcap-all50/source-acquisition-queue.json",
+          "scripts/rcap-acquire-official-source.mjs",
+          "scripts/generate-rcap-source-acquisition-queue.mjs",
+          ".github/workflows/rcap-source-acquisition-branch.yml"
+        ],
+        "touchedByAnyDiagnosticCommit": false,
+        "capabilities": "permissions: contents: read; references no secret; no environment, no Vercel, no Supabase write, no Stripe, no worker publication"
+      }
+    ],
+    "everyOtherPushOrPullRequestTrigger": "branch- or path-filtered away from this branch, and no pull request was opened for it",
+    "prohibitedCapabilityWorkflows": {
+      "rcap-f1-ephemeral-staging.yml": "workflow_dispatch only",
+      "rcap-hosted-acceptance-staging.yml": "workflow_call only",
+      "rcap-github-hosted-acceptance.yml": "workflow_call only",
+      "publish-rcap-render-worker.yml": "workflow_dispatch only",
+      "rcap-worker-image-acceptance.yml": "pull_request and workflow_dispatch only",
+      "rcap-worker-tag-integrity.yml": "workflow_dispatch only"
+    },
+    "triggersAbsentEntirely": ["create", "release", "pull_request_target", "workflow_run", "repository_dispatch", "issue_comment", "schedule"]
+  },
+  "correction": {
+    "minimum": "delete the one unmatched closing parenthesis on line 135",
+    "shipped": "the chained expression was replaced outright by the C5 exact mode map, which has no default and therefore no `|| 'preflight'` tail; the minimum fix was proved against GitHub's parser first, on its own diagnostic commit",
+    "environmentSecretsInsideAReusableWorkflow": "UNCHANGED AND STILL SUPPORTED. The job-level `environment:` in the called workflow is the mechanism that supplies HOSTED_STRIPE_TEST_SECRET and HOSTED_STRIPE_TEST_WEBHOOK_SECRET, which are declared in no workflow_call secrets block and forwarded by no caller. Nothing about that architecture was altered: the validation error was a parenthesis, not a secrets model. actionlint flags those two expressions because it cannot model environment secrets; GitHub's parser accepts them, as the runs above show."
+  },
+  "knownValidatorModelGaps": [
+    {
+      "finding": "property \"job_workflow_sha\" is not defined in object type github",
+      "reality": "github.job_workflow_sha is a documented GitHub context property; actionlint v1.7.7 does not model it. GitHub's parser accepts it.",
+      "suppressedWith": "-ignore 'property \"job_workflow_sha\" is not defined'"
+    },
+    {
+      "finding": "property \"hosted_stripe_test_secret\" / \"hosted_stripe_test_webhook_secret\" is not defined in object type secrets",
+      "reality": "environment-scoped secrets, which actionlint cannot model for a reusable workflow's job-level environment. Removing them would dismantle the Stripe privilege boundary.",
+      "suppressedWith": "-ignore 'property \"hosted_stripe_test_(secret|webhook_secret)\" is not defined'"
+    }
+  ]
+}

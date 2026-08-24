@@ -389,17 +389,19 @@ const hostedJobs = parseJobs(hostedWorkflow);
     "environment_declared_on_every_write_capable_job",
     Boolean(writeCapable?.environmentName) &&
       /rcap-acceptance/.test(writeCapable.environmentName) &&
-      writeCapable.if === "inputs.phase != 'preflight' && inputs.phase != 'vercel_audit'",
-    `write-capable job "hosted_write" declares environment ${writeCapable?.environmentName ?? "NONE"} and runs for every phase except preflight and vercel_audit; jobs with an environment: ${writeJobs.map(([k]) => k).join(", ") || "none"}; without: ${readOnlyJobs.map(([k]) => k).join(", ") || "none"}`
+      writeCapable.if === "inputs.phase != 'preflight' && inputs.phase != 'vercel_audit' && inputs.phase != 'payment_environment_probe'",
+    `write-capable job "hosted_write" declares environment ${writeCapable?.environmentName ?? "NONE"} and runs for every phase except preflight, vercel_audit and payment_environment_probe (ENV-007 C2 gave the payment probe its own lane); jobs with an environment: ${writeJobs.map(([k]) => k).join(", ") || "none"}; without: ${readOnlyJobs.map(([k]) => k).join(", ") || "none"}`
   );
 
   const paymentJob = hostedJobs.hosted_payment;
   check(
     "hosted_payment_uses_the_separate_payment_environment",
     paymentJob?.environmentName === "rcap-acceptance-payment" &&
-      paymentJob?.if === "inputs.phase == 'payment' || inputs.phase == 'payment_environment_probe'" &&
+      paymentJob?.if === "inputs.phase == 'payment'" &&
+      hostedJobs.payment_probe?.environmentName === "rcap-acceptance-payment" &&
+      hostedJobs.payment_probe?.if === "inputs.phase == 'payment_environment_probe'" &&
       writeCapable?.environmentName === "rcap-acceptance",
-    `hosted_payment runs only for the payment phase in environment ${paymentJob?.environmentName}; hosted_write runs every other write phase in ${writeCapable?.environmentName}. Two jobs, two environments, no shared Stripe secret.`
+    `hosted_payment runs only for the transacting payment phase in environment ${paymentJob?.environmentName}; payment_probe runs only for payment_environment_probe in the same environment and transacts nothing; hosted_write runs every other write phase in ${writeCapable?.environmentName}. Three jobs, two environments, no shared Stripe secret.`
   );
 
   const ro = hostedJobs.readonly_probe;
@@ -461,21 +463,29 @@ const TRANSACTING_SCRIPTS = [
   "scripts/rcap-hosted-acceptance-payment.mjs"
 ];
 const PAYMENT_JOB = "hosted_payment";
+// ENV-007 C2. Two jobs are Stripe-secret-AUTHORIZED; exactly one of them is
+// Stripe-TRANSACTION-authorized. payment_probe holds the key and carries no
+// transacting script, which is what "secret access is not transaction
+// authority" means structurally rather than by convention.
+const PAYMENT_PROBE_JOB = "payment_probe";
+const STRIPE_SECRET_AUTHORIZED_JOBS = [PAYMENT_JOB, PAYMENT_PROBE_JOB];
 
 const hostedByJob = executableLinesByJob(hostedWorkflow);
 
 {
   const offenders = [...hostedByJob.entries()]
-    .filter(([name]) => name !== PAYMENT_JOB)
+    .filter(([name]) => !STRIPE_SECRET_AUTHORIZED_JOBS.includes(name))
     .map(([name, ls]) => ({ name, hits: ls.filter((l) => STRIPE_SECRET_EXPR.test(l)) }))
     .filter((r) => r.hits.length > 0);
   const paymentHits = (hostedByJob.get(PAYMENT_JOB) ?? []).filter((l) => STRIPE_SECRET_EXPR.test(l)).length;
+  const probeHits = (hostedByJob.get(PAYMENT_PROBE_JOB) ?? []).filter((l) => STRIPE_SECRET_EXPR.test(l)).length;
+  const unauthorized = [...hostedByJob.keys()].filter((n) => !STRIPE_SECRET_AUTHORIZED_JOBS.includes(n));
   check(
     "only_the_payment_authorized_job_receives_stripe_secret_expressions",
-    offenders.length === 0 && paymentHits > 0,
+    offenders.length === 0 && paymentHits > 0 && probeHits > 0,
     offenders.length === 0
-      ? `${paymentHits} Stripe secret expression(s), all inside "${PAYMENT_JOB}"; jobs "${[...hostedByJob.keys()].filter((n) => n !== PAYMENT_JOB).join('", "')}" carry zero`
-      : `Stripe secret expressions outside the payment job: ${offenders.map((o) => `${o.name} (${o.hits.length})`).join(", ")}`
+      ? `${paymentHits} Stripe secret expression(s) in "${PAYMENT_JOB}" and ${probeHits} in "${PAYMENT_PROBE_JOB}" — the two Stripe-secret-authorized jobs, both in the rcap-acceptance-payment environment; jobs "${unauthorized.join('", "')}" carry zero`
+      : `Stripe secret expressions outside the Stripe-authorized jobs: ${offenders.map((o) => `${o.name} (${o.hits.length})`).join(", ")}`
   );
 }
 
@@ -499,7 +509,7 @@ const hostedByJob = executableLinesByJob(hostedWorkflow);
   const paymentEnv = /^ {2}hosted_payment:$[\s\S]*?^ {4}environment:\s*$\n^ {6}name: (.+)$/m.exec(hostedWorkflow)?.[1]?.trim();
   check(
     "the_payment_job_is_bound_to_the_payment_phase_and_the_payment_environment",
-    paymentJobIf === "inputs.phase == 'payment' || inputs.phase == 'payment_environment_probe'" &&
+    paymentJobIf === "inputs.phase == 'payment'" &&
       paymentEnv === "rcap-acceptance-payment",
     `hosted_payment if=${JSON.stringify(paymentJobIf)} environment=${JSON.stringify(paymentEnv)}`
   );
@@ -716,7 +726,7 @@ const SENTINELS = {
 for (const [job, want] of Object.entries(SENTINELS)) {
   const body = stepBody(job, "env_identity");
   const names = stepNames(job);
-  const isFirst = /sentinel/i.test(names[0] ?? "");
+  const isSecond = /sentinel/i.test(names[1] ?? "");
   const readsVars = body.includes("vars.RCAP_ENVIRONMENT_ID") && body.includes("vars.RCAP_ENVIRONMENT_CLASS");
   const literalId = body.includes(`EXPECTED_ID="${want.id}"`);
   const literalCls = body.includes(`EXPECTED_CLASS="${want.cls}"`);
@@ -726,12 +736,17 @@ for (const [job, want] of Object.entries(SENTINELS)) {
   const noSecret = !/secrets\./.test(body);
   const which = job === "hosted_write" ? "acceptance" : "payment";
 
+  // ENV-007 C7 put ONE step ahead of the sentinel: the execution-authority
+  // gate, which reads no secret, checks nothing out and makes no request. The
+  // sentinel is still ahead of every checkout and every secret-bearing step.
+  const authorityFirst = /execution authority/i.test(names[0] ?? "");
+  const checkoutAt = names.indexOf("Check out the reviewed control plane");
+  const sentinelAt = names.findIndex((n) => /sentinel/i.test(n));
   check(
     `a_missing_${which}_marker_refuses_before_checkout_or_external_execution`,
-    isFirst && readsVars && emptyRefused && exits &&
-      names.indexOf("Check out repository history") > 0 &&
-      names.findIndex((n) => /sentinel/i.test(n)) < names.indexOf("Check out repository history"),
-    `"${names[0]}" is the first executable step in ${job}; an empty RCAP_ENVIRONMENT_ID or RCAP_ENVIRONMENT_CLASS exits 1 with ${want.code}, at step index 0 versus checkout at index ${names.indexOf("Check out repository history")}`
+    authorityFirst && isSecond && readsVars && emptyRefused && exits &&
+      checkoutAt > 0 && sentinelAt > 0 && sentinelAt < checkoutAt,
+    `${job}: step 0 is "${names[0]}" (no secret, no checkout, no request) and step ${sentinelAt} is "${names[sentinelAt]}"; an empty RCAP_ENVIRONMENT_ID or RCAP_ENVIRONMENT_CLASS exits 1 with ${want.code}, at step index ${sentinelAt} versus the first checkout at index ${checkoutAt}`
   );
 
   check(
@@ -749,14 +764,20 @@ for (const [job, want] of Object.entries(SENTINELS)) {
     const body = stepBody(job, "env_identity");
     return /-z "\$\{OBSERVED_ID:-\}"/.test(body) && body.includes(`::error::${want.code}`);
   });
-  const writeStepsAfterSentinel = ["hosted_write", "hosted_payment"].every((job) => {
+  // All THREE environment-declaring jobs, payment_probe included.
+  const PROTECTED_JOBS = ["hosted_write", "hosted_payment", "payment_probe"];
+  const writeStepsAfterSentinel = PROTECTED_JOBS.every((job) => {
     const names = stepNames(job);
-    return names.findIndex((n) => /sentinel/i.test(n)) === 0;
+    return names.findIndex((n) => /sentinel/i.test(n)) === 1 && /execution authority/i.test(names[0] ?? "");
   });
+  const probeSentinel = stepBody("payment_probe", "env_identity");
+  const probeSentinelRefuses =
+    /-z "\$\{OBSERVED_ID:-\}"/.test(probeSentinel) &&
+    probeSentinel.includes("::error::PAYMENT_ENVIRONMENT_IDENTITY_INVALID");
   check(
     "an_automatically_created_empty_environment_cannot_reach_a_write",
-    both && writeStepsAfterSentinel,
-    `both protected jobs assert their environment-scoped variables in step 0. An auto-created environment carries neither variable, so the sentinel exits 1 before checkout, before the preflight and before any Supabase, Vercel, registry or Stripe call.`
+    both && writeStepsAfterSentinel && probeSentinelRefuses,
+    `all three environment-declaring jobs (${PROTECTED_JOBS.join(", ")}) assert their environment-scoped variables in step 1, immediately after the execution-authority gate and before any checkout. An auto-created environment carries neither variable, so the sentinel exits 1 before the preflight and before any Supabase, Vercel, registry or Stripe call.`
   );
 }
 
@@ -777,25 +798,38 @@ for (const [job, want] of Object.entries(SENTINELS)) {
     `the probe runs only for phase environment_probe in hosted_write (environment rcap-acceptance), invokes no script and no action, contacts no Supabase / Vercel / registry / Stripe endpoint, validates the presence of all five shared secrets, references no Stripe secret, and prints only names and booleans`
   );
 
-  const notprobe = 'contains(fromJSON(\'["environment_probe","payment_environment_probe"]\'), inputs.phase) == false';
-  const guarded = ["Check out repository history", "Verify ancestry and image-input equivalence of every pinned SHA", "Set up Node", "Prove the credentials and the acceptance project"]
-    .every((n) => {
-      const lines = hostedWorkflow.split("\n");
-      const hw = lines.findIndex((l) => l === "  hosted_write:");
-      const hp = lines.findIndex((l) => l === "  hosted_payment:");
-      const at = lines.findIndex((l, i) => i > hw && i < hp && l === `      - name: ${n}`);
-      if (at === -1) return false;
-      return lines.slice(at, at + 6).some((l) => l.includes(notprobe));
-    });
+  // ENV-007 C2 made half of this structural: payment_environment_probe no
+  // longer enters hosted_write at all. environment_probe still does, so every
+  // tree-touching and network-capable step in the job stays guarded against it.
+  const notprobe = "inputs.phase != 'environment_probe'";
+  const GUARDED_STEPS = [
+    "Check out the reviewed control plane",
+    "Check out the pinned application source",
+    "Check out the pinned worker source",
+    "Verify ancestry and worker image-input equivalence of every pinned SHA",
+    "Set up Node",
+    "Prove the credentials and the acceptance project"
+  ];
+  const guarded = GUARDED_STEPS.every((n) => {
+    const lines = hostedWorkflow.split("\n");
+    const hw = lines.findIndex((l) => l === "  hosted_write:");
+    const nextJob = lines.findIndex((l, i) => i > hw && /^  [A-Za-z0-9_-]+:$/.test(l));
+    const at = lines.findIndex((l, i) => i > hw && i < nextJob && l === `      - name: ${n}`);
+    if (at === -1) return false;
+    return lines.slice(at, at + 8).some((l) => l.includes(notprobe));
+  });
+  const paymentProbeExcludedFromWrite =
+    (hostedJobs.hosted_write?.if ?? "").includes("inputs.phase != 'payment_environment_probe'");
   check(
     "the_probe_phases_reach_no_network_step_in_hosted_write",
-    guarded,
-    `checkout, ancestry verification, Node setup and the credential preflight are each guarded so neither probe phase reaches them`
+    guarded && paymentProbeExcludedFromWrite,
+    `payment_environment_probe cannot enter hosted_write at all (job-level if), and for environment_probe all ${GUARDED_STEPS.length} tree-touching or network-capable steps carry "${notprobe}"`
   );
 }
 
 {
-  const body = stepBody("hosted_payment", "payment_environment_probe");
+  // ENV-007 C2 — the probe moved out of hosted_payment into its own lane.
+  const body = stepBody("payment_probe", "payment_environment_probe");
   const noStripeCall = !/api\.stripe\.com/.test(body) && !/node scripts\//.test(body) && !/uses:/.test(body);
   const formatOnly = /sk_test_\*\) K=true/.test(body) && /whsec_\*\) W=true/.test(body);
   const fiveSecrets = ["SUPABASE_ACCESS_TOKEN", "VERCEL_TOKEN", "VERCEL_ORG_ID", "VERCEL_PROJECT_ID", "VERCEL_AUTOMATION_BYPASS_SECRET"]
@@ -804,8 +838,8 @@ for (const [job, want] of Object.entries(SENTINELS)) {
   check(
     "hosted_payment_environment_probe_makes_no_external_request",
     noStripeCall && formatOnly && fiveSecrets && refusesTxn &&
-      body.includes("if: inputs.phase == 'payment_environment_probe'"),
-    `the payment probe runs only for phase payment_environment_probe in hosted_payment (environment rcap-acceptance-payment), invokes no script and no action, contacts api.stripe.com never, validates the five shared secrets plus sk_test_ and whsec_ FORMAT by prefix, and aborts if it is ever handed transaction authority`
+      hostedJobs.payment_probe?.if === "inputs.phase == 'payment_environment_probe'",
+    `the payment probe runs only for phase payment_environment_probe, in its own payment_probe job (environment rcap-acceptance-payment), invokes no script and no action, contacts api.stripe.com never, validates the five shared secrets plus sk_test_ and whsec_ FORMAT by prefix, and aborts if it is ever handed transaction authority`
   );
 
   check(
@@ -887,19 +921,25 @@ for (const [job, want] of Object.entries(SENTINELS)) {
     `dispatch choices are [${modeList.join(", ")}] — github_acceptance absent; no workflow references rcap-github-hosted-acceptance.yml in a \`uses:\`, so it has no caller and cannot be invoked`
   );
 
-  const refusedInF1 = /if: inputs\.mode == 'github_acceptance'/.test(f1Workflow) && /GITHUB_ACCEPTANCE_RETIRED/.test(f1Workflow);
-  const refusedInHosted = ["hosted_write", "hosted_payment"].every((j) => stepBody(j, "legacy_refusal").includes("GITHUB_ACCEPTANCE_RETIRED"));
+  // ENV-007 C5 folded the standalone retired_path_refusal job into `route`,
+  // the single exact-mapping authority. A refusal there fails the job that both
+  // `hosted` and `f1` need, so no downstream job is ever scheduled.
+  const routeBody = /  route:[\s\S]*?\n  [A-Za-z0-9_-]+:/.exec(f1Workflow)?.[0] ?? "";
+  const refusedInF1 = /github_acceptance\)/.test(routeBody) && /GITHUB_ACCEPTANCE_RETIRED/.test(routeBody);
+  const refusedInHosted = ["hosted_write", "hosted_payment", "payment_probe"]
+    .every((j) => stepBody(j, "legacy_refusal").includes("GITHUB_ACCEPTANCE_RETIRED"));
   const fallbackFirstStepRefuses = (() => {
     const lines = fallbackWorkflow.split("\n");
     const first = lines.find((l) => /^      - name: /.test(l));
     return /retired/i.test(first ?? "") && /GITHUB_ACCEPTANCE_RETIRED/.test(fallbackWorkflow);
   })();
   const guidance = /Use hosted_payment for payment-producing acceptance\./.test(f1Workflow) &&
-    ["hosted_write", "hosted_payment"].every((j) => stepBody(j, "legacy_refusal").includes("Use hosted_payment for payment-producing acceptance."));
+    ["hosted_write", "hosted_payment", "payment_probe"]
+      .every((j) => stepBody(j, "legacy_refusal").includes("Use hosted_payment for payment-producing acceptance."));
   check(
     "direct_legacy_github_acceptance_invocation_returns_GITHUB_ACCEPTANCE_RETIRED",
     refusedInF1 && refusedInHosted && fallbackFirstStepRefuses && guidance,
-    `a legacy value is refused in three independent places, each before any secret is read: the F1 retired_path_refusal job, the legacy_refusal step that is step 2 of both protected jobs, and the retired workflow's own first step. Each prints GITHUB_ACCEPTANCE_RETIRED and "Use hosted_payment for payment-producing acceptance."`
+    `a legacy value is refused in three independent places, each before any secret is read: the F1 \`route\` job's exact mode map, the legacy_refusal step of all three environment-declaring jobs, and the retired workflow's own first step. Each prints GITHUB_ACCEPTANCE_RETIRED and "Use hosted_payment for payment-producing acceptance."`
   );
 
   // The payment behaviour was not relocated.
@@ -922,8 +962,11 @@ for (const [job, want] of Object.entries(SENTINELS)) {
         const b = stepBody(j, "legacy_refusal");
         return b.includes("LEGACY_PHASE_REFUSED") && b.includes("full)") && b.includes("checkout_gate)");
       }) &&
-      /hosted_full\b/.test(/if: (.+)/.exec(/retired_path_refusal:[\s\S]*?if: (.+)/.exec(f1Workflow)?.[0] ?? "")?.[1] ?? ""),
-    `dispatch offers hosted_full_nonpayment and hosted_checkout_pinning; the old hosted_full and hosted_checkout_gate are gone from the choices and are refused by name both at the caller and as step 2 of the protected job`
+      // ENV-007 C5: refused by name in the route map, not by a startsWith test.
+      /hosted_full\|full\)/.test(f1Workflow) &&
+      /hosted_checkout_gate\|checkout_gate\)/.test(f1Workflow) &&
+      /LEGACY_MODE_REFUSED/.test(f1Workflow),
+    `dispatch offers hosted_full_nonpayment and hosted_checkout_pinning; the old hosted_full and hosted_checkout_gate are gone from the choices and are refused by exact name — with their bare aliases full and checkout_gate — in the route map at the caller and as step 2 of the protected job`
   );
 
   const staticName = /Static verification that the Checkout pinning records name the accepted release \(no Stripe call\)/.test(hostedWorkflow);
@@ -944,14 +987,18 @@ for (const [job, want] of Object.entries(SENTINELS)) {
   const stampsBoth = /parsed\.PAYMENT_EXERCISED = paymentExercised/.test(stamper) && /payment-exercised\.json/.test(stamper);
   const writeJobStampsFalse = /RCAP_PAYMENT_EXERCISED: "false"/.test(hostedWorkflow);
   const probesInline = stepBody("hosted_write", "environment_probe").includes('"PAYMENT_EXERCISED": false') &&
-    stepBody("hosted_payment", "payment_environment_probe").includes('"PAYMENT_EXERCISED": false');
+    stepBody("payment_probe", "payment_environment_probe").includes('"PAYMENT_EXERCISED": false');
+  // ENV-007 C6: preflight and vercel_audit produce artifacts too, and they now
+  // carry the same stamp. The stamper rewrites local files; it adds no request.
+  const readonlyStamped = stepBody("readonly_probe", "stamp_payment_exercised")
+    .includes('RCAP_PAYMENT_EXERCISED: "false"');
   const antiskipSays = /PAYMENT_EXERCISED=false/.test(hostedWorkflow);
   const noOverclaim = !/paid acceptance is complete/.test(hostedWorkflow.replace(/#.*$/gm, "")) &&
     /does not mean paid acceptance is complete/.test(stamper);
   check(
     "every_non_payment_artifact_asserts_PAYMENT_EXERCISED_false",
-    stampsBoth && writeJobStampsFalse && probesInline && antiskipSays && noOverclaim,
-    `hosted_write stamps RCAP_PAYMENT_EXERCISED=false onto every JSON artifact it produced and writes a standalone payment-exercised.json; both probe artifacts carry PAYMENT_EXERCISED inline because they never check out; the anti-skip gates print PAYMENT_EXERCISED=false; and the stamper's note states plainly that a green non-payment result does not mean paid acceptance is complete`
+    stampsBoth && writeJobStampsFalse && probesInline && readonlyStamped && antiskipSays && noOverclaim,
+    `hosted_write AND readonly_probe each stamp RCAP_PAYMENT_EXERCISED=false onto every JSON artifact they produced and write a standalone payment-exercised.json; both probe artifacts carry PAYMENT_EXERCISED inline because they never check out; the anti-skip gates print PAYMENT_EXERCISED=false; and the stamper's note states plainly that a green non-payment result does not mean paid acceptance is complete`
   );
 
   const payStampsCapability = /RCAP_PAYMENT_EXERCISED: \$\{\{ steps\.capability\.outputs\.payment_exercised \}\}/.test(hostedWorkflow);

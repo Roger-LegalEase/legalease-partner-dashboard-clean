@@ -32,6 +32,20 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const EVIDENCE_DIR = path.join(rootDir, "hosted-acceptance-evidence");
+
+// ENV-007 C1 — the tree that ORCHESTRATES the deploy and the tree that IS
+// deployed are different trees. This script executes from control/ (the
+// reviewed infrastructure commit) and writes its evidence there; the bytes
+// handed to Vercel come from application/ (the pinned application_source_sha).
+// Before the correction both were whatever `git checkout --detach tools_sha`
+// had left in a single working tree, so a caller-supplied commit chose the
+// deployed bytes AND the code that deployed them.
+//
+// Unset means "deploy the tree this script lives in", which is the ephemeral
+// F1 rehearsal's single-tree layout and stays correct there.
+const APPLICATION_TREE = process.env.RCAP_APPLICATION_TREE
+  ? path.resolve(process.env.RCAP_APPLICATION_TREE)
+  : rootDir;
 fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
 
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
@@ -97,6 +111,9 @@ function envShape(entries) {
 
 const evidence = {
   schemaVersion: "rcap-hosted-acceptance-deploy/v1",
+  controlTree: rootDir,
+  applicationTree: APPLICATION_TREE,
+  controlTreeIsApplicationTree: rootDir === APPLICATION_TREE,
   acceptanceProjectRef: PROJECT_REF,
   applicationSha: APPLICATION_SHA,
   deliveryRouteState: ROUTE_STATE || "disabled (flag not set)",
@@ -304,7 +321,10 @@ if (reusable) {
   // job log into a place secrets can appear.
   const deploy = await new Promise((resolve) => {
     const child = spawn("npx", args, {
-      cwd: rootDir,
+      // The APPLICATION tree, never the control tree: `vercel deploy
+      // --archive=tgz` archives its working directory, so this is the single
+      // line that decides which bytes are published.
+      cwd: APPLICATION_TREE,
       // stdin explicitly closed rather than left as an open pipe nobody writes
       // to. An earlier run died with an uncaught EPIPE on write AFTER Vercel
       // had already accepted the deployment, which is the worst shape of

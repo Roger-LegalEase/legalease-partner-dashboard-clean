@@ -17,9 +17,15 @@
       "transactingScripts": []
     },
     {
+      "job": "payment_probe",
+      "environment": "rcap-acceptance-payment",
+      "stripeSecretExpressions": 2,
+      "transactingScripts": []
+    },
+    {
       "job": "hosted_payment",
       "environment": "rcap-acceptance-payment",
-      "stripeSecretExpressions": 9,
+      "stripeSecretExpressions": 7,
       "transactingScripts": [
         "scripts/rcap-hosted-checkout-gate.mjs",
         "scripts/rcap-hosted-acceptance-payment.mjs"
