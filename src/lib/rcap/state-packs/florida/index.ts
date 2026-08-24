@@ -1,4 +1,5 @@
 export * from "./disqualifying-offenses";
+export * from "./controlled-filing-dataset";
 export * from "./document-types";
 export * from "./eligibility-rules";
 export * from "./fee-notes";

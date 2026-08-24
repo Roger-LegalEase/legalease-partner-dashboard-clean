@@ -102,3 +102,10 @@ docs/expungement-ai/flow-audit/state-reports/ND.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 Shard 2 disposition
+
+- `wait-04` and duplicate `wait-12` describe a hearing “not earlier than 45 days after” filing, with a prosecutor-stipulation exception. They are post-filing scheduling windows, not eligibility waits; both structured durations are now null.
+- At a 122-day probe, forcing `wait-04` previously returned `packet_ready_with_caution`/true while the operative misdemeanor `wait-10` returned `not_yet`/false. The corrected procedural rule now fails closed. This is a potential P0 payment risk; hold the general-conviction route pending shared binding correction.
+- `wait-03` is a five-year no-other-convictions lookback for summary marijuana pardon, not necessarily a case clock. The route remains held.
+- DUI seven-year and first-possession two-year proposals are explicit; general sealing has a conditional 3/5-year proposal. No route is recommended active. Full evidence is in `SHARD-2.json`.

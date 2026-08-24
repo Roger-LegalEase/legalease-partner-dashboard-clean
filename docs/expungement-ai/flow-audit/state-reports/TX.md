@@ -106,3 +106,10 @@ docs/expungement-ai/flow-audit/state-reports/TX.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 Shard 2 disposition
+
+- Texas's payment clamp is preserved exactly; no payment, shared binding, evaluator, or live route was changed.
+- The no-charge composite quotes 180 days for Class C, one year for Class A/B, and three years for felony. Its extracted 0/180-day first branches do not represent the full rule. At a 122-day Class A probe, the immediate composite returned packet-ready while a one-year rule returned `not_yet`; payment stayed false only because of the clamp.
+- Classify the no-charge route as a potential P0 wrong-legal-outcome risk and recommend a hold. The first-offense-DWI and § 411.0725 branch rules also remain held because the needed interlock/exact-offense facts are absent.
+- Four immediate/no-wait route proposals are explicit, but none is recommended active in this shard. Full terminal/payment evidence is in `SHARD-2.json`.

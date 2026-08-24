@@ -109,3 +109,10 @@ docs/expungement-ai/flow-audit/state-reports/FL.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 Shard 2 disposition
+
+- `UX-COUNTY-001` / `UX-COURT-001`: the state pack now preserves Florida's source-backed venue rule, filing-target types, manual-entry labels, and ready-to-apply projection payload. The source does not contain a controlled current 67-county/local-court directory, so no directory was invented.
+- The single rebind attempt produced all four expected parity failures (`county`/`court` type and option deltas) and was reverted. The renderer has no controlled-combobox-with-manual-entry branch. Classification: `SHARED_PHASE2_BLOCKER`; no browser retry and no shared edit.
+- `wait-03` is a five-year clean-history lookback combined with current-age 18–20 and age-at-offense-under-18 thresholds, not a simple five-year case clock. The early-juvenile route remains held.
+- Seven fallback-route dispositions and the court-expunction shared-binding fidelity hold are recorded in `SHARD-2.json`; no route is recommended active.

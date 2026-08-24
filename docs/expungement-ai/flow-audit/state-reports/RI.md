@@ -98,3 +98,9 @@ docs/expungement-ai/flow-audit/state-reports/RI.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 Shard 2 disposition
+
+- Rhode Island remains `HELD_FOR_LEGAL_DECISION` exactly as Phase 2 directed. All eight assigned fallback routes remain `needs_review` with payment blocked; no waiting rule was guessed and no behavior moved.
+- Court selection is classified `SHARED_PHASE2_BLOCKER` after the one bounded Florida proof. No shared renderer, projection, parity, binding, or evaluator path was changed.
+- No Rhode Island route is recommended active. The eight route-level records are in `SHARD-2.json`.

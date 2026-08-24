@@ -102,3 +102,9 @@ docs/expungement-ai/flow-audit/state-reports/MI.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 Shard 2 disposition
+
+- `wait-10` quotes “Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence”. The 93 days classifies the misdemeanor by sentence term; the operative wait is seven years from imposition of sentence. A seven-year state correction was tested, but the Phase 2 verifier requires its prohibited shared provenance to change simultaneously, so the state edit was reverted and the exact joint payload was preserved in `SHARD-2.json`.
+- The automatic route has a conditional 7-year misdemeanor / 10-year felony proposal, and first-offense OWI has a five-year proposal. The general application and trafficking routes remain held because their branch facts are not deterministic in the current public profile.
+- The existing marijuana shared binding combines penalty thresholds, application waits, automatic waits, and no-wait text; recommend a binding hold. Court work is `SHARED_PHASE2_BLOCKER`; no shared path was changed.

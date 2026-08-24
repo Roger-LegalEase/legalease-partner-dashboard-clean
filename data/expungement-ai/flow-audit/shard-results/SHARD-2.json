@@ -1,0 +1,282 @@
+{
+  "schemaVersion": "expai-phase3-shard-result/v1",
+  "shardId": "SHARD-2",
+  "sessionFile": "docs/expungement-ai/phase2/shard-prompts/session-02.md",
+  "authoredBy": "Phase 3 state shard 02",
+  "phase2ProductHead": "93e05e945a52cfa1cdd2ab590636290875a48f68",
+  "baseSha": "93e05e945a52cfa1cdd2ab590636290875a48f68",
+  "branch": "claude/expai-phase3-shard-2",
+  "evaluatorToday": "2026-07-01",
+  "jurisdictionsInScope": ["AL", "FL", "HI", "IA", "MI", "ND", "NV", "RI", "TX"],
+  "contract": "State-owned corrections and evidence only. No shared projection, renderer, evaluator, binding, payment, parity-delta, Phase 2, migration, or live-route path is changed.",
+  "auditReconfirmation": {
+    "verdict": "The four Phase 1 audit artifacts are stale at the Phase 2 product base for documented reasons. The differences reproduce before this shard's edits and are not attributed to Shard 2.",
+    "baseCheckResults": [
+      {"command": "node scripts/expungement-ai/flow-audit/build-flow-manifest.mjs --check", "exit": 1, "classification": "DOCUMENTED_PHASE2_BASELINE_STALENESS"},
+      {"command": "node scripts/expungement-ai/flow-audit/build-question-inventory.mjs --check", "exit": 1, "classification": "DOCUMENTED_PHASE2_BASELINE_STALENESS"},
+      {"command": "node scripts/expungement-ai/flow-audit/build-branch-coverage.mjs --check", "exit": 1, "classification": "DOCUMENTED_PHASE2_BASELINE_STALENESS"},
+      {"command": "node scripts/expungement-ai/flow-audit/build-ui-reachability.mjs --check", "exit": 1, "classification": "DOCUMENTED_PHASE2_BASELINE_STALENESS"}
+    ],
+    "authority": [
+      "docs/expungement-ai/phase2/implementation-report.md",
+      "data/expungement-ai/phase2/correction-allowlist.json",
+      "data/expungement-ai/phase2/post-implementation/"
+    ]
+  },
+  "countyCourtBoundedAttempt": {
+    "state": "FL",
+    "issues": ["UX-COUNTY-001", "UX-COURT-001"],
+    "attemptCount": 1,
+    "stateOwnedPayload": "src/lib/rcap/state-packs/florida/controlled-filing-dataset.ts",
+    "sourceQuote": "After FDLE issues the certificate, the user files the petition, sworn statement/affidavit, certificate, and proposed order in the court with jurisdiction over the arrest, usually the county where the arrest occurred.",
+    "attempt": "Temporarily changed FL county and court from text fields to single_choice fields backed by the state payload, then ran the plain-language parity verifier once.",
+    "result": [
+      "FL:county changed type.",
+      "FL:county changed option values/order.",
+      "FL:court changed type.",
+      "FL:court changed option values/order."
+    ],
+    "reverted": true,
+    "browserRetries": 0,
+    "rendererInspection": "QuestionField.tsx has a single_choice branch but no controlled-combobox-with-manual-entry branch.",
+    "classification": "SHARED_PHASE2_BLOCKER",
+    "blockedSharedPaths": [
+      "src/lib/rcap-engine/public-profile-projection.ts",
+      "src/components/expungement-ai/screening/QuestionField.tsx",
+      "data/expungement-ai/screening-parity-approved-deltas.json"
+    ],
+    "disposition": "Preserve the source-backed filing-target types and ready-to-apply projection payload; integration owner must land projection, renderer, parity approval, and a controlled current county/court directory. Do not guess the missing 67-county or local-court dataset."
+  },
+  "structuredDurationAudits": [
+    {
+      "category": "one branch of a multi-class rule",
+      "state": "AL",
+      "route": "non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a",
+      "rule": "wait-04",
+      "currentDuration": "1 year",
+      "quotedSource": "Nolle prossed / dismissed WITHOUT prejudice and not refiled — after more than 1 year (misdemeanor) or 5 years (felony), with no disqualifying conviction in the interim.",
+      "operativeWait": "More than 1 year for a misdemeanor or 5 years for a felony, only for the dismissal-without-prejudice branch and with no disqualifying intervening conviction.",
+      "currentTerminalPayment": "guidance_only / paymentAllowed false in the route probe; a hidden wait-04 override cannot safely select the felony branch from duration alone.",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED; keep unbound and on hold. The existing one-year extraction is not an evaluator-safe representation of the two-class rule."
+    },
+    {
+      "category": "disqualifying historical window and age threshold",
+      "state": "FL",
+      "route": "early-juvenile-expunction-943-0515",
+      "rule": "wait-03",
+      "currentDuration": "5 years",
+      "quotedSource": "A person age 18 or older but under 21 may apply for early juvenile expunction if they have not been charged by the State Attorney with, or found to have committed, any criminal offense during the 5 years before the application date. Only offenses committed before age 18 are eligible under this early-juvenile route.",
+      "operativeWait": "This is a five-year clean-history lookback plus current-age and age-at-offense thresholds, not a five-year case-event clock.",
+      "currentTerminalPayment": "guidance_only / paymentAllowed false.",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED; keep unbound until the historical-window and both age facts are modeled deterministically."
+    },
+    {
+      "category": "age threshold",
+      "state": "HI",
+      "route": "dui-under-21-conviction",
+      "rule": "wait-03",
+      "currentDuration": null,
+      "quotedSource": "The source identifies HRS § 291E-0064(e) for operating a vehicle after consuming a measurable amount of alcohol while under age 21.",
+      "operativeWait": "No elapsed wait is stated; under age 21 is an age-at-offense eligibility threshold.",
+      "currentTerminalPayment": "needs_review / paymentAllowed false.",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED; duration null is preserved and no wait is guessed."
+    },
+    {
+      "category": "document lookback/freshness period",
+      "state": "IA",
+      "route": "nonconviction-901c2",
+      "rule": "wait-03",
+      "currentDuration": "30 days; a null correction was tested then reverted because the prohibited shared binding provenance duplicates 30 days",
+      "quotedSource": "An official Iowa DCI criminal-history check dated within 30 days of filing must be attached.",
+      "operativeWait": "The route's legal waiting rule is wait-01: 180 days from dismissal. The 30 days is document freshness, not a post-disposition wait.",
+      "currentTerminalPayment": "Adversarial override at 122 days: wait-03 produces packet_ready_with_caution / paymentAllowed true while wait-01 produces not_yet / paymentAllowed false. A tested null correction failed closed, but was reverted because the Phase 2 fact-model verifier requires the prohibited shared provenance to change with it.",
+      "disposition": "POTENTIAL_P0_WRONG_LEGAL_OUTCOME_PAYMENT_RISK and SHARED_PHASE2_BLOCKER; recommend an immediate route hold. Ready-to-apply payload: set wait-03.duration to null and remove wait-03 from this route's shared binding/provenance in one reviewed change."
+    },
+    {
+      "category": "probation or sentence term mistaken for elapsed duration",
+      "state": "MI",
+      "route": "automatic-clean-slate-set-aside-under-mcl-780-621g",
+      "rule": "wait-10",
+      "currentDuration": "93 days; a 7-year correction was tested then reverted because the prohibited shared binding provenance duplicates 93 days",
+      "quotedSource": "Automatic — misdemeanor (≥ 93 days 7 years Imposition of sentence",
+      "operativeWait": "7 years from imposition of sentence; 93 days classifies the misdemeanor by maximum sentence and is not the elapsed wait.",
+      "currentTerminalPayment": "guidance_only / paymentAllowed false on the automatic route. A tested seven-year state correction is blocked by the Phase 2 fact-model verifier until the shared provenance moves in the same reviewed change.",
+      "disposition": "SHARED_PHASE2_BLOCKER; hold the affected shared binding. Ready-to-apply payload: duration 7 years, anchor imposition of sentence, and matching shared provenance correction."
+    },
+    {
+      "category": "disqualifying historical window",
+      "state": "ND",
+      "route": "marijuana-specific-summary-pardon-or-sealing-relief",
+      "rule": "wait-03",
+      "currentDuration": "5 years",
+      "quotedSource": "people prosecuted and convicted of misdemeanor marijuana possession, marijuana ingestion, or marijuana paraphernalia who have had no other criminal convictions in the past five years may submit a Summary Pardon Application.",
+      "operativeWait": "A five-year no-other-convictions lookback, not necessarily five years from the marijuana case.",
+      "currentTerminalPayment": "needs_review / paymentAllowed false.",
+      "disposition": "LEGAL_OWNER_DECISION_REQUIRED; keep unbound until the lookback fact is represented."
+    },
+    {
+      "category": "post-filing procedural duration",
+      "state": "ND",
+      "route": "general-conviction-sealing-under-n-d-c-c-chapter-12-60-1",
+      "rule": "wait-04 and duplicate wait-12",
+      "currentDuration": "45 days at base; null after state correction",
+      "quotedSource": "A hearing cannot be held earlier than 45 days after the petition is filed, unless the prosecutor stipulates to sealing without a hearing or on a faster schedule.",
+      "operativeWait": "The eligibility waits are three years for a misdemeanor or five years for a felony. Forty-five days is a post-filing hearing schedule and has a stipulation exception.",
+      "currentTerminalPayment": "Base adversarial override at 122 days: wait-04 produced packet_ready_with_caution / paymentAllowed true while wait-10 produced not_yet / false. After correction wait-04 fails closed as needs_review / false; wait-10 remains not_yet / false.",
+      "disposition": "POTENTIAL_P0_WRONG_LEGAL_OUTCOME_PAYMENT_RISK; deterministic extraction corrected; recommend route hold until the shared binding selects the offense-class wait."
+    },
+    {
+      "category": "post-filing response window",
+      "state": "NV",
+      "route": "general-conviction-record-sealing-under-nrs-179-245",
+      "rule": "wait-09",
+      "currentDuration": "30 days at base; null after state correction",
+      "quotedSource": "If there is no stipulation or objection within 30 days and statutory findings are met, the court may seal without a hearing; if there is an objection, a hearing is required.",
+      "operativeWait": "The eligibility wait depends on offense category; thirty days is the prosecutor's post-petition response window.",
+      "currentTerminalPayment": "Base adversarial override at 122 days: wait-09 produced packet_ready_with_caution / paymentAllowed true while wait-03 (five years) produced not_yet / false. After correction wait-09 fails closed as needs_review / false; wait-03 remains not_yet / false.",
+      "disposition": "POTENTIAL_P0_WRONG_LEGAL_OUTCOME_PAYMENT_RISK; deterministic extraction corrected; recommend route hold pending a shared multi-class binding."
+    },
+    {
+      "category": "one branch of a multi-class rule",
+      "state": "TX",
+      "route": "expunction-for-arrest-with-no-charge-filed-after-the-limitations-period",
+      "rule": "wait-17, wait-15 and wait-21",
+      "currentDuration": "wait-17: immediate/0 days; wait-15 and wait-21: 180 days",
+      "quotedSource": "Class C misdemeanor 180 days from arrest Class A or B misdemeanor 1 year from arrest Felony 3 years from arrest",
+      "operativeWait": "180 days for Class C, one year for Class A/B, or three years for felony, subject to the separately stated immediate-entitlement dispositions.",
+      "currentTerminalPayment": "At 122 days for a Class A probe, wait-17 produced packet_ready_with_caution while wait-06 (one year) produced not_yet. paymentAllowed remained false in both because the Texas payment clamp is preserved.",
+      "disposition": "POTENTIAL_P0_WRONG_LEGAL_OUTCOME_RISK; no current payment opening because of the clamp, but recommend route hold. Do not collapse the class branches into 0 or 180 days."
+    }
+  ],
+  "waitingRuleDispositionSummary": {
+    "assignedFallbackRoutes": 53,
+    "EXPLICIT_BINDING_PROPOSED": 14,
+    "EXPLICIT_CONDITIONAL_BINDING_PROPOSED": 2,
+    "LEGAL_OWNER_DECISION_REQUIRED": 16,
+    "HELD_FOR_CORRECTION": 21,
+    "recommendedActive": 0,
+    "sharedBindingChangesMade": 0
+  },
+  "waitingRuleDispositions": [
+    {"state":"AL","route":"eligible-conviction-expungement-under-the-redeemer-act","current":"needs_review/false","rule":"multi-track 3 years, 180 days, or 15 years","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"AL","route":"human-trafficking-victim-expungement","current":"guidance_only/false","rule":"no route-specific elapsed wait proved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"AL","route":"non-conviction-expungement-under-ala-code-15-27-1-a-and-15-27-2-a","current":"guidance_only/false","rule":"wait-04: 1 year misdemeanor or 5 years felony for without-prejudice branch","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"AL","route":"pardoned-felony-expungement-under-ala-code-15-27-2-c","current":"guidance_only/false","rule":"wait-07/wait-19: 180 days after pardon","disposition":"EXPLICIT_BINDING_PROPOSED"},
+
+    {"state":"FL","route":"administrative-expunction-mistaken-or-unlawful-arrest","current":"guidance_only/false","rule":"on FDLE application; no atomic deterministic wait","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"FL","route":"automatic-sealing-943-0595","current":"guidance_only/false","rule":"by operation of law; no atomic deterministic wait","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"FL","route":"court-ordered-sealing-943-059","current":"guidance_only/false","rule":"wait-07/wait-10: no general elapsed wait; eligibility/completion gates apply","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"FL","route":"early-juvenile-expunction-943-0515","current":"guidance_only/false","rule":"wait-03: five-year clean-history lookback plus age thresholds","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"FL","route":"human-trafficking-victim-expunction-943-0583","current":"needs_review/false","rule":"no route-specific elapsed wait proved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"FL","route":"juvenile-diversion-expunction-943-0582","current":"guidance_only/false","rule":"completion/event condition; no elapsed wait proved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"FL","route":"lawful-self-defense-expunction-943-0578","current":"guidance_only/false","rule":"on prosecutor certification; composite only","disposition":"HELD_FOR_CORRECTION"},
+
+    {"state":"HI","route":"deferred-acceptance-one-year","current":"guidance_only/false","rule":"wait-01: 1 year","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"HI","route":"deferred-prostitution-three-year","current":"guidance_only/false","rule":"wait-02: 3 years","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"HI","route":"dui-under-21-conviction","current":"needs_review/false","rule":"wait-03 is an age threshold, not an elapsed wait","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"HI","route":"first-time-drug-conviction","current":"needs_review/false","rule":"no route-specific elapsed wait proved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"HI","route":"nonconviction-arrest-expungement","current":"packet_ready_with_caution/true","rule":"no elapsed wait proved; UX-LEGAL-001 remains open","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+
+    {"state":"IA","route":"minor-prostitution-7251","current":"guidance_only/false","rule":"two-year historical condition needs a modeled fact","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"IA","route":"misdemeanor-901c3","current":"needs_review/false","rule":"wait-02: 8 years","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"IA","route":"public-intoxication-12346","current":"needs_review/false","rule":"two-year historical condition needs a modeled fact","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"IA","route":"underage-alcohol-12347","current":"needs_review/false","rule":"two-year historical condition needs a modeled fact","disposition":"HELD_FOR_CORRECTION"},
+
+    {"state":"MI","route":"automatic-clean-slate-set-aside-under-mcl-780-621g","current":"guidance_only/false","rule":"misdemeanor wait-10: 7 years; felony wait-11: 10 years; unsure conservatively 10 years","disposition":"EXPLICIT_CONDITIONAL_BINDING_PROPOSED"},
+    {"state":"MI","route":"first-offense-owi-set-aside-by-application","current":"needs_review/false","rule":"wait-08: 5 years from latest sentence event","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"MI","route":"human-trafficking-related-set-aside-application","current":"guidance_only/false","rule":"any time/no wait appears only in a composite rule","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"MI","route":"set-aside-by-application-under-mcl-780-621","current":"guidance_only/false","rule":"3, 5, or 7 years by conviction class/count; route lacks deterministic branch facts","disposition":"HELD_FOR_CORRECTION"},
+
+    {"state":"ND","route":"deferred-imposition-dismissal-and-sealing","current":"packet_ready_with_caution/true","rule":"on successful completion; no atomic elapsed wait","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"ND","route":"dui-record-sealing-under-the-separate-dui-statute","current":"needs_review/false","rule":"wait-13: 7 years","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"ND","route":"first-offense-possession-sealing","current":"needs_review/false","rule":"wait-01/wait-02: 2 years","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"ND","route":"general-conviction-sealing-under-n-d-c-c-chapter-12-60-1","current":"needs_review/false","rule":"misdemeanor wait-10: 3 years; felony wait-11: 5 years; unsure conservatively 5 years","disposition":"EXPLICIT_CONDITIONAL_BINDING_PROPOSED"},
+    {"state":"ND","route":"marijuana-specific-summary-pardon-or-sealing-relief","current":"needs_review/false","rule":"wait-03: five-year no-other-convictions lookback","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"ND","route":"non-conviction-court-record-closing-under-n-d-c-c-12-60-1-05","current":"needs_review/false","rule":"effective-date split: 61 days versus pre-2025 petition/processing rules","disposition":"HELD_FOR_CORRECTION"},
+
+    {"state":"NV","route":"controlled-substance-possession-sealing-under-nrs-453-3365","current":"guidance_only/false","rule":"wait-13: 3 years","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"NV","route":"deferred-judgment-dismissal-and-sealing-under-nrs-176-211","current":"needs_review/false","rule":"on completion/dismissal; no atomic elapsed wait","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"NV","route":"general-conviction-record-sealing-under-nrs-179-245","current":"needs_review/false","rule":"multiple offense-category waits; current public facts cannot select every branch","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"NV","route":"non-conviction-record-sealing","current":"needs_review/false","rule":"immediate dismissal/acquittal versus declined prosecution limitations/8-year/stipulation branches","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"NV","route":"probation-or-specialty-court-dismissal-set-aside-sealing","current":"needs_review/false","rule":"immediate fulfillment versus 7-year DV/DUI branches","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"NV","route":"reentry-program-sealing-under-nrs-179-259","current":"guidance_only/false","rule":"wait-12: 4 years","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"NV","route":"trafficking-victim-vacatur-and-sealing-under-nrs-179-247","current":"needs_review/false","rule":"no route-specific elapsed wait proved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+
+    {"state":"RI","route":"path-a-first-offender-conviction-expungement","current":"needs_review/false","rule":"repository authority deliberately unresolved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"RI","route":"path-b-multiple-misdemeanor-expungement","current":"needs_review/false","rule":"repository authority deliberately unresolved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"RI","route":"path-c-deferred-sentence-expungement","current":"needs_review/false","rule":"repository authority deliberately unresolved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"RI","route":"path-d-non-conviction-sealing-expungement","current":"needs_review/false","rule":"repository authority deliberately unresolved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"RI","route":"path-e-filed-complaint-relief-under-12-10-12","current":"needs_review/false","rule":"repository authority deliberately unresolved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"RI","route":"path-f-marijuana-possession-expungement","current":"needs_review/false","rule":"repository authority deliberately unresolved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"RI","route":"path-g-decriminalized-offense-expungement","current":"needs_review/false","rule":"repository authority deliberately unresolved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+    {"state":"RI","route":"path-h-commercial-sexual-activity-related-expungement","current":"needs_review/false","rule":"repository authority deliberately unresolved","disposition":"LEGAL_OWNER_DECISION_REQUIRED"},
+
+    {"state":"TX","route":"automatic-nondisclosure-for-qualifying-nonviolent-misdemeanor-deferred-adjudication-411-07","current":"guidance_only/false","rule":"wait-14: no elapsed wait for qualifying ordinary misdemeanor","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"TX","route":"expunction-after-acquittal-not-guilty-disposition-chapter-55a","current":"guidance_only/false","rule":"streamlined 30th-day procedure is not represented by a safe atomic rule","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"TX","route":"expunction-after-pardon-or-actual-innocence-relief","current":"guidance_only/false","rule":"wait-22: immediate entitlement","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"TX","route":"expunction-after-qualifying-class-c-deferred-disposition","current":"guidance_only/false","rule":"wait-22: immediate entitlement after qualifying disposition","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"TX","route":"expunction-after-qualifying-dismissal-or-quash","current":"guidance_only/false","rule":"wait-22: immediate entitlement for qualifying dismissal","disposition":"EXPLICIT_BINDING_PROPOSED"},
+    {"state":"TX","route":"expunction-for-arrest-with-no-charge-filed-after-the-limitations-period","current":"needs_review/false","rule":"180 days Class C; 1 year Class A/B; 3 years felony","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"TX","route":"first-offense-dwi-nondisclosure","current":"needs_review/false","rule":"2 years with interlock or 5 years without; interlock fact absent","disposition":"HELD_FOR_CORRECTION"},
+    {"state":"TX","route":"petitioned-nondisclosure-after-completed-deferred-adjudication-411-0725","current":"guidance_only/false","rule":"no wait ordinary misdemeanor versus 5 years enumerated/felony; exact branch fact absent","disposition":"HELD_FOR_CORRECTION"}
+  ],
+  "potentialP0RisksAndHolds": [
+    {"state":"IA","route":"nonconviction-901c2","risk":"A document-freshness duration can open payment before the 180-day dismissal wait.","statusAfterShard":"Risk remains because the safe state correction cannot land without a prohibited shared provenance/binding correction. Exact joint payload is preserved above.","recommendation":"HOLD"},
+    {"state":"ND","route":"general-conviction-sealing-under-n-d-c-c-chapter-12-60-1","risk":"A post-filing 45-day hearing window could open payment before the 3/5-year eligibility wait.","statusAfterShard":"Both duplicate procedural durations are null and fail closed; shared binding still needs correction.","recommendation":"HOLD"},
+    {"state":"NV","route":"general-conviction-record-sealing-under-nrs-179-245","risk":"A post-petition 30-day response window could open payment before the offense-class eligibility wait.","statusAfterShard":"The procedural duration is null and fails closed; shared binding still needs correction.","recommendation":"HOLD"},
+    {"state":"TX","route":"expunction-for-arrest-with-no-charge-filed-after-the-limitations-period","risk":"The composite rule's first/immediate branch can produce a packet-ready legal outcome before the Class A/B or felony wait.","statusAfterShard":"Texas payment remains clamped false; wrong-legal-outcome risk remains.","recommendation":"HOLD"}
+  ],
+  "explicitBindingFidelityFindings": [
+    {"state":"FL","route":"court-ordered-expunction-943-0585","finding":"The shared binding combines certificate-validity, early-juvenile lookback, and bridge-rule durations; longest-rule selection is route-incoherent.","recommendation":"HOLD_FOR_SHARED_BINDING_CORRECTION"},
+    {"state":"IA","route":"nonconviction-901c2","finding":"The shared binding includes the misdemeanor eight-year rule and the DCI report freshness rule with the 180-day nonconviction rule.","recommendation":"HOLD_FOR_SHARED_BINDING_CORRECTION"},
+    {"state":"MI","route":"misdemeanor-marijuana-set-aside-under-mcl-780-621e","finding":"The shared binding combines penalty thresholds, application waits, automatic waits, and no-wait text; longest-rule selection is not route-specific.","recommendation":"HOLD_FOR_SHARED_BINDING_CORRECTION"}
+  ],
+  "stateSignoff": {
+    "AL": {"changed": [], "deliberatelyNotChanged": ["shared wait bindings", "court projection/renderer"], "legalOpen": ["multi-track Redeemer Act wait", "without-prejudice misdemeanor/felony branch"], "movedFlowOutcomes": []},
+    "FL": {"changed": ["source-backed controlled filing-target payload only"], "deliberatelyNotChanged": ["public profile county/court types", "shared projection/renderer/parity delta"], "legalOpen": ["early-juvenile lookback and age model", "administrative/automatic/self-defense event branches"], "movedFlowOutcomes": []},
+    "HI": {"changed": [], "deliberatelyNotChanged": ["UX-LEGAL-001 legal question", "route-specific question lifecycle"], "legalOpen": ["whether exclusion and shortest-timing answers can safely leave nonconviction packet-ready", "under-21 route preconditions"], "movedFlowOutcomes": []},
+    "IA": {"changed": [], "attemptedAndReverted": ["wait-03 duration 30 days to null; blocked by matching prohibited shared provenance"], "deliberatelyNotChanged": ["shared binding and current profile behavior"], "legalOpen": ["two-year historical conditions for three special routes"], "movedFlowOutcomes": []},
+    "MI": {"changed": [], "attemptedAndReverted": ["wait-10 duration 93 days to 7 years and anchor to imposition of sentence; blocked by matching prohibited shared provenance"], "deliberatelyNotChanged": ["shared binding and current profile behavior"], "legalOpen": ["application-route 3/5/7-year branch facts"], "movedFlowOutcomes": []},
+    "ND": {"changed": ["wait-04 and wait-12 duration 45 days to null because they are post-filing hearing windows"], "deliberatelyNotChanged": ["shared binding"], "legalOpen": ["effective-date split for nonconviction closing", "marijuana five-year historical window"], "movedFlowOutcomes": [{"route":"general-conviction-sealing-under-n-d-c-c-chapter-12-60-1","scenario":"hidden wait-04 override at 122 days","before":"packet_ready_with_caution/true","after":"needs_review/false"}]},
+    "NV": {"changed": ["wait-09 duration 30 days to null because it is a post-petition response window"], "deliberatelyNotChanged": ["shared binding"], "legalOpen": ["general sealing offense-class branch model", "nonconviction and specialty-court event branches"], "movedFlowOutcomes": [{"route":"general-conviction-record-sealing-under-nrs-179-245","scenario":"hidden wait-09 override at 122 days","before":"packet_ready_with_caution/true","after":"needs_review/false"}]},
+    "RI": {"changed": [], "deliberatelyNotChanged": ["all held legal decisions", "current fail-closed behavior"], "legalOpen": ["waiting rule for every assigned Rhode Island route"], "movedFlowOutcomes": []},
+    "TX": {"changed": [], "deliberatelyNotChanged": ["payment clamp", "shared binding", "multi-class arrest-only rule"], "legalOpen": ["Class A/B/felony arrest-only branch", "DWI interlock branch", "411.0725 enumerated/felony branch"], "movedFlowOutcomes": []}
+  },
+  "acceptanceTests": {
+    "status": "SHARD_PASS_WITH_RECORDED_BASELINE_AND_ENVIRONMENT_BLOCKERS",
+    "passed": [
+      "node scripts/verify-rcap-evaluator-all51-provability.mjs",
+      "node scripts/verify-public-profile-projection.mjs",
+      "node scripts/verify-expungement-dtc-flow-unchanged.mjs",
+      "node scripts/expungement-ai/phase2/verify-expungement-fact-model.mjs",
+      "node scripts/expungement-ai/phase2/verify-jurisdiction-slug-routes.mjs",
+      "node scripts/verify-expungement-plain-language-values.mjs",
+      "node scripts/verify-rcap-md-pardon-pathway.mjs",
+      "npm run lint (0 errors; 62 pre-existing warnings)",
+      "npm run typecheck (clean transient compiler cache)",
+      "git diff --check"
+    ],
+    "phase2Record": {
+      "command": "node scripts/expungement-ai/phase2/build-phase2-record.mjs",
+      "exit": 0,
+      "measuredDifferences": 8,
+      "unexplainedDifferences": 0,
+      "note": "The command rewrote only prohibited Phase 2 record heads from 288b0d9a to 93e05e94; those generated rewrites were reverted and are not carried by this shard."
+    },
+    "documentedBaselineFailures": [
+      {"command":"node scripts/expungement-ai/flow-audit/build-flow-manifest.mjs --check","exit":1,"reason":"committed Phase 1 artifact is intentionally stale at the Phase 2 product base"},
+      {"command":"node scripts/expungement-ai/flow-audit/build-question-inventory.mjs --check","exit":1,"reason":"committed Phase 1 artifact is intentionally stale at the Phase 2 product base"},
+      {"command":"node scripts/expungement-ai/flow-audit/build-branch-coverage.mjs --check","exit":1,"reason":"committed Phase 1 artifact is intentionally stale and the witness ledger was deliberately returned to product base"},
+      {"command":"node scripts/expungement-ai/flow-audit/build-ui-reachability.mjs --check","exit":1,"reason":"committed Phase 1 artifact is intentionally stale at the Phase 2 product base"},
+      {"command":"node scripts/expungement-ai/flow-audit/verify-flow-audit.mjs","exit":1,"reason":"31/33 pass; FA-17 sees the pre-existing Phase 2 product changes and FA-21 sees the four documented stale artifacts plus static-findings"},
+      {"command":"node scripts/verify-rcap-reachability-evidence.mjs","exit":1,"reason":"284/284 paths correct, but 42 pre-existing fixture/registry differences remain because the prohibited witness fixtures predate the shared Phase 2 changes"}
+    ],
+    "boundedBrowserAttempt": {
+      "command":"EXPAI_FLOW_AUDIT_JURISDICTIONS=FL node tests/e2e/expungement-ai/flow-audit/crawl-screening-flows.mjs",
+      "exit":1,
+      "exactBlocker":"EXPAI_FLOW_AUDIT_BASE_URL is required. Point it at a staging or local origin, never production.",
+      "retries":0,
+      "otherJurisdictionsNotRun":"Programme instruction permits one bounded state attempt and forbids repeated browser-environment retries."
+    }
+  }
+}

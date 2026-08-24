@@ -104,3 +104,10 @@ docs/expungement-ai/flow-audit/state-reports/AL.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 Shard 2 disposition
+
+- `UX-COURT-001`: one bounded Florida state attempt proved the projection, parity approval, and manual-entry renderer are shared dependencies. Alabama court work is classified `SHARED_PHASE2_BLOCKER`; no shared path was changed.
+- `wait-04` is not safely represented by its extracted one year. Its own text says “more than 1 year (misdemeanor) or 5 years (felony)” and limits that clock to dismissals without prejudice. Keep the non-conviction fallback route on hold pending a deterministic branch binding.
+- The pardoned-felony route has a source-backed 180-day proposal. The other two Alabama fallbacks remain legal-owner decisions. No route is recommended active.
+- Full per-route terminal/payment and source evidence: `data/expungement-ai/flow-audit/shard-results/SHARD-2.json`.

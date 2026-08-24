@@ -100,3 +100,9 @@ docs/expungement-ai/flow-audit/state-reports/NV.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 Shard 2 disposition
+
+- `wait-09` describes no stipulation or objection “within 30 days” after the petition. That is a prosecutor response window, not an eligibility wait; its structured duration is now null.
+- At a 122-day probe, forcing `wait-09` previously returned `packet_ready_with_caution`/true while the operative five-year offense-class rule returned `not_yet`/false. The corrected procedural rule now fails closed. Classify as a potential P0 payment risk and hold general conviction sealing until the shared binding is route- and class-specific.
+- Controlled-substance three-year and reentry four-year proposals are explicit. The other five fallback routes remain held or require a legal-owner decision. Court work is `SHARED_PHASE2_BLOCKER`.

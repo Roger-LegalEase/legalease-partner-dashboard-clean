@@ -108,3 +108,10 @@ docs/expungement-ai/flow-audit/state-reports/HI.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 Shard 2 disposition
+
+- `wait-03` quotes an under-age-21 offense threshold. It states no elapsed waiting period, and its structured duration remains null.
+- The one-year deferred-acceptance and three-year deferred-prostitution routes have explicit proposals. The DUI-under-21 and first-drug routes remain legal-owner decisions.
+- The nonconviction route currently reaches `packet_ready_with_caution` with payment allowed. Because `UX-LEGAL-001` still asks counsel to confirm that the exclusion list and shortest timing bucket do not bind this route, recommend a hold rather than activation.
+- Court selection remains `SHARED_PHASE2_BLOCKER`; no shared path was changed. Details are in `SHARD-2.json`.

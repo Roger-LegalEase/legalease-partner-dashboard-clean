@@ -100,3 +100,10 @@ docs/expungement-ai/flow-audit/state-reports/IA.md
 ```
 
 Shared paths are Phase 2's and are listed in `data/expungement-ai/flow-audit/shard-assignment.json` under `prohibitedSharedPaths`.
+
+## Phase 3 Shard 2 disposition
+
+- `wait-03` says only that a DCI history check must be dated within 30 days of filing. Its 30-day structured duration is document freshness, not eligibility. A null state correction failed closed as intended, but the Phase 2 verifier requires matching edits to prohibited shared binding provenance, so the state edit was reverted and the joint payload was preserved in `SHARD-2.json`.
+- At a 122-day dismissal probe, forcing `wait-03` returns `packet_ready_with_caution` with payment allowed while the operative `wait-01` 180-day rule returns `not_yet` with payment blocked.
+- This potential P0 wrong-legal-outcome/payment path remains open. Hold `nonconviction-901c2` until its shared binding and state duration are corrected together.
+- The eight-year misdemeanor proposal is explicit; three two-year historical-window routes remain held. County/court selector work is `SHARED_PHASE2_BLOCKER`. Full evidence is in `SHARD-2.json`.
