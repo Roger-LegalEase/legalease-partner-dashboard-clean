@@ -1,0 +1,432 @@
+{
+  "reviewVersion": 1,
+  "reviewType": "independent_security_re_review",
+  "subject": "RCAP internal admin authorization hardening - corrected candidate",
+  "candidateSha": "fc8a391a355bfd94cc494ea5da058482c76e5534",
+  "priorCandidateSha": "c1b65603eba80c19f48919f70ae7cccfb3f5c026",
+  "baseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "implementationBranch": "codex/rcap-internal-admin-auth-hardening",
+  "reviewBranch": "codex/review-rcap-internal-admin-fc8a391a",
+  "priorReviewBranch": "codex/review-rcap-internal-admin-c1b65603",
+  "priorReviewHead": "9dcf3decd322e2ec6c8587e9270e7fc9011feba5",
+  "priorVerdict": "CORRECTION_REQUIRED",
+  "reviewerIsImplementer": false,
+  "implementationModified": false,
+  "implementationTestsModified": false,
+  "findingsRepaired": false,
+  "migrationApplied": false,
+  "productionAccessed": false,
+  "rogerAccountsChanged": false,
+  "sessionsRevoked": false,
+  "merged": false,
+  "deployed": false,
+  "inputIntegrity": {
+    "candidateExistsRemotely": true,
+    "candidateIsExactBranchHead": true,
+    "priorCandidateIsAncestor": true,
+    "baseIsAncestor": true,
+    "trackedWorktreeCleanAtStart": true,
+    "mergeOrRebaseInProgress": false
+  },
+  "correctionCommits": [
+    {
+      "sha": "8f4c9982",
+      "subject": "security: close redirect and sign-out request boundaries"
+    },
+    {
+      "sha": "05091088",
+      "subject": "security: harden remediation receipts and lockout guarantees"
+    },
+    {
+      "sha": "fc8a391a",
+      "subject": "test: wire security verifiers and correct authority inventory"
+    }
+  ],
+  "changedPathCount": 18,
+  "priorFindings": [
+    {
+      "id": "prior-1",
+      "title": "security verifiers absent from the disposition record and not guaranteed to run in CI",
+      "status": "CLOSED",
+      "evidence": {
+        "dispositionCount": "342/342",
+        "baseDispositionCount": "340/340",
+        "priorDispositionsRemoved": 0,
+        "humanRationaleRewritten": false,
+        "onlyOtherEntryChanged": "verify-command-center-summary.mjs keep_available->wired, decidedBy stayed 'generated'",
+        "regenerationByteIdentical": true,
+        "inDefaultNpmTestChain": [
+          "scripts/test-internal-admin-rls-hardening.mjs",
+          "scripts/verify-internal-admin-security-tools.mjs",
+          "scripts/security/test-auth-redirect-security.mjs",
+          "scripts/security/test-sign-out-origin.mjs",
+          "scripts/security/test-internal-admin-remediation.mjs",
+          "scripts/verify-command-center-summary.mjs"
+        ],
+        "inFocusedChain": "security:test-internal-admin runs all seven including verify-internal-admin-browser-access.mjs",
+        "rlsMutationControls": 3,
+        "toolGuardrailMutationControls": 4,
+        "mutationControlMechanismValidatedByReviewer": true,
+        "newSecurityScriptsOutsideRegisterScope": "scripts/security/* is outside the generator's top-level scripts/ scan by pre-existing design; wired explicitly instead"
+      }
+    },
+    {
+      "id": "prior-2",
+      "title": "safeAppRedirectPath accepted a backslash-based local-looking path",
+      "status": "CLOSED",
+      "evidence": {
+        "independentAdversarialCases": 33,
+        "allRejected": true,
+        "anyReturnedValueResolvingOffOrigin": false,
+        "legitimateDeepLinksPreserved": 8,
+        "nestedDeepLinkCorrectionRegressed": false,
+        "controls": [
+          "slash-initial required",
+          "// rejected",
+          "backslash rejected",
+          "C0/DEL control characters rejected",
+          "scheme prefix rejected",
+          "up to 8 decode passes re-checking shape",
+          "malformed escape fails closed",
+          "raw value parsed against sentinel origin with origin/username/password checks"
+        ]
+      }
+    },
+    {
+      "id": "prior-3",
+      "title": "remediation receipt default was inside a tracked repository directory",
+      "status": "CLOSED",
+      "evidence": {
+        "defaultPathExists": false,
+        "dryRunWritesReceipt": false,
+        "applyRequiresExplicitOutput": true,
+        "repositoryRootRefused": true,
+        "gitDirRefused": true,
+        "trackedPathRefused": true,
+        "unignoredRepositoryPathRefused": true,
+        "symlinkTraversalRefused": true,
+        "silentOverwriteRefused": true,
+        "gitignoredRuntimePathSucceedsInFixture": true,
+        "restrictivePermissions": "0600 via wx open plus fchmod; O_NOFOLLOW on rewrite",
+        "receiptContainsEmail": false,
+        "receiptContainsTokenKeyCookieJwtOrSession": false,
+        "receiptAuditFields": [
+          "receiptVersion",
+          "operationId",
+          "status",
+          "timestamp",
+          "startedAt",
+          "completedAt",
+          "targetUserUuids",
+          "mode",
+          "beforeRoleState",
+          "afterRoleState",
+          "actionsPlanned",
+          "actionsAttempted",
+          "actionsCompleted",
+          "sessionRevocation",
+          "operatorIdentity",
+          "tool.path",
+          "tool.candidateSha",
+          "authUsersDeleted",
+          "authEmailsChanged"
+        ],
+        "generatedReceiptCommitted": false,
+        "runbookNamesSafeDestination": true
+      }
+    },
+    {
+      "id": "prior-4",
+      "title": "authorization inventory omitted COMMAND_CENTER_API_KEY access to GET /api/metrics/signups",
+      "status": "CLOSED",
+      "evidence": {
+        "inventoryEntryPresent": true,
+        "recordedFields": [
+          "route",
+          "sourceFile",
+          "authority",
+          "authenticationMechanism",
+          "returnedDataClass",
+          "aggregateOnly",
+          "queryShape",
+          "tenantScope",
+          "rateLimiting",
+          "personalDataPresent",
+          "partnerLevelDataPresent",
+          "matterDataPresent",
+          "paymentRecordDataPresent",
+          "paymentDerivedAggregatePresent",
+          "participantDataPresent",
+          "canInvokeInternalAction",
+          "internalAdminBoundary",
+          "internalAdminBoundaryReason",
+          "lifecycle"
+        ],
+        "routeUnchangedFromPriorCandidate": true,
+        "exposesOnlyAggregateRegisteredPaidCounts": true,
+        "exposesUserEmailPartnerMatterPaymentOrParticipantData": false,
+        "canInvokeInternalMutation": false,
+        "continuedUseOwnerRecorded": "explicitly none recorded in repository; audit doc requires assignment before change or retirement",
+        "inventoryRegressionTestFailsWhenRouteOmitted": true,
+        "negativeTestExitCode": 1,
+        "negativeTestFirstFailure": "COMMAND_CENTER_API_KEY inventory mismatch: map=none; source=GET /api/metrics/signups"
+      }
+    },
+    {
+      "id": "prior-5",
+      "title": "Sign Out route lacked a same-origin/CSRF boundary",
+      "status": "NOT_CLOSED",
+      "severity": "blocker",
+      "regressionAgainstPriorCandidate": true,
+      "evidence": {
+        "checkAddedAndCorrectlyOrdered": true,
+        "unsafeRequestMutatesSession": false,
+        "getMutates": false,
+        "denialExposesSessionOrPartnerData": false,
+        "redirectStaysLocal": true,
+        "returnToOpenRedirectIntroduced": false,
+        "shellSignOutSucceedsInBrowser": false,
+        "denialPageSignOutSucceedsInBrowser": false,
+        "rootCause": "src/proxy.ts sets Referrer-Policy: no-referrer on every /internal* response; per Fetch spec a non-CORS non-GET/HEAD request from such a document serializes Origin as null, so isFirstAdminSameOriginRequest() rejects the app's own form POSTs",
+        "browserEvidence": {
+          "tool": "pre-installed Chromium via Playwright against a local throwaway HTTP server",
+          "controlDocumentFormPost": {
+            "origin": "real origin",
+            "referer": "present"
+          },
+          "noReferrerDocumentFormPost": {
+            "origin": "null",
+            "referer": "absent"
+          },
+          "noReferrerDocumentFetchPost": {
+            "origin": "real origin",
+            "referer": "absent"
+          }
+        },
+        "affectedControls": [
+          "src/app/internal/layout.tsx:56",
+          "src/lib/partners/internal-admin-gate.tsx:78",
+          "src/lib/partners/internal-admin-gate.tsx:86",
+          "src/components/content/admin/ContentDenied.tsx:27",
+          "src/components/content/admin/ContentDenied.tsx:35"
+        ],
+        "unaffected": [
+          "src/components/expungement-ai/ConsumerNav.tsx:85 (not under /internal)",
+          "fetch()-based internal APIs such as /internal/partner-users/invite"
+        ],
+        "whyCandidateSuiteIsGreen": "scripts/security/test-sign-out-origin.mjs asserts Origin: null -> 403 and verify-internal-admin-browser-access.mjs injects a synthetic same-origin Origin header; neither reproduces the header a browser sends from these pages"
+      }
+    },
+    {
+      "id": "prior-6",
+      "title": "vacuous plannedActive.size lockout check",
+      "status": "CLOSED",
+      "evidence": {
+        "postPlanSetFromActualRoleState": true,
+        "postApplySetFromActualRoleState": true,
+        "postPlanCheckVacuousInRevokeMode": false,
+        "postPlanCheckVacuousInGrantMode": true,
+        "refusesZeroAdministrators": true,
+        "refusesOnlyAdministratorIsGmail": true,
+        "refusesUnverifiedCorporate": true,
+        "refusesPartnerScopedCorporate": true,
+        "refusesBannedCorporate": true,
+        "failedCorporateGrantPreventsGmailDisable": true,
+        "refusesSameUuid": true,
+        "refusesAmbiguousResolution": true,
+        "allowsConfirmedCorporateGrant": true,
+        "allowsGmailRemovalLeavingCorporate": true,
+        "allowsTwoIndependentRecoveryAdministrators": true,
+        "corporateGrantPrecedesGmailRemoval": true,
+        "corporateAccessConfirmationRequiredForAppliedRevoke": true,
+        "inactiveOrPartnerScopedRowsCounted": false,
+        "metadataEmailDomainOrContentRolesCounted": false,
+        "authUsersDeleted": false,
+        "auditHistoryPreserved": true
+      }
+    }
+  ],
+  "architecturePreserved": {
+    "canonicalFilesByteIdenticalToPriorCandidate": [
+      "src/lib/partners/session-partner.ts",
+      "src/lib/partners/internal-admin-gate.tsx",
+      "src/lib/content/auth.ts",
+      "src/proxy.ts",
+      "src/app/internal/layout.tsx",
+      "src/app/internal/content/layout.tsx",
+      "src/components/content/admin/ContentDenied.tsx",
+      "src/lib/observability/logger.ts",
+      "src/app/api/internal/analytics/summary/route.ts",
+      "src/app/api/internal/partners/provisioning/route.ts",
+      "src/app/api/internal/pilot-requests/status/route.ts",
+      "src/app/internal/partner-users/invite/route.ts",
+      "supabase/migrations/20260823171000_internal_admin_authority_hardening.sql"
+    ],
+    "internalPages": {
+      "total": 39,
+      "guarded": 39
+    },
+    "internalRouteHandlers": {
+      "total": 33,
+      "guarded": 33
+    },
+    "surfaceUnchangedAcrossShas": true,
+    "serverActions": 0,
+    "emailStringAuthority": false,
+    "emailDomainAuthority": false,
+    "partnerAdminGrantsInternal": false,
+    "contentAdminUsersGrantsInternal": false,
+    "metadataOrClaimAuthority": false,
+    "dataLoadedBeforeAuthorization": false
+  },
+  "rlsMigration": {
+    "byteIdenticalToReviewedMigration": true,
+    "onlyMigrationTouchedByBranch": true,
+    "pgliteSuite": "pass",
+    "contentRolePrivilegedOnlyViaIsInternalAdmin": true,
+    "wilmaSelectOnlyViaIsInternalAdmin": true,
+    "supportUsingAndWithCheckViaIsInternalAdmin": true,
+    "contentRoleAloneDenied": true,
+    "inactiveInternalAdminDenied": true,
+    "partnerRoleDenied": true,
+    "serviceRolePreserved": true,
+    "publicViewPreserved": true,
+    "tenantIsolationPreserved": true,
+    "crossTenantDenied": true,
+    "historicalRowsUnchanged": true,
+    "dml": false,
+    "appliedToProduction": false
+  },
+  "authorizationMatrix": {
+    "focusedSuite": "scripts/verify-internal-admin-browser-access.mjs 31/31 pass",
+    "problemClassRegressionConfirmed": true,
+    "signOutRowValidOnlyUnderSyntheticHeaders": true
+  },
+  "tests": {
+    "verifyInternalAdminBrowserAccess": "pass",
+    "testAuthRedirectSecurity": "pass",
+    "testSignOutOrigin": "pass (synthetic; see prior-5)",
+    "testInternalAdminRlsHardening": "pass",
+    "verifyInternalAdminSecurityTools": "pass",
+    "testInternalAdminRemediation": "pass",
+    "verifyCommandCenterSummary": "pass",
+    "verifyContentCmsAccess": "pass",
+    "verifyLaunchReadiness": "pass",
+    "verifyRcapVerifierDispositions": "pass 342/342",
+    "typecheck": "pass",
+    "lint": "pass_zero_errors_102_preexisting_warnings",
+    "browserAcceptance": "not_run_environment_blocked",
+    "realDatabaseTests": "not_run_environment_blocked",
+    "fullNpmTest": "fail",
+    "fullNpmTestDetail": "runs to node scripts/generate-rcap-staging-action.mjs --check and stops there; every earlier step passes including verifier dispositions 342/342, all six newly wired security suites, and the Phase 52 suites (12/12 mutations red). That gate is the sole failure in the run; the tree was left clean.",
+    "fullNpmTestSoleFailure": "node scripts/generate-rcap-staging-action.mjs --check"
+  },
+  "npmTestAttribution": {
+    "classification": "CANDIDATE_CAUSED",
+    "failingCommand": "node scripts/generate-rcap-staging-action.mjs --check",
+    "firstAssertion": "imageInputFingerprintBaseSha 57318c20 is not image-input-equivalent to HEAD; the fingerprint is stale and must be regenerated",
+    "secondAssertion": "worker publication evidence was built from 57318c20 and must be republished at the freeze",
+    "filesRead": [
+      "data/rcap-staging-action.json",
+      "data/rcap-authorization-queue.json",
+      "supabase/phase-*.sql (pinned sequence)",
+      "worker publication evidence",
+      "git trees for package.json, package-lock.json, tsconfig.json, scripts/rcap-render-worker.mjs, scripts/lib/, src/, deploy/rcap-render-worker/Dockerfile"
+    ],
+    "filesACorrectionWouldModify": [
+      "data/rcap-staging-action.json",
+      "worker publication evidence / republished worker image"
+    ],
+    "failsAtPriorCandidate": true,
+    "failsAtBase": false,
+    "baseCheckResult": "exit 0 - staging action current, 7 migrations, 7 required environment values still unpopulated",
+    "changedImageInputPathsVsRecordedBase": {
+      "dd935798": 0,
+      "c1b65603": 19,
+      "fc8a391a": 20
+    },
+    "candidateChangedScriptOrGenerator": false,
+    "candidateChangedExpectedOutput": false,
+    "candidateChangedInputs": true,
+    "correctionBelongsToInternalAdminSecurityLane": false,
+    "deploymentEvidenceOrFingerprintModifiedByReview": false,
+    "reachedSecuritySuitesInFullRun": true,
+    "priorDispositionBlockerResolvedInFullRun": true
+  },
+  "scope": {
+    "protectedTreesCompared": 23,
+    "protectedTreesUnchanged": 22,
+    "protectedTreesChanged": [
+      "supabase/migrations"
+    ],
+    "protectedTreeChangeExplanation": "differs solely by the single added hardening migration",
+    "unexpectedProductDiff": "none",
+    "passwordsCommitted": false,
+    "tokensCommitted": false,
+    "cookiesCommitted": false,
+    "jwtsCommitted": false,
+    "serviceRoleKeysCommitted": false,
+    "productionDatabaseExportsCommitted": false,
+    "productionUserRecordsCommitted": false,
+    "generatedRemediationReceiptsCommitted": false,
+    "rogerEmailsLocation": "docs/security/rcap-internal-admin-production-remediation.md (permitted runbook); three other occurrences are byte-identical to base and pre-existing"
+  },
+  "findings": [
+    {
+      "id": "finding-A",
+      "severity": "blocker",
+      "title": "internal Sign Out is inert in a real browser",
+      "introducedBy": "8f4c9982",
+      "regressionAgainstPriorCandidate": true,
+      "detail": "Referrer-Policy: no-referrer on /internal* forces Origin: null on HTML form POSTs (Chromium-verified); the new same-origin check rejects that, so all five internal Sign Out and switch-account controls return 403.",
+      "suggestedDirections": [
+        "relax the internal referrer policy to same-origin or strict-origin",
+        "add a token or Sec-Fetch-Site based boundary tolerating Origin: null for same-site navigations"
+      ]
+    },
+    {
+      "id": "finding-B",
+      "severity": "blocker",
+      "title": "branch leaves the staging-action fingerprint gate red",
+      "introducedBy": "branch as a whole (present at c1b65603, still present at fc8a391a)",
+      "detail": "generate-rcap-staging-action.mjs --check fails because this branch edits declared image-input paths (src/, scripts/lib/, package.json) without regenerating data/rcap-staging-action.json or republishing the worker image. Passes at base.",
+      "lane": "deployment/release"
+    },
+    {
+      "id": "finding-C",
+      "severity": "informational",
+      "title": "encoded-percent deep links now fall back",
+      "detail": "safeAppRedirectPath rejects an otherwise-legitimate path whose query carries a literal %25 or an encoded backslash. Fail-closed and safe."
+    },
+    {
+      "id": "finding-D",
+      "severity": "informational",
+      "title": "assertPostPlanRecoverySet remains vacuous in grant mode",
+      "detail": "The corporate UUID is unconditionally added in grant mode; harmless because a grant cannot reduce the administrator count, and the revoke path is now non-vacuous."
+    },
+    {
+      "id": "finding-E",
+      "severity": "informational",
+      "title": "non-internal content roles lose CMS access",
+      "detail": "Carried forward and documented as intended; confirm during staging acceptance that no live content operator depends on such a row."
+    }
+  ],
+  "verdicts": {
+    "codeAndStaticSecurityReview": "CORRECTION_REQUIRED",
+    "stagingDatabaseAcceptance": "NOT_PERFORMED_ENVIRONMENT_BLOCKED",
+    "stagingBrowserAcceptance": "NOT_PERFORMED_ENVIRONMENT_BLOCKED",
+    "overall": "CORRECTION_REQUIRED",
+    "exactBlocker": "finding-A",
+    "blockers": [
+      "finding-A",
+      "finding-B"
+    ]
+  },
+  "readiness": {
+    "readyForStagingDatabaseAcceptance": false,
+    "readyForStagingBrowserAcceptance": false,
+    "readyToMerge": false,
+    "readyForClinicModeFoundation": false,
+    "stagingAcceptanceStillMandatoryAfterCorrection": true
+  }
+}
