@@ -1,6 +1,6 @@
 {
   "schemaVersion": "rcap-internal-admin-final-security-and-staging-acceptance/v1",
-  "recordedAt": "2026-08-24T13:36:46Z",
+  "recordedAt": "2026-08-24T16:41:29Z",
   "verdict": "STAGING_ENVIRONMENT_BLOCKED",
   "candidate": {
     "sha": "fc838be7871dc977e0a3e811b801d6c8ee7398e5",
@@ -95,10 +95,39 @@
     "environment": "nonproduction_required",
     "exactCandidateDeploymentsFound": 0,
     "exactCandidateDeploymentStatusesFound": 0,
-    "vercelCredentialAvailableToReviewer": false,
+    "vercelCredentialAvailableToReviewer": true,
+    "vercelCliVersion": "59.5.0",
+    "vercelAuthentication": "success_as_roger947",
+    "vercelScope": "roger947s-projects",
+    "vercelProject": "legalease-partner-dashboard-clean",
+    "vercelProjectId": "prj_cdgwGzFqIHgEUlzEburSLaZETdQV",
+    "existingProjectLinked": true,
+    "projectCreated": false,
+    "gitConnected": false,
+    "candidateWorktree": {
+      "path": "/workspaces/rcap-admin-exact-preview",
+      "head": "fc838be7871dc977e0a3e811b801d6c8ee7398e5",
+      "treeBefore": "91ca2ba3b6e901980bf80b7e4c23aa6399de674c",
+      "treeAfter": "91ca2ba3b6e901980bf80b7e4c23aa6399de674c",
+      "trackedStatusBefore": "clean",
+      "trackedStatusAfter": "clean",
+      "removedAfterPreflight": true
+    },
+    "pulledEnvironment": "preview",
+    "pulledGitBranch": "codex/rcap-internal-admin-release-evidence",
+    "supabaseVariableNamesPresent": true,
+    "nextPublicSupabaseUrlMaterializedEmpty": true,
+    "supabaseSensitiveValuesMaterializedEmpty": true,
+    "readableNonSecretSupabaseProjectRef": null,
+    "expectedAcceptanceProjectRefProven": false,
+    "differentSupabaseProjectRefProven": false,
+    "deploymentAttempted": false,
+    "previewDeploymentCreated": false,
+    "productionDeploymentCreated": false,
+    "environmentVariablesEdited": false,
     "repositoryWorkflowAuthorizedApplicationSha": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
     "repositoryWorkflowAcceptsCandidate": false,
-    "result": "blocked"
+    "result": "blocked_before_deployment_preview_supabase_identity_unproven"
   },
   "browserAcceptance": {
     "exactPreviewRun": false,
@@ -184,5 +213,5 @@
     "productionAccountCutover": false,
     "clinicModeFoundation": false
   },
-  "exactBlocker": "No Preview exists for the exact candidate, the reviewer environment has no authorized Vercel credential, and the existing hosted acceptance workflows reject the candidate because they are frozen to another application SHA. Therefore mandatory real Chromium and deployed direct-request acceptance cannot run without modifying a protected workflow."
+  "exactBlocker": "Vercel CLI authentication and existing-project linking succeeded, but the exact-branch Preview pull materialized the Supabase variables as empty Sensitive values and exposed no non-secret project reference. The reviewer could not prove that the effective Preview environment identified hyflxnlhpmiqxvvcoiia, so the required predeployment safety gate stopped before creating a deployment."
 }

@@ -2,7 +2,7 @@
 
 Verdict: `STAGING_ENVIRONMENT_BLOCKED`
 
-This is the independent final review of candidate `fc838be7871dc977e0a3e811b801d6c8ee7398e5`. The implementation review, exact nonproduction RLS migration, real acceptance-database authorization matrix, worker evidence, and repository checks are green. The gate cannot be approved because no Preview deployment exists for the exact candidate and the available reviewer environment has no authorized Vercel credential. The repository-owned hosted workflows are frozen to application SHA `f7ed0ad3a8f37a0c1446b62760b1a36fb163c926` and reject the candidate SHA, so the required real-browser and deployed direct-request acceptance could not be run without changing a protected workflow.
+This is the independent final review of candidate `fc838be7871dc977e0a3e811b801d6c8ee7398e5`. The implementation review, exact nonproduction RLS migration, real acceptance-database authorization matrix, worker evidence, and repository checks are green. A follow-up Vercel CLI session authenticated successfully and linked only to the existing project, but its pulled Preview configuration did not identify the required acceptance Supabase project. The exact candidate was therefore not deployed, as required by the predeployment safety gate, and real-browser/deployed-request acceptance remains blocked.
 
 ## Frozen input
 
@@ -73,7 +73,7 @@ Service-role insert/read remained functional. Anonymous access to the intentiona
 
 The shared internal layout, page adapters, API/route adapters, UUID-bound session resolver, Sign Out origin checks, redirect helper, content capability consolidation, and remediation tool were independently reviewed. No implementation correction was identified. The focused internal-admin suite passed 31/31, including isolated RLS, guard-before-data, Sign Out origin, redirect mutation, Chromium HTML-control, remediation, receipt, and lockout cases. This local Chromium evidence is static/synthetic evidence and is not treated as exact-Preview acceptance.
 
-Exact candidate deployment discovery returned zero GitHub deployments and zero commit deployment statuses. No exact candidate Preview URL or deployment ID exists. No Vercel credential is available in the reviewer environment. The GitHub-hosted and Vercel-hosted acceptance workflows both set `AUTHORIZED_APPLICATION_SHA` to `f7ed0ad3a8f37a0c1446b62760b1a36fb163c926` and fail any different input. Modifying those protected workflows was outside this review.
+Initial exact candidate deployment discovery returned zero GitHub deployments and zero commit deployment statuses. The GitHub-hosted and Vercel-hosted acceptance workflows both set `AUTHORIZED_APPLICATION_SHA` to `f7ed0ad3a8f37a0c1446b62760b1a36fb163c926` and fail any different input. The later CLI follow-up authenticated successfully but stopped at the independent Preview-environment identity check described below.
 
 Consequently, the following mandatory tests are `NOT RUN — STAGING ENVIRONMENT BLOCKED` for the exact candidate:
 
@@ -123,8 +123,20 @@ The focused suite separately passed refusal and sequencing cases for a missing r
 
 The protected state-remedy, flow-audit, PDF, Briefcase, payment/entitlement, onboarding business-logic, worker source/deployment, and Clinic Mode baselines did not change from `dd93579871962260b12918e54c44cf9bf1e81529`; the only migration addition is the reviewed hardening migration. A tracked-file scan covered 7,719 paths and found no secret/session artifact path. A content scan found no live Stripe secret, webhook secret, GitHub token, Supabase secret, JWT, or Vercel blob token pattern. Launch readiness also found no configured secret value in tracked files. No database dump, production-user export, cookie file, JWT, service-role key, or browser-session file is committed.
 
+## Exact CLI Preview follow-up
+
+On `2026-08-24`, the reviewer preserved review head `58545f4df60b4655d7b48e23fe39dca421110d0a`, created `/workspaces/rcap-admin-exact-preview` as a detached worktree at exactly `fc838be7871dc977e0a3e811b801d6c8ee7398e5`, and confirmed an empty tracked status. Its complete Git tree was `91ca2ba3b6e901980bf80b7e4c23aa6399de674c` before and after the CLI preflight.
+
+Vercel CLI 59.5.0 authenticated as `roger947`. The only available scope was `roger947s-projects`; the existing project list contained `legalease-partner-dashboard-clean`, and `vercel link` linked exactly `roger947s-projects/legalease-partner-dashboard-clean`. It did not create a project or connect Git.
+
+The exact required pull was then run for Preview and branch `codex/rcap-internal-admin-release-evidence`. The generated effective file contained the expected Supabase variable names, but `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, and `ENABLE_SUPABASE_PARTNER_DATA` all materialized as empty quoted values. Vercel classified the Supabase values as Sensitive, and there was no readable non-secret project reference or acceptance-environment identity in the pulled project settings. The CLI therefore could not prove that the effective Preview environment identified `hyflxnlhpmiqxvvcoiia`. The same Vercel environment-variable inventory associated the Supabase entries with both Preview and Production, so no production-safe inference was possible.
+
+The required predeployment identity gate failed before any `vercel deploy` command. No Preview or Production deployment was created, no URL or deployment ID was assigned, and a Vercel query for Preview deployments carrying candidate metadata `githubCommitSha=fc838be7871dc977e0a3e811b801d6c8ee7398e5` returned zero. No environment variable was edited. The temporary worktree and its ignored `.vercel`/`.env.local` runtime material were removed after the clean-tree and tree-hash recheck.
+
+Because no exact Preview was safely created, the previously blocked browser, Sign Out, redirect, direct API, mutation, and guard-before-body tests remain not run. The database migration and worker evidence were not repeated or changed.
+
 ## Final disposition
 
 `STAGING_ENVIRONMENT_BLOCKED`
 
-The candidate is not ready to merge because the required real Chromium and deployed API/mutation acceptance cannot be performed against an exact-SHA Preview with the permissions and frozen workflows available. This is not an approval based on static tests, and no production account cutover, production deployment, Clinic Mode foundation, merge, or production change is authorized.
+The candidate is not ready to merge because the pulled Vercel Preview settings did not provide safe proof that the deployment would use the required acceptance Supabase project. Deployment was correctly stopped before creating a Preview. This is not an approval based on static tests, and no production account cutover, production deployment, Clinic Mode foundation, merge, or production change is authorized.
