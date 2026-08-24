@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "rcap-internal-admin-final-security-and-staging-acceptance/v1",
+  "recordedAt": "2026-08-24T13:36:46Z",
+  "verdict": "STAGING_ENVIRONMENT_BLOCKED",
+  "candidate": {
+    "sha": "fc838be7871dc977e0a3e811b801d6c8ee7398e5",
+    "remoteBranch": "codex/rcap-internal-admin-release-evidence",
+    "exactRemoteHead": true,
+    "containsSecuritySha": true,
+    "trackedInputClean": true,
+    "mergeOrRebaseActive": false
+  },
+  "securityImplementation": {
+    "sha": "646d8969576e33b9ed72d3bca64b33b7e352c452",
+    "pathCount": 36,
+    "manifestSha256AtSecuritySha": "84e3350dc657987cfb995e35fb386a0c3b0d327b3f3318f100b749349e4592af",
+    "manifestSha256AtCandidate": "84e3350dc657987cfb995e35fb386a0c3b0d327b3f3318f100b749349e4592af",
+    "bytesMoved": false,
+    "keyObjects": {
+      "rlsMigration": "768a44905c2b3d2a737dac4d9e22e375abc4e1e3",
+      "signOutTree": "06331ff6c5db87ea1e80730cffd850cbd50ae550",
+      "redirectHelper": "75b7adc0aa862a9502be2b0e1477b72dc52f1691",
+      "remediationTool": "655071197ea61a27614abed8ea654f49e055dd0b"
+    }
+  },
+  "main": {
+    "originalBase": "dd93579871962260b12918e54c44cf9bf1e81529",
+    "currentOriginMain": "dd93579871962260b12918e54c44cf9bf1e81529",
+    "candidateContainsCurrentMain": true
+  },
+  "acceptanceEnvironment": {
+    "projectName": "legalease-rcap-acceptance",
+    "projectRef": "hyflxnlhpmiqxvvcoiia",
+    "region": "us-west-2",
+    "status": "ACTIVE_HEALTHY",
+    "markerStampedAt": "2026-08-21T00:17:19.473711Z",
+    "production": false,
+    "priorMigrationLevel": "public.rcap_acceptance_migration_ledger phases 49 through 55"
+  },
+  "migration": {
+    "path": "supabase/migrations/20260823171000_internal_admin_authority_hardening.sql",
+    "sha256": "3e6db05c24e7ac9248eea2a1d6ee077463579c127fc150321eecfff1cd08bf50",
+    "applicationTimestamp": "2026-08-24T13:04:40.164703Z",
+    "result": "success_applied_once_to_acceptance_only",
+    "unrelatedMigrationsApplied": false,
+    "dataRewriteStatements": false,
+    "preStateProvedNotPreviouslyApplied": true,
+    "rollbackDocumented": true,
+    "rollbackApplied": false,
+    "postIdentity": {
+      "contentCurrentRole": "stable security-definer postgres-owned empty-search-path resolver; privileged result only via public.is_internal_admin()",
+      "wilmaTelemetry": "authenticated SELECT USING (is_internal_admin())",
+      "legalEaseOsSupport": "authenticated ALL USING (is_internal_admin()) WITH CHECK (is_internal_admin())"
+    },
+    "historicalRowsUnchanged": true
+  },
+  "databaseAuthorizationMatrix": {
+    "capturedAt": "2026-08-24T13:08:42.559Z",
+    "checksPassed": 67,
+    "checksTotal": 67,
+    "syntheticOnly": true,
+    "cleanupErrors": 0,
+    "partnerViewerSupported": false,
+    "partnerViewerSubstitute": "content viewer",
+    "identities": {
+      "unauthenticated": "denied",
+      "ordinaryParticipant": "denied",
+      "contentViewer": "denied",
+      "partnerStaff": "denied_internal; same_tenant_preserved",
+      "partnerAdministrator": "denied_internal; same_tenant_preserved",
+      "externalPersonalEmailNoRole": "denied",
+      "corporateDomainNoRole": "denied",
+      "activeGlobalUuidBoundInternalAdministrator": "allowed",
+      "inactiveInternalAdministrator": "denied",
+      "revokedInternalAdministrator": "denied",
+      "contentPrimaryAdminOnly": "denied",
+      "forgedMetadataRole": "denied",
+      "partnerScopedInternalLookingClaim": "denied_internal; tenant_only",
+      "internalRoleWithPartnerScope": "row_refused_by_constraint"
+    },
+    "contentRole": "pass",
+    "wilmaTelemetry": "pass",
+    "supportPolicy": "pass",
+    "serviceRole": "pass",
+    "publicView": "pass",
+    "tenantIsolation": "pass",
+    "crossTenantReadsDenied": true,
+    "crossTenantMutationsDenied": true,
+    "roleManufactureDenied": true
+  },
+  "preview": {
+    "url": null,
+    "deploymentId": null,
+    "sha": null,
+    "environment": "nonproduction_required",
+    "exactCandidateDeploymentsFound": 0,
+    "exactCandidateDeploymentStatusesFound": 0,
+    "vercelCredentialAvailableToReviewer": false,
+    "repositoryWorkflowAuthorizedApplicationSha": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
+    "repositoryWorkflowAcceptsCandidate": false,
+    "result": "blocked"
+  },
+  "browserAcceptance": {
+    "exactPreviewRun": false,
+    "desktop": "not_run_blocked",
+    "mobile": "not_run_blocked",
+    "activeInternalAdministrator": "not_run_blocked",
+    "externalEmailNoRole": "not_run_blocked",
+    "corporateDomainNoRole": "not_run_blocked",
+    "partnerAdministrator": "not_run_blocked",
+    "inactiveOrRevokedAdministrator": "not_run_blocked",
+    "identityDisplay": "not_run_blocked",
+    "roleDisplay": "not_run_blocked",
+    "signOut": "not_run_blocked",
+    "switchAccount": "not_run_blocked",
+    "postSignOutAccess": "not_run_blocked",
+    "crossOriginSignOut": "not_run_blocked",
+    "returnToSafety": "not_run_blocked",
+    "directApiAndMutation": "not_run_blocked",
+    "localSyntheticChromiumControlSuite": "pass_not_a_preview_substitute"
+  },
+  "applicationReview": {
+    "codeReview": "pass_no_correction_identified",
+    "pageGuards": "static_pass; exact_preview_blocked",
+    "apiGuards": "static_pass; exact_preview_blocked",
+    "mutationGuards": "static_pass; exact_preview_blocked",
+    "guardBeforeProtectedData": "static_pass_and_database_denial_pass; exact_preview_blocked"
+  },
+  "remediation": {
+    "capturedAt": "2026-08-24T13:09:56.493Z",
+    "auditTool": "pass_read_only_redacted_synthetic",
+    "dryRun": "pass_no_receipt_no_mutation",
+    "lockoutProtection": "pass",
+    "productionIdentitiesUsed": false,
+    "authUsersDeleted": false,
+    "applied": false
+  },
+  "worker": {
+    "image": "ghcr.io/roger-legalease/rcap-render-worker:646d8969576e33b9ed72d3bca64b33b7e352c452",
+    "publicationRun": 32688658427,
+    "publicationResult": "success",
+    "acceptanceRun": 32723173565,
+    "acceptanceResult": "success",
+    "sourceSha": "646d8969576e33b9ed72d3bca64b33b7e352c452",
+    "digest": "sha256:c1a18b3a9f36f5f7ce0b01268c7bb30242b69cca13cb14bde18281d984098402",
+    "digestPull": "success",
+    "fullShaTagPresent": true,
+    "latestTagPresent": false,
+    "productionWorkerUpdated": false,
+    "evidenceManifestSha256": "e54e8f50c41053aab32af016340566ae00e10520c8203754c059c2ca477f38e3"
+  },
+  "checks": {
+    "focusedInternalAdminSecurity": "pass_31_of_31",
+    "realAcceptanceDatabase": "pass_67_of_67",
+    "auditAndRemediationAcceptance": "pass",
+    "verifierDisposition": "pass",
+    "publicationVerifier": "pass",
+    "workerAcceptanceVerifier": "pass",
+    "deploymentClosureVerifier": "pass",
+    "stagingAction": "pass",
+    "authorizationQueue": "pass",
+    "stagingReadiness": "pass",
+    "releaseReadiness": "pass",
+    "npmTest": "pass",
+    "typecheck": "pass",
+    "lint": "pass_0_errors_102_warnings",
+    "gitDiffCheck": "pass"
+  },
+  "scope": {
+    "implementationBytesMovedAfterSecuritySha": false,
+    "rlsMigrationBytesMovedAfterSecuritySha": false,
+    "unrelatedProtectedProductBytesMovedFromBase": false,
+    "productionTouched": false,
+    "productionUsersChanged": false,
+    "productionSessionsRevoked": false,
+    "productionDeployment": false,
+    "committedSecretOrProductionDataFound": false,
+    "trackedFilesScanned": 7719,
+    "trackedSensitiveArtifactPathsFound": 0,
+    "credentialPatternHits": 0
+  },
+  "ready": {
+    "merge": false,
+    "productionAccountCutover": false,
+    "clinicModeFoundation": false
+  },
+  "exactBlocker": "No Preview exists for the exact candidate, the reviewer environment has no authorized Vercel credential, and the existing hosted acceptance workflows reject the candidate because they are frozen to another application SHA. Therefore mandatory real Chromium and deployed direct-request acceptance cannot run without modifying a protected workflow."
+}
