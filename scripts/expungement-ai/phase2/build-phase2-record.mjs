@@ -309,9 +309,102 @@ write("data/expungement-ai/phase2/p2-p3-backlog.json", {
   alsoRecorded
 });
 
-// ---------------------------------------------------------------- summary
+// ----------------------------------------------------------------- report
 const askedBefore = sweepBefore.totals.asked;
 const askedAfter = sweepAfter.totals.asked;
+const screenDeltas = [...rowsAfter.keys()]
+  .map((code) => (rowsAfter.get(code)?.renderedScreenCount ?? 0) - (rowsBefore.get(code)?.renderedScreenCount ?? 0))
+  .filter((delta) => delta !== 0);
+const replayTotals = remedyReplay.totals;
+const code = (text) => "`" + text + "`";
+
+const IMPLEMENTED_ROWS = [
+  ["UX-GLOBAL-001", "P0", "Open matter and Complete packet information no longer loop. One availability predicate, shared by both pages, and a refusal names which condition refused."],
+  ["UX-GLOBAL-013", "P0", "Waiting-rule selection is an explicit pathway-to-rule binding, not a prose search over scraped display text."],
+  ["UX-GLOBAL-019", "P0", "Facts the evaluator consumes before it will open a packet are asked on a rendered screen. No fact is silently defaulted to post-payment."],
+  ["UX-GLOBAL-002", "P1", "The save action reports its own progress and cannot be double-submitted across its two sequential POSTs."],
+  ["UX-GLOBAL-003", "P1", "Claiming a pending result lands on the matter's next action, computed from the same availability predicate."],
+  ["UX-GLOBAL-004", "P1", "One canonical fact store. The packet questionnaire asks only for facts screening did not already collect."],
+  ["UX-GLOBAL-005", "P1", "Contact information is a structured mailing address, phone and email, each validated, each with its own review row."],
+  ["UX-GLOBAL-008", "P1", "One human formatter for every answer value, shared with the questionnaire's own option labels."],
+  ["UX-GLOBAL-009", "P1", "The checkout surface states the code policy and routes a participant told their packet is covered to help."],
+  ["UX-GLOBAL-011", "P1", "Wilma is told which question is on screen, with the participant's answer deliberately excluded."],
+  ["UX-GLOBAL-012", "P1", "Sensitive questions say why they are asked and who sees the answer."],
+  ["UX-GLOBAL-017", "P1", "A browser refresh no longer discards the screening answer set."],
+  ["UX-GLOBAL-014", "P2", "Blocks a supported flow: the slug form of the screening route resolves for all 51."],
+  ["UX-GLOBAL-018", "P2", "Blocks a required acceptance test: the two packet-ready outcomes are distinguishable, and the card declares its own result code."]
+];
+
+const lines = [
+  "# Expungement.ai — Phase 2 implementation report",
+  "",
+  "Product base " + code(PRODUCT_BASE) + ". Head " + code(head) + ". Evaluator clock pinned to " + code(process.env.RCAP_EVALUATOR_TODAY) + ".",
+  "",
+  "## What was implemented",
+  "",
+  "| Issue | Severity | What changed |",
+  "| --- | --- | --- |",
+  ...IMPLEMENTED_ROWS.map(([id, severity, what]) => "| " + id + " | " + severity + " | " + what + " |"),
+  "",
+  "Every global P0 and every global P1 in the Phase 1 register is implemented. Two P2s are implemented because each blocks something the scope names: UX-GLOBAL-014 blocked a supported flow, and UX-GLOBAL-018 blocked a required acceptance test — the browser crawl could not tell a cautioned packet-ready result from a clean one.",
+  "",
+  "## What the evaluator does differently",
+  "",
+  measuredDifferences.length + " output differences measured across the 51-jurisdiction baseline, " + unexplained.length + " unexplained.",
+  "",
+  "| Jurisdiction | Field | Before | After |",
+  "| --- | --- | --- | --- |",
+  ...measuredDifferences.map((difference) => "| " + difference.jurisdiction + " | " + difference.field + " | " + JSON.stringify(difference.before) + " | " + JSON.stringify(difference.after) + " |"),
+  "",
+  "No decision graph, packet family or form set changes in any of the 51. Rendered screen counts move in " + screenDeltas.length + " jurisdictions, by " + Math.min(...screenDeltas) + " to " + Math.max(...screenDeltas) + " screens, which is the shared facts now being asked.",
+  "",
+  "One further change does not appear in that table, because the baseline sweep supplies a timing bucket and so never reaches it. Maryland's § 10-110 route returned " + code("needs_more_info") + " with " + code("md.waiting_anchor_missing") + " and now returns " + code("needs_review") + " with " + code("md.configuration_missing") + ". Same pathway, same terminal class, same paymentAllowed false: at the product base, supplying either bucket value produced " + code("needs_review") + " with " + code("md.waiting_rule_not_executed") + ", so the question the participant was asked first could not change the outcome. It is recorded in the Maryland control fixture and proved by " + code("scripts/verify-rcap-md-pardon-pathway.mjs") + ".",
+  "",
+  "The correction allowlist is " + code("data/expungement-ai/phase2/correction-allowlist.json") + ". A difference outside it is a failure, not a finding.",
+  "",
+  "## The thirteen corrected routes",
+  "",
+  "Replaying the same participant the Phase 1B reconciliation used for E3 and E4, with no " + code("waiting_rule_id") + " override so each route resolves its own binding:",
+  "",
+  "- " + replayTotals.routes + " routes replayed",
+  "- " + replayTotals.terminalMoved + " moved from " + code("needs_review") + " to " + code("packet_ready_with_caution"),
+  "- " + replayTotals.paymentOpened + " opened payment; " + replayTotals.paymentClosed + " closed it",
+  "- " + replayTotals.pathwayChanged + " changed pathway",
+  "- " + replayTotals.errors + " errored",
+  "",
+  "South Carolina reaches a packet-ready terminal without payment opening, because its clamp is not this correction's to move.",
+  "",
+  "## What is held",
+  "",
+  ...heldRows.map((row) => "- **" + row.jurisdiction + "** — " + row.status + ". Terminal " + row.terminal.before + " → " + row.terminal.after + "; payment " + row.paymentAllowed.before + " → " + row.paymentAllowed.after + "."),
+  "",
+  "None is backfilled. Two hold continuity bindings transcribed from what the prior selector already chose, which is preservation, not a guess.",
+  "",
+  "## What the packet questionnaire stopped asking",
+  "",
+  "Across all 325 packet-producing pathways, " + (askedBefore - askedAfter) + " questions are no longer put to a participant who already answered them. Every pathway asks fewer; none asks anything new; the required-input and pre-payment validation sets are byte-identical.",
+  "",
+  "## Guards added",
+  "",
+  "- " + code("scripts/expungement-ai/phase2/verify-expungement-fact-model.mjs") + " — waiting-rule bindings resolve and author no duration; shared facts declared prepay are rendered or answered by a declared substitute; the rendered flow and the evaluator reach the same decision; every machine-shaped option value has a human label; the canonical derivations and contact parts hold. Removing the two shared-fact declarations it guards produces 102 failures.",
+  "- " + code("scripts/expungement-ai/phase2/verify-jurisdiction-slug-routes.mjs") + " — all 51 resolve by slug, name and code.",
+  "",
+  "## What was deliberately not built",
+  "",
+  ...backlog.map((entry) => "- **" + entry.issueId + "** (" + entry.severity + ", " + entry.scope + ") — " + entry.notImplementedBecause),
+  "",
+  "Full record with the Phase 1 detail: " + code("data/expungement-ai/phase2/p2-p3-backlog.json") + ".",
+  "",
+  "## Phase 3",
+  "",
+  "Six disjoint state shards covering all 51 jurisdictions are regenerated from this head at " + code("docs/expungement-ai/phase2/shard-prompts/") + ". Each shard owns only its own compiled profiles and state packs; the Phase 2 shared layer is prohibited to all of them.",
+  ""
+];
+
+fs.mkdirSync("docs/expungement-ai/phase2", { recursive: true });
+fs.writeFileSync("docs/expungement-ai/phase2/implementation-report.md", lines.join("\n"));
+console.log("wrote docs/expungement-ai/phase2/implementation-report.md");
+
 console.log(JSON.stringify({
   measuredDifferences: measuredDifferences.length,
   unexplainedDifferences: unexplained.length,
