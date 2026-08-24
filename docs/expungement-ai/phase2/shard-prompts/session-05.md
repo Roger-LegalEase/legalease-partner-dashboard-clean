@@ -20,11 +20,11 @@ No other jurisdiction is yours. If you find a defect in a jurisdiction outside t
 ## Base
 
 ```text
-BASE_SHA = 4daf32fc15be01e9f3b697d096463a3f3485f012
+BASE_SHA = 05bc9d24c501bb8f9681c4d150fe686c0d76b5ef
 BRANCH   = claude/expai-phase3-shard-5
 ```
 
-Create your branch from exactly `4daf32fc15be01e9f3b697d096463a3f3485f012`. That commit is the Phase 2 head: the shared fact model, the waiting-rule bindings, the canonical fact store and the contact-field split are already in it. Fetch origin with prune first. Require a clean tracked worktree and no merge or rebase in progress. Do not push to `main`. Do not deploy. Do not run a migration. Do not change a feature flag. Do not create a payment.
+Create your branch from exactly `05bc9d24c501bb8f9681c4d150fe686c0d76b5ef`. That commit is the Phase 2 head: the shared fact model, the waiting-rule bindings, the canonical fact store and the contact-field split are already in it. Fetch origin with prune first. Require a clean tracked worktree and no merge or rebase in progress. Do not push to `main`. Do not deploy. Do not run a migration. Do not change a feature flag. Do not create a payment.
 
 ## Read before you change anything
 
@@ -234,7 +234,7 @@ git diff --check
 And prove the negative that matters most — that you changed no shared code and no unassigned jurisdiction:
 
 ```bash
-git diff --name-only 4daf32fc15be01e9f3b697d096463a3f3485f012...HEAD
+git diff --name-only 05bc9d24c501bb8f9681c4d150fe686c0d76b5ef...HEAD
 ```
 
 Every path in that output must match one of your allowed configuration paths.

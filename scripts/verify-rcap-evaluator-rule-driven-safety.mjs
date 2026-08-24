@@ -8,6 +8,7 @@ register("./lib/ts-esm-loader.mjs", import.meta.url);
 const { getAllJurisdictionProfiles, getProfileByJurisdiction } = await import("../src/lib/rcap-engine/profile-registry.ts");
 const { projectPublicProfile } = await import("../src/lib/rcap-engine/public-profile-projection.ts");
 const { evaluateScreening } = await import("../src/lib/rcap-engine/evaluator.ts");
+const { deriveScreens } = await import("../src/components/expungement-ai/screening/screens.ts");
 
 const root = process.cwd();
 const failures = [];
@@ -16,8 +17,43 @@ function assert(condition, message) {
   if (!condition) failures.push(message);
 }
 
+/**
+ * The coarse timing answer the flow asks for, derived from the fixture's own
+ * date so a waiting-period case still tests the waiting period. The evaluator
+ * falls back to this bucket whenever it has no exact anchor, and it is a
+ * rendered screen, so a synthetic participant answers it.
+ */
+function timingBucketFor(fixture) {
+  const date = Date.parse(`${fixture.date ?? "2015-01-01"}T00:00:00Z`);
+  const today = Date.parse(`${process.env.RCAP_EVALUATOR_TODAY}T00:00:00Z`);
+  const years = (today - date) / (365.2425 * 24 * 60 * 60 * 1000);
+  if (years < 1) return "lt_1_year";
+  if (years < 2) return "years_1_to_2";
+  if (years < 3) return "years_2_to_3";
+  if (years < 5) return "years_3_to_5";
+  if (years < 7) return "years_5_to_7";
+  if (years < 10) return "years_7_to_10";
+  return "gt_10_years";
+}
+
+/** The shared timing and completion facts UX-GLOBAL-019 put on a rendered screen. */
+const SHARED_RENDERED_FACT_IDS = new Set([
+  "resolved_timing_bucket",
+  "court_requirements_completed",
+  "special_preconditions_confirmed",
+  "new_convictions_during_waiting_period",
+  "sentence_completion_date",
+  "financial_obligations",
+  "pending_cases",
+  "disposition_date"
+]);
+
 function answerFor(question, stateName, fixture) {
   const id = question.id;
+  if (id === "resolved_timing_bucket") return timingBucketFor(fixture);
+  if (id === "court_requirements_completed") return "yes";
+  if (id === "special_preconditions_confirmed") return "Yes";
+  if (id === "new_convictions_during_waiting_period") return "No";
   if (id === "ownership_scope") return "Yes";
   if (id === "jurisdiction_scope") return "State or local";
   if (id === "case_outcome") return fixture.caseOutcome ?? "Misdemeanor conviction";
@@ -43,9 +79,19 @@ function answerFor(question, stateName, fixture) {
 
 function buildAnswers(profile, fixture = {}) {
   const pub = projectPublicProfile(profile);
+  // The required set, the route splitter, and the shared timing and completion
+  // facts the flow renders. Building only the `required` set stopped answering
+  // the timing bucket, which the corrected projection renders as optional, so a
+  // waiting-period case returned "we need one more detail" instead of
+  // exercising the wait. Deliberately NOT every rendered question: several
+  // cases below are negative controls that prove a route fails closed when a
+  // state-specific clearance fact is absent, and inventing one would answer the
+  // question the case exists to leave unanswered.
+  const rendered = new Set(deriveScreens(pub).map((question) => question.id));
   const answers = {};
   for (const question of pub.questions) {
-    if (question.required || question.id === "possible_pathway_context") {
+    const sharedAndRendered = SHARED_RENDERED_FACT_IDS.has(question.id) && rendered.has(question.id);
+    if (question.required || sharedAndRendered || question.id === "possible_pathway_context") {
       answers[question.id] = answerFor(question, pub.jurisdiction.name, fixture);
     }
   }

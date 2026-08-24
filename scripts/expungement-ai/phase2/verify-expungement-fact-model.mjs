@@ -318,6 +318,20 @@ if (contactPartError("participant_phone", "12") === null) fail("contact fields: 
 if (contactPartError("participant_email", "not-an-email") === null) fail("contact fields: a malformed email must error");
 if (contactPartError("participant_mailing_address", "") === null) fail("contact fields: a blank mailing address must error");
 
+// The review page spells each contact row's label out as a literal so the
+// audit's static check can read it. These two must not drift apart.
+const reviewPageSource = fs.readFileSync("src/app/briefcase/[packetId]/review/page.tsx", "utf8");
+const reviewRowLabels = new Map(
+  [...reviewPageSource.matchAll(/row\("([^"]+)",\s*"([a-z0-9_]+)"/g)].map((match) => [match[2], match[1]])
+);
+for (const part of CONTACT_PARTS) {
+  const literal = reviewRowLabels.get(part.id);
+  if (literal === undefined) fail(`contact fields: the review page has no literal row for ${part.id}`);
+  else if (literal !== part.reviewLabel) {
+    fail(`contact fields: the review page labels ${part.id} "${literal}" and the field definition calls it "${part.reviewLabel}"`);
+  }
+}
+
 if (failures.length > 0) {
   console.error("verify-expungement-fact-model FAILED");
   for (const failure of failures) console.error(` - ${failure}`);

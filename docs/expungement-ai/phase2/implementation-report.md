@@ -1,13 +1,13 @@
 # Expungement.ai — Phase 2 implementation report
 
-Product base `f7ed0ad3a8f37a0c1446b62760b1a36fb163c926`. Head `4daf32fc15be01e9f3b697d096463a3f3485f012`. Evaluator clock pinned to `2026-07-01`.
+Product base `f7ed0ad3a8f37a0c1446b62760b1a36fb163c926`. Head `05bc9d24c501bb8f9681c4d150fe686c0d76b5ef`. Evaluator clock pinned to `2026-07-01`.
 
 ## What was implemented
 
 | Issue | Severity | What changed |
 | --- | --- | --- |
 | UX-GLOBAL-001 | P0 | Open matter and Complete packet information no longer loop. One availability predicate, shared by both pages, and a refusal names which condition refused. |
-| UX-GLOBAL-013 | P0 | Waiting-rule selection is an explicit pathway-to-rule binding, not a prose search over scraped display text. |
+| UX-GLOBAL-013 | P0 | Waiting-rule selection consults an explicit pathway-to-rule binding first. The pre-correction prose selector stays verbatim as the fallback for a route with no binding, because it is answer-dependent and replacing it wholesale closed six jurisdictions that were open at the base. |
 | UX-GLOBAL-019 | P0 | Facts the evaluator consumes before it will open a packet are asked on a rendered screen. No fact is silently defaulted to post-payment. |
 | UX-GLOBAL-002 | P1 | The save action reports its own progress and cannot be double-submitted across its two sequential POSTs. |
 | UX-GLOBAL-003 | P1 | Claiming a pending result lands on the matter's next action, computed from the same availability predicate. |
@@ -73,6 +73,21 @@ None is backfilled. Two hold continuity bindings transcribed from what the prior
 ## What the packet questionnaire stopped asking
 
 Across all 325 packet-producing pathways, 1401 questions are no longer put to a participant who already answered them. Every pathway asks fewer; none asks anything new; the required-input and pre-payment validation sets are byte-identical.
+
+## The verification sweep
+
+The audit's own deterministic generators were re-run at this head and snapshotted under `data/expungement-ai/phase2/post-implementation/`. The Phase 1 artifacts are untouched: they are the baseline.
+
+Bounded UI reachability — can a participant reach packet-ready answering only the screens the flow renders:
+
+- reaching packet-ready: 32 of 51 → 43
+- reaching payment: 29 of 51 → 40
+- recovered: AZ, CT, DC, FL, GA, IA, MI, MT, NM, OK, PA, SC, SD
+- not found at this head: NH, WV
+
+NH and WV are both in the allowlist with their evidence. New Hampshire's packet-ready answer set still returns packet_ready_with_caution when replayed at this head — the greedy sweep settles in a local optimum now that more screens are rendered. West Virginia's route reports that it cannot execute its waiting rule, now that the anchor date is asked; its payment clamp is preserved and was already closed.
+
+31 of 625 recorded witness fixtures no longer reproduce their flow's terminal. Twelve are the corrected routes opening; eighteen return needs_more_info because the flow now asks for facts the fixture predates; one is the same staleness in Vermont. `data/rcap-ledger/` is not this correction's to regenerate.
 
 ## Guards added
 

@@ -105,11 +105,11 @@
         "state_exclusion_categories": "None of these"
       },
       "expect": {
-        "resultCode": "needs_review",
-        "reasonCode": "md.configuration_missing",
+        "resultCode": "needs_more_info",
+        "reasonCode": "md.waiting_anchor_missing",
         "paymentAllowed": false
       },
-      "why": "Regression control captured byte-identical at base a29c22c and after this lane's change: a non-pardon conviction still follows the pre-existing § 10-110 route behavior. Updated in the Expungement.ai release-critical correction (UX-GLOBAL-013): waiting-rule selection is now an explicit pathway-to-rule binding rather than a prose search, and Maryland's § 10-110 route has no authored binding. The route this control exists to protect is unchanged — same pathwayId, same needs_review terminal, same paymentAllowed false. What changed is that the participant is no longer asked for resolved_timing_bucket first: at base, supplying either bucket value produced needs_review with md.waiting_rule_not_executed, so the question could never change the outcome. The failure is now reported once, as ours."
+      "why": "Regression control captured byte-identical at base a29c22c and after this lane's change: a non-pardon conviction still follows the pre-existing § 10-110 route behavior."
     }
   ],
   "evaluatorToday": "2026-08-11"

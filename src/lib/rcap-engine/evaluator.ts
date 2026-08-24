@@ -1441,6 +1441,7 @@ type WaitingRuleBindingEntry = {
 const WAITING_RULE_BINDINGS: Record<string, WaitingRuleBindingEntry> =
   ((waitingRuleBindings as { bindings?: Record<string, WaitingRuleBindingEntry> }).bindings ?? {});
 
+
 /**
  * Participant-facing copy for a configuration failure. It must never ask for
  * "one more detail": nothing the participant can type will fix a route whose
@@ -1929,9 +1930,18 @@ function resolveWaitingRuleForPathway(
   }
 
   // 2. The authored binding for this exact route.
-  const binding = WAITING_RULE_BINDINGS[`${profile.jurisdiction.code}:${pathway.id}`];
+  const bindingKey = `${profile.jurisdiction.code}:${pathway.id}`;
+  const binding = WAITING_RULE_BINDINGS[bindingKey];
   if (!binding) {
-    return { status: "failed", kind: "configuration_missing", detail: `No waiting-rule binding is declared for ${profile.jurisdiction.code}:${pathway.id}.` };
+    /**
+     * No authored binding for this route, so the pre-correction selector still
+     * decides it, exactly as it did at the product base. See the banner on
+     * `bestWaitingRuleForPathway` for why it is still here and what replacing it
+     * outright cost.
+     */
+    const legacy = bestWaitingRuleForPathway(profile, pathway, answers);
+    if (legacy) return { status: "resolved", rule: legacy };
+    return { status: "failed", kind: "configuration_missing", detail: `No waiting-rule binding is declared for ${bindingKey}, and the legacy selector found no candidate rule.` };
   }
   if (binding.resolution === "no_waiting_period") {
     return { status: "no_waiting_period", provenance: binding.provenanceQuote ?? "The source states there is no ordinary waiting period for this route." };
@@ -2022,10 +2032,148 @@ function resolveWaitingRuleForPathway(
   return { status: "resolved", rule: ordered[0] };
 }
 
-// parseDurationFromText and textHasMultipleDurations were removed with
-// UX-GLOBAL-013: nothing in waiting-rule selection reads display prose any more.
-// Durations come from the profile's own structured `duration` field, and the
-// binding table names which rule applies to which route.
+/**
+ * The pre-correction selector, kept verbatim as the fallback for a route with no
+ * authored binding.
+ *
+ * Removing it outright was wrong, and the reachability sweep caught it. This
+ * search is answer-dependent: its candidate filter reads `case_outcome`,
+ * `offense_level` and `charge`, so for an arrest-with-no-charge participant in
+ * Arkansas it selects a class-specific rule and the packet opens, while for a
+ * different participant on the same route it finds several rows with different
+ * durations and returns the ambiguity sentinel below. Replacing it with a single
+ * answer-independent binding per route closed six jurisdictions that were open
+ * at the product base — AR, MN, NV, OR, TX and WV — which is a substantive
+ * change to what those states can sell and is not this correction's to make.
+ *
+ * So the binding table is the authority where a binding exists, and this is what
+ * a route without one still uses. That is the honest position: the search is
+ * provisional, it is labelled provisional, and
+ * `waiting-rule-bindings.json#unresolvedPreserved` names every route still on it
+ * as the queue for counsel. It is no longer the design; it is the thing the
+ * design is replacing, one reviewed binding at a time.
+ *
+ * Nothing here is edited. A change to this text would change a legal outcome
+ * without anyone deciding to.
+ */
+function bestWaitingRuleForPathway(profile: EngineProfile, pathway: CompiledPathway, answers: Record<string, ScreeningAnswerValue>): SelectedWaitingRule | undefined {
+  const texts = `${pathway.id} ${pathway.label} ${pathway.summary}`.toLowerCase();
+  const offenseLevel = answerText(answers.offense_level).toLowerCase();
+  const charge = answerText(answers.charge).toLowerCase();
+  const caseOutcome = normalizeCaseOutcome(answers.case_outcome);
+  const requestedWaitId = answerText(answers.waiting_rule_id).trim();
+  const routeTokens = texts.split(/[^a-z0-9]+/).filter((token) => token.length > 5);
+  const candidates = [
+    ...compiledWaitingRules(profile),
+    ...pathwayWaitingRules(pathway).map((ruleText, index) => ({ id: `pathway-wait-${index}`, ruleText, duration: parseDurationFromText(ruleText), fieldsReferenced: [], anchor: undefined }))
+  ]
+    .map((rule) => ({
+      id: rule.id,
+      duration: normalizeDuration(rule.duration) ?? parseDurationFromText(rule.ruleText ?? ""),
+      text: String(rule.ruleText ?? ""),
+      anchor: typeof rule.anchor === "string" ? rule.anchor : undefined,
+      routeScore: routeTokens.filter((token) => String(rule.ruleText ?? "").toLowerCase().includes(token)).length,
+      fieldsReferenced: rule.fieldsReferenced ?? []
+    }))
+    .filter((rule) => rule.duration)
+    .filter((rule) => waitingTextRelevant(rule.text, texts, offenseLevel, charge, caseOutcome));
+  if (candidates.length === 0) return undefined;
+  const explicit = requestedWaitId
+    ? candidates.find((candidate) => candidate.id === requestedWaitId)
+    : undefined;
+  if (explicit?.duration) {
+    return {
+      id: explicit.id,
+      text: explicit.text,
+      anchor: explicit.anchor,
+      duration: explicit.duration,
+      routeScore: explicit.routeScore
+    };
+  }
+  const atomicCandidates = candidates.filter((candidate) => !textHasMultipleDurations(candidate.text));
+  const scoredCandidates = atomicCandidates.length > 0 ? atomicCandidates : candidates;
+  const classSpecific = caseOutcome === "arrest_no_charge"
+    ? scoredCandidates.find((candidate) => waitingClassMatches(candidate.text, offenseLevel, charge))
+    : undefined;
+  if (classSpecific?.duration) {
+    return {
+      id: classSpecific.id,
+      text: classSpecific.text,
+      anchor: classSpecific.anchor,
+      duration: classSpecific.duration,
+      routeScore: classSpecific.routeScore
+    };
+  }
+  const distinctDurations = new Set(scoredCandidates
+    .map((candidate) => candidate.duration)
+    .filter((duration): duration is CompiledDuration => duration !== undefined && duration.value > 0)
+    .map((duration) => `${duration.value}:${duration.unit}`));
+  if (distinctDurations.size > 1) {
+    return {
+      text: "Multiple source waiting-period rows could apply.",
+      duration: { value: -1, unit: "ambiguous" },
+      routeScore: 0
+    };
+  }
+  scoredCandidates.sort((left, right) => durationDays(right.duration) - durationDays(left.duration) || right.routeScore - left.routeScore);
+  const selected = scoredCandidates[0];
+  if (!selected?.duration) return undefined;
+  return {
+    id: selected.id,
+    text: selected.text,
+    anchor: selected.anchor,
+    duration: selected.duration,
+    routeScore: selected.routeScore
+  };
+}
+
+function waitingTextRelevant(text: string, pathwayText: string, offenseLevel: string, charge: string, caseOutcome: string) {
+  const normalized = text.toLowerCase();
+  const tokens = pathwayText.split(/[^a-z0-9]+/).filter((token) => token.length > 5);
+  if (tokens.some((token) => normalized.includes(token))) return true;
+  if (caseOutcome === "arrest_no_charge" && /arrest|no charge|no charges|charge filed/.test(normalized)) {
+    if (/class a|class b/.test(charge)) return /class a|class b|arrest-only|arrest only|offense level/.test(normalized);
+    if (/class c/.test(charge)) return /class c|arrest-only|arrest only|offense level/.test(normalized);
+    if (/felony/.test(charge) || offenseLevel.includes("felony")) return /felony|arrest-only|arrest only|offense level/.test(normalized);
+    return /arrest-only|arrest only|offense level|no charges/.test(normalized);
+  }
+  if (caseOutcome === "dismissed" && /dismiss|nolle|non-conviction|nonconviction/.test(normalized)) return true;
+  if (caseOutcome === "acquitted" && /acquit|not guilty/.test(normalized)) return true;
+  if (caseOutcome.includes("convicted") && /conviction|convicted|misdemeanor|felony/.test(normalized)) {
+    if (offenseLevel.includes("felony")) return /felony|conviction|convicted/.test(normalized);
+    if (offenseLevel.includes("misdemeanor")) return /misdemeanor|conviction|convicted/.test(normalized);
+    return true;
+  }
+  return false;
+}
+
+function waitingClassMatches(text: string, offenseLevel: string, charge: string) {
+  const normalized = text.toLowerCase();
+  if (/class a|class b/.test(charge)) return /class a|class b/.test(normalized);
+  if (/class c/.test(charge)) return /class c/.test(normalized);
+  if (/felony/.test(charge) || offenseLevel.includes("felony")) return /felony/.test(normalized);
+  return false;
+}
+
+function parseDurationFromText(text: string) {
+  const lower = text.toLowerCase();
+  const numeric = lower.match(/\b(\d+)\s*(day|days|month|months|year|years|yr|yrs)\b/);
+  if (numeric) return { value: Number(numeric[1]), unit: normalizeDurationUnit(numeric[2]), raw: numeric[0] };
+  const words: Record<string, number> = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 };
+  const word = lower.match(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\s*(day|days|month|months|year|years)\b/);
+  if (word) return { value: words[word[1]], unit: normalizeDurationUnit(word[2]), raw: word[0] };
+  if (/immediate|no waiting period|upon event/.test(lower)) return { value: 0, unit: "days", raw: "immediate/upon event" };
+  return undefined;
+}
+
+function textHasMultipleDurations(text: string) {
+  return (text.toLowerCase().match(/\b(\d+)\s*(day|days|month|months|year|years|yr|yrs)\b/g) ?? []).length > 1;
+}
+
+function pathwayWaitingRules(pathway: CompiledPathway) {
+  const rules = (pathway as { waitingRules?: unknown }).waitingRules;
+  return Array.isArray(rules) ? rules.map(String) : [];
+}
 
 function compiledRuleDuration(rule: CompiledRule) {
   return (rule.when as { duration?: unknown } | undefined)?.duration;

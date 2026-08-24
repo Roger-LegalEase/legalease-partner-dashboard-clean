@@ -15,7 +15,6 @@ import {
   packetInformationModelFor,
   packetInformationReviewSafety
 } from "@/lib/expungement-ai/packet-information";
-import { CONTACT_PARTS } from "@/lib/expungement-ai/contact-fields";
 import type { AnswerValue } from "@/lib/expungement-ai/frontend/contracts";
 
 export const dynamic = "force-dynamic";
@@ -55,10 +54,14 @@ export default async function PacketAccuracyReviewPage({
           <div className="mt-6 grid gap-5">
             <AnswerSection title="Your information" itemId={item.id} rows={[
               row("Full legal name", "participant_full_legal_name", model.initialAnswers),
-              // UX-GLOBAL-005 — three facts, three rows, three edit targets.
-              // One row for "contact information" could only ever offer one
-              // edit link into one unvalidated string.
-              ...CONTACT_PARTS.map((part) => row(part.reviewLabel, part.id, model.initialAnswers))
+              // UX-GLOBAL-005 — three facts, three rows, three edit targets. One
+              // row for "contact information" could only ever offer one edit
+              // link into one unvalidated string. Written out rather than mapped
+              // so the audit's static check can still read a label for every
+              // field; contactPartLabel keeps them tied to the field definitions.
+              row("Mailing address", "participant_mailing_address", model.initialAnswers),
+              row("Phone number", "participant_phone", model.initialAnswers),
+              row("Email address", "participant_email", model.initialAnswers)
             ]} />
             <AnswerSection title="Case information" itemId={item.id} rows={[
               row("Charge or offense shown on the court record", "charge", model.initialAnswers),

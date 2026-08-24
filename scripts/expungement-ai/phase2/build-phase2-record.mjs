@@ -40,6 +40,7 @@ const after = readJson("data/expungement-ai/phase2/evaluator-baseline-after.json
 const priorSelection = readJson("data/expungement-ai/phase2/prior-waiting-rule-selection.json");
 const bindingEvidence = readJson("data/expungement-ai/phase2/waiting-rule-binding-evidence.json");
 const remedyReplay = readJson("data/expungement-ai/phase2/remedy-context-replay-after.json");
+const postSweep = readJson("data/expungement-ai/phase2/post-implementation-comparison.json");
 const sweepBefore = readJson("data/expungement-ai/phase2/canonical-fact-sweep-before.json");
 const sweepAfter = readJson("data/expungement-ai/phase2/canonical-fact-sweep-after.json");
 
@@ -98,6 +99,51 @@ const ALLOWED = [
     change: "the packet questionnaire asks only for facts the canonical store does not already hold",
     why: "Carry-forward was name-matched and scoped to the packet plan's required-input list, so facts the participant had already given were dropped or re-asked with an empty control.",
     boundedBy: "The required-input set and the pre-payment validation set are byte-identical across all 325 packet-producing pathways; only which of them are put to the participant a second time changes."
+  },
+  {
+    id: "ui-reachability-recovered",
+    issueId: "UX-GLOBAL-013",
+    jurisdictions: ["AZ", "CT", "DC", "FL", "GA", "IA", "MI", "MT", "NM", "OK", "PA", "SC", "SD"],
+    fields: [],
+    change: "the bounded reachability sweep now finds a packet-ready answer set using only rendered screens: 32 of 51 jurisdictions to 43, and 29 to 40 for payment",
+    why: "These are the thirteen routes the waiting-rule binding reopened. The sweep is the audit's own harness, re-run at this head.",
+    boundedBy: "Two jurisdictions the Phase 1 sweep found are not found at this head: NH and WV. Both are recorded below; neither is a route the product closed."
+  },
+  {
+    id: "nh-not-found-by-bounded-search",
+    issueId: "UX-GLOBAL-019",
+    jurisdictions: ["NH"],
+    fields: [],
+    change: "the bounded reachability sweep no longer finds New Hampshire's packet-ready answer set",
+    why: "The sweep is a greedy coordinate ascent over the rendered screens with three passes. Rendering the shared facts enlarged its search space, and it now settles in a local optimum. Replaying the exact answer set the Phase 1 sweep found still returns packet_ready_with_caution with paymentAllowed true at this head, with and without the newly rendered facts, so the route is open and the search is what changed.",
+    boundedBy: "The audit records a negative as notFoundByBoundedSearch, never as impossible. Raising the pass count is a harness change, not a product change, and is left to whoever owns the harness."
+  },
+  {
+    id: "wv-waiting-rule-now-reached",
+    issueId: "UX-GLOBAL-019",
+    jurisdictions: ["WV"],
+    fields: [],
+    change: "West Virginia's juvenile-record-relief route returns needs_review with wv.waiting_rule_not_executed once disposition_date is asked",
+    why: "disposition_date is one of the facts Phase 1 named as consumed before the packet decision and never rendered. Now that it is asked, the timing gate takes the exact-anchor path and finds it cannot execute this route's waiting rule. That gap was always there; it was hidden because the anchor was never available. Reporting it is the correct outcome: a packet should not be sold on a waiting period the product cannot compute.",
+    boundedBy: "West Virginia is held with its payment clamp preserved. paymentAllowed was false at the base and is false now, so nothing sellable changes. The route is in the counsel queue in waiting-rule-bindings.json#unresolvedPreserved."
+  },
+  {
+    id: "witness-fixtures-predate-the-shared-facts",
+    issueId: "UX-GLOBAL-019",
+    jurisdictions: ["*"],
+    fields: [],
+    change: "31 of 625 recorded witness fixtures no longer reproduce their flow's terminal",
+    why: "Twelve are the corrected routes moving from needs_review to packet_ready_with_caution. Eighteen (PA and UT) return needs_more_info because the flow now asks for shared facts the recorded fixture predates. One (VT) replays to needs_review while the flow's own convergence still reaches packet_ready_with_caution at this head, which is the same staleness. data/rcap-ledger/ is not this correction's to regenerate.",
+    boundedBy: "Recorded per flow in data/expungement-ai/phase2/post-implementation/flow-manifest.json."
+  },
+  {
+    id: "contact-information-loses-its-review-row",
+    issueId: "UX-GLOBAL-005",
+    jurisdictions: ["*"],
+    fields: [],
+    change: "the audit's reviewedFieldsWithoutHumanLabel count rises from 57 to 108",
+    why: "The whole rise is contact_information in all 51 jurisdictions. It is no longer a question anyone answers: the three fields that replaced it each have their own literal, labelled review row, and verify-expungement-fact-model asserts each literal matches its field definition. The pre-existing 57 — offense_category, criminal_history, pardon_status — are unchanged.",
+    boundedBy: "No participant-visible value loses a label; the metric counts a required packet input that is now composed rather than asked."
   },
   {
     id: "contact-information-split",
@@ -320,7 +366,7 @@ const code = (text) => "`" + text + "`";
 
 const IMPLEMENTED_ROWS = [
   ["UX-GLOBAL-001", "P0", "Open matter and Complete packet information no longer loop. One availability predicate, shared by both pages, and a refusal names which condition refused."],
-  ["UX-GLOBAL-013", "P0", "Waiting-rule selection is an explicit pathway-to-rule binding, not a prose search over scraped display text."],
+  ["UX-GLOBAL-013", "P0", "Waiting-rule selection consults an explicit pathway-to-rule binding first. The pre-correction prose selector stays verbatim as the fallback for a route with no binding, because it is answer-dependent and replacing it wholesale closed six jurisdictions that were open at the base."],
   ["UX-GLOBAL-019", "P0", "Facts the evaluator consumes before it will open a packet are asked on a rendered screen. No fact is silently defaulted to post-payment."],
   ["UX-GLOBAL-002", "P1", "The save action reports its own progress and cannot be double-submitted across its two sequential POSTs."],
   ["UX-GLOBAL-003", "P1", "Claiming a pending result lands on the matter's next action, computed from the same availability predicate."],
@@ -383,6 +429,21 @@ const lines = [
   "## What the packet questionnaire stopped asking",
   "",
   "Across all 325 packet-producing pathways, " + (askedBefore - askedAfter) + " questions are no longer put to a participant who already answered them. Every pathway asks fewer; none asks anything new; the required-input and pre-payment validation sets are byte-identical.",
+  "",
+  "## The verification sweep",
+  "",
+  "The audit's own deterministic generators were re-run at this head and snapshotted under " + code("data/expungement-ai/phase2/post-implementation/") + ". The Phase 1 artifacts are untouched: they are the baseline.",
+  "",
+  "Bounded UI reachability — can a participant reach packet-ready answering only the screens the flow renders:",
+  "",
+  "- reaching packet-ready: " + postSweep.uiReachability.reachingPacketReady.before + " of 51 → " + postSweep.uiReachability.reachingPacketReady.after,
+  "- reaching payment: " + postSweep.uiReachability.reachingPayment.before + " of 51 → " + postSweep.uiReachability.reachingPayment.after,
+  "- recovered: " + postSweep.uiReachability.recovered.join(", "),
+  "- not found at this head: " + (postSweep.uiReachability.notFoundAtThisHead.join(", ") || "none"),
+  "",
+  "NH and WV are both in the allowlist with their evidence. New Hampshire's packet-ready answer set still returns packet_ready_with_caution when replayed at this head — the greedy sweep settles in a local optimum now that more screens are rendered. West Virginia's route reports that it cannot execute its waiting rule, now that the anchor date is asked; its payment clamp is preserved and was already closed.",
+  "",
+  postSweep.staleWitnessFixtures.count + " of 625 recorded witness fixtures no longer reproduce their flow's terminal. Twelve are the corrected routes opening; eighteen return needs_more_info because the flow now asks for facts the fixture predates; one is the same staleness in Vermont. " + code("data/rcap-ledger/") + " is not this correction's to regenerate.",
   "",
   "## Guards added",
   "",

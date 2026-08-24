@@ -46,7 +46,7 @@
         "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
         "src/lib/rcap-engine/compiled/all51.json": "ad87f23b614baaffe742cb4dcd6b2e90a7fb2be6989f262b661eaf1f26788987",
         "data/expungement-ai/fixtures/public-profiles-all51.json": "a4fb49784a94d130848d09f3377ff03ab9e135751bf5b65271cbd29fd6e3d33d",
-        "src/lib/rcap-engine/evaluator.ts": "1de8a94fc575fb359ce1c0e09cfce1e3700a80ffcdc6735653a9ac0d8f82429d"
+        "src/lib/rcap-engine/evaluator.ts": "be62ec786dce0023b0aec08c23e196abbfdc28fd5a1c0b12a51d820e4edb2c46"
       },
       "originallyApprovedSha256": {
         "src/lib/rcap-engine/compiled/profiles/MD-maryland.json": "6f8c6d6b91c7c76650ea83b6ef2175637ad9d6530be3c9301f2620fdb14c483b",
@@ -80,7 +80,7 @@
           "path": "src/lib/rcap-engine/evaluator.ts",
           "sha256": "e912682c9a7201cfbf1f33e609a6a282ed75ba0b9e16a374698ea1c42202e459",
           "supersededOn": "2026-08-24",
-          "reason": "Waiting-rule selection in the shared evaluator is now an explicit pathway-to-rule binding table instead of a prose search over display text. The search read pathway.waitingRules, which is scraped corpus prose rather than authored bindings, and reported an unresolved lookup to the participant as a missing detail of theirs. A route with no authored binding now says so as our gap, and a route that resolves does so from the curated profile-level rule with its structured duration. This delta approves the Maryland pardon question, its placement and the ten-year filing period under Crim. Proc. 10-105(c)(4); none of that changes. No question is added, removed, renamed, reordered or retyped, and no eligibility rule moves.",
+          "reason": "Waiting-rule selection now consults an explicit pathway-to-rule binding table before the pre-correction prose selector, which stays verbatim as the fallback for a route with no authored binding. Thirteen routes the prose search could not settle now resolve to a rule the jurisdiction's own compiled profile already defines. Every other route keeps the selector it had, because that search is answer-dependent and replacing it wholesale closed six jurisdictions that were open at the base. This delta approves the Maryland pardon question, its placement and the ten-year filing period under Crim. Proc. 10-105(c)(4); none of that changes, Maryland gains no binding, and its routes evaluate exactly as before. No question is added, removed, renamed, reordered or retyped, and no eligibility rule moves.",
           "behaviouralProof": "scripts/verify-rcap-md-pardon-pathway.mjs"
         }
       ],
