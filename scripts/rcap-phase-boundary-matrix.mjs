@@ -64,10 +64,15 @@ const secretsOf = (job) => {
 };
 
 // Which job serves which phase, from the jobs' own `if:` conditions.
-const PHASES = ["preflight", "vercel_audit", "migrate", "deploy", "accept", "full", "checkout_gate", "worker_contract", "payment"];
+const PHASES = [
+  "preflight", "vercel_audit", "environment_probe", "migrate", "deploy", "accept",
+  "full_nonpayment", "checkout_pinning", "worker_contract",
+  "payment_environment_probe", "payment"
+];
+const RETIRED_OR_RENAMED = ["github_acceptance", "full", "checkout_gate"];
 const jobForPhase = (phase) => {
   if (phase === "preflight" || phase === "vercel_audit") return ["readonly_probe"];
-  if (phase === "payment") return ["hosted_write", "hosted_payment"];
+  if (phase === "payment" || phase === "payment_environment_probe") return ["hosted_write", "hosted_payment"];
   return ["hosted_write"];
 };
 
@@ -80,7 +85,18 @@ const rowFor = (phase) => {
   const rest = tableLines[i].replace(/^[^)]*\)/, "");
   return rest.trim().length > 0 ? rest : (tableLines[i + 1] ?? "");
 };
-const flag = (phase, name) => new RegExp(`${name}=true`).test(rowFor(phase));
+const flag = (phase, name) => new RegExp(`\\b${name}=true`).test(rowFor(phase));
+const PROBE_PHASES = new Set(["environment_probe", "payment_environment_probe"]);
+const READ_ONLY = new Set(["preflight", "vercel_audit", ...PROBE_PHASES]);
+
+// The environment-variable sentinels each job asserts, read from the job body.
+const sentinelOf = (job) => {
+  const body = (bodies.get(job) ?? []).join("\n");
+  const id = /EXPECTED_ID="([^"]+)"/.exec(body)?.[1] ?? null;
+  const cls = /EXPECTED_CLASS="([^"]+)"/.exec(body)?.[1] ?? null;
+  const failure = /::error::(ACCEPTANCE|PAYMENT)_ENVIRONMENT_IDENTITY_INVALID/.exec(body)?.[0]?.replace("::error::", "") ?? null;
+  return { RCAP_ENVIRONMENT_ID: id, RCAP_ENVIRONMENT_CLASS: cls, failureCode: failure };
+};
 
 const TRANSACTING = ["scripts/rcap-hosted-checkout-gate.mjs", "scripts/rcap-hosted-acceptance-payment.mjs"];
 const jobRunsTransacting = (job) => TRANSACTING.filter((t) => (bodies.get(job) ?? []).some((l) => l.includes(t)));
@@ -91,6 +107,15 @@ const environmentMatrix = PHASES.map((phase) => ({
   environments: jobForPhase(phase).map((j) => jobEnvironment(j) ?? "(none — read-only)")
 }));
 
+const sentinelMatrix = PHASES.map((phase) => {
+  const jobs = jobForPhase(phase);
+  return {
+    phase: `hosted_${phase}`,
+    jobs,
+    sentinels: jobs.map((j) => ({ job: j, ...sentinelOf(j) }))
+  };
+});
+
 const secretMatrix = PHASES.map((phase) => {
   const jobs = jobForPhase(phase);
   const all = [...new Set(jobs.flatMap(secretsOf))].sort();
@@ -98,24 +123,28 @@ const secretMatrix = PHASES.map((phase) => {
     phase: `hosted_${phase}`,
     jobs,
     referencableSecrets: all,
-    holdsStripeTestSecrets: all.some((s) => s.startsWith("HOSTED_STRIPE_TEST"))
+    holdsStripeTestSecrets: all.some((s) => s.startsWith("HOSTED_STRIPE_TEST")),
+    stripeSecretAccess: flag(phase, "S_ACCESS"),
+    stripeTransaction: flag(phase, "S_TXN")
   };
 });
 
 const externalWriteMatrix = PHASES.map((phase) => {
   const jobs = jobForPhase(phase);
   const transacting = [...new Set(jobs.flatMap(jobRunsTransacting))];
-  const readOnly = phase === "preflight" || phase === "vercel_audit";
+  const readOnly = READ_ONLY.has(phase);
   return {
     phase: `hosted_${phase}`,
-    supabaseSchemaWrite: !readOnly && ["migrate", "full", "payment"].includes(phase),
+    externalRequestsPermitted: !readOnly,
+    supabaseSchemaWrite: !readOnly && ["migrate", "full_nonpayment", "payment"].includes(phase),
     supabaseAuthConfigWrite: !readOnly && flag(phase, "MATRIX"),
     vercelPreviewDeployment: !readOnly && flag(phase, "DEPLOY"),
     vercelProductionWrite: false,
     containerRegistryPull: !readOnly && (flag(phase, "MATRIX") || phase === "worker_contract"),
-    stripeApiCall: phase === "payment",
+    stripeApiCall: flag(phase, "S_TXN"),
     createsCheckoutSession: flag(phase, "CHECKOUT_SESSION"),
-    consumesPaymentWebhook: phase === "payment",
+    consumesPaymentWebhook: flag(phase, "S_TXN"),
+    paymentExercised: flag(phase, "S_TXN"),
     transactingScripts: phase === "payment" ? transacting : []
   };
 });
@@ -132,15 +161,35 @@ const report = {
     transactingScripts: jobRunsTransacting(j)
   })),
   environmentMatrix,
+  sentinelMatrix,
+  retiredOrRenamedPhases: RETIRED_OR_RENAMED,
   secretMatrix,
   externalWriteMatrix,
   invariants: {
-    onlyPaymentPhaseHoldsStripeSecrets:
-      secretMatrix.filter((r) => r.holdsStripeTestSecrets).map((r) => r.phase).join(",") === "hosted_payment",
+    onlyPaymentJobHoldsStripeSecretExpressions:
+      secretMatrix.filter((r) => r.holdsStripeTestSecrets).map((r) => r.phase).sort().join(",") ===
+        "hosted_payment,hosted_payment_environment_probe",
+    stripeSecretAccessIsExactlyPaymentAndItsProbe:
+      secretMatrix.filter((r) => r.stripeSecretAccess).map((r) => r.phase).sort().join(",") ===
+        "hosted_payment,hosted_payment_environment_probe",
+    onlyPaymentPhaseTransacts:
+      secretMatrix.filter((r) => r.stripeTransaction).map((r) => r.phase).join(",") === "hosted_payment",
+    transactionImpliesSecretAccess:
+      secretMatrix.every((r) => !r.stripeTransaction || r.stripeSecretAccess),
     onlyPaymentPhaseCallsStripe:
       externalWriteMatrix.filter((r) => r.stripeApiCall).map((r) => r.phase).join(",") === "hosted_payment",
     onlyPaymentPhaseCreatesACheckoutSession:
       externalWriteMatrix.filter((r) => r.createsCheckoutSession).map((r) => r.phase).join(",") === "hosted_payment",
+    onlyPaymentPhaseExercisesPayment:
+      externalWriteMatrix.filter((r) => r.paymentExercised).map((r) => r.phase).join(",") === "hosted_payment",
+    probePhasesMakeNoExternalRequest:
+      externalWriteMatrix.filter((r) => /_environment_probe$/.test(r.phase))
+        .every((r) => r.externalRequestsPermitted === false && r.stripeApiCall === false && r.createsCheckoutSession === false),
+    everyProtectedJobAssertsItsSentinel:
+      ["hosted_write", "hosted_payment"].every((j) => {
+        const sn = sentinelOf(j);
+        return Boolean(sn.RCAP_ENVIRONMENT_ID) && Boolean(sn.RCAP_ENVIRONMENT_CLASS) && Boolean(sn.failureCode);
+      }),
     noPhaseWritesVercelProduction: externalWriteMatrix.every((r) => r.vercelProductionWrite === false)
   }
 };
@@ -153,10 +202,17 @@ console.log("job                environment                  stripeExprs  transa
 for (const j of report.jobs) {
   console.log(`  ${j.job.padEnd(16)} ${String(j.environment ?? "(none)").padEnd(28)} ${String(j.stripeSecretExpressions).padEnd(12)} ${j.transactingScripts.map((t) => t.split("/").pop()).join(", ") || "-"}`);
 }
-console.log("\nphase                  environment(s)                          stripe  session");
+console.log("\nphase                            environment(s)                            access  txn    session");
 for (const e of environmentMatrix) {
   const w = externalWriteMatrix.find((x) => x.phase === e.phase);
-  console.log(`  ${e.phase.padEnd(22)} ${e.environments.join(" + ").padEnd(39)} ${String(w.stripeApiCall).padEnd(7)} ${w.createsCheckoutSession}`);
+  const sec = secretMatrix.find((x) => x.phase === e.phase);
+  console.log(`  ${e.phase.padEnd(32)} ${e.environments.join(" + ").padEnd(41)} ${String(sec.stripeSecretAccess).padEnd(7)} ${String(sec.stripeTransaction).padEnd(6)} ${w.createsCheckoutSession}`);
+}
+console.log("\nsentinels:");
+for (const r of sentinelMatrix.filter((x) => x.sentinels.some((y) => y.RCAP_ENVIRONMENT_ID))) {
+  for (const sn of r.sentinels) {
+    if (sn.RCAP_ENVIRONMENT_ID) console.log(`  ${r.phase.padEnd(32)} ${sn.job.padEnd(16)} ${sn.RCAP_ENVIRONMENT_ID} / ${sn.RCAP_ENVIRONMENT_CLASS} -> ${sn.failureCode}`);
+  }
 }
 console.log("\ninvariants:", JSON.stringify(report.invariants, null, 2));
 

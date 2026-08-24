@@ -19,7 +19,7 @@
     {
       "job": "hosted_payment",
       "environment": "rcap-acceptance-payment",
-      "stripeSecretExpressions": 7,
+      "stripeSecretExpressions": 9,
       "transactingScripts": [
         "scripts/rcap-hosted-checkout-gate.mjs",
         "scripts/rcap-hosted-acceptance-payment.mjs"
@@ -46,6 +46,15 @@
       ]
     },
     {
+      "phase": "hosted_environment_probe",
+      "jobs": [
+        "hosted_write"
+      ],
+      "environments": [
+        "rcap-acceptance"
+      ]
+    },
+    {
       "phase": "hosted_migrate",
       "jobs": [
         "hosted_write"
@@ -73,7 +82,7 @@
       ]
     },
     {
-      "phase": "hosted_full",
+      "phase": "hosted_full_nonpayment",
       "jobs": [
         "hosted_write"
       ],
@@ -82,7 +91,7 @@
       ]
     },
     {
-      "phase": "hosted_checkout_gate",
+      "phase": "hosted_checkout_pinning",
       "jobs": [
         "hosted_write"
       ],
@@ -97,6 +106,17 @@
       ],
       "environments": [
         "rcap-acceptance"
+      ]
+    },
+    {
+      "phase": "hosted_payment_environment_probe",
+      "jobs": [
+        "hosted_write",
+        "hosted_payment"
+      ],
+      "environments": [
+        "rcap-acceptance",
+        "rcap-acceptance-payment"
       ]
     },
     {
@@ -111,6 +131,181 @@
       ]
     }
   ],
+  "sentinelMatrix": [
+    {
+      "phase": "hosted_preflight",
+      "jobs": [
+        "readonly_probe"
+      ],
+      "sentinels": [
+        {
+          "job": "readonly_probe",
+          "RCAP_ENVIRONMENT_ID": null,
+          "RCAP_ENVIRONMENT_CLASS": null,
+          "failureCode": null
+        }
+      ]
+    },
+    {
+      "phase": "hosted_vercel_audit",
+      "jobs": [
+        "readonly_probe"
+      ],
+      "sentinels": [
+        {
+          "job": "readonly_probe",
+          "RCAP_ENVIRONMENT_ID": null,
+          "RCAP_ENVIRONMENT_CLASS": null,
+          "failureCode": null
+        }
+      ]
+    },
+    {
+      "phase": "hosted_environment_probe",
+      "jobs": [
+        "hosted_write"
+      ],
+      "sentinels": [
+        {
+          "job": "hosted_write",
+          "RCAP_ENVIRONMENT_ID": "rcap-acceptance-v1",
+          "RCAP_ENVIRONMENT_CLASS": "nonproduction-acceptance",
+          "failureCode": "ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+        }
+      ]
+    },
+    {
+      "phase": "hosted_migrate",
+      "jobs": [
+        "hosted_write"
+      ],
+      "sentinels": [
+        {
+          "job": "hosted_write",
+          "RCAP_ENVIRONMENT_ID": "rcap-acceptance-v1",
+          "RCAP_ENVIRONMENT_CLASS": "nonproduction-acceptance",
+          "failureCode": "ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+        }
+      ]
+    },
+    {
+      "phase": "hosted_deploy",
+      "jobs": [
+        "hosted_write"
+      ],
+      "sentinels": [
+        {
+          "job": "hosted_write",
+          "RCAP_ENVIRONMENT_ID": "rcap-acceptance-v1",
+          "RCAP_ENVIRONMENT_CLASS": "nonproduction-acceptance",
+          "failureCode": "ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+        }
+      ]
+    },
+    {
+      "phase": "hosted_accept",
+      "jobs": [
+        "hosted_write"
+      ],
+      "sentinels": [
+        {
+          "job": "hosted_write",
+          "RCAP_ENVIRONMENT_ID": "rcap-acceptance-v1",
+          "RCAP_ENVIRONMENT_CLASS": "nonproduction-acceptance",
+          "failureCode": "ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+        }
+      ]
+    },
+    {
+      "phase": "hosted_full_nonpayment",
+      "jobs": [
+        "hosted_write"
+      ],
+      "sentinels": [
+        {
+          "job": "hosted_write",
+          "RCAP_ENVIRONMENT_ID": "rcap-acceptance-v1",
+          "RCAP_ENVIRONMENT_CLASS": "nonproduction-acceptance",
+          "failureCode": "ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+        }
+      ]
+    },
+    {
+      "phase": "hosted_checkout_pinning",
+      "jobs": [
+        "hosted_write"
+      ],
+      "sentinels": [
+        {
+          "job": "hosted_write",
+          "RCAP_ENVIRONMENT_ID": "rcap-acceptance-v1",
+          "RCAP_ENVIRONMENT_CLASS": "nonproduction-acceptance",
+          "failureCode": "ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+        }
+      ]
+    },
+    {
+      "phase": "hosted_worker_contract",
+      "jobs": [
+        "hosted_write"
+      ],
+      "sentinels": [
+        {
+          "job": "hosted_write",
+          "RCAP_ENVIRONMENT_ID": "rcap-acceptance-v1",
+          "RCAP_ENVIRONMENT_CLASS": "nonproduction-acceptance",
+          "failureCode": "ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+        }
+      ]
+    },
+    {
+      "phase": "hosted_payment_environment_probe",
+      "jobs": [
+        "hosted_write",
+        "hosted_payment"
+      ],
+      "sentinels": [
+        {
+          "job": "hosted_write",
+          "RCAP_ENVIRONMENT_ID": "rcap-acceptance-v1",
+          "RCAP_ENVIRONMENT_CLASS": "nonproduction-acceptance",
+          "failureCode": "ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+        },
+        {
+          "job": "hosted_payment",
+          "RCAP_ENVIRONMENT_ID": "rcap-acceptance-payment-v1",
+          "RCAP_ENVIRONMENT_CLASS": "nonproduction-acceptance-payment",
+          "failureCode": "PAYMENT_ENVIRONMENT_IDENTITY_INVALID"
+        }
+      ]
+    },
+    {
+      "phase": "hosted_payment",
+      "jobs": [
+        "hosted_write",
+        "hosted_payment"
+      ],
+      "sentinels": [
+        {
+          "job": "hosted_write",
+          "RCAP_ENVIRONMENT_ID": "rcap-acceptance-v1",
+          "RCAP_ENVIRONMENT_CLASS": "nonproduction-acceptance",
+          "failureCode": "ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID"
+        },
+        {
+          "job": "hosted_payment",
+          "RCAP_ENVIRONMENT_ID": "rcap-acceptance-payment-v1",
+          "RCAP_ENVIRONMENT_CLASS": "nonproduction-acceptance-payment",
+          "failureCode": "PAYMENT_ENVIRONMENT_IDENTITY_INVALID"
+        }
+      ]
+    }
+  ],
+  "retiredOrRenamedPhases": [
+    "github_acceptance",
+    "full",
+    "checkout_gate"
+  ],
   "secretMatrix": [
     {
       "phase": "hosted_preflight",
@@ -123,7 +318,9 @@
         "VERCEL_PROJECT_ID",
         "VERCEL_TOKEN"
       ],
-      "holdsStripeTestSecrets": false
+      "holdsStripeTestSecrets": false,
+      "stripeSecretAccess": false,
+      "stripeTransaction": false
     },
     {
       "phase": "hosted_vercel_audit",
@@ -136,7 +333,26 @@
         "VERCEL_PROJECT_ID",
         "VERCEL_TOKEN"
       ],
-      "holdsStripeTestSecrets": false
+      "holdsStripeTestSecrets": false,
+      "stripeSecretAccess": false,
+      "stripeTransaction": false
+    },
+    {
+      "phase": "hosted_environment_probe",
+      "jobs": [
+        "hosted_write"
+      ],
+      "referencableSecrets": [
+        "GITHUB_TOKEN",
+        "SUPABASE_ACCESS_TOKEN",
+        "VERCEL_AUTOMATION_BYPASS_SECRET",
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_TOKEN"
+      ],
+      "holdsStripeTestSecrets": false,
+      "stripeSecretAccess": false,
+      "stripeTransaction": false
     },
     {
       "phase": "hosted_migrate",
@@ -151,7 +367,9 @@
         "VERCEL_PROJECT_ID",
         "VERCEL_TOKEN"
       ],
-      "holdsStripeTestSecrets": false
+      "holdsStripeTestSecrets": false,
+      "stripeSecretAccess": false,
+      "stripeTransaction": false
     },
     {
       "phase": "hosted_deploy",
@@ -166,7 +384,9 @@
         "VERCEL_PROJECT_ID",
         "VERCEL_TOKEN"
       ],
-      "holdsStripeTestSecrets": false
+      "holdsStripeTestSecrets": false,
+      "stripeSecretAccess": false,
+      "stripeTransaction": false
     },
     {
       "phase": "hosted_accept",
@@ -181,10 +401,12 @@
         "VERCEL_PROJECT_ID",
         "VERCEL_TOKEN"
       ],
-      "holdsStripeTestSecrets": false
+      "holdsStripeTestSecrets": false,
+      "stripeSecretAccess": false,
+      "stripeTransaction": false
     },
     {
-      "phase": "hosted_full",
+      "phase": "hosted_full_nonpayment",
       "jobs": [
         "hosted_write"
       ],
@@ -196,10 +418,12 @@
         "VERCEL_PROJECT_ID",
         "VERCEL_TOKEN"
       ],
-      "holdsStripeTestSecrets": false
+      "holdsStripeTestSecrets": false,
+      "stripeSecretAccess": false,
+      "stripeTransaction": false
     },
     {
-      "phase": "hosted_checkout_gate",
+      "phase": "hosted_checkout_pinning",
       "jobs": [
         "hosted_write"
       ],
@@ -211,7 +435,9 @@
         "VERCEL_PROJECT_ID",
         "VERCEL_TOKEN"
       ],
-      "holdsStripeTestSecrets": false
+      "holdsStripeTestSecrets": false,
+      "stripeSecretAccess": false,
+      "stripeTransaction": false
     },
     {
       "phase": "hosted_worker_contract",
@@ -226,7 +452,29 @@
         "VERCEL_PROJECT_ID",
         "VERCEL_TOKEN"
       ],
-      "holdsStripeTestSecrets": false
+      "holdsStripeTestSecrets": false,
+      "stripeSecretAccess": false,
+      "stripeTransaction": false
+    },
+    {
+      "phase": "hosted_payment_environment_probe",
+      "jobs": [
+        "hosted_write",
+        "hosted_payment"
+      ],
+      "referencableSecrets": [
+        "GITHUB_TOKEN",
+        "HOSTED_STRIPE_TEST_SECRET",
+        "HOSTED_STRIPE_TEST_WEBHOOK_SECRET",
+        "SUPABASE_ACCESS_TOKEN",
+        "VERCEL_AUTOMATION_BYPASS_SECRET",
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_TOKEN"
+      ],
+      "holdsStripeTestSecrets": true,
+      "stripeSecretAccess": true,
+      "stripeTransaction": false
     },
     {
       "phase": "hosted_payment",
@@ -244,12 +492,15 @@
         "VERCEL_PROJECT_ID",
         "VERCEL_TOKEN"
       ],
-      "holdsStripeTestSecrets": true
+      "holdsStripeTestSecrets": true,
+      "stripeSecretAccess": true,
+      "stripeTransaction": true
     }
   ],
   "externalWriteMatrix": [
     {
       "phase": "hosted_preflight",
+      "externalRequestsPermitted": false,
       "supabaseSchemaWrite": false,
       "supabaseAuthConfigWrite": false,
       "vercelPreviewDeployment": false,
@@ -258,10 +509,12 @@
       "stripeApiCall": false,
       "createsCheckoutSession": false,
       "consumesPaymentWebhook": false,
+      "paymentExercised": false,
       "transactingScripts": []
     },
     {
       "phase": "hosted_vercel_audit",
+      "externalRequestsPermitted": false,
       "supabaseSchemaWrite": false,
       "supabaseAuthConfigWrite": false,
       "vercelPreviewDeployment": false,
@@ -270,10 +523,26 @@
       "stripeApiCall": false,
       "createsCheckoutSession": false,
       "consumesPaymentWebhook": false,
+      "paymentExercised": false,
+      "transactingScripts": []
+    },
+    {
+      "phase": "hosted_environment_probe",
+      "externalRequestsPermitted": false,
+      "supabaseSchemaWrite": false,
+      "supabaseAuthConfigWrite": false,
+      "vercelPreviewDeployment": false,
+      "vercelProductionWrite": false,
+      "containerRegistryPull": false,
+      "stripeApiCall": false,
+      "createsCheckoutSession": false,
+      "consumesPaymentWebhook": false,
+      "paymentExercised": false,
       "transactingScripts": []
     },
     {
       "phase": "hosted_migrate",
+      "externalRequestsPermitted": true,
       "supabaseSchemaWrite": true,
       "supabaseAuthConfigWrite": false,
       "vercelPreviewDeployment": false,
@@ -282,10 +551,12 @@
       "stripeApiCall": false,
       "createsCheckoutSession": false,
       "consumesPaymentWebhook": false,
+      "paymentExercised": false,
       "transactingScripts": []
     },
     {
       "phase": "hosted_deploy",
+      "externalRequestsPermitted": true,
       "supabaseSchemaWrite": false,
       "supabaseAuthConfigWrite": false,
       "vercelPreviewDeployment": true,
@@ -294,10 +565,12 @@
       "stripeApiCall": false,
       "createsCheckoutSession": false,
       "consumesPaymentWebhook": false,
+      "paymentExercised": false,
       "transactingScripts": []
     },
     {
       "phase": "hosted_accept",
+      "externalRequestsPermitted": true,
       "supabaseSchemaWrite": false,
       "supabaseAuthConfigWrite": true,
       "vercelPreviewDeployment": false,
@@ -306,10 +579,12 @@
       "stripeApiCall": false,
       "createsCheckoutSession": false,
       "consumesPaymentWebhook": false,
+      "paymentExercised": false,
       "transactingScripts": []
     },
     {
-      "phase": "hosted_full",
+      "phase": "hosted_full_nonpayment",
+      "externalRequestsPermitted": true,
       "supabaseSchemaWrite": true,
       "supabaseAuthConfigWrite": true,
       "vercelPreviewDeployment": true,
@@ -318,10 +593,12 @@
       "stripeApiCall": false,
       "createsCheckoutSession": false,
       "consumesPaymentWebhook": false,
+      "paymentExercised": false,
       "transactingScripts": []
     },
     {
-      "phase": "hosted_checkout_gate",
+      "phase": "hosted_checkout_pinning",
+      "externalRequestsPermitted": true,
       "supabaseSchemaWrite": false,
       "supabaseAuthConfigWrite": false,
       "vercelPreviewDeployment": false,
@@ -330,10 +607,12 @@
       "stripeApiCall": false,
       "createsCheckoutSession": false,
       "consumesPaymentWebhook": false,
+      "paymentExercised": false,
       "transactingScripts": []
     },
     {
       "phase": "hosted_worker_contract",
+      "externalRequestsPermitted": true,
       "supabaseSchemaWrite": false,
       "supabaseAuthConfigWrite": false,
       "vercelPreviewDeployment": false,
@@ -342,10 +621,26 @@
       "stripeApiCall": false,
       "createsCheckoutSession": false,
       "consumesPaymentWebhook": false,
+      "paymentExercised": false,
+      "transactingScripts": []
+    },
+    {
+      "phase": "hosted_payment_environment_probe",
+      "externalRequestsPermitted": false,
+      "supabaseSchemaWrite": false,
+      "supabaseAuthConfigWrite": false,
+      "vercelPreviewDeployment": false,
+      "vercelProductionWrite": false,
+      "containerRegistryPull": false,
+      "stripeApiCall": false,
+      "createsCheckoutSession": false,
+      "consumesPaymentWebhook": false,
+      "paymentExercised": false,
       "transactingScripts": []
     },
     {
       "phase": "hosted_payment",
+      "externalRequestsPermitted": true,
       "supabaseSchemaWrite": true,
       "supabaseAuthConfigWrite": true,
       "vercelPreviewDeployment": true,
@@ -354,6 +649,7 @@
       "stripeApiCall": true,
       "createsCheckoutSession": true,
       "consumesPaymentWebhook": true,
+      "paymentExercised": true,
       "transactingScripts": [
         "scripts/rcap-hosted-checkout-gate.mjs",
         "scripts/rcap-hosted-acceptance-payment.mjs"
@@ -361,9 +657,15 @@
     }
   ],
   "invariants": {
-    "onlyPaymentPhaseHoldsStripeSecrets": true,
+    "onlyPaymentJobHoldsStripeSecretExpressions": true,
+    "stripeSecretAccessIsExactlyPaymentAndItsProbe": true,
+    "onlyPaymentPhaseTransacts": true,
+    "transactionImpliesSecretAccess": true,
     "onlyPaymentPhaseCallsStripe": true,
     "onlyPaymentPhaseCreatesACheckoutSession": true,
+    "onlyPaymentPhaseExercisesPayment": true,
+    "probePhasesMakeNoExternalRequest": true,
+    "everyProtectedJobAssertsItsSentinel": true,
     "noPhaseWritesVercelProduction": true
   }
 }

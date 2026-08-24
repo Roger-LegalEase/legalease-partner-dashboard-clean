@@ -397,7 +397,7 @@ const hostedJobs = parseJobs(hostedWorkflow);
   check(
     "hosted_payment_uses_the_separate_payment_environment",
     paymentJob?.environmentName === "rcap-acceptance-payment" &&
-      paymentJob?.if === "inputs.phase == 'payment'" &&
+      paymentJob?.if === "inputs.phase == 'payment' || inputs.phase == 'payment_environment_probe'" &&
       writeCapable?.environmentName === "rcap-acceptance",
     `hosted_payment runs only for the payment phase in environment ${paymentJob?.environmentName}; hosted_write runs every other write phase in ${writeCapable?.environmentName}. Two jobs, two environments, no shared Stripe secret.`
   );
@@ -499,7 +499,8 @@ const hostedByJob = executableLinesByJob(hostedWorkflow);
   const paymentEnv = /^ {2}hosted_payment:$[\s\S]*?^ {4}environment:\s*$\n^ {6}name: (.+)$/m.exec(hostedWorkflow)?.[1]?.trim();
   check(
     "the_payment_job_is_bound_to_the_payment_phase_and_the_payment_environment",
-    paymentJobIf === "inputs.phase == 'payment'" && paymentEnv === "rcap-acceptance-payment",
+    paymentJobIf === "inputs.phase == 'payment' || inputs.phase == 'payment_environment_probe'" &&
+      paymentEnv === "rcap-acceptance-payment",
     `hosted_payment if=${JSON.stringify(paymentJobIf)} environment=${JSON.stringify(paymentEnv)}`
   );
 }
@@ -516,9 +517,11 @@ const hostedByJob = executableLinesByJob(hostedWorkflow);
     const rest = tableLines[i].replace(/^[^)]*\)/, "");
     return rest.trim().length > 0 ? rest : (tableLines[i + 1] ?? "");
   };
-  const stripeTrue = (phase) => /STRIPE=true/.test(rowFor(phase));
-  const sessionTrue = (phase) => /CHECKOUT_SESSION=true/.test(rowFor(phase));
-  const matrixTrue = (phase) => /MATRIX=true/.test(rowFor(phase));
+  const accessTrue = (phase) => /\bS_ACCESS=true/.test(rowFor(phase));
+  const txnTrue = (phase) => /\bS_TXN=true/.test(rowFor(phase));
+  const stripeTrue = txnTrue;
+  const sessionTrue = (phase) => /\bCHECKOUT_SESSION=true/.test(rowFor(phase));
+  const matrixTrue = (phase) => /\bMATRIX=true/.test(rowFor(phase));
 
   check(
     "hosted_accept_contains_no_payment_matrix",
@@ -527,38 +530,40 @@ const hostedByJob = executableLinesByJob(hostedWorkflow);
   );
 
   check(
-    "hosted_full_cannot_transact",
-    !stripeTrue("full") && !sessionTrue("full") &&
+    "hosted_full_nonpayment_cannot_transact",
+    !stripeTrue("full_nonpayment") && !accessTrue("full_nonpayment") && !sessionTrue("full_nonpayment") &&
       !(hostedByJob.get("hosted_write") ?? []).some((l) => TRANSACTING_SCRIPTS.some((t) => l.includes(t))),
-    `full: STRIPE=false, CHECKOUT_SESSION=false; and the non-payment job contains no transacting script to run even if a future edit set the flag`
+    `full_nonpayment: S_ACCESS=false, S_TXN=false, CHECKOUT_SESSION=false; and the non-payment job contains no transacting script to run even if a future edit set the flag. The legacy value "full" is refused by name.`
   );
 
   check(
-    "hosted_checkout_gate_is_non_transacting",
-    !stripeTrue("checkout_gate") && !sessionTrue("checkout_gate") &&
-      /VERIFY_GATE=true/.test(rowFor("checkout_gate")) &&
+    "hosted_checkout_pinning_is_non_transacting",
+    !stripeTrue("checkout_pinning") && !accessTrue("checkout_pinning") && !sessionTrue("checkout_pinning") &&
+      /\bVERIFY_GATE=true/.test(rowFor("checkout_pinning")) &&
       (hostedByJob.get(PAYMENT_JOB) ?? []).some((l) => l.includes("scripts/rcap-hosted-checkout-gate.mjs")),
-    `checkout_gate: VERIFY_GATE=true, STRIPE=false, CHECKOUT_SESSION=false — it runs the STATIC pinning verifier only. The operation that necessarily calls Stripe (rcap-hosted-checkout-gate.mjs, which creates one real Sandbox Session) moved into ${PAYMENT_JOB}`
+    `checkout_pinning: VERIFY_GATE=true, S_ACCESS=false, S_TXN=false, CHECKOUT_SESSION=false — it runs the STATIC pinning verifier only, which opens no socket. The operation that necessarily calls Stripe (rcap-hosted-checkout-gate.mjs, which creates one real Sandbox Session) lives in ${PAYMENT_JOB}. The legacy value "checkout_gate" is refused by name.`
   );
 
   const wcRow = rowFor("worker_contract");
   check(
     "hosted_worker_contract_contains_no_stripe_secret",
-    /STRIPE=false/.test(wcRow) && !stripeTrue("worker_contract") && !sessionTrue("worker_contract") &&
+    /\bS_ACCESS=false/.test(wcRow) && /\bS_TXN=false/.test(wcRow) &&
+      !accessTrue("worker_contract") && !txnTrue("worker_contract") && !sessionTrue("worker_contract") &&
       !(hostedByJob.get("hosted_write") ?? []).some((l) => STRIPE_SECRET_EXPR.test(l)),
-    `worker_contract shares the all-false contract row (STRIPE=false) and runs in hosted_write, which carries zero Stripe secret expressions`
+    `worker_contract carries S_ACCESS=false and S_TXN=false and runs in hosted_write, which carries zero Stripe secret expressions`
   );
 
   check(
     "no_non_payment_phase_can_create_a_checkout_session",
-    ["full", "deploy", "accept", "checkout_gate", "worker_contract"].every((p) => !sessionTrue(p)) &&
+    ["full_nonpayment", "deploy", "accept", "checkout_pinning", "worker_contract", "environment_probe", "payment_environment_probe", "migrate"]
+      .every((p) => !sessionTrue(p)) &&
       sessionTrue("payment") &&
-      // Both contract-step guards abort the run rather than warning.
-      /would create a Checkout Session without Stripe authorization"; exit 1/.test(hostedWorkflow) &&
+      // The contract-step guards abort the run rather than warning.
+      /would create a Checkout Session without transaction authority"; exit 1/.test(hostedWorkflow) &&
       /only 'payment' may hold it"; exit 1/.test(hostedWorkflow) &&
       // And no non-payment job holds the script that creates one.
       !(hostedByJob.get("hosted_write") ?? []).some((l) => l.includes("scripts/rcap-hosted-checkout-gate.mjs")),
-    `CHECKOUT_SESSION is true for payment alone and false for full, deploy, accept, checkout_gate and worker_contract; the contract step exits 1 if any phase ever pairs CHECKOUT_SESSION=true with STRIPE!=true or claims STRIPE outside the payment phase; and the only script that creates a Session is absent from the non-payment job entirely`
+    `CHECKOUT_SESSION is true for payment alone and false for every other phase including both probes; the contract step exits 1 if any phase pairs CHECKOUT_SESSION=true with S_TXN!=true or claims transaction authority outside the payment phase; and the only script that creates a Session is absent from the non-payment job entirely`
   );
 }
 
@@ -649,14 +654,311 @@ const hostedByJob = executableLinesByJob(hostedWorkflow);
   // The derived matrices, checked as data rather than re-derived here.
   const matrices = JSON.parse(read("data/rcap-render/phase-boundary-matrices.json"));
   const bad = Object.entries(matrices.invariants).filter(([, v]) => v !== true).map(([k]) => k);
-  const stripePhases = matrices.secretMatrix.filter((r) => r.holdsStripeTestSecrets).map((r) => r.phase);
+  const accessPhases = matrices.secretMatrix.filter((r) => r.stripeSecretAccess).map((r) => r.phase).sort();
+  const txnPhases = matrices.secretMatrix.filter((r) => r.stripeTransaction).map((r) => r.phase);
   const sessionPhases = matrices.externalWriteMatrix.filter((r) => r.createsCheckoutSession).map((r) => r.phase);
+  const stripePhases = accessPhases;
   check(
     "the_derived_phase_boundary_matrices_hold_every_invariant",
-    bad.length === 0 && stripePhases.join(",") === "hosted_payment" && sessionPhases.join(",") === "hosted_payment",
+    bad.length === 0 &&
+      accessPhases.join(",") === "hosted_payment,hosted_payment_environment_probe" &&
+      txnPhases.join(",") === "hosted_payment" &&
+      sessionPhases.join(",") === "hosted_payment",
     bad.length === 0
-      ? `phases holding Stripe secrets: [${stripePhases.join(", ")}]; phases creating a Checkout Session: [${sessionPhases.join(", ")}]; no phase writes Vercel Production. Matrices derived from the workflow by scripts/rcap-phase-boundary-matrix.mjs`
+      ? `STRIPE_SECRET_ACCESS: [${accessPhases.join(", ")}]; STRIPE_TRANSACTION: [${txnPhases.join(", ")}]; creates a Checkout Session: [${sessionPhases.join(", ")}]; no phase writes Vercel Production. All ${Object.keys(matrices.invariants).length} invariants hold. Derived from the workflow by scripts/rcap-phase-boundary-matrix.mjs`
       : `violated invariants: ${bad.join(", ")}`
+  );
+}
+
+// =============================================================================
+// Environment identity sentinels, read-only probes, capability split,
+// retired paths and honest phase names.
+// =============================================================================
+
+/** The body of one step, identified by its `id`, inside one job. */
+function stepBody(job, stepId) {
+  const lines = hostedWorkflow.split("\n");
+  const jobAt = lines.findIndex((l) => l === `  ${job}:`);
+  if (jobAt === -1) return "";
+  let end = lines.length;
+  for (let i = jobAt + 1; i < lines.length; i += 1) {
+    if (/^  [A-Za-z0-9_-]+:$/.test(lines[i])) { end = i; break; }
+  }
+  const idAt = lines.findIndex((l, i) => i > jobAt && i < end && l.trim() === `id: ${stepId}`);
+  if (idAt === -1) return "";
+  let nameAt = idAt;
+  while (nameAt > jobAt && !/^      - name:/.test(lines[nameAt])) nameAt -= 1;
+  let stop = end;
+  for (let i = idAt + 1; i < end; i += 1) {
+    if (/^      - name:/.test(lines[i])) { stop = i; break; }
+  }
+  return lines.slice(nameAt, stop).join("\n");
+}
+
+/** The ordered step names of a job. */
+function stepNames(job) {
+  const lines = hostedWorkflow.split("\n");
+  const jobAt = lines.findIndex((l) => l === `  ${job}:`);
+  let end = lines.length;
+  for (let i = jobAt + 1; i < lines.length; i += 1) {
+    if (/^  [A-Za-z0-9_-]+:$/.test(lines[i])) { end = i; break; }
+  }
+  return lines.slice(jobAt, end)
+    .map((l) => /^      - name: (.+)$/.exec(l)?.[1])
+    .filter(Boolean);
+}
+
+const SENTINELS = {
+  hosted_write: { id: "rcap-acceptance-v1", cls: "nonproduction-acceptance", code: "ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID" },
+  hosted_payment: { id: "rcap-acceptance-payment-v1", cls: "nonproduction-acceptance-payment", code: "PAYMENT_ENVIRONMENT_IDENTITY_INVALID" }
+};
+
+for (const [job, want] of Object.entries(SENTINELS)) {
+  const body = stepBody(job, "env_identity");
+  const names = stepNames(job);
+  const isFirst = /sentinel/i.test(names[0] ?? "");
+  const readsVars = body.includes("vars.RCAP_ENVIRONMENT_ID") && body.includes("vars.RCAP_ENVIRONMENT_CLASS");
+  const literalId = body.includes(`EXPECTED_ID="${want.id}"`);
+  const literalCls = body.includes(`EXPECTED_CLASS="${want.cls}"`);
+  const emptyRefused = /-z "\$\{OBSERVED_ID:-\}"/.test(body) && /-z "\$\{OBSERVED_CLASS:-\}"/.test(body);
+  const wrongRefused = body.includes('!= "$EXPECTED_ID"') && body.includes('!= "$EXPECTED_CLASS"');
+  const exits = body.includes(`::error::${want.code}`) && /exit 1/.test(body);
+  const noSecret = !/secrets\./.test(body);
+  const which = job === "hosted_write" ? "acceptance" : "payment";
+
+  check(
+    `a_missing_${which}_marker_refuses_before_checkout_or_external_execution`,
+    isFirst && readsVars && emptyRefused && exits &&
+      names.indexOf("Check out repository history") > 0 &&
+      names.findIndex((n) => /sentinel/i.test(n)) < names.indexOf("Check out repository history"),
+    `"${names[0]}" is the first executable step in ${job}; an empty RCAP_ENVIRONMENT_ID or RCAP_ENVIRONMENT_CLASS exits 1 with ${want.code}, at step index 0 versus checkout at index ${names.indexOf("Check out repository history")}`
+  );
+
+  check(
+    `a_wrong_${which}_marker_refuses`,
+    literalId && literalCls && wrongRefused && exits && noSecret,
+    `${job} compares against the literals ${want.id} / ${want.cls} and exits 1 with ${want.code} on any other value; the step reads no secret`
+  );
+}
+
+{
+  // An implicitly created environment has no variables and no secrets: every
+  // `secrets.*` in it resolves to "". The sentinel is what turns that into a
+  // refusal instead of a silent no-op write.
+  const both = Object.entries(SENTINELS).every(([job, want]) => {
+    const body = stepBody(job, "env_identity");
+    return /-z "\$\{OBSERVED_ID:-\}"/.test(body) && body.includes(`::error::${want.code}`);
+  });
+  const writeStepsAfterSentinel = ["hosted_write", "hosted_payment"].every((job) => {
+    const names = stepNames(job);
+    return names.findIndex((n) => /sentinel/i.test(n)) === 0;
+  });
+  check(
+    "an_automatically_created_empty_environment_cannot_reach_a_write",
+    both && writeStepsAfterSentinel,
+    `both protected jobs assert their environment-scoped variables in step 0. An auto-created environment carries neither variable, so the sentinel exits 1 before checkout, before the preflight and before any Supabase, Vercel, registry or Stripe call.`
+  );
+}
+
+{
+  const body = stepBody("hosted_write", "environment_probe");
+  const noNetwork = !/(api\.supabase\.com|api\.vercel\.com|api\.stripe\.com|curl |wget |ghcr\.io)/.test(body) &&
+    !/node scripts\//.test(body) &&
+    !/uses:/.test(body);
+  const namesOnly = !/echo .*\$S_[A-Z_]+"/.test(body) && /present=\$/.test(body);
+  const noStripe = !/secrets\.HOSTED_STRIPE_TEST/.test(body);
+  const fiveSecrets = ["SUPABASE_ACCESS_TOKEN", "VERCEL_TOKEN", "VERCEL_ORG_ID", "VERCEL_PROJECT_ID", "VERCEL_AUTOMATION_BYPASS_SECRET"]
+    .every((n) => body.includes(`secrets.${n}`));
+  const usesAcceptanceEnv = /^ {2}hosted_write:$[\s\S]*?^ {6}name: rcap-acceptance$/m.test(hostedWorkflow);
+  check(
+    "hosted_environment_probe_makes_no_external_request",
+    noNetwork && noStripe && fiveSecrets && namesOnly && usesAcceptanceEnv &&
+      body.includes("if: inputs.phase == 'environment_probe'"),
+    `the probe runs only for phase environment_probe in hosted_write (environment rcap-acceptance), invokes no script and no action, contacts no Supabase / Vercel / registry / Stripe endpoint, validates the presence of all five shared secrets, references no Stripe secret, and prints only names and booleans`
+  );
+
+  const notprobe = 'contains(fromJSON(\'["environment_probe","payment_environment_probe"]\'), inputs.phase) == false';
+  const guarded = ["Check out repository history", "Verify ancestry and image-input equivalence of every pinned SHA", "Set up Node", "Prove the credentials and the acceptance project"]
+    .every((n) => {
+      const lines = hostedWorkflow.split("\n");
+      const hw = lines.findIndex((l) => l === "  hosted_write:");
+      const hp = lines.findIndex((l) => l === "  hosted_payment:");
+      const at = lines.findIndex((l, i) => i > hw && i < hp && l === `      - name: ${n}`);
+      if (at === -1) return false;
+      return lines.slice(at, at + 6).some((l) => l.includes(notprobe));
+    });
+  check(
+    "the_probe_phases_reach_no_network_step_in_hosted_write",
+    guarded,
+    `checkout, ancestry verification, Node setup and the credential preflight are each guarded so neither probe phase reaches them`
+  );
+}
+
+{
+  const body = stepBody("hosted_payment", "payment_environment_probe");
+  const noStripeCall = !/api\.stripe\.com/.test(body) && !/node scripts\//.test(body) && !/uses:/.test(body);
+  const formatOnly = /sk_test_\*\) K=true/.test(body) && /whsec_\*\) W=true/.test(body);
+  const fiveSecrets = ["SUPABASE_ACCESS_TOKEN", "VERCEL_TOKEN", "VERCEL_ORG_ID", "VERCEL_PROJECT_ID", "VERCEL_AUTOMATION_BYPASS_SECRET"]
+    .every((n) => body.includes(`secrets.${n}`));
+  const refusesTxn = body.includes("the probe must never hold transaction authority");
+  check(
+    "hosted_payment_environment_probe_makes_no_external_request",
+    noStripeCall && formatOnly && fiveSecrets && refusesTxn &&
+      body.includes("if: inputs.phase == 'payment_environment_probe'"),
+    `the payment probe runs only for phase payment_environment_probe in hosted_payment (environment rcap-acceptance-payment), invokes no script and no action, contacts api.stripe.com never, validates the five shared secrets plus sk_test_ and whsec_ FORMAT by prefix, and aborts if it is ever handed transaction authority`
+  );
+
+  check(
+    "the_payment_probe_creates_no_checkout_session",
+    !/checkout\/sessions/.test(body) &&
+      !TRANSACTING_SCRIPTS.some((t) => body.includes(t)) &&
+      /"checkoutSessionsCreated": 0/.test(body) &&
+      /"webhooksConsumed": 0/.test(body) &&
+      /"stripeApiCallsMade": 0/.test(body),
+    `the probe body contains no Checkout Session endpoint, invokes neither transacting script, and records stripeApiCallsMade=0, checkoutSessionsCreated=0 and webhooksConsumed=0 in its artifact`
+  );
+
+  // Every transacting step in the payment job is gated on TRANSACTION, not on
+  // mere membership of the job.
+  const lines = hostedWorkflow.split("\n");
+  const hp = lines.findIndex((l) => l === "  hosted_payment:");
+  const txnGate = "steps.capability.outputs.stripe_transaction == 'true'";
+  const ungated = [];
+  for (const t of TRANSACTING_SCRIPTS) {
+    const at = lines.findIndex((l, i) => i > hp && l.includes(`node ${t}`));
+    if (at === -1) { ungated.push(`${t} (absent)`); continue; }
+    let nameAt = at;
+    while (nameAt > hp && !/^      - name:/.test(lines[nameAt])) nameAt -= 1;
+    if (!lines.slice(nameAt, at).some((l) => l.includes(txnGate))) ungated.push(t);
+  }
+  check(
+    "secret_access_and_transaction_authority_are_distinct",
+    ungated.length === 0 &&
+      /stripe_secret_access=\$S_ACCESS/.test(hostedWorkflow) &&
+      /stripe_transaction=\$S_TXN/.test(hostedWorkflow) &&
+      /transaction authority without secret access/.test(hostedWorkflow),
+    ungated.length === 0
+      ? `the contract emits STRIPE_SECRET_ACCESS and STRIPE_TRANSACTION separately, asserts that transaction implies access, and every transacting step is gated on transaction rather than on job membership — so the probe holds the key and cannot spend it`
+      : `transacting step(s) not gated on transaction authority: ${ungated.join(", ")}`
+  );
+}
+
+{
+  const table = /case "\$PHASE" in([\s\S]*?)esac/.exec(hostedWorkflow)?.[1] ?? "";
+  const tl = table.split("\n");
+  const row = (phase) => {
+    const i = tl.findIndex((l) => new RegExp(`^\\s*(?:[a-z_]+\\|)*${phase}(?:\\|[a-z_]+)*\\)`).test(l));
+    if (i === -1) return "";
+    const rest = tl[i].replace(/^[^)]*\)/, "");
+    return rest.trim().length > 0 ? rest : (tl[i + 1] ?? "");
+  };
+  const access = (p) => /\bS_ACCESS=true/.test(row(p));
+  const txn = (p) => /\bS_TXN=true/.test(row(p));
+  const allPhases = ["environment_probe", "migrate", "deploy", "accept", "full_nonpayment", "checkout_pinning", "worker_contract", "payment_environment_probe", "payment"];
+
+  check(
+    "only_hosted_payment_can_access_stripe_secrets",
+    allPhases.filter(access).sort().join(",") === "payment,payment_environment_probe" &&
+      (hostedByJob.get("hosted_write") ?? []).every((l) => !STRIPE_SECRET_EXPR.test(l)),
+    `S_ACCESS=true for exactly [payment, payment_environment_probe], both of which run in hosted_payment; hosted_write carries zero Stripe secret expressions`
+  );
+
+  check(
+    "only_phase_payment_can_transact",
+    allPhases.filter(txn).join(",") === "payment" &&
+      allPhases.every((p) => !txn(p) || access(p)) &&
+      // Both guards, in both jobs, abort rather than warn.
+      /claims Stripe transaction authority; only 'payment' may hold it"; exit 1/.test(hostedWorkflow) &&
+      /only phase 'payment' may transact"; exit 1/.test(hostedWorkflow),
+    `S_TXN=true for exactly [payment]; every transacting phase also holds access; the contract step in hosted_write and the capability step in hosted_payment each exit 1 if any other phase claims transaction authority`
+  );
+}
+
+{
+  const modes = /options: \[([^\]]+)\]/.exec(f1Workflow)?.[1] ?? "";
+  const modeList = modes.split(",").map((m) => m.trim());
+  const callers = [".github/workflows/rcap-f1-ephemeral-staging.yml", ".github/workflows/rcap-hosted-acceptance-staging.yml"]
+    .filter((f) => read(f).includes("rcap-github-hosted-acceptance.yml"));
+  check(
+    "github_acceptance_is_absent_from_dispatch_choices_and_callers",
+    !modeList.includes("github_acceptance") &&
+      callers.length === 0 &&
+      !/uses: \.\/\.github\/workflows\/rcap-github-hosted-acceptance\.yml/.test(f1Workflow),
+    `dispatch choices are [${modeList.join(", ")}] — github_acceptance absent; no workflow references rcap-github-hosted-acceptance.yml in a \`uses:\`, so it has no caller and cannot be invoked`
+  );
+
+  const refusedInF1 = /if: inputs\.mode == 'github_acceptance'/.test(f1Workflow) && /GITHUB_ACCEPTANCE_RETIRED/.test(f1Workflow);
+  const refusedInHosted = ["hosted_write", "hosted_payment"].every((j) => stepBody(j, "legacy_refusal").includes("GITHUB_ACCEPTANCE_RETIRED"));
+  const fallbackFirstStepRefuses = (() => {
+    const lines = fallbackWorkflow.split("\n");
+    const first = lines.find((l) => /^      - name: /.test(l));
+    return /retired/i.test(first ?? "") && /GITHUB_ACCEPTANCE_RETIRED/.test(fallbackWorkflow);
+  })();
+  const guidance = /Use hosted_payment for payment-producing acceptance\./.test(f1Workflow) &&
+    ["hosted_write", "hosted_payment"].every((j) => stepBody(j, "legacy_refusal").includes("Use hosted_payment for payment-producing acceptance."));
+  check(
+    "direct_legacy_github_acceptance_invocation_returns_GITHUB_ACCEPTANCE_RETIRED",
+    refusedInF1 && refusedInHosted && fallbackFirstStepRefuses && guidance,
+    `a legacy value is refused in three independent places, each before any secret is read: the F1 retired_path_refusal job, the legacy_refusal step that is step 2 of both protected jobs, and the retired workflow's own first step. Each prints GITHUB_ACCEPTANCE_RETIRED and "Use hosted_payment for payment-producing acceptance."`
+  );
+
+  // The payment behaviour was not relocated.
+  const tunnelMoved = /cloudflared/.test(hostedWorkflow);
+  check(
+    "the_retired_payment_behaviour_was_not_moved_elsewhere",
+    !tunnelMoved && /cloudflared/.test(fallbackWorkflow),
+    `the tunnel-and-wait-for-a-human-payment machinery stays in the retired file and appears nowhere in the hosted workflow. Its unique case — a real human-completed Sandbox payment on a live host — is documented in the caller and routed through hosted_payment, whose reuse-only Checkout step prepares one real unpaid Session on a stable Preview host.`
+  );
+}
+
+{
+  const modes = /options: \[([^\]]+)\]/.exec(f1Workflow)?.[1] ?? "";
+  const modeList = modes.split(",").map((m) => m.trim());
+  check(
+    "misleading_phase_names_are_retired_as_refused_aliases",
+    modeList.includes("hosted_full_nonpayment") && !modeList.includes("hosted_full") &&
+      modeList.includes("hosted_checkout_pinning") && !modeList.includes("hosted_checkout_gate") &&
+      ["hosted_write"].every((j) => {
+        const b = stepBody(j, "legacy_refusal");
+        return b.includes("LEGACY_PHASE_REFUSED") && b.includes("full)") && b.includes("checkout_gate)");
+      }) &&
+      /hosted_full\b/.test(/if: (.+)/.exec(/retired_path_refusal:[\s\S]*?if: (.+)/.exec(f1Workflow)?.[0] ?? "")?.[1] ?? ""),
+    `dispatch offers hosted_full_nonpayment and hosted_checkout_pinning; the old hosted_full and hosted_checkout_gate are gone from the choices and are refused by name both at the caller and as step 2 of the protected job`
+  );
+
+  const staticName = /Static verification that the Checkout pinning records name the accepted release \(no Stripe call\)/.test(hostedWorkflow);
+  const verifierIsStatic = (() => {
+    const v = read("scripts/verify-rcap-hosted-checkout-gate.mjs");
+    return !/fetch\(/.test(v) && !/api\.stripe\.com/.test(v) && !/HOSTED_STRIPE_TEST/.test(v);
+  })();
+  check(
+    "the_static_checkout_verification_cannot_be_mistaken_for_a_session_test",
+    staticName && verifierIsStatic &&
+      (hostedWorkflow.match(/Static verification that the Checkout pinning records/g) ?? []).length === 2,
+    `both jobs name the step "Static verification that the Checkout pinning records name the accepted release (no Stripe call)", and scripts/verify-rcap-hosted-checkout-gate.mjs opens no socket and reads no Stripe secret`
+  );
+}
+
+{
+  const stamper = read("scripts/rcap-stamp-payment-exercised.mjs");
+  const stampsBoth = /parsed\.PAYMENT_EXERCISED = paymentExercised/.test(stamper) && /payment-exercised\.json/.test(stamper);
+  const writeJobStampsFalse = /RCAP_PAYMENT_EXERCISED: "false"/.test(hostedWorkflow);
+  const probesInline = stepBody("hosted_write", "environment_probe").includes('"PAYMENT_EXERCISED": false') &&
+    stepBody("hosted_payment", "payment_environment_probe").includes('"PAYMENT_EXERCISED": false');
+  const antiskipSays = /PAYMENT_EXERCISED=false/.test(hostedWorkflow);
+  const noOverclaim = !/paid acceptance is complete/.test(hostedWorkflow.replace(/#.*$/gm, "")) &&
+    /does not mean paid acceptance is complete/.test(stamper);
+  check(
+    "every_non_payment_artifact_asserts_PAYMENT_EXERCISED_false",
+    stampsBoth && writeJobStampsFalse && probesInline && antiskipSays && noOverclaim,
+    `hosted_write stamps RCAP_PAYMENT_EXERCISED=false onto every JSON artifact it produced and writes a standalone payment-exercised.json; both probe artifacts carry PAYMENT_EXERCISED inline because they never check out; the anti-skip gates print PAYMENT_EXERCISED=false; and the stamper's note states plainly that a green non-payment result does not mean paid acceptance is complete`
+  );
+
+  const payStampsCapability = /RCAP_PAYMENT_EXERCISED: \$\{\{ steps\.capability\.outputs\.payment_exercised \}\}/.test(hostedWorkflow);
+  check(
+    "the_payment_job_stamps_the_capability_decision_not_a_literal",
+    payStampsCapability,
+    `hosted_payment stamps whatever the capability step decided, so PAYMENT_EXERCISED can only be true where STRIPE_TRANSACTION was true`
   );
 }
 

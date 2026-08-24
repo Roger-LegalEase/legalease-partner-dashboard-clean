@@ -187,36 +187,51 @@ a separate job rather than a set of conditional steps.
 
 ### Human setup checklist — GitHub Settings → Environments
 
-Nothing below was created or altered by this task.
+Nothing below was created or altered by this task. **Both environments must
+exist and be fully configured before any protected job runs**: a job naming an
+environment that does not exist causes GitHub to create it implicitly, empty —
+no reviewers, no branch restriction, no secrets, every `secrets.*` resolving to
+`""`. The identity sentinels in section 11 exist to refuse exactly that, but
+they refuse the *run*; they cannot configure the environment for you.
 
-**Environment `rcap-acceptance`** — covers `hosted_migrate`, `hosted_deploy`, `hosted_accept`, and also `hosted_full`, `hosted_checkout_gate`, `hosted_worker_contract`.
+**Environment `rcap-acceptance`** — covers `hosted_environment_probe`,
+`hosted_migrate`, `hosted_deploy`, `hosted_accept`, `hosted_full_nonpayment`,
+`hosted_checkout_pinning` and `hosted_worker_contract`.
 
-- Required reviewers: **recommended — at least one, Roger.** These phases write to the acceptance Supabase project and create Vercel Preview deployments. A required reviewer is the only control in this design that a repository write cannot bypass.
-- Wait timer: not required.
-- Deployment branch and tag restriction: **set to "Selected branches and tags" and allow only `main`.** The reusable workflow is reached through `rcap-f1-ephemeral-staging.yml`, which GitHub lists for dispatch only on the default branch; restricting the environment to `main` closes the gap where a branch push could otherwise carry a different workflow body to the same secrets.
-- Secrets to **move** from repository scope into this environment: `SUPABASE_ACCESS_TOKEN`, `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_AUTOMATION_BYPASS_SECRET`.
-- **Neither Stripe secret belongs here.** `rcap-acceptance` must not contain `HOSTED_STRIPE_TEST_SECRET` or `HOSTED_STRIPE_TEST_WEBHOOK_SECRET`. No job in this environment references either, so adding them would grant a privilege nothing uses.
+- **Environment variables (not secrets), exact values:**
+  - `RCAP_ENVIRONMENT_ID` = `rcap-acceptance-v1`
+  - `RCAP_ENVIRONMENT_CLASS` = `nonproduction-acceptance`
+- Required reviewers: **at least one, Roger.** These phases write to the acceptance Supabase project and create Vercel Preview deployments.
+- Deployment branch and tag restriction: **"Selected branches and tags".** Add the exact approved branch, or — preferred — an **immutable tag** (see below).
+- The five shared secrets: `SUPABASE_ACCESS_TOKEN`, `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_AUTOMATION_BYPASS_SECRET`.
+- **Neither Stripe secret belongs here.** `HOSTED_STRIPE_TEST_SECRET` and `HOSTED_STRIPE_TEST_WEBHOOK_SECRET` must be absent. No job in this environment references either, so adding them would grant a privilege nothing uses.
 
-**Environment `rcap-acceptance-payment`** — covers `hosted_payment` only.
+**Environment `rcap-acceptance-payment`** — covers
+`hosted_payment_environment_probe` and `hosted_payment` only.
 
-- Required reviewers: **recommended — at least one, Roger.** This phase transacts a real Stripe Sandbox Checkout.
-- Deployment branch and tag restriction: same, `main` only.
-- Secrets that belong **only** here: `HOSTED_STRIPE_TEST_SECRET`, `HOSTED_STRIPE_TEST_WEBHOOK_SECRET`. They exist in no other environment and are no longer passable as `workflow_call` secrets, so this environment is their single source.
-- This environment also needs its own copies of `SUPABASE_ACCESS_TOKEN`, `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_AUTOMATION_BYPASS_SECRET`: a job sees the secrets of *its* environment, and `hosted_payment` builds its own Stripe-configured Preview and runs the matrix as well as paying. Copying those five is not a Stripe-secret copy and does not breach the boundary.
+- **Environment variables (not secrets), exact values:**
+  - `RCAP_ENVIRONMENT_ID` = `rcap-acceptance-payment-v1`
+  - `RCAP_ENVIRONMENT_CLASS` = `nonproduction-acceptance-payment`
+- Required reviewers: **at least one, Roger.** `hosted_payment` transacts a real Stripe Sandbox Checkout. This reviewer boundary is separate from the one on `rcap-acceptance` and must stay separate: approving a migration is not approving a payment.
+- Deployment branch and tag restriction: same rule, same approved branch or immutable tag.
+- The same five shared secrets. Copying those five is not a Stripe-secret copy and does not breach the boundary — a job sees only the secrets of *its own* environment, and `hosted_payment` deploys and runs the matrix as well as paying.
+- **Stripe secrets, only here:** `HOSTED_STRIPE_TEST_SECRET`, `HOSTED_STRIPE_TEST_WEBHOOK_SECRET`. They exist in no other environment and are no longer passable as `workflow_call` secrets, so this environment is their single source.
 
-**No Production secret is copied into either environment.** Neither environment
-receives a production Supabase key, a production database URL, a live Stripe key
-or a production deployment token. The acceptance Supabase project ref
-(`hyflxnlhpmiqxvvcoiia`) is pinned in the workflow file and is re-proved
-non-production per run by the preflight.
+**After both environments validate — clean up the wider scopes.**
 
-**The Stripe placement conflict raised by the previous revision is resolved, by
-narrowing the phases rather than by widening the secret.** `hosted_accept`,
-`hosted_full` and `hosted_checkout_gate` no longer consume Stripe secrets at
-all: `hosted_full` and `hosted_accept` run a non-transacting matrix with no
-payment journey, and `hosted_checkout_gate` is now the static pinning
-verification only. The one operation that necessarily calls Stripe moved into
-`hosted_payment`. Section 10 has the detail.
+- Remove or rotate any same-named credential still held at **repository** scope or **organization** scope: `SUPABASE_ACCESS_TOKEN`, `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, `VERCEL_AUTOMATION_BYPASS_SECRET`, `HOSTED_STRIPE_TEST_SECRET`, `HOSTED_STRIPE_TEST_WEBHOOK_SECRET`.
+- Do this **after** a successful `hosted_environment_probe` and `hosted_payment_environment_probe`, not before — the probes are how you confirm the environment copies resolve, and removing the wider scope first would leave you with neither.
+- Rotate rather than merely delete any credential that was ever readable from repository scope: a value that sat there may have been read by any workflow in the repository.
+- **No Production credential is copied into either environment.** Neither receives a production Supabase key, a production database URL, a live Stripe key or a production deployment token.
+
+**Immutable-tag execution, recommended.** Rather than allowing a branch, cut an
+immutable tag at the reviewed commit and restrict both environments to that tag.
+A branch moves; a tag pinned in the environment's deployment rule does not, so
+"approved for this environment" and "the bytes that were reviewed" stay the same
+thing. The workflow already pins `application_sha`, `worker_source_sha`,
+`worker_digest` and `tools_sha`, but those pins live *in the workflow file* —
+restricting the environment to a tag is what stops a different workflow file
+from reaching the same secrets.
 
 ---
 
@@ -341,10 +356,10 @@ Nothing was deployed by this task.
 
 ## 9. Tests
 
-`node scripts/verify-rcap-acceptance-workflow-hardening.mjs` — **63/63 passing**
-(all 44 checks from the previous revision, plus 19 for the Stripe privilege
-boundary, the explicit manifest-hash literal, blob-level migration identity and
-the audit-branch ref),
+`node scripts/verify-rcap-acceptance-workflow-hardening.mjs` — **82/82 passing**
+(all 63 checks from the previous revision, plus 19 for the identity sentinels,
+the two read-only probes, the secret-access / transaction-authority split, the
+retirement of `github_acceptance` and the honest phase names),
 static and dry-run only, no network, no database, no registry, no deployment.
 Results are written to `data/rcap-render/workflow-hardening-verification.json`.
 
@@ -451,6 +466,108 @@ Vercel Production.
 | `readonly_probe` | none | 0 | none |
 | `hosted_write` | `rcap-acceptance` | **0** | none |
 | `hosted_payment` | `rcap-acceptance-payment` | 7 | `rcap-hosted-checkout-gate.mjs`, `rcap-hosted-acceptance-payment.mjs` |
+
+---
+
+## 11. Environment identity, read-only probes, and retired paths
+
+### Identity sentinels
+
+A GitHub Environment can be created implicitly by a workflow naming one that
+does not exist. The job then runs in an **empty** environment: no reviewers, no
+branch restriction, no secrets — and every `secrets.*` reference silently
+resolves to `""`. Nothing distinguishes that from a correctly configured
+environment until something fails much later, mid-write.
+
+Both protected jobs now assert two environment-scoped **variables** as their
+first executable step, before checkout and before any network-capable or
+externally writing step. An auto-created environment carries neither, so an
+empty value is exactly the signal needed.
+
+| Job | Environment | `RCAP_ENVIRONMENT_ID` | `RCAP_ENVIRONMENT_CLASS` | Failure |
+|---|---|---|---|---|
+| `hosted_write` | `rcap-acceptance` | `rcap-acceptance-v1` | `nonproduction-acceptance` | `ACCEPTANCE_ENVIRONMENT_IDENTITY_INVALID` |
+| `hosted_payment` | `rcap-acceptance-payment` | `rcap-acceptance-payment-v1` | `nonproduction-acceptance-payment` | `PAYMENT_ENVIRONMENT_IDENTITY_INVALID` |
+
+Missing, empty or wrong exits 1 with the code above. The sentinel reads no
+secret and prints no secret — only variable names and the literal expected
+values, which are not secret.
+
+### Read-only probes
+
+Two new phases confirm an environment is configured *before* anything is asked
+of it. Both are read-only in the strongest sense available: they invoke no
+script, use no action, and contact no endpoint.
+
+| Phase | Job | Environment | Validates | Makes |
+|---|---|---|---|---|
+| `hosted_environment_probe` | `hosted_write` | `rcap-acceptance` | both markers; presence of all five shared secrets | no request of any kind; no checkout |
+| `hosted_payment_environment_probe` | `hosted_payment` | `rcap-acceptance-payment` | both markers; the five shared secrets; `sk_test_` and `whsec_` **format** by prefix | no Stripe API call, no Checkout Session, no webhook, no external write |
+
+Both print secret **names** and booleans only — never a value, a length or a
+suffix — and each writes one JSON artifact carrying `PAYMENT_EXERCISED: false`
+and explicit zero counts for external requests.
+
+### Secret access is not transaction authority
+
+The single `STRIPE` capability is replaced by two columns:
+
+| Phase | `STRIPE_SECRET_ACCESS` | `STRIPE_TRANSACTION` |
+|---|---|---|
+| `payment_environment_probe` | **true** | false |
+| `payment` | **true** | **true** |
+| every other phase | false | false |
+
+Enforced in both jobs: transaction implies access; only `payment` and its probe
+may hold access; only `payment` may transact; a Checkout Session requires
+transaction authority. Each violation exits 1 rather than warning. Every
+transacting step in the payment job is gated on `stripe_transaction`, not on
+membership of the job — so the probe holds the key and cannot spend it.
+
+### Retired: `github_acceptance`
+
+It ran the frozen application on the runner behind a cloudflared HTTPS tunnel
+and held that host open for a **real, human-completed** Stripe Sandbox payment.
+
+**That is a unique case.** `hosted_payment` signs its own completion event
+rather than waiting for a person to pay, so it does not reproduce a genuine
+human payment end-to-end.
+
+It is retired anyway, because it was a payment-producing journey outside the
+payment environment. The unique case is **not** relocated: route it through
+`hosted_payment`, whose reuse-only Checkout step already prepares one real
+unpaid Sandbox Session against a stable Vercel Preview host that a person can
+pay. The tunnel machinery stays in the retired file and appears nowhere in the
+hosted workflow.
+
+Retirement is enforced in three independent places, each before any secret is
+read: the F1 `retired_path_refusal` job, the `legacy_refusal` step that is step 2
+of both protected jobs, and the retired workflow's own first step. Each prints
+`GITHUB_ACCEPTANCE_RETIRED` and `Use hosted_payment for payment-producing
+acceptance.` The mode is gone from the dispatch choices and the caller job is
+deleted, so no caller exists.
+
+### Honest phase names
+
+| Was | Now | Why |
+|---|---|---|
+| `hosted_full` | `hosted_full_nonpayment` | `full` implied a payment-exercising run it had already stopped performing |
+| `hosted_checkout_gate` | `hosted_checkout_pinning` | read as a real Checkout Session test; it is a static records check that opens no socket |
+
+Both old values are retained only as **refused legacy aliases** — at the caller
+and as step 2 of the protected job. The static step is now named "Static
+verification that the Checkout pinning records name the accepted release (no
+Stripe call)" in both jobs.
+
+### `PAYMENT_EXERCISED`
+
+`scripts/rcap-stamp-payment-exercised.mjs` stamps `PAYMENT_EXERCISED` onto every
+JSON artifact a run produces and writes a standalone `payment-exercised.json`.
+`hosted_write` always stamps `false`; `hosted_payment` stamps whatever its
+capability step decided, so `true` is reachable only where `STRIPE_TRANSACTION`
+was true. Both probe artifacts carry the key inline because they never check
+out. The note is explicit: a green non-payment result *does not mean paid
+acceptance is complete*.
 
 ---
 
