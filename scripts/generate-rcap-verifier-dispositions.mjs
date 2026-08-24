@@ -37,6 +37,16 @@ const audit = JSON.parse(fs.readFileSync(auditPath, "utf8"));
 // Decisions already made, by Roger or recorded in the build plan. These are not
 // defaults and are re-applied on every generation.
 const OVERRIDES = {
+  "test-internal-admin-rls-hardening.mjs": {
+    disposition: "wired",
+    reason:
+      "Applies the authorized internal-admin authority migration to isolated PGlite and proves the content resolver, Wilma telemetry policy, support USING/WITH CHECK policy, service role, public view, tenant isolation, and historical-row preservation boundaries. Its in-process mutation controls prove each of the three changed authority contracts turns the verifier red. Required by the default npm test chain and the focused security:test-internal-admin chain; it never contacts an external database."
+  },
+  "verify-internal-admin-security-tools.mjs": {
+    disposition: "wired",
+    reason:
+      "Proves the exact-email audit remains read-only and the remediation tool remains dry-run by default, UUID-distinct, receipt-first, tracked/unignored/symlink-path refusing, non-overwriting, history-preserving, and guarded by pre-plan and post-apply recovery-administrator invariants. Its in-process mutation controls make receipt and lockout contract breaks red. Required by the default npm test chain and the focused security:test-internal-admin chain; it performs no production mutation."
+  },
   "verify-rcap-guidance-terminalization.mjs": {
     disposition: "keep_available",
     reason:

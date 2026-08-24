@@ -32,14 +32,13 @@ fs.mkdirSync(shotDir, { recursive: true });
 
 const server = spawn("npx", ["next", "dev", "--port", PORT], {
   cwd: rootDir,
+  detached: process.platform !== "win32",
   env: {
     ...process.env,
     // Dummy Supabase config: the pages must render an honest empty state, not crash, when the
     // content tables are unreachable. That is exactly the state we want to verify.
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL ?? "http://127.0.0.1:54321",
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "local-anon-key",
-    // Keep the legacy proxy gate active in dev so this catches the production-only CMS collision.
-    INTERNAL_ADMIN_ACCESS_TOKEN: "content-visual-verifier-token",
     NODE_ENV: "development"
   },
   stdio: ["ignore", "pipe", "pipe"]
@@ -227,7 +226,7 @@ try {
 } catch (error) {
   failures.push(error instanceof Error ? (error.stack ?? error.message) : String(error));
 } finally {
-  server.kill("SIGTERM");
+  stopDevServer();
 }
 
 if (failures.length) {
@@ -328,4 +327,18 @@ async function waitForServer(url, timeoutMs) {
 
 function assert(condition, message) {
   if (!condition) failures.push(message);
+}
+
+function stopDevServer() {
+  if (server.pid) {
+    try {
+      if (process.platform === "win32") server.kill("SIGTERM");
+      else process.kill(-server.pid, "SIGTERM");
+    } catch {
+      server.kill("SIGTERM");
+    }
+  }
+  server.stdout.destroy();
+  server.stderr.destroy();
+  server.unref();
 }

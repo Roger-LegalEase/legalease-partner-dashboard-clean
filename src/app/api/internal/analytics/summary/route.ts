@@ -1,7 +1,8 @@
-import { createHash, timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getSafeRequestId, logSecurityError, logSecurityInfo, logSecurityWarn } from "@/lib/observability/logger";
 import { getWebAnalyticsSummary, normalizeSummaryRange } from "@/lib/analytics/web-analytics-repository";
+import { requireInternalAdminRouteAccess } from "@/lib/partners/internal-admin-gate";
+import { SessionPartnerError } from "@/lib/partners/session-partner";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -9,20 +10,25 @@ export const dynamic = "force-dynamic";
 const ROUTE = "/api/internal/analytics/summary";
 
 // Read-only web traffic summary for the LegalEase Command Center. Aggregate-only: no rows, no PII,
-// no visitor/session IDs are returned — only counts and low-cardinality breakdowns. Protected by the
-// same COMMAND_CENTER_API_KEY bearer token as /api/metrics/signups.
+// no visitor/session IDs are returned — only counts and low-cardinality breakdowns.
 export async function GET(request: Request) {
   const requestId = getSafeRequestId(request);
 
-  const configuredKey = process.env.COMMAND_CENTER_API_KEY;
-  if (!configuredKey) {
-    logSecurityError({ event: "analytics summary denied", route: ROUTE, outcome: "not_configured", requestId });
-    return NextResponse.json({ error: "Endpoint not configured." }, { status: 503 });
-  }
-
-  if (!isAuthorized(request, configuredKey)) {
-    logSecurityWarn({ event: "analytics summary denied", route: ROUTE, outcome: "unauthorized", requestId });
-    return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+  try {
+    await requireInternalAdminRouteAccess();
+  } catch (error) {
+    const unauthenticated = error instanceof SessionPartnerError && error.code === "unauthenticated";
+    logSecurityWarn({
+      event: "analytics summary denied",
+      route: ROUTE,
+      outcome: unauthenticated ? "unauthenticated" : "forbidden",
+      requestId,
+      error
+    });
+    return NextResponse.json(
+      { error: unauthenticated ? "Authentication required." : "Internal administrator access required." },
+      { status: unauthenticated ? 401 : 403, headers: { "cache-control": "private, no-store, max-age=0" } }
+    );
   }
 
   const range = normalizeSummaryRange(new URL(request.url).searchParams.get("range"));
@@ -34,19 +40,4 @@ export async function GET(request: Request) {
 
   logSecurityInfo({ event: "analytics summary served", route: ROUTE, outcome: "ok", requestId });
   return NextResponse.json(summary, { headers: { "cache-control": "no-store" } });
-}
-
-function isAuthorized(request: Request, configuredKey: string): boolean {
-  const header = request.headers.get("authorization") ?? "";
-  if (!header.startsWith("Bearer ")) {
-    return false;
-  }
-  const presented = header.slice("Bearer ".length).trim();
-  if (!presented) {
-    return false;
-  }
-  // Constant-time compare over fixed-length SHA-256 digests so neither the value nor length leaks.
-  const presentedDigest = createHash("sha256").update(presented).digest();
-  const configuredDigest = createHash("sha256").update(configuredKey).digest();
-  return timingSafeEqual(presentedDigest, configuredDigest);
 }

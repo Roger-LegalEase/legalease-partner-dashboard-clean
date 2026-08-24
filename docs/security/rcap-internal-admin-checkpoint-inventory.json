@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "recordedAtUtc": "2026-08-23T17:02:30Z",
+  "branch": "codex/rcap-internal-admin-auth-hardening",
+  "baseSha": "dd93579871962260b12918e54c44cf9bf1e81529",
+  "trackedDiff": {
+    "files": 19,
+    "insertions": 706,
+    "deletions": 1385,
+    "paths": [
+      ".env.example",
+      "docs/PHASE_17_PRODUCTION_DEPLOYMENT.md",
+      "scripts/capture-internal-admin-access-acceptance.mjs",
+      "scripts/verify-content-cms-access.mjs",
+      "scripts/verify-content-visual.mjs",
+      "scripts/verify-internal-admin-browser-access.mjs",
+      "scripts/verify-launch-readiness.mjs",
+      "src/app/api/internal/analytics/summary/route.ts",
+      "src/app/api/internal/partners/provisioning/route.ts",
+      "src/app/api/internal/pilot-requests/status/route.ts",
+      "src/app/internal/content/layout.tsx",
+      "src/app/internal/partner-users/invite/route.ts",
+      "src/app/internal/partner-users/new/page.tsx",
+      "src/app/sign-out/route.ts",
+      "src/lib/content/auth.ts",
+      "src/lib/observability/logger.ts",
+      "src/lib/partners/internal-admin-gate.tsx",
+      "src/lib/partners/session-partner.ts",
+      "src/proxy.ts"
+    ]
+  },
+  "untrackedBeforeInventory": [
+    "docs/security/rcap-internal-admin-authorization-audit.md",
+    "docs/security/rcap-internal-admin-authorization-map.json",
+    "docs/security/rcap-internal-admin-pre-hardening-matrix.json",
+    "docs/security/rcap-internal-admin-production-remediation.md",
+    "docs/security/rcap-internal-admin-protected-scope-baseline.json",
+    "docs/security/rcap-internal-admin-rls-migration-blocker.md",
+    "scripts/lib/internal-auth-test-doubles.mjs",
+    "scripts/lib/internal-auth-test-loader.mjs",
+    "scripts/security/audit-internal-admin-access.mjs",
+    "scripts/security/remediate-internal-admin-accounts.mjs",
+    "scripts/verify-internal-admin-security-tools.mjs",
+    "src/app/internal/layout.tsx"
+  ],
+  "recordArtifact": "docs/security/rcap-internal-admin-checkpoint-inventory.json",
+  "secretValuePatternScan": "passed",
+  "diffCheck": "passed"
+}

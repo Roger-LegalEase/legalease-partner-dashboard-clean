@@ -46,7 +46,7 @@ export default async function NewPartnerUserPage() {
               </span>
               <div>
                 <p className="text-sm font-black text-navy">Write path</p>
-                <p className="text-xs text-grayWilma-600">Proxy token + internal_admin session required</p>
+                <p className="text-xs text-grayWilma-600">UUID-bound internal_admin session required</p>
               </div>
             </div>
             <p className="mt-4 text-sm leading-6 text-grayWilma-700">

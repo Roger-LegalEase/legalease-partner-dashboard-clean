@@ -25,7 +25,7 @@ FunnelBeacon / trackFunnelEvent  ───┼──▶  POST /api/analytics/web 
 legalease.com static inline snippet ┘        (validate + hash + sanitize)      (append-only, RLS)
 
 Command Center dashboard  ◀── getWebAnalyticsSummary() ◀───────────────────────┘
-GET /api/internal/analytics/summary  (Bearer COMMAND_CENTER_API_KEY)  ◀─────────┘  (external CC)
+GET /api/internal/analytics/summary  (UUID-bound internal-admin session) ◀─────┘
 ```
 
 - **Tracker** — `src/components/analytics/WebAnalyticsTracker.tsx` mounts once in the root layout, so
@@ -45,8 +45,8 @@ GET /api/internal/analytics/summary  (Bearer COMMAND_CENTER_API_KEY)  ◀──�
   future pre-aggregation.
 - **Summary** — `src/lib/analytics/web-analytics-repository.ts#getWebAnalyticsSummary` aggregates a
   capped row scan into totals/breakdowns/funnels. Exposed to the Command Center at
-  `GET /api/internal/analytics/summary?range=7d` (Bearer `COMMAND_CENTER_API_KEY`) and rendered in the
-  in-repo dashboard at `/internal/command-center/web-traffic`.
+  `GET /api/internal/analytics/summary?range=7d` (canonical UUID-bound internal-admin session) and
+  rendered in the in-repo dashboard at `/internal/command-center/web-traffic`.
 
 ## What is tracked
 
@@ -98,7 +98,6 @@ Forbidden metadata keys are dropped and PII-looking string values are redacted b
 | `WEB_ANALYTICS_IP_SALT` | server | HMAC salt for `ip_hash`. **Rotate** by changing this value; old hashes become non-correlatable. If unset, `ip_hash` is stored as null. |
 | `WEB_ANALYTICS_ENABLED` | server | Set to `false` to make ingestion a no-op. Any other value = enabled. |
 | `NEXT_PUBLIC_WEB_ANALYTICS_DISABLED` | client build | Set to `true` to disable the browser tracker. |
-| `COMMAND_CENTER_API_KEY` | server | Existing bearer key protecting the summary API (shared with `/api/metrics/signups`). |
 | `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | server | Existing service-role access used for writes/reads. |
 
 **To rotate the analytics salt:** change `WEB_ANALYTICS_IP_SALT` in the environment and redeploy. No
@@ -107,12 +106,15 @@ schema change is required; previously stored `ip_hash` values simply stop correl
 ## Command Center integration contract
 
 The dashboard lives **in this repo** (`/internal/command-center/web-traffic`, internal-admin gated)
-and reads Supabase directly via `getWebAnalyticsSummary`. An **external** Command Center can instead
-consume the protected summary API:
+and reads Supabase directly via `getWebAnalyticsSummary`. The summary API uses the same canonical
+internal authorization boundary:
 
 - **Endpoint:** `GET /api/internal/analytics/summary?range=1d|7d|30d`
-- **Auth:** `Authorization: Bearer <COMMAND_CENTER_API_KEY>` (constant-time compare, fail-closed if
-  the key is unset — same scheme as `/api/metrics/signups`).
+- **Auth:** a server-verified Supabase session whose Auth UUID has an active global
+  `partner_users.internal_admin` membership. Unauthenticated requests receive 401 and authenticated
+  non-internal requests receive 403 before analytics data loads. Email/domain strings, partner roles,
+  and API keys cannot substitute. A future external consumer requires a separately reviewed
+  service-to-service contract; the legacy analytics bearer key is not an internal-admin authority.
 - **Response:** aggregate-only JSON (no rows, no visitor/session IDs):
 
 ```json

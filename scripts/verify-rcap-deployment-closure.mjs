@@ -28,15 +28,14 @@ const emitEvidence = process.argv.includes("--emit-evidence");
 /**
  * The accepted application source. Image-input equality is proven against it.
  *
- * Rebound from 5ac0d8d6, the pre-PR-127 release source, to the commit the
- * currently accepted worker digest was built from. PR #127 merged the
- * prepared-onboarding partner experience and the applied-prefill reproposal
- * lifecycle into main as 57318c20, which changed 33 image-input paths, and the
- * worker was republished from that exact merge commit. Leaving the earlier SHA
- * here would assert that this release's deployment closes over bytes it no
- * longer contains.
+ * Rebound to the security implementation source accepted by the worker-image
+ * workflow. Evidence-only commits descend from this source without changing
+ * application or worker inputs, and the equivalence check below keeps that
+ * self-reference escape exact. Leaving the prior PR #127 source here would
+ * assert that this release's deployment closes over bytes it no longer
+ * contains.
  */
-const APPLICATION_SHA = "57318c2046a9f8c149beff0053373ad3bfe3fc71";
+const APPLICATION_SHA = "646d8969576e33b9ed72d3bca64b33b7e352c452";
 
 /** Exactly the paths a Next.js build consumes. */
 const APPLICATION_INPUTS = ["src", "package.json", "package-lock.json", "tsconfig.json", "next.config.ts", "public"];

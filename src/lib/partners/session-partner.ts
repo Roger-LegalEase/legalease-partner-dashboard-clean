@@ -15,6 +15,7 @@ export type SessionPartner =
   | {
       kind: "internal_admin";
       authUserId: string;
+      email: string;
       role: InternalAdminRole;
     };
 
@@ -93,10 +94,15 @@ export async function resolveSessionPartner(): Promise<SessionPartner> {
     if (row.partner_slug !== null) {
       throw new SessionPartnerError("partner_identity_invalid", "Internal admin identity must not be partner-scoped.");
     }
+    const email = userData.user.email?.trim().toLowerCase();
+    if (!email) {
+      throw new SessionPartnerError("partner_identity_invalid", "Internal admin identity must have a current authenticated email.");
+    }
 
     return {
       kind: "internal_admin",
       authUserId: userData.user.id,
+      email,
       role: "internal_admin"
     };
   }
