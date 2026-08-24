@@ -2,7 +2,7 @@
   "schemaVersion": "expai-phase2-correction-allowlist/v1",
   "generatedBy": "scripts/expungement-ai/phase2/build-phase2-record.mjs",
   "productBase": "f7ed0ad3a8f37a0c1446b62760b1a36fb163c926",
-  "head": "7f1ab6038c778b52437c7bfda771f58c95a2c5f1",
+  "head": "288b0d9a1d6683b91b447275a1474710d433ef95",
   "evaluatorToday": "2026-07-01",
   "contract": "One reviewed list. Every evaluator-output difference between the product base and this head must be covered by an entry here; anything else is a failure, not a finding.",
   "comparedFields": [
@@ -113,15 +113,15 @@
       "boundedBy": "West Virginia is held with its payment clamp preserved. paymentAllowed was false at the base and is false now, so nothing sellable changes. The route is in the counsel queue in waiting-rule-bindings.json#unresolvedPreserved."
     },
     {
-      "id": "witness-ledger-regenerated",
+      "id": "witness-fixtures-predate-the-shared-facts",
       "issueId": "UX-GLOBAL-019",
       "jurisdictions": [
         "*"
       ],
       "fields": [],
-      "change": "the recorded witness answer sets, divergence diagnosis and fixtures are regenerated at this head",
-      "why": "The flow now asks for shared facts the recorded fixtures predate, so 31 of 625 stopped reproducing their terminal: twelve were the corrected routes opening, eighteen returned needs_more_info because the fixture omits a question the flow now asks, and one was the same staleness in Vermont. These are deterministic generators whose --check is part of the repository's own test run, so they are re-run rather than left describing a runtime that no longer exists. No answer set is hand-edited.",
-      "boundedBy": "After regeneration every fixture reproduces: verify-rcap-reachability-evidence passes with 284 of 284, and the post-implementation comparison records zero stale fixtures."
+      "change": "31 of 625 recorded witness fixtures no longer reproduce their flow's terminal",
+      "why": "Twelve are the corrected routes moving from needs_review to packet_ready_with_caution. Eighteen (PA and UT) return needs_more_info because the flow now asks for a shared fact the recorded fixture predates. One (VT) replays to needs_review while the flow's own convergence still reaches packet_ready_with_caution. The generators that produce these fixtures are deterministic and re-running them clears it — that was tried and it does — but data/rcap-* is outside what this phase may modify, so the ledger stays at the product base and this is reported for the owner.",
+      "boundedBy": "Recorded per flow in data/expungement-ai/phase2/post-implementation/flow-manifest.json, and as a named new verifier failure in verifier-parity.json."
     },
     {
       "id": "contact-information-loses-its-review-row",

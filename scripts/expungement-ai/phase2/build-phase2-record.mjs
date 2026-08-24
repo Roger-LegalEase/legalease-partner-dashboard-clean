@@ -130,13 +130,13 @@ const ALLOWED = [
     boundedBy: "West Virginia is held with its payment clamp preserved. paymentAllowed was false at the base and is false now, so nothing sellable changes. The route is in the counsel queue in waiting-rule-bindings.json#unresolvedPreserved."
   },
   {
-    id: "witness-ledger-regenerated",
+    id: "witness-fixtures-predate-the-shared-facts",
     issueId: "UX-GLOBAL-019",
     jurisdictions: ["*"],
     fields: [],
-    change: "the recorded witness answer sets, divergence diagnosis and fixtures are regenerated at this head",
-    why: "The flow now asks for shared facts the recorded fixtures predate, so 31 of 625 stopped reproducing their terminal: twelve were the corrected routes opening, eighteen returned needs_more_info because the fixture omits a question the flow now asks, and one was the same staleness in Vermont. These are deterministic generators whose --check is part of the repository's own test run, so they are re-run rather than left describing a runtime that no longer exists. No answer set is hand-edited.",
-    boundedBy: "After regeneration every fixture reproduces: verify-rcap-reachability-evidence passes with 284 of 284, and the post-implementation comparison records zero stale fixtures."
+    change: "31 of 625 recorded witness fixtures no longer reproduce their flow's terminal",
+    why: "Twelve are the corrected routes moving from needs_review to packet_ready_with_caution. Eighteen (PA and UT) return needs_more_info because the flow now asks for a shared fact the recorded fixture predates. One (VT) replays to needs_review while the flow's own convergence still reaches packet_ready_with_caution. The generators that produce these fixtures are deterministic and re-running them clears it — that was tried and it does — but data/rcap-* is outside what this phase may modify, so the ledger stays at the product base and this is reported for the owner.",
+    boundedBy: "Recorded per flow in data/expungement-ai/phase2/post-implementation/flow-manifest.json, and as a named new verifier failure in verifier-parity.json."
   },
   {
     id: "contact-information-loses-its-review-row",
@@ -445,13 +445,13 @@ const lines = [
   "",
   "NH and WV are both in the allowlist with their evidence. New Hampshire's packet-ready answer set still returns packet_ready_with_caution when replayed at this head — the greedy sweep settles in a local optimum now that more screens are rendered. West Virginia's route reports that it cannot execute its waiting rule, now that the anchor date is asked; its payment clamp is preserved and was already closed.",
   "",
-  "The witness ledger's own deterministic generators are re-run so its recorded answer sets describe this runtime; after that every fixture reproduces, and the comparison records " + postSweep.staleWitnessFixtures.count + " stale fixtures.",
+  postSweep.staleWitnessFixtures.count + " of 625 recorded witness fixtures no longer reproduce their flow's terminal: twelve are the corrected routes opening, eighteen return needs_more_info because the flow now asks for a fact the fixture predates, and one is the same staleness in Vermont. Re-running the ledger's own deterministic generators clears all of it, and it was confirmed to, but " + code("data/rcap-*") + " is outside what this phase may modify, so the ledger stays at the product base and this is reported for the owner.",
   "",
-  "Every verify-* and test-* script in the expungement and RCAP families was run at the product base and at this head: " + verifierParity.totals.run + " scripts, " + verifierParity.totals.failingAtBase + " failing at the base and " + verifierParity.totals.failingAtHead + " here. Four are green here that were red at the base. Four are red here that were green at the base, and all four are the same thing:",
+  "Every verify-* and test-* script in the expungement and RCAP families was run at the product base and at this head: " + verifierParity.totals.run + " scripts, " + verifierParity.totals.failingAtBase + " failing at the base and " + verifierParity.totals.failingAtHead + " here. " + verifierParity.fixedByThisCorrection.length + " are green here that were red at the base. " + verifierParity.newFailuresAtHead.length + " are red here that were green at the base:",
   "",
   ...verifierParity.newFailuresAtHead.map((name) => "- " + code(name) + " — " + verifierParity.newFailureDisposition[name]),
   "",
-  "The published worker image was built from a specific commit and the fingerprint pins " + code("src/") + " to it, so any change to the product makes these red by construction. Clearing them means regenerating the fingerprint and republishing the image at a new freeze. Worker publication and deployment are both outside this phase, so they are reported rather than cleared.",
+  "Four of the five are the worker-image fingerprint: it pins " + code("src/") + " to the commit the published image was built from, so any change to the product makes them red by construction, and clearing them means regenerating the fingerprint and republishing the image at a new freeze. The fifth is the witness ledger. Worker publication, deployment and " + code("data/rcap-*") + " are all outside this phase, so all five are reported rather than cleared.",
   "",
   "### The browser harness",
   "",

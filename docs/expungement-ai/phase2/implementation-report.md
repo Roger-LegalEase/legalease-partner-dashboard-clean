@@ -1,6 +1,6 @@
 # Expungement.ai — Phase 2 implementation report
 
-Product base `f7ed0ad3a8f37a0c1446b62760b1a36fb163c926`. Head `7f1ab6038c778b52437c7bfda771f58c95a2c5f1`. Evaluator clock pinned to `2026-07-01`.
+Product base `f7ed0ad3a8f37a0c1446b62760b1a36fb163c926`. Head `288b0d9a1d6683b91b447275a1474710d433ef95`. Evaluator clock pinned to `2026-07-01`.
 
 ## What was implemented
 
@@ -87,16 +87,17 @@ Bounded UI reachability — can a participant reach packet-ready answering only 
 
 NH and WV are both in the allowlist with their evidence. New Hampshire's packet-ready answer set still returns packet_ready_with_caution when replayed at this head — the greedy sweep settles in a local optimum now that more screens are rendered. West Virginia's route reports that it cannot execute its waiting rule, now that the anchor date is asked; its payment clamp is preserved and was already closed.
 
-The witness ledger's own deterministic generators are re-run so its recorded answer sets describe this runtime; after that every fixture reproduces, and the comparison records 0 stale fixtures.
+31 of 625 recorded witness fixtures no longer reproduce their flow's terminal: twelve are the corrected routes opening, eighteen return needs_more_info because the flow now asks for a fact the fixture predates, and one is the same staleness in Vermont. Re-running the ledger's own deterministic generators clears all of it, and it was confirmed to, but `data/rcap-*` is outside what this phase may modify, so the ledger stays at the product base and this is reported for the owner.
 
-Every verify-* and test-* script in the expungement and RCAP families was run at the product base and at this head: 181 scripts, 24 failing at the base and 24 here. Four are green here that were red at the base. Four are red here that were green at the base, and all four are the same thing:
+Every verify-* and test-* script in the expungement and RCAP families was run at the product base and at this head: 181 scripts, 24 failing at the base and 25 here. 4 are green here that were red at the base. 5 are red here that were green at the base:
 
 - `test-rcap-worker-digest-binding-mutations` — Refuses to run because the committed record is not green to begin with, for the same reason. Same disposition.
 - `verify-rcap-deployment-closure` — Asserts the application and worker image inputs are byte-identical to the accepted SHA. Same disposition.
 - `verify-rcap-image-input-fingerprint` — The fingerprint pins src/ to the commit the published worker image was built from. Any change to src/ makes it stale by design. Clearing it means regenerating the fingerprint and republishing the worker image at a new freeze, which is worker publication and deployment. Both are outside this phase and require the owner.
+- `verify-rcap-reachability-evidence` — Replays every recorded witness fixture in data/rcap-ledger/public-witness-fixtures.json. 31 of them no longer reproduce their terminal because the flow now asks for shared facts the fixture predates, and twelve because the corrected routes open. The generators that produce those fixtures are deterministic and re-running them clears it, but data/rcap-* is outside what this phase may modify, so the ledger is left at the product base and this is reported for the owner alongside the worker-image fingerprint. The evidence is recorded per flow in data/expungement-ai/phase2/post-implementation/flow-manifest.json.
 - `verify-rcap-worker-publication-workflow` — Runs the fingerprint verifier. Same disposition.
 
-The published worker image was built from a specific commit and the fingerprint pins `src/` to it, so any change to the product makes these red by construction. Clearing them means regenerating the fingerprint and republishing the image at a new freeze. Worker publication and deployment are both outside this phase, so they are reported rather than cleared.
+Four of the five are the worker-image fingerprint: it pins `src/` to the commit the published image was built from, so any change to the product makes them red by construction, and clearing them means regenerating the fingerprint and republishing the image at a new freeze. The fifth is the witness ledger. Worker publication, deployment and `data/rcap-*` are all outside this phase, so all five are reported rather than cleared.
 
 ### The browser harness
 
